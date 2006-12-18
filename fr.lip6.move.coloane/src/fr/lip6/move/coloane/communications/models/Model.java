@@ -18,7 +18,7 @@ import fr.lip6.move.coloane.exceptions.SyntaxErrorException;
 
 
 /**
- * Classe Model permettant de representer en memoire plusieurs formalisme de
+ * Classe Model permettant de representer en memoire plusieurs formalismes de
  * reseaux. Cette representaion generique optimise le parcours du modele et la
  * recuperation des informations relatifs aux elements de celui-ci. Les
  * differents formalisme traites sont :

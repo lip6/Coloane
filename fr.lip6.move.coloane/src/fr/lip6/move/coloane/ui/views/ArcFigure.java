@@ -17,14 +17,18 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
             
     	// La decoration de l'arc
     	PolygonDecoration dec = new PolygonDecoration();
-    	dec.setScale(3,1);
+    	dec.setScale(4,2);
     	this.setTargetDecoration(dec);
             
     	// Epaisseur de la ligne
     	setLineWidth(1);
     }
     
+    /**
+     * Indique la valeur associee a l'arc
+     * @param text La valeur de l'arc
+     */
     public void setLabelText(String text){
-            label.setText(text);
+    	label.setText(text);
     }
 }

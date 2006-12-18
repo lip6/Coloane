@@ -75,8 +75,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 	 */
 	public NodeImplAdapter(ElementBase base) {
 		super();
-
-		System.out.println("Creation du NodeImplAdapter "+base.getName());
 		
 		// Element de base du formalisme
 		this.elementBase = base;
@@ -294,15 +292,15 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 		return null;
 	}
 	
-	 public String getNodeName() {
-	    String valeur = "";
-	    for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
-	    	if (this.node.getNthAttr(i).getName().equalsIgnoreCase("name")) {
-	    		valeur = this.node.getNthAttr(i).getValue();
-	    		break;
-	    	}
-	  	}
-	   	return valeur;
+	public String getNodeAttributeValue(String attribute) {
+	   String valeur = "";
+	   for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
+		   if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
+			   valeur = this.node.getNthAttr(i).getValue();
+			   break;
+		   }
+	   }
+	   return valeur;
 	 }
 	 
 	    /**
@@ -322,7 +320,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 	     * @param value La nouvelle valeur
 	     */
 	    public void setPropertyValue(Object id, Object value) {
-			String oldValue = getNodeName(); // On conserve l'ancienne valeur
+			String oldValue = getNodeAttributeValue("name"); // On conserve l'ancienne valeur
 			super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
 			this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
 			

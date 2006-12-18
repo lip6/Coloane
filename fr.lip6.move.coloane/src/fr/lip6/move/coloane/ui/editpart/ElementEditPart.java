@@ -8,7 +8,6 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -37,7 +36,7 @@ import fr.lip6.move.coloane.ui.views.INodeFigure;
 import fr.lip6.move.coloane.ui.views.NodeFigure;
 
 /**
- * EditPart pour les noeuds (CONTROLEUR)
+ * EditPart pour les noeuds
  */
 public class ElementEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
 
@@ -61,22 +60,24 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		INodeFigure nodeFigure = (INodeFigure)getFigure();
 		
 		// Modification du nom 
-		nodeFigure.setNodeName(nodeModel.getNodeName());
+		nodeFigure.setNodeName(nodeModel.getNodeAttributeValue("name"));
 		
-		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),new Dimension(100,40));
+		// Modification de la valeur
+		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
+			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("marking"));
+		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("transition")) {
+			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("guard"));
+		}
+		
+		// Modification du domaine
+		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
+			nodeFigure.setNodeDomain(nodeModel.getNodeAttributeValue("domain"));
+		}
+		
+		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeFigure.getPreferredSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 	}
-	
-	/**
-	 * Retourne une liste des enfant du noeud.<br>
-	 * Cette liste est immediatement transformee en EditPart si possible
-	 * @return List
-	 */
-//	public List getModelChildren() {
-//		NodeImplAdapter nodeModel = (NodeImplAdapter)getModel();
-//		return nodeModel.visibleAttributes();
-//	}
-	
+		
 	
 	/**
 	 * Installation des ecouteurs de l'objet
@@ -120,12 +121,12 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * @param property L'evenemtn qui a ete levee
 	 */
 	public void propertyChange(PropertyChangeEvent property) {
-		String prop = property.getPropertyName();
-		System.out.println("Detection du changement de propriete : "+prop);		
+		String prop = property.getPropertyName();	
 
 		// Si la propriete est un changement de position
 		if (NodeImplAdapter.SIZE_PROP.equals(prop) || NodeImplAdapter.LOCATION_PROP.equals(prop)) {
-			refreshVisuals();
+			refreshChildren();
+		
 		// Si c'est une propriete de connexion
 		} else if (NodeImplAdapter.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();

@@ -130,8 +130,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/place16.gif");
-        elem.setAddrIcone24("icons/place24.gif");
+        elem.setAddrIcone16("/icons/place16.png");
+        elem.setAddrIcone24("/icons/place24.png");
         petri.addElementBase(elem);
 
         // La transition:
@@ -149,8 +149,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/transition16.gif");
-        elem.setAddrIcone24("icons/transition24.gif");
+        elem.setAddrIcone16("/icons/transition16.png");
+        elem.setAddrIcone24("/icons/transition24.png");
         petri.addElementBase(elem);
 
         // La transition immediate:
@@ -166,8 +166,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/transitionimmediate16.gif");
-        elem.setAddrIcone24("icons/transitionimmediate24.gif");
+        elem.setAddrIcone16("/icons/transitionimmediate16.png");
+        elem.setAddrIcone24("/icons/transitionimmediate24.png");
         petri.addElementBase(elem);
  
         // La queue:
@@ -181,8 +181,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/queue16.gif");
-        elem.setAddrIcone24("icons/queue24.gif");
+        elem.setAddrIcone16("/icons/queue16.png");
+        elem.setAddrIcone24("/icons/queue24.png");
         petri.addElementBase(elem);
 
         // L'arc
@@ -192,8 +192,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/arc16.gif");
-        elem.setAddrIcone24("icons/arc24.gif");
+        elem.setAddrIcone16("/icons/arc16.png");
+        elem.setAddrIcone24("/icons/arc24.png");
         petri.addElementBase(elem);
 
         // L'arc hinibiteur
@@ -203,8 +203,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("note", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("icons/arcinhibiteur16.gif");
-        elem.setAddrIcone24("icons/arcinhibiteur24.gif");
+        elem.setAddrIcone16("/icons/arcinhibiteur16.png");
+        elem.setAddrIcone24("/icons/arcinhibiteur24.png");
         petri.addElementBase(elem);
 
         // Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
@@ -283,7 +283,7 @@ public class FormalismManager {
         attr = new AttributeFormalism("marking", true, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
-        elem.setAddrIcone16("icons/place16.gif");
+        elem.setAddrIcone16("../icons/place16.gif");
         elem.setAddrIcone24("icons/place24.gif");
         prefix.addElementBase(elem);
 
@@ -426,7 +426,7 @@ public class FormalismManager {
         attr = new AttributeFormalism("deadlock", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("icons/place16.gif");
+        elem.setAddrIcone16("../icons/place16.gif");
         elem.setAddrIcone24("icons/place24.gif");
         graph.addElementBase(elem);
      

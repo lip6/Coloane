@@ -1,75 +1,53 @@
 package fr.lip6.move.coloane.ui;
 
-
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import fr.lip6.move.coloane.interfaces.models.*;
 import fr.lip6.move.coloane.motor.models.*;
 import fr.lip6.move.coloane.ui.editpart.*;
 
 /**
- * Cette Factory construit les EditPart pour les elements du modele.
+ * Cette Factory construit les EditParts pour chacun des elements du modele.
  */
 public class PartFactory implements EditPartFactory {
 
 	/**
 	 * Creation effective de l'EditPart
+	 * @param context
+	 * @param modelElement l'element du modele pour lequel on doit construire un EditPart
 	 */
 	public EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
 		
-		// Get EditPart for model element
+		// Si l'elemen est nul... Probleme
 		if (modelElement == null) {
 			System.err.println("L'element est nul");
 		} else {
-			part = getPartForElement(modelElement); // Selon l'element on construit un EditPart different
-			part.setModel(modelElement); // Associe l'element a l'EditPart
+			// Selon l'element on construit un EditPart different
+			part = getPartForElement(modelElement); 
+			if (part != null) {
+				part.setModel(modelElement);
+			}
 		}
 		return part;
 	}
 
 	/**
 	 * Selon le type de l'element... on choisit sont EditPart 
-	 * @throws RuntimeException if no match was found (programming error)
+	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		
 		System.out.println("Mapping de l'element");
 		
 		if (modelElement instanceof NodeImplAdapter) {
-			System.out.println("Creation de l'EditPart pour un noeud");
-			return getPartForNode();
+			return new ElementEditPart();
 		} else if (modelElement instanceof ArcImplAdapter) {
-			System.out.println("Creation de l'EditPart pour un arc");
-			return getPartForArc((ArcImplAdapter)modelElement);
+			return new ArcEditPart();
 		} else if (modelElement instanceof ModelImplAdapter) {
-			System.out.println("Creation de l'EditPart pour un modele");
 			return new ModelEditPart();
-		} else if (modelElement instanceof AttributeImplAdapter) {
-			System.out.println("Creation de l'EditPart pour un attribut");
-			return new AttributeEditPart();
-		}		
-		throw new RuntimeException("Impossible de creer l'EditPart pour l'element: "+ ((modelElement != null) ? modelElement.getClass().getName() : "null"));
+		}
+		
+		return null;
 	}
-	
-	/**
-	 * Creation d'un EditPart pour un noeud
-	 * @return EditPart pour le noeud
-	 */
-	private EditPart getPartForNode() {
-		return new ElementEditPart();		
-	}
-	
-	/**
-	 * Creation d'un EditPart pour un arc
-	 * @param arc L'arc pour lequel on cree l'EditPart
-	 * @return EditPart de l'arc
-	 */
-	private EditPart getPartForArc(IArc arc) {
-		ArcEditPart arcEditPart = new ArcEditPart();
-		return arcEditPart;
-	}
-
 }

@@ -22,7 +22,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.*;
 import fr.lip6.move.coloane.motor.models.*;
-import fr.lip6.move.coloane.ui.factory.NodeFactory;
 
 /**
  * Creation d'une palette GEF
@@ -36,6 +35,22 @@ final class PaletteFactory {
 	/** Preference ID used to persist the flyout palette's state. */
 	private static final String PALETTE_STATE = "PaletteFactory.State";
 
+	/**
+	 * Creation de la paletteRoot et ajout de tous les elements de la palette
+	 * @param formalism : un formalisme
+	 * @return une nouvelle PaletteRoot
+	 */
+	static PaletteRoot createPalette(Formalism formalism) {
+		if (formalism == null) {
+			System.out.println("Erreur lors de la creation de la palette");
+		}
+		PaletteRoot palette = new PaletteRoot();
+		palette.add(createToolsGroup(palette));
+		palette.add(createShapesArcDrawer(formalism));
+		palette.add(createShapesNodeDrawer(formalism));
+		
+		return palette;
+	}
 	
 	/**
 	 * Creation du groupe des Noeuds de la palette
@@ -50,21 +65,27 @@ final class PaletteFactory {
 		// Liste des elements de bases associes au formalisme
 		ArrayList listOfElements = formalism.getListOfElementBase();
 		Iterator iterator;
-		CombinedTemplateCreationEntry component; /* Un element de la palette */
+		CombinedTemplateCreationEntry component; // Un element de la palette
 		
-		/* Parcours de la liste des elements de base associe au formalisme */
+		// Parcours de la liste des elements de base associe au formalisme
 		for (iterator = listOfElements.iterator(); iterator.hasNext() ; ) {
-			ElementBase element = (ElementBase) iterator.next();
+			final ElementBase element = (ElementBase) iterator.next();
 			
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
-			if (element instanceof NodeFormalism) {
-				System.out.println("Ajout a la palette : Noeud : "+element.getName());
-				
+			if (element instanceof NodeFormalism) {				
 				component = new CombinedTemplateCreationEntry(
-						element.getName(), // nom de l'objet
-						element.getName(), // description de l'objet
-						NodeImplAdapter.class,       // Object Template
-						new NodeFactory(element), 
+						element.getName(), 			// Nom de l'objet
+						element.getName(), 			// Description de l'objet
+						new CreationFactory () { 	// Object Template
+							public Object getNewObject() {
+								return new NodeImplAdapter(element);
+							}
+
+							public Object getObjectType() {
+								return NodeImplAdapter.class;
+							}
+							
+						},
 						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()), 
 						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
 				
@@ -78,9 +99,8 @@ final class PaletteFactory {
 	/** 
 	 * Creation du groupe des Arcs de la palette
 	 * @param formalism : Le formalisme du modele en cours d'edition
-	 * @return : paletteContainer
+	 * @return PaletteContainer
 	 */
-	
 	private static PaletteContainer createShapesArcDrawer(Formalism formalism) {
 		
 		/* Nouveau groupe d'outils de dessin */
@@ -113,7 +133,6 @@ final class PaletteFactory {
 						}, 
 						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()), 
 						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
-				
 				componentsArcDrawer.add(component);
 			} 
 		}
@@ -122,7 +141,8 @@ final class PaletteFactory {
 	
 	/** 
 	 * Creation du groupe des outils de la palette 
-	 * @param PaletteRoot : La palette precedemment cree 
+	 * @param palette La palette precedemment cree
+	 * @return PaletteContainer 
 	 */
 	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
 		PaletteGroup toolGroup = new PaletteGroup("Tools");
@@ -141,22 +161,6 @@ final class PaletteFactory {
 		return toolGroup;
 	}
 	
-	/**
-	 * Creation de la paletteRoot et ajout de tous les elements de la palette
-	 * @param formalism : un formalisme
-	 * @return une nouvelle PaletteRoot
-	 */
-	static PaletteRoot createPalette(Formalism formalism) {
-		if (formalism == null) {
-			System.out.println("Erreur lors de la creation de la palette");
-		}
-		PaletteRoot palette = new PaletteRoot();
-		palette.add(createToolsGroup(palette));
-		palette.add(createShapesArcDrawer(formalism));
-		palette.add(createShapesNodeDrawer(formalism));
-		
-		return palette;
-	}
 	
 	/**
 	 * @return les FlyoutPreferences utilises pour charger ou sauver 
@@ -186,12 +190,5 @@ final class PaletteFactory {
 				getPreferenceStore().setValue(PALETTE_SIZE, width);
 			}
 		};
-	}
-	
-	/* Utility class. */
-	
-	private PaletteFactory() {
-		// Utility class
-	}
-	
+	}	
 }
