@@ -1,15 +1,11 @@
 package fr.lip6.move.coloane.ui;
 
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import fr.lip6.move.coloane.communications.objects.*;
 import fr.lip6.move.coloane.interfaces.*;
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.ui.dialogs.*;
 import fr.lip6.move.coloane.ui.panels.*;
 
 /**
