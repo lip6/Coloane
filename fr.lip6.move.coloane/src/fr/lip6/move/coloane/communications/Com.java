@@ -111,7 +111,7 @@ public class Com implements IComIhm, IComApi, IComMotor {
 
 			String sessionName = motor.getSessionManager().getSession().getName();
 			if (api.closeCurrentSession(sessionName)) {
-				motor.modelDeconnexion(sessionName);
+				motor.getSessionManager().modelDeconnexion(sessionName);
                 System.out.println("Deconnexion reussie!");
 				return true;
 			} else {
@@ -122,10 +122,4 @@ public class Com implements IComIhm, IComApi, IComMotor {
 			throw e;
 		}
 	}
-	
-	
-	
-	
-	
-	
 }
