@@ -306,4 +306,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
+	
+	public Model getModel()
+	{
+		return model;
+	}
 }
