@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.communications.objects.Menu;
+import fr.lip6.move.coloane.communications.objects.Service;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.session.Session;
 
@@ -21,21 +22,13 @@ public class MenuManager {
 	/** Fenetre de travail */
 	private static IWorkbenchWindow window;
 
-	/** * Menu courant */
-	private MenuManager currentMenu;
-
-	/** Menu Administration */
-	private MenuManager menuAdministration;
-
-	/** Menu du formalisme (PetriNet, Accessibility Graph,..) */
-	private MenuManager menuFormalisme;
-
 	/**
 	 * Constructeur qui prend comme argument la fenetre de travail
 	 * @param fenetreTravail fenetre de travail
 	 */
 	public MenuManager(IWorkbenchWindow fenetreTravail) {
 		window = fenetreTravail;
+		System.err.println("New menu manager");
 	}
 
 	/**
@@ -158,7 +151,8 @@ public class MenuManager {
 	 * @param firstMenu
 	 *            nom du premier noeud de l'arbre des menus
 	 */
-	public static void genMenu(Menu menuAPI, MenuManager parent, String root,String firstMenu) {
+	public static void genMenu(Menu menuAPI, MenuManager parent,
+							   String root,String firstMenu) {
 		// Nombre de service
 		int nbServices = menuAPI.getServiceNumber();
 		// On construit les services du menu courant
@@ -167,7 +161,11 @@ public class MenuManager {
 			for (int i = 0; i < nbServices; i++) {
 				Service serviceCourant = menuAPI.getAService(i);
 				// action apres pression du bouton
-				parent.add(new ServiceAction(root, serviceCourant.getName(), firstMenu, temp, null, null, serviceCourant.isActive(),serviceCourant.isDefaultValid()));
+				// TODO vagabond : complŽter genMenu
+				//parent.add(new ServiceAction(root, serviceCourant.getName(),
+				//							firstMenu, temp, null, null,
+				//							serviceCourant.isActive(),
+				//							serviceCourant.isDefaultValid()));
 			}
 		}
 
@@ -180,6 +178,7 @@ public class MenuManager {
 				Menu menuCourant = menuAPI.getASubMenu(i);
 				if (menuCourant.isActive()) {
 					// sous menu
+					// TODO vagabond : voir ce problme de constructeur de MenuManager
 					MenuManager subMenu = new MenuManager(menuCourant.getName());
 
 					if (menuCourant.isActive()) {
@@ -202,59 +201,6 @@ public class MenuManager {
 	}
 
 	/**
-	 * @return Returns the currentMenu.
-	 */
-	public MenuManager getCurrentMenu() {
-		return this.currentMenu;
-	}
-
-	/**
-	 * @param newMenu
-	 *            The currentMenu to set.
-	 */
-	public void setCurrentMenu(MenuManager newMenu) {
-		this.currentMenu = newMenu;
-	}
-
-	/**
-	 * Obtenir le MenuAdministration
-	 * 
-	 * @return le MenuAdmnistration
-	 */
-	public MenuManager getMenuAdministration() {
-		return menuAdministration;
-	}
-
-	/**
-	 * Donner une valeur à MenuAdministration
-	 * 
-	 * @param menuAdministration
-	 *            la valeur
-	 */
-	public void setMenuAdministration(MenuManager menuAdministration) {
-		this.menuAdministration = menuAdministration;
-	}
-
-	/**
-	 * Obtenir le MenuFormalisme
-	 * 
-	 * @return le menuMenuFormalisme
-	 */
-	public MenuManager getMenuFormalisme() {
-		return menuFormalisme;
-	}
-
-	/**
-	 * Donner une valeur à MenuAdmnistration
-	 * 
-	 * @param menuFormalisme
-	 *            la valeur
-	 */
-	public void setMenuFormalisme(MenuManager menuFormalisme) {
-		this.menuFormalisme = menuFormalisme;
-	}
-
-	/**
 	 * Supprimer un menu dans la barre de menu
 	 * 
 	 * @author Selvaratnam Senthuran
@@ -273,62 +219,4 @@ public class MenuManager {
 			}
 		}
 	}
-
-	/**
-	 * Activer un menu dans la barre de menu
-	 * 
-	 * @author Selvaratnam Senthuran
-	 * 
-	 * @param strMenu
-	 *            nom du menu
-	 */
-	public void enableMenuFromBar(String strMenu) {
-		MenuItem[] menuArray = window.getShell().getMenuBar().getItems();
-		for (int i = 0; i < menuArray.length; i++) {
-			if (menuArray[i].getText().equalsIgnoreCase(strMenu)) {
-				menuArray[i].setEnabled(true);
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Desactiver un menu dans la barre de menu
-	 * 
-	 * @param strMenu Nom du menu
-	 */
-	public void disableMenuFromBar(String strMenu) {
-		MenuItem[] menuArray = window.getShell().getMenuBar().getItems();
-		for (int i = 0; i < menuArray.length; i++) {
-			if (menuArray[i].getText().equalsIgnoreCase(strMenu)) {
-				menuArray[i].setEnabled(false);
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Grise ou degrise un menu de Platform
-	 * 
-	 * @param strMenuItem nom du menu
-	 * @param isActive si actif->degrise, grise sinon
-	 */
-	public void setPlatformMenuItemsAccessibility(String strMenuItem,boolean isActive) {
-		MenuItem[] menuArray = window.getShell().getMenuBar().getItems();
-
-		
-		for (int i = 0; i < menuArray.length; i++) {
-			if (menuArray[i].getText().equalsIgnoreCase(Coloane.getString("MNU_PLATFORM"))) {
-				MenuItem[] menuItemArray = menuArray[i].getMenu().getItems();
-				for (int j = 0; j < menuItemArray.length; j++) {
-					if (menuItemArray[j].getText().equalsIgnoreCase(strMenuItem)) {
-						menuItemArray[j].setEnabled(isActive);
-						break;
-					}
-				}
-				break;
-			}
-		}
-	}
-
 }
