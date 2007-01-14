@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.menus.RootMenu;
  * @author Alexandre ORTIZ
  *
  */
-public class MenuBuilder {
+public class GraphicalMenu {
 	private RootMenu root;
 	private Shell shell;
 	
@@ -29,7 +29,7 @@ public class MenuBuilder {
 	 *  Can be obtained with
 	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
 	 */
-	public MenuBuilder(RootMenu root, 
+	public GraphicalMenu(RootMenu root, 
 			IWorkbenchWindow window) {
 		shell  = window.getShell();
 		this.root = root;
@@ -72,8 +72,8 @@ public class MenuBuilder {
 	
 	/**
 	 * Builds recursively a MenuManager from a Childmenu.
-	 * @param child
-	 * @param parentMenuManager
+	 * @param child The child we want to add to the graphical menu
+	 * @param parentMenuManager The MenuManager on which we will add the child
 	 */
 	public void buildChildMenu(ChildMenu child,
 			MenuManager parentMenuManager) {
@@ -92,4 +92,25 @@ public class MenuBuilder {
 			} else
 				buildChildMenu(littleChild, childMenuManager);
 	}
+  
+  /**
+   * Removes a menu from the menubar.
+   *
+   */
+  public void remove() {
+    for (MenuItem mi : shell.getMenuBar().getItems())
+      if (mi.getText().equals(root.getName())) {
+        mi.dispose();
+        return;
+      }
+  }
+  
+  /**
+   * Updates a menu (i.e; modifies it in the menubar).
+   *
+   */
+  public void update() {
+    remove();
+    build();
+  }
 }
