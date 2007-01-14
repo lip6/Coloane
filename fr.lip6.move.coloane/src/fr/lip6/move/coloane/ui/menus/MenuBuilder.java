@@ -1,0 +1,95 @@
+package fr.lip6.move.coloane.ui.menus;
+
+
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
+
+import fr.lip6.move.coloane.menus.CAction;
+import fr.lip6.move.coloane.menus.ChildMenu;
+import fr.lip6.move.coloane.menus.RootMenu;
+
+/**
+ * This class takes a RootMenu and builds a graphic
+ * menu for the Eclipse menubar, inserting it
+ * just after the "Platform" menu.
+ * 
+ * @author Alexandre ORTIZ
+ *
+ */
+public class MenuBuilder {
+	private RootMenu root;
+	private Shell shell;
+	
+	/**
+	 * @param root
+	 * @param window The window repersenting the workbench.<br/>
+	 *  Can be obtained with
+	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
+	 */
+	public MenuBuilder(RootMenu root, 
+			IWorkbenchWindow window) {
+		shell  = window.getShell();
+		this.root = root;
+	}
+	
+	/**
+	 * Builds recursively a MenuManager from, using a RootMenu
+	 * given in the constructor.
+	 */
+	public void build() {
+		MenuManager rootMenuManager = new MenuManager(root.getName());
+		
+		/*
+		 * We recursively build the mnu.
+		 */
+		for(ChildMenu aChild : root.getChildren()) {
+			if (aChild.getChildrenNumber() == 0)
+				rootMenuManager.add(new CAction(aChild.getName()));
+			else
+				buildChildMenu(aChild, rootMenuManager);
+		}
+		
+		Menu menuBar = shell.getMenuBar();
+		MenuItem[] mi = menuBar.getItems();
+		
+		int place = 0;
+		
+		/*
+		 * We search the Platform menu's position to add this
+		 * menu just after it.
+		 */
+		for (int i = 0; i < mi.length; i++)
+			if (mi[i].getText().equals("&Platform")) {
+				place = i;
+				break;
+			}
+		
+		rootMenuManager.fill(menuBar, place + 1);
+	}
+	
+	/**
+	 * Builds recursively a MenuManager from a Childmenu.
+	 * @param child
+	 * @param parentMenuManager
+	 */
+	public void buildChildMenu(ChildMenu child,
+			MenuManager parentMenuManager) {
+		MenuManager childMenuManager = new MenuManager(child.getName());
+		parentMenuManager.add(childMenuManager);
+		
+		for(ChildMenu littleChild : child.getChildren())
+			/*
+			 * If we are on a leaf, we don't add a MenuManager
+			 * but a Action.
+			 */
+			if (littleChild.isLeaf()) {
+				CAction exitAction = new CAction(littleChild.getName());
+				exitAction.setEnabled(littleChild.getEnabled());
+				childMenuManager.add(exitAction);
+			} else
+				buildChildMenu(littleChild, childMenuManager);
+	}
+}
