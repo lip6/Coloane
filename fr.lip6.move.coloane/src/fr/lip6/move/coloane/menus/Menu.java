@@ -24,7 +24,7 @@ public abstract class Menu {
 	/**
 	 * Adds a submenu to this menu.
 	 * @param name The name of the menu to add
-	 * @param 
+	 * @param enabled
 	 */
 	public void addMenu(String name, boolean enabled) {
 		ChildMenu newMenu  = new ChildMenu(name);
