@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="DialogTest.actionSet">
+         <menu
+               label="Sample &amp;Menu"
+               id="sampleMenu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               class="dialogtest.actions.Action7"
+               id="DialogTest.action7"
+               label="Action7"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action6"
+               id="DialogTest.action6"
+               label="Action6"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action5"
+               id="DialogTest.action5"
+               label="Action5"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action4"
+               id="DialogTest.action4"
+               label="Action4"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action3"
+               id="DialogTest.action3"
+               label="Action3"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action2"
+               id="DialogTest.action2"
+               label="Action2"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+         <action
+               class="dialogtest.actions.Action1"
+               id="DialogTest.action1"
+               label="Action1"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"/>
+      </actionSet>
+   </extension>
+
+</plugin>
