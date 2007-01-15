@@ -42,10 +42,8 @@ public abstract class Menu {
 	 */
 	public ChildMenu addMenu(String name, String fatherName)
 		throws MenuNotFoundException {
-		
-		System.out.println("Ajout de " + name + " à " + fatherName);
-		
-		if (this.name == fatherName) {
+	
+		if (this.name.equals(fatherName)) {
 			ChildMenu newMenu = new ChildMenu(name);
 			menus.add(newMenu);
 			return newMenu;
@@ -90,6 +88,15 @@ public abstract class Menu {
 		menus = null;
 	}
 
+	public boolean exists(String name) {
+		try {
+			getMenu(name);
+			return true;
+		} catch (MenuNotFoundException m) {
+			return false;
+		}
+	}
+	
 	public ArrayList<ChildMenu> getChildren() {
 		return menus;
 	}
@@ -98,12 +105,27 @@ public abstract class Menu {
 		return menus.size();
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
 	public boolean getEnabled() {
 		return enabled;
+	}
+	
+	public Menu getMenu(String name) 
+		throws MenuNotFoundException {
+		
+		if (this.name.equals(name))
+			return this;
+		
+		for (ChildMenu menu : menus) {
+			try {
+				return menu.getMenu(name);
+			} catch (MenuNotFoundException m) {}
+		}
+		
+		throw new MenuNotFoundException();
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public void removeMenu(String name)
@@ -125,5 +147,10 @@ public abstract class Menu {
 	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public void setEnabled(String name, boolean enabled)
+		throws MenuNotFoundException {
+		getMenu(name).enabled = enabled;
 	}
 }
