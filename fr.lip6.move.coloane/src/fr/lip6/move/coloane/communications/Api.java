@@ -8,7 +8,6 @@ import java.util.Vector;
 import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.communications.objects.FramekitMessage;
-import fr.lip6.move.coloane.communications.objects.Menu;
 import fr.lip6.move.coloane.communications.utils.ComLowLevel;
 import fr.lip6.move.coloane.communications.utils.Commande;
 import fr.lip6.move.coloane.communications.utils.FramekitThreadListener;
@@ -127,7 +126,6 @@ public class Api implements IApi {
 			Commande cmd = new Commande();
 			System.out.println("Construction de la commande CAMI...");
 
-			
 			/* Première partie : Le login et le password */	
 			// Construction de la commande CAMI sans toucher aux 4 premiers octets
 			byte[] send = cmd.createCmdSC(login, password);
@@ -139,12 +137,9 @@ public class Api implements IApi {
 			if (!(reponse.firstElement().equals("SC"))) {
 				System.err.println("Balise non attendue (attendue SC) :" + (String) reponse.firstElement());
 				return false;
-			} else {
-				// TODO : Affichage d'un message dans la console
-			}
+			} 
 		
 			/* Deuxième partie les informations sur l'API */
-
 			send = cmd.createCmdOC(Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"), login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
@@ -343,7 +338,6 @@ public class Api implements IApi {
 	
 	/**
 	 * Permet de notifier a la plate-forme que le modele a ete modifie
-	 * 
 	 * @param date Nouvelle date soumise
 	 * @return TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */

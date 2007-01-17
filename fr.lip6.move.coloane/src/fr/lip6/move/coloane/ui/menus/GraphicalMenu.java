@@ -29,7 +29,7 @@ public class GraphicalMenu {
 	 *  Can be obtained with
 	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
 	 */
-	public GraphicalMenu(RootMenu root, IWorkbenchWindow window, IComUi com) {
+	public GraphicalMenu(RootMenu root, IWorkbenchWindow window) {
 		shell  = window.getShell();
 		this.root = root;
 	}
@@ -74,15 +74,13 @@ public class GraphicalMenu {
 	 * @param child The child we want to add to the graphical menu
 	 * @param parentMenuManager The MenuManager on which we will add the child
 	 */
-	public void buildChildMenu(ChildMenu child,
-			MenuManager parentMenuManager) {
+	public void buildChildMenu(ChildMenu child, MenuManager parentMenuManager) {
 		MenuManager childMenuManager = new MenuManager(child.getName());
 		parentMenuManager.add(childMenuManager);
 		
 		for(ChildMenu littleChild : child.getChildren())
 			/*
-			 * If we are on a leaf, we don't add a MenuManager
-			 * but a Action.
+			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
 				CAction exitAction = new CAction(littleChild.getName());

@@ -3,12 +3,13 @@ package fr.lip6.move.coloane.motor;
 
 import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
+import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.motor.session.SessionManager;
 
-public class Motor implements IMotorCom {
+public class Motor implements IMotorCom, IMotorUi {
 	private static FormalismManager formalismManager;
 	private static SessionManager sessionManager;
 	
@@ -17,7 +18,6 @@ public class Motor implements IMotorCom {
 
 	/**
 	 * Constructeur du module moteur
-	 *
 	 */
 	public Motor() {
 		Motor.formalismManager = new FormalismManager();
@@ -45,6 +45,7 @@ public class Motor implements IMotorCom {
 		try {
 			// Creation d'une nouvelle session
 			Session session = new Session(sessionName, Session.cntSession++);
+			
 			if (session == null) {
 				throw new Exception("Echec lors de la creation de la session");
 			}

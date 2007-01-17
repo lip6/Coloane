@@ -7,6 +7,7 @@ import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.interfaces.*;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.panels.*;
 
@@ -16,36 +17,24 @@ import fr.lip6.move.coloane.ui.panels.*;
 
 public class UserInterface implements IUiCom, IUiMotor {
     
-    /** Le gestionnaire de menus */
-    private static MenuManager menuManager;
-
     /** La fenêtre de travail */
     private static IWorkbenchWindow fenetreTravail;
     
+    /** Le module de communication */
+    private IComUi com = null;
+    
+    /** Le module de moteur */
+    private IMotorUi motor = null; 
+    
+    
+    
     /**
      * Constructeur de la classe
-     *
      */
     public UserInterface() {
         fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        menuManager = new MenuManager(fenetreTravail);
     }
 
-	/**
-	 * Demande la mise a jour du menu
-	 * @param menuAPI arborescence menu
-	 * */
-	public void updateMenu() {
-	    menuManager.updateMenu();
-	}
-
-	/**
-	 * Ouvrir une fenetre
-	 * @param dialog dialogue
-	 */
-//	public void openWindow(Object dialog) {
-//		DialogTool.openWindow(dialog);
-//	}
 
 	/**
 	 * Affichage d'un message sur la vue historique
@@ -68,7 +57,7 @@ public class UserInterface implements IUiCom, IUiMotor {
      * @param message message a afficher
      */
     public void sendStateMessage(String message) {
-    		final String msg=message;
+   		final String msg=message;
         
         Display.getDefault().asyncExec(new Runnable(){
            public void run(){
@@ -81,82 +70,41 @@ public class UserInterface implements IUiCom, IUiMotor {
         });
     }
     
-	/**
-	 * Bloquer et debloquer le modele apres une demande de l'API
-	 *
-	 * @param lock booleen idiquant l'etat du blocage
+
+	/** 
+	 * Afficher un menu
+	 * @param menu La racine du menu a afficher 
 	 */
-	public void changeIU(boolean lock) {
-
-	}
-
-	/**
-	 * Afficher une boite de dialogue
-	 * @param numDialogBox indique le numero de la boite de dialogue
-	 */
-//	public void displayDialog(int numDialogBox) {
-//		DialogTool.displayDialog(numDialogBox);
-//	}
-
-    /**
-     * Cacher la boite de dialogue
-     * @param dialogNb indique le numero de la boite de dialogue
-     */
-//	public void hideDialog(int dialogNb) {
-//		DialogTool.hideDialog(dialogNb);
-//	}
-
-    /**
-     * Detruire la boite de dialogue
-     * @param dialogNb indique le numero de la boite de dialogue
-     */
-//	public void destroyDialog(int dialogNb) {
-//		DialogTool.destroyDialog(dialogNb);
-//	}
-
-	/**
-	 * Notification a l'IHM pour mettre a jour l'interface graphique( barre d'outils, menu, etc.)
-	 */
-	public void updateIhm() {
-		
-	}
-
-	/**
-	 * Bloquer le modele courant (avec une Java synchronized function)
-	 *
-	 */
-	public void lockModel() {
-		
-
-	}
-	/**
-	 * Debloquer le modele courant (with a Java synchronized function)
-	 * 
-	 */
-	public void unlockModel() {
-	
-
-	}
-	
-	/** Afficher un menu */
 	public void drawMenu (RootMenu menu) {
-		GraphicalMenu gMenu= new GraphicalMenu(menu,fenetreTravail);
-		gMenu.build();		
+		Session currentSession = motor.getSessionManager().getCurrentSession();
+		currentSession.setSessionMenu(menu);
+		GraphicalMenu gmenu = new GraphicalMenu(menu,fenetreTravail);
+		gmenu.build();		
 	}
-
-    /**
-     * Obtenir la valeur de MenuManager
-     * @return le menuManager
-     */
-    public MenuManager getMenuManager() {
-        return menuManager;
-    }
-
-    /**
-     * Donner une valeur a MenuManager
-     * @param menuManager la valeur
-     */
-    public void setMenuManager(MenuManager menuManager) {
-        UserInterface.menuManager = menuManager;
-    }
+	
+	/**
+	 * Demande la mise a jour du menu
+	 * @param menuAPI arborescence menu
+	 * */
+	public void updateMenu() {
+		Session currentSession = motor.getSessionManager().getCurrentSession();
+		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getSessionMenu(),fenetreTravail);
+		gmenu.update();
+	}
+	
+	/**
+	 * On attache le module de communication a l' l'interface utilisateur
+	 * @param IComUi L'interface
+	 */
+	public void setCom(IComUi com) {
+		this.com = com;
+	}
+	
+	/**
+	 * On attache le module du moteur a l' l'interface utilisateur
+	 * @param IMotorUi L'interface
+	 */
+	public void setMotor(IMotorUi mot) {
+		this.motor = mot;
+	}
 }

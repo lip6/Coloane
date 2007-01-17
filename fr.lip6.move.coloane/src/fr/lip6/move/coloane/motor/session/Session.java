@@ -1,87 +1,44 @@
 package fr.lip6.move.coloane.motor.session;
 
-import org.eclipse.jface.action.MenuManager;
-
-import fr.lip6.move.coloane.communications.objects.Menu;
+import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 
 /**
- * Classe du Gestionnaire de Services
- * 
- * @author Jean-David HAGEGE
- * @author Abdelhamid ABDI
- * @author Selvaratnam SENTHURAN
+ * Session
  */
 public class Session {
     
-    /**
-     * Compteur de sessions
-     */
+    /** Compteur de sessions */
     public static int cntSession=1;
     
-    /**
-     * Les differents menus
-     */
-    public static final String ADMINMENUNAME = "Administration";
-    public static final String FORMALISMMENUNAME = "AMI-Net";
-    
-    /**
-     * Le modèle associé
-     */
+   /** Le modele associe */
     public ModelImplAdapter sessionModel;
 
-    /**
-     * Nom de la session
-     * 
-     */
+    /** Nom de la session */
     private String sessionName;
 
-    /**
-     * Identifiant de la session
-     * 
-     */
+    /** Identifiant de la session */
     private int sessionNumber;
 
-    /**
-     * Arborescence du menu et des services de la session
-     */
-    private Menu sessionMenu;
+    /** Arborescence du menu administration */
+    private RootMenu adminMenu;
+    
+    /** Arborescence du menu et des services de la session */
+    private RootMenu sessionMenu;
 
     /**
-     * Arborescence du menu administration
-     */
-    private Menu adminMenu;
-    
-    
-    
-    /**
-     * menu Administration
-     */
-    private MenuManager adminManager;
-    
-    /**
-     * Menu du formalisme (PetriNet, Accessibility Graph,..)
-     */
-    private MenuManager formalismManager;
-    
-    
-    /**
      * Constructeur de la classe Session
-     * 
      * @param name Nom de la session
      * @param num numero de la session
      */
     public Session(String name, int num) {
         sessionName = name;
         sessionNumber = num;
-        adminManager = null;
-        formalismManager = null;
         sessionModel= null;
     }
 
     /**
      * Retoune le nom de la session
-     * 
      * @return name
      */
     public String getName() {
@@ -90,18 +47,15 @@ public class Session {
 
     /**
      * Positionne le nom de la session
-     * 
-     * @param name
-     *            nom de session
+     * @param name nom de session
      */
     public void setName(String name) {
         this.sessionName = name;
     }
 
     /**
-     * Retoune le numero de session
-     * 
-     * @return number
+     * Retourne le numero de la session
+     * @return int Le numero de la session
      */
     public int getNumber() {
         return this.sessionNumber;
@@ -109,18 +63,15 @@ public class Session {
 
     /**
      * Positionne le nom de la session
-     * 
-     * @param number
-     *            numero de session
+     * @param number Le numero de la session
      */
-    public void setNumber(int number) {
-        this.sessionNumber = number;
+    public void setNumber(int num) {
+        this.sessionNumber = num;
     }
 
     /**
      * Retoune le modele
-     * 
-     * @return services
+     * @return ModelImplAdapter Le modele de la session
      */
     public ModelImplAdapter getSessionModel() {
         return this.sessionModel;
@@ -128,42 +79,29 @@ public class Session {
 
     /**
      * Positionne le modele
-     * 
-     * @param model
-     *            nouveau modele
+     * @param model nouveau modele
      */
     public void setSessionModel(ModelImplAdapter model) {
         this.sessionModel = model;
     }
 
 
-    /***************************************************************************
-     * Gestion Session
-     **************************************************************************/
-
     /**
-     * Suspendre l'exÈcution d'un service
-     * 
-     * @author Selvaratnam SENTHURAN
+     * Suspension d'un service sur la session
      */
     public void workSuspend() {
-        // Pas implementé car monosession
+    	// TODO : A Implementer
     }
 
     /**
      * Reprendre l'exÈcution d'un service
-     * 
-     * @author Selvaratnam SENTHURAN
      */
     public void workResume() {
-        // Pas implementé car monosession
+        // TODO : A Implementer
     }
 
     /**
      * Fermeture de la connexion du modele
-     * 
-     * @author Selvaratnam SENTHURAN
-     * 
      */
     public void closeConnexion() {
         this.activateServices(false);
@@ -171,7 +109,6 @@ public class Session {
 
     /**
      * Fermeture brutale de la connexion
-     * 
      */
     public void closeConnexionPanic() {
         this.activateServices(false);
@@ -179,39 +116,13 @@ public class Session {
 
     /**
      * Fermeture de la session
-     * 
      */
     public void stopSession() {
-
+    	// TODO : A Implementer
     }
 
-    /***************************************************************************
-     * Gestion Services
-     **************************************************************************/
-
-    /**
-     * Fournir une mise à jour des services
-     * 
-     * @param menu Liste de services
-     * 
-     */
-    public void updateServices(Menu menuAPI) {
-    	System.out.println("Mise a jour des services :"+menuAPI.getName());
-        if(menuAPI.getName().equals(Session.ADMINMENUNAME)){
-        	System.out.println("OK pour admin");
-            this.setAdminMenu(menuAPI);
-        }else if(menuAPI.getName().equals(Session.FORMALISMMENUNAME)){
-        	System.out.println("OK pour formalism");
-            this.setSessionMenu(menuAPI);
-        }else {
-        	System.err.println("Echec lors de la reconnaissance de menu");
-        }
-        // traitements éventuels, interne au moteur
-    }
-
-    /**
+     /**
      * Arrête le service
-     * 
      * @param serviceName Nom du service
      * @return boolean
      */
@@ -221,100 +132,25 @@ public class Session {
     }
 
     /**
-     * active ou desactive l'ensemble des services de la session
-     * 
-     * @author Selvaratnam SENTHURAN,ABDI ABDELHAMID
-     * @see org.dqs.ui.motor.interfaces.IMotCom#activateServices(boolean)
-     * @param res Boolean indiquant a true que l'on active tout les services associe a la session
+     * Active ou desactive l'ensemble des services de la session
      */
     public void activateServices(boolean res) {
-      //TODO activer les services
+      // TODO : Activer les services
     }
 
-    /**
-     * DÈbut de rÈponse d'une demande de service
-     * 
-     * @author Selvaratnam SENTHURAN
-     * @param res
-     *            liste de rÈsultats
-     */
-    public void beginAnswerRes(Object[] res) {
-        // TODO Auto-generated method stub
-    }
+	public RootMenu getAdminMenu() {
+		return adminMenu;
+	}
 
-    /**
-     * Retour de rÈsultat d'un service
-     * 
-     * @author Selvaratnam SENTHURAN
-     * @param res
-     *            liste de rÈsultats
-     */
-    public void sendResults(Object[] res) {
-        // TODO Auto-generated method stub
-    }
+	public void setAdminMenu(RootMenu adminMenu) {
+		this.adminMenu = adminMenu;
+	}
 
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * @return Returns the menuAdministration.
-     */
-    public MenuManager getAdminManager() {
-        return adminManager;
-    }
+	public RootMenu getSessionMenu() {
+		return sessionMenu;
+	}
 
-    /**
-     * @param adminManager The menuAdministration to set.
-     */
-    public void setAdminManager(MenuManager adminManager) {
-        this.adminManager = adminManager;
-    }
-
-    /**
-     * @return Returns the menuFormalisme.
-     */
-    public MenuManager getFormalimManager() {
-        return formalismManager;
-    }
-
-    /**
-     * @param formalismManager The menuFormalisme to set.
-     */
-    public void setFormalismManager(MenuManager formalismManager) {
-        this.formalismManager = formalismManager;
-    }
-
-    /**
-     * @return Returns the adminMenu.
-     */
-    public Menu getAdminMenu() {
-        return adminMenu;
-    }
-    
-    /**
-     * @param adminMenu The adminMenu to set.
-     */
-    public void setAdminMenu(Menu adminMenu) {
-        this.adminMenu = adminMenu;
-    }
-    
-    /**
-     * @return Retourne le sessionMenu.
-     */
-    public Menu getSessionMenu() {
-        return sessionMenu;
-    }
-
-    /**
-     * @param menu
-     *            Positionne le menu de la session.
-     */
-    public void setSessionMenu(Menu menu) {
-        this.sessionMenu = menu;
-    }
-
+	public void setSessionMenu(RootMenu sessionMenu) {
+		this.sessionMenu = sessionMenu;
+	}
 }

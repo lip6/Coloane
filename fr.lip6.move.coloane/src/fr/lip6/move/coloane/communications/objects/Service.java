@@ -6,39 +6,25 @@ package fr.lip6.move.coloane.communications.objects;
  */
 public class Service {
 	
-	/**
-	 * nom du service
-	 */	
+	/** Nom du service */	
 	private String name;
 	
-	/**
-	 * informe si le service est actif
-	 */
+	/** Informe si le service est actif */
 	private boolean active;
 	
-	/**
-	 * informe si le service est stoppable
-	 */
+	/** Informe si le service est stoppable */
 	private boolean suspensible;
 	
-	/**
-	 * informe si le dialoque est possible entre l'IHM et FK 
-	 */
+	/** Informe si le dialoque est possible entre l'IHM et FK */
 	private boolean dialogueAllowed;
 	
-	/**
-	 * message d'aide associe au service
-	 */
+	/** Message d'aide associe au service */
 	private String helpMessage;
 	
-	/**
-	 * formalisme du resultat retourne
-	 */
+	/** Formalisme du resultat retourne */
 	private String resultFormalism;
 	
-	/**
-	 * informe si le service est valide par defaut 
-	 */
+	/** Informe si le service est valide par defaut */
 	private boolean defaultValidation;
 	
 	
@@ -51,9 +37,7 @@ public class Service {
 	 * @param defaultValid informe si le service est valide par defaut
 	 * @param resFormalism formalisme du resultat retourne
 	 */
-	public Service(String serviceName, boolean serviceActive, 
-			boolean serviceSuspensible, boolean dialogueAllwd, 
-			boolean defaultValid, String resFormalism) {
+	public Service(String serviceName, boolean serviceActive,boolean serviceSuspensible, boolean dialogueAllwd,boolean defaultValid, String resFormalism) {
 		this.name = serviceName;
 		this.active = serviceActive;
 		this.suspensible = serviceSuspensible;

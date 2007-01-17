@@ -5,6 +5,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+//import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -39,25 +40,32 @@ public class Coloane extends AbstractUIPlugin {
 		try {
 			System.out.println("-- Initialisation du plugin Coloane --");
 			
-			// Initialisation
+			// Initialisation de l'interface graphique
 			ui = new UserInterface();
 			if (ui == null) {
 				System.err.println("Erreur lors du chargement de l'interface utilisateur");				
 			}
 			
+			// Initialisation du moteur
 			motor = new Motor();
 			if (motor == null) {
 				System.err.println("Erreur lors du chargement du module moteur");
 			}
 			
-			com = new Com(ui);
+			// Initialisation de la partie communications
+			com = new Com();
 			if (com == null) {
 				System.err.println("Erreur lors du chargement du module de communications");
 			}
 			
 			// Creation des liens
+			com.setUi(ui);
 			com.setMotor(motor);
+			
 			motor.setCom(com);
+			
+			ui.setCom(com);
+			ui.setMotor(motor);
 			
 		} catch (Exception e) {
 			System.err.println("Erreur : "+e.getMessage());
@@ -102,34 +110,24 @@ public class Coloane extends AbstractUIPlugin {
 		} catch (Exception e) {
 			return key;
 		}
-
 	}
 	
 	/**
-	 * Notifier le changement du modèle de la 
-	 * session courrante
-	 *
+	 * Notifier le changement du modele de la session courrante
 	 */
-	public void notifyModelChange() {
-		Session currentSession = Coloane.getDefault().getMotor().getSessionManager().getSession();
+	public static void notifyModelChange() {
+		Session currentSession = plugin.motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
 			ModelImplAdapter model = currentSession.getSessionModel();
 			if (model != null) {
-
-				//try {
-					//getDefault().getCom().notifyModification(model.getDate());
-				//} catch (Exception e) {
-					//System.err.println("Erreur : "e.printStackTrace());
-				//}
-				System.out.println("Changmeent du modele");
-			model.modifyDate();
-
+				System.out.println("Changement du modele");
+				int dateUpdate = model.modifyDate();
+				if (dateUpdate != 0) {
+					plugin.com.toUpdate(dateUpdate);
+				}
 			} else {
 				System.out.println("Le modele est nul");
-				//doLog(IStatus.ERROR, "Model null in session");
 			}
-		} else {
-			
 		}
 	}
 	
@@ -171,6 +169,9 @@ public class Coloane extends AbstractUIPlugin {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("fr.lip6.move.coloane",path);
 	}
 	
+	/**
+	 * TODO: A documenter
+	 */
 	public static Composite getParent () {
 		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}

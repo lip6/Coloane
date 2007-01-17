@@ -35,7 +35,6 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
-       // this.theMenuManager = Coloane.getDefault().getUiImpl().getMenuManager();
 	}
 
 	public void run(IAction action) {
@@ -71,11 +70,8 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             			// Transformation du modèles en modèles implémentant l'interface de la Com
             			String sessionName;
                     
-            			//IEditorPart editorPart =  PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-                    
             			if (editor instanceof Editor) {
             				System.out.println("Session particulière");
-            				//Editor cpnami = (Editor)editorPart;
             				IFile file = ((IFileEditorInput)editor.getEditorInput()).getFile();
             				sessionName=file.getProjectRelativePath().toString();
             			} else {
@@ -86,11 +82,10 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             			System.out.println("Nom de session : "+sessionName);
                     
             			if (Coloane.getDefault().getMotor().openConnexion(editor.getModel(), sessionName)) {
-            				// On grise le menu de connexion du modËle et on degrise la deconnexion du modele
-            				//theMenuManager.setPlatformMenuItemsAccessibility(CpnAmiPlugin.getString(ACT_CONNECT_MODEL),false);
-            				//theMenuManager.setPlatformMenuItemsAccessibility(CpnAmiPlugin.getString(ACT_DISCONNECT_MODEL),true);
+            				// TODO : Griser les menues adequats
             				HistoryView.instance.addLine("SUCCESS");
             			} else {
+            				// TODO : GRiser les menus adequats
             				HistoryView.instance.addLine("FAILED");
             			}
 
