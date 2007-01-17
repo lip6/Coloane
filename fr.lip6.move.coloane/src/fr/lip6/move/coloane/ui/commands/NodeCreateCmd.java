@@ -4,7 +4,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
 
@@ -65,7 +64,6 @@ public class NodeCreateCmd extends Command {
          */
         public void redo() {
         	model.addChild(newNode);
-            Coloane.getDefault().notifyModelChange();
         }
 
         /**

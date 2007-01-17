@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
@@ -60,9 +59,6 @@ public class NodeDeleteCmd extends Command {
 		wasRemoved = true;
 		try {
 			parent.removeChild(child);
-//			 Notifier changement au FK
-			Coloane.getDefault().notifyModelChange();
-
 		} catch (Exception e) {
 			wasRemoved = false;
 		}
