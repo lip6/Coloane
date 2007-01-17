@@ -89,10 +89,12 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @param serviceName nom du service
 	 * @param checkMarkList les options d'executions
 	 */
-	public void execService(String rootMenuName, String menuName,String serviceName, String[] checkMarkList) {
+	public void execService(String rootMenuName, String menuName,String serviceName) {
 	
 		Commande cmd = new Commande();
 		
+		// Si le modele a ete mis a jour...
+		// On doit envoyer un MS
 		if (this.dateUpdated) {
 			byte[] commande = cmd.createCmdMS(this.date);
 			try {
@@ -106,33 +108,33 @@ public class FramekitThreadSpeaker extends Thread {
 			this.dateUpdated = false;
 		}
 		
+		// Dans tous les cas, on doit creer l'appel de service
 		byte[] dt = cmd.createCmdSimple("DT");
 		byte[] pq;
 		byte[] ft = cmd.createCmdSimple("FT");
+		
 		String s1 = new String(dt, 4, dt.length - 4);
-		System.out.println("envoi de : " + s1);
+		System.out.println("Envoi de : " + s1);
 		
 		try {
+			
+			// En-tete du message
 			comm.writeCommande(dt);
 			
 			System.out.println("MENU NAME : " + menuName);
 			System.out.println("SERVICE NAME : " + serviceName);
-			System.out.println("CHECKMARK : " + checkMarkList[0]);
-			
 			
 			if (!menuName.equals("")) {
 				pq = cmd.createCmdPQ(rootMenuName , menuName , 1);
 				comm.writeCommande(pq);
 			}
-					
-			
+
 			pq = cmd.createCmdPQ(rootMenuName , serviceName , 1);
+			
+			// Corps du message
 			comm.writeCommande(pq);
 						
-			for (int i = 0; i < checkMarkList.length; i++) {
-				pq = cmd.createCmdPQ(rootMenuName , checkMarkList[i] , 1);
-				comm.writeCommande(pq);
-			}
+			// Pied du message
 			comm.writeCommande(ft);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -331,6 +333,7 @@ public class FramekitThreadSpeaker extends Thread {
 				return false;
 			}
 			
+			// Mise en attente
 			verrou.attendre(); //OS
 			verrou.attendre(); //TD
 			verrou.attendre(); //FA

@@ -12,6 +12,7 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.models.AbstractModelElement;
 import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
@@ -42,6 +43,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		IArcFigure arcFigure = (IArcFigure) getFigure();
 		ArcImplAdapter arcModel = (ArcImplAdapter)getModel();
 		arcFigure.setLabelText(arcModel.getArcValue()); // Accesseur de la vue
+		
+		// Il faut avertir FrameKit
+		System.out.println("Avertissement de FK - Arc");
+		Coloane.notifyModelChange();
 	}
 
 	/**

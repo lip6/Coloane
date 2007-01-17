@@ -2,12 +2,19 @@ package fr.lip6.move.coloane.communications.utils;
 
 import java.util.Vector;
 
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.PlatformUI;
+
 import fr.lip6.move.coloane.communications.Api;
 import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.communications.objects.FramekitMessage;
-import fr.lip6.move.coloane.communications.objects.Menu;
 import fr.lip6.move.coloane.communications.objects.WindowedDialogue;
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.menus.Menu;
+import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 
 
 /**
@@ -27,10 +34,14 @@ public class FramekitThreadListener extends Thread {
 	/** Permet de mettre a jour le menu */
 	private CamiTranslator translater;
 	
+	
+	private Composite parent;
+	
+	
 	/**
 	 * liste des menus
 	 */
-	private Vector menuList;
+	private Vector<Menu> menuList;
 	
 	/**
 	 * Constructeur
@@ -43,13 +54,17 @@ public class FramekitThreadListener extends Thread {
 		this.comm = com;
 		this.verrou = aVerrou;
 		this.translater = new CamiTranslator();
-		this.menuList = new Vector();
+		this.menuList = new Vector<Menu>();
+		this.parent = (Composite) Coloane.getParent();
 	}
 	
 	/**
 	 * Le corps du thread
 	 */
 	public void run() {
+		
+		// Le menu de formalisme
+		Menu formalismMenu = null;
 		
 		Vector listeArgs;
 		Commande cmd = new Commande();  // la commande recu
@@ -59,17 +74,8 @@ public class FramekitThreadListener extends Thread {
 		Vector leModel = new Vector();  // le modele recu
 		Vector vectorDialog = new Vector();
 		
-		/**
-		 * la label du message
-		 */
 		String errorSyntaxCheck = "";
-		/**
-		 * la liste des identifiants pour le message
-		 */
 		String errorId = "";
-		/**
-		 * le nombres d'identifants pour le message
-		 */
 		int nbNodeError = 0;
 		
 		while (true) {
@@ -78,10 +84,9 @@ public class FramekitThreadListener extends Thread {
 			
 			// En mode turboboost, plusieurs commande peuvent être fournies
 			Vector commandeRecue;
+		
 			try {
-				
 				// Boucle de réception
-				System.out.println("Boucle de réception (Thread listener)");
 				commandeRecue = this.comm.readCommande();
 
 				// Si on recoit un mesage fin de service
@@ -91,11 +96,11 @@ public class FramekitThreadListener extends Thread {
 					break;
 				}	
 				
-			// En cas d'erreur, on se disconnecte de FrameKit	
+			// En cas d'erreur, on se deconnecte de FrameKit	
 			} catch (Exception e) {
 				e.printStackTrace();
-				api.cnxClosed(1, "Disconnected from Framekit", 1);
-				System.out.println("Connexion closed");
+				api.cnxClosed(1, "Deconnexion de FrameKit", 1);
+				System.out.println("Connexion fermee");
 				break;
 			}
 			
@@ -106,6 +111,10 @@ public class FramekitThreadListener extends Thread {
 				
 				// Parcours de toutes les commandes reçues
 				for ( numCommande=0; numCommande<commandeRecue.size(); numCommande++) {
+					
+					if (((String) commandeRecue.elementAt(numCommande)).length() == 0) {
+						continue;
+					}
 					
 					System.out.println("Commande en cours d'analyse : "+(String) commandeRecue.elementAt(numCommande));
 					
@@ -157,16 +166,9 @@ public class FramekitThreadListener extends Thread {
 						// Modification de l'arbre des services : active
 						case 7 : {
 							try {
-								// On parcourt les menus
-								for (int index = 0; index < menuList.size(); index++) {
-									// On determine si la commande s'applique bien au menu parcouru actuellement
-									if (((Menu) menuList.get(index)).getName().equals(listeArgs.get(1))) {
-										((Vector) cmdCAMIMenuMajReceive.get(index)).add(listeArgs);
-									}
-								}
+								formalismMenu.setEnabled((String) listeArgs.get(1),true);
 							} catch (Exception e) {
 								System.err.println("Erreur reception TQ type = 7");
-								e.printStackTrace();
 							}
 							break;
 						}
@@ -224,9 +226,9 @@ public class FramekitThreadListener extends Thread {
 						this.verrou.unlock();
 					} 
 					
-					// Commande de debut d'envoie de menu
+					// Commande de debut d'envoi de menu
 					if ((listeArgs.firstElement().equals("DQ"))) {
-						System.out.println("Début de reception du menu");
+						System.out.println("Debut de reception du menu");
 					}
 					
 					// Debut de menu
@@ -258,55 +260,60 @@ public class FramekitThreadListener extends Thread {
 					// fin du menu de services
 					if (listeArgs.firstElement().equals("FQ")) {
 						
-						Menu myMenu = null;
-						currentCAMIMenuReceive.add(listeArgs); // Le menu qui a été construit
+						// Construction du menu
 						try {
-							myMenu = translater.getMenu(currentCAMIMenuReceive);
+							formalismMenu = translater.getMenu(currentCAMIMenuReceive);
 						} catch (Exception e) {
 							System.err.println("Erreur dans FQ = Impossible de construire le menu");
-							e.printStackTrace();
 						}
 	
+						// Ajout du menu construit a la plateforme
 						try {
-							menuList.add(myMenu);
+							menuList.add(formalismMenu);
 						} catch (Exception e) {
 							System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit à la plateforme");
-							e.printStackTrace();
 						}
+						
 						System.out.println("Fin du menu");
 					} 
 					
 					
 					// Le menu est mid a jour !
 					if ((listeArgs.firstElement().equals("QQ")) && ((listeArgs.elementAt(1).equals("2")) || (listeArgs.elementAt(1).equals("3")))) {
-						System.out.println("Mise a jour des menus");
-						for (int index = 0; index < menuList.size(); index++) {
-							Menu myMajMenu = null;
-							
-							// Mise a jour du menu
-							try {
-								myMajMenu = translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index));
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							// On remplace le menu
-							try {
-								menuList.set(index, myMajMenu);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							// On notifie l'API qu'il faut mettre a jour le menu
-							try {
-								api.setMenu((Menu) menuList.get(index));
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
-							cmdCAMIMenuMajReceive.set(index, new Vector());
-						}
+							parent.getDisplay().asyncExec(new Runnable(){
+								public void run(){
+									for (int index = 0; index < menuList.size(); index++) {
+										api.drawMenu((RootMenu) menuList.get(index));
+									}
+								}
+							});
+
+//							Menu myMajMenu = null;
+//							
+//							// Mise a jour du menu
+//							try {
+//								myMajMenu = translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index));
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
+//							
+//							// On remplace le menu
+//							try {
+//								menuList.set(index, myMajMenu);
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
+//							
+//							// On notifie l'API qu'il faut mettre a jour le menu
+//							try {
+//								api.setMenu((Menu) menuList.get(index));
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
+//						}
+//						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
+//							cmdCAMIMenuMajReceive.set(index, new Vector());
+//						}
 							
 						this.verrou.unlock();
 						majMenu = new Vector();
@@ -315,13 +322,13 @@ public class FramekitThreadListener extends Thread {
 					//le menu est mis a jour, on le renvoie au speaker
 					if ((listeArgs.firstElement().equals("FR"))) {
 						System.out.println("THREAD LISTENER FR recu : NOMBRE DE MISE A JOURS => " + majMenu.size());
-						for (int index = 0; index < menuList.size(); index++) {
-							menuList.set(index, translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index)));
-							api.setMenu((Menu) menuList.get(index));
-						}
-						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
-							cmdCAMIMenuMajReceive.set(index, new Vector());
-						}					
+//						for (int index = 0; index < menuList.size(); index++) {
+//							menuList.set(index, translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index)));
+//							api.setMenu((Menu) menuList.get(index));
+//						}
+//						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
+//							cmdCAMIMenuMajReceive.set(index, new Vector());
+//						}					
 					}
 					
 					if ((listeArgs.firstElement().equals("KO"))) {
@@ -347,16 +354,19 @@ public class FramekitThreadListener extends Thread {
 						this.api.sendMessageUI(FramekitMessage.WARNING, (String) listeArgs.elementAt(1), 1);
 					}
 					
+					
+					// TODO: Affichage d'un message systeme ?
 					if ((listeArgs.firstElement().equals("MO"))) {
-						System.out.println("THREAD LISTENER MO recu");
+						System.out.println("Message MO");
 						int un = 0;
 						try {
 							un = Integer.parseInt((String) listeArgs.elementAt(1));
 						} catch (Exception e) {
-							System.out.println("exception parseInt");
+							System.err.println("Message MO incorrect");
 							
 						}
-						this.api.sendMessageUI(FramekitMessage.SPECIAL, (String) listeArgs.elementAt(2), un);
+						//this.api.sendMessageUI(FramekitMessage.SPECIAL, (String) listeArgs.elementAt(2), un);
+						this.api.printHistory((String) listeArgs.elementAt(2));
 					}
 					
 					

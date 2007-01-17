@@ -103,10 +103,8 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @param value Valeur de la propriete
 	 */
 	public void setPropertyValue(Object id, Object value) {
-		System.out.println("Modification de propriete");
 		AttributeImplAdapter prop = (AttributeImplAdapter) this.properties.get(id);
 		prop.setValue(value != null ? (String)value: "");
-		Coloane.getDefault().notifyModelChange();
 	}
 
 	/**

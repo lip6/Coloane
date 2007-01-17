@@ -23,6 +23,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.models.AbstractModelElement;
 import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
@@ -76,6 +77,10 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeFigure.getPreferredSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
+		
+		// Il faut avertir FrameKit
+		System.out.println("Avertissement de FK - Node");
+		Coloane.notifyModelChange();
 	}
 		
 	

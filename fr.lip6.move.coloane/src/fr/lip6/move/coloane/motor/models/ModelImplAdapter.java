@@ -36,7 +36,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	/** L'etat du blocage pour l'edition du model */
 	private boolean isLocked = false;
 
-	/** Etat du modele par rapport a GEF (Dirty -> pas a jour) */
+	/** Etat du modele par rapport a FK (Dirty -> pas a jour) */
 	private boolean dirty = true;
 	
 	/**
@@ -111,30 +111,22 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	}
 
 	/**
-	 * Crer les adaptateurs pour les proprietes a partir des attributs
+	 * Creer les adaptateurs pour les proprietes a partir des attributs
 	 */
 	public void setProperties() {
-
 		this.properties.clear();
 	
 		// Creation de tous les attributs du formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-
-			// les attribut possible dans le formalsim
+			// Les attributs possibles dans le formalisme
 			AttributeFormalism attribut = (AttributeFormalism) iterator.next();
-
-			Attribute attrAPI = new Attribute(attribut.getName(),
-					new String[]{attribut.getDefaultValue()}, 1);
-
-			AttributeImplAdapter property = new AttributeImplAdapter(attrAPI,
-					attribut.isDrawable());
+			Attribute attrAPI = new Attribute(attribut.getName(), new String[]{attribut.getDefaultValue()}, 1);
+			AttributeImplAdapter property = new AttributeImplAdapter(attrAPI, attribut.isDrawable());
 
 			property.setAttribute(attrAPI);
 			this.properties.put(property.getId(), property);
 			this.model.addAttribute(attrAPI);
-			//System.out.println("Model API" + this.model.getListOfAttrSize());
-
 		}
 	}
 
@@ -268,10 +260,18 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 
 	/**
 	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
+	 * Indique si l'envoi d'un message a FK est necessaire
+	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
 	 */
-	public void modifyDate() {
-		date=(int)System.currentTimeMillis();
-		dirty = true;
+	public int modifyDate() {
+		date = (int) System.currentTimeMillis();
+		
+		// Si le modele n'etait pas marque comme sale, on le marque
+		if (!dirty) {
+			dirty = true;
+			return date;
+		}
+		return 0;
 	}
 	
 	/**

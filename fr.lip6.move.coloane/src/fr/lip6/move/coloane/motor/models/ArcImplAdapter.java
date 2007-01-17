@@ -301,7 +301,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
      */
     public void throwEventProperty (String oldValue, String newValue) {
     	firePropertyChange(ArcImplAdapter.VALUE_PROP, oldValue,newValue);
-		Coloane.getDefault().notifyModelChange();
     }
     
     /**

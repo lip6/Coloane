@@ -180,8 +180,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
        			this.targetArcs.add(arcAdapter);
        			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
        		}
-		// Notification du changement to FK
-		Coloane.getDefault().notifyModelChange();
 	}
 
 	/**
@@ -195,9 +193,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 				this.sourceArcs.add(arcAdapter);
 				firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null,arcAdapter);
 			}
-		// Notifier changement au FK
-		Coloane.getDefault().notifyModelChange();
-
 	}
 
 	/**
@@ -214,8 +209,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 			this.targetArcs.remove(arcAdapter);
 		    firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
 		}
-		// Notification du changement to FK
-		Coloane.getDefault().notifyModelChange();
 	}
 
 	/**
@@ -311,7 +304,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 	     */
 	    public void throwEventProperty (String oldValue, String newValue) {
 	    	firePropertyChange(NodeImplAdapter.VALUE_PROP, oldValue,newValue);
-			Coloane.getDefault().notifyModelChange();
 	    }
 	    
 	    /**
