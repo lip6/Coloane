@@ -8,6 +8,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import fr.lip6.move.coloane.ui.dialogs.CAMIDialog;
 import fr.lip6.move.coloane.ui.dialogs.CAMIDialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.DumbMessageDialog;
+import fr.lip6.move.coloane.ui.dialogs.TextArea;
 import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 
 public class Action4 implements IWorkbenchWindowActionDelegate {
@@ -26,8 +27,9 @@ public class Action4 implements IWorkbenchWindowActionDelegate {
 		//new DumbMessageDialog(window.getShell()).open();
 		
 		try {
-			CAMIDialog d = new CAMIDialogFactory().create(1, CAMIDialog.DLG_STANDARD,
-					CAMIDialog.DLG_OK, "Un titre", "RTFM", "Here", false, false, "");
+			CAMIDialog d = new CAMIDialogFactory().create(1, CAMIDialog.DLG_WARNING,
+					CAMIDialog.DLG_OK_CANCEL, "Un titre", "RTFM", "Here",
+					TextArea.INPUT_AUTHORIZED, TextArea.SINGLE_LINE, "");
 			d.open();
 		} catch (UnknowDialogException e) {}
 	}
