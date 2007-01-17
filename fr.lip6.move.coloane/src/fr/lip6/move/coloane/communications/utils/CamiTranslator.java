@@ -4,11 +4,13 @@ import java.util.Iterator;
 import java.util.Vector;
 
 
-import fr.lip6.move.coloane.communications.objects.Menu;
 import fr.lip6.move.coloane.communications.objects.Service;
 import fr.lip6.move.coloane.communications.objects.UrgentMessage;
 import fr.lip6.move.coloane.communications.objects.WindowedDialogue;
 import fr.lip6.move.coloane.exceptions.UnexpectedCamiCommand;
+import fr.lip6.move.coloane.menus.MenuNotFoundException;
+import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.menus.Menu;
 
 /**
  * @author Equipe 2 (Styx)
@@ -143,35 +145,29 @@ public class CamiTranslator {
 	public Menu getMenu(Vector camiVec) throws UnexpectedCamiCommand {
 		Iterator it = camiVec.iterator();
 		
-		Menu rootMenu, tmpMenu;
+		Menu rootMenu;
 		Vector camiCmd;
 		
-		// On verifie que le menu n'est pas vide
+		// On verifie que le vecteur n'est pas vide
 		if (camiVec.size() == 0) {
 			throw new UnexpectedCamiCommand("Le menu est vide");
 		} 
 		
 		camiCmd = (Vector) it.next();
 		
+		// Le nom du menu est contenu dans un CQ. Il doit donc apparaitre en premier
 		if (!camiCmd.get(0).equals("CQ")) {
 			throw new UnexpectedCamiCommand("Le vecteur ne contient pas CQ en premier");
 		}
 
 		// Definition du menu racine
-		rootMenu = new Menu(camiCmd.get(1).toString(), true, true);
+		rootMenu = new RootMenu((String) camiCmd.get(1));
 		
-		// Construction du menu
+		// Construction du menu (Parcours des elements du vecteur)
 		while (it.hasNext()) {
 			camiCmd = (Vector) it.next();
-			StringBuffer sb = new StringBuffer("");
 			
-			for (int i = 0; i < camiCmd.size(); i++) {
-				if (camiCmd.get(i) != null) {
-					sb.append(camiCmd.get(i).toString() + " | ");
-				} else {
-					sb.append(" | ");
-				}
-			}
+			// Si c'est une fin de service
 			if (camiCmd.get(0).equals("FQ")) {
 				break;
 			}
@@ -179,66 +175,47 @@ public class CamiTranslator {
 			if (camiCmd.size() == 0) {
 				throw new UnexpectedCamiCommand("Le menu est vide (aucun element AQ)");
 			} else if (!camiCmd.get(0).equals("AQ")) {
-				throw new UnexpectedCamiCommand("Le menu ne contient pas d'element AQ en premier position");
+				throw new UnexpectedCamiCommand("Le menu ne contient pas d'element AQ en premiere position");
 			}
 			
-
-			tmpMenu = getMatchingMenu(camiCmd.get(1).toString(), rootMenu);
-
-			if (Integer.parseInt(camiCmd.get(3).toString()) == 1) {
-				String resFormalism;
-				// c'est un service
-				String serviceName = camiCmd.get(2).toString();
+			// Analyse de la commande AQ
+			String serviceFather = camiCmd.get(1).toString();
+			String serviceName = camiCmd.get(2).toString();
 			
-				boolean serviceActive = false;
-				if (camiCmd.get(9) != null && (Integer.parseInt(camiCmd.get(9).toString()) == 1)) {
-					serviceActive = true; 
-				}
-				
-				if (camiCmd.get(8) != null) {
-					resFormalism = camiCmd.get(8).toString();
-				} else {
-					resFormalism = "";
-				}
-				
-				boolean serviceSuspensible = false;
-				if (camiCmd.get(7) != null && (Integer.parseInt(camiCmd.get(7).toString()) == 2)) {
-					serviceSuspensible = true;
-				}
-				
-				boolean dialogueAllwd = false;
-				if (camiCmd.get(6) != null && (Integer.parseInt(camiCmd.get(6).toString()) == 2)) {
-					dialogueAllwd = true;
-				}
-				
-				boolean defaultValid = false;
-				if (camiCmd.get(5) != null && (Integer.parseInt(camiCmd.get(5).toString()) == 1)) {
-					defaultValid = true;
-				}
-				
-				Service tmpService = new Service(serviceName, serviceActive, serviceSuspensible, dialogueAllwd, defaultValid, resFormalism);
-				tmpMenu.addService(tmpService);
-			} else {
-				String menuName;
-				// c'est un sous menu
-			
-				if (camiCmd.get(2) != null) {
-					menuName = camiCmd.get(2).toString();
-				} else {
-					menuName = "";
-				}
-				boolean rt = false;
-				
-				boolean menuActive = false;
-				if (camiCmd.get(9) != null && (Integer.parseInt(camiCmd.get(9).toString()) == 1)) {
-					menuActive = true; 
-				}
-				
-				Menu aSubMenu = new Menu(menuName, rt, menuActive);
-				
-				tmpMenu.addSubMenu(aSubMenu);
+			boolean serviceActive = false;
+			if (camiCmd.get(9) != null && (Integer.parseInt(camiCmd.get(9).toString()) == 1)) {
+				serviceActive = true; 
 			}
-
+			
+			try {
+				rootMenu.addMenu(serviceName, serviceFather, false);
+			} catch (MenuNotFoundException e) {
+				System.err.println("L'arborescence des menus n'est pas correcte");
+			}
+			
+			boolean serviceSuspensible = false;
+			if (camiCmd.get(7) != null && (Integer.parseInt(camiCmd.get(7).toString()) == 2)) {
+				serviceSuspensible = true;
+			}
+			
+			boolean dialogueAllwd = false;
+			if (camiCmd.get(6) != null && (Integer.parseInt(camiCmd.get(6).toString()) == 2)) {
+				dialogueAllwd = true;
+			}
+			
+			boolean defaultValid = false;
+			if (camiCmd.get(5) != null && (Integer.parseInt(camiCmd.get(5).toString()) == 1)) {
+				defaultValid = true;
+			}
+			
+			String resFormalism = "";
+			if (camiCmd.get(8) != null) {
+				resFormalism = camiCmd.get(8).toString();
+			}
+			
+			//Creation d'un service
+			new Service(serviceName, serviceActive, serviceSuspensible, dialogueAllwd, defaultValid, resFormalism);
+		
 		}
 		
 		return rootMenu;
@@ -258,8 +235,7 @@ public class CamiTranslator {
 			throw new UnexpectedCamiCommand("getUrgentMessage(Vector camiVec) : le vecteur ne contient pas MU en premier");
 		}
 		try {
-			urgentMsg = new UrgentMessage(Integer.parseInt(camiVec.get(1).toString()),
-					Integer.parseInt(camiVec.get(2).toString()));
+			urgentMsg = new UrgentMessage(Integer.parseInt(camiVec.get(1).toString()), Integer.parseInt(camiVec.get(2).toString()));
 			return urgentMsg;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

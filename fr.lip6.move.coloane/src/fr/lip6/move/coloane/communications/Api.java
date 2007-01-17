@@ -17,73 +17,58 @@ import fr.lip6.move.coloane.communications.utils.Lock;
 import fr.lip6.move.coloane.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.exceptions.WrongArgumentValueException;
 import fr.lip6.move.coloane.interfaces.IApi;
+import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.menus.RootMenu;
 
 /**
- * 
- * Interface avec l'API (services offerts par l'API à Coloane)
- * 
- * @author M2-SAR 2005-2006 Equipe 2
- * 
+ * API de communication entre Coloane et FrameKit
  */
 
 public class Api implements IApi {
 
-	/**
-	 * Indique si la connexion avec Framekit est ouverte ou non
-	 */
+	/** Indique si la connexion avec Framekit est ouverte ou non */
 	private boolean connexionOpened;
 	
-	/**
-	 * Indique si une session est ouverte ou non
-	 */
+	/** Indique si une session est ouverte ou non */
 	private boolean sessionOpened;
 	
-	/**
-	 * Socket de communication avec Framekit
-	 */
+	/** Socket de communication avec Framekit */
 	private ComLowLevel comLowServices;
 	
-	/**
-	 * Liste des threads speakers associes aux sessions ouvertes
-	 */
+	/** Liste des threads speakers associes aux sessions ouvertes */
 	private HashMap listeThread;
 	
-	/**
-	 * Nom de la session courrante
-	 */
+	/** Nom de la session courrante */
 	private String currentSessionName;
 	
-	/**
-	 * Indique si la suspension de la session courante a ete effectuee
-	 */
+	/** Indique si la suspension de la session courante a ete effectuee */
 	private boolean suspendCurrentSession;
 	
-	/**
-	 * Indique si la reprise d'une session a ete effectuee
-	 */
+	/** Indique si la reprise d'une session a ete effectuee */
 	private boolean resumedSession;
 	
-	/**
-	 * Indique si la fermeture de la session courante a ete effectuee
-	 */
+	/** Indique si la fermeture de la session courante a ete effectuee */
 	private boolean closedSession;
 	
-	/**
-	 * Thread listener permettant d'ecouter tous les messages provenant de Framekit
-	 */
+	/** Thread listener permettant d'ecouter tous les messages provenant de Framekit */
 	private FramekitThreadListener listener;
 	
-	/**
-	 * Verrou de la threadListener
-	 */
-	private Lock verrou; 
+	/** Verrou de la threadListener */
+	private Lock verrou;
+	
+	/** Module de communications */
+	private IComApi com;
 	
 	
-	public Api() {
+	public Api(IComApi moduleCom) {
+		
+		// Le module de communication
+		this.com = moduleCom;
 		
 		// Les services rendus par la couche basse
 		this.comLowServices = new ComLowLevel();
+		
 		
 		this.listeThread = new HashMap();
 		this.verrou = new Lock();
@@ -103,9 +88,7 @@ public class Api implements IApi {
 	 * @param password le mot de passe de l'utilisateur
 	 * @param FKIp ip de la machine hebergeant la plateforme FrameKit
 	 * @param FKPort port pour contacter la plateforme FrameKit
-	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas
-	 *         contraire
-	 * @throws
+	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
 	public boolean openConnexion(String login, String password, String ip, int port) {
 		try {
@@ -119,7 +102,7 @@ public class Api implements IApi {
 			return this.camiCmdConnection(login, password);
 			
 		} catch (CommunicationCloseException e) {
-			cnxClosed(1,"Connexion détruite par Framekit",1);
+			cnxClosed(1,"Connexion detruite par Framekit",1);
 			return false;
 		} catch (WrongArgumentValueException e) {
 			return false;
@@ -130,15 +113,13 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * Créé et envoie la commande de connexion à Framekit (SC) compatible Framekit CPN-AMI 3.0
+	 * Creation et envoi de la commande de connexion à Framekit (SC) compatible Framekit CPN-AMI 3.0
 	 * 
 	 * @param login    le login de l'utilisateur
 	 * @param password le mot de passe de l'utilisateur
-	 *            
-	 * @throws erreurs de connexion qui sont catchées par openConnexion
+	 * @throws erreurs de connexion qui sont catchees par openConnexion
 	 */
 	private boolean camiCmdConnection(String login, String password) throws Exception {
-		
 		Vector reponse;
 		Vector commandeRecue;
 		
@@ -186,7 +167,6 @@ public class Api implements IApi {
 	
 	/**
 	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme
-	 * 
 	 */
 	public void closeConnexion() {
 
@@ -243,6 +223,7 @@ public class Api implements IApi {
 			return false;
 		} 
 		
+		// On lance le thread charge d'ecouter les commandes CAMI en provenance de FrameKit
 		if (listener == null) {
 			System.out.println("Lancement du thread listener");
 			listener = new FramekitThreadListener(this, comLowServices, this.verrou);
@@ -361,12 +342,10 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * permet de notifier a la plate-forme que le modele a ete modifie
+	 * Permet de notifier a la plate-forme que le modele a ete modifie
 	 * 
-	 * @param date
-	 *            c'est la nouvelle date soumise
-	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas
-	 *         contraire
+	 * @param date Nouvelle date soumise
+	 * @return TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
 	public boolean changeModeleDate(int date) {
 		if (!this.sessionOpened || this.currentSessionName == null) {
@@ -459,6 +438,20 @@ public class Api implements IApi {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	/**
+	 * Affichage d'un message dans la console historique
+	 * @param message
+	 */
+	public void printHistory (String message) {
+		System.out.println("Affichage historique (API)"+message);
+		this.com.printHistoryMessage(message);
+	}
+	
+	/** Affichage des menus */
+	public void drawMenu (RootMenu menu) {
+		this.com.drawMenu(menu);
 	}
 
     /**

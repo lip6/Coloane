@@ -5,6 +5,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -48,7 +50,7 @@ public class Coloane extends AbstractUIPlugin {
 				System.err.println("Erreur lors du chargement du module moteur");
 			}
 			
-			com = new Com();
+			com = new Com(ui);
 			if (com == null) {
 				System.err.println("Erreur lors du chargement du module de communications");
 			}
@@ -167,5 +169,9 @@ public class Coloane extends AbstractUIPlugin {
 	
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("fr.lip6.move.coloane",path);
+	}
+	
+	public static Composite getParent () {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 }

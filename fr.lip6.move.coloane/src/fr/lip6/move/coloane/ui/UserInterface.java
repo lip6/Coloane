@@ -6,6 +6,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.interfaces.*;
+import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.panels.*;
 
 /**
@@ -134,6 +136,12 @@ public class UserInterface implements IUiCom, IUiMotor {
 	public void unlockModel() {
 	
 
+	}
+	
+	/** Afficher un menu */
+	public void drawMenu (RootMenu menu) {
+		GraphicalMenu gMenu= new GraphicalMenu(menu,fenetreTravail);
+		gMenu.build();		
 	}
 
     /**

@@ -64,8 +64,7 @@ public abstract class Menu {
 	}
 	
 	
-	public ChildMenu addMenu(String name, String fatherName,
-			boolean enabled)
+	public ChildMenu addMenu(String name, String fatherName, boolean enabled)
 		throws MenuNotFoundException {
 		try {
 			ChildMenu child = addMenu(name, fatherName);

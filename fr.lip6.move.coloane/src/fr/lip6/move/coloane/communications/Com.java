@@ -6,8 +6,9 @@ import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComIhm;
 import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
+import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.models.IModel;
-import fr.lip6.move.coloane.motor.Motor;
+import fr.lip6.move.coloane.menus.RootMenu;
 
 public class Com implements IComIhm, IComApi, IComMotor {
 	
@@ -17,11 +18,16 @@ public class Com implements IComIhm, IComApi, IComMotor {
 	/** Une poignee sur le moteur */
 	private IMotorCom motor = null;
 	
+	/** Une poignee sur l'interface utilisateur */
+	private IUiCom ui = null;
+	
 	/**
 	 * Le constructeur
+	 * Le module de communications doit creer un lien avec l'API de communications
 	 */
-	public Com() {
-		this.api = new Api();
+	public Com(IUiCom ui) {
+		this.api = new Api(this);
+		this.ui = ui;
 	}
 	
 	/**
@@ -73,15 +79,15 @@ public class Com implements IComIhm, IComApi, IComMotor {
             throw new NullPointerException();
         }
 		try {
-			System.out.println("Demande de connexion du modèle");
+			System.out.println("Demande de connexion du modele");
 
-			// TODO : La date est 0... Pourquoi ?
 			String sessionName = motor.getSessionManager().getSession().getName();
 			System.out.println("Nom de la session : "+sessionName);
 			
 			String formalismName = modele.getFormalism().getName();
 			System.out.println("Nom du formalisme : "+formalismName);
 			
+			// TODO : La date est 0... Pourquoi ?
 			Boolean retour = api.openSession(sessionName, 0, formalismName);
 			if (retour) {
 				System.out.println("Connexion réussie !");
@@ -121,5 +127,21 @@ public class Com implements IComIhm, IComApi, IComMotor {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	/**
+	 * Affichage d'un message dans l'interface utilisateur
+	 * @param message Message a afficher dans la console 
+	 */
+	public void printHistoryMessage(String message) {
+		this.ui.printHistoryMessage(message);
+	}
+	
+	/** 
+	 * Affichage des menus construit a partir des commandes CAMI 
+	 * @param menu La racine du menu a afficher
+	 */
+	public void drawMenu(RootMenu menu) {
+		this.ui.drawMenu(menu);
 	}
 }

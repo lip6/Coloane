@@ -29,8 +29,7 @@ public class GraphicalMenu {
 	 *  Can be obtained with
 	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
 	 */
-	public GraphicalMenu(RootMenu root, 
-			IWorkbenchWindow window) {
+	public GraphicalMenu(RootMenu root, IWorkbenchWindow window, IComUi com) {
 		shell  = window.getShell();
 		this.root = root;
 	}
