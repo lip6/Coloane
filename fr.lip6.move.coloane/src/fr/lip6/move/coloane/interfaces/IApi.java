@@ -65,7 +65,7 @@ public interface IApi {
 	 * @param serviceName nom du service
 	 * @param checkMarkList liste des services actifs ou non
 	 */
-	public void askForService(String rootMenuName, String menuName, String serviceName, String [] checkMarkList);
+	public void askForService(String rootMenuName, String menuName, String serviceName);
 	
 	/**
 	 * Permet de repondre a la plate-forme 

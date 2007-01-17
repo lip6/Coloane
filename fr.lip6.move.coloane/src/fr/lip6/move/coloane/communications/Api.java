@@ -364,22 +364,18 @@ public class Api implements IApi {
 	 * @param serviceName nom du service
 	 * @param checkMarkList liste des services actifs ou non
 	 */
-	public void askForService(String rootMenuName, String menuName,String serviceName, String[] checkMarkList) {
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		
 		
 		System.out.println("Demande de service a FrameKit : ");
 		System.out.println("Menu parent : " + rootMenuName);
-		System.out.println("Nom du menu : " + menuName);
+		System.out.println("Nom du menu : " + parentName);
 		System.out.println("Nom du service : " + serviceName);
-		for(int j = 0; j<checkMarkList.length ; j++){
-			System.out.println("option choisie : " + checkMarkList[j]);
-		}
-		System.out.println("-----------------------------------------------");
-		
+
 		if (this.sessionOpened && this.currentSessionName != null) {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-			speak.execService(rootMenuName, menuName, serviceName,checkMarkList);
+			speak.execService(rootMenuName, parentName, serviceName);
 			System.out.println("Demande de service OK");
 		} else {
 			System.err.println("Demande de service KO");

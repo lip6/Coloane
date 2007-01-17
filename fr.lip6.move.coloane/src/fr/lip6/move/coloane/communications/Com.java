@@ -130,6 +130,16 @@ public class Com implements IComIhm, IComApi, IComMotor {
 	}
 	
 	/**
+	 * Demande de service a la plateforme FrameKit
+	 * @param rootMenuName Nom de la racine du menu
+	 * @param parentName Nom du pere du service demande
+	 * @param serviceName Nom du service demande (nom de la feuille cliquee)
+	 */
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
+		this.api.askForService(rootMenuName, parentName, serviceName);
+	}
+	
+	/**
 	 * Affichage d'un message dans l'interface utilisateur
 	 * @param message Message a afficher dans la console 
 	 */
