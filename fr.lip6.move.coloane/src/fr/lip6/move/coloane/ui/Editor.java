@@ -398,27 +398,4 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		 */
 		return super.getAdapter(type);
 	}
-
-
-	protected void createActions() {
-
-		super.createActions();
-
-		ActionRegistry registry = getActionRegistry();
-		/*
-		registry.registerAction()
-
-		IAction actionCopy;
-		actionCopy = new CopyAction(this);
-		actionCopy.setId(ActionFactory.COPY.getId());
-		((CopyAction)actionCopy).setCanvasModel(getContents());
-		((CopyAction)actionCopy).setClipboard(getClipboard());
-		registry.registerAction(actionCopy);
-		 */
-		getSelectionActions().add(registry.getAction(ActionFactory.COPY.getId()));
-
-	}
-
-
-
 }

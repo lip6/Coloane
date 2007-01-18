@@ -13,7 +13,7 @@
          point="org.eclipse.ui.actionSets">
       <actionSet
             id="fr.lip6.move.coloane.actionSet"
-            label="Coloane Action Set"
+            label="Coloane Platform"
             visible="true">
          <action
                class="fr.lip6.move.coloane.main.ColoaneActions"
@@ -43,6 +43,25 @@
                menubarPath="plateformMenu/group2"
                style="push"/>
       </actionSet>
+      <actionSet
+            id="fr.lip6.move.coloane.actionSet.file"
+            label="CAMI Import Export"
+            visible="true">
+         <action
+               class="fr.lip6.move.coloane.ui.actions.ImportExportCAMI"
+               icon="icons/import_wiz.gif"
+               id="cami_import"
+               label="Import CAMI File..."
+               menubarPath="file/import.ext"
+               style="push"/>
+         <action
+               class="fr.lip6.move.coloane.ui.actions.ImportExportCAMI"
+               icon="icons/export_wiz.gif"
+               id="cami_export"
+               label="Export CAMI File..."
+               menubarPath="file/import.ext"
+               style="push"/>
+      </actionSet>
    </extension>
     <extension
           point="org.eclipse.ui.views">
@@ -52,13 +71,13 @@
        <view
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.HistoryView"
-             icon="icons/det_pane_under.gif"
+             icon="icons/histo_pane.gif"
              id="fr.lip6.move.coloane.views.HistoricView"
              name="Historic"/>
        <view
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.StateView"
-             icon="icons/det_pane_under.gif"
+             icon="icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.StateView"
              name="State"/>
     </extension>
@@ -68,7 +87,7 @@
              class="fr.lip6.move.coloane.ui.Editor"
              default="false"
              extensions="rdp"
-             icon="icons/editeur.gif"
+             icon="icons/editor.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
     </extension>

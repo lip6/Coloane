@@ -485,7 +485,6 @@ public class FormalismManager {
     
     /**
      * Importe un modele en determinant son formalisme en fonction de l'extension du fichier
-     * @author abdelhamid abdi
      * @param fileName nom de fchier a importer
      * @return le model adapter correspondant
      * @throws Exception leve d'exception si le fichier n'est pas valide
@@ -504,6 +503,7 @@ public class FormalismManager {
         // Formalism
         Formalism formalism = getFormalismByExtension(fext);
         
+        // On verifie qu'un formalisme existe bien pour cette extension
         if (formalism == null) { 
         	throw new Exception("Extension inconnue");
         }

@@ -623,18 +623,17 @@ public class Model implements Serializable {
         String[] lesAttributs;
         String[] lesNodes;
         String[] lesArcs;
-        chaine = "CN(" + this.formalism.length() + ":" + this.formalism + "," + this.uniqueId + ")";
-        vec.add(chaine);
-        chaine = "PO(" + this.uniqueId + "," + this.xPosition + "," + this.yPosition + ")";
-        vec.add(chaine);
+        //chaine = "CN(" + this.formalism.length() + ":" + this.formalism + "," + this.uniqueId + ")";
+        //vec.add(chaine);
+        //chaine = "PO(" + this.uniqueId + "," + this.xPosition + "," + this.yPosition + ")";
+        //vec.add(chaine);
 
         
-        System.out.println("nombre d'attribute : "  + this.getListOfAttrSize());
-        System.out.println("nombre d'arc : "  + this.getListOfArcSize());
-        System.out.println("nombre de node : "  + this.getListOfNodeSize());
+        System.out.println("nombre d'attributs : "  + this.getListOfAttrSize());
+        System.out.println("nombre d'arcs : "  + this.getListOfArcSize());
+        System.out.println("nombre de noeuds : "  + this.getListOfNodeSize());
         
-        // ajout des attributs du modele
-        
+        // Ajout des attributs du modele
         for (int i = 0; i < this.getListOfAttrSize(); i++) {
             lesAttributs = (this.getNthAttr(i)).translateToCAMI();
             for (int j = 0; j < lesAttributs.length; j++) {
@@ -644,7 +643,7 @@ public class Model implements Serializable {
             }
         }
        	
-        // ajout des noeuds
+        // Ajout des noeuds
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
             lesNodes = (this.getNthNode(i)).translateToCAMI();
             for (int j = 0; j < lesNodes.length; j++) {
@@ -654,7 +653,7 @@ public class Model implements Serializable {
             }
         }
 
-        // ajout des arc
+        // Ajout des arcs
         for (int i = 0; i < this.getListOfArcSize(); i++) {
             lesArcs = (this.getNthArc(i)).translateToCAMI();
             for (int j = 0; j < lesArcs.length; j++) {
