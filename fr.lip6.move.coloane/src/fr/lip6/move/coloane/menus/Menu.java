@@ -151,13 +151,12 @@ public abstract class Menu {
 	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		
+		for (ChildMenu child : this.getChildren())
+			child.setEnabled(enabled);
 	}
 	
 	public void setEnabled(String name, boolean enabled) throws MenuNotFoundException {
-		Menu menu = getMenu(name);
-		menu.enabled = enabled;
-		
-		for (ChildMenu child : menu.getChildren())
-			child.setEnabled(enabled);
+		getMenu(name).setEnabled(enabled);
 	}
 }
