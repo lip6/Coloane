@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import fr.lip6.move.coloane.menus.CAction;
 import fr.lip6.move.coloane.menus.ChildMenu;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.UserInterface;
 
 /**
  * This class takes a RootMenu and builds a graphic
@@ -22,6 +23,7 @@ import fr.lip6.move.coloane.menus.RootMenu;
 public class GraphicalMenu {
 	private RootMenu root;
 	private Shell shell;
+	private UserInterface ui;
 	
 	/**
 	 * @param root
@@ -29,9 +31,10 @@ public class GraphicalMenu {
 	 *  Can be obtained with
 	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
 	 */
-	public GraphicalMenu(RootMenu root, IWorkbenchWindow window) {
-		shell  = window.getShell();
+	public GraphicalMenu(RootMenu root, IWorkbenchWindow window, UserInterface ui) {
+		this.shell  = window.getShell();
 		this.root = root;
+		this.ui = ui;
 	}
 	
 	/**

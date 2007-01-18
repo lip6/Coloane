@@ -78,7 +78,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	public void drawMenu (RootMenu menu) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		currentSession.setSessionMenu(menu);
-		GraphicalMenu gmenu = new GraphicalMenu(menu,fenetreTravail);
+		GraphicalMenu gmenu = new GraphicalMenu(menu,fenetreTravail,this);
 		gmenu.build();		
 	}
 	
@@ -88,8 +88,18 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * */
 	public void updateMenu() {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
-		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getSessionMenu(),fenetreTravail);
+		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getSessionMenu(),fenetreTravail,this);
 		gmenu.update();
+	}
+	
+	/**
+	 * Demande d'un service
+	 * @param rootMenuName Le nom du menu racine
+	 * @param parentName Le nom du pere de la feuille cliquee
+	 * @param serviceName LE nom du service demande
+	 */
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
+		this.com.askForService(rootMenuName, parentName, serviceName);
 	}
 	
 	/**
