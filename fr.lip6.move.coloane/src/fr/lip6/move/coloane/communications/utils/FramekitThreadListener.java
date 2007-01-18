@@ -166,7 +166,7 @@ public class FramekitThreadListener extends Thread {
 						// Modification de l'arbre des services : active
 						case 7 : {
 							try {
-								formalismMenu.setEnabled((String) listeArgs.get(1),true);
+								formalismMenu.setEnabled((String) listeArgs.get(2),true);
 							} catch (Exception e) {
 								System.err.println("Erreur reception TQ type = 7");
 							}
@@ -280,6 +280,7 @@ public class FramekitThreadListener extends Thread {
 					
 					// Le menu est mid a jour !
 					if ((listeArgs.firstElement().equals("QQ")) && ((listeArgs.elementAt(1).equals("2")) || (listeArgs.elementAt(1).equals("3")))) {
+											
 							parent.getDisplay().asyncExec(new Runnable(){
 								public void run(){
 									for (int index = 0; index < menuList.size(); index++) {
