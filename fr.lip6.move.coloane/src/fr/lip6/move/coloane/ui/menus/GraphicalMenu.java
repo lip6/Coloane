@@ -41,16 +41,20 @@ public class GraphicalMenu {
 	 * Builds recursively a MenuManager from, using a RootMenu
 	 * given in the constructor.
 	 */
-	public void build() {
+	public  MenuManager build() {
 		MenuManager rootMenuManager = new MenuManager(root.getName());
 		
 		/*
 		 * We recursively build the mnu.
 		 */
 		for(ChildMenu aChild : root.getChildren()) {
-			if (aChild.getChildrenNumber() == 0)
-				rootMenuManager.add(new CAction(aChild.getName()));
-			else
+			if (aChild.isLeaf()) {
+				UIAction uiAction = new UIAction(ui, root.getName(),
+						root.getName(), aChild.getName());
+				uiAction.setEnabled(aChild.getEnabled());
+				
+				rootMenuManager.add(uiAction);
+			} else
 				buildChildMenu(aChild, rootMenuManager);
 		}
 		
@@ -70,6 +74,7 @@ public class GraphicalMenu {
 			}
 		
 		rootMenuManager.fill(menuBar, place + 1);
+		return rootMenuManager;
 	}
 	
 	/**
@@ -86,7 +91,8 @@ public class GraphicalMenu {
 			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
-				CAction exitAction = new CAction(littleChild.getName());
+				UIAction exitAction = new UIAction(ui, root.getName(),
+						child.getName(), littleChild.getName());
 				exitAction.setEnabled(littleChild.getEnabled());
 				childMenuManager.add(exitAction);
 			} else
@@ -109,8 +115,8 @@ public class GraphicalMenu {
    * Updates a menu (i.e; modifies it in the menubar).
    *
    */
-  public void update() {
+  public MenuManager update() {
     remove();
-    build();
+    return build();
   }
 }
