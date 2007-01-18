@@ -21,6 +21,5 @@ public class UIAction extends Action {
 	
 	public void run() {
 		ui.askForService(rootMenuName, parentName, serviceName);
-		System.err.println("Service : " + serviceName + "called");
 	}
 }
