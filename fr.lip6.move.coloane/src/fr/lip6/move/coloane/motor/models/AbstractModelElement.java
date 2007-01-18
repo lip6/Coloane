@@ -12,7 +12,6 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import fr.lip6.move.coloane.interfaces.models.IAttribute;
-import fr.lip6.move.coloane.main.Coloane;
 
 /**
  * Cette classe abstraite de base fournit les fonctionalites pour tous les elements de modele, y compris :
@@ -40,12 +39,6 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
 	 */
 	protected IAttribute[] propsList;
-
-	/**
-	 * Identifiant unique pour le modele
-	 * Utile pour framekit qui a besoin que les noeuds et arcs soient identifies
-	 */
-	public static int uniqueId = 2;
 
 	/**
 	 * Table des attributs en fonction de leurs identifiant

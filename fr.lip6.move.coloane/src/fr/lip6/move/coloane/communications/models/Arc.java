@@ -12,22 +12,22 @@ import java.io.Serializable;
  * 
  * @author Olivier Rouquette, Christophe Janton
  */
-public class Arc implements Serializable { 
+public class Arc extends Base implements Serializable { 
     
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
 
-    /** Identifiant unique de l'arc */
-    private int uniqueId;
-
     /** Type de l'arc */
     private String arcType;
-
+    
+    /** Identifiant de l'arc */
+    private int id;
+    
     /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    private int xPosition;
+    public int xPosition;
 
     /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    private int yPosition;
+    public int yPosition;
 
     /** Vecteur contenant l'ensemble des objets de type Attribut de l'arc.
      * @see Atribute
@@ -45,14 +45,32 @@ public class Arc implements Serializable {
      * @param arcType Type de l'arc
      * @param uniqueId Identifant unique de l'arc
      */
-    public Arc(String arcType, int uniqueId) {
+    public Arc(String arcType, int id) {
         this.arcType = arcType;
-        this.uniqueId = uniqueId;
+        this.id = id;
         this.xPosition = 0;
         this.yPosition = 0;
         this.listOfAttr = new Vector<Attribute>(0);
         this.startingNode = null;
         this.endingNode = null;
+        
+        System.out.println("1. Creation d'un arc avec id:"+this.id);
+    }
+    
+    /**
+     * Constructeur de la classe Arc. 
+     * @param arcType Type de l'arc
+     */
+    public Arc(String arcType) {
+        this.arcType = arcType;
+        this.id = Base.uniqueId++;
+        this.xPosition = 0;
+        this.yPosition = 0;
+        this.listOfAttr = new Vector<Attribute>(0);
+        this.startingNode = null;
+        this.endingNode = null;
+        
+        System.out.println("2. Creation d'un arc avec id:"+this.id);
     }
 
     /**
@@ -80,7 +98,7 @@ public class Arc implements Serializable {
 	 * @return int
 	 */
 	public int getUniqueId() {
-	    return this.uniqueId;
+	    return this.id;
 	}
 
 	/**
@@ -219,11 +237,11 @@ public class Arc implements Serializable {
             s.append("CA(");
             s.append(this.arcType.length() + ":" + this.arcType);
             s.append(",");
-            s.append(this.uniqueId);
+            s.append(uniqueId);
             s.append(",");
-            s.append(this.startingNode.getUniqueId());
+            s.append(this.startingNode.getId());
             s.append(",");
-            s.append(this.endingNode.getUniqueId());
+            s.append(this.endingNode.getId());
             s.append(")");
             vectorStringToReturn.addElement(s.toString());
 

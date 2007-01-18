@@ -8,7 +8,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.*;
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.*;
 
 /**
@@ -67,7 +66,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
 	 */
 	public ArcImplAdapter(NodeImplAdapter source, NodeImplAdapter target, ElementBase base) {
 		this.elementBase = base;
-		this.arc = new Arc(base.getName(), AbstractModelElement.uniqueId++);
+		this.arc = new Arc(base.getName());
 
 		this.arc.setEndingNode(target.getGenericNode());
         this.arc.setStartingNode(source.getGenericNode());
@@ -86,7 +85,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
 	 */
 	public ArcImplAdapter(ElementBase base) {
 		this.elementBase = base;
-		this.arc = new Arc(base.getName(), AbstractModelElement.uniqueId++);
+		this.arc = new Arc(base.getName());
 
 		// Creation de la liste des attributs
 		this.setProperties();

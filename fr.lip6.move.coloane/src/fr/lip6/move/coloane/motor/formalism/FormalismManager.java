@@ -493,9 +493,9 @@ public class FormalismManager {
         
         // Determination du formalism avec l'extension
         StringTokenizer file = new StringTokenizer(fileName, ".");
-        if (file.countTokens() != 2) {
-            throw new Exception("Nom de fichier invalide");
-        }
+        //if (file.countTokens() != 2) {
+          //  throw new Exception("Nom de fichier invalide");
+        //}
         // Debut du nom
         String fext = file.nextToken();
         // Extension
@@ -507,6 +507,9 @@ public class FormalismManager {
         if (formalism == null) { 
         	throw new Exception("Extension inconnue");
         }
+        
+        System.out.println("Nom du fichier :"+fileName);
+        System.out.println("Extension"+fext);
         
         Model apiModel = new Model(new File(fileName));
         if (apiModel == null) {
@@ -539,6 +542,7 @@ public class FormalismManager {
         FileOutputStream wr = new FileOutputStream(new File(fileName +"."+ ext)); 
         BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
         
+        // Traduction du modele entier
         try {
         	String[] cami = modelAdapter.getGenericModel().translateToCAMI();
         	for (int i = 0; i < cami.length; i++) {

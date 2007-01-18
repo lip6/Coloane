@@ -58,9 +58,14 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	 */
 	public ModelImplAdapter(Model model, Formalism formalism) {
 		super();
-		this.model = model;
-		this.formalism = formalism;
-		this.setProperties();
+		try {
+			this.model = model;
+			this.formalism = formalism;
+			this.setAdapter();
+			this.setProperties();
+		} catch (Exception e) {
+			System.err.println("Erreur lors de la construction du modele");
+		}
 	}
 
 
@@ -72,6 +77,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 		// Ajout de tous les noeuds dans l'adapter (parcours de tous les noeuds du modele)
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
 			Node currentNode = this.model.getNthNode(i);
+			System.out.println("Traitement du noeud "+currentNode.getId());
 			NodeImplAdapter node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			this.children.add(node);
 		}
@@ -82,26 +88,32 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 			NodeImplAdapter target = null;
 			NodeImplAdapter source = null;
 
+			System.out.println("Traitement de l'arc "+currentArc.getUniqueId());
+			
 			// Pour chaque enfant, on cherche si l'arc est source ou destination
 			Iterator iterator = this.children.iterator();
 			boolean findSource = false;
 			boolean findTarget = false;
 			
-			while ((iterator.hasNext()) && (!findSource) && (!findTarget) ) {
+			while ((iterator.hasNext()) && ((!findSource) || (!findTarget)) ) {
 
 				NodeImplAdapter currentNode = (NodeImplAdapter) iterator.next();
+				System.out.println("Exploration :"+currentNode.getGenericNode().getId());
 
 				if (currentArc.getEndingNode() == currentNode.getGenericNode()) {
+					System.out.println("Cible trouvee :"+currentNode.getGenericNode().getId());
 					target = currentNode; 
 					findTarget = true;
 				} else if (currentArc.getStartingNode() == currentNode.getGenericNode()) {
+					System.out.println("Source trouvee :"+currentNode.getGenericNode().getId());
 					source = currentNode; 
 					findSource = true;
 				}
 			}
 
 			// Un arc a forcement une source et une destination... sinon probleme
-			if (target != null && source != null) {
+			if ((target != null) && (source != null)) {
+				System.out.println("Linkage ok pour l'arc "+currentArc.getUniqueId());
 				// Creation de l'arc adapter
 				new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
 			} else {

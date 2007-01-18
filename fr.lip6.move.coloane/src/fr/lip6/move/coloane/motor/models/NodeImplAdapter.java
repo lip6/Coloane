@@ -15,7 +15,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.INode;
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 
@@ -80,7 +79,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 		this.elementBase = base;
 
 		// Le noeud generique avec un type et un id unique
-		this.node = new Node(base.getName(), AbstractModelElement.uniqueId++);
+		this.node = new Node(base.getName());
 
 		// Le information graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
@@ -104,7 +103,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 		this.elementBase = base;
 
 		// Le noeud generique avec un type et un id unique
-		this.node = new Node(AbstractModelElement.uniqueId++, nodeType, x, y);
+		this.node = new Node(nodeType, x, y);
 
 		// Le information graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
@@ -130,7 +129,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
-            Attribute attributeGeneric= new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getUniqueId());
+            Attribute attributeGeneric= new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
             AttributeImplAdapter attributeModel = new AttributeImplAdapter(attributeGeneric,attributeFormalism.isDrawable());
             
             this.properties.put(attributeModel.getId(), attributeModel);

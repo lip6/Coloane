@@ -7,22 +7,22 @@ import java.io.Serializable;
 /**
  * Le noeud d'un modele
  */
-public class Node implements Serializable {
+public class Node extends Base implements Serializable {
 
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
 
     /** Type du noeud */
     private String nodeType;
+    
+    /** Identificateur du noeud */
+    private int id;
+    
+    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
+    public int xPosition;
 
-    /** Identifiant unique */
-    private int uniqueId;
-
-    /** Position absolue horizontale depuis le bord gauche de la fenetre */
-    private int xPosition;
-
-    /** Position absolue verticale depuis le bord haut de la fenetre */
-    private int yPosition;
+    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
+    public int yPosition;
 
     /** Liste des arc entrants */
     private Vector<Arc> listOfInputArc;
@@ -39,16 +39,18 @@ public class Node implements Serializable {
      * @param NodeType	Type du noeud
      * @param UniqueId	Identifiant du noeud
      */
-    public Node(String nodeType, int uniqueId) {
-        this.nodeType = nodeType;
-        this.uniqueId = uniqueId;
-        this.xPosition = 0;
-        this.yPosition = 0;
+    public Node(String nodeType) {
+    	this.nodeType = nodeType;
+        this.id = Base.uniqueId++;
+        xPosition = 0;
+        yPosition = 0;
         this.listOfAttr = new Vector<Attribute>(0);
         this.listOfInputArc = new Vector<Arc>(0);
         this.listOfOutputArc = new Vector<Arc>(0);
+        
+        System.out.println("1. Creation dun noeud avec id:"+this.id);
     }
-
+    
     /**
      * Constructeur
      * 
@@ -57,22 +59,44 @@ public class Node implements Serializable {
      * @param x			Position x du noeud
      * @param y			Position y du noeud
      */
-    public Node(int uniqueId, String nodeType, int x, int y) {
+    public Node(String nodeType, int x, int y) {
         this.nodeType = nodeType;
-        this.uniqueId = uniqueId;
-        this.xPosition = x;
-        this.yPosition = y;
+        this.id = Base.uniqueId++;
+        xPosition = x;
+        yPosition = y;
         this.listOfAttr = new Vector<Attribute>(0);
         this.listOfInputArc = new Vector<Arc>(0);
         this.listOfOutputArc = new Vector<Arc>(0);
+        
+        System.out.println("2. Creation dun noeud avec id:"+this.id);
+    }
+    
+    /**
+     * Constructeur
+     * 
+     * @param uniqueId	Identifiant du noeud
+     * @param nodeType	Type du noeud
+     * @param x			Position x du noeud
+     * @param y			Position y du noeud
+     */
+    public Node(String nodeType, int x, int y, int id) {
+        this.nodeType = nodeType;
+        this.id = id;
+        xPosition = x;
+        yPosition = y;
+        this.listOfAttr = new Vector<Attribute>(0);
+        this.listOfInputArc = new Vector<Arc>(0);
+        this.listOfOutputArc = new Vector<Arc>(0);
+        
+        System.out.println("3. Creation dun noeud avec id:"+this.id);
     }
 
     /**
      * Retourne l'identifiant du noeud 
      * @return int
      */
-    public int getUniqueId() {
-        return this.uniqueId;
+    public int getId() {
+        return id;
     }
 
     /**
@@ -91,8 +115,8 @@ public class Node implements Serializable {
      * 
      */
     public void setPosition(int x, int y) {
-    	this.xPosition = x;
-    	this.yPosition = y;
+    	xPosition = x;
+    	yPosition = y;
     }
 
     /**
@@ -108,7 +132,7 @@ public class Node implements Serializable {
      * @return int
      */
     public int getYPosition() {
-        return this.yPosition;
+        return yPosition;
     }
 
     /**
@@ -223,7 +247,7 @@ public class Node implements Serializable {
      * @param attribute Attribut a ajouter
      */
     public void addAttribute(Attribute attribute) {
-        if (this.uniqueId == attribute.getRefId()) {
+        if (uniqueId == attribute.getRefId()) {
             this.listOfAttr.addElement(attribute);
         } 
     }
@@ -294,17 +318,17 @@ public class Node implements Serializable {
         s.append("CN(");
         s.append(this.nodeType.length() + ":" + this.nodeType);
         s.append(",");
-        s.append(this.uniqueId);
+        s.append(id);
         s.append(")");
         vectorStringToReturn.addElement(s.toString());
         
         s = new StringBuffer();
         s.append("PO(");
-        s.append(this.uniqueId);
+        s.append(id);
         s.append(",");
-        s.append(this.xPosition);
+        s.append(xPosition);
         s.append(",");
-        s.append(this.yPosition);
+        s.append(yPosition);
         s.append(")");
         vectorStringToReturn.addElement(s.toString());
         

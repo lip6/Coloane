@@ -29,22 +29,22 @@ import fr.lip6.move.coloane.exceptions.SyntaxErrorException;
  * </ul>
  * 
  */
-public class Model implements Serializable {
+public class Model extends Base implements Serializable {
 
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
 
-    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    private int xPosition;
-
-    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    private int yPosition;
-
     /** Type du modele. */
     private String formalism;
+    
+    /** Type du modele. */
+    private int id;
+    
+    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
+    public int xPosition;
 
-    /** Identifiant unique du noeud Model du modele. */
-    private int uniqueId;
+    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
+    public int yPosition;
 
     /** Liste de l'ensemble des elements noeuds du modele. */
     private Vector<Node> listOfNode;
@@ -63,7 +63,7 @@ public class Model implements Serializable {
         this.formalism = formalism;
         this.xPosition = 20;
         this.yPosition = 20;
-        this.uniqueId = 1;
+        this.id = 1;
         this.listOfArc = new Vector<Arc>();
         this.listOfAttr = new Vector<Attribute>();
         this.listOfNode = new Vector<Node>();
@@ -88,8 +88,9 @@ public class Model implements Serializable {
                 ps = new CamiParser(line.substring(3));
 
                 type = st.nextToken("(");
-
-                if (type.equals("CN")) { // Decouverte d'un noeud
+	
+                // Decouverte d'un noeud
+                if (type.equals("CN")) { 
                     String nodeType;
                     String nodeId;
                     Node node;
@@ -99,14 +100,15 @@ public class Model implements Serializable {
 
                     if (Integer.parseInt(nodeId) == 1) {
                         this.formalism = nodeType;
-                        this.uniqueId = Integer.parseInt(nodeId);
+                        this.id = Integer.parseInt(nodeId);
                     } else {
-                        node = new Node(Integer.parseInt(nodeId), nodeType, 0, 0);
+                        node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
                         this.listOfNode.addElement(node);
                     }
                 }
-
-                if (type.equals("CA")) { // Decouverte d'un arc
+                
+                // Decouverte d'un arc
+                if (type.equals("CA")) { 
                     Arc arc;
                     String arcType;
                     String arcId;
@@ -122,6 +124,7 @@ public class Model implements Serializable {
 
                     nodeBegin = getANode(Integer.parseInt(from));
                     nodeEnd = getANode(Integer.parseInt(to));
+                    System.out.println("Arc "+arcId+" from "+from+" to "+to);
 
                     if (nodeBegin == null || nodeEnd == null) {
                         throw new SyntaxErrorException();
@@ -136,7 +139,9 @@ public class Model implements Serializable {
 
                     this.listOfArc.addElement(arc);
                 }
-                if (type.equals("CT")) { // Decouverte d'attribut sur une ligne
+                
+                // Decouverte d'attribut sur une ligne
+                if (type.equals("CT")) { 
                     Attribute attr;
                     String name;
                     String ref;
@@ -166,7 +171,9 @@ public class Model implements Serializable {
                         }
                     }
                 }
-                if (type.equals("CM")) { // Decouverte d'un attribut
+                
+                // Decouverte d'un attribut
+                if (type.equals("CM")) { 
                     Attribute attr;
                     Attribute tmp;
                     String name;
@@ -244,7 +251,8 @@ public class Model implements Serializable {
 
                 }
                 
-                if (type.equals("PO")) { // Decouverte d'une position de noeud
+                // Decouverte d'une position de noeud
+                if (type.equals("PO")) { 
                     Node node = null;
                     String ref;
                     String x;
@@ -268,7 +276,8 @@ public class Model implements Serializable {
                     }
                 }
                 
-                if (type.equals("PT")) { // Decouverte d'une position de texte
+                // Decouverte d'une position de texte
+                if (type.equals("PT")) { 
                     Node node = null;
                     Arc arc = null;
                     Attribute attr;
@@ -318,6 +327,9 @@ public class Model implements Serializable {
                 }
                 
                 /* TODO: Prendre en compte les points d'inflexion */
+                
+                // Mise a jour de l'indicateur d'indice
+                setMaxId(this.getMaxId());
             }
         } catch (NoSuchElementException e) {
             e.printStackTrace();
@@ -415,7 +427,7 @@ public class Model implements Serializable {
 
         while (enumer.hasMoreElements()) {
         	node = (Node) enumer.nextElement();
-            if (node.getUniqueId() == uniqueId) {
+            if (node.getId() == uniqueId) {
                 return node;
             }
         }
@@ -620,13 +632,10 @@ public class Model implements Serializable {
     public String[] translateToCAMI() {
         Vector<String> vec = new Vector<String>();
         String chaine;
-        String[] lesAttributs;
-        String[] lesNodes;
-        String[] lesArcs;
-        //chaine = "CN(" + this.formalism.length() + ":" + this.formalism + "," + this.uniqueId + ")";
-        //vec.add(chaine);
-        //chaine = "PO(" + this.uniqueId + "," + this.xPosition + "," + this.yPosition + ")";
-        //vec.add(chaine);
+        String[] attributes;
+        String[] nodes;
+        String[] arcs;
+
 
         
         System.out.println("nombre d'attributs : "  + this.getListOfAttrSize());
@@ -635,30 +644,33 @@ public class Model implements Serializable {
         
         // Ajout des attributs du modele
         for (int i = 0; i < this.getListOfAttrSize(); i++) {
-            lesAttributs = (this.getNthAttr(i)).translateToCAMI();
-            for (int j = 0; j < lesAttributs.length; j++) {
-                if (!lesAttributs[j].equals("")) {
-                    vec.add(lesAttributs[j]);
+            attributes = (this.getNthAttr(i)).translateToCAMI();
+            
+            for (int j = 0; j < attributes.length; j++) {
+                if (!attributes[j].equals("")) {
+                    vec.add(attributes[j]);
                 }
             }
         }
        	
         // Ajout des noeuds
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
-            lesNodes = (this.getNthNode(i)).translateToCAMI();
-            for (int j = 0; j < lesNodes.length; j++) {
-                if (!lesNodes[j].equals("")) {
-                    vec.add(lesNodes[j]);
+        	nodes = (this.getNthNode(i)).translateToCAMI();
+            
+        	for (int j = 0; j < nodes.length; j++) {
+                if (!nodes[j].equals("")) {
+                    vec.add(nodes[j]);
                 }
             }
         }
 
         // Ajout des arcs
         for (int i = 0; i < this.getListOfArcSize(); i++) {
-            lesArcs = (this.getNthArc(i)).translateToCAMI();
-            for (int j = 0; j < lesArcs.length; j++) {
-                if (!lesArcs[j].equals("")) {
-                    vec.add(lesArcs[j]);
+        	arcs = (this.getNthArc(i)).translateToCAMI();
+            
+        	for (int j = 0; j < arcs.length; j++) {
+                if (!arcs[j].equals("")) {
+                    vec.add(arcs[j]);
                 }
             }
         }
@@ -681,8 +693,8 @@ public class Model implements Serializable {
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
             lesNodes = this.getNthNode(i);
 
-            if (tmp < lesNodes.getUniqueId()) {
-                tmp = lesNodes.getUniqueId();
+            if (tmp < lesNodes.getId()) {
+                tmp = lesNodes.getId();
             }
         }
 
