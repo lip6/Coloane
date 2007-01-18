@@ -61,7 +61,7 @@ public class GraphicalMenu {
 		 * menu just after it.
 		 */
 		for (int i = 0; i < mi.length; i++)
-			if (mi[i].getText().equals("&Platform")) {
+			if (mi[i].getText().contentEquals("Platform")) {
 				place = i;
 				break;
 			}
