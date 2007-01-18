@@ -493,9 +493,7 @@ public class FormalismManager {
         
         // Determination du formalism avec l'extension
         StringTokenizer file = new StringTokenizer(fileName, ".");
-        //if (file.countTokens() != 2) {
-          //  throw new Exception("Nom de fichier invalide");
-        //}
+
         // Debut du nom
         String fext = file.nextToken();
         // Extension

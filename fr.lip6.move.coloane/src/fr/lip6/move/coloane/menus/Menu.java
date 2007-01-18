@@ -148,8 +148,7 @@ public abstract class Menu {
 		this.enabled = enabled;
 	}
 	
-	public void setEnabled(String name, boolean enabled)
-		throws MenuNotFoundException {
+	public void setEnabled(String name, boolean enabled) throws MenuNotFoundException {
 		getMenu(name).enabled = enabled;
 	}
 }

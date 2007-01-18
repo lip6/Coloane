@@ -129,6 +129,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
 
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+            
             Attribute attributeGeneric= new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
             AttributeImplAdapter attributeModel = new AttributeImplAdapter(attributeGeneric,attributeFormalism.isDrawable());
             
@@ -149,8 +150,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
         for (Enumeration e = properties.elements(); e.hasMoreElements();) {
             AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();
             for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
-
-                if (property.getGenericAttribute().getName().equalsIgnoreCase(this.node.getNthAttr(i).getName())) {
+            	if (property.getGenericAttribute().getName().equalsIgnoreCase(this.node.getNthAttr(i).getName())) {
                     // Creation d'un adaptateur a partir d'une proprite qui existe dans le model de l'API
                     property.setValue(this.node.getNthAttr(i).getValue());
                     break;

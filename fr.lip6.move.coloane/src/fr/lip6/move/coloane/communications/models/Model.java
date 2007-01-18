@@ -636,12 +636,6 @@ public class Model extends Base implements Serializable {
         String[] nodes;
         String[] arcs;
 
-
-        
-        System.out.println("nombre d'attributs : "  + this.getListOfAttrSize());
-        System.out.println("nombre d'arcs : "  + this.getListOfArcSize());
-        System.out.println("nombre de noeuds : "  + this.getListOfNodeSize());
-        
         // Ajout des attributs du modele
         for (int i = 0; i < this.getListOfAttrSize(); i++) {
             attributes = (this.getNthAttr(i)).translateToCAMI();

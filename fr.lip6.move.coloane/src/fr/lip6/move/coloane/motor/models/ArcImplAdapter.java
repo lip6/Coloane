@@ -46,7 +46,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
      * @param base Element de base du formalisme
 	 */
 	 public ArcImplAdapter(Arc arc, NodeImplAdapter source, NodeImplAdapter target, ElementBase base) {
-		 this.elementBase = base;		
+		this.elementBase = base;		
         this.arc = arc;
        
         this.reconnect(source,target);
@@ -119,7 +119,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans l'arc generique)
 	 * Cela peutêtre utile lorsq'un modele est lu depuis un fichier.
-	 * @param arc
 	 */
     public void setCorrectProperties() {
     	// Creer les properties par defaut
@@ -128,9 +127,11 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
         // Pour toutes les proprietes de l'arc
         for (Enumeration e = properties.elements(); e.hasMoreElements();) {
         	AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();
-            // On parcourt tous les attributs de l'arc
+            
+        	// On parcourt tous les attributs de l'arc
         	for (int i = 0; i < this.arc.getListOfAttrSize(); i++) {
-        		// Dès qu'il y a concordance entre la propriete et l'attribut
+        		
+        		// Des qu'il y a concordance entre la propriete et l'attribut
                 if (property.getGenericAttribute().getName().equalsIgnoreCase(this.arc.getNthAttr(i).getName())) {
                     // Modification de la valeur de la propriete pour qu'elle calque celle de l'attribut
                     property.setValue(this.arc.getNthAttr(i).getValue());

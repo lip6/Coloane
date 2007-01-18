@@ -247,7 +247,7 @@ public class Node extends Base implements Serializable {
      * @param attribute Attribut a ajouter
      */
     public void addAttribute(Attribute attribute) {
-        if (uniqueId == attribute.getRefId()) {
+        if (id == attribute.getRefId()) {
             this.listOfAttr.addElement(attribute);
         } 
     }
