@@ -45,6 +45,11 @@ public abstract class Menu {
 	
 		if (this.name.equals(fatherName)) {
 			ChildMenu newMenu = new ChildMenu(name);
+			/*
+			 * Le fils doit etre active si le pere est
+			 * active (et vice-versa).
+			 */
+			newMenu.setEnabled(this.enabled);
 			menus.add(newMenu);
 			return newMenu;
 		} else {
@@ -149,6 +154,10 @@ public abstract class Menu {
 	}
 	
 	public void setEnabled(String name, boolean enabled) throws MenuNotFoundException {
-		getMenu(name).enabled = enabled;
+		Menu menu = getMenu(name);
+		menu.enabled = enabled;
+		
+		for (ChildMenu child : menu.getChildren())
+			child.setEnabled(enabled);
 	}
 }
