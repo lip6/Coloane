@@ -37,9 +37,7 @@ public class PartFactory implements EditPartFactory {
 	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
-		
-		System.out.println("Mapping de l'element");
-		
+			
 		if (modelElement instanceof NodeImplAdapter) {
 			return new ElementEditPart();
 		} else if (modelElement instanceof ArcImplAdapter) {

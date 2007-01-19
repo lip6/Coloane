@@ -45,7 +45,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		arcFigure.setLabelText(arcModel.getArcValue()); // Accesseur de la vue
 		
 		// Il faut avertir FrameKit
-		System.out.println("Avertissement de FK - Arc");
 		Coloane.notifyModelChange();
 	}
 

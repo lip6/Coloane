@@ -32,7 +32,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * @return IFigure
 	 */
 	protected IFigure createFigure() {
-		System.out.println("Creation de la figure rootModel");
 		Figure root = new FreeformLayer();
 		root.setLayoutManager(new FreeformLayout()); 
 		return root;

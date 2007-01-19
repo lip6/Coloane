@@ -79,7 +79,6 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 		
 		// Il faut avertir FrameKit
-		System.out.println("Avertissement de FK - Node");
 		Coloane.notifyModelChange();
 	}
 		
