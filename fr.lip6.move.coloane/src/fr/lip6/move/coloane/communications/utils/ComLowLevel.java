@@ -86,6 +86,11 @@ public class ComLowLevel {
      */
     public boolean writeCommande(byte[] commande) throws CommunicationCloseException {
         try {
+        	
+			String msg = new String(commande, 4, commande.length - 4);
+			System.out.println(">> Envoi de : " + msg);
+			
+			
         	if (!this.socket.isOutputShutdown()) {
         		this.socketOutput.write(commande, 0, commande.length);
         		return true;

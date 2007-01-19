@@ -15,39 +15,25 @@ import fr.lip6.move.coloane.exceptions.CommunicationCloseException;
  */
 public class FramekitThreadSpeaker extends Thread {
 	
-	/**
-	 * RŽference vers l'API
-	 */
+	/** RŽference vers l'API */
 	private Api api;
 	
-	/**
-	 * Reference vers l'objet ComLowLevel
-	 */
+	/** Reference vers l'objet ComLowLevel */
 	private ComLowLevel comm;
 	
-	/**
-	 * Formalisme
-	 */
+	/** Formalisme */
 	private String formalism;
 	
-	/**
-	 * Date du modele
-	 */
+	/** Date du modele */
 	private int date;
 	
-	/**
-	 * Est-ce que la date a ete mise a jour
-	 */
+	/** Est-ce que la date a ete mise a jour */
 	private boolean dateUpdated;
 	
-	/**
-	 * Nom de la session
-	 */
+	/** Nom de la session */
 	private String sessionName;
 	
-	/**
-	 * Menu
-	 */
+	/** Menu */
 	private Vector globalMenu;
 
 
@@ -112,10 +98,7 @@ public class FramekitThreadSpeaker extends Thread {
 		byte[] dt = cmd.createCmdSimple("DT");
 		byte[] pq;
 		byte[] ft = cmd.createCmdSimple("FT");
-		
-		String s1 = new String(dt, 4, dt.length - 4);
-		System.out.println("Envoi de : " + s1);
-		
+				
 		try {
 			
 			// En-tete du message

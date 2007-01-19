@@ -176,14 +176,9 @@ public class FramekitThreadListener extends Thread {
 						// Modification de l'arbre des services : desactive
 						case 8 : {
 							try {
-								for (int index = 0; index < menuList.size(); index++) {
-									if (((Menu) menuList.get(index)).getName().equals(listeArgs.get(1))) {
-										((Vector) cmdCAMIMenuMajReceive.get(index)).add(listeArgs);
-									}
-								}
+								formalismMenu.setEnabled((String) listeArgs.get(2),false);
 							} catch (Exception e) {
-								System.out.println("erreur reception TQ type = 8");
-								e.printStackTrace();
+								System.err.println("Erreur reception TQ type = 8");
 							}
 							break;
 						}
@@ -288,6 +283,15 @@ public class FramekitThreadListener extends Thread {
 									}
 								}
 							});
+							
+							// Indique l'etat de fraicheur du modele
+							RootMenu myMenu = (RootMenu) menuList.get(0);
+							Menu syntaxMenu = myMenu.getMenu("Petri net syntax checker");
+							if (!syntaxMenu.getEnabled()) {
+								this.api.setModelDirty(false);
+							}
+							
+							
 
 //							Menu myMajMenu = null;
 //							
@@ -321,9 +325,20 @@ public class FramekitThreadListener extends Thread {
 					}
 					
 					//le menu est mis a jour, on le renvoie au speaker
-					if ((listeArgs.firstElement().equals("FR"))) {
+					if (listeArgs.firstElement().equals("FR")) {
 						System.out.println("THREAD LISTENER FR recu : NOMBRE DE MISE A JOURS => " + majMenu.size());
-//						for (int index = 0; index < menuList.size(); index++) {
+//						
+						parent.getDisplay().asyncExec(new Runnable(){
+							public void run(){
+								for (int index = 0; index < menuList.size(); index++) {
+									api.updateMenu();
+								}
+							}
+						});
+						
+						this.api.setModelDirty(false);
+						
+						//for (int index = 0; index < menuList.size(); index++) {
 //							menuList.set(index, translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index)));
 //							api.setMenu((Menu) menuList.get(index));
 //						}
@@ -352,7 +367,8 @@ public class FramekitThreadListener extends Thread {
 					
 					if ((listeArgs.firstElement().equals("WN"))) {
 						System.out.println("THREAD LISTENER WN recu");
-						this.api.sendMessageUI(FramekitMessage.WARNING, (String) listeArgs.elementAt(1), 1);
+						//this.api.sendMessageUI(FramekitMessage.WARNING, (String) listeArgs.elementAt(1), 1);
+						this.api.printHistory((String) listeArgs.elementAt(1));
 					}
 					
 					
@@ -390,22 +406,20 @@ public class FramekitThreadListener extends Thread {
 					
 					if ((listeArgs.firstElement().equals("DE"))) {
 						System.out.println("THREAD LISTENER DE recu");
-						errorSyntaxCheck += listeArgs.get(1) + " ";
-						System.out.println("##" + errorSyntaxCheck);
+						this.api.printState("Message de :"+(String) listeArgs.elementAt(1));
 					}
 	
 					if ((listeArgs.firstElement().equals("RT"))) {
 						System.out.println("THREAD LISTENER RT recu");
-						errorSyntaxCheck += listeArgs.get(1) + " ";
-						System.out.println("##" + errorSyntaxCheck);
+						//errorSyntaxCheck += listeArgs.get(1) + " ";
+						//System.out.println("##" + errorSyntaxCheck);
+						this.api.printHistory("Messages dans fenetre d'etat");
+						this.api.printState((String) listeArgs.elementAt(1));
 					}
 	
 					if ((listeArgs.firstElement().equals("RO"))) { //ou ME ???
 						System.out.println("THREAD LISTENER RO recu");
-						nbNodeError++;
-						errorId += listeArgs.get(1) + ",";
-						System.out.println("##" + errorSyntaxCheck);
-						System.out.println("##" + errorId);
+						this.api.printState("Place :"+(String) listeArgs.elementAt(1));
 					}
 	
 					if ((listeArgs.firstElement().equals("ME"))) {
