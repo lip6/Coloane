@@ -637,15 +637,15 @@ public class Model extends Base implements Serializable {
         String[] arcs;
 
         // Ajout des attributs du modele
-        for (int i = 0; i < this.getListOfAttrSize(); i++) {
-            attributes = (this.getNthAttr(i)).translateToCAMI();
-            
-            for (int j = 0; j < attributes.length; j++) {
-                if (!attributes[j].equals("")) {
-                    vec.add(attributes[j]);
-                }
-            }
-        }
+//        for (int i = 0; i < this.getListOfAttrSize(); i++) {
+//            attributes = (this.getNthAttr(i)).translateToCAMI();
+//            
+//            for (int j = 0; j < attributes.length; j++) {
+//                if (!attributes[j].equals("")) {
+//                    vec.add(attributes[j]);
+//                }
+//            }
+//        }
        	
         // Ajout des noeuds
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
