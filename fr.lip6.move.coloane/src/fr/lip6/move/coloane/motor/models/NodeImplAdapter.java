@@ -130,11 +130,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
             
-            Attribute attributeGeneric= new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
-            AttributeImplAdapter attributeModel = new AttributeImplAdapter(attributeGeneric,attributeFormalism.isDrawable());
+            Attribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
+            AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
             
-            this.properties.put(attributeModel.getId(), attributeModel);
-            this.node.addAttribute(attributeGeneric);
+            this.properties.put(attributeAdapter.getId(), attributeAdapter);
+            this.node.addAttribute(attribute);
         }
     }
        
@@ -144,19 +144,37 @@ public class NodeImplAdapter extends AbstractModelElement implements INode {
      * @param node Noeu generique deja existant
      */
     public void setProperties(Node node) {
-        // Creer les properties par defaut
-        setProperties();
+        
+    	// Parcours de tous les attributs du formalisme
+		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
+		while (iterator.hasNext()) {
+			AttributeImplAdapter attributeAdapter = null;
+			Attribute attribute = null;
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+			
+			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
+			boolean find = false;
+			for (int i = 0; i < node.getListOfAttrSize(); i++) {
+				// Si l'attribut du formalisme est bien decrit dans notre modele... On cree l'adapteur
+				// Pas besoin de creer un nouvel attribut dans le modele !
+				attribute = node.getNthAttr(i);
+				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					find = true;
+					break;
+				}
+			}
+			
+			// Si aucun attribut dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
+			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
+			if (!find) {
+				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				this.node.addAttribute(attribute);
+			}
 
-        for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-            AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();
-            for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
-            	if (property.getGenericAttribute().getName().equalsIgnoreCase(this.node.getNthAttr(i).getName())) {
-                    // Creation d'un adaptateur a partir d'une proprite qui existe dans le model de l'API
-                    property.setValue(this.node.getNthAttr(i).getValue());
-                    break;
-                }
-            }
-        }
+			this.properties.put(attributeAdapter.getId(), attributeAdapter);
+		}
     }      
         
   

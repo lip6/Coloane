@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.motor.models;
 
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -52,7 +51,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
         this.reconnect(source,target);
         
 		// Creation de la liste des attributs
-		this.setCorrectProperties();
+		this.setProperties(arc);
 	}
 
 
@@ -104,11 +103,11 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
 
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
-            Attribute attribute=new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},arc.getUniqueId());
-            AttributeImplAdapter property = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
+            Attribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},arc.getUniqueId());
+            AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
             
             // Ajout a la liste des proprietes
-            this.properties.put(property.getId(), property);
+            this.properties.put(attributeAdapter.getId(), attributeAdapter);
             
             // Ajout de l'attribut a l'arc generique
             this.arc.addAttribute(attribute);
@@ -120,25 +119,38 @@ public class ArcImplAdapter extends AbstractModelElement implements IArc {
 	 * Affectation des attributs corrects (ceux contenu dans l'arc generique)
 	 * Cela peutêtre utile lorsq'un modele est lu depuis un fichier.
 	 */
-    public void setCorrectProperties() {
-    	// Creer les properties par defaut
-        this.setProperties();
+    public void setProperties(Arc arc) {
+    	
+    	// Parcours de tous les attributs du formalisme
+		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
+		while (iterator.hasNext()) {
+			AttributeImplAdapter attributeAdapter = null;
+			Attribute attribute = null;
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+			
+			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
+			boolean find = false;
+			for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+				// Si l'attribut du formalisme est bien decrit dans notre modele... On cree l'adapteur
+				// Pas besoin de creer un nouvel attribut dans le modele !
+				attribute = arc.getNthAttr(i);
+				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					find = true;
+					break;
+				}
+			}
+			
+			// Si aucun attribut dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
+			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
+			if (!find) {
+				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				this.arc.addAttribute(attribute);
+			}
 
-        // Pour toutes les proprietes de l'arc
-        for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-        	AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();
-            
-        	// On parcourt tous les attributs de l'arc
-        	for (int i = 0; i < this.arc.getListOfAttrSize(); i++) {
-        		
-        		// Des qu'il y a concordance entre la propriete et l'attribut
-                if (property.getGenericAttribute().getName().equalsIgnoreCase(this.arc.getNthAttr(i).getName())) {
-                    // Modification de la valeur de la propriete pour qu'elle calque celle de l'attribut
-                    property.setValue(this.arc.getNthAttr(i).getValue());
-                    break;
-                }
-            }
-        }
+			this.properties.put(attributeAdapter.getId(), attributeAdapter);
+		}
     }      
     
 

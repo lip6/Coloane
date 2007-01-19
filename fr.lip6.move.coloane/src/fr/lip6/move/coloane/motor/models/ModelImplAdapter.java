@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.motor.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 		try {
 			this.model = model;
 			this.formalism = formalism;
-			this.setAdapter();
+			this.setModelAdapter();
 			this.setProperties(model);
 		} catch (Exception e) {
 			System.err.println("Erreur lors de la construction du modele");
@@ -72,7 +71,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	/**
 	 * Methode implementant les adaptateurs, noeuds et arcs pour le modele
 	 */
-	private void setAdapter() throws Exception {
+	private void setModelAdapter() throws Exception {
 
 		// Ajout de tous les noeuds dans l'adapter (parcours de tous les noeuds du modele)
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
@@ -81,8 +80,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 			this.children.add(node);
 		}
 		
-		// ajouts de tous les attributs ???
-
 		// Ajout de tous les Arcs
 		for (int j = 0; j < this.model.getListOfArcSize(); j++) {
 			Arc currentArc = this.model.getNthArc(j);
@@ -127,15 +124,15 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 		// Creation de tous les attributs du formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-			// Les attributs possibles dans le formalisme
-			AttributeFormalism attribut = (AttributeFormalism) iterator.next();
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
-			Attribute attrAPI = new Attribute(attribut.getName(), new String[]{attribut.getDefaultValue()}, 1);
-			AttributeImplAdapter property = new AttributeImplAdapter(attrAPI, attribut.isDrawable());
-
-			property.setAttribute(attrAPI);
-			this.properties.put(property.getId(), property);
-			this.model.addAttribute(attrAPI);
+			// Creation de l'attribut dans le modele
+			Attribute attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+			// Creation de l'adapteur
+			AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+			
+			this.properties.put(attributeAdapter.getId(), attributeAdapter);
+			this.model.addAttribute(attribute);
 		}
 	}
 
@@ -145,21 +142,36 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	 * @param model
 	 */
 	public void setProperties(Model model) {
-		// Creation des proprietes par defaut (propriete du formalisme)
-		setProperties();
-
-		// Pour chaque propriete du modele adaptater
-		for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-
-			AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();
-			for (int i = 0; i < this.model.getListOfAttrSize(); i++) {
-
-				// Si la propriete correspond a l'attribut, on affecte la bonne valeur
-				if (property.getGenericAttribute().getName().equalsIgnoreCase(this.model.getNthAttr(i).getName())) {
-					property.setValue(this.model.getNthAttr(i).getValue());
+		
+		// Parcours de tous les attributs du formalisme
+		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
+		while (iterator.hasNext()) {
+			AttributeImplAdapter attributeAdapter = null;
+			Attribute attribute = null;
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+			
+			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
+			boolean find = false;
+			for (int i = 0; i < model.getListOfAttrSize(); i++) {
+				// Si l'attribut du formalisme est bien decrit dans notre modele... On cree l'adapteur
+				// Pas besoin de creer un nouvel attribut dans le modele !
+				attribute = model.getNthAttr(i);
+				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					find = true;
 					break;
 				}
 			}
+			
+			// Si aucun attribut dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
+			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
+			if (!find) {
+				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				this.model.addAttribute(attribute);
+			}
+			
+			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -263,7 +275,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	 */
 	public void setModel(Model model) throws Exception {
 		this.model = model;
-		this.setAdapter();
+		this.setModelAdapter();
 		this.setProperties(this.model);
 	}
 
