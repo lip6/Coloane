@@ -45,7 +45,14 @@ public class GraphicalMenu {
 		MenuManager rootMenuManager = new MenuManager(root.getName());
 		
 		/*
-		 * We recursively build the mnu.
+		 * Before building anything, we have to verify that the menu does not already exits
+		 */
+		if (this.check()) {
+			this.remove();
+		}		
+		
+		/*
+		 * We recursively build the menu.
 		 */
 		for(ChildMenu aChild : root.getChildren()) {
 			if (aChild.isLeaf()) {
@@ -109,6 +116,19 @@ public class GraphicalMenu {
         mi.dispose();
         return;
       }
+  }
+  
+  /**
+   * Check wether a menu is already in the menu bar
+   *
+   */
+  private boolean check() {
+    for (MenuItem mi : shell.getMenuBar().getItems())
+      if (mi.getText().equals(root.getName())) {
+        return true;
+      }
+    
+    return false;
   }
   
   /**
