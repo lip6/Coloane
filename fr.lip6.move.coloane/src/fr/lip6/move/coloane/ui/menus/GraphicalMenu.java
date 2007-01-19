@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import fr.lip6.move.coloane.menus.CAction;
 import fr.lip6.move.coloane.menus.ChildMenu;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.UserInterface;
