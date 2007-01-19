@@ -56,7 +56,7 @@ public class UserInterface implements IUiCom, IUiMotor {
      * Affichage d'un message sur la vue State
      * @param message message a afficher
      */
-    public void sendStateMessage(String message) {
+    public void printStateMessage(String message) {
    		final String msg=message;
         
         Display.getDefault().asyncExec(new Runnable(){
