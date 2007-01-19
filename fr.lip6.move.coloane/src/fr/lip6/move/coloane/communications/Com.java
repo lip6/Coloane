@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.communications;
 
 
+import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComUi;
@@ -146,12 +147,28 @@ public class Com implements IComUi, IComApi, IComMotor {
 		this.ui.printHistoryMessage(message);
 	}
 	
+	/**
+	 * Affichage d'un message dans l'interface utilisateur
+	 * @param message Message a afficher dans la console 
+	 */
+	public void printStateMessage(String message) {
+		this.ui.printStateMessage(message);
+	}
+	
 	/** 
 	 * Affichage des menus construit a partir des commandes CAMI 
 	 * @param menu La racine du menu a afficher
 	 */
 	public void drawMenu(RootMenu menu) {
 		this.ui.drawMenu(menu);
+	}
+	
+	/** 
+	 * Affichage des menus construit a partir des commandes CAMI 
+	 * @param menu La racine du menu a afficher
+	 */
+	public void updateMenu() {
+		this.ui.updateMenu();
 	}
 	
 	/**
@@ -168,5 +185,17 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void toUpdate (int dateUpdate) {
 		this.api.changeModeleDate(dateUpdate);
+	}
+	
+	/**
+	 * Recupere le modele
+	 * @return Le modele en cours
+	 */
+	public Model getModel() {
+		return this.motor.getSessionManager().getCurrentSession().getSessionModel().getModel();
+	}
+	
+	public void setModelDirty(boolean state) {
+		this.motor.getSessionManager().getCurrentSession().getSessionModel().setDirty(state);
 	}
 }
