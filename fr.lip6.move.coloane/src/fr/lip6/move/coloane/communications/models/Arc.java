@@ -237,7 +237,7 @@ public class Arc extends Base implements Serializable {
             s.append("CA(");
             s.append(this.arcType.length() + ":" + this.arcType);
             s.append(",");
-            s.append(uniqueId);
+            s.append(id);
             s.append(",");
             s.append(this.startingNode.getId());
             s.append(",");
