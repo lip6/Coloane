@@ -8,7 +8,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
@@ -21,7 +20,8 @@ import org.eclipse.ui.PlatformUI;
  * 4. a buttons' zone
  */
 
-public abstract class CAMIDialog extends IconAndMessageDialog {
+public class CAMISimpleDialog extends IconAndMessageDialog
+	implements ICAMIDialog {
 	
 	public static final int DLG_STANDARD = 1;
 	public static final int DLG_WARNING = 2;
@@ -33,28 +33,32 @@ public abstract class CAMIDialog extends IconAndMessageDialog {
 	public static final int DLG_OK_CANCEL = 3;
 	
 	protected int id;
+	protected int type;
 	protected int buttonType;
 	protected String title;
 	protected String help;
 	protected int inputType;
 	protected int multiLine;
 	protected String defaultValue;
+	protected DialogResult dialogResult;
 	
 	protected Shell parentShell =
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	
 	protected TextArea textArea = null;
 	
-	public CAMIDialog(int id, int buttonType,
+	public CAMISimpleDialog(int id, int type, int buttonType,
 			String title, String help, String message,
 			int inputType, int multiLine, String defaultValue) {
 		
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
 		this.id = id;
+		this.type = type;
 		this.buttonType = buttonType;
 		this.title = title;
 		this.help = help;
+		this.message = message;
 		this.inputType = inputType;
 		this.multiLine = multiLine;
 		this.defaultValue = defaultValue;
@@ -106,8 +110,6 @@ public abstract class CAMIDialog extends IconAndMessageDialog {
     		multiLine == TextArea.SINGLE_LINE)
     	return null;
     
-    System.out.println("We are heeeeeree :D");
-    
     // Create a composite to hold the textArea
     Composite composite = new Composite(parent, SWT.NONE);
     GridData data = new GridData(GridData.FILL_BOTH);
@@ -115,9 +117,22 @@ public abstract class CAMIDialog extends IconAndMessageDialog {
     composite.setLayoutData(data);
     composite.setLayout(new FillLayout());
     
-    new Label(parent, SWT.LEFT);
+    textArea = TextAreaFactory.create(composite,
+    		inputType, multiLine, defaultValue);
     
     
     return composite;
   }
+  
+  public void buttonPressed(int buttonId) {
+	  dialogResult = new DialogResult(id, 1,
+	  			textArea.getText().get(0) == defaultValue,
+	  			textArea.getText());
+	  
+  	this.close();
+  }
+
+	public DialogResult getDialogResult() {
+		return dialogResult;
+	}
 }

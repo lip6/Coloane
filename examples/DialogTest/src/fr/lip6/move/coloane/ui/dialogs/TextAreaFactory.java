@@ -3,14 +3,12 @@ package fr.lip6.move.coloane.ui.dialogs;
 import org.eclipse.swt.widgets.Composite;
 
 public class TextAreaFactory {
-	public TextArea create(Composite parent, boolean list,
+	public static TextArea create(Composite parent,
 			int inputType, int multiLine, String defaultVal) {
 		
-		if (list)
-			return new ListTextArea(parent, inputType,
-					multiLine, defaultVal);
+		if (inputType == TextArea.INPUT_FORBIDDEN && multiLine != TextArea.SINGLE_LINE)
+			return new ListTextArea(parent,	multiLine, defaultVal);
 		else
-			return new EditableTextArea(parent, inputType,
-					multiLine, defaultVal);
+			return new EditableTextArea(parent, multiLine, defaultVal);
 	}
 }

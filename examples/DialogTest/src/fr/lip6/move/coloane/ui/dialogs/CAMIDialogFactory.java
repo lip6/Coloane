@@ -1,26 +1,20 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
 public class CAMIDialogFactory {
-	public CAMIDialog create(int id, int type, int buttonType,
+	public static ICAMIDialog create(int id, int type, int buttonType,
 			String title, String help, String message,
 			int inputType, int multiLine, String defaultValue)
 		throws UnknowDialogException {
 		
 		switch (type) {
-		case CAMIDialog.DLG_STANDARD:
-			return new StandardDialog(id, buttonType, title, help, message,
-					inputType, multiLine, defaultValue);
-			
-		case CAMIDialog.DLG_WARNING:
-			return new WarningDialog(id, buttonType, title, help, message,
-					inputType, multiLine, defaultValue);
-			
-		case CAMIDialog.DLG_ERROR:
-			return new ErrorDialog(id, buttonType, title, help, message,
-					inputType, multiLine, defaultValue);
-			
-		case CAMIDialog.DLG_INTERACTIVE:
+		case CAMISimpleDialog.DLG_INTERACTIVE:
 			return new InteractiveDialog(id, buttonType, title, help, message,
+					inputType, multiLine, defaultValue);
+			
+		case CAMISimpleDialog.DLG_STANDARD:
+		case CAMISimpleDialog.DLG_WARNING:
+		case CAMISimpleDialog.DLG_ERROR:
+			return new CAMISimpleDialog(id, type, buttonType, title, help, message,
 					inputType, multiLine, defaultValue);
 			
 		default:
