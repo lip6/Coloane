@@ -439,9 +439,26 @@ public class Api implements IApi {
 		this.com.printHistoryMessage(message);
 	}
 	
+	/**
+	 * Affichage d'un message dans la console d'etat
+	 * @param message
+	 */
+	public void printState (String message) {
+		this.com.printStateMessage(message);
+	}
+	
 	/** Affichage des menus */
 	public void drawMenu (RootMenu menu) {
 		this.com.drawMenu(menu);
+	}
+	
+	/** Mise a jour des menus */
+	public void updateMenu() {
+		this.com.updateMenu();
+	}
+	
+	public void setModelDirty(boolean state) {
+		this.com.setModelDirty(state);
 	}
 
     /**
@@ -545,11 +562,10 @@ public class Api implements IApi {
 	
 	/**
 	 * Retourne le modele courrant
-	 * 
 	 * @return le modele courant
 	 */
 	public Model getModel() {
-		return this.coloaneServices.getCurrentModel();
+		return this.com.getModel();
 	}
 	
 	/**
@@ -635,7 +651,7 @@ public class Api implements IApi {
 	 * @param aModel model cree
 	 */
 	public void setModel(Model aModel) {
-		this.coloaneServices.giveAModel(aModel);
+		this.com.giveAModel(aModel);
 	}
 	
 	/**
@@ -643,7 +659,7 @@ public class Api implements IApi {
 	 *
 	 */
 	public void endService() {
-		this.coloaneServices.endService();
+		//this.coloaneServices.endService();
 	}
     
     
