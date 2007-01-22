@@ -1,7 +1,14 @@
 package fr.lip6.move.coloane.communications;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 
@@ -112,7 +119,7 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * Creation et envoi de la commande de connexion à Framekit (SC) compatible Framekit CPN-AMI 3.0
+	 * Creation et envoi de la commande de connexion ÔøΩ Framekit (SC) compatible Framekit CPN-AMI 3.0
 	 * 
 	 * @param login    le login de l'utilisateur
 	 * @param password le mot de passe de l'utilisateur
@@ -126,20 +133,20 @@ public class Api implements IApi {
 			Commande cmd = new Commande();
 			System.out.println("Construction de la commande CAMI...");
 
-			/* Première partie : Le login et le password */	
+			/* PremiÔøΩre partie : Le login et le password */	
 			// Construction de la commande CAMI sans toucher aux 4 premiers octets
 			byte[] send = cmd.createCmdSC(login, password);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
 			reponse = cmd.getComdRecuAndArg((String) commandeRecue.elementAt(0));
 		
-			/* Si la réponse de FK diffère de SC */
+			/* Si la rÔøΩponse de FK diffÔøΩre de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
 				System.err.println("Balise non attendue (attendue SC) :" + (String) reponse.firstElement());
 				return false;
 			} 
 		
-			/* Deuxième partie les informations sur l'API */
+			/* DeuxiÔøΩme partie les informations sur l'API */
 			send = cmd.createCmdOC(Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"), login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
@@ -154,7 +161,7 @@ public class Api implements IApi {
 				return true;
 			}
 		} catch (Exception e) {
-            System.err.println("Erreur dans la connexion à FrameKit: " + e.getMessage());
+            System.err.println("Erreur dans la connexion ÔøΩ FrameKit: " + e.getMessage());
             throw e;
         }
 	}
@@ -198,7 +205,7 @@ public class Api implements IApi {
 				e.printStackTrace();
 			}
 		} else {
-			System.err.println("Aucune connexion détectée : Deconnexion impossible");		
+			System.err.println("Aucune connexion dÔøΩtectÔøΩe : Deconnexion impossible");		
 		}
 	}
 	
@@ -225,11 +232,11 @@ public class Api implements IApi {
 			listener.start();
 		}	
 		
-		// On créé la thread associe a la session cree (donc le modele) qui enverra les commandes CAMI
+		// On crÔøΩÔøΩ la thread associe a la session cree (donc le modele) qui enverra les commandes CAMI
 		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this, comLowServices,sessionName, date, sessionFormalism, verrou);
 		speak.start();
 		
-		// On envoie les commandes nécessaires pour l'ouverture de session du coté FK
+		// On envoie les commandes nÔøΩcessaires pour l'ouverture de session du cotÔøΩ FK
 		result = speak.openSession(sessionName, date, sessionFormalism);
 		
 		if (result) {			
