@@ -6,8 +6,12 @@ public class TextAreaFactory {
 	public static TextArea create(Composite parent,
 			int inputType, int multiLine, String defaultVal) {
 		
-		if (inputType == TextArea.INPUT_FORBIDDEN && multiLine != TextArea.SINGLE_LINE)
+		if (inputType == TextArea.INPUT_FORBIDDEN && multiLine == TextArea.SINGLE_LINE)
+			return new DummyTextArea(parent);
+		else if (inputType == TextArea.INPUT_FORBIDDEN
+				&& multiLine != TextArea.SINGLE_LINE) {
 			return new ListTextArea(parent,	multiLine, defaultVal);
+		}
 		else
 			return new EditableTextArea(parent, multiLine, defaultVal);
 	}

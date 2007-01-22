@@ -16,8 +16,8 @@ public class DialogResult {
 		this.text = text;
 	}
 	
-	public String getText() {
-		return text.get(0);
+	public ArrayList<String> getText() {
+		return text;
 	}
 
 	public int getAnswerType() {
@@ -28,7 +28,7 @@ public class DialogResult {
 		return dialogId;
 	}
 
-	public boolean isModified() {
+	public boolean hasBeenModified() {
 		return modified;
 	}
 }

@@ -1,11 +1,14 @@
 package dialogtest.actions;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
+import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
+import fr.lip6.move.coloane.ui.dialogs.IDialog;
+import fr.lip6.move.coloane.ui.dialogs.SimpleDialog;
+import fr.lip6.move.coloane.ui.dialogs.TextArea;
+import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -29,19 +32,20 @@ public class Action1 implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		String[] ok = { };
-		
-		
-		MessageDialog messageDialog = new MessageDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				"Titre",
-				null,
-				"Message",
-				0,
-				ok,
-				1);
-		
-		messageDialog.open();
+		IDialog d;
+		try {
+			d = DialogFactory.create(1, SimpleDialog.DLG_WARNING,
+					SimpleDialog.DLG_NO_BUTTON,
+					"Dialogue sans bouton", "Aide n°1", 
+					"Un dialogue sans bouton",
+					TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, "");
+			
+			AffichageResultat.affiche(d.getDialogResult());
+		} catch (UnknowDialogException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

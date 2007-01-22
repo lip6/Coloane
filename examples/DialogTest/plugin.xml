@@ -18,43 +18,43 @@
          <action
                class="dialogtest.actions.Action7"
                id="DialogTest.action7"
-               label="Action7"
+               label="Liste multi-sélection"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action6"
                id="DialogTest.action6"
-               label="Action6"
+               label="Liste mono-sélection"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action5"
                id="DialogTest.action5"
-               label="Action5"
+               label="Interactive (not yet)"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action4"
                id="DialogTest.action4"
-               label="Action4"
+               label="Multilignes avec deux boutons"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action3"
                id="DialogTest.action3"
-               label="Action3"
+               label="Monoligne avec deux boutons"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action2"
                id="DialogTest.action2"
-               label="Action2"
+               label="Message avec un bouton"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
          <action
                class="dialogtest.actions.Action1"
                id="DialogTest.action1"
-               label="Action1"
+               label="Dialogue sans bouton"
                menubarPath="sampleMenu/sampleGroup"
                style="push"/>
       </actionSet>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public abstract class TextArea {
+public abstract class TextArea implements ITextArea {
 	
 	public static final int INPUT_AUTHORIZED = 1;
 	public static final int INPUT_FORBIDDEN = 2;
@@ -33,17 +33,21 @@ public abstract class TextArea {
 		this.defaultValue = defaultValue;
 	}
 	
-	protected void setinputAuthorized(int inputType) {
+	public abstract ArrayList<String> getText();
+	
+	public void setinputAuthorized(int inputType) {
 		inputAuthorized = (inputType == INPUT_FORBIDDEN ? false : true);
 	}
 	
-	protected void setMultiLine(int multiLine) {
+	public void setMultiLine(int multiLine) {
 		this.multiLine = (multiLine == 1 ? false : true);
 	}
 	
-	protected void setMultiSelection(int multiLine) {
+	public void setMultiSelection(int multiLine) {
 		multiSelection = (multiLine == MULTI_LINE_WITH_MULTI_SELECTION ? true : false);
 	}
 	
-	public abstract ArrayList<String> getText();
+	public void setToolTiptext(String toolTipText) {
+		textWidget.setToolTipText(toolTipText);
+	}
 }

@@ -5,9 +5,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import fr.lip6.move.coloane.ui.dialogs.CAMISimpleDialog;
-import fr.lip6.move.coloane.ui.dialogs.CAMIDialogFactory;
-import fr.lip6.move.coloane.ui.dialogs.ICAMIDialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogResult;
+import fr.lip6.move.coloane.ui.dialogs.SimpleDialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
+import fr.lip6.move.coloane.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.ui.dialogs.TextArea;
 import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 
@@ -25,11 +26,14 @@ public class Action3 implements IWorkbenchWindowActionDelegate {
 
 	public void run(IAction action) {
 		try {
-			ICAMIDialog d = CAMIDialogFactory.create(1, CAMISimpleDialog.DLG_WARNING,
-					CAMISimpleDialog.DLG_OK_CANCEL, "Un titre", "RTFM", "Here",
-					TextArea.INPUT_AUTHORIZED, TextArea.SINGLE_LINE, "");
+			IDialog d = DialogFactory.create(1, SimpleDialog.DLG_WARNING,
+					SimpleDialog.DLG_OK_CANCEL, "Mono-ligne avec deux boutons",
+					"Veuillez entrer une fucking ligne", "Entrez une ligne",
+					TextArea.INPUT_AUTHORIZED, TextArea.SINGLE_LINE, "Défaut");
 			d.open();
-			System.err.println(d.getDialogResult().getText());
+			
+			AffichageResultat.affiche(d.getDialogResult());
+			
 		} catch (UnknowDialogException e) {}
 	}
 

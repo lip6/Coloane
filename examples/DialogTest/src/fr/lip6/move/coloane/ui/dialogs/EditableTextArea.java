@@ -18,12 +18,21 @@ public class EditableTextArea extends TextArea {
 			textWidget = new Text(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		
 		textWidget.setSize(250, 500);
+		((Text)textWidget).setText(defaultValue);
 	}
 	
 	public ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
-		result.add(((Text)textWidget).getText());
+		
+		String[] tokens = ((Text)textWidget).getText().split("\n");
+		
+		for (String token : tokens)
+			result.add(token);
 		
 		return result;
+	}
+
+	public void addChoice(String choice) {
+		throw new UnsupportedOperationException();
 	}
 }
