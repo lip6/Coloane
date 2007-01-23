@@ -5,7 +5,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 import fr.lip6.move.coloane.ui.dialogs.SimpleDialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.IDialog;
