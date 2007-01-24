@@ -227,7 +227,6 @@ public class Commande {
 		
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
-		System.out.println("message MS : " + new String(mess, 0, mess.length));
 		send[0] = 0;
 		send[1] = 0;
 		send[2] = 0;
@@ -305,7 +304,7 @@ public class Commande {
 	 * @param commande commande recu
 	 * @return vecteur retourner
 	 */
-	public Vector getComdRecuAndArg(String commande) {
+	public Vector getArgs(String commande) {
 		String cmdString = "";
 		Vector<String> liste = new Vector<String>();
 		
