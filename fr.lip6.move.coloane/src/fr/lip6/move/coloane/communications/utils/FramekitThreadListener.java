@@ -3,22 +3,16 @@ package fr.lip6.move.coloane.communications.utils;
 import java.util.Vector;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.communications.Api;
 import fr.lip6.move.coloane.communications.models.Model;
-import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.communications.objects.FramekitMessage;
-import fr.lip6.move.coloane.communications.objects.WindowedDialogue;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.Menu;
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
-
 
 /**
- * @author DQS equipe 2 (Styx)
+ * Classe implementant le comportement de l'ecouteur principal de Coloane
  */
 public class FramekitThreadListener extends Thread {
 	
@@ -26,7 +20,7 @@ public class FramekitThreadListener extends Thread {
 	private Api api;
 	
 	/** Reference vers l'objet ComLowLevel */
-	private ComLowLevel comm;
+	private ComLowLevel lowCom;
 	
 	/** Le verrou pour bloque la thread */
 	private Lock verrou;
@@ -34,13 +28,10 @@ public class FramekitThreadListener extends Thread {
 	/** Permet de mettre a jour le menu */
 	private CamiTranslator translater;
 	
-	
+	/** TODO : A documenter */
 	private Composite parent;
 	
-	
-	/**
-	 * liste des menus
-	 */
+	/** Liste des menus */
 	private Vector<Menu> menuList;
 	
 	/**
@@ -49,10 +40,10 @@ public class FramekitThreadListener extends Thread {
 	 * @param com point d'entree vers la com
 	 * @param aVerrou le verrou du speaker
 	 */
-	public FramekitThreadListener(Api apiFK, ComLowLevel com, Lock aVerrou) {
-		this.api = apiFK;
-		this.comm = com;
-		this.verrou = aVerrou;
+	public FramekitThreadListener(Api api, ComLowLevel lowCom, Lock verrou) {
+		this.api = api;
+		this.lowCom = lowCom;
+		this.verrou = verrou;
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<Menu>();
 		this.parent = (Composite) Coloane.getParent();
@@ -64,30 +55,32 @@ public class FramekitThreadListener extends Thread {
 	public void run() {
 		
 		// Le menu de formalisme
-		Menu formalismMenu = null;
+		Menu menu = null;
 		
-		Vector listeArgs;
+		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
-		Vector majMenu = new Vector();  // les mises a jours du menu
-		Vector currentCAMIMenuReceive = new Vector(); // les instructions CAMI pour un menu recues
-		Vector cmdCAMIMenuMajReceive = new Vector();  // les instructions CAMI pour maj les menus
-		Vector leModel = new Vector();  // le modele recu
-		Vector vectorDialog = new Vector();
+
+		// La liste des arguments d'une commande en cours de traitement */
+		Vector listeArgs;
 		
-		String errorSyntaxCheck = "";
-		String errorId = "";
-		int nbNodeError = 0;
+		 // Les instructions CAMI recues decrivant un menu
+		Vector<Vector> currentMenu = null;
+
+		// Le modele recu
+		Vector<Vector> modelReceive = new Vector<Vector>();
 		
+		// Indications concernant la description d'une boite de dialogue
+		Vector<Vector> vectorDialog = new Vector<Vector>();
+		
+		// Boucle d'ecoute
 		while (true) {
-			
-			// TODO: Etre exhaustif !
 			
 			// En mode turboboost, plusieurs commande peuvent être fournies
 			Vector commandeRecue;
 		
 			try {
-				// Boucle de réception
-				commandeRecue = this.comm.readCommande();
+				// Lecture des commandes sur le flux d'entree
+				commandeRecue = this.lowCom.readCommande();
 
 				// Si on recoit un mesage fin de service
 				if (commandeRecue.elementAt(0).equals("EOS")) {
@@ -107,175 +100,203 @@ public class FramekitThreadListener extends Thread {
 			
 			// Analyse des commandes recues
 			try {
-				int numCommande;
 				
 				// Parcours de toutes les commandes reçues
-				for ( numCommande=0; numCommande<commandeRecue.size(); numCommande++) {
+				for (int numCommande = 0; numCommande<commandeRecue.size(); numCommande++) {
 					
+					// Si la commande recue est vide : on passe a la suivante
 					if (((String) commandeRecue.elementAt(numCommande)).length() == 0) {
 						continue;
 					}
 					
-					System.out.println("Commande en cours d'analyse : "+(String) commandeRecue.elementAt(numCommande));
+					// Decoupage des arguments
+					listeArgs = cmd.getArgs((String) commandeRecue.elementAt(numCommande));
 					
-					listeArgs = cmd.getComdRecuAndArg((String) commandeRecue.elementAt(numCommande));
-					
+					// Si la commande recue ne conteient aucun argument
 					if (listeArgs == null) {
-						System.out.println("Rien dans la commande recue");
 						continue;
 					}
 					
 					// Message TQ
+					// Transmission d'un etat du service en cours de realisation
 					if ((listeArgs.firstElement().equals("TQ"))) {
 						int type = Integer.parseInt((String) listeArgs.elementAt(3));
 						String message  = (String) listeArgs.elementAt(4);
 					
 						switch(type) {
 					
-						// Etat du service : inactif
-						case 1 : {
-							this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-							break;
-						}
-						
-						// Etat du service : actif
-						case 2 : {
-							this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-							break;
-						}						
-						
-						// Etat du service : termine
-						case 3 : {
-							this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-							this.api.endService();
-							break;
-						}
-						
-						// Etat du service : non documente!
-						case 5 : {
-							this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-							break;
-						}
-						
-						// Etat du service : termine de facon errone
-						case 6 : {
-							this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-							break;
-						}
-						
-						// Modification de l'arbre des services : active
-						case 7 : {
-							try {
-								formalismMenu.setEnabled((String) listeArgs.get(2),true);
-							} catch (Exception e) {
-								System.err.println("Erreur reception TQ type = 7");
+							// Etat du service : inactif
+							case 1 : {
+								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								break;
 							}
-							break;
-						}
 						
-						// Modification de l'arbre des services : desactive
-						case 8 : {
-							try {
-								formalismMenu.setEnabled((String) listeArgs.get(2),false);
-							} catch (Exception e) {
-								System.err.println("Erreur reception TQ type = 8");
+							// Etat du service : actif
+							case 2 : {
+								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								break;
+							}						
+							
+							// Etat du service : termine
+							case 3 : {
+								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								this.api.endService();
+								break;
 							}
-							break;
+							
+							// Etat du service : non documente!
+							case 5 : {
+								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								break;
+							}
+							
+							// Etat du service : termine de facon errone
+							case 6 : {
+								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								break;
+							}
+							
+							// Modification de l'arbre des services : active
+							case 7 : {
+								try {
+									menu.setEnabled((String) listeArgs.get(2),true);
+								} catch (Exception e) {
+									System.err.println("Erreur reception TQ type = 7");
+								}
+								break;
+							}
+							
+							// Modification de l'arbre des services : desactive
+							case 8 : {
+								try {
+									menu.setEnabled((String) listeArgs.get(2),false);
+								} catch (Exception e) {
+									System.err.println("Erreur reception TQ type = 8");
+								}
+								break;
+							}
+							
+							// Depracated 
+							case 9 : {
+								System.out.println("TQ=9 => Deprecated");
+								break;
+							}
+							
+							default :
+								System.err.println("Commande inconue" + type);
+								break;
 						}
-						
-						// Depracated 
-						case 9 : {
-							System.out.println("TQ=9 => Deprecated");
-							break;
-						}
-						
-						default :
-							System.err.println("Commande inconue" + type);
-						break;
-						}
-					} // Fin du IF TQ
+						continue;
+					} 
 				
-				
+					// Message OS
+					// Ouverture d'une session
 					if ((listeArgs.firstElement().equals("OS"))) {
 						this.verrou.unlock();
+						continue;
 					} 
 					
+					// Message TD
+					// TODO : Documenter ?
 					if ((listeArgs.firstElement().equals("TD"))) {
 						this.verrou.unlock();
+						continue;
 					}
 					
+					// Message FA
+					// TODO : Documenter ?
 					if ((listeArgs.firstElement().equals("FA"))) {
 						this.verrou.unlock();
+						continue;
 					} 
 					
+					// Message TL
+					// TODO : Documenter ?
 					if ((listeArgs.firstElement().equals("TL"))) {
 						this.verrou.unlock();
+						continue;
 					} 
 					
+					
+					// Message VI
+					// TODO : Documenter
 					if ((listeArgs.firstElement().equals("VI"))) {
 						String serviceName = (String) listeArgs.elementAt(1);
 						this.verrou.unlock(serviceName);
+						continue;
 					} 
 					
+					// Message FL
+					// TODO : Documenter
 					if ((listeArgs.firstElement().equals("FL"))) {
 						this.verrou.unlock();
+						continue;
 					} 
 					
-					// Commande de debut d'envoi de menu
+					// Message DQ
+					// Debut de la transmission d'un arbre de services
 					if ((listeArgs.firstElement().equals("DQ"))) {
-						System.out.println("Debut de reception du menu");
+						continue;
 					}
 					
-					// Debut de menu
-					// 1 vecteur pour les elements
-					// 1 vecteur pour les modifications
+					// Message CQ
+					// Creation du noeud racine de l'arbre des services
 					if (listeArgs.firstElement().equals("CQ")) {
-						currentCAMIMenuReceive = new Vector();
-						currentCAMIMenuReceive.add(listeArgs); // Ajout de CQ
-						cmdCAMIMenuMajReceive.add(new Vector());
+						currentMenu = new Vector<Vector>();
+						currentMenu.add(listeArgs);
+						continue;
 					}
 					
-					// Element du menu
+					// Message AQ
+					// Ajout d'un service dans l'arbre des services
 					if (listeArgs.firstElement().equals("AQ")) {
-						currentCAMIMenuReceive.add(listeArgs); // Ajout du AQ
+						currentMenu.add(listeArgs);
+						continue;
 					}
 					
+					// Message HQ
+					// Aide associee a une entree du menu de services
 					if (listeArgs.firstElement().equals("HQ")) {
+						continue;
 					}
 					
+					// Message VQ
+					// TODO : A documenter ?
 					if (listeArgs.firstElement().equals("VQ")) {
+						continue; 
 					}
 					
+					// Message EQ
+					// Cacher un menu de services
 					if (listeArgs.firstElement().equals("EQ")) {
+						continue;
 					}
 					
+					// Message SQ
+					// Desctruction d'un menu de services
 					if (listeArgs.firstElement().equals("SQ")) {
+						continue;
 					}
 					
-					// fin du menu de services
+					// Message FQ
+					// Fin de la transmission d'un menu de services
 					if (listeArgs.firstElement().equals("FQ")) {
-						
+
 						// Construction du menu
 						try {
-							formalismMenu = translater.getMenu(currentCAMIMenuReceive);
+							menu = translater.getMenu(currentMenu);
+							menuList.add(menu);
 						} catch (Exception e) {
 							System.err.println("Erreur dans FQ = Impossible de construire le menu");
-						}
-	
-						// Ajout du menu construit a la plateforme
-						try {
-							menuList.add(formalismMenu);
-						} catch (Exception e) {
 							System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit à la plateforme");
 						}
-						
-						System.out.println("Fin du menu");
 					} 
 					
-					
-					// Le menu est mid a jour !
+					// Message QQ
+					// Le menu est mis a jour !
 					if ((listeArgs.firstElement().equals("QQ")) && ((listeArgs.elementAt(1).equals("2")) || (listeArgs.elementAt(1).equals("3")))) {
-											
+							
+							// Mise a jour des menus
 							parent.getDisplay().asyncExec(new Runnable(){
 								public void run(){
 									for (int index = 0; index < menuList.size(); index++) {
@@ -290,44 +311,13 @@ public class FramekitThreadListener extends Thread {
 							if (!syntaxMenu.getEnabled()) {
 								this.api.setModelDirty(false);
 							}
-							
-							
-
-//							Menu myMajMenu = null;
-//							
-//							// Mise a jour du menu
-//							try {
-//								myMajMenu = translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index));
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//							
-//							// On remplace le menu
-//							try {
-//								menuList.set(index, myMajMenu);
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//							
-//							// On notifie l'API qu'il faut mettre a jour le menu
-//							try {
-//								api.setMenu((Menu) menuList.get(index));
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//						}
-//						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
-//							cmdCAMIMenuMajReceive.set(index, new Vector());
-//						}
-							
 						this.verrou.unlock();
-						majMenu = new Vector();
+						continue;
 					}
 					
-					//le menu est mis a jour, on le renvoie au speaker
+					// Message FR
+					// Fin de la transmission d'une reponse a un service
 					if (listeArgs.firstElement().equals("FR")) {
-						System.out.println("THREAD LISTENER FR recu : NOMBRE DE MISE A JOURS => " + majMenu.size());
-//						
 						parent.getDisplay().asyncExec(new Runnable(){
 							public void run(){
 								for (int index = 0; index < menuList.size(); index++) {
@@ -337,144 +327,143 @@ public class FramekitThreadListener extends Thread {
 						});
 						
 						this.api.setModelDirty(false);
-						
-						//for (int index = 0; index < menuList.size(); index++) {
-//							menuList.set(index, translater.updateMenu((Vector) cmdCAMIMenuMajReceive.get(index), (Menu) menuList.get(index)));
-//							api.setMenu((Menu) menuList.get(index));
-//						}
-//						for (int index = 0; index < cmdCAMIMenuMajReceive.size(); index++) {
-//							cmdCAMIMenuMajReceive.set(index, new Vector());
-//						}					
+						continue;
 					}
 					
+					// Message KO
+					// TODO : A documenter 
 					if ((listeArgs.firstElement().equals("KO"))) {
-						System.out.println("THREAD LISTENER KO recu");
 						Integer i = new Integer(listeArgs.elementAt(2).toString());
 						api.cnxClosed(1, (String) listeArgs.elementAt(1), i.intValue());
+						continue;
 					}
 					
+					// Message FC
+					// Fin de connexion
 					if ((listeArgs.firstElement().equals("FC"))) {
-						System.out.println("THREAD LISTENER FC recu");
 						api.cnxClosed(1, "fermeture normal", 1);
+						continue;
 					} 
 					
-								
+					// Message TR
+					// TODO : A documenter
 					if ((listeArgs.firstElement().equals("TR"))) {
-						System.out.println("THREAD LISTENER TR recu");
-						
 						this.api.sendMessageUI(FramekitMessage.TRACE, (String) listeArgs.elementAt(1), 1);
+						continue;
 					}
-					
+
+					// Message WN
+					// TODO : A documenter
 					if ((listeArgs.firstElement().equals("WN"))) {
-						System.out.println("THREAD LISTENER WN recu");
-						//this.api.sendMessageUI(FramekitMessage.WARNING, (String) listeArgs.elementAt(1), 1);
 						this.api.printHistory((String) listeArgs.elementAt(1));
+						continue;
 					}
 					
 					
-					// TODO: Affichage d'un message systeme ?
+					// Message MO
+					// TODO : A documenter
 					if ((listeArgs.firstElement().equals("MO"))) {
-						System.out.println("Message MO");
-						int un = 0;
-						try {
-							un = Integer.parseInt((String) listeArgs.elementAt(1));
-						} catch (Exception e) {
-							System.err.println("Message MO incorrect");
-							
-						}
-						//this.api.sendMessageUI(FramekitMessage.SPECIAL, (String) listeArgs.elementAt(2), un);
 						this.api.printHistory((String) listeArgs.elementAt(2));
+						continue;
 					}
 					
-					
+					// Message DF
+					// Demande du contenu d'un modele
 					if ((listeArgs.firstElement().equals("DF"))) {
-						System.out.println("THREAD LISTENER DF recu");
-						
 						FramekitThreadSpeaker speaker = this.api.getCurrentSpeaker();
-						System.out.println("THREAD LISTENER: debut envoi model");
 						speaker.sendModel();
-						System.out.println("THREAD LISTENER: fin envoi model");	
 					} 
 					
+					// Message DR
+					// Debut de la transmission d'une reposne d'un outil
 					if ((listeArgs.firstElement().equals("DR"))) {
-						System.out.println("THREAD LISTENER DR recu");
+						continue;
 					}
 					
+					// Message RQ
+					// Designation de la question a laquelle on repond
 					if ((listeArgs.firstElement().equals("RQ"))) {
-						System.out.println("THREAD LISTENER RQ recu");
+						continue;
 					}
 					
+					// Message DE
+					// Debut d'un ensemble de resultat ou d'objet transmis par Coloane a la plateforme 
 					if ((listeArgs.firstElement().equals("DE"))) {
-						System.out.println("THREAD LISTENER DE recu");
 						this.api.printState("Message de :"+(String) listeArgs.elementAt(1));
+						continue;
 					}
 	
+					// Message RT
+					// Transmission d'un resultat textuel mono-ligne
 					if ((listeArgs.firstElement().equals("RT"))) {
-						System.out.println("THREAD LISTENER RT recu");
-						//errorSyntaxCheck += listeArgs.get(1) + " ";
-						//System.out.println("##" + errorSyntaxCheck);
 						this.api.printHistory("Messages dans fenetre d'etat");
 						this.api.printState((String) listeArgs.elementAt(1));
 					}
 	
-					if ((listeArgs.firstElement().equals("RO"))) { //ou ME ???
-						System.out.println("THREAD LISTENER RO recu");
+					// Message RO
+					// Designation d'un objet associe au resultat dans un ensemble
+					if ((listeArgs.firstElement().equals("RO"))) {
 						this.api.printState("Place :"+(String) listeArgs.elementAt(1));
+						continue;
 					}
-	
+
+					// Message ME
+					// Mise en evidence d'un obet Coloane
 					if ((listeArgs.firstElement().equals("ME"))) {
-						System.out.println("THREAD LISTENER ME recu");
+						continue;
 					}
 					
-					
+					// Message FE
+					// Fin d'ensemble de resultats ou d'objets transmis
 					if ((listeArgs.firstElement().equals("FE"))) {
-						System.out.println("THREAD LISTENER FE recu");
-						
-						String listeId = String.valueOf(nbNodeError) + "," + errorId;
-											
-						System.out.println("------------------- ENVOI DE LA LISTE DES ID : " + listeId );
-						
-						this.api.sendMessageUI(FramekitMessage.ERRORSYNTAXCHECK, errorSyntaxCheck, 1);
-						this.api.sendMessageUI(FramekitMessage.LISTEID, listeId, 1);
-						
-						errorId = "";
-						errorSyntaxCheck = "";
-						nbNodeError = 0;
+						continue;
 					}
 					
-					
+					// Message SS
+					// Suspension d'un session Coloane
 					if ((listeArgs.firstElement().equals("SS"))) {
 						this.api.setSuspendCurrentSession(true);
-						System.out.println("THREAD LISTENER SS recu");
+						continue;
 					}
 					
+					// Message RS
+					// Reprise d'une session Coloane
 					if ((listeArgs.firstElement().equals("RS"))) {
 						this.api.setResumedSession(true);
-						System.out.println("THREAD LISTENER RS recu");
+						continue;
 					}
 					
+					// Message FS
+					// Fin d'une session Coloane
 					if ((listeArgs.firstElement().equals("FS"))) {
 						this.api.setClosedSession(true);
-						System.out.println("THREAD LISTENER FS recu");
+						continue;
 					}
 					
+					// Message DC
+					// Debut de transmission de la definition d'une boite de dialogue
 					if ((listeArgs.firstElement().equals("DC"))) {
-						vectorDialog = new Vector();
+						vectorDialog = new Vector<Vector>();
 						vectorDialog.add(listeArgs);
-						System.out.println("THREAD LISTENER DC recu = \'" + listeArgs + "\'");
 					}					
+					
+					// Message CE
+					// Creation d'un dialogue
 					if ((listeArgs.firstElement().equals("CE"))) {
-						System.out.println("THREAD LISTENER CE recu = \'" + listeArgs + "\'");
 						vectorDialog.add(listeArgs);
-					}
-					if (listeArgs.firstElement().equals("DS")) {
-						System.out.println("THREAD LISTENER DS recu = \'" + listeArgs + "\'");
-						vectorDialog.add(listeArgs);
+						continue;
 					}
 					
+					// Message DS
+					// Suite de la construction d'une boite de dialogue
+					if (listeArgs.firstElement().equals("DS")) {
+						vectorDialog.add(listeArgs);
+					}
+
+					// Message DB
+					// Debut de transmission d'un modele
 					if ((listeArgs.firstElement().equals("DB"))) {
-						System.out.println("THREAD LISTENER DB recu");
-						leModel = new Vector();		
+						modelReceive = new Vector<Vector>();		
 					}
 					
 					if ((listeArgs.firstElement()).equals("CN") 
@@ -486,70 +475,44 @@ public class FramekitThreadListener extends Thread {
 							|| (listeArgs.firstElement()).equals("PT") 
 							|| (listeArgs.firstElement()).equals("PI")) {
 						
-						leModel.add(commandeRecue);
+						modelReceive.add(commandeRecue);
 					}
 					
-					// trouver comment recupere le formalisme du model transmit
+					// Message FB
+					// Fin de la transmission d'un modele
 					if ((listeArgs.firstElement().equals("FB"))) {
-						System.out.println("THREAD LISTENER FB recu");
-						Model m = new Model("ReachabilityGraph", leModel);
+						Model m = new Model("ReachabilityGraph", modelReceive);
 						this.api.setModel(m);
+						continue;
 					}
 					
+					// Message FF
+					// TODO : A documenter
 					if (listeArgs.firstElement().equals("FF")) {
-						System.out.println("THREAD LISTENER FF recu");
-						vectorDialog.add(listeArgs);
-						WindowedDialogue wDialog = this.translater.getWindowedDialogue(vectorDialog);
-						vectorDialog = new Vector();
-						this.api.setDialogUI((Dialogue) wDialog);
-						System.out.println("THREAD LISTENER Boite de dialogue creer et envoyer a l'UI");
+						continue;
 					}						
 					
+					// Message AD
+					// Affichage dune boite de dialogue referencee par un identifiant unique
 					if ((listeArgs.firstElement().equals("AD"))) {
-						int un = 0;
-						try {
-							un = Integer.parseInt((String) listeArgs.elementAt(1));
-						} catch (Exception e) {
-							System.out.println("exception parseInt");
-							
-						}
-						this.api.displayDialogUI(un);
-						System.out.println("THREAD LISTENER AD recu");
+						continue;
 					}
 					
+					// Message HD
+					// Cacher une fenêtre de dialogue
 					if ((listeArgs.firstElement().equals("HD"))) {
-						int un = 0;
-						try {
-							un = Integer.parseInt((String) listeArgs.elementAt(1));
-						} catch (Exception e) {
-							System.out.println("exception parseInt");
-							
-						}
-						this.api.hideDialogUI(un);
-						System.out.println("THREAD LISTENER HD recu");
+						continue;
 					}
 					
+					// Message DG
+					// Destruction d'un dialogue
 					if ((listeArgs.firstElement().equals("DG"))) {
-						int un = 0;
-						try {
-							un = Integer.parseInt((String) listeArgs.elementAt(1));
-						} catch (Exception e) {
-							System.out.println("exception parseInt");
-							
-						}
-						this.api.destroyDialogUI(un);
-						System.out.println("THREAD LISTENER DG recu");
+						continue;
 					}
 				}
-				
-//				System.out.println("loop THREAD LISTENER : " + commandeRecue);	
-				
 			} catch (Exception e) {
 				e.printStackTrace();
-				//	api.criticalClose();
 			}
-			}
-		System.out.println("WHILE TERMINATED #############");
-		this.api.cnxClosed(1, "Deconnexion ...", 1);
+		}
 	}	
 }

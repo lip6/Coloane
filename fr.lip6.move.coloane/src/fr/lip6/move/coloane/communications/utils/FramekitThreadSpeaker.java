@@ -1,70 +1,41 @@
 package fr.lip6.move.coloane.communications.utils;
 
-import java.util.Vector;
-
-
 import fr.lip6.move.coloane.communications.Api;
 import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.exceptions.CommunicationCloseException;
 
 /**
- * 
- * @author DQS equipe 2 (Styx)
- *
+ * Classe implementant le comportement du haut-parleur
  */
 public class FramekitThreadSpeaker extends Thread {
 	
-	/** RŽference vers l'API */
+	/** Reference vers l'API */
 	private Api api;
 	
 	/** Reference vers l'objet ComLowLevel */
-	private ComLowLevel comm;
-	
-	/** Formalisme */
-	private String formalism;
+	private ComLowLevel lowCom;
 	
 	/** Date du modele */
 	private int date;
-	
-	/** Est-ce que la date a ete mise a jour */
-	private boolean dateUpdated;
-	
-	/** Nom de la session */
-	private String sessionName;
-	
-	/** Menu */
-	private Vector globalMenu;
 
-
-	/**
-	 * Verrou
-	 */
+	/** Verrou */
 	private Lock verrou;
-	
-	/**
-	 * Permet la mise a jour du menu
-	 */
-	private CamiTranslator traducteur;
 	
 	/**
 	 * Constructeur
 	 * @param apiFK point d'entre vers l'api
-	 * @param com point d'entree vers la com
+	 * @param lowCom point d'entree vers la couche bas niveau
 	 * @param sName nom de session
 	 * @param dat date
 	 * @param sessionFormalism formalism
 	 * @param verrou
 	 */
-	public FramekitThreadSpeaker(Api apiFK, ComLowLevel com, String sName, int dat,String sessionFormalism, Lock verrou) {
+	public FramekitThreadSpeaker(Api apiFK, ComLowLevel lowCom, String name, int date, String sessionFormalism, Lock verrou) {
 		this.api = apiFK;
-		this.comm = com;
-		this.date = dat;
-		this.formalism = sessionFormalism;
-		this.sessionName = sName;
+		this.lowCom = lowCom;
+		this.date = date;
 		this.verrou = verrou;
-		this.traducteur = new CamiTranslator();
-		this.dateUpdated = false;
 	}
 	 
 
@@ -73,271 +44,226 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @param rootMenuName nom du menu pere
 	 * @param menuName nom du menu
 	 * @param serviceName nom du service
-	 * @param checkMarkList les options d'executions
 	 */
-	public void execService(String rootMenuName, String menuName,String serviceName) {
+	public void execService(String rootMenuName, String menuName, String serviceName) {
 	
 		Commande cmd = new Commande();
-		
-		// Si le modele a ete mis a jour...
-		// On doit envoyer un MS
-		if (this.dateUpdated) {
-			byte[] commande = cmd.createCmdMS(this.date);
-			try {
-				comm.writeCommande(commande);
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				this.stop();
-			}
-			this.dateUpdated = false;
-		}
-		
-		// Dans tous les cas, on doit creer l'appel de service
-		byte[] dt = cmd.createCmdSimple("DT");
-		byte[] pq;
-		byte[] ft = cmd.createCmdSimple("FT");
-				
 		try {
 			
-			// En-tete du message
-			comm.writeCommande(dt);
-			
-			System.out.println("MENU NAME : " + menuName);
-			System.out.println("SERVICE NAME : " + serviceName);
-			
-			if (!menuName.equals("")) {
-				pq = cmd.createCmdPQ(rootMenuName , menuName , 1);
-				comm.writeCommande(pq);
+			// Si le modele a ete mis a jour depuis le dernier appel de service on doit envoyer un <MS>
+			if (this.api.getDirtyState()) {
+				byte[] commande = cmd.createCmdMS(this.api.getDateModel());
+				lowCom.writeCommande(commande);
 			}
-
-			pq = cmd.createCmdPQ(rootMenuName , serviceName , 1);
 			
-			// Corps du message
-			comm.writeCommande(pq);
-						
+			// En-tete du message
+			byte[] dt = cmd.createCmdSimple("DT");
+			lowCom.writeCommande(dt);
+			
+			byte[] pq;
+	
+			// Si le nom du pere est vide... Alors le service est directement sous la racine
+			if (!menuName.equals(rootMenuName)) {
+				pq = cmd.createCmdPQ(rootMenuName , menuName , 1);
+				lowCom.writeCommande(pq);
+			}
+	
+			pq = cmd.createCmdPQ(rootMenuName , serviceName , 1);
+			lowCom.writeCommande(pq);
+							
 			// Pied du message
-			comm.writeCommande(ft);
-		} catch (Exception e) {
+			byte[] ft = cmd.createCmdSimple("FT");
+			lowCom.writeCommande(ft);
+
+		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
+			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
 		}
 	}	
 		
 	/**
-	 * 
-	 *
+	 * Envoyer un modele vers la plate-forme
 	 */
 	public void sendModel() {
-		Model m;
-		String[] leModel;
-		byte[] commande;
+		String[] modelCami;
+		
 		Commande cmd = new Commande();
 		
-		m = this.api.getModel();
-		leModel = m.translateToCAMI();
+		Model model = this.api.getModel();
+		modelCami = model.translateToCAMI();
 		
-		commande = cmd.createCmdSimple("DB");
 		try {
-			comm.writeCommande(commande);
-		} catch (CommunicationCloseException e) {
-			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-			this.api.getListener().stop();
-			this.stop();
-		}
+			byte[] commande = cmd.createCmdSimple("DB");
+			lowCom.writeCommande(commande);
 				
-		for (int i = 0; i < leModel.length; i++) {
-			commande = cmd.convertToFramekit(leModel[i]);
-			System.out.println(leModel[i]);
-			
-			try {
-				comm.writeCommande(commande);
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				this.stop();
+			for (int i = 0; i < modelCami.length; i++) {
+				commande = cmd.convertToFramekit(modelCami[i]);
+				System.out.println(modelCami[i]);
+				lowCom.writeCommande(commande);
 			}
-		}
 		
-		commande = cmd.createCmdSimple("FB");
+			commande = cmd.createCmdSimple("FB");
+			lowCom.writeCommande(commande);
+		} catch (CommunicationCloseException e) {
+			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * Changer la date du modele de la session courante
+	 * @param newDate nouvelle date
+	 * @return boolean
+	 */
+	public boolean sendNewDate(int newDate) {
+		this.date = newDate;
+		Commande cmd = new Commande();
+		byte[] commande = cmd.createCmdSimple("QQ");
 		try {
-			comm.writeCommande(commande);
+			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
 			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-			this.api.getListener().stop();
-			this.stop();
+			return false;
 		}
-				
-		System.out.println("Model envoyer (" + formalism + ", " + date + ", " + sessionName + ")");
+		return true;
 	}
 
 	/**
 	 * Envoi a FrameKit une reponse a un dialogue
-	 * @param response : la reponse a envoyee
+	 * @param response La reponse a envoyee
 	 * @return boolean
 	 */
 	public boolean sendDialogueResponse(Dialogue response) {
 		String[] laReponse = response.translateToCAMI();
-		byte[] commande;
 		Commande cmd = new Commande();
 		
 		for (int i = 0; i < laReponse.length; i++) {
+			byte[] commande;
 			commande = cmd.convertToFramekit(laReponse[i]);
+			
 			try {
-				comm.writeCommande(commande);
+				lowCom.writeCommande(commande);
 			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
 				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
+				e.printStackTrace();
 				return false;
 			}
 		}
 		return true;
-		
 	}
 	
 	/**
 	 * Suspendre la session courante
-	 *
 	 */
 	public void sendSuspend() {
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdSimple("SS");
 		try {
-			comm.writeCommande(commande);
+			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
 			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-			this.api.getListener().stop();
-			this.stop();
 		}
 	}
 	
-/**
- * Reprendre une session
- * @param sName le nom de la session
- */
+	/**
+	 * Reprendre une session
+	 * @param sName le nom de la session
+	 */
 	public void sendResume(String sName) {
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdRS(sName);
 		try {
-			comm.writeCommande(commande);
+			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
 			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);				
-			this.api.getListener().stop();
-			this.stop();
 		}
 	}
 	
 	/**
 	 * Fermer la session courante
 	 */
-		public void sendClose() {
-			byte[] commande;
-			Commande cmd = new Commande();
-			commande = cmd.createCmdFS(1);
-			try {
-				comm.writeCommande(commande);
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				this.stop();
-			}
+	public void sendClose() {
+		byte[] commande;
+		Commande cmd = new Commande();
+		commande = cmd.createCmdFS(1);
+		try {
+			lowCom.writeCommande(commande);
+		} catch (CommunicationCloseException e) {
+			e.printStackTrace();
+			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
 		}
+	}
 
-		/**
-		 * Changer la date du modele de la session courante
-		 * @param newDate nouvelle date
-		 * @return boolean
-		 */
-		public boolean sendNewDate(int newDate) {
-			this.date = newDate;
-			this.dateUpdated = true;
-			Commande cmd = new Commande();
-			byte[] commande = cmd.createCmdSimple("QQ");
-			try {
-				comm.writeCommande(commande);
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				return false;
-			}
-					
-			return true;
-		}
+
 		
 
 
-			/**
-			 * arreter un service
-			 * @param root le menu 
-			 * @param service le service
-			 * @param option les option du service (vide)
-			 * @return boolean
-			 */
-			public boolean stopServive(String root, String service, String option) {
-				//Commande cmd = new Commande();
-				//byte[] commande = cmd.createCmdTQ(root,service,4,option); //a construire
-				//comm.writeCommande(commande);
-				return true;
-			}
+	/**
+	 * arreter un service
+	 * @param root le menu 
+	 * @param service le service
+	 * @param option les option du service (vide)
+	 * @return boolean
+	 */
+	public boolean stopServive(String root, String service, String option) {
+		//Commande cmd = new Commande();
+		//byte[] commande = cmd.createCmdTQ(root,service,4,option); //a construire
+		//comm.writeCommande(commande);
+		return true;
+	}
 		
 		
 		
-		/**
-		 * 
-		 * @param sessionName
-		 * @param date
-		 * @param sessionFormalism
-		 * @return
-		 */
-		public boolean openSession(String sessionName, int date, String sessionFormalism) {
-			
-			Commande cmd = new Commande();
-			byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
-			String serviceName;
-			
-			System.out.println("--> OS(" + sessionName + "," + date + "," + sessionFormalism + ")");
-			
-			try {
-				comm.writeCommande(send);
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				return false;
-			}
-			
-			// Mise en attente
-			verrou.attendre(); //OS
-			verrou.attendre(); //TD
-			verrou.attendre(); //FA
-			verrou.attendre(); //TL
-			serviceName = verrou.attendreServiceName(); //VI
-			verrou.attendre(); //FL
-			
-			try {
-				comm.writeCommande(cmd.createCmdDI());
-				comm.writeCommande(cmd.createCmdCI(serviceName, 1));
-				comm.writeCommande(cmd.createCmdFI());
-			} catch (CommunicationCloseException e) {
-				e.printStackTrace();
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				this.api.getListener().stop();
-				return false;
-			}
-					
-			verrou.attendre(); //QQ(3)
-			return true;
+	/**
+	 * 
+	 * @param sessionName
+	 * @param date
+	 * @param sessionFormalism
+	 * @return
+	 */
+	public boolean openSession(String sessionName, int date, String sessionFormalism) {
+		
+		Commande cmd = new Commande();
+		byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
+		String serviceName;
+		
+		System.out.println("--> OS(" + sessionName + "," + date + "," + sessionFormalism + ")");
+		
+		try {
+			lowCom.writeCommande(send);
+		} catch (CommunicationCloseException e) {
+			e.printStackTrace();
+			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			return false;
 		}
+		
+		// Mise en attente
+		verrou.attendre(); //OS
+		verrou.attendre(); //TD
+		verrou.attendre(); //FA
+		verrou.attendre(); //TL
+		serviceName = verrou.attendreServiceName(); //VI
+		verrou.attendre(); //FL
+		
+		try {
+			lowCom.writeCommande(cmd.createCmdDI());
+			lowCom.writeCommande(cmd.createCmdCI(serviceName, 1));
+			lowCom.writeCommande(cmd.createCmdFI());
+		} catch (CommunicationCloseException e) {
+			e.printStackTrace();
+			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			return false;
+		}
+				
+		verrou.attendre(); //QQ(3)
+		return true;
+	}
 		
 
 		/**
