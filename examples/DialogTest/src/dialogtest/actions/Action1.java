@@ -40,6 +40,7 @@ public class Action1 implements IWorkbenchWindowActionDelegate {
 					"Un dialogue sans bouton",
 					TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, "");
 			
+			d.open();
 			AffichageResultat.affiche(d.getDialogResult());
 		} catch (UnknowDialogException e) {
 			e.printStackTrace();
