@@ -15,9 +15,6 @@ public abstract class TextArea implements ITextArea {
 	public static final int MULTI_LINE_WITH_SINGLE_SELECTION = 2;
 	public static final int MULTI_LINE_WITH_MULTI_SELECTION = 5;
 	
-	protected boolean inputAuthorized;
-	protected boolean multiLine;
-	protected boolean multiSelection;
 	protected String defaultValue;
 	protected Control textWidget;
 	protected String finalValue = defaultValue;
@@ -27,25 +24,10 @@ public abstract class TextArea implements ITextArea {
 	 */
 	public TextArea(Composite parent, int inputType,
 			int multiLine, String defaultValue) {
-		setinputAuthorized(inputType);
-		setMultiLine(multiLine);
-		setMultiSelection(multiLine);
 		this.defaultValue = defaultValue;
 	}
 	
 	public abstract ArrayList<String> getText();
-	
-	public void setinputAuthorized(int inputType) {
-		inputAuthorized = (inputType == INPUT_FORBIDDEN ? false : true);
-	}
-	
-	public void setMultiLine(int multiLine) {
-		this.multiLine = (multiLine == 1 ? false : true);
-	}
-	
-	public void setMultiSelection(int multiLine) {
-		multiSelection = (multiLine == MULTI_LINE_WITH_MULTI_SELECTION ? true : false);
-	}
 	
 	public void setToolTiptext(String toolTipText) {
 		textWidget.setToolTipText(toolTipText);
