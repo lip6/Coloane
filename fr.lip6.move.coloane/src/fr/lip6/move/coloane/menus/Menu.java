@@ -5,12 +5,18 @@ import java.util.ArrayList;
 
 public abstract class Menu {
 	protected String name;
+	protected String reference;
+	protected int level;
 	protected ArrayList<ChildMenu> menus;
 	protected boolean enabled = true;
 	
-	public Menu(String name) {
+	public Menu(String name, String reference, int level) {
 		this.name = name;
+		this.reference = reference;
+		this.level = level;
 		menus = new ArrayList<ChildMenu>();
+		
+		System.out.println("Creation du menu: "+name+" (reference: "+reference+") niveau :"+level);
 	}
 	
 	/**
@@ -18,7 +24,15 @@ public abstract class Menu {
 	 * @param name The name of the menu to add
 	 */
 	public void addMenu(String name) {
-		menus.add(new ChildMenu(name));
+		ChildMenu subMenu = null;
+		
+		if (this.level <= 1) {
+			subMenu = new ChildMenu(name,this.name,this.level+1);
+		} else {
+			subMenu = new ChildMenu(name,this.reference,this.level+1);
+		}
+		
+		menus.add(subMenu);
 	}
 	
 	/**
@@ -27,7 +41,14 @@ public abstract class Menu {
 	 * @param enabled
 	 */
 	public void addMenu(String name, boolean enabled) {
-		ChildMenu newMenu  = new ChildMenu(name);
+		ChildMenu newMenu  = null;
+		
+		if (this.level <= 1) {
+			newMenu = new ChildMenu(name,this.name,this.level+1);
+		} else {
+			newMenu = new ChildMenu(name,this.reference,this.level+1);
+		}
+		
 		newMenu.setEnabled(enabled);
 		menus.add(newMenu);
 	}
@@ -44,11 +65,15 @@ public abstract class Menu {
 		throws MenuNotFoundException {
 	
 		if (this.name.equals(fatherName)) {
-			ChildMenu newMenu = new ChildMenu(name);
-			/*
-			 * Le fils doit etre active si le pere est
-			 * active (et vice-versa).
-			 */
+			ChildMenu newMenu = null;
+			
+			if (this.level <= 1) {
+				newMenu = new ChildMenu(name,this.name,this.level+1);
+			} else {
+				newMenu = new ChildMenu(name,this.reference,this.level+1);
+			}
+			
+			/* Le fils doit etre active si le pere est active (et vice-versa). */
 			newMenu.setEnabled(this.enabled);
 			menus.add(newMenu);
 			return newMenu;
@@ -158,5 +183,9 @@ public abstract class Menu {
 	
 	public void setEnabled(String name, boolean enabled) throws MenuNotFoundException {
 		getMenu(name).setEnabled(enabled);
+	}
+	
+	public String getReference() {
+		return this.reference;
 	}
 }

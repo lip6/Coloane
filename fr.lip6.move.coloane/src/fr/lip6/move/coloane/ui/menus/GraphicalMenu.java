@@ -55,8 +55,7 @@ public class GraphicalMenu {
 		 */
 		for(ChildMenu aChild : root.getChildren()) {
 			if (aChild.isLeaf()) {
-				UIAction uiAction = new UIAction(ui, root.getName(),
-						root.getName(), aChild.getName());
+				UIAction uiAction = new UIAction(ui, root.getName(),aChild.getReference(), aChild.getName());
 				uiAction.setEnabled(aChild.getEnabled());
 				
 				rootMenuManager.add(uiAction);
@@ -97,8 +96,7 @@ public class GraphicalMenu {
 			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
-				UIAction exitAction = new UIAction(ui, root.getName(),
-						child.getName(), littleChild.getName());
+				UIAction exitAction = new UIAction(ui, root.getName(),littleChild.getReference(), littleChild.getName());
 				exitAction.setEnabled(littleChild.getEnabled());
 				childMenuManager.add(exitAction);
 			} else
@@ -119,7 +117,6 @@ public class GraphicalMenu {
   
   /**
    * Check wether a menu is already in the menu bar
-   *
    */
   private boolean check() {
     for (MenuItem mi : shell.getMenuBar().getItems())
@@ -132,7 +129,6 @@ public class GraphicalMenu {
   
   /**
    * Updates a menu (i.e; modifies it in the menubar).
-   *
    */
   public MenuManager update() {
     remove();

@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 public class ChildMenu extends Menu implements Iterable<ChildMenu> {
 	
-	public ChildMenu(String name) {
-		super(name);
+	public ChildMenu(String name,String reference, int level) {
+		super(name,reference,level);
 	}
 
 	public Iterator<ChildMenu> iterator() {
