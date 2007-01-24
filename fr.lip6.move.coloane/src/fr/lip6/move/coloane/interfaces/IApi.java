@@ -80,5 +80,7 @@ public interface IApi {
 	 * @return TRUE si l'arret du service est effectif
 	 */
 	public boolean stopService(String serviceName);
+	
+	public int getDateModel();
 
 }

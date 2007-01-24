@@ -25,4 +25,10 @@ public interface IComApi {
 	
 	/** Met a jour l'etat de fraicheur du modele */
 	public void setModelDirty(boolean state);
+	
+	/** Indique l'etat de fraicheur du modele */
+	public boolean getDirtyState();
+	
+	/** Indique la date de mise a jour du modele */
+	public int getDateModel();
 }

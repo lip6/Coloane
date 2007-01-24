@@ -35,7 +35,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	/** L'etat du blocage pour l'edition du model */
 	private boolean isLocked = false;
 
-	/** Etat du modele par rapport a FK (Dirty -> pas a jour) */
+	/** Etat du modele par rapport a FK (true -> pas a jour) */
 	private boolean dirty = true;
 	
 	/**
@@ -328,8 +328,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 		this.dirty = dirty;
 	}
 	
-	public Model getModel()
-	{
+	public Model getModel() {
 		return model;
 	}
 }
