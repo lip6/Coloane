@@ -88,7 +88,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("Nom du formalisme : "+formalismName);
 			
 			// TODO : La date est 0... Pourquoi ?
-			Boolean retour = api.openSession(sessionName, 0, formalismName);
+			Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getSessionModel().getDate(), formalismName);
 			if (retour) {
 				System.out.println("Connexion réussie !");
 				return true;

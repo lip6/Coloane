@@ -306,11 +306,11 @@ public class FramekitThreadListener extends Thread {
 							});
 							
 							// Indique l'etat de fraicheur du modele
-							RootMenu myMenu = (RootMenu) menuList.get(0);
-							Menu syntaxMenu = myMenu.getMenu("Petri net syntax checker");
-							if (!syntaxMenu.getEnabled()) {
-								this.api.setModelDirty(false);
-							}
+//							RootMenu myMenu = (RootMenu) menuList.get(0);
+//							Menu syntaxMenu = myMenu.getMenu("Petri net syntax checker");
+//							if (!syntaxMenu.getEnabled()) {
+//								this.api.setModelDirty(false);
+//							}
 						this.verrou.unlock();
 						continue;
 					}
@@ -326,6 +326,7 @@ public class FramekitThreadListener extends Thread {
 							}
 						});
 						
+						// Le retour d'un service indique que le modele est a jour sur la plate-forme
 						this.api.setModelDirty(false);
 						continue;
 					}
