@@ -75,7 +75,6 @@ public class Api implements IApi {
 		// Les services rendus par la couche basse
 		this.comLowServices = new ComLowLevel();
 		
-		
 		this.listeThread = new HashMap();
 		this.verrou = new Lock();
 		this.connexionOpened = false;
@@ -138,7 +137,7 @@ public class Api implements IApi {
 			byte[] send = cmd.createCmdSC(login, password);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
-			reponse = cmd.getComdRecuAndArg((String) commandeRecue.elementAt(0));
+			reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
 		
 			/* Si la r�ponse de FK diff�re de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
@@ -150,7 +149,7 @@ public class Api implements IApi {
 			send = cmd.createCmdOC(Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"), login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
-			reponse = cmd.getComdRecuAndArg((String)commandeRecue.elementAt(0));
+			reponse = cmd.getArgs((String)commandeRecue.elementAt(0));
 
 			if (!(reponse.firstElement().equals("OC"))) {
 				System.err.println("Balise non attendue (attendue OC) :"+ (String) reponse.firstElement());
@@ -355,6 +354,14 @@ public class Api implements IApi {
 			FramekitThreadSpeaker idThread = this.getCurrentSpeaker();
 			return idThread.sendNewDate(date);
 		}
+	}
+	
+	public boolean getDirtyState() {
+		return this.com.getDirtyState();
+	}
+	
+	public int getDateModel() {
+		return this.com.getDateModel();
 	}
 	
 	/**

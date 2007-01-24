@@ -195,7 +195,26 @@ public class Com implements IComUi, IComApi, IComMotor {
 		return this.motor.getSessionManager().getCurrentSession().getSessionModel().getModel();
 	}
 	
+	/**
+	 * Permet de noter le modele comme sale ou propre apres communication avec la plate-forme
+	 * @param boolean true indique que le modele a ete sali et doit donc etre mis a jour
+	 */
 	public void setModelDirty(boolean state) {
 		this.motor.getSessionManager().getCurrentSession().getSessionModel().setDirty(state);
+	}
+	
+	/**
+	 * Retourne l'etat de fraicheur actuel du modele
+	 * @return boolean Indicateur de fraicheur
+	 */
+	public boolean getDirtyState() {
+		return this.motor.getSessionManager().getCurrentSession().getSessionModel().isDirty();
+	}
+	
+	/** Retourne la date de derniere modification du modele
+	 * @return int Date
+	 */
+	public int getDateModel() {
+		return this.motor.getSessionManager().getCurrentSession().getSessionModel().getDate();
 	}
 }
