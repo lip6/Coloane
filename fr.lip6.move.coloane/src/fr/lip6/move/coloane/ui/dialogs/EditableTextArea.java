@@ -14,10 +14,12 @@ public class EditableTextArea extends TextArea {
 		
 		if (multiLine == TextArea.SINGLE_LINE)
 			textWidget = new Text(parent, SWT.SINGLE);
-		else
-			textWidget = new Text(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+		else {
+			parent.getParent().setSize(400, 300);
+			textWidget =
+				new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER);
+		}
 		
-		textWidget.setSize(250, 500);
 		((Text)textWidget).setText(defaultValue);
 	}
 	
@@ -36,3 +38,4 @@ public class EditableTextArea extends TextArea {
 		throw new UnsupportedOperationException();
 	}
 }
+
