@@ -35,6 +35,12 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des menus */
 	private Vector<Menu> menuList;
 	
+	/** Liste des dialogues */
+	private Vector<Dialog> dialogList;
+	
+	/** Dialogue en cours de manipulation */
+	private int identity = 0;
+	
 	/**
 	 * Constructeur
 	 * @param apiFK point d'entre vers l'api
@@ -47,6 +53,7 @@ public class FramekitThreadListener extends Thread {
 		this.verrou = verrou;
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<Menu>();
+		this.dialogList = new Vector<Dialog>();
 		this.parent = (Composite) Coloane.getParent();
 	}
 	
@@ -55,9 +62,12 @@ public class FramekitThreadListener extends Thread {
 	 */
 	public void run() {
 		
-		// Le menu de formalisme
+		// Le menu en cours de construction
 		Menu menu = null;
 		
+		// Le Dialogue en cours de construction
+		Dialog dialog = null;
+				
 		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
 
@@ -493,22 +503,42 @@ public class FramekitThreadListener extends Thread {
 					// Fin de la transmission d'une boite de dialogue
 					if (listeArgs.firstElement().equals("FF")) {
 						vectorDialog.add(listeArgs);
+
+						// Construction du menu
+						try {
+							dialog = translater.getDialog(vectorDialog);
+							dialogList.add(dialog);
+						} catch (Exception e) {
+							System.err.println("Erreur dans FF = Impossible de construire le menu");
+							System.out.println("Erreur dans FF = Impossible d'ajouter le menu construit à la plateforme");
+						}
+
 						continue;
 					}						
 					
 					// Message AD
 					// Affichage dune boite de dialogue referencee par un identifiant unique
 					if ((listeArgs.firstElement().equals("AD"))) {
-						System.out.println("Appel de l'affichage - Construction");
-						final Dialog dialog = translater.getDialog(vectorDialog);
 						
-						System.out.println("Appel de l'affichage - Affichage");
-
+						// Extraction de l'identite de la boite de dialogue a afficher
+						identity = Integer.parseInt((String) listeArgs.elementAt(1));
+						
 						// Affichage de la boite de dialogue
-						// TODO : Prendre en compte l'identité du dialogue
 						parent.getDisplay().asyncExec(new Runnable(){
 							public void run(){
-									api.drawDialog(dialog);
+								boolean indic = false;
+								for (int index = 0; index < dialogList.size(); index++) {
+									if (identity == dialogList.get(index).id) {
+										api.drawDialog(dialogList.get(index));
+										indic = true;
+									}
+								}
+								
+								// On s'assure que la boite de dialogue a bien ete trouvee
+								if (!indic) {
+									System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
+								}
+									
 							}
 						});
 						
