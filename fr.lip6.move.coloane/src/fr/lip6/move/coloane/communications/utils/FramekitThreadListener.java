@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.communications.objects.FramekitMessage;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.Menu;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 /**
  * Classe implementant le comportement de l'ecouteur principal de Coloane
@@ -306,11 +307,12 @@ public class FramekitThreadListener extends Thread {
 							});
 							
 							// Indique l'etat de fraicheur du modele
-//							RootMenu myMenu = (RootMenu) menuList.get(0);
-//							Menu syntaxMenu = myMenu.getMenu("Petri net syntax checker");
-//							if (!syntaxMenu.getEnabled()) {
-//								this.api.setModelDirty(false);
-//							}
+							// Important au retour de la connexion par exemple
+							RootMenu myMenu = (RootMenu) menuList.get(0);
+							Menu syntaxMenu = myMenu.getMenu("Petri net syntax checker");
+							if (!syntaxMenu.getEnabled()) {
+								this.api.setModelDirty(false);
+							}
 						this.verrou.unlock();
 						continue;
 					}
@@ -488,14 +490,28 @@ public class FramekitThreadListener extends Thread {
 					}
 					
 					// Message FF
-					// TODO : A documenter
+					// Fin de la transmission d'une boite de dialogue
 					if (listeArgs.firstElement().equals("FF")) {
+						vectorDialog.add(listeArgs);
 						continue;
 					}						
 					
 					// Message AD
 					// Affichage dune boite de dialogue referencee par un identifiant unique
 					if ((listeArgs.firstElement().equals("AD"))) {
+						System.out.println("Appel de l'affichage - Construction");
+						final Dialog dialog = translater.getDialog(vectorDialog);
+						
+						System.out.println("Appel de l'affichage - Affichage");
+
+						// Affichage de la boite de dialogue
+						// TODO : Prendre en compte l'identité du dialogue
+						parent.getDisplay().asyncExec(new Runnable(){
+							public void run(){
+									api.drawDialog(dialog);
+							}
+						});
+						
 						continue;
 					}
 					

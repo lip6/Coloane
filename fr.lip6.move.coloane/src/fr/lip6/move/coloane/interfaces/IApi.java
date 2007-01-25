@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces;
 
 import fr.lip6.move.coloane.communications.objects.Dialogue;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 public interface IApi {
 	
@@ -82,5 +83,7 @@ public interface IApi {
 	public boolean stopService(String serviceName);
 	
 	public int getDateModel();
+	
+	public void drawDialog(Dialog dialog);
 
 }

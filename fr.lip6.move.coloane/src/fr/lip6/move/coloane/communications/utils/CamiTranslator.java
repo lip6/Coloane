@@ -6,14 +6,21 @@ import java.util.Vector;
 
 import fr.lip6.move.coloane.communications.objects.Service;
 import fr.lip6.move.coloane.communications.objects.UrgentMessage;
-import fr.lip6.move.coloane.communications.objects.WindowedDialogue;
+
 import fr.lip6.move.coloane.exceptions.UnexpectedCamiCommand;
+
 import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.menus.Menu;
+import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
+import fr.lip6.move.coloane.ui.dialogs.SimpleDialog;
+import fr.lip6.move.coloane.ui.dialogs.TextArea;
+import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
+
 
 /**
- * @author Equipe 2 (Styx)
+ * Constructeur d'objets a partir de commandes CAMI
  */
 public class CamiTranslator {
 
@@ -138,123 +145,140 @@ public class CamiTranslator {
 	 * @return l'objet WindowedDialogue traduit du CAMI
 	 * @throws UnexpectedCAMICommand si jamais camiVec contient une mauvaise commande
 	 */
-	public WindowedDialogue getWindowedDialogue(Vector camiVec)  throws UnexpectedCamiCommand {
-		WindowedDialogue winDialogue = null;
-		Iterator it = camiVec.iterator();
+	public Dialog getDialog(Vector camiVec)  throws UnexpectedCamiCommand {
+		Dialog dialog = null;
 		Vector camiCmd;
 		
-		System.out.println("############ " + camiVec.get(0) + "############" + camiVec.get(1));
-		
+		Iterator it = camiVec.iterator();
 		camiCmd = (Vector) it.next();
-		System.out.println("############ " + camiCmd.get(0));
+		
+		// La premiere commande attendue est un DC
+		System.out.println("Commande : " + camiCmd.get(0));
 		
 		if (camiVec.size() == 0) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : le vecteur est nul");
+			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : nulle");
 		} else if (!camiCmd.get(0).equals("DC")) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : le vecteur ne contient pas DC en premier mais \'" + camiVec.get(0) + "\'");
+			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : "+camiCmd.get(0)+" a la place de DC");
 		}
 		
+		// Commande suivante attendue : CE
 		camiCmd = (Vector) it.next();
-		System.out.println("############ " + camiCmd.get(0));
+		System.out.println("Commande : "+ camiCmd.get(0));
 		
 		if (!camiCmd.get(0).equals("CE")) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : le vecteur ne contient pas CE en deuxieme mais \'" + camiCmd.get(0) + "\'");
+			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : "+camiCmd.get(0)+" a la place de CE");
 		} else if (camiCmd.size() != 10) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : le vecteur camiCmd est de taille=" + camiCmd.size() + " et non 10");
+			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : 10 parametres sont attendus...");
 		}
 
-		int uId;
+		// On commande a parser les resultats
+		
+		// Identifiant de la boite de dialogue
+		int id;
 		if (camiCmd.get(1) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(1) est nul");
+			throw new UnexpectedCamiCommand("Identifiant de la boite de dialogue est nul");
 		}
-		uId = Integer.parseInt(camiCmd.get(1).toString());
+		id = Integer.parseInt(camiCmd.get(1).toString());
 		
-		int typ;
+		// Type de la boite de dialogue (Standart, Warning, Error, Interactif)
+		int ttype, type;
 		if (camiCmd.get(2) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(2) est nul");
+			throw new UnexpectedCamiCommand("Type de la boite de dialogue nul");
 		}
-		typ = Integer.parseInt(camiCmd.get(2).toString());
+		ttype = Integer.parseInt(camiCmd.get(2).toString());
+		switch (ttype) {
+		case 1 : type = SimpleDialog.DLG_STANDARD; break;
+		case 2 : type = SimpleDialog.DLG_WARNING; break;
+		case 3 : type = SimpleDialog.DLG_ERROR; break;
+		case 4 : type = SimpleDialog.DLG_INTERACTIVE; break;
+		default : throw new UnexpectedCamiCommand("Type de la boite de dialogue invalide");
+		}
 
-		int butNb;
+		// Nombre de boutons dans la boite de dialogue (1=0bouton,2=1bouton,3=2boutons)
+		int tnbButtons,nbButtons;
 		if (camiCmd.get(3) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(3) est nul");
+			throw new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue incorrect");
 		}
-		butNb = Integer.parseInt(camiCmd.get(3).toString());
+		tnbButtons = Integer.parseInt(camiCmd.get(3).toString());
+		switch (tnbButtons) {
+		case 1 : nbButtons = SimpleDialog.DLG_NO_BUTTON; break;
+		case 2 : nbButtons = SimpleDialog.DLG_OK; break;
+		case 3 : nbButtons = SimpleDialog.DLG_OK_CANCEL; break;
+		default : throw new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue invalide");
+		}
 		
-		String windowTitl;
+		// Titre de la boite de dialogue
+		String title;
 		if (camiCmd.get(4) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(4) est nul");
+			throw new UnexpectedCamiCommand("Titre de la boite de dialogue est nul");
 		}
-		windowTitl = camiCmd.get(4).toString();
+		title = camiCmd.get(4).toString();
 		
+		// Message d'aide
 		String helpMsg;
 		if (camiCmd.get(5) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(5) est nul");
+			throw new UnexpectedCamiCommand("Message d'aide nul");
 		}
 		helpMsg = camiCmd.get(5).toString();
 		
+		// Message
 		String msg;
 		if (camiCmd.get(6) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(6) est nul");
+			throw new UnexpectedCamiCommand("Message principal nul");
 		}
 		msg = camiCmd.get(6).toString();
 		
-		boolean allowedSz;
-		boolean allowedAbrt;		
+		
+		int allowedEntry;
+		
 		if (camiCmd.get(7) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(7) est nul");
+			throw new UnexpectedCamiCommand("Indicateur de saisie nul");
 		} else if (camiCmd.get(7).toString().equals("1")) {
-			allowedAbrt = false;
-			allowedSz = true;
+			allowedEntry = TextArea.INPUT_AUTHORIZED;
 		} else if (camiCmd.get(7).toString().equals("2")) {
-			allowedAbrt = false;
-			allowedSz = false;
+			allowedEntry = TextArea.INPUT_FORBIDDEN;
 		} else if (camiCmd.get(7).toString().equals("5")) {
-			allowedAbrt = true;
-			allowedSz = true;
+			allowedEntry = TextArea.INPUT_AND_ABORT_AUTHORIZED;
+			System.err.println("Abort command is not available yet...");
 		} else {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(7) valeur inconnue");
+			throw new UnexpectedCamiCommand("Indicateur de saisie invalide");
 		}
 		
-		boolean xLines;
-		boolean manySelect;		
+		int select;
 		if (camiCmd.get(8) == null) {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(8) est nul");
+			throw new UnexpectedCamiCommand("Indicateur de selection nul");
 		} else if (camiCmd.get(8).toString().equals("1")) {
-			xLines = false;
-			manySelect = false;
+			select = TextArea.SINGLE_LINE;
 		} else if (camiCmd.get(8).toString().equals("2")) {
-			xLines = true;
-			manySelect = false;
+			select = TextArea.MULTI_LINE_WITH_SINGLE_SELECTION;
 		} else if (camiCmd.get(8).toString().equals("5")) {
-			xLines = true;
-			manySelect = true;
+			select = TextArea.MULTI_LINE_WITH_MULTI_SELECTION;
 		} else {
-			throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : CE camiCmd.get(8) valeur inconnue");
+			throw new UnexpectedCamiCommand("Indicateur de selection nul");
 		}
 		
-		try {
-			winDialogue = new WindowedDialogue(uId, msg, typ, 
-				butNb, windowTitl, helpMsg, xLines, manySelect, 
-				allowedSz, allowedAbrt);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		// Certains contenus peuvent etre transmis par FK a la boite de dialogue
+		Vector<String> contents = new Vector<String>();
 		while (it.hasNext()) {
 			camiCmd = (Vector) it.next();
 			
+			// Dans le cas d'une fin de boite de dialogue
 			if (camiCmd.get(0).equals("FF")) {
 				break;
+			
+			// Dans le cas d'une insertion de contenu
 			} else if (camiCmd.get(0).equals("DS")) {
 				if (camiCmd.get(2) == null) {
-					throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : DS camiCmd.get(2) nul");
+					throw new UnexpectedCamiCommand("Contenu de la boite de dialogue est nul");
 				}
-				winDialogue.addLine(camiCmd.get(2).toString());
+				contents.add(camiCmd.get(2).toString());
 			} else {
-				throw new UnexpectedCamiCommand("getWindowedDialogue(Vector camiVec) : commande inconnue (ni DS, ni FF)");
+				throw new UnexpectedCamiCommand("Commande inconnue dans la construction d'une boite de dialogue");
 			}
 		}
-		return winDialogue;
+		
+		// Creation de l'objet boite de dialogue
+		dialog = new Dialog(1, type, nbButtons, title, helpMsg, msg, allowedEntry, select,"-");
+		return dialog;
 	}
 }

@@ -26,6 +26,7 @@ import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 /**
  * API de communication entre Coloane et FrameKit
@@ -483,6 +484,11 @@ public class Api implements IApi {
         
         //this.ihm.setDialogue(dialog);
         
+    }
+    
+    // !!
+    public void drawDialog(Dialog dialog) {
+    	this.com.drawDialog(dialog);
     }
     
     

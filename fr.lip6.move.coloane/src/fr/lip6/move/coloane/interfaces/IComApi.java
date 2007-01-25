@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.interfaces;
 
 import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 public interface IComApi {
 	
@@ -19,6 +20,9 @@ public interface IComApi {
 	
 	/** Mise a jour des menus */
 	public void updateMenu();
+	
+	/** Affichage de boites de dialogue */
+	public void drawDialog(Dialog dialog);
 	
 	/** Transmet le modele */
 	public Model getModel();

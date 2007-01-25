@@ -8,6 +8,10 @@ import org.eclipse.ui.PlatformUI;
 import fr.lip6.move.coloane.interfaces.*;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
+import fr.lip6.move.coloane.ui.dialogs.IDialog;
+import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.panels.*;
 
@@ -100,6 +104,22 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		this.com.askForService(rootMenuName, parentName, serviceName);
+	}
+	
+	/** Affichage d'une boite de dialogue
+	 * 
+	 */
+	public void drawDialog(Dialog d) {
+		
+		try {
+			IDialog dialog = DialogFactory.create(
+					d.id, d.type, d.buttonType, d.title, 
+					d.help, d.message, d.inputType, d.multiLine,d.def);
+			dialog.open();
+		} catch (UnknowDialogException e) {
+			System.err.println("Echec de la construction de la boite de dialogue");
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.models.IModel;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 public class Com implements IComUi, IComApi, IComMotor {
 	
@@ -169,6 +170,10 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void updateMenu() {
 		this.ui.updateMenu();
+	}
+	
+	public void drawDialog(Dialog dialog) {
+		this.ui.drawDialog(dialog);
 	}
 	
 	/**
