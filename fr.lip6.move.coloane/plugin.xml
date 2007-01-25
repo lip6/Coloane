@@ -62,6 +62,14 @@
                menubarPath="file/import.ext"
                style="push"/>
       </actionSet>
+      <actionSet
+            id="fr.lip6.move.coloane.actionSet1"
+            label="Test"
+            visible="true">
+         <menu
+               id="fr.lip6.move.coloane.menu1"
+               label="MENU"/>
+      </actionSet>
    </extension>
     <extension
           point="org.eclipse.ui.views">
@@ -80,6 +88,11 @@
              icon="icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.StateView"
              name="State"/>
+       <view
+             category="fr.lip6.move.coloane.views"
+             class="fr.lip6.move.coloane.ui.panels.PNSCView"
+             id="fr.lip6.move.coloane.views.PNSCView"
+             name="PNSC results"/>
     </extension>
     <extension
           point="org.eclipse.ui.editors">
