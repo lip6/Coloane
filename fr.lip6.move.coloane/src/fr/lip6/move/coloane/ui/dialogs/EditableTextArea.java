@@ -17,7 +17,7 @@ public class EditableTextArea extends TextArea {
 		else {
 			parent.getParent().setSize(400, 300);
 			textWidget =
-				new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER);
+				new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
 		}
 		
 		((Text)textWidget).setText(defaultValue);
