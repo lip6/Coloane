@@ -13,7 +13,6 @@ import java.util.Vector;
 
 
 import fr.lip6.move.coloane.communications.models.Model;
-import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.communications.objects.FramekitMessage;
 import fr.lip6.move.coloane.communications.utils.ComLowLevel;
 import fr.lip6.move.coloane.communications.utils.Commande;
@@ -27,6 +26,7 @@ import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
 /**
  * API de communication entre Coloane et FrameKit
@@ -232,11 +232,11 @@ public class Api implements IApi {
 			listener.start();
 		}	
 		
-		// On cr�� la thread associe a la session cree (donc le modele) qui enverra les commandes CAMI
+		// Creation du thread associe a la session qui enverra les commandes CAMI
 		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this, comLowServices,sessionName, date, sessionFormalism, verrou);
 		speak.start();
 		
-		// On envoie les commandes n�cessaires pour l'ouverture de session du cot� FK
+		// On envoie les commandes necessaires pour l'ouverture de session du cot� FK
 		result = speak.openSession(sessionName, date, sessionFormalism);
 		
 		if (result) {			
@@ -393,22 +393,21 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * Reponse a la plate-forme
+	 * Envoie d'une reponse a la plate-forme
 	 * 
-	 * @param response dialogue de reponse
+	 * @param results Ensemble des reponses de la boite de dialogue
 	 * @return resultat de l'operation
 	 */
-	public boolean sendDialogueResponse(Dialogue response) {
-		System.out.println("sendDialogueResponse ...");
+	public boolean getDialogAnswers(DialogResult results) {
 		if (!this.sessionOpened || this.currentSessionName == null) {
 			return false;
 		} else {
+			System.out.println("!! Envoi des resultats");
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-			if (speak.sendDialogueResponse(response)) {
-				System.out.println("DialogueResponse envoye");
-			} else {
+			if (!speak.sendDialogueResponse(results)) {
 				System.out.println("DialogueResponse pas envoye !!!");
+				return false;
 			}
 			return true;
 		}
@@ -476,56 +475,30 @@ public class Api implements IApi {
 		this.com.setModelDirty(state);
 	}
 
-    /**
-     * envoyr un dialogue a l'Interface Utilisateur
-     * @param dialog le dialogue
-     */
-    public void setDialogUI(Dialogue dialog) {
-        
-        //this.ihm.setDialogue(dialog);
-        
-    }
-    
-    // !!
-    public void drawDialog(Dialog dialog) {
+   
+	/**
+	 * Demande l'affichage dun' boite de dialoge
+	 * @param dialog La boite de dialogue entierement definie
+	 */
+	public void drawDialog(Dialog dialog) {
     	this.com.drawDialog(dialog);
     }
     
-    
-    /**
-	 * afficher une boite de dialogue
-	 * 
-	 * @param numDialog
-	 *            identifiant du dialogue
-	 */
-	public void displayDialogUI(int numDialog) {
-		
-		//this.ihm.displayDialog(numDialog);
-		
-	}
-    
-	/**
-	 * cacher une boite de dialogue
-	 * 
-	 * @param numDialog
-	 *            identifiant du dialogue
+	// TODO : Cacher une boite de dialogue
+   	/**
+	 * Cacher une boite de dialogue
+	 * @param idDialog L'identite de la boite a masquer
 	 */
 	public void hideDialogUI(int numDialog) {
-		
-		//this.ihm.hideDialog(numDialog);
-		
+		System.err.println("Not available yet...");
 	}
 	
 	/**
-	 * supprimer une boite de dialogue
-	 * 
-	 * @param numDialog
-	 *            identifiant du dialogue
+	 * Supprimer une boite de dialogue
+	 * @param idDialog L'identite de la boite a detruire 
 	 */
 	public void destroyDialogUI(int numDialog) {
-		
-		this.coloaneServices.destroyDialog(numDialog);
-		
+		System.err.println("Not available yet...");		
 	}
 	
 	/**
@@ -589,16 +562,7 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * Retransmet le menu a l'UI
-	 * @param menu le menu
-	 */
-	public void setMenu(Menu menu) {
-		this.coloaneServices.setMenu(menu);
-	}
-	
-	/**
-	 * Retourne la thread qui permet d'envoyer des commandes pour la session
-	 * courrante
+	 * Retourne la thread qui permet d'envoyer des commandes pour la session courrante
 	 * 
 	 * @return la thread liee a la session courrante
 	 */

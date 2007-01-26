@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.communications.utils;
 
 import fr.lip6.move.coloane.communications.Api;
 import fr.lip6.move.coloane.communications.models.Model;
-import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.exceptions.CommunicationCloseException;
+import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
 /**
  * Classe implementant le comportement du haut-parleur
@@ -16,9 +16,6 @@ public class FramekitThreadSpeaker extends Thread {
 	/** Reference vers l'objet ComLowLevel */
 	private ComLowLevel lowCom;
 	
-	/** Date du modele */
-	private int date;
-
 	/** Verrou */
 	private Lock verrou;
 	
@@ -34,7 +31,6 @@ public class FramekitThreadSpeaker extends Thread {
 	public FramekitThreadSpeaker(Api apiFK, ComLowLevel lowCom, String name, int date, String sessionFormalism, Lock verrou) {
 		this.api = apiFK;
 		this.lowCom = lowCom;
-		this.date = date;
 		this.verrou = verrou;
 	}
 	 
@@ -117,7 +113,6 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public boolean sendNewDate(int newDate) {
-		this.date = newDate;
 		Commande cmd = new Commande();
 		byte[] commande = cmd.createCmdSimple("QQ");
 		try {
@@ -135,23 +130,29 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @param response La reponse a envoyee
 	 * @return boolean
 	 */
-	public boolean sendDialogueResponse(Dialogue response) {
-		String[] laReponse = response.translateToCAMI();
+	public boolean sendDialogueResponse(DialogResult results) {
 		Commande cmd = new Commande();
+				
+		try {
+			// Message DP
+			byte[] commande = cmd.createCmdSimple("DP");
+			lowCom.writeCommande(commande);
 		
-		for (int i = 0; i < laReponse.length; i++) {
-			byte[] commande;
-			commande = cmd.convertToFramekit(laReponse[i]);
+			// La reponse effective (Message RD)
+			String answer = results.translateToCAMI();
+			commande = cmd.convertToFramekit(answer);
+			lowCom.writeCommande(commande);
+		
+			// Message FP
+			commande = cmd.createCmdSimple("DP");
+			lowCom.writeCommande(commande);
 			
-			try {
-				lowCom.writeCommande(commande);
-			} catch (CommunicationCloseException e) {
-				this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-				e.printStackTrace();
-				return false;
-			}
+		} catch (CommunicationCloseException e) {
+			this.api.cnxClosed(1,"Connexion detruite par FrameKit",1);
+			e.printStackTrace();
+			return false;
 		}
-		return true;
+	return true;
 	}
 	
 	/**

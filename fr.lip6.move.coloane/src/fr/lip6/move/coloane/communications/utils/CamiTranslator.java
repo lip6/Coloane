@@ -5,18 +5,15 @@ import java.util.Vector;
 
 
 import fr.lip6.move.coloane.communications.objects.Service;
-import fr.lip6.move.coloane.communications.objects.UrgentMessage;
 
 import fr.lip6.move.coloane.exceptions.UnexpectedCamiCommand;
 
 import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.menus.Menu;
-import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.SimpleDialog;
 import fr.lip6.move.coloane.ui.dialogs.TextArea;
-import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 
 
 /**
@@ -24,7 +21,10 @@ import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
  */
 public class CamiTranslator {
 
-
+	/**
+	 * Constructeur
+	 * Rien a faire...
+	 */
 	public CamiTranslator() {
 		super();
 	}
@@ -115,28 +115,6 @@ public class CamiTranslator {
 		}
 		
 		return rootMenu;
-	}
-	
-	/**
-	 * Permet de traduire du CAMI vers l'objet UrgentMessage
-	 * @param camiVec est un Vector contenant le CAMI
-	 * @return l'objet UrgentMessage traduit du CAMI
-	 * @throws UnexpectedCAMICommand si jamais camiVec contient une mauvaise commande
-	 */
-	public UrgentMessage getUrgentMessage(Vector camiVec) throws UnexpectedCamiCommand {
-		UrgentMessage urgentMsg;
-		if (camiVec.size() == 0) {
-			throw new UnexpectedCamiCommand("getUrgentMessage(Vector camiVec) : le vecteur est nul");
-		} else if (!camiVec.get(0).equals("MU")) {
-			throw new UnexpectedCamiCommand("getUrgentMessage(Vector camiVec) : le vecteur ne contient pas MU en premier");
-		}
-		try {
-			urgentMsg = new UrgentMessage(Integer.parseInt(camiVec.get(1).toString()), Integer.parseInt(camiVec.get(2).toString()));
-			return urgentMsg;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
 	}
 	
 	/**
@@ -248,9 +226,9 @@ public class CamiTranslator {
 		if (camiCmd.get(8) == null) {
 			throw new UnexpectedCamiCommand("Indicateur de selection nul");
 		} else if (camiCmd.get(8).toString().equals("1")) {
-			select = TextArea.SINGLE_LINE;
-		} else if (camiCmd.get(8).toString().equals("2")) {
 			select = TextArea.MULTI_LINE_WITH_SINGLE_SELECTION;
+		} else if (camiCmd.get(8).toString().equals("2")) {
+			select = TextArea.SINGLE_LINE;
 		} else if (camiCmd.get(8).toString().equals("5")) {
 			select = TextArea.MULTI_LINE_WITH_MULTI_SELECTION;
 		} else {
@@ -278,7 +256,7 @@ public class CamiTranslator {
 		}
 		
 		// Creation de l'objet boite de dialogue
-		dialog = new Dialog(1, type, nbButtons, title, helpMsg, msg, allowedEntry, select,"-");
+		dialog = new Dialog(id, type, nbButtons, title, helpMsg, msg, allowedEntry, select,"-");
 		return dialog;
 	}
 }

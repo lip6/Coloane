@@ -110,16 +110,24 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * 
 	 */
 	public void drawDialog(Dialog d) {
-		
+		IDialog dialog = null;
 		try {
-			IDialog dialog = DialogFactory.create(
+			dialog = DialogFactory.create(
 					d.id, d.type, d.buttonType, d.title, 
 					d.help, d.message, d.inputType, d.multiLine,d.def);
+			
+			// Ouverture de la boite de dialogue
 			dialog.open();
+			
+			// Capture des resultats
+			this.com.getDialogAnswers(dialog.getDialogResult());
+			
 		} catch (UnknowDialogException e) {
 			System.err.println("Echec de la construction de la boite de dialogue");
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	/**

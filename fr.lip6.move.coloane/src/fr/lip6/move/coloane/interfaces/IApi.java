@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.interfaces;
 
-import fr.lip6.move.coloane.communications.objects.Dialogue;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
 public interface IApi {
 	
@@ -67,13 +67,6 @@ public interface IApi {
 	 * @param checkMarkList liste des services actifs ou non
 	 */
 	public void askForService(String rootMenuName, String menuName, String serviceName);
-	
-	/**
-	 * Permet de repondre a la plate-forme 
-	 * @param response est le dialogue de reponse
-	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
-	 */
-	public boolean sendDialogueResponse(Dialogue response);
 
 	/**
 	 * Permet de demander l'arret d'un service
@@ -85,5 +78,7 @@ public interface IApi {
 	public int getDateModel();
 	
 	public void drawDialog(Dialog dialog);
+	
+	public boolean getDialogAnswers(DialogResult results);
 
 }

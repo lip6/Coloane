@@ -8,8 +8,7 @@ public class DialogResult {
 	protected boolean modified;
 	ArrayList<String> text;
 	
-	public DialogResult(int dialogId, int answerType,
-			boolean modified, ArrayList<String> text) {
+	public DialogResult(int dialogId, int answerType, boolean modified, ArrayList<String> text) {
 		this.dialogId = dialogId;
 		this.answerType = answerType;
 		this.modified = modified;
@@ -30,5 +29,26 @@ public class DialogResult {
 
 	public boolean hasBeenModified() {
 		return modified;
+	}
+	
+	public String translateToCAMI() {
+        StringBuffer s;
+        
+        String returnValue = text.toString();
+        
+        s = new StringBuffer();
+        s.append("RD(");
+        s.append(this.dialogId);
+        s.append(",");
+        s.append(this.answerType);
+        s.append(",");
+        s.append(this.modified);
+        s.append(",");
+        s.append(returnValue.length());
+        s.append(":");
+        s.append(returnValue);
+        s.append(")");
+
+        return s.toString();
 	}
 }

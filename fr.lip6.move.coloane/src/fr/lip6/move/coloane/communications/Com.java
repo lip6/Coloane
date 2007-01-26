@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.models.IModel;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
+import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
 public class Com implements IComUi, IComApi, IComMotor {
 	
@@ -174,6 +175,12 @@ public class Com implements IComUi, IComApi, IComMotor {
 	
 	public void drawDialog(Dialog dialog) {
 		this.ui.drawDialog(dialog);
+	}
+	
+	public void getDialogAnswers(DialogResult results) {
+		if (!this.api.getDialogAnswers(results)) {
+			System.err.println("La transmission des reponses de la boite de dialogue a echouee");
+		}
 	}
 	
 	/**
