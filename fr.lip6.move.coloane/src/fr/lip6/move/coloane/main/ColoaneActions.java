@@ -4,14 +4,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ISelection;
-//import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-//import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class ColoaneActions implements IWorkbenchWindowActionDelegate {
@@ -35,6 +34,8 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
+		//MenuManipulation.setEnabled("Platform", "Connect model", false);
+		//MenuManipulation.setEnabled("Platform", "Disconnect model", false);
 	}
 
 	public void run(IAction action) {
@@ -43,11 +44,15 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
     	if (ACTION_AUTH.equalsIgnoreCase(action.getId())) {
     		System.out.println("Demande d'authentification");
             HistoryView.instance.addText("[?] Authentification -> ");
+            
             // Affichage de la boite de dialogue d'authentification
             AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
 
             if (authDialog.open() == Dialog.OK) {
                 HistoryView.instance.addLine("OK");
+                //MenuManipulation.setEnabled("Platform", "Connect model", true);
+                //MenuManipulation.setEnabled("Platform", "Authentication...", false);
+                //MenuManipulation.setEnabled("Platform", "Disconnect model", false);
             } else {
                 HistoryView.instance.addLine("KO");
             }
@@ -84,6 +89,8 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             			if (Coloane.getDefault().getMotor().openConnexion(editor.getModel(), sessionName)) {
             				// TODO : Griser les menues adequats
             				HistoryView.instance.addLine("SUCCESS");
+            				//MenuManipulation.setEnabled("Platform", "Connect model", false);
+            				//MenuManipulation.setEnabled("Platform", "Disconnect model", true);
             			} else {
             				// TODO : GRiser les menus adequats
             				HistoryView.instance.addLine("FAILED");
