@@ -4,7 +4,6 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -13,6 +12,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class InteractiveDialog extends Dialog
 	implements IDialog {
+	
+	public static final int NORMAL = 1;
+	public static final int WARNING = 2;
+	public static final int ERROR = 3;
 	
 	protected Shell parentShell =
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -25,6 +28,8 @@ public class InteractiveDialog extends Dialog
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 	}
 	
+	
+	
 
 	/*
 	 * By default, a Dialog object is displayed with two buttons
@@ -33,15 +38,13 @@ public class InteractiveDialog extends Dialog
 	 * without button.
 	 */
 	protected  Control 	createButtonBar(Composite parent) {
-		textArea = new StyledText(parent, 1);
-    
-    //textArea.setToolTiptext(this.help);
-		return parent;		
+		return parent;
 	}
 	
 	protected Control createContents(Composite parent) {
+		parent.setLayout(new FillLayout());
 		parent.setSize(500, 500);
-		
+		textArea = new StyledText(parent, SWT.BORDER);
 		
 		return parent;
 	}

@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.ui.dialogs;
 
 import java.util.ArrayList;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
 import org.eclipse.swt.SWT;
@@ -34,6 +35,7 @@ public class SimpleDialog extends IconAndMessageDialog
 	protected String defaultValue;
 	protected DialogResult dialogResult;
 	protected ArrayList<String> choices = null;
+	protected Image image;
 	
 	protected Shell parentShell =
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -65,6 +67,15 @@ public class SimpleDialog extends IconAndMessageDialog
 		dialogResult = new DialogResult(id, IDialog.TERMINATED_OK, false, new ArrayList<String>());
 		
 		choices = new ArrayList<String>();
+		
+		System.err.println(Dialog.DLG_IMG_MESSAGE_ERROR);
+		
+		for (Image image : Dialog.getDefaultImages()) {
+			System.err.println(image.toString());
+		}
+		
+		image = null;
+		//image = new Image(parentShell.getDisplay(), Dialog.DLG_IMG_MESSAGE_WARNING);
 	}
 	
 	protected void configureShell(Shell shell) {
@@ -74,8 +85,7 @@ public class SimpleDialog extends IconAndMessageDialog
 	
 	@Override
 	protected Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return image;
 	}
 	
 	/**
