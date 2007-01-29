@@ -490,8 +490,7 @@ public class FramekitThreadListener extends Thread {
 							|| (listeArgs.firstElement()).equals("pO")
 							|| (listeArgs.firstElement()).equals("PT") 
 							|| (listeArgs.firstElement()).equals("PI")) {
-						
-						System.out.println("Ajout de : "+(String) commandeRecue.get(numCommande));
+
 						modelReceive.add((String) commandeRecue.get(numCommande));
 					}
 					
