@@ -44,7 +44,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	 */
 	public ModelImplAdapter(Formalism formalism) {
 		super();
-		this.model = new Model(formalism.getName());
+		this.model = new Model();
+		this.model.setFormalism(formalism.getName());
 		this.formalism = formalism;
 		this.setProperties();
 	}
@@ -52,15 +53,24 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	/**
 	 * Construction d'un modele pour le formalisme et un pour un modele deja existant
 	 * -> Lu depuis un fichier par exemple
-	 * @param formalism Le formalisme du modele
 	 * @param model Le modele existant
+	 * @param formalism Le formalisme du modele
 	 */
 	public ModelImplAdapter(Model model, Formalism formalism) {
 		super();
 		try {
 			this.model = model;
+			
+			// On met a jour si necessaire le formalisme contenu dans le modele generique
+			if (this.model.getFormalism() == formalism.getName()) {
+				this.model.setFormalism(formalism.getName());
+			} 
 			this.formalism = formalism;
+
+			// Creation de tous les adapteurs
 			this.setModelAdapter();
+			
+			// Ajout de tous les attributs deja indiques dans le modele
 			this.setProperties(model);
 		} catch (Exception e) {
 			System.err.println("Erreur lors de la construction du modele");
@@ -116,7 +126,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 	}
 
 	/**
-	 * Creer les adaptateurs pour les proprietes a partir des attributs
+	 * Creation des adapters pour les attributs du modele et de ses noeuds.
+	 * Ces adapteurs sont initialisés au valeur par defaut indiques dans le formalisme
 	 */
 	public void setProperties() {
 		this.properties.clear();
