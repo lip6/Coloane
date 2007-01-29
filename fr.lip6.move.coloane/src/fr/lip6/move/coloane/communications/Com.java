@@ -229,4 +229,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public int getDateModel() {
 		return this.motor.getSessionManager().getCurrentSession().getSessionModel().getDate();
 	}
+	
+	public void setNewModel(Model model) {
+		this.motor.setNewModel(model);
+	}
 }

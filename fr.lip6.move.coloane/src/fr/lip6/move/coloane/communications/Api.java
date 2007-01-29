@@ -631,11 +631,12 @@ public class Api implements IApi {
 	
 		
 	/**
-	 * transmet le model creer pas l'outil a l'utilisateur
+	 * Transmet un nouveau modele a creer
 	 * @param aModel model cree
 	 */
-	public void setModel(Model aModel) {
-		this.com.giveAModel(aModel);
+	public void setNewModel(Model model) {
+		System.out.println("Transmission du nouveau modele");
+		this.com.setNewModel(model);
 	}
 	
 	/**
@@ -651,52 +652,7 @@ public class Api implements IApi {
      * Getter du listener
      * @return le listener
      */
-	
 	public FramekitThreadListener getListener() {
 		return this.listener;
 	}
-    
-    
-    /**
-     * Lit le fichier de configuration
-     * @param configFilePath le fichier de configuration
-     * @return l'adresse de framekit
-     */
-    
-    public static String readConfigFile(String configFilePath) {
-        String defaultframekitserveur = "localhost";
-        File configFile;
-        StringTokenizer st;
-        BufferedReader br;
-        String line;
-        String optionName;
-
-        try {
-            configFile = new File(configFilePath);
-            br = new BufferedReader(new FileReader(configFile));
-
-            while (br.ready()) {
-                line = br.readLine();
-                st = new StringTokenizer(line);
-                try {
-                    optionName = st.nextToken("=");
-                    if (optionName.trim().toLowerCase().equals(
-                            "framekitserveur")) {
-                        return line.substring(optionName.length() + 1).trim();
-                    }
-                } catch (NoSuchElementException e) {
-                    continue;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            return defaultframekitserveur;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return defaultframekitserveur;
-        }
-        return defaultframekitserveur;
-    }
-
-    
-    
 }             
