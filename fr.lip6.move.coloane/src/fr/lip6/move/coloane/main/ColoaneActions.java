@@ -10,7 +10,6 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class ColoaneActions implements IWorkbenchWindowActionDelegate {
@@ -25,7 +24,7 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
     private static final String ACTION_CONNECT_MODEL = "connect";
 
     /** ID pour l'action "deconnexion" */
-    //private static final String ACTION_DISCONNECT_MODEL = "disconnect";
+    private static final String ACTION_DISCONNECT_MODEL = "disconnect";
     
 
 	public void dispose() {
@@ -104,6 +103,8 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             		e.printStackTrace();
             	}
             }
+        } else if (ACTION_DISCONNECT_MODEL.equalsIgnoreCase(action.getId())) {
+        	System.out.println("Deconnexion");
         }
 	}
 
