@@ -27,12 +27,9 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
@@ -40,9 +37,7 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-//import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -203,7 +198,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		
+		System.out.println("Initialisation");
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
 
@@ -303,7 +298,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	public void doSaveAs() {
-		//		 Show a SaveAs dialog
+		// Show a SaveAs dialog
 		Shell shell = getSite().getWorkbenchWindow().getShell();
 		SaveAsDialog dialog = new SaveAsDialog(shell);
 		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
@@ -312,8 +307,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		IPath path = dialog.getResult();
 		if (path != null) {
 			// try to save the editor's contents under a different file name
-			final IFile file = ResourcesPlugin.getWorkspace().getRoot()
-			.getFile(path);
+			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			try {
 				new ProgressMonitorDialog(shell).run(false, // don't fork
 						false, // not cancelable
@@ -350,19 +344,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		return true;
 	}
 
-	/**
-	 * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry
-	 * tool in the palette, this will enable model element creation by dragging from the palette.
-	 * @see #createPaletteViewerProvider()
-	 */
-	private TransferDropTargetListener createTransferDropTargetListener() {
-		return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
-			protected CreationFactory getFactory(Object template) {
-				return new SimpleFactory((Class) template);
-			}
-		};
-	}
-
 	public void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 		super.commandStackChanged(event);
@@ -392,10 +373,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
 		}
-		/*
-		 if (type == ZoomManager.class)
-		 return getGraphicalViewer().getProperty(ZoomManager.class.toString());
-		 */
 		return super.getAdapter(type);
 	}
 }
