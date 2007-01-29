@@ -35,4 +35,6 @@ public interface IComApi {
 	
 	/** Indique la date de mise a jour du modele */
 	public int getDateModel();
+	
+	public void setNewModel(Model model); 
 }
