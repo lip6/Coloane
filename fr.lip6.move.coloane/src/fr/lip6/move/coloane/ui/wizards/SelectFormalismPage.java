@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 
 /**
  * Premiere page de l'assistant qui propose une liste de formalisme * 

@@ -107,7 +107,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	}
 	
 	/** Affichage d'une boite de dialogue
-	 * 
+	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
 	public void drawDialog(Dialog d) {
 		IDialog dialog = null;
