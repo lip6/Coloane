@@ -78,7 +78,7 @@ public class FramekitThreadListener extends Thread {
 		Vector<Vector> currentMenu = null;
 
 		// Le modele recu
-		Vector<Vector> modelReceive = new Vector<Vector>();
+		Vector<String> modelReceive = new Vector<String>();
 		
 		// Indications concernant la description d'une boite de dialogue
 		Vector<Vector> vectorDialog = new Vector<Vector>();
@@ -400,7 +400,7 @@ public class FramekitThreadListener extends Thread {
 					}
 					
 					// Message DE
-					// Debut d'un ensemble de resultat ou d'objet transmis par Coloane a la plateforme 
+					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane 
 					if ((listeArgs.firstElement().equals("DE"))) {
 						this.api.printState("Message de :"+(String) listeArgs.elementAt(1));
 						continue;
@@ -476,26 +476,30 @@ public class FramekitThreadListener extends Thread {
 					// Message DB
 					// Debut de transmission d'un modele
 					if ((listeArgs.firstElement().equals("DB"))) {
-						modelReceive = new Vector<Vector>();		
+						modelReceive = new Vector<String>();		
 					}
 					
+					// Messages CN CB CA CT CM PO PT PI
+					// Element de construction d'un modele
 					if ((listeArgs.firstElement()).equals("CN") 
 							|| (listeArgs.firstElement()).equals("CB") 
 							|| (listeArgs.firstElement()).equals("CA") 
 							|| (listeArgs.firstElement()).equals("CT") 
 							|| (listeArgs.firstElement()).equals("CM") 
-							|| (listeArgs.firstElement()).equals("PO") 
+							|| (listeArgs.firstElement()).equals("PO")
+							|| (listeArgs.firstElement()).equals("pO")
 							|| (listeArgs.firstElement()).equals("PT") 
 							|| (listeArgs.firstElement()).equals("PI")) {
 						
-						modelReceive.add(commandeRecue);
+						System.out.println("Ajout de : "+(String) commandeRecue.get(numCommande));
+						modelReceive.add((String) commandeRecue.get(numCommande));
 					}
 					
 					// Message FB
 					// Fin de la transmission d'un modele
 					if ((listeArgs.firstElement().equals("FB"))) {
-						Model m = new Model("ReachabilityGraph", modelReceive);
-						this.api.setModel(m);
+						Model m = new Model(modelReceive);
+						this.api.setNewModel(m);
 						continue;
 					}
 					
