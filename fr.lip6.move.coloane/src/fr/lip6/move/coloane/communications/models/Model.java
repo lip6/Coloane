@@ -35,10 +35,7 @@ public class Model extends Base implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Type du modele. */
-    private String formalism;
-    
-    /** Type du modele. */
-    private int id;
+    private String formalism = "";
     
     /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
     public int xPosition;
@@ -59,14 +56,68 @@ public class Model extends Base implements Serializable {
      * Constructeur de la classe Model. 
      * @param formalism Formalisme (ex : AMI-Net)
      */
-    public Model(String formalism) {
-        this.formalism = formalism;
+    public Model() {
         this.xPosition = 20;
         this.yPosition = 20;
-        this.id = 1;
         this.listOfArc = new Vector<Arc>();
         this.listOfAttr = new Vector<Attribute>();
         this.listOfNode = new Vector<Node>();
+    }
+    
+    /**
+     * Constructeur de la classe Model.
+     * @param camiCommande un vecteur de chaine de caractere dont chaque chaine est une commande CAMI de construction d'objet du model 
+     */
+    public Model(Vector camiCommande) {
+        this.xPosition = 20;
+        this.yPosition = 20;
+        this.listOfArc = new Vector<Arc>();
+        this.listOfAttr = new Vector<Attribute>();
+        this.listOfNode = new Vector<Node>();
+        
+        try {
+			this.buildModel(camiCommande);
+		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
+		}        
+    }
+    
+    /**
+     * Constructeur de la classe Model.  
+     * @param camiFile le fichier CAMI
+     * @throws IOException Erreur de lecture dans le fichier
+     */
+    public Model(File camiFile) throws IOException {
+        this.xPosition = 20;
+        this.yPosition = 20;
+        this.listOfArc = new Vector<Arc>();
+        this.listOfAttr = new Vector<Attribute>();
+        this.listOfNode = new Vector<Node>();
+
+        BufferedReader buffer;
+        Vector<String> camiCommande = new Vector<String>();
+
+        try {
+            buffer = new BufferedReader(new FileReader(camiFile));
+            
+            // Lecture du fichier
+            while (buffer.ready()) {
+                camiCommande.add(buffer.readLine());
+            }
+            buffer.close();
+            this.buildModel(camiCommande);        
+            
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (SyntaxErrorException e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -81,6 +132,8 @@ public class Model extends Base implements Serializable {
         CamiParser ps;
     	
     	try {
+    		
+    		System.out.println("Taille du vecteur : "+camiCommande.size());
 
         	for (int k = 0; k < camiCommande.size(); k++) {
         		line = (String) camiCommande.get(k);
@@ -88,6 +141,8 @@ public class Model extends Base implements Serializable {
                 ps = new CamiParser(line.substring(3));
 
                 type = st.nextToken("(");
+                
+                System.out.println("Noeud en cours : "+type);
 	
                 // Decouverte d'un noeud
                 if (type.equals("CN")) { 
@@ -100,7 +155,6 @@ public class Model extends Base implements Serializable {
 
                     if (Integer.parseInt(nodeId) == 1) {
                         this.formalism = nodeType;
-                        this.id = Integer.parseInt(nodeId);
                     } else {
                         node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
                         this.listOfNode.addElement(node);
@@ -338,82 +392,7 @@ public class Model extends Base implements Serializable {
         }
     }
 
-    /**
-     * Constructeur de la classe Model.
-     * @param camiCommande un vecteur de chaine de caractere dont chaque chaine est une commande CAMI de construction d'objet du model 
-     */
-    public Model(Vector camiCommande) {
-        this.xPosition = 20;
-        this.yPosition = 20;
-        this.listOfArc = new Vector<Arc>();
-        this.listOfAttr = new Vector<Attribute>();
-        this.listOfNode = new Vector<Node>();
-        
-        try {
-			this.buildModel(camiCommande);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}        
-    }
-    
-    /**
-     * Constructeur de la classe Model. 
-     * @param formalism formalisme du modele (ex : AMI-Net)
-     * @param camiCommande Vecteur de chaine de caractere dont chaque chaine est une commande CAMI de construction d'objet du model 
-     * 
-     */
-    public Model(String formalism, Vector camiCommande) {
-    	this.formalism = formalism;
-        this.xPosition = 20;
-        this.yPosition = 20;
-        this.listOfArc = new Vector<Arc>();
-        this.listOfAttr = new Vector<Attribute>();
-        this.listOfNode = new Vector<Node>();
-        
-        try {
-			this.buildModel(camiCommande);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}        
-    }
 
-    /**
-     * Constructeur de la classe Model.  
-     * @param camiFile le fichier CAMI
-     * @throws IOException Erreur de lecture dans le fichier
-     */
-    public Model(File camiFile) throws IOException {
-        this.xPosition = 20;
-        this.yPosition = 20;
-        this.listOfArc = new Vector<Arc>();
-        this.listOfAttr = new Vector<Attribute>();
-        this.listOfNode = new Vector<Node>();
-
-        BufferedReader buffer;
-        Vector<String> camiCommande = new Vector<String>();
-
-        try {
-            buffer = new BufferedReader(new FileReader(camiFile));
-            
-            // Lecture du fichier
-            while (buffer.ready()) {
-                camiCommande.add(buffer.readLine());
-            }
-            buffer.close();
-            this.buildModel(camiCommande);        
-            
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (SyntaxErrorException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Retourne le noeud d'identifiant uniqueID.
@@ -421,12 +400,12 @@ public class Model extends Base implements Serializable {
      * @return Node
      */
     public Node getANode(int uniqueId) {
-        Enumeration enumer;
+        Enumeration e;
         Node node;
-        enumer = this.listOfNode.elements();
+        e = this.listOfNode.elements();
 
-        while (enumer.hasMoreElements()) {
-        	node = (Node) enumer.nextElement();
+        while (e.hasMoreElements()) {
+        	node = (Node) e.nextElement();
             if (node.getId() == uniqueId) {
                 return node;
             }
@@ -441,12 +420,12 @@ public class Model extends Base implements Serializable {
      * @see Arc
      */
     public Arc getAnArc(int uniqueId) {
-        Enumeration enumer;
+        Enumeration e;
         Arc arc;
-        enumer = this.listOfArc.elements();
+        e = this.listOfArc.elements();
 
-        while (enumer.hasMoreElements()) {
-        	arc = (Arc) enumer.nextElement();
+        while (e.hasMoreElements()) {
+        	arc = (Arc) e.nextElement();
             if (arc.getUniqueId() == uniqueId) {
                 return arc;
             }
@@ -494,7 +473,7 @@ public class Model extends Base implements Serializable {
 
     /**
      * Permet de supprimer un noeud dans le modele.
-     * @param node noeud a supprimer du modele
+     * @param node Noeud a supprimer du modele
      */
     public void removeNode(Node node) {
         Arc in;
@@ -624,15 +603,32 @@ public class Model extends Base implements Serializable {
         this.xPosition = x;
         this.yPosition = y;
     }
+    
+    /**
+     * Indique le formalisme attache au modele
+     * @param formalisme Le formalisme
+     */
+    public void setFormalism(String formalism) {
+    	this.formalism = formalism;
+    }
+    
+    /**
+     * Retourne le formalime attache au modele
+     * @return formalism
+     */
+    public String getFormalism () {
+    	return this.formalism;
+    }
+    
 
     /**
-     * Traduit un objet Model en la chaine de caracteres CAMI correspondante.
+     * Traduit un Model en la chaine de caracteres CAMI correspondante.
      * @return la chaine de caracteres CAMI correspondante a l'objet Model
      */
     public String[] translateToCAMI() {
         Vector<String> vec = new Vector<String>();
-        String chaine;
-        String[] attributes;
+//        String chaine;
+//        String[] attributes;
         String[] nodes;
         String[] arcs;
 
