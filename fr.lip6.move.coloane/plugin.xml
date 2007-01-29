@@ -92,7 +92,7 @@
        <editor
              class="fr.lip6.move.coloane.ui.Editor"
              default="false"
-             extensions="rdp"
+             extensions="rdp, gma"
              icon="icons/editor.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
