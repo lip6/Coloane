@@ -365,7 +365,7 @@ public class FormalismManager {
   
         // Creation du formalisme Graphes d'accessibilite.
         Formalism graph = new Formalism("ReachabilityGraph", "graphsaccess.gif");
-        graph.setExtension("gha");
+        graph.setExtension("gma");
         
         // Ajout de tous les attributs d'un graphe d'accessibilite (Attention :
         // different des attributs des elements.)
@@ -396,8 +396,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("deadlock", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("icons/initial16.gif");
-        elem.setAddrIcone24("icons/initial24.gif");
+        elem.setAddrIcone16("/icons/initial16.png");
+        elem.setAddrIcone24("/icons/initial24.png");
         graph.addElementBase(elem);
 
         // L'etat terminal:
@@ -411,8 +411,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("deadlock", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("icons/terminal16.gif");
-        elem.setAddrIcone24("icons/terminal24.gif");
+        elem.setAddrIcone16("/icons/terminal16.png");
+        elem.setAddrIcone24("/icons/terminal24.png");
         graph.addElementBase(elem);
 
         // L'etat:
@@ -426,8 +426,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("deadlock", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("../icons/place16.gif");
-        elem.setAddrIcone24("icons/place24.gif");
+        elem.setAddrIcone16("/icons/place16.png");
+        elem.setAddrIcone24("/icons/place24.png");
         graph.addElementBase(elem);
      
         // L'event (arc)
@@ -437,8 +437,8 @@ public class FormalismManager {
         attr = new AttributeFormalism("value", false, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("icons/arc16.gif");
-        elem.setAddrIcone24("icons/arc24.gif");
+        elem.setAddrIcone16("/icons/arc16.png");
+        elem.setAddrIcone24("/icons/arc24.png");
         graph.addElementBase(elem);
 
         // Pas de rules : toute association autorisee
