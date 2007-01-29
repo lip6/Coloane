@@ -68,6 +68,12 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("marking"));
 		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("transition")) {
 			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("guard"));
+		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("state")) {
+			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
+		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("initial_state")) {
+			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
+		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("terminal_state")) {
+			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
 		}
 		
 		// Modification du domaine

@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.swt.SWT;
@@ -57,6 +58,10 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
 			figure.setSize(16, 16);
+			
+			if (nodeGraphInfo.isFilled()) {
+				figure.setBackgroundColor(ColorConstants.black);
+			}
 			add(figure);
 			
 		// Le cas d'un etat initial
@@ -64,12 +69,14 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
 			figure.setSize(16, 16);
-			add(figure);
-			
+						
 			IFigure figure2 = new Ellipse();
 			figure2.setForegroundColor(ColorConstants.black);
 			figure2.setSize(12, 12);
-			add(figure2);
+			figure2.setLocation(new Point(2,2));
+			figure.add(figure2);
+			
+			add(figure);
 			
 		// Le cas d'une queue
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
