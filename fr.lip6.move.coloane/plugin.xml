@@ -14,7 +14,7 @@
       <actionSet
             id="fr.lip6.move.coloane.actionSet"
             label="Coloane Platform"
-            visible="true">
+            visible="false">
          <action
                class="fr.lip6.move.coloane.main.ColoaneActions"
                icon="icons/encrypted.png"
