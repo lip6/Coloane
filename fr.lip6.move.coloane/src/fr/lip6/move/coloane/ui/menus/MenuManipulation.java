@@ -46,6 +46,9 @@ public class MenuManipulation {
 			boolean enabled) {
 		item.setEnabled(enabled);
 		
+		if (item.getMenu() == null)
+			return;
+		
 		for (MenuItem childItem : item.getMenu().getItems()) {
 			setEnabled(childItem, enabled);
 		}
