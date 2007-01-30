@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="Coloane"
+      id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="1.0.0">
+      version="0.8.0"
+      provider-name="LIP6 - MoVe">
 
-   <description url="http://www.example.com/description">
+   <description url="http://www.lip6.fr/coloane">
       [Enter Feature Description here.]
    </description>
 
@@ -29,10 +30,10 @@
    </requires>
 
    <plugin
-         id="Coloane"
+         id="fr.lip6.move.coloane.plugin"
          download-size="0"
          install-size="0"
-         version="1.0.0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
