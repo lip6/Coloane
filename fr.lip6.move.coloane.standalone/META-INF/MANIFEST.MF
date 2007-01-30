@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Standalone Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.standalone;singleton:=true
+Bundle-Version: 0.8.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.runtime.compatibility,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ fr.lip6.move.coloane.plugin
+Bundle-Vendor: LIP6 - MoVe
