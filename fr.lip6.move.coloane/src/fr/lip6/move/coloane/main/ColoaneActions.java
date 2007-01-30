@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
@@ -42,24 +43,36 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 		// Authentification
     	if (ACTION_AUTH.equalsIgnoreCase(action.getId())) {
     		System.out.println("Demande d'authentification");
-            HistoryView.instance.addText("[?] Authentification -> ");
-            
-            // Affichage de la boite de dialogue d'authentification
-            AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
 
-            if (authDialog.open() == Dialog.OK) {
-                HistoryView.instance.addLine("OK");
-                //MenuManipulation.setEnabled("Platform", "Connect model", true);
-                //MenuManipulation.setEnabled("Platform", "Authentication...", false);
-                //MenuManipulation.setEnabled("Platform", "Disconnect model", false);
-            } else {
-                HistoryView.instance.addLine("KO");
-            }
-        
+    		/*
+    		 * If we don't call this method here, the view is not
+    		 * initialized and, when we call HistoryView.instance,
+    		 * we only get null (and it is bad).
+    		 * We have another problem here : the view has not the
+    		 * focus after we call setFocus (it is just "not null").
+    		 */
+    		// TODO find a way to focus on the HistoryView here
+    		window.getActivePage().
+    		findView("fr.lip6.move.coloane.views.HistoricView").setFocus();
+    		
+    		HistoryView.instance.addText("[?] Authentification -> ");
+
+    		// Affichage de la boite de dialogue d'authentification
+    		AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
+
+    		if (authDialog.open() == Dialog.OK) {
+    			HistoryView.instance.addLine("OK");
+    			//MenuManipulation.setEnabled("Platform", "Connect model", true);
+    			//MenuManipulation.setEnabled("Platform", "Authentication...", false);
+    			//MenuManipulation.setEnabled("Platform", "Disconnect model", false);
+    		} else {
+    			HistoryView.instance.addLine("KO");
+    		}
+
         // Connexion d'un modele
     	} else if (ACTION_CONNECT_MODEL.equalsIgnoreCase(action.getId())) {
-        	System.out.println("Connexion d'un modèle");
-        	HistoryView.instance.addLine("[?] Connexion d'un modèle");
+        	System.out.println("Connexion d'un modÔøΩle");
+        	HistoryView.instance.addLine("[?] Connexion d'un modÔøΩle");
         	
             if(window.getActivePage().getActiveEditor() == null) {
             	HistoryView.instance.addLine("[!] Echec: Aucun modele ouvert !");
@@ -68,18 +81,18 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             
             	try {
             		if (editor.getModel() != null) {
-            			// Le modèle existe... On peut essayer de le connecter
+            			// Le modÔøΩle existe... On peut essayer de le connecter
             			HistoryView.instance.addText("Connexion en cours... ");
             			
-            			// Transformation du modèles en modèles implémentant l'interface de la Com
+            			// Transformation du modÔøΩles en modÔøΩles implÔøΩmentant l'interface de la Com
             			String sessionName;
                     
             			if (editor instanceof Editor) {
-            				System.out.println("Session particulière");
+            				System.out.println("Session particuliÔøΩre");
             				IFile file = ((IFileEditorInput)editor.getEditorInput()).getFile();
             				sessionName=file.getProjectRelativePath().toString();
             			} else {
-            				System.out.println("Session par défaut");
+            				System.out.println("Session par dÔøΩfaut");
             				sessionName="SessionDefault";
             			}
                     
@@ -96,7 +109,7 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
             			}
 
             		} else {
-            			HistoryView.instance.addText("[!] Echec: Le modèle n'est pas valide");
+            			HistoryView.instance.addText("[!] Echec: Le modÔøΩle n'est pas valide");
             		}
 
             	} catch (Exception e) {
