@@ -19,4 +19,7 @@ public interface IUiCom {
 	
 	/** Mise a jour des menus */
 	public void updateMenu();
+	
+	/** Desactivation des menus (lors d'un appel de service par exemple) */
+	public void changeMenuStatus(String rootName, boolean status);
 }

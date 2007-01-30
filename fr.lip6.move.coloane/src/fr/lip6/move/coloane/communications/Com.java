@@ -138,6 +138,11 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @param serviceName Nom du service demande (nom de la feuille cliquee)
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
+		// Grisage du menu de services
+		System.out.println("Demande de grisage : "+rootMenuName);
+		this.ui.changeMenuStatus(rootMenuName,false);
+		
+		// Requete a l'API
 		this.api.askForService(rootMenuName, parentName, serviceName);
 	}
 	

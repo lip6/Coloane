@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.*;
 
 /**
@@ -94,6 +95,14 @@ public class UserInterface implements IUiCom, IUiMotor {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getSessionMenu(),fenetreTravail,this);
 		gmenu.update();
+	}
+	
+	/**
+	 * Desactivation du rootMenu
+	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
+	 */
+	public void changeMenuStatus(String rootName, boolean status) {
+		MenuManipulation.setEnabled(rootName,rootName,status);
 	}
 	
 	/**
