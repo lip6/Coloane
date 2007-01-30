@@ -306,7 +306,7 @@ public class Model extends Base implements Serializable {
                 }
                 
                 // Decouverte d'une position de noeud
-                if (type.equals("PO")) { 
+                if (type.equals("PO") || type.equals("pO")) { 
                     Node node = null;
                     String ref;
                     String x;
