@@ -19,10 +19,10 @@
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.jface.text"/>
@@ -33,7 +33,7 @@
          id="fr.lip6.move.coloane.plugin"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.8.0"
          unpack="false"/>
 
 </feature>
