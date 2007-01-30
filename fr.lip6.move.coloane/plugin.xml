@@ -5,7 +5,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="fr.lip6.move.coloane.ui.MainPerspectiveFactory"
-            icon="icons/editeur.gif"
+            icon="icons/editor.gif"
             id="fr.lip6.move.coloane.perspective"
             name="Coloane"/>
    </extension>
@@ -106,7 +106,7 @@
              category="fr.lip6.move.coloane.category"
              class="fr.lip6.move.coloane.ui.wizards.NewModelWizard"
              hasPages="true"
-             icon="icons/editeur.gif"
+             icon="icons/editor.gif"
              id="fr.lip6.move.coloane.wizard.newModel"
              name="New model"
              project="true"/>
