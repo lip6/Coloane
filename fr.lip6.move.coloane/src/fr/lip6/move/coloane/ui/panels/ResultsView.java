@@ -126,6 +126,7 @@ public class ResultsView extends ViewPart
 				
 				setResultsListSelectionListener();
 				resultsList.select(0);
+				text.setText(results.getResult(0).getDescription());
 			}
 		});
 	}
