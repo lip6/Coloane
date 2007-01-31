@@ -117,7 +117,6 @@ final class PaletteFactory {
 			
 			/* Si l'element parcouru est un arc */
 			if (element instanceof ArcFormalism) {
-				System.out.println("Ajout a la palette : Arc : "+element.getName());
 				component = new ConnectionCreationToolEntry(
 						element.getName(), // nom de l'arc
 						element.getName(), // description de l'arc
