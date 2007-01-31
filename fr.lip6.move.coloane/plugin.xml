@@ -82,7 +82,7 @@
              name="State"/>
        <view
              category="fr.lip6.move.coloane.views"
-             class="fr.lip6.move.coloane.ui.panels.PNSCView"
+             class="fr.lip6.move.coloane.ui.panels.ResultsView"
              icon="icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.PNSCView"
              name="Syntax Checker"/>

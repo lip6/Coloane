@@ -20,7 +20,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	/** ID for history view */
 	private static final String STATE_VIEW = "fr.lip6.move.coloane.views.StateView";
 	
-	private static final String PNSC_VIEW = "fr.lip6.move.coloane.views.PNSCView";
+	private static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.PNSCView";
 	
 	/** ID for wizard */
 	//private static final String NEW_WIZARD = "CPN-AMIoE.NewModelWizard";
@@ -55,7 +55,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		//  Add "show views". They will be present in "show view" menu
 		layout.addShowViewShortcut(HISTORY_VIEW);
 		layout.addShowViewShortcut(STATE_VIEW);
-		layout.addShowViewShortcut(PNSC_VIEW);
+		layout.addShowViewShortcut(RESULTS_VIEW);
 		
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
@@ -86,7 +86,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		
 		bottom.addView(HISTORY_VIEW);
 		bottom.addView(STATE_VIEW);
-		bottom.addView(PNSC_VIEW);
+		bottom.addView(RESULTS_VIEW);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
 	}
 
