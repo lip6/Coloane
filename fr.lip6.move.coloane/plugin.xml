@@ -35,7 +35,8 @@
                id="connect"
                label="Connect model"
                menubarPath="plateformMenu/group2"
-               style="push"/>
+               style="push">
+         </action>
          <action
                class="fr.lip6.move.coloane.main.ColoaneActions"
                id="disconnect"
@@ -102,7 +103,17 @@
              hasPages="true"
              icon="icons/editor.gif"
              id="fr.lip6.move.coloane.wizard.newModel"
-             name="New model"
+             name="Model"
+             project="false"/>
+       <wizard
+             canFinishEarly="true"
+             category="fr.lip6.move.coloane.category"
+             class="fr.lip6.move.coloane.ui.wizards.NewProjectWizard"
+             finalPerspective="fr.lip6.move.coloane.perspective"
+             hasPages="true"
+             id="fr.lip6.move.coloane.projectWizard"
+             name="Model Project"
+             preferredPerspectives="fr.lip6.move.coloane.perspective"
              project="true"/>
     </extension>
 </plugin>
