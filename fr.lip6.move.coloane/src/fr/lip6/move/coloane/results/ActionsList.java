@@ -57,6 +57,14 @@ public class ActionsList extends Observable
 		return resultsLists.get(index);
 	}
 	
+	public ResultsList getResultsList(String resultName) {
+		for(ResultsList r : resultsLists)
+			if (r.getActionName().equals(resultName))
+				return r;
+		
+		return null;
+	}
+	
 	public int getResultsListSize() {
 		return resultsLists.size();
 	}
