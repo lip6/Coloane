@@ -15,6 +15,8 @@ public class ResultsList extends Observable {
 	
 	public void add(Result result) {
 		resultsList.add(result);
+		setChanged();
+		notifyObservers();
 	}
 	
 	public String getActionName() {
@@ -27,5 +29,11 @@ public class ResultsList extends Observable {
 	
 	public int getResultsNumber() {
 		return resultsList.size();
+	}
+	
+	public void removeAll() {
+		resultsList.removeAllElements();
+		setChanged();
+		notifyObservers();
 	}
 }

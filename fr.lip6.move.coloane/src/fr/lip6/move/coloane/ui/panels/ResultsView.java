@@ -12,25 +12,22 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.lip6.move.coloane.results.ActionsList;
-import fr.lip6.move.coloane.results.Result;
 import fr.lip6.move.coloane.results.ResultsList;
 
 public class ResultsView extends ViewPart
 	implements Observer {
+	
+	public static ResultsView instance;
+	
 	/**
 	 * The ActionList displayed in this view 
 	 */
 	ActionsList oActionsList;
 	
 	/**
-	 * The current action displayed
-	 */
-	int currentActiondisplayed;
-	
-	/**
 	 * The current result displayed
 	 */
-	int currentResultDisplayed;
+	private int currentResultDisplayed;
 	
 	/**
 	 * The widget which will display the list of actions.
@@ -74,32 +71,12 @@ public class ResultsView extends ViewPart
 		text.setJustify(true);
 		text.setAlignment(SWT.CENTER);
 		
-		oActionsList = new ActionsList();
-		ResultsList r = new ResultsList("Action 1");
-		r.add(new Result("Result 1-1", "Description 1-1"));
-		r.add(new Result("Result 1-2", "Description 1-2"));
-		r.add(new Result("Result 1-3", "Description 1-3"));
-		r.add(new Result("Result 1-4", "Description 1-4"));
-		oActionsList.addResultsList(r);
-		
-		r = new ResultsList("Action 2");
-		r.add(new Result("Result 2-1", "Description 2-1"));
-		r.add(new Result("Result 2-2", "Description 2-2"));
-		r.add(new Result("Result 2-3", "Description 2-3"));
-		
-		oActionsList.addResultsList(r);
-		
-		r = new ResultsList("Action 3");
-		r.add(new Result("Result 3-1", "Description 3-1"));
-		r.add(new Result("Result 3-2", "Description 3-2"));
-		
-		oActionsList.addResultsList(r);
-		
-		currentActiondisplayed = 0;
 		currentResultDisplayed = 0;
 		
-		setLists();
-		setSelectionListeners();
+		if (oActionsList != null)
+			setLists();
+		
+		instance = this;
 	}
 	
 	@Override
@@ -148,6 +125,7 @@ public class ResultsView extends ViewPart
 			resultsList.add(oActionsList.getResultsList(0).getResult(i).getName());
 		
 		text.setText(oActionsList.getResultsList(0).getResult(0).getDescription());
+		setSelectionListeners();
 	}
 	
 	private void setResultsListSelectionListener() {
