@@ -12,13 +12,13 @@ import org.eclipse.ui.IPerspectiveFactory;
 public class MainPerspectiveFactory implements IPerspectiveFactory {
 
 	/** ID for action sets Platform */
-	private static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSet";
+	public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSet";
 	
 	/** ID for history view */
-	private static final String HISTORY_VIEW = "fr.lip6.move.coloane.views.HistoricView";
+	public static final String HISTORY_VIEW = "fr.lip6.move.coloane.views.HistoricView";
 	
 	/** ID for the "Coloane results" view */
-	private static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView";
+	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView";
 	
 	/** ID for wizard */
 	//private static final String NEW_WIZARD = "CPN-AMIoE.NewModelWizard";
