@@ -76,16 +76,10 @@
              name="Historic"/>
        <view
              category="fr.lip6.move.coloane.views"
-             class="fr.lip6.move.coloane.ui.panels.StateView"
-             icon="icons/state_pane.gif"
-             id="fr.lip6.move.coloane.views.StateView"
-             name="State"/>
-       <view
-             category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
              icon="icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.PNSCView"
-             name="Syntax Checker"/>
+             name="Coloane results"/>
     </extension>
     <extension
           point="org.eclipse.ui.editors">
