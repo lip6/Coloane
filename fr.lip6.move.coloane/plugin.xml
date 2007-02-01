@@ -78,7 +78,7 @@
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
              icon="icons/state_pane.gif"
-             id="fr.lip6.move.coloane.views.PNSCView"
+             id="fr.lip6.move.coloane.views.ResultsView"
              name="Coloane results"/>
     </extension>
     <extension
