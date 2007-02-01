@@ -3,14 +3,12 @@ package fr.lip6.move.coloane.main;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.views.IViewDescriptor;
-
+import org.eclipse.ui.PartInitException;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
@@ -47,26 +45,24 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void run(IAction action) {
+		/*
+		 * If we don't call this method here, the view is not
+		 * initialized and HistoryView.instance
+		 * is null (and it is bad).
+		 */
+		try {
+			window.getActivePage().
+			showView(MainPerspectiveFactory.HISTORY_VIEW);
+		} catch (PartInitException e) {
+			MessageDialog.openError(window.getShell(),
+					"Error during view initialization",
+					"The Historic view cannot be opened");
+		}
+		
 		// Authentification
 		if (ACTION_AUTH.equalsIgnoreCase(action.getId())) {
 			
 			System.out.println("Demande d'authentification");
-			
-			/*
-			 * If we don't call this method here, the view is not
-			 * initialized and, when we call HistoryView.instance,
-			 * we only get null (and it is bad).
-			 * We have another problem here : the view has not the
-			 * focus after we call setFocus (it is just "not null").
-			 */
-			// TODO find a way to focus on the HistoryView here
-			/*
-			 * Another problem : if the view is not in the perspective, findView
-			 * returns null.
-			 * We must find a way to add the view in the perspective.
-			 */
-			window.getActivePage().
-			findView("fr.lip6.move.coloane.views.HistoricView").setFocus();
 			
 			HistoryView.instance.addText("[?] Authentification -> ");
 
@@ -131,9 +127,6 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
-
-	}
+	public void selectionChanged(IAction action, ISelection selection) {}
 
 }
