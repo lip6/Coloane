@@ -18,7 +18,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	private static final String HISTORY_VIEW = "fr.lip6.move.coloane.views.HistoricView";
 	
 	/** ID for the "Coloane results" view */
-	private static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.PNSCView";
+	private static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView";
 	
 	/** ID for wizard */
 	//private static final String NEW_WIZARD = "CPN-AMIoE.NewModelWizard";
