@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.interfaces;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
+
 public interface IApi {
 	
 	/**
@@ -14,7 +15,7 @@ public interface IApi {
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire 
 	 * @throws  
 	 */
-	public boolean openConnexion(String login, String password, String FKIp, int FKPort);
+	public boolean openConnexion(String login, String password, String ip, int port, String apiName, String apiVersion);
 	
 	/**
 	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme
@@ -78,5 +79,7 @@ public interface IApi {
 	public void drawDialog(Dialog dialog);
 	
 	public boolean getDialogAnswers(DialogResult results);
+	
+	/* Traduction */
 
 }
