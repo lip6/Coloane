@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.interfaces;
 
-import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.models.Model;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 public interface IComApi {
