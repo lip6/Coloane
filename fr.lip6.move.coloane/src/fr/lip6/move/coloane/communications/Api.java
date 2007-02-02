@@ -1,19 +1,12 @@
 package fr.lip6.move.coloane.communications;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 
 import fr.lip6.move.coloane.communications.models.Model;
-import fr.lip6.move.coloane.communications.objects.FramekitMessage;
+import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.communications.utils.ComLowLevel;
 import fr.lip6.move.coloane.communications.utils.Commande;
 import fr.lip6.move.coloane.communications.utils.FramekitThreadListener;
@@ -30,6 +23,9 @@ import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
 /**
  * API de communication entre Coloane et FrameKit
+ * 
+ * Cette partie doit pouvoir etre changee en fonction du protocole de communications entre
+ * les deux entites : Coloane et FrameKit
  */
 
 public class Api implements IApi {
@@ -40,23 +36,17 @@ public class Api implements IApi {
 	/** Indique si une session est ouverte ou non */
 	private boolean sessionOpened;
 	
+	/** Nom de la session courante */
+	private String currentSessionName;
+	
+	/** Nom de la session courante */
+	private String currentService;
+	
 	/** Socket de communication avec Framekit */
 	private ComLowLevel comLowServices;
 	
 	/** Liste des threads speakers associes aux sessions ouvertes */
-	private HashMap listeThread;
-	
-	/** Nom de la session courrante */
-	private String currentSessionName;
-	
-	/** Indique si la suspension de la session courante a ete effectuee */
-	private boolean suspendCurrentSession;
-	
-	/** Indique si la reprise d'une session a ete effectuee */
-	private boolean resumedSession;
-	
-	/** Indique si la fermeture de la session courante a ete effectuee */
-	private boolean closedSession;
+	private HashMap<String, FramekitThreadSpeaker> listeThread;
 	
 	/** Thread listener permettant d'ecouter tous les messages provenant de Framekit */
 	private FramekitThreadListener listener;
@@ -76,14 +66,14 @@ public class Api implements IApi {
 		// Les services rendus par la couche basse
 		this.comLowServices = new ComLowLevel();
 		
-		this.listeThread = new HashMap();
+		// Liste des threads ouverts pour la communication
+		this.listeThread = new HashMap<String, FramekitThreadSpeaker>();
 		this.verrou = new Lock();
-		this.connexionOpened = false;
-		this.sessionOpened = false;
-		this.currentSessionName = null;
-		this.suspendCurrentSession = false;
-		this.resumedSession = false;
-		this.closedSession = false; 
+		
+		// Liste d'indicateurs
+		this.connexionOpened = false;		// Est-ce que je suis authentifie auprès de la plate-forme
+		this.sessionOpened = false;			// Existe-t-il une session ouverte
+		this.currentSessionName = "";		// Le nom de la session courante;
 	}
 	
 	
@@ -92,11 +82,15 @@ public class Api implements IApi {
 	 * 
 	 * @param login le login de l'utilisateur
 	 * @param password le mot de passe de l'utilisateur
-	 * @param FKIp ip de la machine hebergeant la plateforme FrameKit
-	 * @param FKPort port pour contacter la plateforme FrameKit
+	 * @param ip ip de la machine hebergeant la plateforme FrameKit
+	 * @param port port pour contacter la plateforme FrameKit
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
 	public boolean openConnexion(String login, String password, String ip, int port) {
+		if (connexionOpened) {
+			return false;
+		}
+		
 		try {
 			System.out.println("Debut connexion vers " + ip + ":" + port);
 			comLowServices.createCom(ip, port);
@@ -108,7 +102,7 @@ public class Api implements IApi {
 			return this.camiCmdConnection(login, password);
 			
 		} catch (CommunicationCloseException e) {
-			cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.closeConnexion(1,"Connexion detruite par Framekit",1);
 			return false;
 		} catch (WrongArgumentValueException e) {
 			return false;
@@ -118,8 +112,9 @@ public class Api implements IApi {
 		}
 	}
 	
+	
 	/**
-	 * Creation et envoi de la commande de connexion ÔøΩ Framekit (SC) compatible Framekit CPN-AMI 3.0
+	 * Creation et envoi de la commande de connexion a Framekit (SC) compatible Framekit CPN-AMI 3.0
 	 * 
 	 * @param login    le login de l'utilisateur
 	 * @param password le mot de passe de l'utilisateur
@@ -133,20 +128,20 @@ public class Api implements IApi {
 			Commande cmd = new Commande();
 			System.out.println("Construction de la commande CAMI...");
 
-			/* PremiÔøΩre partie : Le login et le password */	
+			/* Premiere partie : Le login et le password */	
 			// Construction de la commande CAMI sans toucher aux 4 premiers octets
 			byte[] send = cmd.createCmdSC(login, password);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
 			reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
 		
-			/* Si la rÔøΩponse de FK diffÔøΩre de SC */
+			/* Si la reponse de FK differe de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
 				System.err.println("Balise non attendue (attendue SC) :" + (String) reponse.firstElement());
 				return false;
 			} 
 		
-			/* DeuxiÔøΩme partie les informations sur l'API */
+			/* Deuxieme partie les informations sur l'API */
 			send = cmd.createCmdOC(Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"), login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
@@ -161,53 +156,11 @@ public class Api implements IApi {
 				return true;
 			}
 		} catch (Exception e) {
-            System.err.println("Erreur dans la connexion ÔøΩ FrameKit: " + e.getMessage());
+            System.err.println("Erreur dans la connexion a FrameKit: " + e.getMessage());
             throw e;
         }
 	}
 	
-	
-	/**
-	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme
-	 */
-	public void closeConnexion() {
-
-		if (this.connexionOpened) {
-			Commande cmd = new Commande();
-			byte[] send = cmd.createCmdFC();
-			
-			try {
-				comLowServices.writeCommande(send);
-				if (!this.listeThread.isEmpty()) {
-					
-					System.out.println("Fermeture des threads restants...");
-					Iterator it = listeThread.keySet().iterator();
-
-					// On ferme toutes les threads liees aux modeles ouverts
-					while (it.hasNext()) {
-						String sessionName = (String) it.next();
-						System.out.println("Nom de la session :" + sessionName);
-					}
-					listeThread.clear();
-				}
-				this.connexionOpened = false;
-				this.sessionOpened = false;
-				
-				this.comLowServices.closeCom();
-				System.out.flush();
-				System.err.flush();
-				
-				this.currentSessionName = null;
-				this.suspendCurrentSession = false;
-				this.resumedSession = false;
-				this.closedSession = false;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.err.println("Aucune connexion dÔøΩtectÔøΩe : Deconnexion impossible");		
-		}
-	}
 	
 	/**
 	 * Ouverture d'une session (une session est associee a un modele)
@@ -217,10 +170,10 @@ public class Api implements IApi {
 	 * @param sessionFormalism est le nom du formalisme auquel est attache le modele
 	 * @return retourne TRUE si la session est ouverte et FALSE dans le cas contraire
 	 */
-	public boolean openSession(String sessionName, int date,String sessionFormalism) {
+	public boolean openSession(String sessionName, int date, String sessionFormalism) {
 		boolean result;
 		
-		if (!this.connexionOpened && !this.currentSessionName.equals(null)) {
+		if (!this.connexionOpened) {
 			System.err.println("Tentative d'ouverture de session sans ouverture de connexion");
 			return false;
 		} 
@@ -233,50 +186,150 @@ public class Api implements IApi {
 		}	
 		
 		// Creation du thread associe a la session qui enverra les commandes CAMI
-		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this, comLowServices,sessionName, date, sessionFormalism, verrou);
+		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this, comLowServices, verrou);
 		speak.start();
 		
-		// On envoie les commandes necessaires pour l'ouverture de session du cotÔøΩ FK
+		// On detecte si une session est deja ouverte
+		if (sessionOpened) {
+			if (!this.suspendCurrentSession()) {
+				this.closeConnexion();
+			}
+		}
+		
+		// On envoie les commandes necessaires pour l'ouverture de session du cote FK
 		result = speak.openSession(sessionName, date, sessionFormalism);
 		
+		// Si le resultat est OK on ajoute le thread speaker dans une table
 		if (result) {			
 			System.out.println("Session ouverte.");
 			listeThread.put(sessionName, speak);
+			
+			// Mise a jour des indicateurs
 			this.sessionOpened = true;
 			this.currentSessionName = sessionName;
+			
 			return true;
 		} else {
+			
+			// Suppression du thread speaker
 			speak = null;
 			return false;
 		}
 	}
 	
+	
+	/**
+	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme
+	 * La fermeture de la connexion implique la fermeture prealable de toutes les sessions
+	 * ATTENTION : La fermeture des sessions doit etre faite avant.
+	 */
+	public void closeConnexion() {
+
+		// Une connexion doit etre disponible
+		if (this.connexionOpened) {
+			
+			try {
+				// Fabrication de la commande FC
+				Commande cmd = new Commande();
+				byte[] send = cmd.createCmdFC();
+				comLowServices.writeCommande(send);
+				
+				// Fermeture des threads restants
+				if (!this.listeThread.isEmpty()) {
+					
+					Iterator it = listeThread.values().iterator();
+
+					// On ferme toutes les threads liees aux modeles ouverts
+					while (it.hasNext()) {
+						FramekitThreadSpeaker speaker = (FramekitThreadSpeaker) it.next();
+						speaker = null;
+					}
+					listeThread.clear();
+				}
+				
+				// Mise a jour des indicateur
+				this.connexionOpened = false;
+				this.sessionOpened = false;
+				
+				// Fermeture des socket de bas niveau
+				this.comLowServices.closeCom();
+				
+				// Fermeture de la thread listener
+				listener  = null;
+				
+				System.out.flush();
+				System.err.flush();
+				
+				this.currentSessionName = null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.err.println("Aucune connexion detectee : Deconnexion impossible");		
+		}
+	}
+	
+	
+	/**
+	 * Fermture de la connexion demandee par la plateforme
+	 * Cette fermeture a lieu lors de la reception d'un FC ou d'un KO
+	 * @param message Message a afficher (transmis par la plate-forme)
+	 * @param severity Gravite de l'incident (transmis par la palte-forme)
+	 */
+	public synchronized void closeConnexion(int type, String message, int severity) {
+		
+		// On doit fermer tous les threads speaker ouvert (un par session)
+		// On doit aussi prevenir les sessions pour qu'elles se mettent a jour
+		if (!this.listeThread.isEmpty()) {
+			Iterator it = listeThread.keySet().iterator();
+			
+			// Fermeture des threads
+			while (it.hasNext()) {
+				String sessionName = (String) it.next();
+				FramekitThreadSpeaker threadSpeaker = (FramekitThreadSpeaker) listeThread.get(sessionName);
+				threadSpeaker = null;
+			}
+			listeThread.clear();
+		}
+
+		// Mise a jour de toutes les sessions
+		this.com.closeAllSessions();
+		
+		// Fermeture de la thread listener
+		listener = null;
+
+		// Mise a jour des indicateurs
+		this.connexionOpened = false;
+		this.sessionOpened = false;
+		this.currentSessionName = null;
+
+		// Fermeture des sockets bas-niveau
+		try {
+			this.comLowServices.closeCom();
+		} catch (Exception e) {
+			System.err.println("Erreur lors de la fermeture des services de bas niveau");
+		}
+	}
+	
+
+	
 	/**
 	 * Suspend la session courante
-	 * 
-	 * @param sessionName est le nom de la session
 	 * @return resultat de l'operation
 	 */
-	public boolean suspendCurrentSession(String sessionName) {
+	public boolean suspendCurrentSession() {
+		
 		if (this.sessionOpened && this.currentSessionName != null) {
-			this.getCurrentSpeaker().sendSuspend();
-			while (!this.getSuspendCurrentSession()) {
-				try {
-					Thread.sleep(100);
-				} catch (Exception e) {
-					System.out.println("Exception Thread sleep ");
-				}
-			}
-			this.setSuspendCurrentSession(false);
+			// Suppression de la session courante
 			this.currentSessionName = null;
-			
-			return true;
-			
+			// On demande a FrameKit de suspendre la session
+			 return (this.getCurrentSpeaker().sendSuspend());
 		} else {
 			return false;
 		}
 		
 	}
+	
 	
 	/**
 	 * Reprend l'execution d'une session
@@ -285,30 +338,30 @@ public class Api implements IApi {
 	 * @return le resultat de l'operation
 	 */
 	public boolean resumeSession(String sessionName) {
-		if (this.sessionOpened && (this.currentSessionName == null)) {
-			if (!this.listeThread.isEmpty()) {
-				Iterator it = listeThread.keySet().iterator();
-				
-				while (it.hasNext()) {
-					FramekitThreadSpeaker idThread;
-					System.out.println("Parcours de la liste des sessions");
-					if (sessionName == (String) it.next()) {
-						idThread = (FramekitThreadSpeaker) listeThread.get(sessionName);
-						idThread.sendResume(sessionName);
-						while (!this.getResumedSession()) {
-							try {
-								Thread.sleep(100);
-							} catch (Exception e) {
-								System.out.println("Exception Thread sleep ");
-							}
-						}
-						this.setResumedSession(false);
-						this.currentSessionName = sessionName;
-						return true;
-					}
-				}
-			}
-		}
+//		if (this.sessionOpened && (this.currentSessionName == null)) {
+//			if (!this.listeThread.isEmpty()) {
+//				Iterator it = listeThread.keySet().iterator();
+//				
+//				while (it.hasNext()) {
+//					FramekitThreadSpeaker idThread;
+//					System.out.println("Parcours de la liste des sessions");
+//					if (sessionName == (String) it.next()) {
+//						idThread = (FramekitThreadSpeaker) listeThread.get(sessionName);
+//						idThread.sendResume(sessionName);
+//						while (!this.getResumedSession()) {
+//							try {
+//								Thread.sleep(100);
+//							} catch (Exception e) {
+//								System.out.println("Exception Thread sleep ");
+//							}
+//						}
+//						this.setResumedSession(false);
+//						this.currentSessionName = sessionName;
+//						return true;
+//					}
+//				}
+//			}
+//		}
 		return false;
 	}
 	
@@ -319,26 +372,19 @@ public class Api implements IApi {
 	 * @param sessionName le nom de la session
 	 * @return Le resultat de l'operation
 	 */
-	public boolean closeCurrentSession(String sessionName) {
+	public boolean closeCurrentSession() {
 		if (!this.sessionOpened || this.currentSessionName == null) {
 			return false;
 		} else {
-			FramekitThreadSpeaker idThread = this.getCurrentSpeaker();
-			idThread.sendClose();
-			while (!this.getClosedSession()) {
-				try {
-					Thread.sleep(100);
-				} catch (Exception e) {
-					System.out.println("Exception Thread.sleep ");
+			if(this.getCurrentSpeaker().sendClose()) {
+				listeThread.remove(this.currentSessionName);
+				this.currentSessionName = null;
+				if (listeThread.isEmpty()) {
+					this.sessionOpened = false;
 				}
+				return true;
 			}
-			listeThread.remove(this.currentSessionName);
-			this.currentSessionName = null;
-			this.setClosedSession(false);
-			if (listeThread.isEmpty()) {
-				this.sessionOpened = false;
-			}
-			return true;
+			return false;
 		}
 		
 	}
@@ -380,6 +426,9 @@ public class Api implements IApi {
 		System.out.println("Menu parent : " + rootMenuName);
 		System.out.println("Nom du menu : " + parentName);
 		System.out.println("Nom du service : " + serviceName);
+		
+		// On sauvegarde le nom de service pour les resultats
+		this.currentService = serviceName;
 
 		if (this.sessionOpened && this.currentSessionName != null) {
 			FramekitThreadSpeaker speak;
@@ -424,24 +473,15 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * fonction permettant de faire suivre les messages de framekit vers l'ihm
+	 * Faire suivre les messages de framekit vers l'ihm
 	 * 
-	 * @param typ
-	 *            type du message
-	 * @param txt
-	 *            texte a ecrire
-	 * @param speType
-	 *            type du message warning
-	 * @throws Exception
-	 *             si non respect des types
+	 * @param type Type du message
+	 * @param text Texte a ecrire
+	 * @param specialType Type du message warning
+	 * @throws Exception Si non respect des types
 	 */
-	public void sendMessageUI(int typ, String txt, int speType)
-	throws Exception {
-		try {
-			//this.ihm.setMessage(new FramekitMessage(typ, txt, speType));
-		} catch (Exception e) {
-			throw e;
-		}
+	public void sendMessageUI(int type, String text, int specialType) {
+		this.com.setUiMessage(type,text,specialType);
 	}
 	
 	/**
@@ -502,56 +542,30 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * permet de transmettre a l'Interface Utilisateur la fermeture de connexion
-	 * 
-	 * @param type
-	 *            1
-	 * @param message
-	 *            message a afficher
-	 * @param severity
-	 *            severite de l'incident
+	 * Transmet un nouveau modele a creer
+	 * @param model Modele a creer
 	 */
-	public synchronized void cnxClosed(int type, String message, int severity) {
-		
-		System.out.println("ON FERME LA CONNEXION");
-				
-		this.coloaneServices.connexionClosed(type, message, severity);
-		if (!this.listeThread.isEmpty()) {
-			Iterator it = listeThread.keySet().iterator();
-			
-			// on ferme toutes les threads liees aux modeles ouverts
-			while (it.hasNext()) {
-				FramekitThreadSpeaker idThread;
-				String sessionName = (String) it.next();
-				idThread = (FramekitThreadSpeaker) listeThread.get(sessionName);
-				
-				// gerer l'arret de la thread
-				System.out.println("Arret " + idThread.getName());
-//				idThread.stop();
-				idThread = null;
-			}
-			listeThread.clear();
-		}
-		// gerer l'arret de la thread listener -- deprecated
-//		listener.stop();
-		listener = null;
-		
-		this.connexionOpened = false;
-		this.sessionOpened = false;
-		this.currentSessionName = null;
-		this.suspendCurrentSession = false;
-		this.resumedSession = false;
-		this.closedSession = false;
-		try {
-		this.comLowServices.closeCom();
-		} catch (Exception e) {
-			System.out.println("UserFramekitAPI : cnxClosed");
-		}
-		System.out.flush();
-		
-		System.out.println("FERMETURE DE TOUTES LES THREADS");
+	public void setNewModel(Model model) {
+		this.com.setNewModel(model);
 	}
 	
+	/**
+	 * Traite les resultats d'un appel de services
+	 * @param resultList La liste des resultats renvoye par la plate-forme
+	 */
+	public void setResults(Vector<Result> resultList) {
+		if(!resultList.isEmpty()) {
+			Iterator i = resultList.iterator();
+			
+			// On envoie tous les services a la com qui est chargee de les afficher
+			while (i.hasNext()) {
+				Result r = (Result) i.next();
+				this.com.setResults(this.currentService,r);
+			}
+			
+			this.com.printResults();
+		}
+	}
 	
 	/**
 	 * Retourne le modele courrant
@@ -572,87 +586,5 @@ public class Api implements IApi {
 		return speak;
 	}
 	
-	/**
-	 * accesseur de la variable suspendCurrentSession
-	 * 
-	 * @param b
-	 *            true ou false
-	 */
-	public void setSuspendCurrentSession(boolean b) {
-		this.suspendCurrentSession = b;
-	}
-	
-	/**
-	 * permet de verifier l'etat de la variable de suspendCurrentSession
-	 * 
-	 * @return si la session est suspendu ou pas
-	 */
-	public boolean getSuspendCurrentSession() {
-		return this.suspendCurrentSession;
-	}
-	
-	/**
-	 * permet de verifier l'etat de la variable de resumedSession
-	 * 
-	 * @return false ou true
-	 */
-	public boolean getResumedSession() {
-		return this.resumedSession;
-	}
-	
-	/**
-	 * accesseur de la variable resumedSession
-	 * 
-	 * @param b
-	 *            indique si la session a repris ou non
-	 */
-	public void setResumedSession(boolean b) {
-		this.resumedSession = b;
-	}
-	
-	/**
-	 * permet de verifier l'etat de la variable de closedSession
-	 * 
-	 * @return false ou true
-	 */
-	public boolean getClosedSession() {
-		return this.closedSession;
-	}
-	
-	/**
-	 * accesseur de la variable closedSession
-	 * 
-	 * @param b
-	 *            indique si la session est fermee ou non
-	 */
-	public void setClosedSession(boolean b) {
-		this.closedSession = b;
-	}
-	
-		
-	/**
-	 * Transmet un nouveau modele a creer
-	 * @param aModel model cree
-	 */
-	public void setNewModel(Model model) {
-		System.out.println("Transmission du nouveau modele");
-		this.com.setNewModel(model);
-	}
-	
-	/**
-	 * On signal la fin du service a l'ihm
-	 *
-	 */
-	public void endService() {
-		//this.coloaneServices.endService();
-	}
-    
-    
-    /**
-     * Getter du listener
-     * @return le listener
-     */
-	public FramekitThreadListener getListener() {
-		return this.listener;
-	}
+
 }             
