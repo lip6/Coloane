@@ -69,7 +69,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("  Port-> " +port);
 			
 			// Connexion ˆ la plateforme
-			boolean retour = api.openConnexion("Jean-Baptiste Voron", "123456", ip, port);
+			boolean retour = api.openConnexion(login, pass, ip, port);
 			if (retour) {
 				System.out.println("Retour authentification OK");
 			} else {
