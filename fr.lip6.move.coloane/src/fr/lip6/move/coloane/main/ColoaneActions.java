@@ -77,8 +77,8 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 
 			// Connexion d'un modele
 		} else if (ACTION_CONNECT_MODEL.equalsIgnoreCase(action.getId())) {
-			System.out.println("Connexion d'un mod�le");
-			HistoryView.instance.addLine("[?] Connexion d'un mod�le");
+			System.out.println("Connexion d'un modele");
+			HistoryView.instance.addLine("[?] Connexion d'un modele");
 
 			if(window.getActivePage().getActiveEditor() == null) {
 				HistoryView.instance.addLine("[!] Echec: Aucun modele ouvert !");
@@ -87,24 +87,24 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 
 				try {
 					if (editor.getModel() != null) {
-						// Le mod�le existe... On peut essayer de le connecter
+						// Le modele existe... On peut essayer de le connecter
 						HistoryView.instance.addText("Connexion en cours... ");
 
-						// Transformation du mod�les en mod�les impl�mentant l'interface de la Com
-						String sessionName;
+						// Transformation du modeles en modeles implementant l'interface de la Com
+						String eclipseSessionName;
 
 						if (editor instanceof Editor) {
-							System.out.println("Session particuli�re");
+							System.out.println("Session particuliere");
 							IFile file = ((IFileEditorInput)editor.getEditorInput()).getFile();
-							sessionName=file.getProjectRelativePath().toString();
+							eclipseSessionName=file.getProjectRelativePath().toString();
 						} else {
-							System.out.println("Session par d�faut");
-							sessionName="SessionDefault";
+							System.out.println("Session par defaut");
+							eclipseSessionName="SessionDefault";
 						}
 
-						System.out.println("Nom de session : "+sessionName);
+						System.out.println("Nom de session : "+eclipseSessionName);
 
-						if (Coloane.getDefault().getMotor().openConnexion(editor.getModel(), sessionName)) {
+						if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
 							// TODO : Griser les menues adequats
 							HistoryView.instance.addLine("SUCCESS");
 							//MenuManipulation.setEnabled("Platform", "Connect model", false);
@@ -115,7 +115,7 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 						}
 
 					} else {
-						HistoryView.instance.addText("[!] Echec: Le mod�le n'est pas valide");
+						HistoryView.instance.addText("[!] Echec: Le modele n'est pas valide");
 					}
 
 				} catch (Exception e) {
@@ -123,7 +123,38 @@ public class ColoaneActions implements IWorkbenchWindowActionDelegate {
 				}
 			}
 		} else if (ACTION_DISCONNECT_MODEL.equalsIgnoreCase(action.getId())) {
-			System.out.println("Deconnexion");
+			System.out.println("Deconnexion d'un modele");
+			HistoryView.instance.addLine("[?] Deconnexion d'un modele");
+
+			if(window.getActivePage().getActiveEditor() == null) {
+				HistoryView.instance.addLine("[!] Echec: Aucun modele ouvert !");
+			} else {
+				Editor editor = (Editor) window.getActivePage().getActiveEditor();
+
+				try {
+					if (editor.getModel() != null) {
+						// Le modele existe... On peut essayer de le connecter
+						HistoryView.instance.addText("Deconnexion en cours... ");
+
+
+						if (Coloane.getDefault().getMotor().closeSession()) {
+							// TODO : Griser les menues adequats
+							HistoryView.instance.addLine("SUCCESS");
+							//MenuManipulation.setEnabled("Platform", "Connect model", false);
+							//MenuManipulation.setEnabled("Platform", "Disconnect model", true);
+						} else {
+							// TODO : GRiser les menus adequats
+							HistoryView.instance.addLine("FAILED");
+						}
+
+					} else {
+						HistoryView.instance.addText("[!] Echec: Le modele n'est pas valide");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
