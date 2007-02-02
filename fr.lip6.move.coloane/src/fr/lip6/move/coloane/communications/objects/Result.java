@@ -3,17 +3,12 @@ package fr.lip6.move.coloane.communications.objects;
 import java.util.Vector;
 
 public class Result {
-	private String description;
+	private Vector<String> description;
 	private Vector<String> elements;
 
 	
-	public Result(String description) {
-		this.description = description;
-		this.elements = new Vector<String>();
-	}
-	
 	public Result() {
-		this.description = null;
+		this.description = new Vector<String>();
 		this.elements = new Vector<String>();
 	}
 	
@@ -21,15 +16,29 @@ public class Result {
 		this.elements.add(element);
 	}
 
-	public String getDescription() {
-		return description;
+	public void addDescription(String description) {
+		this.description.add(description);
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public Vector<String> getListOfElement() {
+		return this.elements;
+	}
+
+	public Vector<String> getListOfDescription() {
+		return this.description;
 	}
 	
-	public Vector<String> getList() {
-		return this.elements;
+	public Vector<String> getSublistOfDescription(int start) {
+		Vector<String> tmp = new Vector<String>();
+		
+		for (int i=start; i < this.description.size(); i++) {
+			tmp.add(this.description.elementAt(i));
+		}
+		
+		return tmp;
+	}
+	
+	public String getHeadDescription() {
+		return this.description.elementAt(0);
 	}
 }

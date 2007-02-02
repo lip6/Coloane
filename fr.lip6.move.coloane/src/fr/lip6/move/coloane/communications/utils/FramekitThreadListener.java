@@ -140,7 +140,7 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un etat du service en cours de realisation
 					if ((listeArgs.firstElement().equals("TQ"))) {
 						int type = Integer.parseInt((String) listeArgs.elementAt(3));
-						String message  = (String) listeArgs.elementAt(4);
+						//String message  = (String) listeArgs.elementAt(4);
 					
 						switch(type) {
 					
@@ -422,7 +422,7 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un resultat textuel mono-ligne
 					if ((listeArgs.firstElement().equals("RT"))) {
 						if (!listeArgs.elementAt(1).equals(""))
-							result.setDescription((String) listeArgs.elementAt(1));
+							result.addDescription((String) listeArgs.elementAt(1));
 						continue;
 					}
 					
