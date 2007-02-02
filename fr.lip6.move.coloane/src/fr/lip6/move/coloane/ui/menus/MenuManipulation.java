@@ -53,4 +53,18 @@ public class MenuManipulation {
 			setEnabled(childItem, enabled);
 		}
 	}
+	
+	/**
+	 * Removes a menu from the menubar
+	 * @param menuName The name of menu we want to delete
+	 */
+	public static void remove(String menuName) {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		
+		for (MenuItem mi : shell.getMenuBar().getItems())
+			if (mi.getText().equals(menuName)) {
+				mi.dispose();
+				return;
+			}
+	}
 }
