@@ -33,10 +33,9 @@ public interface IApi {
 		
 	/**
 	 * Permet de suspendre la session courante
-	 * @param sessionName est le nom de la session
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire 
 	 */
-	public boolean suspendCurrentSession(String sessionName);
+	public boolean suspendCurrentSession();
 	
 	/**
 	 * Permet de reprendre l'execution d'une session
@@ -46,11 +45,10 @@ public interface IApi {
 	public boolean resumeSession(String sessionName);
 	
 	/**
-	 * Permet de supprimer une session
-	 * @param sessionName nom de la session
+	 * Permet de supprimer la session courante
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
-	public boolean closeCurrentSession(String sessionName);
+	public boolean closeCurrentSession();
 	
 	/**
 	 * Permet de notifier a la plate-forme que le modele a ete modifie

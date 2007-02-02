@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces;
 
 import fr.lip6.move.coloane.communications.models.Model;
+import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
@@ -36,5 +37,17 @@ public interface IComApi {
 	/** Indique la date de mise a jour du modele */
 	public int getDateModel();
 	
+	/** Construit un nouveau modele dans un nouvel editeur */
 	public void setNewModel(Model model); 
+	
+	/** Destruction de toutes les sessions */
+	public void closeAllSessions();	
+	
+	/** Affichage des messages de service de FK */
+	public void setUiMessage(int type, String text, int specialType);
+	
+	/** Affichage des resultats suite a un appel de service */
+	public void printResults();
+	
+	public void setResults(String serviceName, Result result);
 }

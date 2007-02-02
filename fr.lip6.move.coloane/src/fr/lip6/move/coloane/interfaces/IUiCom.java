@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces;
 
+import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
@@ -20,6 +21,13 @@ public interface IUiCom {
 	/** Mise a jour des menus */
 	public void updateMenu();
 	
+	/** Suppression d'un menu */
+	public void removeMenu(String menuName);
+	
 	/** Desactivation des menus (lors d'un appel de service par exemple) */
 	public void changeMenuStatus(String rootName, boolean status);
+	
+	public void setResults(String serviceName, Result result);
+	
+	public void printResults();
 }
