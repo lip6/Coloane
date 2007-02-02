@@ -66,19 +66,18 @@ public class GraphicalMenu {
 		Menu menuBar = shell.getMenuBar();
 		MenuItem[] mi = menuBar.getItems();
 		
-		int place = 0;
-		
 		/*
 		 * We search the Platform menu's position to add this
 		 * menu just after it.
 		 */
+		// TODO remove the hardcoded menu name
 		for (int i = 0; i < mi.length; i++)
-			if (mi[i].getText().contentEquals("Platform")) {
-				place = i;
+			if (mi[i].getText().contentEquals("Coloane Services")) {
+				rootMenuManager.fill(mi[i].getMenu(),
+						mi[i].getMenu().getItems().length);
 				break;
 			}
 		
-		rootMenuManager.fill(menuBar, place + 1);
 		return rootMenuManager;
 	}
 	
@@ -107,28 +106,33 @@ public class GraphicalMenu {
    * Removes a menu from the menubar.
    *
    */
+	// TODO remove the hardcoded menu name
   public void remove() {
     for (MenuItem mi : shell.getMenuBar().getItems())
-      if (mi.getText().equals(root.getName())) {
-        mi.dispose();
-        return;
-      }
+    	if (mi.getText().equals("Coloane Services"))
+    		for (MenuItem mi1 : mi.getMenu().getItems())
+    			if (mi1.getText().equals(root.getName())) {
+    				mi1.dispose();
+    				return;
+    			}
   }
   
   /**
    * Check wether a menu is already in the menu bar
    */
   private boolean check() {
-    for (MenuItem mi : shell.getMenuBar().getItems())
-      if (mi.getText().equals(root.getName())) {
-        return true;
-      }
+  	for (MenuItem mi : shell.getMenuBar().getItems())
+    	if (mi.getText().equals("Coloane Services"))
+    		for (MenuItem mi1 : mi.getMenu().getItems())
+    			if (mi1.getText().equals(root.getName())) {
+    				return true;
+    			}
     
     return false;
   }
   
   /**
-   * Updates a menu (i.e; modifies it in the menubar).
+   * Updates a menu (i.e. modifies it in the menubar).
    */
   public MenuManager update() {
     remove();

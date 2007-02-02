@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Coloane
 Bundle-SymbolicName: fr.lip6.move.coloane.plugin;singleton:=true
-Bundle-Version: 0.8.0
+Bundle-Version: 0.8.1
 Bundle-Vendor: LIP6 - MoVe
 Bundle-Localization: plugin
 Bundle-Activator: fr.lip6.move.coloane.main.Coloane

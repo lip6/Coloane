@@ -15,34 +15,49 @@
             id="fr.lip6.move.coloane.actionSet"
             label="Coloane Platform"
             visible="false">
-         <action
-               class="fr.lip6.move.coloane.main.ColoaneActions"
-               icon="icons/encrypted.png"
-               id="authentication"
-               label="Authentication..."
-               menubarPath="plateformMenu/group1"
-               style="push"/>
+         <menu
+               id="coloaneServicesMenu"
+               label="Coloane Services">
+            <separator name="PlatformSeparator"/>
+            <separator name="OthersMenusSeparator"/>
+         </menu>
          <menu
                id="plateformMenu"
-               label="Platform">
+               label="Platform"
+               path="coloaneServicesMenu/PlatformSeparator">
             <separator name="group1"/>
             <separator name="group2"/>
          </menu>
          <action
+               class="fr.lip6.move.coloane.ui.actions.DisconnectModelAction"
+               icon="icons/connect_no.png"
+               id="disconnect"
+               label="Disconnect model"
+               menubarPath="coloaneServicesMenu/plateformMenu/group2"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons"
+               tooltip="Disconnect current model">
+         </action>
+         <action
                allowLabelUpdate="true"
-               class="fr.lip6.move.coloane.main.ColoaneActions"
+               class="fr.lip6.move.coloane.ui.actions.ConnectModelAction"
                icon="icons/connect_creating.png"
                id="connect"
                label="Connect model"
-               menubarPath="plateformMenu/group2"
-               style="push">
+               menubarPath="coloaneServicesMenu/plateformMenu/group2"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons"
+               tooltip="Connect current model">
          </action>
          <action
-               class="fr.lip6.move.coloane.main.ColoaneActions"
-               id="disconnect"
-               label="Disconnect model"
-               menubarPath="plateformMenu/group2"
-               style="push"/>
+               class="fr.lip6.move.coloane.ui.actions.AuthenticationAction"
+               icon="icons/encrypted.png"
+               id="authentication"
+               label="Authentication..."
+               menubarPath="coloaneServicesMenu/plateformMenu/group1"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons"
+               tooltip="Authenticate against FrameKit platform"/>
       </actionSet>
       <actionSet
             id="fr.lip6.move.coloane.actionSet.file"
