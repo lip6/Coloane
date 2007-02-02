@@ -118,7 +118,7 @@ public class Coloane extends AbstractUIPlugin {
 	public static void notifyModelChange() {
 		Session currentSession = plugin.motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
-			ModelImplAdapter model = currentSession.getSessionModel();
+			ModelImplAdapter model = currentSession.getModel();
 			if (model != null) {
 				System.out.println("Changement du modele");
 				int dateUpdate = model.modifyDate();
@@ -145,7 +145,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
+		//MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
 
 	}
 	
