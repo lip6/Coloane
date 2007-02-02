@@ -56,32 +56,41 @@ public class Motor implements IMotorCom, IMotorUi {
 	/**
 	 * Ouvre une connexion pour un modele
 	 * 
-	 * @param model 
-	 * @param sessionName
-	 * @return le resultat de l'operation
+	 * @param model Le modele adapte
+	 * @param sessionName Le nom de la session eclipse
+	 * @return booleen Le resultat de l'operation
 	 * @throws Exception
 	 */
-	public boolean openConnexion(ModelImplAdapter model, String sessionName) throws Exception {
+	public boolean openSession(ModelImplAdapter model, String eclipseSessionName) throws Exception {
 
 		try {
+			
+			// On dois controller si une session ne se nomme deja pas pareil
+			if (Motor.sessionManager.getSession(eclipseSessionName) != null) {
+				return false;
+			}
+			
 			// Creation d'une nouvelle session
-			Session session = new Session(sessionName, Session.cntSession++);
+			Session session = new Session(eclipseSessionName, Session.cntSession++);
 			
 			if (session == null) {
 				throw new Exception("Echec lors de la creation de la session");
 			}
 			
 			// On associe le modele à la session
-			session.setSessionModel(model);
+			session.setModel(model);
+			
 			// On ajoute la session au gestionnaire de session
 			Motor.sessionManager.setSession(session);
 			
-			
+			// Verification de l'existence du module de communications
 			if (com == null) {
-				throw new Exception("Module de communication non instancié");
+				throw new Exception("Module de communications non instancié");
 			}
 			
-			boolean result = com.connexion(model);
+			// Demande de connexion du modele au module de communications
+			boolean result = com.openSession(model);
+			
 			return result;
 		
 		} catch (Exception e) {
@@ -89,25 +98,19 @@ public class Motor implements IMotorCom, IMotorUi {
 		}
 	}
 	
-	/**
-	 * Donne la main sur le SessionManager
-	 */
-	public SessionManager getSessionManager() {
-		return Motor.sessionManager;
+	public boolean closeSession() throws Exception {
+		boolean res = com.closeSession();
+		Motor.sessionManager.destroyCurrentSession();
+		return res;
 	}
 	
-	/**
-	 * Donne la main sur le FormalismManager
-	 */
-	public FormalismManager getFormalismManager() {
-		return Motor.formalismManager;
-	}
 	
-	public void giveAModel(ModelImplAdapter model) {
-		// Affecte le modele à la session courante
-		Motor.sessionManager.getCurrentSession().setSessionModel(model);
-	}
-
+	/**
+	 * Creation d'un nouveau modele et affichage dans l'editeur
+	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
+	 * Cette action est particulièrement utile lors de la generation d'un modele par FK
+	 * @param model le model brut
+	 */
 	public void setNewModel(Model model) {
 		// affecte le modèle à la session courante
 		final ModelImplAdapter modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph"));
@@ -119,7 +122,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	       	   SaveAsDialog sd = new SaveAsDialog(shell) {
 	       		   protected void configureShell(Shell shell) {
 	       				super.configureShell(shell);
-	       				shell.setText("Enregistrement du modele recu");
+	       				shell.setText("Saving the incoming model...");
 	       			}
 	       		};
 	       		
@@ -161,5 +164,21 @@ public class Motor implements IMotorCom, IMotorUi {
 				};
 	        }
 		});
-	}	
+	}
+	
+	/**
+	 * Donne la main sur le SessionManager
+	 * @return SessionManager Le gestionnaire de sessions
+	 */
+	public SessionManager getSessionManager() {
+		return Motor.sessionManager;
+	}
+	
+	/**
+	 * Donne la main sur le FormalismManager
+	 * @return FormalismManager Le gestionnairede formalismes
+	 */
+	public FormalismManager getFormalismManager() {
+		return Motor.formalismManager;
+	}
 }
