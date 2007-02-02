@@ -5,8 +5,8 @@ import java.io.Serializable;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.communications.models.Node;
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
+import fr.lip6.move.coloane.models.Node;
 
 public class NodeGraphicInfo implements INodeGraphicInfo, Serializable{
 

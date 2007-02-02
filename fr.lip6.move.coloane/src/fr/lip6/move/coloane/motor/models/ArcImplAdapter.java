@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.*;
+import fr.lip6.move.coloane.models.*;
 import fr.lip6.move.coloane.motor.formalism.*;
 
 /**

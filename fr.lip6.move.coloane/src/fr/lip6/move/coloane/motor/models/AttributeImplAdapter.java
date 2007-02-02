@@ -6,8 +6,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.IAttribute;
+import fr.lip6.move.coloane.models.*;
 
 /**
  * C'est ici que le veritable attribut est cree.<br>

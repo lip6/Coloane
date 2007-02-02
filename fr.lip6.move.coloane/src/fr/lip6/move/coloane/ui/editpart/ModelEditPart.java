@@ -50,7 +50,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * @return List
 	 */
 	protected List getModelChildren() {
-		System.out.println("Recherche des enfants du noeud root");
 		return ((ModelImplAdapter) getModel()).getChildren();
 	}
 

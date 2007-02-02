@@ -16,9 +16,9 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 
-import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.interfaces.models.IArcGraphicInfo;
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
+import fr.lip6.move.coloane.models.Model;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 
 

@@ -12,9 +12,9 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.INode;
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
+import fr.lip6.move.coloane.models.*;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 

@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 
-import fr.lip6.move.coloane.communications.models.*;
 import fr.lip6.move.coloane.interfaces.models.*;
+import fr.lip6.move.coloane.models.*;
 import fr.lip6.move.coloane.motor.formalism.*;
 
 
@@ -60,6 +60,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModel,Ser
 		super();
 		try {
 			this.model = model;
+			
 			
 			// On met a jour si necessaire le formalisme contenu dans le modele generique
 			if (this.model.getFormalism() == formalism.getName()) {
