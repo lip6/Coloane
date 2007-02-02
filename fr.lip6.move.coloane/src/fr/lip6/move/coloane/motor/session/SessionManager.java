@@ -3,21 +3,24 @@ package fr.lip6.move.coloane.motor.session;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import fr.lip6.move.coloane.communications.models.*;
-
 /**
  * Gestionnaire de Sessions
  */
 public class SessionManager {
 
-    /** Pour le prototype il n'ya qu'une seule session dans le gestionnaire */
+	/** La session courante */
     private Session currentSession;
 
-    /** Liste des sessions. */
-    private static ArrayList<Session> listOfSessions = new ArrayList<Session>();
+    /** Liste des sessions */
+    private ArrayList<Session> listOfSessions = new ArrayList<Session>();
+    
+    /** Les indicateurs de statuts */
+    public static final int OPEN = 1;
+    public static final int SUSPEND = 2;
+    
 
     /** 
-     * Constructeur  
+     * Constructeur du gestionnaire de sessions 
      */
     public SessionManager() {
     	this.currentSession = null;
@@ -45,18 +48,21 @@ public class SessionManager {
                 return session;
             }
         }
-        return null;
+        return session;
     }
+    
     
     /**
      * Positionne la session courante
+     * Si aucune session est courante... Celle la devient la session courante
      * @param s la session a positionner comme courante
      */
     public void setSession(Session s) {
         if(this.currentSession == null) {
+        	System.out.println("Session par defaut : "+s.getName());
             this.currentSession = s;
         }
-        SessionManager.listOfSessions.add(s);
+        this.listOfSessions.add(s);
     }
 
 
@@ -65,72 +71,51 @@ public class SessionManager {
      * @param sessionName nom de la session
      */
     public void suspendSession(String sessionName) {
-        this.getSession(sessionName).workSuspend();
+        this.getSession(sessionName).setStatus(SUSPEND);
     }
+    
 
     /**
      * Reprendre, rendre active une session
      * @param sessionName nom de la session
      */
     public void resumeSession(String sessionName) {
-    	this.getSession(sessionName).workResume();
+    	this.getSession(sessionName).setStatus(OPEN);
     }
+    
 
     /**
-     * Deconnexion du modele de la session désignée
+     * Deconnexion du modele de la session courante
      * @param sessionName nom de la session
      */
-    public void modelDeconnexion(String sessionName) {
-        this.currentSession.closeConnexion();
-        SessionManager.listOfSessions.remove(this.currentSession);
-        this.currentSession = null;
+    public void destroyCurrentSession() {
+    	if (currentSession != null) {
+    		// Suppression de la liste des sessions active
+    		this.listOfSessions.remove(this.currentSession);
+        
+    		// Supression des menus
+    		this.currentSession.setServicesMenu(null);
+    		this.currentSession.setAdminMenu(null);
+
+    		// La session courante devient nulle
+    		this.currentSession = null;
+    	}
     }
 
+    
     /**
      * Deconnexion brutale de tous les modeles
      */
-    public void disconnectAllModels() {
-        Iterator it;
-        Session theSession = null;
-        for (it = listOfSessions.iterator(); it.hasNext();) {
-            theSession = (Session) it.next();
-            theSession.closeConnexionPanic();
-           
+    public void destroyAllSessions() {
+        Iterator i;
+        Session session = null;
+        for (i = listOfSessions.iterator(); i.hasNext();) {
+        	session = (Session) i.next();
+        	session.setServicesMenu(null);
+        	session.setAdminMenu(null);
+            this.listOfSessions.remove(session);
         }
-        SessionManager.listOfSessions.remove(theSession);
-        this.currentSession=null;
-    }
-
-    /**
-     * Arrête le service designe de la session designee
-     * @param sessionName nom de la session
-     * @param serviceName nom du service
-     * @return boolean
-     */
-    public boolean stopService(String sessionName, String serviceName) {
-        return this.getSession(sessionName).stopService(serviceName);
-    }
-
-    
-    /**
-     * Envoi du Model a framekit 
-     * @return Model Aretourner a framekit, ce model est celui de la session courante
-     */
-    public Model askForModel(){
-        return this.currentSession.sessionModel.getModel();
-    }
-    
-    
-    /**
-     * Reception d'un nouveau model pour la session courante
-     * @param modele nouveau modèle à attacher à la session courante
-     */
-    public void setModel(Model model){
-        try {
-			this.currentSession.sessionModel.setModel(model);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    }
-    
+        
+        this.currentSession = null;
+    }   
 }

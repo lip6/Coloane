@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 
 /**
- * Session
+ * Definition d'une session
  */
 public class Session {
     
@@ -18,23 +18,29 @@ public class Session {
     private String sessionName;
 
     /** Identifiant de la session */
-    private int sessionNumber;
+    private int sessionId;
 
     /** Arborescence du menu administration */
     private RootMenu adminMenu;
     
     /** Arborescence du menu et des services de la session */
     private RootMenu sessionMenu;
-
+    
+	/** Status de la session */
+    private int sessionStatus;
+    
+    
     /**
      * Constructeur de la classe Session
      * @param name Nom de la session
      * @param num numero de la session
      */
-    public Session(String name, int num) {
-        sessionName = name;
-        sessionNumber = num;
-        sessionModel= null;
+    public Session(String name, int id) {
+        this.sessionName = name;
+        this.sessionId = id;
+        this.sessionModel= null;
+        
+        this.sessionStatus = 0;	 	
     }
 
     /**
@@ -57,23 +63,23 @@ public class Session {
      * Retourne le numero de la session
      * @return int Le numero de la session
      */
-    public int getNumber() {
-        return this.sessionNumber;
+    public int getId() {
+        return this.sessionId;
     }
 
     /**
      * Positionne le nom de la session
      * @param number Le numero de la session
      */
-    public void setNumber(int num) {
-        this.sessionNumber = num;
+    public void setId(int id) {
+        this.sessionId = id;
     }
 
     /**
      * Retoune le modele
      * @return ModelImplAdapter Le modele de la session
      */
-    public ModelImplAdapter getSessionModel() {
+    public ModelImplAdapter getModel() {
         return this.sessionModel;
     }
 
@@ -81,76 +87,55 @@ public class Session {
      * Positionne le modele
      * @param model nouveau modele
      */
-    public void setSessionModel(ModelImplAdapter model) {
+    public void setModel(ModelImplAdapter model) {
         this.sessionModel = model;
     }
-
-
+    
     /**
-     * Suspension d'un service sur la session
+     * Retourne le menu d'administration
+     * @return la racine du menu d'administration
      */
-    public void workSuspend() {
-    	// TODO : A Implementer
-    }
-
-    /**
-     * Reprendre l'exÈcution d'un service
-     */
-    public void workResume() {
-        // TODO : A Implementer
-    }
-
-    /**
-     * Fermeture de la connexion du modele
-     */
-    public void closeConnexion() {
-        this.activateServices(false);
-    }
-
-    /**
-     * Fermeture brutale de la connexion
-     */
-    public void closeConnexionPanic() {
-        this.activateServices(false);
-    }
-
-    /**
-     * Fermeture de la session
-     */
-    public void stopSession() {
-    	// TODO : A Implementer
-    }
-
-     /**
-     * Arrête le service
-     * @param serviceName Nom du service
-     * @return boolean
-     */
-    public boolean stopService(String serviceName) { 
-        this.getSessionModel().setLocked(false);
-        return true;
-    }
-
-    /**
-     * Active ou desactive l'ensemble des services de la session
-     */
-    public void activateServices(boolean res) {
-      // TODO : Activer les services
-    }
-
-	public RootMenu getAdminMenu() {
+ 	public RootMenu getAdminMenu() {
 		return adminMenu;
 	}
 
+ 	/**
+ 	 * Indique le menu d'administration attache à la session
+ 	 * @param adminMenu La racinde du menu d'administration
+ 	 */
 	public void setAdminMenu(RootMenu adminMenu) {
 		this.adminMenu = adminMenu;
 	}
 
-	public RootMenu getSessionMenu() {
+	/**
+	 * Retourne le menu de service de la session
+	 * @return la racine du menu de services
+	 */
+	public RootMenu getServicesMenu() {
 		return sessionMenu;
 	}
 
-	public void setSessionMenu(RootMenu sessionMenu) {
+	/**
+	 * Indique le menu de services attache a la session
+	 * @param sessionMenu la racine du menu de services
+	 */
+	public void setServicesMenu(RootMenu sessionMenu) {
 		this.sessionMenu = sessionMenu;
+	}
+
+	/**
+	 * Retourne le status courant de la session
+	 * @return le status courant de la session
+	 */
+	public int getStatus() {
+		return sessionStatus;
+	}
+
+	/**
+	 * Modifie le status courant de la session
+	 * @param sessionStatus Le status courant de la session
+	 */
+	public void setStatus(int sessionStatus) {
+		this.sessionStatus = sessionStatus;
 	}
 }
