@@ -80,7 +80,7 @@
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
              icon="icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.ResultsView"
-             name="Coloane results"/>
+             name="Results"/>
     </extension>
     <extension
           point="org.eclipse.ui.editors">
