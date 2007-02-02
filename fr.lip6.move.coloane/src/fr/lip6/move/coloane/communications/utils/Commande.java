@@ -729,12 +729,18 @@ public class Commande {
 		if (cmdString.equals("DE")) {
 			String s1;
 			String entier1;
+			System.out.println("Parser... DE");
 			
-			s1 = parser.parseString(",");
-			entier1 = parser.parseInt(")");
+			System.out.println(commande);
+			System.out.println("test");
 			
-			liste.add(s1);
-			liste.add(entier1);
+			if (commande.length() > 4) {
+				s1 = parser.parseString(",");
+				entier1 = parser.parseInt(")");
+			
+				liste.add(s1);
+				liste.add(entier1);
+			}
 			
 			return liste;
 		}
@@ -768,7 +774,7 @@ public class Commande {
 		}
 		
 		
-		System.out.println("------------------ Commande non traite : " + cmdString);
+		System.out.println("! Commande non traitee : " + cmdString);
 		//on retourne jsute l'entete de la commande
 		return liste;
 		
