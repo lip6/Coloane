@@ -205,7 +205,6 @@ public class Commande {
 		
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
-		System.out.println("message FS : " + new String(mess, 0, mess.length));
 		send[0] = 0;
 		send[1] = 0;
 		send[2] = 0;

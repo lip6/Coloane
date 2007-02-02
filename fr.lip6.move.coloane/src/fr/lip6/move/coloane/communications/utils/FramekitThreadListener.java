@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import fr.lip6.move.coloane.communications.Api;
 import fr.lip6.move.coloane.communications.models.Model;
 import fr.lip6.move.coloane.communications.objects.FramekitMessage;
+import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.Menu;
 import fr.lip6.move.coloane.menus.RootMenu;
@@ -38,6 +39,9 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des dialogues */
 	private Vector<Dialog> dialogList;
 	
+	/** Liste des resultats */
+	private Vector<Result> resultList;
+	
 	/** Dialogue en cours de manipulation */
 	private int identity = 0;
 	
@@ -54,6 +58,7 @@ public class FramekitThreadListener extends Thread {
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<Menu>();
 		this.dialogList = new Vector<Dialog>();
+		this.resultList = new Vector<Result>();
 		this.parent = (Composite) Coloane.getParent();
 	}
 	
@@ -67,6 +72,9 @@ public class FramekitThreadListener extends Thread {
 		
 		// Le Dialogue en cours de construction
 		Dialog dialog = null;
+		
+		// Le resultat en cours de constrction
+		Result result = null;
 				
 		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
@@ -95,7 +103,7 @@ public class FramekitThreadListener extends Thread {
 
 				// Si on recoit un mesage fin de service
 				if (commandeRecue.elementAt(0).equals("EOS")) {
-					api.cnxClosed(1, "Disconnected from Framekit", 1);
+					api.closeConnexion(1, "Disconnected from Framekit", 1);
 					System.out.println("Connexion closed");
 					break;
 				}	
@@ -103,7 +111,7 @@ public class FramekitThreadListener extends Thread {
 			// En cas d'erreur, on se deconnecte de FrameKit	
 			} catch (Exception e) {
 				e.printStackTrace();
-				api.cnxClosed(1, "Deconnexion de FrameKit", 1);
+				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
 				System.out.println("Connexion fermee");
 				break;
 			}
@@ -138,32 +146,31 @@ public class FramekitThreadListener extends Thread {
 					
 							// Etat du service : inactif
 							case 1 : {
-								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
 							}
 						
 							// Etat du service : actif
 							case 2 : {
-								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
 							}						
 							
 							// Etat du service : termine
 							case 3 : {
-								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-								this.api.endService();
+								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
 							}
 							
 							// Etat du service : non documente!
 							case 5 : {
-								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
 							}
 							
 							// Etat du service : termine de facon errone
 							case 6 : {
-								this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
+								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
 							}
 							
@@ -340,6 +347,10 @@ public class FramekitThreadListener extends Thread {
 						
 						// Le retour d'un service indique que le modele est a jour sur la plate-forme
 						this.api.setModelDirty(false);
+						
+						// On envoie la liste des resultats
+						this.api.setResults(resultList);
+						
 						continue;
 					}
 					
@@ -347,14 +358,14 @@ public class FramekitThreadListener extends Thread {
 					// TODO : A documenter 
 					if ((listeArgs.firstElement().equals("KO"))) {
 						Integer i = new Integer(listeArgs.elementAt(2).toString());
-						api.cnxClosed(1, (String) listeArgs.elementAt(1), i.intValue());
+						api.closeConnexion(1, (String) listeArgs.elementAt(1), i.intValue());
 						continue;
 					}
 					
 					// Message FC
 					// Fin de connexion
 					if ((listeArgs.firstElement().equals("FC"))) {
-						api.cnxClosed(1, "fermeture normal", 1);
+						api.closeConnexion(1, "Fermeture standart de FrameKit", 1);
 						continue;
 					} 
 					
@@ -388,8 +399,9 @@ public class FramekitThreadListener extends Thread {
 					} 
 					
 					// Message DR
-					// Debut de la transmission d'une reposne d'un outil
+					// Debut de la transmission d'une reponse d'un outil
 					if ((listeArgs.firstElement().equals("DR"))) {
+						resultList.clear();
 						continue;
 					}
 					
@@ -402,21 +414,22 @@ public class FramekitThreadListener extends Thread {
 					// Message DE
 					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane 
 					if ((listeArgs.firstElement().equals("DE"))) {
-						this.api.printState("Message de :"+(String) listeArgs.elementAt(1));
+						result = new Result();
 						continue;
 					}
 	
 					// Message RT
 					// Transmission d'un resultat textuel mono-ligne
 					if ((listeArgs.firstElement().equals("RT"))) {
-						this.api.printHistory("Messages dans fenetre d'etat");
-						this.api.printState((String) listeArgs.elementAt(1));
+						if (!listeArgs.elementAt(1).equals(""))
+							result.setDescription((String) listeArgs.elementAt(1));
+						continue;
 					}
-	
+					
 					// Message RO
 					// Designation d'un objet associe au resultat dans un ensemble
 					if ((listeArgs.firstElement().equals("RO"))) {
-						this.api.printState("Place :"+(String) listeArgs.elementAt(1));
+						result.addElement((String) listeArgs.elementAt(1));
 						continue;
 					}
 
@@ -429,27 +442,30 @@ public class FramekitThreadListener extends Thread {
 					// Message FE
 					// Fin d'ensemble de resultats ou d'objets transmis
 					if ((listeArgs.firstElement().equals("FE"))) {
+						resultList.add(result);
 						continue;
 					}
 					
 					// Message SS
 					// Suspension d'un session Coloane
 					if ((listeArgs.firstElement().equals("SS"))) {
-						this.api.setSuspendCurrentSession(true);
+						System.out.println("Unlock SS");
+						this.verrou.unlock();
 						continue;
 					}
 					
 					// Message RS
 					// Reprise d'une session Coloane
 					if ((listeArgs.firstElement().equals("RS"))) {
-						this.api.setResumedSession(true);
+						//this.api.setResumedSession(true);
 						continue;
 					}
 					
 					// Message FS
 					// Fin d'une session Coloane
 					if ((listeArgs.firstElement().equals("FS"))) {
-						this.api.setClosedSession(true);
+						System.out.println("Unlock FS");
+						this.verrou.unlock();
 						continue;
 					}
 					
