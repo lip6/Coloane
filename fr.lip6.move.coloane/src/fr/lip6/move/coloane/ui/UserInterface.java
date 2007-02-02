@@ -138,6 +138,11 @@ public class UserInterface implements IUiCom, IUiMotor {
 			String labelService;
 			ResultsList r = null;
 			
+			System.out.println("Ser = "+serviceName);
+			
+			/*
+			 * SYNTAX CHECKER
+			 */
 			if (serviceName.equals("Petri net syntax checker")) {
 				
 				labelService = "Syntax-Checker Results";
@@ -145,20 +150,60 @@ public class UserInterface implements IUiCom, IUiMotor {
 				
 				String description = null;
 				
-				System.out.println(" ! > "+result.getDescription());
-				if (result.getDescription().equals("List of unnamed places.")) {
+				if (result.getHeadDescription().equals("List of unnamed places.")) {
 					description = "This place is unnamed";
-				} else if (result.getDescription().equals("List of unnamed transitions.")) {
-					System.out.println("Ajout de la description "+description);
+				} else if (result.getHeadDescription().equals("List of unnamed transitions.")) {
 					description = "This transition is unnamed";
 				}
 				
 				// Parcours de mes resultats
-				for (String object : result.getList()) {
-					System.out.println("Ajout d'un objet :"+object);
+				for (String object : result.getListOfElement()) {
 					r.add(new fr.lip6.move.coloane.results.Result(object,description));
 				}
+				
+			/*
+			 * STRUCTURAL BOUNDS
+			 */
+			} else if (serviceName.equals("Compute structural bounds")) {
+				
+				labelService = "Structural Bounds";
+				r = new ResultsList(labelService);
+
+				// Parcours de mes resultats
+				for (String object : result.getListOfElement()) {
+					r.add(new fr.lip6.move.coloane.results.Result(object,result.getHeadDescription()));
+				}
+				
+			/*
+			 * STRUCTURAL SAFETY
+			 */
+			} else if (serviceName.equals("Is the net structuraly safe?")) {
+				labelService = "Structural safety";
+				r = new ResultsList(labelService);
+				
+				if (result.getHeadDescription().equals("Here are unsafe places")) {					
+					
+					// Parcours de mes resultats
+					for (String object : result.getSublistOfDescription(1)) {
+						r.add(new fr.lip6.move.coloane.results.Result(object,""));
+					}
+					
+				} else if (result.getHeadDescription().equals("Your net is not safe")) {
+					String description = "Your net is not safe";
+					r.add(new fr.lip6.move.coloane.results.Result(description,"Reasons are given above"));
+				}
+			
+			/*
+			 * STRUCTURAL BOUNDS
+			 */
+			} else if (serviceName.equals("Is the net structurally bounded?")) {
+				labelService = "Structural bounds";
+				r = new ResultsList(labelService);
+				
+				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
 			}
+			
+			
 			
 			System.out.println("Transmission des resultats");
 			serviceResultList.setResultsList(r);
