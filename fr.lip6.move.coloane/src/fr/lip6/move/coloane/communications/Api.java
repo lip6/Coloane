@@ -241,6 +241,7 @@ public class Api implements IApi {
 
 					// On ferme toutes les threads liees aux modeles ouverts
 					while (it.hasNext()) {
+						@SuppressWarnings("unused")
 						FramekitThreadSpeaker speaker = (FramekitThreadSpeaker) it.next();
 						speaker = null;
 					}
@@ -286,6 +287,7 @@ public class Api implements IApi {
 			// Fermeture des threads
 			while (it.hasNext()) {
 				String sessionName = (String) it.next();
+				@SuppressWarnings("unused")
 				FramekitThreadSpeaker threadSpeaker = (FramekitThreadSpeaker) listeThread.get(sessionName);
 				threadSpeaker = null;
 			}
@@ -451,11 +453,9 @@ public class Api implements IApi {
 		if (!this.sessionOpened || this.currentSessionName == null) {
 			return false;
 		} else {
-			System.out.println("!! Envoi des resultats");
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
 			if (!speak.sendDialogueResponse(results)) {
-				System.out.println("DialogueResponse pas envoye !!!");
 				return false;
 			}
 			return true;
@@ -556,7 +556,7 @@ public class Api implements IApi {
 	public void setResults(Vector<Result> resultList) {
 		if(!resultList.isEmpty()) {
 			Iterator i = resultList.iterator();
-			
+
 			// On envoie tous les services a la com qui est chargee de les afficher
 			while (i.hasNext()) {
 				Result r = (Result) i.next();
