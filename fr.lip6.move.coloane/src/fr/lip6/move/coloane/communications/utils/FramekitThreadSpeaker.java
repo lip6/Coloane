@@ -28,13 +28,58 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @param sessionFormalism formalism
 	 * @param verrou
 	 */
-	public FramekitThreadSpeaker(Api apiFK, ComLowLevel lowCom, String name, int date, String sessionFormalism, Lock verrou) {
+	public FramekitThreadSpeaker(Api apiFK, ComLowLevel lowCom, Lock verrou) {
 		this.api = apiFK;
 		this.lowCom = lowCom;
 		this.verrou = verrou;
 	}
 	 
 
+	/**
+	 * Ouverture d'une session du cote de FrameKit
+	 * @param sessionName LE nom de la session (utilse pour FK)
+	 * @param date la date de derniere mise a jour du modele
+	 * @param sessionFormalism Le formalisme du modele qu'on envoie
+	 * @return booleen Reussite de l'operation d'ouverture de session
+	 */
+	public boolean openSession(String sessionName, int date, String sessionFormalism) {
+		
+		Commande cmd = new Commande();
+
+		// Compisition de la commande OS
+		byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
+		String serviceName;
+		
+		try {
+			lowCom.writeCommande(send);
+		} catch (CommunicationCloseException e) {
+			e.printStackTrace();
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
+			return false;
+		}
+		
+		// Mise en attente
+		verrou.attendre(); //OS
+		verrou.attendre(); //TD
+		verrou.attendre(); //FA
+		verrou.attendre(); //TL
+		serviceName = verrou.attendreServiceName(); //VI
+		verrou.attendre(); //FL
+		
+		try {
+			lowCom.writeCommande(cmd.createCmdDI());
+			lowCom.writeCommande(cmd.createCmdCI(serviceName, 1));
+			lowCom.writeCommande(cmd.createCmdFI());
+		} catch (CommunicationCloseException e) {
+			e.printStackTrace();
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
+			return false;
+		}
+				
+		verrou.attendre(); //QQ(3)
+		return true;
+	}
+	
 	/**
 	 * Execute un service
 	 * @param rootMenuName nom du menu pere
@@ -73,7 +118,7 @@ public class FramekitThreadSpeaker extends Thread {
 
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 		}
 	}	
 		
@@ -101,7 +146,7 @@ public class FramekitThreadSpeaker extends Thread {
 			commande = cmd.createCmdSimple("FB");
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			e.printStackTrace();
 		}
 
@@ -119,7 +164,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			return false;
 		}
 		return true;
@@ -148,7 +193,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 			
 		} catch (CommunicationCloseException e) {
-			this.api.cnxClosed(1,"Connexion detruite par FrameKit",1);
+			this.api.closeConnexion(1,"Connexion detruite par FrameKit",1);
 			e.printStackTrace();
 			return false;
 		}
@@ -158,7 +203,7 @@ public class FramekitThreadSpeaker extends Thread {
 	/**
 	 * Suspendre la session courante
 	 */
-	public void sendSuspend() {
+	public boolean sendSuspend() {
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdSimple("SS");
@@ -166,8 +211,14 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 		}
+		
+		// Attente du message SS
+		verrou.attendre(); //SS
+		
+		System.out.println("Attente validee SS");
+		return true;		
 	}
 	
 	/**
@@ -182,14 +233,14 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);				
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);				
 		}
 	}
 	
 	/**
 	 * Fermer la session courante
 	 */
-	public void sendClose() {
+	public boolean sendClose() {
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdFS(1);
@@ -197,8 +248,14 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
+			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 		}
+		
+		// Attente du message FS
+		verrou.attendre(); //FS
+		
+		System.out.println("Attente validee FS");
+		return true;
 	}
 
 
@@ -221,50 +278,7 @@ public class FramekitThreadSpeaker extends Thread {
 		
 		
 		
-	/**
-	 * 
-	 * @param sessionName
-	 * @param date
-	 * @param sessionFormalism
-	 * @return
-	 */
-	public boolean openSession(String sessionName, int date, String sessionFormalism) {
-		
-		Commande cmd = new Commande();
-		byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
-		String serviceName;
-		
-		System.out.println("--> OS(" + sessionName + "," + date + "," + sessionFormalism + ")");
-		
-		try {
-			lowCom.writeCommande(send);
-		} catch (CommunicationCloseException e) {
-			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-			return false;
-		}
-		
-		// Mise en attente
-		verrou.attendre(); //OS
-		verrou.attendre(); //TD
-		verrou.attendre(); //FA
-		verrou.attendre(); //TL
-		serviceName = verrou.attendreServiceName(); //VI
-		verrou.attendre(); //FL
-		
-		try {
-			lowCom.writeCommande(cmd.createCmdDI());
-			lowCom.writeCommande(cmd.createCmdCI(serviceName, 1));
-			lowCom.writeCommande(cmd.createCmdFI());
-		} catch (CommunicationCloseException e) {
-			e.printStackTrace();
-			this.api.cnxClosed(1,"Connexion detruite par Framekit",1);
-			return false;
-		}
-				
-		verrou.attendre(); //QQ(3)
-		return true;
-	}
+
 		
 
 		/**
