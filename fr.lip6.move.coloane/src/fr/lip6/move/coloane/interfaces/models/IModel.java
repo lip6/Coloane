@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.interfaces.models;
 import java.util.List;
 
 
-import fr.lip6.move.coloane.communications.models.*;
+import fr.lip6.move.coloane.models.*;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
 

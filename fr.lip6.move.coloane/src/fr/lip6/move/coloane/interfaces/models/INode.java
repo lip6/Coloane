@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-import fr.lip6.move.coloane.communications.models.Node;
+import fr.lip6.move.coloane.models.Node;
 import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
 
 
