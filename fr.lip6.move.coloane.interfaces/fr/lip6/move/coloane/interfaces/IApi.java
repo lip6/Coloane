@@ -72,7 +72,8 @@ public interface IApi {
 	
 	public int getDateModel();
 	
-	public void drawDialog(IDialog dialog);
+	
+	public void drawDialog(IDialogCom dialog);
 	
 	public boolean getDialogAnswers(IDialogResult results);
 

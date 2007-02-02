@@ -8,4 +8,6 @@ public interface IRootMenuCom {
 	
 	public Vector<IMenuCom> getListMenu();
 	
+	public IMenuCom getMenu(String name);
+	
 }

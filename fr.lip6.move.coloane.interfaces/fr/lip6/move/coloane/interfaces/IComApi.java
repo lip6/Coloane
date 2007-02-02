@@ -26,7 +26,7 @@ public interface IComApi {
 	public void drawDialog(IDialogCom dialog);
 	
 	/** Transmet le modele */
-	public IModel getModel();
+	public IModelCom getModel();
 	
 	/** Met a jour l'etat de fraicheur du modele */
 	public void setModelDirty(boolean state);
@@ -38,7 +38,7 @@ public interface IComApi {
 	public int getDateModel();
 	
 	/** Construit un nouveau modele dans un nouvel editeur */
-	public void setNewModel(IModel model); 
+	public void setNewModel(IModelCom model); 
 	
 	/** Destruction de toutes les sessions */
 	public void closeAllSessions();	
