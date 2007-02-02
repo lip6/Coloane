@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.communications;
 
 
-import fr.lip6.move.coloane.communications.models.Model;
+import fr.lip6.move.coloane.api.Api;
 import fr.lip6.move.coloane.communications.objects.Result;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.models.IModel;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.models.Model;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
