@@ -2,14 +2,21 @@ package fr.lip6.move.coloane.communications.objects;
 
 import java.util.Vector;
 
-public class Result {
+import fr.lip6.move.coloane.interfaces.IResultsCom;
+
+public class Results {
 	private Vector<String> description;
 	private Vector<String> elements;
 
 	
-	public Result() {
+	public Results() {
 		this.description = new Vector<String>();
 		this.elements = new Vector<String>();
+	}
+	
+	public Results(IResultsCom resultsCom) {
+		this.description = resultsCom.getListOfDescription();
+		this.elements = resultsCom.getListOfElement();
 	}
 	
 	public void addElement(String element) {

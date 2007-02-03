@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.communications.objects;
 
-import fr.lip6.move.coloane.exceptions.WrongArgumentValueException;
+import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
 
 /**
  * Message de trace ou alerte envoye par Framekit a l'IHM
