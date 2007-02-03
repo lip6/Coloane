@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.interfaces;
 
+/**
+ * Interface fournie par l'API pour Coloane
+ * Cette interface propose les interractions possible avec un element de dialogue
+ * construit par l'API a l'initiative de la palte-forme
+ */
 public interface IDialogCom {
 
 	public abstract int getButtonType();

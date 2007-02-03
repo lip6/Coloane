@@ -3,7 +3,8 @@ package fr.lip6.move.coloane.interfaces;
 import java.util.Vector;
 
 /**
- * Interface pour la transmissions de resultats.
+ * Interface fournie par l'interface a Coloane 
+ * pour la transmissions de resultats.
  */
 public interface IResultsCom {
 
