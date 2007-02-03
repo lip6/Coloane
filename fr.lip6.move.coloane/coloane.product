@@ -3,7 +3,22 @@
 
 <product name="Coloane" id="fr.lip6.move.coloane.standalone.product" application="fr.lip6.move.coloane.standalone.application" useFeatures="false">
 
+
    <configIni use="default"/>
+
+   <launcherArgs>
+   </launcherArgs>
+
+   <windowImages/>
+
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -45,5 +60,9 @@
       <plugin id="org.eclipse.update.core"/>
       <plugin id="org.eclipse.update.ui"/>
    </plugins>
+
+   <features>
+      <feature id="fr.lip6.move.coloane.feature" version="0.8.0"/>
+   </features>
 
 </product>
