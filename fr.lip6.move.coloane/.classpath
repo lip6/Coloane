@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fr.lip6.move.coloane.apicami"/>
+	<classpathentry kind="lib" path="/Users/Croc/Desktop/interfaces.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

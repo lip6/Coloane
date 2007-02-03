@@ -83,7 +83,7 @@
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.ui_3.2.0.I20060605-1400.jar"/>
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.ui.carbon_3.2.0.I20060605-1400.jar"/>
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.swt_3.2.0.v3232o.jar"/>
-			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.swt.carbon.macosx_3.2.0.v3232m.jar"/>
+			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.swt.carbon.macosx_3.2.1.v3235.jar"/>
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.jface_3.2.0.I20060605-1400.jar"/>
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.core.commands_3.2.0.I20060605-1400.jar"/>
 			<pathelement path="../../../../../Applications/eclipse/plugins/org.eclipse.ui.workbench_3.2.0.I20060605-1400.jar"/>
