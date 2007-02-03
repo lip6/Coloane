@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 
-import fr.lip6.move.coloane.models.Node;
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
+import fr.lip6.move.coloane.model.Node;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 
 
 /**
@@ -22,7 +22,7 @@ import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
  * </p> 
  */
 
-public interface INode {
+public interface INodeImpl {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
 	public static final String SOURCE_ARCS_PROP = "Node.OutputArc";

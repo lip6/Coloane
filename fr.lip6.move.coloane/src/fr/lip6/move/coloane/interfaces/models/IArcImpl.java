@@ -3,8 +3,8 @@ package fr.lip6.move.coloane.interfaces.models;
 import java.util.Collection;
 
 
-import fr.lip6.move.coloane.models.Arc;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.model.Arc;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * Interface pour les arcs du modele.<br>
@@ -25,7 +25,7 @@ import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
  * @see AbstractModelElement
  * 
  */
-public interface IArc {
+public interface IArcImpl {
     
     /** ID pour la propriete lorsqu'un changement de la valeur */
     public static final String VALUE_PROP = "Arc.ValueUpdate";
@@ -46,14 +46,14 @@ public interface IArc {
     /**
      * Retourne le noeud qui est son point de source
      * @return NodeImplAdapter
-     * @see INode
+     * @see INodeImpl
      */
     public NodeImplAdapter getSource();
     
     /**
      * Retourner le noeud qui est son point de cible
      * @return NodeImplAdapter
-     * @see INode
+     * @see INodeImpl
      */
     public NodeImplAdapter getTarget();
     

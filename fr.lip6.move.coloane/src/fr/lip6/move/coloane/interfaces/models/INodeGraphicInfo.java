@@ -5,7 +5,7 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Interface pour l'information graphique d'un noeud
- * @see INode
+ * @see INodeImpl
  */
 public interface INodeGraphicInfo {
 

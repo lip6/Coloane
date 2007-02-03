@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces;
 
-import fr.lip6.move.coloane.interfaces.models.IModel;
+import fr.lip6.move.coloane.interfaces.models.IModelImpl;
 
 public interface IComMotor {
 	
@@ -10,7 +10,7 @@ public interface IComMotor {
 	 * @return booleen selon le resultat de la connexion 
 	 * @throws Exception
 	 */
-	public boolean openSession(IModel modele) throws Exception;
+	public boolean openSession(IModelImpl modele) throws Exception;
 	
 	public boolean closeSession() throws Exception;
 

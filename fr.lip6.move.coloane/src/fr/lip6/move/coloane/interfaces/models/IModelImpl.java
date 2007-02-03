@@ -3,15 +3,15 @@ package fr.lip6.move.coloane.interfaces.models;
 import java.util.List;
 
 
-import fr.lip6.move.coloane.models.*;
+import fr.lip6.move.coloane.model.*;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * Interface generale du modele
  * La classe qui implemente cette interface doit heriter de la classe AbstractModelElement pour avoir des fonctionalites de proprietes
  */
-public interface IModel {
+public interface IModelImpl {
 
     /** ID de propriete lorsqu'un noeud est ajoute au modele */
     public static final String NODE_ADDED_PROP = "Model.AddingNode";
@@ -23,13 +23,13 @@ public interface IModel {
      * Retourne le modele generique
      * @return Model
      */
-    public Model getGenericModel();
+    public IModel getGenericModel();
 
     /**
      * Associe un modele
      * @throws Exception 
      */
-    public void setModel(Model model) throws Exception;
+    public void setModel(IModel model) throws Exception;
   
     /**
      * Retourne le formalisme

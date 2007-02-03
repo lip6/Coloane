@@ -13,7 +13,7 @@ package fr.lip6.move.coloane.interfaces.models;
  * </ul> 
  */
 
-public interface IAttribute {
+public interface IAttributeImpl {
 	
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	public static final String UPDATE_ATTRIBUTE_VALUE = "Attribute.ValueUpdate";
