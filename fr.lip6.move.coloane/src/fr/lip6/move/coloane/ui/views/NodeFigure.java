@@ -15,8 +15,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
-import fr.lip6.move.coloane.motor.models.AbstractModelElement;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.AbstractModelElement;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 

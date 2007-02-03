@@ -13,9 +13,9 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.motor.models.AbstractModelElement;
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
+import fr.lip6.move.coloane.ui.model.AbstractModelElement;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.views.ArcFigure;
 import fr.lip6.move.coloane.ui.views.IArcFigure;
 

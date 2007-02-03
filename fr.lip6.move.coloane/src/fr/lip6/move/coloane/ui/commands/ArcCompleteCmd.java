@@ -6,8 +6,8 @@ import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * Connexion effective d'un arc

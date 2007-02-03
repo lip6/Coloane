@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * @author yutao

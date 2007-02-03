@@ -3,8 +3,8 @@ package fr.lip6.move.coloane.ui;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import fr.lip6.move.coloane.motor.models.*;
 import fr.lip6.move.coloane.ui.editpart.*;
+import fr.lip6.move.coloane.ui.model.*;
 
 /**
  * Cette Factory construit les EditParts pour chacun des elements du modele.

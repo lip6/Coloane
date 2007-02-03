@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.ui.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 
 /**
  * @author yutao

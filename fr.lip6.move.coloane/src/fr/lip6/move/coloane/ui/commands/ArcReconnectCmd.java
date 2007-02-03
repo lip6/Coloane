@@ -5,8 +5,8 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.motor.models.ArcImplAdapter;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * A command to reconnect a connection to a different start point or end point.

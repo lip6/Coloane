@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import fr.lip6.move.coloane.communications.objects.Result;
+import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.interfaces.*;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
@@ -133,7 +133,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param serviceName Le nom du service qui produit ses resultats
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
-	public void setResults(String serviceName, Result result) {
+	public void setResults(String serviceName, Results result) {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;

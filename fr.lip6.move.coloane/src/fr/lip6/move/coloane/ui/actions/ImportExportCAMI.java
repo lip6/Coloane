@@ -6,8 +6,8 @@ import java.io.ObjectOutputStream;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;

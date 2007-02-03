@@ -21,7 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.*;
-import fr.lip6.move.coloane.motor.models.*;
+import fr.lip6.move.coloane.ui.model.*;
 
 /**
  * Creation d'une palette GEF

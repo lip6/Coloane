@@ -8,10 +8,10 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
 import fr.lip6.move.coloane.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 

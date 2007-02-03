@@ -17,7 +17,7 @@ import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FanRouter;
 
-import fr.lip6.move.coloane.motor.models.*;
+import fr.lip6.move.coloane.ui.model.*;
 
 
 /**

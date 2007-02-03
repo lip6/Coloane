@@ -60,7 +60,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
 public class Editor extends GraphicalEditorWithFlyoutPalette {

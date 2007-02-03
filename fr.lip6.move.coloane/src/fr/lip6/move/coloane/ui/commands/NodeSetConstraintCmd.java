@@ -7,7 +7,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * @author yutao

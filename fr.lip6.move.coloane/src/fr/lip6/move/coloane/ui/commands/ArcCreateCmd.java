@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.ui.commands;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
-import fr.lip6.move.coloane.motor.models.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 /**
  * Dommande pour la creation d'un arc

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.motor.session;
 
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 /**
  * Definition d'une session

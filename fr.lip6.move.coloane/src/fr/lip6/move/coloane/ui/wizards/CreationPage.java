@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
-public class ModelCreationPage extends WizardNewFileCreationPage {
+public class CreationPage extends WizardNewFileCreationPage {
 
 	private final IWorkbench workbench;
 	private static int fileCount = 0;
@@ -31,7 +31,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @param workbench le workbench courant
 	 * @param selection l'object selection courant
 	 */
-	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
+	public CreationPage(IWorkbench workbench, IStructuredSelection selection) {
 		super("Step 2 - Choose a project", selection);
 
 		this.workbench = workbench;
@@ -43,7 +43,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Cette mï¿½thode ajoute quelques controles pour parcourir le fichier du formalisme
+	 * Cette mŽthode ajoute quelques controles pour parcourir le fichier du formalisme
 	 * pour le control standard de WizardNewFileCreationPage
 	 */
 	public void createControl(Composite parent) {
@@ -53,7 +53,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Cette mï¿½thode est invoquï¿½e quand le boutton "Finish" est pressï¿½
+	 * Cette mŽthode est invoquŽe quand le boutton "Finish" est pressŽ
 	 * @return true si ok
 	 * @see NewModelWizard#performFinish()
 	 */
@@ -121,7 +121,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 	/**
 	 * Valider la page
-	 * @return true si la page est validï¿½e
+	 * @return true si la page est validŽe
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
 	protected boolean validatePage() {
