@@ -1,18 +1,30 @@
 package fr.lip6.move.coloane.communications;
 
 
+import java.util.Vector;
+
+import org.eclipse.swt.widgets.Composite;
+
 import fr.lip6.move.coloane.api.Api;
-import fr.lip6.move.coloane.communications.objects.Result;
+import fr.lip6.move.coloane.communications.objects.Results;
+
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComUi;
 import fr.lip6.move.coloane.interfaces.IComMotor;
+import fr.lip6.move.coloane.interfaces.IDialogCom;
+import fr.lip6.move.coloane.interfaces.IDialogResult;
+import fr.lip6.move.coloane.interfaces.IMenuCom;
+import fr.lip6.move.coloane.interfaces.IModelCom;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
+import fr.lip6.move.coloane.interfaces.IResultsCom;
+import fr.lip6.move.coloane.interfaces.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.IUiCom;
-import fr.lip6.move.coloane.interfaces.models.IModel;
+import fr.lip6.move.coloane.interfaces.models.IModelImpl;
+
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.models.Model;
+import fr.lip6.move.coloane.model.IModel;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 
@@ -27,12 +39,23 @@ public class Com implements IComUi, IComApi, IComMotor {
 	/** Une poignee sur l'interface utilisateur */
 	private IUiCom ui = null;
 	
+	/** Le dialogue en cours de construction */
+	private Dialog dialog = null;
+	
+	/** Les menus en cours de construction */
+	private Vector<RootMenu> menuList = null;
+	
+	/** TODO : A documenter */
+	private Composite parent;
+	
 	/**
 	 * Le constructeur
 	 * Le module de communications doit creer un lien avec l'API de communications
 	 */
 	public Com() {
 		this.api = new Api(this);
+		this.parent = (Composite) Coloane.getParent();
+		this.menuList = new Vector<RootMenu>();
 	}
 	
 	/**
@@ -70,7 +93,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("  Port-> " +port);
 			
 			// Connexion ˆ la plateforme
-			boolean retour = api.openConnexion(login, pass, ip, port);
+			boolean retour = api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"));
 			if (retour) {
 				System.out.println("Retour authentification OK");
 			} else {
@@ -89,7 +112,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @return booleen selon que la connexion s'est bien passee ou pas
 	 * @throws Exception
 	 */
-	public boolean openSession(IModel modele) throws Exception {
+	public boolean openSession(IModelImpl modele) throws Exception {
 		if (modele == null) {
             throw new NullPointerException();
         }
@@ -169,8 +192,6 @@ public class Com implements IComUi, IComApi, IComMotor {
 	}
 	
 	
-	
-	
 	/**
 	 * Demande de service a la plateforme FrameKit
 	 * @param rootMenuName Nom de la racine du menu
@@ -208,8 +229,37 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Affichage des menus construit a partir des commandes CAMI 
 	 * @param menu La racine du menu a afficher
 	 */
-	public void drawMenu(RootMenu menu) {
-		this.ui.drawMenu(menu);
+	public void drawMenu(Vector<IRootMenuCom> menuComList) {
+		menuList = new Vector<RootMenu>();
+		
+		try {
+			// Transformation des menus
+			for (int i=0; i < menuComList.size(); i++) {
+				IRootMenuCom menuRootCom = menuComList.get(i);
+				RootMenu root = new RootMenu(menuRootCom.getRootMenu());
+			
+				for (int j=0; j < menuRootCom.getListMenu().size(); j++) {
+					IMenuCom menuCom = menuRootCom.getListMenu().get(j);
+					root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
+				}
+			
+				// Ajout a la liste de manu a construire
+				menuList.add(root);		
+			}
+		
+			// Demande d'affichage a l'UI
+			parent.getDisplay().asyncExec(new Runnable(){
+				public void run(){
+					for (RootMenu menu : menuList) {
+						ui.drawMenu(menu);
+					}
+				}
+			});
+		} catch (Exception e) {
+			System.err.println("Impossible de construire le menu");
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -226,8 +276,17 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Affichag d'une boite de dialogue
 	 * @param dialog La boite de dialogue entierement definie
 	 */
-	public void drawDialog(Dialog dialog) {
-		this.ui.drawDialog(dialog);
+	public void drawDialog(IDialogCom dialogCom) {
+		
+		// Transformation du dialogue
+		dialog = new Dialog(dialogCom);
+		
+		// Affichage de la boite de dialogue
+		parent.getDisplay().asyncExec(new Runnable(){
+			public void run(){
+				ui.drawDialog(dialog);
+			}
+		});
 	}
 	
 	
@@ -236,7 +295,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @results Les resultats sous forme d'objets
 	 */
 	public void getDialogAnswers(DialogResult results) {
-		if (!this.api.getDialogAnswers(results)) {
+		if (!this.api.getDialogAnswers((IDialogResult)results)) {
 			System.err.println("La transmission des reponses de la boite de dialogue a echouee");
 		}
 	}
@@ -246,8 +305,12 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @param serviceName Le nom du service auquel sont rattaches les resultats
 	 * @param result L'objet contenant tous les resultats
 	 */
-	public void setResults(String serviceName, Result result) {
-		this.ui.setResults(serviceName,result);
+	public void setResults(String serviceName, IResultsCom resultsCom) {
+		
+		// Transformation des resultats
+		Results results = new Results(resultsCom);
+		
+		this.ui.setResults(serviceName,results);
 	}
 	
 	public void printResults() {
@@ -276,8 +339,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Recupere le modele
 	 * @return Le modele en cours
 	 */
-	public Model getModel() {
-		return this.motor.getSessionManager().getCurrentSession().getModel().getModel();
+	public IModelCom getModel() {
+		return (IModelCom) this.motor.getSessionManager().getCurrentSession().getModel().getModel();
 	}
 	
 	
@@ -285,8 +348,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Demande la creation d'un nouveau modele a partir des inputs de FK
 	 * @param Le modele construit par l'api de communication
 	 */
-	public void setNewModel(Model model) {
-		this.motor.setNewModel(model);
+	public void setNewModel(IModelCom model) {
+		this.motor.setNewModel((IModel)model);
 	}
 	
 	
@@ -313,5 +376,5 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public int getDateModel() {
 		return this.motor.getSessionManager().getCurrentSession().getModel().getDate();
-	}	
+	}
 }
