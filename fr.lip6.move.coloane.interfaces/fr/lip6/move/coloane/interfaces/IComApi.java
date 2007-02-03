@@ -92,4 +92,9 @@ public interface IComApi {
 	 * @see IResultsCom
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom);
+	
+	/**
+	 * Destruction de toutes les sessions du cote Coloane
+	 */
+	public void closeAllSessions();	
 }
