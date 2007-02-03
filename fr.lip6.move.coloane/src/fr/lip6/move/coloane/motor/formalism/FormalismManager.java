@@ -18,8 +18,8 @@ import java.util.StringTokenizer;
 
 import fr.lip6.move.coloane.interfaces.models.IArcGraphicInfo;
 import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
-import fr.lip6.move.coloane.models.Model;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
+import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
 /**

@@ -22,11 +22,11 @@ import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.models.Model;
+import fr.lip6.move.coloane.model.IModel;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.motor.session.SessionManager;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 public class Motor implements IMotorCom, IMotorUi {
 	private static FormalismManager formalismManager;
@@ -111,7 +111,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Cette action est particulièrement utile lors de la generation d'un modele par FK
 	 * @param model le model brut
 	 */
-	public void setNewModel(Model model) {
+	public void setNewModel(IModel model) {
 		// affecte le modèle à la session courante
 		final ModelImplAdapter modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph"));
 		final Shell shell = window.getShell();
