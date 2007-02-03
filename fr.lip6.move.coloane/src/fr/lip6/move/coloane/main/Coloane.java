@@ -13,9 +13,9 @@ import org.osgi.framework.BundleContext;
 
 import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.motor.Motor;
-import fr.lip6.move.coloane.motor.models.ModelImplAdapter;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.ui.UserInterface;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 public class Coloane extends AbstractUIPlugin {
 	
