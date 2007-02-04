@@ -17,3 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gef
 Eclipse-LazyStart: true
 Plugin-Class: fr.lip6.move.coloane.main.Coloane
+Bundle-ClassPath: lib/interfaces.jar,
+ lib/apicami.jar,
+ .
