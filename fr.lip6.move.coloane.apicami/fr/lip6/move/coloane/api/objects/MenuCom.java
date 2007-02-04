@@ -7,7 +7,7 @@ public class MenuCom implements IMenuCom {
 	private String serviceName;
 	private boolean enabled;
 
-	public MenuCom (String fatherName, String serviceName, boolean enabled) {
+	public MenuCom (String serviceName, String fatherName, boolean enabled) {
 		this.fatherName = fatherName;
 		this.serviceName = serviceName;
 		this.enabled = enabled;
