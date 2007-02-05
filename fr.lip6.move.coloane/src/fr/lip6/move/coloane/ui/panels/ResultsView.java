@@ -20,14 +20,14 @@ public class ResultsView extends ViewPart
 	public static ResultsView instance;
 	
 	/**
-	 * The ActionList displayed in this view 
+	 * The ActionList displayed in this view.
 	 */
 	ActionsList oActionsList;
 	
 	/**
-	 * The current result displayed
+	 * The current action displayed.
 	 */
-	private int currentResultDisplayed;
+	private int currentActionDisplayed;
 	
 	/**
 	 * The widget which will display the list of actions.
@@ -46,9 +46,7 @@ public class ResultsView extends ViewPart
 	private StyledText text;
 	
 	/**
-	 * 
-	 * 
-	 * @param oActionsList The ActionList which will be observed.
+	 * Constructor for ResultsView
 	 */
 	public ResultsView() {
 		super();		
@@ -57,7 +55,7 @@ public class ResultsView extends ViewPart
 	@Override
 	public void createPartControl(Composite parent) {
 		/* This view will be divided in three parts :
-		 * - in first we will have a list off actions' names
+		 * - in first we will have a list of actions' names
 		 *   (Syntax check, ...)
 		 * - in second we will have a list of error for a given action
 		 * - in third we will have the text correponding to the
@@ -71,7 +69,7 @@ public class ResultsView extends ViewPart
 		text.setJustify(true);
 		text.setAlignment(SWT.CENTER);
 		
-		currentResultDisplayed = 0;
+		currentActionDisplayed = 0;
 		
 		if (oActionsList != null)
 			setLists();
@@ -80,10 +78,11 @@ public class ResultsView extends ViewPart
 	}
 	
 	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
+	public void setFocus() {}
 	
+	/**
+	 * Adds a listener on the actions' list.
+	 */
 	private void setActionsListSelectionListener() {
 		actionsList.addSelectionListener(new SelectionListener() {
 
@@ -92,16 +91,31 @@ public class ResultsView extends ViewPart
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				int selectedIndex = actionsList.getSelectionIndex();
-				ResultsList results = oActionsList.getResultsList(selectedIndex);
+				currentActionDisplayed = actionsList.getSelectionIndex();
+				ResultsList results =
+					oActionsList.getResultsList(currentActionDisplayed);
 				
-				currentResultDisplayed = selectedIndex;
+				/*
+				 * We zero the second list to fill it with the results of
+				 * the action currently selected.
+				 */
 				resultsList.removeAll();
+				
+				if (results.getResultsNumber() == 0)
+					return;
 				
 				for (int i = 0; i < results.getResultsNumber(); i++)
 					resultsList.add(results.getResult(i).getName());
 				
+				/*
+				 * We add the listner for the list we have
+				 * created.
+				 */
 				setResultsListSelectionListener();
+				
+				/*
+				 * We 
+				 */
 				resultsList.select(0);
 				text.setText(results.getResult(0).getDescription());
 			}
@@ -128,6 +142,11 @@ public class ResultsView extends ViewPart
 		setSelectionListeners();
 	}
 	
+	/**
+	 * Modifies the text in the third part of this view
+	 * when an selection event is received on the
+	 * results' list.
+	 */
 	private void setResultsListSelectionListener() {
 		resultsList.addSelectionListener(new SelectionListener() {
 
@@ -136,12 +155,16 @@ public class ResultsView extends ViewPart
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				text.setText(oActionsList.getResultsList(currentResultDisplayed).
+				text.setText(oActionsList.getResultsList(currentActionDisplayed).
 						getResult(resultsList.getSelectionIndex()).getDescription());
 			}
 		});
 	}
 
+	/**
+	 * Adds the SelectionListeners for the actions' list
+	 * and the results' list.
+	 */
 	private void setSelectionListeners() {
 		setActionsListSelectionListener();
 		setResultsListSelectionListener();
