@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces;
 
-import fr.lip6.move.coloane.interfaces.models.IModelImpl;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public interface IComMotor {
 	

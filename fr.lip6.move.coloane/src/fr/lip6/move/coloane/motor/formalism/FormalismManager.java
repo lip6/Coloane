@@ -16,9 +16,10 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 
-import fr.lip6.move.coloane.interfaces.models.IArcGraphicInfo;
-import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.ui.model.IArcGraphicInfo;
+import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
@@ -509,7 +510,7 @@ public class FormalismManager {
         System.out.println("Nom du fichier :"+fileName);
         System.out.println("Extension"+fext);
         
-        Model apiModel = new Model(new File(fileName));
+        IModel apiModel = new Model(new File(fileName));
         if (apiModel == null) {
             throw new Exception("Creation du modele impossible d'apres le fichier");
         }
@@ -542,7 +543,7 @@ public class FormalismManager {
         
         // Traduction du modele entier
         try {
-        	String[] cami = modelAdapter.getGenericModel().translateToCAMI();
+        	String[] cami = modelAdapter.getGenericModel().translate();
         	for (int i = 0; i < cami.length; i++) {
         		buff.write(cami[i]);
         		buff.newLine();
@@ -570,7 +571,7 @@ public class FormalismManager {
 		
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(os));
         
-        String[] cami = model.getGenericModel().translateToCAMI();
+        String[] cami = model.getGenericModel().translate();
         for (int i = 0; i < cami.length; i++) {
             buff.write(cami[i]);
             buff.newLine();

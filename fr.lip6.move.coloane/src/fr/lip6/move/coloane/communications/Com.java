@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.communications;
 
-
 import java.util.Vector;
 
 import org.eclipse.swt.widgets.Composite;
@@ -15,18 +14,18 @@ import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IDialogCom;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.IMenuCom;
-import fr.lip6.move.coloane.interfaces.IModelCom;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IResultsCom;
 import fr.lip6.move.coloane.interfaces.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.IUiCom;
-import fr.lip6.move.coloane.interfaces.models.IModelImpl;
+import fr.lip6.move.coloane.interfaces.model.IModel;
+
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.model.IModel;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogResult;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public class Com implements IComUi, IComApi, IComMotor {
 	
@@ -112,8 +111,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @return booleen selon que la connexion s'est bien passee ou pas
 	 * @throws Exception
 	 */
-	public boolean openSession(IModelImpl modele) throws Exception {
-		if (modele == null) {
+	public boolean openSession(IModelImpl model) throws Exception {
+		if (model == null) {
             throw new NullPointerException();
         }
 		try {
@@ -124,7 +123,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("Nom de la session : "+sessionName);
 			
 			// Recuperation du nom du formalime de la session courante
-			String formalismName = modele.getFormalism().getName();
+			String formalismName = model.getFormalism().getName();
 			System.out.println("Nom du formalisme : "+formalismName);
 			
 			// Demande de l'ouverture de session a l'API
@@ -268,7 +267,11 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @param menu La racine du menu a afficher
 	 */
 	public void updateMenu() {
-		this.ui.updateMenu();
+		parent.getDisplay().asyncExec(new Runnable(){
+			public void run(){
+				ui.updateMenu();
+			}
+		});
 	}
 	
 	
@@ -339,8 +342,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Recupere le modele
 	 * @return Le modele en cours
 	 */
-	public IModelCom getModel() {
-		return (IModelCom) this.motor.getSessionManager().getCurrentSession().getModel().getModel();
+	public IModel getModel() {
+		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
 	}
 	
 	
@@ -348,8 +351,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Demande la creation d'un nouveau modele a partir des inputs de FK
 	 * @param Le modele construit par l'api de communication
 	 */
-	public void setNewModel(IModelCom model) {
-		this.motor.setNewModel((IModel)model);
+	public void setNewModel(IModel model) {		
+		this.motor.setNewModel(model);
 	}
 	
 	
