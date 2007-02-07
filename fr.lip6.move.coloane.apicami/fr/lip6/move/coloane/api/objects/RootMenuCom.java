@@ -33,17 +33,15 @@ public class RootMenuCom implements IRootMenuCom {
 		this.listMenu.add((IMenuCom)menu);
 	}
 
-	/**
-	 * Recupere la liste des menus
-	 * @return Vector<IMenuCom> La liste des sous menus
-	 * @see IMenuCom
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IRootMenu#getListMenu()
 	 */
 	public Vector<IMenuCom> getListMenu() {
 		return listMenu;
 	}
 
-	/**
-	 * Recupere le nom du menu root
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IRootMenu#getRootMenu()
 	 */
 	public String getRootMenu() {
 		return rootMenu;
@@ -57,11 +55,8 @@ public class RootMenuCom implements IRootMenuCom {
 		this.rootMenu = rootMenu;
 	}
 	
-	/**
-	 * Retourne un sous-menu du menu root
-	 * @param name Le nom du sous-menu qu'on souhaite obtenir
-	 * @return IMenuCom
-	 * @see IMenuCom
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IRootMenu#getMenu(String)
 	 */
 	public IMenuCom getMenu(String name) {
 		for (IMenuCom menu : listMenu) {
