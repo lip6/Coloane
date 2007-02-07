@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.interfaces;
 
 import java.util.Vector;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
+
 /**
  * Services proposes par le module de communication de Coloane a une API de communication
  */
@@ -38,9 +40,9 @@ public interface IComApi {
 	/**
 	 * Fourni le modele en cours d'edition
 	 * @return L'interface sur le modele en cours d'edition
-	 * @see IModelCom
+	 * @see IModel
 	 */
-	public IModelCom getModel();
+	public IModel getModel();
 	
 	/**
 	 * Met a jour l'etat de fraicheur du modele.
@@ -65,9 +67,9 @@ public interface IComApi {
 	 * Certains services implique la creation d'un nouveau modele dans Coloane
 	 * Cette methode fourni le nouveau modele a afficher par Coloane
 	 * @param model Le nouveau modele a construire
-	 * @see IModelCom
+	 * @see IModel
 	 */
-	public void setNewModel(IModelCom model); 
+	public void setNewModel(IModel model); 
 	
 	/** 
 	 * Affichage des messages de service de FK.

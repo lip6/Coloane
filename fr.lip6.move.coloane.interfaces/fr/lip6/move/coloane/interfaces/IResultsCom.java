@@ -8,8 +8,16 @@ import java.util.Vector;
  */
 public interface IResultsCom {
 
+	/**
+	 * Retourne la liste des elements de resultats
+	 * @return La liste des elements de resultats
+	 */
 	public Vector<String> getListOfElement();
 	
+	/**
+	 * Retourne la liste des descriptions de resultats
+	 * @return La liste des descriptions de resutlats
+	 */
 	public Vector<String> getListOfDescription();
 
 }
