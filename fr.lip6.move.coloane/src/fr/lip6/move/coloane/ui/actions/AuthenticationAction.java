@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.ui.actions;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
+import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
@@ -42,16 +42,13 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		HistoryView.instance.addText("[?] Authentification -> ");
 
 		// Affichage de la boite de dialogue d'authentification
-		//AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
+		AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
 		
-		try {
-			if (Coloane.getDefault().getCom().authentication("aortiz", "123456",
-					"127.0.0.1", 7001))
-				HistoryView.instance.addLine("OK");
-			//PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-			else
-				HistoryView.instance.addLine("KO");
-		} catch (Exception e) {}
+		if (authDialog.open() == Dialog.OK) {
+			HistoryView.instance.addLine("OK");
+		} else {
+			HistoryView.instance.addLine("KO");
+		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {

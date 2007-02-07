@@ -22,7 +22,6 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.ui.commands.ArcCompleteCmd;
@@ -31,6 +30,7 @@ import fr.lip6.move.coloane.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 import fr.lip6.move.coloane.ui.views.INodeFigure;
