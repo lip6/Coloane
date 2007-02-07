@@ -7,16 +7,17 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.interfaces.models.INodeImpl;
-import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
-import fr.lip6.move.coloane.model.*;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.model.Attribute;
+import fr.lip6.move.coloane.model.Node;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
+
+
 
 /**
  * Un adaptateur pour implementer les interfaces utiles a l'interface graphique. 
@@ -30,7 +31,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	private static final long serialVersionUID = 1L;
 	
 	/** Le noeud generique */
-	private Node node;
+	private INode node;
 
 	/** Information de representation graphique */
 	private INodeGraphicInfo graphicInfo;
@@ -52,7 +53,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	 * @param node le noeud generique a adapter pour le module
 	 * @param base L'element de base du formalisme
 	 */
-	public NodeImplAdapter(Node node, ElementBase base) {
+	public NodeImplAdapter(INode node, ElementBase base) {
 		super();
 
 		// Element de base du formalisme
@@ -130,7 +131,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
             
-            Attribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
+            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
             AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
             
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -143,13 +144,13 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
      * Creation des propriete ˆ partir des attributs deja existants
      * @param node Noeu generique deja existant
      */
-    public void setProperties(Node node) {
+    public void setProperties(INode node) {
         
     	// Parcours de tous les attributs du formalisme
 		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
 			AttributeImplAdapter attributeAdapter = null;
-			Attribute attribute = null;
+			IAttribute attribute = null;
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
@@ -249,7 +250,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	 * @return Node
 	 * @see Node
 	 */
-	public Node getGenericNode() {
+	public INode getGenericNode() {
 		return node;
 	}
 

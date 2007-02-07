@@ -5,9 +5,14 @@ import java.util.Iterator;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.interfaces.models.*;
-import fr.lip6.move.coloane.model.*;
-import fr.lip6.move.coloane.motor.formalism.*;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.model.Arc;
+import fr.lip6.move.coloane.model.Attribute;
+import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.motor.formalism.ElementBase;
+
+
 
 /**
  * C'est ici que le veritable arc est cree.<br>
@@ -30,7 +35,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	private boolean isConnected;
 
 	/** Arc generique a adapter */
-	private Arc arc;
+	private IArc arc;
 
 	/** Element de base du formalisme associe au noeud */
 	private ElementBase elementBase;
@@ -44,7 +49,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @param arc Arc generique pour l'adaptateur
      * @param base Element de base du formalisme
 	 */
-	 public ArcImplAdapter(Arc arc, NodeImplAdapter source, NodeImplAdapter target, ElementBase base) {
+	 public ArcImplAdapter(IArc arc, NodeImplAdapter source, NodeImplAdapter target, ElementBase base) {
 		this.elementBase = base;		
         this.arc = arc;
        
@@ -103,7 +108,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 
             // Les attributs possibles dans le formalisme
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
-            Attribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},arc.getUniqueId());
+            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},arc.getId());
             AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
             
             // Ajout a la liste des proprietes
@@ -119,13 +124,13 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * Affectation des attributs corrects (ceux contenu dans l'arc generique)
 	 * Cela peutêtre utile lorsq'un modele est lu depuis un fichier.
 	 */
-    public void setProperties(Arc arc) {
+    public void setProperties(IArc arc) {
     	
     	// Parcours de tous les attributs du formalisme
 		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
 			AttributeImplAdapter attributeAdapter = null;
-			Attribute attribute = null;
+			IAttribute attribute = null;
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
@@ -241,7 +246,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @return Arc
 	 * @see Arc
 	 */
-	public Arc getGenericArc() {
+	public IArc getGenericArc() {
 		return this.arc;
 	}
 

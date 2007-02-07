@@ -5,8 +5,7 @@ import java.io.Serializable;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.interfaces.models.INodeGraphicInfo;
-import fr.lip6.move.coloane.model.Node;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class NodeGraphicInfo implements INodeGraphicInfo, Serializable{
 
@@ -39,7 +38,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable{
 	 * @param newLocation Nouvelle localisation du noeud
 	 */
 	public void setLocation(Point newLocation) {
-		Node node = this.nodeAdapter.getGenericNode();
+		INode node = this.nodeAdapter.getGenericNode();
 		node.setPosition(newLocation.x, newLocation.y);
 		Point newPosition = new Point(node.getXPosition(), node.getYPosition());
 		

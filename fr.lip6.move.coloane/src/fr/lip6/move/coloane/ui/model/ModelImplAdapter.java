@@ -5,16 +5,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.lip6.move.coloane.interfaces.models.*;
-import fr.lip6.move.coloane.model.*;
-import fr.lip6.move.coloane.motor.formalism.*;
-
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.model.Attribute;
+import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 /**
  * Adaptateur pour le modele generique. 
- * Permet d'implementer diverses interfaces utilent a different modules
+ * Permet d'implementer diverses interfaces utiles a different modules
  */
-public class ModelImplAdapter extends AbstractModelElement implements IModelImpl,Serializable {
+public class ModelImplAdapter extends AbstractModelElement implements IModelImpl, Serializable {
 
 	/** Id pour la serialisation. */
 	private static final long serialVersionUID = 1L;
@@ -60,7 +65,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		try {
 			this.model = model;
 			
-			
 			// On met a jour si necessaire le formalisme contenu dans le modele generique
 			if (this.model.getFormalism() == formalism.getName()) {
 				this.model.setFormalism(formalism.getName());
@@ -73,6 +77,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Ajout de tous les attributs deja indiques dans le modele
 			this.setProperties(model);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("Erreur lors de la construction du modele");
 		}
 	}
@@ -85,14 +90,14 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		// Ajout de tous les noeuds dans l'adapter (parcours de tous les noeuds du modele)
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
-			Node currentNode = this.model.getNthNode(i);
+			INode currentNode = this.model.getNthNode(i);
 			NodeImplAdapter node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			this.children.add(node);
 		}
 		
 		// Ajout de tous les Arcs
 		for (int j = 0; j < this.model.getListOfArcSize(); j++) {
-			Arc currentArc = this.model.getNthArc(j);
+			IArc currentArc = this.model.getNthArc(j);
 			NodeImplAdapter target = null;
 			NodeImplAdapter source = null;
 	
@@ -116,7 +121,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 			// Un arc a forcement une source et une destination... sinon probleme
 			if ((target != null) && (source != null)) {
-				System.out.println("Linkage ok pour l'arc "+currentArc.getUniqueId());
+				System.out.println("Linkage ok pour l'arc "+currentArc.getId());
 				// Creation de l'arc adapter
 				new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
 			} else {
@@ -138,7 +143,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// Creation de l'attribut dans le modele
-			Attribute attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
 			// Creation de l'adapteur
 			AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
 			
@@ -158,7 +163,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
 			AttributeImplAdapter attributeAdapter = null;
-			Attribute attribute = null;
+			IAttribute attribute = null;
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
@@ -336,9 +341,5 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
-	}
-	
-	public IModel getModel() {
-		return model;
 	}
 }

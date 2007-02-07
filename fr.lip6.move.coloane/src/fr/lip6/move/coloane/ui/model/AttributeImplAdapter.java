@@ -6,8 +6,9 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import fr.lip6.move.coloane.interfaces.models.IAttributeImpl;
-import fr.lip6.move.coloane.model.*;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.model.Attribute;
+
 
 /**
  * C'est ici que le veritable attribut est cree.<br>
@@ -21,7 +22,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	private static final long serialVersionUID = 1L;
 	
 	/** Attribut generique a adapter */
-	private Attribute attribute;
+	private IAttribute attribute;
 
 	/** Un identifiant unique pour etre gere par Ecplipse */
 	private String uniqueId;
@@ -38,7 +39,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @param attribute attribut a adapter
 	 * @param drawable indique si l'atrribut est afficheable, a determiner en fonction du formalism
 	 */
-	public AttributeImplAdapter(Attribute attribute, boolean drawable) {
+	public AttributeImplAdapter(IAttribute attribute, boolean drawable) {
 		super();
 		this.attribute = attribute;
 		AttributeImplAdapter.nbAttribute++;
@@ -178,7 +179,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @return Attribute
 	 * @see Attribute
 	 */
-	public Attribute getGenericAttribute() {
+	public IAttribute getGenericAttribute() {
 		return attribute;
 	}
 

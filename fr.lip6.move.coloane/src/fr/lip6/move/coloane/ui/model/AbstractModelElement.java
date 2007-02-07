@@ -11,7 +11,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import fr.lip6.move.coloane.interfaces.models.IAttributeImpl;
 
 /**
  * Cette classe abstraite de base fournit les fonctionalites pour tous les elements de modele, y compris :
