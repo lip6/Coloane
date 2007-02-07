@@ -19,7 +19,7 @@ public class MenuManipulation {
 		 * until we find the Choosen One.
 		 */
 		for (MenuItem item : shell.getMenuBar().getItems())
-			if(item.getText().equals(fatherName))
+			if(item.getText().equals("Coloane Services"))
 				setEnabled(item, menuName, enabled);
 	}
 	
