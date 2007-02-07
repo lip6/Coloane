@@ -9,8 +9,8 @@ import fr.lip6.move.coloane.api.objects.DialogCom;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.objects.RootMenuCom;
 import fr.lip6.move.coloane.interfaces.IMenuCom;
-import fr.lip6.move.coloane.interfaces.IModelCom;
 import fr.lip6.move.coloane.interfaces.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 
 /**
  * Classe implementant le comportement de l'ecouteur principal de Coloane
@@ -323,7 +323,7 @@ public class FramekitThreadListener extends Thread {
 					// Message FR
 					// Fin de la transmission d'une reponse a un service
 					if (listeArgs.firstElement().equals("FR")) {
-						api.updateMenu();
+						api.drawMenu(menuList);
 						
 						// Le retour d'un service indique que le modele est a jour sur la plate-forme
 						this.api.setModelDirty(false);
@@ -493,8 +493,8 @@ public class FramekitThreadListener extends Thread {
 					// Message FB
 					// Fin de la transmission d'un modele
 					if ((listeArgs.firstElement().equals("FB"))) {
-						IModelCom m = new Model(modelReceive);
-						this.api.setNewModel((IModelCom)m);
+						IModel model = new Model(modelReceive);
+						this.api.setNewModel(model);
 						continue;
 					}
 					

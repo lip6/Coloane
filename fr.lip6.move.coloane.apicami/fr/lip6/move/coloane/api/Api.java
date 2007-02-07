@@ -13,15 +13,14 @@ import fr.lip6.move.coloane.api.utils.Lock;
 
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.IModelCom;
 import fr.lip6.move.coloane.interfaces.IResultsCom;
 import fr.lip6.move.coloane.interfaces.IDialogCom;
 import fr.lip6.move.coloane.interfaces.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.IComApi;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
-
-import fr.lip6.move.coloane.interfaces.IComApi;
 
 /**
  * API de communication entre Coloane et FrameKit
@@ -287,10 +286,11 @@ public class Api implements IApi {
 	/**
 	 * Fermture de la connexion demandee par la plateforme
 	 * Cette fermeture a lieu lors de la reception d'un FC ou d'un KO
+	 * @param type Raison de la fermeture de la connexion
 	 * @param message Message a afficher (transmis par la plate-forme)
-	 * @param severity Gravite de l'incident (transmis par la palte-forme)
+	 * @param severity Gravite de l'incident (transmis par la plate-forme)
 	 */
-	public synchronized void closeConnexion(int type, String message, int severity) {
+	public void closeConnexion(int type, String message, int severity) {
 		
 		// On doit fermer tous les threads speaker ouvert (un par session)
 		// On doit aussi prevenir les sessions pour qu'elles se mettent a jour
@@ -431,11 +431,12 @@ public class Api implements IApi {
 		}
 	}
 	
+	
 	/**
 	 * Envoie d'une reponse a la plate-forme
-	 * 
 	 * @param results Ensemble des reponses de la boite de dialogue
 	 * @return resultat de l'operation
+	 * @see IDialogResult
 	 */
 	public boolean getDialogAnswers(IDialogResult results) {
 		if (!this.sessionOpened || this.currentSessionName == null) {
@@ -443,26 +444,26 @@ public class Api implements IApi {
 		} else {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-			if (!speak.sendDialogueResponse(this.translateToCami(results))) {
+			if (!speak.sendDialogueResponse(this.translateDialogResult(results))) {
 				return false;
 			}
 			return true;
 		}
 	}
 	
+	
 	/**
 	 * 
-	 * @param serviceName
-	 *            le service que l'on veut arreter
+	 * @param serviceName le service que l'on veut arreter
 	 * @return TRUE si l'arret du service est effectif
 	 */
 	public boolean stopService(String serviceName) {
 		return true;
 	}
 	
+	
 	/**
-	 * Faire suivre les messages de framekit vers l'ihm
-	 * 
+	 * Faire suivre les messages de FrameKit vers l'IHM (Coloane)
 	 * @param type Type du message
 	 * @param text Texte a ecrire
 	 * @param specialType Type du message warning
@@ -472,9 +473,10 @@ public class Api implements IApi {
 		this.com.setUiMessage(type,text,specialType);
 	}
 	
+	
 	/**
 	 * Affichage d'un message dans la console historique
-	 * @param message
+	 * @param message Le message a afficher dans la vue History
 	 */
 	public void printHistory (String message) {
 		System.out.println("Affichage historique (API)"+message);
@@ -483,14 +485,15 @@ public class Api implements IApi {
 	
 	/** 
 	 * Affichage des menus
-	 * @param Le menu a afficher 
+	 * @param menuList La liste des menus a afficher
+	 * @see IRootMenuCom
 	 */
 	public void drawMenu (Vector<IRootMenuCom> menuList) {
 		this.com.drawMenu(menuList);
 	}
 	
 	/** 
-	 * Mise a jour des menus 
+	 * Demande de mise a jour des menus 
 	 */
 	public void updateMenu() {
 		this.com.updateMenu();
@@ -506,41 +509,48 @@ public class Api implements IApi {
 
    
 	/**
-	 * Demande l'affichage d'une boite de dialoge
+	 * Demande l'affichage d'une boite de dialogue
+	 * Reminder : Les boites de dialogue sont construite sous l'autorite de la plate-forme
 	 * @param dialog La boite de dialogue entierement definie
+	 * @see IDialogCom
 	 */
 	public void drawDialog(IDialogCom dialog) {
     	this.com.drawDialog(dialog);
     }
     
-	// TODO : Cacher une boite de dialogue
    	/**
 	 * Cacher une boite de dialogue
-	 * @param idDialog L'identite de la boite a masquer
+	 * @param numDialog L'identite de la boite a masquer
 	 */
+	// TODO: Cacher une boite de dialogue
 	public void hideDialogUI(int numDialog) {
 		System.err.println("Not available yet...");
 	}
 	
 	/**
 	 * Supprimer une boite de dialogue
-	 * @param idDialog L'identite de la boite a detruire 
+	 * @param numDialog L'identite de la boite a detruire 
 	 */
 	public void destroyDialogUI(int numDialog) {
 		System.err.println("Not available yet...");		
 	}
 	
 	/**
-	 * Transmet un nouveau modele a creer
-	 * @param model Modele a creer
+	 * Transmet un nouveau modele a creer<br>
+	 * Dans certains cas, la plate-forme renvoie des modeles a afficher dans l'IHM.<br>
+	 * La construction se fait donc du cote API et l'affichage du cote Coloane
+	 * @param model Modele a creer du cote Coloane
+	 * @see IModel
 	 */
-	public void setNewModel(IModelCom model) {
+	public void setNewModel(IModel model) {
 		this.com.setNewModel(model);
 	}
 	
 	/**
-	 * Traite les resultats d'un appel de services
-	 * @param resultList La liste des resultats renvoye par la plate-forme
+	 * Traite les resultats d'un appel de services.<br>
+	 * Un appel de service peut provoquer un certain dnombre de resultats a afficher.
+	 * @param resultList La liste des resultats renvoyes par la plate-forme
+	 * @see ResultsCom
 	 */
 	public void setResults(Vector<ResultsCom> resultList) {
 		if(!resultList.isEmpty()) {
@@ -557,16 +567,19 @@ public class Api implements IApi {
 	}
 	
 	/**
-	 * Retourne le modele courrant
+	 * Demande du modele cote Coloane.<br>
+	 * L'API peut avoir besoin de recuperer le modele en cours d'edition du cote Coloane.<br>
+	 * Cette methode permet de transferer le modele depuis Coloane vers l'API de communication
 	 * @return le modele courant
+	 * @see IModel
 	 */
-	public IModelCom getModel() {
+	public IModel getModel() {
 		return this.com.getModel();
 	}
 	
 	/**
-	 * Retourne la thread qui permet d'envoyer des commandes pour la session courrante
-	 * 
+	 * Retourne la thread qui permet d'envoyer des commandes pour la session courrante.<br>
+	 * Chaque session est associee a un thread de communication.
 	 * @return la thread liee a la session courrante
 	 */
 	public FramekitThreadSpeaker getCurrentSpeaker() {
@@ -579,22 +592,23 @@ public class Api implements IApi {
 	
 	
 	/**
-	 * Traduction d'un resultat de fenetre de dialogue en CAMI
-	 * @param dialog L'objet contenant les resultats de la fenetre de dialogue
+	 * Traduction d'un resultat de fenetre de dialogue en CAMI.
+	 * Cet objet en provenance de Coloane doit etre traduit en CAMI
+	 * @param dialogResult L'objet contenant les resultats de la fenetre de dialogue
 	 * @return La chaine CAMI a transmettre 
 	 */
-	public String translateToCami(IDialogResult dialog) {
+	public String translateDialogResult(IDialogResult dialogResult) {
 		StringBuffer s;
         
-        String returnValue = dialog.getText().toString();
+        String returnValue = dialogResult.getText().toString();
         
         s = new StringBuffer();
         s.append("RD(");
-        s.append(dialog.getDialogId());
+        s.append(dialogResult.getDialogId());
         s.append(",");
-        s.append(dialog.getAnswerType());
+        s.append(dialogResult.getAnswerType());
         s.append(",");
-        s.append(dialog.hasBeenModified());
+        s.append(dialogResult.hasBeenModified());
         s.append(",");
         s.append(returnValue.length());
         s.append(":");
@@ -603,5 +617,4 @@ public class Api implements IApi {
 
         return s.toString();
 	}
-
 }             

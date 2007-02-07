@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.Api;
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
-import fr.lip6.move.coloane.interfaces.IModelCom;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 
 /**
  * Classe implementant le comportement du haut-parleur
@@ -129,8 +129,8 @@ public class FramekitThreadSpeaker extends Thread {
 		
 		Commande cmd = new Commande();
 		
-		IModelCom model = this.api.getModel();
-		modelCami = model.translateToCAMI();
+		IModel model = this.api.getModel();
+		modelCami = model.translate();
 		
 		try {
 			byte[] commande = cmd.createCmdSimple("DB");
