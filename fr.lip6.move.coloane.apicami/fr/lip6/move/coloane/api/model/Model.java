@@ -1,131 +1,88 @@
 package fr.lip6.move.coloane.api.model;
 
 import java.util.Vector;
-import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.NoSuchElementException;
 
 import java.io.Serializable;
 
 import fr.lip6.move.coloane.api.utils.CamiParser;
-import fr.lip6.move.coloane.api.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.IModelCom;
-
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
- * Classe Model permettant de representer en memoire plusieurs formalismes de
- * reseaux. Cette representaion generique optimise le parcours du modele et la
- * recuperation des informations relatifs aux elements de celui-ci. Les
- * differents formalisme traites sont :
+ * Cette classe represente un modele generique.<br>
+ * Elle permet la manipulation des elements du modele et le parcours de ceux-ci.<br>
+ * Un modele se compose de :
  * <ul>
- * <li> Reseaux de Petri
- * <li> Automates d'etat
- * <li> Prefix nets
+ * 	<li> Une liste de noeuds</li>
+ * 	<li> Une liste d'attributs</li>
+ * 	<li> Une liste d'arcs</li>
  * </ul>
- * 
+ * A noter qu'un modele a toujours un identifiant egal a 1<br>
+ * Le modele generique porte l'information sur son formalisme en tant que chaine de caracteres.<br>
+ * @see fr.lip6.move.coloane.interfaces.model.Model
  */
-public class Model extends Base implements IModelCom, Serializable {
+public class Model extends fr.lip6.move.coloane.interfaces.model.Model implements Serializable {
 
-    /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	
+	public Model(Vector<String> commands) {
+		super(commands);
+	}
 
- 
-    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    public int xPosition;
-
-    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    public int yPosition;
-
-    /** Liste de l'ensemble des elements noeuds du modele. */
-    private Vector<Node> listOfNode;
-
-    /** Liste de l'ensemble des attributs du modele. */
-    private Vector<Attribute> listOfAttr;
-
-    /** Liste de l'ensemble des arcs du modele. */
-    private Vector<Arc> listOfArc;
-
-    /**
-     * Constructeur de la classe Model.
-     * @param camiCommande un vecteur de chaine de caractere dont chaque chaine est une commande CAMI de construction d'objet du model 
-     */
-    public Model(Vector camiCommande) {
-        this.xPosition = 20;
-        this.yPosition = 20;
-        this.listOfArc = new Vector<Arc>();
-        this.listOfAttr = new Vector<Attribute>();
-        this.listOfNode = new Vector<Node>();
-        
-        try {
-			this.buildModel(camiCommande);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}        
-    }
-    
-    /**
+	/**
      * Construction du modele a partir d'un vecteur de commande CAMI
      * @param Vector camiCommande Le vecteur de commandes CAMI
      * @throws SyntaxErrorException
      */
-    private void buildModel(Vector camiCommande) throws SyntaxErrorException {
+    public void buildModel(Vector camiCommande) throws SyntaxErrorException {
     	String line = null;
         String type = null;
+        
         StringTokenizer st;
         CamiParser ps;
     	
     	try {
-    		
-    		System.out.println("Taille du vecteur : "+camiCommande.size());
-
-        	for (int k = 0; k < camiCommande.size(); k++) {
+    		for (int k = 0; k < camiCommande.size(); k++) {
         		line = (String) camiCommande.get(k);
                 st = new StringTokenizer(line);
                 ps = new CamiParser(line.substring(3));
 
                 type = st.nextToken("(");
-                
-                System.out.println("Noeud en cours : "+type);
 	
                 // Decouverte d'un noeud
                 if (type.equals("CN")) { 
-                    String nodeType;
-                    String nodeId;
-                    Node node;
+                	String nodeType = ps.parseString(",");
+                    String nodeId = ps.parseInt(")");
 
-                    nodeType = ps.parseString(",");
-                    nodeId = ps.parseInt(")");
-
-                    if (!(Integer.parseInt(nodeId) == 1)) {
-                        node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
+                    // Si le noeud en cours n'est pas le noeud principal du modele
+                    if (Integer.parseInt(nodeId) != 1) {
+                    	INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
                         this.addNode(node);
                     }
+                    continue; // Prochaine commande
                 }
                 
                 // Decouverte d'un arc
                 if (type.equals("CA")) { 
-                    Arc arc;
-                    String arcType;
-                    String arcId;
-                    String from;
-                    String to;
-                    Node nodeBegin;
-                    Node nodeEnd;
+                    String arcType = ps.parseString(",");
+                    String arcId = ps.parseInt(",");
+                    String from = ps.parseInt(",");
+                    String to = ps.parseInt(")");
 
-                    arcType = ps.parseString(",");
-                    arcId = ps.parseInt(",");
-                    from = ps.parseInt(",");
-                    to = ps.parseInt(")");
-
-                    nodeBegin = getANode(Integer.parseInt(from));
-                    nodeEnd = getANode(Integer.parseInt(to));
-                    System.out.println("Arc "+arcId+" from "+from+" to "+to);
+                    // Recherche de la source et de la cible
+                    INode nodeBegin = getANode(Integer.parseInt(from));
+                    INode nodeEnd = getANode(Integer.parseInt(to));
 
                     if (nodeBegin == null || nodeEnd == null) {
-                        throw new SyntaxErrorException();
+                        throw new SyntaxErrorException("Noeud source ou cible manquant");
                     }
 
-                    arc = new Arc(arcType, Integer.parseInt(arcId));
+                    // Creation de l'arc
+                    IArc arc = new Arc(arcType, Integer.parseInt(arcId));
                     arc.setStartingNode(nodeBegin);
                     arc.setEndingNode(nodeEnd);
 
@@ -133,353 +90,214 @@ public class Model extends Base implements IModelCom, Serializable {
                     nodeEnd.addInputArc(arc);
 
                     this.addArc(arc);
+                    continue;// Prochaine commande
                 }
                 
                 // Decouverte d'attribut sur une ligne
                 if (type.equals("CT")) { 
-                    Attribute attr;
-                    String name;
-                    String ref;
                     String[] value = new String[1];
-                    Arc arc;
-                    Node node;
 
-                    name = ps.parseString(",");
-                    ref = ps.parseInt(",");
+                    String name = ps.parseString(",");
+                    String ref = ps.parseInt(",");
                     value[0] = ps.parseString(")");
 
-                    attr = new Attribute(name, value, Integer.parseInt(ref));
+                    // Creation effective de l'attribut
+                    IAttribute attr = new Attribute(name, value, Integer.parseInt(ref));
 
+                    // L'attribut peut directement etre attache au modele
                     if (Integer.parseInt(ref) == 1) {
-                        this.listOfAttr.addElement(attr);
-                    } else {
-                        arc = getAnArc(Integer.parseInt(ref));
-                        if (arc != null) {
-                            arc.addAttribute(attr);
-                        } else {
-                            node = getANode(Integer.parseInt(ref));
-                            if (node != null) {
-                                node.addAttribute(attr);
-                            } else {
-                                throw new SyntaxErrorException();
-                            }
-                        }
+                        this.addAttribute(attr);
+                        continue;
+                    } 
+
+                    // Est-ce que l'attribut s'attache a un arc ?
+                    IArc arc = getAnArc(Integer.parseInt(ref));
+                    if (arc != null) {
+                    	arc.addAttribute(attr);
+                    	continue;
                     }
+                    
+                    // Est-ce que l'attribut s'attache a un noeud ?
+                    INode node = getANode(Integer.parseInt(ref));
+                    if (node != null) {
+                    	node.addAttribute(attr);
+                    	continue;
+                    }
+
+                    // Sinon on retourne une erreur
+                    throw new SyntaxErrorException("Element referent introuvable");
                 }
                 
-                // Decouverte d'un attribut
+                // Creation d'une ligne dans un attribut multi-ligne
                 if (type.equals("CM")) { 
-                    Attribute attr;
-                    Attribute tmp;
-                    String name;
-                    String ref;
                     String[] value = new String[1];
-                    Arc arc;
-                    Node node;
-
                     boolean found = false;
 
-                    name = ps.parseString(",");
-                    ref = ps.parseInt(",");
-                    line = ps.parseInt(",");
+                    String name = ps.parseString(",");
+                    String ref = ps.parseInt(",");
+                    ps.parseInt(",");
                     ps.parseInt(",");
                     value[0] = ps.parseString(")");
                     st = new StringTokenizer(line);
 
                     try {
-                        if (Integer.parseInt(ref) == 1) {
-                            for (int i = 0; i < this.getListOfAttrSize(); i++) {
-                                tmp = this.getNthAttr(i);
-                                if (name.equals((tmp).getName())) {
+                        // Si le referent a comme identifiant 1, alors il faut attacher l'attribut au modele
+                    	if (Integer.parseInt(ref) == 1) {
+                            
+                    		// On recherche l'attribut a modifier
+                    		for (int i = 0; i < this.getListOfAttrSize(); i++) {
+                                IAttribute a = this.getNthAttr(i);
+                                if (name.equals((a).getName())) {
                                     // On ajoute une ligne
-                                    tmp.riseNbLine(1);
-                                    tmp.setValue(value[0], tmp.getSize() - 1);
+                                    a.riseNbLine(1);
+                                    a.setValue(value[0], a.getSize() - 1);
                                     found = true;
+                                    break; // On sort de cette boucle de recherche
                                 }
                             }
+                    		
+                    		// Si aucun attribut n'a ete trouve... On en cree un!
                             if (!found) {
-                                // On cree un nouvel attribut
-                                attr = new Attribute(name, value, Integer.parseInt(ref));
-                                this.addAttribute(attr);
+                                IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
+                                this.addAttribute(att);
                             }
-                        } else {
-                            arc = getAnArc(Integer.parseInt(ref));
-                            if (arc != null) {
-                                for (int i = 0; i < arc.getListOfAttrSize(); i++) {
-                                    tmp = arc.getNthAttr(i);
-                                    if (name.equals((tmp).getName())) {
-                                        // On ajoute une ligne
-                                        tmp.riseNbLine(1);
-                                        tmp.setValue(value[0],tmp.getSize() - 1);
-                                        found = true;
-                                    }
-                                }
-                                if (!found) {
-                                    // On cree un nouvel attribut
-                                    attr = new Attribute(name, value, Integer.parseInt(ref));
-                                    arc.addAttribute(attr);
-                                }
-                            } else {
-                                node = getANode(Integer.parseInt(ref));
-                                if (node != null) {
-                                    for (int i = 0; i < node.getListOfAttrSize(); i++) {
-                                        tmp = node.getNthAttr(i);
-                                        if (name.equals((tmp).getName())) {
-                                            // On ajoute une ligne
-                                            tmp.riseNbLine(1);
-                                            tmp.setValue(value[0], tmp.getSize() - 1);
-                                            found = true;
-                                        }
-                                    }
-                                    if (!found) {
-                                        attr = new Attribute(name, value,Integer.parseInt(ref));
-                                        node.addAttribute(attr);
-                                    }
+                            continue;
+                        
+                        } 
+                    	
+                    	// On cherche a savoir si l'attribut s'attache a un arc ? 
+                    	IArc arc = getAnArc(Integer.parseInt(ref));
+                        if (arc != null) {
+                        	for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+                        		IAttribute att = arc.getNthAttr(i);
+                                if (name.equals(att.getName())) {
+                                	// On ajoute une ligne
+                                	att.riseNbLine(1);
+                                	att.setValue(value[0],att.getSize() - 1);
+                                    found = true;
+                                    break;
                                 }
                             }
+                            
+                        	// Si aucun attribut de l'arc ne correspond on en cree un
+                        	if (!found) {
+                        		// On cree un nouvel attribut
+                                IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
+                                arc.addAttribute(att);
+                            }
+                        	continue;
                         }
-                    } catch (NumberFormatException e) {
-                        throw new SyntaxErrorException();
+                        
+                        // On cherche a savoir si l'attribut s'attache a un noeud ?
+                        INode node = getANode(Integer.parseInt(ref));
+                        if (node != null) {
+                        	for (int i = 0; i < node.getListOfAttrSize(); i++) {
+                        		IAttribute att = node.getNthAttr(i);
+                                if (name.equals(att.getName())) {
+                                	// On ajoute une ligne
+                                	att.riseNbLine(1);
+                                	att.setValue(value[0], att.getSize() - 1);
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            
+                        	// Si aucun attribut du noeud ne correspond... On en cree un
+                        	if (!found) {
+                        		IAttribute att = new Attribute(name, value,Integer.parseInt(ref));
+                        		node.addAttribute(att);
+                            }
+                        	
+                        }
+                        
                     } catch (Exception e) {
-                        throw new SyntaxErrorException();
+                        throw new SyntaxErrorException("Construction d'un attribut multiligne incorrecte");
                     }
 
                 }
                 
                 // Decouverte d'une position de noeud
                 if (type.equals("PO") || type.equals("pO")) { 
-                    Node node = null;
-                    String ref;
-                    String x;
-                    String y;
-
-                    ref = ps.parseInt(",");
+                    String ref = ps.parseInt(",");
+                    String x = ps.parseInt(",");
+                    String y = ps.parseInt(")");
+                    
+                    if (Integer.parseInt(ref) == 1) {
+                    	this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+                    }
+                    
                     if (Integer.parseInt(ref) != -1) {
-                        x = ps.parseInt(",");
-                        y = ps.parseInt(")");
-
-                        if (Integer.parseInt(ref) == 1) {
-                            this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+                        INode node = getANode(Integer.parseInt(ref));
+                        if (node != null) {
+                        	node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                         } else {
-                            node = getANode(Integer.parseInt(ref));
-                            if (node != null) {
-                                node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-                            } else {
-                                throw new SyntaxErrorException();
-                            }
+                            throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
                         }
                     }
                 }
                 
                 // Decouverte d'une position de texte
                 if (type.equals("PT")) { 
-                    Node node = null;
-                    Arc arc = null;
-                    Attribute attr;
-                    String name;
-                    String ref;
-                    String x;
-                    String y;
-
-                    ref = ps.parseInt(",");
-                    name = ps.parseString(",");
-                    x = ps.parseInt(",");
-                    y = ps.parseInt(")");
+                    String ref = ps.parseInt(",");
+                    String name = ps.parseString(",");
+                    String x = ps.parseInt(",");
+                    String y = ps.parseInt(")");
 
                     if (Integer.parseInt(ref) == 1) {
                         for (int i = 0; i < this.getListOfAttrSize(); i++) {
-                            attr = this.getNthAttr(i);
+                            IAttribute attr = this.getNthAttr(i);
                             if (attr.getName().equals(name)) {
                                 attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                                 break;
                             }
                         }
-                    } else {
-                        arc = getAnArc(Integer.parseInt(ref));
-                        if (arc != null) {
-                            for (int i = 0; i < arc.getListOfAttrSize(); i++) {
-                                attr = arc.getNthAttr(i);
-                                if (attr.getName().equals(name)) {
-                                    attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
-                                    break;
-                                }
-                            }
-                        } else {
-                            node = getANode(Integer.parseInt(ref));
-                            if (node != null) {
-                                for (int i = 0; i < node.getListOfAttrSize(); i++) {
-                                    attr = node.getNthAttr(i);
-                                    if (attr.getName().equals(name)) {
-                                        attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
-                                        break;
-                                    }
-                                }
-                            } else {
-                                throw new SyntaxErrorException();
+                        continue;
+                    } 
+                    
+                    IArc arc = getAnArc(Integer.parseInt(ref));
+                    if (arc != null) {
+                    	for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+                    		IAttribute attr = arc.getNthAttr(i);
+                            if (attr.getName().equals(name)) {
+                            	attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
+                                break;
                             }
                         }
+                    	continue;
                     }
+                     
+                    INode node = getANode(Integer.parseInt(ref));
+                    if (node != null) {
+                    	for (int i = 0; i < node.getListOfAttrSize(); i++) {
+                    		IAttribute attr = node.getNthAttr(i);
+                            if (attr.getName().equals(name)) {
+                            	attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
+                                break;
+                            }
+                        }
+                    	continue;
+                    }
+                    
+                    throw new SyntaxErrorException("Impossible d'attachee la position de texte a un attribut");
                 }
-                
-                /* TODO: Prendre en compte les points d'inflexion */
-                
-                // Mise a jour de l'indicateur d'indice
-                setMaxId(this.getMaxiId());
             }
-        } catch (NoSuchElementException e) {
+    		
+    		 /* TODO: Prendre en compte les points d'inflexion */
+
+    	} catch (NoSuchElementException e) {
             e.printStackTrace();
         } catch (SyntaxErrorException e) {
-            e.printStackTrace();
+            e.toString();
         }
     }
 
 
-
-    /**
-     * Retourne le noeud d'identifiant uniqueID.
-     * @param uniqueId identifiant unique du noeud
-     * @return Node
-     */
-    private Node getANode(int uniqueId) {
-        Enumeration e;
-        Node node;
-        e = this.listOfNode.elements();
-
-        while (e.hasMoreElements()) {
-        	node = (Node) e.nextElement();
-            if (node.getId() == uniqueId) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Retourne l'arc d'identifiant uniqueID.
-     * @param aUniqueId identifiant unique de l'arc
-     * @return Arc
-     * @see Arc
-     */
-    private Arc getAnArc(int uniqueId) {
-        Enumeration e;
-        Arc arc;
-        e = this.listOfArc.elements();
-
-        while (e.hasMoreElements()) {
-        	arc = (Arc) e.nextElement();
-            if (arc.getUniqueId() == uniqueId) {
-                return arc;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Ajoute un noeud au modele
-     * @param node Noeud a ajouter
-     * @see Node
-     */
-    private void addNode(Node node) {
-        if (!this.listOfNode.contains(node)) {
-            this.listOfNode.addElement(node);
-        }
-    }
-
-    /**
-     * Ajoute un arc au modele
-     * @param arc Arc a ajouter
-     * @see Arc
-     */
-    private void addArc(Arc arc) {
-        Node start = arc.getStartingNode();
-        Node end = arc.getEndingNode();
-
-        if ((!this.listOfArc.contains(arc)) && start != null && end != null) {
-            start.addOutputArc(arc);
-            end.addInputArc(arc);
-            this.listOfArc.addElement(arc);
-        } else {
-            System.err.println("Debut ou fin du noeud manquant");
-        }
-    }
-
-    /**
-     * Ajoute un attribut au modele.
-     * @param attribute l'attribut a ajouter au modele
-     * @see Attribute
-     */
-    private void addAttribute(Attribute attribute) {
-        this.listOfAttr.addElement(attribute);
-    }
-
-    /**
-     * Retourne le nombre d'attributs du modele.
-     * @return int
-     */
-    private int getListOfAttrSize() {
-        return this.listOfAttr.size();
-    }
-
-    /**
-     * Retourne le nombre d'arcs du modele
-     * @return int
-     */
-    private int getListOfArcSize() {
-        return this.listOfArc.size();
-    }
-
-    /**
-     * Retourne le nombre de noeuds du modele
-     * @return int
-     */
-    private int getListOfNodeSize() {
-        return this.listOfNode.size();
-    }
-
-    /**
-     * Retourne le nieme attribut du modele.
-     * @param index Indice de l'attribut
-     * @return Attribute
-     * @see Attribute
-     */
-    private Attribute getNthAttr(int index) {
-        return (Attribute) this.listOfAttr.get(index);
-    }
-
-    /**
-     * Retourne le nieme arc du modele.
-     * @param index Indice de l'arc a retourner
-     * @return Arc
-     * @see Arc
-     */
-    private Arc getNthArc(int index) {
-        return (Arc) this.listOfArc.get(index);
-    }
-
-    /**
-     * Rend le nieme noeud du modele.
-     * @param index Indice du noeud
-     * @return Node
-     */
-    private Node getNthNode(int index) {
-        return (Node) this.listOfNode.get(index);
-    }
-
-    /**
-     * Cette methode permet de fixer les coordonnees spatiales de l'attribut
-     * @param x Coordonnee x
-     * @param y Coordonnee y
-     */
-    private void setPosition(int x, int y) {
-        this.xPosition = x;
-        this.yPosition = y;
-    }
     
     /**
-     * Traduit un Model en la chaine de caracteres CAMI correspondante.
+     * Traduit un modele en chaines de caracteres CAMI correspondantes.
      * @return la chaine de caracteres CAMI correspondante a l'objet Model
      */
-    public String[] translateToCAMI() {
+    public String[] translate() {
         Vector<String> vec = new Vector<String>();
         String[] nodes;
         String[] arcs;
@@ -487,7 +305,7 @@ public class Model extends Base implements IModelCom, Serializable {
       	
         // Ajout des noeuds
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
-        	nodes = (this.getNthNode(i)).translateToCAMI();
+        	nodes = (this.getNthNode(i)).translate();
             
         	for (int j = 0; j < nodes.length; j++) {
                 if (!nodes[j].equals("")) {
@@ -498,7 +316,7 @@ public class Model extends Base implements IModelCom, Serializable {
 
         // Ajout des arcs
         for (int i = 0; i < this.getListOfArcSize(); i++) {
-        	arcs = (this.getNthArc(i)).translateToCAMI();
+        	arcs = (this.getNthArc(i)).translate();
             
         	for (int j = 0; j < arcs.length; j++) {
                 if (!arcs[j].equals("")) {
@@ -511,36 +329,5 @@ public class Model extends Base implements IModelCom, Serializable {
         vec.toArray(cami);
         return cami;
     }
-
-
-    /**
-     * Retourne l'id maximun du modele
-     * @return int
-     */
-    private int getMaxiId() {
-        int tmp = 1;
-        Node lesNodes;
-        Arc lesArcs;
-
-        for (int i = 0; i < this.getListOfNodeSize(); i++) {
-            lesNodes = this.getNthNode(i);
-
-            if (tmp < lesNodes.getId()) {
-                tmp = lesNodes.getId();
-            }
-        }
-
-        // Ajout des arcs
-        for (int i = 0; i < this.getListOfArcSize(); i++) {
-            lesArcs = this.getNthArc(i);
-
-            if (tmp < lesArcs.getUniqueId()) {
-                tmp = lesArcs.getUniqueId();
-            }
-        }
-
-        return tmp;
-    }
-
 }
 

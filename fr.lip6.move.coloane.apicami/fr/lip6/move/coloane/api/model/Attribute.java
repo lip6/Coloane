@@ -13,128 +13,21 @@ import java.io.Serializable;
  * </ul>
  * 
  */
-public class Attribute implements Serializable {
+public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute implements Serializable {
 
-    /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /** Nom de l'attribut sous forme de chaine de caracteres. */
-    private String name;
-
-    /** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
-    private Vector<String> value;
-
-    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    private int xPosition;
-
-    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    private int yPosition;
-
-    /** Identifiant unique de l'element du modele possedant cette attribut. */
-    private int refId;
-
-    /**
-     * Constructeur de la classe Attribute.
-     * 
-     * @param name le nom de l'attribut
-     * @param value la valeur de l'attribut
-     * @param refId l'id de l'objet possedant cette attribut.
-     */
-    public Attribute(String name, String[] value, int refId)	{
-    	this.name = name;
-    	this.value = new Vector<String>();
-    	this.refId = refId;
-    	this.xPosition = 0;
-    	this.yPosition = 0;
-    	
-    	if (value.length == 0) {
-    		this.value.addElement(new String(""));
-        } else {
-    		for (int i = 0; i < value.length; i++) {
-    			this.value.addElement(value[i]);
-    		}	
-        }	
-    }	
-
-    /**
-     * Retourne le nom de l'attribut.
-     * @return String
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Cette methode permet de fixer les coordonnees spatiales de l'attribut
-     * @param x est la valeur de la coordonee x
-     * @param y est la valeur de la coordonee y
-     */
-    public void setPosition(int x, int y) {
-    	this.xPosition = x;
-    	this.yPosition = y;
-    }
-
-    /**
-     * Retourne l'identifiant du noeud parent de cet attribut 
-     * @return int
-     */
-    public int getRefId() {
-        return this.refId;
-    }
-
-    /**
-     * Mdifie la valeur de la ligne line de l'attribut.
-     * @param value la valeur de l'attribut
-     * @param numLine la ligne de la valeur de l'attribut
-     * @throws Exception si ce numuro de ligne n'existe pas
-     */
-    public void setValue(String value, int numLine) throws Exception {
-        if (numLine < this.value.size()) {
-            this.value.set(numLine, value);
-        } else {
-            throw new Exception("Numero de ligne hors limite");
-        }
-    }
-
-    /**
-     * Augmente le nombre de lignes de la valeur de l'attribut.
-     * @param nb Nombre de lignes a rajouter a la valeur de l'attribut
-     * @throws Exception si le nombre a ajouter est negatif
-     */
-    public void riseNbLine(int nb) throws Exception {
-        if (nb >= 0) {
-            this.value.setSize(this.value.size() + nb);
-        } else {
-            throw new Exception("Le nombre de ligne a ajouter doit être positif");
-        }
-    }
-
-    /**
-     * Retourne la valeur de la ligne line de l'attribut.
-     * @param line la ligne de la valeur de l'attribut (0 pour la 1er ligne)
-     * @return String
-     */
-    public String getValue(int line) {
-        try {
-            return (String) this.value.get(line);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Retourne le nombre de lignes de l'attribut.
-     * @return int
-     */
-    public int getSize() {
-        return this.value.size();
-    }
-
-    /**
+	/** Constructeur */
+	public Attribute(String name, String[] value, int refId) {
+		super(name, value, refId);
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
      * Traduit un objet Attribute en la chaine de caracteres CAMI correspondante.
      * @return String[]
      */
-    public String[] translateToCAMI() {
+    public String[] translate() {
         StringBuffer s;
         String[] stringToReturn = null;
         
