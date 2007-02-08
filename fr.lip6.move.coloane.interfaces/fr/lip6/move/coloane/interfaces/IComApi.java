@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.interfaces;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 
 /**
  * Services proposes par le module de communication de Coloane a une API de communication

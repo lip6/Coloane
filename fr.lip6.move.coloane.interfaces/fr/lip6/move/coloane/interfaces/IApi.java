@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces;
 
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+
 /**
  * L'interface IAPI represente l'ensemble des methodes qui doivent etre
  * offertes par une API au module de communication de Coloane. 
