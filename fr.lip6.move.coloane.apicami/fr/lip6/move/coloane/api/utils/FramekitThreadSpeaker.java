@@ -20,15 +20,12 @@ public class FramekitThreadSpeaker extends Thread {
 	
 	/**
 	 * Constructeur
-	 * @param apiFK point d'entre vers l'api
+	 * @param api point d'entre vers l'api
 	 * @param lowCom point d'entree vers la couche bas niveau
-	 * @param sName nom de session
-	 * @param dat date
-	 * @param sessionFormalism formalism
 	 * @param verrou
 	 */
-	public FramekitThreadSpeaker(Api apiFK, ComLowLevel lowCom, Lock verrou) {
-		this.api = apiFK;
+	public FramekitThreadSpeaker(Api api, ComLowLevel lowCom, Lock verrou) {
+		this.api = api;
 		this.lowCom = lowCom;
 		this.verrou = verrou;
 	}
@@ -171,7 +168,7 @@ public class FramekitThreadSpeaker extends Thread {
 
 	/**
 	 * Envoi a FrameKit une reponse a un dialogue
-	 * @param response La reponse a envoyee
+	 * @param results La reponse a envoyee
 	 * @return boolean
 	 */
 	public boolean sendDialogueResponse(String results) {

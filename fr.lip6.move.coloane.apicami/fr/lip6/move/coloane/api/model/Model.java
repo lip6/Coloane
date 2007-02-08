@@ -13,16 +13,11 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
- * Cette classe represente un modele generique.<br>
- * Elle permet la manipulation des elements du modele et le parcours de ceux-ci.<br>
- * Un modele se compose de :
+ * Enrichissement de la definition d'un modele generique par :
  * <ul>
- * 	<li> Une liste de noeuds</li>
- * 	<li> Une liste d'attributs</li>
- * 	<li> Une liste d'arcs</li>
+ * 	<li>Sa traduction en CAMI</li>
+ * 	<li>Sa construction a partir de commande CAMI</li>
  * </ul>
- * A noter qu'un modele a toujours un identifiant egal a 1<br>
- * Le modele generique porte l'information sur son formalisme en tant que chaine de caracteres.<br>
  * @see fr.lip6.move.coloane.interfaces.model.Model
  */
 public class Model extends fr.lip6.move.coloane.interfaces.model.Model implements Serializable {
@@ -34,8 +29,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 	}
 
 	/**
-     * Construction du modele a partir d'un vecteur de commande CAMI
-     * @param Vector camiCommande Le vecteur de commandes CAMI
+     * Construction du modele a partir d'un vecteur de commandes CAMI
+     * @param camiCommande Le vecteur de commandes CAMI
      * @throws SyntaxErrorException
      */
     public void buildModel(Vector camiCommande) throws SyntaxErrorException {

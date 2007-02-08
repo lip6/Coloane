@@ -4,14 +4,8 @@ import java.util.Vector;
 import java.io.Serializable;
 
 /**
- * Classe representant un attribut d'un modele. Un attribut se structure de la maniere suivante :
- * <ul>
- * 	<li> Nom de l'attribut sous forme de chaine de caracteres
- * 	<li> La valeur de l'attribut (ensemble de chaine de caracteres java quelconque representant les differents lignes)
- * 	<li> Abscisse et ordonnee de l'attribut
- * 	<li> Identifiant de l'element d'un modele dont il est affecte
- * </ul>
- * 
+ * Enrichissement de la definition d'un attribut generique par sa traduction en CAMI
+ * @see fr.lip6.move.coloane.interfaces.model.Attribute
  */
 public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute implements Serializable {
 
@@ -24,7 +18,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute i
 	}
 	
 	/**
-     * Traduit un objet Attribute en la chaine de caracteres CAMI correspondante.
+     * Traduit un objet Attribute en chaines de caracteres CAMI correspondantes.
      * @return String[]
      */
     public String[] translate() {

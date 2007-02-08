@@ -5,7 +5,8 @@ import java.util.Vector;
 import java.io.Serializable;
 
 /**
- * Le noeud d'un modele
+ * Enrichissement de la definition d'un noeud generique par sa traduction en CAMI
+ * @see fr.lip6.move.coloane.interfaces.model.Node
  */
 public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements Serializable {
 
@@ -17,7 +18,7 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
 	}
 	
 	/**
-     * Traduction du noeud noeud en chaine de commandes CAMI
+     * Traduction du noeud noeud en chaines de commandes CAMI
      * @return String[]
      */
     public String[] translate() {

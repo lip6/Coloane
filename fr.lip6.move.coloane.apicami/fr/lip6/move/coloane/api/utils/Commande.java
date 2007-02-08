@@ -4,11 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-/**
- * 
- * @author DQS equipe 2 (Styx)
- *
- */
+
 public class Commande {
 	
 	

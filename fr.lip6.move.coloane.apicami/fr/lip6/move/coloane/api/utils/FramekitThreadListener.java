@@ -4,12 +4,12 @@ import java.util.Vector;
 
 import fr.lip6.move.coloane.api.Api;
 import fr.lip6.move.coloane.api.model.Model;
-
-import fr.lip6.move.coloane.api.objects.DialogCom;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
-import fr.lip6.move.coloane.api.objects.RootMenuCom;
-import fr.lip6.move.coloane.interfaces.IMenuCom;
-import fr.lip6.move.coloane.interfaces.IRootMenuCom;
+
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 /**
@@ -33,16 +33,16 @@ public class FramekitThreadListener extends Thread {
 	private Vector<IRootMenuCom> menuList;
 	
 	/** Liste des dialogues */
-	private Vector<DialogCom> dialogList;
+	private Vector<IDialogCom> dialogList;
 	
 	/** Liste des resultats */
-	private Vector<ResultsCom> resultList;
+	private Vector<IResultsCom> resultList;
 	
 	/**
 	 * Constructeur
-	 * @param apiFK point d'entre vers l'api
-	 * @param com point d'entree vers la com
-	 * @param aVerrou le verrou du speaker
+	 * @param api point d'entre vers l'api
+	 * @param lowCom point d'entree vers la com
+	 * @param verrou le verrou du speaker
 	 */
 	public FramekitThreadListener(Api api, ComLowLevel lowCom, Lock verrou) {
 		this.api = api;
@@ -50,8 +50,8 @@ public class FramekitThreadListener extends Thread {
 		this.verrou = verrou;
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<IRootMenuCom>();
-		this.dialogList = new Vector<DialogCom>();
-		this.resultList = new Vector<ResultsCom>();
+		this.dialogList = new Vector<IDialogCom>();
+		this.resultList = new Vector<IResultsCom>();
 	}
 	
 	/**
@@ -60,13 +60,13 @@ public class FramekitThreadListener extends Thread {
 	public void run() {
 		
 		// Le menu en cours de construction
-		RootMenuCom menu = null;
+		IRootMenuCom menu = null;
 		
 		// Le dialogue en cours de construction
-		DialogCom dialog = null;
+		IDialogCom dialog = null;
 		
 		// Le resultat en cours de construction
-		ResultsCom result = null;
+		IResultsCom result = null;
 				
 		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
@@ -310,7 +310,7 @@ public class FramekitThreadListener extends Thread {
 							
 							// Indique l'etat de fraicheur du modele
 							// Important au retour de la connexion par exemple
-							RootMenuCom myMenu = (RootMenuCom) menuList.get(0);
+							IRootMenuCom myMenu = (IRootMenuCom) menuList.get(0);
 							IMenuCom syntaxMenu = myMenu.getMenu("Petri net syntax checker");
 							if ((syntaxMenu != null) && !syntaxMenu.isEnabled()) {
 								this.api.setModelDirty(false);

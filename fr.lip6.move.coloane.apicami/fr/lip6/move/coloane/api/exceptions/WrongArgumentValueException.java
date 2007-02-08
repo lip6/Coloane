@@ -2,21 +2,19 @@ package fr.lip6.move.coloane.api.exceptions;
 
 /**
  * Exception levee lorsqu'on construit un objet avec un mauvais argument entier passe en parametre
- * @author DQS equipe 2 (Styx)
  */
 public class WrongArgumentValueException extends Exception {
 
 	/**
-	 * Identifie l'exception pour la serialization
+	 * Identifie l'exception pour la serialisation
 	 */
-	static final long serialVersionUID = 7092611880189329093L;
+	static final long serialVersionUID = 1L;
 	
 	/**
-	 * Construceur 
-	 * @param arg message d'erreur supplementaire
+	 * Constructeur 
+	 * @param message message d'erreur supplementaire
 	 */
-	public WrongArgumentValueException(String arg) {
-		super(arg);
+	public WrongArgumentValueException(String message) {
+		super(message);
 	}
-
 }

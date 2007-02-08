@@ -2,6 +2,16 @@ package fr.lip6.move.coloane.api.utils;
 
 import java.util.StringTokenizer;
 
+/**
+ * Ensemble d'outils pour la manipulation de commandes CAMI.<br>
+ * On trouvera entre autre :
+ * <ul>
+ * 	<li> Un parseur d'entier</li>
+ * 	<li> Un parseur de chaie de caracteres</li>
+ * 	<li> Un producteur de chaines conformes CAMI</li>
+ * </ul>
+ */
+
 public class CamiParser {
 
 	private String message;
@@ -12,8 +22,9 @@ public class CamiParser {
 
 	/**
 	 * Retourne l'entier CAMI du message CAMI  
-	 * @param token : le separateur 
-	 * @return l'entier CAMI 
+	 * @param token Le separateur 
+	 * @return l'entier CAMI decouvert (sous forme de chaine de caracteres)
+	 * Si aucun entier n'est trouve... La methode renvoie la chaine vide 
 	 */
 	public String parseInt(String token){
 		String res = "";
@@ -35,7 +46,7 @@ public class CamiParser {
 
 	/**
 	 * Retourne la chaine CAMI du message CAMI  
-	 * @param token : le separateur 
+	 * @param token Le separateur 
 	 * @return la chaine CAMI 
 	 */
 	public String parseString(String token){
@@ -61,9 +72,10 @@ public class CamiParser {
 	}
 
 	/**
-	 * Convertie un string en chaine cami
+	 * Conversion d'une chaine de carateres en message CAMI.
+	 * En CAMI chaque chaine de carateres est precede de sa taille et de ':'
 	 * @param s la chaine a convertir
-	 * @return la chiane convertie
+	 * @return la chaine convertie
 	 */
 	public static String stringToCAMI(String s) {
 		if (!s.equals("") || s == null) {

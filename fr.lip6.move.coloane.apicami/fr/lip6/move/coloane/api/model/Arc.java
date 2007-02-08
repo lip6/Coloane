@@ -4,11 +4,9 @@ import java.util.Arrays;
 import java.util.Vector;
 import java.io.Serializable;
 
-
 /**
- * Classe representant un arc d'un modele dans les differents formalismes
- * implantes. Un arc possede obligatoire un noeud en entree et en sortie.
- * Un liste d'attribut peut etre en plus attache a un arc.
+ * Enrichissement de la definition d'un arc generique par sa traduction en CAMI
+ * @see fr.lip6.move.coloane.interfaces.model.Arc
  */
 public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Serializable { 
     
@@ -21,7 +19,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 
 	
 	/**
-     * Traduit un objet Arc en chaine de caracteres CAMI correspondante
+     * Traduit un objet Arc en chaines de caracteres CAMI correspondantes
      * @return String[]
      */
     public String[] translate() {

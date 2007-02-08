@@ -13,11 +13,11 @@ import fr.lip6.move.coloane.api.utils.Lock;
 
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.IResultsCom;
-import fr.lip6.move.coloane.interfaces.IDialogCom;
-import fr.lip6.move.coloane.interfaces.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
@@ -231,7 +231,7 @@ public class Api implements IApi {
 	
 	
 	/**
-	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme
+	 * Permet de fermer la connexion entre l'interface utilisateur et la plate-forme
 	 * La fermeture de la connexion implique la fermeture prealable de toutes les sessions
 	 * ATTENTION : La fermeture des sessions doit etre faite avant. (C'est un prerequis
 	 */
@@ -453,7 +453,7 @@ public class Api implements IApi {
 	
 	
 	/**
-	 * 
+	 * Demande l'arret du service
 	 * @param serviceName le service que l'on veut arreter
 	 * @return TRUE si l'arret du service est effectif
 	 */
@@ -522,8 +522,8 @@ public class Api implements IApi {
 	 * Cacher une boite de dialogue
 	 * @param numDialog L'identite de la boite a masquer
 	 */
-	// TODO: Cacher une boite de dialogue
 	public void hideDialogUI(int numDialog) {
+		// TODO: Cacher une boite de dialogue
 		System.err.println("Not available yet...");
 	}
 	
@@ -552,7 +552,7 @@ public class Api implements IApi {
 	 * @param resultList La liste des resultats renvoyes par la plate-forme
 	 * @see ResultsCom
 	 */
-	public void setResults(Vector<ResultsCom> resultList) {
+	public void setResults(Vector<IResultsCom> resultList) {
 		if(!resultList.isEmpty()) {
 			Iterator i = resultList.iterator();
 

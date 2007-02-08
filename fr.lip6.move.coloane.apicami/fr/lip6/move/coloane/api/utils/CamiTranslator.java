@@ -4,10 +4,13 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.api.exceptions.UnexpectedCamiCommand;
-import fr.lip6.move.coloane.api.objects.DialogCom;
+import fr.lip6.move.coloane.api.objects.MenuCom;
 import fr.lip6.move.coloane.api.objects.RootMenuCom;
-import fr.lip6.move.coloane.api.objects.ServiceCom;
 import fr.lip6.move.coloane.interfaces.IDialog;
+import fr.lip6.move.coloane.interfaces.objects.DialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 
 /**
  * Constructeur d'objets a partir de commandes CAMI
@@ -16,7 +19,6 @@ public class CamiTranslator {
 
 	/**
 	 * Constructeur
-	 * Rien a faire...
 	 */
 	public CamiTranslator() {
 		super();
@@ -24,18 +26,19 @@ public class CamiTranslator {
 
 	
 	/**  
-	 * Permet de traduire du CAMI vers l'objet Menu
+	 * Permet de traduire du CAMI vers l'objet MenuCom
 	 * 
 	 * @param camiVec Vector de Vector contenant le CAMI
-	 * @return l'objet Menu traduit du CAMI
-	 * @throws UnexpectedCAMICommand si jamais camiVec contient une mauvaise commande
+	 * @return L'objet RootMenuCom contenant tous les sous-menus
+	 * @throws UnexpectedCAMICommand si camiVec contient une mauvaise commande
+	 * @see RootMenuCom
 	 */
 	
-	public RootMenuCom getMenu(Vector camiVec) throws UnexpectedCamiCommand {
-		Iterator it = camiVec.iterator();
-		
-		RootMenuCom rootMenu;
+	public IRootMenuCom getMenu(Vector camiVec) throws UnexpectedCamiCommand {
+		IRootMenuCom rootMenu;
 		Vector camiCmd;
+		
+		Iterator it = camiVec.iterator();
 		
 		// On verifie que le vecteur n'est pas vide
 		if (camiVec.size() == 0) {
@@ -71,49 +74,48 @@ public class CamiTranslator {
 			String serviceFather = camiCmd.get(1).toString();
 			String serviceName = camiCmd.get(2).toString();
 			
-			boolean serviceActive = false;
-			if (camiCmd.get(9) != null && (Integer.parseInt(camiCmd.get(9).toString()) == 1)) {
-				serviceActive = true; 
-			}
+//			boolean serviceActive = false;
+//			if (camiCmd.get(9) != null && (Integer.parseInt(camiCmd.get(9).toString()) == 1)) {
+//				serviceActive = true; 
+//			}
 			
-			rootMenu.addMenu(serviceName, serviceFather, false);
+			IMenuCom smenu = new MenuCom(serviceName, serviceFather, false);
+			rootMenu.addMenu(smenu);
 			
-			boolean serviceSuspensible = false;
-			if (camiCmd.get(7) != null && (Integer.parseInt(camiCmd.get(7).toString()) == 2)) {
-				serviceSuspensible = true;
-			}
-			
-			boolean dialogueAllwd = false;
-			if (camiCmd.get(6) != null && (Integer.parseInt(camiCmd.get(6).toString()) == 2)) {
-				dialogueAllwd = true;
-			}
-			
-			boolean defaultValid = false;
-			if (camiCmd.get(5) != null && (Integer.parseInt(camiCmd.get(5).toString()) == 1)) {
-				defaultValid = true;
-			}
-			
-			String resFormalism = "";
-			if (camiCmd.get(8) != null) {
-				resFormalism = camiCmd.get(8).toString();
-			}
-			
-			//Creation d'un service
-			new ServiceCom(serviceName, serviceActive, serviceSuspensible, dialogueAllwd, defaultValid, resFormalism);
-		
+//			boolean serviceSuspensible = false;
+//			if (camiCmd.get(7) != null && (Integer.parseInt(camiCmd.get(7).toString()) == 2)) {
+//				serviceSuspensible = true;
+//			}
+//			
+//			boolean dialogueAllwd = false;
+//			if (camiCmd.get(6) != null && (Integer.parseInt(camiCmd.get(6).toString()) == 2)) {
+//				dialogueAllwd = true;
+//			}
+//			
+//			boolean defaultValid = false;
+//			if (camiCmd.get(5) != null && (Integer.parseInt(camiCmd.get(5).toString()) == 1)) {
+//				defaultValid = true;
+//			}
+//			
+//			String resFormalism = "";
+//			if (camiCmd.get(8) != null) {
+//				resFormalism = camiCmd.get(8).toString();
+//			}	
 		}
 		
 		return rootMenu;
 	}
 	
 	/**
-	 * permet de traduire du CAMI vers l'objet WindowedDialogue
+	 * Permet de traduire du CAMI vers l'objet DialogCom
+	 * 
 	 * @param camiVec camiVec est un Vector contenant le CAMI
-	 * @return l'objet WindowedDialogue traduit du CAMI
-	 * @throws UnexpectedCAMICommand si jamais camiVec contient une mauvaise commande
+	 * @return l'objet DialogCom traduit du CAMI definissant une boite de dialogue
+	 * @throws UnexpectedCAMICommand si camiVec contient une mauvaise commande
+	 * @see DialogCom
 	 */
-	public DialogCom getDialog(Vector camiVec)  throws UnexpectedCamiCommand {
-		DialogCom dialog = null;
+	public IDialogCom getDialog(Vector camiVec)  throws UnexpectedCamiCommand {
+		IDialogCom dialog = null;
 		Vector camiCmd;
 		
 		Iterator it = camiVec.iterator();
