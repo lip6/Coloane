@@ -12,7 +12,9 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
     
 	private static final long serialVersionUID = 1L;
 
-	/** Constructeur */
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.Arc#Arc(String, int)
+	 */
 	public Arc(String arcType, int id) {
 		super(arcType, id);
 	}

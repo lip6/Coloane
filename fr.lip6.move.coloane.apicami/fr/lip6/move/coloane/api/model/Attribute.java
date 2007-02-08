@@ -11,7 +11,9 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute i
 
 	private static final long serialVersionUID = 1L;
 
-	/** Constructeur */
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.Attribute#Attribute(String, String[], int)
+	 */
 	public Attribute(String name, String[] value, int refId) {
 		super(name, value, refId);
 		// TODO Auto-generated constructor stub

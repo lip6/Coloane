@@ -12,7 +12,9 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
 
 	private static final long serialVersionUID = 1L;
 
-	/** Constructeur */
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.Node#Node(String,int,int,int)
+	 */
 	public Node(String nodeType, int x, int y, int id) {
 		super(nodeType, x, y, id);
 	}

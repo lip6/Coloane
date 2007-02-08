@@ -24,6 +24,9 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 	private static final long serialVersionUID = 1L;
 	
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.Model#Model(Vector<String>)
+	 */
 	public Model(Vector<String> commands) {
 		super(commands);
 	}
