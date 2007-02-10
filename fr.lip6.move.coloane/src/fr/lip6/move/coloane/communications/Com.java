@@ -11,14 +11,15 @@ import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComUi;
 import fr.lip6.move.coloane.interfaces.IComMotor;
-import fr.lip6.move.coloane.interfaces.IDialogCom;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.IMenuCom;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
-import fr.lip6.move.coloane.interfaces.IResultsCom;
-import fr.lip6.move.coloane.interfaces.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 
 import fr.lip6.move.coloane.main.Coloane;
@@ -41,8 +42,11 @@ public class Com implements IComUi, IComApi, IComMotor {
 	/** Le dialogue en cours de construction */
 	private Dialog dialog = null;
 	
-	/** Les menus en cours de construction */
-	private Vector<RootMenu> menuList = null;
+	/** Le menu en cours de construction */
+	private RootMenu root = null;
+	
+	/** L'ensemble de modifications qui doivent etre faites sur les menus */
+	private Vector<IUpdateMenuCom> updates = null;
 	
 	/** TODO : A documenter */
 	private Composite parent;
@@ -54,7 +58,6 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public Com() {
 		this.api = new Api(this);
 		this.parent = (Composite) Coloane.getParent();
-		this.menuList = new Vector<RootMenu>();
 	}
 	
 	/**
@@ -228,30 +231,20 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Affichage des menus construit a partir des commandes CAMI 
 	 * @param menu La racine du menu a afficher
 	 */
-	public void drawMenu(Vector<IRootMenuCom> menuComList) {
-		menuList = new Vector<RootMenu>();
-		
+	public void drawMenu(IRootMenuCom rootMenuCom) {		
 		try {
 			// Transformation des menus
-			for (int i=0; i < menuComList.size(); i++) {
-				IRootMenuCom menuRootCom = menuComList.get(i);
-				RootMenu root = new RootMenu(menuRootCom.getRootMenu());
+			root = new RootMenu(rootMenuCom.getRootMenuName());
 			
-				for (int j=0; j < menuRootCom.getListMenu().size(); j++) {
-					IMenuCom menuCom = menuRootCom.getListMenu().get(j);
-					root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
-				}
-			
-				// Ajout a la liste de manu a construire
-				menuList.add(root);		
+			for (int j=0; j < rootMenuCom.getListMenu().size(); j++) {
+				IMenuCom menuCom = rootMenuCom.getListMenu().get(j);
+				root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
 			}
-		
+			
 			// Demande d'affichage a l'UI
 			parent.getDisplay().asyncExec(new Runnable(){
 				public void run(){
-					for (RootMenu menu : menuList) {
-						ui.drawMenu(menu);
-					}
+					ui.drawMenu(root);
 				}
 			});
 		} catch (Exception e) {
@@ -264,12 +257,13 @@ public class Com implements IComUi, IComApi, IComMotor {
 	
 	/** 
 	 * Affichage des menus construit a partir des commandes CAMI 
-	 * @param menu La racine du menu a afficher
+	 * @param updates La racine du menu a afficher
 	 */
-	public void updateMenu() {
+	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
+		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable(){
 			public void run(){
-				ui.updateMenu();
+				ui.updateMenu(updates);
 			}
 		});
 	}
@@ -370,7 +364,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @return boolean Indicateur de fraicheur
 	 */
 	public boolean getDirtyState() {
-		return this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
+		boolean rep = this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
+		return rep;
 	}
 	
 	

@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.communications.objects;
 
 import java.util.Vector;
 
-import fr.lip6.move.coloane.interfaces.IResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
 public class Results {
 	private Vector<String> description;

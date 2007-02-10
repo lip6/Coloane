@@ -15,8 +15,6 @@ public abstract class Menu {
 		this.reference = reference;
 		this.level = level;
 		menus = new ArrayList<ChildMenu>();
-		
-		System.out.println("Creation du menu: "+name+" (reference: "+reference+") niveau :"+level);
 	}
 	
 	/**

@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.interfaces;
 
+import java.util.Vector;
+
 import fr.lip6.move.coloane.communications.objects.Results;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
@@ -19,7 +22,7 @@ public interface IUiCom {
 	public void drawDialog(Dialog dialog);
 	
 	/** Mise a jour des menus */
-	public void updateMenu();
+	public void updateMenu(Vector<IUpdateMenuCom> updates);
 	
 	/** Suppression d'un menu */
 	public void removeMenu(String menuName);

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
-import fr.lip6.move.coloane.interfaces.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
 public class Dialog {
 	public int id;
