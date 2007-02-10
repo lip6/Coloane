@@ -18,6 +18,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
@@ -485,18 +486,19 @@ public class Api implements IApi {
 	
 	/** 
 	 * Affichage des menus
-	 * @param menuList La liste des menus a afficher
+	 * @param menu Le menu a afficher
 	 * @see IRootMenuCom
 	 */
-	public void drawMenu (Vector<IRootMenuCom> menuList) {
-		this.com.drawMenu(menuList);
+	public void drawMenu (IRootMenuCom menu) {
+		this.com.drawMenu(menu);
 	}
 	
 	/** 
-	 * Demande de mise a jour des menus 
+	 * Demande de mise a jour des menus
+	 * @param updates L'ensemble des mises a jour a effectuer sur les menus
 	 */
-	public void updateMenu() {
-		this.com.updateMenu();
+	public void updateMenu(Vector<IUpdateMenuCom> updates) {
+		this.com.updateMenu(updates);
 	}
 	
 	/**
