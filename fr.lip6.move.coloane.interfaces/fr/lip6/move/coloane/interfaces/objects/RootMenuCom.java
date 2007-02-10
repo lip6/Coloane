@@ -5,17 +5,17 @@ import java.util.Vector;
 public abstract class RootMenuCom implements IRootMenuCom {
 	
 	/** Le nom du menu root */
-	private String rootMenu;
+	private String name;
 	
 	/** L'ensemble des sous-menus (sans hierarchie) */
 	private Vector<IMenuCom> listMenu;
 	
 	/**
 	 * Constructeur d'un menu racine
-	 * @param rootMenu Le nom du menu root
+	 * @param name Le nom du menu root
 	 */
-	public RootMenuCom (String rootMenu) {
-		this.rootMenu = rootMenu;
+	public RootMenuCom (String name) {
+		this.name = name;
 		listMenu = new Vector<IMenuCom>();
 	}
 	
@@ -36,16 +36,16 @@ public abstract class RootMenuCom implements IRootMenuCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getRootMenu()
 	 */
-	public String getRootMenu() {
-		return rootMenu;
+	public String getRootMenuName() {
+		return name;
 	}
 
 	/**
 	 * Indique le nom du menu root apres sa creation
-	 * @param rootMenu Le nom du menu root
+	 * @param name Le nom du menu root
 	 */
-	public void setRootMenu(String rootMenu) {
-		this.rootMenu = rootMenu;
+	public void setRootMenu(String name) {
+		this.name = name;
 	}
 	
 	/* (non-Javadoc)

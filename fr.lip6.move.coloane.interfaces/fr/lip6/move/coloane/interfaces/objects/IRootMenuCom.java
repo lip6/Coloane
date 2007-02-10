@@ -14,7 +14,7 @@ public interface IRootMenuCom {
 	 * Recupere le nom du menu root
 	 * @return Le nom du menu Root
 	 */
-	public String getRootMenu();
+	public String getRootMenuName();
 	
 	/**
 	 * Recupere la liste des menus
