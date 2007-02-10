@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 /**
  * Services proposes par le module de communication de Coloane a une API de communication
@@ -20,18 +21,19 @@ public interface IComApi {
 	
 	/**
 	 * Affichage des menus envoyes par la plate-forme
-	 * @param menuList Ensemble des menus a afficher
+	 * @param menu Le menu a afficher
 	 * @see IRootMenuCom
 	 */
-	public void drawMenu(Vector<IRootMenuCom> menuList);
+	public void drawMenu(IRootMenuCom menu);
 	
 	/**
 	 * Mise a jour du contenu des fichiers.
 	 * Chaque appel de service, ou plus simplement chaque action sur la plate-forme
 	 * peut provoquer la mise a jour des menus affiches par Coloane. Ces modifications
 	 * doivent etre prise en compte et repercutees sur Coloane
+	 * @param updates Les mises a jour a effectuer sur les menus
 	 */
-	public void updateMenu();
+	public void updateMenu(Vector<IUpdateMenuCom> updates);
 	
 	/**
 	 * Affichage des boites de dialogues envoyees par la plate-forme
