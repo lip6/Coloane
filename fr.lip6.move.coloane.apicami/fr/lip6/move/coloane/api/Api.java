@@ -565,6 +565,8 @@ public class Api implements IApi {
 			}
 			
 			this.com.printResults();
+		} else {
+			this.com.setResults("",null);
 		}
 	}
 	
