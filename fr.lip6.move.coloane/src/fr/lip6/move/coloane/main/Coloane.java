@@ -116,8 +116,6 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	public static void notifyModelChange(ModelImplAdapter model) {
 		if (model != null) {
-			System.out.println("Changement du modele");
-								
 			int dateUpdate = model.modifyDate();
 			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession() != null)) {
 				System.out.println("OK pour l'update");
