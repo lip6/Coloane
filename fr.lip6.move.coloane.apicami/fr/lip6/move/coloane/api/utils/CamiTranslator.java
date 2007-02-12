@@ -122,18 +122,15 @@ public class CamiTranslator {
 		camiCmd = (Vector) it.next();
 		
 		// La premiere commande attendue est un DC
-		System.out.println("Commande : " + camiCmd.get(0));
-		
 		if (camiVec.size() == 0) {
 			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : nulle");
 		} else if (!camiCmd.get(0).equals("DC")) {
 			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : "+camiCmd.get(0)+" a la place de DC");
 		}
 		
-		// Commande suivante attendue : CE
 		camiCmd = (Vector) it.next();
-		System.out.println("Commande : "+ camiCmd.get(0));
 		
+		// Commande suivante attendue : CE
 		if (!camiCmd.get(0).equals("CE")) {
 			throw new UnexpectedCamiCommand("La boite de dialogue est mal definie : "+camiCmd.get(0)+" a la place de CE");
 		} else if (camiCmd.size() != 10) {

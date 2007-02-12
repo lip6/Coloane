@@ -725,10 +725,8 @@ public class Commande {
 		if (cmdString.equals("DE")) {
 			String s1;
 			String entier1;
-			System.out.println("Parser... DE");
 			
 			System.out.println(commande);
-			System.out.println("test");
 			
 			if (commande.length() > 4) {
 				s1 = parser.parseString(",");
