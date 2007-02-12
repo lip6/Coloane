@@ -507,13 +507,17 @@ public class FormalismManager {
         	throw new Exception("Extension inconnue");
         }
         
-        System.out.println("Nom du fichier :"+fileName);
-        System.out.println("Extension"+fext);
-        
         IModel apiModel = new Model(new File(fileName));
         if (apiModel == null) {
             throw new Exception("Creation du modele impossible d'apres le fichier");
         }
+        
+        // On indique au modele l'identifiant maximal
+        // Cette etape est importante, si on souhaite ajouter de nouveaux noeuds et arcs
+        // au modele
+        apiModel.setMaxId(apiModel.getMaxId());
+        
+        
         return new ModelImplAdapter(apiModel, formalism);
     }
     
