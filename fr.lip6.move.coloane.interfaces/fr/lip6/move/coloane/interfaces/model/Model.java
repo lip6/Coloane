@@ -194,11 +194,16 @@ public abstract class Model implements IModel, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addArc(fr.lip6.move.coloane.interfaces.model.Arc)
 	 */
     public void addArc(IArc arc) {
-        INode start = arc.getStartingNode();
+    	INode start = arc.getStartingNode();
         INode end = arc.getEndingNode();
         
-       if ((!this.listOfArc.contains(arc)) && start != null && end != null) {
-            start.addOutputArc(arc);
+        // Si l'arc est deja dans le modele...
+        if (this.listOfArc.contains(arc)) {
+        	return;
+        }
+       
+        if ((start != null) && (end != null)) {
+        	start.addOutputArc(arc);
             end.addInputArc(arc);
             this.listOfArc.addElement(arc);
             
@@ -210,7 +215,7 @@ public abstract class Model implements IModel, Serializable {
             }
             
         } else {
-            System.err.println("Debut ou fin du noeud manquant");
+            System.err.println("Debut ou fin du noeud manquant "+arc.getId());
         }
     }
 
