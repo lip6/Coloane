@@ -13,7 +13,6 @@ import org.osgi.framework.BundleContext;
 
 import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.motor.Motor;
-import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
@@ -115,18 +114,14 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * Notifier le changement du modele de la session courrante
 	 */
-	public static void notifyModelChange() {
-		Session currentSession = plugin.motor.getSessionManager().getCurrentSession();
-		if (currentSession != null) {
-			ModelImplAdapter model = currentSession.getModel();
-			if (model != null) {
-				System.out.println("Changement du modele");
-				int dateUpdate = model.modifyDate();
-				if (dateUpdate != 0) {
-					plugin.com.toUpdate(dateUpdate);
-				}
-			} else {
-				System.out.println("Le modele est nul");
+	public static void notifyModelChange(ModelImplAdapter model) {
+		if (model != null) {
+			System.out.println("Changement du modele");
+								
+			int dateUpdate = model.modifyDate();
+			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession() != null)) {
+				System.out.println("OK pour l'update");
+				plugin.com.toUpdate(dateUpdate);
 			}
 		}
 	}
@@ -145,8 +140,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		//MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
-
+		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
 	}
 	
 	/**
