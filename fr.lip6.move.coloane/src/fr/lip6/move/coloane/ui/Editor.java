@@ -198,10 +198,12 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		System.out.println("Initialisation");
+		System.out.println("Initialisation de l'espace de travail");
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
 
+		// Fin de la construction
+		model.setEndBuilding();
 		// listen for dropped parts
 		//viewer.addDropTargetListener(createTransferDropTargetListener());
 	}
@@ -261,6 +263,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			} else {
 				this.formalism = model.getFormalism();
 			}
+			// Debut de la construction
+			model.setBeginBuilding();
 			
 			// Le nom de la tabulation
 			setPartName(file.getName());
@@ -271,7 +275,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 				outlinePage.setContents(getModel());
 			}
 		} catch (Exception e) {
-			Coloane.showErrorMsg("Error in loading file : "+ e.getMessage());
+			Coloane.showErrorMsg("Error while loading file : "+ e.getMessage());
 		}
 
 	}
