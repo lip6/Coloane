@@ -136,7 +136,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 				return true;
 			} else {
 				System.err.println("Echec de la connexion !");
-				return true;
+				return false;
 			}
 		} catch (Exception e) {
 			throw e;
@@ -303,20 +303,30 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-		
-		// Transformation des resultats
-		Results results = new Results(resultsCom);
-		
-		this.ui.setResults(serviceName,results);
+
+		if ((serviceName != "") && (resultsCom != null)) {
+			// Transformation des resultats
+			Results results = new Results(resultsCom);
+			this.ui.setResults(serviceName,results);
+		} else {
+			this.ui.setResults(serviceName,null);
+			this.ui.printResults();
+		}
 	}
 	
+	/**
+	 * Affichage des resultats transmis par l'API
+	 * Cette methode doit etre appelee apres la methode setResults
+	 */
 	public void printResults() {
 		this.ui.printResults();
 	}
 	
 	/**
 	 * Afichage d'un message de FrameKit
-	 * 
+	 * @param type Le type de message
+	 * @param text Le texte du message
+	 * @param specialType Un indicateur
 	 */
 	public void setUiMessage(int type, String text, int specialType) {
 		Coloane.showWarningMsg(text);
@@ -334,7 +344,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	
 	/**
 	 * Recupere le modele
-	 * @return Le modele en cours
+	 * @return IModel Le modele en cours
+	 * @see IModel
 	 */
 	public IModel getModel() {
 		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
