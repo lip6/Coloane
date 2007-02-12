@@ -67,19 +67,21 @@ public class ArcCompleteCmd extends Command {
      * Creation de la connexion
      */
     public void execute() {
+    	// Le constructeur se charge de la connexion
     	connection = new ArcImplAdapter(source, target, arcFormalism);
     	connection.setModelAdapter(source.getModelAdapter());
+    	source.getModelAdapter().addArc(connection);
     }
 
     /**
-     * Refaire
+     * Refaire la methode Execute
      */
     public void redo() {
     	connection.reconnect();
     }
 
     /**
-     * Defaire
+     * Defaire la methode Execute
      */
     public void undo() {
     	connection.disconnect();

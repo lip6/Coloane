@@ -10,23 +10,21 @@ import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
  */
 public class ArcDeleteCmd extends Command {
         
-        /**
-         * connection
-         */
+        /** L'arc adapte */
         private final ArcImplAdapter connection;
 
         
         /**
          * Effacer un arc
-         * @param aaa arc ˆ effacer
+         * @param arc arc ˆ effacer
          */
-        public ArcDeleteCmd(ArcImplAdapter aaa) {
+        public ArcDeleteCmd(ArcImplAdapter arc) {
                 
-                if (aaa == null) {
+                if (arc == null) {
                     throw new IllegalArgumentException();
                 }
                 setLabel(" delete arc ");
-                this.connection = aaa;
+                this.connection = arc;
         }
 
         /**
@@ -34,6 +32,7 @@ public class ArcDeleteCmd extends Command {
          *
          */
         public void execute() {
+        		this.connection.getModelAdapter().removeArc(this.connection);
                 this.connection.disconnect();
         }
 
