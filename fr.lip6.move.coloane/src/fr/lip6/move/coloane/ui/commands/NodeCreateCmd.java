@@ -29,8 +29,8 @@ public class NodeCreateCmd extends Command {
          * @param model Le modèle qui contiendra le noeud
          * @param bound Les limites du noeud; (la taille peut être (-1, -1))
          */
-        public NodeCreateCmd(NodeImplAdapter newNode, ModelImplAdapter model, Rectangle bound) {
-        	this.newNode = newNode;
+        public NodeCreateCmd(NodeImplAdapter node, ModelImplAdapter model, Rectangle bound) {
+        	this.newNode = node;
             this.model = model;
             newNode.setModelAdapter(model);
             bounds = bound;
@@ -41,14 +41,11 @@ public class NodeCreateCmd extends Command {
          * @return booleen
          */
         public boolean canExecute() {
-        	//System.out.println("Autorisation ??");
-        	//return newNode != null && parent != null && bounds != null;
         	return true;
         }
 
         /**
-         * Executer
-         *
+         * Executer la commande
          */
         public void execute() {
         	newNode.getGraphicInfo().setLocation(bounds.getLocation());
