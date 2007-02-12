@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.ui;
 
 
+import java.util.Vector;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -8,9 +10,12 @@ import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.interfaces.*;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.results.ActionsList;
+import fr.lip6.move.coloane.results.Result;
 import fr.lip6.move.coloane.results.ResultsList;
 import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
@@ -99,11 +104,25 @@ public class UserInterface implements IUiCom, IUiMotor {
 	
 	/**
 	 * Demande la mise a jour du menu
-	 * @param menuAPI arborescence menu
+	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu() {
+	public void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
+		
+			// Recuperation du menu de service de la session
+			RootMenu service = currentSession.getServicesMenu();
+			
+			for (IUpdateMenuCom up : updates) {
+				if (up.getRoot().equals(service.getName())) {
+					try {
+						service.setEnabled(up.getService(), up.getState());
+					} catch (MenuNotFoundException e) {
+						System.err.println("Le menu "+up.getService()+" n'a pu etre mis a jour");
+					}
+				}
+			}
+			
 			GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(),fenetreTravail,this);
 			gmenu.update();
 		} 
@@ -138,8 +157,14 @@ public class UserInterface implements IUiCom, IUiMotor {
 			String labelService;
 			ResultsList r = null;
 			
-			System.out.println("Ser = "+serviceName);
-			
+			if ((serviceName == "") || (result == null)) {
+				labelService = "No result";
+				r = new ResultsList(labelService);
+				String  description = "";
+				String object = "";
+				r.add(new Result(object,description));				
+			}
+						
 			/*
 			 * SYNTAX CHECKER
 			 */
@@ -154,11 +179,13 @@ public class UserInterface implements IUiCom, IUiMotor {
 					description = "This place is unnamed";
 				} else if (result.getHeadDescription().equals("List of unnamed transitions.")) {
 					description = "This transition is unnamed";
+				} else {
+					description = result.getHeadDescription();
 				}
 				
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					r.add(new fr.lip6.move.coloane.results.Result(object,description));
+					r.add(new Result(object,description));
 				}
 				
 			/*
@@ -171,7 +198,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					r.add(new fr.lip6.move.coloane.results.Result(object,result.getHeadDescription()));
+					r.add(new Result(object,result.getHeadDescription()));
 				}
 				
 			/*
@@ -203,10 +230,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
 			}
 			
-			
-			
-			System.out.println("Transmission des resultats");
-			serviceResultList.setResultsList(r);
+			serviceResultList.setResultsList(r);			
 		}
 	}
 	
@@ -228,7 +252,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 		});
 	}
 	
-	
+
 	/**
 	 * Demande d'un service
 	 * @param rootMenuName Le nom du menu racine
@@ -237,6 +261,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
+		System.out.println("Suppression des resultats en cours");
 		
 		this.com.askForService(rootMenuName, parentName, serviceName);
 	}
