@@ -203,7 +203,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 */
 	public void reconnect(NodeImplAdapter source, NodeImplAdapter target) throws IllegalArgumentException {
 		
-		// 
         this.disconnect();
         
 		if (source == null || target == null) {
@@ -214,6 +213,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
         this.arc.setStartingNode(source.getGenericNode());
 		this.arc.setEndingNode(target.getGenericNode());
 		
+		// Meme indication pour l'arc adapte
 		this.source = source;
 		this.target = target;
 		
@@ -238,7 +238,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 			
 			isConnected = false;
 		}
-
 	}
 
 	/**
@@ -281,8 +280,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
      * @param modelAdapter
      */
     public void setModelAdapter(ModelImplAdapter modelAdapter) {
-        this.modelAdapter = modelAdapter;
-        this.modelAdapter.getGenericModel().addArc(this.getGenericArc());
+    	this.modelAdapter = modelAdapter;
+        //this.modelAdapter.getGenericModel().addArc(this.getGenericArc());
     }
 
 
