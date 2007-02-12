@@ -137,7 +137,21 @@ public interface IModel {
 	 * @return formalism
 	 */
 	public String getFormalism();
-
+	
+	/**
+	 * Retourne la valeur maximale des identifiants des elements du modele
+	 * @return L'identifiant maximal 
+	 */
+	public int getMaxId();
+	
+	/**
+	 * Permet de modifier la valeur maximale des identifiants des elements du modele
+	 * De cette facon la numerotation peut être modifiee.
+	 * @param max L'identifiant maximum qu'on souhaite affecter
+	 */	
+	public int setMaxId(int max);
+	
+	
 	/**
 	 * Traduit un modele en chaines de caracteres du protocole considere.
 	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange

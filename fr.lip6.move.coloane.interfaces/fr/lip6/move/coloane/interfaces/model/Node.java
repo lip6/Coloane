@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @see IAttribute
  * @see IArc
  */
-public abstract class Node extends Base implements INode, Serializable {
+public abstract class Node implements INode, Serializable {
 
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public abstract class Node extends Base implements INode, Serializable {
      */
     public Node(String nodeType) {
     	this.nodeType = nodeType;
-        this.id = getUniqueId();
+        this.id = 0;
         xPosition = 0;
         yPosition = 0;
         this.listOfAttr = new Vector<IAttribute>();
@@ -72,7 +72,7 @@ public abstract class Node extends Base implements INode, Serializable {
      */
     public Node(String nodeType, int x, int y) {
         this.nodeType = nodeType;
-        this.id = getUniqueId();
+        this.id = 0;
         xPosition = x;
         yPosition = y;
         this.listOfAttr = new Vector<IAttribute>();
@@ -91,15 +91,14 @@ public abstract class Node extends Base implements INode, Serializable {
      * @see IArc
      */
     public Node(String nodeType, int x, int y, int id) {
+    	
         this.nodeType = nodeType;
-        this.id = setUniqueId(id);
+        this.id = id;
         xPosition = x;
         yPosition = y;
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfInputArc = new Vector<IArc>();
         this.listOfOutputArc = new Vector<IArc>();
-        
-        System.out.println("3. Creation dun noeud avec id:"+this.id);
     }
 
     /* (non-Javadoc)
@@ -107,6 +106,19 @@ public abstract class Node extends Base implements INode, Serializable {
 	 */
     public int getId() {
         return id;
+    }
+    
+    /* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.INode#setId(int)
+	 */
+    public void setId(int id) {
+        this.id = id;
+        
+        // Le changement d'idientifiant implique obligatoirement
+        // Le reréférencement des attributs
+        for (IAttribute att: this.listOfAttr) {
+        	att.setRefId(id);
+        }
     }
 
     /* (non-Javadoc)

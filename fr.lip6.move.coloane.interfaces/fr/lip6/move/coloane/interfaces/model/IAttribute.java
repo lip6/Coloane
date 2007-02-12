@@ -32,6 +32,12 @@ public interface IAttribute {
 	 * @return int
 	 */
 	public int getRefId();
+	
+	/**
+	 * Change la valeur du noeud referent.
+	 * @param ref Le nouveau noeud referent
+	 */
+	public void setRefId(int ref);
 
 	/**
 	 * Cette methode modifie la valeur de la premiere ligne de l'attribut.

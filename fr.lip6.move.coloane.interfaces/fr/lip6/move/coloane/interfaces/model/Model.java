@@ -25,19 +25,19 @@ import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
  * A noter qu'un modele a toujours un identifiant egal a 1<br>
  * Le modele generique porte l'information sur son formalisme en tant que chaine de caracteres.
  */
-public abstract class Model extends Base implements IModel, Serializable {
+public abstract class Model implements IModel, Serializable {
 
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
 
     /** Type du modele. */
-    protected String formalism = "";
+    private String formalism = "";
     
     /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    protected int xPosition;
+    private int xPosition;
 
     /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    protected int yPosition;
+    private int yPosition;
 
     /** Liste de l'ensemble des elements noeuds du modele. */
     private Vector<INode> listOfNode;
@@ -47,6 +47,9 @@ public abstract class Model extends Base implements IModel, Serializable {
 
     /** Liste de l'ensemble des arcs du modele. */
     private Vector<IArc> listOfArc;
+    
+    /** ID maximum du modele */
+    private int maxId;
 
     /**
      * Constructeur 
@@ -57,6 +60,7 @@ public abstract class Model extends Base implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.maxId = 1;
     }
     
     /**
@@ -70,6 +74,7 @@ public abstract class Model extends Base implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.maxId = 1;
         
         try {
         	// Tentative de construction du modele depuis les commandes transmises par l'API
@@ -91,6 +96,7 @@ public abstract class Model extends Base implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.maxId = 1;
 
         BufferedReader buffer;
         
@@ -169,9 +175,19 @@ public abstract class Model extends Base implements IModel, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addNode(fr.lip6.move.coloane.interfaces.model.INode)
 	 */
     public void addNode(INode node) {
-        if (!this.listOfNode.contains(node)) {
+    	
+    	// On ajoute le noeud seulement s'il n'est pas deja dans le modele
+    	if (!this.listOfNode.contains(node)) {
             this.listOfNode.addElement(node);
+            
+            // Gestion de l'identifiant du noeud
+            if (node.getId() == 0) {
+            	node.setId(this.maxId+1);
+            	this.maxId++;
+            }
         }
+        
+        
     }
 
     /* (non-Javadoc)
@@ -180,11 +196,19 @@ public abstract class Model extends Base implements IModel, Serializable {
     public void addArc(IArc arc) {
         INode start = arc.getStartingNode();
         INode end = arc.getEndingNode();
-
-        if ((!this.listOfArc.contains(arc)) && start != null && end != null) {
+        
+       if ((!this.listOfArc.contains(arc)) && start != null && end != null) {
             start.addOutputArc(arc);
             end.addInputArc(arc);
             this.listOfArc.addElement(arc);
+            
+        
+            // Gestion de l'identifiant du noeud
+            if (arc.getId() == 0) {
+            	arc.setId(this.maxId+1);
+            	this.maxId++;
+            }
+            
         } else {
             System.err.println("Debut ou fin du noeud manquant");
         }
@@ -324,7 +348,43 @@ public abstract class Model extends Base implements IModel, Serializable {
     	return this.formalism;
     }
     
+    /* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getMaxId()
+	 */
+    public int getMaxId() {
+        int max = 1;
+        INode nodes;
+        IArc arcs;
 
+        // Parcours des noeuds
+        for (int i = 0; i < this.getListOfNodeSize(); i++) {
+            nodes = getNthNode(i);
+
+            if (max < nodes.getId()) {
+                max = nodes.getId();
+            }
+        }
+
+        // Parcours des arcs
+        for (int i = 0; i < this.getListOfArcSize(); i++) {
+            arcs = getNthArc(i);
+
+            if (max < arcs.getId()) {
+                max = arcs.getId();
+            }
+        }
+
+        return max;
+    }
+    
+    /* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#setMaxId(int)
+	 */
+    public int setMaxId(int max) {
+    	this.maxId = max;
+    	return max;
+    }
+    
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#translate()
 	 */

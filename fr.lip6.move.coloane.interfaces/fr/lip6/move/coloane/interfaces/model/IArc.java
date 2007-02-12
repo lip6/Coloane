@@ -22,6 +22,12 @@ public interface IArc {
 	 * @return int
 	 */
 	public int getId();
+	
+	/**
+	 * Indique l'identifiant unique de l'arc.
+	 * @param id L'identifiant a affecter a l'arc
+	 */
+	public void setId(int id);
 
 	/**
 	 * Retourne l'abscisse de l'arc.

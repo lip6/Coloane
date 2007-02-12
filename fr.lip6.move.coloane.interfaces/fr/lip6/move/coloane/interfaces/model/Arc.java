@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @see IAttribute
  * @see IArc
  */
-public abstract class Arc extends Base implements IArc, Serializable { 
+public abstract class Arc implements IArc, Serializable { 
     
     /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
     private static final long serialVersionUID = 1L;
@@ -57,7 +57,7 @@ public abstract class Arc extends Base implements IArc, Serializable {
      */
     public Arc(String arcType, int id) {
         this.arcType = arcType;
-        this.id = setUniqueId(id);
+        this.id = id;
         this.xPosition = 0;
         this.yPosition = 0;
         this.listOfAttr = new Vector<IAttribute>();
@@ -71,7 +71,7 @@ public abstract class Arc extends Base implements IArc, Serializable {
      */
     public Arc(String arcType) {
         this.arcType = arcType;
-        this.id = getUniqueId();
+        this.id = 0;
         this.xPosition = 0;
         this.yPosition = 0;
         this.listOfAttr = new Vector<IAttribute>();
@@ -101,6 +101,19 @@ public abstract class Arc extends Base implements IArc, Serializable {
 	 */
 	public int getId() {
 	    return this.id;
+	}
+	
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setId(int)
+	 */
+	public void setId(int id) {
+	    this.id = id;
+	    
+	    // Le changement d'idientifiant implique obligatoirement
+        // Le reréférencement des attributs
+        for (IAttribute att: this.listOfAttr) {
+        	att.setRefId(id);
+        }
 	}
 
 	/* (non-Javadoc)

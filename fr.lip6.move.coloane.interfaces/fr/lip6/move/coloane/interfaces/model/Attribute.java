@@ -92,6 +92,13 @@ public abstract class Attribute implements IAttribute, Serializable {
     public int getRefId() {
         return this.refId;
     }
+    
+    /* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setRefId(int)
+	 */
+    public void setRefId(int ref) {
+    	this.refId = ref;
+    }
 
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setValue(java.lang.String)
@@ -118,7 +125,7 @@ public abstract class Attribute implements IAttribute, Serializable {
         if (nb >= 0) {
             this.value.setSize(this.value.size() + nb);
         } else {
-            throw new Exception("Le nombre de ligne a ajouter doit être positif");
+            throw new Exception("Le nombre de lignes a ajouter doit être positif");
         }
     }
 

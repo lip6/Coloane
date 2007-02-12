@@ -11,6 +11,12 @@ public interface INode {
 	public int getId();
 
 	/**
+	 * Indique l'identifiant du noeud 
+	 * @param id L'identifiant a affecter au noeud
+	 */
+	public void setId(int id);
+	
+	/**
 	 * Retourne le type du noeud
 	 * @return String
 	 */
