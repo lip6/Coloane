@@ -38,6 +38,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/** L'etat du blocage pour l'edition du model */
 	private boolean isLocked = false;
+	
+	/** Indicateur de construction */
+	private boolean buildingStatus = true;
 
 	/** Etat du modele par rapport a FK (true -> pas a jour) */
 	private boolean dirty = true;
@@ -52,6 +55,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		this.model.setFormalism(formalism.getName());
 		this.formalism = formalism;
 		this.setProperties();
+		this.buildingStatus = true;
 	}
 	
 	/**
@@ -64,6 +68,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		super();
 		try {
 			this.model = model;
+			this.buildingStatus = true;
 			
 			// On met a jour si necessaire le formalisme contenu dans le modele generique
 			if (this.model.getFormalism() == formalism.getName()) {
@@ -92,6 +97,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
 			INode currentNode = this.model.getNthNode(i);
 			NodeImplAdapter node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
+			node.setModelAdapter(this);
 			this.children.add(node);
 		}
 		
@@ -121,9 +127,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 			// Un arc a forcement une source et une destination... sinon probleme
 			if ((target != null) && (source != null)) {
-				System.out.println("Linkage ok pour l'arc "+currentArc.getId());
 				// Creation de l'arc adapter
-				new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
+				ArcImplAdapter arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
+				arc.setModelAdapter(this);
 			} else {
 				throw new Exception("Source ou destination de l'arc manquante");
 			}
@@ -234,6 +240,24 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 
 	}
+	
+	/**
+	 * Ajout d'un arc au modele
+	 * @param child L'arc adapte
+	 */
+	public void addArc(ArcImplAdapter child) throws IllegalArgumentException {
+		// Ajout d'un arc au modele
+		this.model.addArc(child.getGenericArc());
+	}
+	
+	/**
+	 * Retrait d'un arc au modele
+	 * @param child L'arc adapte
+	 */
+	public void removeArc(ArcImplAdapter child) throws IllegalArgumentException {
+		// Ajout d'un arc au modele
+		this.model.removeArc(child.getGenericArc());
+	}
 
 	/** 
 	 * Retourne la liste des NodeImplAdapter du modele
@@ -300,12 +324,16 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
 	 */
 	public int modifyDate() {
-		date = (int) System.currentTimeMillis();
-		
-		// Si le modele n'etait pas marque comme sale, on le marque
-		if (!dirty) {
-			dirty = true;
-			return date;
+		// Le changement de date doit etre effectif si et seulement si le modele 
+		// n'est pas en construction
+		if (this.buildingStatus == false) {
+			date = (int) System.currentTimeMillis();
+			
+			// Si le modele n'etait pas marque comme sale, on le marque
+			if (!dirty) {
+				dirty = true;
+				return date;
+			}
 		}
 		return 0;
 	}
@@ -342,4 +370,28 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
+	
+	/**
+	 * Indique si le modele est en construction
+	 * @return l'indicateur (true = en construction)
+	 */
+	public boolean getBuildingStatus() {
+		return this.buildingStatus;
+	}
+	
+	/**
+	 * Indique que le modele est en construction
+	 */
+	public void setBeginBuilding() {
+		this.buildingStatus = true;
+	}
+	
+	/**
+	 * Indique que le modele n'est pas en construction
+	 */
+	public void setEndBuilding() {
+		this.buildingStatus = false;
+	}
+	
+	
 }
