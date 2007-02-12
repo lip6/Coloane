@@ -57,7 +57,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
     	try {
     		for (int k = 0; k < camiCommande.size(); k++) {
         		line = (String) camiCommande.get(k);
-                st = new StringTokenizer(line);
+        		st = new StringTokenizer(line);
                 ps = new CamiParser(line.substring(3));
 
                 type = st.nextToken("(");
@@ -94,7 +94,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     IArc arc = new Arc(arcType, Integer.parseInt(arcId));
                     arc.setStartingNode(nodeBegin);
                     arc.setEndingNode(nodeEnd);
-
+                    
                     nodeBegin.addOutputArc(arc);
                     nodeEnd.addInputArc(arc);
 
@@ -235,12 +235,12 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     	this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                     }
                     
-                    if (Integer.parseInt(ref) != -1) {
+                    if (Integer.parseInt(ref) != 1) {
                         INode node = getANode(Integer.parseInt(ref));
                         if (node != null) {
                         	node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                         } else {
-                            throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+                        	throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
                         }
                     }
                 }
