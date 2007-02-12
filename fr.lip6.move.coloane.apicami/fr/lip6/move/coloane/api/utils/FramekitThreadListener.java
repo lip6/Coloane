@@ -5,11 +5,12 @@ import java.util.Vector;
 import fr.lip6.move.coloane.api.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
+import fr.lip6.move.coloane.api.objects.UpdateMenuCom;
 
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
-import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 /**
@@ -32,6 +33,18 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des menus */
 	private Vector<IRootMenuCom> menuList;
 	
+	/** Liste des menus a mettre a jour */
+	private Vector<IUpdateMenuCom> menuUpdates;
+	
+	/** Indicateur de fraicheur des mises a jour */
+	private boolean resetUpdates;
+	
+	/** Indicateur de fraicheur des resultats */
+	private boolean resetResults;
+	
+	/** Indicateur de fraicheur du modele */
+	private boolean modelState;
+	
 	/** Liste des dialogues */
 	private Vector<IDialogCom> dialogList;
 	
@@ -50,8 +63,12 @@ public class FramekitThreadListener extends Thread {
 		this.verrou = verrou;
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<IRootMenuCom>();
+		this.menuUpdates = new Vector<IUpdateMenuCom>();
 		this.dialogList = new Vector<IDialogCom>();
 		this.resultList = new Vector<IResultsCom>();
+		this.resetUpdates = false;
+		this.resetResults = false;
+		this.modelState = false;
 	}
 	
 	/**
@@ -169,7 +186,21 @@ public class FramekitThreadListener extends Thread {
 							// Modification de l'arbre des services : active
 							case 7 : {
 								try {
-									menu.setEnabled((String) listeArgs.get(2),true);
+									if (resetUpdates) {
+										menuUpdates.removeAllElements();
+										resetUpdates = false;
+									}
+									String root = (String) listeArgs.get(1);
+									String toUpdate = (String) listeArgs.get(2);
+									
+									// On essaye de recuperer l'indicateur du menu de syntaxe
+									// pour savoir si le modele est propre ou sale
+									if (toUpdate.equals("Petri net syntax checker")) {
+										this.modelState = true;// Le modele est sale 
+									}
+									
+									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,true);
+									menuUpdates.add(update);
 								} catch (Exception e) {
 									System.err.println("Erreur reception TQ type = 7");
 								}
@@ -179,7 +210,21 @@ public class FramekitThreadListener extends Thread {
 							// Modification de l'arbre des services : desactive
 							case 8 : {
 								try {
-									menu.setEnabled((String) listeArgs.get(2),false);
+									if (resetUpdates) {
+										menuUpdates.removeAllElements();
+										resetUpdates = false;
+									}
+									String root = (String) listeArgs.get(1);
+									String toUpdate = (String) listeArgs.get(2);
+									
+//									 On essaye de recuperer l'indicateur du menu de syntaxe
+									// pour savoir si le modele est propre ou sale
+									if (toUpdate.equals("Petri net syntax checker")) {
+										this.modelState = false;// Le modele est propre 
+									}
+									
+									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,false);
+									menuUpdates.add(update);
 								} catch (Exception e) {
 									System.err.println("Erreur reception TQ type = 8");
 								}
@@ -188,12 +233,12 @@ public class FramekitThreadListener extends Thread {
 							
 							// Depracated 
 							case 9 : {
-								System.out.println("TQ=9 => Deprecated");
+								System.out.println("TQ = 9 => Deprecated");
 								break;
 							}
 							
 							default :
-								System.err.println("Commande inconue" + type);
+								System.err.println("Commande inconnue" + type);
 								break;
 						}
 						continue;
@@ -271,8 +316,17 @@ public class FramekitThreadListener extends Thread {
 					}
 					
 					// Message VQ
-					// TODO : A documenter ?
+					// TODO : A verifier ? Affichage d'un menu ?
 					if (listeArgs.firstElement().equals("VQ")) {
+						String toDraw = (String) listeArgs.elementAt(1);
+						
+						// On recupere le menu a afficher
+						for (IRootMenuCom rootMenu : menuList) {
+							if (rootMenu.getRootMenuName().equals(toDraw)) {
+								api.drawMenu(rootMenu);
+								break;
+							}
+						}
 						continue; 
 					}
 					
@@ -305,17 +359,23 @@ public class FramekitThreadListener extends Thread {
 					// Message QQ
 					// Le menu est mis a jour !
 					if ((listeArgs.firstElement().equals("QQ")) && ((listeArgs.elementAt(1).equals("2")) || (listeArgs.elementAt(1).equals("3")))) {
-							
-							api.drawMenu(menuList);
-							
-							// Indique l'etat de fraicheur du modele
-							// Important au retour de la connexion par exemple
-							IRootMenuCom myMenu = (IRootMenuCom) menuList.get(0);
-							IMenuCom syntaxMenu = myMenu.getMenu("Petri net syntax checker");
-							if ((syntaxMenu != null) && !syntaxMenu.isEnabled()) {
-								this.api.setModelDirty(false);
-							}
-							
+						
+						// Si la liste des menus est marquee comme invalide, on la vide nous meme
+						// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les menus
+						if (resetUpdates) {
+							menuUpdates.removeAllElements();
+							resetUpdates = false;
+						}
+						
+						// Mise a jour des menus
+						api.updateMenu(menuUpdates);
+						resetUpdates = true;						
+						
+						// Indique l'etat de fraicheur du modele
+						// Important au retour de la connexion par exemple
+						this.api.setModelDirty(this.modelState);
+						
+						// TODO : A verifier
 						this.verrou.unlock();
 						continue;
 					}
@@ -323,19 +383,38 @@ public class FramekitThreadListener extends Thread {
 					// Message FR
 					// Fin de la transmission d'une reponse a un service
 					if (listeArgs.firstElement().equals("FR")) {
-						api.drawMenu(menuList);
 						
+						// Si la liste des menus est marquee comme invalide, on la vide nous meme
+						// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les menus
+						if (resetUpdates) {
+							menuUpdates.removeAllElements();
+							resetUpdates = false;
+						}
+						
+						// On recherche les menus qui ont ete mis a jour
+						api.updateMenu(menuUpdates);
+						resetUpdates = true;
+										
 						// Le retour d'un service indique que le modele est a jour sur la plate-forme
 						this.api.setModelDirty(false);
 						
+						// Si la liste des resultats est toujours marquee comme invalide...
+						// On la vide nous meme
+						// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les resultats
+						if (resetResults) {
+							resultList.removeAllElements();
+							resetResults = false;
+						}
+						
 						// On envoie la liste des resultats
 						this.api.setResults(resultList);
+						resetResults = true;
 						
 						continue;
 					}
 					
 					// Message KO
-					// TODO : A documenter 
+					// Fermeture brutale de la connexion
 					if ((listeArgs.firstElement().equals("KO"))) {
 						Integer i = new Integer(listeArgs.elementAt(2).toString());
 						api.closeConnexion(1, (String) listeArgs.elementAt(1), i.intValue());
@@ -381,7 +460,6 @@ public class FramekitThreadListener extends Thread {
 					// Message DR
 					// Debut de la transmission d'une reponse d'un outil
 					if ((listeArgs.firstElement().equals("DR"))) {
-						resultList.clear();
 						continue;
 					}
 					
@@ -422,6 +500,10 @@ public class FramekitThreadListener extends Thread {
 					// Message FE
 					// Fin d'ensemble de resultats ou d'objets transmis
 					if ((listeArgs.firstElement().equals("FE"))) {
+						if (resetResults) {
+							resultList.removeAllElements();
+							resetResults = false;
+						}
 						resultList.add(result);
 						continue;
 					}
@@ -508,8 +590,7 @@ public class FramekitThreadListener extends Thread {
 							dialog = translater.getDialog(vectorDialog);
 							dialogList.add(dialog);
 						} catch (Exception e) {
-							System.err.println("Erreur dans FF = Impossible de construire le menu");
-							System.out.println("Erreur dans FF = Impossible d'ajouter le menu construit ˆ la plateforme");
+							System.err.println("Erreur dans FF = Impossible de construire la boite de dialogue");
 						}
 
 						continue;
