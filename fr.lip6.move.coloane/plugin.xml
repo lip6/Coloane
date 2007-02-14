@@ -131,4 +131,11 @@
              preferredPerspectives="fr.lip6.move.coloane.perspective"
              project="true"/>
     </extension>
+    <extension
+          id="product"
+          point="org.eclipse.core.runtime.products">
+       <product
+             application="fr.lip6.move.coloane.standalone.application"
+             name="Coloane"/>
+    </extension>
 </plugin>
