@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.0"
+      version="0.9.0.1"
       provider-name="LIP6 - MoVe">
 
    <description url="http://www.lip6.fr/coloane">
