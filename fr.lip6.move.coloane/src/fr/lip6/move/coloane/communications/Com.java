@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.eclipse.swt.widgets.Composite;
 
-import fr.lip6.move.coloane.api.Api;
+import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.communications.objects.Results;
 
 import fr.lip6.move.coloane.interfaces.IApi;
