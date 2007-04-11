@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.ui.model;
 import java.util.List;
 
 
+//import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
@@ -17,18 +19,6 @@ public interface IModelImpl {
 
     /** ID de propriete lorsqu'un noeud est supprime du modele */
     public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
-
-    /**
-     * Retourne le modele generique
-     * @return Model
-     */
-    public IModel getGenericModel();
-
-    /**
-     * Associe un modele
-     * @throws Exception 
-     */
-    public void setModel(IModel model) throws Exception;
   
     /**
      * Retourne le formalisme
@@ -43,31 +33,38 @@ public interface IModelImpl {
      * @param child Noeud a ajouter au modele
      * @see NodeImplAdapter
      */
-    public void addChild(NodeImplAdapter child);
+    public void addChild(NodeImplAdapter child)  throws BuildException;
 
     /**
      * Supprimer un noeud
      * @param child Noeud a supprimer
      * @see NodeImplAdapter
      */
-    public void removeChild(NodeImplAdapter child);
+    public void removeChild(NodeImplAdapter child)  throws BuildException;
+    
+    public void addArc(ArcImplAdapter child);
+    
+    public void removeArc(ArcImplAdapter child);
+    
+    public IModel getGenericModel();
+    
+    public int modifyDate();
+    
+    public int getDate();
+    
+    public void setPropertyValue(Object id, Object value);
+    
+    public boolean isDirty();
+    
+    public void setDirty(boolean dirty);
+    
+    public void setBeginBuilding();
+    
+    public void setEndBuilding();
 
     /**
      * Retourne la liste de tous les noeud du modele
      * @return List
      */
     public List getChildren();
-
-    /**
-     * Consulte l'etat du model
-     * @return boolean
-     */
-    public boolean isLocked();
-    
-    /**
-     * Blocage ou deblocage du model en edition 
-     * @param isLocked True on bloque le model en edition 
-     */
-    public void setLocked(boolean isLocked); 
-
 }
