@@ -115,7 +115,7 @@ public abstract class Node implements INode, Serializable {
         this.id = id;
         
         // Le changement d'idientifiant implique obligatoirement
-        // Le rerŽfŽrencement des attributs
+        // Le rerï¿½fï¿½rencement des attributs
         for (IAttribute att: this.listOfAttr) {
         	att.setRefId(id);
         }
@@ -305,5 +305,16 @@ public abstract class Node implements INode, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#translateToCAMI()
 	 */
     public abstract String[] translate();
-}
 
+
+/****** AJOUTS POUR TESTS UNITAIRES******/
+
+    public Vector<IArc> getListOfInputArc() {
+    	return this.listOfInputArc;
+    }
+
+    public Vector<IArc> getListOfOuputArc() {
+    	return this.listOfOutputArc;
+    }
+/*** FIN DES AJOUTS ***/
+}
