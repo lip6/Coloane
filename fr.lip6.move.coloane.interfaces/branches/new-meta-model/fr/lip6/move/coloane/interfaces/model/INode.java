@@ -169,6 +169,6 @@ public interface INode {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfOuputArc()
 	 */
-	public Vector<IArc> getListOfOuputArc();
+	public Vector<IArc> getListOfOutputArc();
 	/*** FIN DES AJOUTS ***/
 }

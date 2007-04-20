@@ -217,10 +217,10 @@ public abstract class Model implements IModel, Serializable {
         			this.maxId++;
         		}
         	}
-        	else {System.err.println("Un des noeuds de l'arc est manquant : arc "+arc.getId());}
+        	else {System.out.println("Un des noeuds de l'arc est manquant : arc "+arc.getId());}
         }
         else {
-            System.err.println("Debut ou fin du noeud manquant "+arc.getId());
+            System.out.println("Debut ou fin du noeud manquant "+arc.getId());
         }
     }
 

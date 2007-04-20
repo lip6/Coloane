@@ -313,7 +313,7 @@ public abstract class Node implements INode, Serializable {
     	return this.listOfInputArc;
     }
 
-    public Vector<IArc> getListOfOuputArc() {
+    public Vector<IArc> getListOfOutputArc() {
     	return this.listOfOutputArc;
     }
 /*** FIN DES AJOUTS ***/
