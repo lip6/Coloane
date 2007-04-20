@@ -136,8 +136,8 @@ public abstract class Model implements IModel, Serializable {
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#buildModel(java.util.Vector)
 	 */
-    public abstract void buildModel(Vector<String> commands) throws SyntaxErrorException;
-    
+    /*public abstract void buildModel(Vector<String> commands) throws SyntaxErrorException;
+    */
     
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getANode(int)
@@ -203,18 +203,23 @@ public abstract class Model implements IModel, Serializable {
         }
        
         if ((start != null) && (end != null)) {
-        	start.addOutputArc(arc);
-            end.addInputArc(arc);
-            this.listOfArc.addElement(arc);
-            
+        	//Les noeuds cible et source de l'arc doivent être présent dans le modèle
+        	if((listOfNode.contains(start)) && (listOfNode.contains(end))){
+        		
+        		start.addOutputArc(arc);
+        		end.addInputArc(arc);
+        		this.listOfArc.addElement(arc);
+        	
         
-            // Gestion de l'identifiant du noeud
-            if (arc.getId() == 0) {
-            	arc.setId(this.maxId+1);
-            	this.maxId++;
-            }
-            
-        } else {
+        		// Gestion de l'identifiant du noeud
+        		if (arc.getId() == 0) {
+        			arc.setId(this.maxId+1);
+        			this.maxId++;
+        		}
+        	}
+        	else {System.err.println("Un des noeuds de l'arc est manquant : arc "+arc.getId());}
+        }
+        else {
             System.err.println("Debut ou fin du noeud manquant "+arc.getId());
         }
     }
@@ -393,6 +398,6 @@ public abstract class Model implements IModel, Serializable {
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#translate()
 	 */
-    public abstract String[] translate();
+   public abstract String[] translate();
 }
 
