@@ -139,11 +139,11 @@ public class FormalismManager {
         elem = new NodeFormalism("transition", INodeGraphicInfo.FIG_RECT, 24, 8, false);
         attr = new AttributeFormalism("name", true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("guard", true, true);
+        attr = new AttributeFormalism("guard", true, true,"true");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism("priority", true, true, "0");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("delay", true, true, "true");
+        attr = new AttributeFormalism("delay", true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism("action", false, true);
         elem.addAttributeFormalism(attr);
@@ -215,37 +215,37 @@ public class FormalismManager {
         petri.addRule(rule);
 
         // Interdit queue - queue
-        rule = new Rule("queue - queue","Une queue ne peut reliee qu'a une transition.");
+        rule = new Rule("queue - queue","Une queue ne peut etre reliee qu'a une transition.");
         rule.forbidenRule(petri, "queue", "queue");
         petri.addRule(rule);
 
         // Interdit transition - transition
-        rule = new Rule("transition - transition","Une transition ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition - transition","Une transition ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "transition", "transition");
         petri.addRule(rule);
 
         // Interdit transition immediate - transition immediate
-        rule = new Rule("transition immediate - transition immediate","Une transition immediate ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition immediate - transition immediate","Une transition immediate ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "immediate transition", "immediate transition");
         petri.addRule(rule);
 
         // Interdit transition - transition immediate
-        rule = new Rule("transition - transition immediate","Une transition ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition - transition immediate","Une transition ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "transition", "immediate transition");
         petri.addRule(rule);
 
         // Interdit transition immediate - transition
-        rule = new Rule("transition immediate - transition","Une transition immediate ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition immediate - transition","Une transition immediate ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "immediate transition", "transition");
         petri.addRule(rule);
 
         // Interdit transition queue - place 
-        rule = new Rule("queue - place","Une queue ne peut reliee qu'a une transition ou une transition immediate.");
+        rule = new Rule("queue - place","Une queue ne peut etre reliee qu'a une transition ou une transition immediate.");
         rule.forbidenRule(petri, "queue", "place");
         petri.addRule(rule);
 
         // Interdit transition place - queue
-        rule = new Rule("place - queue","Une place ne peut reliee qu'a une transition ou une transition immediate.");
+        rule = new Rule("place - queue","Une place ne peut etre reliee qu'a une transition ou une transition immediate.");
         rule.forbidenRule(petri, "place", "queue");
         petri.addRule(rule);
         
@@ -290,9 +290,9 @@ public class FormalismManager {
 
         // Event:
         elem = new NodeFormalism("event", INodeGraphicInfo.FIG_RECT, 24, 8, false);
-        attr = new AttributeFormalism("xname", true, false);
+        attr = new AttributeFormalism("name", true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("xlabel", true, true, "true");
+        attr = new AttributeFormalism("label", true, true, "true");
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
         elem.setAddrIcone16("icons/transition16.gif");
