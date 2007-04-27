@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.Integer;
 
 import java.io.Serializable;
 
@@ -51,6 +52,9 @@ public abstract class Model implements IModel, Serializable {
     /** ID maximum du modele */
     private int maxId;
 
+    /** Liste des Id présents dans le modele. */
+    private Vector<Integer> listOfId;
+    
     /**
      * Constructeur 
      */
@@ -60,7 +64,9 @@ public abstract class Model implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.listOfId = new Vector<Integer>();
         this.maxId = 1;
+        this.listOfId.addElement(Integer.valueOf(maxId));
     }
     
     /**
@@ -74,7 +80,9 @@ public abstract class Model implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.listOfId = new Vector<Integer>();
         this.maxId = 1;
+        this.listOfId.addElement(Integer.valueOf(maxId));
         
         try {
         	// Tentative de construction du modele depuis les commandes transmises par l'API
@@ -96,7 +104,9 @@ public abstract class Model implements IModel, Serializable {
         this.listOfArc = new Vector<IArc>();
         this.listOfAttr = new Vector<IAttribute>();
         this.listOfNode = new Vector<INode>();
+        this.listOfId = new Vector<Integer>();
         this.maxId = 1;
+        this.listOfId.addElement(Integer.valueOf(maxId));
 
         BufferedReader buffer;
         
@@ -183,6 +193,7 @@ public abstract class Model implements IModel, Serializable {
             // Gestion de l'identifiant du noeud
             if (node.getId() == 0) {
             	node.setId(this.maxId+1);
+                this.listOfId.addElement(Integer.valueOf(node.getId()));
             	this.maxId++;
             }
         }
@@ -214,13 +225,14 @@ public abstract class Model implements IModel, Serializable {
         		// Gestion de l'identifiant du noeud
         		if (arc.getId() == 0) {
         			arc.setId(this.maxId+1);
+        			this.listOfId.addElement(Integer.valueOf(arc.getId()));
         			this.maxId++;
         		}
         	}
-        	else {System.out.println("Un des noeuds de l'arc est manquant : arc "+arc.getId());}
+        	else {System.out.println("addArc: Un des noeuds de l'arc est manquant!");}
         }
         else {
-            System.out.println("Debut ou fin du noeud manquant "+arc.getId());
+            System.out.println("addArc: Debut ou fin du noeud manquant!");
         }
     }
 
@@ -252,6 +264,7 @@ public abstract class Model implements IModel, Serializable {
                 	IArc out = node.getNthOutputArc(0);
                     this.removeArc(out);
                 }
+                this.listOfId.remove(Integer.valueOf(node.getId()));
                 this.listOfNode.remove(node);
             } catch (ArrayIndexOutOfBoundsException e) {
                 e.printStackTrace();
@@ -272,6 +285,7 @@ public abstract class Model implements IModel, Serializable {
             if (in != null) {
                 out.removeInputArc(arc);
             }
+            this.listOfId.remove(Integer.valueOf(arc.getId()));
             try {
                 this.listOfArc.remove(arc);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -398,6 +412,11 @@ public abstract class Model implements IModel, Serializable {
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#translate()
 	 */
-   public abstract String[] translate();
-}
+    public abstract String[] translate();
 
+
+   /* Renvoie la liste des identifiant listOfId */
+	public Vector<Integer> getListOfId(){
+		return listOfId;
+	}
+}
