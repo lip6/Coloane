@@ -10,12 +10,12 @@ import org.eclipse.ui.PartInitException;
 
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
-	
 	private IWorkbenchWindow window;
-
+	
 	public void dispose() {}
 
 	public void init(IWorkbenchWindow window) {
@@ -28,9 +28,9 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		 * initialized and HistoryView.instance
 		 * is null (and it is bad).
 		 */
+		
 		try {
-			window.getActivePage().
-			showView(MainPerspectiveFactory.HISTORY_VIEW);
+			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
 					"Error during view initialization",
@@ -46,14 +46,15 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		
 		if (authDialog.open() == Dialog.OK) {
 			HistoryView.instance.addLine("OK");
+			action.setEnabled(false);
+			MenuManipulation.setEnabled("Platform", "Connect model", true);
+			MenuManipulation.setEnabled("Platform", "Disconnect model", true);
 		} else {
 			HistoryView.instance.addLine("KO");
 		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
-
+		
 	}
-
 }

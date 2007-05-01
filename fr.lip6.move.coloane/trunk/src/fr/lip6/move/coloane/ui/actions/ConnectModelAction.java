@@ -12,6 +12,7 @@ import org.eclipse.ui.PartInitException;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
@@ -69,8 +70,8 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 					if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
 						// TODO : Griser les menues adequats
 						HistoryView.instance.addLine("SUCCESS");
-						//MenuManipulation.setEnabled("Platform", "Connect model", false);
-						//MenuManipulation.setEnabled("Platform", "Disconnect model", true);
+						MenuManipulation.setEnabled("Platform", "Connect model", false);
+						MenuManipulation.setEnabled("Platform", "Disconnect model", true);
 					} else {
 						// TODO : GRiser les menus adequats
 						HistoryView.instance.addLine("FAILED");
@@ -86,6 +87,8 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-	public void selectionChanged(IAction action, ISelection selection) {}
+	public void selectionChanged(IAction action, ISelection selection) {
+		
+	}
 
 }
