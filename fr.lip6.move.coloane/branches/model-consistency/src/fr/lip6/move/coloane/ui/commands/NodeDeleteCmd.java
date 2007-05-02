@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -98,7 +97,7 @@ public class NodeDeleteCmd extends Command {
 	 */
 	private void addConnections(List connections) {
 		for (Iterator i = connections.iterator(); i.hasNext();) {
-			IArcImpl arc = (ArcImplAdapter) i.next();
+			IArcImpl arc = (IArcImpl) i.next();
 			try {
 				arc.reconnect();
 			} catch (BuildException e) {
@@ -114,7 +113,7 @@ public class NodeDeleteCmd extends Command {
 	 */
 	private void removeConnections(List connections) {
 		for (Iterator i = connections.iterator(); i.hasNext();) {
-			IArcImpl arc = (ArcImplAdapter) i.next();
+			IArcImpl arc = (IArcImpl) i.next();
 			arc.disconnect();
 		}
 	}

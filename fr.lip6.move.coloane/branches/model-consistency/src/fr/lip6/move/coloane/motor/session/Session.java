@@ -77,7 +77,7 @@ public class Session {
 
     /**
      * Retoune le modele
-     * @return ModelImplAdapter Le modele de la session
+     * @return IModelImpl Le modele de la session
      */
     public IModelImpl getModel() {
         return this.sessionModel;

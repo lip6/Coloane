@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.ui.commands;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
  * Commande pour deplacer un noeud
@@ -16,7 +16,7 @@ public class NodeSetConstraintCmd extends Command {
 	private Rectangle oldBounds;
 
 	/** Noeud ˆ manipuler */
-	private final NodeImplAdapter node;
+	private final INodeImpl node;
 
     /**
      * Constructeur
@@ -24,7 +24,7 @@ public class NodeSetConstraintCmd extends Command {
      * @param req requete
      * @param newBounds Nouvelles limites
      */
-    public NodeSetConstraintCmd(NodeImplAdapter node, Rectangle newBounds) {
+    public NodeSetConstraintCmd(INodeImpl node, Rectangle newBounds) {
 		if (node == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}

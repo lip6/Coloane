@@ -3,8 +3,13 @@ package fr.lip6.move.coloane.ui;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import fr.lip6.move.coloane.ui.editpart.*;
-import fr.lip6.move.coloane.ui.model.*;
+import fr.lip6.move.coloane.ui.editpart.ArcEditPart;
+import fr.lip6.move.coloane.ui.editpart.ElementEditPart;
+import fr.lip6.move.coloane.ui.editpart.ModelEditPart;
+import fr.lip6.move.coloane.ui.model.IArcImpl;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
+
 
 /**
  * Cette Factory construit les EditParts pour chacun des elements du modele.
@@ -38,11 +43,11 @@ public class PartFactory implements EditPartFactory {
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 			
-		if (modelElement instanceof NodeImplAdapter) {
+		if (modelElement instanceof INodeImpl) {
 			return new ElementEditPart();
-		} else if (modelElement instanceof ArcImplAdapter) {
+		} else if (modelElement instanceof IArcImpl) {
 			return new ArcEditPart();
-		} else if (modelElement instanceof ModelImplAdapter) {
+		} else if (modelElement instanceof IModelImpl) {
 			return new ModelEditPart();
 		}
 		

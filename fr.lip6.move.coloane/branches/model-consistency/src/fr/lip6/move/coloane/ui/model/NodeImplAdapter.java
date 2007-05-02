@@ -105,7 +105,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
             this.node.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable());
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -124,7 +124,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
     	// Parcours de tous les attributs du formalisme
 		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-			AttributeImplAdapter attributeAdapter = null;
+			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
 			
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
@@ -138,7 +138,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 				// Pas besoin de creer un nouvel attribut genrique dans le modele !
 				attribute = node.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 					find = true;
 				}
 			}
@@ -147,7 +147,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 				this.node.addAttribute(attribute);
 			}
 			

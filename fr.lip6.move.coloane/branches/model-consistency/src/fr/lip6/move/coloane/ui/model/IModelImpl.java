@@ -55,7 +55,7 @@ public interface IModelImpl {
 	
 
 	/** 
-	 * Retourne la liste des NodeImplAdapter du modele
+	 * Retourne la liste des INodeImpl du modele
 	 * @return List
 	 */
 	public List getChildren();

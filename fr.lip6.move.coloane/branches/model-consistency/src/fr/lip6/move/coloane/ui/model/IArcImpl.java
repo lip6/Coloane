@@ -46,7 +46,7 @@ public interface IArcImpl {
 
 	/**
 	 * Retourne le noeud source de l'arc
-	 * @return NodeImplAdapter noeud source
+	 * @return INodeImpl noeud source
 	 */
 	public INodeImpl getSource();
 

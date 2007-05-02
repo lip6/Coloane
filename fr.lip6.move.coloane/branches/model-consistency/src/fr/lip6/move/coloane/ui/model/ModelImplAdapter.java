@@ -33,7 +33,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	/** Le formalisme associe a ce modele */
 	private Formalism formalism;
 
-	/** La liste de NodeImplAdapter. */
+	/** La liste de INodeImpl. */
 	private List<INodeImpl> children = new ArrayList<INodeImpl>();
 
 	/** Date de derniere modification */
@@ -107,7 +107,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
 			INode currentNode = this.model.getNthNode(i);
-			NodeImplAdapter node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
+			INodeImpl node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			node.setModelAdapter(this);
 			this.children.add(node);
 		}
@@ -115,8 +115,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Creation de tous les Arcs du modele augmente
 		for (int j = 0; j < this.model.getListOfArcSize(); j++) {
 			IArc currentArc = this.model.getNthArc(j);
-			NodeImplAdapter target = null;
-			NodeImplAdapter source = null;
+			INodeImpl target = null;
+			INodeImpl source = null;
 	
 			// Pour chaque enfant, on cherche si l'arc est source ou destination
 			Iterator iterator = this.children.iterator();
@@ -126,7 +126,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Parcours de la liste precedemment cree pour trouver le noeud source et cible
 			while ((iterator.hasNext()) && ((!findSource) || (!findTarget)) ) {
 
-				NodeImplAdapter currentNode = (NodeImplAdapter) iterator.next();
+				INodeImpl currentNode = (INodeImpl) iterator.next();
 
 				if (currentArc.getEndingNode() == currentNode.getGenericNode()) {
 					target = currentNode; 
@@ -166,7 +166,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.model.addAttribute(attribute);
 			
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
-			AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 			
 			// Augmente la liste des proprietes (fenetre properties de la vue)
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -184,7 +184,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Parcours de tous les attributs prevus par le formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-			AttributeImplAdapter attributeAdapter = null;
+			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
 			
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
@@ -198,7 +198,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = model.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 					find = true;
 				}
 			}
@@ -207,7 +207,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 				this.model.addAttribute(attribute);
 			}
 			

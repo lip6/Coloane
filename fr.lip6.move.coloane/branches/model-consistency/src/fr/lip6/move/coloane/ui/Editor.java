@@ -169,7 +169,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private OutlinePage outlinePage;
 	
 	/** Le modele */
-	private ModelImplAdapter model;
+	private IModelImpl model;
 
 	/** La palette */
 	private PaletteRoot paletteRoot;
@@ -215,7 +215,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	
 	/**
 	 * Retourne le model.
-	 * @return ModelImplAdapter
+	 * @return IModelImpl
 	 */
 	public IModelImpl getModel() {
 		return model;

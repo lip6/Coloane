@@ -42,7 +42,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * @return List
 	 */
 	protected List getModelChildren() {
-		return ((ModelImplAdapter) getModel()).getChildren();
+		return ((IModelImpl) getModel()).getChildren();
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
 		String prop = event.getPropertyName();
-		if (ModelImplAdapter.NODE_ADDED_PROP.equals(prop) || ModelImplAdapter.NODE_REMOVED_PROP.equals(prop)) {
+		if (IModelImpl.NODE_ADDED_PROP.equals(prop) || IModelImpl.NODE_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
 		}
 	}

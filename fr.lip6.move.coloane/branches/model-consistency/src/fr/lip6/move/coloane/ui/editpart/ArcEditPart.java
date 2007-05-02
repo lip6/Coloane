@@ -15,7 +15,6 @@ import org.eclipse.gef.requests.GroupRequest;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.views.ArcFigure;
 import fr.lip6.move.coloane.ui.views.IArcFigure;
@@ -58,7 +57,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		// Allows the removal of the connection model element
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
 			protected Command getDeleteCommand(GroupRequest request) {
-				return new ArcDeleteCmd((ArcImplAdapter)getModel());
+				return new ArcDeleteCmd((IArcImpl)getModel());
 			}
 		});
 	}
@@ -69,7 +68,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 */ 
 	public void propertyChange(PropertyChangeEvent arg) {
 		String prop = arg.getPropertyName();
-		if (ArcImplAdapter.VALUE_PROP.equals(prop)) {
+		if (IArcImpl.VALUE_PROP.equals(prop)) {
 			refreshChildren();
 		}
 		refreshVisuals();

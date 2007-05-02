@@ -35,8 +35,6 @@ import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 import fr.lip6.move.coloane.ui.views.INodeFigure;
 import fr.lip6.move.coloane.ui.views.NodeFigure;
 
@@ -103,10 +101,9 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		String prop = property.getPropertyName();	
 
 		// Si la propriete est un changement de position
-		if (INodeImpl.SIZE_PROP.equals(prop) || INodeImpl.LOCATION_PROP.equals(prop)) {
+		if (INodeImpl.LOCATION_PROP.equals(prop)) {
 			refreshChildren();
-
-			// Si c'est une propriete de connexion
+		// Si c'est une propriete de connexion
 		} else if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
@@ -151,7 +148,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
 				Object parent = getHost().getParent().getModel();
 				Object child = getHost().getModel();
-				if (parent instanceof ModelImplAdapter && child instanceof NodeImplAdapter) {
+				if (parent instanceof IModelImpl && child instanceof INodeImpl) {
 					try {
 						return new NodeDeleteCmd((IModelImpl) parent, (INodeImpl) child);
 					} catch (BuildException e) {

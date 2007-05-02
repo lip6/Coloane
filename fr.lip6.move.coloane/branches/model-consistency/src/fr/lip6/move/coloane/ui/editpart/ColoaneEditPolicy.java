@@ -69,7 +69,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 		// Resize not permited
 		if (child instanceof ElementEditPart && constraint instanceof Rectangle) {
-			return new NodeSetConstraintCmd((NodeImplAdapter) child.getModel(), (Rectangle) constraint);
+			return new NodeSetConstraintCmd((INodeImpl) child.getModel(), (Rectangle) constraint);
 
 		}
 		return super.createChangeConstraintCommand(request, child, constraint);

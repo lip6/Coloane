@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.ui.model.IArcGraphicInfo;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
@@ -455,7 +456,7 @@ public class FormalismManager {
      * @param fileName nom du fichier de sauvegarde
      * @throws Exception leve une exception si erreur
      */
-    public void saveModel(ModelImplAdapter model, String fileName) throws Exception {
+    public void saveModel(IModelImpl model, String fileName) throws Exception {
         try {
         	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
              
@@ -473,13 +474,13 @@ public class FormalismManager {
      * Recupere un modele a partir d'un fichier de nom fileName
      * 
      * @param fileName nom du fichier de sauvegarde avec extension 
-     * @return ModelImplAdapter
+     * @return IModelImpl
      * @throws Exception fichier non trouve
      */
-    public ModelImplAdapter openModel(String fileName) throws Exception {
-        ModelImplAdapter model = null;
+    public IModelImpl openModel(String fileName) throws Exception {
+    	IModelImpl model = null;
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-        model = (ModelImplAdapter) in.readObject();
+        model = (IModelImpl) in.readObject();
         in.close();
         return model;
     }
@@ -490,7 +491,7 @@ public class FormalismManager {
      * @return le model adapter correspondant
      * @throws Exception leve d'exception si le fichier n'est pas valide
      */
-    public ModelImplAdapter importModel(String fileName) throws Exception {
+    public IModelImpl importModel(String fileName) throws Exception {
         
         // Determination du formalism avec l'extension
         StringTokenizer file = new StringTokenizer(fileName, ".");
@@ -530,7 +531,7 @@ public class FormalismManager {
      * @throws Exception 
      */
   
-    public void exportModel(ModelImplAdapter modelAdapter, String fileName) throws Exception {
+    public void exportModel(IModelImpl modelAdapter, String fileName) throws Exception {
     	
         if (fileName.equalsIgnoreCase("") || fileName == null) {
             throw new Exception("Extention du fichier ou nom invalide");
@@ -571,7 +572,7 @@ public class FormalismManager {
      * @param os Flux objet
      * @throws IOException
      */
-    public void exportModel(ModelImplAdapter model, OutputStream os) throws IOException {
+    public void exportModel(IModelImpl model, OutputStream os) throws IOException {
 		
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(os));
         
