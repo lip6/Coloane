@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.motor.session;
 
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 /**
  * Definition d'une session
@@ -12,7 +12,7 @@ public class Session {
     public static int cntSession=1;
     
    /** Le modele associe */
-    public ModelImplAdapter sessionModel;
+    public IModelImpl sessionModel;
 
     /** Nom de la session */
     private String sessionName;
@@ -79,7 +79,7 @@ public class Session {
      * Retoune le modele
      * @return ModelImplAdapter Le modele de la session
      */
-    public ModelImplAdapter getModel() {
+    public IModelImpl getModel() {
         return this.sessionModel;
     }
 
@@ -87,7 +87,7 @@ public class Session {
      * Positionne le modele
      * @param model nouveau modele
      */
-    public void setModel(ModelImplAdapter model) {
+    public void setModel(IModelImpl model) {
         this.sessionModel = model;
     }
     
