@@ -1,9 +1,8 @@
 package fr.lip6.move.coloane.exceptions;
 
 /**
- * Class exception 
- * Cette exception est utilisée par DialogTool
- * @author Albert DALODE
+ * Exception utilisee pour faire remonter les erreurs
+ * de conception de modele.
  */
 
 public class BuildException extends Exception {
