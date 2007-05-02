@@ -44,6 +44,7 @@ public class NodeDeleteCmd extends Command {
 		}
 		this.model = model;
 		this.node = node;
+		setLabel("Delete a node");
 	}
 
 	public void execute() {

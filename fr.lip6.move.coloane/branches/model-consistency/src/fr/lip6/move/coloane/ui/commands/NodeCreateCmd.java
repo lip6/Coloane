@@ -35,6 +35,7 @@ public class NodeCreateCmd extends Command {
             this.model = model;
             this.newNode.setModelAdapter(model);
             this.bounds = bounds;
+            setLabel("Create a node");
         }
 
         /**
@@ -50,7 +51,7 @@ public class NodeCreateCmd extends Command {
          * Executer la commande
          */
         public void execute() {
-        	this.newNode.getGraphicInfo().setLocation(bounds.getLocation());
+        	this.newNode.getGraphicInfo().setLocation(bounds.getLocation().x,bounds.getLocation().y);
             Dimension size = bounds.getSize();
             if (size.width > 0 && size.height > 0) {
             	this.newNode.getGraphicInfo().setSize(size);
