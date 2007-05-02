@@ -33,18 +33,18 @@ public interface IModelImpl {
      * @param child Noeud a ajouter au modele
      * @see NodeImplAdapter
      */
-    public void addChild(NodeImplAdapter child)  throws BuildException;
+    public void addNode(INodeImpl child)  throws BuildException;
 
     /**
      * Supprimer un noeud
      * @param child Noeud a supprimer
      * @see NodeImplAdapter
      */
-    public void removeChild(NodeImplAdapter child)  throws BuildException;
+    public void removeNode(INodeImpl child)  throws BuildException;
     
-    public void addArc(ArcImplAdapter child);
+    public void addArc(IArcImpl child);
     
-    public void removeArc(ArcImplAdapter child);
+    public void removeArc(IArcImpl child);
     
     public IModel getGenericModel();
     
