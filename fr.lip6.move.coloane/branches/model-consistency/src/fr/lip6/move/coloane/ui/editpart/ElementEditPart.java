@@ -18,10 +18,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
+import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.ui.commands.ArcCompleteCmd;
@@ -29,8 +31,10 @@ import fr.lip6.move.coloane.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.IArcImpl;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 import fr.lip6.move.coloane.ui.views.INodeFigure;
@@ -42,7 +46,7 @@ import fr.lip6.move.coloane.ui.views.NodeFigure;
 public class ElementEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
 
 	private ConnectionAnchor anchor = null;
-	
+
 	/**
 	 * Creation de la figure associee (VUE)
 	 * @return IFigure
@@ -51,23 +55,25 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		IFigure figure = new NodeFigure((AbstractModelElement)getModel());
 		return figure;
 	}
-	
+
+
 	/** 
 	 * Mise a jour de la vue a partir des informations du modele<br>
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
 	protected void refreshVisuals() {
-		NodeImplAdapter nodeModel = (NodeImplAdapter) getModel();
+		INodeImpl nodeModel = (INodeImpl) getModel();
 		INodeFigure nodeFigure = (INodeFigure)getFigure();
-		
+
 		// Modification du nom 
 		nodeFigure.setNodeName(nodeModel.getNodeAttributeValue("name"));
-		
+
 		// Modification de la valeur
 		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
 			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("marking"));
 		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("transition")) {
-			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("guard"));
+			if (!nodeModel.getNodeAttributeValue("guard").equalsIgnoreCase("true"))
+				nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("guard"));
 		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("state")) {
 			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
 		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("initial_state")) {
@@ -75,20 +81,197 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("terminal_state")) {
 			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
 		}
-		
+
 		// Modification du domaine
 		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
 			nodeFigure.setNodeDomain(nodeModel.getNodeAttributeValue("domain"));
 		}
-		
+
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeFigure.getPreferredSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
-		
+
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(nodeModel.getModelAdapter());
 	}
+
+
+	/**
+	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
+	 * @param property L'evenemtn qui a ete levee
+	 */
+	public void propertyChange(PropertyChangeEvent property) {
+		String prop = property.getPropertyName();	
+
+		// Si la propriete est un changement de position
+		if (INodeImpl.SIZE_PROP.equals(prop) || INodeImpl.LOCATION_PROP.equals(prop)) {
+			refreshChildren();
+
+			// Si c'est une propriete de connexion
+		} else if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
+			refreshSourceConnections();
+		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
+			refreshTargetConnections();
+		} else if (INodeImpl.VALUE_PROP.equalsIgnoreCase(prop)) {
+			refreshChildren();
+		}
+		refreshVisuals();
+
+	}
+
+
+	/**
+	 * Regles de gestion de l'objet
+	 */
+	protected void createEditPolicies() {
+
+		/* Ensemble de regles concernant la selection/deselection de l'objet */
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
+
+			// Comportement lors de la deselection de l'objet
+			@Override
+			protected void hideSelection() {
+				INodeFigure nodeFigure = (INodeFigure)getFigure();
+				nodeFigure.setUnselect();
+			}
+
+			// Comportement lors de la selection de l'objet
+			@Override
+			protected void showSelection() {
+				INodeFigure nodeFigure = (INodeFigure)getFigure();
+				nodeFigure.setSelect();
+			}
+		});
 		
-	
+		//installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NonResizableEditPolicy());
+		
+		/* Ensemble des regles concernant le role profond de l'element du modele */
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
+
+			// On autorise la suppression de l'element
+			protected Command createDeleteCommand(GroupRequest deleteRequest) {
+				Object parent = getHost().getParent().getModel();
+				Object child = getHost().getModel();
+				if (parent instanceof ModelImplAdapter && child instanceof NodeImplAdapter) {
+					try {
+						return new NodeDeleteCmd((IModelImpl) parent, (INodeImpl) child);
+					} catch (BuildException e) {
+						System.err.println("Echec : "+e.getMessage());
+					}
+				}
+
+				return super.createDeleteCommand(deleteRequest);
+			}
+		});
+
+		/* Ensembles de regles gouvernant la creation et le maintient des connexions inter-noeuds */
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
+
+			/**
+			 * Premiere etape de la creation d'un lien.<br>
+			 * Lorsque l'utilisateur clique sur le noeud de depart, la commande CREATE est appelee.
+			 */
+			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+				INodeImpl source = (INodeImpl)getHost().getModel();
+
+				// Demande la creation d'un arc (1ere etape)
+				ArcCreateCmd cmd = new ArcCreateCmd(source, (ElementBase)request.getNewObjectType());
+				request.setStartCommand(cmd);
+				return cmd;
+			}
+
+			/**
+			 * Deuxieme etape de la creation d'un lien.<br>
+			 * Lorsque l'utilisateur clique sur le noeud d'arrivee, la commande COMPLETE est appelee.
+			 */
+			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
+
+				// Recupere le noeud source depuis la premiere phase
+				ArcCreateCmd createCmd = (ArcCreateCmd)request.getStartCommand();
+
+				// Autorise la connexion d'un arc
+				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(),(INodeImpl) getHost().getModel(), createCmd.getElementBase());
+				return cmd;       			
+			}
+
+			protected Command getReconnectSourceCommand(ReconnectRequest request) {
+				IArcImpl arc = (IArcImpl)request.getConnectionEditPart().getModel();
+				INodeImpl newSource = (INodeImpl)getHost().getModel();
+				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
+				cmd.setNewSource(newSource);
+
+				return cmd;
+			}
+
+			protected Command getReconnectTargetCommand(ReconnectRequest request) {
+				IArcImpl arc = (IArcImpl)request.getConnectionEditPart().getModel();
+				INodeImpl newTarget = (INodeImpl)getHost().getModel();
+				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
+				cmd.setNewTarget(newTarget);
+
+				return cmd;
+			}
+		});
+	}
+
+
+
+	/**
+	 * Creation des ancres pour attacher les connexions
+	 * @return ConnectionAnchor
+	 */
+	protected ConnectionAnchor getConnectionAnchor() {
+
+		// Il n'y a creation que la premiere fois
+		if (anchor == null) {
+			if (getModel() instanceof INodeImpl) {
+				INodeGraphicInfo nodeGraph = ((INodeImpl) getModel()).getGraphicInfo();
+
+				// Si le noeud est un cercle ou un double cercle
+				if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
+					anchor = new EllipseAnchor(((INodeFigure) getFigure()).getSymbol());
+
+					// Si le noeud est un rectangle
+				} else if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_RECT || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
+					anchor = new ChopboxAnchor(((INodeFigure) getFigure()).getSymbol());
+				}
+			}
+		}
+		return anchor;
+	}
+
+	/**
+	 * Retourne la liste des arcs sortant du noeud considere
+	 * @return List of IArcImpl
+	 */
+	protected List getModelSourceConnections() {
+		return ((INodeImpl) getModel()).getSourceArcs();
+	}
+
+	/**
+	 * Retourne la liste des arcs entrants du noeud considere
+	 * @return List of IArcImpl
+	 */
+	protected List getModelTargetConnections() {
+		return ((INodeImpl) getModel()).getTargetArcs();
+	}
+
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+		return getConnectionAnchor();
+	}
+
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return getConnectionAnchor();
+	}
+
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+		return getConnectionAnchor();
+	}
+
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return getConnectionAnchor();
+	}
+
+
 	/**
 	 * Installation des ecouteurs de l'objet
 	 */
@@ -107,141 +290,6 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			super.deactivate();
 			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
 		}
-	}
-
-
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-		return getConnectionAnchor();
-	}
-
-	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return getConnectionAnchor();
-	}
-
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-		return getConnectionAnchor();
-	}
-
-	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return getConnectionAnchor();
-	}
-
-	/**
-	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
-	 * @param property L'evenemtn qui a ete levee
-	 */
-	public void propertyChange(PropertyChangeEvent property) {
-		String prop = property.getPropertyName();	
-
-		// Si la propriete est un changement de position
-		if (NodeImplAdapter.SIZE_PROP.equals(prop) || NodeImplAdapter.LOCATION_PROP.equals(prop)) {
-			refreshChildren();
-		
-		// Si c'est une propriete de connexion
-		} else if (NodeImplAdapter.SOURCE_ARCS_PROP.equals(prop)) {
-			refreshSourceConnections();
-		} else if (NodeImplAdapter.TARGET_ARCS_PROP.equals(prop)) {
-			refreshTargetConnections();
-		} else if (NodeImplAdapter.VALUE_PROP.equalsIgnoreCase(prop)) {
-			refreshChildren();
-		}
-		refreshVisuals();
-
-	}
-
-	
-	/**
-	 * Regles de gestion de l'objet
-	 */
-	protected void createEditPolicies() {
-
-		// On autorise la suppression de l'element
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
-			protected Command createDeleteCommand(GroupRequest deleteRequest) {
-            	Object parent = getHost().getParent().getModel();
-            	Object child = getHost().getModel();
-            	if (parent instanceof ModelImplAdapter && child instanceof NodeImplAdapter) {
-            		return new NodeDeleteCmd((ModelImplAdapter) parent, (NodeImplAdapter) child);
-            	}
-            		
-            	return super.createDeleteCommand(deleteRequest);
-            }
-		});
-            
-        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
-        	
-        	
-        	/**
-        	 * Methode appelee pour confirmer la connexion de l'arc
-        	 * @return Command
-        	 */
-        	protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
-        		ArcCreateCmd createCmd = (ArcCreateCmd)request.getStartCommand();
-        		
-        		// Autorise la connexion d'un arc
-        		ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(),(NodeImplAdapter) getHost().getModel(), createCmd.getElementBase());
-        		return cmd;       			
-        	}
-        		
-        	
-        	/**
-        	 * Methode appelee lorsque le pointeur de la souris se trouve sur un objet
-        	 * @return Command
-        	 */
-        	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-        		NodeImplAdapter source = (NodeImplAdapter)getHost().getModel();
-        		
-        		// Autorise la creation d'un arc
-        		ArcCreateCmd cmd = new ArcCreateCmd(source, (ElementBase)request.getNewObjectType());
-        		request.setStartCommand(cmd);
-        		return cmd;
-        	}
-
-        	
-       		protected Command getReconnectSourceCommand(ReconnectRequest request) {
-       			System.out.println("Reconnect");
-       			ArcImplAdapter arc = (ArcImplAdapter)request.getConnectionEditPart().getModel();
-       			NodeImplAdapter newSource = (NodeImplAdapter)getHost().getModel();
-       			ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
-       			cmd.setNewSource(newSource);
-        			
-       			return cmd;
-       		}
-
-       		protected Command getReconnectTargetCommand(ReconnectRequest request) {
-        		ArcImplAdapter arc = (ArcImplAdapter)request.getConnectionEditPart().getModel();
-        		NodeImplAdapter newTarget = (NodeImplAdapter)getHost().getModel();
-        		ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
-        		cmd.setNewTarget(newTarget);
-        		
-        		return cmd;
-        	}
-        });
-    }
-
-
-	protected ConnectionAnchor getConnectionAnchor() {
-		if (anchor == null) {
-			if (getModel() instanceof NodeImplAdapter) {
-				INodeGraphicInfo nodeGraph = ((NodeImplAdapter) getModel()).getGraphicInfo();
-				if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
-					anchor = new EllipseAnchor(((INodeFigure) getFigure()).getSymbol());
-
-				} else if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_RECT || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
-					anchor = new ChopboxAnchor(((INodeFigure) getFigure()).getSymbol());
-				}
-			}
-		}
-		return anchor;
-	}
-
-
-	protected List getModelSourceConnections() {
-		return ((NodeImplAdapter) getModel()).getSourceArcs();
-	}
-
-	protected List getModelTargetConnections() {
-		return ((NodeImplAdapter) getModel()).getTargetArcs();
 	}
 
 }

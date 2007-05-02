@@ -38,6 +38,14 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	}
 	
 	/**
+	 * Retourne la liste des enfants du modele
+	 * @return List
+	 */
+	protected List getModelChildren() {
+		return ((ModelImplAdapter) getModel()).getChildren();
+	}
+	
+	/**
 	 * 
 	 */
 	protected void refreshVisuals () {
@@ -45,13 +53,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		connLayer.setConnectionRouter(new FanRouter());
 	}
 	
-	/**
-	 * Parcours des enfants du modele
-	 * @return List
-	 */
-	protected List getModelChildren() {
-		return ((ModelImplAdapter) getModel()).getChildren();
-	}
+
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -61,12 +63,14 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		// Interdiction de suppression de l'objet modele
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 
-		// Indique le comportement a adopter lors d'un ajour ou d'un modification d'un objet fils
+		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,new ColoaneEditPolicy());
 		
-		//installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+		// Impossible de selectionenr le modele
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 	}
 
+	
 	/**
 	 * Changement de proprietes dans le modele.
 	 * Ces changements sont typiquement l'ajout ou la suppression d'un noeud
@@ -79,9 +83,9 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	}
 
 	/**
-	 * Mise sur ecoute d'element du modele.
-	 * Si le noeud n'etait pas entrain d'ecouter... on ajoute un ecouteur
-	 * TODO: A preciser...
+	 * Mise en ecoute du modele.
+	 * Installation des ecouteurs sur le modele. 
+	 * A partir de ce moment lˆ, il a un lien entre la vue et le modele
 	 */
 	public void activate() {
 		if (!isActive()) {
@@ -91,8 +95,8 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	}
 
 	/**
-	 * Desactive l'ecoute d'un noeud
-	 * TODO: A preciser
+	 * Desactive l'ecoute du modele
+	 * Le lien entre le modele et la vue est casse
 	 */
 	public void deactivate() {
 		if (isActive()) {
