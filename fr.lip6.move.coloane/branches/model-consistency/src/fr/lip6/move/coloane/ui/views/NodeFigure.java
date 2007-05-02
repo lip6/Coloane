@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Font;
 
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
 public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
@@ -30,12 +31,13 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	private INodeGraphicInfo nodeGraphInfo;
 
 	/**
-	 * ??
+	 * Constructeur de l'objet graphique representant un noeud augemente.
+	 * Toute modification graphique concernant le noeud augmente passe par cet objet.
 	 * @param element
 	 */
 	public NodeFigure (AbstractModelElement element) {
 		if (element instanceof NodeImplAdapter) {
-			createNodeFigure((NodeImplAdapter) element);
+			createNodeFigure((INodeImpl) element);
 		}
 	}
 	
@@ -43,7 +45,7 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 * Creation de la figure associee a un noeud
 	 * @param node Le modele enrichi du noeud
 	 */
-	private void createNodeFigure(NodeImplAdapter node) {
+	private void createNodeFigure(INodeImpl node) {
 		
 		// Recupere les options graphiques definies pour le formalisme
 		nodeGraphInfo = node.getGraphicInfo();
@@ -118,45 +120,63 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 		Font domainFont = new Font(null,"arial",10,SWT.NORMAL);
 		domainLabel.setFont(domainFont);
 		
+		// Ajout des labels a la figure
 		zone.add(nameLabel);
 		zone.add(valueLabel);
 		zone.add(domainLabel);
 	}
 	
-	/**
-	 * Indique les bornes reelles de la figure.
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#getHandleBounds()
 	 */
 	public Rectangle getHandleBounds() {
 		return new Rectangle(nodeGraphInfo.getLocation(),nodeGraphInfo.getSize());
 	}
 	
-	/**
-	 * Retourne le symbole de la figure.<br>
-	 * Il faut considérer ce symbole lorsqu'on essaie de creer des connexions
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#getSymbol()
 	 */
 	public IFigure getSymbol () {
 		return figure;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setSelect()
+	 */
+	public void setSelect() {
+		figure.setBackgroundColor(ColorConstants.gray);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
+	 */
+	public void setUnselect() {
+		figure.setBackgroundColor(ColorConstants.white);
+	}
 
-	/**
-	 * Modifie la valeur du label nom attache
-	 * @param name
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeName(java.lang.String)
 	 */
 	public void setNodeName(String name) {
 		nameLabel.setText(name);
 	}
 	
-	/**
-	 * Modifie la valeur du label value attache
-	 * @param value
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeValue(java.lang.String)
 	 */
 	public void setNodeValue(String value) {
 		valueLabel.setText(value);	
 	}
 	
-	/**
-	 * Modifie la valeur du label domaine attache
-	 * @param domain
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeDomain(java.lang.String)
 	 */
 	public void setNodeDomain(String domain) {
 		domainLabel.setText(domain);	
