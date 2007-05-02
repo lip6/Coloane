@@ -147,7 +147,7 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setSelect()
 	 */
 	public void setSelect() {
-		figure.setBackgroundColor(ColorConstants.gray);
+		figure.setForegroundColor(ColorConstants.red);
 	}
 	
 	/*
@@ -155,7 +155,7 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
 	 */
 	public void setUnselect() {
-		figure.setBackgroundColor(ColorConstants.white);
+		figure.setForegroundColor(ColorConstants.black);
 	}
 
 	/*
