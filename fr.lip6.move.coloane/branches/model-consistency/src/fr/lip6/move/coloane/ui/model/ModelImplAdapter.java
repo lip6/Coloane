@@ -34,7 +34,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	private Formalism formalism;
 
 	/** La liste de NodeImplAdapter. */
-	private List<NodeImplAdapter> children = new ArrayList<NodeImplAdapter>();
+	private List<INodeImpl> children = new ArrayList<INodeImpl>();
 
 	/** Date de derniere modification */
 	/* TODO : Verifier la necessite de cette initialisation */
@@ -84,7 +84,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.formalism = formalism;
 
 			/* Creation de tous les adapteurs */
-			this.setModelAdapter();
+			this.setModelAdapters();
 			
 			/* Ajout de tous les attributs deja indiques dans le modele */
 			/* Ainsi que tous les attributs qui sont decrits dans le formalisme */
@@ -102,7 +102,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * Cette methode sert a creer la premier coherence entre le modele generique et le modele augmente
 	 * Les noeuds du cote generique existent deja... Il faut donc creer les noeuds du cote augemente
 	 */
-	private void setModelAdapter() throws Exception {
+	private void setModelAdapters() throws Exception {
 
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
@@ -140,7 +140,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Un arc a forcement une source et une destination... sinon probleme
 			if ((target != null) && (source != null)) {
 				// Creation de l'Arc adapter (Arc dans le modele augmente)
-				ArcImplAdapter arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
+				IArcImpl arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 			} else {
 				throw new Exception("Source ou destination de l'arc manquante");
@@ -175,6 +175,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans le modele generique)
+	 * Creation des attribut generiques manquants et attributs adaptes correspondants
 	 * Cela peut tre utile lorsq'un modele est lu depuis un fichier.
 	 * @param model Le modele generique qui vient d'etre augemente
 	 */
@@ -223,18 +224,12 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @param child Le noeud fils qu'il faut ajouter au modele augmente et au modele generique
 	 * @throws BuildException 
 	 */
-	public void addChild(NodeImplAdapter child) throws BuildException {
+	public void addNode(INodeImpl child) throws BuildException {
 		if (child != null) {
 			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
-	
-			// Ajout a la liste children du modele augemente
-			if (this.children.add(child)) {
-				firePropertyChange(NODE_ADDED_PROP, null, child);
-			} else {
-				this.model.removeNode(child.getGenericNode());
-				throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
-			}
+			this.children.add(child);
+			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
 			throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
 		}
@@ -248,18 +243,13 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @param child Lenoeud fils qu'il faut supprimer du modele augmente et du modele generique
 	 * @throws BuildException 
 	 */
-	public void removeChild(NodeImplAdapter child) throws BuildException {
+	public void removeNode(INodeImpl child) throws BuildException {
 		if (child != null) {
-			// Enleve un noeud au modele
+			// Enleve un noeud au modele generique
 			this.model.removeNode(child.getGenericNode());
-		
-			// Envele un noeud de la liste children
-			if (this.children.remove(child)) {
-				firePropertyChange(NODE_REMOVED_PROP, null, child);
-			} else {
-				this.model.addNode(child.getGenericNode());
-				throw new BuildException("Erreurs lors de la suppression d'un noeud du modele");
-			}
+			// Enleve le noeud au modle augmente
+			this.children.remove(child);
+			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
 			throw new BuildException("Erreurs lors de la suppression d'un noeud du modele");
 		}
@@ -269,7 +259,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * Ajout d'un arc au modele
 	 * @param child L'arc adapte qu'il faut ajoute au modele generique
 	 */
-	public void addArc(ArcImplAdapter child) {
+	public void addArc(IArcImpl child) {
 		// Ajout d'un arc au modele
 		this.model.addArc(child.getGenericArc());
 	}
@@ -278,8 +268,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * Retrait d'un arc au modele
 	 * @param child L'arc adapte qu'il faut supprimer du modele generique
 	 */
-	public void removeArc(ArcImplAdapter child) {
-		// Ajout d'un arc au modele
+	public void removeArc(IArcImpl child) {
 		this.model.removeArc(child.getGenericArc());
 	}
 
