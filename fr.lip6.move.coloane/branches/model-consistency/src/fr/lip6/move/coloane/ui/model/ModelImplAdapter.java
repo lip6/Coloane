@@ -216,18 +216,15 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
-	/**
-	 * Ajout d'un noeud au modele
-	 * Cette methode est appelee par la vue ou le controleur.
-	 * L'objectif est donc de mettre a jour le modele generique
-	 * Leve un evenement CHILD_ADDED_PROP
-	 * @param child Le noeud fils qu'il faut ajouter au modele augmente et au modele generique
-	 * @throws BuildException 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#addNode(fr.lip6.move.coloane.ui.model.INodeImpl)
 	 */
 	public void addNode(INodeImpl child) throws BuildException {
 		if (child != null) {
 			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
+			// On ajoute le noeud augmente aux fils du modele augemente
 			this.children.add(child);
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
@@ -235,19 +232,15 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
-	/**
-	 * Suppression d'un noeud
-	 * Il faut supprimer ce noeud du modele generique
-	 * Il faut supprimer le noeud des enfants du modele
-	 * Lever un evenement CHILD_REMOVED_PROP
-	 * @param child Lenoeud fils qu'il faut supprimer du modele augmente et du modele generique
-	 * @throws BuildException 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#removeNode(fr.lip6.move.coloane.ui.model.INodeImpl)
 	 */
 	public void removeNode(INodeImpl child) throws BuildException {
 		if (child != null) {
 			// Enleve un noeud au modele generique
 			this.model.removeNode(child.getGenericNode());
-			// Enleve le noeud au modle augmente
+			// Enleve le noeud au modele augmente
 			this.children.remove(child);
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
@@ -255,53 +248,50 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 	
-	/**
-	 * Ajout d'un arc au modele
-	 * @param child L'arc adapte qu'il faut ajoute au modele generique
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#addArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public void addArc(IArcImpl child) {
 		// Ajout d'un arc au modele
 		this.model.addArc(child.getGenericArc());
 	}
 	
-	/**
-	 * Retrait d'un arc au modele
-	 * @param child L'arc adapte qu'il faut supprimer du modele generique
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#removeArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public void removeArc(IArcImpl child) {
 		this.model.removeArc(child.getGenericArc());
 	}
-
-	/** 
-	 * Retourne la liste des NodeImplAdapter du modele
-	 * @return List
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getChildren()
 	 */
 	public List getChildren() {
 		return this.children;
 	}
 
-	/**
-	 * Retourne le modele generique
-	 * @return Model Le mdoele generique
-	 * @see fr.lip6.move.coloane.interfaces.model.IModel
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getGenericModel()
 	 */
 	public IModel getGenericModel() {
 		return this.model;
 	}
 
-	/**
-	 * Retourne le formalisme associe au modele
-	 * @return Formalism
-	 * @see fr.lip6.move.coloane.motor.formalism.Formalism
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getFormalism()
 	 */
 	public Formalism getFormalism() {
 		return formalism;
 	}
 
-	/**
-	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
-	 * Indique si l'envoi d'un message a FK est necessaire
-	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#modifyDate()
 	 */
 	public int modifyDate() {
 		// Le changement de date doit etre effectif si et seulement si le modele 
@@ -318,50 +308,63 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return 0;
 	}
 	
-	/**
-	 * Retourne la date associee au modele
-	 * @return int
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getDate()
 	 */
 	public int getDate() {
 		return date;
 	}
 
-	/**
-	 * Change la valeur de la propriete 
-	 * @param id Objet dont il faut modifier la valeur
-	 * @param value Nouvelle valeur pour l'objet
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.AbstractModelElement#setPropertyValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setPropertyValue(Object id, Object value) {
 		super.setPropertyValue(id, value);
 	}
 
-	/**
-	 * Indicateur de fraicheur du modele
-	 * @return boolean
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#isDirty()
 	 */
 	public boolean isDirty() {
 		return dirty;
 	}
 	
-	/**
-	 * Permet de rendre obsolete (ou a jour) le modele (pour demande une maj ou sinigifer une maj)
-	 * @param dirty (true = necessite de mise a jour)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
 	
-	/**
-	 * Indique que le modele est en construction
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setBeginBuilding()
 	 */
 	public void setBeginBuilding() {
 		this.buildingStatus = true;
 	}
 	
-	/**
-	 * Indique que le modele n'est pas (plus) en construction
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setEndBuilding()
 	 */
 	public void setEndBuilding() {
 		this.buildingStatus = false;
 	}	
+	
+	/*******
+	 * DUMP
+	 *******/
+	public void dumpModel() {
+		System.err.println("--> Debut du dump !");
+		System.out.println("Liste des noeud :");
+		for (int i = 0; i < children.size(); i++) {
+			INodeImpl n = children.get(i);
+			System.out.println(i+": "+n.getId()+" ("+n.getGenericNode().getNodeType()+")");
+		}
+	}
 }
