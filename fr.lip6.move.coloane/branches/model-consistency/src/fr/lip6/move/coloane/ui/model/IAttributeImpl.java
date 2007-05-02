@@ -18,36 +18,43 @@ public interface IAttributeImpl {
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	public static final String UPDATE_ATTRIBUTE_VALUE = "Attribute.ValueUpdate";
 
-	
-
 	/**
-	 * Retourne la chaine de caracteres a afficher dans la fenetre de proprietes
+	 * Retourne l'identifiant de l'attribut
+	 * @return
+	 */
+	public String getId();
+	
+	/**
+	 * Retourne la chaine qui sera affichee sur la fenetre PropertiesView d'Eclipse
 	 * @return String
 	 */
 	public String getDisplayName();
-
+	
 	/**
-	 * Retourne la valeur de la propriete
+	 * Retourne la valeur de l'attribut
 	 * @return Object
 	 */
 	public Object getValue();
-
+	
 	/**
-	 * Retourner True s'il faut un validateur
-	 * @return boolean
+	 * Inidique la nouvelle valeur pour l'attribut generique
+	 * @param value La nouvelle valeur
 	 */
-	public boolean getValidation();
-
+	public void setValue(String value);
+	
 	/**
-	 * Message de validation. Par exemple "Not a number"
-	 * @return String
-	 */
-	public String getValidationMessage();
-
-	/**
-	 * True si la valeur est affichee a cote la figure du noeud
-	 * @return boolean
+	 * Indicateur d'affichage
+	 * @return true si l'attribut doit etre affiche
 	 */
 	public boolean isDrawable();
-    
+	
+	/**
+	 * Indicateur d'attribut multiligne
+	 * @return true si l'attribut est multiligne
+	 */
+	public boolean isMultiline();
+	
+	public boolean getValidation();
+	
+	public String getValidationMessage();
 }
