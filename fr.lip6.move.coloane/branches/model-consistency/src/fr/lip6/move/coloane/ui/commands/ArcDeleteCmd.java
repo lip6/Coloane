@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.ui.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 
 /**
@@ -41,7 +42,12 @@ public class ArcDeleteCmd extends Command {
          *
          */
         public void undo() {
-                this.connection.reconnect();
+        	try {
+        		this.connection.reconnect();
+			} catch (BuildException e) {
+				e.getStackTrace();
+				System.err.println("Echec : Impossible d'annuler ! : "+e.getMessage());
+			}
         }
 
 }

@@ -4,8 +4,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
  * Commande pour ajouter un nouveau noeud 
@@ -14,10 +15,10 @@ import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 public class NodeCreateCmd extends Command {
 
         /** Nouveau noeud a creer */
-        private NodeImplAdapter newNode;
+        private INodeImpl newNode;
 
         /** Model */
-        private final ModelImplAdapter model;
+        private final IModelImpl model;
 
         /** Limite */
         private Rectangle bounds;
@@ -29,15 +30,16 @@ public class NodeCreateCmd extends Command {
          * @param model Le modle qui contiendra le noeud
          * @param bound Les limites du noeud; (la taille peut tre (-1, -1))
          */
-        public NodeCreateCmd(NodeImplAdapter node, ModelImplAdapter model, Rectangle bound) {
+        public NodeCreateCmd(INodeImpl node, IModelImpl model, Rectangle bounds) {
         	this.newNode = node;
             this.model = model;
-            newNode.setModelAdapter(model);
-            bounds = bound;
+            this.newNode.setModelAdapter(model);
+            this.bounds = bounds;
         }
 
         /**
          * Savoir si on peux executer la commande ?
+         * --> Toujours OK
          * @return booleen
          */
         public boolean canExecute() {
@@ -48,26 +50,38 @@ public class NodeCreateCmd extends Command {
          * Executer la commande
          */
         public void execute() {
-        	newNode.getGraphicInfo().setLocation(bounds.getLocation());
+        	this.newNode.getGraphicInfo().setLocation(bounds.getLocation());
             Dimension size = bounds.getSize();
             if (size.width > 0 && size.height > 0) {
-            	newNode.getGraphicInfo().setSize(size);
+            	this.newNode.getGraphicInfo().setSize(size);
             }
-            redo();
+            this.redo();
         }
 
         /**
          * Refaire les actions de la methode Execute
+         * --> Revient a faire un nouvel ajout d'un noeud
          */
         public void redo() {
-        	model.addChild(newNode);
+        	try {
+				model.addNode(newNode);
+			} catch (BuildException e) {
+				e.printStackTrace();
+				System.err.println("Echec ! : "+e.getMessage());
+			}
         }
 
         /**
          * Annuler les modifications faites par la methode Execute
+         * --> Revient a supprimer le noeud cree
          */
         public void undo() {
-        	model.removeChild(newNode);
+        	try {
+				model.removeNode(newNode);
+			} catch (BuildException e) {
+				e.printStackTrace();
+				System.err.println("Echec ! : "+e.getMessage());
+			}
         }
 
 }
