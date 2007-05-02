@@ -3,12 +3,8 @@ package fr.lip6.move.coloane.ui.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -20,7 +16,8 @@ import fr.lip6.move.coloane.motor.formalism.ElementBase;
 
 /**
  * Description de l'adapteur pour un noeud du modele.
- * Le noeud adapte est generique. L'adapteur fourni les mehodes et strctures utiles pour GEF.
+ * Le noeud adapte est generique. 
+ * L'adapteur fourni les mehodes et structures utiles pour GEF.
  * Cet adapteur doit gerer la coherence entre le noeud generique et le noeud augemente.
  * @see INodeImpl
  */
@@ -56,14 +53,12 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	public NodeImplAdapter(INode node, ElementBase base) {
 		super();
 
-		// Element de base du formalisme
-		this.elementBase = base;
-		// Le noeud generique
-		this.node = node;
+		this.elementBase = base;	// Element de base du formalisme
+		this.node = node;			// Le noeud generique
         
 		// Les informations graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
-		this.graphicInfo.setLocation(new Point(this.node.getXPosition(),this.node.getYPosition()));
+		this.graphicInfo.setLocation(this.node.getXPosition(),this.node.getYPosition());
 
 		// Instancier les attributs
 		setProperties(this.node);
@@ -73,7 +68,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	 * Creation d'un noeud a partir d'un element de formalisme
 	 * @param base Element de base du formalisme
 	 */
-	/** TODO : Je ne trouve pas l'endroit ou le noeud est ajoute au modele */
 	public NodeImplAdapter(ElementBase base) {
 		super();
 		
@@ -85,7 +79,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 		// Le information graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
-		this.graphicInfo.setLocation(new Point(this.node.getXPosition(),this.node.getYPosition()));
+		this.graphicInfo.setLocation(this.node.getXPosition(),this.node.getYPosition());
 
 		// Instancier les attributs
 		setProperties();
@@ -163,29 +157,25 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
     }      
 
     
-    /**
-     * Recupere l'ID du noeud generique
-     * Evite les appels au noeud generique
-     * @return ID
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.INodeImpl#getId()
      */
     public int getId() {
     	return this.getGenericNode().getId();
     }
   
-    /**
-     * Recupere les informations graphiques sur le noeud
-     * @return INodeGraphicInfo
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGraphicInfo()
      */
 	public INodeGraphicInfo getGraphicInfo() {
 		return this.graphicInfo;
 	}
 
-	/**
-	 * Ajoute un arc entrant au noeud
-	 * L'arc doit etre rajoute dans la liste des arcs sortant du noeud adapte
-	 * L'arc doit etre ajout dans la liste des arcs sortant du noeud generique
-	 * @param arcAdapter
-	 * @throws BuildException 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addInputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public void addInputArc(IArcImpl arcAdapter) throws BuildException {
        	if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getTarget() == this)) {
@@ -197,12 +187,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		}
 	}
 
-	/**
-	 * Ajoute un arc sortant au noeud
-	 * L'arc doit etre rajoute dans la liste des arcs sortant du noeud adapte
-	 * L'arc doit etre ajout dans la liste des arcs sortant du noeud generique
-	 * @param arcAdapter
-	 * @throws BuildException 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addOutputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public void addOutputArc(IArcImpl arcAdapter) throws BuildException {
 		if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getSource() == this)) {
@@ -214,12 +201,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		}
 	}
 	
-	/**
-	 * Retire un arc du noeud
-	 * Cette methode est appelee par l'arc adapte lors de sa deconnexion
-	 * @param arcAdapter arc a retirer
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#removeArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void removeArc(ArcImplAdapter arcAdapter) {
+	public void removeArc(IArcImpl arcAdapter) {
 		if (arcAdapter.getSource() == this) {
 			this.sourceArcs.remove(arcAdapter);
 		    firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null,arcAdapter);
@@ -231,84 +217,58 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		}
 	}
 
-	/**
-	 * Retourne la liste des arcs sortants
-	 * @return List of IArcImpl
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getSourceArcs()
 	 */
 	public List getSourceArcs() {
         return new ArrayList<IArcImpl>(sourceArcs);
 	}
 
-	/**
-	 * Retourne la liste des arcs entrants
-	 * @return List of IArcImpl
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getTargetArcs()
 	 */
 	public List getTargetArcs() {
 		return new ArrayList<IArcImpl>(targetArcs);
 	}
 
-	/**
-	 * Retourne le noeud generique
-	 * @return Node
-	 * @see Node
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGenericNode()
 	 */
 	public INode getGenericNode() {
 		return node;
 	}
 
-	/**
-	 * Retourne l'element de base du formalisme
-	 * @return ElementBase
-	 * @see ElementBase
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getElementBase()
 	 */
 	public ElementBase getElementBase() {
 		return elementBase;
 	}
 	
-	/**
-	 * Retourne la liste des attributs affichables
-	 * Ces attributs seront affiches dans la fenetre proprietes de la vue Coloane dans Eclipse
-	 * @return List
-	 */
-	public List visibleAttributes() {
-		ArrayList<AttributeImplAdapter> visibleAtts = new ArrayList<AttributeImplAdapter>();
-		for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-            AttributeImplAdapter property = (AttributeImplAdapter) e.nextElement();            
-            if (property.isDrawable()) {
-            	visibleAtts.add(property);
-            }
-        }
-		return visibleAtts;
-	}
-	
-	/**
-	 * TODO : Commentaires
-	 */
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return super.getPropertyDescriptors();
-	}
-
-	
-	/**
-	 * Retourne le modele augemente auquel est attache le noeud
-	 * @return IModeImpl
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getModelAdapter()
 	 */
     public IModelImpl getModelAdapter() {
         return modelAdapter;
     }
 
-    /**
-     * Associe le modele augmente au noeud
-     * @param modelAdapter
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.INodeImpl#setModelAdapter(fr.lip6.move.coloane.ui.model.IModelImpl)
      */
     public void setModelAdapter(IModelImpl modelAdapter) {
         this.modelAdapter = modelAdapter;
     }
 
-	public Collection getContextMenus() {
-		return null;
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
+	 */
 	public String getNodeAttributeValue(String attribute) {
 		String valeur = "";
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
@@ -326,12 +286,12 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	  * @param oldValue L'ancienne valeur de la propriete
 	  * @param newValue La nouvelle valeur
 	  */
-	 public void throwEventProperty (String oldValue, String newValue) {
-		 firePropertyChange(NodeImplAdapter.VALUE_PROP, oldValue,newValue);
+	 private void throwEventProperty (String oldValue, String newValue) {
+		 firePropertyChange(NodeImplAdapter.VALUE_PROP, oldValue, newValue);
 	 }
 	    
 	 /**
-	  * Actions entreprises suite ˆ la modification d'un parametres dans la fenetre Properties
+	  * Actions entreprises suite ˆ la modification d'un parametre dans la fenetre Properties
 	  * @param id L'objet concerne
 	  * @param value La nouvelle valeur
 	  */
@@ -340,5 +300,13 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		 super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
 		 this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
 	 }
+	 
+	 /*
+	  * (non-Javadoc)
+	  * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
+	  */
+	public Collection getContextMenus() {
+		return null;
+	}
 
 }

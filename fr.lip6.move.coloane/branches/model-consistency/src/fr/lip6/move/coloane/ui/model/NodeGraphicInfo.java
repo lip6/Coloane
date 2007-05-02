@@ -5,96 +5,93 @@ import java.io.Serializable;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class NodeGraphicInfo implements INodeGraphicInfo, Serializable{
+public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
 	
 	/** Le noeud enrichi */
 	private NodeImplAdapter nodeAdapter;
+	
+	private int x;
+	private int y;
 
 	/** 
 	 * Constructeur
 	 * @param node Le noeud enrichi
 	 */
 	public NodeGraphicInfo(NodeImplAdapter node) {
-		super();
 		this.nodeAdapter = node;
 	}
 
-	/**
-	 * Retourne la localisation du noeud
-	 * @return Point
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getLocation()
 	 */
 	public Point getLocation() {
-		return new Point(this.nodeAdapter.getGenericNode().getXPosition(),this.nodeAdapter.getGenericNode().getYPosition());
-
+		return new Point(this.x,this.y);
 	}
 
-	/**
-	 * Change l'emplacement d'un noeud
-	 * @param newLocation Nouvelle localisation du noeud
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#setLocation(int, int)
 	 */
-	public void setLocation(Point newLocation) {
-		INode node = this.nodeAdapter.getGenericNode();
-		node.setPosition(newLocation.x, newLocation.y);
-		Point newPosition = new Point(node.getXPosition(), node.getYPosition());
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+		
+		// Mise a jour du noeud generique
+		this.nodeAdapter.getGenericNode().setPosition(x, y);
 		
 		// Lever un evenement
-		this.nodeAdapter.firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,newPosition);				
+		this.nodeAdapter.firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
 	}
 
-	/**
-	 * Retourne la largeur du noeud
-	 * @return int
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getWidth()
 	 */
 	public int getWidth() {
 		return this.nodeAdapter.getElementBase().getWidth();
 	}
 
-	/**
-	 * Retourne la hauteur du noeud
-	 * @return int
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getHeight()
 	 */
 	public int getHeight() {
 		return this.nodeAdapter.getElementBase().getHeight();
 	}
 
-	/**
-	 * Retourne les dimensions du noeud
-	 * @return Dimension 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getSize()
 	 */
 	public Dimension getSize() {
 		return new Dimension(getWidth(), getHeight());
 	}
 
-	/**
-	 * TODO: Documenter
-	 */
-	public void setSize(Dimension newSize) { }
-
-	/**
-	 * Retourne le style de dessin de la figure
-	 * @return int
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getFigureStyle()
 	 */
 	public int getFigureStyle() {
 		return this.nodeAdapter.getElementBase().getNumFigure();
 	}
 
-	/**
-	 * Indique si le redimensionnement est possible
-	 * @return boolean 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isSizable()
 	 */
 	public boolean isSizable() {
 		return false;
 	}
 
-	/**
-	 * Retourne un booleen indiquant si la figure est remplie ou non.
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
 	 */
 	public boolean isFilled() {
-		return this.nodeAdapter.getElementBase().getIsFillede();
+		return this.nodeAdapter.getElementBase().getIsFilled();
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
+	 */
+	public void setSize(Dimension newSize) {
+		// TODO Auto-generated method stub
 	}
 }
