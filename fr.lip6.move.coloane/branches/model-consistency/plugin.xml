@@ -58,6 +58,12 @@
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="Authenticate against FrameKit platform"/>
+         <action
+               class="fr.lip6.move.coloane.ui.actions.DumpAction"
+               id="dump"
+               label="Dump Model..."
+               menubarPath="coloaneServicesMenu/plateformMenu/group2"
+               style="push"/>
       </actionSet>
       <actionSet
             id="fr.lip6.move.coloane.actionSet.file"
