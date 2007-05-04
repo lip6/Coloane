@@ -51,21 +51,21 @@ public interface IAttribute {
 	 * @param numLine la ligne de la valeur de l'attribut
 	 * @throws Exception si ce numuro de ligne n'existe pas
 	 */
-	public void setValue(String value, int numLine) throws Exception;
+	//public void setValue(String value, int numLine) throws Exception;
 
 	/**
 	 * Augmente le nombre de lignes de la valeur de l'attribut.
 	 * @param nb Nombre de lignes a rajouter a la valeur de l'attribut
 	 * @throws Exception si le nombre a ajouter est negatif
 	 */
-	public void riseNbLine(int nb) throws Exception;
+	//public void riseNbLine(int nb) throws Exception;
 
 	/**
 	 * Cette methode retire la ligne line de la valeur de l'attribut. 
 	 * La derniere ligne ne peut pas etre retiree.
 	 * @param line Ligne a retirer
 	 */
-	public void removeLine(int line);
+	//public void removeLine(int line);
 
 	/**
 	 * Retourne la valeur de la premiere ligne de l'attribut.
@@ -78,13 +78,13 @@ public interface IAttribute {
 	 * @param line la ligne de la valeur de l'attribut (0 pour la 1er ligne)
 	 * @return String
 	 */
-	public String getValue(int line);
+	//public String getValue(int line);
 
 	/**
 	 * Retourne le nombre de lignes de l'attribut.
 	 * @return int
 	 */
-	public int getSize();
+	//public int getSize();
 
 	/**
 	 * Traduit un attribut en chaines de caracteres du protocole considere.
