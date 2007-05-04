@@ -13,15 +13,25 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 public class AttributeDialog extends IconAndMessageDialog {
+	
+	// INPUTS
 	private String title;
 	private String help;
+	private String byDefault;
+	
+	// OUTPUTS
+	private String result = "";
+	
+	private Control textarea;
 	
 	protected Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	
-	public AttributeDialog(String title, String help) {
+	public AttributeDialog(String title, String help, String byDefault) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
 		this.title = title;
+		this.help = help;
+		this.byDefault = byDefault;
 	}
 	
 	@Override
@@ -49,11 +59,26 @@ public class AttributeDialog extends IconAndMessageDialog {
 	    composite.setLayout(new FillLayout());
 	    
 	    composite.getParent().setSize(400, 200);
-	    Control textarea =  new Text(composite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
+	    textarea =  new Text(composite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
 	    textarea.setToolTipText(this.help);
+	    ((Text)textarea).setText(byDefault);
 	    
 	    return composite;
 	}
+	
+	public void buttonPressed(int button) {
+	  	boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
+	  	
+	  	this.result  = ((Text)textarea).getText();  		
+	  	
+	  	this.close();
+	}
+	
+	
+	public String getResult() {
+		return this.result;
+	}
+	
 	
 	@Override
 	protected Image getImage() {

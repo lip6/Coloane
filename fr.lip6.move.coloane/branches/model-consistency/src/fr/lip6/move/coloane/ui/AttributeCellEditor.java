@@ -9,22 +9,26 @@ import fr.lip6.move.coloane.ui.dialogs.AttributeDialog;
 public class AttributeCellEditor extends DialogCellEditor {
 	private String title;
 	private String help;
+	private String byDefault;
 
-	protected AttributeCellEditor (Composite parent, String title, String help) {
+	protected AttributeCellEditor (Composite parent, String title, String help, String byDefault) {
 		super(parent);
 		this.title = title;
 		this.help = help;
+		this.byDefault = byDefault;
 	}
 	
 	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		
-		AttributeDialog inputDialog = new AttributeDialog(title,help);
+		/* Creation de la boite de dialogue en memoire */
+		AttributeDialog inputDialog = new AttributeDialog(title,help,byDefault);
 		
+		/* Ouverture de la boite de dialogue */
 		inputDialog.open();
 		
-		return "3";
-
+		/* Recuperation des resultats */
+		return inputDialog.getResult();
 	}
 
 }
