@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import java.util.Vector;
 import java.io.Serializable;
 
 /**
@@ -23,7 +22,7 @@ public abstract class Attribute implements IAttribute, Serializable {
     protected String name;
 
     /** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
-    protected Vector<String> value;
+    protected String value;
 
     /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
     protected int xPosition;
@@ -34,6 +33,8 @@ public abstract class Attribute implements IAttribute, Serializable {
     /** Identifiant unique de l'element du modele possedant cette attribut. */
     protected int refId;
 
+   
+    
     /**
      * Constructeur de la classe Attribute.
      * 
@@ -41,20 +42,12 @@ public abstract class Attribute implements IAttribute, Serializable {
      * @param value la valeur de l'attribut
      * @param refId l'id de l'objet possedant cette attribut.
      */
-    public Attribute(String name, String[] value, int refId) {
+    public Attribute(String name, String value, int refId) {
     	this.name = name;
-    	this.value = new Vector<String>();
+    	this.value = new String(value);
     	this.refId = refId;
     	this.xPosition = 0;
     	this.yPosition = 0;
-    	
-    	if (value.length > 0) {
-    		for (int i = 0; i < value.length; i++) {
-    			this.value.addElement(value[i]);
-    		}	
-        } else {
-        	this.value.addElement(new String(""));
-        }
     }	
 
     /* (non-Javadoc)
@@ -104,65 +97,18 @@ public abstract class Attribute implements IAttribute, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setValue(java.lang.String)
 	 */
     public void setValue(String value) {
-    	this.value.set(0, value);
+    	this.value=value;
     }
 
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setValue(java.lang.String, int)
-	 */
-    public void setValue(String value, int numLine) throws Exception {
-        if (numLine < this.value.size()) {
-            this.value.set(numLine, value);
-        } else {
-            throw new Exception("Numero de ligne hors limite");
-        }
-    }
-
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#riseNbLine(int)
-	 */
-    public void riseNbLine(int nb) throws Exception {
-        if (nb >= 0) {
-            this.value.setSize(this.value.size() + nb);
-        } else {
-            throw new Exception("Le nombre de lignes a ajouter doit tre positif");
-        }
-    }
-
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#removeLine(int)
-	 */
-    public void removeLine(int line) {
-        if (this.value.size() > 1) {
-            this.value.remove(line);
-        }
-    }
-
+  
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getValue()
 	 */
     public String getValue() {
-        return (String) this.value.get(0);
+        return (String) this.value;
     }
 
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getValue(int)
-	 */
-    public String getValue(int line) {
-        try {
-            return (String) this.value.get(line);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
-    }
-
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getSize()
-	 */
-    public int getSize() {
-        return this.value.size();
-    }
-
+  
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#translateToCAMI()
 	 */
