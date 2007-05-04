@@ -68,7 +68,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 			// Selection du descripteur selon le type d'attribut
 			if (prop.isMultiline()) {
 				// Multiligne
-				liste[i++] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName());
+				liste[i++] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
 			} else {
 				// Normal
 				liste[i++] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
@@ -87,8 +87,18 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 */
 	public Object getPropertyValue(Object id) {
 		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
+		
+		// Si l'attribut a une veritable valeur
 		if (prop.getValue() != null) {
-			return (String) prop.getValue();
+			
+			// Si l'attribut est multiligne, on ne prend que la premiere ligne
+			if (prop.isMultiline()) {
+				return (prop.getValue().split("\r"))[0]+" ... (multli-lignes)";
+			
+			// Sinon on retourne la valeur normale
+			} else {
+				return (String) prop.getValue();
+			}
 		}
 		return new String("");
 	}

@@ -47,7 +47,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		this.multiline = multiline;		// L'attribut est-il multiligne ?
 	}
 
-   
+	   
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getId()
@@ -68,7 +68,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValue()
 	 */
-	public Object getValue() {
+	public String getValue() {
 		return this.attribute.getValue();
 	}
 

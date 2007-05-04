@@ -34,7 +34,7 @@ public interface IAttributeImpl {
 	 * Retourne la valeur de l'attribut
 	 * @return Object
 	 */
-	public Object getValue();
+	public String getValue();
 	
 	/**
 	 * Inidique la nouvelle valeur pour l'attribut generique
