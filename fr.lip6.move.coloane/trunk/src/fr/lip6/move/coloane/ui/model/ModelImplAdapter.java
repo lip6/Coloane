@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -17,7 +18,9 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 /**
  * Adaptateur pour le modele generique. 
- * Permet d'implementer diverses interfaces utiles a different modules
+ * Permet d'implementer les interfaces necessaires pour GEF et le MVC de Coloane
+ * Cet adapteur doit gerer la coherence entre le modele augmente et le modele generique
+ * @see fr.lip6.move.coloane.interfaces.model.Model
  */
 public class ModelImplAdapter extends AbstractModelElement implements IModelImpl, Serializable {
 
@@ -30,14 +33,12 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	/** Le formalisme associe a ce modele */
 	private Formalism formalism;
 
-	/** La liste de NodeImplAdapter. */
-	public List<NodeImplAdapter> children = new ArrayList<NodeImplAdapter>();
+	/** La liste de INodeImpl. */
+	private List<INodeImpl> children = new ArrayList<INodeImpl>();
 
 	/** Date de derniere modification */
+	/* TODO : Verifier la necessite de cette initialisation */
 	private int date = (int) System.currentTimeMillis();
-
-	/** L'etat du blocage pour l'edition du model */
-	private boolean isLocked = false;
 	
 	/** Indicateur de construction */
 	private boolean buildingStatus = true;
@@ -46,14 +47,17 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	private boolean dirty = true;
 	
 	/**
-	 * Construction d'un modele pour le formalisme et un pour un modele vide
-	 * @param formalism Le formalisme du modele
+	 * Construction d'un modele pour un formalisme donne 
+	 * Le modele construit est vide
+	 * @param formalism Le formalisme du nouveau modele
 	 */
 	public ModelImplAdapter(Formalism formalism) {
 		super();
 		this.model = new Model();
 		this.model.setFormalism(formalism.getName());
 		this.formalism = formalism;
+		
+		/* Construction totale du modele (tous les attributs du modeles doivent etre construits */
 		this.setProperties();
 		this.buildingStatus = true;
 	}
@@ -66,21 +70,26 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public ModelImplAdapter(IModel model, Formalism formalism) {
 		super();
+		
 		try {
 			this.model = model;
 			this.buildingStatus = true;
 			
-			// On met a jour si necessaire le formalisme contenu dans le modele generique
+			/* On met a jour si necessaire le nom du formalisme contenu dans le modele generique */
+			/* Des divergences peuvent apparaitre pour certains vieux modeles edites par Macao */
+			/* Les informations etaient alors stockee dans la ressource du fichier non supportee maintenant */
 			if (this.model.getFormalism() == formalism.getName()) {
 				this.model.setFormalism(formalism.getName());
 			} 
 			this.formalism = formalism;
 
-			// Creation de tous les adapteurs
-			this.setModelAdapter();
+			/* Creation de tous les adapteurs */
+			this.setModelAdapters();
 			
-			// Ajout de tous les attributs deja indiques dans le modele
+			/* Ajout de tous les attributs deja indiques dans le modele */
+			/* Ainsi que tous les attributs qui sont decrits dans le formalisme */
 			this.setProperties(model);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Erreur lors de la construction du modele");
@@ -90,31 +99,34 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/**
 	 * Methode implementant les adaptateurs, noeuds et arcs pour le modele
+	 * Cette methode sert a creer la premier coherence entre le modele generique et le modele augmente
+	 * Les noeuds du cote generique existent deja... Il faut donc creer les noeuds du cote augemente
 	 */
-	private void setModelAdapter() throws Exception {
+	private void setModelAdapters() throws Exception {
 
-		// Ajout de tous les noeuds dans l'adapter (parcours de tous les noeuds du modele)
+		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
 			INode currentNode = this.model.getNthNode(i);
-			NodeImplAdapter node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
+			INodeImpl node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			node.setModelAdapter(this);
 			this.children.add(node);
 		}
 		
-		// Ajout de tous les Arcs
+		// Creation de tous les Arcs du modele augmente
 		for (int j = 0; j < this.model.getListOfArcSize(); j++) {
 			IArc currentArc = this.model.getNthArc(j);
-			NodeImplAdapter target = null;
-			NodeImplAdapter source = null;
+			INodeImpl target = null;
+			INodeImpl source = null;
 	
 			// Pour chaque enfant, on cherche si l'arc est source ou destination
 			Iterator iterator = this.children.iterator();
 			boolean findSource = false;
 			boolean findTarget = false;
 			
+			// Parcours de la liste precedemment cree pour trouver le noeud source et cible
 			while ((iterator.hasNext()) && ((!findSource) || (!findTarget)) ) {
 
-				NodeImplAdapter currentNode = (NodeImplAdapter) iterator.next();
+				INodeImpl currentNode = (INodeImpl) iterator.next();
 
 				if (currentArc.getEndingNode() == currentNode.getGenericNode()) {
 					target = currentNode; 
@@ -127,8 +139,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 			// Un arc a forcement une source et une destination... sinon probleme
 			if ((target != null) && (source != null)) {
-				// Creation de l'arc adapter
-				ArcImplAdapter arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
+				// Creation de l'Arc adapter (Arc dans le modele augmente)
+				IArcImpl arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 			} else {
 				throw new Exception("Source ou destination de l'arc manquante");
@@ -137,191 +149,149 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	}
 
 	/**
-	 * Creation des adapters pour les attributs du modele et de ses noeuds.
-	 * Ces adapteurs sont initialisŽs au valeur par defaut indiques dans le formalisme
+	 * Creation des attributs generique prevus par le formalisme
+	 * Creation des attributs adapte correspondant a ces attributs generiques
+	 * Tous les attributs sont initialises aux valeurs par defaut prevus par le formalisme
 	 */
-	public void setProperties() {
+	private void setProperties() {
 		this.properties.clear();
 	
-		// Creation de tous les attributs du formalisme
+		// Creation de tous les attributs prevus par le formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// Creation de l'attribut dans le modele
 			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-			// Creation de l'adapteur
-			AttributeImplAdapter attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
-			
-			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 			this.model.addAttribute(attribute);
+			
+			// Creation de l'adapteur associe a l'attribut generique precedemment cree
+			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+			
+			// Augmente la liste des proprietes (fenetre properties de la vue)
+			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans le modele generique)
+	 * Creation des attribut generiques manquants et attributs adaptes correspondants
 	 * Cela peut tre utile lorsq'un modele est lu depuis un fichier.
-	 * @param model
+	 * @param model Le modele generique qui vient d'etre augemente
 	 */
-	public void setProperties(IModel model) {
+	private void setProperties(IModel model) {
 		
-		// Parcours de tous les attributs du formalisme
+		// Parcours de tous les attributs prevus par le formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-			AttributeImplAdapter attributeAdapter = null;
+			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
+			
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
-			// On cherche les attributs dans notre modele qui corresponde a l'attibut du formalisme courant
+			// On parcours tous les attributs deja definis dans notre modele generique
+			// On cherche l'attribut dans notre modele generique qui correspond a l'attibut prevu par le formalisme (courant)
 			boolean find = false;
-			for (int i = 0; i < model.getListOfAttrSize(); i++) {
+			for (int i = 0; (i < model.getListOfAttrSize()) && !find ; i++) {
+				
 				// Si l'attribut du formalisme est bien decrit dans notre modele... On cree l'adapteur
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = model.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 					find = true;
-					break;
 				}
 			}
 			
 			// Si aucun attribut dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
-			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
+			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable());
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
 				this.model.addAttribute(attribute);
 			}
 			
+			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue) 
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
-	/**
-	 * Ajout d'un noeud au modele
-	 * Leve un evenement CHILD_ADDED_PROP
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#addNode(fr.lip6.move.coloane.ui.model.INodeImpl)
 	 */
-	public void addChild(NodeImplAdapter child) throws IllegalArgumentException {
-
-		// Ajout d'un noeud au modele
-		try {
+	public void addNode(INodeImpl child) throws BuildException {
+		if (child != null) {
+			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e.getLocalizedMessage());
-		}
-
-		// Ajout a la liste children
-		if ((child != null) && this.children.add(child)) {
+			// On ajoute le noeud augmente aux fils du modele augemente
+			this.children.add(child);
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
-			throw new IllegalArgumentException("Erreur lors de l'ajout d'un noeud au modele");
+			throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
 		}
-
 	}
 
-	/**
-	 * Suprimmer un noeud
-	 * Lever un evenement CHILD_REMOVED_PROP
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#removeNode(fr.lip6.move.coloane.ui.model.INodeImpl)
 	 */
-	public void removeChild(NodeImplAdapter child)
-			throws IllegalArgumentException {
-		try {
-			// Enleve un noeud au modele
+	public void removeNode(INodeImpl child) throws BuildException {
+		if (child != null) {
+			// Enleve un noeud au modele generique
 			this.model.removeNode(child.getGenericNode());
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e.getLocalizedMessage());
-		}
-
-		// Envele un noeud de la liste children
-		if ((child != null) && children.remove(child)) {
+			// Enleve le noeud au modele augmente
+			this.children.remove(child);
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
-			throw new IllegalArgumentException("Erreurs lors de la suppression d'un noeud du modele");
+			throw new BuildException("Erreurs lors de la suppression d'un noeud du modele");
 		}
-
 	}
 	
-	/**
-	 * Ajout d'un arc au modele
-	 * @param child L'arc adapte
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#addArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void addArc(ArcImplAdapter child) throws IllegalArgumentException {
+	public void addArc(IArcImpl child) {
 		// Ajout d'un arc au modele
 		this.model.addArc(child.getGenericArc());
 	}
 	
-	/**
-	 * Retrait d'un arc au modele
-	 * @param child L'arc adapte
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#removeArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void removeArc(ArcImplAdapter child) throws IllegalArgumentException {
-		// Ajout d'un arc au modele
+	public void removeArc(IArcImpl child) {
 		this.model.removeArc(child.getGenericArc());
 	}
-
-	/** 
-	 * Retourne la liste des NodeImplAdapter du modele
-	 * @return List
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getChildren()
 	 */
 	public List getChildren() {
 		return this.children;
 	}
 
-	/**
-	 * Retourne le modele generique
-	 * @return Model
-	 * @see Model
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getGenericModel()
 	 */
 	public IModel getGenericModel() {
 		return this.model;
 	}
 
-	/**
-	 * Retourne le formalisme
-	 * @return Formalism
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getFormalism()
 	 */
 	public Formalism getFormalism() {
 		return formalism;
 	}
 
-	/**
-	 * Obtenir le type du formalisme
-	 * return le type du formalisme
-	 */
-	public String getFormalismType() {
-		return this.formalism.getName();
-	}
-
-	/**
-	 * Indique si le modele est verouille
-	 * @return boolean
-	 */
-	public boolean isLocked() {
-		return isLocked;
-	}
-
-	/**
-	 * Blocage ou deblocage du modele en edition 
-	 * @param isLocked a true on bloque le model en edition 
-	 */
-	public void setLocked(boolean isLocked) {
-		this.isLocked = isLocked;
-	}
-
-	/**
-	 * Associe un modele generique avec un modele adaptater
-	 * @param model Le modele generique
-	 */
-	public void setModel(IModel model) throws Exception {
-		this.model = model;
-		this.setModelAdapter();
-		this.setProperties(this.model);
-	}
-
-	/**
-	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
-	 * Indique si l'envoi d'un message a FK est necessaire
-	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#modifyDate()
 	 */
 	public int modifyDate() {
 		// Le changement de date doit etre effectif si et seulement si le modele 
@@ -338,60 +308,63 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return 0;
 	}
 	
-	/**
-	 * Retourne la date associee au modele
-	 * @return int
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getDate()
 	 */
 	public int getDate() {
 		return date;
 	}
 
-	/**
-	 * Change la valeur de la propriete 
-	 * @param id Objet dont il faut modifier la valeur
-	 * @param value Nouvelle valeur pour l'objet
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.AbstractModelElement#setPropertyValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setPropertyValue(Object id, Object value) {
 		super.setPropertyValue(id, value);
 	}
 
-	/**
-	 * Inidcateur de fraicheur du modele
-	 * @return boolean
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#isDirty()
 	 */
 	public boolean isDirty() {
 		return dirty;
 	}
 	
-	/**
-	 * Permet de rendre obsolete (ou a jour) le modele (pour demande une maj ou sinigifer une maj)
-	 * @param dirty
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
 	
-	/**
-	 * Indique si le modele est en construction
-	 * @return l'indicateur (true = en construction)
-	 */
-	public boolean getBuildingStatus() {
-		return this.buildingStatus;
-	}
-	
-	/**
-	 * Indique que le modele est en construction
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setBeginBuilding()
 	 */
 	public void setBeginBuilding() {
 		this.buildingStatus = true;
 	}
 	
-	/**
-	 * Indique que le modele n'est pas en construction
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setEndBuilding()
 	 */
 	public void setEndBuilding() {
 		this.buildingStatus = false;
+	}	
+	
+	/*******
+	 * DUMP
+	 *******/
+	public void dumpModel() {
+		System.err.println("--> Debut du dump !");
+		System.out.println("Liste des noeud :");
+		for (int i = 0; i < children.size(); i++) {
+			INodeImpl n = children.get(i);
+			System.out.println(i+": "+n.getId()+" ("+n.getGenericNode().getNodeType()+")");
+		}
 	}
-	
-	
 }

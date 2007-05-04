@@ -4,229 +4,162 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.IArcImpl;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
- * A command to reconnect a connection to a different start point or end point.
- * The command can be undone or redone.
- * <p>
- * This command is designed to be used together with a GraphicalNodeEditPolicy.
- * To use this command propertly, following steps are necessary:
- * </p>
- * <ol>
- * <li>Create a subclass of GraphicalNodeEditPolicy.</li>
- * <li>Override the <tt>getReconnectSourceCommand(...)</tt> method. Here you
- * need to obtain the Connection model element from the ReconnectRequest, create
- * a new ConnectionReconnectCommand, set the new connection <i>source</i> by
- * calling the <tt>setNewSource(Shape)</tt> method and return the command
- * instance.
- * <li>Override the <tt>getReconnectTargetCommand(...)</tt> method.</li>
- * Here again you need to obtain the Connection model element from the
- * ReconnectRequest, create a new ConnectionReconnectCommand, set the new
- * connection <i>target</i> by calling the <tt>setNewTarget(Shape)</tt>
- * method and return the command instance.</li>
- * </ol>
- * 
- * @see org.eclipse.gef.examples.petrinets.parts.ShapeEditPart#createEditPolicies()
- *      for an example of the above procedure.
- * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy
- * @see #setNewSource(Shape)
- * @see #setNewTarget(Shape)
- * @author yutao
+ * Commande permettant la de-re connexion d'un arc.<br>
+ * Le but de cette commande est de permettre de changer la source ou la cible d'un arc
+ * sans pour autant le detruire. 
  */
 public class ArcReconnectCmd extends Command {
 
-        /**
-         * arc
-         */
-        private ArcImplAdapter connection;
+	/** L'arc augmente qu'on manipule */
+	private IArcImpl arc;
 
-        /**
-         * noeud source
-         */
-        private NodeImplAdapter newSource;
+	/** Noeud source */
+	private INodeImpl newSource;
 
-        /**
-         * noeud cible
-         */
-        private NodeImplAdapter newTarget;
+	/** Noeud cible */
+	private INodeImpl newTarget;
 
-        /**
-         * ancien noeud source
-         */
-        private final NodeImplAdapter oldSource;
+	/** Ancien noeud source */
+	private final INodeImpl oldSource;
 
-        /**
-         * ancienne noeud cible
-         */
-        private final NodeImplAdapter oldTarget;
+	/** Ancien noeud cible */
+	private final INodeImpl oldTarget;
 
-        /**
-         * Reconnecter
-         * @param connection arc
-         */
-        public ArcReconnectCmd(ArcImplAdapter connection) {
+	/**
+	 * Reconnecter
+	 * @param connection arc
+	 */
+	public ArcReconnectCmd(IArcImpl arc) {
 
-                if (connection == null) {
-                    throw new IllegalArgumentException();
-                }
+		if (arc == null) {
+			throw new IllegalArgumentException();
+		}
 
-                this.connection = connection;
-                this.oldSource = connection.getSource();
-                this.oldTarget = connection.getTarget();
-        }
+		this.arc = arc;
+		this.oldSource = arc.getSource();
+		this.oldTarget = arc.getTarget();
+	}
 
-        /**
-         * Savoir si on peut executer
-         * @return booleen
-         */
-        public boolean canExecute() {
-                
 
-                if (this.newSource != null) {
-                        if (!checkSourceReconnection()) {
-                            return false;
-                        }
-                } else if (this.newTarget != null) {
-                        if (!checkTargetReconnection()) {
-                            return false;
-                        }
-                } else {
-                        return false;
-                }
+	/**
+	 * Savoir si on peut executer
+	 * @return booleen
+	 */
+	public boolean canExecute() {
 
-                Formalism form = this.connection.getElementBase()
-                                        .getFormalism();
+		// Est-ce qu'on peut connecter la nouvelle source ?
+		if ((this.newSource != null) && !checkSourceReconnection()) {  
+			return false;
+		}
 
-                if (newSource != null) {
-                        if (!form.isLinkAllowed(newSource.getElementBase(),
-                                                oldTarget.getElementBase())) {
-                            return false;
-                        }
-                } else if (newTarget != null) {
-                        if (!form.isLinkAllowed(oldSource.getElementBase(),
-                                                newTarget.getElementBase())) {
-                            return false;
-                        }
-                } else {
-                        return false;
-                }                
+		// Est-ce qu'on peut connecter la nouvelle cible ?
+		if ((this.newTarget != null) && !checkTargetReconnection()) {
+			return false;
+		}
 
-                
-                return true;
-                
-        }
 
-        /**
-         * Verification noeud source
-         * @return booleen
-         */
-        private boolean checkSourceReconnection() {
-                // return false, if connection exists
-                for (Iterator itr = this.newSource.getSourceArcs().iterator(); itr
-                                .hasNext();) {
-                        ArcImplAdapter conn = (ArcImplAdapter) itr.next();
+		Formalism form = this.arc.getFormalism();
 
-                        if (conn.getTarget().equals(this.oldTarget)
-                                        && conn.equals(this.connection)) {
-                            return false;
-                        }
-                }
+		if ((this.newSource != null) && !form.isLinkAllowed(newSource.getElementBase(),oldTarget.getElementBase())) {
+			return false;
+		}
 
-                return true;
-        }
+		if ((this.newTarget != null) && !form.isLinkAllowed(oldSource.getElementBase(),newTarget.getElementBase())) {
+			return false;
+		}
 
-        
-        /**
-         * Verification noeud cible
-         * @return booleen
-         */
-        private boolean checkTargetReconnection() {
-                // return false, if the connection exists already
-                for (Iterator iter = newTarget.getTargetArcs().iterator(); iter
-                                .hasNext();) {
-                        ArcImplAdapter conn = (ArcImplAdapter) iter.next();
-                        // return false if a oldSource -> newTarget connection
-                        // exists already
-                        // and it is a differenct instance that the
-                        // connection-field
-                        if (conn.getSource().equals(oldSource)
-                                        && conn.equals(connection)) {
-                                return false;
-                        }
-                }
-                return true;
-        }
+		return true;
 
-        /**
-         * Executer
-         *
-         */
-        public void execute() {
-                if (newSource != null) {
-                        this.connection.reconnect(newSource, oldTarget);
-                } else if (newTarget != null) {
-                        this.connection.reconnect(oldSource, newTarget);
-                } else {
-                        throw new IllegalStateException("Should not happen");
-                }
+	}
 
-        }
+	/**
+	 * Verification que le noeud source n'est pas deja connecte...
+	 * Retourne FALSE si la connexion existe deja.
+	 * @return booleen
+	 */
+	private boolean checkSourceReconnection() {
+		for (Iterator i = this.newSource.getSourceArcs().iterator(); i.hasNext();) {
+			IArcImpl existingConnection = (IArcImpl) i.next();
+			if (existingConnection.getTarget().equals(this.oldTarget) && existingConnection.equals(this.arc)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-        public void undo() {
-                this.connection.reconnect(oldSource, oldTarget);
-        }
 
-        /**
-         * Set a new source endpoint for this connection. When execute() is
-         * invoked, the source endpoint of the connection will be attached to
-         * the supplied Shape instance.
-         * <p>
-         * Note: Calling this method, deactivates reconnection of the <i>target</i>
-         * endpoint. A single instance of this command can only reconnect either
-         * the source or the target endpoint.
-         * </p>
-         * 
-         * @param connectionSource
-         *                a non-null Shape instance, to be used as a new source
-         *                endpoint
-         * @throws IllegalArgumentException
-         *                 if connectionSource is null
-         */
-        public void setNewSource(NodeImplAdapter connectionSource) {
-                if (connectionSource == null) {
-                        throw new IllegalArgumentException();
-                }
-                setLabel("move connection startpoint");
-                newSource = connectionSource;
-                newTarget = null;
-        }
+	/**
+	 * Verification que le noeud cible n'est pas deja connecte de la meme facon...
+	 * Retourne FALSE si la connexion oldsource -> newtarget existe deja.
+	 * @return booleen
+	 */
+	private boolean checkTargetReconnection() {
+		for (Iterator i = newTarget.getTargetArcs().iterator(); i.hasNext();) {
+			IArcImpl existingConnection = (IArcImpl) i.next();
+			if (existingConnection.getSource().equals(oldSource) && existingConnection.equals(arc)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-        /**
-         * Set a new target endpoint for this connection When execute() is
-         * invoked, the target endpoint of the connection will be attached to
-         * the supplied Shape instance.
-         * <p>
-         * Note: Calling this method, deactivates reconnection of the <i>source</i>
-         * endpoint. A single instance of this command can only reconnect either
-         * the source or the target endpoint.
-         * </p>
-         * 
-         * @param connectionTarget
-         *                a non-null Shape instance, to be used as a new target
-         *                endpoint
-         * @throws IllegalArgumentException
-         *                 if connectionTarget is null
-         */
-        public void setNewTarget(NodeImplAdapter connectionTarget) {
-                if (connectionTarget == null) {
-                        throw new IllegalArgumentException();
-                }
-                setLabel("move connection endpoint");
-                newSource = null;
-                newTarget = connectionTarget;
-        }
+	/**
+	 * Executer
+	 */
+	public void execute() {
+		if (newSource != null) {
+			try {
+				this.arc.reconnect(newSource, oldTarget);
+			} catch (BuildException e) {
+				System.err.println("Echec ! : "+e.getMessage());
+			}
+		} else if (newTarget != null) {
+			try {
+				this.arc.reconnect(oldSource, newTarget);
+			} catch (BuildException e) {
+				System.err.println("Echec ! : "+e.getMessage());
+			}
+		} else {
+			throw new IllegalStateException("Should not happen");
+		}
+
+	}
+
+	/**
+	 * Annule la reconnexion
+	 */
+	public void undo() {
+		try {
+			this.arc.reconnect(oldSource, oldTarget);
+		} catch (BuildException e) {
+			System.err.println("Echec ! : "+e.getMessage());
+		}
+	}
+
+	
+	
+	public void setNewSource(INodeImpl connectionSource) {
+		if (connectionSource == null) {
+			throw new IllegalArgumentException();
+		}
+		setLabel("move connection startpoint");
+		newSource = connectionSource;
+		newTarget = null;
+	}
+
+	public void setNewTarget(INodeImpl connectionTarget) {
+		if (connectionTarget == null) {
+			throw new IllegalArgumentException();
+		}
+		setLabel("move connection endpoint");
+		newSource = null;
+		newTarget = connectionTarget;
+	}
 
 }

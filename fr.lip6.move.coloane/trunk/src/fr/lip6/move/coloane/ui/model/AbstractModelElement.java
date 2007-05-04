@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import fr.lip6.move.coloane.ui.AttributePropertyDescriptor;
 
 
 /**
@@ -43,7 +44,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Table des attributs en fonction de leurs identifiant
 	 * A surcharger et a implementer dans le constructeur.
 	 */
-	protected Hashtable<Object,AttributeImplAdapter> properties = new Hashtable<Object,AttributeImplAdapter>();
+	protected Hashtable<Object,IAttributeImpl> properties = new Hashtable<Object,IAttributeImpl>();
 
 	/**
 	 * @return instance de la classe //pas implementer
@@ -59,13 +60,21 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 */
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 
-		IPropertyDescriptor[] liste = new TextPropertyDescriptor[this.properties.size()];
+		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
 		int i = 0;
 		for (Enumeration e = this.properties.elements(); e.hasMoreElements();) {
-			AttributeImplAdapter prop = (AttributeImplAdapter) e.nextElement();
-			liste[i++] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
+			
+			// Selection du descripteur selon le type d'attribut
+			if (prop.isMultiline()) {
+				// Multiligne
+				liste[i++] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
+			} else {
+				// Normal
+				liste[i++] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+			}
 		}
-
+			
 		return liste;
 	}
 
@@ -77,13 +86,21 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @param id Nom de la propriete
 	 */
 	public Object getPropertyValue(Object id) {
-		AttributeImplAdapter prop = (AttributeImplAdapter) this.properties.get(id);
-		if (prop.getValue() != null) {
-			return (String) prop.getValue();
-		}
+		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
 		
+		// Si l'attribut a une veritable valeur
+		if (prop.getValue() != null) {
+			
+			// Si l'attribut est multiligne, on ne prend que la premiere ligne
+			if (prop.isMultiline()) {
+				return (prop.getValue().split("\r"))[0]+" ...";
+			
+			// Sinon on retourne la valeur normale
+			} else {
+				return (String) prop.getValue();
+			}
+		}
 		return new String("");
-
 	}
 
 	/**
@@ -95,7 +112,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @param value Valeur de la propriete
 	 */
 	public void setPropertyValue(Object id, Object value) {
-		AttributeImplAdapter prop = (AttributeImplAdapter) this.properties.get(id);
+		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
 		prop.setValue(value != null ? (String)value: "");
 	}
 

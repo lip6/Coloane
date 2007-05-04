@@ -7,7 +7,7 @@ package fr.lip6.move.coloane.ui.model;
 	
 public interface IArcGraphicInfo {
 
-	//       Style de sa figure
+	// Style de sa figure
 	/** ID pour circle */
 	public static final int FIG_ARC_SIMPLE = 0;
 

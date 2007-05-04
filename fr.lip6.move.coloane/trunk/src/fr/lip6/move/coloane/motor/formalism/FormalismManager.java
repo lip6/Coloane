@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.ui.model.IArcGraphicInfo;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
@@ -139,11 +140,11 @@ public class FormalismManager {
         elem = new NodeFormalism("transition", INodeGraphicInfo.FIG_RECT, 24, 8, false);
         attr = new AttributeFormalism("name", true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("guard", true, true);
+        attr = new AttributeFormalism("guard", true, true,"true");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism("priority", true, true, "0");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("delay", true, true, "true");
+        attr = new AttributeFormalism("delay", true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism("action", false, true);
         elem.addAttributeFormalism(attr);
@@ -215,37 +216,37 @@ public class FormalismManager {
         petri.addRule(rule);
 
         // Interdit queue - queue
-        rule = new Rule("queue - queue","Une queue ne peut reliee qu'a une transition.");
+        rule = new Rule("queue - queue","Une queue ne peut etre reliee qu'a une transition.");
         rule.forbidenRule(petri, "queue", "queue");
         petri.addRule(rule);
 
         // Interdit transition - transition
-        rule = new Rule("transition - transition","Une transition ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition - transition","Une transition ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "transition", "transition");
         petri.addRule(rule);
 
         // Interdit transition immediate - transition immediate
-        rule = new Rule("transition immediate - transition immediate","Une transition immediate ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition immediate - transition immediate","Une transition immediate ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "immediate transition", "immediate transition");
         petri.addRule(rule);
 
         // Interdit transition - transition immediate
-        rule = new Rule("transition - transition immediate","Une transition ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition - transition immediate","Une transition ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "transition", "immediate transition");
         petri.addRule(rule);
 
         // Interdit transition immediate - transition
-        rule = new Rule("transition immediate - transition","Une transition immediate ne peut reliee qu'a une place ou une queue.");
+        rule = new Rule("transition immediate - transition","Une transition immediate ne peut etre reliee qu'a une place ou une queue.");
         rule.forbidenRule(petri, "immediate transition", "transition");
         petri.addRule(rule);
 
         // Interdit transition queue - place 
-        rule = new Rule("queue - place","Une queue ne peut reliee qu'a une transition ou une transition immediate.");
+        rule = new Rule("queue - place","Une queue ne peut etre reliee qu'a une transition ou une transition immediate.");
         rule.forbidenRule(petri, "queue", "place");
         petri.addRule(rule);
 
         // Interdit transition place - queue
-        rule = new Rule("place - queue","Une place ne peut reliee qu'a une transition ou une transition immediate.");
+        rule = new Rule("place - queue","Une place ne peut etre reliee qu'a une transition ou une transition immediate.");
         rule.forbidenRule(petri, "place", "queue");
         petri.addRule(rule);
         
@@ -290,9 +291,9 @@ public class FormalismManager {
 
         // Event:
         elem = new NodeFormalism("event", INodeGraphicInfo.FIG_RECT, 24, 8, false);
-        attr = new AttributeFormalism("xname", true, false);
+        attr = new AttributeFormalism("name", true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism("xlabel", true, true, "true");
+        attr = new AttributeFormalism("label", true, true, "true");
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
         elem.setAddrIcone16("icons/transition16.gif");
@@ -455,7 +456,7 @@ public class FormalismManager {
      * @param fileName nom du fichier de sauvegarde
      * @throws Exception leve une exception si erreur
      */
-    public void saveModel(ModelImplAdapter model, String fileName) throws Exception {
+    public void saveModel(IModelImpl model, String fileName) throws Exception {
         try {
         	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
              
@@ -473,13 +474,13 @@ public class FormalismManager {
      * Recupere un modele a partir d'un fichier de nom fileName
      * 
      * @param fileName nom du fichier de sauvegarde avec extension 
-     * @return ModelImplAdapter
+     * @return IModelImpl
      * @throws Exception fichier non trouve
      */
-    public ModelImplAdapter openModel(String fileName) throws Exception {
-        ModelImplAdapter model = null;
+    public IModelImpl openModel(String fileName) throws Exception {
+    	IModelImpl model = null;
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-        model = (ModelImplAdapter) in.readObject();
+        model = (IModelImpl) in.readObject();
         in.close();
         return model;
     }
@@ -490,7 +491,7 @@ public class FormalismManager {
      * @return le model adapter correspondant
      * @throws Exception leve d'exception si le fichier n'est pas valide
      */
-    public ModelImplAdapter importModel(String fileName) throws Exception {
+    public IModelImpl importModel(String fileName) throws Exception {
         
         // Determination du formalism avec l'extension
         StringTokenizer file = new StringTokenizer(fileName, ".");
@@ -530,7 +531,7 @@ public class FormalismManager {
      * @throws Exception 
      */
   
-    public void exportModel(ModelImplAdapter modelAdapter, String fileName) throws Exception {
+    public void exportModel(IModelImpl modelAdapter, String fileName) throws Exception {
     	
         if (fileName.equalsIgnoreCase("") || fileName == null) {
             throw new Exception("Extention du fichier ou nom invalide");
@@ -571,7 +572,7 @@ public class FormalismManager {
      * @param os Flux objet
      * @throws IOException
      */
-    public void exportModel(ModelImplAdapter model, OutputStream os) throws IOException {
+    public void exportModel(IModelImpl model, OutputStream os) throws IOException {
 		
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(os));
         

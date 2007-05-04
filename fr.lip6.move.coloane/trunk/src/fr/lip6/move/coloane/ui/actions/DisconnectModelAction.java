@@ -10,7 +10,6 @@ import org.eclipse.ui.PartInitException;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
@@ -58,8 +57,8 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 					if (Coloane.getDefault().getMotor().closeSession()) {
 						// TODO : Griser les menues adequats
 						HistoryView.instance.addLine("SUCCESS");
-						MenuManipulation.setEnabled("Platform", "Connect model", true);
-						MenuManipulation.setEnabled("Platform", "Disconnect model", false);
+						//MenuManipulation.setEnabled("Platform", "Connect model", false);
+						//MenuManipulation.setEnabled("Platform", "Disconnect model", true);
 					} else {
 						// TODO : GRiser les menus adequats
 						HistoryView.instance.addLine("FAILED");
@@ -76,7 +75,8 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		
+		// TODO Auto-generated method stub
+
 	}
 
 }

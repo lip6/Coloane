@@ -14,7 +14,7 @@ import org.osgi.framework.BundleContext;
 import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public class Coloane extends AbstractUIPlugin {
 	
@@ -114,7 +114,7 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * Notifier le changement du modele de la session courrante
 	 */
-	public static void notifyModelChange(ModelImplAdapter model) {
+	public static void notifyModelChange(IModelImpl model) {
 		if (model != null) {
 			int dateUpdate = model.modifyDate();
 			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession() != null)) {

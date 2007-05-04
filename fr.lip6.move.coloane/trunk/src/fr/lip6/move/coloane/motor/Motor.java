@@ -26,6 +26,7 @@ import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.motor.session.SessionManager;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 public class Motor implements IMotorCom, IMotorUi {
@@ -61,7 +62,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * @return booleen Le resultat de l'operation
 	 * @throws Exception
 	 */
-	public boolean openSession(ModelImplAdapter model, String eclipseSessionName) throws Exception {
+	public boolean openSession(IModelImpl model, String eclipseSessionName) throws Exception {
 
 		try {
 			
@@ -77,7 +78,7 @@ public class Motor implements IMotorCom, IMotorUi {
 				throw new Exception("Echec lors de la creation de la session");
 			}
 			
-			// On associe le modele à la session
+			// On associe le modele a la session
 			session.setModel(model);
 			
 			// On ajoute la session au gestionnaire de session
@@ -113,7 +114,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void setNewModel(IModel model) {
 		// affecte le modèle à la session courante
-		final ModelImplAdapter modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph"));
+		final IModelImpl modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph"));
 		final Shell shell = window.getShell();
 						
 		Display.getDefault().asyncExec(new Runnable(){

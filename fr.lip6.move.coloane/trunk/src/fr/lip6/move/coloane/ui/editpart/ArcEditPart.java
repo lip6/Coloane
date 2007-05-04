@@ -15,7 +15,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.views.ArcFigure;
 import fr.lip6.move.coloane.ui.views.IArcFigure;
 
@@ -41,7 +41,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		IArcFigure arcFigure = (IArcFigure) getFigure();
-		ArcImplAdapter arcModel = (ArcImplAdapter)getModel();
+		IArcImpl arcModel = (IArcImpl)getModel();
 		arcFigure.setLabelText(arcModel.getArcValue()); // Accesseur de la vue
 		
 		// Il faut avertir FrameKit
@@ -57,7 +57,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		// Allows the removal of the connection model element
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
 			protected Command getDeleteCommand(GroupRequest request) {
-				return new ArcDeleteCmd(getCastedModel());
+				return new ArcDeleteCmd((IArcImpl)getModel());
 			}
 		});
 	}
@@ -68,20 +68,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 */ 
 	public void propertyChange(PropertyChangeEvent arg) {
 		String prop = arg.getPropertyName();
-		if (ArcImplAdapter.VALUE_PROP.equals(prop)) {
+		if (IArcImpl.VALUE_PROP.equals(prop)) {
 			refreshChildren();
 		}
 		refreshVisuals();
 	}
 	
-	/**
-	 * Retour l'element caste en ArcImplAdapter
-	 * @return ArcImplAdapter l'element
-	 */
-	private ArcImplAdapter getCastedModel() {
-		return (ArcImplAdapter)getModel();
-	}
-	
+
 	/**
 	 * Installation des ecouteurs de l'objet
 	 */

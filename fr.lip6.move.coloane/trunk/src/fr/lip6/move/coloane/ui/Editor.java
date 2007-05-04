@@ -56,10 +56,15 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetEntry;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetSorter;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
@@ -164,7 +169,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private OutlinePage outlinePage;
 	
 	/** Le modele */
-	private ModelImplAdapter model;
+	private IModelImpl model;
 
 	/** La palette */
 	private PaletteRoot paletteRoot;
@@ -210,9 +215,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	
 	/**
 	 * Retourne le model.
-	 * @return ModelImplAdapter
+	 * @return IModelImpl
 	 */
-	public ModelImplAdapter getModel() {
+	public IModelImpl getModel() {
 		return model;
 	}
 	
@@ -376,6 +381,19 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
+			
+		// On redefinit la fenetre de propriete
+		} else if (type == IPropertySheetPage.class) {
+			PropertySheetPage page = new PropertySheetPage() {
+				{
+					setSorter(new PropertySheetSorter() {
+						public void sort(IPropertySheetEntry[] entries) {
+							// Aucun tri !
+						}
+					});
+				}
+			};
+			return page;		
 		}
 		return super.getAdapter(type);
 	}

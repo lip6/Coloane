@@ -60,14 +60,8 @@ public class MenuManipulation {
 	 */
 	public static void remove(String menuName) {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-
-		for (MenuItem item : shell.getMenuBar().getItems())
-			if(item.getText().equals("Coloane Services"))
-				remove(item,menuName);
-	}
-	
-	public static void remove(MenuItem father, String menuName) {
-		for (MenuItem mi : father.getMenu().getItems())
+		
+		for (MenuItem mi : shell.getMenuBar().getItems())
 			if (mi.getText().equals(menuName)) {
 				mi.dispose();
 				return;

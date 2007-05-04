@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 
 import org.eclipse.core.resources.IFile;
@@ -117,7 +117,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 										
 										// Recupere le formalisme manager et importe le modele dans l'editeur
 										FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
-										ModelImplAdapter model = fm.importModel(filePath);
+										IModelImpl model = fm.importModel(filePath);
 										oos.writeObject(model);
 										oos.close();
 
@@ -142,7 +142,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		}
 
 	}
-	private void doExport(ModelImplAdapter model, String filePath) {
+	private void doExport(IModelImpl model, String filePath) {
 		try {
 			FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
 			fm.exportModel(model, filePath);

@@ -17,6 +17,7 @@ import org.eclipse.ui.ide.IDE;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 public class ModelCreationPage extends WizardNewFileCreationPage {
@@ -109,12 +110,12 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/** Return a new ShapesDiagram instance.
-	 *  @return un objet ModelImplAdapter
+	 *  @return un objet IModelImpl
 	 */
-	private ModelImplAdapter createDefaultContent() {
+	private IModelImpl createDefaultContent() {
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-		ModelImplAdapter m = new ModelImplAdapter(formManager.loadFormalism(formalismName));
+		IModelImpl m = new ModelImplAdapter(formManager.loadFormalism(formalismName));
 
 		return m;
 	}

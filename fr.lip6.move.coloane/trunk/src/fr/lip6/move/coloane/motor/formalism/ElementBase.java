@@ -120,7 +120,7 @@ public class ElementBase implements Serializable {
 	 * Retourne la propriete de remplissage de l'objet
 	 * @return boolean
 	 */
-	public boolean getIsFillede() {
+	public boolean getIsFilled() {
 		return isFilled;
 	}
 

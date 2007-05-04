@@ -1,19 +1,10 @@
 package fr.lip6.move.coloane.ui.model;
 
-
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
-
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.model.Attribute;
-
 
 /**
  * C'est ici que le veritable attribut est cree.<br>
  * Cet attribut est l'attribut generique plus quelques proprietes (IAttribute)<br>
- * Les proprietes du PropertiesView sont gerees ici !
  * @see IAttributeImpl
  */
 public class AttributeImplAdapter extends AbstractModelElement implements IAttributeImpl {
@@ -25,13 +16,16 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	private IAttribute attribute;
 
 	/** Un identifiant unique pour etre gere par Ecplipse */
-	private String uniqueId;
+	private String id;
 
 	/** Un generateur d'id unique a incrementer pour les attributs */
 	private static double nbAttribute = 0;
 
-	/** Indique si l'attribut est afficheable dans le graphe */
+	/** Indique si l'attribut est afficheable dans la fenetre propriete */
 	private boolean drawable;
+	
+	/** Indique si l'attribut est multiligne */
+	private boolean multiline;
 
 	/**
 	 * Constructeur<br>
@@ -39,166 +33,76 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @param attribute attribut a adapter
 	 * @param drawable indique si l'atrribut est afficheable, a determiner en fonction du formalism
 	 */
-	public AttributeImplAdapter(IAttribute attribute, boolean drawable) {
+	public AttributeImplAdapter(IAttribute attribute, boolean drawable, boolean multiline) {
 		super();
+		
+		// On attache l'attribut generique
 		this.attribute = attribute;
+		
+		// Affectation de l'identifiant
 		AttributeImplAdapter.nbAttribute++;
-		this.uniqueId = (new Double(AttributeImplAdapter.nbAttribute)).toString();
-		this.drawable = drawable;
+		this.id = (new Double(AttributeImplAdapter.nbAttribute)).toString();
+		
+		this.drawable = drawable;		// L'attribut doit-il etre affiche dans la fenetre des proprietes
+		this.multiline = multiline;		// L'attribut est-il multiligne ?
 	}
 
-	/**
-	 * Constructeur<br>
-	 * Creation d'un attribut adapte
-	 * @param displayName Le nom affiche dans la fenetre PropertiesView d'Eclipse
-	 * @param defaultValue La valeur par defaut
-	 * @param idParent L'element auquel est rattache l'attribut
-	 * @param drawable Indique si l'attribut est affichable sur le graphe
+	   
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getId()
 	 */
-	public AttributeImplAdapter(String displayName, String defaultValue, int idParent, boolean drawable) {
-		AttributeImplAdapter.nbAttribute++;
-		this.uniqueId = (new Double(AttributeImplAdapter.nbAttribute)).toString();
-		this.drawable = drawable;
-		this.attribute = new Attribute(displayName, new String[]{defaultValue == null ? "" : defaultValue},idParent);
+	public String getId() {
+		return this.id;
 	}
-
-   
     
-	/**
-	 * Retourne la chaine qui sera affichee sur la fenetre PropertiesView d'Eclipse
-	 * @return String
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDisplayName()
 	 */
 	public String getDisplayName() {
 		return this.attribute.getName();
 	}
 
-	/**
-	 * Retourne la valeur de l'attribut
-	 * @return Object
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValue()
 	 */
-	public Object getValue() {
+	public String getValue() {
 		return this.attribute.getValue();
 	}
 
-	/**
-	 * Inidique la nouvelle valeur pour l'attribut generique
-	 * @param value La nouvelle valeur
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setValue(java.lang.String)
 	 */
 	public void setValue(String value) {
 		this.attribute.setValue((value==null)?"":value);		
 	}
 	
-	/**
-	 * TODO: Documenter
-	 */
-	public boolean getValidation() {
-		return false;
-	}
-
-	/**
-	 * TODO: Documenter
-	 */
-	public String getValidationMessage() {
-		return null;
-	}
-
-	/**
-	 * L'attribut est-il affichable sur le graphe
-	 * @return boolean
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isDrawable()
 	 */
 	public boolean isDrawable() {
 		return this.drawable;
 	}
-
 	
-	/*****************************************************************
-	 * 
-	 * Methodes de  IPropertyDescriptor
-	 * 
-	 **************************************************************/
-
-	/**
-	 * Retourne l'identifiant de l'attribut
-	 * @return Object
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isMultiline()
 	 */
-	public Object getId() {
-		return this.uniqueId;
+	public boolean isMultiline() {
+		return this.multiline;
 	}
 
-	/**
-	 * TODO: Documenter
-	 */
-	public CellEditor createPropertyEditor(Composite parent) {
-		return null;
-	}
-
-	/**
-	 * TODO: Documenter
-	 */
-	public String getCategory() {
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public String getDescription() {
-		return this.attribute.getName();
-	}
-
-	/**
-	 * 
-	 */
-	public String[] getFilterFlags() {
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public Object getHelpContextIds() {
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public ILabelProvider getLabelProvider() {
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isCompatibleWith(IPropertyDescriptor anotherProperty) {
+	public boolean getValidation() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
-    /**
-	 * Retourne l'attribut generique
-	 * @return Attribute
-	 * @see Attribute
-	 */
-	public IAttribute getGenericAttribute() {
-		return attribute;
-	}
-
-    /**
-     * Associe l'attribut avec cet objet
-	 * @param attribute Attribut a affecter
-	 */
-	public void setAttribute(Attribute attribute) {
-		this.attribute = attribute;
-	}
-
-    /**
-	 * @param drawable The drawable to set.
-	 */
-	public void setDrawable(boolean drawable) {
-		this.drawable = drawable;
-	}
-	
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return super.getPropertyDescriptors();
+	public String getValidationMessage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

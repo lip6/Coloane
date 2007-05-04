@@ -3,16 +3,17 @@ package fr.lip6.move.coloane.ui.commands;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
- * Dommande pour la creation d'un arc
+ * Premiere etape de la creation d'un lien entre deux noeuds !
+ * Cette commande est creee lors du premier clic sur l'element de depart.
  */
 
 public class ArcCreateCmd extends Command {
 
 	/** Le noeud source */
-    private final NodeImplAdapter source;
+    private final INodeImpl source;
 
     /** L'element de base (indication sur le formalisme de l'arc) */
 	private final ElementBase arcFormalism;
@@ -24,7 +25,7 @@ public class ArcCreateCmd extends Command {
 	 * @param source Le noeud source de l'arc
 	 * @param base Le formalisme de base pour la creation de l'arc
 	 */
-	public ArcCreateCmd(NodeImplAdapter source, ElementBase base) {
+	public ArcCreateCmd(INodeImpl source, ElementBase base) {
 		this.source = source;
 		this.arcFormalism = base;
 	}
@@ -41,7 +42,7 @@ public class ArcCreateCmd extends Command {
      * Getter de Source
      * @return source
 	 */
-    public NodeImplAdapter getSource() {
+    public INodeImpl getSource() {
 		return source;
 	}
 	
