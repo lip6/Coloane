@@ -109,7 +109,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
             this.arc.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism);
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -143,7 +143,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = arc.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 					find = true;
 				}
 			}
@@ -152,7 +152,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 				this.arc.addAttribute(attribute);
 			}
 

@@ -60,18 +60,22 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 */
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 
+		// Preparation de la liste des descripteurs
 		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
-		int i = 0;
+		
+		// Recupere la table contenant toutes les proprietes (attributs) des objets
 		for (Enumeration e = this.properties.elements(); e.hasMoreElements();) {
 			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
 			
+			// TODO : Verifier qu'il n'existe pas de solution plus elegante sans passer par une HashMap
+			// Calcul de l'indice d'insertion dans la fenetre
+			int indice = Integer.parseInt(prop.getId());
+			
 			// Selection du descripteur selon le type d'attribut
-			if (prop.isMultiline()) {
-				// Multiligne
-				liste[i++] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
-			} else {
-				// Normal
-				liste[i++] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+			if (prop.isMultiline()) { // Multiligne
+				liste[indice-1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
+			} else { // Normal
+				liste[indice-1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
 			}
 		}
 			
@@ -94,7 +98,6 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 			// Si l'attribut est multiligne, on ne prend que la premiere ligne
 			if (prop.isMultiline()) {
 				return (prop.getValue().split("\r"))[0]+" ...";
-			
 			// Sinon on retourne la valeur normale
 			} else {
 				return (String) prop.getValue();

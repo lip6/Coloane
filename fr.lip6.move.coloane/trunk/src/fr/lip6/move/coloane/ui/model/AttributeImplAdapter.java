@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 
 /**
  * C'est ici que le veritable attribut est cree.<br>
@@ -18,9 +19,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	/** Un identifiant unique pour etre gere par Ecplipse */
 	private String id;
 
-	/** Un generateur d'id unique a incrementer pour les attributs */
-	private static double nbAttribute = 0;
-
 	/** Indique si l'attribut est afficheable dans la fenetre propriete */
 	private boolean drawable;
 	
@@ -33,18 +31,17 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @param attribute attribut a adapter
 	 * @param drawable indique si l'atrribut est afficheable, a determiner en fonction du formalism
 	 */
-	public AttributeImplAdapter(IAttribute attribute, boolean drawable, boolean multiline) {
+	public AttributeImplAdapter(IAttribute attribute, AttributeFormalism formalism) {
 		super();
 		
 		// On attache l'attribut generique
 		this.attribute = attribute;
 		
 		// Affectation de l'identifiant
-		AttributeImplAdapter.nbAttribute++;
-		this.id = (new Double(AttributeImplAdapter.nbAttribute)).toString();
+		this.id = String.valueOf(formalism.getOrder());
 		
-		this.drawable = drawable;		// L'attribut doit-il etre affiche dans la fenetre des proprietes
-		this.multiline = multiline;		// L'attribut est-il multiligne ?
+		this.drawable = formalism.isDrawable();		// L'attribut doit-il etre affiche dans la fenetre des proprietes
+		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
 	}
 
 	   

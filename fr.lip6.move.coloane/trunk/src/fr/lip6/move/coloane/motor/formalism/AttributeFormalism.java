@@ -26,16 +26,20 @@ public class AttributeFormalism implements Serializable {
     /** Valeur par defaut de l'attribut. */
     private String defaultValue = null;
     
+    /** Ordre d'affichage dans la fenetre des propriete */
+    private int order;
+    
    /**
     * Construit d'un nouvel attribut
     * @param nameA Le nom de l'attribut.
     * @param isDrawableA L'information est elle affichable a l'ecran.
     * @param isMultiLinesA L'attribut est il multi-lignes.
     */
-    public AttributeFormalism(String name, boolean isDrawable, boolean isMultiLines) {
+    public AttributeFormalism(int order, String name, boolean isDrawable, boolean isMultiLines) {
         this.name         = name;
         this.isDrawable   = isDrawable;
         this.isMultiLines = isMultiLines;
+        this.order = order;
     }
     
     /**
@@ -45,11 +49,12 @@ public class AttributeFormalism implements Serializable {
      * @param isMultiLinesA L'attribut est il multi-lignes.
      * @param defaultValueA La valeur par defaut de l'attribut.
      */
-     public AttributeFormalism(String name, boolean isDrawable, boolean isMultiLines, String defaultValue) {
+     public AttributeFormalism(int order, String name, boolean isDrawable, boolean isMultiLines, String defaultValue) {
          this.name         = name;
          this.isDrawable   = isDrawable;
          this.isMultiLines = isMultiLines;
          this.defaultValue = defaultValue;
+         this.order = order;
      }
 
      
@@ -97,5 +102,9 @@ public class AttributeFormalism implements Serializable {
 			str.concat("\n     Valeur par defaut : " + defaultValue);
 		}
 		return str;
+	}
+	
+	public int getOrder() {
+		return this.order;
 	}
 }

@@ -166,7 +166,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.model.addAttribute(attribute);
 			
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
-			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 			
 			// Augmente la liste des proprietes (fenetre properties de la vue)
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -198,7 +198,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = model.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 					find = true;
 				}
 			}
@@ -207,7 +207,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism.isDrawable(),attributeFormalism.isMultiLines());
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 				this.model.addAttribute(attribute);
 			}
 			
