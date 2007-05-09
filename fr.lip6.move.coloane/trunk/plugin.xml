@@ -14,7 +14,7 @@
       <actionSet
             id="fr.lip6.move.coloane.actionSet"
             label="Coloane Platform"
-            visible="false">
+            visible="true">
          <menu
                id="coloaneServicesMenu"
                label="Coloane Services">
@@ -50,6 +50,7 @@
                tooltip="Connect current model">
          </action>
          <action
+               allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.AuthenticationAction"
                icon="icons/encrypted.png"
                id="authentication"
@@ -57,7 +58,8 @@
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
-               tooltip="Authenticate against FrameKit platform"/>
+               tooltip="Authenticate against FrameKit platform">
+         </action>
       </actionSet>
       <actionSet
             id="fr.lip6.move.coloane.actionSet.file"
@@ -85,12 +87,14 @@
              id="fr.lip6.move.coloane.views"
              name="Coloane"/>
        <view
+             allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.HistoryView"
              icon="icons/histo_pane.gif"
              id="fr.lip6.move.coloane.views.HistoricView"
              name="Historic"/>
        <view
+             allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
              icon="icons/state_pane.gif"
@@ -136,6 +140,16 @@
           point="org.eclipse.core.runtime.products">
        <product
              application="fr.lip6.move.coloane.standalone.application"
-             name="Coloane"/>
+             name="Coloane">
+          <property
+                name="startupForegroundColor"
+                value="000000"/>
+          <property
+                name="startupMessageRect"
+                value="0,0,0,0"/>
+          <property
+                name="startupProgressRect"
+                value="0,0,0,0"/>
+       </product>
     </extension>
 </plugin>
