@@ -249,9 +249,11 @@ public abstract class Node implements INode, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
     public void addAttribute(IAttribute attribute) {
-        if (this.id == attribute.getRefId()) {
-            this.listOfAttr.addElement(attribute);
-        } 
+    		if (!(attribute.getValue()=="")){
+    			attribute.setRefId(this.getId());
+    			this.listOfAttr.addElement(attribute);
+    		}
+        
     }
 
     /* (non-Javadoc)

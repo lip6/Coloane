@@ -240,7 +240,10 @@ public abstract class Model implements IModel, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
     public void addAttribute(IAttribute attribute) {
-        this.listOfAttr.addElement(attribute);
+    	if (!(attribute.getValue()=="")){ 
+    		attribute.setRefId(1);
+    		this.listOfAttr.addElement(attribute);
+    	}
     }
 
     /* (non-Javadoc)
