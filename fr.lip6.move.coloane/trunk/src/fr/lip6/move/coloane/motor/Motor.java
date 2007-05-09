@@ -66,31 +66,29 @@ public class Motor implements IMotorCom, IMotorUi {
 
 		try {
 			
-			// On dois controller si une session ne se nomme deja pas pareil
+			// Verification de l'existence du module de communications
+			if (com == null)
+				throw new Exception("FATAL : Module de communication non pret");
+
+			
+			// On doit controller si une session ne se nomme deja pas pareil
 			if (Motor.sessionManager.getSession(eclipseSessionName) != null) {
+				System.err.println("Une session homonyme existe deja...");
 				return false;
 			}
 			
 			// Creation d'une nouvelle session
 			Session session = new Session(eclipseSessionName, Session.cntSession++);
-			
-			if (session == null) {
-				throw new Exception("Echec lors de la creation de la session");
-			}
-			
-			// On associe le modele a la session
-			session.setModel(model);
-			
-			// On ajoute la session au gestionnaire de session
-			Motor.sessionManager.setSession(session);
-			
-			// Verification de l'existence du module de communications
-			if (com == null) {
-				throw new Exception("Module de communications non instancié");
-			}
+			session.setModel(model); // On associe le modele a la session
+			Motor.sessionManager.setSession(session); // On ajoute la session au moteur de sessions
 			
 			// Demande de connexion du modele au module de communications
 			boolean result = com.openSession(model);
+			
+			// Si l'ouverture de connexion echoue, on supprime la session existante
+			if (!result) {
+				Motor.sessionManager.destroyCurrentSession();
+			}
 			
 			return result;
 		
