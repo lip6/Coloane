@@ -3,17 +3,19 @@ package fr.lip6.move.coloane.model;
 import junit.framework.TestCase;
 import java.io.*;
 import java.lang.reflect.Array;
-
+import java.util.Vector;
+import java.lang.String;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 public class TestModel_translate extends TestCase {
 	
 	Model model= new Model();
 	int id_node, id_node2, id_arc;
 	String [] translate; //resultat de la traduction coloane->cami
 	
-	/*
+	
 	public void affichage(){
 		String res=new String("Model:\n");
 		if (model.getListOfAttrSize()>0){
@@ -46,7 +48,8 @@ public class TestModel_translate extends TestCase {
 		}
 		System.out.println(res);
 	}
-	*/
+	
+	
 	
 	public String lireFichier(String fichier){
 		BufferedReader lecteurAvecBuffer = null;
@@ -77,24 +80,45 @@ public class TestModel_translate extends TestCase {
 	    return contenu;
     }
 	
-	
+	/*Affiche le contenu du tableau t*/
 	public void affiche_translate(String [] t){
 		for(int i=0;i<Array.getLength(t);i++){
 			System.out.println(t[i]);
 		}
 	}
 	
+	/*Verifie si toutes les valeurs de t1 sont dans t2*/
+	public boolean compareTab(String [] t1, String [] t2){
+		boolean b=true;
+		boolean tmp=false;
+		assertTrue(Array.getLength(t1)==Array.getLength(t2));
+		if(Array.getLength(t1)==Array.getLength(t2)){
+			int i=0;
+			while(i<Array.getLength(t1)){
+				for(int j=0;j<Array.getLength(t2);j++)
+					tmp=tmp||t1[i].equals(t2[j]);
+				i++;
+			}
+			b=b && tmp;
+		}
+		return b;
+	}
 	
+	
+	
+	/*Test*/
 	public void testTranslate(){
 		
+		model.setFormalism("net");
 		/*1er modele*/
-		System.out.println("Modele 1\n");
+		System.out.println("\nModele 1");
 		
 		//Ajout des 4 attributs du model
 		String [] attributs ={"declaration","author(s)","version","project"}; 
+		String [] valeurs ={"a","c","1.0","d"}; 
 		for(int i=0;i<4;i++){
-			String [] value=new String[1];
-			value[0]="aM"+i;
+			String value=new String();
+			value=valeurs[i];
 			IAttribute attr=new Attribute(attributs[i], value, 1);
 			model.addAttribute(attr);
 			
@@ -111,8 +135,8 @@ public class TestModel_translate extends TestCase {
 				node=new Node("transition");
 				
 			//Ajout d'1 attribut au noeud
-			String [] value=new String[1];
-			value[0]=""+(char)ascii;
+			String value=new String();
+			value=""+(char)ascii;
 			IAttribute attr=new Attribute("name", value, 0 );
 			node.addAttribute(attr);
 			ascii++;
@@ -124,11 +148,10 @@ public class TestModel_translate extends TestCase {
 		
 		//Ajout des 6 arcs
 		for(int i=0;i<6;i++){
-			IArc arc = new Arc("Arc"+(model.getMaxId()+1));
+			IArc arc = new Arc("arc");
 		
-			String [] value=new String[1];
-				value[0]="???";
-				IAttribute attr=new Attribute("name", value, 0 );
+			String value=new String("1");
+				IAttribute attr=new Attribute("valuation", value, 0 );
 				arc.addAttribute(attr);
 		
 		
@@ -141,71 +164,159 @@ public class TestModel_translate extends TestCase {
 			
 		}
 		
-		//Traduction
+		//Traduction CAMI
 		translate=model.translate();
-		affiche_translate(translate);		
+		affiche_translate(translate);
+		//affichage();
+		
+		Vector<String> cami = new Vector<String>();
+		for(int i=0;i<Array.getLength(translate);i++){
+				cami.addElement(translate[i]);
+		}
+		
+		System.out.println("\nBUILD MODEL");
+		
+		try{
+			Model model_out=new Model(cami);
+			String [] new_build=model_out.translate();
+			affiche_translate(new_build);
+			assertTrue(Array.getLength(translate)==(Array.getLength(new_build)));
+			assertTrue(compareTab(translate,new_build));
+		}catch (Exception e){
+			System.out.println(e.toString());
+		}
 		
 		
 		
 		//2ème modele
-		System.out.println("Modele 2\n");
 		
-		//Suppression de l'arc 7
-		IArc arc_to_remove = model.getAnArc(7);
+		System.out.println("\nModele 2");
+		
+		//Suppression de l'arc 8
+		IArc arc_to_remove = model.getAnArc(8);
 		model.removeArc(arc_to_remove);
 		
-		//Suppression de l'arc 9
-		arc_to_remove = model.getAnArc(9);
+		//Suppression de l'arc 10
+		arc_to_remove = model.getAnArc(10);
 		model.removeArc(arc_to_remove);
 		
 		//Ajout de l'arc entre le 1er noeud et le 3eme noeud
-		IArc arc_to_add = new Arc("Arc"+(model.getMaxId()+1));
+		IArc arc_to_add = new Arc("arc");
 		arc_to_add.setStartingNode(model.getANode(2));
-		arc_to_add.setEndingNode(model.getANode(4));
-		
-		model.addArc(arc_to_add);
-		
-//		Ajout de l'arc entre le 2eme noeud et le 4eme noeud
-		arc_to_add = new Arc("Arc"+(model.getMaxId()+1));
-		arc_to_add.setStartingNode(model.getANode(3));
 		arc_to_add.setEndingNode(model.getANode(5));
 		
 		model.addArc(arc_to_add);
 		
+		//Ajout de l'arc entre le 2eme noeud et le 4eme noeud
+		arc_to_add = new Arc("arc");
+		arc_to_add.setStartingNode(model.getANode(3));
+		arc_to_add.setEndingNode(model.getANode(6));
+		
+		model.addArc(arc_to_add);
+		
 		translate=model.translate();
+		affiche_translate(translate);
+		
+
+		cami = new Vector<String>();
+		for(int i=0;i<Array.getLength(translate);i++){
+				cami.addElement(translate[i]);
+		}
+		
+		System.out.println("\nBUILD MODEL");
+		
+		try{
+			Model model_out=new Model(cami);
+			String [] new_build=model_out.translate();
+			affiche_translate(new_build);
+			assertTrue(Array.getLength(translate)==(Array.getLength(new_build)));
+			assertTrue(compareTab(translate,new_build));
+		}catch (Exception e){
+			System.out.println(e.toString());
+		}
+		
+		
+		
+		
 		
 		
 		//3ème modele
-		System.out.println("Modele 3\n");
+		System.out.println("\nModele 3");
 		model.removeNode(model.getANode(3));
-		model.removeNode(model.getANode(6));
+		model.removeNode(model.getANode(7));
 		
-		INode node = new Node("Node"+(model.getMaxId()+1));
+		INode node = new Node("place");
 		
 		model.addNode(node);
 		
 		translate=model.translate();
+		affiche_translate(translate);
+		
+
+		cami = new Vector<String>();
+		for(int i=0;i<Array.getLength(translate);i++){
+				cami.addElement(translate[i]);
+		}
+		
+		System.out.println("\nBUILD MODEL");
+		
+		try{
+			Model model_out=new Model(cami);
+			String [] new_build=model_out.translate();
+			affiche_translate(new_build);
+			assertTrue(Array.getLength(translate)==(Array.getLength(new_build)));
+			assertTrue(compareTab(translate,new_build));
+		}catch (Exception e){
+			System.out.println(e.toString());
+		}
+		
+		
+		
 		
 		
 		
 		//4ème modele
-		System.out.println("Modele 4\n");	
-		String [] value=new String[1];
-		value[0]="New";
+		System.out.println("\nModele 4");
+		String value=new String();
+		value="New";
 		IAttribute attr=new Attribute("attr", value, 1 );
 		
 		model.addAttribute(attr);
 		
 		
 		for(int i=0;i<model.getListOfNodeSize();i++){
-			IAttribute attrs=new Attribute("attr", value, model.getNthNode(i).getId() );
+			IAttribute attrs=new Attribute("name", value, model.getNthNode(i).getId() );
 			model.getNthNode(i).addAttribute(attrs);
 		}
 		
 		for(int i=0;i<model.getListOfArcSize();i++){
-			model.getNthArc(i).addAttribute(attr);
+			IAttribute attrs=new Attribute("valuation", value, model.getNthArc(i).getId() );
+			model.getNthArc(i).addAttribute(attrs);
 		}
 		
 		translate=model.translate();
+	affiche_translate(translate);
+		
+
+		cami = new Vector<String>();
+		for(int i=0;i<Array.getLength(translate);i++){
+				cami.addElement(translate[i]);
+		}
+		
+		System.out.println("\nBUILD MODEL");
+		
+		try{
+			Model model_out=new Model(cami);
+			String [] new_build=model_out.translate();
+			affiche_translate(new_build);
+			assertTrue(Array.getLength(translate)==(Array.getLength(new_build)));
+			assertTrue(compareTab(translate,new_build));
+		}catch (Exception e){
+			System.out.println(e.toString());
+		}
+		
+		System.out.println("FIN TEST");
+		
+		
 	}
 }
