@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.0.1"
+      version="0.9.1.0"
       provider-name="LIP6 - MoVe">
 
    <description url="http://www.lip6.fr/coloane">
@@ -30,7 +30,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.plugin"
+         id="fr.lip6.move.coloane.main"
          download-size="0"
          install-size="0"
          version="0.0.0"
