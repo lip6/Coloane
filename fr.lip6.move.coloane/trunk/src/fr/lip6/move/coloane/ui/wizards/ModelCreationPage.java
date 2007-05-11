@@ -33,34 +33,46 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @param selection l'object selection courant
 	 */
 	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
-		super("Step 2 - Choose a project", selection);
-
+		super("newmodel", selection);
 		this.workbench = workbench;
-
-		setTitle("Create a new model");
-		setDescription("This wizard creates a new model. First, you must choose the formalism");
+		setTitle("Attach your model.");
+		setDescription("Choose a modeling project to store your model to.");
 		setPageComplete(true);
-
 	}
 
 	/**
-	 * Cette m�thode ajoute quelques controles pour parcourir le fichier du formalisme
+	 * Cette methode ajoute les controle pour visualiser les projets ouverts
 	 * pour le control standard de WizardNewFileCreationPage
 	 */
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-		setFileName(Coloane.getParam("file.name") + fileCount);
-		setPageComplete(true);
+		
+		// On propose un nom par defaut
+		setFileName(Coloane.getParam("file.name") +"_"+ fileCount);
+	}
+	
+	/**
+	 * @return false
+	 * @see NewModelWizard#canFlipToNextPage()
+	 */
+	public boolean canFlipToNextPage() {
+		return false;
 	}
 
 	/**
-	 * Cette m�thode est invoqu�e quand le boutton "Finish" est press�
+	 * Methode invoquee lorsque le bouton finish est pressee
 	 * @return true si ok
 	 * @see NewModelWizard#performFinish()
 	 */
 	boolean finish() {
 
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
+		
+		// On doit verifier que le chargement du formalismManager est OK
+		if (formManager == null) {
+			setErrorMessage("Coloane has not been launched correctly...");
+			return false;
+		}
 
 		// Recupere le nom du formalisme deceide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
@@ -75,6 +87,8 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			System.err.println("Impossible de creer le fichier");
 			return false;
 		}
+		
+		// Changement de l'increment pour le prochain nom temporaire
 		fileCount++;
 
 		// Ouverture du nouveau fichier
@@ -119,24 +133,4 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		return m;
 	}
-
-	/**
-	 * Valider la page
-	 * @return true si la page est valid�e
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
-	 */
-	protected boolean validatePage() {
-		boolean b = super.validatePage();
-		setPageComplete(b && isPageComplete());
-		((NewModelWizard) getWizard()).creationFinished = b;
-		return b;
-	}
-
-	/**
-	 * @return false
-	 */
-	public boolean canFlipToNextPage() {
-		return false;
-	}
-
 }

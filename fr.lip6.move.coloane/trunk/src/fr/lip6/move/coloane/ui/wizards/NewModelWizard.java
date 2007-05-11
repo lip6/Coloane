@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.ui.wizards;
 
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -11,7 +10,6 @@ import fr.lip6.move.coloane.main.Coloane;
 
 /**
  * Creation d'un nouveau fichier modele
- * Ces fichiers peuvent �tre �dites avec l'�diteur
  */
 public class NewModelWizard extends Wizard implements INewWizard {
 
@@ -19,21 +17,17 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	private String formalismName;
 
 	/** Les pages de l'assistant */
-	/** Page 1 */
 	private SelectFormalismPage page1;
-    /** Page 2 */
-	private ModelCreationPage page2;
+    private ModelCreationPage page2;
 	
 	// Indication de fin de creation
     protected boolean creationFinished = false;
 	
 	
-
 	/**
      * Ajouter les pages de l'assistant
 	 */
 	public void addPages() {
-		// add pages to this wizard
 		addPage(page1);
 		addPage(page2);
 	}
@@ -44,15 +38,15 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * @param selection Selection
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "icons/poisson.jpg"));
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/icons/select_form.png"));
+		setWindowTitle("Build a new model !");
 		page1 = new SelectFormalismPage();
 		page2 = new ModelCreationPage(workbench, selection);
-		System.out.println("Assistant de creation de modeles");
 	}
 
 	/**
-	 * Indique le moment ou l'assistant est fini.
-	 * @return True si la page peut �tre finie
+	 * Indique l'action a entreprendre lorsque le wizard est fini
+	 * @return boolean
 	 */
 	public boolean performFinish() {
 		return page2.finish();

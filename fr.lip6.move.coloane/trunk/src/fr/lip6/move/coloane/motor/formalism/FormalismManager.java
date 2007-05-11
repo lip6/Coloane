@@ -95,7 +95,7 @@ public class FormalismManager {
         Rule rule;
         
         // Creation du formalisme Petri Net.
-        Formalism petri = new Formalism("AMI-Net", "icons/petrinet.gif");
+        Formalism petri = new Formalism("AMI-Net", "/icons/ami.gif");
         petri.setExtension("rdp");
         
         // Ajout de tous les attributs d'un reseau de petri (Attention : different des attributs des elements.)
@@ -263,7 +263,7 @@ public class FormalismManager {
         
         // Creation du formalisme Prefix nets.
         
-        Formalism prefix = new Formalism("Branching-Process", "prefixnet.gif");
+        Formalism prefix = new Formalism("Branching-Process", "/icons/prefix.gif");
         prefix.setExtension("pnt");
         
         // Ajout de tous les attributs d'un prefix net (Attention ! Different des attributs des elements.)
@@ -366,7 +366,7 @@ public class FormalismManager {
         ElementBase elem;
   
         // Creation du formalisme Graphes d'accessibilite.
-        Formalism graph = new Formalism("ReachabilityGraph", "graphsaccess.gif");
+        Formalism graph = new Formalism("ReachabilityGraph", "/icons/gma.gif");
         graph.setExtension("gma");
         
         // Ajout de tous les attributs d'un graphe d'accessibilite (Attention :

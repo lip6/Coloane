@@ -21,8 +21,10 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView";
 	
 	/** ID for wizard */
-	//private static final String NEW_WIZARD = "CPN-AMIoE.NewModelWizard";
-			
+	public static final String PROJECT_WIZARD = "fr.lip6.move.coloane.wizard.projectWizard";
+	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard";
+	
+	
 	/**
 	 * Creation du plan de travail
 	 * <ul>
@@ -42,10 +44,8 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	public void defineActions(IPageLayout layout) {
 		
 		// Add wizard 
-		//layout.addNewWizardShortcut(NEW_WIZARD);
-		//layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.project");
-		//layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");
-		//layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");
+		layout.addNewWizardShortcut(PROJECT_WIZARD);
+		layout.addNewWizardShortcut(MODEL_WIZARD);
 		
 		// Add action set Platform
 		layout.addActionSet(ACT_PLATFORM);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -15,8 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -34,8 +33,9 @@ public class SelectFormalismPage extends WizardPage {
 	 * Constructeur de la classe
 	 */
 	public SelectFormalismPage() {
-		super("Step 1 - Choose the formalism");
-		setTitle("Select a formalism for model");
+		super("newmodel");
+		setTitle("Select a formalism for your model");
+		setDescription("Your model must implement one of the available models shown below :");	
 	}
 
 	/**
@@ -49,30 +49,20 @@ public class SelectFormalismPage extends WizardPage {
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.grabExcessVerticalSpace = true;
-		gridData.heightHint = 300;
+		gridData.heightHint = 100;
 		gridData.verticalAlignment = GridData.FILL;
+		
+		// La boite de selection
 		label = new Label(com, SWT.NONE);
-		label.setText("Select Formalism: ");
+		label.setText("Select a formalism for your model: ");
+		
 		tableFormalism = new Table(com, SWT.SINGLE | SWT.BORDER);
-		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLayoutData(gridData);
+		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLinesVisible(false);
 		tableFormalism.addSelectionListener(new SelectionListener() {
-
-            /**
-			 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-			 */
-			public void widgetDefaultSelected(SelectionEvent e) {
-							
-			}
-
-            /**
-			 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				updateStatus();
-			}
-			
+			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetSelected(SelectionEvent e) { updateStatus(); }
 		});
 		
 		tableFormalism.removeAll();
@@ -82,33 +72,44 @@ public class SelectFormalismPage extends WizardPage {
 		Iterator iterator = formalismList.iterator();
         
         while (iterator.hasNext()) {
-            // Parcours de la liste des formalismes
-        	Formalism formalism = (Formalism) iterator.next();
-         
-            //Insertion dans la table            
-            TableItem item = new TableItem(tableFormalism, SWT.NULL);
-            item.setText(formalism.getName().toUpperCase());
-            item.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT)); 
+        	Formalism formalism = (Formalism) iterator.next();			// Parcours de la liste des formalismes
+            TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
+            item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
+            
+            // Determine l'icone associe a l'item dans la table
+            //item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
+            // TODO Distinguer les icones des formalismes. (Dessiner les icones en question)
+            item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/icons/instance.gif").createImage());
         }
        				
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
-		com.setLayout(gridLayout);
-	
+		
+		com.setLayout(gridLayout);	
 		setControl(com);
 		
 	}
 
 	/**
      * Indique si on peut passer a la page suivante
+     * La condition est simple : Un formalisme doit etre selectionne
      * @return booleen
 	 */
 	public boolean canFlipToNextPage() {
 		return ((getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0));
 	}
+	
+	/**
+     * DŽbloque un verrou sur le bouton finish quand la condition est verifiee
+     * @return booleen
+	 */
+	@Override
+	public boolean isPageComplete() {
+		return ((getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0));
+	}
 
     /**
-     * Mettre ˆ jour le formalism choisi (indication au pere de l'assistant)
+     * Mettre ˆ jour le formalisme choisi (indication au pere de l'assistant)
      */
 	private void updateStatus() {
 		String f = tableFormalism.getSelection()[0].getText();

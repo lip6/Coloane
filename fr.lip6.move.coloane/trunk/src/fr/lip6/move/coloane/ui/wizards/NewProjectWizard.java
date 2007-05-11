@@ -7,6 +7,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
@@ -62,8 +63,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		projectCreationPage =
-			new ProjectCreationPage("Page name", selection);
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/icons/coin_new_project.png"));
+		setWindowTitle("Create a new modeling project...");
+		projectCreationPage = new ProjectCreationPage("newproject", selection);
 	}
 
 }

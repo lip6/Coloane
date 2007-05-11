@@ -6,8 +6,9 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 public class ProjectCreationPage extends WizardNewProjectCreationPage {
 	
 	public ProjectCreationPage(String pageName, IStructuredSelection selection) {
-		super("New Model Project");
-		// TODO Auto-generated constructor stub
+		super("newproject");
+		setTitle("New modeling project");
+		setDescription("Create a modeling project to manage all your model files.");
 	}
 
 	public boolean finish() {

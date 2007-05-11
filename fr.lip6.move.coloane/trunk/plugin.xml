@@ -30,7 +30,7 @@
          </menu>
          <action
                class="fr.lip6.move.coloane.ui.actions.DisconnectModelAction"
-               icon="icons/connect_no.png"
+               icon="icons/disconnect.gif"
                id="disconnect"
                label="Disconnect model"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -41,7 +41,7 @@
          <action
                allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.ConnectModelAction"
-               icon="icons/connect_creating.png"
+               icon="icons/connect.gif"
                id="connect"
                label="Connect model"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -52,7 +52,7 @@
          <action
                allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.AuthenticationAction"
-               icon="icons/encrypted.png"
+               icon="icons/auth.gif"
                id="authentication"
                label="Authentication..."
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
@@ -106,34 +106,33 @@
        <editor
              class="fr.lip6.move.coloane.ui.Editor"
              default="true"
-             extensions="rdp, gma"
-             icon="icons/editor.gif"
+             extensions="rdp, gma, pfx"
+             icon="icons/instance.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
     </extension>
     <extension
           point="org.eclipse.ui.newWizards">
-       <category
-             id="fr.lip6.move.coloane.category"
-             name="Coloane"/>
-       <wizard
-             category="fr.lip6.move.coloane.category"
-             class="fr.lip6.move.coloane.ui.wizards.NewModelWizard"
-             hasPages="true"
-             icon="icons/editor.gif"
-             id="fr.lip6.move.coloane.wizard.newModel"
-             name="Model"
-             project="false"/>
        <wizard
              canFinishEarly="true"
-             category="fr.lip6.move.coloane.category"
+             category="org.eclipse.ui.Basic/"
              class="fr.lip6.move.coloane.ui.wizards.NewProjectWizard"
              finalPerspective="fr.lip6.move.coloane.perspective"
              hasPages="true"
-             id="fr.lip6.move.coloane.projectWizard"
-             name="Model Project"
+             icon="icons/project.gif"
+             id="fr.lip6.move.coloane.wizard.projectWizard"
+             name="Modeling Project"
              preferredPerspectives="fr.lip6.move.coloane.perspective"
              project="true"/>
+       <wizard
+             canFinishEarly="false"
+             category="org.eclipse.ui.Basic/"
+             class="fr.lip6.move.coloane.ui.wizards.NewModelWizard"
+             hasPages="true"
+             icon="icons/model.gif"
+             id="fr.lip6.move.coloane.wizard.modelWizard"
+             name="Model"
+             project="false"/>
     </extension>
     <extension
           id="product"
@@ -150,6 +149,9 @@
           <property
                 name="startupProgressRect"
                 value="0,0,0,0"/>
+          <property
+                name="aboutText"
+                value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane"/>
        </product>
     </extension>
 </plugin>
