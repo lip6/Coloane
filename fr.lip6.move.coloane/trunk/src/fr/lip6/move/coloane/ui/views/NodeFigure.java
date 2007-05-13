@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
+import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
@@ -147,7 +148,8 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setSelect()
 	 */
 	public void setSelect() {
-		figure.setForegroundColor(ColorConstants.red);
+		figure.setForegroundColor(ColorConstants.blue);
+		((Shape) figure).setLineWidth(3);
 	}
 	
 	/*
@@ -156,6 +158,7 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 */
 	public void setUnselect() {
 		figure.setForegroundColor(ColorConstants.black);
+		((Shape) figure).setLineWidth(1);
 	}
 
 	/*
