@@ -15,11 +15,14 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
  * Tous les 8 tours, un ou plusieurs arcs sont ajoutés à la liste des arcs à retirer 
  * les arcs présents dans la liste sont alors supprimés
  * Tous les 15 tours 1 noeud choisi aléatoirement est supprimé.
- * Tous les 10 tours
+ * Tous les 10 tours on effectue un translate et un buildmodel (export/import) afin d'en comparer les sorties
+ * tout en comparant l'ensemble de leurs noeuds et arcs des 2 models
+ * Lors de la suppression d'un arc, on compare le model avant la suppression au model après la suppression
+ * A chaque ajout d'un arc on ajoute aleatoirement un attribut au model, à un noeud ou à une arc
  * */
 
 public class TestModel extends TestCase {
-	int max_tour=40;
+	int max_tour=100;
 	int nb_remove=2;
 	
 	
@@ -233,15 +236,15 @@ public class TestModel extends TestCase {
 		int alea=(int)(Math.random()*model.getListOfId().size());
 		int id=model.getListOfId().get(alea);
 		if(!(model.getAnArc(id)==null)){
-			IAttribute attrs = new Attribute("valuation", "3",0);
+			IAttribute attrs = new Attribute("valuation", "new",0);
 			model.getAnArc(id).addAttribute(attrs);
 		}
 		else if(!(model.getANode(id)==null)){
-			IAttribute attrs = new Attribute("name", "2",0);
+			IAttribute attrs = new Attribute("name", "new",0);
 			model.getANode(id).addAttribute(attrs);
 		}
 		else if(id==1){
-			IAttribute attrs = new Attribute("model", "1",0);
+			IAttribute attrs = new Attribute("model", "new",0);
 			model.addAttribute(attrs);
 		}
 	}
@@ -258,23 +261,31 @@ public class TestModel extends TestCase {
 	public boolean compareTab(String [] t1, String [] t2){
 		boolean b=true;
 		boolean tmp=false;
-		assertTrue(Array.getLength(t1)==Array.getLength(t2));
 		if(Array.getLength(t1)==Array.getLength(t2)){
-			int i=0;
-			while(i<Array.getLength(t1)){
-				for(int j=0;j<Array.getLength(t2);j++)
+			for(int i=0;i<Array.getLength(t1);i++){
+				for(int j=0;j<Array.getLength(t2);j++){
 					tmp=tmp||t1[i].equals(t2[j]);
-				i++;
+					}
+				//ligne a decommenter afin de connaitre les lignes différentes 
+//				if(!tmp){System.out.println("Erreur Translate: ligne "+i);}
+				b=b&&tmp;
+				tmp=false;
 			}
-			b=b && tmp;
-		}else{ return false; }
-		return b;
+			return b;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
 	
 	
 	public void testScenario(){
+		String [] translate;
+		String [] new_build=new String[1];
+		Vector <String> cami;
+		
 		
 		model.setFormalism("net");
 		String [] attributs ={"declaration","author(s)","version","project"}; 
@@ -291,42 +302,62 @@ public class TestModel extends TestCase {
 		while (tour<=max_tour){
 			action_alea=(int)(Math.random()*2);
 			IArc arc = new Arc("Arc");
+			
+			
 			System.out.println("Tour:"+tour);
 			
 			if((tour%10)==0){
 				
-				String [] translate=model.translate();
+				translate=model.translate();
 				affiche_translate(translate);
 				
-				Vector <String> cami = new Vector<String>();
+				cami = new Vector<String>();
 				for(int i=0;i<Array.getLength(translate);i++){
 						cami.addElement(translate[i]);
 				}
 				System.out.println("\nBuildModel");
 				try{
 					Model model_out=new Model(cami);
-					String [] new_build=model_out.translate();
+					new_build=model_out.translate();
 					affiche_translate(new_build);
 				
 					assertTrue(compareTab(translate,new_build));
 					
 					for(int a=0;a<model.getListOfId().size();a++){
-						int id=model.getListOfId().get(a);				
+						int id=model.getListOfId().get(a);
 						if(!(model.getAnArc(id)==null)){
 						
 							assertTrue(compareTab(model.getAnArc(id).translate(),model_out.getAnArc(id).translate()));
 							
+							/*Test avec erreur du translate entre 2 arcs differents*/
+							if(model.getListOfArcSize()>1){
+								int anth=(int)(Math.random()*model.getListOfArcSize());
+								while(model.getNthArc(anth).getId()==id){
+									anth=(int)(Math.random()*model.getListOfArcSize());
+								}
+								
+								assertFalse(compareTab(model.getAnArc(id).translate(),model.getNthArc(anth).translate()));
+							}
 						}else if(!(model.getANode(id)==null)){
 						
-							assertTrue(compareTab(model.getANode(id).translate(), model_out.getANode(id).translate()));
+							assertTrue(compareTab(model.getANode(id).translate(), model.getANode(id).translate()));
 							
+							/*Test avec erreur du translate entre 2 arcs differents*/
+							if(model.getListOfNodeSize()>1){
+							int nth=(int)(Math.random()*model.getListOfNodeSize());
+							while(model.getNthNode(nth).getId()==id){
+								nth=(int)(Math.random()*model.getListOfNodeSize());
+							}
+							
+							 assertFalse(compareTab(model.getANode(id).translate(),model_out.getNthNode(nth).translate()));
+							}
 						}
 					}
 					
 				}catch (Exception e){
 					System.out.println(e.toString());
 				}
-			}
+			}else{
 			
 			if((tour%8)==0){
 				int ind=0;
@@ -334,6 +365,9 @@ public class TestModel extends TestCase {
 			
 			
 				while(i<nb_remove){
+					
+					translate=model.translate();
+					
 					if(model.getListOfArcSize()==0){
 						System.out.println("Aucun Arc a retirer\n");
 						break;
@@ -364,8 +398,17 @@ public class TestModel extends TestCase {
 						/*arc plus présent dans la liste des identifiants*/
 						assertFalse(model.getListOfId().contains(Integer.valueOf(id_arc)));
 						
+						/*Test translate/buildmodel en cas de model differents*/
+						
 						System.out.println("Retrait d'arcs\narc_id:"+id_arc+"\nid_node1:"+id_node1+" id_node2:"+id_node2+"\nMaxId:"+model.getMaxId()+"\n");
 						i=i+1;
+						
+						new_build=model.translate();
+
+//						affiche_translate(translate);
+//						System.out.println("\nTranslate erronné");
+//						affiche_translate(new_build);
+						assertFalse(compareTab(new_build,translate));
 					}
 					}		
 				}
@@ -429,9 +472,9 @@ public class TestModel extends TestCase {
 								assertTrue(model.getAnArc(id_arc)!=null);
 								assertTrue(node1.getListOfOutputArc().contains(arc));
 								assertTrue(node2.getListOfInputArc().contains(arc));
-								/*if(!(model.getListOfArcSize()==0)){
+								if(!(model.getListOfArcSize()==0)){
 									aleaAttribute();
-									}*/
+									}
 								}
 							else{System.out.println("ListOfNode vide: l'ajout d'un arc ne peut s'effectuer\n");}
 						}
@@ -449,6 +492,7 @@ public class TestModel extends TestCase {
 							}
 						}
 					}
+			}
 			tour ++;
 		}
 		System.out.println("FIN DES TESTS!");
