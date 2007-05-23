@@ -67,7 +67,7 @@ public class AttributeDialog extends IconAndMessageDialog {
 	}
 	
 	public void buttonPressed(int button) {
-	  	boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
+	  	//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
 	  	
 	  	this.result  = ((Text)textarea).getText();  		
 	  	

@@ -3,6 +3,11 @@
 
 <product name="Coloane" id="fr.lip6.move.coloane.main.product" application="fr.lip6.move.coloane.standalone.application" useFeatures="false">
 
+   <aboutInfo>
+      <text>
+         Coloane Version 0.9.1by Jean-Baptiste VoronFor more information please visit :http://www.lip6.fr/coloane
+      </text>
+   </aboutInfo>
 
    <configIni use="default"/>
 
