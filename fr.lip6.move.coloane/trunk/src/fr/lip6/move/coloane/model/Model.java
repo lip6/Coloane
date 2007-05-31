@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.model;
 import java.util.Vector;
 import java.util.StringTokenizer;
 import java.util.NoSuchElementException;
+import java.util.Arrays;
 
 import java.io.File;
 import java.io.Serializable;
@@ -72,6 +73,10 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     	INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
                         this.addNode(node);
                     }
+                    else{
+                    	this.setFormalism(nodeType);
+                    }
+                    	
                     continue; // Prochaine commande
                 }
                 
@@ -104,11 +109,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                 
                 // Decouverte d'attribut sur une ligne
                 if (type.equals("CT")) { 
-                    String[] value = new String[1];
+                    String value = new String();
 
                     String name = ps.parseString(",");
                     String ref = ps.parseInt(",");
-                    value[0] = ps.parseString(")");
+                    value = ps.parseString(")");
 
                     // Creation effective de l'attribut
                     IAttribute attr = new Attribute(name, value, Integer.parseInt(ref));
@@ -139,14 +144,14 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                 
                 // Creation d'une ligne dans un attribut multi-ligne
                 if (type.equals("CM")) { 
-                    String[] value = new String[1];
+                    String value = new String();;
                     boolean found = false;
 
                     String name = ps.parseString(",");
                     String ref = ps.parseInt(",");
                     ps.parseInt(",");
                     ps.parseInt(",");
-                    value[0] = ps.parseString(")");
+                    value = ps.parseString(")");
                     st = new StringTokenizer(line);
 
                     try {
@@ -157,9 +162,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     		for (int i = 0; i < this.getListOfAttrSize(); i++) {
                                 IAttribute a = this.getNthAttr(i);
                                 if (name.equals((a).getName())) {
-                                    // On ajoute une ligne
-                                    a.riseNbLine(1);
-                                    a.setValue(value[0], a.getSize() - 1);
+                                    
+                                    a.setValue(a.getValue()+"\r"+value);
                                     found = true;
                                     break; // On sort de cette boucle de recherche
                                 }
@@ -180,9 +184,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         	for (int i = 0; i < arc.getListOfAttrSize(); i++) {
                         		IAttribute att = arc.getNthAttr(i);
                                 if (name.equals(att.getName())) {
-                                	// On ajoute une ligne
-                                	att.riseNbLine(1);
-                                	att.setValue(value[0],att.getSize() - 1);
+                                	att.setValue(att.getValue()+"\r"+value);
                                     found = true;
                                     break;
                                 }
@@ -203,9 +205,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         	for (int i = 0; i < node.getListOfAttrSize(); i++) {
                         		IAttribute att = node.getNthAttr(i);
                                 if (name.equals(att.getName())) {
-                                	// On ajoute une ligne
-                                	att.riseNbLine(1);
-                                	att.setValue(value[0], att.getSize() - 1);
+                                	att.setValue(att.getValue()+"\r"+value);
                                     found = true;
                                     break;
                                 }
@@ -310,7 +310,21 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
         Vector<String> vec = new Vector<String>();
         String[] nodes;
         String[] arcs;
-
+        StringBuffer s;
+        
+        // Ajout du modele
+        s = new StringBuffer();
+        s.append("CN(");
+        s.append(this.getFormalism().length() + ":" + this.getFormalism());
+        s.append(",");
+        s.append("1");
+        s.append(")");
+        vec.addElement(s.toString());
+        
+        
+        for (int i = 0; i < this.getListOfAttrSize(); i++) {
+            vec.addAll(Arrays.asList(this.getNthAttr(i).translate()));
+        }
       	
         // Ajout des noeuds
         for (int i = 0; i < this.getListOfNodeSize(); i++) {
@@ -332,8 +346,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     vec.add(arcs[j]);
                 }
             }
+        
         }
-
         String[] cami = new String[vec.size()];
         vec.toArray(cami);
         return cami;
