@@ -110,7 +110,7 @@ public abstract class Arc implements IArc, Serializable {
 	    this.id = id;
 	    
 	    // Le changement d'idientifiant implique obligatoirement
-        // Le rerŽfŽrencement des attributs
+        // Le rerï¿½fï¿½rencement des attributs
         for (IAttribute att: this.listOfAttr) {
         	att.setRefId(id);
         }
@@ -166,7 +166,10 @@ public abstract class Arc implements IArc, Serializable {
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#addAttribute(fr.lip6.move.coloane.interfaces.model.Attribute)
 	 */
     public void addAttribute(IAttribute attribute) {
-    	this.listOfAttr.addElement(attribute);
+    	if (!(attribute.getValue()=="")){
+    		attribute.setRefId(this.getId());
+    		this.listOfAttr.addElement(attribute);
+    	}	
     }
 
     /* (non-Javadoc)

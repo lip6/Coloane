@@ -13,7 +13,6 @@ public interface IModel {
 	 * @throws SyntaxErrorException
 	 */
 	public void buildModel(Vector<String> commands) throws SyntaxErrorException;
-
 	/**
 	 * Retourne le noeud d'identifiant uniqueId.
 	 * @param uniqueId Identifiant unique du noeud
@@ -146,7 +145,7 @@ public interface IModel {
 	
 	/**
 	 * Permet de modifier la valeur maximale des identifiants des elements du modele
-	 * De cette facon la numerotation peut être modifiee.
+	 * De cette facon la numerotation peut ÔøΩtre modifiee.
 	 * @param max L'identifiant maximum qu'on souhaite affecter
 	 */	
 	public int setMaxId(int max);
@@ -158,5 +157,10 @@ public interface IModel {
 	 * @return un ensemble de commandes de construction
 	 */
 	public String[] translate();
-
+	
+	/**
+	 * Renvoie la liste des identifiants pour les tests unitaires
+	 * @return la liste des identifiants
+	 */	
+	public Vector<Integer> getListOfId();
 }
