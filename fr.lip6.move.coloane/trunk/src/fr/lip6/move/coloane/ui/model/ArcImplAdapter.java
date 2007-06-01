@@ -105,7 +105,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
             
             /* Creation de l'attribut generique */
-            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},arc.getId());
+            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String(attributeFormalism.getDefaultValue()),arc.getId());
             this.arc.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
@@ -151,7 +151,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 			// Si aucun attribut generique dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
-				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
 				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 				this.arc.addAttribute(attribute);
 			}

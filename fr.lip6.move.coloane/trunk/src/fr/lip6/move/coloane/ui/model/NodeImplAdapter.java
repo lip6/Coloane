@@ -101,7 +101,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
             AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
             /* Creation de l'attribut generique */
-            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String[]{attributeFormalism.getDefaultValue()},node.getId());
+            IAttribute attribute = new Attribute(attributeFormalism.getName(),new String(attributeFormalism.getDefaultValue()),node.getId());
             this.node.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
@@ -146,7 +146,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 			// Si aucun attribut dans notre noeud generique ne correspond a celui du formalisme... alors notre noeud n'est pas complet
 			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
 			if (!find) {
-				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
 				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 				this.node.addAttribute(attribute);
 			}

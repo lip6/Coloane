@@ -162,7 +162,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 			
 			// Creation de l'attribut dans le modele
-			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
 			this.model.addAttribute(attribute);
 			
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
@@ -206,7 +206,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Si aucun attribut dans notre modele ne correspond a celui du formalisme... alors notre modele n'est pas complet
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
-				attribute = new Attribute(attributeFormalism.getName(), new String[]{attributeFormalism.getDefaultValue()}, 1);
+				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
 				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
 				this.model.addAttribute(attribute);
 			}
