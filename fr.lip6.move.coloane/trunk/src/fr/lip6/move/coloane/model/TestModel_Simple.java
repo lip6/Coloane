@@ -86,7 +86,7 @@ public class TestModel_Simple extends TestCase {
 		
 		model.removeNode(node);
 		
-		/*noeud plus présent dans la liste des noeuds du modèle*/
+		/*noeud plus présent dans la liste des noeuds du modele*/
 		assertTrue(model.getANode(id_node)==null);
 		
 		for(int i=0;i<listOfInArc.size();i++){
@@ -95,7 +95,7 @@ public class TestModel_Simple extends TestCase {
 			id_arc = arcCourant.getId();
 			nodeTmp = arcCourant.getEndingNode();
 			
-			/*arc entrant plus présent dans la liste des noeuds du modèle
+			/*arc entrant plus présent dans la liste des noeuds du modele
 			 * et de sa cible*/
 			assertTrue(model.getAnArc(id_arc)==null);
 			assertFalse(nodeTmp.getListOfInputArc().contains(arcCourant));
@@ -106,10 +106,10 @@ public class TestModel_Simple extends TestCase {
 			arcCourant = listOfOutArc.get(i);
 			id_arc = arcCourant.getId();
 			nodeTmp = arcCourant.getStartingNode();
-			/*arc sortant plus présent dans la liste des noeuds du modèle
+			/*arc sortant plus present dans la liste des noeuds du modele
 			 * et de sa source*/
 			assertTrue(model.getAnArc(id_arc)==null);
-			assertFalse(nodeTmp.getListOfOuputArc().contains(arcCourant));
+			assertFalse(nodeTmp.getListOfOutputArc().contains(arcCourant));
 		}
 		
 	}
@@ -124,11 +124,11 @@ public class TestModel_Simple extends TestCase {
 		id_arc=arc.getId();
 		model.removeArc(arc);
 		
-		/*arc plus présent dans la liste des noeuds du modèle*/
+		/*arc plus present dans la liste des noeuds du modele*/
 		assertTrue(model.getAnArc(id_arc)==null);
 		
-		/*arc plus présent dans la liste des noeuds de sa cible et de sa source*/
-		assertFalse(nodeOut.getListOfOuputArc().contains(arc));		
+		/*arc plus present dans la liste des noeuds de sa cible et de sa source*/
+		assertFalse(nodeOut.getListOfOutputArc().contains(arc));		
 		assertFalse(nodeIn.getListOfInputArc().contains(arc));	
 		
 	}
