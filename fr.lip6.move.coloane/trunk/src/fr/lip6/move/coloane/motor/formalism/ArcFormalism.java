@@ -25,12 +25,13 @@ public class ArcFormalism extends ElementBase {
      * Constructeur
      * 
      * @param name Nom de l'element de base.
+     * @param paletteName Nom de l'element de base affiche dans la palette
 	 * @param numFigure Indication sur la forme du dessin de l'element
      * @param width Largeur du dessin de l'element de base.
      * @param height Hauteur du dessin de l'element de base.
      * @param isFilled Flag indiquant si la figure sera remplie.
      */
-    public ArcFormalism(String name, int numFigure, int width, int height, boolean isFilled) {
-    	super(name, numFigure, width, height, isFilled);
+    public ArcFormalism(String name, String paletteName, int numFigure, int width, int height, boolean isFilled) {
+    	super(name, paletteName, numFigure, width, height, isFilled);
     }   
 }

@@ -120,7 +120,7 @@ public class FormalismManager {
         // place, transition, arc, arc inhibiteur.
         
         // La place:
-        elem = new NodeFormalism("place", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
+        elem = new NodeFormalism("place", "Place", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"domain", true, true);
@@ -137,7 +137,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
 
         // La transition:
-        elem = new NodeFormalism("transition", INodeGraphicInfo.FIG_RECT, 24, 8, false);
+        elem = new NodeFormalism("transition", "Transition", INodeGraphicInfo.FIG_RECT, 24, 8, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"guard", true, true,"true");
@@ -156,7 +156,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
 
         // La transition immediate:
-        elem = new NodeFormalism("immediate transition",INodeGraphicInfo.FIG_RECT, 24, 8, true);
+        elem = new NodeFormalism("immediate transition", "Immediate Transition", INodeGraphicInfo.FIG_RECT, 24, 8, true);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"guard", true, true);
@@ -173,7 +173,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
  
         // La queue:
-        elem = new NodeFormalism("queue", INodeGraphicInfo.FIG_QUEUE, 16, 8, true);
+        elem = new NodeFormalism("queue", "Queue", INodeGraphicInfo.FIG_QUEUE, 16, 8, true);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"domain", true, true);
@@ -188,7 +188,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
 
         // L'arc
-        elem = new ArcFormalism("arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
+        elem = new ArcFormalism("arc", "Arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
         attr = new AttributeFormalism(1,"valuation", true, true, "1");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"note", false, true);
@@ -199,7 +199,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
 
         // L'arc hinibiteur
-        elem = new ArcFormalism("inhibitor arc", IArcGraphicInfo.FIG_ARC_INHIBITOR, 8, 8, false);
+        elem = new ArcFormalism("inhibitor arc", "Inhibitor Arc", IArcGraphicInfo.FIG_ARC_INHIBITOR, 8, 8, false);
         attr = new AttributeFormalism(1,"valuation", true, true, "1");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"note", false, true);
@@ -277,7 +277,7 @@ public class FormalismManager {
         // condition, event, cutoff, arc.
         
         // Condition
-        elem = new NodeFormalism("condition", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
+        elem = new NodeFormalism("condition", "Condition", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"label", true, true);
@@ -290,7 +290,7 @@ public class FormalismManager {
         prefix.addElementBase(elem);
 
         // Event:
-        elem = new NodeFormalism("event", INodeGraphicInfo.FIG_RECT, 24, 8, false);
+        elem = new NodeFormalism("event", "Event", INodeGraphicInfo.FIG_RECT, 24, 8, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"label", true, true, "true");
@@ -301,7 +301,7 @@ public class FormalismManager {
         prefix.addElementBase(elem);
 
         // Cutoff:
-        elem = new NodeFormalism("cutoff", INodeGraphicInfo.FIG_RECT, 24, 8, true);
+        elem = new NodeFormalism("cutoff", "Cutoff", INodeGraphicInfo.FIG_RECT, 24, 8, true);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"label", true, true, "true");
@@ -316,7 +316,7 @@ public class FormalismManager {
         prefix.addElementBase(elem);
  
         // Arc
-        elem = new ArcFormalism("arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
+        elem = new ArcFormalism("arc", "Arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
         elem.setFormalism(prefix);
         elem.setAddrIcone16("icons/arc16.gif");
         elem.setAddrIcone24("icons/arc24.gif");
@@ -388,7 +388,7 @@ public class FormalismManager {
         // etat initial, etat final, etat, event (arc)
 
         // L'etat initial:
-        elem = new NodeFormalism("initial_state", INodeGraphicInfo.FIG_DBLCIRCLE, 16, 16, false);
+        elem = new NodeFormalism("initial_state", "Initial State", INodeGraphicInfo.FIG_DBLCIRCLE, 16, 16, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"value", true, true);
@@ -403,7 +403,7 @@ public class FormalismManager {
         graph.addElementBase(elem);
 
         // L'etat terminal:
-        elem = new NodeFormalism("terminal_state", INodeGraphicInfo.FIG_CIRCLE, 16, 16, true);
+        elem = new NodeFormalism("terminal_state", "Terminal State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, true);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"value", true, true);
@@ -418,7 +418,7 @@ public class FormalismManager {
         graph.addElementBase(elem);
 
         // L'etat:
-        elem = new NodeFormalism("state", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
+        elem = new NodeFormalism("state", "State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
         attr = new AttributeFormalism(1,"name", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"value", true, true);
@@ -433,7 +433,7 @@ public class FormalismManager {
         graph.addElementBase(elem);
      
         // L'event (arc)
-        elem = new ArcFormalism("event", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
+        elem = new ArcFormalism("event", "Event", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
         attr = new AttributeFormalism(1,"label", true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"value", false, true);

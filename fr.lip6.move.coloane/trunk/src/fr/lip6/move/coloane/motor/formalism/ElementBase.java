@@ -17,6 +17,9 @@ public class ElementBase implements Serializable {
 
 	/** Nom associe a l'element de base. */
 	private String name;
+	
+	/** Nom associe a l'element de base. */
+	private String paletteName;
 
 	/** Largeur du dessin representant l'element de base. */
 	private int width = -1;
@@ -51,8 +54,9 @@ public class ElementBase implements Serializable {
 	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 * @param numFigure Numero permettant de savoir quel figure dessiner pour cet element.
 	 */
-	public ElementBase(String name, int numFigure, int width, int height, boolean isFilled) {
+	public ElementBase(String name, String paletteName, int numFigure, int width, int height, boolean isFilled) {
 		this.name = name;
+		this.paletteName = paletteName;
 		this.numFigure = numFigure;
 		this.width = width;
 		this.height = height;
@@ -90,7 +94,14 @@ public class ElementBase implements Serializable {
 	public String getName() {
 		return name;
 	}
-
+	
+	/**
+	 * Retourne le nom de l'element de base
+	 */
+	public String getPaletteName() {
+		return this.paletteName;
+	}
+	
 	/**
 	 * Retourne l'indication sur le dessin
 	 * @return int

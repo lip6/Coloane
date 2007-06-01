@@ -74,8 +74,8 @@ final class PaletteFactory {
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
 			if (element instanceof NodeFormalism) {				
 				component = new CombinedTemplateCreationEntry(
-						element.getName(), 			// Nom de l'objet
-						element.getName(), 			// Description de l'objet
+						element.getPaletteName(), 			// Nom de l'objet
+						element.getPaletteName(), 			// Description de l'objet
 						new CreationFactory () { 	// Object Template
 							public Object getNewObject() {
 								return new NodeImplAdapter(element);
@@ -118,8 +118,8 @@ final class PaletteFactory {
 			/* Si l'element parcouru est un arc */
 			if (element instanceof ArcFormalism) {
 				component = new ConnectionCreationToolEntry(
-						element.getName(), // nom de l'arc
-						element.getName(), // description de l'arc
+						element.getPaletteName(), // nom de l'arc
+						element.getPaletteName(), // description de l'arc
 						new CreationFactory () {
 							public Object getNewObject() {
 								return null;
