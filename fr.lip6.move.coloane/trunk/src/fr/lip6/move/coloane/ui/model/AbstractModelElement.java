@@ -96,7 +96,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 		if (prop.getValue() != null) {
 			
 			// Si l'attribut est multiligne, on ne prend que la premiere ligne
-			if (prop.isMultiline()) {
+			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) {
 				return (prop.getValue().split("\r"))[0]+" ...";
 			// Sinon on retourne la valeur normale
 			} else {
