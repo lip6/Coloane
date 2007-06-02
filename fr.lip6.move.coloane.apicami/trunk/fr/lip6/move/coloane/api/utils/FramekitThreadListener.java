@@ -479,7 +479,7 @@ public class FramekitThreadListener extends Thread {
 					// Message RT
 					// Transmission d'un resultat textuel mono-ligne
 					if ((listeArgs.firstElement().equals("RT"))) {
-						if (!listeArgs.elementAt(1).equals(""))
+						if (!listeArgs.elementAt(1).equals("") && !listeArgs.elementAt(1).equals("0"))
 							result.addDescription((String) listeArgs.elementAt(1));
 						continue;
 					}
