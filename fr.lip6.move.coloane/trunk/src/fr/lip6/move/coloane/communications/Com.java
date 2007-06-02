@@ -215,17 +215,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void printHistoryMessage(String message) {
 		this.ui.printHistoryMessage(message);
-	}
-	
-	
-	/**
-	 * Affichage d'un message dans l'interface utilisateur (Vue State)
-	 * @param message Message a afficher dans la console 
-	 */
-	public void printStateMessage(String message) {
-		this.ui.printStateMessage(message);
-	}
-	
+	}	
 	
 	/** 
 	 * Affichage des menus construit a partir des commandes CAMI 
@@ -303,7 +293,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-
+	
 		if ((serviceName != "") && (resultsCom != null)) {
 			// Transformation des resultats
 			Results results = new Results(resultsCom);
