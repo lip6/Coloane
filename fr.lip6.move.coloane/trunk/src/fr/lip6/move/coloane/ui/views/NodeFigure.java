@@ -152,6 +152,15 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 		((Shape) figure).setLineWidth(3);
 	}
 	
+	public void setSelectSpecial() {
+		figure.setForegroundColor(ColorConstants.red);
+		((Shape) figure).setLineWidth(3);
+	}
+	
+	public void unsetSelectSpecial() {
+		this.setUnselect();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()

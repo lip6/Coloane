@@ -117,6 +117,10 @@ public interface IModelImpl {
 	public void setEndBuilding();
 	
     
+	/**
+	 * Met en valeur un noeud
+	 */
+	public void highlightNode(int idhighlight, int unhighlight);
    
     
     public void dumpModel();

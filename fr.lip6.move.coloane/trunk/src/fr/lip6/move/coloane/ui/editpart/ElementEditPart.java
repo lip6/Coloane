@@ -110,6 +110,16 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			refreshTargetConnections();
 		} else if (INodeImpl.VALUE_PROP.equalsIgnoreCase(prop)) {
 			refreshChildren();
+		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
+			System.out.println("Recepetion de l'evenement special");
+			INodeFigure nodeFigure = (INodeFigure)getFigure();
+			nodeFigure.setSelectSpecial();
+			refreshChildren();
+		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
+			System.out.println("Recepetion de l'evenement unspecial");
+			INodeFigure nodeFigure = (INodeFigure)getFigure();
+			nodeFigure.unsetSelectSpecial();
+			refreshChildren();
 		}
 		refreshVisuals();
 

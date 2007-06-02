@@ -217,6 +217,16 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		}
 	}
 
+	public void setSpecial() {
+		System.out.println("Evenement Special");
+		firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+	}
+	
+	public void unsetSpecial() {
+		System.out.println("Evenement UnSpecial");
+		firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getSourceArcs()

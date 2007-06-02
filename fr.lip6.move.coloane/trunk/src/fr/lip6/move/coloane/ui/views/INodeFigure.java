@@ -40,6 +40,10 @@ public interface INodeFigure extends IFigure {
 	 */
 	public void setSelect();
 	
+	public void setSelectSpecial();
+	
+	public void unsetSelectSpecial();
+	
 	/**
 	 * Modifie la figure lorsqu'elle est deselectionee
 	 * Annulation du feedback visuel du a la selection d'un objet Noeud

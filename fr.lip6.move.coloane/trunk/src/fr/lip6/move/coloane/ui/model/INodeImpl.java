@@ -35,6 +35,12 @@ public interface INodeImpl {
 	/** ID pour la propriete lorsqu'un changement de la valeur */
     public static final String VALUE_PROP = "Node.ValueUpdate";
 	
+    /** ID pour la propriete lorsqu'un changement de la valeur */
+    public static final String SELECT_PROP = "Node.SelectUpdate";
+    
+    /** ID pour la propriete lorsqu'un changement de la valeur */
+    public static final String UNSELECT_PROP = "Node.UnSelectUpdate";
+    
 	/**
 	 * Ajouter un arc entrant. 
 	 * L'arc doit etre rajoute dans la liste des arcs entrants du noeud adapte
@@ -127,5 +133,8 @@ public interface INodeImpl {
 	 */
 	public Collection getContextMenus();
 
+	public void setSpecial();
+	
+	public void unsetSpecial();
      
 }

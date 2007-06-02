@@ -354,7 +354,22 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public void setEndBuilding() {
 		this.buildingStatus = false;
-	}	
+	}
+	
+	/**
+	 * Mise en valeur de noeud
+	 * @param highlight A mettre en valeur
+	 * @param unhighlight A remettre en position initiale
+	 */
+	public void highlightNode(int highlight, int unhighlight) {
+		for (INodeImpl node : this.children) {
+			if (node.getId() == highlight) {
+				node.setSpecial();
+			} else if (node.getId() == unhighlight) {
+				node.unsetSpecial();
+			}
+		}
+	}
 	
 	/*******
 	 * DUMP
