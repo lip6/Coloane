@@ -71,25 +71,6 @@ public class UserInterface implements IUiCom, IUiMotor {
         });   
 	}
 
-    /**
-     * Affichage d'un message sur la vue State
-     * @param message message a afficher
-     */
-    public void printStateMessage(String message) {
-   		final String msg=message;
-        
-        Display.getDefault().asyncExec(new Runnable(){
-           public void run(){
-             if (StateView.instance != null) {
-        	   		StateView.instance.addLine(msg);
-             } else {
-            	 	HistoryView.instance.addLine("state : "+msg);
-             }
-           }
-        });
-    }
-    
-
 	/** 
 	 * Afficher un menu
 	 * @param menu La racine du menu a afficher 
@@ -157,6 +138,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 			String labelService;
 			ResultsList r = null;
 			
+			
 			if ((serviceName == "") || (result == null)) {
 				labelService = "No result";
 				r = new ResultsList(labelService);
@@ -169,7 +151,6 @@ public class UserInterface implements IUiCom, IUiMotor {
 			 * SYNTAX CHECKER
 			 */
 			if (serviceName.equals("Petri net syntax checker")) {
-				
 				labelService = "Syntax-Checker Results";
 				r = new ResultsList(labelService);
 				
