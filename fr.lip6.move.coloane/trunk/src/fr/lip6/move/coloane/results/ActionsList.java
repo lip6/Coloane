@@ -9,26 +9,18 @@ import org.eclipse.ui.IWorkbenchWindow;
 import fr.lip6.move.coloane.ui.panels.ResultsView;
 
 public class ActionsList extends Observable implements Observer {
-	private Vector<ResultsList> resultsLists;
+	private Vector<ResultsList> list;
 	
 	public ActionsList() {
-		resultsLists = new Vector<ResultsList>();
+		list = new Vector<ResultsList>();
 	}
 	
 	public void setResultsList(ResultsList resultsList) {
 		aggregate(resultsList);
-		resultsLists.add(resultsList);
+		list.add(resultsList);
 	}
 	
 	public void addResultsList() {
-		/*
-		 * First we search a ResultList with the same name that
-		 * the list we want to add and we remove it.
-		 * We do this because if we call, for example, the
-		 * Petri Net Syntax Checker several times, we don't want
-		 * to see all the results but only the last one.
-		 */
-		
 		setChanged();
 		notifyObservers();
 	}
@@ -37,17 +29,19 @@ public class ActionsList extends Observable implements Observer {
 		ResultsView resultView = (ResultsView)mwindow.getActivePage().findView(viewId);
 		
 		this.deleteObservers();
+		// resultview devient un observer de Actionslist
 		this.addObserver(resultView);
+		
 		setChanged();
 		notifyObservers();
 	}
 	
 	public ResultsList getResultsList(int index) {
-		return resultsLists.get(index);
+		return list.get(index);
 	}
 	
 	public ResultsList getResultsList(String resultName) {
-		for(ResultsList r : resultsLists)
+		for(ResultsList r : list)
 			if (r.getActionName().equals(resultName))
 				return r;
 		
@@ -55,21 +49,25 @@ public class ActionsList extends Observable implements Observer {
 	}
 	
 	public int getResultsListSize() {
-		return resultsLists.size();
+		return list.size();
 	}
 	
 	public void aggregate(ResultsList r) {
-		for (int i = 0; i < resultsLists.size(); i++) {
-			if (resultsLists.get(i).getActionName().equals(r.getActionName())) {
-				for (int j = 0; j < resultsLists.get(i).getResultsNumber(); j++)
-					r.add(resultsLists.get(i).getResult(j));
-				resultsLists.remove(i);
+		
+		// Parcours de la liste actuelle
+		for (int i = 0; i < list.size(); i++) {
+
+			// Si un item (servicename) de la liste actuelle est le meme que la nouvelle liste
+			if (list.get(i).getActionName().equals(r.getActionName())) {
+				for (int j = 0; j < list.get(i).getResultsNumber(); j++)
+					r.add(list.get(i).getResult(j));
+				list.remove(i);
 			}
 		}
 	}
 	
 	public void removeAll() {
-		resultsLists.removeAllElements();
+		list.removeAllElements();
 	}
 
 	public void update(Observable o, Object arg1) {

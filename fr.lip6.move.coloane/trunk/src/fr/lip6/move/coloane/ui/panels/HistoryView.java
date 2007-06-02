@@ -81,7 +81,6 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Creer le menu contextuel pour la fenetre de l'historique, contenant deux actions: Copy, Find
-	 * 
 	 */
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
