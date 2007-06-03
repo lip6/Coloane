@@ -120,8 +120,9 @@ public interface IModelImpl {
 	/**
 	 * Met en valeur un noeud
 	 */
-	public void highlightNode(int idhighlight, int unhighlight);
+	public void highlightNode(String idhighlight, String unhighlight);
    
-    
+	public void switchoffNodes();
+	
     public void dumpModel();
 }

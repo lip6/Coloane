@@ -54,8 +54,8 @@ public class ResultsView extends ViewPart implements Observer {
 		actionsWidget = new List(parent, SWT.SINGLE | SWT.BORDER);
 		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		
-		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER);
-		text.setJustify(true);
+		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER | SWT.WRAP);
+		text.setJustify(false);
 		text.setAlignment(SWT.CENTER);
 		
 		currentActionDisplayed = 0;
@@ -132,7 +132,7 @@ public class ResultsView extends ViewPart implements Observer {
 	 */
 	private void setResultsListSelectionListener() {
 		resultsList.addSelectionListener(new SelectionListener() {
-			int mem = 0;
+			String mem = "0";
 			
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -148,9 +148,9 @@ public class ResultsView extends ViewPart implements Observer {
 				
 				
 				// Activation de l'objet designe
-				System.out.println("OK pour "+r.getName()+" --> A la place de "+mem);
-				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(Integer.valueOf(r.getName()),mem);
-				mem = Integer.valueOf(r.getName());
+				System.out.println("... :"+r.getName());
+				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(r.getName(),mem);
+				mem = r.getName();
 			}
 		});
 	}

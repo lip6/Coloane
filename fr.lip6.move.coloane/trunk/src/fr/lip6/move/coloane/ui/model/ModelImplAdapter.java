@@ -361,13 +361,29 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @param highlight A mettre en valeur
 	 * @param unhighlight A remettre en position initiale
 	 */
-	public void highlightNode(int highlight, int unhighlight) {
+	public void highlightNode(String highlight, String unhighlight) {
+		String[] tohigh = highlight.split(",");
+		String[] tounhigh = unhighlight.split(",");
+		
+		
 		for (INodeImpl node : this.children) {
-			if (node.getId() == highlight) {
-				node.setSpecial();
-			} else if (node.getId() == unhighlight) {
-				node.unsetSpecial();
+			for (String u : tounhigh) {
+				if (node.getId() == Integer.valueOf(u)) {
+					node.unsetSpecial();
+				}
 			}
+
+			for (String h : tohigh) {
+				if (node.getId() == Integer.valueOf(h)) {
+					node.setSpecial();
+				}
+			}
+		}
+	}
+	
+	public void switchoffNodes() {
+		for (INodeImpl node : this.children) {
+			node.unsetSpecial();
 		}
 	}
 	
