@@ -152,6 +152,9 @@
           <property
                 name="aboutText"
                 value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane"/>
+          <property
+                name="aboutImage"
+                value="icons/icone_ile.gif"/>
        </product>
     </extension>
 </plugin>

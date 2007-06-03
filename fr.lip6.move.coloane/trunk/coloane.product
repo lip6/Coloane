@@ -4,8 +4,14 @@
 <product name="Coloane" id="fr.lip6.move.coloane.main.product" application="fr.lip6.move.coloane.standalone.application" useFeatures="false">
 
    <aboutInfo>
+      <image path="/fr.lip6.move.coloane/icons/icone_ile.gif"/>
       <text>
-         Coloane Version 0.9.1by Jean-Baptiste VoronFor more information please visit :http://www.lip6.fr/coloane
+         Coloane 
+Version 0.9.1
+by Jean-Baptiste Voron
+
+For more information please visit :
+http://www.lip6.fr/coloane
       </text>
    </aboutInfo>
 
@@ -21,6 +27,7 @@
       startupMessageRect="0,0,0,0"
       startupForegroundColor="000000" />
    <launcher name="Coloane">
+      <macosx icon="fr.lip6.move.coloane/icone_ile.icns"/>
       <solaris/>
       <win useIco="false">
          <bmp/>
@@ -87,6 +94,7 @@
       <plugin id="org.eclipse.update.core.linux" fragment="true"/>
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
+      <plugin id="org.junit"/>
    </plugins>
 
    <features>
