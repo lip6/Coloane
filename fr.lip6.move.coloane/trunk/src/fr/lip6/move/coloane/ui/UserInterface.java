@@ -209,6 +209,49 @@ public class UserInterface implements IUiCom, IUiMotor {
 				r = new ResultsList(labelService);
 				
 				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
+			
+			/*
+			 * P INVARIANT
+			 */
+			} else if (serviceName.equals("P-invariants")) {
+				labelService = "P-invariants";
+				r = new ResultsList(labelService);
+							
+				String liste = "";
+				
+				// Parcours de mes resultats
+				for (String object : result.getListOfElement()) {
+					liste = liste+object+",";
+				}
+				
+				// Suppression de la derniere virgule
+				if (liste.length() > 1) {
+					liste = liste.substring(0, liste.length()-1);
+				}
+				
+				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
+			
+			
+			/*
+			 * T INVARIANT
+			 */
+			} else if (serviceName.equals("T-invariants")) {
+				labelService = "T-invariants";
+				r = new ResultsList(labelService);
+							
+				String liste = "";
+				
+				// Parcours de mes resultats
+				for (String object : result.getListOfElement()) {
+					liste = liste+object+",";
+				}
+				
+				// Suppression de la derniere virgule
+				if (liste.length() > 1) {
+					liste = liste.substring(0, liste.length()-1);
+				}
+				
+				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
 			}
 			
 			serviceResultList.setResultsList(r);			
