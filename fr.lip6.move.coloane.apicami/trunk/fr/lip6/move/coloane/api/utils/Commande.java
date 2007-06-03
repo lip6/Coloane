@@ -677,13 +677,13 @@ public class Commande {
 		// dialogue suite
 		if (cmdString.equals("DS")) {
 			String entier1;
-			String entier2;
+			String s1;
 			
 			entier1 = parser.parseInt(",");
-			entier2 = parser.parseInt(")");
+			s1 = parser.parseString("@");
 			
 			liste.add(entier1);
-			liste.add(entier2);
+			liste.add(s1);
 			return liste;
 		}
 		

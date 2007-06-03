@@ -179,6 +179,7 @@ public class CamiTranslator {
 			throw new UnexpectedCamiCommand("Titre de la boite de dialogue est nul");
 		}
 		title = camiCmd.get(4).toString();
+		System.out.println("TITLE :"+title);
 		
 		// Message d'aide
 		String helpMsg;
@@ -244,7 +245,7 @@ public class CamiTranslator {
 		}
 		
 		// Creation de l'objet boite de dialogue
-		dialog = new DialogCom(id, type, nbButtons, title, helpMsg, msg, allowedEntry, select,"-");
+		dialog = new DialogCom(id, type, nbButtons, title, helpMsg, msg, allowedEntry, select,contents.get(0));
 		return dialog;
 	}
 }

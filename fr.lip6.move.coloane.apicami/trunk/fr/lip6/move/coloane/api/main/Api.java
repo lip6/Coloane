@@ -445,7 +445,7 @@ public class Api implements IApi {
 		} else {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-			if (!speak.sendDialogueResponse(this.translateDialogResult(results))) {
+			if (!speak.sendDialogueResponse(results)) {
 				return false;
 			}
 			return true;
@@ -590,35 +590,5 @@ public class Api implements IApi {
 		FramekitThreadSpeaker speak;
 		speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
 		return speak;
-	}
-	
-	/*** Translate To Cami **/
-	
-	
-	/**
-	 * Traduction d'un resultat de fenetre de dialogue en CAMI.
-	 * Cet objet en provenance de Coloane doit etre traduit en CAMI
-	 * @param dialogResult L'objet contenant les resultats de la fenetre de dialogue
-	 * @return La chaine CAMI a transmettre 
-	 */
-	public String translateDialogResult(IDialogResult dialogResult) {
-		StringBuffer s;
-        
-        String returnValue = dialogResult.getText().toString();
-        
-        s = new StringBuffer();
-        s.append("RD(");
-        s.append(dialogResult.getDialogId());
-        s.append(",");
-        s.append(dialogResult.getAnswerType());
-        s.append(",");
-        s.append(dialogResult.hasBeenModified());
-        s.append(",");
-        s.append(returnValue.length());
-        s.append(":");
-        s.append(returnValue);
-        s.append(")");
-
-        return s.toString();
 	}
 }             
