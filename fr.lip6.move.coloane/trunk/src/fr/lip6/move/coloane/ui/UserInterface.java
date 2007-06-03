@@ -304,6 +304,11 @@ public class UserInterface implements IUiCom, IUiMotor {
 			// Ouverture de la boite de dialogue
 			dialog.open();
 			
+			if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) {
+				System.out.println("CANCEL !!");
+				return;	
+			}
+			
 			// Capture des resultats
 			this.com.getDialogAnswers(dialog.getDialogResult());
 			
