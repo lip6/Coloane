@@ -298,6 +298,20 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
     }
     
     /* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getArcLabel()
+	 */
+    public String getArcLabel() {
+    	String valeur = "";
+    	for (int i = 0; i < this.arc.getListOfAttrSize(); i++) {
+    		if (this.arc.getNthAttr(i).getName().equalsIgnoreCase("label")) {
+    			valeur = this.arc.getNthAttr(i).getValue();
+    			break;
+    		}
+    	}
+    	return valeur;
+    }
+    
+    /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#throwEventProperty(java.lang.String, java.lang.String)
 	 */
     public void throwEventProperty (String oldValue, String newValue) {

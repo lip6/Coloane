@@ -117,6 +117,12 @@ public interface IArcImpl {
 	 * @return String
 	 */
 	public String getArcValue();
+	
+	/**
+	 * Methode d'acces a la valeur du label d'un arc generique
+	 * @return String
+	 */
+	public String getArcLabel();
 
 	/**
 	 * Leve un evenement lors de la modification d'un propriete d'un arc.

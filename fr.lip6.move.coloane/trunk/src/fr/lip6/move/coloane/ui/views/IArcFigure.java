@@ -8,5 +8,7 @@ public interface IArcFigure extends IFigure, Connection {
      * Indique la valeur associee a l'arc
      * @param text La valeur de l'arc
      */
-	public void setLabelText(String text);
+	public void setLabelValue(String text);
+	
+	public void setLabelLabel(String text);
 }

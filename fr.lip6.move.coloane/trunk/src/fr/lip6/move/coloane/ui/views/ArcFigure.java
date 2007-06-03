@@ -5,6 +5,8 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MidpointLocator;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 
 public class ArcFigure extends PolylineConnection implements IArcFigure {
     private Label label;
@@ -28,7 +30,19 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
      * Indique la valeur associee a l'arc
      * @param text La valeur de l'arc
      */
-    public void setLabelText(String text){
+    public void setLabelValue(String text){
+    	Font nameFont = new Font(null,"arial",11,SWT.NORMAL);
+    	label.setFont(nameFont);
+    	label.setText(text);
+    }
+    
+    /**
+     * Indique la valeur associee a l'arc
+     * @param text La valeur de l'arc
+     */
+    public void setLabelLabel(String text){
+    	Font nameFont = new Font(null,"arial",9,SWT.BOLD);
+    	label.setFont(nameFont);
     	label.setText(text);
     }
 }

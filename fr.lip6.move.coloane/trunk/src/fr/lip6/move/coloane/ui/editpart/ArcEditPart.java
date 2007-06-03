@@ -42,7 +42,11 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		super.refreshVisuals();
 		IArcFigure arcFigure = (IArcFigure) getFigure();
 		IArcImpl arcModel = (IArcImpl)getModel();
-		arcFigure.setLabelText(arcModel.getArcValue()); // Accesseur de la vue
+		arcFigure.setLabelValue(arcModel.getArcValue()); // Accesseur de la vue
+		
+		if (arcModel.getFormalism().getName().equalsIgnoreCase("ReachabilityGraph")) {
+			arcFigure.setLabelLabel(arcModel.getArcLabel()); // Accesseur de la vue
+		}
 		
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(arcModel.getModelAdapter());
