@@ -58,6 +58,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
     	try {
     		for (int k = 0; k < camiCommande.size(); k++) {
         		line = (String) camiCommande.get(k);
+        		
         		st = new StringTokenizer(line);
                 ps = new CamiParser(line.substring(3));
 
@@ -228,8 +229,24 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                 // Decouverte d'une position de noeud
                 if (type.equals("PO") || type.equals("pO")) { 
                     String ref = ps.parseInt(",");
-                    String x = ps.parseInt(",");
-                    String y = ps.parseInt(")");
+                    String x = "";
+                    String y = "";
+                    
+//                  !! Attention bidouille pour prendre en compte le PO de 3e type
+                    if (Integer.parseInt(ref) == -1) {
+                    	ref = ps.parseInt(",");
+                    	x = ps.parseInt(",");
+                    	y = ps.parseInt(",");
+                    	//x = ps.parseInt(","); 
+                    	System.out.println("Ref : "+ref+" x="+x+" y="+y);
+                    } else {
+	                    x = ps.parseInt(",");
+	                    y = ps.parseInt(")");
+                    }
+                    
+                    
+                    
+                    
                     
                     if (Integer.parseInt(ref) == 1) {
                     	this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
