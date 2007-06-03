@@ -52,7 +52,7 @@ public class ResultsView extends ViewPart implements Observer {
 		 * - in third we will have the text correponding to the selected error
 		 */
 		actionsWidget = new List(parent, SWT.SINGLE | SWT.BORDER);
-		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER);
+		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		
 		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER);
 		text.setJustify(true);
