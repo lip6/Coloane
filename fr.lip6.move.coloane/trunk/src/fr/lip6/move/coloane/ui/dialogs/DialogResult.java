@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
 import java.util.ArrayList;
+import fr.lip6.move.coloane.interfaces.IDialogResult;
 
-public class DialogResult {
+public class DialogResult implements IDialogResult {
 	protected int dialogId;
 	protected int answerType;
 	protected boolean modified;
