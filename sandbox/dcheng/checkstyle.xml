@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+Checkstyle-Configuration: Premier Checkstyle
+Description:
+Checkstyle simple
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="EmptyBlock"/>
+        <module name="NeedBraces"/>
+        <module name="IllegalImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="AvoidStarImport">
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="Indentation">
+            <property name="basicOffset" value="8"/>
+            <property name="caseIndent" value="8"/>
+        </module>
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="POST_DEC,POST_INC"/>
+        </module>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="IllegalCatch">
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="IllegalType">
+            <property name="severity" value="ignore"/>
+            <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
+            <property name="illegalClassNames" value="java.util.GregorianCalendar, java.util.Hashtable, java.util.HashSet, java.util.HashMap, java.util.ArrayList, java.util.LinkedList, java.util.LinkedHashMap, java.util.LinkedHashSet, java.util.TreeSet, java.util.TreeMap"/>
+        </module>
+        <module name="MissingSwitchDefault"/>
+        <module name="SimplifyBooleanReturn"/>
+    </module>
+</module>
