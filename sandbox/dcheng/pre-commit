@@ -62,22 +62,46 @@ CHECKSTYLE=/home/dcheng/workspace/checkstyle/checkstyle-4.3/checkstyle-all-4.3.j
 TMPDIR=/home/dcheng/tempo/$TXN #tmp folder to save revs
 REPORT=/home/dcheng/tempo/$TXN/report #tmp folder to save log
 CHECKSTYLE_CONFIG=/home/dcheng/workspace/checkstyle/check1.xml #path to checkstyle file
+SVNLOOK=/home/dcheng/Subversion/bin/svnlook #Path to svnlook
+
+
+#==============================================================================
 
 # Make sure that the log message contains some text.
+
 SVNLOOK=/home/dcheng/Subversion/bin/svnlook
+
 if !($SVNLOOK log -t "$TXN" "$SVN" | grep "[a-zA-Z0-9]" ) ; then 
      echo "Error: No log message with your commit" > /dev/stderr 
     exit 1 
 fi 
 
+
+#==============================================================================
+
 # Check that the author of this commit has the rights to perform
 # the commit on the files and directories being modified.
+
 #commit-access-control.pl "$SVN" "$TXN" commit-access-control.cfg || exit 1
+
+
+#==============================================================================
+
+# Commit in folder "tags" are not allowed
+# ***** /!\ ***** MODIFY grep arguments to match your repository tree! ***** /!\ ***** 
+
+if ($SVNLOOK changed -t "$TXN" "$SVN" | awk '{print $2}' | grep -q "^tags") ; then 
+     echo "Cannot commit to tags" > /dev/stderr
+     exit 1 
+fi
+
+
+#==============================================================================
 
 # Run checkstyle on java files 
 
 mkdir -p $TMPDIR
- X=0
+X=0
 
 CHANGED=$($SVNLOOK changed -t $TXN $SVN |grep -v '^D'|awk '{print $2}')
 
@@ -85,15 +109,14 @@ CHANGED=$($SVNLOOK changed -t $TXN $SVN |grep -v '^D'|awk '{print $2}')
 for LINE in $CHANGED ; do
      FILE=`echo $LINE|grep ".java$"`
 	echo $FILE
-	svnlook cat $SVN -t $TXN $FILE>$TMPDIR/tmpfile.java
+	$SVNLOOK cat $SVN -t $TXN $FILE>$TMPDIR/tmpfile.java
 
  	$JAVA -jar $CHECKSTYLE -c $CHECKSTYLE_CONFIG $TMPDIR/tmpfile.java > $TMPDIR/tmpfile.checkstyle
-	
 	
 	if( cat $TMPDIR/tmpfile.checkstyle | grep -v "^Starting audit...$\|^Audit done.$" ); then
 		cat $TMPDIR/tmpfile.checkstyle | grep -v "^Starting audit...$\|^Audit done.$" | sed -e "s@$TMPDIR/tmpfile.java@$FILE@" >> $REPORT
 		X=1
-	 fi
+	fi
 
 done
 
@@ -106,26 +129,9 @@ if [ $X -ne 0 ] ; then
 fi
 rm -Rf $TMPDIR
 
-# for LINE in $CHANGED ; do 
- #    FILE=`echo $LINE | grep ".java$"`
-     #if echo $FILE | grep ".java$" ; then
-  #       $SVNLOOK cat $REPOS $FILE #> ~/tmpfile.java
-   #      $JAVA -jar $CHECKSTYLE -c $CHECKSTYLE_CONFIG $TMPDIR/tmpfile.java > $TMPDIR/tmpfile.checkstyle 
-         #X=`$(($X + $?))`
-         #cat $TMPDIR/tmpfile.checkstyle | grep -v "^Starting audit...$\|^Audit done.$" | sed -e "s@$TMPDIR/tmpfile.java@$FILE@" >> $REPORT 
-#	 if( cat $TMPDIR/tmpfile.checkstyle | grep -v "^Starting audit...$\|^Audit done.$" ); then
-#		 echo "Erreur checkstyle" > /dev/stderr
-#		 X=`$(($X + 1))`
-#	 fi
-     #fi
-# done 
-# if [ $X -ne 0 ] ; then 
- #    cat $REPORT > /dev/stderr 
-  #   rm -Rf $TMPDIR 
-  #   exit 1 
- #fi 
- #rm -Rf $TMPDIR
 
+#==============================================================================
 
 # All checks passed, so allow the commit.
+
 exit 0
