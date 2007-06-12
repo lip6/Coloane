@@ -34,14 +34,14 @@ public interface IModel {
 	 * @param node Noeud a ajouter
 	 * @see INode
 	 */
-	public void addNode(INode node);
+	public void addNode(INode node) throws SyntaxErrorException;
 
 	/**
 	 * Ajoute un arc au modele
 	 * @param arc Arc a ajouter
 	 * @see Arc
 	 */
-	public void addArc(IArc arc);
+	public void addArc(IArc arc) throws SyntaxErrorException;
 
 	/**
 	 * Ajoute un attribut au modele.

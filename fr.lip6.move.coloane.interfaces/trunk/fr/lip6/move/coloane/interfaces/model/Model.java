@@ -207,10 +207,18 @@ public abstract class Model implements IModel, Serializable {
 	 * 
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addNode(fr.lip6.move.coloane.interfaces.model.INode)
 	 */
-	public void addNode(INode node) {
+	public void addNode(INode node) throws SyntaxErrorException {
 
 		// On ajoute le noeud seulement s'il n'est pas deja dans le modele
 		if (!this.listOfNode.contains(node)) {
+			
+			// On leve une exception si l'id de node est deja present dans le modele
+			if (!(getAnArc(node.getId()) == null)
+					|| !(getANode(node.getId()) == null) || node.getId() == 1) {
+				throw new SyntaxErrorException("Un element d'identifiant "
+						+ node.getId() + " existe deja!");
+			}
+
 			this.listOfNode.addElement(node);
 
 			// Gestion de l'identifiant du noeud
@@ -228,7 +236,7 @@ public abstract class Model implements IModel, Serializable {
 	 * 
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addArc(fr.lip6.move.coloane.interfaces.model.Arc)
 	 */
-	public void addArc(IArc arc) {
+	public void addArc(IArc arc) throws SyntaxErrorException {
 		INode start = arc.getStartingNode();
 		INode end = arc.getEndingNode();
 
@@ -241,6 +249,13 @@ public abstract class Model implements IModel, Serializable {
 			// Les noeuds cible et source de l'arc doivent être présent dans le
 			// modèle
 			if ((listOfNode.contains(start)) && (listOfNode.contains(end))) {
+
+//				 On leve une exception si l'id de arc est deja present dans le modele
+				if (!(getAnArc(arc.getId()) == null)
+						|| !(getANode(arc.getId()) == null) || arc.getId() == 1) {
+					throw new SyntaxErrorException("Un element d'identifiant "
+							+ arc.getId() + " existe deja!");
+				}
 
 				start.addOutputArc(arc);
 				end.addInputArc(arc);
