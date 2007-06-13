@@ -14,10 +14,10 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
+import fr.lip6.move.coloane.ui.figures.ArcFigure;
+import fr.lip6.move.coloane.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
-import fr.lip6.move.coloane.ui.views.ArcFigure;
-import fr.lip6.move.coloane.ui.views.IArcFigure;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)

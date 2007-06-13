@@ -21,11 +21,10 @@ import fr.lip6.move.coloane.ui.model.*;
 
 
 /**
- * EditPart pour le modele
+ * EditPart pour le modele global
  */
 public class ModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
-	
 	/**
 	 * Construction de la figure root du modele.
 	 * Cette figure est invisible mais sert de conteneur a tous les autres objets.
@@ -39,14 +38,16 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	
 	/**
 	 * Retourne la liste des enfants du modele
-	 * @return List
+	 * @return List La liste des enfants dans la représentation arborescente du modele
 	 */
 	protected List getModelChildren() {
 		return ((IModelImpl) getModel()).getChildren();
 	}
 	
 	/**
-	 * 
+	 * Re-Tracage du modele.
+	 * Ici, seule les connexions sont concernées.
+	 * Chaque objet-enfant se redessine lui-même
 	 */
 	protected void refreshVisuals () {
 		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
@@ -59,7 +60,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * Creation des differentes regles d'edition pour le modele
 	 */
 	protected void createEditPolicies() {
-		
 		// Interdiction de suppression de l'objet modele
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 
@@ -96,7 +96,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 
 	/**
 	 * Desactive l'ecoute du modele
-	 * Le lien entre le modele et la vue est casse
+	 * Le lien entre le modele et la vue est casse !
 	 */
 	public void deactivate() {
 		if (isActive()) {

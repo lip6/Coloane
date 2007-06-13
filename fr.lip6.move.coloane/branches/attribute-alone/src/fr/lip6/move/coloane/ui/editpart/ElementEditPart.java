@@ -30,13 +30,13 @@ import fr.lip6.move.coloane.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.ui.commands.NodeDeleteCmd;
+import fr.lip6.move.coloane.ui.figures.INodeFigure;
+import fr.lip6.move.coloane.ui.figures.NodeFigure;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
-import fr.lip6.move.coloane.ui.views.INodeFigure;
-import fr.lip6.move.coloane.ui.views.NodeFigure;
 
 /**
  * EditPart pour les noeuds
@@ -91,8 +91,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(nodeModel.getModelAdapter());
 	}
-
-
+	
 	/**
 	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
 	 * @param property L'evenemtn qui a ete levee
