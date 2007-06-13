@@ -2,8 +2,6 @@ package fr.lip6.move.coloane.ui.model;
 
 import java.util.List;
 
-
-//import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -30,7 +28,6 @@ public interface IModelImpl {
 	 */
 	public void addNode(INodeImpl child) throws BuildException;
     
-  
 	/**
 	 * Suppression d'un noeud
 	 * Il faut supprimer ce noeud du modele generique
@@ -52,13 +49,18 @@ public interface IModelImpl {
 	 * @param child L'arc adapte qu'il faut supprimer du modele generique
 	 */
 	public void removeArc(IArcImpl child);
-	
 
 	/** 
 	 * Retourne la liste des INodeImpl du modele
 	 * @return List
 	 */
-	public List getChildren();
+	public List<IElement> getChildren();
+	
+	/**
+	 * Retourne la liste des attributs du modele
+	 * @return Collection
+	 */
+	public List<IElement> getAttributes();
 	
 	/**
 	 * Retourne le modele generique
@@ -116,8 +118,7 @@ public interface IModelImpl {
 	 */
 	public void setEndBuilding();
 	
-    
-	/**
+    /**
 	 * Met en valeur un noeud
 	 */
 	public void highlightNode(String idhighlight, String unhighlight);

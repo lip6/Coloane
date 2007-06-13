@@ -34,7 +34,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	private Formalism formalism;
 
 	/** La liste de INodeImpl. */
-	private List<INodeImpl> children = new ArrayList<INodeImpl>();
+	private List<IElement> children = new ArrayList<IElement>();
 
 	/** Date de derniere modification */
 	/* TODO : Verifier la necessite de cette initialisation */
@@ -109,7 +109,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			INode currentNode = this.model.getNthNode(i);
 			INodeImpl node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			node.setModelAdapter(this);
-			this.children.add(node);
+			this.children.add((IElement)node);
 		}
 		
 		// Creation de tous les Arcs du modele augmente
@@ -225,7 +225,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
 			// On ajoute le noeud augmente aux fils du modele augemente
-			this.children.add(child);
+			this.children.add((IElement)child);
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
 			throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
@@ -269,8 +269,29 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getChildren()
 	 */
-	public List getChildren() {
-		return this.children;
+	public List<IElement> getChildren() {
+		List<IElement> listNodes = this.children;
+		List<IElement> listAttributes = new ArrayList<IElement>();
+		for (IElement elt : listNodes) {
+			listAttributes.addAll(elt.getAttributes());
+		}
+		List<IElement> list = listNodes;
+		list.addAll(listAttributes);
+		list.addAll(this.getAttributes());
+		return list;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getAttributes()
+	 */
+	public List<IElement> getAttributes() {
+    	List<IElement> attrList = new ArrayList<IElement>();
+    	Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		attrList.add((IElement)iterator.next());
+    	}			
+    	return attrList;
 	}
 
 	/*
@@ -366,7 +387,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		String[] tounhigh = unhighlight.split(",");
 		
 		
-		for (INodeImpl node : this.children) {
+		for (IElement nodee : this.children) {
+			INodeImpl node = (INodeImpl)nodee;
 			for (String u : tounhigh) {
 				if (node.getId() == Integer.valueOf(u)) {
 					node.unsetSpecial();
@@ -382,8 +404,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	}
 	
 	public void switchoffNodes() {
-		for (INodeImpl node : this.children) {
-			node.unsetSpecial();
+		for (IElement node : this.children) {
+			((INodeImpl)node).unsetSpecial();
 		}
 	}
 	
@@ -394,7 +416,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		System.err.println("--> Debut du dump !");
 		System.out.println("Liste des noeud :");
 		for (int i = 0; i < children.size(); i++) {
-			INodeImpl n = children.get(i);
+			INodeImpl n = (INodeImpl)children.get(i);
 			System.out.println(i+": "+n.getId()+" ("+n.getGenericNode().getNodeType()+")");
 		}
 	}
