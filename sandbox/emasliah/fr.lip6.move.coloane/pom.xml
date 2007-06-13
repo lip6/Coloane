@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>coloane</groupId>
+    <artifactId>fr.lip6.move</artifactId>
+    <version>0.9.2</version>
+  </parent>
+  <artifactId>fr.lip6.move.coloane</artifactId>
+  <packaging>jar</packaging>
+  <version>0.9.2</version>
+  <name>Coloane</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <!--<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>-->
+    <dependency>
+      <groupId>coloane</groupId>
+      <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
+      <version>0.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>coloane</groupId>
+      <artifactId>fr.lip6.move.coloane.apicami</artifactId>
+      <version>0.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.ui.views.properties</groupId>
+      <artifactId>org.eclipse.ui.views</artifactId>
+      <version>3.2.0.I20060605-1400</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.draw2d.geometry</groupId>
+      <artifactId>org.eclipse.draw2d</artifactId>
+      <version>3.2.1.v20060921</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.swt</groupId>
+      <artifactId>org.eclipse.swt</artifactId>
+      <version>3.2.0.v3232o</version>
+    </dependency>
+  </dependencies>
+</project>
+
+<!--
+mvn install:install-file -DgroupId=org.eclipse.swt -DartifactId=org.eclipse.swt -Dversion=3.2.0.v3232o -Dpackaging=jar -Dfile=lib/
+-->
+
+
+
