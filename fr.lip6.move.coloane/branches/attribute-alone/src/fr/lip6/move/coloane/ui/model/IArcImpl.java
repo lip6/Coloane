@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
@@ -92,6 +93,12 @@ public interface IArcImpl {
 	 * @return Formalism
 	 */
 	public Formalism getFormalism();
+	
+	/**
+	 * Retourne la liste des attributs attaches a cet objet
+	 * @return La liste des attributs associes a cet objet
+	 */
+	public List<IElement> getAttributes(); 
 
 	/**
 	 * Retourne le modele generique

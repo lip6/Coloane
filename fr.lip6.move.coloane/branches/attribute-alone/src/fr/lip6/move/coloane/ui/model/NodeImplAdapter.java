@@ -22,7 +22,7 @@ import fr.lip6.move.coloane.motor.formalism.ElementBase;
  * @see INodeImpl
  */
 
-public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
+public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, IElement {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -164,7 +164,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
     public int getId() {
     	return this.getGenericNode().getId();
     }
-  
+    
     /*
      * (non-Javadoc)
      * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGraphicInfo()
@@ -265,6 +265,19 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	 */
     public IModelImpl getModelAdapter() {
         return modelAdapter;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
+     */
+    public List<IElement> getAttributes() {
+    	List<IElement> attrList = new ArrayList<IElement>();
+    	Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		attrList.add((IElement)iterator.next());
+    	}			
+    	return attrList;
     }
 
     /*

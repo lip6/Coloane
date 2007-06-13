@@ -35,10 +35,10 @@ public interface INodeImpl {
 	/** ID pour la propriete lorsqu'un changement de la valeur */
     public static final String VALUE_PROP = "Node.ValueUpdate";
 	
-    /** ID pour la propriete lorsqu'un changement de la valeur */
+    /** ID pour la propriete lorsque le noeud est selectionne */
     public static final String SELECT_PROP = "Node.SelectUpdate";
     
-    /** ID pour la propriete lorsqu'un changement de la valeur */
+    /** ID pour la propriete lorsque le noeud est deselectionne */
     public static final String UNSELECT_PROP = "Node.UnSelectUpdate";
     
 	/**
@@ -87,6 +87,12 @@ public interface INodeImpl {
      * @return id L'identifiant du noeud
      */
     public int getId();
+    
+    /**
+     * Retourne tous les attributs de l'objet pour qu'ils soient affiches
+     * @return La liste des attributs
+     */
+    public List<IElement> getAttributes();
 	
 	/**
      * Associe le modele augmente au noeud

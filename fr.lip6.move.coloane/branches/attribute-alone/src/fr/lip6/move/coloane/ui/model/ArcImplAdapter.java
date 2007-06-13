@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.ui.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
@@ -21,7 +23,7 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  * @see IArcImpl
  */
 
-public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
+public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IElement {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -160,15 +162,27 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
     } 
     
-    /**
-     * Recupere l'ID du noeud generique
-     * Evite les appels au noeud generique
-     * @return ID
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#getId()
      */
     public int getId() {
     	return this.getGenericArc().getId();
     }
-    
+
+
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
+     */
+    public List<IElement> getAttributes() {
+    	List<IElement> attrList = new ArrayList<IElement>();
+    	Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		attrList.add((IElement)iterator.next());
+    	}			
+    	return attrList;
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
