@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.model;
 import junit.framework.TestCase;
 import java.util.Vector;
 
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -31,94 +32,98 @@ public class TestModel_Arc extends TestCase {
 		int action_ok;
 
 		action_ok = (int) (Math.random() * 4);
+		try {
+			switch(action_ok){
+				// Ajout de 2 noeuds reliés par un arc
+				case 0: {
+					INode node1 = new Node("Node");
+					INode node2 = new Node("Node");
 
-		switch(action_ok){
-			// Ajout de 2 noeuds reliés par un arc
-			case 0: {
-				INode node1 = new Node("Node");
-				INode node2 = new Node("Node");
+					arc.setStartingNode(node1);
+					arc.setEndingNode(node2);
 
-				arc.setStartingNode(node1);
-				arc.setEndingNode(node2);
+					model.addNode(node1);
+					model.addNode(node2);
 
-				model.addNode(node1);
-				model.addNode(node2);
+					id_node1 = node1.getId();
+					id_node2 = node2.getId();
 
-				id_node1 = node1.getId();
-				id_node2 = node2.getId();
+					assertEquals(node1, model.getANode(id_node1));
+					assertEquals(node2, model.getANode(id_node2));
 
-				assertEquals(node1, model.getANode(id_node1));
-				assertEquals(node2, model.getANode(id_node2));
+					model.addArc(arc);
+					break;
+				}
+					// Ajout d'un noeud source relié à un noeud déjà existant
+				case 1: {
+					if (model.getListOfNodeSize() == 0) {
+						break;
+					}
 
-				model.addArc(arc);
-				break;
-			}
-				// Ajout d'un noeud source relié à un noeud déjà existant
-			case 1: {
-				if (model.getListOfNodeSize() == 0) {
+					INode node1 = new Node("Node");
+
+					int i = (int) (Math.random() * model.getListOfNodeSize());
+
+					arc.setStartingNode(node1);
+					arc.setEndingNode(model.getNthNode(i));
+
+					model.addNode(node1);
+
+					id_node1 = node1.getId();
+
+					assertEquals(node1, model.getANode(id_node1));
+
+					model.addArc(arc);
 					break;
 				}
 
-				INode node1 = new Node("Node");
+					// Ajout d'un noeud cible relié à un noeud déjà présent dans
+					// le
+					// modèle
+				case 2: {
 
-				int i = (int) (Math.random() * model.getListOfNodeSize());
+					if (model.getListOfNodeSize() == 0) {
+						break;
+					}
 
-				arc.setStartingNode(node1);
-				arc.setEndingNode(model.getNthNode(i));
+					INode node2 = new Node("Node");
 
-				model.addNode(node1);
+					int i = (int) (Math.random() * model.getListOfNodeSize());
 
-				id_node1 = node1.getId();
+					arc.setStartingNode(model.getNthNode(i));
+					arc.setEndingNode(node2);
 
-				assertEquals(node1, model.getANode(id_node1));
+					model.addNode(node2);
 
-				model.addArc(arc);
-				break;
-			}
+					id_node2 = node2.getId();
+					assertEquals(node2, model.getANode(id_node2));
 
-				// Ajout d'un noeud cible relié à un noeud déjà présent dans le
-				// modèle
-			case 2: {
-
-				if (model.getListOfNodeSize() == 0) {
+					model.addArc(arc);
 					break;
 				}
 
-				INode node2 = new Node("Node");
+				case 3: {
 
-				int i = (int) (Math.random() * model.getListOfNodeSize());
+					if (model.getListOfNodeSize() == 0) {
+						break;
+					}
 
-				arc.setStartingNode(model.getNthNode(i));
-				arc.setEndingNode(node2);
+					int i = (int) (Math.random() * model.getListOfNodeSize());
 
-				model.addNode(node2);
+					arc.setStartingNode(model.getNthNode(i));
+					i = (int) (Math.random() * model.getListOfNodeSize());
+					arc.setEndingNode(model.getNthNode(i));
 
-				id_node2 = node2.getId();
-				assertEquals(node2, model.getANode(id_node2));
-
-				model.addArc(arc);
-				break;
-			}
-
-			case 3: {
-
-				if (model.getListOfNodeSize() == 0) {
+					model.addArc(arc);
 					break;
 				}
 
-				int i = (int) (Math.random() * model.getListOfNodeSize());
-
-				arc.setStartingNode(model.getNthNode(i));
-				i = (int) (Math.random() * model.getListOfNodeSize());
-				arc.setEndingNode(model.getNthNode(i));
-
-				model.addArc(arc);
-				break;
+				default: {
+					break;
+				}
 			}
-
-			default: {
-				break;
-			}
+		} catch (SyntaxErrorException e) {
+			System.out.println(e.toString());
 		}
 
 	}
@@ -129,75 +134,80 @@ public class TestModel_Arc extends TestCase {
 		int action_null;
 
 		action_null = (int) (Math.random() * 4);
+		try {
+			switch(action_null){
+				// Ajout d'un arc dont les noeuds ne sont présent dans le modèle
+				case 0: {
+					INode node1 = new Node("Node");
+					INode node2 = new Node("Node");
 
-		switch(action_null){
-			// Ajout d'un arc dont les noeuds ne sont présent dans le modèle
-			case 0: {
-				INode node1 = new Node("Node");
-				INode node2 = new Node("Node");
+					arc.setStartingNode(node1);
+					arc.setEndingNode(node2);
 
-				arc.setStartingNode(node1);
-				arc.setEndingNode(node2);
+					id_node1 = node1.getId();
+					id_node2 = node2.getId();
 
-				id_node1 = node1.getId();
-				id_node2 = node2.getId();
+					assertTrue(node1 != model.getANode(id_node1));
+					assertTrue(node2 != model.getANode(id_node2));
 
-				assertTrue(node1 != model.getANode(id_node1));
-				assertTrue(node2 != model.getANode(id_node2));
-
-				model.addArc(arc);
-				break;
-			}
-
-				// Ajout d'un arc dont le noeud source n'est pas présent dans le
-				// modèle
-			case 1: {
-				if (model.getListOfNodeSize() == 0) {
+					model.addArc(arc);
 					break;
 				}
 
-				INode node1 = new Node("Node");
+					// Ajout d'un arc dont le noeud source n'est pas présent
+					// dans le
+					// modèle
+				case 1: {
+					if (model.getListOfNodeSize() == 0) {
+						break;
+					}
 
-				int i = (int) (Math.random() * model.getListOfNodeSize());
+					INode node1 = new Node("Node");
 
-				arc.setStartingNode(node1);
-				arc.setEndingNode(model.getNthNode(i));
+					int i = (int) (Math.random() * model.getListOfNodeSize());
 
-				id_node1 = node1.getId();
-				assertTrue(model.getANode(id_node1) == null);
+					arc.setStartingNode(node1);
+					arc.setEndingNode(model.getNthNode(i));
 
-				model.addArc(arc);
-				break;
-			}
-				// Ajout d'un arc dont le noeud cible n'est pas présent dans le
-				// modèle
-			case 2: {
-				if (model.getListOfNodeSize() == 0) {
+					id_node1 = node1.getId();
+					assertTrue(model.getANode(id_node1) == null);
+
+					model.addArc(arc);
+					break;
+				}
+					// Ajout d'un arc dont le noeud cible n'est pas présent dans
+					// le
+					// modèle
+				case 2: {
+					if (model.getListOfNodeSize() == 0) {
+						break;
+					}
+
+					INode node2 = new Node("Node");
+
+					int i = (int) (Math.random() * model.getListOfNodeSize());
+
+					arc.setStartingNode(model.getNthNode(i));
+					arc.setEndingNode(node2);
+
+					id_node2 = node2.getId();
+					assertTrue(model.getANode(id_node2) == null);
+
+					model.addArc(arc);
 					break;
 				}
 
-				INode node2 = new Node("Node");
+				case 3: {
+					model.addArc(arc);
+					break;
+				}
 
-				int i = (int) (Math.random() * model.getListOfNodeSize());
-
-				arc.setStartingNode(model.getNthNode(i));
-				arc.setEndingNode(node2);
-
-				id_node2 = node2.getId();
-				assertTrue(model.getANode(id_node2) == null);
-
-				model.addArc(arc);
-				break;
+				default: {
+					break;
+				}
 			}
-
-			case 3: {
-				model.addArc(arc);
-				break;
-			}
-
-			default: {
-				break;
-			}
+		} catch (SyntaxErrorException e) {
+			System.out.println(e.toString());
 		}
 	}
 
