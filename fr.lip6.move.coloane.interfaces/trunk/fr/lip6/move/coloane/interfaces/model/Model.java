@@ -111,7 +111,7 @@ public abstract class Model implements IModel, Serializable {
 	 * @throws IOException
 	 *             Erreur de lecture dans le fichier
 	 */
-	public Model(File commandsFile) throws IOException {
+	public Model(File commandsFile) throws IOException, SyntaxErrorException {
 		this.xPosition = 20;
 		this.yPosition = 20;
 		this.listOfArc = new Vector<IArc>();
@@ -152,7 +152,8 @@ public abstract class Model implements IModel, Serializable {
 
 			// Erreur de syntaxe
 		} catch (SyntaxErrorException e) {
-			e.toString();
+			//	TODO Verifier s'il faut propager ou non l'exception
+			throw e;
 		}
 	}
 
@@ -224,9 +225,10 @@ public abstract class Model implements IModel, Serializable {
 			// Gestion de l'identifiant du noeud
 			if (node.getId() == 0) {
 				node.setId(this.getMaxId() + 1);
-				this.listOfId.addElement(Integer.valueOf(node.getId()));
+				//this.listOfId.addElement(Integer.valueOf(node.getId()));
 				setMaxId(this.getMaxId() + 1);
 			}
+			this.listOfId.addElement(Integer.valueOf(node.getId()));
 		}
 
 	}
@@ -264,9 +266,10 @@ public abstract class Model implements IModel, Serializable {
 				// Gestion de l'identifiant du noeud
 				if (arc.getId() == 0) {
 					arc.setId(this.getMaxId() + 1);
-					this.listOfId.addElement(Integer.valueOf(arc.getId()));
+					//this.listOfId.addElement(Integer.valueOf(arc.getId()));
 					setMaxId(this.getMaxId() + 1);
 				}
+				this.listOfId.addElement(Integer.valueOf(arc.getId()));
 			} else {
 				System.out
 						.println("addArc: Un des noeuds de l'arc est manquant!");
