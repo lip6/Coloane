@@ -2,12 +2,16 @@ package fr.lip6.move.coloane.motor.formalism;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Cette classe represente un element du base du formalisme.
- * 
- * @author Thomas d'Erceville
+ * Un element de base est le composant d'un formalisme.
+ * Un element de base contient toute les informations decrivant ce composant de formalisme :
+ * <ul>
+ * 	<li>Nom et Nom de palette</li>
+ * 	<li>Largeur, Hauteur</li>
+ * 	<li>Details graphiques : Remplissage, Icones etc...</li>
+ * </ul>
  */
 
 public class ElementBase implements Serializable {
@@ -33,7 +37,12 @@ public class ElementBase implements Serializable {
 	/** Formalisme auquel appartient l'element de base. */
 	private Formalism formalism = null;
 	
-	/** Numero indiquant quel dessin faire. */
+	/** 
+	 * Numero indiquant quel dessin faire.
+	 * Tous les types de dessins sont définis dans INodeGraphicInfo et IArcGraphicInfo
+	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo
+	 * @see fr.lip6.move.coloane.ui.model.INodeGraphicInfo 
+	 */
 	private int numFigure;
 
 	/** Adresse du fichier representant l'icone de 16 pixels sur 16. */
@@ -65,22 +74,6 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * Retourne l'attribut designe par son index
-	 * 
-	 * @param index Index de l'attribut a recuperer 
-	 * @return AttributeFormalism
-	 */
-	public AttributeFormalism getNthAttr(int index) {
-		AttributeFormalism attr;
-		try {
-			attr = (AttributeFormalism) this.listOfAttributeElem.get(index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return null;
-		}
-		return attr;
-	}
-
-	/**
 	 * Ajoute un attribut a l'element de base
 	 * @param attrForm Attribut a ajouter a la liste des attributs
 	 */
@@ -97,12 +90,22 @@ public class ElementBase implements Serializable {
 	
 	/**
 	 * Retourne le nom de l'element de base
+	 * <b>Attention !</b> Cette methode retourne le nom prevu pour etre affiche sur la palette
 	 */
 	public String getPaletteName() {
 		return this.paletteName;
 	}
 	
 	/**
+	 * Retourne la liste des attributs d'un element.
+	 * @return ArrayList
+	 */
+	public ArrayList getListOfAttribute() {
+		return listOfAttributeElem;
+	}
+	
+	/**
+	 * TODO : A verifier
 	 * Retourne l'indication sur le dessin
 	 * @return int
 	 */
@@ -110,18 +113,17 @@ public class ElementBase implements Serializable {
 		return numFigure;
 	}
 
-
 	/**
-	 * Retourne la largeur de l'objet
-	 * @return int
+	 * Retourne la largeur de l'objet telle que definie par le formalisme
+	 * @return int La largeur
 	 */
 	public int getWidth() {
 		return width;
 	}
 
 	/**
-	 * Retourne la hauteur de l'objet
-	 * @return int
+	 * Retourne la hauteur de l'objet telle que definie par le formalisme
+	 * @return int La hauteur
 	 */
 	public int getHeight() {
 		return height;
@@ -153,14 +155,6 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * Retourne la liste des attributs d'un element.
-	 * @return ArrayList
-	 */
-	public ArrayList getListOfAttribute() {
-		return listOfAttributeElem;
-	}
-
-	/**
 	 * Retourne l'adresse du fichier de l'icone de 24 pixels
 	 * @return String
 	 */
@@ -177,21 +171,7 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * @return Retourne une chaine de caracteres.
-	 */
-	public String toString() {
-		Iterator it;
-		AttributeFormalism attr = null;
-		String str = "Element de Base :";
-		str.concat("\n  Name" + name);
-		for (it = listOfAttributeElem.iterator(); it.hasNext();) {
-			str.concat(attr.toString());
-		}
-		return str;
-	}
-	
-	/**
-	 * Retourne le formalisme de l'element de base
+	 * Retourne le formalisme auquel appartient l'element de base
 	 * @return Formalism
 	 */
 	public Formalism getFormalism() {
