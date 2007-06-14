@@ -12,8 +12,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/** Le noeud enrichi */
-	private NodeImplAdapter nodeAdapter;
+	private final INodeImpl nodeAdapter;
 	
+	/** Les coordonees */
 	private int x;
 	private int y;
 
@@ -21,7 +22,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 	 * Constructeur
 	 * @param node Le noeud enrichi
 	 */
-	public NodeGraphicInfo(NodeImplAdapter node) {
+	public NodeGraphicInfo(INodeImpl node) {
 		this.nodeAdapter = node;
 	}
 
@@ -43,20 +44,22 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 		this.nodeAdapter.getGenericNode().setPosition(x, y);
 		
 		// Lever un evenement
-		this.nodeAdapter.firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
+		((NodeImplAdapter)this.nodeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getWidth()
+	/**
+	 * Retourne la largeur du noeud telle que prevue par le formalisme
+	 * @return int La largeur
 	 */
-	public int getWidth() {
+	private int getWidth() {
 		return this.nodeAdapter.getElementBase().getWidth();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getHeight()
+	/**
+	 * Retourne la hauteur du noeud telle que prevue par le formalisme
+	 * @return int La hauteur
 	 */
-	public int getHeight() {
+	private int getHeight() {
 		return this.nodeAdapter.getElementBase().getHeight();
 	}
 
@@ -75,23 +78,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isSizable()
-	 */
-	public boolean isSizable() {
-		return false;
-	}
-
-	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
 	 */
 	public boolean isFilled() {
 		return this.nodeAdapter.getElementBase().getIsFilled();
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
-	 */
-	public void setSize(Dimension newSize) {
-		// TODO Auto-generated method stub
 	}
 }

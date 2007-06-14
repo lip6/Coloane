@@ -3,9 +3,15 @@ package fr.lip6.move.coloane.ui.model;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * Interface des information graphique concernant un noeud
+ * @see fr.lip6.move.coloane.ui.model.NodeGraphicInfo
+ */
+
+
 public interface INodeGraphicInfo {
 	
-	//	 Style de sa figure
+	// Style de sa figure
 	 /** ID pour circle */
 	public static final int FIG_CIRCLE = 0;
 	
@@ -26,21 +32,10 @@ public interface INodeGraphicInfo {
 
 	/**
 	 * Change l'emplacement d'un noeud
-	 * @param newLocation Nouvelle localisation du noeud
+	 * @param x Les abcisses
+	 * @param y Les ordonees
 	 */
 	public void setLocation(int x, int y);
-
-	/**
-	 * Retourne la largeur du noeud telle que prevue par le formalisme
-	 * @return int
-	 */
-	public int getWidth();
-
-	/**
-	 * Retourne la hauteur du noeud telle que prevue par le formalisme
-	 * @return int
-	 */
-	public int getHeight();
 
 	/**
 	 * Retourne les dimensions du noeud telles que prevues par le formalisme
@@ -55,21 +50,8 @@ public interface INodeGraphicInfo {
 	public int getFigureStyle();
 
 	/**
-	 * Indique si le redimensionnement est possible
-	 * @return boolean 
-	 */
-	public boolean isSizable();
-
-	/**
 	 * Retourne un booleen indiquant si la figure est remplie ou non.
 	 * @return boolean
 	 */
 	public boolean isFilled();
-
-	/**
-	 * Modifie la taille de l'objet
-	 * Inutile Ici !
-	 */
-	public void setSize(Dimension newSize);
-
 }
