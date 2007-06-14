@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
+import java.util.List;
+
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 
@@ -8,7 +10,7 @@ import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
  * Cet attribut est l'attribut generique plus quelques proprietes (IAttribute)<br>
  * @see IAttributeImpl
  */
-public class AttributeImplAdapter extends AbstractModelElement implements IAttributeImpl {
+public class AttributeImplAdapter extends AbstractModelElement implements IAttributeImpl, IElement {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -40,7 +42,8 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		// Affectation de l'identifiant
 		this.id = String.valueOf(formalism.getOrder());
 		
-		this.drawable = formalism.isDrawable();		// L'attribut doit-il etre affiche dans la fenetre des proprietes
+		// Divers parametres
+		this.drawable = formalism.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
 		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
 	}
 
@@ -52,7 +55,23 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public String getId() {
 		return this.id;
 	}
-    
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
+	 */
+    public List<IElement> getAttributes() {
+    	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getGenericAttribute()
+     */
+    public IAttribute getGenericAttribute() {
+    	return this.attribute;
+    }
+   
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDisplayName()

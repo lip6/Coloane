@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 /**
  * Interface des attributs d'un element du modele (noeud ou arc). <br>
  * Ses attributs sont :
@@ -17,6 +19,9 @@ public interface IAttributeImpl {
 	
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	public static final String UPDATE_ATTRIBUTE_VALUE = "Attribute.ValueUpdate";
+	
+	/** ID pour la propriete lorsqu'un changement de la position */
+	public static final String LOCATION_PROP = "Attribute.Location";
 
 	/**
 	 * Retourne l'identifiant de l'attribut
@@ -35,7 +40,7 @@ public interface IAttributeImpl {
 	 * @return Object
 	 */
 	public String getValue();
-	
+
 	/**
 	 * Inidique la nouvelle valeur pour l'attribut generique
 	 * @param value La nouvelle valeur
@@ -57,4 +62,10 @@ public interface IAttributeImpl {
 	public boolean getValidation();
 	
 	public String getValidationMessage();
+	
+	/**
+	 * Retourne l'attribut generique attache a l'attribut augmente
+	 * @return IAttribute L'atribut generique
+	 */
+	public IAttribute getGenericAttribute();
 }
