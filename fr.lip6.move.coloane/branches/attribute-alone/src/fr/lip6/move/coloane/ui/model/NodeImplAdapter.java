@@ -105,7 +105,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
             this.node.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism);
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism,this);
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -138,7 +138,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 				// Pas besoin de creer un nouvel attribut genrique dans le modele !
 				attribute = node.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 					find = true;
 				}
 			}
@@ -147,7 +147,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 				this.node.addAttribute(attribute);
 			}
 			
@@ -275,7 +275,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
     	List<IElement> attrList = new ArrayList<IElement>();
     	Iterator iterator = this.properties.values().iterator();    	
     	while (iterator.hasNext()) {
-    		attrList.add((IElement)iterator.next());
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals("")) && att.isDrawable())
+        		attrList.add((IElement)att);
     	}			
     	return attrList;
     }
@@ -302,28 +304,8 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	   }
 	   return valeur;
 	 }
-	 
-	 /**
-	  * Leve un evenement lors de la modification d'un propriete d'un arc.
-	  * Cette methode est appelle par AbstractModelElement si l'evenement correspond bien
-	  * @param oldValue L'ancienne valeur de la propriete
-	  * @param newValue La nouvelle valeur
-	  */
-	 private void throwEventProperty (String oldValue, String newValue) {
-		 firePropertyChange(NodeImplAdapter.VALUE_PROP, oldValue, newValue);
-	 }
-	    
-	 /**
-	  * Actions entreprises suite ˆ la modification d'un parametre dans la fenetre Properties
-	  * @param id L'objet concerne
-	  * @param value La nouvelle valeur
-	  */
-	 public void setPropertyValue(Object id, Object value) {
-		 String oldValue = getNodeAttributeValue("name"); // On conserve l'ancienne valeur
-		 super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
-		 this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
-	 }
-	 
+    
+ 
 	 /*
 	  * (non-Javadoc)
 	  * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
