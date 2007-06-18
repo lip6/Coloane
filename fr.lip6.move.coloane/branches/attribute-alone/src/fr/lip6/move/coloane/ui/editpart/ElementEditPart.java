@@ -60,6 +60,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
 	protected void refreshVisuals() {
+		System.out.println("Rafraischissement du noeud");
 		INodeImpl nodeModel = (INodeImpl) getModel();
 		INodeFigure nodeFigure = (INodeFigure)getFigure();
 
@@ -101,27 +102,18 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 
 		// Si la propriete est un changement de position
 		if (INodeImpl.LOCATION_PROP.equals(prop)) {
-			refreshChildren();
 		// Si c'est une propriete de connexion
 		} else if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
-		} else if (INodeImpl.VALUE_PROP.equalsIgnoreCase(prop)) {
-			refreshChildren();
 		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
-			System.out.println("Recepetion de l'evenement special");
-			INodeFigure nodeFigure = (INodeFigure)getFigure();
-			nodeFigure.setSelectSpecial();
-			refreshChildren();
+			((INodeFigure)getFigure()).setSelectSpecial();
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
-			System.out.println("Recepetion de l'evenement unspecial");
-			INodeFigure nodeFigure = (INodeFigure)getFigure();
-			nodeFigure.unsetSelectSpecial();
-			refreshChildren();
+			((INodeFigure)getFigure()).unsetSelectSpecial();
 		}
-		refreshVisuals();
 
+		refreshVisuals();
 	}
 
 
