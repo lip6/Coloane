@@ -10,18 +10,18 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo, Serializable
 	private static final long serialVersionUID = 1L;
 	
 	/** Le noeud enrichi */
-	private final IAttributeImpl attributeAdapter;
+	private final IAttributeImpl attribute;
 	
 	/** Les coordonees */
-	private int x;
-	private int y;
+	private int x = 0;
+	private int y = 0;
 
 	/** 
 	 * Constructeur
 	 * @param attributeImpl L'attribut enrichi
 	 */
-	public AttributeGraphicInfo(IAttributeImpl attributeAdapter) {
-		this.attributeAdapter = attributeAdapter;
+	public AttributeGraphicInfo(IAttributeImpl attribute) {
+		this.attribute = attribute;
 	}
 
 	/* (non-Javadoc)
@@ -39,10 +39,10 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo, Serializable
 		this.y = y;
 		
 		// Mise a jour du noeud generique
-		this.attributeAdapter.getGenericAttribute().setPosition(x, y);
+		this.attribute.getGenericAttribute().setPosition(x, y);
 		
 		// Lever un evenement
-		((AttributeImplAdapter)this.attributeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
+		((AttributeImplAdapter)this.attribute).firePropertyChange(AttributeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
 	}
 }
 
