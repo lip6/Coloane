@@ -77,7 +77,14 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
 		String prop = event.getPropertyName();
+		
+		// Ajout/Suppression d'un noeud
 		if (IModelImpl.NODE_ADDED_PROP.equals(prop) || IModelImpl.NODE_REMOVED_PROP.equals(prop)) {
+			refreshChildren();
+		}
+		
+		// Ajout d'un attribut
+		if (IModelImpl.ATTRIBUTE_ADDED_PROP.equals(prop)) {
 			refreshChildren();
 		}
 	}
