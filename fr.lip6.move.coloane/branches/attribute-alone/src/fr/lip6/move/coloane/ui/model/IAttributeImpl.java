@@ -43,9 +43,10 @@ public interface IAttributeImpl {
 
 	/**
 	 * Inidique la nouvelle valeur pour l'attribut generique
-	 * @param value La nouvelle valeur
+	 * @param oldValue L'ancienne valeur de l'attribut
+	 * @param newValue La nouvelle valeur de l'attribut
 	 */
-	public void setValue(String value);
+	public void setValue(String oldValue, String newValue);
 	
 	/**
 	 * Indicateur d'affichage
@@ -59,13 +60,23 @@ public interface IAttributeImpl {
 	 */
 	public boolean isMultiline();
 	
-	public boolean getValidation();
-	
-	public String getValidationMessage();
+	/**
+	 * Retourne l'objet contenant les informations graphiques concernant cet attribut
+	 * @return IAttributeGraphicInfo
+	 * @see IAttributeGraphicInfo
+	 */
+	public IAttributeGraphicInfo getGraphicInfo();
 	
 	/**
 	 * Retourne l'attribut generique attache a l'attribut augmente
 	 * @return IAttribute L'atribut generique
 	 */
 	public IAttribute getGenericAttribute();
+	
+	public boolean getValidation();
+	
+	public String getValidationMessage();
+	
+	public IElement getReference();
+
 }

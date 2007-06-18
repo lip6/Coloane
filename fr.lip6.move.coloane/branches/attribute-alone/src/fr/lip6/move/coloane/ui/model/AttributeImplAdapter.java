@@ -17,6 +17,12 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	
 	/** Attribut generique a adapter */
 	private IAttribute attribute;
+	
+	/** Considerations graphiques */
+	private IAttributeGraphicInfo attGraphicInfo;
+	
+	/** Element (Noeud) de rattachement */
+	private IElement reference;
 
 	/** Un identifiant unique pour etre gere par Ecplipse */
 	private String id;
@@ -33,11 +39,14 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @param attribute attribut a adapter
 	 * @param drawable indique si l'atrribut est afficheable, a determiner en fonction du formalism
 	 */
-	public AttributeImplAdapter(IAttribute attribute, AttributeFormalism formalism) {
+	public AttributeImplAdapter(IAttribute attribute, AttributeFormalism formalism, IElement ref) {
 		super();
 		
 		// On attache l'attribut generique
 		this.attribute = attribute;
+		
+		// On attache le referent
+		this.reference = ref;
 		
 		// Affectation de l'identifiant
 		this.id = String.valueOf(formalism.getOrder());
@@ -45,6 +54,9 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		// Divers parametres
 		this.drawable = formalism.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
 		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
+		
+		// L'objet contenant toutes les consideration graphiques (comme la position)
+		this.attGraphicInfo = new AttributeGraphicInfo(this);
 	}
 
 	   
@@ -71,6 +83,11 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
     public IAttribute getGenericAttribute() {
     	return this.attribute;
     }
+    
+    
+    public IAttributeGraphicInfo getGraphicInfo() {
+    	return this.attGraphicInfo;
+    }
    
 	/*
 	 * (non-Javadoc)
@@ -92,8 +109,19 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setValue(java.lang.String)
 	 */
-	public void setValue(String value) {
-		this.attribute.setValue((value==null)?"":value);		
+	public void setValue(String oldValue,String newValue) {
+		System.out.println("[Attribut] Prevention");
+		
+		// Affectation de la nouvelle valeur au modele
+		this.attribute.setValue((newValue==null)?"":newValue);
+
+		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit créer une figure
+		if (this.isDrawable() && oldValue.equals("")) {
+			System.out.println("Nouvel attribut necessaire");
+			this.reference.getModelAdapter().annouceAttribute();
+		}
+		
+		firePropertyChange(AttributeImplAdapter.LOCATION_PROP, null, null);
 	}
 	
 	/*
@@ -120,5 +148,15 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public String getValidationMessage() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public IModelImpl getModelAdapter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public IElement getReference() {
+		return this.reference;
 	}
 }
