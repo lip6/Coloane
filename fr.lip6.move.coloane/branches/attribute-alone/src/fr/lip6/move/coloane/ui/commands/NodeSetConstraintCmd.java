@@ -21,7 +21,6 @@ public class NodeSetConstraintCmd extends Command {
     /**
      * Constructeur
      * @param node noeud
-     * @param req requete
      * @param newBounds Nouvelles limites
      */
     public NodeSetConstraintCmd(INodeImpl node, Rectangle newBounds) {
@@ -30,7 +29,6 @@ public class NodeSetConstraintCmd extends Command {
 		}
 		this.node = node;
 		this.newBounds = newBounds.getCopy();
-		setLabel("Move a node");
 	}
 
     /**
