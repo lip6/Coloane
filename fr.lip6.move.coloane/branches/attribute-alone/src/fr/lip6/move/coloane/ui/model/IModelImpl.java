@@ -17,6 +17,9 @@ public interface IModelImpl {
 
     /** ID de propriete lorsqu'un noeud est supprime du modele */
     public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
+    
+    /** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
+    public static final String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute";
   
     /**
 	 * Ajout d'un noeud au modele
@@ -126,4 +129,6 @@ public interface IModelImpl {
 	public void switchoffNodes();
 	
     public void dumpModel();
+    
+    public void annouceAttribute();
 }
