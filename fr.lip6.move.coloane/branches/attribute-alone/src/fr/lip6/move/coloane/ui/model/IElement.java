@@ -15,4 +15,9 @@ public interface IElement {
 	 */	
 	public List<IElement> getAttributes();
 	
+	/**
+	 * Renvoie le modele augmente
+	 */
+	public IModelImpl getModelAdapter();
+	
 }
