@@ -111,7 +111,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
             this.arc.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism);
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism,this);
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -145,7 +145,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = arc.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 					find = true;
 				}
 			}
@@ -154,7 +154,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 				this.arc.addAttribute(attribute);
 			}
 
@@ -179,7 +179,9 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     	List<IElement> attrList = new ArrayList<IElement>();
     	Iterator iterator = this.properties.values().iterator();    	
     	while (iterator.hasNext()) {
-    		attrList.add((IElement)iterator.next());
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals("")) && att.isDrawable())
+    			attrList.add((IElement)att);
     	}			
     	return attrList;
     }

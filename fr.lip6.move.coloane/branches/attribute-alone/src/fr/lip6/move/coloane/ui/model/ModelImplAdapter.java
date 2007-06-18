@@ -22,7 +22,7 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  * Cet adapteur doit gerer la coherence entre le modele augmente et le modele generique
  * @see fr.lip6.move.coloane.interfaces.model.Model
  */
-public class ModelImplAdapter extends AbstractModelElement implements IModelImpl, Serializable {
+public class ModelImplAdapter extends AbstractModelElement implements IModelImpl, IElement, Serializable {
 
 	/** Id pour la serialisation. */
 	private static final long serialVersionUID = 1L;
@@ -166,7 +166,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.model.addAttribute(attribute);
 			
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
-			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 			
 			// Augmente la liste des proprietes (fenetre properties de la vue)
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -198,7 +198,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = model.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 					find = true;
 				}
 			}
@@ -207,7 +207,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 				this.model.addAttribute(attribute);
 			}
 			
@@ -222,11 +222,13 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public void addNode(INodeImpl child) throws BuildException {
 		if (child != null) {
+			System.out.println("Ajout du noeud dans le modele augemente");
 			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
 			// On ajoute le noeud augmente aux fils du modele augemente
 			this.children.add((IElement)child);
 			firePropertyChange(NODE_ADDED_PROP, null, child);
+			System.out.println("Evenemtn envoye");
 		} else {
 			throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
 		}
@@ -273,9 +275,13 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		List<IElement> listNodes = this.children;
 		List<IElement> listAttributes = new ArrayList<IElement>();
 		for (IElement elt : listNodes) {
-			listAttributes.addAll(elt.getAttributes());
+			// TODO : Deux appels a elt.getAttributes : Un peu fort en chocolat !
+			if (elt.getAttributes() != null) {
+				listAttributes.addAll(elt.getAttributes());
+			}
 		}
-		List<IElement> list = listNodes;
+		List<IElement> list = new ArrayList<IElement>();
+		list.addAll(listNodes);
 		list.addAll(listAttributes);
 		list.addAll(this.getAttributes());
 		return list;
@@ -289,9 +295,17 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
     	List<IElement> attrList = new ArrayList<IElement>();
     	Iterator iterator = this.properties.values().iterator();    	
     	while (iterator.hasNext()) {
-    		attrList.add((IElement)iterator.next());
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals("")) && att.isDrawable()) {
+    			System.out.println("Attribut : "+att.getDisplayName()+" : |"+att.getValue()+"|");
+        		attrList.add((IElement)att);
+    		}
     	}			
     	return attrList;
+	}
+	
+	public void annouceAttribute() {
+		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, null);
 	}
 
 	/*
@@ -419,5 +433,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			INodeImpl n = (INodeImpl)children.get(i);
 			System.out.println(i+": "+n.getId()+" ("+n.getGenericNode().getNodeType()+")");
 		}
+	}
+
+	public IModelImpl getModelAdapter() {
+		return this;
 	}
 }
