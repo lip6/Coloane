@@ -12,12 +12,12 @@
   <name>Coloane</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-    <!--<dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>-->
+    </dependency>
     <dependency>
       <groupId>coloane</groupId>
       <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
@@ -44,6 +44,61 @@
       <version>3.2.0.v3232o</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <directory>plugin</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>src</testSourceDirectory>
+    <!--<finalName>Toto</finalName>-->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+	  <compilerArgument>@javac_options</compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+    <resources>
+     <resource>
+       <directory>.</directory>
+        <includes>
+          <include>icons/**</include>
+          <include>plugin.properties</include>
+          <include>plugin.xml</include>
+        </includes>
+        <excludes>
+          <exclude>target/**</exclude>
+          <exclude>src/**</exclude>
+          <exclude>plugin/**</exclude>
+          <exclude>META-INF/**</exclude>
+          <exclude>pom.xml</exclude>
+        </excludes>
+     </resource>
+     <resource>
+       <directory>../fr.lip6.move.coloane.interfaces</directory>
+        <includes>
+          <include>lib/fr.lip6.move.coloane.interfaces-0.9.2.jar</include>
+        </includes>
+     </resource>
+     <resource>
+       <directory>../fr.lip6.move.coloane.apicami</directory>
+        <includes>
+          <include>lib/fr.lip6.move.coloane.apicami-0.9.2.jar</include>
+        </includes>
+     </resource>
+   </resources>
+  </build>
 </project>
 
 <!--

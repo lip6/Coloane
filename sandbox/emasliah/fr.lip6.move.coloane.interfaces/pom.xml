@@ -11,12 +11,19 @@
   <version>0.9.2</version>
   <name>Interfaces</name>
   <url>http://maven.apache.org</url>
-  <!--<dependencies>
-    <dependency>
+  <dependencies>
+    <!--<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-  </dependencies>-->
+    </dependency>-->
+  </dependencies>
+  
+  <build>
+    <directory>lib</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <sourceDirectory>src</sourceDirectory>
+  </build>
+
 </project>
