@@ -60,40 +60,40 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
 	protected void refreshVisuals() {
-		System.out.println("Rafraischissement du noeud");
 		INodeImpl nodeModel = (INodeImpl) getModel();
 
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeModel.getGraphicInfo().getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 
 		// Il faut avertir FrameKit
+		// TODO : Verifier que le notify ne doit pas etre positionne dans le propertyChange
 		Coloane.notifyModelChange(nodeModel.getModelAdapter());
 	}
 	
 	/**
 	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
-	 * @param property L'evenemtn qui a ete levee
+	 * @param property L'evenement qui a ete levee
 	 */
 	public void propertyChange(PropertyChangeEvent property) {
 		String prop = property.getPropertyName();	
 
-		// Si la propriete est un changement de position
-		if (INodeImpl.LOCATION_PROP.equals(prop)) {
-		// Si c'est une propriete de connexion
-		} else if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
+		// Propriete de connexion
+		if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
+			
+		// Propriete de selection
 		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure)getFigure()).setSelectSpecial();
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure)getFigure()).unsetSelectSpecial();
 		}
 
+		// Dans tous les cas, rafraichissement de la figure
 		refreshVisuals();
 	}
-
-
+	
 	/**
 	 * Regles de gestion de l'objet
 	 */
@@ -115,9 +115,19 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 				INodeFigure nodeFigure = (INodeFigure)getFigure();
 				nodeFigure.setSelect();
 			}
+			
+			// Comportement lorsque l'objet est selectionne
+			@Override
+			protected void setSelectedState(int state) {
+				// TODO Auto-generated method stub
+				super.setSelectedState(state);
+				if (state != 0) {
+					((INodeImpl)getModel()).setAttributesSelected(false,true);
+				} else {
+					((INodeImpl)getModel()).setAttributesSelected(false,false);
+				}
+			}
 		});
-		
-		//installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NonResizableEditPolicy());
 		
 		/* Ensemble des regles concernant le role profond de l'element du modele */
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
