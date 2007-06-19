@@ -4,6 +4,8 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
@@ -20,8 +22,8 @@ public class NodeFigure extends Figure implements INodeFigure {
 	private IFigure figure;
 	
 	/** Les considerations graphiques du noeud */
-	private INodeGraphicInfo nodeGraphInfo;   
-
+	private INodeGraphicInfo nodeGraphInfo;  
+	
 	/**
 	 * Constructeur de l'objet graphique representant un noeud augemente.
 	 * Toute modification graphique concernant le noeud augmente passe par cet objet.
@@ -37,7 +39,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * Creation de la figure associee a un noeud
 	 * @param node Le modele enrichi du noeud
 	 */
-	private void createNodeFigure(INodeImpl node) {
+	private void createNodeFigure(final INodeImpl node) {
 		
 		// Recupere les options graphiques definies pour le formalisme
 		nodeGraphInfo = node.getGraphicInfo();
@@ -85,7 +87,21 @@ public class NodeFigure extends Figure implements INodeFigure {
 				figure.setBackgroundColor(ColorConstants.black);
 			}			
 			add(figure);
-		}                             
+		}    
+		
+		// Ecoute des evenements ENTER et EXIT de la souris
+		MouseMotionListener listener = new MouseMotionListener.Stub() {
+			public void mouseEntered(MouseEvent me) {
+				((Shape)me.getSource()).setBackgroundColor(ColorConstants.yellow);
+				node.setAttributesSelected(true,true);
+			}
+			public void mouseExited(MouseEvent me) {
+				((Shape)me.getSource()).setBackgroundColor(ColorConstants.white);
+				node.setAttributesSelected(true,false);
+			}
+		};
+		
+		figure.addMouseMotionListener(listener);
 	}
 	
 	/*
