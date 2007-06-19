@@ -103,7 +103,7 @@ public class FormalismManager {
         petri.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"author(s)", true, true);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"version", true, false, "0.0");
+        attr = new AttributeFormalism(3,"version", true, false);
         petri.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"project", true, true);
         petri.addAttributeFormalism(attr);
