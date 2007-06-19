@@ -10,12 +10,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
+import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.ui.figures.ArcFigure;
-import fr.lip6.move.coloane.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
@@ -40,14 +40,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 */
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		IArcFigure arcFigure = (IArcFigure) getFigure();
 		IArcImpl arcModel = (IArcImpl)getModel();
-		arcFigure.setLabelValue(arcModel.getArcValue()); // Accesseur de la vue
-		
-		if (arcModel.getFormalism().getName().equalsIgnoreCase("ReachabilityGraph")) {
-			arcFigure.setLabelLabel(arcModel.getArcLabel()); // Accesseur de la vue
-		}
-		
+				
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(arcModel.getModelAdapter());
 	}
@@ -56,6 +50,33 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 * Creation des regles d'edition
 	 */
 	protected void createEditPolicies() {
+		/* Ensemble de regles concernant la selection/deselection de l'objet */
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {			
+			
+			@Override
+			protected void setSelectedState(int state) {
+				// TODO Auto-generated method stub
+				super.setSelectedState(state);
+				if (state != 0) {
+					((IArcImpl)getModel()).setAttributesSelected(true);
+				} else {
+					((IArcImpl)getModel()).setAttributesSelected(false);
+				}
+			}
+
+			@Override
+			protected void hideSelection() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			protected void showSelection() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 		
 		// Allows the removal of the connection model element
@@ -67,14 +88,12 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	}
 
 	/**
-	 * A traiter lors d'un changement de propriete
-	 * @param PropertyChangeEvent arg
-	 */ 
+	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
+	 * @param property L'evenement qui a ete levee
+	 */
 	public void propertyChange(PropertyChangeEvent arg) {
-		String prop = arg.getPropertyName();
-		if (IArcImpl.VALUE_PROP.equals(prop)) {
-			refreshChildren();
-		}
+		
+		// Juste un rafraichissement des visuels
 		refreshVisuals();
 	}
 	
