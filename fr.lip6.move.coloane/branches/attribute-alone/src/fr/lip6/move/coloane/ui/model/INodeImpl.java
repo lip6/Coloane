@@ -139,8 +139,24 @@ public interface INodeImpl {
 	 */
 	public Collection getContextMenus();
 
-	public void setSpecial();
+	/**
+	 * Demande la mise en valeur du noeud suite au retour de service
+	 * @param state
+	 */
+	public void setSpecial(boolean state);
 	
-	public void unsetSpecial();
+	/**
+	 * Demande la mise en valeur des attributs attaches a l'objet
+	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
+	 * @param state Selection / Deselection
+	 */
+	public void setAttributesSelected(boolean light, boolean state);
+	
+	/**
+	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
+	 * @param deltaX Deplacement horizontal
+	 * @param deltaY Deplacement vertical
+	 */
+	public void setAttributesPosition(int deltaX, int deltaY);
      
 }
