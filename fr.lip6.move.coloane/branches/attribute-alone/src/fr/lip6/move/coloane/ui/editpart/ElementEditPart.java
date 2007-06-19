@@ -62,31 +62,8 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	protected void refreshVisuals() {
 		System.out.println("Rafraischissement du noeud");
 		INodeImpl nodeModel = (INodeImpl) getModel();
-		INodeFigure nodeFigure = (INodeFigure)getFigure();
 
-		// Modification du nom 
-		nodeFigure.setNodeName(nodeModel.getNodeAttributeValue("name"));
-
-		// Modification de la valeur
-		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
-			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("marking"));
-		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("transition")) {
-			if (!nodeModel.getNodeAttributeValue("guard").equalsIgnoreCase("true"))
-				nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("guard"));
-		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("state")) {
-			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
-		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("initial_state")) {
-			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
-		} else if (nodeModel.getElementBase().getName().equalsIgnoreCase("terminal_state")) {
-			nodeFigure.setNodeValue(nodeModel.getNodeAttributeValue("value"));
-		}
-
-		// Modification du domaine
-		if (nodeModel.getElementBase().getName().equalsIgnoreCase("place")) {
-			nodeFigure.setNodeDomain(nodeModel.getNodeAttributeValue("domain"));
-		}
-
-		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeFigure.getPreferredSize());
+		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(),nodeModel.getGraphicInfo().getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 
 		// Il faut avertir FrameKit
@@ -226,16 +203,16 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 
 				// Si le noeud est un cercle ou un double cercle
 				if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
-					anchor = new EllipseAnchor(((INodeFigure) getFigure()).getSymbol());
+					anchor = new EllipseAnchor((INodeFigure) getFigure());
 
 					// Si le noeud est un rectangle
 				} else if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_RECT || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
-					anchor = new ChopboxAnchor(((INodeFigure) getFigure()).getSymbol());
+					anchor = new ChopboxAnchor((INodeFigure) getFigure());
 				}
 			}
 		}
 		return anchor;
-	}
+	}                                      
 
 	/**
 	 * Retourne la liste des arcs sortant du noeud considere
