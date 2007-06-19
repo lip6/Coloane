@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
+
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -216,17 +218,58 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		    firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
 		}
 	}
+	
+	/**
+	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
+	 * @return Le liste des attributs
+	 */
+	private List<IAttributeImpl> getDrawableAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
+		Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+    			list.add(att);
+    		}
+    	}
+    	return list;
+	}
 
-	public void setSpecial() {
-		System.out.println("Evenement Special");
-		firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean light, boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(light,state);
+    	}
 	}
 	
-	public void unsetSpecial() {
-		System.out.println("Evenement UnSpecial");
-		firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesPosition(int, int)
+	 */
+	public void setAttributesPosition(int deltaX, int deltaY) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+    		Point loc = att.getGraphicInfo().getLocation();
+    		att.getGraphicInfo().setLocation(loc.x-deltaX, loc.y-deltaY);
+    	}        		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setSpecial()
+	 */
+	public void setSpecial(boolean state) {
+		if (state) {
+			firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+		} else {
+			firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+		}
+	}
+		
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getSourceArcs()
@@ -272,14 +315,19 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
      * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
      */
     public List<IElement> getAttributes() {
-    	List<IElement> attrList = new ArrayList<IElement>();
-    	Iterator iterator = this.properties.values().iterator();    	
-    	while (iterator.hasNext()) {
-    		IAttributeImpl att = (IAttributeImpl)iterator.next();
-    		if (!(att.getValue().equals("")) && att.isDrawable())
-        		attrList.add((IElement)att);
-    	}			
-    	return attrList;
+    	List<IElement> list = new ArrayList<IElement>();
+    	
+    	// Ajout des attributs "personnels" du noeud
+    	List<IAttributeImpl> attributes  = this.getDrawableAttributes();
+		for (IAttributeImpl a : attributes) {
+			list.add((IElement) a);
+		}
+    	
+    	// On doit ajouter tous les attributs des arcs sourtants
+    	for (IArcImpl arc : this.sourceArcs) {
+			list.addAll(arc.getAttributes());
+    	}
+    	return list;
     }
 
     /*
