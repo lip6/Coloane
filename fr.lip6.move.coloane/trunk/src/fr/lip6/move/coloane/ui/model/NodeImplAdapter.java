@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
+
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -22,7 +24,7 @@ import fr.lip6.move.coloane.motor.formalism.ElementBase;
  * @see INodeImpl
  */
 
-public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
+public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, IElement {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -105,7 +107,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
             this.node.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism);
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism,this);
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -138,7 +140,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 				// Pas besoin de creer un nouvel attribut genrique dans le modele !
 				attribute = node.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 					find = true;
 				}
 			}
@@ -147,7 +149,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 				this.node.addAttribute(attribute);
 			}
 			
@@ -164,7 +166,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
     public int getId() {
     	return this.getGenericNode().getId();
     }
-  
+    
     /*
      * (non-Javadoc)
      * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGraphicInfo()
@@ -216,17 +218,58 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 		    firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
 		}
 	}
+	
+	/**
+	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
+	 * @return Le liste des attributs
+	 */
+	private List<IAttributeImpl> getDrawableAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
+		Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+    			list.add(att);
+    		}
+    	}
+    	return list;
+	}
 
-	public void setSpecial() {
-		System.out.println("Evenement Special");
-		firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean light, boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(light,state);
+    	}
 	}
 	
-	public void unsetSpecial() {
-		System.out.println("Evenement UnSpecial");
-		firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesPosition(int, int)
+	 */
+	public void setAttributesPosition(int deltaX, int deltaY) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+    		Point loc = att.getGraphicInfo().getLocation();
+    		att.getGraphicInfo().setLocation(loc.x-deltaX, loc.y-deltaY);
+    	}        		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setSpecial()
+	 */
+	public void setSpecial(boolean state) {
+		if (state) {
+			firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+		} else {
+			firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+		}
+	}
+		
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getSourceArcs()
@@ -266,6 +309,26 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
     public IModelImpl getModelAdapter() {
         return modelAdapter;
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
+     */
+    public List<IElement> getAttributes() {
+    	List<IElement> list = new ArrayList<IElement>();
+    	
+    	// Ajout des attributs "personnels" du noeud
+    	List<IAttributeImpl> attributes  = this.getDrawableAttributes();
+		for (IAttributeImpl a : attributes) {
+			list.add((IElement) a);
+		}
+    	
+    	// On doit ajouter tous les attributs des arcs sourtants
+    	for (IArcImpl arc : this.sourceArcs) {
+			list.addAll(arc.getAttributes());
+    	}
+    	return list;
+    }
 
     /*
      * (non-Javadoc)
@@ -289,28 +352,8 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	   }
 	   return valeur;
 	 }
-	 
-	 /**
-	  * Leve un evenement lors de la modification d'un propriete d'un arc.
-	  * Cette methode est appelle par AbstractModelElement si l'evenement correspond bien
-	  * @param oldValue L'ancienne valeur de la propriete
-	  * @param newValue La nouvelle valeur
-	  */
-	 private void throwEventProperty (String oldValue, String newValue) {
-		 firePropertyChange(NodeImplAdapter.VALUE_PROP, oldValue, newValue);
-	 }
-	    
-	 /**
-	  * Actions entreprises suite ˆ la modification d'un parametre dans la fenetre Properties
-	  * @param id L'objet concerne
-	  * @param value La nouvelle valeur
-	  */
-	 public void setPropertyValue(Object id, Object value) {
-		 String oldValue = getNodeAttributeValue("name"); // On conserve l'ancienne valeur
-		 super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
-		 this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
-	 }
-	 
+    
+ 
 	 /*
 	  * (non-Javadoc)
 	  * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()

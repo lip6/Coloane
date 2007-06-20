@@ -1,8 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
 import java.util.Collection;
-
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import java.util.List;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -28,15 +27,7 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  * 
  */
 public interface IArcImpl {
-    
-    /** ID pour la propriete lorsqu'un changement de la valeur */
-    public static final String VALUE_PROP = "Arc.ValueUpdate";
-    
-    /** Type d'arc : Normal */
-    //public static final String ARC_TYPE_NORMAL = "Normal";
-    /** Type d'arc : Inhibiteur */
-    //public static final String ARC_TPYE_INHIBITOR = "Inhibitor";
-    
+   
     
 	/**
 	 * Retourne l'attribut ContextMenus
@@ -92,6 +83,12 @@ public interface IArcImpl {
 	 * @return Formalism
 	 */
 	public Formalism getFormalism();
+	
+	/**
+	 * Retourne la liste des attributs attaches a cet objet
+	 * @return La liste des attributs associes a cet objet
+	 */
+	public List<IElement> getAttributes(); 
 
 	/**
 	 * Retourne le modele generique
@@ -106,12 +103,6 @@ public interface IArcImpl {
 	 */
 	public void setModelAdapter(IModelImpl modelAdapter);
 
-	/** 
-	 * Liste des proprietes a afficher dans la fenetre de PropertyView
-	 * @return IPropertyDescriptor[]
-	 */
-	public IPropertyDescriptor[] getPropertyDescriptors();
-
 	/**
 	 * Methode d'acces a la valeur de l'arc generique
 	 * @return String
@@ -122,21 +113,19 @@ public interface IArcImpl {
 	 * Methode d'acces a la valeur du label d'un arc generique
 	 * @return String
 	 */
-	public String getArcLabel();
-
+	public String getArcLabel();  
+	
+	
 	/**
-	 * Leve un evenement lors de la modification d'un propriete d'un arc.
-	 * Cette methode est appelle par AbstractModelElement si l'evenement correspond bien
-	 * @param oldValue L'ancienne valeur de la propriete
-	 * @param newValue La nouvelle valeur
+	 * Retourne les informations graphiques liees a l'arc (notamment le point milieu)
+	 * @return IGraphicInfo
 	 */
-	public void throwEventProperty(String oldValue, String newValue);
-
+	public IArcGraphicInfo getGraphicInfo();
+	
 	/**
-	 * Actions entreprises suite ˆ la modification d'un parametres dans la fenetre Properties
-	 * @param id L'objet concerne
-	 * @param value La nouvelle valeur
+	 * Demande la mise en valeur des attributs attaches a l'objet
+	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
+	 * @param state Selection / Deselection
 	 */
-	public void setPropertyValue(Object id, Object value);
-    
+	public void setAttributesSelected(boolean state);
 }

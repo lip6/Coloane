@@ -25,8 +25,7 @@ import fr.lip6.move.coloane.ui.AttributePropertyDescriptor;
 public abstract class AbstractModelElement implements IPropertySource, Serializable {
 
 	/**
-	 * Non-implementee
-	 * Pour supporter le changement de propriete
+	 * TODO : A documenter
 	 */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
@@ -114,9 +113,14 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @param id Nom de la propriete
 	 * @param value Valeur de la propriete
 	 */
-	public void setPropertyValue(Object id, Object value) {
-		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
-		prop.setValue(value != null ? (String)value: "");
+	public void setPropertyValue(Object id, Object newValue) {
+		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id);
+		
+		// Sauvegarde de l'ancienne valeur
+		String oldValue = attribute.getValue();
+		
+		// Nouvelle valeur pour l'attribut
+		attribute.setValue(oldValue,(String)newValue);
 	}
 
 	/**
@@ -124,7 +128,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Les classes filles doivent surcharger cette methode. 
 	 * Dans cette implementation par defaut elle retourne false.
 	 * 
-	 * @param id Nom de la propriété
+	 * @param id Nom de la propriete
 	 * @return boolean retourne false (par defaut) 
 	 */
 	public boolean isPropertySet(Object id) {
@@ -139,9 +143,8 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	}
 
 	/**
-	 * Attacher un non-null PropertyChangeListener et cet objet.
-	 * @param l une instance non-null de PropertyChangeListener
-	 * @throws IllegalArgumentException
+	 * Attache un listener (ecouteur) a l'objet
+	 * L'objet est donc maintenant sensible aux evenements recus
 	 */
 	public synchronized void addPropertyChangeListener(PropertyChangeListener l) {
 		if (l == null) {

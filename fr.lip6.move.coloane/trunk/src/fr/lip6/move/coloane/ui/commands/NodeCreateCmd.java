@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.ui.commands;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
@@ -35,7 +34,6 @@ public class NodeCreateCmd extends Command {
             this.model = model;
             this.newNode.setModelAdapter(model);
             this.bounds = bounds;
-            setLabel("Create a node");
         }
 
         /**
@@ -52,10 +50,6 @@ public class NodeCreateCmd extends Command {
          */
         public void execute() {
         	this.newNode.getGraphicInfo().setLocation(bounds.getLocation().x,bounds.getLocation().y);
-            Dimension size = bounds.getSize();
-            if (size.width > 0 && size.height > 0) {
-            	this.newNode.getGraphicInfo().setSize(size);
-            }
             this.redo();
         }
 

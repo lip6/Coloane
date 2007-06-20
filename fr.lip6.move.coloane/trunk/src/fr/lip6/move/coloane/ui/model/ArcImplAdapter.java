@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.ui.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
@@ -21,7 +23,7 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  * @see IArcImpl
  */
 
-public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
+public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IElement {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -37,14 +39,14 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 
 	/** Arc generique a adapter */
 	private IArc arc;
+	
+	private IArcGraphicInfo graphicInfo;
 
 	/** Element de base du formalisme associe au noeud */
 	private ElementBase elementBase;
     
 	/** Le modele augemente qui contient cet arc augemente */
     private IModelImpl modelAdapter;
-    
-  
 	
     /**
 	 * Constructeur <br>
@@ -65,6 +67,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		// Connecte l'arc augmente(modifie les noeud adaptes)
 		// !! Il faut absolument executee cette methode a la fin du constructeur !
         this.reconnect(source,target);
+        
+        this.graphicInfo = new ArcGraphicInfo(this);
 	}
 
 
@@ -88,6 +92,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		// Connecte l'arc (modifie les noeud adaptes)
 		// !! Il faut absolument executee cette methode a la fin du constructeur !
         this.reconnect(source, target);
+        
+        this.graphicInfo = new ArcGraphicInfo(this);
 	}
 	
 	/**
@@ -109,7 +115,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
             this.arc.addAttribute(attribute);
             
             /* Creation de l'attribut adapte */
-            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism);
+            IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism,this);
             
             /* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
             this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -143,7 +149,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 				// Pas besoin de creer un nouvel attribut dans le modele !
 				attribute = arc.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 					find = true;
 				}
 			}
@@ -152,7 +158,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 			// Il faut donc creer un attribut generique et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
 				this.arc.addAttribute(attribute);
 			}
 
@@ -160,15 +166,60 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
     } 
     
-    /**
-     * Recupere l'ID du noeud generique
-     * Evite les appels au noeud generique
-     * @return ID
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#getId()
      */
     public int getId() {
     	return this.getGenericArc().getId();
     }
     
+    public IArcGraphicInfo getGraphicInfo() {
+    	return this.graphicInfo;
+    }
+
+
+    /**
+	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
+	 * @return Le liste des attributs
+	 */
+	private List<IAttributeImpl> getDrawableAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
+		Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+    			list.add(att);
+    		}
+    	}
+    	return list;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(state);
+    	}
+	}
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
+     */
+    public List<IElement> getAttributes() {
+    	List<IElement> list = new ArrayList<IElement>();
+    	
+    	// Ajout des attributs "personnels" du noeud
+    	List<IAttributeImpl> attributes  = this.getDrawableAttributes();
+		for (IAttributeImpl a : attributes) {
+			list.add((IElement) a);
+		}
+		return list;
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
@@ -311,20 +362,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
     	return valeur;
     }
     
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#throwEventProperty(java.lang.String, java.lang.String)
-	 */
-    public void throwEventProperty (String oldValue, String newValue) {
-    	firePropertyChange(ArcImplAdapter.VALUE_PROP, oldValue,newValue);
-    }
-    
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setPropertyValue(java.lang.Object, java.lang.Object)
-	 */
-    public void setPropertyValue(Object id, Object value) {
-		String oldValue = getArcValue(); // On conserve l'ancienne valeur
-		super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
-		this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
-		
-    }
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#findMiddlePoint()
+     */
 }

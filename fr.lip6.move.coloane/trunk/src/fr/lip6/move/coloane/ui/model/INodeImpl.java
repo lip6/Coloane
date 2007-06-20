@@ -35,10 +35,10 @@ public interface INodeImpl {
 	/** ID pour la propriete lorsqu'un changement de la valeur */
     public static final String VALUE_PROP = "Node.ValueUpdate";
 	
-    /** ID pour la propriete lorsqu'un changement de la valeur */
+    /** ID pour la propriete lorsque le noeud est selectionne */
     public static final String SELECT_PROP = "Node.SelectUpdate";
     
-    /** ID pour la propriete lorsqu'un changement de la valeur */
+    /** ID pour la propriete lorsque le noeud est deselectionne */
     public static final String UNSELECT_PROP = "Node.UnSelectUpdate";
     
 	/**
@@ -87,6 +87,12 @@ public interface INodeImpl {
      * @return id L'identifiant du noeud
      */
     public int getId();
+    
+    /**
+     * Retourne tous les attributs de l'objet pour qu'ils soient affiches
+     * @return La liste des attributs
+     */
+    public List<IElement> getAttributes();
 	
 	/**
      * Associe le modele augmente au noeud
@@ -133,8 +139,24 @@ public interface INodeImpl {
 	 */
 	public Collection getContextMenus();
 
-	public void setSpecial();
+	/**
+	 * Demande la mise en valeur du noeud suite au retour de service
+	 * @param state
+	 */
+	public void setSpecial(boolean state);
 	
-	public void unsetSpecial();
+	/**
+	 * Demande la mise en valeur des attributs attaches a l'objet
+	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
+	 * @param state Selection / Deselection
+	 */
+	public void setAttributesSelected(boolean light, boolean state);
+	
+	/**
+	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
+	 * @param deltaX Deplacement horizontal
+	 * @param deltaY Deplacement vertical
+	 */
+	public void setAttributesPosition(int deltaX, int deltaY);
      
 }

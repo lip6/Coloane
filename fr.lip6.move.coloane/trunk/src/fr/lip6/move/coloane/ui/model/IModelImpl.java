@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.ui.model;
 
 import java.util.List;
 
-//import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -17,20 +16,22 @@ public interface IModelImpl {
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
 	public static final String NODE_ADDED_PROP = "Model.AddingNode";
 
-	/** ID de propriete lorsqu'un noeud est supprime du modele */
-	public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
-
-	/**
-	 * Ajout d'un noeud au modele Cette methode est appelee par la vue ou le
-	 * controleur. L'objectif est donc de mettre a jour le modele generique Leve
-	 * un evenement CHILD_ADDED_PROP
-	 * 
-	 * @param child
-	 *            Le noeud fils qu'il faut ajouter au modele augmente et au
-	 *            modele generique
-	 * @throws BuildException
+  /** ID de propriete lorsqu'un noeud est supprime du modele */
+  public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
+    
+  /** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
+  public static final String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute";
+  
+  /**
+	 * Ajout d'un noeud au modele
+	 * Cette methode est appelee par la vue ou le controleur.
+	 * L'objectif est donc de mettre a jour le modele generique
+	 * Leve un evenement CHILD_ADDED_PROP
+	 * @param child Le noeud fils qu'il faut ajouter au modele augmente et au modele generique
+	 * @throws BuildException 
 	 */
 	public void addNode(INodeImpl child) throws BuildException;
+
 
 	/**
 	 * Suppression d'un noeud Il faut supprimer ce noeud du modele generique Il
@@ -65,8 +66,14 @@ public interface IModelImpl {
 	 * 
 	 * @return List
 	 */
-	public List getChildren();
+	public List<IElement> getChildren();
 
+	/**
+	 * Retourne la liste des attributs du modele
+	 * @return Collection
+	 */
+	public List<IElement> getAttributes();
+	
 	/**
 	 * Retourne le modele generique
 	 * 
@@ -135,7 +142,7 @@ public interface IModelImpl {
 	 */
 	public void setEndBuilding();
 
-	/**
+	/*
 	 * Met en valeur un noeud
 	 */
 	public void highlightNode(String idhighlight, String unhighlight);
@@ -143,4 +150,14 @@ public interface IModelImpl {
 	public void switchoffNodes();
 
 	public void dumpModel();
+    
+    /**
+     * Methode invoquee pour avertir le modele qu'un attribut doit etre ajoute ou supprime de l'affichage
+     * Cette methode doit lever l'evenement ATTRIBUTE_ADDED_PROP qui provoque :
+     * <ul>
+     *   <li>une capture des enfants du modele</li>
+     *   <li>un rafraichissement du modele</li>
+     * </ul>
+     */
+    public void annouceAttribute();
 }

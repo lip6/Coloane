@@ -1,36 +1,29 @@
-package fr.lip6.move.coloane.ui.views;
+package fr.lip6.move.coloane.ui.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.handles.HandleBounds;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
 
-public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
+public class NodeFigure extends Figure implements INodeFigure {
 
+	/** La figure en Draw2D */
 	private IFigure figure;
-	private IFigure zone;
 	
-	private Label nameLabel;
-	private Label valueLabel;
-	private Label domainLabel;
+	/** Les considerations graphiques du noeud */
+	private INodeGraphicInfo nodeGraphInfo;  
 	
-	private INodeGraphicInfo nodeGraphInfo;
-
 	/**
 	 * Constructeur de l'objet graphique representant un noeud augemente.
 	 * Toute modification graphique concernant le noeud augmente passe par cet objet.
@@ -46,15 +39,10 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 	 * Creation de la figure associee a un noeud
 	 * @param node Le modele enrichi du noeud
 	 */
-	private void createNodeFigure(INodeImpl node) {
+	private void createNodeFigure(final INodeImpl node) {
 		
 		// Recupere les options graphiques definies pour le formalisme
 		nodeGraphInfo = node.getGraphicInfo();
-		
-		FlowLayout layout = new FlowLayout();
-		layout.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-		setLayoutManager(layout);	
-		layout.setHorizontal(true);
 		
 		// Le cas d'un place ou d'un etat simple
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {
@@ -72,7 +60,8 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
 			figure.setSize(16, 16);
-						
+				
+			// Le cercle interieur
 			IFigure figure2 = new Ellipse();
 			figure2.setForegroundColor(ColorConstants.black);
 			figure2.setSize(12, 12);
@@ -98,49 +87,21 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 				figure.setBackgroundColor(ColorConstants.black);
 			}			
 			add(figure);
-		}
+		}    
 		
-		// Creation de la zone des labels
-		zone = new Figure();
-		FlowLayout labelLayout = new FlowLayout();
-		labelLayout.setHorizontal(false);
-		zone.setLayoutManager(labelLayout);
-		add(zone);
+		// Ecoute des evenements ENTER et EXIT de la souris
+		MouseMotionListener listener = new MouseMotionListener.Stub() {
+			public void mouseEntered(MouseEvent me) {
+				((Shape)me.getSource()).setBackgroundColor(ColorConstants.yellow);
+				node.setAttributesSelected(true,true);
+			}
+			public void mouseExited(MouseEvent me) {
+				((Shape)me.getSource()).setBackgroundColor(ColorConstants.white);
+				node.setAttributesSelected(true,false);
+			}
+		};
 		
-		
-		// Creation des labels
-		nameLabel = new Label("");
-		Font nameFont = new Font(null,"arial",11,SWT.BOLD);
-		nameLabel.setFont(nameFont);
-		
-		valueLabel = new Label("");
-		Font valueFont = new Font(null,"arial",10,SWT.ITALIC);
-		valueLabel.setFont(valueFont);
-		
-		domainLabel = new Label("");
-		Font domainFont = new Font(null,"arial",10,SWT.NORMAL);
-		domainLabel.setFont(domainFont);
-		
-		// Ajout des labels a la figure
-		zone.add(nameLabel);
-		zone.add(valueLabel);
-		zone.add(domainLabel);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#getHandleBounds()
-	 */
-	public Rectangle getHandleBounds() {
-		return new Rectangle(nodeGraphInfo.getLocation(),nodeGraphInfo.getSize());
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#getSymbol()
-	 */
-	public IFigure getSymbol () {
-		return figure;
+		figure.addMouseMotionListener(listener);
 	}
 	
 	/*
@@ -152,13 +113,13 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 		((Shape) figure).setLineWidth(3);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#setSelectSpecial()
+	 */
 	public void setSelectSpecial() {
 		figure.setForegroundColor(ColorConstants.red);
 		((Shape) figure).setLineWidth(3);
-	}
-	
-	public void unsetSelectSpecial() {
-		this.setUnselect();
 	}
 	
 	/*
@@ -169,28 +130,12 @@ public class NodeFigure extends Figure implements INodeFigure, HandleBounds {
 		figure.setForegroundColor(ColorConstants.black);
 		((Shape) figure).setLineWidth(1);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeName(java.lang.String)
-	 */
-	public void setNodeName(String name) {
-		nameLabel.setText(name);
-	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeValue(java.lang.String)
+	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#unsetSelectSpecial()
 	 */
-	public void setNodeValue(String value) {
-		valueLabel.setText(value);	
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setNodeDomain(java.lang.String)
-	 */
-	public void setNodeDomain(String domain) {
-		domainLabel.setText(domain);	
+	public void unsetSelectSpecial() {
+		this.setUnselect();
 	}
 }
