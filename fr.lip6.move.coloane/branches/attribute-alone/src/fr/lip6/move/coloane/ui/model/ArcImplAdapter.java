@@ -39,14 +39,14 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 
 	/** Arc generique a adapter */
 	private IArc arc;
+	
+	private IArcGraphicInfo graphicInfo;
 
 	/** Element de base du formalisme associe au noeud */
 	private ElementBase elementBase;
     
 	/** Le modele augemente qui contient cet arc augemente */
     private IModelImpl modelAdapter;
-    
-  
 	
     /**
 	 * Constructeur <br>
@@ -67,6 +67,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 		// Connecte l'arc augmente(modifie les noeud adaptes)
 		// !! Il faut absolument executee cette methode a la fin du constructeur !
         this.reconnect(source,target);
+        
+        this.graphicInfo = new ArcGraphicInfo(this);
 	}
 
 
@@ -90,6 +92,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 		// Connecte l'arc (modifie les noeud adaptes)
 		// !! Il faut absolument executee cette methode a la fin du constructeur !
         this.reconnect(source, target);
+        
+        this.graphicInfo = new ArcGraphicInfo(this);
 	}
 	
 	/**
@@ -169,21 +173,52 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     public int getId() {
     	return this.getGenericArc().getId();
     }
+    
+    public IArcGraphicInfo getGraphicInfo() {
+    	return this.graphicInfo;
+    }
 
 
+    /**
+	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
+	 * @return Le liste des attributs
+	 */
+	private List<IAttributeImpl> getDrawableAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
+		Iterator iterator = this.properties.values().iterator();    	
+    	while (iterator.hasNext()) {
+    		IAttributeImpl att = (IAttributeImpl)iterator.next();
+    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+    			list.add(att);
+    		}
+    	}
+    	return list;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(state);
+    	}
+	}
+    
     /*
      * (non-Javadoc)
      * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
      */
     public List<IElement> getAttributes() {
-    	List<IElement> attrList = new ArrayList<IElement>();
-    	Iterator iterator = this.properties.values().iterator();    	
-    	while (iterator.hasNext()) {
-    		IAttributeImpl att = (IAttributeImpl)iterator.next();
-    		if (!(att.getValue().equals("")) && att.isDrawable())
-    			attrList.add((IElement)att);
-    	}			
-    	return attrList;
+    	List<IElement> list = new ArrayList<IElement>();
+    	
+    	// Ajout des attributs "personnels" du noeud
+    	List<IAttributeImpl> attributes  = this.getDrawableAttributes();
+		for (IAttributeImpl a : attributes) {
+			list.add((IElement) a);
+		}
+		return list;
     }
 
 	/* (non-Javadoc)
@@ -327,20 +362,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     	return valeur;
     }
     
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#throwEventProperty(java.lang.String, java.lang.String)
-	 */
-    public void throwEventProperty (String oldValue, String newValue) {
-    	firePropertyChange(ArcImplAdapter.VALUE_PROP, oldValue,newValue);
-    }
-    
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setPropertyValue(java.lang.Object, java.lang.Object)
-	 */
-    public void setPropertyValue(Object id, Object value) {
-		String oldValue = getArcValue(); // On conserve l'ancienne valeur
-		super.setPropertyValue(id, value); // On appelle la super-methode qui se charge de la modification du modele
-		this.throwEventProperty(oldValue,(String)value); // On leve un evenement pour la mise a jour de la vue
-		
-    }
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#findMiddlePoint()
+     */
 }
