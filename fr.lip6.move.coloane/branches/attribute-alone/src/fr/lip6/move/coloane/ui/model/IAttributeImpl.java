@@ -18,12 +18,24 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 public interface IAttributeImpl {
 	
 	/** ID pour la propriete lorsqu'un changement de valeur */
-	public static final String UPDATE_ATTRIBUTE_VALUE = "Attribute.ValueUpdate";
+	public static final String VALUE_PROP = "Attribute.ValueUpdate";
 	
 	/** ID pour la propriete lorsqu'un changement de la position */
 	public static final String LOCATION_PROP = "Attribute.Location";
+	
+    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
+    public static final String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate";
+    
+    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
+    public static final String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate";
+    
+    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
+    public static final String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate";
 
-	/**
+    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
+    public static final String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate";
+
+    /**
 	 * Retourne l'identifiant de l'attribut
 	 * @return
 	 */
@@ -73,10 +85,46 @@ public interface IAttributeImpl {
 	 */
 	public IAttribute getGenericAttribute();
 	
+	/**
+	 * Retourne la valeur par defaut de l'attribut
+	 * @return La valeur par defaut
+	 */
+	public String getDefaultValue();
+	
+	/**
+	 * TODO : A documenter
+	 * @return 
+	 */
 	public boolean getValidation();
 	
+	/**
+	 * TODO : A documenter
+	 * @return Le message
+	 */
 	public String getValidationMessage();
 	
+	/**
+	 * Retourne la reference de l'element proprietaire de cet attribut.
+	 * Un IElement peut etre caste en INodeImpl ou IArcImpl
+	 * @return
+	 */
 	public IElement getReference();
-
+	
+	/**
+	 * Leve un evenement pour demander la mise en valeur de l'attribut.
+	 * @param state Selection / Deselection
+	 */
+	public void setSelect(boolean state);
+	
+	/**
+	 * Leve un evenement pour demander la mise en valeur de l'attribut.
+	 * Deux mises en valeur sont possible :
+	 * <ul>
+	 * 	<li>Une legere qui correspond a un survol de l'objet reference</li>
+	 * 	<li>Une lourde qui correspond a un clic sur l'objet referent</li>
+	 * </ul>
+	 * @param light Type de mie en valeur
+	 * @param state Selection / Deselection
+	 */
+	public void setSelect(boolean light, boolean state);
 }
