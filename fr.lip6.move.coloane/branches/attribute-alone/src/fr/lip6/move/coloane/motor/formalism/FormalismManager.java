@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.motor.formalism;
 
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +20,7 @@ import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
@@ -40,11 +40,8 @@ public class FormalismManager {
     public FormalismManager() {
     	listOfFormalisms = new ArrayList<Formalism>();
         listOfFormalisms.add(createPetriNet());
-        System.out.println("Formalisme Reseaux de Petri charge !");
         listOfFormalisms.add(createPrefixNet());
-        System.out.println("Formalisme Prefix Net charge !");
         listOfFormalisms.add(createGraphAccess());
-        System.out.println("Formalisme Graphes d'accessibilite charge !");
     }
 
     /**
@@ -99,19 +96,19 @@ public class FormalismManager {
         petri.setExtension("rdp");
         
         // Ajout de tous les attributs d'un reseau de petri (Attention : different des attributs des elements.)
-        attr = new AttributeFormalism(1,"declaration", true, true);
+        attr = new AttributeFormalism(1,"declaration", IAttributeGraphicInfo.NOR, true, true);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"author(s)", true, true);
+        attr = new AttributeFormalism(2,"author(s)", IAttributeGraphicInfo.NOR, true, true);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"version", true, false);
+        attr = new AttributeFormalism(3,"version", IAttributeGraphicInfo.NOR, true, false, "0,0");
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(4,"project", true, true);
+        attr = new AttributeFormalism(4,"project", IAttributeGraphicInfo.NOR, true, true);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(5,"title", true, true);
+        attr = new AttributeFormalism(5,"title", IAttributeGraphicInfo.NOR, true, true);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(6,"date", true, false);
+        attr = new AttributeFormalism(6,"date", IAttributeGraphicInfo.NOR, true, false);
         petri.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(7,"code", true, true);
+        attr = new AttributeFormalism(7,"code", IAttributeGraphicInfo.NOR, true, true);
         petri.addAttributeFormalism(attr);
         attr = new AttributeFormalism(8,"note", false, true);
         petri.addAttributeFormalism(attr);
@@ -121,11 +118,11 @@ public class FormalismManager {
         
         // La place:
         elem = new NodeFormalism("place", "Place", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"domain", true, true);
+        attr = new AttributeFormalism(2,"domain", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"marking", true, true);
+        attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"component", false, true);
         elem.addAttributeFormalism(attr);
@@ -138,13 +135,13 @@ public class FormalismManager {
 
         // La transition:
         elem = new NodeFormalism("transition", "Transition", INodeGraphicInfo.FIG_RECT, 24, 8, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"guard", true, true,"true");
+        attr = new AttributeFormalism(2,"guard",IAttributeGraphicInfo.NOR, true, true,"true");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"priority", true, true, "0");
+        attr = new AttributeFormalism(3,"priority", IAttributeGraphicInfo.NOR, true, true, "0");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(4,"delay", true, true);
+        attr = new AttributeFormalism(4,"delay", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(5,"action", false, true);
         elem.addAttributeFormalism(attr);
@@ -157,13 +154,13 @@ public class FormalismManager {
 
         // La transition immediate:
         elem = new NodeFormalism("immediate transition", "Immediate Transition", INodeGraphicInfo.FIG_RECT, 24, 8, true);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"guard", true, true);
+        attr = new AttributeFormalism(2,"guard", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"priority", true, true, "1");
+        attr = new AttributeFormalism(3,"priority", IAttributeGraphicInfo.NOR, true, true, "1");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(4,"weight", true, true);
+        attr = new AttributeFormalism(4,"weight", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(5,"note", false, true);
         elem.addAttributeFormalism(attr);
@@ -174,11 +171,11 @@ public class FormalismManager {
  
         // La queue:
         elem = new NodeFormalism("queue", "Queue", INodeGraphicInfo.FIG_QUEUE, 16, 8, true);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"domain", true, true);
+        attr = new AttributeFormalism(2,"domain", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"marking", true, true);
+        attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"note", false, true);
         elem.addAttributeFormalism(attr);
@@ -189,7 +186,7 @@ public class FormalismManager {
 
         // L'arc
         elem = new ArcFormalism("arc", "Arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
-        attr = new AttributeFormalism(1,"valuation", true, true, "1");
+        attr = new AttributeFormalism(1,"valuation", IAttributeGraphicInfo.NOR, true, true, "1");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"note", false, true);
         elem.addAttributeFormalism(attr);
@@ -200,7 +197,7 @@ public class FormalismManager {
 
         // L'arc hinibiteur
         elem = new ArcFormalism("inhibitor arc", "Inhibitor Arc", IArcGraphicInfo.FIG_ARC_INHIBITOR, 8, 8, false);
-        attr = new AttributeFormalism(1,"valuation", true, true, "1");
+        attr = new AttributeFormalism(1,"valuation", IAttributeGraphicInfo.NOR, true, true, "1");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"note", false, true);
         elem.addAttributeFormalism(attr);
@@ -267,10 +264,10 @@ public class FormalismManager {
         prefix.setExtension("pnt");
         
         // Ajout de tous les attributs d'un prefix net (Attention ! Different des attributs des elements.)
-        attr = new AttributeFormalism(1,"tool", true, true);
+        attr = new AttributeFormalism(1,"tool", IAttributeGraphicInfo.NOR, true, true);
         prefix.addAttributeFormalism(attr);
         
-        attr = new AttributeFormalism(2,"origin", true, true);
+        attr = new AttributeFormalism(2,"origin", IAttributeGraphicInfo.NOR, true, true);
         prefix.addAttributeFormalism(attr);
         
         // Creation et ajout des differents elements de base d'un prefix net :
@@ -278,11 +275,11 @@ public class FormalismManager {
         
         // Condition
         elem = new NodeFormalism("condition", "Condition", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"label", true, true);
+        attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"marking", true, true);
+        attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
         elem.setAddrIcone16("../icons/place16.gif");
@@ -291,9 +288,9 @@ public class FormalismManager {
 
         // Event:
         elem = new NodeFormalism("event", "Event", INodeGraphicInfo.FIG_RECT, 24, 8, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.NOR, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"label", true, true, "true");
+        attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.NOR, true, true, "true");
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
         elem.setAddrIcone16("icons/transition16.gif");
@@ -302,11 +299,11 @@ public class FormalismManager {
 
         // Cutoff:
         elem = new NodeFormalism("cutoff", "Cutoff", INodeGraphicInfo.FIG_RECT, 24, 8, true);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"label", true, true, "true");
+        attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.L2, true, true, "true");
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"image", true, true, "1");
+        attr = new AttributeFormalism(3,"image", IAttributeGraphicInfo.NOR, true, true, "1");
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"num_image", false, true, "1");
         elem.addAttributeFormalism(attr);
@@ -371,17 +368,17 @@ public class FormalismManager {
         
         // Ajout de tous les attributs d'un graphe d'accessibilite (Attention :
         // different des attributs des elements.)
-        attr = new AttributeFormalism(1,"title", true, true);
+        attr = new AttributeFormalism(1,"title", IAttributeGraphicInfo.NOR, true, true);
         graph.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"author(s)", true, true);
+        attr = new AttributeFormalism(2,"author(s)", IAttributeGraphicInfo.NOR, true, true);
         graph.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"version", true, false, "0.0");
+        attr = new AttributeFormalism(3,"version", IAttributeGraphicInfo.NOR, true, false, "0.0");
         graph.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(4,"information", true, true);
+        attr = new AttributeFormalism(4,"information", IAttributeGraphicInfo.NOR, true, true);
         graph.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(5,"type", true, true);
+        attr = new AttributeFormalism(5,"type", IAttributeGraphicInfo.NOR, true, true);
         graph.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(6,"project", true, false);
+        attr = new AttributeFormalism(6,"project", IAttributeGraphicInfo.NOR, true, false);
         graph.addAttributeFormalism(attr);
    
         // Creation ajout des differents elements de base d'un graphe d'accessibilite :
@@ -389,11 +386,11 @@ public class FormalismManager {
 
         // L'etat initial:
         elem = new NodeFormalism("initial_state", "Initial State", INodeGraphicInfo.FIG_DBLCIRCLE, 16, 16, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"value", true, true);
+        attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"initial", true, true);
+        attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"deadlock", false, true);
         elem.addAttributeFormalism(attr);
@@ -404,11 +401,11 @@ public class FormalismManager {
 
         // L'etat terminal:
         elem = new NodeFormalism("terminal_state", "Terminal State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, true);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"value", true, true);
+        attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"initial", true, true);
+        attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"deadlock", false, true);
         elem.addAttributeFormalism(attr);
@@ -419,11 +416,11 @@ public class FormalismManager {
 
         // L'etat:
         elem = new NodeFormalism("state", "State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false);
-        attr = new AttributeFormalism(1,"name", true, false);
+        attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(2,"value", true, true);
+        attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true);
         elem.addAttributeFormalism(attr);
-        attr = new AttributeFormalism(3,"initial", true, true);
+        attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(4,"deadlock", false, true);
         elem.addAttributeFormalism(attr);
@@ -434,7 +431,7 @@ public class FormalismManager {
      
         // L'event (arc)
         elem = new ArcFormalism("event", "Event", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false);
-        attr = new AttributeFormalism(1,"label", true, false);
+        attr = new AttributeFormalism(1,"label", IAttributeGraphicInfo.NOR, true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"value", false, true);
         elem.addAttributeFormalism(attr);

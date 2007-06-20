@@ -5,6 +5,20 @@ import org.eclipse.draw2d.geometry.Point;
 public interface IAttributeGraphicInfo {
 
 	/**
+	 * Types d'affichage
+	 */
+	
+	/* Niveau 1 */
+	public static final int L1 = 1;
+	
+	/* Niveau 2 */
+	public static final int L2 = 2;
+	
+	/* Affichage normal */
+	public static final int NOR = 3;
+	
+	
+	/**
 	 * Retourne l'emplacement actuel de l'attribut
 	 * @return Point
 	 */

@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.motor.formalism;
 
 import java.io.Serializable;
 
-
 /**
  * Cette classe represente les caracteristiques d'un attribut.
  * Un attribut est une caracteristique d'un element de Base.
@@ -26,8 +25,14 @@ public class AttributeFormalism implements Serializable {
     /** Valeur par defaut de l'attribut. */
     private String defaultValue = null;
     
-    /** Ordre d'affichage dans la fenetre des propriete */
+    /** Ordre d'affichage dans la fenetre des proprietes */
     private int order;
+    
+    /** 
+     * Type d'affichage
+     * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo
+     */
+    private int type = 0;
     
    /**
     * Construit d'un nouvel attribut
@@ -43,6 +48,21 @@ public class AttributeFormalism implements Serializable {
     }
     
     /**
+     * Construit d'un nouvel attribut (avec indication d'affichage)
+     * @param nameA Le nom de l'attribut.
+     * @param isDrawableA L'information est elle affichable a l'ecran.
+     * @param isMultiLinesA L'attribut est il multi-lignes.
+     * @param type Le type d'affichage
+     */
+     public AttributeFormalism(int order, String name, int type, boolean isDrawable, boolean isMultiLines) {
+         this.name         = name;
+         this.isDrawable   = isDrawable;
+         this.isMultiLines = isMultiLines;
+         this.order = order;
+         this.type = type;
+     }
+    
+    /**
      * Construit un nouvel attribut (avec une valeur par defaut)
      * @param nameA Le nom de l'attribut.
      * @param isDrawableA L'information est elle affichable a l'ecran.
@@ -55,6 +75,24 @@ public class AttributeFormalism implements Serializable {
          this.isMultiLines = isMultiLines;
          this.defaultValue = defaultValue;
          this.order = order;
+     }
+     
+     
+     /**
+      * Construit un nouvel attribut (avec une valeur par defaut)
+      * @param nameA Le nom de l'attribut.
+      * @param isDrawableA L'information est elle affichable a l'ecran.
+      * @param isMultiLinesA L'attribut est il multi-lignes.
+      * @param defaultValueA La valeur par defaut de l'attribut.
+      * @param type Le type d'affichage
+      */
+     public AttributeFormalism(int order, String name, int type, boolean isDrawable, boolean isMultiLines, String defaultValue) {
+         this.name         = name;
+         this.isDrawable   = isDrawable;
+         this.isMultiLines = isMultiLines;
+         this.defaultValue = defaultValue;
+         this.order = order;
+         this.type = type;
      }
 
      
@@ -104,7 +142,19 @@ public class AttributeFormalism implements Serializable {
 		return str;
 	}
 	
+	/**
+	 * Retourne le numero d'index pour l'affichage
+	 * @return le numero (int) d'affichage
+	 */
 	public int getOrder() {
 		return this.order;
+	}
+	
+	/**
+	 * Retourne le type d'affichage
+	 * @return l'indicateur du type d'affichage
+	 */
+	public int getType() {
+		return this.type;
 	}
 }
