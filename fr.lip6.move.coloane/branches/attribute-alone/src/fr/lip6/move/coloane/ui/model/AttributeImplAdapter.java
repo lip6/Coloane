@@ -33,6 +33,9 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	/** Indique si l'attribut est multiligne */
 	private boolean multiline;
 	
+	/** Indique le type d'affichage a considerer pour cet attribut */
+	private int type;
+	
 	/** Indique la valeur par defaut de l'attribut */
 	private String defaultValue;
 
@@ -58,6 +61,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		this.drawable = formalism.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
 		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
 		this.defaultValue = formalism.getDefaultValue();
+		this.type = formalism.getType();
 		
 		// L'objet contenant toutes les consideration graphiques (comme la position)
 		this.attGraphicInfo = new AttributeGraphicInfo(this);
@@ -144,6 +148,10 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 */
 	public boolean isMultiline() {
 		return this.multiline;
+	}
+	
+	public int getType() {
+		return this.type;
 	}
 	
 	/*

@@ -52,6 +52,13 @@ public interface IAttributeImpl {
 	 * @return Object
 	 */
 	public String getValue();
+	
+	/**
+	 * Retourne le type d'affichage a considerer pour cet attrribut
+	 * @return int Indicateur d'affichage
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo
+	 */
+	public int getType();
 
 	/**
 	 * Inidique la nouvelle valeur pour l'attribut generique

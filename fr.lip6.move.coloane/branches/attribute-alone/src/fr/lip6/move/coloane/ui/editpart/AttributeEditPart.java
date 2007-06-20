@@ -20,9 +20,12 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
+import fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
@@ -102,10 +105,28 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		Label attributeFigure = (Label)getFigure();
 		
 		// Affichage du texte dans le Label
+		Font f;
+		switch (attribut.getType()) {
+		case IAttributeGraphicInfo.L1:
+			f = new Font(null,"arial",11,SWT.BOLD);
+			break;
+		case IAttributeGraphicInfo.L2:
+			f = new Font(null,"arial",10,SWT.ITALIC);
+			break;
+		case IAttributeGraphicInfo.NOR:
+			f = new Font(null,"arial",9,SWT.NORMAL);
+			break;
+
+		default:
+			f = new Font(null,"arial",9,SWT.NORMAL);
+			break;
+		}
+		
 		attributeFigure.setText(attribut.getValue());
+		attributeFigure.setFont(f);
 		
 		// On doit creer l'espace pour l'attribut 
-		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(),new Dimension(attributeFigure.getTextBounds().width+5,attributeFigure.getTextBounds().height+5));
+		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(),new Dimension(attributeFigure.getTextBounds().width,attributeFigure.getTextBounds().height));
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 
 		// Il faut avertir FrameKit

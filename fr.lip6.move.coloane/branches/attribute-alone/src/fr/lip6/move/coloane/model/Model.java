@@ -238,7 +238,6 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     	x = ps.parseInt(",");
                     	y = ps.parseInt(",");
                     	//x = ps.parseInt(","); 
-                    	System.out.println("Ref : "+ref+" x="+x+" y="+y);
                     } else {
 	                    x = ps.parseInt(",");
 	                    y = ps.parseInt(")");
