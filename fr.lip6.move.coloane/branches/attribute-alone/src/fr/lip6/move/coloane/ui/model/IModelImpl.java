@@ -130,5 +130,13 @@ public interface IModelImpl {
 	
     public void dumpModel();
     
+    /**
+     * Methode invoquee pour avertir le modele qu'un attribut doit etre ajoute ou supprime de l'affichage
+     * Cette methode doit lever l'evenement ATTRIBUTE_ADDED_PROP qui provoque :
+     * <ul>
+     *   <li>une capture des enfants du modele</li>
+     *   <li>un rafraichissement du modele</li>
+     * </ul>
+     */
     public void annouceAttribute();
 }

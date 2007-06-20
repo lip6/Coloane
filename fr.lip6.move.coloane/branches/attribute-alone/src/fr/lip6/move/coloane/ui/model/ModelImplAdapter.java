@@ -222,13 +222,15 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public void addNode(INodeImpl child) throws BuildException {
 		if (child != null) {
-			System.out.println("Ajout du noeud dans le modele augemente");
+
 			// On ajoute le nouveau fils au modele generique
 			this.model.addNode(child.getGenericNode());
+
 			// On ajoute le noeud augmente aux fils du modele augemente
 			this.children.add((IElement)child);
+			
+			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
-			System.out.println("Evenemtn envoye");
 		} else {
 			throw new BuildException("Erreur lors de l'ajout d'un noeud au modele");
 		}
@@ -296,14 +298,17 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
     	Iterator iterator = this.properties.values().iterator();    	
     	while (iterator.hasNext()) {
     		IAttributeImpl att = (IAttributeImpl)iterator.next();
-    		if (!(att.getValue().equals("")) && att.isDrawable()) {
-    			System.out.println("Attribut : "+att.getDisplayName()+" : |"+att.getValue()+"|");
+    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
         		attrList.add((IElement)att);
     		}
     	}			
     	return attrList;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#annouceAttribute()
+	 */
 	public void annouceAttribute() {
 		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, null);
 	}
@@ -405,13 +410,13 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			INodeImpl node = (INodeImpl)nodee;
 			for (String u : tounhigh) {
 				if (node.getId() == Integer.valueOf(u)) {
-					node.unsetSpecial();
+					node.setSpecial(false);
 				}
 			}
 
 			for (String h : tohigh) {
 				if (node.getId() == Integer.valueOf(h)) {
-					node.setSpecial();
+					node.setSpecial(true);
 				}
 			}
 		}
@@ -419,7 +424,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	
 	public void switchoffNodes() {
 		for (IElement node : this.children) {
-			((INodeImpl)node).unsetSpecial();
+			((INodeImpl)node).setSpecial(false);
 		}
 	}
 	
