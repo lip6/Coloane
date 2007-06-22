@@ -153,7 +153,7 @@ public class FormalismManager {
         petri.addElementBase(elem);
 
         // La transition immediate:
-        elem = new NodeFormalism("immediate transition", "Immediate Transition", INodeGraphicInfo.FIG_RECT, 24, 8, true);
+        elem = new NodeFormalism("immediate transition", "I. Transition", INodeGraphicInfo.FIG_RECT, 24, 8, true);
         attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false);
         elem.addAttributeFormalism(attr);
         attr = new AttributeFormalism(2,"guard", IAttributeGraphicInfo.NOR, true, true);
