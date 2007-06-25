@@ -4,11 +4,12 @@
   <parent>
     <groupId>coloane</groupId>
     <artifactId>fr.lip6.move</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.1.0</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>fr.lip6.move.coloane</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.2</version>
+  <version>${project.parent.version}</version>
   <name>Coloane</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -21,14 +22,14 @@
     <dependency>
       <groupId>coloane</groupId>
       <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
-      <version>0.9.2</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>coloane</groupId>
       <artifactId>fr.lip6.move.coloane.apicami</artifactId>
-      <version>0.9.2</version>
+      <version>${project.parent.version}</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.eclipse.ui.views.properties</groupId>
       <artifactId>org.eclipse.ui.views</artifactId>
       <version>3.2.0.I20060605-1400</version>
@@ -42,14 +43,13 @@
       <groupId>org.eclipse.swt</groupId>
       <artifactId>org.eclipse.swt</artifactId>
       <version>3.2.0.v3232o</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
   <build>
-    <directory>plugin</directory>
-    <outputDirectory>target/classes</outputDirectory>
     <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>src</testSourceDirectory>
+    <directory>../../plugin/</directory>
+    <!--<testSourceDirectory>*test/</testSourceDirectory>-->
     <!--<finalName>Toto</finalName>-->
     <plugins>
       <plugin>
@@ -68,35 +68,53 @@
           </archive>
         </configuration>
       </plugin>
+      <!--<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/fr/lip6/**/coloane/model/test</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>-->
     </plugins>
     <resources>
      <resource>
        <directory>.</directory>
-        <includes>
+        <!--<includes>
           <include>icons/**</include>
+          <include>lib/**</include>
           <include>plugin.properties</include>
           <include>plugin.xml</include>
-        </includes>
+        </includes>-->
         <excludes>
-          <exclude>target/**</exclude>
+          <exclude>bin/**</exclude>
           <exclude>src/**</exclude>
-          <exclude>plugin/**</exclude>
           <exclude>META-INF/**</exclude>
           <exclude>pom.xml</exclude>
         </excludes>
      </resource>
-     <resource>
+     <!--<resource>
        <directory>../fr.lip6.move.coloane.interfaces</directory>
         <includes>
-          <include>lib/fr.lip6.move.coloane.interfaces-0.9.2.jar</include>
+          <include>lib/fr.lip6.move.coloane.interfaces-${project.parent.version}.jar</include>
         </includes>
      </resource>
      <resource>
        <directory>../fr.lip6.move.coloane.apicami</directory>
         <includes>
-          <include>lib/fr.lip6.move.coloane.apicami-0.9.2.jar</include>
+          <include>lib/fr.lip6.move.coloane.apicami-${project.parent.version}.jar</include>
         </includes>
-     </resource>
+     </resource>-->
    </resources>
   </build>
 </project>
