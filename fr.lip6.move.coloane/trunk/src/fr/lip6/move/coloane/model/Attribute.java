@@ -42,8 +42,6 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 		// Decoupage de la chaine de charactere suivant un pattern
 		tab_val = val.split("(\n\r)|(\r\n)|(\n)|(\r)");
 
-		// if (val.equals("")){vectorStringToReturn.addElement(new String(""));}
-
 		// Si la tableau obtenu est de taille 1 et que la ligne est de taille <
 		// à 255, on a un attribut d'une ligne
 		if (tab_val.length == 1 && tab_val[0].length() <= 255) {
@@ -128,20 +126,23 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 				}
 			}
 
-			if (this.xPosition != 0 || this.yPosition != 0) {
-				s = new StringBuffer();
-				s.append("PT(");
-				s.append(this.refId);
-				s.append(",");
-				s.append(this.name.length() + ":" + this.name);
-				s.append(",");
-				s.append(this.xPosition);
-				s.append(",");
-				s.append(this.yPosition);
-				s.append(")");
-				vectorStringToReturn.addElement(s.toString());
-			}
 		}
+		
+		//Traduit la position de l'attribut
+		if (this.xPosition != 0 || this.yPosition != 0) {
+			s = new StringBuffer();
+			s.append("PT(");
+			s.append(this.refId);
+			s.append(",");
+			s.append(this.name.length() + ":" + this.name);
+			s.append(",");
+			s.append(this.xPosition);
+			s.append(",");
+			s.append(this.yPosition);
+			s.append(")");
+			vectorStringToReturn.addElement(s.toString());
+		}
+		
 		stringToReturn = new String[vectorStringToReturn.size()];
 		vectorStringToReturn.toArray(stringToReturn);
 		return stringToReturn;
