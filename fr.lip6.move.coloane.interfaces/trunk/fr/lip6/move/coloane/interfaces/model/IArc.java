@@ -10,12 +10,6 @@ public interface IArc {
 	 */
 	public String getArcType();
 
-	/**
-	 * Cette methode permet de fixer les coordonnees x et y de l'arc.
-	 * @param x Coordonnee x
-	 * @param y Coordonnee y
-	 */
-	public void setPosition(int x, int y);
 
 	/**
 	 * Retourne l'identifiant unique de l'arc.
@@ -29,17 +23,6 @@ public interface IArc {
 	 */
 	public void setId(int id);
 
-	/**
-	 * Retourne l'abscisse de l'arc.
-	 * @return int
-	 */
-	public int getXPosition();
-
-	/**
-	 * Retourne l'ordonnee de l'arc.
-	 * @return int
-	 */
-	public int getYPosition();
 
 	/**
 	 * Permet de fixer le noeud d'entree de l'arc.

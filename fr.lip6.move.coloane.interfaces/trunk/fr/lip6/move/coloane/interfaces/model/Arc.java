@@ -33,11 +33,6 @@ public abstract class Arc implements IArc, Serializable {
     /** Identifiant de l'arc */
     protected int id;
     
-    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    protected int xPosition;
-
-    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    protected int yPosition;
 
     /** Vecteur contenant l'ensemble des objets de type Attribut de l'arc.
      * @see IAttribute
@@ -58,8 +53,6 @@ public abstract class Arc implements IArc, Serializable {
     public Arc(String arcType, int id) {
         this.arcType = arcType;
         this.id = id;
-        this.xPosition = 0;
-        this.yPosition = 0;
         this.listOfAttr = new Vector<IAttribute>();
         this.startingNode = null;
         this.endingNode = null;
@@ -72,8 +65,6 @@ public abstract class Arc implements IArc, Serializable {
     public Arc(String arcType) {
         this.arcType = arcType;
         this.id = 0;
-        this.xPosition = 0;
-        this.yPosition = 0;
         this.listOfAttr = new Vector<IAttribute>();
         this.startingNode = null;
         this.endingNode = null;
@@ -86,15 +77,6 @@ public abstract class Arc implements IArc, Serializable {
         return this.arcType;
     }
     
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setPosition(int, int)
-	 */
-    public void setPosition(int x, int y) {
-        if (x > 0 && y > 0) {
-            this.xPosition = x;
-            this.yPosition = y;
-        }
-    }
 
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getId()
@@ -116,19 +98,6 @@ public abstract class Arc implements IArc, Serializable {
         }
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getXPosition()
-	 */
-    public int getXPosition() {
-        return this.xPosition;
-    }
-
-    /* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getYPosition()
-	 */
-    public int getYPosition() {
-        return this.yPosition;
-    }
 
     /* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setStartingNode(fr.lip6.move.coloane.interfaces.model.Node)
