@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.api.main.Api;
 
 /**
  * Enrichissement de la definition d'un modele generique par :
@@ -37,6 +38,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
      * @throws SyntaxErrorException
      */
     public void buildModel(Vector camiCommande) throws SyntaxErrorException {
+    	Api.apiLogger.entering("Model", "buildModel", camiCommande);
     	String line = null;
         String type = null;
         
@@ -76,6 +78,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     INode nodeEnd = getANode(Integer.parseInt(to));
 
                     if (nodeBegin == null || nodeEnd == null) {
+                    	Api.apiLogger.throwing("Model", "buildModel", new SyntaxErrorException("Noeud source ou cible manquant"));
                         throw new SyntaxErrorException("Noeud source ou cible manquant");
                     }
 
@@ -121,7 +124,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     	node.addAttribute(attr);
                     	continue;
                     }
-
+                    Api.apiLogger.throwing("Model", "buildModel", new SyntaxErrorException("Element referent introuvable"));
                     // Sinon on retourne une erreur
                     throw new SyntaxErrorException("Element referent introuvable");
                 }
@@ -204,6 +207,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         }
                         
                     } catch (Exception e) {
+                    	Api.apiLogger.throwing("Model", "buildModel", new SyntaxErrorException("Construction d'un attribut multiligne incorrecte"));
                         throw new SyntaxErrorException("Construction d'un attribut multiligne incorrecte");
                     }
 
@@ -224,6 +228,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         if (node != null) {
                         	node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                         } else {
+                        	Api.apiLogger.throwing("Model", "buildModel", new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect"));
                             throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
                         }
                     }
@@ -270,7 +275,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         }
                     	continue;
                     }
-                    
+                    Api.apiLogger.throwing("Model", "buildModel", new SyntaxErrorException("Impossible d'attachee la position de texte a un attribut"));
                     throw new SyntaxErrorException("Impossible d'attachee la position de texte a un attribut");
                 }
             }
@@ -278,10 +283,13 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
     		 /* TODO: Prendre en compte les points d'inflexion */
 
     	} catch (NoSuchElementException e) {
+    		Api.apiLogger.throwing("Model", "buildModel", e);
             e.printStackTrace();
         } catch (SyntaxErrorException e) {
+        	Api.apiLogger.throwing("Model", "buildModel", e);
             e.toString();
         }
+        Api.apiLogger.exiting("Model", "buildModel");
     }
 
 
@@ -291,6 +299,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
      * @return la chaine de caracteres CAMI correspondante a l'objet Model
      */
     public String[] translate() {
+    	Api.apiLogger.entering("Model", "translate");
         Vector<String> vec = new Vector<String>();
         String[] nodes;
         String[] arcs;
@@ -320,6 +329,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
         String[] cami = new String[vec.size()];
         vec.toArray(cami);
+        Api.apiLogger.exiting("Model", "transalte", cami);
         return cami;
     }
 }
