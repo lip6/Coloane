@@ -91,6 +91,7 @@ public class Api implements IApi {
 		try {
 			f = new FileHandler("coloaneApi.log");
 			f.setFormatter(new SimpleFormatter());
+			apiLogger.setLevel(Level.ALL);
 			apiLogger.addHandler(f);
 		}catch(IOException e){apiLogger.throwing("Api","Api" ,e);apiLogger.warning("Erreur d'ouverture du fichier");}
 	}
