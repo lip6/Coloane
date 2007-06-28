@@ -7,12 +7,10 @@ Bundle-Vendor: LIP6 - MoVe
 Bundle-Localization: plugin
 Bundle-Activator: fr.lip6.move.coloane.main.Coloane
 Require-Bundle: fr.lip6.move.coloane.apicami,
- org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui.views,
  org.eclipse.ui.ide,
  org.eclipse.ui,
- org.eclipse.draw2d,
  org.eclipse.core.runtime.compatibility,
  org.eclipse.jface.text,
  org.eclipse.gef,
