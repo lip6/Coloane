@@ -40,7 +40,7 @@ public class ComLowLevel {
         		
         		// <DEBUG>
         		String msg = new String(commande, 4, commande.length - 4);
-    			Api.apiLogger.info("CO-->FK");
+    			Api.apiLogger.info("CO-->FK" + msg);
         		//System.out.println("[CO-->FK] : " + msg);
     			// </DEBUG>
     			
