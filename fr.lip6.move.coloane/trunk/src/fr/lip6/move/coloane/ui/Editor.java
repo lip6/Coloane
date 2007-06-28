@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.ui;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -66,32 +65,41 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import org.apache.xerces.impl.io.MalformedByteSequenceException;
 
+import java.io.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
+
+import fr.lip6.move.coloane.interfaces.model.IModel;
 
 public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
 		private PageBook pageBook;
+
 		private Canvas overview;
+
 		private Thumbnail thumbnail;
+
 		private DisposeListener disposeListener;
 
 		public OutlinePage(EditPartViewer viewer) {
 			super(viewer);
 		}
-		
+
 		public void init(IPageSite pageSite) {
 			super.init(pageSite);
 			ActionRegistry registry = getActionRegistry();
 			IActionBars bars = pageSite.getActionBars();
-			
+
 			String id = ActionFactory.UNDO.getId();
 			bars.setGlobalActionHandler(id, registry.getAction(id));
-			
+
 			id = ActionFactory.REDO.getId();
 			bars.setGlobalActionHandler(id, registry.getAction(id));
-			
+
 			id = ActionFactory.DELETE.getId();
 			bars.setGlobalActionHandler(id, registry.getAction(id));
 
@@ -160,14 +168,15 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		protected void unhookOutlineViewer() {
 			getSelectionSynchronizer().removeViewer(getViewer());
-			if (disposeListener != null && getEditor() != null && !getEditor().isDisposed())
+			if (disposeListener != null && getEditor() != null
+					&& !getEditor().isDisposed())
 				getEditor().removeDisposeListener(disposeListener);
 		}
 	}
 
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
-	
+
 	/** Le modele */
 	private IModelImpl model;
 
@@ -178,10 +187,11 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private Formalism formalism;
 
 	/** Constructeur de l'editeur */
-	public Editor() { }
-	
-	/** 
-	 * Configuration de l'editeur 
+	public Editor() {
+	}
+
+	/**
+	 * Configuration de l'editeur
 	 */
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
@@ -195,9 +205,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setContextMenu(cmProvider);
 		getSite().registerContextMenu(cmProvider, viewer);
 	}
-	
+
 	/**
 	 * Set up the editor's inital content (after creation).
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 * 
 	 */
@@ -210,100 +221,154 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Fin de la construction
 		model.setEndBuilding();
 		// listen for dropped parts
-		//viewer.addDropTargetListener(createTransferDropTargetListener());
+		// viewer.addDropTargetListener(createTransferDropTargetListener());
 	}
-	
+
 	/**
 	 * Retourne le model.
+	 * 
 	 * @return IModelImpl
 	 */
 	public IModelImpl getModel() {
 		return model;
 	}
-	
+
 	/**
 	 * Creation de la palette
+	 * 
 	 * @return PaletteRoot
 	 */
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot != null) {
 			paletteRoot = null;
 		}
-		
+
 		paletteRoot = PaletteFactory.createPalette(this.formalism);
 
 		return paletteRoot;
 	}
-	
+
 	/**
 	 * Retourne les preferences de la palette
+	 * 
 	 * @return FlyoutPreferences
 	 */
 	protected FlyoutPreferences getPalettePreferences() {
 		return PaletteFactory.createPalettePreferences();
 	}
 
-	
 	/**
-	 * DŽtermine le contenu de l'Žditeur. Ce contenu est lu depuis un fichier.
-	 * Ce fichier a bien sur ŽtŽ crŽŽ par l'assistant
-	 * @param input IEditorInput : Informations (nom, fichier, location...) concernant le contenu 
+	 * Dï¿½termine le contenu de l'ï¿½diteur. Ce contenu est lu depuis un fichier.
+	 * Ce fichier a bien sur ï¿½tï¿½ crï¿½ï¿½ par l'assistant
+	 * 
+	 * @param input
+	 *            IEditorInput : Informations (nom, fichier, location...)
+	 *            concernant le contenu
 	 */
+
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
-		
+
 		try {
 			IFile file = ((IFileEditorInput) input).getFile();
-			System.out.println("Fichier de contenu : "+file.getName());
+			System.out.println("Fichier de contenu : " + file.getName());
 
 			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-			
-			// Ouverture du model (Lecture depuis le fichier)
-			this.model = formManager.openModel(file.getLocation().toOSString());
-			
+
+			// CrÃ©ation du reader
+			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+
+			// CrÃ©ation d'un instance du handler
+			XmlEditor handler = new XmlEditor();
+
+			// Association du handler au reader
+			reader.setContentHandler(handler);
+
+			// Parse du fichier
+			reader.parse(file.getLocation().toString());
+
+			// Formalism obtenu grace l'extension du fichier
+			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
+
+			// Creation du model Ã  partir du model generique
+			model = new ModelImplAdapter(handler.getModel(), formalism);
+
+			// Si le model est nul
+			// On cree un nouveau modele
+			// TODO: Verifier si ce test est utile ou non!
 			if (this.model == null) {
-				// Si le model est nul... On cree un nouveau modele
 				this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
-				model = new ModelImplAdapter(formalism);
+				this.model = new ModelImplAdapter(formalism);
 			} else {
 				this.formalism = model.getFormalism();
 			}
-			// Debut de la construction
-			model.setBeginBuilding();
-			
-			// Le nom de la tabulation
-			setPartName(file.getName());
-			setEditDomain(new DefaultEditDomain(this));
 
-			// L'apercu
+			model.setBeginBuilding(); // Le nom de la tabulation
+			setPartName(file.getName());
+			setEditDomain(new DefaultEditDomain(this)); // L'apercu
+			if (outlinePage != null) {
+				outlinePage.setContents(getModel());
+			}
+
+		} catch (MalformedByteSequenceException e) {
+			// Le fichier Ã  ouvrir est mal formÃ©, on cree alors un nouveau
+			// modele vierge
+			IFile file = ((IFileEditorInput) input).getFile();
+
+			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
+
+			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
+
+			this.model = new ModelImplAdapter(formalism);
+
+			// Debut de la construction du model
+			model.setBeginBuilding();
+
+			setPartName(file.getName());// Le nom de la tabulation
+			setEditDomain(new DefaultEditDomain(this)); // L'apercu
+
 			if (outlinePage != null) {
 				outlinePage.setContents(getModel());
 			}
 		} catch (Exception e) {
-			Coloane.showErrorMsg("Error while loading file : "+ e.getMessage());
+			IFile file = ((IFileEditorInput) input).getFile();
+			System.out.println(e.toString());
+			Coloane.showErrorMsg("Error while loading file : " +file.getName()+" - "+ e.getMessage());
 		}
-
 	}
-	
+
 	/**
 	 * Sauvegarde d'un fichier
 	 */
+
 	public void doSave(IProgressMonitor monitor) {
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+
+		// Creation du l'editeur xml
+		XmlEditor xml = new XmlEditor();
+
+		// String permettant de stocker le modele au format xml
+		String xmlString = "";
+
 		try {
-			createOutputStream(out);
-			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			file.setContents(new ByteArrayInputStream(out.toByteArray()), true, // keep saving, even if IFile is out of sync with the Workspace
-					false, // dont keep history
-					monitor); // progress monitor
+			// Recuperation du modele generique
+			IModel m = getModel().getGenericModel();
+
+			// Traduction du modele au format xml
+			xmlString = xml.modelXML(m);
+
+			// Creation de l'input stream a partir d'une chaine de caractere
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+
+			// Ecriture du fichier de sauvegarder Ã  partir du l'input stream
+			file.setContents(inputS, true, false, monitor);
+
 			getCommandStack().markSaveLocation();
 		} catch (CoreException ce) {
 			ce.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
 
+		}
 	}
 
 	public void doSaveAs() {
@@ -319,22 +384,41 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			try {
 				new ProgressMonitorDialog(shell).run(false, // don't fork
-						false, // not cancelable
-						new WorkspaceModifyOperation() { // run this operation
+				false, // not cancelable
+				new WorkspaceModifyOperation() { // run this
+					// operation
 					public void execute(final IProgressMonitor monitor) {
 						try {
-							ByteArrayOutputStream out = new ByteArrayOutputStream();
-							createOutputStream(out);
 
-							file.create(new ByteArrayInputStream(out
-									.toByteArray()), // contents
-									true, // keep saving, even if IFile is out of sync with the Workspace
-									monitor); // progress monitor
+							XmlEditor xml = new XmlEditor();
+							String xmlString = "";
+
+							// Recuperation du modele generique
+							IModel m = getModel().getGenericModel();
+
+							// traduction du modele au format xml
+							xmlString = xml.modelXML(m);
+
+							InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+							
+							//Si le fichier existe alors on l'ecrase sinon on en crÃ©e un nouveau
+							if (file.exists()) {
+								file.setContents(inputS, true, false, monitor);
+							
+							} else {
+								
+								// Creation d'un nouveau fichier contenant le
+								// modele au format xml
+								file.create(inputS, // contents
+								true, // keep saving, even if IFile is out of sync with
+								// the Workspace
+								monitor); // progress monitor
+							}
 						} catch (CoreException ce) {
 							ce.printStackTrace();
-						} catch (IOException ioe) {
-							ioe.printStackTrace();
+
 						}
+
 					}
 				});
 				// set input to the new file
@@ -364,6 +448,13 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		oos.close();
 	}
 
+	public void createOutputStream(OutputStream os, String s)
+			throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(os);
+		oos.writeObject(s);
+		oos.close();
+	}
+
 	protected PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
 			protected void configurePaletteViewer(PaletteViewer viewer) {
@@ -381,8 +472,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
-			
-		// On redefinit la fenetre de propriete
+
+			// On redefinit la fenetre de propriete
 		} else if (type == IPropertySheetPage.class) {
 			PropertySheetPage page = new PropertySheetPage() {
 				{
@@ -393,7 +484,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 					});
 				}
 			};
-			return page;		
+			return page;
 		}
 		return super.getAdapter(type);
 	}
