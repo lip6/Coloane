@@ -90,8 +90,9 @@ public class Api implements IApi {
 		apiLogger = Logger.getLogger("fr.lip6.move.coloane.api.main.Api");
 		try {
 			f = new FileHandler("coloaneApi.log");
+			f.setFormatter(new SimpleFormatter());
 			apiLogger.addHandler(f);
-		}catch(IOException e){System.out.println("Erreur d'ouverture du fichier");}
+		}catch(IOException e){apiLogger.throwing("Api","Api" ,e);apiLogger.warning("Erreur d'ouverture du fichier");}
 	}
 	
 	
