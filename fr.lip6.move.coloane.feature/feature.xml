@@ -2,11 +2,11 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.1.0"
+      version="0.9.2.0"
       provider-name="LIP6 - MoVe">
 
    <description url="http://www.lip6.fr/coloane">
-      [Enter Feature Description here.]
+      
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -27,10 +27,18 @@
       <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.gef"/>
+      <import plugin="org.junit"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.main"
+         id="fr.lip6.move.coloane.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.lip6.move.coloane.apicami"
          download-size="0"
          install-size="0"
          version="0.0.0"
