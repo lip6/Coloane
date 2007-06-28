@@ -40,6 +40,7 @@ http://www.lip6.fr/coloane
       <plugin id="fr.lip6.move.coloane.apicami"/>
       <plugin id="fr.lip6.move.coloane.core"/>
       <plugin id="fr.lip6.move.coloane.standalone"/>
+      <plugin id="org.apache.xerces"/>
       <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
