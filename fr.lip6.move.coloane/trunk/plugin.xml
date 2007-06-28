@@ -2,6 +2,8 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
+         id="perspective"
+         name="Perspective de Coloane"
          point="org.eclipse.ui.perspectives">
       <perspective
             class="fr.lip6.move.coloane.ui.MainPerspectiveFactory"
@@ -10,7 +12,9 @@
             name="Coloane"/>
    </extension>
     <extension
-         point="org.eclipse.ui.actionSets">
+          id="actionSets"
+          name="Menu &amp; Items de Coloane"
+          point="org.eclipse.ui.actionSets">
       <actionSet
             id="fr.lip6.move.coloane.actionSet"
             label="Coloane Platform"
@@ -82,6 +86,8 @@
       </actionSet>
    </extension>
     <extension
+          id="views"
+          name="Vues de Coloane"
           point="org.eclipse.ui.views">
        <category
              id="fr.lip6.move.coloane.views"
@@ -102,6 +108,8 @@
              name="Results"/>
     </extension>
     <extension
+          id="editor"
+          name="Editeur de modèles"
           point="org.eclipse.ui.editors">
        <editor
              class="fr.lip6.move.coloane.ui.Editor"
@@ -112,6 +120,8 @@
              name="Editor"/>
     </extension>
     <extension
+          id="newWizards"
+          name="Assistants de créatios de modèles"
           point="org.eclipse.ui.newWizards">
        <wizard
              canFinishEarly="true"
@@ -133,28 +143,5 @@
              id="fr.lip6.move.coloane.wizard.modelWizard"
              name="Model"
              project="false"/>
-    </extension>
-    <extension
-          id="product"
-          point="org.eclipse.core.runtime.products">
-       <product
-             application="fr.lip6.move.coloane.standalone.application"
-             name="Coloane">
-          <property
-                name="startupForegroundColor"
-                value="000000"/>
-          <property
-                name="startupMessageRect"
-                value="0,0,0,0"/>
-          <property
-                name="startupProgressRect"
-                value="0,0,0,0"/>
-          <property
-                name="aboutText"
-                value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane"/>
-          <property
-                name="aboutImage"
-                value="icons/icone_ile.gif"/>
-       </product>
     </extension>
 </plugin>
