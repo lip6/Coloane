@@ -18,14 +18,12 @@ Ce document décrit la structure d'un fichier \texttt{pom.xml} de configuration 
 
 
 \section{Introduction}
-
 Maven 2 est un make trés avancé et spécialement pratique pour les projets java.
 Il permet entre autre de gerer la structure du projet, de lancer les tests et de packager.
 Lors de ce rapport, j'utilise la version 2.0.6 de Maven.
 
 
 \section{Pom}
-
 Maven utilise comme Makefile un fichier pom.xml. Certaines balises ont des noms évidement (je n'en parlerais donc pas ici), d'autre non.
 
 \subsection{modelVersion}
@@ -54,6 +52,7 @@ Les autres projets dont dépendent le projet.
 
 \subsection{resources}
 Les resources a rajouter dans le package.
+
 
 \section{Super Pom}
 Les pom des sous projets d'un projet herite de tout le pom du projet mais peuvent aussi réécrire les balises.
