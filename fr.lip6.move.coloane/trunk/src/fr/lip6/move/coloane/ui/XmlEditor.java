@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.ui;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.xml.sax.*;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
@@ -7,12 +10,13 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.model.Node;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
 
-/** Classe de gestion du modèle au format xml* */
+/** Classe de gestion du modele au format xml */
 public class XmlEditor implements ContentHandler {
 
 	/* Balise courante */
@@ -32,9 +36,14 @@ public class XmlEditor implements ContentHandler {
 
 		String line = "<?xml version='1.0' encoding='ISO-8859-1'?>\n";
 
-		// LIGNE A MODIFIER SUIVANT LE PATH DE LA DTD
-		line += "<!DOCTYPE model SYSTEM '/home/dcheng/ColoaneWorks/XML/coloane.dtd'>\n";
-
+		try {
+			URL dtd = Coloane.getDefault().getBundle().getEntry("ressources/coloane.dtd");
+			URL	path = FileLocator.toFileURL(dtd);
+			line += "<!DOCTYPE model SYSTEM '"+path.getPath()+"'>\n";
+		} catch (Exception e) {
+			System.err.println("DTD introuvable");
+		}
+		
 		// Ecriture des attributs relatifs au formalism et positions
 		line += "<model formalism='" + m.getFormalism() + "' xposition='"
 				+ m.getXPosition() + "' yposition='" + m.getYPosition()
