@@ -20,6 +20,9 @@ public class XmlEditor implements ContentHandler {
 
 	/* id courant */
 	private int refid;
+	
+	/* text courant */
+	private String data = "";
 
 	IModel model = new Model();
 
@@ -118,11 +121,11 @@ public class XmlEditor implements ContentHandler {
 			if (!attr.getValue().equals("")) {
 				if (attr.getName().equals("author(s)")) {
 					line += "<authors" + " xposition='" + attr.getXPosition()
-							+ "' yPosition='" + attr.getYPosition() + "'>"
+							+ "' yposition='" + attr.getYPosition() + "'>"
 							+ attr.getValue() + "</authors>\n";
 				} else {
 					line += "<" + attr.getName() + " xposition='"
-							+ attr.getXPosition() + "' yPosition='"
+							+ attr.getXPosition() + "' yposition='"
 							+ attr.getYPosition() + "'>" + attr.getValue()
 							+ "</" + attr.getName() + ">\n";
 				}
@@ -146,11 +149,17 @@ public class XmlEditor implements ContentHandler {
 			if (!attr.getValue().equals("")) {
 				line += "<" + attr.getName() + " xposition='"
 						+ attr.getXPosition() + "' yposition='"
-						+ attr.getYPosition() + "'>" + attr.getValue() + "</"
+						+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"
 						+ attr.getName() + ">\n";
 			}
 		}
 		return line;
+	}
+	
+	public String format(String txt) {
+		txt = txt.replaceAll("<", "&lt;");
+		txt = txt.replaceAll(">", "&gt;");
+		return txt;
 	}
 
 	/*
@@ -185,6 +194,10 @@ public class XmlEditor implements ContentHandler {
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 
+		System.out.println(qName);
+		for (int index=0; index<attributes.getLength();index++) {
+			System.out.println("  " + attributes.getQName(index) + ": " + attributes.getValue(index));
+		}
 		// Dans la balise model
 		if (qName.equals("model")) {
 
@@ -268,13 +281,42 @@ public class XmlEditor implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 
-		String data = "";
-
 		// Creation de la donnée (chaine de caractères)
 		for (int i = 0; i < length; i++) {
 			data += ch[start + i];
 		}
+		
+		System.out.println("data : " + data);
+		data=deformat(data);
+		System.out.println("deformat : " + data);
 
+	}
+	
+	public String deformat(String txt){
+		txt = txt.replaceAll("&lt;", "<");
+		txt = txt.replaceAll("&gt;", ">");
+		return txt;
+	}
+
+	public void startDocument() throws SAXException {
+	};
+
+	public void endDocument() throws SAXException {
+	};
+
+	public void processingInstruction(String target, String data)
+			throws SAXException {
+	};
+
+	public void startPrefixMapping(String prefix, String uri)
+			throws SAXException {
+	};
+
+	public void endPrefixMapping(String prefix) throws SAXException {
+	};
+
+	public void endElement(String namespaceURI, String localName, String qName)
+			throws SAXException {
 		// La donnée doit etre du texte et pas un retour chariot ou un
 		// tabulation
 		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("	"))) {
@@ -298,28 +340,8 @@ public class XmlEditor implements ContentHandler {
 
 			}
 		}
+		data="";
 	}
-
-	public void startDocument() throws SAXException {
-	};
-
-	public void endDocument() throws SAXException {
-	};
-
-	public void processingInstruction(String target, String data)
-			throws SAXException {
-	};
-
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
-	};
-
-	public void endPrefixMapping(String prefix) throws SAXException {
-	};
-
-	public void endElement(String namespaceURI, String localName, String qName)
-			throws SAXException {
-	};
 
 	public void ignorableWhitespace(char[] ch, int start, int length)
 			throws SAXException {
