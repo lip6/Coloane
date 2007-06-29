@@ -22,4 +22,18 @@ public interface IArcGraphicInfo {
 	 * @return le point milieu
 	 */
 	public Point findMiddlePoint();
+	
+	
+	/**
+	 * Met a jour l'indicateur de point milieu pour l'arc
+	 */
+	public void updateMiddlePoint();
+	
+	
+	/**
+	 * Retourne le point de milieu de l'arc
+	 * @return Le point de milieu 
+	 */
+	public Point getMiddlePoint();
+	
 }

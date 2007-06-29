@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
@@ -361,9 +362,29 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     	}
     	return valeur;
     }
-    
+
     /*
      * (non-Javadoc)
-     * @see fr.lip6.move.coloane.ui.model.IArcImpl#findMiddlePoint()
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#updateAttributesPosition()
      */
+	public void updateAttributesPosition() {
+		
+		// Calcul du nouveau point milieu
+		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
+		
+		// Position actuelle
+		Point oldMiddlePoint = this.graphicInfo.getMiddlePoint();
+		
+		// Calcul du decalage
+		int deltaX = newMiddlePoint.x - oldMiddlePoint.x;
+		int deltaY = newMiddlePoint.y - oldMiddlePoint.y;
+		
+		// Mise a jour des coordonnees des attributs
+		for (IAttributeImpl attr : this.getDrawableAttributes()) {
+			Point attrLocation = attr.getGraphicInfo().getLocation();
+			attr.getGraphicInfo().setLocation(attrLocation.x+deltaX, attrLocation.y+deltaY);
+		}
+		
+		this.graphicInfo.updateMiddlePoint();
+	}
 }

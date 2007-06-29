@@ -128,4 +128,9 @@ public interface IArcImpl {
 	 * @param state Selection / Deselection
 	 */
 	public void setAttributesSelected(boolean state);
+	
+	/**
+	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible
+	 */
+	public void updateAttributesPosition();
 }

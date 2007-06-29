@@ -157,6 +157,12 @@ public interface INodeImpl {
 	 * @param deltaX Deplacement horizontal
 	 * @param deltaY Deplacement vertical
 	 */
-	public void setAttributesPosition(int deltaX, int deltaY);
+	public void updateAttributesPosition(int deltaX, int deltaY);
+	
+	/**
+	 * Lors du deplacement d'un noeud, il est necessaire de faire suivre les attributs
+	 * attaches aux arcs sortant et entrants du noeud en question
+	 */
+	public void updateArcAttributesPosition();
      
 }

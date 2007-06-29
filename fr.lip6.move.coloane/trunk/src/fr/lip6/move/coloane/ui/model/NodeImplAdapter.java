@@ -248,14 +248,31 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesPosition(int, int)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateAttributesPosition(int, int)
 	 */
-	public void setAttributesPosition(int deltaX, int deltaY) {
+	public void updateAttributesPosition(int deltaX, int deltaY) {
 		List<IAttributeImpl> list = this.getDrawableAttributes();
 		for (IAttributeImpl att : list) {
     		Point loc = att.getGraphicInfo().getLocation();
     		att.getGraphicInfo().setLocation(loc.x-deltaX, loc.y-deltaY);
     	}        		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateArcAttributesPosition()
+	 */
+	public void updateArcAttributesPosition() {
+		
+		// Parcours des arcs sortants
+		for (IArcImpl arc : this.sourceArcs) {
+			arc.updateAttributesPosition();
+		}
+		
+		// Parcours des arcs entrants
+		for (IArcImpl arc : this.targetArcs) {
+			arc.updateAttributesPosition();
+		}
 	}
 	
 	/*

@@ -186,8 +186,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getModelAdapter()
 	 */
 	public IModelImpl getModelAdapter() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.reference.getModelAdapter();
 	}
 	
 	/*

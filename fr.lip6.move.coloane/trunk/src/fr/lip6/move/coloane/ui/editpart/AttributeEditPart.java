@@ -23,10 +23,12 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.ui.model.IElement;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
@@ -80,9 +82,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		// Recupere la figure du modele
 		ModelEditPart modelEditPart = (ModelEditPart)getParent();
 		
-		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite		
-		while (modelEditPart.getFigure().findFigureAt(attributePosition) != null) {
-			attributePosition.y = attributePosition.y+5; // Deplacement de 5 vers le bas si une figure est deja disposee 			
+		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite	
+		
+		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
+		Point attributePositionZone = new Point(attributePosition.x+5,attributePosition.y+5);
+		
+		while ((modelEditPart.getFigure().findFigureAt(attributePosition) != null) || (modelEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
+			attributePosition.y = attributePosition.y+5; // Deplacement de 5 vers le bas si une figure est deja disposee 		
+			attributePositionZone.y = attributePositionZone.y+5;
 		}
 		
 		// Stocke les information de positionnement
@@ -130,7 +137,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
 
 		// Il faut avertir FrameKit
-		// Coloane.notifyModelChange(attrModel.getModelAdapter());
+		Coloane.notifyModelChange(((IElement)attribut).getModelAdapter());
 	}
 	
 	/**

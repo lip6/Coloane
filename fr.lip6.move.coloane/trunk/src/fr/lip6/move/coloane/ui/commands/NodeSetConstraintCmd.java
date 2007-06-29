@@ -53,7 +53,8 @@ public class NodeSetConstraintCmd extends Command {
 	 */
 	public void redo() {
 		node.getGraphicInfo().setLocation(newBounds.getLocation().x,newBounds.getLocation().y);
-		node.setAttributesPosition(oldBounds.getLocation().x - newBounds.getLocation().x, oldBounds.getLocation().y - newBounds.getLocation().y);
+		node.updateAttributesPosition(oldBounds.getLocation().x - newBounds.getLocation().x, oldBounds.getLocation().y - newBounds.getLocation().y);
+		node.updateArcAttributesPosition();
 	}
 
 	/**
