@@ -31,8 +31,8 @@ public class XmlEditor implements ContentHandler {
 	public String modelXML(IModel m) {
 
 		String line = "<?xml version='1.0' encoding='ISO-8859-1'?>\n";
-		
-		//LIGNE A MODIFIER SUIVANT LE PATH DE LA DTD
+
+		// LIGNE A MODIFIER SUIVANT LE PATH DE LA DTD
 		line += "<!DOCTYPE model SYSTEM '/home/dcheng/ColoaneWorks/XML/coloane.dtd'>\n";
 
 		// Ecriture des attributs relatifs au formalism et positions
@@ -118,11 +118,11 @@ public class XmlEditor implements ContentHandler {
 			if (!attr.getValue().equals("")) {
 				if (attr.getName().equals("author(s)")) {
 					line += "<authors" + " xposition='" + attr.getXPosition()
-							+ "' yPosition='" + attr.getYPosition() + "'>"
+							+ "' yposition='" + attr.getYPosition() + "'>"
 							+ attr.getValue() + "</authors>\n";
 				} else {
 					line += "<" + attr.getName() + " xposition='"
-							+ attr.getXPosition() + "' yPosition='"
+							+ attr.getXPosition() + "' yposition='"
 							+ attr.getYPosition() + "'>" + attr.getValue()
 							+ "</" + attr.getName() + ">\n";
 				}
@@ -256,11 +256,18 @@ public class XmlEditor implements ContentHandler {
 
 			// Dans une balise d'un attribut (l'objet)
 		} else if (!(qName.equals("nodes") || qName.equals("arcs"))) {
+
+			int x, y;
 			if (qName.equals("authors")) {
 				att = new Attribute("author(s)", "", refid);
 			} else {
 				att = new Attribute(qName, "", refid);
 			}
+
+			x = Integer.parseInt(attributes.getValue("xposition"));
+			y = Integer.parseInt(attributes.getValue("yposition"));
+			att.setPosition(x, y);
+
 		}
 	}
 
