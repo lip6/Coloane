@@ -22,6 +22,8 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo, Serializable
 	 */
 	public AttributeGraphicInfo(IAttributeImpl attribute) {
 		this.attribute = attribute;
+		this.x = attribute.getGenericAttribute().getXPosition();
+		this.y = attribute.getGenericAttribute().getYPosition();
 	}
 
 	/* (non-Javadoc)
