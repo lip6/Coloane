@@ -64,9 +64,10 @@ public class Api implements IApi {
 	/** Journalisation de la classe*/
 	public static Logger apiLogger;
 	
-	/** Fichier d'enregistrements des logs de l'api*/
+	/** Fichier d'enregistrements des logs de l'api au format simple*/
 	private FileHandler f ;
-	
+	/** Fichier d'neregistrement de logs de l'api au format XML*/
+	private FileHandler fxml;
 	/**
 	 * Constructeur
 	 * @param moduleCom Le module de communication
@@ -89,10 +90,13 @@ public class Api implements IApi {
 		this.currentSessionName = "";		// Le nom de la session courante;
 		apiLogger = Logger.getLogger("fr.lip6.move.coloane.api.main.Api");
 		try {
-			f = new FileHandler("coloaneApi.log");
+			fxml = new FileHandler("coloaneApXML.log");
+			f = new FileHandler("coloaneApiSimple.log");
+			fxml.setFormatter(new XMLFormatter());
 			f.setFormatter(new SimpleFormatter());
 			apiLogger.setLevel(Level.ALL);
 			apiLogger.addHandler(f);
+			apiLogger.addHandler(fxml);
 		}catch(IOException e){apiLogger.throwing("Api","Api" ,e);apiLogger.warning("Erreur d'ouverture du fichier");}
 	}
 	
