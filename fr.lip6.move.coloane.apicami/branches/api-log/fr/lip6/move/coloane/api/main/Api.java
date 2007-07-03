@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
 import java.util.logging.*;
+
 /**
  * API de communication entre Coloane et FrameKit
  * 
