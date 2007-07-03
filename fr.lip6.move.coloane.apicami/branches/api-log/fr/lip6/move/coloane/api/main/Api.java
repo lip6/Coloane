@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
 import java.util.logging.*;
+import fr.lip6.move.coloane.log.*;
 
 /**
  * API de communication entre Coloane et FrameKit
@@ -94,7 +95,7 @@ public class Api implements IApi {
 			fxml = new FileHandler("coloaneApXML.log");
 			f = new FileHandler("coloaneApiSimple.log");
 			fxml.setFormatter(new XMLFormatter());
-			f.setFormatter(new SimpleFormatter());
+			f.setFormatter(new ApiFormatter());
 			apiLogger.setLevel(Level.ALL);
 			apiLogger.addHandler(f);
 			apiLogger.addHandler(fxml);
