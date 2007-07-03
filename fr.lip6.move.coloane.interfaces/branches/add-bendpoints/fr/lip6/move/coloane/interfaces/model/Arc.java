@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.interfaces.model;
 import java.util.Vector;
 import java.io.Serializable;
 
+import fr.lip6.move.coloane.interfaces.objects.IPosition;
+import fr.lip6.move.coloane.interfaces.objects.Position;
+
 /**
  * Cette classe decrit un arc generique d'un modele.<br>
  * Un arc se compose des elements suivants :
@@ -233,15 +236,12 @@ public abstract class Arc implements IArc, Serializable {
 	}
 
 	/* Ajoute un élément Position de la liste des points intermediaires */
-	public void addPI(Position pos) {
-		listOfPI.addElement(pos);
+	public void addPI(int x, int y) {
+		Position p = null;
+		p.setPosition(x, y);
+		listOfPI.addElement(p);
 	}
-
-	/* Retire un élément Position de la liste des points intermediaires */
-	public void removePI(Position pos) {
-		listOfPI.remove(pos);
-	}
-
+	
 	/* Supprime l'element Position de coordonnées (x,y) */
 	public void removePI(int x, int y) {
 	}

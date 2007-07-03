@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import java.util.Vector;
 
+import fr.lip6.move.coloane.interfaces.objects.IPosition;
+
 public interface IArc {
 
 	/**
@@ -93,6 +95,35 @@ public interface IArc {
 	 */
 	public IAttribute getNthAttr(int index);
 
+	/**
+	 * Retourne le vecteur de position des points intermediaires 
+	 * @return Vector La liste des positions
+	 */
+	public Vector<IPosition> getListOfPI();
+	
+	/**
+	 * Ajout d'un point intermediaire a l'arc
+	 * @param x,y Position (x,y) a ajouter
+	 * @see Position
+	 */
+	public void addPI(int x, int y);
+
+
+	/**
+	 * Supprime la position (x,y)
+	 * @param x,y Position(x,y) a supprimer
+	 * @see Position
+	 */
+	public void removePI(int x, int y) ;
+
+	/**
+	 * Retourne la nieme position intermediaire de l'arc 
+	 * @param index Index de la position recherche
+	 * @return IPosition
+	 */
+	public IPosition getNthPI(int index);
+
+	
 	/**
 	 * Traduit un arc en chaines de caracteres du protocole considere.
 	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
