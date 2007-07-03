@@ -24,7 +24,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 	public Arc(String arcType) {
 		super(arcType);
 	}
-
+	
 	
 	/**
      * Traduit un objet Arc en chaine de caracteres CAMI correspondante
@@ -49,7 +49,21 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
             s.append(this.endingNode.getId());
             s.append(")");
             vectorStringToReturn.addElement(s.toString());
-
+            
+            //Traduction des points intermediaires
+            for (int i = 0; i < this.getListOfPI().size(); i++) {
+            	s.append("PI(");
+                s.append("-1");
+                s.append(",");
+                s.append(this.getNthPI(i).getXPosition());
+                s.append(",");
+                s.append(this.getNthPI(i).getYPosition());
+                s.append(",");
+                s.append("-1");
+                s.append(")");
+                vectorStringToReturn.addElement(s.toString());
+            }
+            
             for (int i = 0; i < this.getListOfAttrSize(); i++) {
                 vectorStringToReturn.addAll(Arrays.asList(this.getNthAttr(i).translate()));
             }

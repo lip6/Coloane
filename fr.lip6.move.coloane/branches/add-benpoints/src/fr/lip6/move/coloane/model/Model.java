@@ -52,6 +52,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
     	String line = null;
         String type = null;
         
+        int lastArcId=0;
+        
         StringTokenizer st;
         CamiParser ps;
     	
@@ -104,6 +106,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     nodeBegin.addOutputArc(arc);
                     nodeEnd.addInputArc(arc);
 
+                    lastArcId=arc.getId();
+                    
                     this.addArc(arc);
                     continue;// Prochaine commande
                 }
@@ -260,6 +264,50 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         }
                     }
                 }
+                
+                
+                // Decouverte d'une position intermediaire
+                if (type.equals("PI")) { 
+                    String ref = ps.parseInt(",");
+                    String x = "";
+                    String y = "";
+                    
+//                  !! Attention bidouille pour prendre en compte le PO de 3e type
+                    if (Integer.parseInt(ref) == -1) {
+                    	ref = ps.parseInt(",");
+                    	x = ps.parseInt(",");
+                    	y = ps.parseInt(",");
+                    	//x = ps.parseInt(","); 
+                 //   } else {
+	               //     x = ps.parseInt(",");
+	                 //   y = ps.parseInt(")");
+                    }
+                    
+                    IArc arc = getAnArc(lastArcId);
+                    if (arc != null) {
+                    	arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
+                    } else {
+                    	throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+                    }
+                
+                    
+                    
+                    
+                    if (Integer.parseInt(ref) == 1) {
+                    	this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+                    }
+                    
+                    if (Integer.parseInt(ref) != 1) {
+                        INode node = getANode(Integer.parseInt(ref));
+                        if (node != null) {
+                        	node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+                        } else {
+                        	throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+                        }
+                    }
+                }
+                
+                
                 
                 // Decouverte d'une position de texte
                 if (type.equals("PT")) { 
