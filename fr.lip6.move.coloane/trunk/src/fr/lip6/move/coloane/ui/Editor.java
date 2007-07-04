@@ -68,8 +68,8 @@ import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 import org.apache.xerces.impl.io.MalformedByteSequenceException;
 
 import java.io.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.SAXParser;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
@@ -275,17 +275,16 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 
-			// Création du reader
-			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-
 			// Création d'un instance du handler
 			XmlEditor handler = new XmlEditor();
 
-			// Association du handler au reader
-			reader.setContentHandler(handler);
+			SAXParserFactory factory = SAXParserFactory.newInstance();
 
-			// Parse du fichier
-			reader.parse(file.getLocation().toString());
+			factory.setValidating(true);
+			
+//			 la factory produira un parseur validant
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(file.getLocation().toString(), handler);
 
 			// Formalism obtenu grace l'extension du fichier
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
@@ -320,7 +319,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
 			this.model = new ModelImplAdapter(formalism);
-
 			// Debut de la construction du model
 			model.setBeginBuilding();
 
@@ -333,8 +331,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		} catch (Exception e) {
 			IFile file = ((IFileEditorInput) input).getFile();
 			System.out.println(e.toString());
-			Coloane.showErrorMsg("Error while loading file : " +file.getName()+" - "+ e.getMessage());
+			Coloane.showErrorMsg("Error while loading file : " + file.getName()
+					+ " - " + e.getMessage());
 		}
+
 	}
 
 	/**
@@ -400,17 +400,19 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 							xmlString = xml.modelXML(m);
 
 							InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
-							
-							//Si le fichier existe alors on l'ecrase sinon on en crée un nouveau
+
+							// Si le fichier existe alors on l'ecrase sinon on
+							// en crée un nouveau
 							if (file.exists()) {
 								file.setContents(inputS, true, false, monitor);
-							
+
 							} else {
-								
+
 								// Creation d'un nouveau fichier contenant le
 								// modele au format xml
 								file.create(inputS, // contents
-								true, // keep saving, even if IFile is out of sync with
+								true, // keep saving, even if IFile is out of
+								// sync with
 								// the Workspace
 								monitor); // progress monitor
 							}

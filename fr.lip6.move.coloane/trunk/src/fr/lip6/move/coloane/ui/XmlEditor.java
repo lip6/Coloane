@@ -4,6 +4,7 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.xml.sax.*;
+import org.xml.sax.helpers.DefaultHandler;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -17,7 +18,7 @@ import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
 
 /** Classe de gestion du modele au format xml */
-public class XmlEditor implements ContentHandler {
+public class XmlEditor extends DefaultHandler {
 
 	/* Balise courante */
 	private String ltag;
@@ -308,23 +309,6 @@ public class XmlEditor implements ContentHandler {
 		return txt;
 	}
 
-	public void startDocument() throws SAXException {
-	};
-
-	public void endDocument() throws SAXException {
-	};
-
-	public void processingInstruction(String target, String data)
-			throws SAXException {
-	};
-
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
-	};
-
-	public void endPrefixMapping(String prefix) throws SAXException {
-	};
-
 	public void endElement(String namespaceURI, String localName, String qName)
 			throws SAXException {
 		// La donnée doit etre du texte et pas un retour chariot ou un
@@ -353,16 +337,15 @@ public class XmlEditor implements ContentHandler {
 		data="";
 	}
 
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
-	};
-
-	public void skippedEntity(String name) throws SAXException {
-	};
-
-	public void setDocumentLocator(Locator loc) {
-	};
-
+	
+	public void error(SAXParseException e) throws SAXParseException{
+		throw e;
+	}
+  
+	public void  fatalError(SAXParseException e) throws SAXParseException{
+		throw e;
+	}
+	
 	/** FIN METHODES XML* */
 
 	/* Retourne le modele créé par le parcours du fichier xml */
