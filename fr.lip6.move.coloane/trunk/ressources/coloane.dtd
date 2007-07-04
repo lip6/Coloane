@@ -1,5 +1,8 @@
-
-<!ELEMENT model (declaration|authors|version|project|title|date|code|note)>
+<!ELEMENT model (declaration?,authors?,version?,project?,title?,date?,code?,note?,nodes,arcs)>
+<!ELEMENT nodes (node*)>
+<!ELEMENT arcs (arc*)>
+<!ELEMENT node (name?,domain?,marking?,component?,guard?,priority?,weight?,delay?,action?,note?)>
+<!ELEMENT arc (valuation?,note?)>
 
 <!ELEMENT declaration (#PCDATA)>
 <!ELEMENT authors (#PCDATA)>
@@ -8,27 +11,15 @@
 <!ELEMENT title (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
 <!ELEMENT code (#PCDATA)>
-<!ELEMENT note (#PCDATA)>
-
-<!ELEMENT nodes (node*)>
-
-<!ELEMENT node (name, domain, marking, component, note, guard, priority, weight, delay, action)?>
-
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT domain (#PCDATA)>
 <!ELEMENT marking (#PCDATA)>
 <!ELEMENT component (#PCDATA)>
-<!ELEMENT note (#PCDATA)>
 <!ELEMENT guard (#PCDATA)>
 <!ELEMENT priority (#PCDATA)>
 <!ELEMENT weight (#PCDATA)>
 <!ELEMENT delay (#PCDATA)>
 <!ELEMENT action (#PCDATA)>
-
-<!ELEMENT arcs (arc*)>
-
-<!ELEMENT arc (valuation,note)?>
-
 <!ELEMENT valuation (#PCDATA)>
 <!ELEMENT note (#PCDATA)>
 
@@ -40,6 +31,26 @@
 <!ATTLIST model
 	yposition CDATA #REQUIRED>
 
+<!ATTLIST node
+	nodetype CDATA #REQUIRED>
+<!ATTLIST node
+	id CDATA #REQUIRED>
+<!ATTLIST node
+	xposition CDATA #REQUIRED>
+<!ATTLIST node
+	yposition CDATA #REQUIRED>
+
+<!ATTLIST arc
+	arctype CDATA #REQUIRED>
+<!ATTLIST arc
+	startid CDATA #REQUIRED>
+<!ATTLIST arc
+	endid CDATA #REQUIRED>
+<!ATTLIST arc
+	id CDATA #REQUIRED>
+
+
+
 <!ATTLIST declaration
 	xposition CDATA #REQUIRED>
 <!ATTLIST declaration
@@ -73,11 +84,6 @@
 <!ATTLIST code
 	xposition CDATA #REQUIRED>
 <!ATTLIST code
-	yposition CDATA #REQUIRED>
-
-<!ATTLIST note
-	xposition CDATA #REQUIRED>
-<!ATTLIST note
 	yposition CDATA #REQUIRED>
 
 <!ATTLIST name
@@ -97,7 +103,7 @@
 
 <!ATTLIST component
 	xposition CDATA #REQUIRED>
-<!ATTLIST name
+<!ATTLIST component
 	yposition CDATA #REQUIRED>
 
 <!ATTLIST guard
@@ -128,4 +134,9 @@
 <!ATTLIST valuation
 	xposition CDATA #REQUIRED>
 <!ATTLIST valuation
+	yposition CDATA #REQUIRED>
+
+<!ATTLIST note
+	xposition CDATA #REQUIRED>
+<!ATTLIST note
 	yposition CDATA #REQUIRED>
