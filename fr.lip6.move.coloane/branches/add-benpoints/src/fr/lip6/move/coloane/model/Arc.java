@@ -52,6 +52,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
             
             //Traduction des points intermediaires
             for (int i = 0; i < this.getListOfPI().size(); i++) {
+            	s = new StringBuffer();
             	s.append("PI(");
                 s.append("-1");
                 s.append(",");
@@ -61,9 +62,9 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
                 s.append(",");
                 s.append("-1");
                 s.append(")");
-                vectorStringToReturn.addElement(s.toString());
+                vectorStringToReturn.addElement(s.toString()); 
             }
-            
+           
             for (int i = 0; i < this.getListOfAttrSize(); i++) {
                 vectorStringToReturn.addAll(Arrays.asList(this.getNthAttr(i).translate()));
             }
