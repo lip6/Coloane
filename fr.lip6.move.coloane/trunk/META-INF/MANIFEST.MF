@@ -18,5 +18,5 @@ Require-Bundle: fr.lip6.move.coloane.apicami,
  org.apache.xerces
 Eclipse-LazyStart: true
 Plugin-Class: fr.lip6.move.coloane.main.Coloane
-Bundle-ClassPath: lib/interfaces.jar,
- .
+Bundle-ClassPath: .,
+ lib/
