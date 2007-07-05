@@ -22,7 +22,7 @@
    </license>
 
    <url>
-      <update label="LIP6 - Update Site" url="http://www.lip6.fr/coloane"/>
+      <update label="Izanami Repository" url="http://izanami/coloane/"/>
    </url>
 
    <includes
