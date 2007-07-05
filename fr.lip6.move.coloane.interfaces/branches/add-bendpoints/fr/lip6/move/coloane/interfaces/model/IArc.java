@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.interfaces.model;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.interfaces.objects.IPosition;
-
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 public interface IArc {
 
 	/**
@@ -106,7 +106,7 @@ public interface IArc {
 	 * @param x,y Position (x,y) a ajouter
 	 * @see Position
 	 */
-	public void addPI(int x, int y);
+	public void addPI(int x, int y) throws SyntaxErrorException;
 
 
 	/**
@@ -114,7 +114,7 @@ public interface IArc {
 	 * @param x,y Position(x,y) a supprimer
 	 * @see Position
 	 */
-	public void removePI(int x, int y) ;
+	public void removePI(int x, int y) throws SyntaxErrorException;
 
 	/**
 	 * Retourne la nieme position intermediaire de l'arc 

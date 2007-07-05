@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import fr.lip6.move.coloane.interfaces.objects.IPosition;
 import fr.lip6.move.coloane.interfaces.objects.Position;
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 /**
  * Cette classe decrit un arc generique d'un modele.<br>
@@ -47,7 +48,7 @@ public abstract class Arc implements IArc, Serializable {
 	 */
 	private Vector<IAttribute> listOfAttr;
 
-	/** Vecteur contenant l'ensemble des points intermediaire de type Point. */
+	/** Vecteur contenant l'ensemble des points intermediaire de type Position. */
 	private Vector<IPosition> listOfPI;
 
 	/** Noeud d'entree de l'arc. */
@@ -68,6 +69,7 @@ public abstract class Arc implements IArc, Serializable {
 		this.arcType = arcType;
 		this.id = id;
 		this.listOfAttr = new Vector<IAttribute>();
+		this.listOfPI = new Vector<IPosition>();
 		this.startingNode = null;
 		this.endingNode = null;
 	}
@@ -82,6 +84,7 @@ public abstract class Arc implements IArc, Serializable {
 		this.arcType = arcType;
 		this.id = 0;
 		this.listOfAttr = new Vector<IAttribute>();
+		this.listOfPI = new Vector<IPosition>();
 		this.startingNode = null;
 		this.endingNode = null;
 	}
@@ -232,18 +235,58 @@ public abstract class Arc implements IArc, Serializable {
 
 	/* Retourne la liste des points intermediaires */
 	public Vector<IPosition> getListOfPI() {
-		return listOfPI;
+		return this.listOfPI;
 	}
 
 	/* Ajoute un élément Position de la liste des points intermediaires */
-	public void addPI(int x, int y) {
-		Position p = null;
-		p.setPosition(x, y);
+	public void addPI(int x, int y) throws SyntaxErrorException {
+		
+		//Si une position (x,y) existe, une exception est levée
+		for (int i = 0; i < this.listOfPI.size(); i++) {
+			if (listOfPI.get(i).getXPosition() == x
+					&& listOfPI.get(i).getYPosition() == y) {
+				throw new SyntaxErrorException("Un point intermediaire de coordonnées ("
+						+ x
+						+ ","
+						+ y
+						+ ") existe déjà pour l'arc d'identifiant "
+						+ this.getId());
+			}
+		}
+		
+		//Sinon on ajoute la position
+		IPosition p = new Position(x, y);
 		listOfPI.addElement(p);
+
 	}
-	
+
 	/* Supprime l'element Position de coordonnées (x,y) */
-	public void removePI(int x, int y) {
+	public void removePI(int x, int y) throws SyntaxErrorException {
+		
+		//indique la presence d'un point de coordonnees (x,y)
+		boolean presence = false;
+		
+		//Test pour chaque position si ses coordonées sont (x,y)
+		for (int i = 0; i < this.listOfPI.size(); i++) {
+			if (listOfPI.get(i).getXPosition() == x
+					&& listOfPI.get(i).getYPosition() == y) {
+				
+				//On supprime la position trouvée
+				this.listOfPI.remove(i);
+				presence=true;
+			}
+		}
+		
+		//Si aucune position (x,y) n'est trouvée, on léve une exception
+		if (!presence) {
+			throw new SyntaxErrorException("Aucun point intermediaire de coordonnées("
+					+ x
+					+ ","
+					+ y
+					+ ") existe pour l'arc d'identifiant "
+					+ this.getId());
+
+		}
 	}
 
 	/* Renvoie le index-ieme element de la liste des points intermediaires */
