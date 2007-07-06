@@ -85,7 +85,7 @@ public class TestModel_PI extends TestCase {
 		} else {
 			// Sinon, la suppresion est effectué.
 			try {
-				arc.addPI(x, y);
+				arc.removePI(x, y);
 
 				// On test alors la présence du PI
 				// (x,y)
