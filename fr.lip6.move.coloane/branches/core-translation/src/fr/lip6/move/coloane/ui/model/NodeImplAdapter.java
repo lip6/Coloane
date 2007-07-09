@@ -11,6 +11,7 @@ import org.eclipse.draw2d.geometry.Point;
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.model.Node;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
@@ -118,7 +119,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans le modele generique)
 	 * Creation des attribut generiques manquants et attributs adaptes correspondants
-	 * Cela peut être utile lorsq'un modele est lu depuis un fichier.
+	 * Cela peut ÔøΩtre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
     private void setProperties(INode node) {
@@ -185,7 +186,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
        		this.node.addInputArc(arcAdapter.getGenericArc());
        		firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
        	} else {
-			throw new BuildException("Erreur lors de l'ajout d'un arc entrant au modele");
+			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
 		}
 	}
 
@@ -199,7 +200,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			this.node.addOutputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null,arcAdapter);
 		} else {
-			throw new BuildException("Erreur lors de l'ajout d'un arc sortant au modele");
+			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
 		}
 	}
 	
@@ -343,7 +344,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
 	public String getNodeAttributeValue(String attribute) {
-		String valeur = "";
+		String valeur = ""; //$NON-NLS-1$
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
 		   if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
 			   valeur = this.node.getNthAttr(i).getValue();

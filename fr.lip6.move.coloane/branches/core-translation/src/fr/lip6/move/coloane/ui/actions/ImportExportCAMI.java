@@ -28,14 +28,14 @@ import org.eclipse.ui.ide.IDE;
 
 public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 
-	/** Fenêtre de travail */
+	/** FenÔøΩtre de travail */
 	private IWorkbenchWindow window;
 
 	/** ID  pour le cas d'un nouveau model */
-	private static final String ACT_IMPORT = "cami_import";
+	private static final String ACT_IMPORT = "cami_import"; //$NON-NLS-1$
 
 	/** ID pour le cas d'ouverture d'un model */
-	private static final String ACT_EXPORT = "cami_export";
+	private static final String ACT_EXPORT = "cami_export"; //$NON-NLS-1$
 
 	public void dispose() {
 		// TODO Auto-generated method stub
@@ -53,7 +53,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		if (ACT_EXPORT.equalsIgnoreCase(action.getId())) {
 
 			if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
-				Coloane.showErrorMsg("Please open a model to export ");
+				Coloane.showErrorMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
 				return;
 			}
 			
@@ -63,7 +63,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 			// On demande la sauvegarde a l'utilisateur
 			if (editor.isDirty()) {
-				Coloane.showWarningMsg("Please save model before exporting !");
+				Coloane.showWarningMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
 				return;
 			}
 			
@@ -94,7 +94,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			SaveAsDialog sd = new SaveAsDialog(shell) {
 				protected void configureShell(Shell shell) {
 					super.configureShell(shell);
-					shell.setText(Coloane.getParam("ACT_IMPORT"));
+					shell.setText(Coloane.getParam("ACT_IMPORT")); //$NON-NLS-1$
 				}
 			};
 			

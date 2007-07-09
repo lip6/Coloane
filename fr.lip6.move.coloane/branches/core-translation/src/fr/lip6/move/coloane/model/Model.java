@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.main.Coloane;
 
 /**
  * Cette classe represente un modele generique.<br>
@@ -62,12 +63,12 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
         		st = new StringTokenizer(line);
                 ps = new CamiParser(line.substring(3));
 
-                type = st.nextToken("(");
+                type = st.nextToken("("); //$NON-NLS-1$
 	
                 // Decouverte d'un noeud
-                if (type.equals("CN")) { 
-                	String nodeType = ps.parseString(",");
-                    String nodeId = ps.parseInt(")");
+                if (type.equals("CN")) {  //$NON-NLS-1$
+                	String nodeType = ps.parseString(","); //$NON-NLS-1$
+                    String nodeId = ps.parseInt(")"); //$NON-NLS-1$
 
                     // Si le noeud en cours n'est pas le noeud principal du modele
                     if (Integer.parseInt(nodeId) != 1) {
@@ -82,18 +83,18 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                 }
                 
                 // Decouverte d'un arc
-                if (type.equals("CA")) { 
-                    String arcType = ps.parseString(",");
-                    String arcId = ps.parseInt(",");
-                    String from = ps.parseInt(",");
-                    String to = ps.parseInt(")");
+                if (type.equals("CA")) {  //$NON-NLS-1$
+                    String arcType = ps.parseString(","); //$NON-NLS-1$
+                    String arcId = ps.parseInt(","); //$NON-NLS-1$
+                    String from = ps.parseInt(","); //$NON-NLS-1$
+                    String to = ps.parseInt(")"); //$NON-NLS-1$
 
                     // Recherche de la source et de la cible
                     INode nodeBegin = getANode(Integer.parseInt(from));
                     INode nodeEnd = getANode(Integer.parseInt(to));
 
                     if (nodeBegin == null || nodeEnd == null) {
-                        throw new SyntaxErrorException("Noeud source ou cible manquant");
+                        throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.9")); //$NON-NLS-1$
                     }
 
                     // Creation de l'arc
@@ -109,12 +110,12 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                 }
                 
                 // Decouverte d'attribut sur une ligne
-                if (type.equals("CT")) { 
+                if (type.equals("CT")) {  //$NON-NLS-1$
                     String value = new String();
 
-                    String name = ps.parseString(",");
-                    String ref = ps.parseInt(",");
-                    value = ps.parseString(")");
+                    String name = ps.parseString(","); //$NON-NLS-1$
+                    String ref = ps.parseInt(","); //$NON-NLS-1$
+                    value = ps.parseString(")"); //$NON-NLS-1$
 
                     // Creation effective de l'attribut
                     IAttribute attr = new Attribute(name, value, Integer.parseInt(ref));
@@ -140,19 +141,19 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     }
 
                     // Sinon on retourne une erreur
-                    throw new SyntaxErrorException("Element referent introuvable");
+                    throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.14")); //$NON-NLS-1$
                 }
                 
                 // Creation d'une ligne dans un attribut multi-ligne
-                if (type.equals("CM")) { 
+                if (type.equals("CM")) {  //$NON-NLS-1$
                     String value = new String();;
                     boolean found = false;
 
-                    String name = ps.parseString(",");
-                    String ref = ps.parseInt(",");
-                    ps.parseInt(",");
-                    ps.parseInt(",");
-                    value = ps.parseString(")");
+                    String name = ps.parseString(","); //$NON-NLS-1$
+                    String ref = ps.parseInt(","); //$NON-NLS-1$
+                    ps.parseInt(","); //$NON-NLS-1$
+                    ps.parseInt(","); //$NON-NLS-1$
+                    value = ps.parseString(")"); //$NON-NLS-1$
                     st = new StringTokenizer(line);
 
                     try {
@@ -164,7 +165,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                                 IAttribute a = this.getNthAttr(i);
                                 if (name.equals((a).getName())) {
                                     
-                                    a.setValue(a.getValue()+"\r"+value);
+                                    a.setValue(a.getValue()+"\r"+value); //$NON-NLS-1$
                                     found = true;
                                     break; // On sort de cette boucle de recherche
                                 }
@@ -185,7 +186,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         	for (int i = 0; i < arc.getListOfAttrSize(); i++) {
                         		IAttribute att = arc.getNthAttr(i);
                                 if (name.equals(att.getName())) {
-                                	att.setValue(att.getValue()+"\r"+value);
+                                	att.setValue(att.getValue()+"\r"+value); //$NON-NLS-1$
                                     found = true;
                                     break;
                                 }
@@ -206,7 +207,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         	for (int i = 0; i < node.getListOfAttrSize(); i++) {
                         		IAttribute att = node.getNthAttr(i);
                                 if (name.equals(att.getName())) {
-                                	att.setValue(att.getValue()+"\r"+value);
+                                	att.setValue(att.getValue()+"\r"+value); //$NON-NLS-1$
                                     found = true;
                                     break;
                                 }
@@ -221,26 +222,26 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         }
                         
                     } catch (Exception e) {
-                        throw new SyntaxErrorException("Construction d'un attribut multiligne incorrecte");
+                        throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.24")); //$NON-NLS-1$
                     }
 
                 }
                 
                 // Decouverte d'une position de noeud
-                if (type.equals("PO") || type.equals("pO")) { 
-                    String ref = ps.parseInt(",");
-                    String x = "";
-                    String y = "";
+                if (type.equals("PO") || type.equals("pO")) {  //$NON-NLS-1$ //$NON-NLS-2$
+                    String ref = ps.parseInt(","); //$NON-NLS-1$
+                    String x = ""; //$NON-NLS-1$
+                    String y = ""; //$NON-NLS-1$
                     
 //                  !! Attention bidouille pour prendre en compte le PO de 3e type
                     if (Integer.parseInt(ref) == -1) {
-                    	ref = ps.parseInt(",");
-                    	x = ps.parseInt(",");
-                    	y = ps.parseInt(",");
+                    	ref = ps.parseInt(","); //$NON-NLS-1$
+                    	x = ps.parseInt(","); //$NON-NLS-1$
+                    	y = ps.parseInt(","); //$NON-NLS-1$
                     	//x = ps.parseInt(","); 
                     } else {
-	                    x = ps.parseInt(",");
-	                    y = ps.parseInt(")");
+	                    x = ps.parseInt(","); //$NON-NLS-1$
+	                    y = ps.parseInt(")"); //$NON-NLS-1$
                     }
                     
                     
@@ -256,17 +257,17 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                         if (node != null) {
                         	node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
                         } else {
-                        	throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+                        	throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.42")); //$NON-NLS-1$
                         }
                     }
                 }
                 
                 // Decouverte d'une position de texte
-                if (type.equals("PT")) { 
-                    String ref = ps.parseInt(",");
-                    String name = ps.parseString(",");
-                    String x = ps.parseInt(",");
-                    String y = ps.parseInt(")");
+                if (type.equals("PT")) {  //$NON-NLS-1$
+                    String ref = ps.parseInt(","); //$NON-NLS-1$
+                    String name = ps.parseString(","); //$NON-NLS-1$
+                    String x = ps.parseInt(","); //$NON-NLS-1$
+                    String y = ps.parseInt(")"); //$NON-NLS-1$
 
                     if (Integer.parseInt(ref) == 1) {
                         for (int i = 0; i < this.getListOfAttrSize(); i++) {
@@ -303,7 +304,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
                     	continue;
                     }
                     
-                    throw new SyntaxErrorException("Impossible d'attachee la position de texte a un attribut");
+                    throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.41")); //$NON-NLS-1$
                 }
             }
     		
@@ -330,11 +331,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
         
         // Ajout du modele
         s = new StringBuffer();
-        s.append("CN(");
-        s.append(this.getFormalism().length() + ":" + this.getFormalism());
-        s.append(",");
-        s.append("1");
-        s.append(")");
+        s.append("CN("); //$NON-NLS-1$
+        s.append(this.getFormalism().length() + ":" + this.getFormalism()); //$NON-NLS-1$
+        s.append(","); //$NON-NLS-1$
+        s.append("1"); //$NON-NLS-1$
+        s.append(")"); //$NON-NLS-1$
         vec.addElement(s.toString());
         
         
@@ -347,7 +348,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
         	nodes = (this.getNthNode(i)).translate();
             
         	for (int j = 0; j < nodes.length; j++) {
-                if (!nodes[j].equals("")) {
+                if (!nodes[j].equals("")) { //$NON-NLS-1$
                     vec.add(nodes[j]);
                 }
             }
@@ -358,7 +359,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
         	arcs = (this.getNthArc(i)).translate();
             
         	for (int j = 0; j < arcs.length; j++) {
-                if (!arcs[j].equals("")) {
+                if (!arcs[j].equals("")) { //$NON-NLS-1$
                     vec.add(arcs[j]);
                 }
             }

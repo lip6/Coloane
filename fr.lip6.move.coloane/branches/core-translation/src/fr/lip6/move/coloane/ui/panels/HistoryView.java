@@ -18,8 +18,10 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.lip6.move.coloane.main.Coloane;
+
 /**
- * Cette classe implémente la fêtre de l'historique
+ * Cette classe implÔøΩmente la fÔøΩtre de l'historique
  * 
  * @author Dzung NGUYEN
  * @author Jean-Baptiste VORON
@@ -27,7 +29,7 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class HistoryView extends ViewPart {
 
-	/** Point d'accès pour les autres classes */
+	/** Point d'accÔøΩs pour les autres classes */
 	public static HistoryView instance;
 
 	/** Visionneuse */
@@ -46,9 +48,9 @@ public class HistoryView extends ViewPart {
 	private Action selectAllAction = null;
 
 	/**
-	 * Cette méthode permet de creer la visionneuse et de l'initaliser
+	 * Cette mÔøΩthode permet de creer la visionneuse et de l'initaliser
 	 * 
-	 * @param parent Interface Composite, pour la création de la visionneuse et des controls
+	 * @param parent Interface Composite, pour la crÔøΩation de la visionneuse et des controls
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -70,7 +72,7 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Donner une valeur à Focus
+	 * Donner une valeur ÔøΩ Focus
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
@@ -83,7 +85,7 @@ public class HistoryView extends ViewPart {
 	 * Creer le menu contextuel pour la fenetre de l'historique, contenant deux actions: Copy, Find
 	 */
 	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
@@ -111,8 +113,8 @@ public class HistoryView extends ViewPart {
 						.canDoOperation(ITextOperationTarget.COPY);
 			}
 		};
-		copyAction.setText("Copy");
-		copyAction.setToolTipText("Copy selected text");
+		copyAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
+		copyAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
 		copyAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_TOOL_COPY));
@@ -124,8 +126,8 @@ public class HistoryView extends ViewPart {
 						.doOperation(ITextOperationTarget.SELECT_ALL);
 			}
 		};
-		selectAllAction.setText("Select All");
-		selectAllAction.setToolTipText("Select all text in history window");
+		selectAllAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
+		selectAllAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
 		selectAllAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_OBJ_FILE));
@@ -134,8 +136,8 @@ public class HistoryView extends ViewPart {
 			public void run() {
 			}
 		};
-		findAction.setText("Find...");
-		findAction.setToolTipText("Find text...");
+		findAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
+		findAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
 	}
 
 	/**
@@ -165,7 +167,7 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Ajouter des actions à la barre d'outils
+	 * Ajouter des actions ÔøΩ la barre d'outils
 	 * 
 	 * @param manager
 	 *            Toolbar
@@ -187,16 +189,16 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Inserer une nouvelle ligne à la fenetre de l'historique
+	 * Inserer une nouvelle ligne ÔøΩ la fenetre de l'historique
 	 * 
 	 * @param text
-	 *            Texte à insérer
+	 *            Texte ÔøΩ insÔøΩrer
 	 */
 	public void addLine(String text) {
 		if (document != null) {
 
 			try {
-				document.replace(document.getLength(), 0, text + "\n");
+				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
  
 			} catch (Exception e) {
 				/*
@@ -208,10 +210,10 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Insérer du texte dans la fenêtre de l'historique.
+	 * InsÔøΩrer du texte dans la fenÔøΩtre de l'historique.
 	 * 
 	 * @param text
-	 *            Texte à insérer
+	 *            Texte ÔøΩ insÔøΩrer
 	 */
 	public void addText(String text) {
 		if (document != null) {

@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.main;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -16,13 +19,24 @@ import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public class Coloane extends AbstractUIPlugin {
 	
+	public static Locale locale = null;
+	public static ResourceBundle traduction = null;
 	private static Coloane plugin;
 	private Com com = null;	
 	private Motor motor = null;
 	private UserInterface ui = null;
 	
-	public Coloane () {
+	public Coloane () throws Exception {
 		plugin = this;
+		locale = new Locale("fr","FR");
+		try {
+		traduction = ResourceBundle.getBundle("ressources/LNG", locale);
+		} catch (Exception e) {
+			System.err.println("Fichier de langue pas trouve !");
+			System.err.println("Erreur : "+e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	/**
@@ -35,6 +49,8 @@ public class Coloane extends AbstractUIPlugin {
 		super.start(context);
 		
 		try {
+			
+			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --");
 			
 			// Initialisation de l'interface graphique

@@ -23,7 +23,7 @@ public class DumpAction implements IWorkbenchWindowActionDelegate {
 
 	public void run(IAction action) {
 		if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
-			Coloane.showErrorMsg("Please open a model to dump");
+			Coloane.showErrorMsg(Coloane.traduction.getString("ui.actions.DumpAction.0")); //$NON-NLS-1$
 			return;
 		}
 		

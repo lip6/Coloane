@@ -10,6 +10,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
@@ -126,7 +127,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans le modele generique)
 	 * Creation des attribut generiques manquants et attributs adaptes correspondants
-	 * Cela peut être utile lorsq'un modele est lu depuis un fichier.
+	 * Cela peut ÔøΩtre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
     private void setProperties(IArc arc) {
@@ -260,7 +261,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 		this.disconnect();
         
 		if (source == null || target == null) {
-			throw new BuildException("Impossible de reconnecter l'arc");
+			throw new BuildException(Coloane.traduction.getString("ui.model.ArcImplAdapter.0")); //$NON-NLS-1$
 		}
 
         // On indique a l'arc generique quels sont ces sources et cibles
@@ -338,9 +339,9 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getArcValue()
 	 */
     public String getArcValue() {
-    	String valeur = "";
+    	String valeur = ""; //$NON-NLS-1$
     	for (int i = 0; i < this.arc.getListOfAttrSize(); i++) {
-    		if (this.arc.getNthAttr(i).getName().equalsIgnoreCase("valuation")) {
+    		if (this.arc.getNthAttr(i).getName().equalsIgnoreCase("valuation")) { //$NON-NLS-1$
     			valeur = this.arc.getNthAttr(i).getValue();
     			break;
     		}
@@ -352,9 +353,9 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getArcLabel()
 	 */
     public String getArcLabel() {
-    	String valeur = "";
+    	String valeur = ""; //$NON-NLS-1$
     	for (int i = 0; i < this.arc.getListOfAttrSize(); i++) {
-    		if (this.arc.getNthAttr(i).getName().equalsIgnoreCase("label")) {
+    		if (this.arc.getNthAttr(i).getName().equalsIgnoreCase("label")) { //$NON-NLS-1$
     			valeur = this.arc.getNthAttr(i).getValue();
     			break;
     		}

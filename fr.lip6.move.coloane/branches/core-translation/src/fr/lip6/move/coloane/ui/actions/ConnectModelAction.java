@@ -36,49 +36,49 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 			showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
-					"Error during view initialization",
-					"The Historic view cannot be opened");
+					Coloane.traduction.getString("ui.actions.ConnectModelAction.0"), //$NON-NLS-1$
+					Coloane.traduction.getString("ui.actions.ConnectModelAction.1")); //$NON-NLS-1$
 		}
 		
-		System.out.println("Connexion d'un modele");
-		HistoryView.instance.addLine("[?] Connexion d'un modele");
+		System.out.println(Coloane.traduction.getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
+		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
 
 		if(window.getActivePage().getActiveEditor() == null) {
-			HistoryView.instance.addLine("[!] Echec: Aucun modele ouvert !");
+			HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.4")); //$NON-NLS-1$
 		} else {
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
 
 			try {
 				if (editor.getModel() != null) {
 					// Le modele existe... On peut essayer de le connecter
-					HistoryView.instance.addText("Connexion en cours... ");
+					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.ConnectModelAction.5")); //$NON-NLS-1$
 
 					// Transformation du modeles en modeles implementant l'interface de la Com
 					String eclipseSessionName;
 
 					if (editor instanceof Editor) {
-						System.out.println("Session particuliere");
+						System.out.println("Session particuliere"); //$NON-NLS-1$
 						IFile file = ((IFileEditorInput)editor.getEditorInput()).getFile();
 						eclipseSessionName=file.getProjectRelativePath().toString();
 					} else {
-						System.out.println("Session par defaut");
-						eclipseSessionName="SessionDefault";
+						System.out.println("Session par defaut"); //$NON-NLS-1$
+						eclipseSessionName="SessionDefault"; //$NON-NLS-1$
 					}
 
-					System.out.println("Nom de session : "+eclipseSessionName);
+					System.out.println("Nom de session : "+eclipseSessionName); //$NON-NLS-1$
 
 					if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
 						// TODO : Griser les menues adequats
-						HistoryView.instance.addLine("SUCCESS");
-						MenuManipulation.setEnabled("Platform", "Connect model", false);
-						MenuManipulation.setEnabled("Platform", "Disconnect model", true);
+						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.14")); //$NON-NLS-1$
+						MenuManipulation.setEnabled("Platform", "Connect model", false); //$NON-NLS-1$ //$NON-NLS-2$
+						MenuManipulation.setEnabled("Platform", "Disconnect model", true); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {
 						// TODO : GRiser les menus adequats
-						HistoryView.instance.addLine("FAILED");
+						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.15")); //$NON-NLS-1$
 					}
 
 				} else {
-					HistoryView.instance.addText("[!] Echec: Le modele n'est pas valide");
+					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.ConnectModelAction.16")); //$NON-NLS-1$
 				}
 
 			} catch (Exception e) {

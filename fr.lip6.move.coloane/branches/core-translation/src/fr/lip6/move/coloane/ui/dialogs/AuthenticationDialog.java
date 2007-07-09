@@ -28,37 +28,37 @@ public class AuthenticationDialog extends Dialog {
 	private Text framekit_port = null;
 
 	
-	/** TODO : Regrouper les propriete dans un dictionnaire ¬*/
+	/** TODO : Regrouper les propriete dans un dictionnaire ï¿½*/
 	/** Tag pour le champ homonyme */
-	public static final String PASSWORD_TAG = "password";
+	public static final String PASSWORD_TAG = "password"; //$NON-NLS-1$
 	
 	/** Tag pour le champ homonyme */
-	public static final String LOGIN_TAG = "login";
+	public static final String LOGIN_TAG = "login"; //$NON-NLS-1$
 	
 	/** Tag pour l'ip de la plateforme FrameKit */
-	public static final String FKIP_TAG = "fkip";
+	public static final String FKIP_TAG = "fkip"; //$NON-NLS-1$
 	
 	/** Tag pour le port de la plateforme FrameKit */
-	public static final String FKPORT_TAG = "fkport";
+	public static final String FKPORT_TAG = "fkport"; //$NON-NLS-1$
 	
 	/** Taiile limite du texte */
 	public static final int TXT_LIMIT = 255;
 	
 	
 	/** Message */
-	public static final String MSG_TITLE = Coloane.getParam("AUTH_TITLE");
+	public static final String MSG_TITLE = Coloane.getParam("AUTH_TITLE"); //$NON-NLS-1$
 
 	/** Login non valide et/ou erreur de mot de passe */
-	private static final String MSG_AUTH_ERROR = "Identifiant ou mot de passe invalide";
+	private static final String MSG_AUTH_ERROR = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.5"); //$NON-NLS-1$
 	
 	/** Champs login vide */
-	private static final String MSG_LOGIN_ERROR = "Vous devez fournir un nom d'utilisateur";
+	private static final String MSG_LOGIN_ERROR = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.6"); //$NON-NLS-1$
 
 	/** Champs login vide */
-	private static final String MSG_PASS_ERROR = "Vous devez fournir un mot de passe";
+	private static final String MSG_PASS_ERROR = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.7"); //$NON-NLS-1$
 
 	/** General Error */
-	private static final String MSG_GNRL_ERROR = "Erreur globale";
+	private static final String MSG_GNRL_ERROR = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.8"); //$NON-NLS-1$
 	
 	/**
 	 * Constructeur
@@ -88,13 +88,13 @@ public class AuthenticationDialog extends Dialog {
 		gridData.horizontalSpan = 2;
 		compo.setLayoutData(gridData);
 		
-		new Label(compo, SWT.NULL).setText("Login :");
+		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.9")); //$NON-NLS-1$
 		login = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
 		
-		new Label(compo, SWT.NULL).setText("Password :");
+		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.10")); //$NON-NLS-1$
 		password = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD | SWT.LEFT);
 		tag(password, PASSWORD_TAG);
 		password.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -102,24 +102,24 @@ public class AuthenticationDialog extends Dialog {
 		
 		/** pour un choix de la connexion a FrameKit
 		 */
-		new Label(compo, SWT.NULL).setText("Framekit IP :");
+		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.3")); //$NON-NLS-1$
 		framekit_ip = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		tag(framekit_ip, FKIP_TAG);
 		framekit_ip.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekit_ip.setTextLimit(TXT_LIMIT);
-		setFrameKitIp(Coloane.getParam("PLATEFORME_DEFAUT"));
+		setFrameKitIp(Coloane.getParam("PLATEFORME_DEFAUT")); //$NON-NLS-1$
 		
-		new Label(compo, SWT.NULL).setText("Framekit Port :");
+		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.4")); //$NON-NLS-1$
 		framekit_port = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		tag(framekit_port, FKPORT_TAG);
 		framekit_port.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		setFrameKitPort(Coloane.getParam("PORT_DEFAUT"));
+		setFrameKitPort(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
 
 		return compo;
 	}
 
 	/**
-	 * Configurer le shell pour la lŽgende
+	 * Configurer le shell pour la lï¿½gende
 	 * 
 	 * @param newShell Cette instance
 	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
@@ -146,9 +146,9 @@ public class AuthenticationDialog extends Dialog {
 				Coloane.showErrorMsg(MSG_AUTH_ERROR);
 			}
 		} catch (GuiAuthenticationException erreur) {
-			Coloane.showErrorMsg("Erreur: " + erreur.getMessage());
+			Coloane.showErrorMsg(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.15") + erreur.getMessage()); //$NON-NLS-1$
 		} catch (Exception e) {
-			Coloane.showErrorMsg(MSG_GNRL_ERROR + ": " + e.getMessage());
+			Coloane.showErrorMsg(MSG_GNRL_ERROR + ": " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -167,7 +167,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur ˆ login
+     * Donner une valeur ï¿½ login
 	 * @param login le login
 	 */
 	public void setLogin (String login) {
@@ -187,7 +187,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur ˆ pwd
+     * Donner une valeur ï¿½ pwd
 	 * @param pwd le mot de passe
 	 */
 	public void setPassword(String pwd) {
@@ -203,7 +203,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur ˆ l'ip
+     * Donner une valeur ï¿½ l'ip
 	 * @param fi l'ip de la plateforme Framekit
 	 */
 	public void setFrameKitIp(String fi) {
@@ -211,7 +211,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 	
 	/**
-	 * Obtenir le port de la plateforme FrameKit tel qu'indiqué par l'utilisateur
+	 * Obtenir le port de la plateforme FrameKit tel qu'indiquï¿½ par l'utilisateur
 	 * @return Retourne le port fourni de la plateforme FrameKit
 	 */
 	public int getFrameKitPort() {
@@ -236,7 +236,7 @@ public class AuthenticationDialog extends Dialog {
 	
 	
 	/**
-     * Donner une valeur au tag pour le widget ˆ tester
+     * Donner une valeur au tag pour le widget ï¿½ tester
 	 * Set tag for widget for testing 
 	 * @param tagged widget to set tag
 	 * @param data tag name

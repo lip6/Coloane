@@ -33,9 +33,9 @@ public class SelectFormalismPage extends WizardPage {
 	 * Constructeur de la classe
 	 */
 	public SelectFormalismPage() {
-		super("newmodel");
-		setTitle("Select a formalism for your model");
-		setDescription("Your model must implement one of the available models shown below :");	
+		super("newmodel"); //$NON-NLS-1$
+		setTitle(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
+		setDescription(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class SelectFormalismPage extends WizardPage {
 		
 		// La boite de selection
 		label = new Label(com, SWT.NONE);
-		label.setText("Select a formalism for your model: ");
+		label.setText(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
 		
 		tableFormalism = new Table(com, SWT.SINGLE | SWT.BORDER);
 		tableFormalism.setLayoutData(gridData);
@@ -79,7 +79,7 @@ public class SelectFormalismPage extends WizardPage {
             // Determine l'icone associe a l'item dans la table
             //item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
             // TODO Distinguer les icones des formalismes. (Dessiner les icones en question)
-            item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/icons/instance.gif").createImage());
+            item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/icons/instance.gif").createImage()); //$NON-NLS-1$
         }
        				
 		GridLayout gridLayout = new GridLayout();
@@ -100,7 +100,7 @@ public class SelectFormalismPage extends WizardPage {
 	}
 	
 	/**
-     * DŽbloque un verrou sur le bouton finish quand la condition est verifiee
+     * Dï¿½bloque un verrou sur le bouton finish quand la condition est verifiee
      * @return booleen
 	 */
 	@Override
@@ -109,7 +109,7 @@ public class SelectFormalismPage extends WizardPage {
 	}
 
     /**
-     * Mettre ˆ jour le formalisme choisi (indication au pere de l'assistant)
+     * Mettre ï¿½ jour le formalisme choisi (indication au pere de l'assistant)
      */
 	private void updateStatus() {
 		String f = tableFormalism.getSelection()[0].getText();

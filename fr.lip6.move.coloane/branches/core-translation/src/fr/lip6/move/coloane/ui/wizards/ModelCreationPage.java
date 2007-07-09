@@ -33,10 +33,10 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @param selection l'object selection courant
 	 */
 	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
-		super("newmodel", selection);
+		super("newmodel", selection); //$NON-NLS-1$
 		this.workbench = workbench;
-		setTitle("Attach your model.");
-		setDescription("Choose a modeling project to store your model to.");
+		setTitle(Coloane.traduction.getString("ui.wizards.ModelCreationPage.1")); //$NON-NLS-1$
+		setDescription(Coloane.traduction.getString("ui.wizards.ModelCreationPage.2")); //$NON-NLS-1$
 		setPageComplete(true);
 	}
 
@@ -48,7 +48,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		super.createControl(parent);
 		
 		// On propose un nom par defaut
-		setFileName(Coloane.getParam("file.name") +"_"+ fileCount);
+		setFileName(Coloane.getParam("file.name") +"_"+ fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	/**
@@ -70,21 +70,21 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		
 		// On doit verifier que le chargement du formalismManager est OK
 		if (formManager == null) {
-			setErrorMessage("Coloane has not been launched correctly...");
+			setErrorMessage(Coloane.traduction.getString("ui.wizards.ModelCreationPage.5")); //$NON-NLS-1$
 			return false;
 		}
 
 		// Recupere le nom du formalisme deceide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
 		String extension = formManager.loadFormalism(formalismName).getExtension();
-		setFileName(getFileName() + "." + extension);
+		setFileName(getFileName() + "." + extension); //$NON-NLS-1$
 
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
 		IFile newFile = createNewFile();
 		if (newFile == null) {
-			setErrorMessage("Cannot create file 'file'");
-			System.err.println("Impossible de creer le fichier");
+			setErrorMessage(Coloane.traduction.getString("ui.wizards.ModelCreationPage.7")); //$NON-NLS-1$
+			System.err.println(Coloane.traduction.getString("ui.wizards.ModelCreationPage.8")); //$NON-NLS-1$
 			return false;
 		}
 		
@@ -97,7 +97,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			try {
 				IDE.openEditor(page, newFile, true);
 			} catch (CoreException ce) {
-				System.err.println("Impossible d'ouvrir le fichier");
+				System.err.println(Coloane.traduction.getString("ui.wizards.ModelCreationPage.9")); //$NON-NLS-1$
 				Coloane.showErrorMsg(ce.getMessage());
 				return false;
 			}
