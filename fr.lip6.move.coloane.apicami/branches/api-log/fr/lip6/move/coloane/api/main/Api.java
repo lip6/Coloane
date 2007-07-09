@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import fr.lip6.move.coloane.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
 import fr.lip6.move.coloane.api.utils.Commande;
