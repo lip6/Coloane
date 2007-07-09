@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.utils;
 
 import java.util.Vector;
 
+import fr.lip6.move.coloane.api.log.utils.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
@@ -51,6 +52,8 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des resultats */
 	private Vector<IResultsCom> resultList;
 	
+	private LogsUtils logsutils;
+	
 	/**
 	 * Constructeur
 	 * @param api point d'entre vers l'api
@@ -70,6 +73,7 @@ public class FramekitThreadListener extends Thread {
 		this.resetUpdates = false;
 		this.resetResults = false;
 		this.modelState = false;
+		this.logsutils = new LogsUtils();
 	}
 	
 	/**
@@ -122,7 +126,7 @@ public class FramekitThreadListener extends Thread {
 			// En cas d'erreur, on se deconnecte de FrameKit	
 			} catch (Exception e) {
 				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
-				e.printStackTrace();
+				Api.apiLogger.warning(logsutils.StackToString(e));
 				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
 				Api.apiLogger.info("Connexion fermee");
 				//System.out.println("Connexion fermee");
@@ -208,6 +212,7 @@ public class FramekitThreadListener extends Thread {
 								} catch (Exception e) {
 									Api.apiLogger.throwing("FrameKitThread", "run",e);
 									Api.apiLogger.warning("Erreur reception TQ type= 7");
+									Api.apiLogger.warning(logsutils.StackToString(e));
 									//System.err.println("Erreur reception TQ type = 7");
 								}
 								break;
@@ -234,6 +239,7 @@ public class FramekitThreadListener extends Thread {
 								} catch (Exception e) {
 									Api.apiLogger.throwing("FrameKitThread", "run",e);
 									Api.apiLogger.warning("Erreur reception TQ type = 8");
+									Api.apiLogger.warning(logsutils.StackToString(e));
 									//System.err.println("Erreur reception TQ type = 8");
 								}
 								break;
@@ -248,8 +254,10 @@ public class FramekitThreadListener extends Thread {
 							
 							default :
 								Api.apiLogger.warning("Commande inconnue" + type);
-								System.err.println("Commande inconnue" + type);
-								break;
+								//System.err.println("Commande inconnue" + type);
+								Api.apiLogger.warning("Commande inconnue" + type);
+								
+							break;
 						}
 						continue;
 					} 
@@ -364,6 +372,7 @@ public class FramekitThreadListener extends Thread {
 							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
 							Api.apiLogger.warning("Erreur dans FQ = Impossible de construire le menu");
 							Api.apiLogger.warning("Erreur dans FQ = Impossible d'ajouter le menu construit � la plateforme");
+							Api.apiLogger.warning(logsutils.StackToString(e));
 							//System.err.println("Erreur dans FQ = Impossible de construire le menu");
 							//System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit � la plateforme");
 						}
@@ -541,7 +550,7 @@ public class FramekitThreadListener extends Thread {
 					// Fin d'une session Coloane
 					if ((listeArgs.firstElement().equals("FS"))) {
 						Api.apiLogger.info("Unlock FS");
-						System.out.println("Unlock FS");
+						//System.out.println("Unlock FS");
 						this.verrou.unlock();
 						continue;
 					}
@@ -607,6 +616,7 @@ public class FramekitThreadListener extends Thread {
 						} catch (Exception e) {
 							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
 							Api.apiLogger.warning("Erreur dans FF = Impossible de construire la boite de dialogue");
+							Api.apiLogger.warning(logsutils.StackToString(e));
 							//System.err.println("Erreur dans FF = Impossible de construire la boite de dialogue");
 						}
 
@@ -633,7 +643,8 @@ public class FramekitThreadListener extends Thread {
 						// On s'assure que la boite de dialogue a bien ete trouvee
 						if (!indic) {
 							Api.apiLogger.warning("Impossible de trouver la boite de dialogue (" +identity+") a afficher");
-							System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
+							//System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
+						
 						}
 						
 						continue;
@@ -653,7 +664,8 @@ public class FramekitThreadListener extends Thread {
 				}
 			} catch (Exception e) {
 				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
-				e.printStackTrace();
+				Api.apiLogger.warning(logsutils.StackToString(e));
+				//e.printStackTrace();
 			}
 		}
 	}	

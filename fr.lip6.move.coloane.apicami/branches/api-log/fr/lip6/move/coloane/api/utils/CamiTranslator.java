@@ -12,23 +12,26 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.api.main.Api;
+import fr.lip6.move.coloane.api.log.utils.*;
 
 /**
  * Constructeur d'objets a partir de commandes CAMI
  */
 public class CamiTranslator {
 
+	private LogsUtils logsUtils;
 	/**
 	 * Constructeur
 	 */
 	public CamiTranslator() {
 		super();
+		logsUtils = new LogsUtils();
 	}
 
 	/**
 	 * Permet de traduire du CAMI vers l'objet MenuCom
 	 * 
-	 * @param camiVec
+	 * @param camiVectype filter text
 	 *            Vector de Vector contenant le CAMI
 	 * @return L'objet RootMenuCom contenant tous les sous-menus
 	 * @throws UnexpectedCAMICommand
@@ -45,9 +48,11 @@ public class CamiTranslator {
 
 		// On verifie que le vecteur n'est pas vide
 		if (camiVec.size() == 0) {
+			UnexpectedCamiCommand ucc = new UnexpectedCamiCommand("Le menu est vide");
 			Api.apiLogger.throwing("CamiTranslator", "getMenu",
-					new UnexpectedCamiCommand("Le menu est vide"));
-			throw new UnexpectedCamiCommand("Le menu est vide");
+					ucc);
+			Api.apiLogger.warning(ucc.getMessage() + logsUtils.StackToString(ucc));
+			throw ucc;
 		}
 
 		camiCmd = (Vector) it.next();
@@ -55,11 +60,10 @@ public class CamiTranslator {
 		// Le nom du menu est contenu dans un CQ. Il doit donc apparaitre en
 		// premier
 		if (!camiCmd.get(0).equals("CQ")) {
-			Api.apiLogger.throwing("CamiTranslator", "getMenu",
-					new UnexpectedCamiCommand(
-							"Le vecteur ne contient pas CQ en premier"));
-			throw new UnexpectedCamiCommand(
-					"Le vecteur ne contient pas CQ en premier");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("Le vecteur ne contien pas CQ en premier");
+			Api.apiLogger.throwing("CamiTranslator", "getMenu",cmd);
+			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
+			throw cmd;
 		}
 
 		// Definition du menu racine
@@ -75,20 +79,18 @@ public class CamiTranslator {
 			}
 
 			if (camiCmd.size() == 0) {
-				Api.apiLogger.throwing("CamiTranslator", "getMenu",
-						new UnexpectedCamiCommand(
-								"Le menu est vide (aucun element AQ)"));
-				throw new UnexpectedCamiCommand(
-						"Le menu est vide (aucun element AQ)");
+				UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("Le menu est vide (aucun element AQ)");
+				Api.apiLogger.throwing("CamiTranslator", "getMenu",cmd);
+				Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
+				throw cmd;
 			} else if (!camiCmd.get(0).equals("AQ")) {
+				UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("Le menu ne contient pas d'element AQ en premiere position");
 				Api.apiLogger
 						.throwing(
 								"CamiTranslator",
-								"getMenu",
-								new UnexpectedCamiCommand(
-										"Le menu ne contient pas d'element AQ en premiere position"));
-				throw new UnexpectedCamiCommand(
-						"Le menu ne contient pas d'element AQ en premiere position");
+								"getMenu",cmd);
+				Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
+				throw cmd;
 			}
 
 			// Analyse de la commande AQ
@@ -152,41 +154,33 @@ public class CamiTranslator {
 
 		// La premiere commande attendue est un DC
 		if (camiVec.size() == 0) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"La boite de dialogue est mal definie"));
-			throw new UnexpectedCamiCommand(
-					"La boite de dialogue est mal definie : nulle");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal définie");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",cmd);
+			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
+			throw cmd;
 		} else if (!camiCmd.get(0).equals("DC")) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"La boite de dialogue est mal definie"
-									+ camiCmd.get(0) + " a la place de DC"));
-			throw new UnexpectedCamiCommand(
-					"La boite de dialogue est mal definie : " + camiCmd.get(0)
-							+ " a la place de DC");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal définie" + camiCmd.get(0) + "à la place de DC");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",cmd);
+			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
+			throw cmd;
 		}
 
 		camiCmd = (Vector) it.next();
 
 		// Commande suivante attendue : CE
 		if (!camiCmd.get(0).equals("CE")) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"La boite de dialogue est mal definie"
-									+ camiCmd.get(0) + " a la place de CE"));
-			throw new UnexpectedCamiCommand(
-					"La boite de dialogue est mal definie : " + camiCmd.get(0)
-							+ " a la place de CE");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("La boite de dialogue est mal definie"+ camiCmd.get(0) + " a la place de CE");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		} else if (camiCmd.size() != 10) {
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("La boite de dialogue est mal definie: 10 parametres sont attendus.........");
 			Api.apiLogger
 					.throwing(
 							"CamiTranslator",
-							"getDialog",
-							new UnexpectedCamiCommand(
-									"La boite de dialogue est mal definie: 10 parametres sont attendus"));
-			throw new UnexpectedCamiCommand(
-					"La boite de dialogue est mal definie : 10 parametres sont attendus...");
+							"getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 
 		// On commande a parser les resultats
@@ -194,21 +188,20 @@ public class CamiTranslator {
 		// Identifiant de la boite de dialogue
 		int id;
 		if (camiCmd.get(1) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Identifiant de la boite de dialogue est nul"));
-			throw new UnexpectedCamiCommand(
-					"Identifiant de la boite de dialogue est nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Identifiant de la boite de dialogue est nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 		id = Integer.parseInt(camiCmd.get(1).toString());
 
 		// Type de la boite de dialogue (Standart, Warning, Error, Interactif)
 		int ttype, type;
 		if (camiCmd.get(2) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Type de la boite de dialogue nul"));
-			throw new UnexpectedCamiCommand("Type de la boite de dialogue nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Type de la boite de dialogue est nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 		ttype = Integer.parseInt(camiCmd.get(2).toString());
 		switch (ttype) {
@@ -225,22 +218,20 @@ public class CamiTranslator {
 			type = IDialog.DLG_INTERACTIVE;
 			break;
 		default:
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Type de la boite de dialogue invalide"));
-			throw new UnexpectedCamiCommand(
-					"Type de la boite de dialogue invalide");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Type de la boite de dialogue invalide");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 
 		// Nombre de boutons dans la boite de dialogue
 		// (1=0bouton,2=1bouton,3=2boutons)
 		int tnbButtons, nbButtons;
 		if (camiCmd.get(3) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Nombre de boutons de dialogue incorrect"));
-			throw new UnexpectedCamiCommand(
-					"Nombre de boutons de la boite de dialogue incorrect");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Nombre de boutons de dialogue incorrect");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 		tnbButtons = Integer.parseInt(camiCmd.get(3).toString());
 		switch (tnbButtons) {
@@ -254,21 +245,20 @@ public class CamiTranslator {
 			nbButtons = IDialog.DLG_OK_CANCEL;
 			break;
 		default:
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Nombre de boutons de la boite de dialogue invalide"));
-			throw new UnexpectedCamiCommand(
-					"Nombre de boutons de la boite de dialogue invalide");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue invalide");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 
 		// Titre de la boite de dialogue
 		String title;
 		if (camiCmd.get(4) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Titre de la boite de dialogue est nul"));
-			throw new UnexpectedCamiCommand(
-					"Titre de la boite de dialogue est nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Titre de la boite de dialogue nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			
+			throw e;
 		}
 		title = camiCmd.get(4).toString();
 		Api.apiLogger.info("TITRE :" + title);
@@ -277,30 +267,30 @@ public class CamiTranslator {
 		// Message d'aide
 		String helpMsg;
 		if (camiCmd.get(5) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Message d'aide nul"));
-			throw new UnexpectedCamiCommand("Message d'aide nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Message d'aide nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));			
+			throw e;
 		}
 		helpMsg = camiCmd.get(5).toString();
 
 		// Message
 		String msg;
 		if (camiCmd.get(6) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Message principal nul"));
-			throw new UnexpectedCamiCommand("Message principal nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Message principal nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 		msg = camiCmd.get(6).toString();
 
 		int allowedEntry;
 
 		if (camiCmd.get(7) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Indicateur de saisie nul"));
-			throw new UnexpectedCamiCommand("Indicateur de saisie nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Indicateur de saisie nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		} else if (camiCmd.get(7).toString().equals("1")) {
 			allowedEntry = IDialog.INPUT_AUTHORIZED;
 		} else if (camiCmd.get(7).toString().equals("2")) {
@@ -310,18 +300,18 @@ public class CamiTranslator {
 			Api.apiLogger.warning("Abort command is not available yet...");
 			//System.err.println("Abort command is not available yet...");
 		} else {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Indicateur de saisie invalide"));
-			throw new UnexpectedCamiCommand("Indicateur de saisie invalide");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Indicateur de saisie invalide");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));			
+			throw e;
 		}
 
 		int select;
 		if (camiCmd.get(8) == null) {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Indicateur de selection nul"));
-			throw new UnexpectedCamiCommand("Indicateur de selection nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Indicateur de selection nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		} else if (camiCmd.get(8).toString().equals("1")) {
 			select = IDialog.MULTI_LINE_WITH_SINGLE_SELECTION;
 		} else if (camiCmd.get(8).toString().equals("2")) {
@@ -329,10 +319,10 @@ public class CamiTranslator {
 		} else if (camiCmd.get(8).toString().equals("5")) {
 			select = IDialog.MULTI_LINE_WITH_MULTI_SELECTION;
 		} else {
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",
-					new UnexpectedCamiCommand(
-							"Indicateur de selection nul"));
-			throw new UnexpectedCamiCommand("Indicateur de selection nul");
+			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Indicateur de selection nul");
+			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+			throw e;
 		}
 
 		// Certains contenus peuvent etre transmis par FK a la boite de dialogue
@@ -347,19 +337,17 @@ public class CamiTranslator {
 				// Dans le cas d'une insertion de contenu
 			} else if (camiCmd.get(0).equals("DS")) {
 				if (camiCmd.get(2) == null) {
-					Api.apiLogger.throwing("CamiTranslator", "getDialog",
-							new UnexpectedCamiCommand(
-									"Contenu de la boite de dialogue nul"));
-					throw new UnexpectedCamiCommand(
-							"Contenu de la boite de dialogue est nul");
+					UnexpectedCamiCommand e = new UnexpectedCamiCommand("Contenu de la boite de dialogue nul");
+					Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+					Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));					
+					throw e;
 				}
 				contents.add(camiCmd.get(2).toString());
 			} else {
-				Api.apiLogger.throwing("CamiTranslator", "getDialog",
-						new UnexpectedCamiCommand(
-								"Commande inconnue dans la construction d'une boite de dialogue"));
-				throw new UnexpectedCamiCommand(
-						"Commande inconnue dans la construction d'une boite de dialogue");
+				UnexpectedCamiCommand e = new UnexpectedCamiCommand("Commande inconnue dans la construction d'une boite de dialogue");
+				Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+				Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+				throw e;
 			}
 		}
 

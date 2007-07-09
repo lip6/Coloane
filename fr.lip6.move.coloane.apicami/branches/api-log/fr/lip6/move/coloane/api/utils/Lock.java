@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.utils;
 
+import fr.lip6.move.coloane.api.log.utils.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 public class Lock {
 
@@ -8,11 +9,13 @@ public class Lock {
 	 */
 	private String serviceName;
 	
+	private LogsUtils logsutils;
 	/**
 	 * Constructeur
 	 */
 	public Lock() {
 		super();
+		logsutils = new LogsUtils();
 	}
 
 	/**
@@ -24,7 +27,7 @@ public class Lock {
 			wait();
 		} catch (InterruptedException e) {
 			Api.apiLogger.throwing("Lock", "attendre", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
 		}
 		Api.apiLogger.exiting("Lock", "attendre");
 	}
@@ -39,7 +42,7 @@ public class Lock {
 			wait();
 		} catch (InterruptedException e) {
 			Api.apiLogger.throwing("Lock", "attendreServiceName", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
 		}
 		Api.apiLogger.exiting("Lock", "attendre", this.serviceName);
 		return this.serviceName;

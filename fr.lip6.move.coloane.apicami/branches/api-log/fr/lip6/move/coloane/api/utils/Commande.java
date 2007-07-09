@@ -3,11 +3,13 @@ package fr.lip6.move.coloane.api.utils;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import fr.lip6.move.coloane.api.log.utils.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 
 public class Commande {
 	
-	
+	private final LogsUtils logsutils = new LogsUtils();
 	/**
 	 * Fonction qui cree une commande SC  
 	 * @param login login de l'usager
@@ -345,12 +347,15 @@ public class Commande {
 		} catch (NoSuchElementException e) {
 			Api.apiLogger.throwing("Commande", "getArgs", e);
 			Api.apiLogger.warning("NosuchElement : " + e.getMessage());
+			Api.apiLogger.warning(logsutils.StackToString(e));
 			//System.out.println("NoSuchElement : " + e.getMessage());
 			Api.apiLogger.exiting("Commande", "getArgs", null);
+			Api.apiLogger.warning(logsutils.StackToString(e));
 			return null;
 		} catch (StringIndexOutOfBoundsException e) {
 			Api.apiLogger.throwing("Commande", "getArgs", e);
 			Api.apiLogger.warning("StringIndexOutOfBoundsException : " + e.getMessage());
+			Api.apiLogger.warning(logsutils.StackToString(e));
 			//System.out.println("StringIndexOutOfBoundsException : " + e.getMessage());
 			Api.apiLogger.exiting("Commande", "getArgs", null);
 			return null;

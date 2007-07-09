@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
+import fr.lip6.move.coloane.api.log.utils.LogsUtils;
 
 /**
  * Cette class g�re les communications de bas niveau avec la plateforme
@@ -26,6 +27,8 @@ public class ComLowLevel {
     
     /** Objet qui permet de recevoir les communications entrantes */
     private DataInputStream socketInput;
+    
+    private final LogsUtils logsutils = new LogsUtils();
     
     /**
      * Ecrire sur le flux de sortie vers Framekit
@@ -52,10 +55,12 @@ public class ComLowLevel {
         		return false;
         	}
         } catch (Exception e) {
+        	//System.err.println("Erreur lors de l'�criture sur la socket" + e.getMessage());
+        	CommunicationCloseException cce = new CommunicationCloseException(e.getMessage());
+        	Api.apiLogger.throwing("ComLowLevel", "writeCommande", cce);
         	Api.apiLogger.warning("Erreur lors de l'ecriture sur la socket");
-         	//System.err.println("Erreur lors de l'�criture sur la socket" + e.getMessage());
-        	Api.apiLogger.throwing("ComLowLevel", "writeCommande", new CommunicationCloseException(e.getMessage()));
-        	throw new CommunicationCloseException(e.getMessage());
+        	Api.apiLogger.warning(logsutils.StackToString(e));
+        	throw cce;
 		}
     }
     
@@ -97,7 +102,7 @@ public class ComLowLevel {
             
         } catch (Exception e) {
         	Api.apiLogger.throwing("ComLowLevel", "readCommande", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(logsutils.StackToString(e));
 			Api.apiLogger.exiting("ComLowLevel", "readCommande", null);
 			return null;	
         }
@@ -143,6 +148,7 @@ public class ComLowLevel {
             return true;
         } catch (IOException e) {
         	Api.apiLogger.throwing("ComLowLevel", "closeCom",e);
+        	Api.apiLogger.warning(logsutils.StackToString(e));
         	Api.apiLogger.exiting("ComLowLevel", "closeCom", false);
             return false;
         }

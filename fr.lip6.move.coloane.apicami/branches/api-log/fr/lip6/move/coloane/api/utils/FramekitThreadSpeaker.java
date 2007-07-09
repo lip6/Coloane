@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
+import fr.lip6.move.coloane.api.log.utils.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -19,6 +20,7 @@ public class FramekitThreadSpeaker extends Thread {
 	/** Verrou */
 	private Lock verrou;
 	
+	private LogsUtils logutils;
 	/**
 	 * Constructeur
 	 * @param api point d'entre vers l'api
@@ -29,6 +31,7 @@ public class FramekitThreadSpeaker extends Thread {
 		this.api = api;
 		this.lowCom = lowCom;
 		this.verrou = verrou;
+		logutils = new LogsUtils();
 	}
 	 
 
@@ -52,7 +55,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(send);
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "openSession", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", false);
 			return false;
@@ -72,7 +75,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(cmd.createCmdFI());
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThread", "openSession", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", false);
 			return false;
@@ -122,7 +125,7 @@ public class FramekitThreadSpeaker extends Thread {
 
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "execService", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			
 		}
@@ -157,7 +160,7 @@ public class FramekitThreadSpeaker extends Thread {
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThread", "sendModel", e);
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 		}
 		Api.apiLogger.exiting("FrameKitThread", "sendModel");	
 
@@ -176,7 +179,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThread", "sendNewDate", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 			Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendNewDate", false);
 			return false;
@@ -242,7 +245,7 @@ public class FramekitThreadSpeaker extends Thread {
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendDialogueResponse", e);
 			this.api.closeConnexion(1,"Connexion detruite par FrameKit",1);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendDialogResponse", false);
 			return false;
 		}
@@ -262,7 +265,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendSuspend", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 		}
 		
@@ -287,7 +290,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendResume", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);				
 		}
 		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendResume");
@@ -305,7 +308,7 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
 			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendClose", e);
-			e.printStackTrace();
+			Api.apiLogger.warning(e.getMessage() + logutils.StackToString(e));
 			this.api.closeConnexion(1,"Connexion detruite par Framekit",1);
 		}
 		
