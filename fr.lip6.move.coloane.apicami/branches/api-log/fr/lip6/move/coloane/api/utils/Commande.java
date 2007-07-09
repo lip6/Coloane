@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+import fr.lip6.move.coloane.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 
 public class Commande {

@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+import fr.lip6.move.coloane.log.LogsUtils;
 
 /**
  * Cette class g�re les communications de bas niveau avec la plateforme
@@ -28,6 +28,7 @@ public class ComLowLevel {
     /** Objet qui permet de recevoir les communications entrantes */
     private DataInputStream socketInput;
     
+    /** Fournit des outils necessaires pour formater les messsages de logs*/ 
     private final LogsUtils logsutils = new LogsUtils();
     
     /**
@@ -124,7 +125,7 @@ public class ComLowLevel {
         try {
             this.socket.connect(new InetSocketAddress(ip, port));
         } catch (Exception e) {
-        	Api.apiLogger.warning("Erreur lors de la creation de la socket :" + e.getMessage());
+        	Api.apiLogger.warning("Erreur lors de la creation de la socket :" + logsutils.StackToString(e));
             //System.err.println("Erreur lors de la creation de la socket :" + e.getMessage());
             throw e;
         }

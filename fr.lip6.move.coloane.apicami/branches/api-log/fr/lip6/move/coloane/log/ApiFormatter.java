@@ -2,8 +2,9 @@ package fr.lip6.move.coloane.log;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.Calendar;
+import fr.lip6.move.coloane.log.LogsUtils;
 
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+
 
 
 public class ApiFormatter extends Formatter {

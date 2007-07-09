@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+import fr.lip6.move.coloane.log.LogsUtils;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
 import fr.lip6.move.coloane.api.utils.Commande;
@@ -141,13 +141,13 @@ public class Api implements IApi {
 
 		default:
 			TraceLevelException tle = new TraceLevelException(
-					"Niveau de trace non défini");
+					"Niveau de trace non defini");
 			apiLogger.throwing("Api", "Api", tle);
 			apiLogger.warning(tle.getMessage());
 			throw tle;
 		}
 		try {
-			f = new FileHandler("coloaneApiSimple.log", true);
+			f = new FileHandler("coloane_apicami.log", true);
 			f.setFormatter(new ApiFormatter());
 			apiLogger.addHandler(f);
 		} catch (IOException e) {

@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.log.utils.*;
+import fr.lip6.move.coloane.log.LogsUtils;
 
 /**
  * Constructeur d'objets a partir de commandes CAMI
@@ -60,7 +60,7 @@ public class CamiTranslator {
 		// Le nom du menu est contenu dans un CQ. Il doit donc apparaitre en
 		// premier
 		if (!camiCmd.get(0).equals("CQ")) {
-			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("Le vecteur ne contien pas CQ en premier");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("Le vecteur ne contient pas CQ en premier");
 			Api.apiLogger.throwing("CamiTranslator", "getMenu",cmd);
 			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
 			throw cmd;
@@ -154,12 +154,12 @@ public class CamiTranslator {
 
 		// La premiere commande attendue est un DC
 		if (camiVec.size() == 0) {
-			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal définie");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal definie");
 			Api.apiLogger.throwing("CamiTranslator", "getDialog",cmd);
 			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
 			throw cmd;
 		} else if (!camiCmd.get(0).equals("DC")) {
-			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal définie" + camiCmd.get(0) + "à la place de DC");
+			UnexpectedCamiCommand cmd = new UnexpectedCamiCommand("La boite de dialogue est mal definie" + camiCmd.get(0) + "a la place de DC");
 			Api.apiLogger.throwing("CamiTranslator", "getDialog",cmd);
 			Api.apiLogger.warning(cmd.getMessage() + logsUtils.StackToString(cmd));
 			throw cmd;

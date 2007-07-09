@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.log.utils.*;
+import fr.lip6.move.coloane.log.LogsUtils;
 
 /**
  * Enrichissement de la definition d'un modele generique par :
@@ -344,7 +344,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
         String[] cami = new String[vec.size()];
         vec.toArray(cami);
-        Api.apiLogger.exiting("Model", "transalte", cami);
+        Api.apiLogger.exiting("Model", "translate", cami);
         return cami;
     }
 }

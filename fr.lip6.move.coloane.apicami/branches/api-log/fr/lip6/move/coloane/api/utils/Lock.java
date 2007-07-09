@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.api.utils;
 
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+import fr.lip6.move.coloane.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
+
 public class Lock {
 
 	/**

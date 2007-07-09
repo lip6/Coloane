@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.utils;
 
 import java.util.Vector;
 
-import fr.lip6.move.coloane.api.log.utils.LogsUtils;
+import fr.lip6.move.coloane.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
@@ -446,7 +446,7 @@ public class FramekitThreadListener extends Thread {
 					// Message FC
 					// Fin de connexion
 					if ((listeArgs.firstElement().equals("FC"))) {
-						api.closeConnexion(1, "Fermeture standart de FrameKit", 1);
+						api.closeConnexion(1, "Fermeture standard de FrameKit", 1);
 						continue;
 					} 
 					
