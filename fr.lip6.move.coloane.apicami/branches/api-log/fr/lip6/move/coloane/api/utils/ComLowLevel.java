@@ -9,8 +9,8 @@ import java.net.Socket;
 import java.util.Vector;  
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
+import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.log.LogsUtils;
 
 /**
  * Cette class g�re les communications de bas niveau avec la plateforme

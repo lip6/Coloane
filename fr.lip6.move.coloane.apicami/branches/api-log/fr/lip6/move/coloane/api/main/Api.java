@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import fr.lip6.move.coloane.api.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.*;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
 import fr.lip6.move.coloane.api.utils.Commande;
@@ -26,7 +26,6 @@ import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.exceptions.TraceLevelException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
 import java.util.logging.*;
-import fr.lip6.move.coloane.log.*;
 
 /**
  * API de communication entre Coloane et FrameKit

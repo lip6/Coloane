@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
-import fr.lip6.move.coloane.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.model.IModel;

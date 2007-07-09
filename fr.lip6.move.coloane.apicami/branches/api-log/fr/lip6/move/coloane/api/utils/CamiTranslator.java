@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.LogsUtils;
 
 /**
  * Constructeur d'objets a partir de commandes CAMI

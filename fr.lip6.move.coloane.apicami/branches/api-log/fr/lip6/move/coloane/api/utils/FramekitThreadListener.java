@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.utils;
 
 import java.util.Vector;
 
-import fr.lip6.move.coloane.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
