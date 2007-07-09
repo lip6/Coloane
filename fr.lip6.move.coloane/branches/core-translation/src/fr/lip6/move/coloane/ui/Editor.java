@@ -214,7 +214,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		System.out.println("Initialisation de l'espace de travail");
+		System.out.println("Initialisation de l'espace de travail"); //$NON-NLS-1$
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
 
@@ -271,12 +271,12 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		try {
 			IFile file = ((IFileEditorInput) input).getFile();
-			System.out.println("Fichier de contenu : " + file.getName());
+			System.out.println("Fichier de contenu : " + file.getName()); //$NON-NLS-1$
 
 			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 
 			// Création du reader
-			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); //$NON-NLS-1$
 
 			// Création d'un instance du handler
 			XmlEditor handler = new XmlEditor();
@@ -333,7 +333,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		} catch (Exception e) {
 			IFile file = ((IFileEditorInput) input).getFile();
 			System.out.println(e.toString());
-			Coloane.showErrorMsg("Error while loading file : " +file.getName()+" - "+ e.getMessage());
+			Coloane.showErrorMsg(Coloane.traduction.getString("ui.Editor.3") +file.getName()+" - "+ e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -349,7 +349,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		XmlEditor xml = new XmlEditor();
 
 		// String permettant de stocker le modele au format xml
-		String xmlString = "";
+		String xmlString = ""; //$NON-NLS-1$
 
 		try {
 			// Recuperation du modele generique
@@ -391,7 +391,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 						try {
 
 							XmlEditor xml = new XmlEditor();
-							String xmlString = "";
+							String xmlString = ""; //$NON-NLS-1$
 
 							// Recuperation du modele generique
 							IModel m = getModel().getGenericModel();
