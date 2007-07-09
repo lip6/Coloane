@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.log.utils;
+package fr.lip6.move.coloane.api.log;
 /**
  * 
  * @author cdcharles
