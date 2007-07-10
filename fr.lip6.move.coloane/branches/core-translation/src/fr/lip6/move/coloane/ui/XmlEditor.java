@@ -194,10 +194,6 @@ public class XmlEditor implements ContentHandler {
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 
-		System.out.println(qName);
-		for (int index=0; index<attributes.getLength();index++) {
-			System.out.println("  " + attributes.getQName(index) + ": " + attributes.getValue(index));
-		}
 		// Dans la balise model
 		if (qName.equals("model")) {
 
@@ -286,9 +282,7 @@ public class XmlEditor implements ContentHandler {
 			data += ch[start + i];
 		}
 		
-		System.out.println("data : " + data);
 		data=deformat(data);
-		System.out.println("deformat : " + data);
 
 	}
 	

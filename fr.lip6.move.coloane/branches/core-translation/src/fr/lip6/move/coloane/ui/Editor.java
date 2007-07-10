@@ -320,7 +320,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
 			this.model = new ModelImplAdapter(formalism);
-
+			saveNew();
 			// Debut de la construction du model
 			model.setBeginBuilding();
 
@@ -365,6 +365,35 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			file.setContents(inputS, true, false, monitor);
 
 			getCommandStack().markSaveLocation();
+		} catch (CoreException ce) {
+			ce.printStackTrace();
+
+		}
+	}
+	
+	private void saveNew() {
+
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+
+		// Creation du l'editeur xml
+		XmlEditor xml = new XmlEditor();
+
+		// String permettant de stocker le modele au format xml
+		String xmlString = ""; //$NON-NLS-1$
+
+		try {
+			// Recuperation du modele generique
+			IModel m = getModel().getGenericModel();
+
+			// Traduction du modele au format xml
+			xmlString = xml.modelXML(m);
+
+			// Creation de l'input stream a partir d'une chaine de caractere
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+
+			// Ecriture du fichier de sauvegarder à partir du l'input stream
+			file.setContents(inputS, true, false, null);
+
 		} catch (CoreException ce) {
 			ce.printStackTrace();
 
