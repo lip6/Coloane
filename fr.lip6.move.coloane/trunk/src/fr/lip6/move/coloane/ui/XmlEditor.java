@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.objects.IPosition;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.model.Node;
@@ -26,6 +27,9 @@ public class XmlEditor extends DefaultHandler {
 	/* id courant */
 	private int refid;
 	
+	/* text courant */
+	private String data = "";
+
 	/* text courant */
 	private String data = "";
 
@@ -47,7 +51,7 @@ public class XmlEditor extends DefaultHandler {
 		} catch (Exception e) {
 			System.err.println("DTD introuvable");
 		}
-		 
+
 		// Ecriture des attributs relatifs au formalism et positions
 		line += "<model formalism='" + m.getFormalism() + "' xposition='"
 				+ m.getXPosition() + "' yposition='" + m.getYPosition()
@@ -109,6 +113,11 @@ public class XmlEditor extends DefaultHandler {
 					+ arc.getStartingNode().getId() + "' endid='"
 					+ arc.getEndingNode().getId() + "'>\n";
 
+			//Ecriture des PI
+			if (!(arc.getListOfPI().size() == 0)) {
+				line += piXML(arc);
+			}
+			
 			// Ecriture des attributs de chaque arc
 			if (!(arc.getListOfAttrSize() == 0)) {
 				line += attrXML(arc);
@@ -116,6 +125,22 @@ public class XmlEditor extends DefaultHandler {
 			line += "</arc>\n";
 		}
 
+		return line;
+	}
+
+	/*
+	 * Renvoie une String contenant les PI de l'arc passe en parametre, au
+	 * format XML
+	 */
+	public String piXML(IArc arc) {
+		String line = "";
+
+		for (int i = 0; i < arc.getListOfPI().size(); i++) {
+
+			IPosition pi = arc.getNthPI(i);
+			line = "<pi xposition='" + pi.getXPosition() + "' yposition='"
+					+ pi.getYPosition() + "'/>\n";
+		}
 		return line;
 	}
 
@@ -166,6 +191,12 @@ public class XmlEditor extends DefaultHandler {
 		return line;
 	}
 	
+	public String format(String txt) {
+		txt = txt.replaceAll("<", "&lt;");
+		txt = txt.replaceAll(">", "&gt;");
+		return txt;
+	}
+
 	public String format(String txt) {
 		txt = txt.replaceAll("<", "&lt;");
 		txt = txt.replaceAll(">", "&gt;");
@@ -277,16 +308,29 @@ public class XmlEditor extends DefaultHandler {
 		} else if (!(qName.equals("nodes") || qName.equals("arcs"))) {
 
 			int x, y;
-			if (qName.equals("authors")) {
-				att = new Attribute("author(s)", "", refid);
-			} else {
-				att = new Attribute(qName, "", refid);
-			}
 
 			x = Integer.parseInt(attributes.getValue("xposition"));
 			y = Integer.parseInt(attributes.getValue("yposition"));
-			att.setPosition(x, y);
 
+			// Si on lit une position intermediaire
+			if (qName.equals("pi")) {
+				if (ltag.equals("arc")) {
+					try {
+						model.getAnArc(refid).addPI(x, y);
+					} catch (SyntaxErrorException e) {
+						System.out.println(e.toString());
+					}
+				}
+				// sinon on lit un attribut
+			} else {
+				if (qName.equals("authors")) {
+					att = new Attribute("author(s)", "", refid);
+				} else {
+					att = new Attribute(qName, "", refid);
+				}
+
+				att.setPosition(x, y);
+			}
 		}
 	}
 
@@ -311,6 +355,7 @@ public class XmlEditor extends DefaultHandler {
 
 	public void endElement(String namespaceURI, String localName, String qName)
 			throws SAXException {
+
 		// La donnée doit etre du texte et pas un retour chariot ou un
 		// tabulation
 		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("	"))) {
@@ -334,18 +379,18 @@ public class XmlEditor extends DefaultHandler {
 
 			}
 		}
-		data="";
+
+		data = "";
 	}
 
 	
-	public void error(SAXParseException e) throws SAXParseException{
+	public void error(SAXParseException e) throws SAXParseException {
 		throw e;
 	}
   
-	public void  fatalError(SAXParseException e) throws SAXParseException{
+	public void fatalError(SAXParseException e) throws SAXParseException {
 		throw e;
 	}
-	
 	/** FIN METHODES XML* */
 
 	/* Retourne le modele créé par le parcours du fichier xml */

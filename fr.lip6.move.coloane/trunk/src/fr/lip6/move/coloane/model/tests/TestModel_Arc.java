@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.model;
+package fr.lip6.move.coloane.model.tests;
 
 import junit.framework.TestCase;
 import java.util.Vector;
@@ -6,6 +6,9 @@ import java.util.Vector;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.model.Arc;
+import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.model.Node;
 
 /*Scenario de test:
  * Ajout d'un arc de facon correcte ou non aléatoirement
@@ -17,7 +20,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class TestModel_Arc extends TestCase {
 
-	int max_tour = 20;
+	int max_tour = 500;
 
 	int nb_remove = 2;
 
@@ -308,7 +311,7 @@ public class TestModel_Arc extends TestCase {
 				// Ajout autorisé
 				if (action_alea == 0) {
 
-					switchArcOK(arc);
+				switchArcOK(arc);
 					if (!(model.getListOfNodeSize() == 0)) {
 
 						INode node1 = arc.getStartingNode();
