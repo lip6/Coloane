@@ -1,6 +1,7 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.objects;
 
-public abstract class Position implements IPosition{
+
+public class Position implements IPosition{
 	
 	private int xPosition;
 	private int yPosition;
