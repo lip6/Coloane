@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Name: INTERFACES 
-Specification-Title: Interfaces API/Coloane
-Specification-Version: 1.0.0
-Specification-Vendor: LIP6 - MoVe
-Implementation-Title: fr.lip6.move.coloane.interfaces
-Implementation-Version: build703
-Implementation-Vendor: LIP6 - MoVe
