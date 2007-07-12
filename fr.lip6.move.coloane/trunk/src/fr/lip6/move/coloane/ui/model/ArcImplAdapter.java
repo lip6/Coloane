@@ -421,9 +421,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     	List<Bendpoint> bendPoints = new ArrayList<Bendpoint>(); 
     	for (IPosition p : this.arc.getListOfPI()) {
     		bendPoints.add(new AbsoluteBendpoint(p.getXPosition(),p.getYPosition()));
-    		System.out.println(getId()+">> "+p.getXPosition()+","+p.getYPosition());
     	}
-    	System.out.println("----");
     	return bendPoints;
     }
     
