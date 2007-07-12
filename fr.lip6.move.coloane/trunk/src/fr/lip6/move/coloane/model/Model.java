@@ -56,8 +56,6 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 		String line = null;
 		String type = null;
 
-		int lastArcId = 0;
-
 		StringTokenizer st;
 		CamiParser ps;
 
@@ -109,8 +107,6 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 					nodeBegin.addOutputArc(arc);
 					nodeEnd.addInputArc(arc);
-
-					lastArcId = arc.getId();
 
 					this.addArc(arc);
 					continue;// Prochaine commande
@@ -277,14 +273,24 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				// Decouverte d'une position intermediaire
 				if (type.equals("PI")) {
 					String ref = ps.parseInt(",");
-					String x =  ps.parseInt(",");
-					String y = ps.parseInt(",");
-					String ref2 =  ps.parseInt(")");
+					String x = "";
+					String y = "";
 					
-					//dernier arc rencontré
-					IArc arc = this.getAnArc(lastArcId);
+					// !! Attention bidouille pour prendre en compte le PI avec ref == -
+					if (Integer.parseInt(ref) == -1) {
+						ref = ps.parseInt(",");
+						x = ps.parseInt(",");
+						y = ps.parseInt(",");
+						// x = ps.parseInt(",");
+					} else {
+						x = ps.parseInt(",");
+						y = ps.parseInt(")");
+					}
 					
-					if (arc != null && ref.equals("-1") && ref2.equals("-1")) {
+					// Dernier arc rencontre
+					IArc arc = this.getAnArc(Integer.parseInt(ref));
+					
+					if (arc != null) {
 						arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
 					} else {
 						throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
