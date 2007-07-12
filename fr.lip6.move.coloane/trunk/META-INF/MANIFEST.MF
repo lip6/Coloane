@@ -19,4 +19,4 @@ Require-Bundle: fr.lip6.move.coloane.apicami,
 Eclipse-LazyStart: true
 Plugin-Class: fr.lip6.move.coloane.main.Coloane
 Bundle-ClassPath: .,
- lib/
+ lib/fr.lip6.move.coloane.interfaces-1.0.2.jar
