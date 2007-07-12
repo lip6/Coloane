@@ -5,12 +5,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.objects.IPosition;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
@@ -362,7 +366,67 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
     	}
     	return valeur;
     }
-
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
+     */
+    public void addInflexPoint(Point p, int index) {
+    	try {
+			this.arc.addPI(p.x, p.y, index);
+			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null,this);
+		} catch (SyntaxErrorException e) {
+			System.err.println("Imopssible d'ajouter le point d'inflexion");
+			e.printStackTrace();
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#removeInflexPoint(int)
+     */
+    public void removeInflexPoint(int index) {
+    	try {
+			this.arc.removePI(index);
+			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null,this);
+		} catch (SyntaxErrorException e) {
+			System.err.println("Imopssible de supprimer le point d'inflexion");
+			e.printStackTrace();
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#modifyInflexPoint(int, org.eclipse.draw2d.geometry.Point)
+     */
+    public void modifyInflexPoint(int index, Point p) {
+    	this.arc.modifyPI(index, p.x, p.y);
+    	firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null,this);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#getInflexPoint(int)
+     */
+    public Point getInflexPoint(int index) {
+    	IPosition p = this.arc.getNthPI(index);
+    	return new Point(p.getXPosition(),p.getYPosition());
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see fr.lip6.move.coloane.ui.model.IArcImpl#getInflexPoints()
+     */
+    public List<Bendpoint> getInflexPoints() {
+    	List<Bendpoint> bendPoints = new ArrayList<Bendpoint>(); 
+    	for (IPosition p : this.arc.getListOfPI()) {
+    		bendPoints.add(new AbsoluteBendpoint(p.getXPosition(),p.getYPosition()));
+    		System.out.println(getId()+">> "+p.getXPosition()+","+p.getYPosition());
+    	}
+    	System.out.println("----");
+    	return bendPoints;
+    }
+    
     /*
      * (non-Javadoc)
      * @see fr.lip6.move.coloane.ui.model.IArcImpl#updateAttributesPosition()

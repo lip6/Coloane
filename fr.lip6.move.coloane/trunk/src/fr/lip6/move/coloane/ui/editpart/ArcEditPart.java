@@ -2,21 +2,29 @@ package fr.lip6.move.coloane.ui.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
-
+import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.gef.editpolicies.BendpointEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
+import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.commands.ArcDeleteCmd;
+import fr.lip6.move.coloane.ui.commands.InflexCreateCmd;
+import fr.lip6.move.coloane.ui.commands.InflexDeleteCmd;
+import fr.lip6.move.coloane.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.ui.figures.ArcFigure;
+import fr.lip6.move.coloane.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
+import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
 /**
@@ -30,7 +38,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 * @return IFigure
 	 */
 	protected IFigure createFigure() {
-		IFigure connection = new ArcFigure();
+		IFigure connection = new ArcFigure((IArcImpl)getModel());
 		return connection;
 	}
 	
@@ -41,15 +49,40 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		IArcImpl arcModel = (IArcImpl)getModel();
-				
+		
+		IArcFigure connection = (IArcFigure)getFigure(); 
+		connection.getConnectionRouter(); 
+		
+		List<Bendpoint> modelConstraint = ((IArcImpl)getModel()).getInflexPoints();
+		getConnectionFigure().setRoutingConstraint(modelConstraint);
+		
+			
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(arcModel.getModelAdapter());
 	}
 
-	/**
-	 * Creation des regles d'edition
-	 */
+	
 	protected void createEditPolicies() {
+		// Selection handle edit policy. 
+		// Makes the connection show a feedback, when selected by the user.
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,new ConnectionEndpointEditPolicy());
+
+		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
+			protected Command getCreateBendpointCommand(BendpointRequest request) {
+				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				return com;
+			}
+
+			protected Command getDeleteBendpointCommand(BendpointRequest request) {
+				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				return com;
+			}
+			protected Command getMoveBendpointCommand(BendpointRequest request) {
+				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				return com;
+			}
+		});
+		
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {			
 			
@@ -67,13 +100,11 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			@Override
 			protected void hideSelection() {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
 			protected void showSelection() {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		
@@ -91,10 +122,14 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
 	 * @param property L'evenement qui a ete levee
 	 */
-	public void propertyChange(PropertyChangeEvent arg) {
-		
-		// Juste un rafraichissement des visuels
-		refreshVisuals();
+	public void propertyChange(PropertyChangeEvent property) {
+
+		String prop = property.getPropertyName();	
+
+		// Propriete de modification/suppression/ajout de point d'inflexion
+		if (ArcImplAdapter.INFLEXPOINT_PROP.equals(prop)) {
+			refreshVisuals();
+		}
 	}
 	
 

@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.ui.model;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.draw2d.Bendpoint;
+import org.eclipse.draw2d.geometry.Point;
+
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -28,7 +31,10 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  */
 public interface IArcImpl {
    
-    
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	public static final String INFLEXPOINT_PROP = "Arc.InflexPoint";
+	
+	
 	/**
 	 * Retourne l'attribut ContextMenus
 	 * @return Collection
@@ -115,6 +121,39 @@ public interface IArcImpl {
 	 */
 	public String getArcLabel();  
 	
+	/**
+	 * Retourne une liste des points d'inflexion de cet arc
+	 * @return Liste de Bendpoint
+	 * @see Bendpoint
+	 */
+	public List<Bendpoint> getInflexPoints();
+	
+	/**
+	 * Retourne la description du point choisi et designe par son index dans la liste
+	 * @param index Position du point dans la liste des points d'inflexion
+	 * @return Point geometrique
+	 */
+	public Point getInflexPoint(int index);
+	
+	/**
+	 * Ajoute un point d'inflexion a la liste deja existante
+	 * @param p Le point contenant les coordonnees
+	 * @param index L'index d'insertion dans la liste
+	 */
+	public void addInflexPoint(Point p , int index);
+	
+	/**
+	 * Suppression d'un point d'inflexion de la liste de l'arc
+	 * @param index Indice du point d'inflexion dans la liste
+	 */
+	public void removeInflexPoint(int index);
+	
+	/**
+	 * Modification des coordonnees du point dans la liste de l'arc
+	 * @param index Indice du point dans la liste
+	 * @param p Coordonees pour verification
+	 */
+	public void modifyInflexPoint(int index, Point p);
 	
 	/**
 	 * Retourne les informations graphiques liees a l'arc (notamment le point milieu)
