@@ -289,7 +289,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			// Formalism obtenu grace l'extension du fichier
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
-			// Creation du model à partir du model generique
+			// Creation du model a partir du model generique
 			model = new ModelImplAdapter(handler.getModel(), formalism);
 
 			// Si le model est nul
@@ -402,7 +402,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 							InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
 							// Si le fichier existe alors on l'ecrase sinon on
-							// en crée un nouveau
+							// en cree un nouveau
 							if (file.exists()) {
 								file.setContents(inputS, true, false, monitor);
 
