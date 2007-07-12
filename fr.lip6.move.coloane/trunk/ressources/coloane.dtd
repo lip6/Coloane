@@ -2,7 +2,8 @@
 <!ELEMENT nodes (node*)>
 <!ELEMENT arcs (arc*)>
 <!ELEMENT node (name?,domain?,marking?,component?,guard?,priority?,weight?,delay?,action?,note?)>
-<!ELEMENT arc (valuation?,note?)>
+<!ELEMENT arc (pi*,valuation?,note?)>
+<!ELEMENT pi (#PCDATA)>
 
 <!ELEMENT declaration (#PCDATA)>
 <!ELEMENT authors (#PCDATA)>
@@ -48,6 +49,11 @@
 	endid CDATA #REQUIRED>
 <!ATTLIST arc
 	id CDATA #REQUIRED>
+	
+<!ATTLIST pi
+	xposition CDATA #REQUIRED>
+<!ATTLIST pi
+	yposition CDATA #REQUIRED>
 
 
 
