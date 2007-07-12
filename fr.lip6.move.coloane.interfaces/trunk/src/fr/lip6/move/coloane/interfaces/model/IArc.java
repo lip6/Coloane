@@ -107,14 +107,39 @@ public interface IArc {
 	 * @see Position
 	 */
 	public void addPI(int x, int y) throws SyntaxErrorException;
+	
+	/**
+	 * Ajout d'un point intermediaire a l'arc en precisant sa position dans la liste des points
+	 * @param x,y Position (x,y) a ajouter
+	 * @param index Position dans la liste des points d'inflexion
+	 * @see Position
+	 */
+	public void addPI(int x, int y, int index) throws SyntaxErrorException;
 
 
 	/**
-	 * Supprime la position (x,y)
+	 * Supprime le point d'inflexion repere par les coordonnees (x,y)
 	 * @param x,y Position(x,y) a supprimer
 	 * @see Position
 	 */
 	public void removePI(int x, int y) throws SyntaxErrorException;
+	
+	/**
+	 * Supprime le point d'inflexion donne par son indice dans la liste
+	 * @param index L'indice du point d'inflexion a supprimer
+	 * @throws SyntaxErrorException
+	 * @see Position
+	 */
+	public void removePI(int index) throws SyntaxErrorException;
+	
+	/**
+	 * Modifie les coordonnees d'un point d'inflexion deja existant
+	 * @param index L'indice du point d'inflexion dans la liste
+	 * @param newX Nouvelle abscisse
+	 * @param newY Nouvelle ordonnee
+	 * @see Position
+	 */
+	public void modifyPI(int index, int newX, int newY);
 
 	/**
 	 * Retourne la nieme position intermediaire de l'arc 
