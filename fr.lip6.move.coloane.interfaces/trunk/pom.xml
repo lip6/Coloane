@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.lip6.move</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.3</version>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <build>
