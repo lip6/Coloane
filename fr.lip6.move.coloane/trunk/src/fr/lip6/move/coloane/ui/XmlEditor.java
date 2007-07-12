@@ -30,9 +30,6 @@ public class XmlEditor extends DefaultHandler {
 	/* text courant */
 	private String data = "";
 
-	/* text courant */
-	private String data = "";
-
 	IModel model = new Model();
 
 	/** METHODES POUR FICHIER XML* */
@@ -191,12 +188,6 @@ public class XmlEditor extends DefaultHandler {
 		return line;
 	}
 	
-	public String format(String txt) {
-		txt = txt.replaceAll("<", "&lt;");
-		txt = txt.replaceAll(">", "&gt;");
-		return txt;
-	}
-
 	public String format(String txt) {
 		txt = txt.replaceAll("<", "&lt;");
 		txt = txt.replaceAll(">", "&gt;");
