@@ -10,12 +10,9 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
-import org.eclipse.draw2d.ConnectionLayer;
-import org.eclipse.draw2d.FanRouter;
 
 import fr.lip6.move.coloane.ui.model.*;
 
@@ -50,8 +47,9 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * Chaque objet-enfant se redessine lui-même
 	 */
 	protected void refreshVisuals () {
-		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		connLayer.setConnectionRouter(new FanRouter());
+		super.refreshVisuals();
+		//ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		//connLayer.setConnectionRouter(new BendpointConnectionRouter());
 	}
 	
 
