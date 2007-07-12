@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.ui.actions;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
+import fr.lip6.move.coloane.ui.XmlEditor;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 
@@ -101,8 +101,6 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			sd.setOriginalName(fileName);
 
 			if (sd.open() == SaveAsDialog.OK) {
-				System.out.println(fd.getFileName());
-
 				IPath path = sd.getResult();
 
 				final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
@@ -112,19 +110,22 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 							new WorkspaceModifyOperation() { // run this operation
 								public void execute(final IProgressMonitor monitor) {
 									try {
-										ByteArrayOutputStream out = new ByteArrayOutputStream();
-										ObjectOutputStream oos = new ObjectOutputStream(out);
 										
 										// Recupere le formalisme manager et importe le modele dans l'editeur
 										FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
 										IModelImpl model = fm.importModel(filePath);
-										oos.writeObject(model);
-										oos.close();
+										
+										// traduction du modele au format xml
+										XmlEditor xml = new XmlEditor();
+										String xmlString = xml.modelXML(model.getGenericModel());
+										InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
-										file.create(new ByteArrayInputStream(
-												out.toByteArray()), // contents
-												true, // keep saving, even if IFile is out of sync with the Workspace
-												monitor); // progress monitor
+										// Creation d'un nouveau fichier contenant le modele au format xml
+										file.create(inputS, // contents
+											true, // keep saving, even if IFile is out of
+											// sync with
+											// the Workspace
+											monitor); // progress monitor
 										
 										// Open editor
 										IDE.openEditor(window.getActivePage(),file, true);
