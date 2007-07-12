@@ -133,10 +133,8 @@ public class XmlEditor extends DefaultHandler {
 		String line = "";
 
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
-
 			IPosition pi = arc.getNthPI(i);
-			line = "<pi xposition='" + pi.getXPosition() + "' yposition='"
-					+ pi.getYPosition() + "'/>\n";
+			line += "<pi xposition='" + pi.getXPosition() + "' yposition='" + pi.getYPosition() + "'/>\n";
 		}
 		return line;
 	}
