@@ -84,9 +84,13 @@ public class ArcReconnectCmd extends Command {
 	 * @return booleen
 	 */
 	private boolean checkSourceReconnection() {
+		if (newSource == oldSource) {
+			return true;
+		}
+		
 		for (Iterator i = this.newSource.getSourceArcs().iterator(); i.hasNext();) {
 			IArcImpl existingConnection = (IArcImpl) i.next();
-			if (existingConnection.getTarget().equals(this.oldTarget) && existingConnection.equals(this.arc)) {
+			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}
 		}
@@ -100,9 +104,13 @@ public class ArcReconnectCmd extends Command {
 	 * @return booleen
 	 */
 	private boolean checkTargetReconnection() {
+		if (newTarget == oldTarget) {
+			return true;
+		}
+		
 		for (Iterator i = newTarget.getTargetArcs().iterator(); i.hasNext();) {
 			IArcImpl existingConnection = (IArcImpl) i.next();
-			if (existingConnection.getSource().equals(oldSource) && existingConnection.equals(arc)) {
+			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
 				return false;
 			}
 		}
