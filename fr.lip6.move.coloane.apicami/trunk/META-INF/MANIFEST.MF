@@ -7,4 +7,4 @@ Provide-Package: fr.lip6.move.coloane.api.exceptions,
  fr.lip6.move.coloane.api.main,
  fr.lip6.move.coloane.api.utils
 Bundle-ClassPath: .,
- lib/
+ lib/fr.lip6.move.coloane.interfaces-1.0.2.jar
