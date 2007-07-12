@@ -148,8 +148,6 @@ public interface IModelImpl {
 	public void highlightNode(String idhighlight, String unhighlight);
 
 	public void switchoffNodes();
-
-	public void dumpModel();
     
     /**
      * Methode invoquee pour avertir le modele qu'un attribut doit etre ajoute ou supprime de l'affichage

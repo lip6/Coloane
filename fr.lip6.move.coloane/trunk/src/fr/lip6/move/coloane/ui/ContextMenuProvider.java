@@ -42,7 +42,7 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 		// Add standard action groups to the menu
 		GEFActionConstants.addStandardActionGroups(menu);
 
-		System.out.println("Creation du menu contextuel...");
+		
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO,getAction(ActionFactory.UNDO.getId())); // action to add
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO,getAction(ActionFactory.REDO.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT,getAction(ActionFactory.DELETE.getId()));

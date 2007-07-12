@@ -13,7 +13,6 @@ public class DummyTextArea extends TextArea {
 	public DummyTextArea(Composite parent) {
 		super(parent, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, "");
 		this.parent = parent;
-		System.err.println("ICI");
 	}
 	
 	public ArrayList<String> getText() {

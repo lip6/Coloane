@@ -45,8 +45,8 @@ public class AuthenticationDialog extends Dialog {
 	public static final int TXT_LIMIT = 255;
 	
 	
-	/** Message */
-	public static final String MSG_TITLE = Coloane.getParam("AUTH_TITLE");
+	/** Titre de la boite de dialogue */
+	public static final String MSG_TITLE = "Authentication";
 
 	/** Login non valide et/ou erreur de mot de passe */
 	private static final String MSG_AUTH_ERROR = "Identifiant ou mot de passe invalide";

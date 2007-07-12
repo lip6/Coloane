@@ -267,8 +267,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.model.addNode(child.getGenericNode());
 			} catch (SyntaxErrorException e) {
-				throw new BuildException(
-						"Ajout impossible: L'identifiant du noeud existe deja");
+				throw new BuildException("Ajout impossible: L'identifiant du noeud existe deja");
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
@@ -493,19 +492,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	public void switchoffNodes() {
 		for (IElement node : this.children) {
 			((INodeImpl)node).setSpecial(false);
-		}
-	}
-
-	/***************************************************************************
-	 * DUMP
-	 **************************************************************************/
-	public void dumpModel() {
-		System.err.println("--> Debut du dump !");
-		System.out.println("Liste des noeud :");
-		for (int i = 0; i < children.size(); i++) {
-			INodeImpl n = (INodeImpl)children.get(i);
-			System.out.println(i + ": " + n.getId() + " ("
-					+ n.getGenericNode().getNodeType() + ")");
 		}
 	}
 

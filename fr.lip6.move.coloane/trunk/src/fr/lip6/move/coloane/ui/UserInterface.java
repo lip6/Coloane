@@ -285,8 +285,6 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
-		System.out.println("Suppression des resultats en cours");
-		
 		this.com.askForService(rootMenuName, parentName, serviceName);
 	}
 	
@@ -305,7 +303,6 @@ public class UserInterface implements IUiCom, IUiMotor {
 			dialog.open();
 			
 			if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) {
-				System.out.println("CANCEL !!");
 				return;	
 			}
 			
