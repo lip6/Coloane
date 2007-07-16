@@ -331,9 +331,7 @@ public class XmlEditor extends DefaultHandler {
 		for (int i = 0; i < length; i++) {
 			data += ch[start + i];
 		}
-		
 		data=deformat(data);
-
 	}
 	
 	public String deformat(String txt){
@@ -342,9 +340,7 @@ public class XmlEditor extends DefaultHandler {
 		return txt;
 	}
 
-	public void endElement(String namespaceURI, String localName, String qName)
-			throws SAXException {
-
+	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 		// La donnée doit etre du texte et pas un retour chariot ou un
 		// tabulation
 		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("	"))) {
@@ -362,29 +358,27 @@ public class XmlEditor extends DefaultHandler {
 
 				// Ajout de l'attribut à un arc
 			} else if (ltag.equals("arc")) {
-
 				att.setValue(data);
 				model.getAnArc(refid).addAttribute(att);
-
 			}
 		}
 
 		data = "";
 	}
 
-	
-	public void error(SAXParseException e) throws SAXParseException {
-		throw e;
-	}
-  
-	public void fatalError(SAXParseException e) throws SAXParseException {
-		throw e;
-	}
+	public void startDocument() throws SAXException { };
+	public void endDocument() throws SAXException { };
+	public void processingInstruction(String target, String data) throws SAXException { };
+	public void startPrefixMapping(String prefix, String uri) throws SAXException { };
+	public void endPrefixMapping(String prefix) throws SAXException { };
+	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException { };
+	public void skippedEntity(String name) throws SAXException { };
+	public void setDocumentLocator(Locator loc) { };
+
 	/** FIN METHODES XML* */
 
 	/* Retourne le modele créé par le parcours du fichier xml */
 	public IModel getModel() {
 		return model;
 	}
-
 }

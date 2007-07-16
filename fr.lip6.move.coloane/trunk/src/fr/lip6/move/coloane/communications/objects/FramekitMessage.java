@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.communications.objects;
 
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
+import fr.lip6.move.coloane.main.Coloane;
 
 /**
  * Message de trace ou alerte envoye par Framekit a l'IHM
@@ -61,9 +62,9 @@ public class FramekitMessage {
 	 */
 	public FramekitMessage(int type, String texte, int speType) throws WrongArgumentValueException {
 		if (type < 1 || type > 6) {
-			throw new WrongArgumentValueException("Le type n'est pas correct (valeur 1, 2, 3, 4, 5 ou 6)");
+			throw new WrongArgumentValueException(Coloane.traduction.getString("communications.objects.FramekitMessage.0")); //$NON-NLS-1$
 		} else if (type == 3 && (speType < 1 || speType > 4)) {
-			throw new WrongArgumentValueException("Le type special n'est pas correct (valeur 1, 2, 3 ou 4)");
+			throw new WrongArgumentValueException(Coloane.traduction.getString("communications.objects.FramekitMessage.1")); //$NON-NLS-1$
 		}
 		
 		this.type = type;
@@ -105,13 +106,13 @@ public class FramekitMessage {
 	 * @return un StringBuffer contenant tout le CAMI
 	 */
 	public StringBuffer translateToCAMI() {
-		StringBuffer tmpStrBuf = new StringBuffer("");
-		StringBuffer strBuf = new StringBuffer("");
+		StringBuffer tmpStrBuf = new StringBuffer(""); //$NON-NLS-1$
+		StringBuffer strBuf = new StringBuffer(""); //$NON-NLS-1$
 		
 		switch(type) {
-		case 1 : tmpStrBuf.append("TR(" + text.length() + ":" + text + ")"); break;
-		case 2 : tmpStrBuf.append("WN(" + text.length() + ":" + text + ")"); break;
-		case 3 : tmpStrBuf.append("MO(" + specialType + "," + text.length() + ":" + text + ")"); break;
+		case 1 : tmpStrBuf.append("TR(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		case 2 : tmpStrBuf.append("WN(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		case 3 : tmpStrBuf.append("MO(" + specialType + "," + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		default : break;
 		}
 		

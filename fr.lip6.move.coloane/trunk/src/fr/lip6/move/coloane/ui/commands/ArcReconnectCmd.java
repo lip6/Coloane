@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -125,16 +126,16 @@ public class ArcReconnectCmd extends Command {
 			try {
 				this.arc.reconnect(newSource, oldTarget);
 			} catch (BuildException e) {
-				System.err.println("Echec ! : "+e.getMessage());
+				System.err.println("Echec ! : "+e.getMessage()); //$NON-NLS-1$
 			}
 		} else if (newTarget != null) {
 			try {
 				this.arc.reconnect(oldSource, newTarget);
 			} catch (BuildException e) {
-				System.err.println("Echec ! : "+e.getMessage());
+				System.err.println("Echec ! : "+e.getMessage()); //$NON-NLS-1$
 			}
 		} else {
-			throw new IllegalStateException("Should not happen");
+			throw new IllegalStateException("Should not happen"); //$NON-NLS-1$
 		}
 
 	}
@@ -146,7 +147,7 @@ public class ArcReconnectCmd extends Command {
 		try {
 			this.arc.reconnect(oldSource, oldTarget);
 		} catch (BuildException e) {
-			System.err.println("Echec ! : "+e.getMessage());
+			System.err.println("Echec ! : "+e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -156,7 +157,7 @@ public class ArcReconnectCmd extends Command {
 		if (connectionSource == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel("move connection startpoint");
+		setLabel(Coloane.traduction.getString("ui.commands.ArcReconnectCmd.0")); //$NON-NLS-1$
 		newSource = connectionSource;
 		newTarget = null;
 	}
@@ -165,7 +166,7 @@ public class ArcReconnectCmd extends Command {
 		if (connectionTarget == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel("move connection endpoint");
+		setLabel(Coloane.traduction.getString("ui.commands.ArcReconnectCmd.1")); //$NON-NLS-1$
 		newSource = null;
 		newTarget = connectionTarget;
 	}

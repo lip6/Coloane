@@ -68,12 +68,12 @@ public class Motor implements IMotorCom, IMotorUi {
 			
 			// Verification de l'existence du module de communications
 			if (com == null)
-				throw new Exception("FATAL : Module de communication non pret");
+				throw new Exception(Coloane.traduction.getString("motor.Motor.0")); //$NON-NLS-1$
 
 			
 			// On doit controller si une session ne se nomme deja pas pareil
 			if (Motor.sessionManager.getSession(eclipseSessionName) != null) {
-				System.err.println("Une session homonyme existe deja...");
+				System.err.println("Une session homonyme existe deja..."); //$NON-NLS-1$
 				return false;
 			}
 			
@@ -107,12 +107,12 @@ public class Motor implements IMotorCom, IMotorUi {
 	/**
 	 * Creation d'un nouveau modele et affichage dans l'editeur
 	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
-	 * Cette action est particulièrement utile lors de la generation d'un modele par FK
+	 * Cette action est particuliÔøΩrement utile lors de la generation d'un modele par FK
 	 * @param model le model brut
 	 */
 	public void setNewModel(IModel model) {
-		// affecte le modèle à la session courante
-		final IModelImpl modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph"));
+		// affecte le modÔøΩle ÔøΩ la session courante
+		final IModelImpl modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
 		final Shell shell = window.getShell();
 						
 		Display.getDefault().asyncExec(new Runnable(){
@@ -121,7 +121,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	       	   SaveAsDialog sd = new SaveAsDialog(shell) {
 	       		   protected void configureShell(Shell shell) {
 	       				super.configureShell(shell);
-	       				shell.setText("Saving the incoming model...");
+	       				shell.setText(Coloane.traduction.getString("motor.Motor.3")); //$NON-NLS-1$
 	       			}
 	       		};
 	       		

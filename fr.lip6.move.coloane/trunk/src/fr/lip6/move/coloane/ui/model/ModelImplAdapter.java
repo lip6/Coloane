@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
@@ -111,7 +112,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Erreur lors de la construction du modele");
+			System.err.println("Erreur lors de la construction du modele"); //$NON-NLS-1$
 		}
 	}
 
@@ -168,7 +169,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 						this.formalism.string2Arc(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 			} else {
-				throw new Exception("Source ou destination de l'arc manquante");
+				throw new Exception(Coloane.traduction.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
 			}
 		}
 	}
@@ -267,7 +268,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.model.addNode(child.getGenericNode());
 			} catch (SyntaxErrorException e) {
-				throw new BuildException("Ajout impossible: L'identifiant du noeud existe deja");
+				throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
@@ -277,7 +278,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
 			throw new BuildException(
-					"Erreur lors de l'ajout d'un noeud au modele");
+					Coloane.traduction.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
 		}
 	}
 
@@ -295,7 +296,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
 			throw new BuildException(
-					"Erreurs lors de la suppression d'un noeud du modele");
+					Coloane.traduction.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
 		}
 	}
 
@@ -310,7 +311,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.model.addArc(child.getGenericArc());
 		} catch (SyntaxErrorException e) {
 			throw new BuildException(
-					"Ajout impossible: L'identifiant du noeud existe deja");
+					Coloane.traduction.getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
 		}
 	}
 
@@ -470,8 +471,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 *            A remettre en position initiale
 	 */
 	public void highlightNode(String highlight, String unhighlight) {
-		String[] tohigh = highlight.split(",");
-		String[] tounhigh = unhighlight.split(",");
+		String[] tohigh = highlight.split(","); //$NON-NLS-1$
+		String[] tounhigh = unhighlight.split(","); //$NON-NLS-1$
 
 		for (IElement nodee : this.children) {
 			INodeImpl node = (INodeImpl)nodee;
@@ -492,6 +493,19 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	public void switchoffNodes() {
 		for (IElement node : this.children) {
 			((INodeImpl)node).setSpecial(false);
+		}
+	}
+
+	/***************************************************************************
+	 * DUMP
+	 **************************************************************************/
+	public void dumpModel() {
+		System.err.println("--> Debut du dump !"); //$NON-NLS-1$
+		System.out.println("Liste des noeud :"); //$NON-NLS-1$
+		for (int i = 0; i < children.size(); i++) {
+			INodeImpl n = (INodeImpl)children.get(i);
+			System.out.println(i + ": " + n.getId() + " (" //$NON-NLS-1$ //$NON-NLS-2$
+					+ n.getGenericNode().getNodeType() + ")"); //$NON-NLS-1$
 		}
 	}
 

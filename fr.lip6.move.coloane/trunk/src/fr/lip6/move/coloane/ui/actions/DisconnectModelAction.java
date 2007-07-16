@@ -19,7 +19,6 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 
 	public void dispose() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void init(IWorkbenchWindow window) {
@@ -37,36 +36,36 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 			showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
-					"Error during view initialization",
-					"The Historic view cannot be opened");
+					Coloane.traduction.getString("ui.actions.DisconnectModelAction.0"), //$NON-NLS-1$
+					Coloane.traduction.getString("ui.actions.DisconnectModelAction.1")); //$NON-NLS-1$
 		}
 		
-		System.out.println("Deconnexion d'un modele");
-		HistoryView.instance.addLine("[?] Deconnexion d'un modele");
+		System.out.println(Coloane.traduction.getString("ui.actions.DisconnectModelAction.2")); //$NON-NLS-1$
+		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.3")); //$NON-NLS-1$
 
 		if(window.getActivePage().getActiveEditor() == null) {
-			HistoryView.instance.addLine("[!] Echec: Aucun modele ouvert !");
+			HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.4")); //$NON-NLS-1$
 		} else {
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
 
 			try {
 				if (editor.getModel() != null) {
 					// Le modele existe... On peut essayer de le connecter
-					HistoryView.instance.addText("Deconnexion en cours... ");
+					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.DisconnectModelAction.5")); //$NON-NLS-1$
 
 
 					if (Coloane.getDefault().getMotor().closeSession()) {
 						// TODO : Griser les menues adequats
-						HistoryView.instance.addLine("SUCCESS");
-						MenuManipulation.setEnabled("Platform", "Connect model", true);
-						MenuManipulation.setEnabled("Platform", "Disconnect model", false);
+						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.6")); //$NON-NLS-1$
+						MenuManipulation.setEnabled("Platform", "Connect model", true); //$NON-NLS-1$ //$NON-NLS-2$
+						MenuManipulation.setEnabled("Platform", "Disconnect model", false); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {
 						// TODO : GRiser les menus adequats
-						HistoryView.instance.addLine("FAILED");
+						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.11")); //$NON-NLS-1$
 					}
 
 				} else {
-					HistoryView.instance.addText("[!] Echec: Le modele n'est pas valide");
+					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.DisconnectModelAction.12")); //$NON-NLS-1$
 				}
 
 			} catch (Exception e) {

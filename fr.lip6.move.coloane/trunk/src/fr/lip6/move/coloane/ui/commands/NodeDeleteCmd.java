@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -17,10 +18,10 @@ import fr.lip6.move.coloane.ui.model.INodeImpl;
  */
 public class NodeDeleteCmd extends Command {
 
-	/** Noeud à retirer */
+	/** Noeud ÔøΩ retirer */
 	private final INodeImpl node;
 
-	/** Modèle contenant le noeud */
+	/** ModÔøΩle contenant le noeud */
 	private final IModelImpl model;
 
 	/** Garder une copie des connexions sortantes du noeud */
@@ -28,7 +29,7 @@ public class NodeDeleteCmd extends Command {
 	/** Garder une copie des connexions entrantes vers le noeud */
 	private List targetConnections;
 
-	/** True, si le noeud a été supprimé */
+	/** True, si le noeud a ÔøΩtÔøΩ supprimÔøΩ */
 	private boolean wasRemoved = false;
 
 	/**
@@ -39,11 +40,11 @@ public class NodeDeleteCmd extends Command {
 	 */
 	public NodeDeleteCmd(IModelImpl model, INodeImpl node) throws BuildException {
 		if (model == null || node == null) {
-			throw new BuildException("Impossible de supprimer le noeud. L'appel de la commande n'est pas valide");
+			throw new BuildException(Coloane.traduction.getString("ui.commands.NodeDeleteCmd.0")); //$NON-NLS-1$
 		}
 		this.model = model;
 		this.node = node;
-		setLabel("Delete a node");
+		setLabel(Coloane.traduction.getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
 	}
 
 	public void execute() {
@@ -70,7 +71,7 @@ public class NodeDeleteCmd extends Command {
 			removeConnections(targetConnections);
 		} catch (BuildException e) {
 			e.printStackTrace();
-			System.err.println("Echec ! : "+e.getMessage());
+			System.err.println("Echec ! : "+e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -86,14 +87,14 @@ public class NodeDeleteCmd extends Command {
 			this.wasRemoved = true;
 		} catch (BuildException e) {
 			e.printStackTrace();
-			System.err.println("Echec ! : "+e.getMessage());
+			System.err.println("Echec ! : "+e.getMessage()); //$NON-NLS-1$
 		}
 
 	}
 
 	/**
 	 * Ajouter des connexions
-	 * @param connections connexions à ajouter
+	 * @param connections connexions ÔøΩ ajouter
 	 */
 	private void addConnections(List connections) {
 		for (Iterator i = connections.iterator(); i.hasNext();) {
@@ -101,15 +102,15 @@ public class NodeDeleteCmd extends Command {
 			try {
 				arc.reconnect();
 			} catch (BuildException e) {
-				System.err.println("Echec de la reconnexion de l'arc : "+arc.getId());
-				System.err.println("Details : "+e.getMessage());
+				System.err.println("Echec de la reconnexion de l'arc : "+arc.getId()); //$NON-NLS-1$
+				System.err.println("Details : "+e.getMessage()); //$NON-NLS-1$
 			}
 		}
 	}
 
 	/**
 	 * Retirer des connexions
-	 * @param connections connexions à retirer, ne doit pas être nulle
+	 * @param connections connexions ÔøΩ retirer, ne doit pas ÔøΩtre nulle
 	 */
 	private void removeConnections(List connections) {
 		for (Iterator i = connections.iterator(); i.hasNext();) {

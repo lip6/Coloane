@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.main.Coloane;
 
 /**
  * Cette classe represente un modele generique.<br>
@@ -62,10 +63,8 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 		try {
 			for (int k = 0; k < camiCommande.size(); k++) {
 				line = (String) camiCommande.get(k);
-
 				st = new StringTokenizer(line);
 				ps = new CamiParser(line.substring(3));
-
 				type = st.nextToken("(");
 
 				// Decouverte d'un noeud
@@ -73,15 +72,13 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					String nodeType = ps.parseString(",");
 					String nodeId = ps.parseInt(")");
 
-					// Si le noeud en cours n'est pas le noeud principal du
-					// modele
+					// Si le noeud en cours n'est pas le noeud principal du modele
 					if (Integer.parseInt(nodeId) != 1) {
 						INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
 						this.addNode(node);
 					} else {
 						this.setFormalism(nodeType);
 					}
-
 					continue; // Prochaine commande
 				}
 
@@ -97,17 +94,15 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					INode nodeEnd = getANode(Integer.parseInt(to));
 
 					if (nodeBegin == null || nodeEnd == null) {
-						throw new SyntaxErrorException("Noeud source ou cible manquant");
+						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.9")); //$NON-NLS-1$    
 					}
 
 					// Creation de l'arc
 					IArc arc = new Arc(arcType, Integer.parseInt(arcId));
 					arc.setStartingNode(nodeBegin);
 					arc.setEndingNode(nodeEnd);
-
 					nodeBegin.addOutputArc(arc);
 					nodeEnd.addInputArc(arc);
-
 					this.addArc(arc);
 					continue;// Prochaine commande
 				}
@@ -115,7 +110,6 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				// Decouverte d'attribut sur une ligne
 				if (type.equals("CT")) {
 					String value = new String();
-
 					String name = ps.parseString(",");
 					String ref = ps.parseInt(",");
 					value = ps.parseString(")");
@@ -144,7 +138,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					}
 
 					// Sinon on retourne une erreur
-					throw new SyntaxErrorException("Element referent introuvable");
+					throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.14")); //$NON-NLS-1$
 				}
 
 				// Creation d'une ligne dans un attribut multi-ligne
@@ -233,7 +227,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						}
 
 					} catch (Exception e) {
-						throw new SyntaxErrorException("Construction d'un attribut multiligne incorrecte");
+						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.24")); //$NON-NLS-1$
 					}
 
 				}
@@ -265,7 +259,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						if (node != null) {
 							node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
 						} else {
-							throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+							throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.42"));
 						}
 					}
 				}
@@ -287,13 +281,13 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						y = ps.parseInt(")");
 					}
 					
-					// Dernier arc rencontre
-					IArc arc = this.getAnArc(Integer.parseInt(ref));
-					
-					if (arc != null) {
-						arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
-					} else {
-						throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+ 					// Dernier arc rencontre
+ 					IArc arc = this.getAnArc(Integer.parseInt(ref));
+ 					
+ 					if (arc != null) {
+ 						arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
+ 					} else {
+ 						throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
 					}
 				}
 
@@ -339,11 +333,10 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						continue;
 					}
 
-					throw new SyntaxErrorException("Impossible d'attachee la position de texte a un attribut");
+					throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.41")); //$NON-NLS-1$
 				}
 			}
 
-			/* TODO: Prendre en compte les points d'inflexion */
 
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();

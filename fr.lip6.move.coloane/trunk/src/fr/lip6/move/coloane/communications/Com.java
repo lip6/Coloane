@@ -88,18 +88,18 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean authentication(String login, String pass, String ip, int port)  throws Exception {
 		try {
-			System.out.println("Demande d'authentification : ");
-			System.out.println("  Login-> "+login);
-			System.out.println("  Pass-> "+pass);
-			System.out.println("  IP-> "+ip);
-			System.out.println("  Port-> " +port);
+			System.out.println(Coloane.traduction.getString("communications.Com.0")); //$NON-NLS-1$
+			System.out.println("  Login-> "+login); //$NON-NLS-1$
+			System.out.println("  Pass-> "+pass); //$NON-NLS-1$
+			System.out.println("  IP-> "+ip); //$NON-NLS-1$
+			System.out.println("  Port-> " +port); //$NON-NLS-1$
 			
-			// Connexion ˆ la plateforme
-			boolean retour = api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION"));
+			// Connexion ï¿½ la plateforme
+			boolean retour = api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (retour) {
-				System.out.println("Retour authentification OK");
+				System.out.println(Coloane.traduction.getString("communications.Com.7")); //$NON-NLS-1$
 			} else {
-				System.err.println("Retour authentification KO");
+				System.err.println(Coloane.traduction.getString("communications.Com.8")); //$NON-NLS-1$
 			}
 			return retour;
 		} catch (Exception e) {
@@ -119,23 +119,23 @@ public class Com implements IComUi, IComApi, IComMotor {
             throw new NullPointerException();
         }
 		try {
-			System.out.println("Demande de connexion du modele");
+			System.out.println(Coloane.traduction.getString("communications.Com.9")); //$NON-NLS-1$
 
 			// Recuperation du nom de la session courante
 			String sessionName = motor.getSessionManager().getCurrentSession().getName();
-			System.out.println("Nom de la session : "+sessionName);
+			System.out.println(Coloane.traduction.getString("communications.Com.10")+sessionName); //$NON-NLS-1$
 			
 			// Recuperation du nom du formalime de la session courante
 			String formalismName = model.getFormalism().getName();
-			System.out.println("Nom du formalisme : "+formalismName);
+			System.out.println(Coloane.traduction.getString("communications.Com.11")+formalismName); //$NON-NLS-1$
 			
 			// Demande de l'ouverture de session a l'API
 			Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
 			if (retour) {
-				System.out.println("Connexion rŽussie !");
+				System.out.println("Connexion rï¿½ussie !"); //$NON-NLS-1$
 				return true;
 			} else {
-				System.err.println("Echec de la connexion !");
+				System.err.println(Coloane.traduction.getString("communications.Com.13")); //$NON-NLS-1$
 				return false;
 			}
 		} catch (Exception e) {
@@ -152,7 +152,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean closeSession() throws Exception {
 		try {
-			System.out.println("Demande de deconnexion du modele");
+			System.out.println(Coloane.traduction.getString("communications.Com.14")); //$NON-NLS-1$
 			
 			if (motor.getSessionManager().getCurrentSession() == null) {
 				return false;
@@ -173,10 +173,10 @@ public class Com implements IComUi, IComApi, IComMotor {
 				if (menuAdminName != null)
 					this.ui.removeMenu(menuAdminName.getName());
 				
-                System.out.println("Deconnexion reussie !");
+                System.out.println(Coloane.traduction.getString("communications.Com.15")); //$NON-NLS-1$
 				return true;
 			} else {
-                System.err.println("Echec de la deconnexion !");
+                System.err.println(Coloane.traduction.getString("communications.Com.16")); //$NON-NLS-1$
 				return false;
 			}
 		} catch (Exception e) {
@@ -189,7 +189,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Cette deconnexion est provoquee par un KO ou un FC
 	 */
 	public void closeAllSessions() {
-		System.out.println("Demande de deconnexion de tout les modeles");
+		System.out.println(Coloane.traduction.getString("communications.Com.17")); //$NON-NLS-1$
 		motor.getSessionManager().destroyAllSessions();		
 	}
 	
@@ -238,7 +238,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 				}
 			});
 		} catch (Exception e) {
-			System.err.println("Impossible de construire le menu");
+			System.err.println(Coloane.traduction.getString("communications.Com.18")); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 		
@@ -283,7 +283,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void getDialogAnswers(DialogResult results) {
 		if (!this.api.getDialogAnswers((IDialogResult)results)) {
-			System.err.println("La transmission des reponses de la boite de dialogue a echouee");
+			System.err.println(Coloane.traduction.getString("communications.Com.19")); //$NON-NLS-1$
 		}
 	}
 	
@@ -294,7 +294,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
 	
-		if ((serviceName != "") && (resultsCom != null)) {
+		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			// Transformation des resultats
 			Results results = new Results(resultsCom);
 			this.ui.setResults(serviceName,results);

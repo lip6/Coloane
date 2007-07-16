@@ -214,7 +214,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		System.out.println("Initialisation de l'espace de travail");
+		System.out.println("Initialisation de l'espace de travail"); //$NON-NLS-1$
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
 
@@ -258,8 +258,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	/**
-	 * D�termine le contenu de l'�diteur. Ce contenu est lu depuis un fichier.
-	 * Ce fichier a bien sur �t� cr�� par l'assistant
+	 * Determine le contenu de l'editeur. Ce contenu est lu depuis un fichier.
+	 * Ce fichier a bien sur ete cree par l'assistant
 	 * 
 	 * @param input
 	 *            IEditorInput : Informations (nom, fichier, location...)
@@ -271,9 +271,12 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		try {
 			IFile file = ((IFileEditorInput) input).getFile();
-			System.out.println("Fichier de contenu : " + file.getName());
+			System.out.println("Fichier de contenu : " + file.getName()); //$NON-NLS-1$
 
 			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
+
+			// Création du reader
+			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); //$NON-NLS-1$
 
 			// Création d'un instance du handler
 			XmlEditor handler = new XmlEditor();
@@ -319,6 +322,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
 			this.model = new ModelImplAdapter(formalism);
+			saveNew();
 			// Debut de la construction du model
 			model.setBeginBuilding();
 
@@ -331,8 +335,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		} catch (Exception e) {
 			IFile file = ((IFileEditorInput) input).getFile();
 			System.out.println(e.toString());
-			Coloane.showErrorMsg("Error while loading file : " + file.getName()
-					+ " - " + e.getMessage());
+			Coloane.showErrorMsg(Coloane.traduction.getString("ui.Editor.3") +file.getName()+" - "+ e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 	}
@@ -349,7 +352,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		XmlEditor xml = new XmlEditor();
 
 		// String permettant de stocker le modele au format xml
-		String xmlString = "";
+		String xmlString = ""; //$NON-NLS-1$
 
 		try {
 			// Recuperation du modele generique
@@ -365,6 +368,35 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			file.setContents(inputS, true, false, monitor);
 
 			getCommandStack().markSaveLocation();
+		} catch (CoreException ce) {
+			ce.printStackTrace();
+
+		}
+	}
+	
+	private void saveNew() {
+
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+
+		// Creation du l'editeur xml
+		XmlEditor xml = new XmlEditor();
+
+		// String permettant de stocker le modele au format xml
+		String xmlString = ""; //$NON-NLS-1$
+
+		try {
+			// Recuperation du modele generique
+			IModel m = getModel().getGenericModel();
+
+			// Traduction du modele au format xml
+			xmlString = xml.modelXML(m);
+
+			// Creation de l'input stream a partir d'une chaine de caractere
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+
+			// Ecriture du fichier de sauvegarder à partir du l'input stream
+			file.setContents(inputS, true, false, null);
+
 		} catch (CoreException ce) {
 			ce.printStackTrace();
 
@@ -391,7 +423,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 						try {
 
 							XmlEditor xml = new XmlEditor();
-							String xmlString = "";
+							String xmlString = ""; //$NON-NLS-1$
 
 							// Recuperation du modele generique
 							IModel m = getModel().getGenericModel();
