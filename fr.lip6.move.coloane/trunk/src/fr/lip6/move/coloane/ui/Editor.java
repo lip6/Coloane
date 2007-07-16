@@ -275,17 +275,14 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 			FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 
-			// Création du reader
-			XMLReader reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); //$NON-NLS-1$
-
-			// Création d'un instance du handler
+			// Creation d'un instance du handler
 			XmlEditor handler = new XmlEditor();
 
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 
 			factory.setValidating(true);
 			
-//			 la factory produira un parseur validant
+			// La factory produira un parseur validant
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(file.getLocation().toString(), handler);
 
