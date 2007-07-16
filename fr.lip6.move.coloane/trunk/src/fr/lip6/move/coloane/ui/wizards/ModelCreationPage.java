@@ -48,7 +48,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		super.createControl(parent);
 		
 		// On propose un nom par defaut
-		setFileName(Coloane.getParam("file.name") +"_"+ fileCount); //$NON-NLS-1$ //$NON-NLS-2$
+		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") +"_"+ fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	/**
