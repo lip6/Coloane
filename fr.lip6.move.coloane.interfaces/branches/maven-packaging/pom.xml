@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <modelVersion>4.0.0</modelVersion>
   
   <!--<parent>
@@ -10,13 +11,14 @@
   
   <groupId>fr.lip6.move</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>Interfaces</name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <scm>
-   	<developerConnection>scm:svn:https://emasliah:Zp74Ax3D@srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/tags/release_tag_label</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/fr.lip6.move.coloane.interfaces/tags/release_tag_label</url>
+   	<developerConnection>scm:svn:https://emasliah:Zp74Ax3D@srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</url>
   </scm>
   
   <build>
@@ -42,6 +44,13 @@
       		<message>Pas de message, bon message ;-) (commit fait avec maven)</message>
        	</configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging/tags</tagBase>
+        </configuration>
+      </plugin>
   </plugins>
   
   
@@ -49,3 +58,4 @@
   </build>
   
 </project>
+
