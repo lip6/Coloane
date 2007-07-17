@@ -319,7 +319,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
 			this.model = new ModelImplAdapter(formalism);
+			
 			saveNew();
+			
 			// Debut de la construction du model
 			model.setBeginBuilding();
 
@@ -370,6 +372,11 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		}
 	}
+	
+	/**
+	 * Sauvegarde d'un fichier lors de setInput
+	 * @deprecated
+	 */
 	
 	private void saveNew() {
 

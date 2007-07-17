@@ -1,11 +1,7 @@
 package fr.lip6.move.coloane.ui.wizards;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,10 +11,11 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.ui.model.IModelImpl;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.ui.XmlEditor;
 
 public class ModelCreationPage extends WizardNewFileCreationPage {
 
@@ -106,31 +103,34 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * TODO : Description
+	 * Methode remplissant le fichier avec un contenu par default
 	 */
 	protected InputStream getInitialContents() {
-		ByteArrayInputStream bais = null;
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(createDefaultContent()); // argument must be Serializable
-			oos.flush();
-			oos.close();
-			bais = new ByteArrayInputStream(baos.toByteArray());
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-		return bais;
-	}
 
-	/** Return a new ShapesDiagram instance.
-	 *  @return un objet IModelImpl
-	 */
-	private IModelImpl createDefaultContent() {
+		// InputStream a retourner
+		InputStream inputS = null;
+
+		// Creation de l'editeur xml
+		XmlEditor xml = new XmlEditor();
+
+		// String permettant de stocker le modele au format xml
+		String xmlString = ""; //$NON-NLS-1$
+
+		// Nouveau model
+		IModel m = new Model();
+
+		// Formalisme choisi
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-		IModelImpl m = new ModelImplAdapter(formManager.loadFormalism(formalismName));
 
-		return m;
+		m.setFormalism(formalismName);
+
+		// Traduction du modele au format xml
+		xmlString = xml.modelXML(m);
+
+		// Creation de l'input stream a partir d'une chaine de caractere
+		inputS = new ByteArrayInputStream(xmlString.getBytes());
+
+		return inputS;
 	}
+
 }
