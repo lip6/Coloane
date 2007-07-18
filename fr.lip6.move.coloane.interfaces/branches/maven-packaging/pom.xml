@@ -37,9 +37,8 @@
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
       	<configuration>
-      		<workingDirectory>.</workingDirectory>
+      		<!--<workingDirectory>.</workingDirectory>-->
       		<connectionType>developerConnection</connectionType>
-      		<checkoutDirectory>.</checkoutDirectory>
       		<!--<message>Pas de message, bon message ;-) (commit fait avec maven)</message>-->
        	</configuration>
       </plugin>
