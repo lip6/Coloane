@@ -68,6 +68,8 @@
         	</execution>
       	</executions>
       	<configuration>
+      	  <username>emasliah</username>
+      		<password>Zp74Ax3D</password>
         	<doCheck>true</doCheck>
         	<doUpdate>true</doUpdate>
       	</configuration>
