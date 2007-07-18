@@ -84,13 +84,16 @@ public class AuthenticationDialog extends Dialog {
 	/**Id du bouton Details*/
 	private static final int Details_ID = IDialogConstants.CLIENT_ID;
 
+	/**Label du bouton detail*/	
+	private static final String DETAILS_LABEL = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.2");//$NON-NLS-1$
+	
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibilite = false;
 
-	/**L'adresse IP de FrameKit*/
+	/**L'adresse IP de FrameKit */
 	private String ip = ""; 
 	
-	/** Le port de Framekit*/
+	/** Le port de Framekit */
 	private String port = "";
 	
 
@@ -114,7 +117,7 @@ public class AuthenticationDialog extends Dialog {
 	 */
 	protected Control createDialogArea(Composite parent) {
 		compo = (Composite) super.createDialogArea(parent);
-		b = (Button) super.createButton(parent, Details_ID, "Details", false);
+		b = (Button) super.createButton(parent, Details_ID,DETAILS_LABEL , false);
 		b.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (visibilite == true)
@@ -125,9 +128,7 @@ public class AuthenticationDialog extends Dialog {
 			}
 		});
 		
-		String[] liste_serveurs = { Coloane.getParam("NAME1"),
-				Coloane.getParam("NAME2"), Coloane.getParam("NAME3"),
-				"localhost", "Autre .." };
+		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 
@@ -149,7 +150,19 @@ public class AuthenticationDialog extends Dialog {
 		password.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		password.setTextLimit(TXT_LIMIT);
 
-		new Label(compo, SWT.NULL).setText("Serveur :");
+		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.12")); //$NON-NLS-1$
+		
+		//Recuperation des valeurs dans le fichier LNG et les inserer dans la combo
+		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS"));
+		String[] liste_serveurs = new String[nbservers + 2];
+		int i=0;
+		while(i < nbservers){
+			liste_serveurs[i] = Coloane.getParam("NAME"+(i+1));
+			i++;
+		}
+		liste_serveurs[i] = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.1");
+		liste_serveurs[i+1] = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.2");
+
 		combo_server = new Combo(compo, SWT.NULL);
 		combo_server.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		combo_server.setItems(liste_serveurs);
@@ -170,7 +183,7 @@ public class AuthenticationDialog extends Dialog {
 						port = Coloane.getParam("PORT" + (i + 1));
 						setFrameKitPort(port);
 
-					} else if (combo_server.getText().equals("localhost")) {
+					} else if (combo_server.getText().equals(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.1"))) {
 						ip = InetAddress.getByName("localhost").getHostAddress();
 						setFrameKitIp(ip);
 						port = String.valueOf(8080);
@@ -181,7 +194,7 @@ public class AuthenticationDialog extends Dialog {
 						visibilite(true);
 					}
 				} catch (IOException ef) {
-					System.out.println("Impossible de recuperer l'adresse IP");
+					System.out.println(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.11"));
 				}
 			}
 		});
@@ -189,7 +202,7 @@ public class AuthenticationDialog extends Dialog {
 		// Invisible a la creation de la boite
 		
 		framekit_ip_label = new Label(compo, SWT.NULL);
-		framekit_ip_label.setText("IP :");
+		framekit_ip_label.setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.3"));
 		framekit_ip = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekit_ip.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekit_ip.setTextLimit(TXT_LIMIT);
