@@ -40,7 +40,7 @@
       		<workingDirectory>.</workingDirectory>
       		<connectionType>developerConnection</connectionType>
       		<checkoutDirectory>.</checkoutDirectory>
-      		<!--<message>Pas de message, bon message ;-) (commit fait avec maven)</message>-->
+      		<message>Pas de message, bon message ;-) (commit fait avec maven)</message>
        	</configuration>
       </plugin>
       <plugin>
