@@ -20,10 +20,22 @@
  		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</url>
   </scm>
   
+
+  
   <build>
     <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <directory>target/jar</directory>
+    
+  <pluginManagement>
+    <plugins>
+      <plugin>
+  	    <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+    </plugins>
+  </pluginManagement>
 
 	<plugins>
 		<plugin>
@@ -58,6 +70,20 @@
       	<configuration>
         	<doCheck>true</doCheck>
         	<doUpdate>true</doUpdate>
+      	</configuration>
+    	</plugin>
+    	<plugin>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-jar-plugin</artifactId>
+      	<configuration>
+        	<archive>
+          	<manifest>
+            	<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+          	</manifest>
+          	<manifestEntries>
+            	<Implementation-Build>${buildNumber}</Implementation-Build>
+          	</manifestEntries>
+        	</archive>
       	</configuration>
     	</plugin>
       <!--<plugin>
