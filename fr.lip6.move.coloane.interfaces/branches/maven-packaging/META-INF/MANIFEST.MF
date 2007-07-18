@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
-Name: INTERFACES 
-Specification-Title: Interfaces API/Coloane
-Specification-Version: 1.0.0
-Specification-Vendor: LIP6 - MoVe
-Implementation-Title: fr.lip6.move.coloane.interfaces
-Implementation-Version: build703
-Implementation-Vendor: LIP6 - MoVe
+Bundle-Name: Interfaces - Maven-Packaging
+Bundle-ClassPath: 
+Bundle-Vendor: Princeton Softech Inc.
+Bundle-ManifestVersion: 2
+Bundle-Localization: plugin
+Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
+Eclipse-BuddyPolicy: registered
+Export-Package: 
+Bundle-Version: 1.95.65.15
+

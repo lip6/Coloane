@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>-->
-  
+
   <groupId>fr.lip6.move.coloane</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.95.65.15-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging </name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
@@ -21,6 +21,7 @@
   </scm>
   
   <build>
+    <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <directory>target/jar</directory>
 
@@ -43,16 +44,39 @@
        	</configuration>
       </plugin>
       <plugin>
+      	<groupId>org.codehaus.mojo</groupId>
+      	<artifactId>maven-buildnumber-plugin</artifactId>
+      	<version>0.9.4</version>
+      	<executions>
+        	<execution>
+          	<phase>validate</phase>        
+          	<goals>
+            	<goal>create</goal>
+          	</goals>
+        	</execution>
+      	</executions>
+      	<configuration>
+        	<doCheck>true</doCheck>
+        	<doUpdate>true</doUpdate>
+      	</configuration>
+    	</plugin>
+      <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging/target/jar</tagBase>
         </configuration>
-      </plugin>
+      </plugin>-->
   </plugins>
   
-  
-    
-  </build>
+	</build>
+	
+	<pluginRepositories>
+    <pluginRepository>
+        <id>tlc</id>
+        <name>TLC Repository</name>
+        <url>http://commons.ucalgary.ca/pub/m2</url>
+    </pluginRepository>
+	</pluginRepositories>
   
 </project>
