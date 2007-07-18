@@ -85,7 +85,7 @@ public class AuthenticationDialog extends Dialog {
 	private static final int Details_ID = IDialogConstants.CLIENT_ID;
 
 	/**Label du bouton detail*/	
-	private static final String DETAILS_LABEL = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.2");//$NON-NLS-1$
+	private static final String DETAILS_LABEL = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.13");//$NON-NLS-1$
 	
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibilite = false;
