@@ -62,6 +62,9 @@
           	<goals>
             	<goal>checkin</goal>
           	</goals>
+          	<configuration>
+          	<message>Mise a jour apres le package</message>
+          	</configuration>
         	</execution>
       	</executions>
       	<configuration>
