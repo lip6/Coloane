@@ -67,8 +67,8 @@
           	</goals>
         	</execution>
         	<execution>
+        	  <!-- On rajoute le jar cree -->
         		<id>Add</id>
-        		<!-- On rajoute le jar cree -->
           	<phase>package</phase>        
           	<goals>
             	<goal>add</goal>
@@ -79,6 +79,7 @@
         	</execution>
         	<execution>
         		<!-- On commit pour mettre le svn a jour -->
+        		<id>Co</id>
           	<phase>package</phase>        
           	<goals>
             	<goal>checkin</goal>
@@ -99,6 +100,7 @@
       	<version>0.9.4</version>
       	<executions>
         	<execution>
+        		<id>buildNumber</id>
           	<phase>validate</phase>        
           	<goals>
             	<goal>create</goal>
