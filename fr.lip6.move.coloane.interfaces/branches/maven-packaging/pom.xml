@@ -1,14 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
   <modelVersion>4.0.0</modelVersion>
-  
-  <!--<parent>
-    <groupId>coloane</groupId>
-    <artifactId>fr.lip6.move</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>-->
-
-  <groupId>fr.lip6.move.coloane</groupId>
+	
+	<groupId>fr.lip6.move.coloane</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
   <version>1.0.7-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -20,33 +14,34 @@
  		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</url>
   </scm>
   
-
-  
   <build>
     <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <directory>target/jar</directory>
     
-  <pluginManagement>
-    <plugins>
-      <plugin>
-  	    <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.1</version>
-      </plugin>
-    </plugins>
-  </pluginManagement>
-
-	<plugins>
-		<plugin>
-    	<groupId>org.apache.maven.plugins</groupId>
+    <!-- Vraiment util ?? -->
+  	<pluginManagement>
+    	<plugins>
+      	<plugin>
+  	    	<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-jar-plugin</artifactId>
+        	<version>2.1</version>
+      	</plugin>
+    	</plugins>
+  	</pluginManagement>
+		
+		<plugins>
+			<plugin>
+				<!-- Pour compiler avec le jdk 1.5 -->
+    		<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-compiler-plugin</artifactId>
       	<configuration>
        		<source>1.5</source>
        		<target>1.5</target>
       	</configuration>
-    </plugin>
-    <plugin>
+    	</plugin>
+    	<plugin>
+    		<!-- Pour modifier le manifest avec la version du pom -->
     	  <groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-psteclipse-plugin</artifactId>
         <executions>
@@ -57,12 +52,14 @@
           	</goals>
         	</execution>
         </executions>
-    </plugin>
-    <plugin>
+    	</plugin>
+    	<plugin>
+    		<!-- Pour le svn -->
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
         <executions>
         	<execution>
+        		<!-- On update des le debut -->
         		<id>Up</id>
           	<phase>validate</phase>        
           	<goals>
@@ -71,6 +68,7 @@
         	</execution>
         	<execution>
         		<id>Add</id>
+        		<!-- On rajoute le jar cree -->
           	<phase>package</phase>        
           	<goals>
             	<goal>add</goal>
@@ -80,6 +78,7 @@
           	</configuration>
         	</execution>
         	<execution>
+        		<!-- On commit pour mettre le svn a jour -->
           	<phase>package</phase>        
           	<goals>
             	<goal>checkin</goal>
@@ -90,12 +89,11 @@
         	</execution>
       	</executions>
       	<configuration>
-      		<!--<workingDirectory>.</workingDirectory>-->
       		<connectionType>developerConnection</connectionType>
-      		<!--<message>Pas de message, bon message ;-) (commit fait avec maven)</message>-->
-       	</configuration>
+      	</configuration>
       </plugin>
       <plugin>
+      	<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>
@@ -115,14 +113,17 @@
       	</configuration>
     	</plugin>
     	<plugin>
+    		<!-- Pour configurer le jar de sortie -->
       	<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-jar-plugin</artifactId>
       	<configuration>
         	<archive>
+        		<!-- Donne notre MANIFEST -->
         		<manifestFile>META-INF/MANIFEST.MF</manifestFile>
           	<manifest>
             	<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
           	</manifest>
+          	<!-- Rajoute Implementation-Build dans le MANIFEST -->
           	<manifestEntries>
             	<Implementation-Build>${buildNumber}</Implementation-Build>
           	</manifestEntries>
@@ -136,11 +137,12 @@
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging/target/jar</tagBase>
         </configuration>
       </plugin>-->
-  </plugins>
+		</plugins>
   
 	</build>
 	
 	<pluginRepositories>
+		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
     <pluginRepository>
         <id>tlc</id>
         <name>TLC Repository</name>
