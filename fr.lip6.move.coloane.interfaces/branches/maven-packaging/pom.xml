@@ -65,7 +65,7 @@
           	<configuration>
           		<message>Mise a jour du svn apres package</message>
           		<excludes>.settings,lib</excludes>
-          		<includes>META-INF/*,pom.xml,src/**,target/**,test/**</includes>
+          		<includes>META-INF/*,pom.xml,src/**,target/jar/**</includes>
           	</configuration>
         	</execution>
       	</executions>
