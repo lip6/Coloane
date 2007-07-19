@@ -92,8 +92,8 @@
       		<connectionType>developerConnection</connectionType>
       	</configuration>
       </plugin>
-      <!--<plugin>
-      	 Pour mettre le buildnumber au bout du jar ${buildNumber} 
+      <plugin>
+      	<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>
@@ -111,7 +111,7 @@
         	<doCheck>true</doCheck>
         	<doUpdate>true</doUpdate>
       	</configuration>
-    	</plugin>-->
+    	</plugin>
     	<plugin>
     		<!-- Pour configurer le jar de sortie -->
       	<groupId>org.apache.maven.plugins</groupId>
