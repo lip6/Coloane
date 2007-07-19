@@ -46,7 +46,19 @@
        		<target>1.5</target>
       	</configuration>
     </plugin>
-    	<plugin>
+    <plugin>
+    	  <groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-psteclipse-plugin</artifactId>
+        <executions>
+        	<execution>
+          	<phase>package</phase>        
+          	<goals>
+            	<goal>eclipse-plugin</goal>
+          	</goals>
+        	</execution>
+        </executions>
+    </plugin>
+    <plugin>
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
         <executions>
@@ -74,8 +86,6 @@
           	</goals>
           	<configuration>
           		<message>Mise a jour du svn apres package</message>
-          		<excludes>.settings,lib</excludes>
-          		<includes>META-INF/*,pom.xml,src/**,target/jar/**</includes>
           	</configuration>
         	</execution>
       	</executions>
