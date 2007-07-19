@@ -64,6 +64,7 @@
           	</goals>
           	<configuration>
           		<message>Mise a jour du svn apres package</message>
+          		<excludes>.settings,lib</excludes>
           		<includes>**/*</includes>
           	</configuration>
         	</execution>
