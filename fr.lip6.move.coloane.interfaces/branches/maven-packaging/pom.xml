@@ -10,7 +10,7 @@
 
   <groupId>fr.lip6.move.coloane</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
-  <version>1.95.65.15-SNAPSHOT</version>
+  <version>1.0.6-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging </name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
