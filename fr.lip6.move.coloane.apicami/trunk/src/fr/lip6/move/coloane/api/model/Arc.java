@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.model;
 import java.util.Arrays;
 import java.util.Vector;
 import java.io.Serializable;
+import fr.lip6.move.coloane.api.main.*;
 
 /**
  * Enrichissement de la definition d'un arc generique par sa traduction en CAMI
@@ -11,7 +12,6 @@ import java.io.Serializable;
 public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Serializable { 
     
 	private static final long serialVersionUID = 1L;
-
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.Arc#Arc(String, int)
 	 */
@@ -25,7 +25,9 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
      * @return String[]
      */
     public String[] translate() {
+    	Api.apiLogger.entering("Arc", "translate");
         if (this.startingNode == null || this.endingNode == null) {
+        	Api.apiLogger.exiting("Arc","translate", null);
             return null;
         } else {
             String[] stringToReturn;
@@ -50,6 +52,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 
             stringToReturn = new String[vectorStringToReturn.size()];
             vectorStringToReturn.toArray(stringToReturn);
+            Api.apiLogger.exiting("Arc","translate", stringToReturn);
             return stringToReturn;
         }
     }

@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.model;
 
 import java.util.Vector;
 import java.io.Serializable;
+import fr.lip6.move.coloane.api.main.*;
 
 /**
  * Enrichissement de la definition d'un attribut generique par sa traduction en CAMI
@@ -22,6 +23,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute i
 	 * @return String[]
 	 */
 	public String[] translate() {
+		Api.apiLogger.entering("Attribute",	"translate");
 		StringBuffer s;
 		String[] stringToReturn = null;
 		String [] tab_val = null;
@@ -129,6 +131,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute i
 		}
 		stringToReturn = new String[vectorStringToReturn.size()];
 		vectorStringToReturn.toArray(stringToReturn);
+		Api.apiLogger.exiting("Attribute", "translate", stringToReturn);
 		return stringToReturn;
 	}
 }

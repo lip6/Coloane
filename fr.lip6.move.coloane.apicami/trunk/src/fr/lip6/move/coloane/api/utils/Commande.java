@@ -4,10 +4,12 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import fr.lip6.move.coloane.api.log.LogsUtils;
+import fr.lip6.move.coloane.api.main.Api;
 
 public class Commande {
 	
-	
+	private final LogsUtils logsutils = new LogsUtils();
 	/**
 	 * Fonction qui cree une commande SC  
 	 * @param login login de l'usager
@@ -15,8 +17,11 @@ public class Commande {
 	 * @return commande 
 	 */
 	public byte[] createCmdSC(String login, String password) {
+		Object[] param = {login, password};
+		Api.apiLogger.entering("Commande", "createCmdSC", param);
 		String commande = new String("SC(" + login.length() + ":" + login + ","+ password.length() + ":" + password + ")");
-		System.out.println("--> "+commande);
+		Api.apiLogger.info("-->" + commande);
+		//System.out.println("--> "+commande);
 		
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -27,6 +32,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdSC", send);
 		return send;
 	}
 	
@@ -35,6 +41,7 @@ public class Commande {
 	 * @return la commande
 	 */
 	public byte[] createCmdFC() {
+		Api.apiLogger.entering("Commande","createCmdFC");
 		//Integer versInt = new Integer(1);
 		//String versStg = versInt.toString();
 		String commande = new String("FC(" /*+ versStg + */ + ")");
@@ -47,7 +54,7 @@ public class Commande {
 		for (int i = 0; i < commande.length(); i++) {
 			send[i + 4] = mess[i];
 		}
-		
+		Api.apiLogger.exiting("Commande", "createCmdFC", send);
 		return send;
 		
 	}
@@ -57,6 +64,7 @@ public class Commande {
 	 * @return la commande
 	 */
 	public byte[] createCmdDI() {
+		Api.apiLogger.entering("Commande","createCmdDI");
 		String commande = new String("DI()");
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -67,7 +75,7 @@ public class Commande {
 		for (int i = 0; i < commande.length(); i++) {
 			send[i + 4] = mess[i];
 		}
-		
+		Api.apiLogger.exiting("Commande", "createCmdDI", send);
 		return send;
 	}
 	
@@ -78,6 +86,8 @@ public class Commande {
 	 * @return la commande
 	 */
 	public byte[] createCmdCI(String serviceName, int mode) {
+		Object[] param = {serviceName, mode};
+		Api.apiLogger.entering("Commande", "createCmdCI", param);
 		String commande = new String("CI(" + CamiParser.stringToCAMI(serviceName) + "," + mode + ")");
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -89,6 +99,7 @@ public class Commande {
 			send[i + 4] = mess[i];
 		}
 		//System.out.println("commande :" + new String(send, 4, send.length - 4));
+		Api.apiLogger.exiting("Commande", "createCmdCI", send);
 		return send;
 	}
 	
@@ -97,6 +108,7 @@ public class Commande {
 	 * @return la commande
 	 */
 	public byte[] createCmdFI() {
+		Api.apiLogger.entering("Commande", "createCmdFI");
 		String commande = new String("FI()");
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -108,6 +120,7 @@ public class Commande {
 			send[i + 4] = mess[i];
 		}
 		//System.out.println("commande :" + new String(send, 4, send.length - 4));
+		Api.apiLogger.exiting("Commande", "createCmdFI", send);
 		return send;
 	}
 	
@@ -124,6 +137,8 @@ public class Commande {
 	public byte[] createCmdOC(String nameUi, String version, String login) {
 //		Integer versInt = new Integer(version);
 //		String versStg = versInt.toString();
+		Object[] param = {nameUi, version, login};
+		Api.apiLogger.entering("Commande", "createCmdOC", param);
 		String versStg = version;
 		String commande = new String("OC(" + nameUi.length() + ":" + nameUi
 				+ "," + versStg.length() + ":" + versStg + "," + login.length()
@@ -137,6 +152,7 @@ public class Commande {
 		for (int i = 0; i < commande.length(); i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdOC", send);
 		return send;
 	}
 	
@@ -148,7 +164,8 @@ public class Commande {
 	 * @return la commande
 	 */
 	public byte[] createCmdOS(String sName, int date, String formalism) {
-		
+		Object[] param = {sName, date, formalism};
+		Api.apiLogger.entering("Commande", "createCmdOS", param);
 		Integer versInt = new Integer(date);
 		String versStg = versInt.toString();
 		String commande = new String("OS(" + sName.length() + ":" + sName + ","
@@ -163,6 +180,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdOS", send);
 		return send;
 	}
 	
@@ -172,11 +190,13 @@ public class Commande {
 	 * @return la commande cami
 	 */
 	public byte[] createCmdRS(String sName) {
+		Api.apiLogger.entering("Commande", "createCmdRS", sName);
 		String commande = new String("RS(" + sName.length() + ":" + sName + ")");
 		
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
-		System.out.println("message RS : " + new String(mess, 0, mess.length));
+		Api.apiLogger.info("message RS :" + new String(mess, 0, mess.length));
+		//System.out.println("message RS : " + new String(mess, 0, mess.length));
 		send[0] = 0;
 		send[1] = 0;
 		send[2] = 0;
@@ -184,6 +204,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdRS", send);
 		return send;
 	}
 	
@@ -195,6 +216,7 @@ public class Commande {
 	 * @return la commande cami
 	 */
 	public byte[] createCmdFS(int calcul) {
+		Api.apiLogger.entering("Commande", "createCmdFS", calcul);
 		Integer calInt = new Integer(calcul);
 		String calStg = calInt.toString();
 		String commande = new String("FS("  + calStg + ")");
@@ -208,6 +230,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdFS", send);
 		return send;
 	}
 	/**
@@ -216,6 +239,7 @@ public class Commande {
 	 * @return la commande cami
 	 */
 	public byte[] createCmdMS(int date) {
+		Api.apiLogger.entering("Commande", "createCmdMS", date);
 		Integer calInt = new Integer(date);
 		String calStg = calInt.toString();
 		String commande = new String("MS("  + calStg + ")");
@@ -229,6 +253,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdMS", send);
 		return send;
 	}
 	
@@ -238,6 +263,7 @@ public class Commande {
 	 * @return commande CAMI formatee
 	 */
 	public byte[] createCmdSimple(String type) {
+		Api.apiLogger.entering("Commande", "createCmdSimple",type);
 		String commande = new String(type + "()");
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -249,6 +275,7 @@ public class Commande {
 			send[i + 4] = mess[i];
 		}
 		//System.out.println("commande :" + new String(send, 4, send.length - 4));
+		Api.apiLogger.exiting("Commande", "createCmdSimple", send);
 		return send;
 		
 		
@@ -262,6 +289,8 @@ public class Commande {
 	 * @return commande CAMI formatee
 	 */
 	public byte[] createCmdPQ(String rootName, String label, int suite) {
+		Object[] param = {rootName, label, suite};
+		Api.apiLogger.entering("Commande", "createCmdPQ", param);
 		String commande = new String("PQ(" + CamiParser.stringToCAMI(rootName) + "," + CamiParser.stringToCAMI(label) + "," + suite + ")");
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
@@ -272,6 +301,7 @@ public class Commande {
 		for (int i = 0; i < commande.length(); i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "createCmdSimple", send);
 		//System.out.println("commande :" + new String(send, 4, send.length - 4));
 		return send;
 	}
@@ -282,6 +312,7 @@ public class Commande {
 	 * @return commande CAMI formatee
 	 */
 	public byte[] convertToFramekit(String cami) {
+		Api.apiLogger.entering("Commande", "convertToFrameKit", cami);
 		byte[] send = new byte[cami.length() + 4];
 		byte[] mess = cami.getBytes();
 		send[0] = 0;
@@ -291,6 +322,7 @@ public class Commande {
 		for (int i = 0; i < mess.length; i++) {
 			send[i + 4] = mess[i];
 		}
+		Api.apiLogger.exiting("Commande", "convertToFramekit", send);
 		return send;
 	}
 	
@@ -300,6 +332,7 @@ public class Commande {
 	 * @return vecteur retourner
 	 */
 	public Vector getArgs(String commande) {
+		Api.apiLogger.entering("Commande", "getArgs", commande);
 		String cmdString = "";
 		Vector<String> liste = new Vector<String>();
 		
@@ -312,24 +345,34 @@ public class Commande {
 			// Code de la commande
 			cmdString = st.nextToken("(");
 		} catch (NoSuchElementException e) {
-			System.out.println("NoSuchElement : " + e.getMessage());
+			Api.apiLogger.throwing("Commande", "getArgs", e);
+			Api.apiLogger.warning("NosuchElement : " + e.getMessage());
+			Api.apiLogger.warning(logsutils.StackToString(e));
+			//System.out.println("NoSuchElement : " + e.getMessage());
+			Api.apiLogger.exiting("Commande", "getArgs", null);
+			Api.apiLogger.warning(logsutils.StackToString(e));
 			return null;
 		} catch (StringIndexOutOfBoundsException e) {
-			System.out.println("StringIndexOutOfBoundsException : " + e.getMessage());
+			Api.apiLogger.throwing("Commande", "getArgs", e);
+			Api.apiLogger.warning("StringIndexOutOfBoundsException : " + e.getMessage());
+			Api.apiLogger.warning(logsutils.StackToString(e));
+			//System.out.println("StringIndexOutOfBoundsException : " + e.getMessage());
+			Api.apiLogger.exiting("Commande", "getArgs", null);
 			return null;
 		}
 		
 		// Premier element du vecteur : le sigle de la commande
 		liste.add(0, cmdString);
 		
-		// Connexion ˆ la plateforme:
+		// Connexion ï¿½ la plateforme:
 		if (cmdString.equals("SC")) {
 			String message = parser.parseString(")");	
 			liste.add(message);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
-		// Connexion ˆ la plateforme:
+		// Connexion ï¿½ la plateforme:
 		if (cmdString.equals("OC")) {
 			String entier1;
 			String entier2;
@@ -339,41 +382,48 @@ public class Commande {
 			
 			liste.add(entier1);
 			liste.add(entier2);
-			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
-		// Connexion du modle:
+		// Connexion du modï¿½le:
 		if (cmdString.equals("OS")) {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		//suspendre session
 		if (cmdString.equals("SS")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		//Resume session
 		if (cmdString.equals("RS")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		//Fermer session
 		if (cmdString.equals("FS")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		if (cmdString.equals("TD")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		if (cmdString.equals("FA")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		if (cmdString.equals("TL")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -394,14 +444,17 @@ public class Commande {
 			liste.add(entier1);
 			liste.add(entier2);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		if (cmdString.equals("FL")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		// Menu : init
 		if (cmdString.equals("DQ")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -420,6 +473,7 @@ public class Commande {
 			liste.add(entier1);
 			liste.add(entier2);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -484,6 +538,7 @@ public class Commande {
 				liste.add(entier6);
 			}
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -498,12 +553,14 @@ public class Commande {
 			liste.add(s1);
 			liste.add(s2);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		
 		// Menu : End
 		if (cmdString.equals("FQ")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -513,6 +570,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -521,6 +579,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -529,6 +588,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -552,6 +612,7 @@ public class Commande {
 			liste.add(entier1);
 			liste.add(s3);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -560,6 +621,8 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -577,11 +640,13 @@ public class Commande {
 			liste.add(entier2);
 			liste.add(entier3);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		//debut de reponse
 		if (cmdString.equals("DR")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);			
 			return liste;
 		}
 		
@@ -590,6 +655,7 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -607,6 +673,7 @@ public class Commande {
 			liste.add(s2);
 			liste.add(entier1);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -621,6 +688,7 @@ public class Commande {
 			liste.add(entier1);
 			liste.add(s1);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -629,6 +697,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -637,6 +706,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -645,6 +715,7 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -653,6 +724,7 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -661,16 +733,19 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		// debut dialogue
 		if (cmdString.equals("DC")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
 		// fin dialogue
 		if (cmdString.equals("FF")) {
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -684,6 +759,7 @@ public class Commande {
 			
 			liste.add(entier1);
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -719,14 +795,15 @@ public class Commande {
 			liste.add(entier5);
 			liste.add(s4);
 			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		} 
 		
 		if (cmdString.equals("DE")) {
 			String s1;
 			String entier1;
-			
-			System.out.println(commande);
+			Api.apiLogger.info(commande);
+			//System.out.println(commande);
 			
 			if (commande.length() > 4) {
 				s1 = parser.parseString(",");
@@ -735,7 +812,7 @@ public class Commande {
 				liste.add(s1);
 				liste.add(entier1);
 			}
-			
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
@@ -743,6 +820,7 @@ public class Commande {
 			String s1;
 			s1 = parser.parseString(")");
 			liste.add(s1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 
@@ -750,6 +828,7 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}		
 		
@@ -757,6 +836,7 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}		
 
@@ -764,12 +844,14 @@ public class Commande {
 			String entier1;
 			entier1 = parser.parseInt(")");
 			liste.add(entier1);
+			Api.apiLogger.exiting("Commande", "getArgs", liste);
 			return liste;
 		}
 		
-		
-		System.out.println("! Commande non traitee : " + cmdString);
+		Api.apiLogger.warning("!Commande non traitee : " + cmdString);
+		//System.out.println("! Commande non traitee : " + cmdString);
 		//on retourne jsute l'entete de la commande
+		Api.apiLogger.exiting("Commande", "getArgs", liste);
 		return liste;
 		
 	}

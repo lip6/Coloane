@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.model;
 import java.util.Arrays;
 import java.util.Vector;
 import java.io.Serializable;
+import fr.lip6.move.coloane.api.main.Api;
 
 /**
  * Enrichissement de la definition d'un noeud generique par sa traduction en CAMI
@@ -24,6 +25,7 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
      * @return String[]
      */
     public String[] translate() {
+    	Api.apiLogger.entering("Node", "translate");
         String[] stringToReturn;
         StringBuffer s;
         Vector<String> vectorStringToReturn = new Vector<String>(0);
@@ -52,6 +54,7 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
         
         stringToReturn = new String[vectorStringToReturn.size()];
         vectorStringToReturn.toArray(stringToReturn);
+        Api.apiLogger.exiting("Node", "translate", stringToReturn);
         return stringToReturn;
     }
 }

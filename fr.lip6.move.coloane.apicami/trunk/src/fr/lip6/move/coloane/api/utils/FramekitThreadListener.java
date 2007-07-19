@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.utils;
 
 import java.util.Vector;
 
+import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
@@ -51,6 +52,8 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des resultats */
 	private Vector<IResultsCom> resultList;
 	
+	private LogsUtils logsutils;
+	
 	/**
 	 * Constructeur
 	 * @param api point d'entre vers l'api
@@ -58,6 +61,7 @@ public class FramekitThreadListener extends Thread {
 	 * @param verrou le verrou du speaker
 	 */
 	public FramekitThreadListener(Api api, ComLowLevel lowCom, Lock verrou) {
+
 		this.api = api;
 		this.lowCom = lowCom;
 		this.verrou = verrou;
@@ -69,13 +73,14 @@ public class FramekitThreadListener extends Thread {
 		this.resetUpdates = false;
 		this.resetResults = false;
 		this.modelState = false;
+		this.logsutils = new LogsUtils();
 	}
 	
 	/**
 	 * Le corps du thread
 	 */
 	public void run() {
-		
+		Api.apiLogger.entering("FrameKitThreadListener", "run");
 		// Le menu en cours de construction
 		IRootMenuCom menu = null;
 		
@@ -103,7 +108,7 @@ public class FramekitThreadListener extends Thread {
 		// Boucle d'ecoute
 		while (true) {
 			
-			// En mode turboboost, plusieurs commande peuvent être fournies
+			// En mode turboboost, plusieurs commande peuvent ÔøΩtre fournies
 			Vector commandeRecue;
 		
 			try {
@@ -113,15 +118,18 @@ public class FramekitThreadListener extends Thread {
 				// Si on recoit un mesage fin de service
 				if (commandeRecue.elementAt(0).equals("EOS")) {
 					api.closeConnexion(1, "Disconnected from Framekit", 1);
-					System.out.println("Connexion closed");
+					Api.apiLogger.info("Connexion Closed");
+					//System.out.println("Connexion closed");
 					break;
 				}	
 				
 			// En cas d'erreur, on se deconnecte de FrameKit	
 			} catch (Exception e) {
-				e.printStackTrace();
+				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
+				Api.apiLogger.warning(logsutils.StackToString(e));
 				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
-				System.out.println("Connexion fermee");
+				Api.apiLogger.info("Connexion fermee");
+				//System.out.println("Connexion fermee");
 				break;
 			}
 			
@@ -129,7 +137,7 @@ public class FramekitThreadListener extends Thread {
 			// Analyse des commandes recues
 			try {
 				
-				// Parcours de toutes les commandes reçues
+				// Parcours de toutes les commandes reÔøΩues
 				for (int numCommande = 0; numCommande<commandeRecue.size(); numCommande++) {
 					
 					// Si la commande recue est vide : on passe a la suivante
@@ -202,7 +210,10 @@ public class FramekitThreadListener extends Thread {
 									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,true);
 									menuUpdates.add(update);
 								} catch (Exception e) {
-									System.err.println("Erreur reception TQ type = 7");
+									Api.apiLogger.throwing("FrameKitThread", "run",e);
+									Api.apiLogger.warning("Erreur reception TQ type= 7");
+									Api.apiLogger.warning(logsutils.StackToString(e));
+									//System.err.println("Erreur reception TQ type = 7");
 								}
 								break;
 							}
@@ -226,20 +237,27 @@ public class FramekitThreadListener extends Thread {
 									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,false);
 									menuUpdates.add(update);
 								} catch (Exception e) {
-									System.err.println("Erreur reception TQ type = 8");
+									Api.apiLogger.throwing("FrameKitThread", "run",e);
+									Api.apiLogger.warning("Erreur reception TQ type = 8");
+									Api.apiLogger.warning(logsutils.StackToString(e));
+									//System.err.println("Erreur reception TQ type = 8");
 								}
 								break;
 							}
 							
 							// Depracated 
 							case 9 : {
-								System.out.println("TQ = 9 => Deprecated");
+								Api.apiLogger.info("TQ = 9 => Deprecated");
+								//System.out.println("TQ = 9 => Deprecated");
 								break;
 							}
 							
 							default :
-								System.err.println("Commande inconnue" + type);
-								break;
+								Api.apiLogger.warning("Commande inconnue" + type);
+								//System.err.println("Commande inconnue" + type);
+								Api.apiLogger.warning("Commande inconnue" + type);
+								
+							break;
 						}
 						continue;
 					} 
@@ -351,8 +369,12 @@ public class FramekitThreadListener extends Thread {
 							menu = translater.getMenu(currentMenu);
 							menuList.add(menu);
 						} catch (Exception e) {
-							System.err.println("Erreur dans FQ = Impossible de construire le menu");
-							System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit à la plateforme");
+							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
+							Api.apiLogger.warning("Erreur dans FQ = Impossible de construire le menu");
+							Api.apiLogger.warning("Erreur dans FQ = Impossible d'ajouter le menu construit ÔøΩ la plateforme");
+							Api.apiLogger.warning(logsutils.StackToString(e));
+							//System.err.println("Erreur dans FQ = Impossible de construire le menu");
+							//System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit ÔøΩ la plateforme");
 						}
 					} 
 					
@@ -424,7 +446,7 @@ public class FramekitThreadListener extends Thread {
 					// Message FC
 					// Fin de connexion
 					if ((listeArgs.firstElement().equals("FC"))) {
-						api.closeConnexion(1, "Fermeture standart de FrameKit", 1);
+						api.closeConnexion(1, "Fermeture standard de FrameKit", 1);
 						continue;
 					} 
 					
@@ -511,7 +533,8 @@ public class FramekitThreadListener extends Thread {
 					// Message SS
 					// Suspension d'un session Coloane
 					if ((listeArgs.firstElement().equals("SS"))) {
-						System.out.println("Unlock SS");
+						Api.apiLogger.info("Unlock SS");
+						//System.out.println("Unlock SS");
 						this.verrou.unlock();
 						continue;
 					}
@@ -526,7 +549,8 @@ public class FramekitThreadListener extends Thread {
 					// Message FS
 					// Fin d'une session Coloane
 					if ((listeArgs.firstElement().equals("FS"))) {
-						System.out.println("Unlock FS");
+						Api.apiLogger.info("Unlock FS");
+						//System.out.println("Unlock FS");
 						this.verrou.unlock();
 						continue;
 					}
@@ -590,7 +614,10 @@ public class FramekitThreadListener extends Thread {
 							dialog = translater.getDialog(vectorDialog);
 							dialogList.add(dialog);
 						} catch (Exception e) {
-							System.err.println("Erreur dans FF = Impossible de construire la boite de dialogue");
+							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
+							Api.apiLogger.warning("Erreur dans FF = Impossible de construire la boite de dialogue");
+							Api.apiLogger.warning(logsutils.StackToString(e));
+							//System.err.println("Erreur dans FF = Impossible de construire la boite de dialogue");
 						}
 
 						continue;
@@ -615,14 +642,16 @@ public class FramekitThreadListener extends Thread {
 						
 						// On s'assure que la boite de dialogue a bien ete trouvee
 						if (!indic) {
-							System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
+							Api.apiLogger.warning("Impossible de trouver la boite de dialogue (" +identity+") a afficher");
+							//System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
+						
 						}
 						
 						continue;
 					}
 					
 					// Message HD
-					// Cacher une fenêtre de dialogue
+					// Cacher une fenÔøΩtre de dialogue
 					if ((listeArgs.firstElement().equals("HD"))) {
 						continue;
 					}
@@ -634,7 +663,9 @@ public class FramekitThreadListener extends Thread {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
+				Api.apiLogger.warning(logsutils.StackToString(e));
+				//e.printStackTrace();
 			}
 		}
 	}	
