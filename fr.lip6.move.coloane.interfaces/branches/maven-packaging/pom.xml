@@ -58,6 +58,16 @@
           	</goals>
         	</execution>
         	<execution>
+        		<id>Add</id>
+          	<phase>package</phase>        
+          	<goals>
+            	<goal>add</goal>
+          	</goals>
+          	<configuration>
+          		<includes>target/jar/**</includes>
+          	</configuration>
+        	</execution>
+        	<execution>
           	<phase>package</phase>        
           	<goals>
             	<goal>checkin</goal>
