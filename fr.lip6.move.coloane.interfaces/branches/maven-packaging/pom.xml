@@ -63,7 +63,8 @@
             	<goal>checkin</goal>
           	</goals>
           	<configuration>
-          	<message>Mise a jour apres le package</message>
+          		<message>Mise a jour du svn apres package</message>
+          		<includes>**/*</includes>
           	</configuration>
         	</execution>
       	</executions>
