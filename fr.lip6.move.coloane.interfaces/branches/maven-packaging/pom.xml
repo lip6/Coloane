@@ -10,7 +10,7 @@
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <scm>
-   	<developerConnection>scm:svn:https://emasliah:Zp74Ax3D@srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</developerConnection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</developerConnection>
  		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging</url>
   </scm>
   
@@ -50,6 +50,8 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
+          <username>emasliah</username>
+          <password>Zp74Ax3D</password>
       	</configuration>
       </plugin>
       
@@ -102,7 +104,10 @@
             	<goal>diff</goal>
           	</goals>
         	</execution>
-        </executions>	
+        </executions>
+        <configuration>
+ 					
+        </configuration>
       </plugin>
       
       <plugin>
