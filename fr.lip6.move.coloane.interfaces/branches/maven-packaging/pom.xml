@@ -157,7 +157,7 @@
         <executions>
           <execution>
             <id>main</id>
-            <phase>verify</phase>
+            <phase>validate</phase>
             <goals>
               <goal>verify</goal>
             </goals>
