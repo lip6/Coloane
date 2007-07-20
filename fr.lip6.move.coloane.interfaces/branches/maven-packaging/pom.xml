@@ -15,7 +15,7 @@
   </scm>
   
   <build>
-    <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
+    <finalName>${project.artifactId}-${project.version}-r${scmVersion}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <directory>target/jar</directory>
     
@@ -65,6 +65,9 @@
           	<goals>
             	<goal>update</goal>
           	</goals>
+          	<configuration>
+          		<runChangelog>true</runChangelog>
+          	</configuration>
         	</execution>
         	<execution>
         	  <!-- On rajoute le jar cree -->
@@ -93,9 +96,9 @@
       		<connectionType>developerConnection</connectionType>
       	</configuration>
       </plugin>
-      <plugin>
-      	<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
-      	<!-- /!\ Ne marche que avec svn en anglais -->
+      <!--<plugin>
+      	 Pour mettre le buildnumber au bout du jar ${buildNumber} 
+      	 /!\ Ne marche que avec svn en anglais 
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>
@@ -111,16 +114,15 @@
       	<configuration>
       	  <username>emasliah</username>
       		<password>Zp74Ax3D</password>
-        	<!--<doCheck>true</doCheck>
-        	<doUpdate>true</doUpdate>-->
+        	<doCheck>true</doCheck>
+        	<doUpdate>true</doUpdate>
       	</configuration>
-    	</plugin>
+    	</plugin>-->
     	<plugin>
     		<!-- Pour configurer le jar de sortie -->
       	<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-jar-plugin</artifactId>
       	<configuration>
-      		<forceCreation>false</forceCreation>
         	<archive>
         		<!-- Donne notre MANIFEST -->
         		<manifestFile>META-INF/MANIFEST.MF</manifestFile>
@@ -129,11 +131,28 @@
           	</manifest>
           	<!-- Rajoute Implementation-Build dans le MANIFEST -->
           	<manifestEntries>
-            	<Implementation-Build>${buildNumber}</Implementation-Build>
+            	<Implementation-Build>${scmVersion}</Implementation-Build>
           	</manifestEntries>
         	</archive>
       	</configuration>
     	</plugin>
+    	<!--<plugin>
+    		 Pour ne pas refaire le jar si rien n'a change  
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-verifier-plugin</artifactId>
+        <configuration>
+          <verificationFile>./verifier.xml</verificationFile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>main</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>-->
       <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
