@@ -44,7 +44,7 @@ public class ComLowLevel {
         		
         		// <DEBUG>
         		String msg = new String(commande, 4, commande.length - 4);
-    			Api.apiLogger.info("CO-->FK" + msg);
+    			Api.apiLogger.info("[CO-->FK] : " + msg);
         		//System.out.println("[CO-->FK] : " + msg);
     			// </DEBUG>
     			
@@ -81,13 +81,13 @@ public class ComLowLevel {
         	// Lecture des 4 premiers octets donnant la taille du message
         	longueurMessage = this.socketInput.readInt();
 
-            // Lecture de la socket selon la longueur donn�e.
+            // Lecture de la socket selon la longueur donnee.
             for (int j = 0; j < longueurMessage; j++) {
             	char monChar = (char) this.socketInput.readByte();
             	
             	if ((monChar == '\n')) {
-            		// Nouvelle commande detect�e
-            		Api.apiLogger.info("[CO<--FK : "+commande);
+            		// Nouvelle commande detectee
+            		Api.apiLogger.info("[CO<--FK] : "+commande);
                 	//System.out.println("[CO<--FK] : "+commande);
             		liste.add(commande);
                 	commande = "";
@@ -95,7 +95,7 @@ public class ComLowLevel {
             		commande += monChar;
             	}
             }
-            Api.apiLogger.info("[CO<--FK : " + commande);
+            Api.apiLogger.info("[CO<--FK] : " + commande);
             //System.out.println("[CO<--FK] : "+commande);
         	liste.add(commande);
         	Api.apiLogger.exiting("ComLowlevel", "readCommande", liste);

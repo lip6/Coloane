@@ -78,26 +78,13 @@ public class Api implements IApi {
 
 	
 
-	
-	/**
-	 * Constructeur
-	 * 
-	 * @param moduleCom Le module de communication
-	 * @deprecated
-	 */
-	public Api(IComApi moduleCom) {
-		try {
-			new Api(moduleCom, NORMAL);
-		}catch(TraceLevelException e){System.out.println("Erreur lors du lancement de l'Api");}
-	}
-
 	/**
 	 * Constructeur
 	 * @param moduleCom le module de communication
 	 * @param level le niveau de trace
 	 * */
 	
-	public Api(IComApi moduleCom, int level) throws TraceLevelException {
+	public Api(IComApi moduleCom, int level){
 		//Le module de communication
 		this.com = moduleCom;
 
@@ -134,7 +121,7 @@ public class Api implements IApi {
 			TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
 			apiLogger.throwing("Api", "Api", tle);
 			apiLogger.warning(tle.getMessage());
-			throw tle;
+			System.err.println(tle.getMessage());
 		}
 		try {
 			f = new FileHandler("coloane_apicami.log", true);
@@ -178,10 +165,9 @@ public class Api implements IApi {
 			// System.out.println("Dans la suite :");
 			// System.out.println("--> Vers FrameKit");
 			// System.out.println("<-- Vers Coloane");
-
-			apiLogger.exiting("Api", "openConnexion", this.camiCmdConnection(
-					login, password, apiName, apiVersion));
-			return this.camiCmdConnection(login, password, apiName, apiVersion);
+			boolean rep = this.camiCmdConnection(login, password, apiName, apiVersion);
+			apiLogger.exiting("Api", "openConnexion", rep);
+			return rep;
 
 		} catch (CommunicationCloseException e) {
 			apiLogger.throwing("Api", "openConnexion", e);

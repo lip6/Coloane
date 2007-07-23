@@ -24,8 +24,9 @@ public class ApiFormatter extends Formatter {
 		s.append("(" + record.getSourceClassName() + " "
 				+ record.getSourceMethodName() + ")");
 		s.append( "- " + logsutils.sous_chaine(record.getMessage()) + "- ");
+		if(record.getParameters()!= null){
 		s.append(" " + logsutils.FromArrayToString((record.getParameters())));
-		
+		}
 
 		return s.toString();
 
