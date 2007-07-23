@@ -94,8 +94,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("  IP-> "+ip); //$NON-NLS-1$
 			System.out.println("  Port-> " +port); //$NON-NLS-1$
 			
-			// Connexion � la plateforme
-			boolean retour = api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
+			// Connexion a la plateforme
+			boolean retour = this.api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (retour) {
 				System.out.println(Coloane.traduction.getString("communications.Com.7")); //$NON-NLS-1$
 			} else {
