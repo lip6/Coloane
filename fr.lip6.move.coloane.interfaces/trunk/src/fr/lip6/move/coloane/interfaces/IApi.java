@@ -11,6 +11,17 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
  */
 public interface IApi {
 	
+	/** Definition des niveaux de trace pour le lancement de l'API */
+	
+	/** Niveau uitilisateur*/
+	public static final int NORMAL = 2;
+	
+	/** *Niveau pour les developpeurs*/
+	public static final int BETA   = 1;
+	
+	/** Niveau pour le deboguage*/
+	public static final int DEBUG  = 0;
+
 	/**
 	 * Permet de se connecter a une plate-forme (FrameKit par exemple)
 	 * Toutes les informations sont fournies par Coloane.
@@ -125,5 +136,6 @@ public interface IApi {
 	 * @return TRUE si la reponse a bien ue lieue, FALSE en cas d'echec
 	 */
 	public boolean getDialogAnswers(IDialogResult results);
-
+	
+	
 }
