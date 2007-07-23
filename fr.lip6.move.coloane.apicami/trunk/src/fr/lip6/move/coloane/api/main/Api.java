@@ -76,27 +76,29 @@ public class Api implements IApi {
 	/** Ce champ fournissant les outils pour formater les messages d'affichage du logs*/
 	private LogsUtils logsutils;
 
-	/** Definition des niveaux de trace pour le lancement de l'API */
 	
-	/** Niveau uitilisateur*/
-	private final int NORMAL = 2;
-	
-	/** *Niveau pour les developpeurs*/
-	private final int BETA   = 1;
-	
-	/** Niveau pour le deboguage*/
-	private final int DEBUG  = 0;
 
 	
 	/**
 	 * Constructeur
 	 * 
 	 * @param moduleCom Le module de communication
+	 * @deprecated
 	 */
 	public Api(IComApi moduleCom) {
-		System.out.println("mayou!");
+		try {
+			new Api(moduleCom, NORMAL);
+		}catch(TraceLevelException e){System.out.println("Erreur lors du lancement de l'Api");}
+	}
 
-		// Le module de communication
+	/**
+	 * Constructeur
+	 * @param moduleCom le module de communication
+	 * @param level le niveau de trace
+	 * */
+	
+	public Api(IComApi moduleCom, int level) throws TraceLevelException {
+		//Le module de communication
 		this.com = moduleCom;
 
 		// Les services rendus par la couche basse
@@ -111,15 +113,7 @@ public class Api implements IApi {
 		this.sessionOpened = false;	  // Existe-t-il une session ouverte
 		this.currentSessionName = ""; // Le nom de la session courante;
 		
-	}
-
-	/**
-	 * Constructeur
-	 * @param moduleCom le module de communication
-	 * @param level le niveau de trace
-	 * */
-	
-	public Api(IComApi moduleCom, int level) throws TraceLevelException {
+		//Lancement du logger
 		apiLogger = Logger.getLogger("fr.lip6.move.coloane.api.main.Api");
 		logsutils = new LogsUtils();
 		switch (level) {
@@ -728,8 +722,8 @@ public class Api implements IApi {
 	/**
 	 * Supprimer une boite de dialogue
 	 * 
-	 * @param numDialog
-	 *            L'identite de la boite a detruire
+	 * @param numDialog L'identite de la boite a detruire
+	 * 
 	 */
 	public void destroyDialogUI(int numDialog) {
 		apiLogger.entering("Api", "destroyDialogUI", numDialog);
