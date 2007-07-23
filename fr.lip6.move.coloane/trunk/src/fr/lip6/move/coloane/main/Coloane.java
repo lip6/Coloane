@@ -27,7 +27,7 @@ public class Coloane extends AbstractUIPlugin {
 	public Coloane () throws Exception {
 		plugin = this;
 		try {
-		traduction = ResourceBundle.getBundle("ressources/LNG");
+		traduction = ResourceBundle.getBundle("resources/LNG");
 		} catch (Exception e) {
 			System.err.println("Fichier de langue pas trouve !");
 			System.err.println("Erreur : "+e.getMessage());

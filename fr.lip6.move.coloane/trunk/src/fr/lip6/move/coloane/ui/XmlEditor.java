@@ -42,7 +42,7 @@ public class XmlEditor extends DefaultHandler {
 		String line = "<?xml version='1.0' encoding='ISO-8859-1'?>\n";
 
 		try {
-			URL dtd = Coloane.getDefault().getBundle().getEntry("ressources/coloane.dtd");
+			URL dtd = Coloane.getDefault().getBundle().getEntry("resources/coloane.dtd");
 			URL	path = FileLocator.toFileURL(dtd);
 			line += "<!DOCTYPE model SYSTEM '"+path.getPath()+"'>\n";
 		} catch (Exception e) {
