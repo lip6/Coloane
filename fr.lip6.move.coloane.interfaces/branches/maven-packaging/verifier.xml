@@ -1,8 +1,0 @@
-<verifications>
-  <files>
-    <file>
-      <location>./fr.lip6.move.coloane.interfaces.diff</location>
-      <contains>Index</contains>
-    </file>
-  </files>
-</verifications>

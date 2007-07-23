@@ -50,7 +50,7 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
-          <username>emasliah</username>
+          <username>emasliahd</username>
           <password>Zp74Ax3D</password>
       	</configuration>
       </plugin>
@@ -92,43 +92,6 @@
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
     	
 	  	<plugin>
-    		<!-- Pour le svn -->
-       	<groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <executions>
-          <execution>
-        		<!-- On regarde si notre version n'est pas a jour -->
-        		<id>Diff</id>
-          	<phase>validate</phase>        
-          	<goals>
-            	<goal>diff</goal>
-          	</goals>
-        	</execution>
-        </executions>
-        <configuration>
- 					
-        </configuration>
-      </plugin>
-      
-      <plugin>
-    		<!-- Pour ne rien faire si rien n'a change dans le svn -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-verifier-plugin</artifactId>
-        <configuration>
-          <verificationFile>./verifier.xml</verificationFile>
-        </configuration>
-        <executions>
-          <execution>
-            <id>main</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
     		<!-- Pour le svn -->
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
@@ -175,13 +138,13 @@
         </executions>
     	</plugin>
       
-      <plugin>
-    		<!-- Pour le svn -->
+      <!--<plugin>
+    		<!~~ Pour le svn ~~>
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
         <executions>  
         	<execution>
-        	  <!-- On rajoute le jar cree -->
+        	  <!~~ On rajoute le jar cree ~~>
         		<id>Add</id>
           	<phase>package</phase>        
           	<goals>
@@ -192,7 +155,7 @@
           	</configuration>
         	</execution>
         	<execution>
-        		<!-- On commit pour mettre le svn a jour -->
+        		<!~~ On commit pour mettre le svn a jour ~~>
         		<id>Co</id>
           	<phase>package</phase>        
           	<goals>
@@ -203,7 +166,7 @@
           	</configuration>
         	</execution>
       	</executions>
-      </plugin>
+      </plugin>-->
       
       <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
