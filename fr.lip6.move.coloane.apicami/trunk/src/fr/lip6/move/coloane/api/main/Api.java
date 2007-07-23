@@ -124,7 +124,7 @@ public class Api implements IApi {
 			System.err.println(tle.getMessage());
 		}
 		try {
-			f = new FileHandler("coloane_apicami.log", true);
+			f = new FileHandler("coloane_apicami.log");
 			f.setFormatter(new ApiFormatter());
 			apiLogger.addHandler(f);
 		} catch (IOException e) {
