@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.ui;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EventObject;
 
@@ -36,6 +34,7 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -67,7 +66,6 @@ import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 import org.apache.xerces.impl.io.MalformedByteSequenceException;
 
-import java.io.*;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
 
@@ -187,9 +185,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private Formalism formalism;
 
 	/** Constructeur de l'editeur */
-	public Editor() {
-	}
-
+	public Editor() { }
+	
+	
 	/**
 	 * Configuration de l'editeur
 	 */
@@ -205,7 +203,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setContextMenu(cmProvider);
 		getSite().registerContextMenu(cmProvider, viewer);
 	}
-
+	
 	/**
 	 * Set up the editor's inital content (after creation).
 	 * 
@@ -480,19 +478,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		super.commandStackChanged(event);
 	}
 
-	public void createOutputStream(OutputStream os) throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(os);
-		oos.writeObject(getModel());
-		oos.close();
-	}
-
-	public void createOutputStream(OutputStream os, String s)
-			throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(os);
-		oos.writeObject(s);
-		oos.close();
-	}
-
 	protected PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
 			protected void configurePaletteViewer(PaletteViewer viewer) {
@@ -520,10 +505,14 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 							// Aucun tri !
 						}
 					});
+					
 				}
 			};
+			page.setRootEntry(new UndoablePropertySheetEntry(getCommandStack()));
 			return page;
 		}
 		return super.getAdapter(type);
 	}
+	
+	
 }

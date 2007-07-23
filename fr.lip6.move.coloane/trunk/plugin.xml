@@ -113,6 +113,7 @@
           point="org.eclipse.ui.editors">
        <editor
              class="fr.lip6.move.coloane.ui.Editor"
+             contributorClass="fr.lip6.move.coloane.ui.actions.ColoaneActionBarContributor"
              default="true"
              extensions="rdp, gma, pfx"
              icon="icons/instance.gif"
