@@ -2,13 +2,7 @@ package fr.lip6.move.coloane.motor.formalism;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -93,7 +87,7 @@ public class FormalismManager {
         Rule rule;
         
         // Creation du formalisme Petri Net.
-        Formalism petri = new Formalism("AMI-Net", "/icons/ami.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+        Formalism petri = new Formalism("AMI-Net", "/resources/icons/ami.gif"); //$NON-NLS-1$ //$NON-NLS-2$
         petri.setExtension("rdp"); //$NON-NLS-1$
         
         // Ajout de tous les attributs d'un reseau de petri (Attention : different des attributs des elements.)
@@ -130,8 +124,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(5,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/place16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/place24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/place24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
 
         // La transition:
@@ -149,8 +143,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(6,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/transition16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/transition24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/transition16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/transition24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
 
         // La transition immediate:
@@ -166,8 +160,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(5,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/transitionimmediate16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/transitionimmediate24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/transitionimmediate16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/transitionimmediate24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
  
         // La queue:
@@ -181,8 +175,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(4,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/queue16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/queue24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/queue16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/queue24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
 
         // L'arc
@@ -192,8 +186,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(2,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/arc16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/arc24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/arc24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
 
         // L'arc hinibiteur
@@ -203,8 +197,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(2,"note", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(petri);
-        elem.setAddrIcone16("/icons/arcinhibiteur16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/arcinhibiteur24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/arcinhibiteur16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/arcinhibiteur24.png"); //$NON-NLS-1$
         petri.addElementBase(elem);
 
         // Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
@@ -261,7 +255,7 @@ public class FormalismManager {
         
         // Creation du formalisme Prefix nets.
         
-        Formalism prefix = new Formalism("Branching-Process", "/icons/prefix.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+        Formalism prefix = new Formalism("Branching-Process", "/resources/icons/prefix.gif"); //$NON-NLS-1$ //$NON-NLS-2$
         prefix.setExtension("pnt"); //$NON-NLS-1$
         
         // Ajout de tous les attributs d'un prefix net (Attention ! Different des attributs des elements.)
@@ -283,8 +277,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
-        elem.setAddrIcone16("../icons/place16.gif"); //$NON-NLS-1$
-        elem.setAddrIcone24("icons/place24.gif"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/place16.gif"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/place24.gif"); //$NON-NLS-1$
         prefix.addElementBase(elem);
 
         // Event:
@@ -294,8 +288,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.NOR, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
-        elem.setAddrIcone16("icons/transition16.gif"); //$NON-NLS-1$
-        elem.setAddrIcone24("icons/transition24.gif"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/transition16.gif"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/transition24.gif"); //$NON-NLS-1$
         prefix.addElementBase(elem);
 
         // Cutoff:
@@ -309,15 +303,15 @@ public class FormalismManager {
         attr = new AttributeFormalism(4,"num_image", false, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(prefix);
-        elem.setAddrIcone16("icons/transitionimmediate16.gif"); //$NON-NLS-1$
-        elem.setAddrIcone24("icons/transitionimmediate24.gif"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/transitionimmediate16.gif"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/transitionimmediate24.gif"); //$NON-NLS-1$
         prefix.addElementBase(elem);
  
         // Arc
         elem = new ArcFormalism("arc", "Arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
         elem.setFormalism(prefix);
-        elem.setAddrIcone16("icons/arc16.gif"); //$NON-NLS-1$
-        elem.setAddrIcone24("icons/arc24.gif"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/arc16.gif"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/arc24.gif"); //$NON-NLS-1$
         prefix.addElementBase(elem);
 
         
@@ -364,7 +358,7 @@ public class FormalismManager {
         ElementBase elem;
   
         // Creation du formalisme Graphes d'accessibilite.
-        Formalism graph = new Formalism("ReachabilityGraph", "/icons/gma.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+        Formalism graph = new Formalism("ReachabilityGraph", "/resources/icons/gma.gif"); //$NON-NLS-1$ //$NON-NLS-2$
         graph.setExtension("gma"); //$NON-NLS-1$
         
         // Ajout de tous les attributs d'un graphe d'accessibilite (Attention :
@@ -396,8 +390,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("/icons/initial16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/initial24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/initial16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/initial24.png"); //$NON-NLS-1$
         graph.addElementBase(elem);
 
         // L'etat terminal:
@@ -411,8 +405,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("/icons/terminal16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/terminal24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/terminal16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/terminal24.png"); //$NON-NLS-1$
         graph.addElementBase(elem);
 
         // L'etat:
@@ -426,8 +420,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("/icons/place16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/place24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/place24.png"); //$NON-NLS-1$
         graph.addElementBase(elem);
      
         // L'event (arc)
@@ -437,8 +431,8 @@ public class FormalismManager {
         attr = new AttributeFormalism(2,"value", false, true); //$NON-NLS-1$
         elem.addAttributeFormalism(attr);
         elem.setFormalism(graph);
-        elem.setAddrIcone16("/icons/arc16.png"); //$NON-NLS-1$
-        elem.setAddrIcone24("/icons/arc24.png"); //$NON-NLS-1$
+        elem.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
+        elem.setAddrIcone24("/resources/icons/arc24.png"); //$NON-NLS-1$
         graph.addElementBase(elem);
 
         // Pas de rules : toute association autorisee
@@ -447,42 +441,6 @@ public class FormalismManager {
     }
 
 
-    /**
-     * Sauvegarde un modele  dans un fichier de nom fileName
-     * 
-     * @param model modele
-     * @param fileName nom du fichier de sauvegarde
-     * @throws Exception leve une exception si erreur
-     */
-    public void saveModel(IModelImpl model, String fileName) throws Exception {
-        try {
-        	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
-             
-            // Ecriture de l'objet
-            out.writeObject(model);
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            throw e;
-        }
-    }
-
-    
-    /**
-     * Recupere un modele a partir d'un fichier de nom fileName
-     * 
-     * @param fileName nom du fichier de sauvegarde avec extension 
-     * @return IModelImpl
-     * @throws Exception fichier non trouve
-     */
-    public IModelImpl openModel(String fileName) throws Exception {
-    	IModelImpl model = null;
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-        model = (IModelImpl) in.readObject();
-        in.close();
-        return model;
-    }
-    
     /**
      * Importe un modele en determinant son formalisme en fonction de l'extension du fichier
      * @param fileName nom de fchier a importer
@@ -562,28 +520,6 @@ public class FormalismManager {
         
     }
     
-    /**
-     * Exporter modele directement dans un OutputStream
-     * Cette m�thode peut �tre utilisee par Eclipse (progress bar et dialogues) 
-     * 
-     * @param model Le modele a exporter
-     * @param os Flux objet
-     * @throws IOException
-     */
-    public void exportModel(IModelImpl model, OutputStream os) throws IOException {
-		
-		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(os));
-        
-        String[] cami = model.getGenericModel().translate();
-        for (int i = 0; i < cami.length; i++) {
-            buff.write(cami[i]);
-            buff.newLine();
-        }
-		buff.flush();
-		buff.close();
-    }
-    
-
     /**
      * Retourne la liste des formalismes disponibles 
      * @return listOfFormalism

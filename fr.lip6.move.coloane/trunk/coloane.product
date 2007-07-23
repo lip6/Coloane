@@ -27,7 +27,7 @@ http://www.lip6.fr/coloane
       startupMessageRect="0,0,0,0"
       startupForegroundColor="000000" />
    <launcher name="Coloane">
-      <macosx icon="fr.lip6.move.coloane/icone_ile.icns"/>
+      <macosx icon="/fr.lip6.move.coloane/resources/icons/icone_ile.icns"/>
       <solaris/>
       <win useIco="false">
          <bmp/>

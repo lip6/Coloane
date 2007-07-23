@@ -210,14 +210,6 @@ public class Formalism implements Serializable {
 	}
 
 	/**
-	 * Modifie le nom du formalisme
-	 * @param name Le nom du formalisme
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * Retourne la liste des atttributs du formalisme.
 	 * @return ArrayList
 	 */

@@ -21,7 +21,7 @@ import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 /**
- * Premiere page de l'assistant qui propose une liste de formalisme * 
+ * Premiere page de l'assistant qui propose une liste de formalismes * 
  */
 public class SelectFormalismPage extends WizardPage {
 
@@ -79,7 +79,7 @@ public class SelectFormalismPage extends WizardPage {
             // Determine l'icone associe a l'item dans la table
             //item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
             // TODO Distinguer les icones des formalismes. (Dessiner les icones en question)
-            item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/icons/instance.gif").createImage()); //$NON-NLS-1$
+            item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/instance.gif").createImage()); //$NON-NLS-1$
         }
        				
 		GridLayout gridLayout = new GridLayout();
@@ -100,7 +100,7 @@ public class SelectFormalismPage extends WizardPage {
 	}
 	
 	/**
-     * D�bloque un verrou sur le bouton finish quand la condition est verifiee
+     * Debloque un verrou sur le bouton finish quand la condition est verifiee
      * @return booleen
 	 */
 	@Override
@@ -109,7 +109,7 @@ public class SelectFormalismPage extends WizardPage {
 	}
 
     /**
-     * Mettre � jour le formalisme choisi (indication au pere de l'assistant)
+     * Mettre a jour le formalisme choisi (indication au pere de l'assistant)
      */
 	private void updateStatus() {
 		String f = tableFormalism.getSelection()[0].getText();

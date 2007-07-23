@@ -7,7 +7,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="fr.lip6.move.coloane.ui.MainPerspectiveFactory"
-            icon="icons/editor.gif"
+            icon="resources/icons/editor.gif"
             id="fr.lip6.move.coloane.perspective"
             name="%PERSPECTIVE_NAME"/>
    </extension>
@@ -34,7 +34,7 @@
          </menu>
          <action
                class="fr.lip6.move.coloane.ui.actions.DisconnectModelAction"
-               icon="icons/disconnect.gif"
+               icon="resources/icons/disconnect.gif"
                id="disconnect"
                label="%DISCONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -45,7 +45,7 @@
          <action
                allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.ConnectModelAction"
-               icon="icons/connect.gif"
+               icon="resources/icons/connect.gif"
                id="connect"
                label="%CONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -56,7 +56,7 @@
          <action
                allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.AuthenticationAction"
-               icon="icons/auth.gif"
+               icon="resources/icons/auth.gif"
                id="authentication"
                label="%AUTHENTICATION_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
@@ -71,14 +71,14 @@
             visible="true">
          <action
                class="fr.lip6.move.coloane.ui.actions.ImportExportCAMI"
-               icon="icons/import_wiz.gif"
+               icon="resources/icons/import_wiz.gif"
                id="cami_import"
                label="%IMPORT_ITEM"
                menubarPath="file/import.ext"
                style="push"/>
          <action
                class="fr.lip6.move.coloane.ui.actions.ImportExportCAMI"
-               icon="icons/export_wiz.gif"
+               icon="resources/icons/export_wiz.gif"
                id="cami_export"
                label="%EXPORT_ITEM"
                menubarPath="file/import.ext"
@@ -96,14 +96,14 @@
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.HistoryView"
-             icon="icons/histo_pane.gif"
+             icon="resources/icons/histo_pane.gif"
              id="fr.lip6.move.coloane.views.HistoricView"
              name="%HISTORIC_VIEW"/>
        <view
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
-             icon="icons/state_pane.gif"
+             icon="resources/icons/state_pane.gif"
              id="fr.lip6.move.coloane.views.ResultsView"
              name="%RESULTS_VIEW"/>
     </extension>
@@ -115,7 +115,7 @@
              class="fr.lip6.move.coloane.ui.Editor"
              default="true"
              extensions="rdp, gma, pfx"
-             icon="icons/instance.gif"
+             icon="resources/icons/instance.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
     </extension>
@@ -129,7 +129,7 @@
              class="fr.lip6.move.coloane.ui.wizards.NewProjectWizard"
              finalPerspective="fr.lip6.move.coloane.perspective"
              hasPages="true"
-             icon="icons/project.gif"
+             icon="resources/icons/project.gif"
              id="fr.lip6.move.coloane.wizard.projectWizard"
              name="%PROJECT_WIZARD"
              preferredPerspectives="fr.lip6.move.coloane.perspective"
@@ -139,7 +139,7 @@
              category="org.eclipse.ui.Basic/"
              class="fr.lip6.move.coloane.ui.wizards.NewModelWizard"
              hasPages="true"
-             icon="icons/model.gif"
+             icon="resources/icons/model.gif"
              id="fr.lip6.move.coloane.wizard.modelWizard"
              name="%MODEL_WIZARD"
              project="false"/>
