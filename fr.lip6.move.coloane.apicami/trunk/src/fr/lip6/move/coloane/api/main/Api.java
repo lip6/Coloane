@@ -81,21 +81,20 @@ public class Api implements IApi {
 	/** Niveau uitilisateur*/
 	private final int NORMAL = 2;
 	
-	/** *Niveau pour les développeurs*/
+	/** *Niveau pour les developpeurs*/
 	private final int BETA   = 1;
 	
-	/** Niveau pour le déboguage*/
+	/** Niveau pour le deboguage*/
 	private final int DEBUG  = 0;
 
 	
 	/**
 	 * Constructeur
 	 * 
-	 * @param moduleCom
-	 *            Le module de communication
-	 * @deprecated
+	 * @param moduleCom Le module de communication
 	 */
 	public Api(IComApi moduleCom) {
+		System.out.println("mayou!");
 
 		// Le module de communication
 		this.com = moduleCom;
@@ -108,16 +107,15 @@ public class Api implements IApi {
 		this.verrou = new Lock();
 
 		// Liste d'indicateurs
-		this.connexionOpened = false; // Est-ce que je suis authentifie aupr�s
-										// de la plate-forme
-		this.sessionOpened = false; // Existe-t-il une session ouverte
+		this.connexionOpened = false; // Est-ce que je suis authentifie aupres de la plate-forme
+		this.sessionOpened = false;	  // Existe-t-il une session ouverte
 		this.currentSessionName = ""; // Le nom de la session courante;
-
+		
 	}
+
 	/**
 	 * Constructeur
 	 * @param moduleCom le module de communication
-	 * 
 	 * @param level le niveau de trace
 	 * */
 	
@@ -139,8 +137,7 @@ public class Api implements IApi {
 			break;
 
 		default:
-			TraceLevelException tle = new TraceLevelException(
-					"Niveau de trace non defini");
+			TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
 			apiLogger.throwing("Api", "Api", tle);
 			apiLogger.warning(tle.getMessage());
 			throw tle;
@@ -151,34 +148,25 @@ public class Api implements IApi {
 			apiLogger.addHandler(f);
 		} catch (IOException e) {
 			apiLogger.throwing("Api", "Api", e);
-			apiLogger.warning("Erreur d'ouverture du fichier"
-					+ logsutils.StackToString(e));
+			apiLogger.warning("Erreur d'ouverture du fichier" + logsutils.StackToString(e));
 		}
-		new Api(moduleCom);
 	}
 
 	/**
 	 * Ouvre une connexion sur la plateforme FrameKit.
 	 * 
-	 * @param login
-	 *            le login de l'utilisateur
-	 * @param password
-	 *            le mot de passe de l'utilisateur
-	 * @param ip
-	 *            ip de la machine hebergeant la plateforme FrameKit
-	 * @param port
-	 *            port pour contacter la plateforme FrameKit
-	 * @param apiName
-	 *            Le nom de l'API
-	 * @param apiVersion
-	 *            La version de l'API
-	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas
-	 *         contraire
+	 * @param login le login de l'utilisateur
+	 * @param password le mot de passe de l'utilisateur
+	 * @param ip ip de la machine hebergeant la plateforme FrameKit
+	 * @param port port pour contacter la plateforme FrameKit
+	 * @param apiName Le nom de l'API
+	 * @param apiVersion La version de l'API
+	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
-	public boolean openConnexion(String login, String password, String ip,
-			int port, String apiName, String apiVersion) {
+	public boolean openConnexion(String login, String password, String ip, int port, String apiName, String apiVersion) {
 		Object[] param = { login, password, ip, port, apiName, apiVersion };
 		apiLogger.entering("Api", "openConnexion", param);
+		
 		// Si une connexion est deja ouverte, on refuse une nouvelle connexion
 		if (connexionOpened) {
 			apiLogger.exiting("Api", "openConnexion", false);
@@ -222,22 +210,15 @@ public class Api implements IApi {
 	}
 
 	/**
-	 * Creation et envoi de la commande de connexion a Framekit (SC) compatible
-	 * Framekit CPN-AMI 3.0
+	 * Creation et envoi de la commande de connexion a Framekit (SC) compatible Framekit CPN-AMI 3.0
 	 * 
-	 * @param login
-	 *            Le login de l'utilisateur
-	 * @param password
-	 *            Le mot de passe de l'utilisateur
-	 * @param apiName
-	 *            Le nom de l'API
-	 * @param apiVersion
-	 *            La version de l'API
-	 * @throws erreurs
-	 *             de connexion qui sont catchees par openConnexion
+	 * @param login Le login de l'utilisateur
+	 * @param password Le mot de passe de l'utilisateur
+	 * @param apiName Le nom de l'API
+	 * @param apiVersion La version de l'API
+	 * @throws erreurs de connexion qui sont catchees par openConnexion
 	 */
-	private boolean camiCmdConnection(String login, String password,
-			String apiName, String apiVersion) throws Exception {
+	private boolean camiCmdConnection(String login, String password, String apiName, String apiVersion) throws Exception {
 		Vector reponse;
 		Vector commandeRecue;
 		Object[] param = { login, password, apiName, apiVersion };
@@ -298,14 +279,10 @@ public class Api implements IApi {
 	/**
 	 * Ouverture d'une session (une session est associee a un modele)
 	 * 
-	 * @param sessionName
-	 *            est le nom du modele
-	 * @param date
-	 *            est la date de creation de la session
-	 * @param sessionFormalism
-	 *            est le nom du formalisme auquel est attache le modele
-	 * @return retourne TRUE si la session est ouverte et FALSE dans le cas
-	 *         contraire
+	 * @param sessionName est le nom du modele
+	 * @param date est la date de creation de la session
+	 * @param sessionFormalism est le nom du formalisme auquel est attache le modele
+	 * @return retourne TRUE si la session est ouverte et FALSE dans le cas contraire
 	 */
 	public boolean openSession(String sessionName, int date,
 			String sessionFormalism) {
@@ -432,12 +409,9 @@ public class Api implements IApi {
 	 * Fermture de la connexion demandee par la plateforme Cette fermeture a
 	 * lieu lors de la reception d'un FC ou d'un KO
 	 * 
-	 * @param type
-	 *            Raison de la fermeture de la connexion
-	 * @param message
-	 *            Message a afficher (transmis par la plate-forme)
-	 * @param severity
-	 *            Gravite de l'incident (transmis par la plate-forme)
+	 * @param type Raison de la fermeture de la connexion
+	 * @param message Message a afficher (transmis par la plate-forme)
+	 * @param severity Gravite de l'incident (transmis par la plate-forme)
 	 */
 	public void closeConnexion(int type, String message, int severity) {
 		Object[] param = { type, message, severity };
