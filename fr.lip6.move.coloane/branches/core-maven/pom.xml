@@ -17,9 +17,9 @@
   <description>Core</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane/branches/core-maven</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane/branches/core-maven</developerConnection>
+ 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane/branches/core-maven</url>
   </scm>
   
 	<dependencies>

@@ -56,7 +56,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Le module de communications doit creer un lien avec l'API de communications
 	 */
 	public Com() {
-		this.api = new Api(this,IApi.NORMAL);
+		this.api = new Api(this);
 		this.parent = (Composite) Coloane.getParent();
 	}
 	
