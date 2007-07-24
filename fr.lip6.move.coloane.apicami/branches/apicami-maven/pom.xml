@@ -17,9 +17,9 @@
   <description>Api (cami)</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami/branches/apicami-maven</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami/branches/apicami-maven</developerConnection>
+ 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.apicami/branches/apicami-maven</url>
   </scm>
   
   <dependencies>
