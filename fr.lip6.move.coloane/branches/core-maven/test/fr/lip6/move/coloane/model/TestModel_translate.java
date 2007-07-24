@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.model.tests;
+package fr.lip6.move.coloane.model;
 
 import junit.framework.TestCase;
 import java.io.*;
