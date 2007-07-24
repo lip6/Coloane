@@ -17,9 +17,9 @@
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/interfaces-maven</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/interfaces-maven</developerConnection>
+ 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/interfaces-maven</url>
   </scm>
   
   <build>
