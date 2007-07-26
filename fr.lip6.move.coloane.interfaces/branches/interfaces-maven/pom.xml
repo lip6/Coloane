@@ -2,6 +2,53 @@
 
   <modelVersion>4.0.0</modelVersion>
   
+  <organization>
+    <name>LIP6</name>
+    <url>http://www.lip6.fr</url>
+  </organization>
+  
+  <developers>
+    <developer>
+      <id>fkordon</id>
+      <name>Fabrice Kordon</name>
+      <email>Fabrice.Kordon@lip6.fr</email>
+      <url>http://www-src.lip6.fr/homepages/Fabrice.Kordon/</url>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>jbvoron</id>
+      <name>Jean-Baptiste Voron</name>
+      <email>Jean-Baptiste.Voron@lip6.fr</email>
+      <url>http://www-src.lip6.fr/homepages/Jean-Baptiste.Voron/</url>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+      <properties>
+        <tracUrl>https://srcdev.lip6.fr/trac/research/jbvoron</tracUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>emasliah</id>
+      <name>Eric Masliah</name>
+      <email>Eric.Masliah@src.lip6.fr</email>
+      <organization>Codehaus</organization>
+      <organizationUrl>http://mojo.codehaus.org</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-6</timezone>
+    </developer>
+  </developers>
+  
   <!--<parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>fr.lip6.move.coloane</artifactId>
