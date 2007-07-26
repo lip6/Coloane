@@ -31,6 +31,8 @@
   </dependencies>
   
   <build>
+	<directory>target/jar</directory>
+	<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
 		
 			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->

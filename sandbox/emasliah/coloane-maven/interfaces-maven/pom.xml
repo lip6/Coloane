@@ -23,6 +23,9 @@
   </scm>
   
   <build>
+	<directory>target/jar</directory>
+	<testSourceDirectory>test</testSourceDirectory>
+
     
 		<plugins>
 		
