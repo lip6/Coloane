@@ -11,13 +11,70 @@
 	<modules>
   	<module>interfaces-maven</module>
   	<module>apicami-maven</module>
-  	<module>core-maven</module>
-  	<module>releases</module>
+  	<!--<module>core-maven</module>
+  	<module>releases</module>-->
   </modules>
   
   <scm>
- 		<url>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane</url>
+ 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/coloane-maven</url>
   </scm>
+  
+  <organization>
+    <name>LIP6</name>
+    <url>http://www.lip6.fr</url>
+  </organization>
+  
+  <developers>
+    <developer>
+      <id>fkordon</id>
+      <name>Fabrice Kordon</name>
+      <email>Fabrice.Kordon@lip6.fr</email>
+      <url>http://www-src.lip6.fr/homepages/Fabrice.Kordon/</url>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>jbvoron</id>
+      <name>Jean-Baptiste Voron</name>
+      <email>Jean-Baptiste.Voron@lip6.fr</email>
+      <url>http://www-src.lip6.fr/homepages/Jean-Baptiste.Voron/</url>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+      <properties>
+        <tracUrl>https://srcdev.lip6.fr/trac/research/jbvoron</tracUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>emasliah</id>
+      <name>Eric Masliah</name>
+      <email>Eric.Masliah@src.lip6.fr</email>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>dcharles</id>
+      <name>Dimitri Charles</name>
+      <email>charles2000dimitri@gmail.com</email>
+      <organization>LIP6</organization>
+      <organizationUrl>http://www.lip6.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
   
   <!-- Pour les tests unitaires --> 
   <dependencies>
