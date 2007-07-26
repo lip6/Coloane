@@ -23,6 +23,8 @@
   
   <build>
     
+		<sourceDirectory>src</sourceDirectory>
+	
 		<plugins>
 		
 			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
