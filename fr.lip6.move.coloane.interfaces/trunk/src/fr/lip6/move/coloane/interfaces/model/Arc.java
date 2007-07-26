@@ -116,7 +116,7 @@ public abstract class Arc implements IArc, Serializable {
 		this.id = id;
 
 		// Le changement d'idientifiant implique obligatoirement
-		// Le rer�f�rencement des attributs
+		// Le rereferencement des attributs
 		for (IAttribute att : this.listOfAttr) {
 			att.setRefId(id);
 		}
