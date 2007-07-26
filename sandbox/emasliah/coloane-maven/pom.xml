@@ -16,6 +16,8 @@
   </modules>
   
   <scm>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/coloane-maven</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/coloane-maven</developerConnection>
  		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/coloane-maven</url>
   </scm>
   
