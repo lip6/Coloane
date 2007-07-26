@@ -82,7 +82,8 @@
     
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-	
+		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
+		
 		<plugins>
 		
 			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
