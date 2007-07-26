@@ -58,9 +58,9 @@
         </executions>
       </plugin>-->
       
-      <plugin>
-      	<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
-      	 			/!\ Ne marche que avec svn en anglais -->
+      <!--<plugin>
+      	<!~~ Pour mettre le buildnumber au bout du jar ${buildNumber} 
+      	 			/!\ Ne marche que avec svn en anglais ~~>
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>
@@ -73,7 +73,7 @@
           	</goals>
         	</execution>
       	</executions>
-     	</plugin>
+     	</plugin>-->
       
       <!--<plugin>
     		<!~~ Pour modifier le manifest avec la version du pom ~~>
