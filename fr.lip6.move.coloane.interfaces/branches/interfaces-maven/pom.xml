@@ -30,13 +30,13 @@
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
     	
-	  	<plugin>
-    		<!-- Pour le svn -->
+	  	<!--<plugin>
+    		 Pour le svn 
        	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
         <executions>  
         	<execution>
-        		<!-- On update -->
+        		 On update 
         		<id>Up</id>
           	<phase>validate</phase>        
           	<goals>
@@ -44,11 +44,11 @@
           	</goals>
         	</execution>
         </executions>
-      </plugin>
+      </plugin>-->
       
-      <plugin>
-      	 <!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
-      	 			/!\ Ne marche que avec svn en anglais -->
+      <!--<plugin>
+      	  Pour mettre le buildnumber au bout du jar ${buildNumber} 
+      	 			/!\ Ne marche que avec svn en anglais 
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>
@@ -61,7 +61,7 @@
           	</goals>
         	</execution>
       	</executions>
-     	</plugin>
+     	</plugin>-->
       
       <!--<plugin>
     		<!~~ Pour modifier le manifest avec la version du pom ~~>
