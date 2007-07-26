@@ -2,14 +2,13 @@
 
   <modelVersion>4.0.0</modelVersion>
   
-  <parent>
+  <!--<parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>fr.lip6.move.coloane</artifactId>
     <version>1.0</version>
-    <!--<relativePath>../../pom.xml</relativePath>-->
-  </parent>
+  </parent>-->
 
-	<groupId>${project.parent.groupId}</groupId>
+	<groupId>fr.lip6.move.coloane</groupId>
   <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
   <version>1.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
