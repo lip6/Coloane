@@ -92,8 +92,8 @@
   
   	<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
     <sourceDirectory>src</sourceDirectory>
-    <!--<testSourceDirectory>test</testSourceDirectory>-->
-    <directory>releases/night_builds/${buildNumber}</directory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <directory>target/jar</directory>
     
   	<!-- Vraiment util ?? -->
   	<pluginManagement>
