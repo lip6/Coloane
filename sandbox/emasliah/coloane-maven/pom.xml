@@ -11,8 +11,8 @@
 	<modules>
   	<module>interfaces-maven</module>
   	<module>apicami-maven</module>
-  	<!--<module>core-maven</module>
-  	<module>releases</module>-->
+  	<module>core-maven</module>
+  	<!--<module>releases</module>-->
   </modules>
   
   <scm>
@@ -68,7 +68,7 @@
     <developer>
       <id>dcharles</id>
       <name>Dimitri Charles</name>
-      <email>charles2000dimitri@gmail.com</email>
+      <email>clarence-dimitri.charles@src.lip6.fr</email>
       <organization>LIP6</organization>
       <organizationUrl>http://www.lip6.fr</organizationUrl>
       <roles>

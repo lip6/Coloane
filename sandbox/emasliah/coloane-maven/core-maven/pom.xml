@@ -118,7 +118,7 @@
         <configuration>
           <executable>lib.sh</executable>
           <arguments>
-            <argument>/home/emasliah/Lib/lib3</argument>
+            <argument>lib</argument>
           </arguments>
         </configuration>
       </plugin>
