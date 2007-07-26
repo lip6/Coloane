@@ -118,5 +118,14 @@
 		</plugins>
   
 	</build>
+   	
+ 	<pluginRepositories>
+		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
+    <pluginRepository>
+        <id>tlc</id>
+        <name>TLC Repository</name>
+        <url>http://commons.ucalgary.ca/pub/m2</url>
+    </pluginRepository>
+	</pluginRepositories>
   
 </project>
