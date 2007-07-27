@@ -4,7 +4,7 @@
   
   <parent>
     <groupId>fr.lip6.move.coloane</groupId>
-    <artifactId>fr.lip6.move.coloane</artifactId>
+    <artifactId>coloane-maven</artifactId>
     <version>1.0</version>
     <!--<relativePath>../../pom.xml</relativePath>-->
   </parent>
@@ -17,15 +17,12 @@
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/coloane-maven/interfaces-maven</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/coloane-maven/interfaces-maven</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/coloane-maven/interfaces-maven</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</url>
   </scm>
   
   <build>
-	<directory>target/jar</directory>
-	<testSourceDirectory>test</testSourceDirectory>
-
     
 		<plugins>
 		
