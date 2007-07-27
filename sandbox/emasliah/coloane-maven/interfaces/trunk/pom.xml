@@ -10,7 +10,7 @@
   </parent>
 
 	<groupId>${project.parent.groupId}</groupId>
-  <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
+  <artifactId>interfaces</artifactId>
   <version>1.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging</name>

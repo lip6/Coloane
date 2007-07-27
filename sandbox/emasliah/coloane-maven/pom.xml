@@ -9,9 +9,9 @@
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
 	
 	<modules>
-  	<module>fr.lip6.move.coloane.interfaces/trunk</module>
-  	<module>fr.lip6.move.coloane.apicami/trunk</module>
-  	<module>fr.lip6.move.coloane/trunk</module>
+  	<module>interfaces/trunk</module>
+  	<module>apicami/trunk</module>
+  	<module>core/trunk</module>
   </modules>
   
   <scm>

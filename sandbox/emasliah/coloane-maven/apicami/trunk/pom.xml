@@ -10,7 +10,7 @@
   </parent>
   
   <groupId>${project.parent.groupId}</groupId>
-  <artifactId>fr.lip6.move.coloane.apicami</artifactId>
+  <artifactId>apicami</artifactId>
   <version>0.9.8-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Apicami - Maven-Packaging</name>
