@@ -170,7 +170,7 @@
         <configuration>
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.artifactId}/tags</tagBase>
         </configuration>
-      </plugin>-->
+      </plugin>
     	
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
