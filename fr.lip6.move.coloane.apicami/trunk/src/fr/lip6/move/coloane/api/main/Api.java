@@ -102,13 +102,13 @@ public class Api implements IApi {
 		
 		//Lancement du logger
 		apiLogger = Logger.getLogger("fr.lip6.move.coloane.api.main.Api");
+		LogManager.getLogManager().reset();
 		logsutils = new LogsUtils();
 		switch (level) {
 		case DEBUG:
 			apiLogger.setLevel(Level.FINEST);
 			break;
-		
-
+			
 		case BETA:
 			apiLogger.setLevel(Level.FINE);
 			break;
@@ -126,7 +126,7 @@ public class Api implements IApi {
 			f = new FileHandler("coloane_apicami.log");
 			f.setFormatter(new ApiFormatter());
 			apiLogger.addHandler(f);
-			LogManager.getLogManager().reset();
+			
 		} catch (IOException e) {
 			apiLogger.throwing("Api", "Api", e);
 			apiLogger.warning("Erreur d'ouverture du fichier" + logsutils.StackToString(e));
@@ -155,7 +155,7 @@ public class Api implements IApi {
 		}
 
 		try {
-			apiLogger.finer("Debut connexion vers " + ip + ":" + port);
+			apiLogger.info("Debut connexion vers " + ip + ":" + port);
 			// System.out.println("Debut connexion vers " + ip + ":" + port);
 			comLowServices.createCom(ip, port);
 
