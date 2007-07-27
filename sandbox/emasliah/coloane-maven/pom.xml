@@ -87,6 +87,22 @@
     </dependency>
   </dependencies>
   
+  <!-- Envoie par ssh lors du deploy -->
+  <distributionManagement>
+  	<!-- use the following if you're not using a snapshot version. -->
+    <repository>
+      <id>izanami</id>
+      <name>Izanami</name>
+      <url>scp://izanami/public_html</url>
+    </repository>
+    <!-- use the following if you ARE using a snapshot version. -->
+    <snapshotRepository>
+    	<id>izanami-snap</id>
+    	<name>Izanami Snapshot</name>
+    <url>scp://izanami/public_html</url>
+  </snapshotRepository>
+  </distributionManagement>
+  
   <build>
   
   	<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
@@ -104,6 +120,15 @@
      		</plugin>
     	</plugins>
   	</pluginManagement>
+  	
+  	<!-- Bizarre -->
+  	<extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ssh-external</artifactId>
+         <version>1.0-alpha-5</version>
+      </extension>
+    </extensions>
 		
 		<plugins>
 			
