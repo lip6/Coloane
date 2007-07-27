@@ -103,19 +103,6 @@
   </snapshotRepository>
   </distributionManagement>
   
- 	<servers>
-  	<server>
-    	<id>izanami-snap</id>
-    	<username>emasliah</username>
-    	<password>Zp74Ax3D</password>
-  	</server>
-  	<server>
-    	<id>izanami</id>
-    	<username>emasliah</username>
-    	<password>Zp74Ax3D</password>
-  	</server>
-  </servers>
-  
   <build>
   
   	<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
