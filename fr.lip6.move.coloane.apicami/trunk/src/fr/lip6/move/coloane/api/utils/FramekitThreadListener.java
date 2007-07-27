@@ -118,7 +118,7 @@ public class FramekitThreadListener extends Thread {
 				// Si on recoit un mesage fin de service
 				if (commandeRecue.elementAt(0).equals("EOS")) {
 					api.closeConnexion(1, "Disconnected from Framekit", 1);
-					Api.apiLogger.info("Connexion Closed");
+					Api.apiLogger.finer("Connexion Closed");
 					//System.out.println("Connexion closed");
 					break;
 				}	
@@ -128,7 +128,7 @@ public class FramekitThreadListener extends Thread {
 				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
 				Api.apiLogger.warning(logsutils.StackToString(e));
 				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
-				Api.apiLogger.info("Connexion fermee");
+				Api.apiLogger.finer("Connexion fermee");
 				//System.out.println("Connexion fermee");
 				break;
 			}
@@ -247,7 +247,7 @@ public class FramekitThreadListener extends Thread {
 							
 							// Depracated 
 							case 9 : {
-								Api.apiLogger.info("TQ = 9 => Deprecated");
+								Api.apiLogger.finer("TQ = 9 => Deprecated");
 								//System.out.println("TQ = 9 => Deprecated");
 								break;
 							}
@@ -533,7 +533,7 @@ public class FramekitThreadListener extends Thread {
 					// Message SS
 					// Suspension d'un session Coloane
 					if ((listeArgs.firstElement().equals("SS"))) {
-						Api.apiLogger.info("Unlock SS");
+						Api.apiLogger.finer("Unlock SS");
 						//System.out.println("Unlock SS");
 						this.verrou.unlock();
 						continue;
@@ -549,7 +549,7 @@ public class FramekitThreadListener extends Thread {
 					// Message FS
 					// Fin d'une session Coloane
 					if ((listeArgs.firstElement().equals("FS"))) {
-						Api.apiLogger.info("Unlock FS");
+						Api.apiLogger.finer("Unlock FS");
 						//System.out.println("Unlock FS");
 						this.verrou.unlock();
 						continue;

@@ -20,7 +20,7 @@ public class Commande {
 		Object[] param = {login, password};
 		Api.apiLogger.entering("Commande", "createCmdSC", param);
 		String commande = new String("SC(" + login.length() + ":" + login + ","+ password.length() + ":" + password + ")");
-		Api.apiLogger.info("-->" + commande);
+		Api.apiLogger.finer("-->" + commande);
 		//System.out.println("--> "+commande);
 		
 		byte[] send = new byte[commande.length() + 4];
@@ -195,7 +195,7 @@ public class Commande {
 		
 		byte[] send = new byte[commande.length() + 4];
 		byte[] mess = commande.getBytes();
-		Api.apiLogger.info("message RS :" + new String(mess, 0, mess.length));
+		Api.apiLogger.finer("message RS :" + new String(mess, 0, mess.length));
 		//System.out.println("message RS : " + new String(mess, 0, mess.length));
 		send[0] = 0;
 		send[1] = 0;
@@ -802,7 +802,7 @@ public class Commande {
 		if (cmdString.equals("DE")) {
 			String s1;
 			String entier1;
-			Api.apiLogger.info(commande);
+			Api.apiLogger.finer(commande);
 			//System.out.println(commande);
 			
 			if (commande.length() > 4) {

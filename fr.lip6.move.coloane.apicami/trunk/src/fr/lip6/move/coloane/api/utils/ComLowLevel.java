@@ -44,7 +44,7 @@ public class ComLowLevel {
         		
         		// <DEBUG>
         		String msg = new String(commande, 4, commande.length - 4);
-    			Api.apiLogger.info("[CO-->FK] : " + msg);
+    			Api.apiLogger.finer("[CO-->FK] : " + msg);
         		//System.out.println("[CO-->FK] : " + msg);
     			// </DEBUG>
     			
@@ -87,7 +87,7 @@ public class ComLowLevel {
             	
             	if ((monChar == '\n')) {
             		// Nouvelle commande detectee
-            		Api.apiLogger.info("[CO<--FK] : "+commande);
+            		Api.apiLogger.finer("[CO<--FK] : "+commande);
                 	//System.out.println("[CO<--FK] : "+commande);
             		liste.add(commande);
                 	commande = "";
@@ -95,7 +95,7 @@ public class ComLowLevel {
             		commande += monChar;
             	}
             }
-            Api.apiLogger.info("[CO<--FK] : " + commande);
+            Api.apiLogger.finer("[CO<--FK] : " + commande);
             //System.out.println("[CO<--FK] : "+commande);
         	liste.add(commande);
         	Api.apiLogger.exiting("ComLowlevel", "readCommande", liste);

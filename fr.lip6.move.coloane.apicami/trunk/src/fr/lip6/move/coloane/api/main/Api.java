@@ -121,12 +121,12 @@ public class Api implements IApi {
 			TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
 			apiLogger.throwing("Api", "Api", tle);
 			apiLogger.warning(tle.getMessage());
-			System.err.println(tle.getMessage());
 		}
 		try {
 			f = new FileHandler("coloane_apicami.log");
 			f.setFormatter(new ApiFormatter());
 			apiLogger.addHandler(f);
+			LogManager.getLogManager().reset();
 		} catch (IOException e) {
 			apiLogger.throwing("Api", "Api", e);
 			apiLogger.warning("Erreur d'ouverture du fichier" + logsutils.StackToString(e));
@@ -155,13 +155,13 @@ public class Api implements IApi {
 		}
 
 		try {
-			apiLogger.info("Debut connexion vers " + ip + ":" + port);
+			apiLogger.finer("Debut connexion vers " + ip + ":" + port);
 			// System.out.println("Debut connexion vers " + ip + ":" + port);
 			comLowServices.createCom(ip, port);
 
-			apiLogger.info("Dans la suite :");
-			apiLogger.info("--> Vers FrameKit");
-			apiLogger.info("<-- Vers Coloane");
+			apiLogger.finer("Dans la suite :");
+			apiLogger.finer("--> Vers FrameKit");
+			apiLogger.finer("<-- Vers Coloane");
 			// System.out.println("Dans la suite :");
 			// System.out.println("--> Vers FrameKit");
 			// System.out.println("<-- Vers Coloane");
@@ -205,7 +205,7 @@ public class Api implements IApi {
 		apiLogger.entering("Api", "camiCmdConnection", param);
 		try {
 			Commande cmd = new Commande();
-			apiLogger.info("Construction de la commande CAMI");
+			apiLogger.finer("Construction de la commande CAMI");
 			// System.out.println("Construction de la commande CAMI...");
 
 			/* Premiere partie : Le login et le password */
@@ -226,7 +226,7 @@ public class Api implements IApi {
 				return false;
 			}
 
-			/* Deuxieme partie les informations sur l'API */
+			/* Deuxieme partie les finerrmations sur l'API */
 			send = cmd.createCmdOC(apiName, apiVersion, login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
@@ -560,7 +560,7 @@ public class Api implements IApi {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
 			speak.execService(rootMenuName, parentName, serviceName);
-			apiLogger.info("Demande de service OK");
+			apiLogger.finer("Demande de service OK");
 			// System.out.println("Demande de service OK");
 		} else {
 			apiLogger.warning("Demande de service KO");
@@ -634,7 +634,7 @@ public class Api implements IApi {
 	 */
 	public void printHistory(String message) {
 		apiLogger.entering("Api", "printHistory", message);
-		apiLogger.info("Affichage historique (API)" + message);
+		apiLogger.finer("Affichage historique (API)" + message);
 		// System.out.println("Affichage historique (API)"+message);
 		this.com.printHistoryMessage(message);
 		apiLogger.exiting("Api", "printHistory");

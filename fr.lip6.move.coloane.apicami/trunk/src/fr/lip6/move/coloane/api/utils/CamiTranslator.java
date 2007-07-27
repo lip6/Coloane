@@ -261,7 +261,7 @@ public class CamiTranslator {
 			throw e;
 		}
 		title = camiCmd.get(4).toString();
-		Api.apiLogger.info("TITRE :" + title);
+		Api.apiLogger.finer("TITRE :" + title);
 		//System.out.println("TITLE :" + title);
 
 		// Message d'aide

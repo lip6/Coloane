@@ -150,7 +150,7 @@ public class FramekitThreadSpeaker extends Thread {
 				
 			for (int i = 0; i < modelCami.length; i++) {
 				commande = cmd.convertToFramekit(modelCami[i]);
-				Api.apiLogger.info(modelCami[i]);
+				Api.apiLogger.finer(modelCami[i]);
 				//System.out.println(modelCami[i]);
 				lowCom.writeCommande(commande);
 			}
@@ -271,7 +271,7 @@ public class FramekitThreadSpeaker extends Thread {
 		
 		// Attente du message SS
 		verrou.attendre(); //SS
-		Api.apiLogger.info("Attente validee SS");
+		Api.apiLogger.finer("Attente validee SS");
 		//System.out.println("Attente validee SS");
 		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendSuspend", true);
 		return true;		
@@ -315,7 +315,7 @@ public class FramekitThreadSpeaker extends Thread {
 		// Attente du message FS
 		verrou.attendre(); //FS
 		
-		Api.apiLogger.info("Attente validee FS");
+		Api.apiLogger.finer("Attente validee FS");
 		//System.out.println("Attente validee FS");
 		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendSuspend", true);
 		return true;
