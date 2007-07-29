@@ -49,7 +49,22 @@
        		<compilerArgument>@javac_options</compilerArgument>
       	</configuration>
     	</plugin>
-
+	
+	<plugin>
+		<!-- Pour supprimer le fichier javac_options -->
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-clean-plugin</artifactId>
+		<configuration>
+			<filesets>
+				<fileset>
+					<directory>.</directory>
+					<includes>
+						<include>javac_options</include>
+					</includes>
+				</fileset>
+			</filesets>
+		</configuration>
+	</plugin>
     	
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
