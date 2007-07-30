@@ -110,22 +110,17 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		// InputStream a retourner
 		InputStream inputS = null;
 
-		// Creation de l'editeur xml
-		XmlEditor xml = new XmlEditor();
-
-		// String permettant de stocker le modele au format xml
-		String xmlString = ""; //$NON-NLS-1$
 
 		// Nouveau model
-		IModel m = new Model();
+		IModel model = new Model();
 
 		// Formalisme choisi
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
 
-		m.setFormalism(formalismName);
+		model.setFormalism(formalismName);
 
 		// Traduction du modele au format xml
-		xmlString = xml.modelXML(m);
+		String xmlString = XmlEditor.translateToXML(model);
 
 		// Creation de l'input stream a partir d'une chaine de caractere
 		inputS = new ByteArrayInputStream(xmlString.getBytes());

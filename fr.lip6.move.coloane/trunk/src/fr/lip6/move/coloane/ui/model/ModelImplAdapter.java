@@ -89,12 +89,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			/*
 			 * On met a jour si necessaire le nom du formalisme contenu dans le
 			 * modele generique
-			 */
-			/*
 			 * Des divergences peuvent apparaitre pour certains vieux modeles
 			 * edites par Macao
-			 */
-			/*
 			 * Les informations etaient alors stockee dans la ressource du
 			 * fichier non supportee maintenant
 			 */
@@ -127,9 +123,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.model.getListOfNodeSize(); i++) {
 			INode currentNode = this.model.getNthNode(i);
-			INodeImpl node = new NodeImplAdapter(currentNode,
-					(ElementBase) this.formalism.string2Node(currentNode
-							.getNodeType()));
+			INodeImpl node = new NodeImplAdapter(currentNode,(ElementBase) this.formalism.string2Node(currentNode.getNodeType()));
 			node.setModelAdapter(this);
 			this.children.add((IElement)node);
 		}
@@ -154,8 +148,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				if (currentArc.getEndingNode() == currentNode.getGenericNode()) {
 					target = currentNode;
 					findTarget = true;
-				} else if (currentArc.getStartingNode() == currentNode
-						.getGenericNode()) {
+				} else if (currentArc.getStartingNode() == currentNode.getGenericNode()) {
 					source = currentNode;
 					findSource = true;
 				}
@@ -165,8 +158,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// probleme
 			if ((target != null) && (source != null)) {
 				// Creation de l'Arc adapter (Arc dans le modele augmente)
-				IArcImpl arc = new ArcImplAdapter(currentArc, source, target,
-						this.formalism.string2Arc(currentArc.getArcType()));
+				IArcImpl arc = new ArcImplAdapter(currentArc, source, target,this.formalism.string2Arc(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 			} else {
 				throw new Exception(Coloane.traduction.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
@@ -186,12 +178,10 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Creation de tous les attributs prevus par le formalisme
 		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
 		while (iterator.hasNext()) {
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator
-					.next();
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
 			// Creation de l'attribut dans le modele
-			IAttribute attribute = new Attribute(attributeFormalism.getName(),
-					new String(attributeFormalism.getDefaultValue()), 1);
+			IAttribute attribute = new Attribute(attributeFormalism.getName(),new String(attributeFormalism.getDefaultValue()), 1);
 			this.model.addAttribute(attribute);
 			
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
@@ -219,8 +209,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
 
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator
-					.next();
+			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
 			// On parcours tous les attributs deja definis dans notre modele
 			// generique
@@ -277,8 +266,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
-			throw new BuildException(
-					Coloane.traduction.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
+			throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
 		}
 	}
 
@@ -295,8 +283,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.children.remove(child);
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
-			throw new BuildException(
-					Coloane.traduction.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
+			throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
 		}
 	}
 

@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -116,17 +117,21 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 										IModelImpl model = fm.importModel(filePath);
 										
 										// traduction du modele au format xml
-										XmlEditor xml = new XmlEditor();
-										String xmlString = xml.modelXML(model.getGenericModel());
+										String xmlString = XmlEditor.translateToXML(model.getGenericModel());
 										InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
-										// Creation d'un nouveau fichier contenant le modele au format xml
-										file.create(inputS, // contents
-											true, // keep saving, even if IFile is out of
-											// sync with
-											// the Workspace
-											monitor); // progress monitor
-										
+										try {
+											// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
+											if (file.exists()) {
+												Coloane.showErrorMsg("You can't overwrite a workspace's file");
+												return;
+											} else {
+												file.create(inputS,true,monitor);
+											}
+										} catch (CoreException ce) {
+											ce.printStackTrace();
+										}
+																				
 										// Open editor
 										IDE.openEditor(window.getActivePage(),file, true);
 									} catch (Exception e) {

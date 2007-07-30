@@ -21,26 +21,19 @@ import fr.lip6.move.coloane.model.Attribute;
 /** Classe de gestion du modele au format xml */
 public class XmlEditor extends DefaultHandler {
 
-	/* Balise courante */
-	private String ltag;
+	/* --------------- Ecriture --------------- */
 
-	/* id courant */
-	private int refid;
-	
-	/* text courant */
-	private String data = "";
+	/**
+	 * Retourne une chaine contenant tout le modele en XML
+	 * @param model Le model sous forme d'objet JAVA
+	 * @return String
+	 */
+	public static String translateToXML(IModel model) {
 
-	IModel model = new Model();
-
-	/** METHODES POUR FICHIER XML* */
-
-	/** Ecriture * */
-
-	/* Renvoie une String contenant le modele au format XML */
-	public String modelXML(IModel m) {
-
+		// L'entete XML
 		String line = "<?xml version='1.0' encoding='ISO-8859-1'?>\n";
 
+		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
 			URL dtd = Coloane.getDefault().getBundle().getEntry("resources/coloane.dtd");
 			URL	path = FileLocator.toFileURL(dtd);
@@ -49,89 +42,94 @@ public class XmlEditor extends DefaultHandler {
 			System.err.println("DTD introuvable");
 		}
 
-		// Ecriture des attributs relatifs au formalism et positions
-		line += "<model formalism='" + m.getFormalism() + "' xposition='"
-				+ m.getXPosition() + "' yposition='" + m.getYPosition()
-				+ "'>\n";
+		// Ecriture des attributs relatifs au formalisme et positions
+		line += "<model formalism='" + model.getFormalism() + "' xposition='"+ model.getXPosition() + "' yposition='" + model.getYPosition()+ "'>\n";
 
 		// Ecriture des attributs du modele
-		if (!(m.getListOfAttrSize() == 0)) {
-			line += attrXML(m);
+		if (!(model.getListOfAttrSize() == 0)) {
+			line += translateAttributesToXML(model);
 		}
 
 		// Creation des noeuds
 		line += "<nodes>\n";
-		line += nodeXML(m);
+		line += translateNodesToXML(model);
 		line += "</nodes>\n";
 
 		// Creation des arcs
 		line += "<arcs>\n";
-		line += arcXML(m);
+		line += translateArcsToXML(model);
 		line += "</arcs>\n";
 
 		line += "</model>";
 		return line;
 	}
 
-	/* Renvoie une String contenant l'ensemble des noeuds au format XML */
-	public String nodeXML(IModel m) {
+	/**
+	 * Traduction des noeuds du modele en format XML
+	 * @param model Le modele en objet JAVA contenant des noeuds
+	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
+	 */
+	private static String translateNodesToXML(IModel model) {
 		String line = "";
 
-		// Pour chaque noeud,
-		// ecriture des données relatifs au nodetype et aux positions
-		for (int i = 0; i < m.getListOfNodeSize(); i++) {
-			INode node = m.getNthNode(i);
+		// Pour chaque noeud...
+		for (int i = 0; i < model.getListOfNodeSize(); i++) {
+			INode node = model.getNthNode(i);
 
-			line += "<node nodetype='" + node.getNodeType() + "' id='"
-					+ node.getId() + "' xposition='" + node.getXPosition()
-					+ "' yposition='" + node.getYPosition() + "'>\n";
+			// Debut du noeud
+			line += "<node nodetype='" + node.getNodeType() + "' id='"+ node.getId() + "' xposition='" + node.getXPosition()+ "' yposition='" + node.getYPosition() + "'>\n";
 
 			// Ecriture des attributs de chaque noeud
 			if (!(node.getListOfAttr() == null)) {
-				line += attrXML(node);
+				line += translateNodesAttributesToXML(node);
 			}
+			
+			// Fin du noeud
 			line += "</node>\n";
 		}
-
 		return line;
 	}
 
-	/* Renvoie une String contenant l'ensemble des arcs au format XML */
-	public String arcXML(IModel m) {
+	/**
+	 * Traduction des arcs du modele en format XML
+	 * @param model Le modele en objet JAVA contenant des arcs
+	 * @return Une chaine de caracteres decrivant en XML les arcs du modele
+	 */
+	private static String translateArcsToXML(IModel model) {
 		String line = "";
 
-		// Pour chaque arc,
-		// ecriture des données relatifs à l'arctype et aux positions
-		for (int i = 0; i < m.getListOfArcSize(); i++) {
-			IArc arc = m.getNthArc(i);
+		// Pour chaque arc...
+		for (int i = 0; i < model.getListOfArcSize(); i++) {
+			IArc arc = model.getNthArc(i);
 
-			line += "<arc arctype='" + arc.getArcType() + "' id='"
-					+ arc.getId() + "' startid='"
-					+ arc.getStartingNode().getId() + "' endid='"
-					+ arc.getEndingNode().getId() + "'>\n";
+			// Debut de l'arc
+			line += "<arc arctype='" + arc.getArcType() + "' id='"+ arc.getId() + "' startid='"+ arc.getStartingNode().getId() + "' endid='"+ arc.getEndingNode().getId() + "'>\n";
 
-			//Ecriture des PI
+			// Ecriture des PI
 			if (!(arc.getListOfPI().size() == 0)) {
-				line += piXML(arc);
+				line += translateInflexToXML(arc);
 			}
 			
 			// Ecriture des attributs de chaque arc
 			if (!(arc.getListOfAttrSize() == 0)) {
-				line += attrXML(arc);
+				line += translateArcsAttributesToXML(arc);
 			}
+			
+			// Fin de l'arc
 			line += "</arc>\n";
 		}
-
 		return line;
 	}
 
-	/*
-	 * Renvoie une String contenant les PI de l'arc passe en parametre, au
-	 * format XML
+	/**
+	 * Traduction des points d'inflexion des arcs du modele en format XML
+	 * @param arc L'arc en objet JAVA contenant des points d'inflexion
+	 * @return Une chaine de caracteres decrivant en XML les points d'inflexion des arcs du modele
 	 */
-	public String piXML(IArc arc) {
+	private static String translateInflexToXML(IArc arc) {
 		String line = "";
 
+		// Pour chaque point d'inflexion...
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
 			IPosition pi = arc.getNthPI(i);
 			line += "<pi xposition='" + pi.getXPosition() + "' yposition='" + pi.getYPosition() + "'/>\n";
@@ -139,230 +137,231 @@ public class XmlEditor extends DefaultHandler {
 		return line;
 	}
 
-	/*
-	 * Renvoie une String contenant les attributs du modele, passe en parametre,
-	 * au format XML
+	/**
+	 * Traduction des attributs des objets du modele en format XML
+	 * @param model Le modele en objet JAVA contenant des attributs d'objet
+	 * @return Une chaine de caracteres decrivant en XML les attributs du modele
 	 */
-	public String attrXML(IModel m) {
+	private static String translateAttributesToXML(IModel model) {
 		String line = "";
-		for (int i = 0; i < m.getListOfAttrSize(); i++) {
-			IAttribute attr = m.getNthAttr(i);
+		
+		// Pour chaque attribut...
+		for (int i = 0; i < model.getListOfAttrSize(); i++) {
+			IAttribute attr = model.getNthAttr(i);
 
+			// On ne traite pas le cas des attributs qui sont vides
 			if (!attr.getValue().equals("")) {
+				// Traitement special pour l'attribut AUTHOR 
 				if (attr.getName().equals("author(s)")) {
-					line += "<authors" + " xposition='" + attr.getXPosition()
-							+ "' yposition='" + attr.getYPosition() + "'>"
-							+ attr.getValue() + "</authors>\n";
+					line += "<authors" + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>"+ attr.getValue() + "</authors>\n";
 				} else {
-					line += "<" + attr.getName() + " xposition='"
-							+ attr.getXPosition() + "' yposition='"
-							+ attr.getYPosition() + "'>" + format(attr.getValue())
-							+ "</" + attr.getName() + ">\n";
+					line += "<" + attr.getName() + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>" + format(attr.getValue())	+ "</" + attr.getName() + ">\n";
 				}
 			}
 		}
-
 		return line;
 	}
 
-	/*
-	 * Renvoie une String contenant les attributs du noeud, passe en parametre,
-	 * au format XML
+	/**
+	 * Traduction des attributs des arcs du modele en format XML
+	 * @param arc L'arc en objet JAVA contenant des attributs
+	 * @return Une chaine de caracteres decrivant en XML les attributs de l'arc
 	 */
-	public String attrXML(INode node) {
+	private static String translateArcsAttributesToXML(IArc arc) {
 		String line = "";
 
-		for (int i = 0; i < node.getListOfAttrSize(); i++) {
-
-			IAttribute attr = node.getNthAttr(i);
-
+		// Pour chaque attribut...
+		for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+			IAttribute attr = arc.getNthAttr(i);
+			// On ne traite pas les attributs vides
 			if (!attr.getValue().equals("")) {
-				line += "<" + attr.getName() + " xposition='"
-						+ attr.getXPosition() + "' yposition='"
-						+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"
-						+ attr.getName() + ">\n";
+				line += "<" + attr.getName() + " xposition='"+ attr.getXPosition() + "' yposition='"+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"+ attr.getName() + ">\n";
 			}
 		}
 		return line;
 	}
 	
-	public String format(String txt) {
+	/**
+	 * Traduction des attributs des arcs du modele en format XML
+	 * @param arc L'arc en objet JAVA contenant des attributs
+	 * @return Une chaine de caracteres decrivant en XML les attributs de l'arc
+	 */
+	private static String translateNodesAttributesToXML(INode node) {
+		String line = "";
+
+		// Pour chaque attribut...
+		for (int i = 0; i < node.getListOfAttrSize(); i++) {
+			IAttribute attr = node.getNthAttr(i);
+			// On ne traite pas le cas des attributs vides
+			if (!attr.getValue().equals("")) {
+				line += "<" + attr.getName() + " xposition='"+ attr.getXPosition() + "' yposition='"+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"	+ attr.getName() + ">\n";
+			}
+		}
+		return line;
+	}
+
+	/**
+	 * Gestion des caracteres speciaux (protection)
+	 * @param txt Le texte a proteger
+	 * @return Le texte transforme et protege
+	 */
+	private static String format(String txt) {
 		txt = txt.replaceAll("<", "&lt;");
 		txt = txt.replaceAll(">", "&gt;");
 		return txt;
 	}
-
-	/*
-	 * Renvoie une String contenant les attributs de l'arc, passe en parametre,
-	 * au format XML
-	 */
-	public String attrXML(IArc arc) {
-		String line = "";
-
-		for (int i = 0; i < arc.getListOfAttrSize(); i++) {
-
-			IAttribute attr = arc.getNthAttr(i);
-			if (!attr.getValue().equals("")) {
-				line += "<" + attr.getName() + " xposition='"
-						+ attr.getXPosition() + "' yposition='"
-						+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"
-						+ attr.getName() + ">\n";
-			}
-		}
-		return line;
-	}
-
-	/* Lecture */
-
-	// Permet de sauvegarder 1 attribut afin de lui affecter sa valeur
-	Attribute att = null;
-
-	/*
-	 * Lit les balises ouvrantes et effectue les operations de creation de
-	 * modele
-	 */
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
-
-		// Dans la balise model
-		if (qName.equals("model")) {
-
-			int x, y;
-
-			ltag = "model";
-			refid = 1;
-
-			// Recupération des positions
-			x = Integer.parseInt(attributes.getValue("xposition"));
-			y = Integer.parseInt(attributes.getValue("yposition"));
-
-			// Creation du modèle
-			model.setPosition(x, y);
-			model.setFormalism(attributes.getValue("formalism"));
-
-			// Dans une balise node
-		} else if (qName.equals("node")) {
-
-			int x, y, id;
-
-			ltag = "node";
-
-			// Recupération des positions et de l'identifiant
-			x = Integer.parseInt(attributes.getValue("xposition"));
-			y = Integer.parseInt(attributes.getValue("yposition"));
-			id = Integer.parseInt(attributes.getValue("id"));
-
-			refid = id;
-
-			// Creation du noeud
-			INode node = new Node(attributes.getValue("nodetype"), x, y, id);
-
-			// Ajout du noeud au modèle
-			try {
-				model.addNode(node);
-			} catch (SyntaxErrorException e) {
-				System.out.println(e.toString());
-			}
-
-			// Dans une balise arc
-		} else if (qName.equals("arc")) {
-
-			int id, startid, endid;
-
-			ltag = "arc";
-
-			// Récuperation de l'identifiant de l'arc
-			id = Integer.parseInt(attributes.getValue("id"));
-
-			refid = id;
-
-			// Récuperation de l'identifiant de ses noeuds
-			startid = Integer.parseInt(attributes.getValue("startid"));
-			endid = Integer.parseInt(attributes.getValue("endid"));
-
-			// Creation de l'arc
-			IArc arc = new Arc(attributes.getValue("arctype"), id);
-
-			arc.setStartingNode(model.getANode(startid));
-			arc.setEndingNode(model.getANode(endid));
-
-			// Ajout de l'arc au modèle
-			try {
-				model.addArc(arc);
-			} catch (SyntaxErrorException e) {
-				System.out.println(e.toString());
-			}
-
-			// Dans une balise d'un attribut (l'objet)
-		} else if (!(qName.equals("nodes") || qName.equals("arcs"))) {
-
-			int x, y;
-
-			x = Integer.parseInt(attributes.getValue("xposition"));
-			y = Integer.parseInt(attributes.getValue("yposition"));
-
-			// Si on lit une position intermediaire
-			if (qName.equals("pi")) {
-				if (ltag.equals("arc")) {
-					try {
-						model.getAnArc(refid).addPI(x, y);
-					} catch (SyntaxErrorException e) {
-						System.out.println(e.toString());
-					}
-				}
-				// sinon on lit un attribut
-			} else {
-				if (qName.equals("authors")) {
-					att = new Attribute("author(s)", "", refid);
-				} else {
-					att = new Attribute(qName, "", refid);
-				}
-
-				att.setPosition(x, y);
-			}
-		}
-	}
-
-	/* Gestion des données contenues dans les balises */
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
-
-		// Creation de la donnée (chaine de caractères)
-		for (int i = 0; i < length; i++) {
-			data += ch[start + i];
-		}
-		data=deformat(data);
-	}
 	
+	/**
+	 * Gestion des caracteres speciaux (deprotection)
+	 * @param txt Le texte a deproteger
+	 * @return Le texte transforme et protege
+	 */
 	public String deformat(String txt){
 		txt = txt.replaceAll("&lt;", "<");
 		txt = txt.replaceAll("&gt;", ">");
 		return txt;
 	}
+	
+	
+	
+	
+	/* --------------- Lecture --------------- */
+	
+	private IModel model = new Model();
+	private IAttribute currentAttribute = null;
+	private String currentObject = "";
 
-	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-		// La donnée doit etre du texte et pas un retour chariot ou un
-		// tabulation
-		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("	"))) {
+	private int refId = 0; // Le dernier ID lu
 
-			// Ajout de l'attribut au modele
-			if (ltag.equals("model")) {
+	/**
+	 * Lecture des balises ouvrantes du modele
+	 */
+	public void startElement(String uri, String localName, String baliseName,Attributes attributes) throws SAXException {
 
-				att.setValue(data);
-				model.addAttribute(att);
+		// Balise MODEL
+		if (baliseName.equals("model")) {
+			// Recuperation des positions
+			int x = Integer.parseInt(attributes.getValue("xposition"));
+			int y = Integer.parseInt(attributes.getValue("yposition"));
+			this.refId = 1;
+			this.currentObject = "model";
 
-				// Ajout de l'attribut à un noeud
-			} else if (ltag.equals("node")) {
-				att.setValue(data);
-				model.getANode(refid).addAttribute(att);
+			// Creation du modele
+			this.model.setPosition(x, y);
+			this.model.setFormalism(attributes.getValue("formalism"));
 
-				// Ajout de l'attribut à un arc
-			} else if (ltag.equals("arc")) {
-				att.setValue(data);
-				model.getAnArc(refid).addAttribute(att);
+		// Balise NODE
+		} else if (baliseName.equals("node")) {
+
+			// Recuperation des positions et de l'identifiant
+			int x = Integer.parseInt(attributes.getValue("xposition"));
+			int y = Integer.parseInt(attributes.getValue("yposition"));
+			this.refId = Integer.parseInt(attributes.getValue("id"));
+			this.currentObject = "node";
+
+			// Creation du noeud
+			INode node = new Node(attributes.getValue("nodetype"), x, y, this.refId);
+
+			// Ajout du noeud au modele
+			try {
+				this.model.addNode(node);
+			} catch (SyntaxErrorException e) {
+				System.err.println(e.toString());
+			}
+
+		// Balise ARC
+		} else if (baliseName.equals("arc")) {
+
+			// Recuperation de l'identifiant de l'arc
+			this.refId = Integer.parseInt(attributes.getValue("id"));
+
+			// Recuperation de l'identifiant de ses noeuds
+			int startid = Integer.parseInt(attributes.getValue("startid"));
+			int endid = Integer.parseInt(attributes.getValue("endid"));
+			this.currentObject = "arc";
+
+			// Creation de l'arc
+			IArc arc = new Arc(attributes.getValue("arctype"), this.refId);
+			arc.setStartingNode(this.model.getANode(startid));
+			arc.setEndingNode(this.model.getANode(endid));
+
+			// Ajout de l'arc au modele
+			try {
+				this.model.addArc(arc);
+			} catch (SyntaxErrorException e) {
+				System.err.println(e.toString());
+			}
+
+		// Balise ATTRIBUT & PI
+		} else if (!(baliseName.equals("nodes") || baliseName.equals("arcs"))) {
+
+			int x = Integer.parseInt(attributes.getValue("xposition"));
+			int y = Integer.parseInt(attributes.getValue("yposition"));
+
+			// Si on lit une position intermediaire
+			if (baliseName.equals("pi")) {
+				try {
+					this.model.getAnArc(this.refId).addPI(x, y);
+				} catch (SyntaxErrorException e) {
+					System.err.println(e.toString());
+				}
+
+			//Si on lit un attribut
+			} else {
+				
+				// On distingue l'attribut AUTHOR
+				if (baliseName.equals("authors")) {
+					currentAttribute = new Attribute("author(s)", "", this.refId);
+				} else {
+					currentAttribute = new Attribute(baliseName, "", this.refId);
+				}
+
+				currentAttribute.setPosition(x, y);
 			}
 		}
+	}
+	
+	// Donnees contenues dans les balises
+	private String data = "";
+	
+	/**
+	 * Gestion des donnees contenues dans les balises
+	 */
+	public void characters(char[] ch, int start, int length) throws SAXException {
 
+		// Creation de la donnees (chaine de caracteres)
+		for (int i = 0; i < length; i++) {
+			data += ch[start + i];
+		}
+		data=this.deformat(data);
+	}
+
+
+	/**
+	 * Lecture des balises fermantes du modele
+	 */              
+	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+
+		// La donnee doit etre du texte et pas un retour chariot ou une tabulation
+		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("\t"))) {
+
+			// Ajout de l'attribut au modele
+			if (this.currentObject.equals("model")) {
+				this.currentAttribute.setValue(data);
+				this.model.addAttribute(this.currentAttribute);
+
+			// Ajout de l'attribut a un noeud
+			} else if (this.currentObject.equals("node")) {
+				this.currentAttribute.setValue(data);
+				this.model.getANode(this.refId).addAttribute(this.currentAttribute);
+
+			// Ajout de l'attribut a un arc
+			} else if (this.currentObject.equals("arc")) {
+				this.currentAttribute.setValue(data);
+				model.getAnArc(this.refId).addAttribute(this.currentAttribute);
+			}
+		}
+		// Remise a zero des donnees lues
 		data = "";
 	}
 
@@ -375,9 +374,8 @@ public class XmlEditor extends DefaultHandler {
 	public void skippedEntity(String name) throws SAXException { };
 	public void setDocumentLocator(Locator loc) { };
 
-	/** FIN METHODES XML* */
 
-	/* Retourne le modele créé par le parcours du fichier xml */
+	/* Retourne le modele cree par le parcours du fichier xml */
 	public IModel getModel() {
 		return model;
 	}
