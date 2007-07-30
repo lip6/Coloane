@@ -56,7 +56,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		List<Bendpoint> modelConstraint = ((IArcImpl)getModel()).getInflexPoints();
 		getConnectionFigure().setRoutingConstraint(modelConstraint);
 		
-			
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(arcModel.getModelAdapter());
 	}

@@ -59,7 +59,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
                 s.append(this.getNthPI(i).getXPosition());
                 s.append(",");
                 s.append(this.getNthPI(i).getYPosition());
-                s.append(",");
+                s.append(",0,");
                 s.append("-1");
                 s.append(")");
                 vectorStringToReturn.addElement(s.toString()); 

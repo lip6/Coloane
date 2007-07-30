@@ -21,8 +21,8 @@ public class InflexMoveCmd extends Command {
 	}
 
 	public void execute() {
-		this.redo();
 		super.execute();
+		this.redo();
 	}
 
 	public void undo() {
