@@ -5,21 +5,21 @@
   <parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>coloane-maven</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <!--<relativePath>../../pom.xml</relativePath>-->
   </parent>
   
   <groupId>${project.parent.groupId}</groupId>
   <artifactId>apicami</artifactId>
-  <version>0.9.8-SNAPSHOT</version>
+  <version>0.9.8</version>
   <packaging>jar</packaging>
   <name>Apicami - Maven-Packaging</name>
   <description>Api (cami)</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.artifactId}/tags/coloane_release/apicami/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.artifactId}/tags/coloane_release/apicami/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/${project.artifactId}/tags/coloane_release/apicami/trunk</url>
   </scm>
   
   <dependencies>
