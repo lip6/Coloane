@@ -62,6 +62,12 @@
 						<include>javac_options</include>
 					</includes>
 				</fileset>
+				<fileset>
+					<directory>${project.artifactId}/trunk</directory>
+					<includes>
+						<include>javac_options</include>
+					</includes>
+				</fileset>
 			</filesets>
 		</configuration>
 	</plugin>
