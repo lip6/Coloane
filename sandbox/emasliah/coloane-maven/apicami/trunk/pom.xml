@@ -117,13 +117,14 @@
       	</executions>
       </plugin>-->
       
-      <!--<plugin>
+    	<plugin>
+    		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/fr.lip6.move.coloane.interfaces/branches/maven-packaging/target/jar</tagBase>
+          <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/tags</tagBase>
         </configuration>
-      </plugin>-->
+      </plugin>
       
 		</plugins>
 
