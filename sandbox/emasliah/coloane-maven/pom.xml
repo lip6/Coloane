@@ -99,8 +99,8 @@
     <snapshotRepository>
     	<id>izanami-snap</id>
     	<name>Izanami Snapshot</name>
-    <url>ftp://izanami/home/emasliah/public_html/snap</url>
-  </snapshotRepository>
+    	<url>ftp://izanami/home/emasliah/public_html/snap</url>
+  	</snapshotRepository>
   </distributionManagement>
   
   <build>
