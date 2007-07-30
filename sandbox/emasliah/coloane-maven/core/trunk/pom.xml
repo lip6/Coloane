@@ -25,12 +25,12 @@
 	<dependencies>
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
-      <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
+      <artifactId>interfaces</artifactId>
       <version>1.0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
-      <artifactId>fr.lip6.move.coloane.apicami</artifactId>
+      <artifactId>apicami</artifactId>
       <version>0.9.8-SNAPSHOT</version>
     </dependency>
   </dependencies>
