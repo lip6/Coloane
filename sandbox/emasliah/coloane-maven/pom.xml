@@ -25,6 +25,7 @@
     <url>http://www.lip6.fr</url>
   </organization>
   
+  <!-- Les developpeurs --> 
   <developers>
     <developer>
       <id>fkordon</id>
@@ -67,7 +68,7 @@
     <developer>
       <id>dcharles</id>
       <name>Dimitri Charles</name>
-      <email>clarence-dimitri.charles@src.lip6.fr</email>
+      <email>Clarence-Dimitri.Charles@src.lip6.fr</email>
       <organization>LIP6</organization>
       <organizationUrl>http://www.lip6.fr</organizationUrl>
       <roles>
@@ -76,6 +77,25 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
+  
+  <!-- Pour les notifications -->
+  <ciManagement>
+    <system>continuum</system>
+    <url>http://127.0.0.1:8888/continuum</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>true</sendOnSuccess>
+        <sendOnWarning>true</sendOnWarning>
+        <configuration>
+        	<address>Eric.Masliah@src.lip6.fr</address>
+        	<address>Jean-Baptiste.Voron@lip6.fr</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
   
   <!-- Pour les tests unitaires --> 
   <dependencies>
