@@ -155,7 +155,7 @@ public class Api implements IApi {
 		}
 
 		try {
-			apiLogger.info("Debut connexion vers " + ip + ":" + port);
+			apiLogger.finer("Debut connexion vers " + ip + ":" + port);
 			// System.out.println("Debut connexion vers " + ip + ":" + port);
 			comLowServices.createCom(ip, port);
 
