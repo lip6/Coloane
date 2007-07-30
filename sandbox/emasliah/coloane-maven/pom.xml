@@ -87,19 +87,19 @@
     </dependency>
   </dependencies>
   
-  <!-- Envoie par ssh lors du deploy -->
+  <!-- Envoie par ftp lors du deploy -->
   <distributionManagement>
   	<!-- use the following if you're not using a snapshot version. -->
     <repository>
       <id>izanami</id>
       <name>Izanami</name>
-      <url>scp://izanami/home/emasliah/public_html</url>
+      <url>ftp://izanami/home/emasliah/public_html</url>
     </repository>
     <!-- use the following if you ARE using a snapshot version. -->
     <snapshotRepository>
     	<id>izanami-snap</id>
     	<name>Izanami Snapshot</name>
-    <url>scp://izanami/home/emasliah/public_html/snap</url>
+    <url>ftp://izanami/home/emasliah/public_html/snap</url>
   </snapshotRepository>
   </distributionManagement>
   
@@ -121,12 +121,17 @@
     	</plugins>
   	</pluginManagement>
   	
-  	<!-- Bizarre -->
+  	<!-- Pour ssh et ftp -->
   	<extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
          <artifactId>wagon-ssh-external</artifactId>
          <version>1.0-alpha-5</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ftp</artifactId>
+         <version>1.0-alpha-6</version>
       </extension>
     </extensions>
 		
