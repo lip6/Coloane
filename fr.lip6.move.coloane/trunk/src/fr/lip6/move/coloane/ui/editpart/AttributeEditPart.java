@@ -29,6 +29,7 @@ import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.ui.model.IElement;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
@@ -67,6 +68,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 			} else {
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
 			}			
+		
+		// Si le referent est un arc
 		} else if (attribut.getReference() instanceof IArcImpl) {
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
 				attributePosition = ((IArcImpl)attribut.getReference()).getGraphicInfo().findMiddlePoint();			
@@ -75,6 +78,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
 			}			
 			
+		// Si le referent est le modele lui-meme
+		} else if (attribut.getReference() instanceof IModelImpl) {
+			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
+			
+		// Dans tous les autres cas... On reset
 		} else {
 			attributePosition = new Point(0,0);
 		}
