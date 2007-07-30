@@ -56,7 +56,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 * Le module de communications doit creer un lien avec l'API de communications
 	 */
 	public Com() {
-		this.api = new Api(this,IApi.NORMAL);
+		this.api = new Api(this,IApi.DEBUG);
 		this.parent = (Composite) Coloane.getParent();
 	}
 	
@@ -132,7 +132,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			// Demande de l'ouverture de session a l'API
 			Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
 			if (retour) {
-				System.out.println("Connexion r�ussie !"); //$NON-NLS-1$
+				System.out.println("Connexion reussie !"); //$NON-NLS-1$
 				return true;
 			} else {
 				System.err.println(Coloane.traduction.getString("communications.Com.13")); //$NON-NLS-1$
