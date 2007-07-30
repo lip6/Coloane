@@ -93,13 +93,13 @@
     <repository>
       <id>izanami</id>
       <name>Izanami</name>
-      <url>ftp://izanami/home/emasliah/public_html</url>
+      <url>ftp://izanami/coloane</url>
     </repository>
     <!-- use the following if you ARE using a snapshot version. -->
     <snapshotRepository>
     	<id>izanami-snap</id>
     	<name>Izanami Snapshot</name>
-    	<url>ftp://izanami/home/emasliah/public_html/snap</url>
+    	<url>ftp://izanami/coloane/snap</url>
   	</snapshotRepository>
   </distributionManagement>
   
