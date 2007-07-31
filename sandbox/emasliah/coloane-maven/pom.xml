@@ -174,8 +174,8 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
-          <username>emasliah</username>
-          <password>Zp74Ax3D</password>
+          <username>coloane_builder</username>
+          <password>coloane</password>
       	</configuration>
       </plugin>
       
