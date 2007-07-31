@@ -220,6 +220,22 @@
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.artifactId}/tags</tagBase>
         </configuration>
       </plugin>
+      
+   <plugin>
+		<!-- Pour supprimer le fichier javac_options -->
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-clean-plugin</artifactId>
+		<configuration>
+			<filesets>
+				<fileset>
+					<directory>${project.artifactId}/trunk</directory>
+					<includes>
+						<include>javac_options</include>
+					</includes>
+				</fileset>
+			</filesets>
+		</configuration>
+	</plugin>
     	
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
