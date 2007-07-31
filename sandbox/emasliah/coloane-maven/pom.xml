@@ -174,8 +174,8 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
-          <username>coloane_builder</username>
-          <password>coloane</password>
+          <username>emasliah</username>
+          <password>Zp74Ax3D</password>
       	</configuration>
       </plugin>
       
@@ -216,7 +216,7 @@
     		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-6</version>
+        <version>2.0-beta-5</version>
         <configuration>
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.artifactId}/tags</tagBase>
         </configuration>
