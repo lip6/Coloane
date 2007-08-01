@@ -17,9 +17,9 @@
   <description>Core</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/jbvoron/browser/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</url>
   </scm>
   
 	<dependencies>
