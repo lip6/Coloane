@@ -10,22 +10,24 @@ public class ListTextArea extends TextArea {
 	public ListTextArea(Composite parent,
 			int multiLine, String defaultValue) {
 		super(parent, TextArea.INPUT_FORBIDDEN, multiLine,defaultValue);
-		if (multiLine == TextArea.MULTI_LINE_WITH_SINGLE_SELECTION)
+		if (multiLine == TextArea.MULTI_LINE_WITH_SINGLE_SELECTION) {
 			textWidget = new List(parent, SWT.SINGLE);
-		else
+		} else {
 			textWidget = new List(parent, SWT.MULTI);
+		}
 	}
 
 	public void addChoice(String choice) {
 		((List)textWidget).add(choice);
 	}
-	
+
 	public ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
-		
-		for (String selection : ((List)textWidget).getSelection())
+
+		for (String selection : ((List)textWidget).getSelection()) {
 			result.add(selection);
-		
+		}
+
 		return result;
 	}
 }

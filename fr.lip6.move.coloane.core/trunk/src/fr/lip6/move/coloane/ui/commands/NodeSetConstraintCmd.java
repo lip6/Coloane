@@ -12,18 +12,18 @@ public class NodeSetConstraintCmd extends Command {
 
 	/** Enregistre la nouvelle taille et le nouvel endroit */
 	private final Rectangle newBounds;
-    /** Enregistre l'ancienne taille et le nouvel endroit */
+	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Rectangle oldBounds;
 
 	/** Noeud ˆ manipuler */
 	private final INodeImpl node;
 
-    /**
-     * Constructeur
-     * @param node noeud
-     * @param newBounds Nouvelles limites
-     */
-    public NodeSetConstraintCmd(INodeImpl node, Rectangle newBounds) {
+	/**
+	 * Constructeur
+	 * @param node noeud
+	 * @param newBounds Nouvelles limites
+	 */
+	public NodeSetConstraintCmd(INodeImpl node, Rectangle newBounds) {
 		if (node == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
@@ -31,17 +31,17 @@ public class NodeSetConstraintCmd extends Command {
 		this.newBounds = newBounds.getCopy();
 	}
 
-    /**
-     * On peut toujours deplacer un noeud.
-     * Le redimensionnement est bloque automatiquement par les EditPolicy
-     * @return booleen
-     */
+	/**
+	 * On peut toujours deplacer un noeud.
+	 * Le redimensionnement est bloque automatiquement par les EditPolicy
+	 * @return booleen
+	 */
 	public boolean canExecute() {
 		return true;
 	}
 
 	/**
-     * Executer
+	 * Executer
 	 */
 	public void execute() {
 		oldBounds = new Rectangle(node.getGraphicInfo().getLocation(), node.getGraphicInfo().getSize());
@@ -49,7 +49,7 @@ public class NodeSetConstraintCmd extends Command {
 	}
 
 	/**
-     * Refaire
+	 * Refaire
 	 */
 	public void redo() {
 		node.getGraphicInfo().setLocation(newBounds.getLocation().x,newBounds.getLocation().y);
@@ -58,7 +58,7 @@ public class NodeSetConstraintCmd extends Command {
 	}
 
 	/**
-     * Annuler
+	 * Annuler
 	 */
 	public void undo() {
 		node.getGraphicInfo().setLocation(oldBounds.getLocation().x,oldBounds.getLocation().y);

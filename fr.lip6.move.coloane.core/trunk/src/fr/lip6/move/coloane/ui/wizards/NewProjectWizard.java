@@ -48,11 +48,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 
 		try {
-			if (!newProject.exists())
+			if (!newProject.exists()) {
 				newProject.create(description, null);
+			}
 			
-			if (!newProject.isOpen())
+			if (!newProject.isOpen()) {
 				newProject.open(null);
+			}
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

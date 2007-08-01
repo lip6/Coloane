@@ -200,7 +200,7 @@ public class HistoryView extends ViewPart {
 			try {
 				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
  
-			} catch (Exception e) {
+			} catch (Exception e) { ;
 				/*
 				 * BadLocationException this exception never raised because we
 				 * call function with constants
@@ -221,7 +221,7 @@ public class HistoryView extends ViewPart {
 			try {
 				document.replace(document.getLength(), 0, text);
 
-			} catch (Exception be) {
+			} catch (Exception be) { ;
 				/*
 				 * BadLocationException this exception never raised because we
 				 * call function with constants

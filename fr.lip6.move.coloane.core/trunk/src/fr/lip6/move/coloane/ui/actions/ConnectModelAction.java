@@ -16,7 +16,7 @@ import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
-	
+
 	private IWorkbenchWindow window;
 
 	public void dispose() {}
@@ -32,14 +32,13 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 		 * is null (and it is bad).
 		 */
 		try {
-			window.getActivePage().
-			showView(MainPerspectiveFactory.HISTORY_VIEW);
+			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
 					Coloane.traduction.getString("ui.actions.ConnectModelAction.0"), //$NON-NLS-1$
 					Coloane.traduction.getString("ui.actions.ConnectModelAction.1")); //$NON-NLS-1$
 		}
-		
+
 		System.out.println(Coloane.traduction.getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
 		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
 
@@ -88,7 +87,7 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		
+
 	}
 
 }

@@ -32,8 +32,7 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 		 * is null (and it is bad).
 		 */
 		try {
-			window.getActivePage().
-			showView(MainPerspectiveFactory.HISTORY_VIEW);
+			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
 					Coloane.traduction.getString("ui.actions.DisconnectModelAction.0"), //$NON-NLS-1$

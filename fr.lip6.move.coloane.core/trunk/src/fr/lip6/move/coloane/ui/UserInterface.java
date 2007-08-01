@@ -30,29 +30,29 @@ import fr.lip6.move.coloane.ui.panels.*;
  */
 
 public class UserInterface implements IUiCom, IUiMotor {
-    
-    /** La fenêtre de travail */
-    private static IWorkbenchWindow fenetreTravail;
-    
-    /** Le module de communication */
-    private IComUi com = null;
-    
-    /** Le module de moteur */
-    private IMotorUi motor = null; 
-    
-    /** La gestion des resultats */
-    private ActionsList serviceResultList = null;
-        
-    
-    /**
-     * Constructeur de la classe
-     */
-    public UserInterface() {
-        fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        
-        // Le gestionnaire de resultats de services
-        serviceResultList = new ActionsList();
-    }
+
+	/** La fenêtre de travail */
+	private static IWorkbenchWindow fenetreTravail;
+
+	/** Le module de communication */
+	private IComUi com = null;
+
+	/** Le module de moteur */
+	private IMotorUi motor = null; 
+
+	/** La gestion des resultats */
+	private ActionsList serviceResultList = null;
+
+
+	/**
+	 * Constructeur de la classe
+	 */
+	public UserInterface() {
+		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+
+		// Le gestionnaire de resultats de services
+		serviceResultList = new ActionsList();
+	}
 
 
 	/**
@@ -61,14 +61,14 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void printHistoryMessage(String message) {
 		final String msg=message;
-        
-        Display.getDefault().asyncExec(new Runnable(){
-           public void run(){
-               if (HistoryView.instance != null) {
-            	   	HistoryView.instance.addLine(msg);
-               }
-           }
-        });   
+
+		Display.getDefault().asyncExec(new Runnable(){
+			public void run(){
+				if (HistoryView.instance != null) {
+					HistoryView.instance.addLine(msg);
+				}
+			}
+		});   
 	}
 
 	/** 
@@ -81,8 +81,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 		GraphicalMenu gmenu = new GraphicalMenu(menu,fenetreTravail,this);
 		gmenu.build();		
 	}
-	
-	
+
+
 	/**
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
@@ -90,10 +90,10 @@ public class UserInterface implements IUiCom, IUiMotor {
 	public void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
-		
+
 			// Recuperation du menu de service de la session
 			RootMenu service = currentSession.getServicesMenu();
-			
+
 			for (IUpdateMenuCom up : updates) {
 				if (up.getRoot().equals(service.getName())) {
 					try {
@@ -103,13 +103,13 @@ public class UserInterface implements IUiCom, IUiMotor {
 					}
 				}
 			}
-			
+
 			GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(),fenetreTravail,this);
 			gmenu.update();
 		} 
 	}
-	
-	
+
+
 	/**
 	 * Demande la suppression d'un menu designee par son nom
 	 * @param menuName Le nom du menu a supprimer
@@ -118,7 +118,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 		MenuManipulation.remove(menuName);
 	}
 
-	
+
 	/**
 	 * Desactivation du rootMenu
 	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
@@ -126,8 +126,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 	public void changeMenuStatus(String rootName, boolean status) {
 		MenuManipulation.setEnabled(rootName,rootName,status);
 	}
-	
-	
+
+
 	/**
 	 * Affichage des resultats d'un appel de service
 	 * @param serviceName Le nom du service qui produit ses resultats
@@ -137,8 +137,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;
-			
-			
+
+
 			if ((serviceName == "") || (result == null)) {
 				labelService = "No result";
 				r = new ResultsList(labelService);
@@ -146,16 +146,16 @@ public class UserInterface implements IUiCom, IUiMotor {
 				String object = "";
 				r.add(new Result(object,description));				
 			}
-						
+
 			/*
 			 * SYNTAX CHECKER
 			 */
 			if (serviceName.equals("Petri net syntax checker")) {
 				labelService = "Syntax-Checker Results";
 				r = new ResultsList(labelService);
-				
+
 				String description = null;
-				
+
 				if (result.getHeadDescription().equals("List of unnamed places.")) {
 					description = "This place is unnamed";
 				} else if (result.getHeadDescription().equals("List of unnamed transitions.")) {
@@ -163,17 +163,17 @@ public class UserInterface implements IUiCom, IUiMotor {
 				} else {
 					description = result.getHeadDescription();
 				}
-				
+
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
 					r.add(new Result(object,description));
 				}
-				
-			/*
-			 * STRUCTURAL BOUNDS
-			 */
+
+				/*
+				 * STRUCTURAL BOUNDS
+				 */
 			} else if (serviceName.equals("Compute structural bounds")) {
-				
+
 				labelService = "Structural Bounds";
 				r = new ResultsList(labelService);
 
@@ -181,84 +181,84 @@ public class UserInterface implements IUiCom, IUiMotor {
 				for (String object : result.getListOfElement()) {
 					r.add(new Result(object,result.getHeadDescription()));
 				}
-				
-			/*
-			 * STRUCTURAL SAFETY
-			 */
+
+				/*
+				 * STRUCTURAL SAFETY
+				 */
 			} else if (serviceName.equals("Is the net structuraly safe?")) {
 				labelService = "Structural safety";
 				r = new ResultsList(labelService);
-				
+
 				if (result.getHeadDescription().equals("Here are unsafe places")) {					
-					
+
 					// Parcours de mes resultats
 					for (String object : result.getSublistOfDescription(1)) {
 						r.add(new fr.lip6.move.coloane.results.Result(object,""));
 					}
-					
+
 				} else if (result.getHeadDescription().equals("Your net is not safe")) {
 					String description = "Your net is not safe";
 					r.add(new fr.lip6.move.coloane.results.Result(description,"Reasons are given above"));
 				}
-			
-			/*
-			 * STRUCTURAL BOUNDS
-			 */
+
+				/*
+				 * STRUCTURAL BOUNDS
+				 */
 			} else if (serviceName.equals("Is the net structurally bounded?")) {
 				labelService = "Structural bounds";
 				r = new ResultsList(labelService);
-				
+
 				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
-			
-			/*
-			 * P INVARIANT
-			 */
+
+				/*
+				 * P INVARIANT
+				 */
 			} else if (serviceName.equals("P-invariants")) {
 				labelService = "P-invariants";
 				r = new ResultsList(labelService);
-							
+
 				String liste = "";
-				
+
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
 					liste = liste+object+",";
 				}
-				
+
 				// Suppression de la derniere virgule
 				if (liste.length() > 1) {
 					liste = liste.substring(0, liste.length()-1);
 				}
-				
+
 				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
-			
-			
-			/*
-			 * T INVARIANT
-			 */
+
+
+				/*
+				 * T INVARIANT
+				 */
 			} else if (serviceName.equals("T-invariants")) {
 				labelService = "T-invariants";
 				r = new ResultsList(labelService);
-							
+
 				String liste = "";
-				
+
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
 					liste = liste+object+",";
 				}
-				
+
 				// Suppression de la derniere virgule
 				if (liste.length() > 1) {
 					liste = liste.substring(0, liste.length()-1);
 				}
-				
+
 				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
 			}
-			
+
 			serviceResultList.setResultsList(r);			
 		}
 	}
-	
-	
+
+
 	/**
 	 * Affichage des resultats dans la vue resultats
 	 */
@@ -275,7 +275,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 			}
 		});
 	}
-	
+
 
 	/**
 	 * Demande d'un service
@@ -287,8 +287,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 		serviceResultList.removeAll();
 		this.com.askForService(rootMenuName, parentName, serviceName);
 	}
-	
-	
+
+
 	/** Affichage d'une boite de dialogue
 	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
@@ -298,25 +298,25 @@ public class UserInterface implements IUiCom, IUiMotor {
 			dialog = DialogFactory.create(
 					d.id, d.type, d.buttonType, d.title, 
 					d.help, d.message, d.inputType, d.multiLine,d.def);
-			
+
 			// Ouverture de la boite de dialogue
 			dialog.open();
-			
+
 			if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) {
 				return;	
 			}
-			
+
 			// Capture des resultats
 			this.com.getDialogAnswers(dialog.getDialogResult());
-			
+
 		} catch (UnknowDialogException e) {
 			System.err.println("Echec de la construction de la boite de dialogue");
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * On attache le module de communication a l' l'interface utilisateur
 	 * @param IComUi L'interface
@@ -324,8 +324,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 	public void setCom(IComUi com) {
 		this.com = com;
 	}
-	
-	
+
+
 	/**
 	 * On attache le module du moteur a l' l'interface utilisateur
 	 * @param IMotorUi L'interface

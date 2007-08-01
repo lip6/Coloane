@@ -18,14 +18,14 @@ public class NewModelWizard extends Wizard implements INewWizard {
 
 	/** Les pages de l'assistant */
 	private SelectFormalismPage page1;
-    private ModelCreationPage page2;
-	
+	private ModelCreationPage page2;
+
 	// Indication de fin de creation
-    protected boolean creationFinished = false;
-	
-	
+	protected boolean creationFinished = false;
+
+
 	/**
-     * Ajouter les pages de l'assistant
+	 * Ajouter les pages de l'assistant
 	 */
 	public void addPages() {
 		addPage(page1);
@@ -52,16 +52,16 @@ public class NewModelWizard extends Wizard implements INewWizard {
 		return page2.finish();
 	}
 
-    /**
-     * Obtenir le nom du formalisme
+	/**
+	 * Obtenir le nom du formalisme
 	 * @return retourne le nom du formalisme
 	 */
 	public String getFormalismName() {
 		return formalismName;
 	}
 
-    /**
-     * Donner une valeur au nom du formalisme
+	/**
+	 * Donner une valeur au nom du formalisme
 	 * @param formalismName la valeur
 	 */
 	public void setFormalismName(String formalismName) {

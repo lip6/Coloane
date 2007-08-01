@@ -7,102 +7,102 @@ import fr.lip6.move.coloane.ui.model.IModelImpl;
  * Definition d'une session
  */
 public class Session {
-    
-    /** Compteur de sessions */
-    public static int cntSession=1;
-    
-   /** Le modele associe */
-    public IModelImpl sessionModel;
 
-    /** Nom de la session */
-    private String sessionName;
+	/** Compteur de sessions */
+	public static int cntSession=1;
 
-    /** Identifiant de la session */
-    private int sessionId;
+	/** Le modele associe */
+	public IModelImpl sessionModel;
 
-    /** Arborescence du menu administration */
-    private RootMenu adminMenu;
-    
-    /** Arborescence du menu et des services de la session */
-    private RootMenu sessionMenu;
-    
+	/** Nom de la session */
+	private String sessionName;
+
+	/** Identifiant de la session */
+	private int sessionId;
+
+	/** Arborescence du menu administration */
+	private RootMenu adminMenu;
+
+	/** Arborescence du menu et des services de la session */
+	private RootMenu sessionMenu;
+
 	/** Status de la session */
-    private int sessionStatus;
-    
-    
-    /**
-     * Constructeur de la classe Session
-     * @param name Nom de la session
-     * @param num numero de la session
-     */
-    public Session(String name, int id) {
-        this.sessionName = name;
-        this.sessionId = id;
-        this.sessionModel= null;
-        
-        this.sessionStatus = 0;	 	
-    }
+	private int sessionStatus;
 
-    /**
-     * Retoune le nom de la session
-     * @return name
-     */
-    public String getName() {
-        return sessionName;
-    }
 
-    /**
-     * Positionne le nom de la session
-     * @param name nom de session
-     */
-    public void setName(String name) {
-        this.sessionName = name;
-    }
+	/**
+	 * Constructeur de la classe Session
+	 * @param name Nom de la session
+	 * @param num numero de la session
+	 */
+	public Session(String name, int id) {
+		this.sessionName = name;
+		this.sessionId = id;
+		this.sessionModel= null;
 
-    /**
-     * Retourne le numero de la session
-     * @return int Le numero de la session
-     */
-    public int getId() {
-        return this.sessionId;
-    }
+		this.sessionStatus = 0;	 	
+	}
 
-    /**
-     * Positionne le nom de la session
-     * @param number Le numero de la session
-     */
-    public void setId(int id) {
-        this.sessionId = id;
-    }
+	/**
+	 * Retoune le nom de la session
+	 * @return name
+	 */
+	public String getName() {
+		return sessionName;
+	}
 
-    /**
-     * Retoune le modele
-     * @return IModelImpl Le modele de la session
-     */
-    public IModelImpl getModel() {
-        return this.sessionModel;
-    }
+	/**
+	 * Positionne le nom de la session
+	 * @param name nom de session
+	 */
+	public void setName(String name) {
+		this.sessionName = name;
+	}
 
-    /**
-     * Positionne le modele
-     * @param model nouveau modele
-     */
-    public void setModel(IModelImpl model) {
-        this.sessionModel = model;
-    }
-    
-    /**
-     * Retourne le menu d'administration
-     * @return la racine du menu d'administration
-     */
- 	public RootMenu getAdminMenu() {
+	/**
+	 * Retourne le numero de la session
+	 * @return int Le numero de la session
+	 */
+	public int getId() {
+		return this.sessionId;
+	}
+
+	/**
+	 * Positionne le nom de la session
+	 * @param number Le numero de la session
+	 */
+	public void setId(int id) {
+		this.sessionId = id;
+	}
+
+	/**
+	 * Retoune le modele
+	 * @return IModelImpl Le modele de la session
+	 */
+	public IModelImpl getModel() {
+		return this.sessionModel;
+	}
+
+	/**
+	 * Positionne le modele
+	 * @param model nouveau modele
+	 */
+	public void setModel(IModelImpl model) {
+		this.sessionModel = model;
+	}
+
+	/**
+	 * Retourne le menu d'administration
+	 * @return la racine du menu d'administration
+	 */
+	public RootMenu getAdminMenu() {
 		return adminMenu;
 	}
 
- 	/**
- 	 * Indique le menu d'administration attache ˆ la session
- 	 * @param adminMenu La racinde du menu d'administration
- 	 */
+	/**
+	 * Indique le menu d'administration attache ˆ la session
+	 * @param adminMenu La racinde du menu d'administration
+	 */
 	public void setAdminMenu(RootMenu adminMenu) {
 		this.adminMenu = adminMenu;
 	}

@@ -6,11 +6,11 @@ import org.eclipse.gef.commands.Command;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
 public class InflexDeleteCmd extends Command {
-	
-		private IArcImpl arcModel;
-		private Point position;
-		private int index;
-		
+
+	private IArcImpl arcModel;
+	private Point position;
+	private int index;
+
 	public InflexDeleteCmd(IArcImpl arcModel, Point position, int index) {
 		this.arcModel = arcModel;
 		this.position = position;
@@ -25,10 +25,10 @@ public class InflexDeleteCmd extends Command {
 	public void undo() {
 		this.arcModel.addInflexPoint(this.position, this.index);
 	}
-	
+
 	public void redo() {
 		this.arcModel.removeInflexPoint(this.index);
 	}
 
-	
+
 }

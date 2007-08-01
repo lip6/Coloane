@@ -31,16 +31,16 @@ public interface INodeImpl {
 
 	/** ID pour la propriete lorsqu'un changement de la position */
 	public static final String LOCATION_PROP = "Node.Location";
-	
+
 	/** ID pour la propriete lorsqu'un changement de la valeur */
-    public static final String VALUE_PROP = "Node.ValueUpdate";
-	
-    /** ID pour la propriete lorsque le noeud est selectionne */
-    public static final String SELECT_PROP = "Node.SelectUpdate";
-    
-    /** ID pour la propriete lorsque le noeud est deselectionne */
-    public static final String UNSELECT_PROP = "Node.UnSelectUpdate";
-    
+	public static final String VALUE_PROP = "Node.ValueUpdate";
+
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	public static final String SELECT_PROP = "Node.SelectUpdate";
+
+	/** ID pour la propriete lorsque le noeud est deselectionne */
+	public static final String UNSELECT_PROP = "Node.UnSelectUpdate";
+
 	/**
 	 * Ajouter un arc entrant. 
 	 * L'arc doit etre rajoute dans la liste des arcs entrants du noeud adapte
@@ -50,17 +50,17 @@ public interface INodeImpl {
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl
 	 */
 	public void addInputArc(IArcImpl arc) throws BuildException;
-    
-    /**
-     * Ajouter un arc sortant.
-     * L'arc doit etre rajoute dans la liste des arcs sortants du noeud adapte
+
+	/**
+	 * Ajouter un arc sortant.
+	 * L'arc doit etre rajoute dans la liste des arcs sortants du noeud adapte
 	 * L'arc doit etre ajout dans la liste des arcs sortants du noeud generique
-     * @param arc L'arc a ajouter
-     * @see fr.lip6.move.coloane.ui.model.IArcImpl
-     * @throws BuildException
-     */
+	 * @param arc L'arc a ajouter
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl
+	 * @throws BuildException
+	 */
 	public void addOutputArc(IArcImpl arc) throws BuildException;
-    
+
 	/**
 	 * Suppression d'un arc entrant ou sortant du noeud
 	 * Cette methode est appelee par l'arc adapte lors de sa deconnexion
@@ -68,7 +68,7 @@ public interface INodeImpl {
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl
 	 */
 	public void removeArc(IArcImpl arc);
-	
+
 	/**
 	 * Retourne la liste des arcs sortants du noeud
 	 * @return List La liste
@@ -80,38 +80,38 @@ public interface INodeImpl {
 	 * @return List La liste
 	 */
 	public List getTargetArcs();
-	
+
 	/**
-     * Recupere l'ID du noeud generique
-     * Evite les appels direct au noeud generique
-     * @return id L'identifiant du noeud
-     */
-    public int getId();
-    
-    /**
-     * Retourne tous les attributs de l'objet pour qu'ils soient affiches
-     * @return La liste des attributs
-     */
-    public List<IElement> getAttributes();
-	
+	 * Recupere l'ID du noeud generique
+	 * Evite les appels direct au noeud generique
+	 * @return id L'identifiant du noeud
+	 */
+	public int getId();
+
 	/**
-     * Associe le modele augmente au noeud
-     * @param modelAdapter
-     */
+	 * Retourne tous les attributs de l'objet pour qu'ils soient affiches
+	 * @return La liste des attributs
+	 */
+	public List<IElement> getAttributes();
+
+	/**
+	 * Associe le modele augmente au noeud
+	 * @param modelAdapter
+	 */
 	public void setModelAdapter(IModelImpl modelAdapter);
-	
+
 	/**
 	 * Retourne le modele augmente auquel appartient le noeud
 	 * @return Le modele augmente
 	 */
 	public IModelImpl getModelAdapter();
-    
+
 	/**
 	 * Retourne l'element de base du noeud
 	 * @return L'element de base du noeud
 	 */
 	public ElementBase getElementBase();
-	
+
 	/**
 	 * Retourne la valeur de l'attribut designe par le parametre
 	 * @param attribute La chaine caracterisant l'attribut qu'on cible
@@ -119,21 +119,21 @@ public interface INodeImpl {
 	 */
 	public String getNodeAttributeValue(String attribute);
 
-    /**
-     * Retourne le noeud generique
-     * @return Node Le noeud generique
-     * @see fr.lip6.move.coloane.interfaces.model.INode
-     */
-    public INode getGenericNode();
-    
+	/**
+	 * Retourne le noeud generique
+	 * @return Node Le noeud generique
+	 * @see fr.lip6.move.coloane.interfaces.model.INode
+	 */
+	public INode getGenericNode();
+
 	/**
 	 * Retourne les informations graphiques du noeud
 	 * @return INodeGraphicInfo
 	 * @see INodeGraphicInfo
 	 */
 	public INodeGraphicInfo getGraphicInfo();
-    
-    /**
+
+	/**
 	 * Retourner le menu contextuel associe au noeud
 	 * @return Collection
 	 */
@@ -144,25 +144,25 @@ public interface INodeImpl {
 	 * @param state
 	 */
 	public void setSpecial(boolean state);
-	
+
 	/**
 	 * Demande la mise en valeur des attributs attaches a l'objet
 	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
 	 * @param state Selection / Deselection
 	 */
 	public void setAttributesSelected(boolean light, boolean state);
-	
+
 	/**
 	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
 	 * @param deltaX Deplacement horizontal
 	 * @param deltaY Deplacement vertical
 	 */
 	public void updateAttributesPosition(int deltaX, int deltaY);
-	
+
 	/**
 	 * Lors du deplacement d'un noeud, il est necessaire de faire suivre les attributs
 	 * attaches aux arcs sortant et entrants du noeud en question
 	 */
 	public void updateArcAttributesPosition();
-     
+
 }

@@ -16,43 +16,43 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
  */
 
 public interface IAttributeImpl {
-	
+
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	public static final String VALUE_PROP = "Attribute.ValueUpdate";
-	
+
 	/** ID pour la propriete lorsqu'un changement de la position */
 	public static final String LOCATION_PROP = "Attribute.Location";
-	
-    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
-    public static final String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate";
-    
-    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
-    public static final String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate";
-    
-    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
-    public static final String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate";
 
-    /** ID pour la propriete lorsque l'attribut doit etre selectionne */
-    public static final String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate";
+	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
+	public static final String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate";
 
-    /**
+	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
+	public static final String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate";
+
+	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
+	public static final String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate";
+
+	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
+	public static final String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate";
+
+	/**
 	 * Retourne l'identifiant de l'attribut
 	 * @return
 	 */
 	public String getId();
-	
+
 	/**
 	 * Retourne la chaine qui sera affichee sur la fenetre PropertiesView d'Eclipse
 	 * @return String
 	 */
 	public String getDisplayName();
-	
+
 	/**
 	 * Retourne la valeur de l'attribut
 	 * @return Object
 	 */
 	public String getValue();
-	
+
 	/**
 	 * Retourne le type d'affichage a considerer pour cet attrribut
 	 * @return int Indicateur d'affichage
@@ -66,63 +66,63 @@ public interface IAttributeImpl {
 	 * @param newValue La nouvelle valeur de l'attribut
 	 */
 	public void setValue(String oldValue, String newValue);
-	
+
 	/**
 	 * Indicateur d'affichage
 	 * @return true si l'attribut doit etre affiche
 	 */
 	public boolean isDrawable();
-	
+
 	/**
 	 * Indicateur d'attribut multiligne
 	 * @return true si l'attribut est multiligne
 	 */
 	public boolean isMultiline();
-	
+
 	/**
 	 * Retourne l'objet contenant les informations graphiques concernant cet attribut
 	 * @return IAttributeGraphicInfo
 	 * @see IAttributeGraphicInfo
 	 */
 	public IAttributeGraphicInfo getGraphicInfo();
-	
+
 	/**
 	 * Retourne l'attribut generique attache a l'attribut augmente
 	 * @return IAttribute L'atribut generique
 	 */
 	public IAttribute getGenericAttribute();
-	
+
 	/**
 	 * Retourne la valeur par defaut de l'attribut
 	 * @return La valeur par defaut
 	 */
 	public String getDefaultValue();
-	
+
 	/**
 	 * TODO : A documenter
 	 * @return 
 	 */
 	public boolean getValidation();
-	
+
 	/**
 	 * TODO : A documenter
 	 * @return Le message
 	 */
 	public String getValidationMessage();
-	
+
 	/**
 	 * Retourne la reference de l'element proprietaire de cet attribut.
 	 * Un IElement peut etre caste en INodeImpl ou IArcImpl
 	 * @return
 	 */
 	public IElement getReference();
-	
+
 	/**
 	 * Leve un evenement pour demander la mise en valeur de l'attribut.
 	 * @param state Selection / Deselection
 	 */
 	public void setSelect(boolean state);
-	
+
 	/**
 	 * Leve un evenement pour demander la mise en valeur de l'attribut.
 	 * Deux mises en valeur sont possible :

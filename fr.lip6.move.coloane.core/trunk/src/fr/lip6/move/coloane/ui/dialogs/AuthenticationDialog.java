@@ -80,22 +80,22 @@ public class AuthenticationDialog extends Dialog {
 
 	/** General Error */
 	private static final String MSG_GNRL_ERROR = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.8"); //$NON-NLS-1$
-	
+
 	/**Id du bouton Details*/
 	private static final int Details_ID = IDialogConstants.CLIENT_ID;
 
 	/**Label du bouton detail*/	
 	private static final String DETAILS_LABEL = Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.13");//$NON-NLS-1$
-	
+
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibilite = false;
 
 	/**L'adresse IP de FrameKit */
 	private String ip = ""; 
-	
+
 	/** Le port de Framekit */
 	private String port = "";
-	
+
 
 	/**
 	 * Constructeur
@@ -120,15 +120,15 @@ public class AuthenticationDialog extends Dialog {
 		b = (Button) super.createButton(parent, Details_ID,DETAILS_LABEL , false);
 		b.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (visibilite == true)
+				if (visibilite == true) {
 					visibilite(false);
-				else {
+				} else {
 					visibilite(true);
 				}
 			}
 		});
-		
-		
+
+
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 
@@ -151,7 +151,7 @@ public class AuthenticationDialog extends Dialog {
 		password.setTextLimit(TXT_LIMIT);
 
 		new Label(compo, SWT.NULL).setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.12")); //$NON-NLS-1$
-		
+
 		//Recuperation des valeurs dans le fichier LNG et les inserer dans la combo
 		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS"));
 		String[] liste_serveurs = new String[nbservers + 2];
@@ -200,7 +200,7 @@ public class AuthenticationDialog extends Dialog {
 		});
 
 		// Invisible a la creation de la boite
-		
+
 		framekit_ip_label = new Label(compo, SWT.NULL);
 		framekit_ip_label.setText(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.3"));
 		framekit_ip = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
@@ -212,7 +212,7 @@ public class AuthenticationDialog extends Dialog {
 		framekit_port = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekit_port.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekit_port.setTextLimit(TXT_LIMIT);
-		
+
 		visibilite(false);
 
 		return compo;
@@ -240,12 +240,12 @@ public class AuthenticationDialog extends Dialog {
 		// Appel de l'authentification du module de Com
 		try {
 			Com com = Coloane.getDefault().getCom();
-				if (com.authentication(getLogin(), getPassword(),
-								getFrameKitIp(), getFrameKitPort())) {
-					super.okPressed();
-				} else {
-					Coloane.showErrorMsg(MSG_AUTH_ERROR);
-				}			
+			if (com.authentication(getLogin(), getPassword(),
+					getFrameKitIp(), getFrameKitPort())) {
+				super.okPressed();
+			} else {
+				Coloane.showErrorMsg(MSG_AUTH_ERROR);
+			}			
 		} catch (GuiAuthenticationException erreur) {
 			Coloane.showErrorMsg(Coloane.traduction.getString("ui.dialogs.AuthenticationDialog.15") + erreur.getMessage()); //$NON-NLS-1$
 		} catch (Exception e) {
@@ -274,7 +274,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur au login
+	 * Donner une valeur au login
 	 * @param login le login
 	 */
 	public void setLogin(String login) {
@@ -295,7 +295,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur au pwd
+	 * Donner une valeur au pwd
 	 * @param pwd le mot de passe
 	 */
 	public void setPassword(String pwd) {
@@ -312,7 +312,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur a l'ip
+	 * Donner une valeur a l'ip
 	 * @param fi l'ip de la plateforme Framekit
 	 */
 	public void setFrameKitIp(String fi) {
@@ -348,7 +348,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-     * Donner une valeur au tag pour le widget a tester
+	 * Donner une valeur au tag pour le widget a tester
 	 * Set tag for widget for testing 
 	 * @param tagged widget to set tag
 	 * @param data tag name

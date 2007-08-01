@@ -30,11 +30,11 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
  * 
  */
 public interface IArcImpl {
-   
+
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	public static final String INFLEXPOINT_PROP = "Arc.InflexPoint";
-	
-	
+
+
 	/**
 	 * Retourne l'attribut ContextMenus
 	 * @return Collection
@@ -53,13 +53,13 @@ public interface IArcImpl {
 	 */
 	public INodeImpl getTarget();
 
-    /**
-     * Recupere l'ID du noeud generique
-     * Evite les appels au noeud generique
-     * @return ID
-     */
-    public int getId();
-	
+	/**
+	 * Recupere l'ID du noeud generique
+	 * Evite les appels au noeud generique
+	 * @return ID
+	 */
+	public int getId();
+
 	/**
 	 * Reconnecter
 	 */
@@ -71,7 +71,7 @@ public interface IArcImpl {
 	 * @param target
 	 */
 	public void reconnect(INodeImpl source, INodeImpl target) throws BuildException;
-	
+
 	/**
 	 * Deconnecter un arc
 	 */
@@ -83,13 +83,13 @@ public interface IArcImpl {
 	 * @see fr.lip6.move.coloane.interfaces.model.Arc
 	 */
 	public IArc getGenericArc();
-	
+
 	/**
 	 * Retourne le formalisme associe a l'arc augmente
 	 * @return Formalism
 	 */
 	public Formalism getFormalism();
-	
+
 	/**
 	 * Retourne la liste des attributs attaches a cet objet
 	 * @return La liste des attributs associes a cet objet
@@ -114,60 +114,60 @@ public interface IArcImpl {
 	 * @return String
 	 */
 	public String getArcValue();
-	
+
 	/**
 	 * Methode d'acces a la valeur du label d'un arc generique
 	 * @return String
 	 */
 	public String getArcLabel();  
-	
+
 	/**
 	 * Retourne une liste des points d'inflexion de cet arc
 	 * @return Liste de Bendpoint
 	 * @see Bendpoint
 	 */
 	public List<Bendpoint> getInflexPoints();
-	
+
 	/**
 	 * Retourne la description du point choisi et designe par son index dans la liste
 	 * @param index Position du point dans la liste des points d'inflexion
 	 * @return Point geometrique
 	 */
 	public Point getInflexPoint(int index);
-	
+
 	/**
 	 * Ajoute un point d'inflexion a la liste deja existante
 	 * @param p Le point contenant les coordonnees
 	 * @param index L'index d'insertion dans la liste
 	 */
 	public void addInflexPoint(Point p , int index);
-	
+
 	/**
 	 * Suppression d'un point d'inflexion de la liste de l'arc
 	 * @param index Indice du point d'inflexion dans la liste
 	 */
 	public void removeInflexPoint(int index);
-	
+
 	/**
 	 * Modification des coordonnees du point dans la liste de l'arc
 	 * @param index Indice du point dans la liste
 	 * @param p Coordonees pour verification
 	 */
 	public void modifyInflexPoint(int index, Point p);
-	
+
 	/**
 	 * Retourne les informations graphiques liees a l'arc (notamment le point milieu)
 	 * @return IGraphicInfo
 	 */
 	public IArcGraphicInfo getGraphicInfo();
-	
+
 	/**
 	 * Demande la mise en valeur des attributs attaches a l'objet
 	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
 	 * @param state Selection / Deselection
 	 */
 	public void setAttributesSelected(boolean state);
-	
+
 	/**
 	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible
 	 */

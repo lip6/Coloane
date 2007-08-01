@@ -121,8 +121,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		}
 
 		public Object getAdapter(Class type) {
-			if (type == ZoomManager.class)
+			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+			}
 			return null;
 		}
 
@@ -156,17 +157,18 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		}
 
 		protected void showPage() {
-			if (thumbnail == null)
+			if (thumbnail == null) {
 				initializeOverview();
+			}
 			pageBook.showPage(overview);
 			thumbnail.setVisible(true);
 		}
 
 		protected void unhookOutlineViewer() {
 			getSelectionSynchronizer().removeViewer(getViewer());
-			if (disposeListener != null && getEditor() != null
-					&& !getEditor().isDisposed())
+			if (disposeListener != null && getEditor() != null && !getEditor().isDisposed()) {
 				getEditor().removeDisposeListener(disposeListener);
+			}
 		}
 	}
 

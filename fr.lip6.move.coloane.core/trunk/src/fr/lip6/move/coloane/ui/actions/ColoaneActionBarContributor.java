@@ -64,9 +64,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		tbm.add(getAction(GEFActionConstants.MATCH_HEIGHT));
 
 		tbm.add(new Separator());	
-		String[] zoomStrings = new String[] {	ZoomManager.FIT_ALL, 
-				ZoomManager.FIT_HEIGHT, 
-				ZoomManager.FIT_WIDTH	};
+		String[] zoomStrings = new String[] {	ZoomManager.FIT_ALL,ZoomManager.FIT_HEIGHT,	ZoomManager.FIT_WIDTH	};
 		tbm.add(new ZoomComboContributionItem(getPage(), zoomStrings));
 	}
 

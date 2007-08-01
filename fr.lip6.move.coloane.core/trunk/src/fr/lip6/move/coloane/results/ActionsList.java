@@ -41,9 +41,11 @@ public class ActionsList extends Observable implements Observer {
 	}
 	
 	public ResultsList getResultsList(String resultName) {
-		for(ResultsList r : list)
-			if (r.getActionName().equals(resultName))
+		for(ResultsList r : list) {
+			if (r.getActionName().equals(resultName)) {
 				return r;
+			}
+		}
 		
 		return null;
 	}
@@ -59,8 +61,9 @@ public class ActionsList extends Observable implements Observer {
 
 			// Si un item (servicename) de la liste actuelle est le meme que la nouvelle liste
 			if (list.get(i).getActionName().equals(r.getActionName())) {
-				for (int j = 0; j < list.get(i).getResultsNumber(); j++)
+				for (int j = 0; j < list.get(i).getResultsNumber(); j++) {
 					r.add(list.get(i).getResult(j));
+				}
 				list.remove(i);
 			}
 		}

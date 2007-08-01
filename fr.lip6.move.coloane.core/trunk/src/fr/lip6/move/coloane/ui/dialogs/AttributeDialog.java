@@ -13,33 +13,33 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 public class AttributeDialog extends IconAndMessageDialog {
-	
+
 	// INPUTS
 	private String title;
 	private String help;
 	private String byDefault;
-	
+
 	// OUTPUTS
 	private String result = "";
-	
+
 	private Control textarea;
-	
+
 	protected Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-	
+
 	public AttributeDialog(String title, String help, String byDefault) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-		
+
 		this.title = title;
 		this.help = help;
 		this.byDefault = byDefault;
 	}
-	
+
 	@Override
 	protected void configureShell(Shell shell) {
-	    super.configureShell(shell);
-	    shell.setText(this.title);
-	 }
-	
+		super.configureShell(shell);
+		shell.setText(this.title);
+	}
+
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.CANCEL_ID,IDialogConstants.CANCEL_LABEL, false);
@@ -51,41 +51,41 @@ public class AttributeDialog extends IconAndMessageDialog {
 	protected Control createDialogArea(Composite parent) {
 		createMessageArea(parent);
 
-	    // Create a composite to hold the textArea
-	    Composite composite = new Composite(parent, SWT.NONE);
-	    GridData data = new GridData(GridData.FILL_BOTH);
-	    data.horizontalSpan = 2;
-	    composite.setLayoutData(data);
-	    composite.setLayout(new FillLayout());
-	    
-	    composite.getParent().setSize(400, 200);
-	    textarea =  new Text(composite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
-	    textarea.setToolTipText(this.help);
-	    ((Text)textarea).setText(byDefault);
-	    
-	    return composite;
+		// Create a composite to hold the textArea
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_BOTH);
+		data.horizontalSpan = 2;
+		composite.setLayoutData(data);
+		composite.setLayout(new FillLayout());
+
+		composite.getParent().setSize(400, 200);
+		textarea =  new Text(composite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
+		textarea.setToolTipText(this.help);
+		((Text)textarea).setText(byDefault);
+
+		return composite;
 	}
-	
+
 	public void buttonPressed(int button) {
-	  	//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
-	  	
-	  	this.result  = ((Text)textarea).getText();  		
-	  	
-	  	this.close();
+		//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
+
+		this.result  = ((Text)textarea).getText();  		
+
+		this.close();
 	}
-	
-	
+
+
 	public String getResult() {
 		return this.result;
 	}
-	
-	
+
+
 	@Override
 	protected Image getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+
 
 }

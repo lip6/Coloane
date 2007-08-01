@@ -29,28 +29,28 @@ import fr.lip6.move.coloane.ui.dialogs.DialogResult;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public class Com implements IComUi, IComApi, IComMotor {
-	
+
 	/** Une poignee sur l'API de communication avec la plateforme */
 	private IApi api = null;
-	
+
 	/** Une poignee sur le moteur */
 	private IMotorCom motor = null;
-	
+
 	/** Une poignee sur l'interface utilisateur */
 	private IUiCom ui = null;
-	
+
 	/** Le dialogue en cours de construction */
 	private Dialog dialog = null;
-	
+
 	/** Le menu en cours de construction */
 	private RootMenu root = null;
-	
+
 	/** L'ensemble de modifications qui doivent etre faites sur les menus */
 	private Vector<IUpdateMenuCom> updates = null;
-	
+
 	/** TODO : A documenter */
 	private Composite parent;
-	
+
 	/**
 	 * Le constructeur
 	 * Le module de communications doit creer un lien avec l'API de communications
@@ -59,7 +59,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 		this.api = new Api(this,IApi.DEBUG);
 		this.parent = (Composite) Coloane.getParent();
 	}
-	
+
 	/**
 	 * Permet de rattacher le moteur au module de communications
 	 * @param motor
@@ -67,7 +67,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void setMotor(IMotorCom motor) {
 		this.motor = motor;
 	}
-	
+
 	/**
 	 * Creer une attache avec l'interface utilisateur
 	 * @param IUiCom L'interface de l'interface utilisateur pour le module de communications
@@ -75,8 +75,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void setUi (IUiCom ui) {
 		this.ui = ui;
 	}
-	
-	
+
+
 	/**
 	 * Authentification de l'utilisateur
 	 * @param login login
@@ -93,7 +93,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("  Pass-> "+pass); //$NON-NLS-1$
 			System.out.println("  IP-> "+ip); //$NON-NLS-1$
 			System.out.println("  Port-> " +port); //$NON-NLS-1$
-			
+
 			// Connexion a la plateforme
 			boolean retour = this.api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (retour) {
@@ -106,8 +106,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 			throw e;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Connecte un modele a la plate-forme
 	 * @param modele Le modele
@@ -116,19 +116,19 @@ public class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean openSession(IModelImpl model) throws Exception {
 		if (model == null) {
-            throw new NullPointerException();
-        }
+			throw new NullPointerException();
+		}
 		try {
 			System.out.println(Coloane.traduction.getString("communications.Com.9")); //$NON-NLS-1$
 
 			// Recuperation du nom de la session courante
 			String sessionName = motor.getSessionManager().getCurrentSession().getName();
 			System.out.println(Coloane.traduction.getString("communications.Com.10")+sessionName); //$NON-NLS-1$
-			
+
 			// Recuperation du nom du formalime de la session courante
 			String formalismName = model.getFormalism().getName();
 			System.out.println(Coloane.traduction.getString("communications.Com.11")+formalismName); //$NON-NLS-1$
-			
+
 			// Demande de l'ouverture de session a l'API
 			Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
 			if (retour) {
@@ -142,18 +142,18 @@ public class Com implements IComUi, IComApi, IComMotor {
 			throw e;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Deconnecte un modele (Demande en provenance de Coloane)
 	 * @param modele Le modele a deconnecter
 	 * @return boolean Si la deconnexion c'est bien passee
-     * @throws Exception exception
+	 * @throws Exception exception
 	 */
 	public boolean closeSession() throws Exception {
 		try {
 			System.out.println(Coloane.traduction.getString("communications.Com.14")); //$NON-NLS-1$
-			
+
 			if (motor.getSessionManager().getCurrentSession() == null) {
 				return false;
 			}
@@ -161,29 +161,31 @@ public class Com implements IComUi, IComApi, IComMotor {
 			// On sauvegarde les noms des menus a supprimer
 			RootMenu menuServiceName = motor.getSessionManager().getCurrentSession().getServicesMenu();
 			RootMenu menuAdminName = motor.getSessionManager().getCurrentSession().getAdminMenu();
-			
+
 			// Si la deconnexion du cote API se passe bien
 			if (api.closeCurrentSession()) {			
-				
+
 				// Suppression du menu de services
-				if (menuServiceName != null)
+				if (menuServiceName != null) {
 					this.ui.removeMenu(menuServiceName.getName());
-				
+				}
+
 				// Suppression du menu d'administration
-				if (menuAdminName != null)
+				if (menuAdminName != null) {
 					this.ui.removeMenu(menuAdminName.getName());
-				
-                System.out.println(Coloane.traduction.getString("communications.Com.15")); //$NON-NLS-1$
+				}
+
+				System.out.println(Coloane.traduction.getString("communications.Com.15")); //$NON-NLS-1$
 				return true;
 			} else {
-                System.err.println(Coloane.traduction.getString("communications.Com.16")); //$NON-NLS-1$
+				System.err.println(Coloane.traduction.getString("communications.Com.16")); //$NON-NLS-1$
 				return false;
 			}
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * Deconnexion brutale de tous les modeles (demande de FrameKit)
 	 * Cette deconnexion est provoquee par un KO ou un FC
@@ -192,8 +194,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 		System.out.println(Coloane.traduction.getString("communications.Com.17")); //$NON-NLS-1$
 		motor.getSessionManager().destroyAllSessions();		
 	}
-	
-	
+
+
 	/**
 	 * Demande de service a la plateforme FrameKit
 	 * @param rootMenuName Nom de la racine du menu
@@ -203,12 +205,12 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		// Grisage du menu de services
 		this.ui.changeMenuStatus(rootMenuName,false);
-		
+
 		// Requete a l'API
 		this.api.askForService(rootMenuName, parentName, serviceName);
 	}
-	
-	
+
+
 	/**
 	 * Affichage d'un message dans l'interface utilisateur (Vue History)
 	 * @param message Message a afficher dans la console 
@@ -216,7 +218,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void printHistoryMessage(String message) {
 		this.ui.printHistoryMessage(message);
 	}	
-	
+
 	/** 
 	 * Affichage des menus construit a partir des commandes CAMI 
 	 * @param menu La racine du menu a afficher
@@ -225,12 +227,12 @@ public class Com implements IComUi, IComApi, IComMotor {
 		try {
 			// Transformation des menus
 			root = new RootMenu(rootMenuCom.getRootMenuName());
-			
+
 			for (int j=0; j < rootMenuCom.getListMenu().size(); j++) {
 				IMenuCom menuCom = rootMenuCom.getListMenu().get(j);
 				root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
 			}
-			
+
 			// Demande d'affichage a l'UI
 			parent.getDisplay().asyncExec(new Runnable(){
 				public void run(){
@@ -241,10 +243,10 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.err.println(Coloane.traduction.getString("communications.Com.18")); //$NON-NLS-1$
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
+
+
 	/** 
 	 * Affichage des menus construit a partir des commandes CAMI 
 	 * @param updates La racine du menu a afficher
@@ -257,17 +259,17 @@ public class Com implements IComUi, IComApi, IComMotor {
 			}
 		});
 	}
-	
-	
+
+
 	/**
 	 * Affichag d'une boite de dialogue
 	 * @param dialog La boite de dialogue entierement definie
 	 */
 	public void drawDialog(IDialogCom dialogCom) {
-		
+
 		// Transformation du dialogue
 		dialog = new Dialog(dialogCom);
-		
+
 		// Affichage de la boite de dialogue
 		parent.getDisplay().asyncExec(new Runnable(){
 			public void run(){
@@ -275,8 +277,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 			}
 		});
 	}
-	
-	
+
+
 	/**
 	 * Recupere les informations de la boite de dialogue
 	 * @results Les resultats sous forme d'objets
@@ -286,14 +288,14 @@ public class Com implements IComUi, IComApi, IComMotor {
 			System.err.println(Coloane.traduction.getString("communications.Com.19")); //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * Affichage des resultats d'un service
 	 * @param serviceName Le nom du service auquel sont rattaches les resultats
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-	
+
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			// Transformation des resultats
 			Results results = new Results(resultsCom);
@@ -303,7 +305,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 			this.ui.printResults();
 		}
 	}
-	
+
 	/**
 	 * Affichage des resultats transmis par l'API
 	 * Cette methode doit etre appelee apres la methode setResults
@@ -311,7 +313,7 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void printResults() {
 		this.ui.printResults();
 	}
-	
+
 	/**
 	 * Afichage d'un message de FrameKit
 	 * @param type Le type de message
@@ -321,8 +323,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void setUiMessage(int type, String text, int specialType) {
 		Coloane.showWarningMsg(text);
 	}
-	
-	
+
+
 	/**
 	 * Informe FK que le modele a ete mis a jour
 	 * @param dateUpdate La date de derniere mise a jour du modele
@@ -330,8 +332,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void toUpdate (int dateUpdate) {
 		this.api.changeModeleDate(dateUpdate);
 	}
-	
-	
+
+
 	/**
 	 * Recupere le modele
 	 * @return IModel Le modele en cours
@@ -340,8 +342,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public IModel getModel() {
 		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
 	}
-	
-	
+
+
 	/**
 	 * Demande la creation d'un nouveau modele a partir des inputs de FK
 	 * @param Le modele construit par l'api de communication
@@ -349,8 +351,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void setNewModel(IModel model) {		
 		this.motor.setNewModel(model);
 	}
-	
-	
+
+
 	/**
 	 * Permet de noter le modele comme sale ou propre apres communication avec la plate-forme
 	 * @param boolean true indique que le modele a ete sali et doit donc etre mis a jour
@@ -358,8 +360,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 	public void setModelDirty(boolean state) {
 		this.motor.getSessionManager().getCurrentSession().getModel().setDirty(state);
 	}
-	
-	
+
+
 	/**
 	 * Retourne l'etat de fraicheur actuel du modele
 	 * @return boolean Indicateur de fraicheur
@@ -368,8 +370,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 		boolean rep = this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
 		return rep;
 	}
-	
-	
+
+
 	/** Retourne la date de derniere modification du modele
 	 * @return int Date
 	 */

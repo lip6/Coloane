@@ -122,19 +122,19 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		// Affichage du texte dans le Label
 		Font f;
 		switch (attribut.getType()) {
-		case IAttributeGraphicInfo.L1:
-			f = new Font(null,"arial",11,SWT.BOLD);
-			break;
-		case IAttributeGraphicInfo.L2:
-			f = new Font(null,"arial",10,SWT.ITALIC);
-			break;
-		case IAttributeGraphicInfo.NOR:
-			f = new Font(null,"arial",9,SWT.NORMAL);
-			break;
-
-		default:
-			f = new Font(null,"arial",9,SWT.NORMAL);
-			break;
+			case IAttributeGraphicInfo.L1:
+				f = new Font(null,"arial",11,SWT.BOLD);
+				break;
+			case IAttributeGraphicInfo.L2:
+				f = new Font(null,"arial",10,SWT.ITALIC);
+				break;
+			case IAttributeGraphicInfo.NOR:
+				f = new Font(null,"arial",9,SWT.NORMAL);
+				break;
+	
+			default:
+				f = new Font(null,"arial",9,SWT.NORMAL);
+				break;
 		}
 		
 		attributeFigure.setText(attribut.getValue());
@@ -197,9 +197,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 			protected Command getReconnectTargetCommand(ReconnectRequest arg0) {
 				// TODO Auto-generated method stub
 				return null;
-			}});
+			}
+		}
+		);
 
-		
+
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {

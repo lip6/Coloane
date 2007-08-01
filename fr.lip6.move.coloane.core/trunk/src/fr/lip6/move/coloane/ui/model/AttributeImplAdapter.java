@@ -14,13 +14,13 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Attribut generique a adapter */
 	private IAttribute attribute;
-	
+
 	/** Considerations graphiques */
 	private IAttributeGraphicInfo attGraphicInfo;
-	
+
 	/** Element (Noeud) de rattachement */
 	private IElement reference;
 
@@ -29,13 +29,13 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	/** Indique si l'attribut est afficheable dans la fenetre propriete */
 	private boolean drawable;
-	
+
 	/** Indique si l'attribut est multiligne */
 	private boolean multiline;
-	
+
 	/** Indique le type d'affichage a considerer pour cet attribut */
 	private int type;
-	
+
 	/** Indique la valeur par defaut de l'attribut */
 	private String defaultValue;
 
@@ -47,27 +47,27 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 */
 	public AttributeImplAdapter(IAttribute attribute, AttributeFormalism formalism, IElement ref) {
 		super();
-		
+
 		// On attache l'attribut generique
 		this.attribute = attribute;
-		
+
 		// On attache le referent
 		this.reference = ref;
-		
+
 		// Affectation de l'identifiant
 		this.id = String.valueOf(formalism.getOrder());
-		
+
 		// Divers parametres
 		this.drawable = formalism.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
 		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
 		this.defaultValue = formalism.getDefaultValue();
 		this.type = formalism.getType();
-		
+
 		// L'objet contenant toutes les consideration graphiques (comme la position)
 		this.attGraphicInfo = new AttributeGraphicInfo(this);
 	}
 
-	   
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getId()
@@ -75,28 +75,28 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public String getId() {
 		return this.id;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
-    public List<IElement> getAttributes() {
-    	return null;
-    }
+	public List<IElement> getAttributes() {
+		return null;
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getGenericAttribute()
-     */
-    public IAttribute getGenericAttribute() {
-    	return this.attribute;
-    }
-    
-    
-    public IAttributeGraphicInfo getGraphicInfo() {
-    	return this.attGraphicInfo;
-    }
-   
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getGenericAttribute()
+	 */
+	public IAttribute getGenericAttribute() {
+		return this.attribute;
+	}
+
+
+	public IAttributeGraphicInfo getGraphicInfo() {
+		return this.attGraphicInfo;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDisplayName()
@@ -118,7 +118,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setValue(java.lang.String)
 	 */
 	public void setValue(String oldValue,String newValue) {
-		
+
 		// Affectation de la nouvelle valeur au modele
 		this.attribute.setValue((newValue==null)?"":newValue);
 
@@ -126,14 +126,14 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		if (this.isDrawable() && oldValue.equals(this.getDefaultValue())) {
 			this.reference.getModelAdapter().annouceAttribute();
 		}
-		
+
 		if (this.isDrawable() && newValue.equals(this.getDefaultValue())) {
 			this.reference.getModelAdapter().annouceAttribute();
 		}
-		
+
 		firePropertyChange(AttributeImplAdapter.VALUE_PROP, null, null);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isDrawable()
@@ -141,7 +141,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public boolean isDrawable() {
 		return this.drawable;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isMultiline()
@@ -149,11 +149,11 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public boolean isMultiline() {
 		return this.multiline;
 	}
-	
+
 	public int getType() {
 		return this.type;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDefaultValue()
@@ -188,7 +188,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public IModelImpl getModelAdapter() {
 		return this.reference.getModelAdapter();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getReference()
@@ -196,7 +196,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	public IElement getReference() {
 		return this.reference;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setSelect(boolean, boolean)
@@ -216,7 +216,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setSelect(boolean)

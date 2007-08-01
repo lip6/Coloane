@@ -18,9 +18,11 @@ public class MenuManipulation {
 		 * When we found it, we just verify recursively every child
 		 * until we find the Choosen One.
 		 */
-		for (MenuItem item : shell.getMenuBar().getItems())
-			if(item.getText().equals("Coloane Services"))
+		for (MenuItem item : shell.getMenuBar().getItems()) {
+			if(item.getText().equals("Coloane Services")) {
 				setEnabled(item, menuName, enabled);
+			}
+		}
 	}
 	
 	/*
@@ -33,9 +35,11 @@ public class MenuManipulation {
 		if(menuName.equals(item.getText())) {
 			setEnabled(item, enabled);
 			return;
-		} else if (item.getMenu() != null) // If this item is not a leaf
-			for(MenuItem childItem : item.getMenu().getItems())
+		} else if (item.getMenu() != null) { // If this item is not a leaf
+			for(MenuItem childItem : item.getMenu().getItems()) {
 				setEnabled(childItem, menuName, enabled);
+			}
+		}
 	}
 	
 	/*
@@ -46,8 +50,9 @@ public class MenuManipulation {
 			boolean enabled) {
 		item.setEnabled(enabled);
 		
-		if (item.getMenu() == null)
+		if (item.getMenu() == null) {
 			return;
+		}
 		
 		for (MenuItem childItem : item.getMenu().getItems()) {
 			setEnabled(childItem, enabled);
@@ -61,16 +66,19 @@ public class MenuManipulation {
 	public static void remove(String menuName) {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
-		for (MenuItem item : shell.getMenuBar().getItems())
-			if(item.getText().equals("Coloane Services"))
+		for (MenuItem item : shell.getMenuBar().getItems()) {
+			if(item.getText().equals("Coloane Services")) {
 				remove(item,menuName);
+			}
+		}
 	}
 	
 	public static void remove(MenuItem father, String menuName) {
-		for (MenuItem mi : father.getMenu().getItems())
+		for (MenuItem mi : father.getMenu().getItems()) {
 			if (mi.getText().equals(menuName)) {
 				mi.dispose();
 				return;
 			}
+		}
 	}
 }

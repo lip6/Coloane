@@ -57,7 +57,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 				Coloane.showErrorMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
 				return;
 			}
-			
+
 			// Recupere le modele courant
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
 
@@ -67,7 +67,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 				Coloane.showWarningMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
 				return;
 			}
-			
+
 			IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
 
 			// Boite de sauvegarde
@@ -81,7 +81,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 				doExport(editor.getModel(), filePath);
 			}
 
-		// Pour l'import
+			// Pour l'import
 		} else if (ACT_IMPORT.equalsIgnoreCase(action.getId())) {
 
 			FileDialog fd = new FileDialog(shell, SWT.OPEN | SWT.SINGLE);
@@ -91,14 +91,14 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			if (filePath == null) {
 				return;
 			}
-			
+
 			SaveAsDialog sd = new SaveAsDialog(shell) {
 				protected void configureShell(Shell shell) {
 					super.configureShell(shell);
 					shell.setText(Coloane.getParam("ACT_IMPORT")); //$NON-NLS-1$
 				}
 			};
-			
+
 			sd.setOriginalName(fileName);
 
 			if (sd.open() == SaveAsDialog.OK) {
@@ -106,43 +106,42 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 
 				final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 				try {
-					new ProgressMonitorDialog(shell).run(false, // don't fork
-							false, // not cancelable
-							new WorkspaceModifyOperation() { // run this operation
-								public void execute(final IProgressMonitor monitor) {
-									try {
-										
-										// Recupere le formalisme manager et importe le modele dans l'editeur
-										FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
-										IModelImpl model = fm.importModel(filePath);
-										
-										// traduction du modele au format xml
-										String xmlString = XmlEditor.translateToXML(model.getGenericModel());
-										InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+					new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() { // run this operation
+						public void execute(final IProgressMonitor monitor) {
+							try {
 
-										try {
-											// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
-											if (file.exists()) {
-												Coloane.showErrorMsg("You can't overwrite a workspace's file");
-												return;
-											} else {
-												file.create(inputS,true,monitor);
-											}
-										} catch (CoreException ce) {
-											ce.printStackTrace();
-										}
-																				
-										// Open editor
-										IDE.openEditor(window.getActivePage(),file, true);
-									} catch (Exception e) {
-										Coloane.showErrorMsg(e.getMessage());
-                                        e.printStackTrace();
+								// Recupere le formalisme manager et importe le modele dans l'editeur
+								FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
+								IModelImpl model = fm.importModel(filePath);
+
+								// traduction du modele au format xml
+								String xmlString = XmlEditor.translateToXML(model.getGenericModel());
+								InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+
+								try {
+									// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
+									if (file.exists()) {
+										Coloane.showErrorMsg("You can't overwrite a workspace's file");
+										return;
+									} else {
+										file.create(inputS,true,monitor);
 									}
+								} catch (CoreException ce) {
+									ce.printStackTrace();
 								}
-							});
+
+								// Open editor
+								IDE.openEditor(window.getActivePage(),file, true);
+							} catch (Exception e) {
+								Coloane.showErrorMsg(e.getMessage());
+								e.printStackTrace();
+							}
+						}
+					}
+					);
 				} catch (Exception e) {
 					Coloane.showErrorMsg(e.getMessage());
-                    e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}

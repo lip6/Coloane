@@ -16,13 +16,13 @@ public interface IModelImpl {
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
 	public static final String NODE_ADDED_PROP = "Model.AddingNode";
 
-  /** ID de propriete lorsqu'un noeud est supprime du modele */
-  public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
-    
-  /** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
-  public static final String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute";
-  
-  /**
+	/** ID de propriete lorsqu'un noeud est supprime du modele */
+	public static final String NODE_REMOVED_PROP = "Model.RemovingNode";
+
+	/** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
+	public static final String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute";
+
+	/**
 	 * Ajout d'un noeud au modele
 	 * Cette methode est appelee par la vue ou le controleur.
 	 * L'objectif est donc de mettre a jour le modele generique
@@ -73,7 +73,7 @@ public interface IModelImpl {
 	 * @return Collection
 	 */
 	public List<IElement> getAttributes();
-	
+
 	/**
 	 * Retourne le modele generique
 	 * 
@@ -148,14 +148,14 @@ public interface IModelImpl {
 	public void highlightNode(String idhighlight, String unhighlight);
 
 	public void switchoffNodes();
-    
-    /**
-     * Methode invoquee pour avertir le modele qu'un attribut doit etre ajoute ou supprime de l'affichage
-     * Cette methode doit lever l'evenement ATTRIBUTE_ADDED_PROP qui provoque :
-     * <ul>
-     *   <li>une capture des enfants du modele</li>
-     *   <li>un rafraichissement du modele</li>
-     * </ul>
-     */
-    public void annouceAttribute();
+
+	/**
+	 * Methode invoquee pour avertir le modele qu'un attribut doit etre ajoute ou supprime de l'affichage
+	 * Cette methode doit lever l'evenement ATTRIBUTE_ADDED_PROP qui provoque :
+	 * <ul>
+	 *   <li>une capture des enfants du modele</li>
+	 *   <li>un rafraichissement du modele</li>
+	 * </ul>
+	 */
+	public void annouceAttribute();
 }

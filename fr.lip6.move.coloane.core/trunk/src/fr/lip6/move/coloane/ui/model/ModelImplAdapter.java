@@ -183,10 +183,10 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Creation de l'attribut dans le modele
 			IAttribute attribute = new Attribute(attributeFormalism.getName(),new String(attributeFormalism.getDefaultValue()), 1);
 			this.model.addAttribute(attribute);
-			
+
 			// Creation de l'adapteur associe a l'attribut generique precedemment cree
 			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
-			
+
 			// Augmente la liste des proprietes (fenetre properties de la vue)
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 		}
@@ -262,7 +262,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 			// On ajoute le noeud augmente aux fils du modele augemente
 			this.children.add((IElement)child);
-			
+
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
@@ -331,23 +331,23 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		list.addAll(this.getAttributes());
 		return list;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getAttributes()
 	 */
 	public List<IElement> getAttributes() {
-    	List<IElement> attrList = new ArrayList<IElement>();
-    	Iterator iterator = this.properties.values().iterator();    	
-    	while (iterator.hasNext()) {
-    		IAttributeImpl att = (IAttributeImpl)iterator.next();
-    		if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
-        		attrList.add((IElement)att);
-    		}
-    	}			
-    	return attrList;
+		List<IElement> attrList = new ArrayList<IElement>();
+		Iterator iterator = this.properties.values().iterator();    	
+		while (iterator.hasNext()) {
+			IAttributeImpl att = (IAttributeImpl)iterator.next();
+			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+				attrList.add((IElement)att);
+			}
+		}			
+		return attrList;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#annouceAttribute()

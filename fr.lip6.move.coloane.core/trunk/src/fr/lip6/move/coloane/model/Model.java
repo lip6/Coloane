@@ -162,7 +162,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 							// On recherche l'attribut a modifier
 							for (int i = 0; i < this.getListOfAttrSize(); i++) {
 								IAttribute a = this.getNthAttr(i);
-								if (name.equals((a).getName())) {
+								if (name.equals(a.getName())) {
 
 									a.setValue(a.getValue() + "\r" + value);
 									found = true;

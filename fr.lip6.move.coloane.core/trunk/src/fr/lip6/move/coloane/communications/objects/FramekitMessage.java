@@ -110,10 +110,14 @@ public class FramekitMessage {
 		StringBuffer strBuf = new StringBuffer(""); //$NON-NLS-1$
 		
 		switch(type) {
-		case 1 : tmpStrBuf.append("TR(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		case 2 : tmpStrBuf.append("WN(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		case 3 : tmpStrBuf.append("MO(" + specialType + "," + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		default : break;
+			case 1 : 
+				tmpStrBuf.append("TR(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			case 2 : 
+				tmpStrBuf.append("WN(" + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			case 3 : 
+				tmpStrBuf.append("MO(" + specialType + "," + text.length() + ":" + text + ")"); break; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			default : 
+				break;
 		}
 		
 		strBuf.append((char) tmpStrBuf.length());

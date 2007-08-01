@@ -13,13 +13,13 @@ import fr.lip6.move.coloane.ui.model.INodeImpl;
 public class ArcCreateCmd extends Command {
 
 	/** Le noeud source */
-    private final INodeImpl source;
+	private final INodeImpl source;
 
-    /** L'element de base (indication sur le formalisme de l'arc) */
+	/** L'element de base (indication sur le formalisme de l'arc) */
 	private final ElementBase arcFormalism;
 
-	
-    /**
+
+	/**
 	 * Creation d'un arc entre deux element
 	 * 
 	 * @param source Le noeud source de l'arc
@@ -30,26 +30,26 @@ public class ArcCreateCmd extends Command {
 		this.arcFormalism = base;
 	}
 
-    /**
-     * Savoir si on peut creer un arc
-     * @return booleen
-     */
+	/**
+	 * Savoir si on peut creer un arc
+	 * @return booleen
+	 */
 	public boolean canExecute() {
 		return true;
 	}
 
 	/**
-     * Getter de Source
-     * @return source
+	 * Getter de Source
+	 * @return source
 	 */
-    public INodeImpl getSource() {
+	public INodeImpl getSource() {
 		return source;
 	}
-	
-    /**
-     * Getter du formalisme de l'arc
-     * @return elementBase
-     */
+
+	/**
+	 * Getter du formalisme de l'arc
+	 * @return elementBase
+	 */
 	public ElementBase getElementBase() {
 		return arcFormalism;
 	}

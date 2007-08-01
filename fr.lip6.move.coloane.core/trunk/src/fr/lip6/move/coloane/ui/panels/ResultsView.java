@@ -111,8 +111,9 @@ public class ResultsView extends ViewPart implements Observer {
 		/*
 		 * We build the first list with the actions' names.
 		 */
-		for (int i = 0; i < actionsList.getResultsListSize(); i++)
+		for (int i = 0; i < actionsList.getResultsListSize(); i++) {
 			actionsWidget.add(actionsList.getResultsList(i).getActionName());
+		}
 		
 		/*
 		 * We build the second list with the first action's results.

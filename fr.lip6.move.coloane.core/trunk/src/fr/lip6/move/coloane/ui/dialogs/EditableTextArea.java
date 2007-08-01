@@ -12,9 +12,9 @@ public class EditableTextArea extends TextArea {
 			int multiLine, String defaultValue) {
 		super(parent, TextArea.INPUT_AUTHORIZED, multiLine, defaultValue);
 		
-		if (multiLine == TextArea.SINGLE_LINE)
+		if (multiLine == TextArea.SINGLE_LINE) {
 			textWidget = new Text(parent, SWT.SINGLE);
-		else {
+		} else {
 			parent.getParent().setSize(400, 300);
 			textWidget =
 				new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
@@ -28,8 +28,9 @@ public class EditableTextArea extends TextArea {
 		
 		String[] tokens = ((Text)textWidget).getText().split("\n");
 		
-		for (String token : tokens)
+		for (String token : tokens) {
 			result.add(token);
+		}
 		
 		return result;
 	}

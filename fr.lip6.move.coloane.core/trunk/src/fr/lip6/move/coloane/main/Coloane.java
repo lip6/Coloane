@@ -17,17 +17,17 @@ import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 public class Coloane extends AbstractUIPlugin {
-	
+
 	public static ResourceBundle traduction = null;
 	private static Coloane plugin;
 	private Com com = null;	
 	private Motor motor = null;
 	private UserInterface ui = null;
-	
+
 	public Coloane () throws Exception {
 		plugin = this;
 		try {
-		traduction = ResourceBundle.getBundle("resources/LNG");
+			traduction = ResourceBundle.getBundle("resources/LNG");
 		} catch (Exception e) {
 			System.err.println("Fichier de langue pas trouve !");
 			System.err.println("Erreur : "+e.getMessage());
@@ -35,7 +35,7 @@ public class Coloane extends AbstractUIPlugin {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * Methode de lancement du plugin
 	 * C'est la premiere methode a etre appelee lors du chargement d'une classe du plugin
@@ -44,45 +44,45 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		
+
 		try {
-			
+
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --");
-			
+
 			// Initialisation de l'interface graphique
 			ui = new UserInterface();
 			if (ui == null) {
 				System.err.println("Erreur lors du chargement de l'interface utilisateur");				
 			}
-			
+
 			// Initialisation du moteur
 			motor = new Motor();
 			if (motor == null) {
 				System.err.println("Erreur lors du chargement du module moteur");
 			}
-			
+
 			// Initialisation de la partie communications
 			com = new Com();
 			if (com == null) {
 				System.err.println("Erreur lors du chargement du module de communications");
 			}
-			
+
 			// Creation des liens
 			com.setUi(ui);
 			com.setMotor(motor);
-			
+
 			motor.setCom(com);
-			
+
 			ui.setCom(com);
 			ui.setMotor(motor);
-			
+
 		} catch (Exception e) {
 			System.err.println("Erreur : "+e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Permet de recuperer le plugin
 	 * @return le plugin
@@ -90,7 +90,7 @@ public class Coloane extends AbstractUIPlugin {
 	public static Coloane getDefault() {
 		return plugin;
 	}
-	
+
 	/**
 	 * Permet de recuperer le workspace
 	 * @return le workspace
@@ -98,7 +98,7 @@ public class Coloane extends AbstractUIPlugin {
 	public static IWorkspace getWorkspace() {
 		return ResourcesPlugin.getWorkspace();
 	}
-	
+
 	/**
 	 * Le methode de fin de vie du plugin
 	 * @param context Parametre systeme fourni par Eclipse
@@ -107,8 +107,8 @@ public class Coloane extends AbstractUIPlugin {
 		super.stop(context);
 		plugin = null;
 	}
-	
-	
+
+
 	/**
 	 * Recupere le parametre dans le fichier de configuration
 	 * @param key L'identifiant du parametre
@@ -121,7 +121,7 @@ public class Coloane extends AbstractUIPlugin {
 			return key;
 		}
 	}
-	
+
 	/**
 	 * Notifier le changement du modele de la session courrante
 	 */
@@ -134,7 +134,7 @@ public class Coloane extends AbstractUIPlugin {
 			}
 		}
 	}
-	
+
 	/**
 	 * Affiche un message d'erreur sous forme de boite de dialogue
 	 * @param msg Le message a afficher
@@ -151,7 +151,7 @@ public class Coloane extends AbstractUIPlugin {
 	public static void showWarningMsg(String msg) {
 		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
 	}
-	
+
 	/**
 	 * Donne la main sur le module de communication
 	 * @return Com le module de communication
@@ -159,7 +159,7 @@ public class Coloane extends AbstractUIPlugin {
 	public Com getCom() {
 		return com;
 	}
-	
+
 	/**
 	 * Donne la main sur le module de communication
 	 * @return Com le module de communication
@@ -167,7 +167,7 @@ public class Coloane extends AbstractUIPlugin {
 	public Motor getMotor() {
 		return motor;
 	}
-	
+
 	/**
 	 * TODO: A documenter
 	 */
