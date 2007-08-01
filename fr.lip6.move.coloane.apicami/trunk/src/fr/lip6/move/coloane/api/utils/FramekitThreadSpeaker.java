@@ -204,16 +204,16 @@ public class FramekitThreadSpeaker extends Thread {
 		
 			// La reponse effective (Message RD)
 			StringBuffer rd = new StringBuffer();
-	        rd.append("RD(");
-	        rd.append(results.getDialogId());
-	        rd.append(",");
-	        rd.append(results.getAnswerType());
-	        rd.append(",");
-	        //int tmp = results.hasBeenModified() == true?1:0;
-	        //rd.append(tmp);
-	        rd.append("1");
-	        rd.append(",");
-	        rd.append(")");
+			rd.append("RD(");
+			rd.append(results.getDialogId());
+			rd.append(",");
+			rd.append(results.getAnswerType());
+			rd.append(",");
+			//int tmp = results.hasBeenModified() == true?1:0;
+			//rd.append(tmp);
+			rd.append("1");
+			rd.append(",");
+			rd.append(")");
 			String answer = rd.toString();			
 			commande = cmd.convertToFramekit(answer);
 			lowCom.writeCommande(commande);
@@ -224,14 +224,14 @@ public class FramekitThreadSpeaker extends Thread {
 			
 			// Contenu de la boite de dialogue
 			StringBuffer ds = new StringBuffer();
-	        ds.append("DS(");
-	        ds.append(results.getDialogId());
-	        ds.append(",");
-	        ds.append(results.getText().get(0).length());
-	        ds.append(":");
-	        ds.append(results.getText().get(0));
-	        ds.append(")");
-	        String value = ds.toString();			
+			ds.append("DS(");
+			ds.append(results.getDialogId());
+			ds.append(",");
+			ds.append(results.getText().get(0).length());
+			ds.append(":");
+			ds.append(results.getText().get(0));
+			ds.append(")");
+			String value = ds.toString();			
 			commande = cmd.convertToFramekit(value);
 			lowCom.writeCommande(commande);
 			
@@ -250,7 +250,7 @@ public class FramekitThreadSpeaker extends Thread {
 			return false;
 		}
 		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendDialogResponse", true);
-	return true;
+		return true;
 	}
 	
 	/**

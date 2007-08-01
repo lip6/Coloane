@@ -205,23 +205,23 @@ public class CamiTranslator {
 		}
 		ttype = Integer.parseInt(camiCmd.get(2).toString());
 		switch (ttype) {
-		case 1:
-			type = IDialog.DLG_STANDARD;
-			break;
-		case 2:
-			type = IDialog.DLG_WARNING;
-			break;
-		case 3:
-			type = IDialog.DLG_ERROR;
-			break;
-		case 4:
-			type = IDialog.DLG_INTERACTIVE;
-			break;
-		default:
-			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Type de la boite de dialogue invalide");
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
-			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
-			throw e;
+			case 1:
+				type = IDialog.DLG_STANDARD;
+				break;
+			case 2:
+				type = IDialog.DLG_WARNING;
+				break;
+			case 3:
+				type = IDialog.DLG_ERROR;
+				break;
+			case 4:
+				type = IDialog.DLG_INTERACTIVE;
+				break;
+			default:
+				UnexpectedCamiCommand e = new UnexpectedCamiCommand("Type de la boite de dialogue invalide");
+				Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+				Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+				throw e;
 		}
 
 		// Nombre de boutons dans la boite de dialogue
@@ -235,20 +235,20 @@ public class CamiTranslator {
 		}
 		tnbButtons = Integer.parseInt(camiCmd.get(3).toString());
 		switch (tnbButtons) {
-		case 1:
-			nbButtons = IDialog.DLG_NO_BUTTON;
-			break;
-		case 2:
-			nbButtons = IDialog.DLG_OK;
-			break;
-		case 3:
-			nbButtons = IDialog.DLG_OK_CANCEL;
-			break;
-		default:
-			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue invalide");
-			Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
-			Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
-			throw e;
+			case 1:
+				nbButtons = IDialog.DLG_NO_BUTTON;
+				break;
+			case 2:
+				nbButtons = IDialog.DLG_OK;
+				break;
+			case 3:
+				nbButtons = IDialog.DLG_OK_CANCEL;
+				break;
+			default:
+				UnexpectedCamiCommand e = new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue invalide");
+				Api.apiLogger.throwing("CamiTranslator", "getDialog",e);
+				Api.apiLogger.warning(e.getMessage() + logsUtils.StackToString(e));
+				throw e;
 		}
 
 		// Titre de la boite de dialogue

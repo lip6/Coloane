@@ -29,9 +29,10 @@ public class LogsUtils {
 	public String sous_chaine(String s){
 		String res;
 		int i = 0;
-		while(i< s.length() && s.charAt(i) != '{')
+		while(i< s.length() && s.charAt(i) != '{') {
 			i++;
-		
+		}
+
 		res = s.substring(0, i);
 		return res;
 	}

@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.api.log.*;
-import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
 import fr.lip6.move.coloane.api.utils.Commande;
 import fr.lip6.move.coloane.api.utils.FramekitThreadListener;
@@ -105,22 +104,22 @@ public class Api implements IApi {
 		LogManager.getLogManager().reset();
 		logsutils = new LogsUtils();
 		switch (level) {
-		case DEBUG:
-			apiLogger.setLevel(Level.FINEST);
-			break;
-			
-		case BETA:
-			apiLogger.setLevel(Level.FINE);
-			break;
+			case DEBUG:
+				apiLogger.setLevel(Level.FINEST);
+				break;
 
-		case NORMAL:
-			apiLogger.setLevel(Level.INFO);
-			break;
+			case BETA:
+				apiLogger.setLevel(Level.FINE);
+				break;
 
-		default:
-			TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
-			apiLogger.throwing("Api", "Api", tle);
-			apiLogger.warning(tle.getMessage());
+			case NORMAL:
+				apiLogger.setLevel(Level.INFO);
+				break;
+
+			default:
+				TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
+				apiLogger.throwing("Api", "Api", tle);
+				apiLogger.warning(tle.getMessage());
 		}
 		try {
 			f = new FileHandler("coloane_apicami.log");
@@ -452,7 +451,7 @@ public class Api implements IApi {
 			// On demande a FrameKit de suspendre la session
 			apiLogger.exiting("Api", "suspendCurrentSession", this
 					.getCurrentSpeaker().sendSuspend());
-			return (this.getCurrentSpeaker().sendSuspend());
+			return this.getCurrentSpeaker().sendSuspend();
 		} else {
 			apiLogger.exiting("Api", "suspendCurrentSession", false);
 			return false;
