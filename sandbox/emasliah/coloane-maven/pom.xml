@@ -3,7 +3,7 @@
   <groupId>fr.lip6.move.coloane</groupId>
   <artifactId>coloane-maven</artifactId>
   <packaging>pom</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Coloane - Maven-Packaging</name>
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
 	
@@ -14,9 +14,9 @@
   </modules>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.0</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.0</developerConnection>
- 		<url>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.0</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane-maven</url>
   </scm>
   
   <organization>
