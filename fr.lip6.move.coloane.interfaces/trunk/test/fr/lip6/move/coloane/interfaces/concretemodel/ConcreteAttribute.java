@@ -10,8 +10,8 @@ import fr.lip6.move.coloane.interfaces.model.Attribute;
  *
  */
 public class ConcreteAttribute extends Attribute {
-	
-	  private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1L;
 	/**
 	 * @param name
 	 * @param value

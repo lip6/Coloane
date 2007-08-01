@@ -2,8 +2,6 @@ package fr.lip6.move.coloane.interfaces;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
-
 /**
  * Interface fournie par Coloane a l'API
  * Elle contient toutes les informations pour manipuler les resultats

@@ -192,7 +192,8 @@ public class ConcreteArcTest extends TestCase {
 			assertTrue(vip.elementAt(2).getXPosition() == ip2.getXPosition());
 			assertTrue(vip.elementAt(2).getYPosition() == ip2.getYPosition());
 
-		} catch (SyntaxErrorException e) {
+		} catch (SyntaxErrorException e) { 
+			System.err.println("Erreur");
 		}
 	}
 
@@ -272,7 +273,8 @@ public class ConcreteArcTest extends TestCase {
 			assertTrue(ca.getNthPI(0).getXPosition() == pi.getXPosition());
 			assertTrue(ca.getNthPI(0).getYPosition() == pi.getYPosition());
 
-		} catch (SyntaxErrorException e) {
+		} catch (SyntaxErrorException e) { 
+			System.err.println("Erreur");
 		}
 	}
 }

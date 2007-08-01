@@ -20,303 +20,303 @@ import java.io.Serializable;
  */
 public abstract class Node implements INode, Serializable {
 
-    /** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
-    private static final long serialVersionUID = 1L;
+	/** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
+	private static final long serialVersionUID = 1L;
 
-    /** Type du noeud */
-    protected String nodeType;
-    
-    /** Identificateur du noeud */
-    protected int id;
-    
-    /** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-    protected int xPosition;
+	/** Type du noeud */
+	protected String nodeType;
 
-    /** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-    protected int yPosition;
+	/** Identificateur du noeud */
+	protected int id;
 
-    /** Liste des arc entrants */
-    private Vector<IArc> listOfInputArc;
+	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
+	protected int xPosition;
 
-    /** Liste des arcs sortants */
-    private Vector<IArc> listOfOutputArc;
+	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
+	protected int yPosition;
 
-    /** Liste des attributs du noeud*/
-    private Vector<IAttribute> listOfAttr;
+	/** Liste des arc entrants */
+	private Vector<IArc> listOfInputArc;
 
-    /**
-     * Constructeur
-     * 
-     * @param nodeType Type du noeud
-     * @see IAttribute
-     * @see IArc
-     */
-    public Node(String nodeType) {
-    	this.nodeType = nodeType;
-        this.id = 0;
-        xPosition = 0;
-        yPosition = 0;
-        this.listOfAttr = new Vector<IAttribute>();
-        this.listOfInputArc = new Vector<IArc>();
-        this.listOfOutputArc = new Vector<IArc>();
-    }
-    
-    /**
-     * Constructeur
-     * 
-     * @param nodeType Type du noeud
-     * @param x	Position x du noeud
-     * @param y	Position y du noeud
-     * @see IAttribute
-     * @see IArc
-     */
-    public Node(String nodeType, int x, int y) {
-        this.nodeType = nodeType;
-        this.id = 0;
-        xPosition = x;
-        yPosition = y;
-        this.listOfAttr = new Vector<IAttribute>();
-        this.listOfInputArc = new Vector<IArc>();
-        this.listOfOutputArc = new Vector<IArc>();
-    }
-    
-    /**
-     * Constructeur
-     * 
-     * @param id Identifiant du noeud
-     * @param nodeType Type du noeud
-     * @param x	Position x du noeud
-     * @param y	Position y du noeud
-     * @see IAttribute
-     * @see IArc
-     */
-    public Node(String nodeType, int x, int y, int id) {
-    	
-        this.nodeType = nodeType;
-        this.id = id;
-        xPosition = x;
-        yPosition = y;
-        this.listOfAttr = new Vector<IAttribute>();
-        this.listOfInputArc = new Vector<IArc>();
-        this.listOfOutputArc = new Vector<IArc>();
-    }
+	/** Liste des arcs sortants */
+	private Vector<IArc> listOfOutputArc;
 
-    /* (non-Javadoc)
+	/** Liste des attributs du noeud*/
+	private Vector<IAttribute> listOfAttr;
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param nodeType Type du noeud
+	 * @see IAttribute
+	 * @see IArc
+	 */
+	public Node(String nodeType) {
+		this.nodeType = nodeType;
+		this.id = 0;
+		xPosition = 0;
+		yPosition = 0;
+		this.listOfAttr = new Vector<IAttribute>();
+		this.listOfInputArc = new Vector<IArc>();
+		this.listOfOutputArc = new Vector<IArc>();
+	}
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param nodeType Type du noeud
+	 * @param x	Position x du noeud
+	 * @param y	Position y du noeud
+	 * @see IAttribute
+	 * @see IArc
+	 */
+	public Node(String nodeType, int x, int y) {
+		this.nodeType = nodeType;
+		this.id = 0;
+		xPosition = x;
+		yPosition = y;
+		this.listOfAttr = new Vector<IAttribute>();
+		this.listOfInputArc = new Vector<IArc>();
+		this.listOfOutputArc = new Vector<IArc>();
+	}
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param id Identifiant du noeud
+	 * @param nodeType Type du noeud
+	 * @param x	Position x du noeud
+	 * @param y	Position y du noeud
+	 * @see IAttribute
+	 * @see IArc
+	 */
+	public Node(String nodeType, int x, int y, int id) {
+
+		this.nodeType = nodeType;
+		this.id = id;
+		xPosition = x;
+		yPosition = y;
+		this.listOfAttr = new Vector<IAttribute>();
+		this.listOfInputArc = new Vector<IArc>();
+		this.listOfOutputArc = new Vector<IArc>();
+	}
+
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getId()
 	 */
-    public int getId() {
-        return id;
-    }
-    
-    /* (non-Javadoc)
+	public int getId() {
+		return id;
+	}
+
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#setId(int)
 	 */
-    public void setId(int id) {
-        this.id = id;
-        
-        // Le changement d'idientifiant implique obligatoirement
-        // Le rer�f�rencement des attributs
-        for (IAttribute att: this.listOfAttr) {
-        	att.setRefId(id);
-        }
-    }
+	public void setId(int id) {
+		this.id = id;
 
-    /* (non-Javadoc)
+		// Le changement d'idientifiant implique obligatoirement
+		// Le rer�f�rencement des attributs
+		for (IAttribute att: this.listOfAttr) {
+			att.setRefId(id);
+		}
+	}
+
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNodeType()
 	 */
-    public String getNodeType() {
-        return this.nodeType;
-    }
+	public String getNodeType() {
+		return this.nodeType;
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#setPosition(int, int)
 	 */
-    public void setPosition(int x, int y) {
-    	xPosition = x;
-    	yPosition = y;
-    }
+	public void setPosition(int x, int y) {
+		xPosition = x;
+		yPosition = y;
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getXPosition()
 	 */
-    public int getXPosition() {
-        return this.xPosition;
-    }
+	public int getXPosition() {
+		return this.xPosition;
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getYPosition()
 	 */
-    public int getYPosition() {
-        return yPosition;
-    }
+	public int getYPosition() {
+		return yPosition;
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addInputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-    public void addInputArc(IArc arc) {
-    	this.listOfInputArc.addElement(arc);
-    }
+	public void addInputArc(IArc arc) {
+		this.listOfInputArc.addElement(arc);
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-    public void removeInputArc(IArc arc) {
-        try {
-            this.listOfInputArc.remove(arc);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeInputArc(IArc arc) {
+		try {
+			this.listOfInputArc.remove(arc);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(int)
 	 */
-    public void removeInputArc(int index) {
-        try {
-            this.listOfInputArc.remove(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeInputArc(int index) {
+		try {
+			this.listOfInputArc.remove(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfInputArcSize()
 	 */
-    public int getListOfInputArcSize() {
-        return this.listOfInputArc.size();
-    }
+	public int getListOfInputArcSize() {
+		return this.listOfInputArc.size();
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthInputArc(int)
 	 */
-    public IArc getNthInputArc(int index) {
-        try {
-            return (IArc) this.listOfInputArc.get(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
-    }
+	public IArc getNthInputArc(int index) {
+		try {
+			return (IArc) this.listOfInputArc.get(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addOutputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-    public void addOutputArc(IArc arc) {
-    	this.listOfOutputArc.addElement(arc);
-    }
+	public void addOutputArc(IArc arc) {
+		this.listOfOutputArc.addElement(arc);
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-    public void removeOutputArc(IArc arc) {
-        try {
-            this.listOfOutputArc.remove(arc);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeOutputArc(IArc arc) {
+		try {
+			this.listOfOutputArc.remove(arc);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(int)
 	 */
-    public void removeOutputArc(int index) {
-        try {
-            this.listOfOutputArc.remove(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeOutputArc(int index) {
+		try {
+			this.listOfOutputArc.remove(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfOutputArcSize()
 	 */
-    public int getListOfOutputArcSize() {
-        return this.listOfOutputArc.size();
-    }
+	public int getListOfOutputArcSize() {
+		return this.listOfOutputArc.size();
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthOutputArc(int)
 	 */
-    public IArc getNthOutputArc(int index) {
-        try {
-            return (IArc) this.listOfOutputArc.get(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	return null;
-        }
+	public IArc getNthOutputArc(int index) {
+		try {
+			return (IArc) this.listOfOutputArc.get(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 
-    }
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-    public void addAttribute(IAttribute attribute) {
-    		if (!(attribute.getValue()=="")){
-    			attribute.setRefId(this.getId());
-    			this.listOfAttr.addElement(attribute);
-    		}
-        
-    }
+	public void addAttribute(IAttribute attribute) {
+		if (!(attribute.getValue()=="")){
+			attribute.setRefId(this.getId());
+			this.listOfAttr.addElement(attribute);
+		}
 
-    /* (non-Javadoc)
+	}
+
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-    public void removeAttribute(IAttribute attribute) {
-        try {
-            this.listOfAttr.remove(attribute);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeAttribute(IAttribute attribute) {
+		try {
+			this.listOfAttr.remove(attribute);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(int)
 	 */
-    public void removeAttribute(int index) {
-        try {
-            this.listOfAttr.remove(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void removeAttribute(int index) {
+		try {
+			this.listOfAttr.remove(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfAttrSize()
 	 */
-    public int getListOfAttrSize() {
-        return this.listOfAttr.size();
-    }
-    
-    /* (non-Javadoc)
+	public int getListOfAttrSize() {
+		return this.listOfAttr.size();
+	}
+
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfAttr()
 	 */
-    public Vector<IAttribute> getListOfAttr() {
-        return this.listOfAttr;
-    }
+	public Vector<IAttribute> getListOfAttr() {
+		return this.listOfAttr;
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthAttr(int)
 	 */
-    public IAttribute getNthAttr(int index) {
-        try {
-            return (IAttribute) this.listOfAttr.get(index);
-        } catch (ArrayIndexOutOfBoundsException e) {
-        	return null;
-        }
-    }
+	public IAttribute getNthAttr(int index) {
+		try {
+			return (IAttribute) this.listOfAttr.get(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#translateToCAMI()
 	 */
-    public abstract String[] translate();
+	public abstract String[] translate();
 
 
-/****** AJOUTS POUR TESTS UNITAIRES******/
+	/****** AJOUTS POUR TESTS UNITAIRES******/
 
-    public Vector<IArc> getListOfInputArc() {
-    	return this.listOfInputArc;
-    }
+	public Vector<IArc> getListOfInputArc() {
+		return this.listOfInputArc;
+	}
 
-    public Vector<IArc> getListOfOutputArc() {
-    	return this.listOfOutputArc;
-    }
-/*** FIN DES AJOUTS ***/
+	public Vector<IArc> getListOfOutputArc() {
+		return this.listOfOutputArc;
+	}
+	/*** FIN DES AJOUTS ***/
 }
