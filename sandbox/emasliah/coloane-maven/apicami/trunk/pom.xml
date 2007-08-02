@@ -26,6 +26,8 @@
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>interfaces</artifactId>
+	<version>1.0.5-SNAPSHOT</version>
+
     </dependency>
   </dependencies>
   
