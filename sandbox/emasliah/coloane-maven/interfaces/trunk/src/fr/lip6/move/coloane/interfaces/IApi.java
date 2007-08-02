@@ -9,6 +9,8 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
  * 
  * D'autres interfaces sont disponibles dans le packages interfaces
  */
+
+/** Test **/
 public interface IApi {
 	
 	/** Definition des niveaux de trace pour le lancement de l'API */
