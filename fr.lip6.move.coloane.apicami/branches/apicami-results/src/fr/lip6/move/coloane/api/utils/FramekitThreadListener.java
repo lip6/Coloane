@@ -5,13 +5,14 @@ import java.util.Vector;
 import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
-import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.objects.UpdateMenuCom;
 
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.ResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.SousResultsCom;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 /**
@@ -40,7 +41,7 @@ public class FramekitThreadListener extends Thread {
 	/** Indicateur de fraicheur des mises a jour */
 	private boolean resetUpdates;
 
-	/** Indicateur de fraicheur des resultats */
+	/** Indicateur de fraicheur des ats */
 	private boolean resetResults;
 
 	/** Indicateur de fraicheur du modele */
@@ -89,6 +90,8 @@ public class FramekitThreadListener extends Thread {
 
 		// Le resultat en cours de construction
 		IResultsCom result = null;
+		
+		SousResultsCom sousResults = null;
 
 		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
@@ -492,6 +495,7 @@ public class FramekitThreadListener extends Thread {
 					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane 
 					if (listeArgs.firstElement().equals("DE")) {
 						result = new ResultsCom();
+						sousResults = new SousResultsCom();
 						continue;
 					}
 
@@ -499,7 +503,9 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un resultat textuel mono-ligne
 					if (listeArgs.firstElement().equals("RT")) {
 						if (!listeArgs.elementAt(1).equals("") && !listeArgs.elementAt(1).equals("0")) {
-							result.addDescription((String) listeArgs.elementAt(1));
+							//result.addDescription((String) listeArgs.elementAt(1));
+							sousResults.addCmdRT((String) listeArgs.elementAt(1));
+							result.addResultats(sousResults);
 						}
 						continue;
 					}
@@ -507,7 +513,9 @@ public class FramekitThreadListener extends Thread {
 					// Message RO
 					// Designation d'un objet associe au resultat dans un ensemble
 					if (listeArgs.firstElement().equals("RO")) {
-						result.addElement((String) listeArgs.elementAt(1));
+						//result.addElement((String) listeArgs.elementAt(1));
+						sousResults.addCmdRO((String) listeArgs.elementAt(1));
+						result.addResultats(sousResults);
 						continue;
 					}
 
@@ -523,6 +531,7 @@ public class FramekitThreadListener extends Thread {
 						if (resetResults) {
 							resultList.removeAllElements();
 							resetResults = false;
+							
 						}
 						resultList.add(result);
 						continue;
