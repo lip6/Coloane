@@ -12,63 +12,111 @@ import java.util.Vector;
 
 public abstract class ResultsCom implements IResultsCom {
 
-	/** La liste des descriptions de resultats */
-	private Vector<String> description;
-	/** La liste des resultats */
-	private Vector<String> elements;
+	/** Liste des commandes RQ (reponse a une question) */
+	private Vector<String> cmdRQ;
+
+	/** Liste des commandes TQ (transmission d'un etat) */
+	private Vector<String> cmdTQ;
+
+	/** Liste des commanes MO (affichage) */
+	private Vector<String> cmdMO;
+
+	/** Liste des commandes comprises entre DE et FE */
+	private Vector<SousResultsCom> sous_resultats;
 
 	/**
-	 * Constructeur
+	 * Construit un objet Resultat à transmettre à Coloane
+	 * 
 	 */
 	public ResultsCom() {
-		this.description = new Vector<String>();
-		this.elements = new Vector<String>();
+		sous_resultats = new Vector<SousResultsCom>();
+
+		cmdRQ = new Vector<String>();
+		cmdTQ = new Vector<String>();
+		cmdMO = new Vector<String>();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#addElement(String)
+	/**
+	 * Ajoute une cmd RQ dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public void addElement(String element) {
-		this.elements.add(element);
+	public void addcmdRQ(String cmd) {
+		cmdRQ.add(cmd);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#addDescription(String)
+	/**
+	 * Ajoute une cmd TQ dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public void addDescription(String description) {
-		this.description.add(description);
+	public void addcmdTQ(String cmd) {
+		cmdTQ.add(cmd);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getListOfElement()
+	/**
+	 * Ajoute une cmd MO dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public Vector<String> getListOfElement() {
-		return this.elements;
+	public void addcmdMO(String cmd) {
+		cmdMO.add(cmd);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getListOfDescription()
+	/**
+	 * Enleve la commande RQ correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public Vector<String> getListOfDescription() {
-		return this.description;
+	public void removecmdRQ(String cmd) {
+		cmdRQ.remove(cmd);
 	}
-	
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getSublistOfDescription(int)
+
+	/**
+	 * Enleve la commande TQ correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public Vector<String> getSublistOfDescription(int start) {
-		Vector<String> tmp = new Vector<String>();
-		for (int i=start; i < this.description.size(); i++) {
-			tmp.add(this.description.elementAt(i));
-		}
-		return tmp;
+	public void removecmdTQ(String cmd) {
+		cmdTQ.remove(cmd);
 	}
-	
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getHeadDescription()
+
+	/**
+	 * Enleve la commande MO correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public String getHeadDescription() {
-		return this.description.elementAt(0);
+	public void removecmdMO(String cmd) {
+		cmdMO.remove(cmd);
 	}
+
+	/**
+	 * Ajoute une liste de sous resultats DE et FE dans la liste des
+	 * sous_resulats
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
+	 */
+	public void addResultats(SousResultsCom cmd) {
+		sous_resultats.add(cmd);
+	}
+
+	/**
+	 * Enleve n element de la liste des sous resultats
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
+	 */
+
+	public void removeResultats(SousResultsCom cmd) {
+		sous_resultats.remove(cmd);
+	}
+
 
 }

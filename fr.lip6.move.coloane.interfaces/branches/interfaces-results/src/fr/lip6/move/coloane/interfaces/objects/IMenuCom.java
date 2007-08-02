@@ -12,6 +12,8 @@ package fr.lip6.move.coloane.interfaces.objects;
  * </ul> 
  */
 
+/** test **/
+
 public interface IMenuCom {
 	
 	/**
