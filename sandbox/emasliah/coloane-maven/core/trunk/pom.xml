@@ -5,21 +5,21 @@
   <parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>coloane-maven</artifactId>
-    <version>1.1</version>
+    <version>1.1-SNAPSHOT</version>
     <!--<relativePath>../../pom.xml</relativePath>-->
   </parent>
 
 	<groupId>${project.parent.groupId}</groupId>
   <artifactId>core</artifactId>
-  <version>0.9.3</version>
+  <version>0.9.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Core - Maven-Packaging</name>
   <description>Core</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/tags/coloane_release/core/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/tags/coloane_release/core/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/tags/coloane_release/core/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/core/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/core/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane-maven/core/trunk</url>
   </scm>
   
 	<dependencies>
