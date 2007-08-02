@@ -26,6 +26,7 @@ import fr.lip6.move.coloane.api.exceptions.TraceLevelException;
 import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
 import java.util.logging.*;
 
+/** test **/
 /**
  * API de communication entre Coloane et FrameKit
  * 
