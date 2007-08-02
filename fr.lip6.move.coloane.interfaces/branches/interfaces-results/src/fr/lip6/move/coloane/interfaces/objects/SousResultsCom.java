@@ -4,12 +4,6 @@ import java.util.Vector;
 
 public class SousResultsCom {
 	
-	/** Nom de l'ensemble */
-	private String nom_ensemble;
-
-	/** Type de l'ensemble */
-	private int type_ensemble;
-
 	/** Liste des commandes RT (textual_result) */
 	private Vector<String> cmdRT;
 
@@ -34,9 +28,7 @@ public class SousResultsCom {
 	 *            _ensemble le type de l'ensemble
 	 * 
 	 */
-	public SousResultsCom(String nom_ensemble, int type_ensemble) {
-		this.nom_ensemble = nom_ensemble;
-		this.type_ensemble = type_ensemble;
+	public SousResultsCom() {
 		cmdRT = new Vector<String>();
 		cmdRO = new Vector<String>();
 		cmdME = new Vector<String>();
@@ -153,43 +145,4 @@ public class SousResultsCom {
 		cmdWE.remove(cmd);
 	}
 
-	/**
-	 * Renvoie le nom de l'ensemble
-	 * 
-	 * @return le nom de l'ensemble
-	 */
-	public String getNom_ensemble() {
-		return nom_ensemble;
-	}
-
-	/**
-	 * Affecte un nom a l'ensemble
-	 * 
-	 * @param nom_ensemble
-	 *            le nom a affecter
-	 * 
-	 */
-	public void setNom_ensemble(String nom_ensemble) {
-		this.nom_ensemble = nom_ensemble;
-	}
-
-	/**
-	 * Renvoie le type de l'ensemble
-	 * 
-	 * @return le type de l'ensemble
-	 */
-	public int getType_ensemble() {
-		return type_ensemble;
-	}
-
-	/**
-	 * Affecte un type a l'ensemble
-	 * 
-	 * @param type_ensemble
-	 *            le nom a affecter
-	 * 
-	 */
-	public void setType_ensemble(int type_ensemble) {
-		this.type_ensemble = type_ensemble;
-	}
 }
