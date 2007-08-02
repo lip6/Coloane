@@ -10,7 +10,7 @@ import java.util.Vector;
  * 
  */
 
-public abstract class ResultsCom implements IResultsCom {
+public class ResultsCom implements IResultsCom {
 
 	/** Liste des commandes RQ (reponse a une question) */
 	private Vector<String> cmdRQ;
@@ -108,7 +108,7 @@ public abstract class ResultsCom implements IResultsCom {
 	}
 
 	/**
-	 * Enleve n element de la liste des sous resultats
+	 * Enleve un element de la liste des sous resultats
 	 * 
 	 * @param cmd
 	 *            la commande à ajouter
@@ -116,6 +116,10 @@ public abstract class ResultsCom implements IResultsCom {
 
 	public void removeResultats(SousResultsCom cmd) {
 		sous_resultats.remove(cmd);
+	}
+
+	public Vector<SousResultsCom> getSous_resultats() {
+		return sous_resultats;
 	}
 
 
