@@ -26,7 +26,7 @@
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>interfaces</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.0.4-SNAPSHOT</version>
     </dependency>
   </dependencies>
   
@@ -117,14 +117,14 @@
       	</executions>
       </plugin>-->
       
-    	<plugin>
-    		<!-- Pour les releases -->  
+    	<!--<plugin>
+    		 Pour les releases 
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <tagBase>https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/tags</tagBase>
         </configuration>
-      </plugin>
+      </plugin>--> 
       
 		</plugins>
 
