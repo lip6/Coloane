@@ -1,48 +1,77 @@
 package fr.lip6.move.coloane.interfaces.objects;
 
-import java.util.Vector;
+//import java.util.Vector;
 
 /**
- * Interface fournie par l'interface a Coloane 
- * pour la transmissions de resultats.
+ * Interface fournie par l'interface a Coloane pour la transmissions de
+ * resultats.
  */
 public interface IResultsCom {
 
 	/**
-	 * Retourne la liste des elements de resultats
-	 * @return La liste des elements de resultats
+	 * Ajoute une cmd RQ dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public Vector<String> getListOfElement();
-	
+	public void addcmdRQ(String cmd);
+
 	/**
-	 * Retourne la liste des descriptions de resultats
-	 * @return La liste des descriptions de resutlats
+	 * Ajoute une cmd TQ dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public Vector<String> getListOfDescription();
-	
+	public void addcmdTQ(String cmd);
+
 	/**
-	 * Ajout d'un element de resultats
-	 * @param element Une chaine de caractere indiquant le resultat
+	 * Ajoute une cmd MO dans la liste des commandes RQ
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
 	 */
-	public void addElement(String element);
-	
+	public void addcmdMO(String cmd);
+
 	/**
-	 * Ajout d'une description d'un resultat
-	 * @param description Une chaine de caractere decrivant un resultat
+	 * Enleve la commande RQ correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public void addDescription(String description);
-	
+	public void removecmdRQ(String cmd);
+
 	/**
-	 * Retourne une sous-liste des resultats
-	 * @param start Indice de depart des resultats desires
-	 * @return La sous liste des resutlats depuis l'indice de debut jusqu'a la fin
+	 * Enleve la commande TQ correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public Vector<String> getSublistOfDescription(int start);
-	
+	public void removecmdTQ(String cmd);
+
 	/**
-	 * Retourne la premiere description
-	 * @return La chaine de caractere correspondant a la premiere description
+	 * Enleve la commande MO correspondante dans la liste
+	 * 
+	 * @param cmd
+	 *            la commande a supprimer
 	 */
-	public String getHeadDescription();
+	public void removecmdMO(String cmd);
+
+	/**
+	 * Ajoute une liste de sous resultats DE et FE dans la liste des
+	 * sous_resulats
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
+	 */
+	public void addResultats(SousResultsCom cmd);
+
+	/**
+	 * Enleve un element de la liste des sous resultats
+	 * 
+	 * @param cmd
+	 *            la commande à ajouter
+	 */
+
+	public void removeResultats(SousResultsCom cmd);
 
 }
