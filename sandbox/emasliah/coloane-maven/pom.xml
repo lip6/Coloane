@@ -217,7 +217,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0-beta-5</version>
         <configuration>
-          <tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags</tagBase>
+          <tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/tags</tagBase>
         </configuration>
       </plugin>
       
