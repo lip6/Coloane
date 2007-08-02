@@ -15,12 +15,6 @@ public class ResultsCom implements IResultsCom {
 	/** Liste des commandes RQ (reponse a une question) */
 	private Vector<String> cmdRQ;
 
-	/** Liste des commandes TQ (transmission d'un etat) */
-	private Vector<String> cmdTQ;
-
-	/** Liste des commanes MO (affichage) */
-	private Vector<String> cmdMO;
-
 	/** Liste des commandes comprises entre DE et FE */
 	private Vector<SousResultsCom> sous_resultats;
 
@@ -32,8 +26,6 @@ public class ResultsCom implements IResultsCom {
 		sous_resultats = new Vector<SousResultsCom>();
 
 		cmdRQ = new Vector<String>();
-		cmdTQ = new Vector<String>();
-		cmdMO = new Vector<String>();
 	}
 
 	/**
@@ -46,25 +38,6 @@ public class ResultsCom implements IResultsCom {
 		cmdRQ.add(cmd);
 	}
 
-	/**
-	 * Ajoute une cmd TQ dans la liste des commandes RQ
-	 * 
-	 * @param cmd
-	 *            la commande à ajouter
-	 */
-	public void addcmdTQ(String cmd) {
-		cmdTQ.add(cmd);
-	}
-
-	/**
-	 * Ajoute une cmd MO dans la liste des commandes RQ
-	 * 
-	 * @param cmd
-	 *            la commande à ajouter
-	 */
-	public void addcmdMO(String cmd) {
-		cmdMO.add(cmd);
-	}
 
 	/**
 	 * Enleve la commande RQ correspondante dans la liste
@@ -76,25 +49,6 @@ public class ResultsCom implements IResultsCom {
 		cmdRQ.remove(cmd);
 	}
 
-	/**
-	 * Enleve la commande TQ correspondante dans la liste
-	 * 
-	 * @param cmd
-	 *            la commande a supprimer
-	 */
-	public void removecmdTQ(String cmd) {
-		cmdTQ.remove(cmd);
-	}
-
-	/**
-	 * Enleve la commande MO correspondante dans la liste
-	 * 
-	 * @param cmd
-	 *            la commande a supprimer
-	 */
-	public void removecmdMO(String cmd) {
-		cmdMO.remove(cmd);
-	}
 
 	/**
 	 * Ajoute une liste de sous resultats DE et FE dans la liste des
@@ -116,10 +70,6 @@ public class ResultsCom implements IResultsCom {
 
 	public void removeResultats(SousResultsCom cmd) {
 		sous_resultats.remove(cmd);
-	}
-
-	public Vector<SousResultsCom> getSous_resultats() {
-		return sous_resultats;
 	}
 
 
