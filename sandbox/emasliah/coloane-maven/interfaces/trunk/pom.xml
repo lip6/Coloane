@@ -110,7 +110,7 @@
       </plugin>-->
       
     	<!--<plugin>
-    		<!-- Pour les releases   
+    		 Pour les releases   
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
