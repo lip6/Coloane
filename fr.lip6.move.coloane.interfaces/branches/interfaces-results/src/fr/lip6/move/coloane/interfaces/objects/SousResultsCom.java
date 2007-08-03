@@ -145,4 +145,8 @@ public class SousResultsCom {
 		cmdWE.remove(cmd);
 	}
 
+	public Vector<String> getCmdRO() {
+		return cmdRO;
+	}
+
 }

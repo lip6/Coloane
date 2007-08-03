@@ -2,18 +2,17 @@ package fr.lip6.move.coloane.interfaces.objects;
 
 import java.util.Vector;
 
-
 /**
- * Cette classe defini la listes des reslutats renvoyes par la plate-forme
- * a la suite d'un appel de service. Ces resultats doivent etre envoyes a Coloane
+ * Cette classe defini la listes des resultats renvoyes par la plate-forme a la
+ * suite d'un appel de service. Ces resultats doivent etre envoyes a Coloane
  * pour affichage.
  * 
  */
 
 public class ResultsCom implements IResultsCom {
 
-	/** Liste des commandes RQ (reponse a une question) */
-	private Vector<String> cmdRQ;
+	/** Commande RQ (reponse a une question) */
+	private String cmdRQ;
 
 	/** Liste des commandes comprises entre DE et FE */
 	private Vector<SousResultsCom> sous_resultats;
@@ -24,31 +23,8 @@ public class ResultsCom implements IResultsCom {
 	 */
 	public ResultsCom() {
 		sous_resultats = new Vector<SousResultsCom>();
-
-		cmdRQ = new Vector<String>();
+		cmdRQ = new String();
 	}
-
-	/**
-	 * Ajoute une cmd RQ dans la liste des commandes RQ
-	 * 
-	 * @param cmd
-	 *            la commande à ajouter
-	 */
-	public void addcmdRQ(String cmd) {
-		cmdRQ.add(cmd);
-	}
-
-
-	/**
-	 * Enleve la commande RQ correspondante dans la liste
-	 * 
-	 * @param cmd
-	 *            la commande a supprimer
-	 */
-	public void removecmdRQ(String cmd) {
-		cmdRQ.remove(cmd);
-	}
-
 
 	/**
 	 * Ajoute une liste de sous resultats DE et FE dans la liste des
@@ -72,5 +48,33 @@ public class ResultsCom implements IResultsCom {
 		sous_resultats.remove(cmd);
 	}
 
+	/**
+	 * Accede a la commande RQ
+	 * 
+	 * @return String la commande RQ
+	 */
+	public String getCmdRQ() {
+		return cmdRQ;
+	}
+
+	/**
+	 * Modifie la commande RQ
+	 * 
+	 * @param cmdRQ
+	 *            la commande à modifier
+	 */
+	public void setcmdRQ(String cmdRQ) {
+		this.cmdRQ = cmdRQ;
+	}
+
+	/**
+	 * Accede au sous resultat compris entre DE et FE
+	 * 
+	 * @return Vector<SousResultsCom> la liste de sous resultats compris entre
+	 *         DE et FE
+	 */
+	public Vector<SousResultsCom> getSous_resultats() {
+		return sous_resultats;
+	}
 
 }

@@ -1,30 +1,31 @@
 package fr.lip6.move.coloane.interfaces.objects;
 
+import java.util.Vector;
+
+
 
 
 /**
- * Interface fournie par l'interface a Coloane pour la transmissions de
+ * Interface fournie par l'interface a Coloane pour la transmission de
  * resultats.
  */
 public interface IResultsCom {
 
 	/**
-	 * Ajoute une cmd RQ dans la liste des commandes RQ
+	 * Accede a la commande RQ
 	 * 
-	 * @param cmd
-	 *            la commande à ajouter
+	 * @return String la commande RQ
 	 */
-	public void addcmdRQ(String cmd);
-
-
+	public String getCmdRQ();
+	
 	/**
-	 * Enleve la commande RQ correspondante dans la liste
+	 * Modifie la commande RQ
 	 * 
-	 * @param cmd
-	 *            la commande a supprimer
+	 * @param cmdRQ
+	 *            la commande à modifier
 	 */
-	public void removecmdRQ(String cmd);
-
+	public void setcmdRQ(String cmd);
+	
 
 	/**
 	 * Ajoute une liste de sous resultats DE et FE dans la liste des
@@ -39,10 +40,18 @@ public interface IResultsCom {
 	 * Enleve un element de la liste des sous resultats
 	 * 
 	 * @param cmd
-	 *            la commande à ajouter
-	 */
-
+	 *            la commande à enlever
+	 */	
 	public void removeResultats(SousResultsCom cmd);
 	
-
+	
+	/**
+	 * Accede au sous resultat compris entre DE et FE
+	 * 
+	 * @return Vector<SousResultsCom> la liste de sous resultats compris entre
+	 *         DE et FE
+	 */
+	public Vector<SousResultsCom> getSous_resultats();
+	
+	
 }
