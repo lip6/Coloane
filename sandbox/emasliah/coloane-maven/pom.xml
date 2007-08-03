@@ -3,7 +3,7 @@
   <groupId>fr.lip6.move.coloane</groupId>
   <artifactId>coloane-maven</artifactId>
   <packaging>pom</packaging>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>Coloane - Maven-Packaging</name>
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
 	
@@ -210,12 +210,6 @@
       	<groupId>org.codehaus.mojo</groupId>
       	<artifactId>maven-buildnumber-plugin</artifactId>
       	<version>0.9.4</version>	
-      	<configuration>
-      	  <!--<username>emasliah</username>
-      		<password>Zp74Ax3D</password>
-        	<doCheck>true</doCheck>
-        	<doUpdate>true</doUpdate>-->
-      	</configuration>
     	</plugin>
     	
     	<plugin>
@@ -246,6 +240,23 @@
     	
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
+    			 
+    			     	<plugin>
+      	 <!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
+      	 			/!\ Ne marche que avec svn en anglais -->
+      	<groupId>org.codehaus.mojo</groupId>
+      	<artifactId>maven-buildnumber-plugin</artifactId>
+      	<version>0.9.4</version>
+      	<executions>
+        	<execution>
+        		<id>BuildNumber</id>
+          	<phase>validate</phase>        
+          	<goals>
+            	<goal>create</goal>
+          	</goals>
+        	</execution>
+      	</executions>
+     	</plugin>
     	
     </plugins>
   
