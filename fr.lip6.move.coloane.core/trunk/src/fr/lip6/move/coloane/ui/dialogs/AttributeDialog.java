@@ -85,7 +85,4 @@ public class AttributeDialog extends IconAndMessageDialog {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
 }
