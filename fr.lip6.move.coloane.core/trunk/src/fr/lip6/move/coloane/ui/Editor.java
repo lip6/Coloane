@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
@@ -226,6 +227,17 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	public IModelImpl getModel() {
 		return model;
+	}
+	
+	/**
+	 * Retourne le path du modele en cours d'edition
+	 * @return
+	 */
+	public IPath getCurrentPath () {
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+		String projectName = file.getProject().getName();
+		IPath path = new Path(projectName);
+		return path.append(file.getProjectRelativePath());
 	}
 
 	/**
