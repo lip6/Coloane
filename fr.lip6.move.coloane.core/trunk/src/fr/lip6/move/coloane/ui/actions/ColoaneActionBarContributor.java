@@ -1,10 +1,8 @@
 package fr.lip6.move.coloane.ui.actions;
 
-import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
-import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
-import org.eclipse.gef.ui.actions.MatchWidthRetargetAction;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -23,12 +21,9 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	protected void buildActions() {
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
-
+		addRetargetAction(new DeleteRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());
-
-		addRetargetAction(new MatchWidthRetargetAction());
-		addRetargetAction(new MatchHeightRetargetAction());
+		addRetargetAction(new ZoomOutRetargetAction());		
 	}
 
 
@@ -46,26 +41,14 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	/**
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(IToolBarManager)
 	 */
-	public void contributeToToolBar(IToolBarManager tbm) {
-		tbm.add(getAction(ActionFactory.UNDO.getId()));
-		tbm.add(getAction(ActionFactory.REDO.getId()));
-
-		tbm.add(new Separator());
-		tbm.add(getAction(GEFActionConstants.ALIGN_LEFT));
-		tbm.add(getAction(GEFActionConstants.ALIGN_CENTER));
-		tbm.add(getAction(GEFActionConstants.ALIGN_RIGHT));
-		tbm.add(new Separator());
-		tbm.add(getAction(GEFActionConstants.ALIGN_TOP));
-		tbm.add(getAction(GEFActionConstants.ALIGN_MIDDLE));
-		tbm.add(getAction(GEFActionConstants.ALIGN_BOTTOM));
-
-		tbm.add(new Separator());	
-		tbm.add(getAction(GEFActionConstants.MATCH_WIDTH));
-		tbm.add(getAction(GEFActionConstants.MATCH_HEIGHT));
-
-		tbm.add(new Separator());	
-		String[] zoomStrings = new String[] {	ZoomManager.FIT_ALL,ZoomManager.FIT_HEIGHT,	ZoomManager.FIT_WIDTH	};
-		tbm.add(new ZoomComboContributionItem(getPage(), zoomStrings));
+	public void contributeToToolBar(IToolBarManager toolBarManager) {
+		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
+		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
+		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
+		toolBarManager.add(new Separator());
+		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
+		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
+		toolBarManager.add(new ZoomComboContributionItem(getPage()));
 	}
 
 }               

@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.ui;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.EventObject;
 
 import org.eclipse.core.resources.IFile;
@@ -29,6 +30,8 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
@@ -187,27 +190,52 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	/** Constructeur de l'editeur */
 	public Editor() { 
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Configuration de l'editeur
 	 * 
 	 */
+	@Override
 	protected void configureGraphicalViewer() {
+		ArrayList<String> zoomContributions;
+
 		super.configureGraphicalViewer();
 
 		GraphicalViewer viewer = getGraphicalViewer();
+		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+
 		viewer.setEditPartFactory(new PartFactory());
-		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+		viewer.setRootEditPart(rootEditPart);
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 
 		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer, getActionRegistry());
-		viewer.setContextMenu(cmProvider);
+
+		getSite().setSelectionProvider(viewer);
 		getSite().registerContextMenu(cmProvider, viewer);
+
+		viewer.setContextMenu(cmProvider);
+
+		// Zoom
+		ZoomManager manager = rootEditPart.getZoomManager();
+		getActionRegistry().registerAction(new ZoomInAction(manager));
+		getActionRegistry().registerAction(new ZoomOutAction(manager));
+
+		// Liste des zooms possibles 1 = 100%
+		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0};
+		manager.setZoomLevels(zoomLevels);
+
+		// On ajoute certains zooms prédéfinis
+		zoomContributions = new ArrayList<String>();
+		zoomContributions.add(ZoomManager.FIT_ALL);
+		zoomContributions.add(ZoomManager.FIT_HEIGHT);
+		zoomContributions.add(ZoomManager.FIT_WIDTH);
+		manager.setZoomLevelContributions(zoomContributions);
+
 	}
-	
+
 	/**
 	 * Set up the editor's inital content (after creation).
 	 *
@@ -228,7 +256,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	public IModelImpl getModel() {
 		return model;
 	}
-	
+
 	/**
 	 * Retourne le path du modele en cours d'edition
 	 * @return
@@ -273,7 +301,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Le gestionnaire de formalismes pour reconnaitre le formalisme en fonction de l'extension
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 		this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
-		
+
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
@@ -282,7 +310,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Creation d'un instance du handler
 		XmlEditor handler = new XmlEditor();
 
-		
+
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setValidating(true); // Demande de validation lors du parse du fichier
@@ -299,7 +327,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		// Indication de debut de construction
 		model.setBeginBuilding(); 
-		
+
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
 			outlinePage.setContents(getModel());
@@ -346,8 +374,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		// Recupere le resultat de la boite de dialogue
 		IPath path = dialog.getResult();
-		
-		
+
+
 		if (path != null) {
 			// try to save the editor's contents under a different file name
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
@@ -376,7 +404,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 				//setInput(new FileEditorInput(file));
 				//getCommandStack().markSaveLocation();
 				firePropertyChange(PROP_TITLE);
-				
+
 			} catch (InterruptedException ie) {
 				// Should not happen, since the monitor dialog is not cancelable
 				ie.printStackTrace();
@@ -413,7 +441,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
 
-			// On redefinit la fenetre de propriete
+		// On redefinit la fenetre de propriete
 		} else if (type == IPropertySheetPage.class) {
 			PropertySheetPage page = new PropertySheetPage() {
 				{
@@ -422,14 +450,20 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 							// Aucun tri !
 						}
 					});
-					
+
 				}
 			};
 			page.setRootEntry(new UndoablePropertySheetEntry(getCommandStack()));
 			return page;
+		
+		// On definit le manager de Zoom
+		} else if (type == ZoomManager.class) {
+			return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
 		}
+		
+		// Dans tous les autres cas
 		return super.getAdapter(type);
 	}
-	
-	
+
+
 }
