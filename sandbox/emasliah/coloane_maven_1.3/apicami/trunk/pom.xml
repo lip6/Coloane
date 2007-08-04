@@ -5,20 +5,20 @@
   <parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>coloane_maven_1.3</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1-SNAPSHOT</version>
   </parent>
   
   <groupId>${project.parent.groupId}</groupId>
   <artifactId>apicami</artifactId>
-  <version>0.9.8</version>
+  <version>0.9.9-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Apicami - Maven-Packaging</name>
   <description>Api (cami)</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/releases/tags/apicami/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/releases/tags/apicami/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/releases/tags/apicami/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/apicami/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/apicami/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/apicami/trunk</url>
   </scm>
   
   <dependencies>
