@@ -156,13 +156,18 @@
     <testSourceDirectory>test</testSourceDirectory>
     <directory>target/jar</directory>
     
-  	<!-- Vraiment util ?? -->
+  	<!-- Pour indiquer la version voulu d'un plugin -->
   	<pluginManagement>
    		<plugins>
      		<plugin>
   	   		<groupId>org.apache.maven.plugins</groupId>
        		<artifactId>maven-jar-plugin</artifactId>
        		<version>2.1</version>
+     		</plugin>
+     		<plugin>
+  	   		<groupId>org.apache.maven.plugins</groupId>
+       		<artifactId>maven-release-manager</artifactId>
+       		<version>1.0-alpha-4-SNAPSHOT</version>
      		</plugin>
     	</plugins>
   	</pluginManagement>
