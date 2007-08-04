@@ -201,8 +201,8 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
-          <username>anonymous</username>
-          <password>anonymous</password>
+          <username>${scm.username}</username>
+          <password>${scm.password}</password>
       	</configuration>
       </plugin>
       
@@ -298,7 +298,7 @@
 			<url>http://izanami/~emasliah/m2/repository</url>
  	  	<releases>
  	    	<enabled>true</enabled>
- 	    	<updatePolicy>daily</updatePolicy>
+ 	    	<updatePolicy>daily</updatePolicy>>
  	    	<checksumPolicy>warn</checksumPolicy>
  	  	</releases>
  	  	<snapshots>
