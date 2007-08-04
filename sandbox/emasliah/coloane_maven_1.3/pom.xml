@@ -295,7 +295,7 @@
  		<repository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
-			<url>http://izanami/~emasliah/m2/repository</url>
+			<url>http://izanami/~emasliah/m2</url>
  	  	<releases>
  	    	<enabled>true</enabled>
  	    	<updatePolicy>daily</updatePolicy>
