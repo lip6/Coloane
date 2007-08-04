@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>fr.lip6.move.coloane</groupId>
+    <artifactId>coloane-maven</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>${project.parent.groupId}</groupId>
+  <artifactId>apicami</artifactId>
+  <version>0.9.8-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Apicami - Maven-Packaging</name>
+  <description>Api (cami)</description>
+  
+  <scm>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/apicami/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/apicami/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane-maven/apicami/trunk</url>
+  </scm>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>interfaces</artifactId>
+			<version>1.0.3-SNAPSHOT</version>
+		</dependency>
+  </dependencies>
+  
+  <build>
+
+		<plugins>
+		
+			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
+		
+    	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
+    			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
+      
+      <!--<plugin>
+    		<!~~ Pour modifier le manifest avec la version du pom ~~>
+    	  <groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-psteclipse-plugin</artifactId>
+        <executions>
+        	<execution>
+          	<phase>validate</phase>        
+          	<goals>
+            	<goal>eclipse-plugin</goal>
+          	</goals>
+        	</execution>
+        </executions>
+    	</plugin>-->
+      
+		</plugins>
+
+	</build>
+	
+</project>
