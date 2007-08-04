@@ -8,6 +8,11 @@ import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 public class TestModel_PI extends TestCase {
 
+	/** Lanceur des tests bidon */
+	public void testPI() {
+		assertTrue(true);
+	}
+
 	public void affiche_translate(String[] t) {
 		for (int i = 0; i < Array.getLength(t); i++) {
 			System.out.println(t[i]);
