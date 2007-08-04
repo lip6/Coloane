@@ -250,7 +250,7 @@
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
     			 
-    			     	<plugin>
+    	<plugin>
       	 <!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
       	 			/!\ Ne marche que avec svn en anglais -->
       	<groupId>org.codehaus.mojo</groupId>
@@ -273,10 +273,25 @@
   
   <!-- Vraiment util ?? -->
   <repositories>
-		<repository>
+		<!--<repository>
 			<id>eclipse</id>
 			<name>Eclipse Repository</name>
 			<url>http://repo1.maven.org/eclipse</url>
+ 	  	<releases>
+ 	    	<enabled>true</enabled>
+ 	    	<updatePolicy>daily</updatePolicy>
+ 	    	<checksumPolicy>warn</checksumPolicy>
+ 	  	</releases>
+ 	  	<snapshots>
+ 	    	<enabled>false</enabled>
+ 	    	<updatePolicy>daily</updatePolicy>
+ 	    	<checksumPolicy>warn</checksumPolicy>
+ 	  	</snapshots>
+ 		</repository>-->
+ 		<repository>
+			<id>izanami</id>
+			<name>Izanami Repository</name>
+			<url>http://izanami/~emasliah/m2/repository</url>
  	  	<releases>
  	    	<enabled>true</enabled>
  	    	<updatePolicy>daily</updatePolicy>
