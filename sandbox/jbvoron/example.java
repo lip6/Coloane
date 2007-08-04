@@ -1,6 +1,6 @@
 public class example extends Object
 {
-	example (arguments) {
+ example (arguments) {
 		// expression
 	}
 }
