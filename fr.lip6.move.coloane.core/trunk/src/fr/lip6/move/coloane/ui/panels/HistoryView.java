@@ -21,11 +21,8 @@ import org.eclipse.ui.part.ViewPart;
 import fr.lip6.move.coloane.main.Coloane;
 
 /**
- * Cette classe impl�mente la f�tre de l'historique
- * 
- * @author Dzung NGUYEN
- * @author Jean-Baptiste VORON
- * 
+ * Cette classe implemente la fenetre de l'historique
+ *
  */
 public class HistoryView extends ViewPart {
 
@@ -49,12 +46,12 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Cette m�thode permet de creer la visionneuse et de l'initaliser
-	 * 
+	 *
 	 * @param parent Interface Composite, pour la cr�ation de la visionneuse et des controls
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPartControl(Composite parent) {
+	public final void createPartControl(Composite parent) {
 		viewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
 
 		// Readonly window
@@ -68,15 +65,15 @@ public class HistoryView extends ViewPart {
 
 		// Set static
 		instance = this;
-		
+
 	}
 
 	/**
 	 * Donner une valeur � Focus
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus() {
+	public final void setFocus() {
 		viewer.getControl().setFocus();
 
 	}
@@ -99,7 +96,7 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Creer des actions
-	 * 
+	 *
 	 */
 	private void createActions() {
 		// Copy
@@ -118,7 +115,7 @@ public class HistoryView extends ViewPart {
 		copyAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_TOOL_COPY));
-		
+
 		// Select all
 		selectAllAction = new Action() {
 			public void run() {
@@ -142,7 +139,7 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Creer des actions et les ajouter au menu
-     *  
+     *
 	 * @param manager
 	 *            Menu contextuel
 	 */
@@ -155,7 +152,7 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Ajouter des actions au local Pulldown menu
-	 * 
+	 *
 	 * @param manager
 	 *            Local pulldown menu
 	 */
@@ -168,7 +165,7 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Ajouter des actions � la barre d'outils
-	 * 
+	 *
 	 * @param manager
 	 *            Toolbar
 	 */
@@ -179,7 +176,7 @@ public class HistoryView extends ViewPart {
 		manager.add(new Separator());
 	}
 
-	/** 
+	/**
 	 * Creer des actions
 	 */
 	private void contributeToActionsBar() {
@@ -190,17 +187,17 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Inserer une nouvelle ligne � la fenetre de l'historique
-	 * 
+	 *
 	 * @param text
 	 *            Texte � ins�rer
 	 */
-	public void addLine(String text) {
+	public final void addLine(String text) {
 		if (document != null) {
 
 			try {
 				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
- 
-			} catch (Exception e) { ;
+
+			} catch (Exception e) { return;
 				/*
 				 * BadLocationException this exception never raised because we
 				 * call function with constants
@@ -211,7 +208,7 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Ins�rer du texte dans la fen�tre de l'historique.
-	 * 
+	 *
 	 * @param text
 	 *            Texte � ins�rer
 	 */
@@ -221,7 +218,7 @@ public class HistoryView extends ViewPart {
 			try {
 				document.replace(document.getLength(), 0, text);
 
-			} catch (Exception be) { ;
+			} catch (Exception be) { return;
 				/*
 				 * BadLocationException this exception never raised because we
 				 * call function with constants

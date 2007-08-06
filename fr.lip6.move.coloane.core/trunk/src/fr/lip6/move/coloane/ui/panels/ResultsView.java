@@ -21,29 +21,29 @@ import fr.lip6.move.coloane.results.ResultsList;
  */
 
 public class ResultsView extends ViewPart implements Observer {
-	
+
 	public static ResultsView instance;
-	
+
 	/** The ActionList displayed in this view. */
 	ActionsList actionsList;
-	
+
 	/** The current action displayed. */
 	private int currentActionDisplayed;
-	
+
 	/** The widget which will display the list of actions. */
 	private List actionsWidget;
-	
+
 	/** The widget which will display the list of results for an action. */
 	private List resultsList;
-	
+
 	/** The widget which will display the */
 	private StyledText text;
-	
+
 	/** Constructor for ResultsView */
 	public ResultsView() {
-		super();		
+		super();
 	}
-	
+
 	@Override
 	public void createPartControl(Composite parent) {
 		/* This view will be divided in three parts :
@@ -53,23 +53,25 @@ public class ResultsView extends ViewPart implements Observer {
 		 */
 		actionsWidget = new List(parent, SWT.SINGLE | SWT.BORDER);
 		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		
+
 		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER | SWT.WRAP);
 		text.setJustify(false);
 		text.setAlignment(SWT.CENTER);
-		
+
 		currentActionDisplayed = 0;
-		
+
 		if (actionsList != null) {
 			setLists();
 		}
-		
+
 		instance = this;
 	}
-	
+
 	@Override
-	public void setFocus() {}
-	
+	public void setFocus() {
+		return;
+	}
+
 	/**
 	 * Adds a listener on the actions' list.
 	 */
@@ -83,49 +85,49 @@ public class ResultsView extends ViewPart implements Observer {
 			public void widgetSelected(SelectionEvent e) {
 				currentActionDisplayed = actionsWidget.getSelectionIndex();
 				ResultsList results = actionsList.getResultsList(currentActionDisplayed);
-				
+
 				/* We zero the second list to fill it with the results of the action currently selected */
 				resultsList.removeAll();
-				
+
 				if (results.getResultsNumber() == 0) {
 					return;
 				}
-				
+
 				for (int i = 0; i < results.getResultsNumber(); i++) {
 					resultsList.add(results.getResult(i).getName());
 				}
-				
+
 				/* We add the listner for the list we have created. */
 				setResultsListSelectionListener();
-				
+
 				resultsList.select(0);
 				text.setText(results.getResult(0).getDescription());
 			}
 		});
 	}
-	
+
 	private void setLists() {
 		actionsWidget.removeAll();
 		resultsList.removeAll();
-		
+
 		/*
 		 * We build the first list with the actions' names.
 		 */
 		for (int i = 0; i < actionsList.getResultsListSize(); i++) {
 			actionsWidget.add(actionsList.getResultsList(i).getActionName());
 		}
-		
+
 		/*
 		 * We build the second list with the first action's results.
 		 */
 		for (int i = 0; i < actionsList.getResultsList(0).getResultsNumber(); i++) {
 			resultsList.add(actionsList.getResultsList(0).getResult(i).getName());
 		}
-		
+
 		text.setText(actionsList.getResultsList(0).getResult(0).getDescription());
 		setSelectionListeners();
 	}
-	
+
 	/**
 	 * Modifies the text in the third part of this view
 	 * when an selection event is received on the
@@ -134,7 +136,7 @@ public class ResultsView extends ViewPart implements Observer {
 	private void setResultsListSelectionListener() {
 		resultsList.addSelectionListener(new SelectionListener() {
 			String mem = "0";
-			
+
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -143,14 +145,14 @@ public class ResultsView extends ViewPart implements Observer {
 			 * Selection d'un item dans la liste
 			 */
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				Result r = actionsList.getResultsList(currentActionDisplayed).getResult(resultsList.getSelectionIndex());
 				text.setText(r.getDescription());
-				
-				
+
+
 				// Activation de l'objet designe
-				System.out.println("... :"+r.getName());
-				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(r.getName(),mem);
+				System.out.println("... :" + r.getName());
+				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(r.getName(), mem);
 				mem = r.getName();
 			}
 		});
@@ -164,15 +166,15 @@ public class ResultsView extends ViewPart implements Observer {
 		setActionsListSelectionListener();
 		setResultsListSelectionListener();
 	}
-	
-	public void setActionsList(ActionsList oActionsList) {
+
+	public final void setActionsList(ActionsList oActionsList) {
 		this.actionsList = oActionsList;
 	}
 
-	public void update(Observable o, Object arg) {
+	public final void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		actionsList = (ActionsList) o;
 		setLists();
-		
+
 	}
 }

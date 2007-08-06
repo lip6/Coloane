@@ -21,7 +21,7 @@ import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 /**
- * Premiere page de l'assistant qui propose une liste de formalismes * 
+ * Premiere page de l'assistant qui propose une liste de formalismes *
  */
 public class SelectFormalismPage extends WizardPage {
 
@@ -42,7 +42,7 @@ public class SelectFormalismPage extends WizardPage {
 	 * Construit la page en lui ajoutant des controles
 	 * @param parent parent
 	 */
-	public void createControl(Composite parent) {
+	public final void createControl(Composite parent) {
 		Composite com = new Composite(parent, SWT.NONE);
 
 		GridData gridData = new GridData();
@@ -61,7 +61,7 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLinesVisible(false);
 		tableFormalism.addSelectionListener(new SelectionListener() {
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) { return; }
 			public void widgetSelected(SelectionEvent e) { updateStatus(); }
 		});
 
@@ -85,7 +85,7 @@ public class SelectFormalismPage extends WizardPage {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 
-		com.setLayout(gridLayout);	
+		com.setLayout(gridLayout);
 		setControl(com);
 
 	}
@@ -95,7 +95,7 @@ public class SelectFormalismPage extends WizardPage {
 	 * La condition est simple : Un formalisme doit etre selectionne
 	 * @return booleen
 	 */
-	public boolean canFlipToNextPage() {
+	public final boolean canFlipToNextPage() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);
 	}
 

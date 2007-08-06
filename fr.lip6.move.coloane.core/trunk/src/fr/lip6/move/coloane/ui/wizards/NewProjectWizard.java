@@ -21,27 +21,27 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	ProjectCreationPage projectCreationPage;
 	protected boolean creationFinished = false;
-	
+
 	public NewProjectWizard() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public void addPages() {
+
+	public final void addPages() {
 		addPage(projectCreationPage);
 	}
-	
+
 	@Override
 	public boolean performFinish() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IProject newProject = projectCreationPage.getProjectHandle();
 		IProjectDescription description = workspace.newProjectDescription(newProject.getName());
 
-		String[] natureIds = { Coloane.traduction.getString("ui.wizards.NewProjectWizard.0") }; //$NON-NLS-1$
+		String[] natureIds = {Coloane.traduction.getString("ui.wizards.NewProjectWizard.0")}; //$NON-NLS-1$
 		description.setNatureIds(natureIds);
 		IPath oldPath = Platform.getLocation();
 		IPath newPath = projectCreationPage.getLocationPath();
-		
+
 		if (!oldPath.equals(newPath)) {
 			oldPath = newPath;
 			description.setLocation(newPath);
@@ -51,7 +51,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			if (!newProject.exists()) {
 				newProject.create(description, null);
 			}
-			
+
 			if (!newProject.isOpen()) {
 				newProject.open(null);
 			}
@@ -60,11 +60,11 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 		// Select and reveal the project in the workbench window
 		BasicNewProjectResourceWizard.updatePerspective(null);
-		BasicNewResourceWizard.selectAndReveal(newProject,Coloane.getDefault().getWorkbench().getActiveWorkbenchWindow());
+		BasicNewResourceWizard.selectAndReveal(newProject, Coloane.getDefault().getWorkbench().getActiveWorkbenchWindow());
 		return true;
 	}
 
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/coin_new_project.png")); //$NON-NLS-1$
 		setWindowTitle(Coloane.traduction.getString("ui.wizards.NewProjectWizard.2")); //$NON-NLS-1$
 		projectCreationPage = new ProjectCreationPage("newproject", selection); //$NON-NLS-1$

@@ -27,7 +27,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	/**
 	 * Ajouter les pages de l'assistant
 	 */
-	public void addPages() {
+	public final void addPages() {
 		addPage(page1);
 		addPage(page2);
 	}
@@ -37,7 +37,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * @param workbench Workbench
 	 * @param selection Selection
 	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/select_form.png")); //$NON-NLS-1$
 		setWindowTitle(Coloane.traduction.getString("ui.wizards.NewModelWizard.1")); //$NON-NLS-1$
 		page1 = new SelectFormalismPage();
@@ -48,7 +48,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * Indique l'action a entreprendre lorsque le wizard est fini
 	 * @return boolean
 	 */
-	public boolean performFinish() {
+	public final boolean performFinish() {
 		return page2.finish();
 	}
 
@@ -56,7 +56,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * Obtenir le nom du formalisme
 	 * @return retourne le nom du formalisme
 	 */
-	public String getFormalismName() {
+	public final String getFormalismName() {
 		return formalismName;
 	}
 
@@ -64,8 +64,8 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * Donner une valeur au nom du formalisme
 	 * @param formalismName la valeur
 	 */
-	public void setFormalismName(String formalismName) {
-		this.formalismName = formalismName;
-		System.out.println(Coloane.traduction.getString("ui.wizards.NewModelWizard.2")+formalismName); //$NON-NLS-1$
+	public final void setFormalismName(String name) {
+		this.formalismName = name;
+		System.out.println(Coloane.traduction.getString("ui.wizards.NewModelWizard.2") + name); //$NON-NLS-1$
 	}
 }

@@ -29,9 +29,9 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @param workbench le workbench courant
 	 * @param selection l'object selection courant
 	 */
-	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
-		super("newmodel", selection); //$NON-NLS-1$
-		this.workbench = workbench;
+	public ModelCreationPage(IWorkbench currentWorkbench, IStructuredSelection currentSelection) {
+		super("newmodel", currentSelection); //$NON-NLS-1$
+		this.workbench = currentWorkbench;
 		setTitle(Coloane.traduction.getString("ui.wizards.ModelCreationPage.1")); //$NON-NLS-1$
 		setDescription(Coloane.traduction.getString("ui.wizards.ModelCreationPage.2")); //$NON-NLS-1$
 		setPageComplete(true);
@@ -41,18 +41,18 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * Cette methode ajoute les controle pour visualiser les projets ouverts
 	 * pour le control standard de WizardNewFileCreationPage
 	 */
-	public void createControl(Composite parent) {
+	public final void createControl(Composite parent) {
 		super.createControl(parent);
-		
+
 		// On propose un nom par defaut
-		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") +"_"+ fileCount); //$NON-NLS-1$ //$NON-NLS-2$
+		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") + "_" + fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	/**
 	 * @return false
 	 * @see NewModelWizard#canFlipToNextPage()
 	 */
-	public boolean canFlipToNextPage() {
+	public final boolean canFlipToNextPage() {
 		return false;
 	}
 
@@ -61,10 +61,10 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @return true si ok
 	 * @see NewModelWizard#performFinish()
 	 */
-	boolean finish() {
+	public final boolean finish() {
 
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-		
+
 		// On doit verifier que le chargement du formalismManager est OK
 		if (formManager == null) {
 			setErrorMessage(Coloane.traduction.getString("ui.wizards.ModelCreationPage.5")); //$NON-NLS-1$
@@ -84,7 +84,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			System.err.println(Coloane.traduction.getString("ui.wizards.ModelCreationPage.8")); //$NON-NLS-1$
 			return false;
 		}
-		
+
 		// Changement de l'increment pour le prochain nom temporaire
 		fileCount++;
 
@@ -105,7 +105,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	/**
 	 * Methode remplissant le fichier avec un contenu par default
 	 */
-	protected InputStream getInitialContents() {
+	protected final InputStream getInitialContents() {
 
 		// InputStream a retourner
 		InputStream inputS = null;
