@@ -1,18 +1,17 @@
 package fr.lip6.move.coloane.api.model;
 
-import java.util.Vector;
-import java.util.StringTokenizer;
-import java.util.NoSuchElementException;
-
-import java.io.Serializable;
+import fr.lip6.move.coloane.api.log.LogsUtils;
+import fr.lip6.move.coloane.api.main.Api;
 
 import fr.lip6.move.coloane.api.utils.CamiParser;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.api.log.LogsUtils;
-import fr.lip6.move.coloane.api.main.Api;
+
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * Enrichissement de la definition d'un modele generique par :
@@ -22,7 +21,7 @@ import fr.lip6.move.coloane.api.main.Api;
  * </ul>
  * @see fr.lip6.move.coloane.interfaces.model.Model
  */
-public class Model extends fr.lip6.move.coloane.interfaces.model.Model implements Serializable {
+public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +39,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 	 * @param camiCommande Le vecteur de commandes CAMI
 	 * @throws SyntaxErrorException
 	 */
-	public void buildModel(Vector camiCommande) throws SyntaxErrorException {
+	public final void buildModel(Vector camiCommande) throws SyntaxErrorException {
 		Api.apiLogger.entering("Model", "buildModel", camiCommande);
 		String line = null;
 		String type = null;
@@ -57,7 +56,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				type = st.nextToken("(");
 
 				// Decouverte d'un noeud
-				if (type.equals("CN")) { 
+				if (type.equals("CN")) {
 					String nodeType = ps.parseString(",");
 					String nodeId = ps.parseInt(")");
 
@@ -70,7 +69,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				}
 
 				// Decouverte d'un arc
-				if (type.equals("CA")) { 
+				if (type.equals("CA")) {
 					String arcType = ps.parseString(",");
 					String arcId = ps.parseInt(",");
 					String from = ps.parseInt(",");
@@ -83,7 +82,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					if (nodeBegin == null || nodeEnd == null) {
 						SyntaxErrorException e = new SyntaxErrorException("Noeud source ou cible manquant");
 						Api.apiLogger.throwing("Model", "buildModel", e);
-						Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
+						Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 						throw e;
 					}
 
@@ -96,11 +95,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					nodeEnd.addInputArc(arc);
 
 					this.addArc(arc);
-					continue;// Prochaine commande
+					continue; // Prochaine commande
 				}
 
 //				Decouverte d'attribut sur une ligne
-				if (type.equals("CT")) { 
+				if (type.equals("CT")) {
 					String value = new String();
 
 					String name = ps.parseString(",");
@@ -114,7 +113,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					if (Integer.parseInt(ref) == 1) {
 						this.addAttribute(attr);
 						continue;
-					} 
+					}
 
 					// Est-ce que l'attribut s'attache a un arc ?
 					IArc arc = getAnArc(Integer.parseInt(ref));
@@ -131,14 +130,14 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					}
 					SyntaxErrorException e = new SyntaxErrorException("Element referent introuvable");
 					Api.apiLogger.throwing("Model", "buildModel", e);
-					Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
+					Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 					// Sinon on retourne une erreur
 					throw e;
 				}
 
 				// Creation d'une ligne dans un attribut multi-ligne
-				if (type.equals("CM")) { 
-					String value = new String();;
+				if (type.equals("CM")) {
+					String value = new String();
 					boolean found = false;
 
 					String name = ps.parseString(",");
@@ -157,7 +156,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 								IAttribute a = this.getNthAttr(i);
 								if (name.equals(a.getName())) {
 
-									a.setValue(a.getValue()+"\r"+value);
+									a.setValue(a.getValue() + "\r" + value);
 									found = true;
 									break; // On sort de cette boucle de recherche
 								}
@@ -170,15 +169,15 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 							}
 							continue;
 
-						} 
+						}
 
-						// On cherche a savoir si l'attribut s'attache a un arc ? 
+						// On cherche a savoir si l'attribut s'attache a un arc ?
 						IArc arc = getAnArc(Integer.parseInt(ref));
 						if (arc != null) {
 							for (int i = 0; i < arc.getListOfAttrSize(); i++) {
 								IAttribute att = arc.getNthAttr(i);
 								if (name.equals(att.getName())) {
-									att.setValue(att.getValue()+"\r"+value);
+									att.setValue(att.getValue() + "\r" + value);
 									found = true;
 									break;
 								}
@@ -199,7 +198,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 							for (int i = 0; i < node.getListOfAttrSize(); i++) {
 								IAttribute att = node.getNthAttr(i);
 								if (name.equals(att.getName())) {
-									att.setValue(att.getValue()+"\r"+value);
+									att.setValue(att.getValue() + "\r" + value);
 									found = true;
 									break;
 								}
@@ -207,16 +206,16 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 							// Si aucun attribut du noeud ne correspond... On en cree un
 							if (!found) {
-								IAttribute att = new Attribute(name, value,Integer.parseInt(ref));
+								IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
 								node.addAttribute(att);
 							}
 
 						}
 
 					} catch (Exception e) {
-						Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
+						Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 						SyntaxErrorException se = new SyntaxErrorException("Construction d'un attribut multiligne incorrecte");
-						Api.apiLogger.warning(se.getMessage() + logsutils.StackToString(se));
+						Api.apiLogger.warning(se.getMessage() + logsutils.stackToString(se));
 						Api.apiLogger.throwing("Model", "buildModel", se);
 						throw se;
 					}
@@ -224,7 +223,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				}
 
 				// Decouverte d'une position de noeud
-				if (type.equals("PO") || type.equals("pO")) { 
+				if (type.equals("PO") || type.equals("pO")) {
 					String ref = ps.parseInt(",");
 					String x = ps.parseInt(",");
 					String y = ps.parseInt(")");
@@ -240,14 +239,14 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						} else {
 							SyntaxErrorException se = new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
 							Api.apiLogger.throwing("Model", "buildModel", se);
-							Api.apiLogger.warning(se.getMessage() + logsutils.StackToString(se));
+							Api.apiLogger.warning(se.getMessage() + logsutils.stackToString(se));
 							throw se;
 						}
 					}
 				}
 
 				// Decouverte d'une position de texte
-				if (type.equals("PT")) { 
+				if (type.equals("PT")) {
 					String ref = ps.parseInt(",");
 					String name = ps.parseString(",");
 					String x = ps.parseInt(",");
@@ -262,14 +261,14 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 							}
 						}
 						continue;
-					} 
+					}
 
 					IArc arc = getAnArc(Integer.parseInt(ref));
 					if (arc != null) {
 						for (int i = 0; i < arc.getListOfAttrSize(); i++) {
 							IAttribute attr = arc.getNthAttr(i);
 							if (attr.getName().equals(name)) {
-								attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
+								attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
 								break;
 							}
 						}
@@ -281,7 +280,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						for (int i = 0; i < node.getListOfAttrSize(); i++) {
 							IAttribute attr = node.getNthAttr(i);
 							if (attr.getName().equals(name)) {
-								attr.setPosition(Integer.parseInt(x),Integer.parseInt(y));
+								attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
 								break;
 							}
 						}
@@ -289,7 +288,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					}
 					SyntaxErrorException e = new SyntaxErrorException("Impossible d'attacher la position de texte à un attribut");
 					Api.apiLogger.throwing("Model", "buildModel", e);
-					Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));            
+					Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 					throw e;
 				}
 			}
@@ -298,11 +297,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 		} catch (NoSuchElementException e) {
 			Api.apiLogger.throwing("Model", "buildModel", e);
-			Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
+			Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 			//e.printStackTrace();
 		} catch (SyntaxErrorException e) {
 			Api.apiLogger.throwing("Model", "buildModel", e);
-			Api.apiLogger.warning(e.getMessage() + logsutils.StackToString(e));
+			Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 		}
 		Api.apiLogger.exiting("Model", "buildModel");
 	}
@@ -313,7 +312,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 	 * Traduit un modele en chaines de caracteres CAMI correspondantes.
 	 * @return la chaine de caracteres CAMI correspondante a l'objet Model
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		Api.apiLogger.entering("Model", "translate");
 		Vector<String> vec = new Vector<String>();
 		String[] nodes;
@@ -348,4 +347,3 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 		return cami;
 	}
 }
-

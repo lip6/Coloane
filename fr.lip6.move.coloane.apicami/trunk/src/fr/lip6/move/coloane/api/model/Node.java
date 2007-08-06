@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.api.model;
 
+import fr.lip6.move.coloane.api.main.Api;
+
 import java.util.Arrays;
 import java.util.Vector;
-import java.io.Serializable;
-import fr.lip6.move.coloane.api.main.Api;
 
 /**
  * Enrichissement de la definition d'un noeud generique par sa traduction en CAMI
  * @see fr.lip6.move.coloane.interfaces.model.Node
  */
-public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements Serializable {
+public class Node extends fr.lip6.move.coloane.interfaces.model.Node {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
 	 * Traduction du noeud noeud en chaines de commandes CAMI
 	 * @return String[]
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		Api.apiLogger.entering("Node", "translate");
 		String[] stringToReturn;
 		StringBuffer s;
@@ -32,7 +32,7 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
 
 		s = new StringBuffer();
 		s.append("CN(");
-		s.append(nodeType.length() + ":" + this.nodeType);
+		s.append(type.length() + ":" + this.type);
 		s.append(",");
 		s.append(id);
 		s.append(")");

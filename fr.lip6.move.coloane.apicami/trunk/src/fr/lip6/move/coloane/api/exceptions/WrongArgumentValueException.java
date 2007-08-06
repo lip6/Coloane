@@ -9,9 +9,9 @@ public class WrongArgumentValueException extends Exception {
 	 * Identifie l'exception pour la serialisation
 	 */
 	static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * Constructeur 
+	 * Constructeur
 	 * @param message message d'erreur supplementaire
 	 */
 	public WrongArgumentValueException(String message) {

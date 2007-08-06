@@ -1,18 +1,18 @@
 package fr.lip6.move.coloane.api.utils;
 
-import java.util.Vector;
-
 import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
 import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.objects.UpdateMenuCom;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+
+import java.util.Vector;
 
 /**
  * Classe implementant le comportement de l'ecouteur principal de Coloane
@@ -60,11 +60,11 @@ public class FramekitThreadListener extends Thread {
 	 * @param lowCom point d'entree vers la com
 	 * @param verrou le verrou du speaker
 	 */
-	public FramekitThreadListener(Api api, ComLowLevel lowCom, Lock verrou) {
+	public FramekitThreadListener(Api a, ComLowLevel lc, Lock v) {
 
-		this.api = api;
-		this.lowCom = lowCom;
-		this.verrou = verrou;
+		this.api = a;
+		this.lowCom = lc;
+		this.verrou = v;
 		this.translater = new CamiTranslator();
 		this.menuList = new Vector<IRootMenuCom>();
 		this.menuUpdates = new Vector<IUpdateMenuCom>();
@@ -79,7 +79,7 @@ public class FramekitThreadListener extends Thread {
 	/**
 	 * Le corps du thread
 	 */
-	public void run() {
+	public final void run() {
 		Api.apiLogger.entering("FrameKitThreadListener", "run");
 		// Le menu en cours de construction
 		IRootMenuCom menu = null;
@@ -121,12 +121,12 @@ public class FramekitThreadListener extends Thread {
 					Api.apiLogger.finer("Connexion Closed");
 					//System.out.println("Connexion closed");
 					break;
-				}	
+				}
 
-				// En cas d'erreur, on se deconnecte de FrameKit	
+				// En cas d'erreur, on se deconnecte de FrameKit
 			} catch (Exception e) {
 				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
-				Api.apiLogger.warning(logsutils.StackToString(e));
+				Api.apiLogger.warning(logsutils.stackToString(e));
 				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
 				Api.apiLogger.finer("Connexion fermee");
 				//System.out.println("Connexion fermee");
@@ -137,8 +137,8 @@ public class FramekitThreadListener extends Thread {
 			// Analyse des commandes recues
 			try {
 
-				// Parcours de toutes les commandes re�ues
-				for (int numCommande = 0; numCommande<commandeRecue.size(); numCommande++) {
+				// Parcours de toutes les commandes recues
+				for (int numCommande = 0; numCommande < commandeRecue.size(); numCommande++) {
 
 					// Si la commande recue est vide : on passe a la suivante
 					if (((String) commandeRecue.elementAt(numCommande)).length() == 0) {
@@ -162,37 +162,37 @@ public class FramekitThreadListener extends Thread {
 						switch(type) {
 
 							// Etat du service : inactif
-							case 1 : {
+							case 1 : 
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							}
-		
+							
+
 							// Etat du service : actif
-							case 2 : {
+							case 2 : 
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							}						
-		
+							
+
 							// Etat du service : termine
-							case 3 : {
+							case 3 : 
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							}
-		
+							
+
 							// Etat du service : non documente!
-							case 5 : {
+							case 5 : 
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							}
-		
+							
+
 							// Etat du service : termine de facon errone
-							case 6 : {
+							case 6 : 
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							}
-		
+							
+
 							// Modification de l'arbre des services : active
-							case 7 : {
+							case 7 : 
 								try {
 									if (resetUpdates) {
 										menuUpdates.removeAllElements();
@@ -200,26 +200,26 @@ public class FramekitThreadListener extends Thread {
 									}
 									String root = (String) listeArgs.get(1);
 									String toUpdate = (String) listeArgs.get(2);
-		
+
 									// On essaye de recuperer l'indicateur du menu de syntaxe
 									// pour savoir si le modele est propre ou sale
 									if (toUpdate.equals("Petri net syntax checker")) {
-										this.modelState = true;// Le modele est sale 
+										this.modelState = true; // Le modele est sale
 									}
-		
-									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,true);
+
+									IUpdateMenuCom update = new UpdateMenuCom(root, toUpdate, true);
 									menuUpdates.add(update);
 								} catch (Exception e) {
-									Api.apiLogger.throwing("FrameKitThread", "run",e);
+									Api.apiLogger.throwing("FrameKitThread", "run", e);
 									Api.apiLogger.warning("Erreur reception TQ type= 7");
-									Api.apiLogger.warning(logsutils.StackToString(e));
+									Api.apiLogger.warning(logsutils.stackToString(e));
 									//System.err.println("Erreur reception TQ type = 7");
 								}
 								break;
-							}
-		
+							
+
 							// Modification de l'arbre des services : desactive
-							case 8 : {
+							case 8 : 
 								try {
 									if (resetUpdates) {
 										menuUpdates.removeAllElements();
@@ -227,44 +227,44 @@ public class FramekitThreadListener extends Thread {
 									}
 									String root = (String) listeArgs.get(1);
 									String toUpdate = (String) listeArgs.get(2);
-		
+
 									// On essaye de recuperer l'indicateur du menu de syntaxe
 									// pour savoir si le modele est propre ou sale
 									if (toUpdate.equals("Petri net syntax checker")) {
-										this.modelState = false;// Le modele est propre 
+										this.modelState = false; // Le modele est propre
 									}
-		
-									IUpdateMenuCom update = new UpdateMenuCom(root,toUpdate,false);
+
+									IUpdateMenuCom update = new UpdateMenuCom(root, toUpdate, false);
 									menuUpdates.add(update);
 								} catch (Exception e) {
-									Api.apiLogger.throwing("FrameKitThread", "run",e);
+									Api.apiLogger.throwing("FrameKitThread", "run", e);
 									Api.apiLogger.warning("Erreur reception TQ type = 8");
-									Api.apiLogger.warning(logsutils.StackToString(e));
+									Api.apiLogger.warning(logsutils.stackToString(e));
 									//System.err.println("Erreur reception TQ type = 8");
 								}
 								break;
-							}
-		
-							// Depracated 
-							case 9 : {
+							
+
+							// Depracated
+							case 9 : 
 								Api.apiLogger.finer("TQ = 9 => Deprecated");
 								break;
-							}
-		
+							
+
 							default :
 								Api.apiLogger.warning("Commande inconnue" + type);
 								Api.apiLogger.warning("Commande inconnue" + type);
 								break;
 						}
 						continue;
-					} 
+					}
 
 					// Message OS
 					// Ouverture d'une session
 					if (listeArgs.firstElement().equals("OS")) {
 						this.verrou.unlock();
 						continue;
-					} 
+					}
 
 					// Message TD
 					// TODO : Documenter ?
@@ -278,14 +278,14 @@ public class FramekitThreadListener extends Thread {
 					if (listeArgs.firstElement().equals("FA")) {
 						this.verrou.unlock();
 						continue;
-					} 
+					}
 
 					// Message TL
 					// TODO : Documenter ?
 					if (listeArgs.firstElement().equals("TL")) {
 						this.verrou.unlock();
 						continue;
-					} 
+					}
 
 
 					// Message VI
@@ -294,14 +294,14 @@ public class FramekitThreadListener extends Thread {
 						String serviceName = (String) listeArgs.elementAt(1);
 						this.verrou.unlock(serviceName);
 						continue;
-					} 
+					}
 
 					// Message FL
 					// TODO : Documenter
 					if (listeArgs.firstElement().equals("FL")) {
 						this.verrou.unlock();
 						continue;
-					} 
+					}
 
 					// Message DQ
 					// Debut de la transmission d'un arbre de services
@@ -342,7 +342,7 @@ public class FramekitThreadListener extends Thread {
 								break;
 							}
 						}
-						continue; 
+						continue;
 					}
 
 					// Message EQ
@@ -369,11 +369,11 @@ public class FramekitThreadListener extends Thread {
 							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
 							Api.apiLogger.warning("Erreur dans FQ = Impossible de construire le menu");
 							Api.apiLogger.warning("Erreur dans FQ = Impossible d'ajouter le menu construit � la plateforme");
-							Api.apiLogger.warning(logsutils.StackToString(e));
+							Api.apiLogger.warning(logsutils.stackToString(e));
 							//System.err.println("Erreur dans FQ = Impossible de construire le menu");
 							//System.out.println("Erreur dans FQ = Impossible d'ajouter le menu construit � la plateforme");
 						}
-					} 
+					}
 
 					// Message QQ
 					// Le menu est mis a jour !
@@ -388,7 +388,7 @@ public class FramekitThreadListener extends Thread {
 
 						// Mise a jour des menus
 						api.updateMenu(menuUpdates);
-						resetUpdates = true;						
+						resetUpdates = true;
 
 						// Indique l'etat de fraicheur du modele
 						// Important au retour de la connexion par exemple
@@ -445,7 +445,7 @@ public class FramekitThreadListener extends Thread {
 					if (listeArgs.firstElement().equals("FC")) {
 						api.closeConnexion(1, "Fermeture standard de FrameKit", 1);
 						continue;
-					} 
+					}
 
 					// Message TR
 					// TODO : A documenter
@@ -474,7 +474,7 @@ public class FramekitThreadListener extends Thread {
 					if (listeArgs.firstElement().equals("DF")) {
 						FramekitThreadSpeaker speaker = this.api.getCurrentSpeaker();
 						speaker.sendModel();
-					} 
+					}
 
 					// Message DR
 					// Debut de la transmission d'une reponse d'un outil
@@ -489,7 +489,7 @@ public class FramekitThreadListener extends Thread {
 					}
 
 					// Message DE
-					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane 
+					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane
 					if (listeArgs.firstElement().equals("DE")) {
 						result = new ResultsCom();
 						continue;
@@ -558,7 +558,7 @@ public class FramekitThreadListener extends Thread {
 					if (listeArgs.firstElement().equals("DC")) {
 						vectorDialog = new Vector<Vector>();
 						vectorDialog.add(listeArgs);
-					}					
+					}
 
 					// Message CE
 					// Creation d'un dialogue
@@ -576,19 +576,19 @@ public class FramekitThreadListener extends Thread {
 					// Message DB
 					// Debut de transmission d'un modele
 					if (listeArgs.firstElement().equals("DB")) {
-						modelReceive = new Vector<String>();		
+						modelReceive = new Vector<String>();
 					}
 
 					// Messages CN CB CA CT CM PO PT PI
 					// Element de construction d'un modele
-					if ((listeArgs.firstElement()).equals("CN") 
-							|| (listeArgs.firstElement()).equals("CB") 
-							|| (listeArgs.firstElement()).equals("CA") 
-							|| (listeArgs.firstElement()).equals("CT") 
-							|| (listeArgs.firstElement()).equals("CM") 
+					if ((listeArgs.firstElement()).equals("CN")
+							|| (listeArgs.firstElement()).equals("CB")
+							|| (listeArgs.firstElement()).equals("CA")
+							|| (listeArgs.firstElement()).equals("CT")
+							|| (listeArgs.firstElement()).equals("CM")
 							|| (listeArgs.firstElement()).equals("PO")
 							|| (listeArgs.firstElement()).equals("pO")
-							|| (listeArgs.firstElement()).equals("PT") 
+							|| (listeArgs.firstElement()).equals("PT")
 							|| (listeArgs.firstElement()).equals("PI")) {
 
 						modelReceive.add((String) commandeRecue.get(numCommande));
@@ -614,12 +614,12 @@ public class FramekitThreadListener extends Thread {
 						} catch (Exception e) {
 							Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
 							Api.apiLogger.warning("Erreur dans FF = Impossible de construire la boite de dialogue");
-							Api.apiLogger.warning(logsutils.StackToString(e));
+							Api.apiLogger.warning(logsutils.stackToString(e));
 							//System.err.println("Erreur dans FF = Impossible de construire la boite de dialogue");
 						}
 
 						continue;
-					}						
+					}
 
 					// Message AD
 					// Affichage dune boite de dialogue referencee par un identifiant unique
@@ -640,7 +640,7 @@ public class FramekitThreadListener extends Thread {
 
 						// On s'assure que la boite de dialogue a bien ete trouvee
 						if (!indic) {
-							Api.apiLogger.warning("Impossible de trouver la boite de dialogue (" +identity+") a afficher");
+							Api.apiLogger.warning("Impossible de trouver la boite de dialogue (" + identity + ") a afficher");
 							//System.err.println("Impossible de trouver la boite de dialogue ("+identity+") a afficher");
 
 						}
@@ -662,9 +662,9 @@ public class FramekitThreadListener extends Thread {
 				}
 			} catch (Exception e) {
 				Api.apiLogger.throwing("FrameKitThreadListener", "run", e);
-				Api.apiLogger.warning(logsutils.StackToString(e));
+				Api.apiLogger.warning(logsutils.stackToString(e));
 				//e.printStackTrace();
 			}
 		}
-	}	
+	}
 }

@@ -9,13 +9,12 @@ public class CommunicationCloseException extends Exception {
 	 * Identifie l'exception pour la serialisation
 	 */
 	static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * Constructeur 
+	 * Constructeur
 	 * @param message Message d'erreur supplementaire
 	 */
 	public CommunicationCloseException(String message) {
 		super(message);
 	}
 }
-      

@@ -10,9 +10,9 @@ public class UnexpectedCamiCommand extends Exception {
 	 * Identifie l'exception pour la serialisation
 	 */
 	static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * Constructeur 
+	 * Constructeur
 	 * @param message Message d'erreur supplementaire
 	 */
 	public UnexpectedCamiCommand(String message) {

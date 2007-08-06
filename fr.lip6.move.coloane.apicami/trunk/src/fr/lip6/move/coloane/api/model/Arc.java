@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.api.model;
 
+import fr.lip6.move.coloane.api.main.Api;
+
 import java.util.Arrays;
 import java.util.Vector;
-import java.io.Serializable;
-import fr.lip6.move.coloane.api.main.*;
 
 /**
  * Enrichissement de la definition d'un arc generique par sa traduction en CAMI
  * @see fr.lip6.move.coloane.interfaces.model.Arc
  */
-public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Serializable { 
+public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc {
 
 	private static final long serialVersionUID = 1L;
 	/* (non-Javadoc)
@@ -24,10 +24,10 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 	 * Traduit un objet Arc en chaines de caracteres CAMI correspondantes
 	 * @return String[]
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		Api.apiLogger.entering("Arc", "translate");
 		if (this.startingNode == null || this.endingNode == null) {
-			Api.apiLogger.exiting("Arc","translate", null);
+			Api.apiLogger.exiting("Arc", "translate", null);
 			return null;
 		} else {
 			String[] stringToReturn;
@@ -36,7 +36,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 
 			s = new StringBuffer();
 			s.append("CA(");
-			s.append(this.arcType.length() + ":" + this.arcType);
+			s.append(this.type.length() + ":" + this.type);
 			s.append(",");
 			s.append(this.id);
 			s.append(",");
@@ -52,7 +52,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 
 			stringToReturn = new String[vectorStringToReturn.size()];
 			vectorStringToReturn.toArray(stringToReturn);
-			Api.apiLogger.exiting("Arc","translate", stringToReturn);
+			Api.apiLogger.exiting("Arc", "translate", stringToReturn);
 			return stringToReturn;
 		}
 	}

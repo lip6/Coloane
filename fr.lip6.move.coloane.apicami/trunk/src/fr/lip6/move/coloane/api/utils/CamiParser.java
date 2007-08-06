@@ -17,7 +17,7 @@ public class CamiParser {
 
 	private String message;
 
-	
+
 	public CamiParser(String commandeCAMI) {
 		this.message = commandeCAMI;
 
@@ -25,7 +25,7 @@ public class CamiParser {
 
 	/**
 	 * Retourne l'entier CAMI du message CAMI
-	 * 
+	 *
 	 * @param token
 	 *            Le separateur
 	 * @return l'entier CAMI decouvert (sous forme de chaine de caracteres) Si
@@ -54,7 +54,7 @@ public class CamiParser {
 
 	/**
 	 * Retourne la chaine CAMI du message CAMI
-	 * 
+	 *
 	 * @param token
 	 *            Le separateur
 	 * @return la chaine CAMI
@@ -89,7 +89,7 @@ public class CamiParser {
 	/**
 	 * Conversion d'une chaine de carateres en message CAMI. En CAMI chaque
 	 * chaine de carateres est precede de sa taille et de ':'
-	 * 
+	 *
 	 * @param s
 	 *            la chaine a convertir
 	 * @return la chaine convertie
