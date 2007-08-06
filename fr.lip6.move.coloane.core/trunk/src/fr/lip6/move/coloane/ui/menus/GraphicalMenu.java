@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.ui.menus;
 
+import fr.lip6.move.coloane.menus.ChildMenu;
+import fr.lip6.move.coloane.menus.RootMenu;
+import fr.lip6.move.coloane.ui.UserInterface;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Menu;
@@ -7,15 +10,11 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import fr.lip6.move.coloane.menus.ChildMenu;
-import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.ui.UserInterface;
-
 /**
  * This class takes a RootMenu and builds a graphic
  * menu for the Eclipse menubar, inserting it
  * just after the "Platform" menu.
- * 
+ *
  * @author Alexandre ORTIZ
  *
  */
@@ -28,19 +27,19 @@ public class GraphicalMenu {
 	 * @param root
 	 * @param window The window repersenting the workbench.<br/>
 	 *  Can be obtained with
-	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow() 
+	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 	 */
-	public GraphicalMenu(RootMenu root, IWorkbenchWindow window, UserInterface ui) {
+	public GraphicalMenu(RootMenu r, IWorkbenchWindow window, UserInterface userInterface) {
 		this.shell  = window.getShell();
-		this.root = root;
-		this.ui = ui;
+		this.root = r;
+		this.ui = userInterface;
 	}
 
 	/**
 	 * Builds recursively a MenuManager from, using a RootMenu
 	 * given in the constructor.
 	 */
-	public  MenuManager build() {
+	public final MenuManager build() {
 		MenuManager rootMenuManager = new MenuManager(root.getName());
 
 		/*
@@ -48,14 +47,14 @@ public class GraphicalMenu {
 		 */
 		if (this.check()) {
 			this.remove();
-		}		
+		}
 
 		/*
 		 * We recursively build the menu.
 		 */
-		for(ChildMenu aChild : root.getChildren()) {
+		for (ChildMenu aChild : root.getChildren()) {
 			if (aChild.isLeaf()) {
-				UIAction uiAction = new UIAction(ui, root.getName(),aChild.getReference(), aChild.getName());
+				UIAction uiAction = new UIAction(ui, root.getName(), aChild.getReference(), aChild.getName());
 				uiAction.setEnabled(aChild.getEnabled());
 
 				rootMenuManager.add(uiAction);
@@ -71,7 +70,7 @@ public class GraphicalMenu {
 		 * We search the Platform menu's position to add this
 		 * menu just after it.
 		 */
-		// TODO remove the hardcoded menu name
+		// TODO: remove the hardcoded menu name
 		for (int i = 0; i < mi.length; i++) {
 			if (mi[i].getText().contentEquals("Coloane Services")) {
 				rootMenuManager.fill(mi[i].getMenu(),
@@ -88,16 +87,16 @@ public class GraphicalMenu {
 	 * @param child The child we want to add to the graphical menu
 	 * @param parentMenuManager The MenuManager on which we will add the child
 	 */
-	public void buildChildMenu(ChildMenu child, MenuManager parentMenuManager) {
+	public final void buildChildMenu(ChildMenu child, MenuManager parentMenuManager) {
 		MenuManager childMenuManager = new MenuManager(child.getName());
 		parentMenuManager.add(childMenuManager);
 
-		for(ChildMenu littleChild : child.getChildren()) {
+		for (ChildMenu littleChild : child.getChildren()) {
 			/*
 			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
-				UIAction exitAction = new UIAction(ui, root.getName(),littleChild.getReference(), littleChild.getName());
+				UIAction exitAction = new UIAction(ui, root.getName(), littleChild.getReference(), littleChild.getName());
 				exitAction.setEnabled(littleChild.getEnabled());
 				childMenuManager.add(exitAction);
 			} else {
@@ -110,8 +109,8 @@ public class GraphicalMenu {
 	 * Removes a menu from the menubar.
 	 *
 	 */
-	// TODO remove the hardcoded menu name
-	public void remove() {
+	// TODO: remove the hardcoded menu name
+	public final void remove() {
 		for (MenuItem mi : shell.getMenuBar().getItems()) {
 			if (mi.getText().equals("Coloane Services")) {
 				for (MenuItem mi1 : mi.getMenu().getItems()) {
@@ -144,7 +143,7 @@ public class GraphicalMenu {
 	/**
 	 * Updates a menu (i.e. modifies it in the menubar).
 	 */
-	public MenuManager update() {
+	public final MenuManager update() {
 		remove();
 		return build();
 	}

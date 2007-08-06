@@ -9,16 +9,16 @@ import org.eclipse.swt.widgets.Label;
 public class DummyTextArea extends TextArea {
 
 	Composite parent;
-	
+
 	public DummyTextArea(Composite parent) {
 		super(parent, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, "");
 		this.parent = parent;
 	}
-	
+
 	public ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
 		result.add("");
-		
+
 		return result;
 	}
 
@@ -28,11 +28,11 @@ public class DummyTextArea extends TextArea {
 	public void addChoice(String choice) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	public void setToolTiptext(String toolTipText) {
 		parent.setToolTipText(toolTipText);
 	}
-	
+
 	protected void setToolTiptext(String toolTipText, Label label) {
 		label.setToolTipText(toolTipText);
 	}

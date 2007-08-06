@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface IElement {
 
-	/** 
+	/**
 	 * Recupere la liste des attributs de l'objet
-	 * @return La liste des element contenu dans l'objet 
-	 */	
-	public List<IElement> getAttributes();
-	
+	 * @return La liste des element contenu dans l'objet
+	 */
+	List<IElement> getAttributes();
+
 	/**
 	 * Renvoie le modele augmente
 	 */
-	public IModelImpl getModelAdapter();
-	
+	IModelImpl getModelAdapter();
+
 }

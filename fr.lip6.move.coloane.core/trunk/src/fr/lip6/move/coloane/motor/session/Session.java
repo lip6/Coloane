@@ -40,7 +40,7 @@ public class Session {
 		this.sessionId = id;
 		this.sessionModel = null;
 
-		this.sessionStatus = 0;	 	
+		this.sessionStatus = 0;
 	}
 
 	/**

@@ -26,12 +26,12 @@ public class AttributeDialog extends IconAndMessageDialog {
 
 	protected Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
-	public AttributeDialog(String title, String help, String byDefault) {
+	public AttributeDialog(String t, String h, String d) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
-		this.title = title;
-		this.help = help;
-		this.byDefault = byDefault;
+		this.title = t;
+		this.help = h;
+		this.byDefault = d;
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class AttributeDialog extends IconAndMessageDialog {
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.CANCEL_ID,IDialogConstants.CANCEL_LABEL, false);
-		createButton(parent, IDialogConstants.OK_ID,IDialogConstants.OK_LABEL, false);
+		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
 	}
 
 
@@ -61,21 +61,21 @@ public class AttributeDialog extends IconAndMessageDialog {
 		composite.getParent().setSize(400, 200);
 		textarea =  new Text(composite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
 		textarea.setToolTipText(this.help);
-		((Text)textarea).setText(byDefault);
+		((Text) textarea).setText(byDefault);
 
 		return composite;
 	}
 
-	public void buttonPressed(int button) {
+	public final void buttonPressed(int button) {
 		//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
 
-		this.result  = ((Text)textarea).getText();  		
+		this.result  = ((Text) textarea).getText();
 
 		this.close();
 	}
 
 
-	public String getResult() {
+	public final String getResult() {
 		return this.result;
 	}
 

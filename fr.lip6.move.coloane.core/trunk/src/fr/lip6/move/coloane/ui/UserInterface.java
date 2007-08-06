@@ -1,15 +1,10 @@
 package fr.lip6.move.coloane.ui;
 
-
-import java.util.Vector;
-
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-
 import fr.lip6.move.coloane.communications.objects.Results;
-import fr.lip6.move.coloane.interfaces.*;
+import fr.lip6.move.coloane.interfaces.IComUi;
+import fr.lip6.move.coloane.interfaces.IMotorUi;
+import fr.lip6.move.coloane.interfaces.IUiCom;
+import fr.lip6.move.coloane.interfaces.IUiMotor;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
@@ -23,7 +18,14 @@ import fr.lip6.move.coloane.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.menus.MenuManipulation;
-import fr.lip6.move.coloane.ui.panels.*;
+import fr.lip6.move.coloane.ui.panels.HistoryView;
+
+import java.util.Vector;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Interface Utilisateur
@@ -38,7 +40,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	private IComUi com = null;
 
 	/** Le module de moteur */
-	private IMotorUi motor = null; 
+	private IMotorUi motor = null;
 
 	/** La gestion des resultats */
 	private ActionsList serviceResultList = null;
@@ -59,27 +61,27 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Affichage d'un message sur la vue historique
 	 * @param message a afficher
 	 */
-	public void printHistoryMessage(String message) {
-		final String msg=message;
+	public final void printHistoryMessage(String message) {
+		final String msg = message;
 
-		Display.getDefault().asyncExec(new Runnable(){
-			public void run(){
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
 				if (HistoryView.instance != null) {
 					HistoryView.instance.addLine(msg);
 				}
 			}
-		});   
+		});
 	}
 
-	/** 
+	/**
 	 * Afficher un menu
-	 * @param menu La racine du menu a afficher 
+	 * @param menu La racine du menu a afficher
 	 */
-	public void drawMenu (RootMenu menu) {
+	public final void drawMenu(RootMenu menu) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		currentSession.setServicesMenu(menu);
-		GraphicalMenu gmenu = new GraphicalMenu(menu,fenetreTravail,this);
-		gmenu.build();		
+		GraphicalMenu gmenu = new GraphicalMenu(menu, fenetreTravail, this);
+		gmenu.build();
 	}
 
 
@@ -87,7 +89,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu(Vector<IUpdateMenuCom> updates) {
+	public final void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
 
@@ -99,14 +101,14 @@ public class UserInterface implements IUiCom, IUiMotor {
 					try {
 						service.setEnabled(up.getService(), up.getState());
 					} catch (MenuNotFoundException e) {
-						System.err.println("Le menu "+up.getService()+" n'a pu etre mis a jour");
+						System.err.println("Le menu " + up.getService() + " n'a pu etre mis a jour");
 					}
 				}
 			}
 
-			GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(),fenetreTravail,this);
+			GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
 			gmenu.update();
-		} 
+		}
 	}
 
 
@@ -114,7 +116,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Demande la suppression d'un menu designee par son nom
 	 * @param menuName Le nom du menu a supprimer
 	 */
-	public void removeMenu(String menuName) {
+	public final void removeMenu(String menuName) {
 		MenuManipulation.remove(menuName);
 	}
 
@@ -123,8 +125,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Desactivation du rootMenu
 	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
 	 */
-	public void changeMenuStatus(String rootName, boolean status) {
-		MenuManipulation.setEnabled(rootName,rootName,status);
+	public final void changeMenuStatus(String rootName, boolean status) {
+		MenuManipulation.setEnabled(rootName, rootName, status);
 	}
 
 
@@ -133,7 +135,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param serviceName Le nom du service qui produit ses resultats
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
-	public void setResults(String serviceName, Results result) {
+	public final void setResults(String serviceName, Results result) {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;
@@ -144,7 +146,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 				r = new ResultsList(labelService);
 				String  description = "";
 				String object = "";
-				r.add(new Result(object,description));				
+				r.add(new Result(object, description));
 			}
 
 			/*
@@ -166,7 +168,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					r.add(new Result(object,description));
+					r.add(new Result(object, description));
 				}
 
 				/*
@@ -179,7 +181,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					r.add(new Result(object,result.getHeadDescription()));
+					r.add(new Result(object, result.getHeadDescription()));
 				}
 
 				/*
@@ -189,16 +191,16 @@ public class UserInterface implements IUiCom, IUiMotor {
 				labelService = "Structural safety";
 				r = new ResultsList(labelService);
 
-				if (result.getHeadDescription().equals("Here are unsafe places")) {					
+				if (result.getHeadDescription().equals("Here are unsafe places")) {
 
 					// Parcours de mes resultats
 					for (String object : result.getSublistOfDescription(1)) {
-						r.add(new fr.lip6.move.coloane.results.Result(object,""));
+						r.add(new fr.lip6.move.coloane.results.Result(object, ""));
 					}
 
 				} else if (result.getHeadDescription().equals("Your net is not safe")) {
 					String description = "Your net is not safe";
-					r.add(new fr.lip6.move.coloane.results.Result(description,"Reasons are given above"));
+					r.add(new fr.lip6.move.coloane.results.Result(description, "Reasons are given above"));
 				}
 
 				/*
@@ -208,7 +210,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 				labelService = "Structural bounds";
 				r = new ResultsList(labelService);
 
-				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
+				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(), ""));
 
 				/*
 				 * P INVARIANT
@@ -221,15 +223,15 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					liste = liste+object+",";
+					liste = liste + object + ",";
 				}
 
 				// Suppression de la derniere virgule
 				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length()-1);
+					liste = liste.substring(0, liste.length() - 1);
 				}
 
-				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
+				r.add(new fr.lip6.move.coloane.results.Result(liste, result.getHeadDescription()));
 
 
 				/*
@@ -243,18 +245,18 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 				// Parcours de mes resultats
 				for (String object : result.getListOfElement()) {
-					liste = liste+object+",";
+					liste = liste + object + ",";
 				}
 
 				// Suppression de la derniere virgule
 				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length()-1);
+					liste = liste.substring(0, liste.length() - 1);
 				}
 
-				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
+				r.add(new fr.lip6.move.coloane.results.Result(liste, result.getHeadDescription()));
 			}
 
-			serviceResultList.setResultsList(r);			
+			serviceResultList.setResultsList(r);
 		}
 	}
 
@@ -262,7 +264,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	/**
 	 * Affichage des resultats dans la vue resultats
 	 */
-	public void printResults() {
+	public final void printResults() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
@@ -283,7 +285,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param parentName Le nom du pere de la feuille cliquee
 	 * @param serviceName LE nom du service demande
 	 */
-	public void askForService(String rootMenuName, String parentName, String serviceName) {
+	public final void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
 		this.com.askForService(rootMenuName, parentName, serviceName);
 	}
@@ -292,18 +294,18 @@ public class UserInterface implements IUiCom, IUiMotor {
 	/** Affichage d'une boite de dialogue
 	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
-	public void drawDialog(Dialog d) {
+	public final void drawDialog(Dialog d) {
 		IDialog dialog = null;
 		try {
 			dialog = DialogFactory.create(
-					d.id, d.type, d.buttonType, d.title, 
-					d.help, d.message, d.inputType, d.multiLine,d.def);
+					d.id, d.type, d.buttonType, d.title,
+					d.help, d.message, d.inputType, d.multiLine, d.def);
 
 			// Ouverture de la boite de dialogue
 			dialog.open();
 
 			if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) {
-				return;	
+				return;
 			}
 
 			// Capture des resultats
@@ -321,8 +323,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module de communication a l' l'interface utilisateur
 	 * @param IComUi L'interface
 	 */
-	public void setCom(IComUi com) {
-		this.com = com;
+	public final void setCom(IComUi c) {
+		this.com = c;
 	}
 
 
@@ -330,7 +332,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module du moteur a l' l'interface utilisateur
 	 * @param IMotorUi L'interface
 	 */
-	public void setMotor(IMotorUi mot) {
+	public final void setMotor(IMotorUi mot) {
 		this.motor = mot;
 	}
 }

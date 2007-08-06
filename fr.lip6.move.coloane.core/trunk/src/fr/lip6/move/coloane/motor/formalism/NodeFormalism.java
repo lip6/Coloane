@@ -10,7 +10,7 @@ public class NodeFormalism extends ElementBase {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param name Nom de l'element de base.
 	 * @param paletteName Nom de l'element de base affiche dans la palette.
 	 * @param numFigure	Indication sur la forme du dessin de l'element

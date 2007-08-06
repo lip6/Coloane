@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.model;
 
 import java.util.Vector;
-import java.io.Serializable;
 
 /**
  * Classe representant un attribut d'un modele. Un attribut se structure de la
@@ -15,8 +14,7 @@ import java.io.Serializable;
  * </ul>
  *
  */
-public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
-		implements Serializable {
+public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 
 	private static final long serialVersionUID = 1L;
 

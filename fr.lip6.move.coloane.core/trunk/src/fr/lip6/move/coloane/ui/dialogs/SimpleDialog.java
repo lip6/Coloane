@@ -102,10 +102,10 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 * Creates the dialog area.<br/>
 	 * If the dialog does not permit input and is single-line,
 	 * there is nothing to do.
-	 * 
+	 *
 	 * Otherwise, fills this area with a TextArea object obtained
 	 * from a TextAreaFactory.
-	 * 
+	 *
 	 * @param parent the parent composite
 	 * @return Control
 	 */

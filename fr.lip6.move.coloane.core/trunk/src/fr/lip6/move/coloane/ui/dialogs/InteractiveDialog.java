@@ -9,7 +9,7 @@ public class InteractiveDialog implements IDialog {
 		/*super(id, buttonType, title, help, message,
 				inputType, multiLine, defaultValue);*/
 	}
-	
+
 	public int open() {
 		throw new UnsupportedOperationException();
 	}
@@ -20,7 +20,7 @@ public class InteractiveDialog implements IDialog {
 	}
 
 	/**
-	 * This method adds a choice in a list (in the case of 
+	 * This method adds a choice in a list (in the case of
 	 * a simple dialog with a list), so it has no sense here.
 	 */
 	public void addChoice(String choice) {

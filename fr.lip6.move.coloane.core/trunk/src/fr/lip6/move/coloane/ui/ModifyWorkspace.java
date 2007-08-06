@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -11,12 +13,10 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
 
-import fr.lip6.move.coloane.interfaces.model.IModel;
-
 /**
  * Cette classe agit sur le contenu du workspace.
  * Elle sauvegarde le modele recu dans un nouveau fichier du workspace et l'affiche
- * 
+ *
  * @author Jean-Baptiste Voron
  * @see WorkspaceModifyOperation
  */
@@ -33,14 +33,14 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	 * @param file Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
 	 * @param model Le modele a sauvegarder (modele generique)
 	 */
-	public ModifyWorkspace(IWorkbenchWindow window, IFile file, IModel model) {
-		this.file = file;
-		this.model = model;
-		this.window = window;
+	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IModel m) {
+		this.file = f;
+		this.model = m;
+		this.window = w;
 	}
 
 	@Override
-	protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
+	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
 		// Traduction du modele au format xml
 		String xmlString = XmlEditor.translateToXML(model);
@@ -59,8 +59,8 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 			System.err.println("Erreur lors de la sauvegarde du modele");
 			e.printStackTrace();
 		}
-		
+
 		// Affichage du nouveau modele dans un nouvel onglet
-		IDE.openEditor(this.window.getActivePage(),file, true);
+		IDE.openEditor(this.window.getActivePage(), file, true);
 	}
 }

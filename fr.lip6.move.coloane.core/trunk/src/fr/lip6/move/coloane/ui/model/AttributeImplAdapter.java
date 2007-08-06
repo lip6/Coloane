@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.ui.model;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
+
+import java.util.List;
 
 /**
  * C'est ici que le veritable attribut est cree.<br>
@@ -45,23 +45,23 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @param attribute attribut a adapter
 	 * @param drawable indique si l'atrribut est afficheable, a determiner en fonction du formalism
 	 */
-	public AttributeImplAdapter(IAttribute attribute, AttributeFormalism formalism, IElement ref) {
+	public AttributeImplAdapter(IAttribute a, AttributeFormalism f, IElement r) {
 		super();
 
 		// On attache l'attribut generique
-		this.attribute = attribute;
+		this.attribute = a;
 
 		// On attache le referent
-		this.reference = ref;
+		this.reference = r;
 
 		// Affectation de l'identifiant
-		this.id = String.valueOf(formalism.getOrder());
+		this.id = String.valueOf(f.getOrder());
 
 		// Divers parametres
-		this.drawable = formalism.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
-		this.multiline = formalism.isMultiLines();		// L'attribut est-il multiligne ?
-		this.defaultValue = formalism.getDefaultValue();
-		this.type = formalism.getType();
+		this.drawable = f.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
+		this.multiline = f.isMultiLines();		// L'attribut est-il multiligne ?
+		this.defaultValue = f.getDefaultValue();
+		this.type = f.getType();
 
 		// L'objet contenant toutes les consideration graphiques (comme la position)
 		this.attGraphicInfo = new AttributeGraphicInfo(this);
@@ -72,7 +72,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getId()
 	 */
-	public String getId() {
+	public final String getId() {
 		return this.id;
 	}
 
@@ -80,7 +80,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
-	public List<IElement> getAttributes() {
+	public final List<IElement> getAttributes() {
 		return null;
 	}
 
@@ -88,12 +88,12 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getGenericAttribute()
 	 */
-	public IAttribute getGenericAttribute() {
+	public final IAttribute getGenericAttribute() {
 		return this.attribute;
 	}
 
 
-	public IAttributeGraphicInfo getGraphicInfo() {
+	public final IAttributeGraphicInfo getGraphicInfo() {
 		return this.attGraphicInfo;
 	}
 
@@ -101,7 +101,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDisplayName()
 	 */
-	public String getDisplayName() {
+	public final String getDisplayName() {
 		return this.attribute.getName();
 	}
 
@@ -109,7 +109,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValue()
 	 */
-	public String getValue() {
+	public final String getValue() {
 		return this.attribute.getValue();
 	}
 
@@ -117,10 +117,14 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setValue(java.lang.String)
 	 */
-	public void setValue(String oldValue,String newValue) {
+	public final void setValue(String oldValue, String newValue) {
 
 		// Affectation de la nouvelle valeur au modele
-		this.attribute.setValue((newValue==null)?"":newValue);
+		if (newValue == null) {
+			this.attribute.setValue("");
+		} else {
+			this.attribute.setValue(newValue);
+		}
 
 		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit créer une figure
 		if (this.isDrawable() && oldValue.equals(this.getDefaultValue())) {
@@ -138,7 +142,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isDrawable()
 	 */
-	public boolean isDrawable() {
+	public final boolean isDrawable() {
 		return this.drawable;
 	}
 
@@ -146,11 +150,11 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#isMultiline()
 	 */
-	public boolean isMultiline() {
+	public final boolean isMultiline() {
 		return this.multiline;
 	}
 
-	public int getType() {
+	public final int getType() {
 		return this.type;
 	}
 
@@ -158,7 +162,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getDefaultValue()
 	 */
-	public String getDefaultValue() {
+	public final String getDefaultValue() {
 		return this.defaultValue;
 	}
 
@@ -166,7 +170,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValidation()
 	 */
-	public boolean getValidation() {
+	public final boolean getValidation() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -175,7 +179,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValidationMessage()
 	 */
-	public String getValidationMessage() {
+	public final String getValidationMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -185,7 +189,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getModelAdapter()
 	 */
-	public IModelImpl getModelAdapter() {
+	public final IModelImpl getModelAdapter() {
 		return this.reference.getModelAdapter();
 	}
 
@@ -193,7 +197,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getReference()
 	 */
-	public IElement getReference() {
+	public final IElement getReference() {
 		return this.reference;
 	}
 
@@ -201,13 +205,13 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setSelect(boolean, boolean)
 	 */
-	public void setSelect(boolean light, boolean state) {
+	public final void setSelect(boolean light, boolean state) {
 		if (state) {
 			if (light) {
 				firePropertyChange(AttributeImplAdapter.SELECT_LIGHT_PROP, null, null);
 			} else {
 				firePropertyChange(AttributeImplAdapter.SELECT_HEAVY_PROP, null, null);
-			}			
+			}
 		} else {
 			if (light) {
 				firePropertyChange(AttributeImplAdapter.UNSELECT_LIGHT_PROP, null, null);
@@ -221,7 +225,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setSelect(boolean)
 	 */
-	public void setSelect(boolean state) {
+	public final void setSelect(boolean state) {
 		if (state) {
 			firePropertyChange(AttributeImplAdapter.SELECT_HEAVY_PROP, null, null);
 		} else {

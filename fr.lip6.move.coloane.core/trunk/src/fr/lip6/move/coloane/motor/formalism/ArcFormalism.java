@@ -23,7 +23,7 @@ public class ArcFormalism extends ElementBase {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param name Nom de l'element de base.
 	 * @param paletteName Nom de l'element de base affiche dans la palette
 	 * @param numFigure Indication sur la forme du dessin de l'element
@@ -33,5 +33,5 @@ public class ArcFormalism extends ElementBase {
 	 */
 	public ArcFormalism(String name, String paletteName, int numFigure, int width, int height, boolean isFilled) {
 		super(name, paletteName, numFigure, width, height, isFilled);
-	}   
+	}
 }

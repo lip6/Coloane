@@ -25,13 +25,13 @@ public class PartFactory implements EditPartFactory {
 	 */
 	public EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
-		
+
 		// Si l'elemen est nul... Probleme
 		if (modelElement == null) {
 			System.err.println("L'element est nul");
 		} else {
 			// Selon l'element on construit un EditPart different
-			part = getPartForElement(modelElement); 
+			part = getPartForElement(modelElement);
 			if (part != null) {
 				part.setModel(modelElement);
 			} else {
@@ -42,7 +42,7 @@ public class PartFactory implements EditPartFactory {
 	}
 
 	/**
-	 * Selon le type de l'element... on choisit sont EditPart 
+	 * Selon le type de l'element... on choisit sont EditPart
 	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
@@ -55,7 +55,7 @@ public class PartFactory implements EditPartFactory {
 		} else if (modelElement instanceof IAttributeImpl) {
 			return new AttributeEditPart();
 		}
-		
+
 		return null;
 	}
 }

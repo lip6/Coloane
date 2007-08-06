@@ -8,14 +8,14 @@ public class DialogResult implements IDialogResult {
 	protected int answerType;
 	protected boolean modified;
 	ArrayList<String> text;
-	
+
 	public DialogResult(int dialogId, int answerType, boolean modified, ArrayList<String> text) {
 		this.dialogId = dialogId;
 		this.answerType = answerType;
 		this.modified = modified;
 		this.text = text;
 	}
-	
+
 	public ArrayList<String> getText() {
 		return text;
 	}

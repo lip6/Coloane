@@ -1,13 +1,5 @@
 package fr.lip6.move.coloane.ui.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -17,9 +9,17 @@ import fr.lip6.move.coloane.model.Node;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * Description de l'adapteur pour un noeud du modele.
- * Le noeud adapte est generique. 
+ * Le noeud adapte est generique.
  * L'adapteur fourni les mehodes et structures utiles pour GEF.
  * Cet adapteur doit gerer la coherence entre le noeud generique et le noeud augemente.
  * @see INodeImpl
@@ -53,15 +53,15 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * @param node le noeud generique a adapter pour le module
 	 * @param base L'element de base du formalisme
 	 */
-	public NodeImplAdapter(INode node, ElementBase base) {
+	public NodeImplAdapter(INode n, ElementBase b) {
 		super();
 
-		this.elementBase = base;	// Element de base du formalisme
-		this.node = node;			// Le noeud generique
+		this.elementBase = b;	// Element de base du formalisme
+		this.node = n;			// Le noeud generique
 
 		// Les informations graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
-		this.graphicInfo.setLocation(this.node.getXPosition(),this.node.getYPosition());
+		this.graphicInfo.setLocation(this.node.getXPosition(), this.node.getYPosition());
 
 		// Instancier les attributs
 		setProperties(this.node);
@@ -82,7 +82,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 
 		// Le information graphique sur le noeud
 		this.graphicInfo = new NodeGraphicInfo(this);
-		this.graphicInfo.setLocation(this.node.getXPosition(),this.node.getYPosition());
+		this.graphicInfo.setLocation(this.node.getXPosition(), this.node.getYPosition());
 
 		// Instancier les attributs
 		setProperties();
@@ -104,11 +104,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
 			/* Creation de l'attribut generique */
-			IAttribute attribute = new Attribute(attributeFormalism.getName(),new String(attributeFormalism.getDefaultValue()),node.getId());
+			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), node.getId());
 			this.node.addAttribute(attribute);
 
 			/* Creation de l'attribut adapte */
-			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute,attributeFormalism,this);
+			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 
 			/* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
@@ -122,7 +122,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * Cela peut �tre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
-	private void setProperties(INode node) {
+	private void setProperties(INode n) {
 
 		// Parcours de tous les attributs du formalisme
 		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
@@ -135,13 +135,13 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			// On parcours tous les attributs deja definis dans notre noeud generique
 			// On cherche l'attribut dans notre noeud generique qui correspond a l'attibut prevu par le formalisme (courant)
 			boolean find = false;
-			for (int i = 0; (i < node.getListOfAttrSize()) && !find; i++) {
+			for (int i = 0; (i < n.getListOfAttrSize()) && !find; i++) {
 
 				// Si l'attribut du formalisme est bien decrit dans notre modele... On cree l'adapteur
 				// Pas besoin de creer un nouvel attribut genrique dans le modele !
-				attribute = node.getNthAttr(i);
+				attribute = n.getNthAttr(i);
 				if (attributeFormalism.getName().equalsIgnoreCase(attribute.getName())) {
-					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
+					attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 					find = true;
 				}
 			}
@@ -150,21 +150,21 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			// Il faut donc creer un attribut et un adapteur pour cet attribut du formalisme
 			if (!find) {
 				attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), 1);
-				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism,this);
+				attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 				this.node.addAttribute(attribute);
 			}
 
-			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue) 
+			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
 			this.properties.put(attributeAdapter.getId(), attributeAdapter);
 		}
-	}      
+	}
 
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getId()
 	 */
-	public int getId() {
+	public final int getId() {
 		return this.getGenericNode().getId();
 	}
 
@@ -172,7 +172,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGraphicInfo()
 	 */
-	public INodeGraphicInfo getGraphicInfo() {
+	public final INodeGraphicInfo getGraphicInfo() {
 		return this.graphicInfo;
 	}
 
@@ -180,11 +180,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addInputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void addInputArc(IArcImpl arcAdapter) throws BuildException {
+	public final void addInputArc(IArcImpl arcAdapter) throws BuildException {
 		if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getTarget() == this)) {
 			this.targetArcs.add(arcAdapter);
 			this.node.addInputArc(arcAdapter.getGenericArc());
-			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
+			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null, arcAdapter);
 		} else {
 			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
 		}
@@ -194,11 +194,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addOutputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void addOutputArc(IArcImpl arcAdapter) throws BuildException {
+	public final void addOutputArc(IArcImpl arcAdapter) throws BuildException {
 		if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getSource() == this)) {
 			this.sourceArcs.add(arcAdapter);
 			this.node.addOutputArc(arcAdapter.getGenericArc());
-			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null,arcAdapter);
+			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null, arcAdapter);
 		} else {
 			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
 		}
@@ -208,15 +208,15 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#removeArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public void removeArc(IArcImpl arcAdapter) {
+	public final void removeArc(IArcImpl arcAdapter) {
 		if (arcAdapter.getSource() == this) {
 			this.sourceArcs.remove(arcAdapter);
-			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null,arcAdapter);
+			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null, arcAdapter);
 		}
 
 		if (arcAdapter.getTarget() == this) {
 			this.targetArcs.remove(arcAdapter);
-			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null,arcAdapter);
+			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null, arcAdapter);
 		}
 	}
 
@@ -226,9 +226,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 */
 	private List<IAttributeImpl> getDrawableAttributes() {
 		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-		Iterator iterator = this.properties.values().iterator();    	
+		Iterator iterator = this.properties.values().iterator();
 		while (iterator.hasNext()) {
-			IAttributeImpl att = (IAttributeImpl)iterator.next();
+			IAttributeImpl att = (IAttributeImpl) iterator.next();
 			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
 				list.add(att);
 			}
@@ -240,10 +240,10 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesSelected(boolean, boolean)
 	 */
-	public void setAttributesSelected(boolean light, boolean state) {
+	public final void setAttributesSelected(boolean light, boolean state) {
 		List<IAttributeImpl> list = this.getDrawableAttributes();
 		for (IAttributeImpl att : list) {
-			att.setSelect(light,state);
+			att.setSelect(light, state);
 		}
 	}
 
@@ -251,19 +251,19 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateAttributesPosition(int, int)
 	 */
-	public void updateAttributesPosition(int deltaX, int deltaY) {
+	public final void updateAttributesPosition(int deltaX, int deltaY) {
 		List<IAttributeImpl> list = this.getDrawableAttributes();
 		for (IAttributeImpl att : list) {
 			Point loc = att.getGraphicInfo().getLocation();
-			att.getGraphicInfo().setLocation(loc.x-deltaX, loc.y-deltaY);
-		}        		
+			att.getGraphicInfo().setLocation(loc.x - deltaX, loc.y - deltaY);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateArcAttributesPosition()
 	 */
-	public void updateArcAttributesPosition() {
+	public final void updateArcAttributesPosition() {
 
 		// Parcours des arcs sortants
 		for (IArcImpl arc : this.sourceArcs) {
@@ -280,11 +280,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setSpecial()
 	 */
-	public void setSpecial(boolean state) {
+	public final void setSpecial(boolean state) {
 		if (state) {
-			firePropertyChange(NodeImplAdapter.SELECT_PROP, null,null);
+			firePropertyChange(NodeImplAdapter.SELECT_PROP, null, null);
 		} else {
-			firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null,null);
+			firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null, null);
 		}
 	}
 
@@ -292,7 +292,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getSourceArcs()
 	 */
-	public List getSourceArcs() {
+	public final List<IArcImpl> getSourceArcs() {
 		return new ArrayList<IArcImpl>(sourceArcs);
 	}
 
@@ -300,7 +300,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getTargetArcs()
 	 */
-	public List getTargetArcs() {
+	public final List<IArcImpl> getTargetArcs() {
 		return new ArrayList<IArcImpl>(targetArcs);
 	}
 
@@ -308,7 +308,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGenericNode()
 	 */
-	public INode getGenericNode() {
+	public final INode getGenericNode() {
 		return node;
 	}
 
@@ -316,7 +316,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getElementBase()
 	 */
-	public ElementBase getElementBase() {
+	public final ElementBase getElementBase() {
 		return elementBase;
 	}
 
@@ -324,7 +324,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getModelAdapter()
 	 */
-	public IModelImpl getModelAdapter() {
+	public final IModelImpl getModelAdapter() {
 		return modelAdapter;
 	}
 
@@ -332,7 +332,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
 	 */
-	public List<IElement> getAttributes() {
+	public final List<IElement> getAttributes() {
 		List<IElement> list = new ArrayList<IElement>();
 
 		// Ajout des attributs "personnels" du noeud
@@ -352,15 +352,15 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setModelAdapter(fr.lip6.move.coloane.ui.model.IModelImpl)
 	 */
-	public void setModelAdapter(IModelImpl modelAdapter) {
-		this.modelAdapter = modelAdapter;
+	public final void setModelAdapter(IModelImpl model) {
+		this.modelAdapter = model;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
-	public String getNodeAttributeValue(String attribute) {
+	public final String getNodeAttributeValue(String attribute) {
 		String valeur = ""; //$NON-NLS-1$
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
 			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
@@ -376,8 +376,22 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
 	 */
-	public Collection getContextMenus() {
+	public final Collection getContextMenus() {
 		return null;
+	}
+
+	/**
+	 * Suppression de toutes les connexions entrantes et sortantes
+	 *
+	 */
+	public final void removeAllConnections() {
+		for (IArcImpl arc : sourceArcs) {
+			arc.disconnect();
+		}
+
+		for (IArcImpl arc : targetArcs) {
+			arc.disconnect();
+		}
 	}
 
 }

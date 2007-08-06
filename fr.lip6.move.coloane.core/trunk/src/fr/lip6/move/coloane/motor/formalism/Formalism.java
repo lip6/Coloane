@@ -101,7 +101,7 @@ public class Formalism implements Serializable {
 	 * @param name du Node que l'on cherche.
 	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
 	 */
-	public NodeFormalism string2Node(String formalismName) {
+	public final NodeFormalism string2Node(String formalismName) {
 		ElementBase node;
 		Iterator it = listOfElementBase.iterator();
 		for (node = null; it.hasNext();) {

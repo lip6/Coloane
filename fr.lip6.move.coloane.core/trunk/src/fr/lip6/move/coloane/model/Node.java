@@ -2,12 +2,11 @@ package fr.lip6.move.coloane.model;
 
 import java.util.Arrays;
 import java.util.Vector;
-import java.io.Serializable;
 
 /**
  * Le noeud d'un modele
  */
-public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements Serializable {
+public class Node extends fr.lip6.move.coloane.interfaces.model.Node {
 
 	private static final long serialVersionUID = 1L;
 

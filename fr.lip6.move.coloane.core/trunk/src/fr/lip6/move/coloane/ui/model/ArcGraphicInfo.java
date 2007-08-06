@@ -15,8 +15,8 @@ public class ArcGraphicInfo implements IArcGraphicInfo, Serializable {
 
 	private IArcImpl arc;
 
-	public ArcGraphicInfo (IArcImpl arc) {
-		this.arc = arc;
+	public ArcGraphicInfo(IArcImpl a) {
+		this.arc = a;
 		this.oldMiddlePoint = this.findMiddlePoint();
 	}
 
@@ -24,17 +24,17 @@ public class ArcGraphicInfo implements IArcGraphicInfo, Serializable {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#findMiddlePoint()
 	 */
-	public Point findMiddlePoint() {
+	public final Point findMiddlePoint() {
 		int x = (this.arc.getSource().getGraphicInfo().getLocation().x + this.arc.getTarget().getGraphicInfo().getLocation().x) / 2;
 		int y = (this.arc.getSource().getGraphicInfo().getLocation().y + this.arc.getTarget().getGraphicInfo().getLocation().y) / 2;
-		return new Point(x,y);
+		return new Point(x, y);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#updateMiddlePoint()
 	 */
-	public void updateMiddlePoint() {
+	public final void updateMiddlePoint() {
 		this.oldMiddlePoint = this.findMiddlePoint();
 	}
 
@@ -42,7 +42,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo, Serializable {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#getMiddlePoint()
 	 */
-	public Point getMiddlePoint() {
+	public final Point getMiddlePoint() {
 		return this.oldMiddlePoint;
 	}
 }

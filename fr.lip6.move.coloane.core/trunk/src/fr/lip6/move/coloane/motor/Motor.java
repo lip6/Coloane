@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.motor;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-
 import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
@@ -15,6 +11,10 @@ import fr.lip6.move.coloane.motor.session.SessionManager;
 import fr.lip6.move.coloane.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 public class Motor implements IMotorCom, IMotorUi {
 	private static FormalismManager formalismManager;

@@ -1,10 +1,21 @@
 package fr.lip6.move.coloane.ui;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
+
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.motor.formalism.Formalism;
+import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -32,9 +43,9 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -61,17 +72,6 @@ import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
-
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.motor.formalism.Formalism;
-import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.ui.model.IModelImpl;
-import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
-
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.SAXParser;
-
-import fr.lip6.move.coloane.interfaces.model.IModel;
 
 public class Editor extends GraphicalEditorWithFlyoutPalette {
 
@@ -189,17 +189,17 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private Formalism formalism;
 
 	/** Constructeur de l'editeur */
-	public Editor() { 
+	public Editor() {
 
 	}
 
 
 	/**
 	 * Configuration de l'editeur
-	 * 
+	 *
 	 */
 	@Override
-	protected void configureGraphicalViewer() {
+	protected final void configureGraphicalViewer() {
 		ArrayList<String> zoomContributions;
 
 		super.configureGraphicalViewer();
@@ -240,7 +240,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Set up the editor's inital content (after creation).
 	 *
 	 */
-	protected void initializeGraphicalViewer() {
+	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
@@ -253,7 +253,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Retourne le model.
 	 * @return IModelImpl
 	 */
-	public IModelImpl getModel() {
+	public final IModelImpl getModel() {
 		return model;
 	}
 
@@ -261,7 +261,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Retourne le path du modele en cours d'edition
 	 * @return
 	 */
-	public IPath getCurrentPath () {
+	public final IPath getCurrentPath() {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		String projectName = file.getProject().getName();
 		IPath path = new Path(projectName);
@@ -272,7 +272,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Creation de la palette d'outils
 	 * @return PaletteRoot
 	 */
-	protected PaletteRoot getPaletteRoot() {
+	protected final PaletteRoot getPaletteRoot() {
 		paletteRoot = PaletteFactory.createPalette(this.formalism);
 		return paletteRoot;
 	}
@@ -281,18 +281,18 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Retourne les preferences de la palette
 	 * @return FlyoutPreferences
 	 */
-	protected FlyoutPreferences getPalettePreferences() {
+	protected final FlyoutPreferences getPalettePreferences() {
 		return PaletteFactory.createPalettePreferences();
 	}
 
 	/**
-	 * Determine le contenu de l'editeur. 
+	 * Determine le contenu de l'editeur.
 	 * Ce contenu est lu depuis un fichier.
 	 * Ce fichier a bien sur ete cree par l'assistant
 	 * @param input Toutes les informations concernant le modele
 	 */
 
-	protected void setInput(IEditorInput input) {
+	protected final void setInput(IEditorInput input) {
 		super.setInput(input);
 
 		IFile file = ((IFileEditorInput) input).getFile();
@@ -305,7 +305,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
-		setEditDomain(new DefaultEditDomain(this));		
+		setEditDomain(new DefaultEditDomain(this));
 
 		// Creation d'un instance du handler
 		XmlEditor handler = new XmlEditor();
@@ -318,7 +318,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			Coloane.showErrorMsg(Coloane.traduction.getString("ui.Editor.3") +file.getName()+" - "+ e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			Coloane.showErrorMsg(Coloane.traduction.getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 
@@ -326,7 +326,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		model = new ModelImplAdapter(handler.getModel(), this.formalism);
 
 		// Indication de debut de construction
-		model.setBeginBuilding(); 
+		model.setBeginBuilding();
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
@@ -337,15 +337,15 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	/**
 	 * Sauvegarde d'un fichier
 	 */
-	public void doSave(IProgressMonitor monitor) {
+	public final void doSave(IProgressMonitor monitor) {
 
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 
 		// Recuperation du modele generique
-		IModel model = getModel().getGenericModel();
+		IModel genericModel = getModel().getGenericModel();
 
 		// Traduction du modele au format xml
-		String xmlString = XmlEditor.translateToXML(model);
+		String xmlString = XmlEditor.translateToXML(genericModel);
 
 		// Creation de l'input stream a partir d'une chaine de caractere
 		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
@@ -364,7 +364,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	/**
 	 * Sauvegarde d'un fichier dans un autre emplacement
 	 */
-	public void doSaveAs() {
+	public final void doSaveAs() {
 
 		// Ouvre une boite de dialogue
 		Shell shell = getSite().getWorkbenchWindow().getShell();
@@ -380,18 +380,18 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			// try to save the editor's contents under a different file name
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			try {
-				new ProgressMonitorDialog(shell).run(false,false,new WorkspaceModifyOperation() {
+				new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() {
 					public void execute(final IProgressMonitor monitor) {
 						// Recuperation du modele generique
-						IModel model = getModel().getGenericModel(); 
-						String xmlString = XmlEditor.translateToXML(model);
+						IModel genericModel = getModel().getGenericModel();
+						String xmlString = XmlEditor.translateToXML(genericModel);
 						InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 						try {
 							// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
 							if (file.exists()) {
 								file.setContents(inputS, true, false, monitor);
 							} else {
-								file.create(inputS,true,monitor);
+								file.create(inputS, true, monitor);
 							}
 						} catch (CoreException ce) {
 							ce.printStackTrace();
@@ -414,16 +414,16 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
-	public boolean isSaveAsAllowed() {
+	public final boolean isSaveAsAllowed() {
 		return true;
 	}
 
-	public void commandStackChanged(EventObject event) {
+	public final void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 		super.commandStackChanged(event);
 	}
 
-	protected PaletteViewerProvider createPaletteViewerProvider() {
+	protected final PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
@@ -432,11 +432,11 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		};
 	}
 
-	protected FigureCanvas getEditor() {
+	protected final FigureCanvas getEditor() {
 		return (FigureCanvas) getGraphicalViewer().getControl();
 	}
 
-	public Object getAdapter(Class type) {
+	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
@@ -455,15 +455,13 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			};
 			page.setRootEntry(new UndoablePropertySheetEntry(getCommandStack()));
 			return page;
-		
+
 		// On definit le manager de Zoom
 		} else if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
 		}
-		
+
 		// Dans tous les autres cas
 		return super.getAdapter(type);
 	}
-
-
 }

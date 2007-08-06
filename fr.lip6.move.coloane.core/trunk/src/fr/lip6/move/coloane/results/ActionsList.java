@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.results;
 
+import fr.lip6.move.coloane.ui.panels.ResultsView;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
 import org.eclipse.ui.IWorkbenchWindow;
-
-import fr.lip6.move.coloane.ui.panels.ResultsView;
 
 public class ActionsList extends Observable implements Observer {
 	private Vector<ResultsList> list;

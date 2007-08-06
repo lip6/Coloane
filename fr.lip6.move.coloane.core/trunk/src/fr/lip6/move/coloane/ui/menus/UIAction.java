@@ -1,25 +1,26 @@
 package fr.lip6.move.coloane.ui.menus;
 
+import fr.lip6.move.coloane.ui.UserInterface;
+
 import org.eclipse.jface.action.Action;
 
-import fr.lip6.move.coloane.ui.UserInterface;
+
 
 public class UIAction extends Action {
 	private UserInterface ui;
 	private String rootMenuName;
 	private String referenceName;
 	private String serviceName;
-	
-	public UIAction(UserInterface ui, String rootMenuName,
-			String referenceName, String serviceName) {
-		super(serviceName);
-		this.ui = ui;
-		this.rootMenuName = rootMenuName;
-		this.referenceName = referenceName;
-		this.serviceName = serviceName;
+
+	public UIAction(UserInterface userInterface, String rootMenu, String reference, String service) {
+		super(service);
+		this.ui = userInterface;
+		this.rootMenuName = rootMenu;
+		this.referenceName = reference;
+		this.serviceName = service;
 	}
-	
-	public void run() {
+
+	public final void run() {
 		ui.askForService(rootMenuName, referenceName, serviceName);
 	}
 }

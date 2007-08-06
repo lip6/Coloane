@@ -30,10 +30,10 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
 	/**
-	 * Liste des descriptions des proprietes definies dans ce projet. 
+	 * Liste des descriptions des proprietes definies dans ce projet.
 	 * Elles comprennent toutes les informations necessaires pour l'affichage et l'edition de chaque propriete.<br>
 	 * A partir de cette liste, les classes xxxFactory peuvent creer un tableau de IPropertyDescriptor correspondant.
-	 * 
+	 *
 	 * Cet attribut est fonction du formalisme
 	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
 	 */
@@ -43,60 +43,60 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Table des attributs en fonction de leurs identifiant
 	 * A surcharger et a implementer dans le constructeur.
 	 */
-	protected Hashtable<Object,IAttributeImpl> properties = new Hashtable<Object,IAttributeImpl>();
+	protected Hashtable<Object, IAttributeImpl> properties = new Hashtable<Object, IAttributeImpl>();
 
 	/**
 	 * @return instance de la classe //pas implementer
 	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
 	 */
-	public Object getEditableValue() {
+	public final Object getEditableValue() {
 		return this;
 	}
 
 	/**
-	 * Indique quelles sont les proprietes qui seront affichees dans la fenetre dediee 
+	 * Indique quelles sont les proprietes qui seront affichees dans la fenetre dediee
 	 * @return IPropertyDescriptor[]
 	 */
-	public IPropertyDescriptor[] getPropertyDescriptors() {
+	public final IPropertyDescriptor[] getPropertyDescriptors() {
 
 		// Preparation de la liste des descripteurs
 		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
-		
+
 		// Recupere la table contenant toutes les proprietes (attributs) des objets
 		for (Enumeration e = this.properties.elements(); e.hasMoreElements();) {
 			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
-			
+
 			// TODO : Verifier qu'il n'existe pas de solution plus elegante sans passer par une HashMap
 			// Calcul de l'indice d'insertion dans la fenetre
 			int indice = Integer.parseInt(prop.getId());
-			
+
 			// Selection du descripteur selon le type d'attribut
 			if (prop.isMultiline()) { // Multiligne
-				liste[indice-1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
+				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
 			} else { // Normal
-				liste[indice-1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+				liste[indice - 1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
 			}
 		}
-			
+
 		return liste;
 	}
 
 	/**
-	 * Getter pour une propriete. 
-	 * Les classe filles doivent surcharge cette methode. 
+	 * Getter pour une propriete.
+	 * Les classe filles doivent surcharge cette methode.
 	 * Dans cette implementation par defaut elles retournent null et font rien.
-	 * 
+	 *
 	 * @param id Nom de la propriete
 	 */
-	public Object getPropertyValue(Object id) {
+	public final Object getPropertyValue(Object id) {
 		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
-		
+
 		// Si l'attribut a une veritable valeur
 		if (prop.getValue() != null) {
-			
+
 			// Si l'attribut est multiligne, on ne prend que la premiere ligne
 			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) {
-				return (prop.getValue().split("\r"))[0]+" ...";
+				return (prop.getValue().split("\r"))[0] + " ...";
 			// Sinon on retourne la valeur normale
 			} else {
 				return (String) prop.getValue();
@@ -107,31 +107,31 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 
 	/**
 	 * Setter pour la propriete.
-	 * Les classe filles doivent surcharge cette methode. 
+	 * Les classe filles doivent surcharge cette methode.
 	 * Dans cette implementation par default elle fait rien.
-	 * 
+	 *
 	 * @param id Nom de la propriete
 	 * @param value Valeur de la propriete
 	 */
-	public void setPropertyValue(Object id, Object newValue) {
+	public final void setPropertyValue(Object id, Object newValue) {
 		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id);
-		
+
 		// Sauvegarde de l'ancienne valeur
 		String oldValue = attribute.getValue();
-		
+
 		// Nouvelle valeur pour l'attribut
-		attribute.setValue(oldValue,(String)newValue);
+		attribute.setValue(oldValue, (String) newValue);
 	}
 
 	/**
 	 * Methode qui indique si il ya eu un changement par rapport a une valeur par defaut
-	 * Les classes filles doivent surcharger cette methode. 
+	 * Les classes filles doivent surcharger cette methode.
 	 * Dans cette implementation par defaut elle retourne false.
-	 * 
+	 *
 	 * @param id Nom de la propriete
-	 * @return boolean retourne false (par defaut) 
+	 * @return boolean retourne false (par defaut)
 	 */
-	public boolean isPropertySet(Object id) {
+	public final boolean isPropertySet(Object id) {
 		return false;
 	}
 
@@ -146,7 +146,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Attache un listener (ecouteur) a l'objet
 	 * L'objet est donc maintenant sensible aux evenements recus
 	 */
-	public synchronized void addPropertyChangeListener(PropertyChangeListener l) {
+	public final synchronized void addPropertyChangeListener(PropertyChangeListener l) {
 		if (l == null) {
 			throw new IllegalArgumentException();
 		}
@@ -158,7 +158,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * pas implémentée
 	 * @param l une instance non-null de PropertyChangeListener
 	 */
-	public synchronized void removePropertyChangeListener(PropertyChangeListener l) {
+	public final synchronized void removePropertyChangeListener(PropertyChangeListener l) {
 		if (l != null) {
 			pcsDelegate.removePropertyChangeListener(l);
 		}
@@ -170,7 +170,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * @param oldValue valeur ancienne
 	 * @param newValue valeur nouvelle
 	 */
-	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+	protected final void firePropertyChange(String property, Object oldValue, Object newValue) {
 		if (pcsDelegate.hasListeners(property)) {
 			pcsDelegate.firePropertyChange(property, oldValue, newValue);
 		}
@@ -180,7 +180,7 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Getter pour la liste des proprietes
 	 * @return Liste of descripteurs des propriétés
 	 */
-	public IAttributeImpl[] getPropertyList() {
+	public final IAttributeImpl[] getPropertyList() {
 		return propsList;
 	}
 
@@ -188,14 +188,14 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Table des PropertyImplAdapter de l'element du noeud
 	 * @return la table des PropertyImplAdapter de l'element du noeud
 	 */
-	public Hashtable getProperties() {
+	public final Hashtable getProperties() {
 		return properties;
 	}
 
 	/**
 	 * TODO: Description
 	 */
-	public void initPropertyChange() {
+	public final void initPropertyChange() {
 		if (pcsDelegate == null) {
 			pcsDelegate = new PropertyChangeSupport(this);
 		}

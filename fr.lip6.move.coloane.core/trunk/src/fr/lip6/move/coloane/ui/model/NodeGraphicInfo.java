@@ -10,15 +10,15 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Le noeud enrichi */
 	private final INodeImpl nodeAdapter;
-	
+
 	/** Les coordonees */
 	private int x;
 	private int y;
 
-	/** 
+	/**
 	 * Constructeur
 	 * @param node Le noeud enrichi
 	 */
@@ -29,22 +29,22 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getLocation()
 	 */
-	public Point getLocation() {
-		return new Point(this.x,this.y);
+	public final Point getLocation() {
+		return new Point(this.x, this.y);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#setLocation(int, int)
 	 */
-	public void setLocation(int x, int y) {
-		this.x = x;
-		this.y = y;
-		
+	public final void setLocation(int xPos, int yPos) {
+		this.x = xPos;
+		this.y = yPos;
+
 		// Mise a jour du noeud generique
 		this.nodeAdapter.getGenericNode().setPosition(x, y);
-		
+
 		// Lever un evenement
-		((NodeImplAdapter)this.nodeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP,null,new Point(x, y));				
+		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP, null, new Point(x, y));
 	}
 
 	/**
@@ -66,21 +66,21 @@ public class NodeGraphicInfo implements INodeGraphicInfo, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getSize()
 	 */
-	public Dimension getSize() {
+	public final Dimension getSize() {
 		return new Dimension(getWidth(), getHeight());
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getFigureStyle()
 	 */
-	public int getFigureStyle() {
+	public final int getFigureStyle() {
 		return this.nodeAdapter.getElementBase().getNumFigure();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
 	 */
-	public boolean isFilled() {
+	public final boolean isFilled() {
 		return this.nodeAdapter.getElementBase().getIsFilled();
 	}
 }

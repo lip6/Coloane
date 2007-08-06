@@ -1,22 +1,25 @@
 package fr.lip6.move.coloane.ui;
 
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.objects.IPosition;
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.model.Arc;
+import fr.lip6.move.coloane.model.Attribute;
+import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.model.Node;
+
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.objects.IPosition;
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.model.Model;
-import fr.lip6.move.coloane.model.Node;
-import fr.lip6.move.coloane.model.Arc;
-import fr.lip6.move.coloane.model.Attribute;
 
 /** Classe de gestion du modele au format xml */
 public class XmlEditor extends DefaultHandler {
@@ -37,13 +40,13 @@ public class XmlEditor extends DefaultHandler {
 		try {
 			URL dtd = Coloane.getDefault().getBundle().getEntry("resources/coloane.dtd");
 			URL	path = FileLocator.toFileURL(dtd);
-			line += "<!DOCTYPE model SYSTEM '"+path.getPath()+"'>\n";
+			line += "<!DOCTYPE model SYSTEM '" + path.getPath() + "'>\n";
 		} catch (Exception e) {
 			System.err.println("DTD introuvable");
 		}
 
 		// Ecriture des attributs relatifs au formalisme et positions
-		line += "<model formalism='" + model.getFormalism() + "' xposition='"+ model.getXPosition() + "' yposition='" + model.getYPosition()+ "'>\n";
+		line += "<model formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n";
 
 		// Ecriture des attributs du modele
 		if (!(model.getListOfAttrSize() == 0)) {
@@ -77,13 +80,13 @@ public class XmlEditor extends DefaultHandler {
 			INode node = model.getNthNode(i);
 
 			// Debut du noeud
-			line += "<node nodetype='" + node.getNodeType() + "' id='"+ node.getId() + "' xposition='" + node.getXPosition()+ "' yposition='" + node.getYPosition() + "'>\n";
+			line += "<node nodetype='" + node.getNodeType() + "' id='" + node.getId() + "' xposition='" + node.getXPosition() + "' yposition='" + node.getYPosition() + "'>\n";
 
 			// Ecriture des attributs de chaque noeud
 			if (!(node.getListOfAttr() == null)) {
 				line += translateNodesAttributesToXML(node);
 			}
-			
+
 			// Fin du noeud
 			line += "</node>\n";
 		}
@@ -103,18 +106,18 @@ public class XmlEditor extends DefaultHandler {
 			IArc arc = model.getNthArc(i);
 
 			// Debut de l'arc
-			line += "<arc arctype='" + arc.getArcType() + "' id='"+ arc.getId() + "' startid='"+ arc.getStartingNode().getId() + "' endid='"+ arc.getEndingNode().getId() + "'>\n";
+			line += "<arc arctype='" + arc.getArcType() + "' id='" + arc.getId() + "' startid='" + arc.getStartingNode().getId() + "' endid='" + arc.getEndingNode().getId() + "'>\n";
 
 			// Ecriture des PI
 			if (!(arc.getListOfPI().size() == 0)) {
 				line += translateInflexToXML(arc);
 			}
-			
+
 			// Ecriture des attributs de chaque arc
 			if (!(arc.getListOfAttrSize() == 0)) {
 				line += translateArcsAttributesToXML(arc);
 			}
-			
+
 			// Fin de l'arc
 			line += "</arc>\n";
 		}
@@ -144,16 +147,16 @@ public class XmlEditor extends DefaultHandler {
 	 */
 	private static String translateAttributesToXML(IModel model) {
 		String line = "";
-		
+
 		// Pour chaque attribut...
 		for (int i = 0; i < model.getListOfAttrSize(); i++) {
 			IAttribute attr = model.getNthAttr(i);
 
 			// On ne traite pas le cas des attributs qui sont vides
 			if (!attr.getValue().equals("")) {
-				// Traitement special pour l'attribut AUTHOR 
+				// Traitement special pour l'attribut AUTHOR
 				if (attr.getName().equals("author(s)")) {
-					line += "<authors" + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>"+ attr.getValue() + "</authors>\n";
+					line += "<authors" + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>" + attr.getValue() + "</authors>\n";
 				} else {
 					line += "<" + attr.getName() + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>" + format(attr.getValue())	+ "</" + attr.getName() + ">\n";
 				}
@@ -175,12 +178,12 @@ public class XmlEditor extends DefaultHandler {
 			IAttribute attr = arc.getNthAttr(i);
 			// On ne traite pas les attributs vides
 			if (!attr.getValue().equals("")) {
-				line += "<" + attr.getName() + " xposition='"+ attr.getXPosition() + "' yposition='"+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"+ attr.getName() + ">\n";
+				line += "<" + attr.getName() + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>" + format(attr.getValue()) + "</" + attr.getName() + ">\n";
 			}
 		}
 		return line;
 	}
-	
+
 	/**
 	 * Traduction des attributs des arcs du modele en format XML
 	 * @param arc L'arc en objet JAVA contenant des attributs
@@ -194,7 +197,7 @@ public class XmlEditor extends DefaultHandler {
 			IAttribute attr = node.getNthAttr(i);
 			// On ne traite pas le cas des attributs vides
 			if (!attr.getValue().equals("")) {
-				line += "<" + attr.getName() + " xposition='"+ attr.getXPosition() + "' yposition='"+ attr.getYPosition() + "'>" + format(attr.getValue()) + "</"	+ attr.getName() + ">\n";
+				line += "<" + attr.getName() + " xposition='" + attr.getXPosition() + "' yposition='" + attr.getYPosition() + "'>" + format(attr.getValue()) + "</"	+ attr.getName() + ">\n";
 			}
 		}
 		return line;
@@ -210,23 +213,23 @@ public class XmlEditor extends DefaultHandler {
 		txt = txt.replaceAll(">", "&gt;");
 		return txt;
 	}
-	
+
 	/**
 	 * Gestion des caracteres speciaux (deprotection)
 	 * @param txt Le texte a deproteger
 	 * @return Le texte transforme et protege
 	 */
-	public String deformat(String txt){
+	private String deformat(String txt) {
 		txt = txt.replaceAll("&lt;", "<");
 		txt = txt.replaceAll("&gt;", ">");
 		return txt;
 	}
-	
-	
-	
-	
+
+
+
+
 	/* --------------- Lecture --------------- */
-	
+
 	private IModel model = new Model();
 	private IAttribute currentAttribute = null;
 	private String currentObject = "";
@@ -236,7 +239,7 @@ public class XmlEditor extends DefaultHandler {
 	/**
 	 * Lecture des balises ouvrantes du modele
 	 */
-	public void startElement(String uri, String localName, String baliseName,Attributes attributes) throws SAXException {
+	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 
 		// Balise MODEL
 		if (baliseName.equals("model")) {
@@ -308,7 +311,7 @@ public class XmlEditor extends DefaultHandler {
 
 			//Si on lit un attribut
 			} else {
-				
+
 				// On distingue l'attribut AUTHOR
 				if (baliseName.equals("authors")) {
 					currentAttribute = new Attribute("author(s)", "", this.refId);
@@ -320,27 +323,27 @@ public class XmlEditor extends DefaultHandler {
 			}
 		}
 	}
-	
+
 	// Donnees contenues dans les balises
 	private String data = "";
-	
+
 	/**
 	 * Gestion des donnees contenues dans les balises
 	 */
-	public void characters(char[] ch, int start, int length) throws SAXException {
+	public final void characters(char[] ch, int start, int length) throws SAXException {
 
 		// Creation de la donnees (chaine de caracteres)
 		for (int i = 0; i < length; i++) {
 			data += ch[start + i];
 		}
-		data=this.deformat(data);
+		data = this.deformat(data);
 	}
 
 
 	/**
 	 * Lecture des balises fermantes du modele
-	 */              
-	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+	 */
+	public final void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 
 		// La donnee doit etre du texte et pas un retour chariot ou une tabulation
 		if (!(data.equals("") || data.equals("\n") || data.equals("\r") || data.equals("\t"))) {
@@ -367,7 +370,7 @@ public class XmlEditor extends DefaultHandler {
 
 	public void startDocument() throws SAXException { };
 	public void endDocument() throws SAXException { };
-	public void processingInstruction(String target, String data) throws SAXException { };
+	public void processingInstruction(String target, String d) throws SAXException { };
 	public void startPrefixMapping(String prefix, String uri) throws SAXException { };
 	public void endPrefixMapping(String prefix) throws SAXException { };
 	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException { };
@@ -376,7 +379,7 @@ public class XmlEditor extends DefaultHandler {
 
 
 	/* Retourne le modele cree par le parcours du fichier xml */
-	public IModel getModel() {
+	public final IModel getModel() {
 		return model;
 	}
 }

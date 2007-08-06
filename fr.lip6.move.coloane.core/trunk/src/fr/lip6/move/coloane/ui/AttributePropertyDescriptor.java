@@ -10,15 +10,15 @@ public class AttributePropertyDescriptor extends PropertyDescriptor {
 	private String byDefault;
 
 
-	public AttributePropertyDescriptor(Object id, String displayName, String help, String byDefault) {
+	public AttributePropertyDescriptor(Object id, String displayName, String h, String d) {
 		super(id, displayName);
 		this.title = displayName;
-		this.help = help;
-		this.byDefault = byDefault;
+		this.help = h;
+		this.byDefault = d;
 	}
 
-	public CellEditor createPropertyEditor(Composite parent) {
-		CellEditor editor = new AttributeCellEditor(parent,title,this.help,this.byDefault);
+	public final CellEditor createPropertyEditor(Composite parent) {
+		CellEditor editor = new AttributeCellEditor(parent, this.title, this.help, this.byDefault);
 		if (getValidator() != null) {
 			editor.setValidator(getValidator());
 		}
