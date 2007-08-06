@@ -19,7 +19,7 @@ package fr.lip6.move.coloane.interfaces.objects;
  * @see fr.lip6.move.coloane.interfaces.IDialog
  */
 
-public class DialogCom implements IDialogCom {
+public final class DialogCom implements IDialogCom {
 	private int id;
 	private int type;
 	private int buttonType;
@@ -32,7 +32,7 @@ public class DialogCom implements IDialogCom {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param id Identifiant de la boite de dialogue
 	 * @param type Type de la boite de dialogue
 	 * @param buttonType Type de boutons places dans la boite de dialogue
@@ -41,19 +41,12 @@ public class DialogCom implements IDialogCom {
 	 * @param message Message affiche dans la boie de dialogue
 	 * @param inputType Type de saisie autorise
 	 * @param multiLine Indicateur de saisie multi-lignes
-	 * @param def 
+	 * @param def
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.IDialog
 	 */
-	public DialogCom(int id, int type, int buttonType, String title, String help, String message, int inputType, int multiLine, String def) {
-		this.id = id;
-		this.type = type;
-		this.buttonType = buttonType;
-		this.title = title;
-		this.help = help;
-		this.message = message;
-		this.inputType = inputType;
-		this.multiLine = multiLine;
-		this.def = def;
+	public DialogCom(int dialogId) {
+		this.id = dialogId;
 	}
 
 	/* (non-Javadoc)
@@ -66,8 +59,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setButtonType(int)
 	 */
-	public void setButtonType(int buttonType) {
-		this.buttonType = buttonType;
+	public void setButtonType(int dialogButtonType) {
+		this.buttonType = dialogButtonType;
 	}
 
 	/* (non-Javadoc)
@@ -80,8 +73,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setDef(String)
 	 */
-	public void setDef(String def) {
-		this.def = def;
+	public void setDef(String dialogDef) {
+		this.def = dialogDef;
 	}
 
 	/* (non-Javadoc)
@@ -94,8 +87,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setHelp(String)
 	 */
-	public void setHelp(String help) {
-		this.help = help;
+	public void setHelp(String dialogHelp) {
+		this.help = dialogHelp;
 	}
 
 	/* (non-Javadoc)
@@ -108,8 +101,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setId(int)
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int dialogId) {
+		this.id = dialogId;
 	}
 
 	/* (non-Javadoc)
@@ -122,8 +115,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setInputType(int)
 	 */
-	public void setInputType(int inputType) {
-		this.inputType = inputType;
+	public void setInputType(int dialogInputType) {
+		this.inputType = dialogInputType;
 	}
 
 	/* (non-Javadoc)
@@ -136,8 +129,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setMessage(String)
 	 */
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessage(String dialogMessage) {
+		this.message = dialogMessage;
 	}
 
 	/* (non-Javadoc)
@@ -150,8 +143,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setMultiLine(int)
 	 */
-	public void setMultiLine(int multiLine) {
-		this.multiLine = multiLine;
+	public void setMultiLine(int dialogMultiLine) {
+		this.multiLine = dialogMultiLine;
 	}
 
 	/* (non-Javadoc)
@@ -164,8 +157,8 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setTitle(String)
 	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String dialogTitle) {
+		this.title = dialogTitle;
 	}
 
 	/* (non-Javadoc)
@@ -178,8 +171,7 @@ public class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setType(int)
 	 */
-	public void setType(int type) {
-		this.type = type;
+	public void setType(int dialogType) {
+		this.type = dialogType;
 	}
-	
 }

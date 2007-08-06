@@ -10,52 +10,46 @@ package fr.lip6.move.coloane.interfaces.objects;
  * </ul>
  */
 public abstract class UpdateMenuCom implements IUpdateMenuCom {
-	
-	/**
-	 * Le menu root auquel le service est attache
-	 */
+
+	/** Le menu root auquel le service est attache */
 	private String root;
-	
-	/**
-	 * Le service qui doit etre mis a jour
-	 */
+
+	/** Le service qui doit etre mis a jour */
 	private String service;
-	
-	/**
-	 * Le nouvel etat
-	 */
+
+	/** Le nouvel etat */
 	private boolean state;
-	
+
 	/**
 	 * Constructeur
 	 * @param root Le menu racine auquel le service est attache
 	 * @param service Le service qui doit etre mis a jour
 	 * @param state Le nouvel etat du service
 	 */
-	public UpdateMenuCom (String root, String service, boolean state) {
-		this.root = root;
-		this.service = service;
-		this.state = state;
+	public UpdateMenuCom(String menuRoot, String menuService, boolean menuState) {
+		this.root = menuRoot;
+		this.service = menuService;
+		this.state = menuState;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getRoot()
 	 */
-	public String getRoot() {
+	public final String getRoot() {
 		return root;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getService()
 	 */
-	public String getService() {
+	public final String getService() {
 		return service;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getState()
 	 */
-	public boolean getState() {
+	public final boolean getState() {
 		return state;
 	}
 }

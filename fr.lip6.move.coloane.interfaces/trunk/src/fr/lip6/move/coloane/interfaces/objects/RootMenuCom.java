@@ -3,40 +3,40 @@ package fr.lip6.move.coloane.interfaces.objects;
 import java.util.Vector;
 
 public abstract class RootMenuCom implements IRootMenuCom {
-	
+
 	/** Le nom du menu root */
 	private String name;
-	
+
 	/** L'ensemble des sous-menus (sans hierarchie) */
 	private Vector<IMenuCom> listMenu;
-	
+
 	/**
 	 * Constructeur d'un menu racine
-	 * @param name Le nom du menu root
+	 * @param rootMenuName Le nom du menu root
 	 */
-	public RootMenuCom (String name) {
-		this.name = name;
+	public RootMenuCom(String rootMenuName) {
+		this.name = rootMenuName;
 		listMenu = new Vector<IMenuCom>();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#addMenu(IMenuCom)
 	 */
-	public void addMenu (IMenuCom smenu) {
+	public final void addMenu(IMenuCom smenu) {
 		this.listMenu.add(smenu);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getListMenu()
 	 */
-	public Vector<IMenuCom> getListMenu() {
+	public final Vector<IMenuCom> getListMenu() {
 		return listMenu;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getRootMenu()
 	 */
-	public String getRootMenuName() {
+	public final String getRootMenuName() {
 		return name;
 	}
 
@@ -44,14 +44,14 @@ public abstract class RootMenuCom implements IRootMenuCom {
 	 * Indique le nom du menu root apres sa creation
 	 * @param name Le nom du menu root
 	 */
-	public void setRootMenu(String name) {
-		this.name = name;
+	public final void setRootMenu(String rootMenuName) {
+		this.name = rootMenuName;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getMenu(String)
 	 */
-	public IMenuCom getMenu(String name) {
+	public final IMenuCom getMenu(String menuName) {
 		for (IMenuCom menu : listMenu) {
 			if (menu.getServiceName().equals(name)) {
 				return menu;
@@ -59,16 +59,16 @@ public abstract class RootMenuCom implements IRootMenuCom {
 		}
 		return null;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#setEnabled(String, boolean)
 	 */
-	public void setEnabled(String name, boolean enabled) {
+	public final void setEnabled(String menuName, boolean state) {
 		for (IMenuCom menu : listMenu) {
 			if (menu.getServiceName().equals(name)) {
-				menu.setEnabled(enabled);
+				menu.setEnabled(state);
 			}
 		}
 	}
-	
+
 }

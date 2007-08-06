@@ -1,10 +1,13 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import java.util.Vector;
-
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
+import java.util.Vector;
+
 public interface IModel {
+
+	int INITIAL_X = 20;
+	int INITIAL_Y = 20;
 
 	/**
 	 * Construction du modele a partir d'un vecteur de commandes<br>
@@ -12,14 +15,14 @@ public interface IModel {
 	 * @param commands Un vecteur de commandes pour construire le modele
 	 * @throws SyntaxErrorException
 	 */
-	public void buildModel(Vector<String> commands) throws SyntaxErrorException;
+	void buildModel(Vector<String> commands) throws SyntaxErrorException;
 	/**
 	 * Retourne le noeud d'identifiant uniqueId.
 	 * @param uniqueId Identifiant unique du noeud
 	 * @return INode
 	 * @see INode
 	 */
-	public INode getANode(int uniqueId);
+	INode getANode(int uniqueId);
 
 	/**
 	 * Retourne l'arc d'identifiant uniqueId.
@@ -27,28 +30,28 @@ public interface IModel {
 	 * @return IArc
 	 * @see IArc
 	 */
-	public IArc getAnArc(int uniqueId);
+	IArc getAnArc(int uniqueId);
 
 	/**
 	 * Ajoute un noeud au modele
 	 * @param node Noeud a ajouter
 	 * @see INode
 	 */
-	public void addNode(INode node) throws SyntaxErrorException;
+	void addNode(INode node) throws SyntaxErrorException;
 
 	/**
 	 * Ajoute un arc au modele
 	 * @param arc Arc a ajouter
 	 * @see Arc
 	 */
-	public void addArc(IArc arc) throws SyntaxErrorException;
+	void addArc(IArc arc) throws SyntaxErrorException;
 
 	/**
 	 * Ajoute un attribut au modele.
 	 * @param attribute l'attribut a ajouter au modele
 	 * @see IAttribute
 	 */
-	public void addAttribute(IAttribute attribute);
+	void addAttribute(IAttribute attribute);
 
 	/**
 	 * Permet de supprimer un noeud dans le modele.
@@ -56,32 +59,32 @@ public interface IModel {
 	 * @see IArc
 	 * @see INode
 	 */
-	public void removeNode(INode node);
+	void removeNode(INode node);
 
 	/**
 	 * Supprime un arc du modele
 	 * @param arc Arc a supprimer du modele
 	 * @see IArc
 	 */
-	public void removeArc(IArc arc);
+	void removeArc(IArc arc);
 
 	/**
 	 * Retourne le nombre d'attributs du modele.
 	 * @return int
 	 */
-	public int getListOfAttrSize();
+	int getListOfAttrSize();
 
 	/**
 	 * Retourne le nombre d'arcs du modele
 	 * @return int
 	 */
-	public int getListOfArcSize();
+	int getListOfArcSize();
 
 	/**
 	 * Retourne le nombre de noeuds du modele
 	 * @return int
 	 */
-	public int getListOfNodeSize();
+	int getListOfNodeSize();
 
 	/**
 	 * Retourne le nieme attribut du modele.
@@ -89,7 +92,7 @@ public interface IModel {
 	 * @return IAttribute
 	 * @see IAttribute
 	 */
-	public IAttribute getNthAttr(int index);
+	IAttribute getNthAttr(int index);
 
 	/**
 	 * Retourne le nieme arc du modele.
@@ -97,70 +100,70 @@ public interface IModel {
 	 * @return IArc L'arc demande
 	 * @see IArc
 	 */
-	public IArc getNthArc(int index);
+	IArc getNthArc(int index);
 
 	/**
 	 * Rend le nieme noeud du modele.
 	 * @param index Indice du noeud
 	 * @return INode
 	 */
-	public INode getNthNode(int index);
+	INode getNthNode(int index);
 
 	/**
 	 * Retourne la coordonnee X
 	 * @return int
 	 */
-	public int getXPosition();
+	int getXPosition();
 
 	/**
 	 * Retourne la coordonnee Y
 	 * @return int
 	 */
-	public int getYPosition();
+	int getYPosition();
 
 	/**
 	 * Cette methode permet de fixer les coordonnees spatiales de l'attribut
 	 * @param x Coordonnee x
 	 * @param y Coordonnee y
 	 */
-	public void setPosition(int x, int y);
+	void setPosition(int x, int y);
 
 	/**
 	 * Indique le formalisme attache au modele
 	 * @param formalism Le formalisme
 	 */
-	public void setFormalism(String formalism);
+	void setFormalism(String formalism);
 
 	/**
 	 * Retourne le formalime attache au modele
 	 * @return formalism
 	 */
-	public String getFormalism();
-	
+	String getFormalism();
+
 	/**
 	 * Retourne la valeur maximale des identifiants des elements du modele
-	 * @return L'identifiant maximal 
+	 * @return L'identifiant maximal
 	 */
-	public int getMaxId();
-	
+	int getMaxId();
+
 	/**
 	 * Permet de modifier la valeur maximale des identifiants des elements du modele
 	 * De cette facon la numerotation peut �tre modifiee.
 	 * @param max L'identifiant maximum qu'on souhaite affecter
-	 */	
-	public int setMaxId(int max);
-	
-	
+	 */
+	int setMaxId(int max);
+
+
 	/**
 	 * Traduit un modele en chaines de caracteres du protocole considere.
 	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
 	 * @return un ensemble de commandes de construction
 	 */
-	public String[] translate();
-	
+	String[] translate();
+
 	/**
 	 * Renvoie la liste des identifiants pour les tests unitaires
 	 * @return la liste des identifiants
-	 */	
-	public Vector<Integer> getListOfId();
+	 */
+	Vector<Integer> getListOfId();
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 	<li> Abscisse et ordonnee de l'attribut
  * 	<li> Identifiant de l'element d'un modele auquel il est attache
  * </ul>
- * 
+ *
  */
 public abstract class Attribute implements IAttribute, Serializable {
 
@@ -22,7 +22,7 @@ public abstract class Attribute implements IAttribute, Serializable {
 	protected String name;
 
 	/** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
-	protected String value;
+	private String value;
 
 	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
 	protected int xPosition;
@@ -37,30 +37,30 @@ public abstract class Attribute implements IAttribute, Serializable {
 
 	/**
 	 * Constructeur de la classe Attribute.
-	 * 
+	 *
 	 * @param name le nom de l'attribut
 	 * @param value la valeur de l'attribut
 	 * @param refId l'id de l'objet possedant cette attribut.
 	 */
-	public Attribute(String name, String value, int refId) {
-		this.name = name;
-		this.value = new String(value);
-		this.refId = refId;
+	public Attribute(String attributeName, String attributeValue, int attributeRefId) {
+		this.name = attributeName;
+		this.value = new String(attributeValue);
+		this.refId = attributeRefId;
 		this.xPosition = 0;
 		this.yPosition = 0;
-	}	
+	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getName()
 	 */
-	public String getName() {
+	public final String getName() {
 		return this.name;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setPosition(int, int)
 	 */
-	public void setPosition(int x, int y) {
+	public final void setPosition(int x, int y) {
 		this.xPosition = x;
 		this.yPosition = y;
 	}
@@ -68,43 +68,43 @@ public abstract class Attribute implements IAttribute, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getXPosition()
 	 */
-	public int getXPosition() {
+	public final int getXPosition() {
 		return this.xPosition;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getYPosition()
 	 */
-	public int getYPosition() {
+	public final int getYPosition() {
 		return this.yPosition;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getRefId()
 	 */
-	public int getRefId() {
+	public final int getRefId() {
 		return this.refId;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setRefId(int)
 	 */
-	public void setRefId(int ref) {
+	public final void setRefId(int ref) {
 		this.refId = ref;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#setValue(java.lang.String)
 	 */
-	public void setValue(String value) {
-		this.value=value;
+	public final void setValue(String attributeValue) {
+		this.value = attributeValue;
 	}
 
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getValue()
 	 */
-	public String getValue() {
+	public final String getValue() {
 		return (String) this.value;
 	}
 

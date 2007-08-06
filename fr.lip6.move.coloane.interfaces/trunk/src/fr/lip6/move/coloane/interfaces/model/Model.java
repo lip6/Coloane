@@ -1,17 +1,16 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import java.util.Vector;
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import java.io.Serializable;
-
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import java.util.Vector;
 
 /**
  * Cette classe represente un modele generique.<br>
@@ -68,8 +67,8 @@ public abstract class Model implements IModel, Serializable {
 	 * Constructeur
 	 */
 	public Model() {
-		this.xPosition = 20;
-		this.yPosition = 20;
+		this.xPosition = INITIAL_X;
+		this.yPosition = INITIAL_Y;
 		this.listOfArc = new Vector<IArc>();
 		this.listOfAttr = new Vector<IAttribute>();
 		this.listOfNode = new Vector<INode>();
@@ -80,13 +79,13 @@ public abstract class Model implements IModel, Serializable {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param commands
 	 *            Une suite de commandes qui permettent de construire le modele.
 	 */
 	public Model(Vector<String> commands) {
-		this.xPosition = 20;
-		this.yPosition = 20;
+		this.xPosition = INITIAL_X;
+		this.yPosition = INITIAL_Y;
 		this.listOfArc = new Vector<IArc>();
 		this.listOfAttr = new Vector<IAttribute>();
 		this.listOfNode = new Vector<INode>();
@@ -105,15 +104,13 @@ public abstract class Model implements IModel, Serializable {
 
 	/**
 	 * Constructeur
-	 * 
-	 * @param commandsFile
-	 *            Un fichier contenant des commandes pour construire le modele
-	 * @throws IOException
-	 *             Erreur de lecture dans le fichier
+	 *
+	 * @param commandsFile Un fichier contenant des commandes pour construire le modele
+	 * @throws IOException Erreur de lecture dans le fichier
 	 */
 	public Model(File commandsFile) throws IOException, SyntaxErrorException {
-		this.xPosition = 20;
-		this.yPosition = 20;
+		this.xPosition = INITIAL_X;
+		this.yPosition = INITIAL_Y;
 		this.listOfArc = new Vector<IArc>();
 		this.listOfAttr = new Vector<IAttribute>();
 		this.listOfNode = new Vector<INode>();
@@ -159,20 +156,10 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see fr.lip6.move.coloane.interfaces.model.IModel#buildModel(java.util.Vector)
-	 */
-	/*
-	 * public abstract void buildModel(Vector<String> commands) throws
-	 * SyntaxErrorException;
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getANode(int)
 	 */
-	public INode getANode(int uniqueId) {
+	public final INode getANode(int uniqueId) {
 		// Parcours ed la liste des noeuds
 		Enumeration e = this.listOfNode.elements();
 
@@ -187,10 +174,10 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getAnArc(int)
 	 */
-	public IArc getAnArc(int uniqueId) {
+	public final IArc getAnArc(int uniqueId) {
 		// Parcours de la liste des arcs
 		Enumeration e = this.listOfArc.elements();
 
@@ -205,14 +192,14 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addNode(fr.lip6.move.coloane.interfaces.model.INode)
 	 */
-	public void addNode(INode node) throws SyntaxErrorException {
+	public final void addNode(INode node) throws SyntaxErrorException {
 
 		// On ajoute le noeud seulement s'il n'est pas deja dans le modele
 		if (!this.listOfNode.contains(node)) {
-			
+
 			// On leve une exception si l'id de node est deja present dans le modele
 			if (!(getAnArc(node.getId()) == null)
 					|| !(getANode(node.getId()) == null) || node.getId() == 1) {
@@ -235,10 +222,10 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addArc(fr.lip6.move.coloane.interfaces.model.Arc)
 	 */
-	public void addArc(IArc arc) throws SyntaxErrorException {
+	public final void addArc(IArc arc) throws SyntaxErrorException {
 		INode start = arc.getStartingNode();
 		INode end = arc.getEndingNode();
 
@@ -252,7 +239,7 @@ public abstract class Model implements IModel, Serializable {
 			// modèle
 			if ((listOfNode.contains(start)) && (listOfNode.contains(end))) {
 
-//				 On leve une exception si l'id de arc est deja present dans le modele
+//				On leve une exception si l'id de arc est deja present dans le modele
 				if (!(getAnArc(arc.getId()) == null)
 						|| !(getANode(arc.getId()) == null) || arc.getId() == 1) {
 					throw new SyntaxErrorException("Un element d'identifiant "
@@ -272,7 +259,7 @@ public abstract class Model implements IModel, Serializable {
 				this.listOfId.addElement(Integer.valueOf(arc.getId()));
 			} else {
 				System.out
-						.println("addArc: Un des noeuds de l'arc est manquant!");
+				.println("addArc: Un des noeuds de l'arc est manquant!");
 			}
 		} else {
 			System.out.println("addArc: Debut ou fin du noeud manquant!");
@@ -281,10 +268,10 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-	public void addAttribute(IAttribute attribute) {
+	public final void addAttribute(IAttribute attribute) {
 		if (!(attribute.getValue() == "")) {
 			attribute.setRefId(1);
 			this.listOfAttr.addElement(attribute);
@@ -293,10 +280,10 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#removeNode(fr.lip6.move.coloane.interfaces.model.INode)
 	 */
-	public void removeNode(INode node) {
+	public final void removeNode(INode node) {
 
 		if (this.listOfNode.contains(node)) {
 			int nbIn = node.getListOfInputArcSize();
@@ -324,134 +311,135 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#removeArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public void removeArc(IArc arc) {
+	public final void removeArc(IArc arc) {
 		if (this.listOfArc.contains(arc)) {
+
+			// Suppression de la liste des arcs
+			this.listOfArc.remove(arc);
+
 			INode in = arc.getStartingNode();
 			INode out = arc.getEndingNode();
+
 			if (in != null) {
 				in.removeOutputArc(arc);
 			}
 			if (in != null) {
 				out.removeInputArc(arc);
 			}
+
 			this.listOfId.remove(Integer.valueOf(arc.getId()));
-			try {
-				this.listOfArc.remove(arc);
-			} catch (ArrayIndexOutOfBoundsException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfAttrSize()
 	 */
-	public int getListOfAttrSize() {
+	public final int getListOfAttrSize() {
 		return this.listOfAttr.size();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfArcSize()
 	 */
-	public int getListOfArcSize() {
+	public final int getListOfArcSize() {
 		return this.listOfArc.size();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfNodeSize()
 	 */
-	public int getListOfNodeSize() {
+	public final int getListOfNodeSize() {
 		return this.listOfNode.size();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getNthAttr(int)
 	 */
-	public IAttribute getNthAttr(int index) {
+	public final IAttribute getNthAttr(int index) {
 		return (IAttribute) this.listOfAttr.get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getNthArc(int)
 	 */
-	public IArc getNthArc(int index) {
+	public final IArc getNthArc(int index) {
 		return (IArc) this.listOfArc.get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getNthNode(int)
 	 */
-	public INode getNthNode(int index) {
+	public final INode getNthNode(int index) {
 		return (INode) this.listOfNode.get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getXPosition()
 	 */
-	public int getXPosition() {
+	public final int getXPosition() {
 		return this.xPosition;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getYPosition()
 	 */
-	public int getYPosition() {
+	public final int getYPosition() {
 		return this.yPosition;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#setPosition(int, int)
 	 */
-	public void setPosition(int x, int y) {
+	public final void setPosition(int x, int y) {
 		this.xPosition = x;
 		this.yPosition = y;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#setFormalism(java.lang.String)
 	 */
-	public void setFormalism(String formalism) {
-		this.formalism = formalism;
+	public final void setFormalism(String form) {
+		this.formalism = form;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getFormalism()
 	 */
-	public String getFormalism() {
+	public final String getFormalism() {
 		return this.formalism;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getMaxId()
 	 */
-	public int getMaxId() {
+	public final int getMaxId() {
 		int max = 1;
 		INode nodes;
 		IArc arcs;
@@ -479,23 +467,23 @@ public abstract class Model implements IModel, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#setMaxId(int)
 	 */
-	public int setMaxId(int max) {
+	public final int setMaxId(int max) {
 		this.maxId = max;
 		return max;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#translate()
 	 */
 	public abstract String[] translate();
 
 	/* Renvoie la liste des identifiant listOfId */
-	public Vector<Integer> getListOfId() {
+	public final Vector<Integer> getListOfId() {
 		return listOfId;
 	}
 }

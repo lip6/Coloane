@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
 import java.util.Vector;
-import java.io.Serializable;
 
 /**
  * Cette classe represente un noeud generique dans un modele (tout aussi generique).<br>
@@ -18,13 +17,13 @@ import java.io.Serializable;
  * @see IAttribute
  * @see IArc
  */
-public abstract class Node implements INode, Serializable {
+public abstract class Node implements INode {
 
 	/** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
 	private static final long serialVersionUID = 1L;
 
 	/** Type du noeud */
-	protected String nodeType;
+	protected String type;
 
 	/** Identificateur du noeud */
 	protected int id;
@@ -46,13 +45,13 @@ public abstract class Node implements INode, Serializable {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param nodeType Type du noeud
 	 * @see IAttribute
 	 * @see IArc
 	 */
 	public Node(String nodeType) {
-		this.nodeType = nodeType;
+		this.type = nodeType;
 		this.id = 0;
 		xPosition = 0;
 		yPosition = 0;
@@ -63,7 +62,7 @@ public abstract class Node implements INode, Serializable {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param nodeType Type du noeud
 	 * @param x	Position x du noeud
 	 * @param y	Position y du noeud
@@ -71,7 +70,7 @@ public abstract class Node implements INode, Serializable {
 	 * @see IArc
 	 */
 	public Node(String nodeType, int x, int y) {
-		this.nodeType = nodeType;
+		this.type = nodeType;
 		this.id = 0;
 		xPosition = x;
 		yPosition = y;
@@ -82,7 +81,7 @@ public abstract class Node implements INode, Serializable {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param id Identifiant du noeud
 	 * @param nodeType Type du noeud
 	 * @param x	Position x du noeud
@@ -90,10 +89,10 @@ public abstract class Node implements INode, Serializable {
 	 * @see IAttribute
 	 * @see IArc
 	 */
-	public Node(String nodeType, int x, int y, int id) {
+	public Node(String nodeType, int x, int y, int nodeId) {
 
-		this.nodeType = nodeType;
-		this.id = id;
+		this.type = nodeType;
+		this.id = nodeId;
 		xPosition = x;
 		yPosition = y;
 		this.listOfAttr = new Vector<IAttribute>();
@@ -104,19 +103,19 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getId()
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#setId(int)
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public final void setId(int nodeId) {
+		this.id = nodeId;
 
 		// Le changement d'idientifiant implique obligatoirement
-		// Le rer�f�rencement des attributs
-		for (IAttribute att: this.listOfAttr) {
+		// Le referencement des attributs
+		for (IAttribute att : this.listOfAttr) {
 			att.setRefId(id);
 		}
 	}
@@ -124,14 +123,14 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNodeType()
 	 */
-	public String getNodeType() {
-		return this.nodeType;
+	public final String getNodeType() {
+		return this.type;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#setPosition(int, int)
 	 */
-	public void setPosition(int x, int y) {
+	public final void setPosition(int x, int y) {
 		xPosition = x;
 		yPosition = y;
 	}
@@ -139,28 +138,28 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getXPosition()
 	 */
-	public int getXPosition() {
+	public final int getXPosition() {
 		return this.xPosition;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getYPosition()
 	 */
-	public int getYPosition() {
+	public final int getYPosition() {
 		return yPosition;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addInputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public void addInputArc(IArc arc) {
+	public final void addInputArc(IArc arc) {
 		this.listOfInputArc.addElement(arc);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public void removeInputArc(IArc arc) {
+	public final void removeInputArc(IArc arc) {
 		try {
 			this.listOfInputArc.remove(arc);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -171,7 +170,7 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(int)
 	 */
-	public void removeInputArc(int index) {
+	public final void removeInputArc(int index) {
 		try {
 			this.listOfInputArc.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -182,14 +181,14 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfInputArcSize()
 	 */
-	public int getListOfInputArcSize() {
+	public final int getListOfInputArcSize() {
 		return this.listOfInputArc.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthInputArc(int)
 	 */
-	public IArc getNthInputArc(int index) {
+	public final IArc getNthInputArc(int index) {
 		try {
 			return (IArc) this.listOfInputArc.get(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -200,14 +199,14 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addOutputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public void addOutputArc(IArc arc) {
+	public final void addOutputArc(IArc arc) {
 		this.listOfOutputArc.addElement(arc);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public void removeOutputArc(IArc arc) {
+	public final void removeOutputArc(IArc arc) {
 		try {
 			this.listOfOutputArc.remove(arc);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -218,7 +217,7 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(int)
 	 */
-	public void removeOutputArc(int index) {
+	public final void removeOutputArc(int index) {
 		try {
 			this.listOfOutputArc.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -229,14 +228,14 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfOutputArcSize()
 	 */
-	public int getListOfOutputArcSize() {
+	public final int getListOfOutputArcSize() {
 		return this.listOfOutputArc.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthOutputArc(int)
 	 */
-	public IArc getNthOutputArc(int index) {
+	public final IArc getNthOutputArc(int index) {
 		try {
 			return (IArc) this.listOfOutputArc.get(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -248,8 +247,8 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-	public void addAttribute(IAttribute attribute) {
-		if (!(attribute.getValue()=="")){
+	public final void addAttribute(IAttribute attribute) {
+		if (!(attribute.getValue() == "")) {
 			attribute.setRefId(this.getId());
 			this.listOfAttr.addElement(attribute);
 		}
@@ -259,7 +258,7 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-	public void removeAttribute(IAttribute attribute) {
+	public final void removeAttribute(IAttribute attribute) {
 		try {
 			this.listOfAttr.remove(attribute);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -270,7 +269,7 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(int)
 	 */
-	public void removeAttribute(int index) {
+	public final void removeAttribute(int index) {
 		try {
 			this.listOfAttr.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -281,21 +280,21 @@ public abstract class Node implements INode, Serializable {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfAttrSize()
 	 */
-	public int getListOfAttrSize() {
+	public final int getListOfAttrSize() {
 		return this.listOfAttr.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfAttr()
 	 */
-	public Vector<IAttribute> getListOfAttr() {
+	public final Vector<IAttribute> getListOfAttr() {
 		return this.listOfAttr;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getNthAttr(int)
 	 */
-	public IAttribute getNthAttr(int index) {
+	public final IAttribute getNthAttr(int index) {
 		try {
 			return (IAttribute) this.listOfAttr.get(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -311,11 +310,11 @@ public abstract class Node implements INode, Serializable {
 
 	/****** AJOUTS POUR TESTS UNITAIRES******/
 
-	public Vector<IArc> getListOfInputArc() {
+	public final Vector<IArc> getListOfInputArc() {
 		return this.listOfInputArc;
 	}
 
-	public Vector<IArc> getListOfOutputArc() {
+	public final Vector<IArc> getListOfOutputArc() {
 		return this.listOfOutputArc;
 	}
 	/*** FIN DES AJOUTS ***/
