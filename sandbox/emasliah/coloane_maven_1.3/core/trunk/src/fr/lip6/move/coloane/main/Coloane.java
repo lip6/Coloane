@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.main;
 
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -47,8 +50,27 @@ public class Coloane extends AbstractUIPlugin {
 
 		try {
 
-			//System.out.println(traduction.getString("main.Coloane.0"));
-			System.out.println("-- Initialisation du plugin Coloane --");
+			System.out.println(traduction.getString("main.Coloane.0"));
+			//System.out.println("-- Initialisation du plugin Coloane --");
+			
+			// Pour afficher la version et le numero de build 
+			String bundleLocation = getBundle().getLocation();
+			// Pour supprimer le update "@"
+			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@")+1);
+			Manifest mf;
+			System.out.println(traduction.getString("main.Coloane.1"));
+			if (bundleLocation.endsWith(".jar")) {	
+				JarFile coreJar = new JarFile(bundleLocation);
+				mf = coreJar.getManifest();
+				Attributes atts = mf.getMainAttributes();
+				
+				System.out.println(traduction.getString("main.Coloane.2") + atts.getValue("Implementation-Version"));
+				System.out.println(traduction.getString("main.Coloane.3") + atts.getValue("Implementation-Build"));
+			} else {
+				System.out.println(traduction.getString("main.Coloane.4"));
+			}
+			
+			
 
 			// Initialisation de l'interface graphique
 			ui = new UserInterface();
