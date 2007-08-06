@@ -182,8 +182,7 @@
       		<connectionType>developerConnection</connectionType>
           <username>${server.username}</username>
           <password>${server.password}</password>
-          <!--<username>coloane_builder</username>
-          <password>coloane</password>-->
+          <branch>${project.artifactId}_${project.version}</branch>
       	</configuration>
       </plugin>
       
