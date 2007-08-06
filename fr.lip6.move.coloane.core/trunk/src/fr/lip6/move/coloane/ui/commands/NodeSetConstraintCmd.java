@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.ui.commands;
 
+import fr.lip6.move.coloane.ui.model.INodeImpl;
+
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
-
-import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 /**
  * Commande pour deplacer un noeud
@@ -23,12 +23,12 @@ public class NodeSetConstraintCmd extends Command {
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public NodeSetConstraintCmd(INodeImpl node, Rectangle newBounds) {
-		if (node == null || newBounds == null) {
+	public NodeSetConstraintCmd(INodeImpl n, Rectangle bounds) {
+		if (n == null || bounds == null) {
 			throw new IllegalArgumentException();
 		}
-		this.node = node;
-		this.newBounds = newBounds.getCopy();
+		this.node = n;
+		this.newBounds = bounds.getCopy();
 	}
 
 	/**
@@ -36,14 +36,14 @@ public class NodeSetConstraintCmd extends Command {
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
 	 * @return booleen
 	 */
-	public boolean canExecute() {
+	public final boolean canExecute() {
 		return true;
 	}
 
 	/**
 	 * Executer
 	 */
-	public void execute() {
+	public final void execute() {
 		oldBounds = new Rectangle(node.getGraphicInfo().getLocation(), node.getGraphicInfo().getSize());
 		redo();
 	}
@@ -51,8 +51,8 @@ public class NodeSetConstraintCmd extends Command {
 	/**
 	 * Refaire
 	 */
-	public void redo() {
-		node.getGraphicInfo().setLocation(newBounds.getLocation().x,newBounds.getLocation().y);
+	public final void redo() {
+		node.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
 		node.updateAttributesPosition(oldBounds.getLocation().x - newBounds.getLocation().x, oldBounds.getLocation().y - newBounds.getLocation().y);
 		node.updateArcAttributesPosition();
 	}
@@ -60,8 +60,9 @@ public class NodeSetConstraintCmd extends Command {
 	/**
 	 * Annuler
 	 */
-	public void undo() {
-		node.getGraphicInfo().setLocation(oldBounds.getLocation().x,oldBounds.getLocation().y);
+	public final void undo() {
+		node.getGraphicInfo().setLocation(oldBounds.getLocation().x, oldBounds.getLocation().y);
+		/* TODO : Mise a jour de la position des attributs */
 	}
 
 }

@@ -13,7 +13,7 @@ public class ArcSetConstraintCmd extends Command {
          * Savoir si on peut executer
          * @return booleen
          */
-        public boolean canExecute() {
+        public final boolean canExecute() {
                 // TODO Auto-generated method stub
                 return super.canExecute();
         }
@@ -21,7 +21,7 @@ public class ArcSetConstraintCmd extends Command {
         /**
          * Executer
          */
-        public void execute() {
+        public final void execute() {
                 // TODO Auto-generated method stub
                 super.execute();
         }
@@ -30,7 +30,7 @@ public class ArcSetConstraintCmd extends Command {
          * Refaire
          *
          */
-        public void redo() {
+        public final void redo() {
                 // TODO Auto-generated method stub
                 super.redo();
         }
@@ -39,7 +39,7 @@ public class ArcSetConstraintCmd extends Command {
          * Annuler
          *
          */
-        public void undo() {
+        public final void undo() {
                 // TODO Auto-generated method stub
                 super.undo();
         }

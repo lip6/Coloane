@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.ui.commands;
 
+import fr.lip6.move.coloane.ui.model.IAttributeImpl;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
-
-import fr.lip6.move.coloane.ui.model.IAttributeImpl;
 
 public class AttributeSetConstraintCmd extends Command {
 
@@ -22,12 +22,12 @@ public class AttributeSetConstraintCmd extends Command {
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public AttributeSetConstraintCmd(IAttributeImpl attribute, Rectangle newBounds) {
-		if (attribute == null || newBounds == null) {
+	public AttributeSetConstraintCmd(IAttributeImpl a, Rectangle newB) {
+		if (a == null || newB == null) {
 			throw new IllegalArgumentException();
 		}
-		this.attribute = attribute;
-		this.newBounds = newBounds.getCopy();
+		this.attribute = a;
+		this.newBounds = newB.getCopy();
 	}
 
 	/**
@@ -35,14 +35,14 @@ public class AttributeSetConstraintCmd extends Command {
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
 	 * @return booleen
 	 */
-	public boolean canExecute() {
+	public final boolean canExecute() {
 		return true;
 	}
 
 	/**
 	 * Executer
 	 */
-	public void execute() {
+	public final void execute() {
 		oldBounds = attribute.getGraphicInfo().getLocation();
 		this.redo();
 	}
@@ -50,15 +50,15 @@ public class AttributeSetConstraintCmd extends Command {
 	/**
 	 * Refaire
 	 */
-	public void redo() {
-		attribute.getGraphicInfo().setLocation(newBounds.getLocation().x,newBounds.getLocation().y);
+	public final void redo() {
+		attribute.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
 	}
 
 	/**
 	 * Annuler
 	 */
-	public void undo() {
-		attribute.getGraphicInfo().setLocation(oldBounds.x,oldBounds.y);
+	public final void undo() {
+		attribute.getGraphicInfo().setLocation(oldBounds.x, oldBounds.y);
 	}
 
 }

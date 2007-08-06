@@ -1,15 +1,16 @@
 package fr.lip6.move.coloane.ui.commands;
 
-import java.util.Iterator;
-
-import org.eclipse.gef.commands.Command;
-
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
+
+import java.util.Iterator;
+
+import org.eclipse.gef.commands.Command;
+
 
 /**
  * Deuxieme etape de la creation d'un lien entre deux noeuds ! Cette commande
@@ -32,39 +33,33 @@ public class ArcCompleteCmd extends Command {
 
 	/**
 	 * Connexion de l'arc
-	 * 
-	 * @param source
-	 *            noeud source
-	 * @param target
-	 *            noeud cible
-	 * @param base
-	 *            elementBase
+	 * @param source noeud source
+	 * @param target noeud cible
+	 * @param base elementBase
 	 */
-	public ArcCompleteCmd(INodeImpl source, INodeImpl target, ElementBase base) {
-		this.source = source;
-		this.target = target;
+	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementBase base) {
+		this.source = arcSource;
+		this.target = arcTarget;
 		this.arcFormalism = base;
 	}
 
 	/**
 	 * Savoir si l'action est executable
-	 * 
 	 * @return booleen
 	 */
-	public boolean canExecute() {
+	public final boolean canExecute() {
 
 		Formalism form = arcFormalism.getFormalism();
 
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!form.isLinkAllowed(source.getElementBase(), target
-				.getElementBase())) {
+		if (!form.isLinkAllowed(source.getElementBase(), target.getElementBase())) {
 			return false;
 		}
 
 		// Evite les doublons en renvoyant faux si le lien existe deja
 		for (Iterator iter = source.getSourceArcs().iterator(); iter.hasNext();) {
-			IArcImpl arc = (IArcImpl) iter.next();
-			if (arc.getTarget().equals(target)) {
+			IArcImpl a = (IArcImpl) iter.next();
+			if (a.getTarget().equals(target)) {
 				return false;
 			}
 		}
@@ -75,7 +70,7 @@ public class ArcCompleteCmd extends Command {
 	/**
 	 * Creation de la connexion
 	 */
-	public void execute() {
+	public final void execute() {
 		try {
 			// Le constructeur se charge de la connexion
 			arc = new ArcImplAdapter(source, target, arcFormalism);
@@ -89,7 +84,7 @@ public class ArcCompleteCmd extends Command {
 	/**
 	 * Refaire la methode Execute
 	 */
-	public void redo() {
+	public final void redo() {
 		try {
 			source.getModelAdapter().addArc(arc);
 		} catch (BuildException e) {
@@ -100,7 +95,7 @@ public class ArcCompleteCmd extends Command {
 	/**
 	 * Defaire la methode Execute
 	 */
-	public void undo() {
+	public final void undo() {
 		source.getModelAdapter().removeArc(arc);
 	}
 }

@@ -1,33 +1,33 @@
 package fr.lip6.move.coloane.ui.commands;
 
+import fr.lip6.move.coloane.ui.model.IArcImpl;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import fr.lip6.move.coloane.ui.model.IArcImpl;
-
 public class InflexDeleteCmd extends Command {
 
-	private IArcImpl arcModel;
+	private IArcImpl arc;
 	private Point position;
 	private int index;
 
-	public InflexDeleteCmd(IArcImpl arcModel, Point position, int index) {
-		this.arcModel = arcModel;
-		this.position = position;
-		this.index = index;			
+	public InflexDeleteCmd(IArcImpl arcModel, Point p, int i) {
+		this.arc = arcModel;
+		this.position = p;
+		this.index = i;
 	}
 
-	public void execute() {
+	public final void execute() {
 		this.redo();
 		super.execute();
 	}
 
-	public void undo() {
-		this.arcModel.addInflexPoint(this.position, this.index);
+	public final void undo() {
+		this.arc.addInflexPoint(this.position, this.index);
 	}
 
-	public void redo() {
-		this.arcModel.removeInflexPoint(this.index);
+	public final void redo() {
+		this.arc.removeInflexPoint(this.index);
 	}
 
 
