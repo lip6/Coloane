@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.panels;
 
+import fr.lip6.move.coloane.main.Coloane;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -18,15 +20,13 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.lip6.move.coloane.main.Coloane;
-
 /**
  * Cette classe implemente la fenetre de l'historique
  *
  */
 public class HistoryView extends ViewPart {
 
-	/** Point d'acc�s pour les autres classes */
+	/** Point d'acces pour les autres classes */
 	public static HistoryView instance;
 
 	/** Visionneuse */
@@ -45,10 +45,8 @@ public class HistoryView extends ViewPart {
 	private Action selectAllAction = null;
 
 	/**
-	 * Cette m�thode permet de creer la visionneuse et de l'initaliser
-	 *
+	 * Cette methode permet de creer la visionneuse et de l'initaliser
 	 * @param parent Interface Composite, pour la cr�ation de la visionneuse et des controls
-	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public final void createPartControl(Composite parent) {
@@ -70,7 +68,6 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Donner une valeur � Focus
-	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	public final void setFocus() {

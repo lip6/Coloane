@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.ui.panels;
 
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.results.ActionsList;
+import fr.lip6.move.coloane.results.Result;
+import fr.lip6.move.coloane.results.ResultsList;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,11 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.results.ActionsList;
-import fr.lip6.move.coloane.results.Result;
-import fr.lip6.move.coloane.results.ResultsList;
-
 /**
  * Gestion de la vue des resultats
  */
@@ -25,7 +25,7 @@ public class ResultsView extends ViewPart implements Observer {
 	public static ResultsView instance;
 
 	/** The ActionList displayed in this view. */
-	ActionsList actionsList;
+	private ActionsList actionsList;
 
 	/** The current action displayed. */
 	private int currentActionDisplayed;
@@ -45,7 +45,7 @@ public class ResultsView extends ViewPart implements Observer {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public final void createPartControl(Composite parent) {
 		/* This view will be divided in three parts :
 		 * - in first we will have a list of actions' names (Syntax check, ...)
 		 * - in second we will have a list of error for a given action
@@ -68,7 +68,7 @@ public class ResultsView extends ViewPart implements Observer {
 	}
 
 	@Override
-	public void setFocus() {
+	public final void setFocus() {
 		return;
 	}
 
@@ -135,7 +135,7 @@ public class ResultsView extends ViewPart implements Observer {
 	 */
 	private void setResultsListSelectionListener() {
 		resultsList.addSelectionListener(new SelectionListener() {
-			String mem = "0";
+			private String mem = "0";
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);

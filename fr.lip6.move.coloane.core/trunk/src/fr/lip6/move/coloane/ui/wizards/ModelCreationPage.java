@@ -1,7 +1,14 @@
 package fr.lip6.move.coloane.ui.wizards;
 
+import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.model.Model;
+import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.ui.XmlEditor;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -10,12 +17,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
-
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.model.Model;
-import fr.lip6.move.coloane.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.ui.XmlEditor;
 
 public class ModelCreationPage extends WizardNewFileCreationPage {
 

@@ -32,7 +32,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	}
 
 	@Override
-	public boolean performFinish() {
+	public final boolean performFinish() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IProject newProject = projectCreationPage.getProjectHandle();
 		IProjectDescription description = workspace.newProjectDescription(newProject.getName());

@@ -1,9 +1,10 @@
 package fr.lip6.move.coloane.ui.wizards;
 
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -16,9 +17,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 /**
  * Premiere page de l'assistant qui propose une liste de formalismes *
@@ -104,7 +102,7 @@ public class SelectFormalismPage extends WizardPage {
 	 * @return booleen
 	 */
 	@Override
-	public boolean isPageComplete() {
+	public final boolean isPageComplete() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);
 	}
 
