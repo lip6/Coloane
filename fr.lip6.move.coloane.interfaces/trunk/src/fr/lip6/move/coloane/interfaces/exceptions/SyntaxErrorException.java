@@ -16,23 +16,23 @@ public class SyntaxErrorException extends Exception {
 		super();
 	}
 
-	/** 
-	 * Construteur 
+	/**
+	 * Construteur
 	 * Ce construteur permet d'associer un message d'erreur a l'exception qu'on leve
 	 * @param message Me message d'explication
 	 */
-	public SyntaxErrorException(String message) {
+	public SyntaxErrorException(final String message) {
 		super(message);
-		this.msg = message; 
+		this.msg = message;
 	}
 
 	/**
 	 * Production d'une chaine de caractere depuis l'exception
 	 * @return string Le messaeg complet d'erreur
 	 */
-	public String toString() {
+	public final String toString() {
 		if (msg != null) {
-			return new String("SyntacticErrorException : " + msg);
+			return new String("Syntax Error Exception : " + msg);
 		} else {
 			return "Syntax Error";
 		}
