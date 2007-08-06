@@ -10,7 +10,7 @@
 
 	<groupId>${project.parent.groupId}</groupId>
   <artifactId>interfaces</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging</name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
