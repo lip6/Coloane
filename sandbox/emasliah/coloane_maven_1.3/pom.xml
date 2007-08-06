@@ -180,8 +180,10 @@
         <artifactId>maven-scm-plugin</artifactId>
     		<configuration>
       		<connectionType>developerConnection</connectionType>
-          <username>${scm.username}</username>
-          <password>${scm.password}</password>
+          <username>${server.username}</username>
+          <password>${server.password}</password>
+          <!--<username>coloane_builder</username>
+          <password>coloane</password>-->
       	</configuration>
       </plugin>
       
@@ -246,6 +248,21 @@
           	<phase>validate</phase>        
           	<goals>
             	<goal>create</goal>
+          	</goals>
+        	</execution>
+      	</executions>
+     	</plugin>
+     	
+     	    	<plugin>
+      	 <!-- Pour creer la branche apres avoir fait une release -->
+      	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+      	<executions>
+        	<execution>
+        		<id>Branches</id>
+          	<phase>release</phase>        
+          	<goals>
+            	<goal>branch</goal>
           	</goals>
         	</execution>
       	</executions>
