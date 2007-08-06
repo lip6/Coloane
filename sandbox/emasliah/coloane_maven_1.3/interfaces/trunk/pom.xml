@@ -29,6 +29,21 @@
 		
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
+    			 
+    	<plugin>
+      	 <!-- Pour creer la branche apres avoir fait une release -->
+      	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+      	<executions>
+        	<execution>
+        		<id>Branches</id>
+          	<phase>release</phase>        
+          	<goals>
+            	<goal>branch</goal>
+          	</goals>
+        	</execution>
+      	</executions>
+     	</plugin>
       
       <!--<plugin>
     		<!~~ Pour modifier le manifest avec la version du pom ~~>
