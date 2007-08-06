@@ -20,7 +20,7 @@ import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
 
 /**
- * Classe du gestionnaire de formalismes. 
+ * Classe du gestionnaire de formalismes.
  * C'est ici que sont definis les formalismes.
  */
 public class FormalismManager {
@@ -41,12 +41,12 @@ public class FormalismManager {
 
 	/**
 	 * Charger un formalisme a partir de son nom
-	 * 
+	 *
 	 * @param formalismName Nom du formalisme
 	 * @return Formalism
 	 * @see Formalism
 	 */
-	public Formalism loadFormalism(String formalismName) {
+	public final Formalism loadFormalism(String formalismName) {
 		Iterator it;
 		Formalism formalism = null;
 		for (it = listOfFormalisms.iterator(); it.hasNext();) {
@@ -64,7 +64,7 @@ public class FormalismManager {
 	 * @param extension Extension recherchee
 	 * @return Formalism
 	 */
-	public Formalism getFormalismByExtension(String extension) {
+	public final Formalism getFormalismByExtension(String extension) {
 		Formalism formalism;
 		Iterator it = listOfFormalisms.iterator();
 		for (formalism = null; it.hasNext();) {
@@ -81,7 +81,7 @@ public class FormalismManager {
 	 * Cette methode retourne le formalisme decrivant un reseau de Petri.
 	 * @return Formalism
 	 */
-	private static Formalism createPetriNet() {
+	private Formalism createPetriNet() {
 		AttributeFormalism attr;
 		ElementBase elem;
 		Rule rule;
@@ -91,21 +91,21 @@ public class FormalismManager {
 		petri.setExtension("rdp"); //$NON-NLS-1$
 
 		// Ajout de tous les attributs d'un reseau de petri (Attention : different des attributs des elements.)
-		attr = new AttributeFormalism(1,"declaration", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "declaration", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"author(s)", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "author(s)", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"version", IAttributeGraphicInfo.NOR, true, false, "0,0"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(3, "version", IAttributeGraphicInfo.NOR, true, false, "0,0"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"project", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "project", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(5,"title", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(5, "title", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(6,"date", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(6, "date", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(7,"code", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(7, "code", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(8,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(8, "note", false, true); //$NON-NLS-1$
 		petri.addAttributeFormalism(attr);
 
 		// Creation ajout des differents elements de base d'un Reseau de Petri :
@@ -113,15 +113,15 @@ public class FormalismManager {
 
 		// La place:
 		elem = new NodeFormalism("place", "Place", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"domain", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "domain", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"component", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "component", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(5,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(5, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
@@ -130,17 +130,17 @@ public class FormalismManager {
 
 		// La transition:
 		elem = new NodeFormalism("transition", "Transition", INodeGraphicInfo.FIG_RECT, 24, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"guard",IAttributeGraphicInfo.NOR, true, true,"true"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(2, "guard", IAttributeGraphicInfo.NOR, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"priority", IAttributeGraphicInfo.NOR, true, true, "0"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(3, "priority", IAttributeGraphicInfo.NOR, true, true, "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"delay", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "delay", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(5,"action", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(5, "action", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(6,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(6, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/transition16.png"); //$NON-NLS-1$
@@ -149,15 +149,15 @@ public class FormalismManager {
 
 		// La transition immediate:
 		elem = new NodeFormalism("immediate transition", "I. Transition", INodeGraphicInfo.FIG_RECT, 24, 8, true); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"guard", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "guard", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"priority", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(3, "priority", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"weight", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "weight", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(5,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(5, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/transitionimmediate16.png"); //$NON-NLS-1$
@@ -166,13 +166,13 @@ public class FormalismManager {
 
 		// La queue:
 		elem = new NodeFormalism("queue", "Queue", INodeGraphicInfo.FIG_QUEUE, 16, 8, true); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"domain", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "domain", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/queue16.png"); //$NON-NLS-1$
@@ -181,9 +181,9 @@ public class FormalismManager {
 
 		// L'arc
 		elem = new ArcFormalism("arc", "Arc", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"valuation", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(1, "valuation", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
@@ -192,9 +192,9 @@ public class FormalismManager {
 
 		// L'arc hinibiteur
 		elem = new ArcFormalism("inhibitor arc", "Inhibitor Arc", IArcGraphicInfo.FIG_ARC_INHIBITOR, 8, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"valuation", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(1, "valuation", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"note", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "note", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(petri);
 		elem.setAddrIcone16("/resources/icons/arcinhibiteur16.png"); //$NON-NLS-1$
@@ -203,42 +203,42 @@ public class FormalismManager {
 
 		// Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
 		// Interdit place - place
-		rule = new Rule("place - place",Coloane.traduction.getString("motor.formalism.FormalismManager.66")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("place - place", Coloane.traduction.getString("motor.formalism.FormalismManager.66")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "place", "place"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit queue - queue
-		rule = new Rule("queue - queue",Coloane.traduction.getString("motor.formalism.FormalismManager.70")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("queue - queue", Coloane.traduction.getString("motor.formalism.FormalismManager.70")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "queue", "queue"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit transition - transition
-		rule = new Rule("transition - transition",Coloane.traduction.getString("motor.formalism.FormalismManager.74")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("transition - transition", Coloane.traduction.getString("motor.formalism.FormalismManager.74")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "transition", "transition"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit transition immediate - transition immediate
-		rule = new Rule("transition immediate - transition immediate",Coloane.traduction.getString("motor.formalism.FormalismManager.78")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("transition immediate - transition immediate", Coloane.traduction.getString("motor.formalism.FormalismManager.78")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "immediate transition", "immediate transition"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit transition - transition immediate
-		rule = new Rule("transition - transition immediate",Coloane.traduction.getString("motor.formalism.FormalismManager.82")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("transition - transition immediate", Coloane.traduction.getString("motor.formalism.FormalismManager.82")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "transition", "immediate transition"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit transition immediate - transition
-		rule = new Rule("transition immediate - transition",Coloane.traduction.getString("motor.formalism.FormalismManager.86")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("transition immediate - transition", Coloane.traduction.getString("motor.formalism.FormalismManager.86")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "immediate transition", "transition"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
-		// Interdit transition queue - place 
-		rule = new Rule("queue - place",Coloane.traduction.getString("motor.formalism.FormalismManager.90")); //$NON-NLS-1$ //$NON-NLS-2$
+		// Interdit transition queue - place
+		rule = new Rule("queue - place", Coloane.traduction.getString("motor.formalism.FormalismManager.90")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "queue", "place"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
 		// Interdit transition place - queue
-		rule = new Rule("place - queue",Coloane.traduction.getString("motor.formalism.FormalismManager.94")); //$NON-NLS-1$ //$NON-NLS-2$
+		rule = new Rule("place - queue", Coloane.traduction.getString("motor.formalism.FormalismManager.94")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(petri, "place", "queue"); //$NON-NLS-1$ //$NON-NLS-2$
 		petri.addRule(rule);
 
@@ -259,10 +259,10 @@ public class FormalismManager {
 		prefix.setExtension("pnt"); //$NON-NLS-1$
 
 		// Ajout de tous les attributs d'un prefix net (Attention ! Different des attributs des elements.)
-		attr = new AttributeFormalism(1,"tool", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "tool", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		prefix.addAttributeFormalism(attr);
 
-		attr = new AttributeFormalism(2,"origin", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "origin", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		prefix.addAttributeFormalism(attr);
 
 		// Creation et ajout des differents elements de base d'un prefix net :
@@ -270,11 +270,11 @@ public class FormalismManager {
 
 		// Condition
 		elem = new NodeFormalism("condition", "Condition", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "label", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "marking", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(prefix);
 		elem.setAddrIcone16("/resources/icons/place16.gif"); //$NON-NLS-1$
@@ -283,9 +283,9 @@ public class FormalismManager {
 
 		// Event:
 		elem = new NodeFormalism("event", "Event", INodeGraphicInfo.FIG_RECT, 24, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.NOR, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(2, "label", IAttributeGraphicInfo.NOR, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(prefix);
 		elem.setAddrIcone16("/resources/icons/transition16.gif"); //$NON-NLS-1$
@@ -294,13 +294,13 @@ public class FormalismManager {
 
 		// Cutoff:
 		elem = new NodeFormalism("cutoff", "Cutoff", INodeGraphicInfo.FIG_RECT, 24, 8, true); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"label", IAttributeGraphicInfo.L2, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(2, "label", IAttributeGraphicInfo.L2, true, true, "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"image", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(3, "image", IAttributeGraphicInfo.NOR, true, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"num_image", false, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(4, "num_image", false, true, "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(prefix);
 		elem.setAddrIcone16("/resources/icons/transitionimmediate16.gif"); //$NON-NLS-1$
@@ -328,7 +328,7 @@ public class FormalismManager {
 		rule.forbidenRule(prefix, "event", "event"); //$NON-NLS-1$ //$NON-NLS-2$
 		prefix.addRule(rule);
 
-		// Interdit cutoff - event 
+		// Interdit cutoff - event
 		rule = new Rule("cutoff - event", Coloane.traduction.getString("motor.formalism.FormalismManager.140")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(prefix, "cutoff", "event"); //$NON-NLS-1$ //$NON-NLS-2$
 		prefix.addRule(rule);
@@ -338,7 +338,7 @@ public class FormalismManager {
 		rule.forbidenRule(prefix, "event", "cutoff"); //$NON-NLS-1$ //$NON-NLS-2$
 		prefix.addRule(rule);
 
-		// Interdit cutoff - cutoff 
+		// Interdit cutoff - cutoff
 		rule = new Rule("cutoff - cutoff", Coloane.traduction.getString("motor.formalism.FormalismManager.148")); //$NON-NLS-1$ //$NON-NLS-2$
 		rule.forbidenRule(prefix, "cutoff", "cutoff"); //$NON-NLS-1$ //$NON-NLS-2$
 		prefix.addRule(rule);
@@ -363,17 +363,17 @@ public class FormalismManager {
 
 		// Ajout de tous les attributs d'un graphe d'accessibilite (Attention :
 		// different des attributs des elements.)
-		attr = new AttributeFormalism(1,"title", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "title", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		graph.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"author(s)", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "author(s)", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		graph.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"version", IAttributeGraphicInfo.NOR, true, false, "0.0"); //$NON-NLS-1$ //$NON-NLS-2$
+		attr = new AttributeFormalism(3, "version", IAttributeGraphicInfo.NOR, true, false, "0.0"); //$NON-NLS-1$ //$NON-NLS-2$
 		graph.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"information", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "information", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		graph.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(5,"type", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(5, "type", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		graph.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(6,"project", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(6, "project", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
 		graph.addAttributeFormalism(attr);
 
 		// Creation ajout des differents elements de base d'un graphe d'accessibilite :
@@ -381,13 +381,13 @@ public class FormalismManager {
 
 		// L'etat initial:
 		elem = new NodeFormalism("initial_state", "Initial State", INodeGraphicInfo.FIG_DBLCIRCLE, 16, 16, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "deadlock", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(graph);
 		elem.setAddrIcone16("/resources/icons/initial16.png"); //$NON-NLS-1$
@@ -396,13 +396,13 @@ public class FormalismManager {
 
 		// L'etat terminal:
 		elem = new NodeFormalism("terminal_state", "Terminal State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, true); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "deadlock", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(graph);
 		elem.setAddrIcone16("/resources/icons/terminal16.png"); //$NON-NLS-1$
@@ -411,13 +411,13 @@ public class FormalismManager {
 
 		// L'etat:
 		elem = new NodeFormalism("state", "State", INodeGraphicInfo.FIG_CIRCLE, 16, 16, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "name", IAttributeGraphicInfo.L1, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "value", IAttributeGraphicInfo.L2, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(3,"initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(3, "initial", IAttributeGraphicInfo.NOR, true, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(4,"deadlock", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(4, "deadlock", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(graph);
 		elem.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
@@ -426,9 +426,9 @@ public class FormalismManager {
 
 		// L'event (arc)
 		elem = new ArcFormalism("event", "Event", IArcGraphicInfo.FIG_ARC_SIMPLE, 8, 8, false); //$NON-NLS-1$ //$NON-NLS-2$
-		attr = new AttributeFormalism(1,"label", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
+		attr = new AttributeFormalism(1, "label", IAttributeGraphicInfo.NOR, true, false); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
-		attr = new AttributeFormalism(2,"value", false, true); //$NON-NLS-1$
+		attr = new AttributeFormalism(2, "value", false, true); //$NON-NLS-1$
 		elem.addAttributeFormalism(attr);
 		elem.setFormalism(graph);
 		elem.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
@@ -447,7 +447,7 @@ public class FormalismManager {
 	 * @return le model adapter correspondant
 	 * @throws Exception leve d'exception si le fichier n'est pas valide
 	 */
-	public IModelImpl importModel(String fileName) throws Exception {
+	public final IModelImpl importModel(String fileName) throws Exception {
 
 		// Determination du formalism avec l'extension
 		StringTokenizer file = new StringTokenizer(fileName, "."); //$NON-NLS-1$
@@ -460,7 +460,7 @@ public class FormalismManager {
 		Formalism formalism = getFormalismByExtension(fext);
 
 		// On verifie qu'un formalisme existe bien pour cette extension
-		if (formalism == null) { 
+		if (formalism == null) {
 			throw new Exception(Coloane.traduction.getString("motor.formalism.FormalismManager.192")); //$NON-NLS-1$
 		}
 
@@ -484,10 +484,10 @@ public class FormalismManager {
 	 * Export un modeladapter en model en fonction de son formalisme
 	 * @param modelAdapter le model a enregistrer
 	 * @param fileName nom du fichier d�sir� sans les extentions
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 
-	public void exportModel(IModelImpl modelAdapter, String fileName) throws Exception {
+	public final void exportModel(IModelImpl modelAdapter, String fileName) throws Exception {
 
 		if (fileName.equalsIgnoreCase("") || fileName == null) { //$NON-NLS-1$
 			throw new Exception(Coloane.traduction.getString("motor.formalism.FormalismManager.195")); //$NON-NLS-1$
@@ -499,7 +499,7 @@ public class FormalismManager {
 			throw new Exception(Coloane.traduction.getString("motor.formalism.FormalismManager.196")); //$NON-NLS-1$
 		}
 		// Creation du fichier
-		FileOutputStream wr = new FileOutputStream(new File(fileName +"."+ ext));  //$NON-NLS-1$
+		FileOutputStream wr = new FileOutputStream(new File(fileName + "." + ext));  //$NON-NLS-1$
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
 
 		// Traduction du modele entier
@@ -521,10 +521,10 @@ public class FormalismManager {
 	}
 
 	/**
-	 * Retourne la liste des formalismes disponibles 
+	 * Retourne la liste des formalismes disponibles
 	 * @return listOfFormalism
 	 */
-	public ArrayList getListOfFormalisms() {
+	public final ArrayList getListOfFormalisms() {
 		return listOfFormalisms;
 	}
 }

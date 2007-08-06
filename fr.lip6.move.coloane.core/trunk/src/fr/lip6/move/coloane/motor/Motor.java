@@ -22,7 +22,7 @@ public class Motor implements IMotorCom, IMotorUi {
 
 	/* Le module de communications */
 	private IComMotor com = null;
-	
+
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
 	/**
@@ -30,26 +30,26 @@ public class Motor implements IMotorCom, IMotorUi {
 	 */
 	public Motor() {
 		Motor.formalismManager = new FormalismManager();
-		Motor.sessionManager = new SessionManager();  
+		Motor.sessionManager = new SessionManager();
 	}
 
 	/**
 	 * Recupere une poignee sur le moteur
 	 * @param com le module de communication
 	 */
-	public void setCom(IComMotor com) {
-		this.com = com;
+	public final void setCom(IComMotor moduleCom) {
+		this.com = moduleCom;
 	}
 
 	/**
 	 * Ouvre une connexion pour un modele
-	 * 
+	 *
 	 * @param model Le modele adapte
 	 * @param sessionName Le nom de la session eclipse
 	 * @return booleen Le resultat de l'operation
 	 * @throws Exception
 	 */
-	public boolean openSession(IModelImpl model, String eclipseSessionName) throws Exception {
+	public final boolean openSession(IModelImpl model, String eclipseSessionName) throws Exception {
 
 		try {
 
@@ -85,7 +85,7 @@ public class Motor implements IMotorCom, IMotorUi {
 		}
 	}
 
-	public boolean closeSession() throws Exception {
+	public final boolean closeSession() throws Exception {
 		boolean res = com.closeSession();
 		Motor.sessionManager.destroyCurrentSession();
 		return res;
@@ -98,20 +98,20 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Cette action est particulierement utile lors de la generation d'un modele par FK
 	 * @param model le model brut
 	 */
-	public void setNewModel(IModel model) {
+	public final void setNewModel(IModel model) {
 		// Construit le modele en memoire a partir du modele generique recu
 		//IModelImpl modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism(model.getFormalism())); //$NON-NLS-1$
-		IModelImpl modelImpl = new ModelImplAdapter(model,getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
-		
+		IModelImpl modelImpl = new ModelImplAdapter(model, getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
+
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
-		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl,window));
+		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
 	}
 
 	/**
 	 * Donne la main sur le SessionManager
 	 * @return SessionManager Le gestionnaire de sessions
 	 */
-	public SessionManager getSessionManager() {
+	public final SessionManager getSessionManager() {
 		return Motor.sessionManager;
 	}
 
@@ -119,7 +119,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Donne la main sur le FormalismManager
 	 * @return FormalismManager Le gestionnairede formalismes
 	 */
-	public FormalismManager getFormalismManager() {
+	public final FormalismManager getFormalismManager() {
 		return Motor.formalismManager;
 	}
 }

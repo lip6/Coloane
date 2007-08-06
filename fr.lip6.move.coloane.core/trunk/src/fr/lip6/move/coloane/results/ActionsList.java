@@ -10,52 +10,52 @@ import fr.lip6.move.coloane.ui.panels.ResultsView;
 
 public class ActionsList extends Observable implements Observer {
 	private Vector<ResultsList> list;
-	
+
 	public ActionsList() {
 		list = new Vector<ResultsList>();
 	}
-	
-	public void setResultsList(ResultsList resultsList) {
+
+	public final void setResultsList(ResultsList resultsList) {
 		aggregate(resultsList);
 		list.add(resultsList);
 	}
-	
-	public void addResultsList() {
+
+	public final void addResultsList() {
 		setChanged();
 		notifyObservers();
 	}
-	
-	public void display(String viewId, IWorkbenchWindow mwindow) {
-		ResultsView resultView = (ResultsView)mwindow.getActivePage().findView(viewId);
-		
+
+	public final void display(String viewId, IWorkbenchWindow mwindow) {
+		ResultsView resultView = (ResultsView) mwindow.getActivePage().findView(viewId);
+
 		this.deleteObservers();
 		// resultview devient un observer de Actionslist
 		this.addObserver(resultView);
-		
+
 		setChanged();
 		notifyObservers();
 	}
-	
-	public ResultsList getResultsList(int index) {
+
+	public final ResultsList getResultsList(int index) {
 		return list.get(index);
 	}
-	
-	public ResultsList getResultsList(String resultName) {
-		for(ResultsList r : list) {
+
+	public final ResultsList getResultsList(String resultName) {
+		for (ResultsList r : list) {
 			if (r.getActionName().equals(resultName)) {
 				return r;
 			}
 		}
-		
+
 		return null;
 	}
-	
-	public int getResultsListSize() {
+
+	public final int getResultsListSize() {
 		return list.size();
 	}
-	
-	public void aggregate(ResultsList r) {
-		
+
+	public final void aggregate(ResultsList r) {
+
 		// Parcours de la liste actuelle
 		for (int i = 0; i < list.size(); i++) {
 
@@ -68,12 +68,12 @@ public class ActionsList extends Observable implements Observer {
 			}
 		}
 	}
-	
-	public void removeAll() {
+
+	public final void removeAll() {
 		list.removeAllElements();
 	}
 
-	public void update(Observable o, Object arg1) {
+	public final void update(Observable o, Object arg1) {
 		this.setResultsList((ResultsList) o);
 		this.addResultsList();
 	}

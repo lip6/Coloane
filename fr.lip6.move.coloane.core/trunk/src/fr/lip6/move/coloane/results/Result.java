@@ -4,17 +4,17 @@ public class Result {
 
 	private String name;
 	private String description;
-	
-	public Result(String name, String description) {
-		this.name = name;
-		this.description = description;
+
+	public Result(String resultName, String resultDesc) {
+		this.name = resultName;
+		this.description = resultDesc;
 	}
-	
-	public String getName() {
+
+	public final String getName() {
 		return name;
 	}
-	
-	public String getDescription() {
+
+	public final String getDescription() {
 		return description;
 	}
 }

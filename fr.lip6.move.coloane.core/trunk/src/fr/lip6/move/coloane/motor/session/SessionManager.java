@@ -19,8 +19,8 @@ public class SessionManager {
 	public static final int SUSPEND = 2;
 
 
-	/** 
-	 * Constructeur du gestionnaire de sessions 
+	/**
+	 * Constructeur du gestionnaire de sessions
 	 */
 	public SessionManager() {
 		this.currentSession = null;
@@ -30,7 +30,7 @@ public class SessionManager {
 	 * Retourne la session courante
 	 * @return la session courante
 	 */
-	public Session getCurrentSession() {
+	public final Session getCurrentSession() {
 		return currentSession;
 	}
 
@@ -39,7 +39,7 @@ public class SessionManager {
 	 * @param sessionName nom de la session
 	 * @return Session la session courante
 	 */
-	public Session getSession(String sessionName) {
+	public final Session getSession(String sessionName) {
 		Iterator it;
 		Session session = null;
 		for (it = listOfSessions.iterator(); it.hasNext();) {
@@ -57,9 +57,9 @@ public class SessionManager {
 	 * Si aucune session est courante... Celle la devient la session courante
 	 * @param s la session a positionner comme courante
 	 */
-	public void setSession(Session s) {
-		if(this.currentSession == null) {
-			System.out.println("Session par defaut : "+s.getName());
+	public final void setSession(Session s) {
+		if (this.currentSession == null) {
+			System.out.println("Session par defaut : " + s.getName());
 			this.currentSession = s;
 		}
 		this.listOfSessions.add(s);
@@ -70,7 +70,7 @@ public class SessionManager {
 	 * Suspension d'une session
 	 * @param sessionName nom de la session
 	 */
-	public void suspendSession(String sessionName) {
+	public final void suspendSession(String sessionName) {
 		this.getSession(sessionName).setStatus(SUSPEND);
 	}
 
@@ -79,7 +79,7 @@ public class SessionManager {
 	 * Reprendre, rendre active une session
 	 * @param sessionName nom de la session
 	 */
-	public void resumeSession(String sessionName) {
+	public final void resumeSession(String sessionName) {
 		this.getSession(sessionName).setStatus(OPEN);
 	}
 
@@ -88,7 +88,7 @@ public class SessionManager {
 	 * Deconnexion du modele de la session courante
 	 * @param sessionName nom de la session
 	 */
-	public void destroyCurrentSession() {
+	public final void destroyCurrentSession() {
 		if (currentSession != null) {
 			// Suppression de la liste des sessions active
 			this.listOfSessions.remove(this.currentSession);
@@ -106,7 +106,7 @@ public class SessionManager {
 	/**
 	 * Deconnexion brutale de tous les modeles
 	 */
-	public void destroyAllSessions() {
+	public final void destroyAllSessions() {
 		Iterator i;
 		Session session = null;
 		for (i = listOfSessions.iterator(); i.hasNext();) {
@@ -117,5 +117,5 @@ public class SessionManager {
 		}
 
 		this.currentSession = null;
-	}   
+	}
 }

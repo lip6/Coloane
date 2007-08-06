@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.ui.model.IModelImpl;
 public class Session {
 
 	/** Compteur de sessions */
-	public static int cntSession=1;
+	public static int cntSession = 1;
 
 	/** Le modele associe */
 	public IModelImpl sessionModel;
@@ -38,7 +38,7 @@ public class Session {
 	public Session(String name, int id) {
 		this.sessionName = name;
 		this.sessionId = id;
-		this.sessionModel= null;
+		this.sessionModel = null;
 
 		this.sessionStatus = 0;	 	
 	}
@@ -47,7 +47,7 @@ public class Session {
 	 * Retoune le nom de la session
 	 * @return name
 	 */
-	public String getName() {
+	public final String getName() {
 		return sessionName;
 	}
 
@@ -55,7 +55,7 @@ public class Session {
 	 * Positionne le nom de la session
 	 * @param name nom de session
 	 */
-	public void setName(String name) {
+	public final void setName(String name) {
 		this.sessionName = name;
 	}
 
@@ -63,7 +63,7 @@ public class Session {
 	 * Retourne le numero de la session
 	 * @return int Le numero de la session
 	 */
-	public int getId() {
+	public final int getId() {
 		return this.sessionId;
 	}
 
@@ -71,7 +71,7 @@ public class Session {
 	 * Positionne le nom de la session
 	 * @param number Le numero de la session
 	 */
-	public void setId(int id) {
+	public final void setId(int id) {
 		this.sessionId = id;
 	}
 
@@ -79,7 +79,7 @@ public class Session {
 	 * Retoune le modele
 	 * @return IModelImpl Le modele de la session
 	 */
-	public IModelImpl getModel() {
+	public final IModelImpl getModel() {
 		return this.sessionModel;
 	}
 
@@ -87,7 +87,7 @@ public class Session {
 	 * Positionne le modele
 	 * @param model nouveau modele
 	 */
-	public void setModel(IModelImpl model) {
+	public final void setModel(IModelImpl model) {
 		this.sessionModel = model;
 	}
 
@@ -95,7 +95,7 @@ public class Session {
 	 * Retourne le menu d'administration
 	 * @return la racine du menu d'administration
 	 */
-	public RootMenu getAdminMenu() {
+	public final RootMenu getAdminMenu() {
 		return adminMenu;
 	}
 
@@ -103,15 +103,15 @@ public class Session {
 	 * Indique le menu d'administration attache ˆ la session
 	 * @param adminMenu La racinde du menu d'administration
 	 */
-	public void setAdminMenu(RootMenu adminMenu) {
-		this.adminMenu = adminMenu;
+	public final void setAdminMenu(RootMenu admin) {
+		this.adminMenu = admin;
 	}
 
 	/**
 	 * Retourne le menu de service de la session
 	 * @return la racine du menu de services
 	 */
-	public RootMenu getServicesMenu() {
+	public final RootMenu getServicesMenu() {
 		return sessionMenu;
 	}
 
@@ -119,15 +119,15 @@ public class Session {
 	 * Indique le menu de services attache a la session
 	 * @param sessionMenu la racine du menu de services
 	 */
-	public void setServicesMenu(RootMenu sessionMenu) {
-		this.sessionMenu = sessionMenu;
+	public final void setServicesMenu(RootMenu root) {
+		this.sessionMenu = root;
 	}
 
 	/**
 	 * Retourne le status courant de la session
 	 * @return le status courant de la session
 	 */
-	public int getStatus() {
+	public final int getStatus() {
 		return sessionStatus;
 	}
 
@@ -135,7 +135,7 @@ public class Session {
 	 * Modifie le status courant de la session
 	 * @param sessionStatus Le status courant de la session
 	 */
-	public void setStatus(int sessionStatus) {
-		this.sessionStatus = sessionStatus;
+	public final void setStatus(int status) {
+		this.sessionStatus = status;
 	}
 }

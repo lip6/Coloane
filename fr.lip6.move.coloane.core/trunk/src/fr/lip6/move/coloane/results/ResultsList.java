@@ -11,33 +11,33 @@ import java.util.Vector;
 public class ResultsList extends Observable {
 	private String actionName;
 	private Vector<Result> resultsList;
-	
-	public ResultsList(String actionName) {
-		this.actionName = actionName;
+
+	public ResultsList(String resultActionName) {
+		this.actionName = resultActionName;
 		resultsList = new Vector<Result>();
 	}
-	
-	public void add(Result result) {
+
+	public final void add(Result result) {
 		resultsList.add(result);
 		setChanged();
 		notifyObservers();
 	}
-	
-	public void removeAll() {
+
+	public final void removeAll() {
 		resultsList.removeAllElements();
 		setChanged();
 		notifyObservers();
 	}
-	
-	public String getActionName() {
+
+	public final String getActionName() {
 		return actionName;
 	}
-	
-	public Result getResult(int index) {
+
+	public final Result getResult(int index) {
 		return resultsList.get(index);
 	}
-	
-	public int getResultsNumber() {
+
+	public final int getResultsNumber() {
 		return resultsList.size();
 	}
 }
