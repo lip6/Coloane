@@ -34,15 +34,6 @@ public final class DialogCom implements IDialogCom {
 	 * Constructeur
 	 *
 	 * @param id Identifiant de la boite de dialogue
-	 * @param type Type de la boite de dialogue
-	 * @param buttonType Type de boutons places dans la boite de dialogue
-	 * @param title Titre de la boite de dialogue
-	 * @param help Message d'aide
-	 * @param message Message affiche dans la boie de dialogue
-	 * @param inputType Type de saisie autorise
-	 * @param multiLine Indicateur de saisie multi-lignes
-	 * @param def
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.IDialog
 	 */
 	public DialogCom(int dialogId) {
