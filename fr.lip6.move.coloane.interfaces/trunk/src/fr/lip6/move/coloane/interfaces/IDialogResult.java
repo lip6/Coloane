@@ -9,30 +9,30 @@ import java.util.ArrayList;
  */
 
 public interface IDialogResult {
-	
+
 	/**
 	 * Retourne le texte qui a ete saisi dans la boite de dialogue
 	 * @return Un tableau de lignes saisies
 	 */
-	public ArrayList<String> getText();
-	
+	ArrayList<String> getText();
+
 	/**
 	 * Retourne le type de reponse de Coloane
 	 * @return un type de reponse
 	 * @see IDialogCom
 	 */
-	public int getAnswerType();
-	
+	int getAnswerType();
+
 	/**
 	 * Indique l'identifiant de la boite de dialogue consideree
 	 * @return Un identifiant
 	 */
-	public int getDialogId();
-	
+	int getDialogId();
+
 	/**
 	 * Indique si le contenu de la boite de dialogue a ete modifiee
 	 * @return Un booleen
 	 */
-	public boolean hasBeenModified();
-	
+	boolean hasBeenModified();
+
 }
