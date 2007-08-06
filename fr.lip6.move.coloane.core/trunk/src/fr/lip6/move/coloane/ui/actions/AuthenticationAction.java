@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.ui.actions;
 
+import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
+import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.ui.panels.HistoryView;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -8,27 +13,20 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
 
-import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
-import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
-import fr.lip6.move.coloane.ui.panels.HistoryView;
-
 public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
-	
-	public void dispose() {}
 
-	public void init(IWorkbenchWindow window) {
-		this.window = window;
+	public final void init(IWorkbenchWindow w) {
+		this.window = w;
 	}
 
-	public void run(IAction action) {
+	public final void run(IAction action) {
 		/*
 		 * If we don't call this method here, the view is not
 		 * initialized and HistoryView.instance
 		 * is null (and it is bad).
 		 */
-		
+
 		try {
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
@@ -36,14 +34,14 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 					"Error during view initialization",
 					"The Historic view cannot be opened");
 		}
-		
+
 		System.out.println("Demande d'authentification");
-		
+
 		HistoryView.instance.addText("[?] Authentification -> ");
 
 		// Affichage de la boite de dialogue d'authentification
 		AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
-		
+
 		if (authDialog.open() == Dialog.OK) {
 			HistoryView.instance.addLine("OK");
 			action.setEnabled(false);
@@ -55,6 +53,11 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		
+
+	}
+
+	public final void dispose() {
+		// TODO Auto-generated method stub
+		return;
 	}
 }

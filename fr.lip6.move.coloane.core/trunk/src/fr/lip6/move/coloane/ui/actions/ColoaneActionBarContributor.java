@@ -12,7 +12,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
-public class ColoaneActionBarContributor extends ActionBarContributor { 
+public class ColoaneActionBarContributor extends ActionBarContributor {
 
 	/**
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
@@ -23,7 +23,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new RedoRetargetAction());
 		addRetargetAction(new DeleteRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());		
+		addRetargetAction(new ZoomOutRetargetAction());
 	}
 
 
@@ -41,7 +41,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	/**
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(IToolBarManager)
 	 */
-	public void contributeToToolBar(IToolBarManager toolBarManager) {
+	public final void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
@@ -51,4 +51,4 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
 	}
 
-}               
+}

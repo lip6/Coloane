@@ -1,5 +1,11 @@
 package fr.lip6.move.coloane.ui.actions;
 
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.ui.Editor;
+import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
+import fr.lip6.move.coloane.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.ui.panels.HistoryView;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -9,23 +15,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
 
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.ui.Editor;
-import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
-import fr.lip6.move.coloane.ui.panels.HistoryView;
-
 public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 
 	private IWorkbenchWindow window;
 
-	public void dispose() {}
-
-	public void init(IWorkbenchWindow window) {
-		this.window = window;
+	public final void init(IWorkbenchWindow w) {
+		this.window = w;
 	}
 
-	public void run(IAction action) {
+	public final void run(IAction action) {
 		/*
 		 * If we don't call this method here, the view is not
 		 * initialized and HistoryView.instance
@@ -42,7 +40,7 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 		System.out.println(Coloane.traduction.getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
 		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
 
-		if(window.getActivePage().getActiveEditor() == null) {
+		if (window.getActivePage().getActiveEditor() == null) {
 			HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.4")); //$NON-NLS-1$
 		} else {
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
@@ -57,14 +55,14 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 
 					if (editor instanceof Editor) {
 						System.out.println("Session particuliere"); //$NON-NLS-1$
-						IFile file = ((IFileEditorInput)editor.getEditorInput()).getFile();
-						eclipseSessionName=file.getProjectRelativePath().toString();
+						IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
+						eclipseSessionName = file.getProjectRelativePath().toString();
 					} else {
 						System.out.println("Session par defaut"); //$NON-NLS-1$
-						eclipseSessionName="SessionDefault"; //$NON-NLS-1$
+						eclipseSessionName = "SessionDefault"; //$NON-NLS-1$
 					}
 
-					System.out.println("Nom de session : "+eclipseSessionName); //$NON-NLS-1$
+					System.out.println("Nom de session : " + eclipseSessionName); //$NON-NLS-1$
 
 					if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
 						// TODO : Griser les menues adequats
@@ -88,6 +86,11 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 
 	public void selectionChanged(IAction action, ISelection selection) {
 
+	}
+
+	public final void dispose() {
+		// TODO Auto-generated method stub
+		return;
 	}
 
 }

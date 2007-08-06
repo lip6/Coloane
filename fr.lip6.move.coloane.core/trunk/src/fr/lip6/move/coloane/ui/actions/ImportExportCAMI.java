@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.ui.actions;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.XmlEditor;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
-import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -27,6 +27,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IDE;
 
+
 public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 
 	/** Fen�tre de travail */
@@ -42,11 +43,11 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		// TODO Auto-generated method stub
 	}
 
-	public void init(IWorkbenchWindow window) {
-		this.window = window;
+	public final void init(IWorkbenchWindow w) {
+		this.window = w;
 	}
 
-	public void run(IAction action) {
+	public final void run(IAction action) {
 
 		final Shell shell = window.getShell();
 
@@ -74,7 +75,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			FileDialog fd = new FileDialog(shell, SWT.SAVE);
 			int fLength = file.getName().length();
 			String ext = file.getFileExtension();
-			fd.setFileName(file.getName().substring(0,fLength - ext.length() - 1));
+			fd.setFileName(file.getName().substring(0, fLength - ext.length() - 1));
 			String filePath = fd.open();
 
 			if (filePath != null) {
@@ -124,14 +125,14 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 										Coloane.showErrorMsg("You can't overwrite a workspace's file");
 										return;
 									} else {
-										file.create(inputS,true,monitor);
+										file.create(inputS, true, monitor);
 									}
 								} catch (CoreException ce) {
 									ce.printStackTrace();
 								}
 
 								// Open editor
-								IDE.openEditor(window.getActivePage(),file, true);
+								IDE.openEditor(window.getActivePage(), file, true);
 							} catch (Exception e) {
 								Coloane.showErrorMsg(e.getMessage());
 								e.printStackTrace();
