@@ -21,21 +21,21 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node implements 
 	}
 
 	public Node(String nodeType, int x, int y) {
-		super(nodeType,x,y);
+		super(nodeType, x, y);
 	}
 
 	/**
 	 * Traduction du noeud noeud en chaine de commandes CAMI
 	 * @return String[]
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		String[] stringToReturn;
 		StringBuffer s;
 		Vector<String> vectorStringToReturn = new Vector<String>(0);
 
 		s = new StringBuffer();
 		s.append("CN(");
-		s.append(nodeType.length() + ":" + this.nodeType);
+		s.append(type.length() + ":" + this.type);
 		s.append(",");
 		s.append(id);
 		s.append(")");

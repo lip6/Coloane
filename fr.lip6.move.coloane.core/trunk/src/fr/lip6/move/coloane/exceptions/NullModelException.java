@@ -26,7 +26,7 @@ public class NullModelException extends Exception {
 	 * @return string message de l'exception
 	 * @author Selvaratnam SENTHURAN
 	 */
-	public String getMessage() {
+	public final String getMessage() {
 		return msg;
 	}
 }

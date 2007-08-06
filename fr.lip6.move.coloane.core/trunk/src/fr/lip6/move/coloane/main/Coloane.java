@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.main;
 
+import fr.lip6.move.coloane.communications.Com;
+import fr.lip6.move.coloane.motor.Motor;
+import fr.lip6.move.coloane.ui.UserInterface;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -11,26 +16,21 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import fr.lip6.move.coloane.communications.Com;
-import fr.lip6.move.coloane.motor.Motor;
-import fr.lip6.move.coloane.ui.UserInterface;
-import fr.lip6.move.coloane.ui.model.IModelImpl;
-
 public class Coloane extends AbstractUIPlugin {
 
 	public static ResourceBundle traduction = null;
 	private static Coloane plugin;
-	private Com com = null;	
+	private Com com = null;
 	private Motor motor = null;
 	private UserInterface ui = null;
 
-	public Coloane () throws Exception {
+	public Coloane() throws Exception {
 		plugin = this;
 		try {
 			traduction = ResourceBundle.getBundle("resources/LNG");
 		} catch (Exception e) {
 			System.err.println("Fichier de langue pas trouve !");
-			System.err.println("Erreur : "+e.getMessage());
+			System.err.println("Erreur : " + e.getMessage());
 			e.printStackTrace();
 			throw e;
 		}
@@ -42,7 +42,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param context Parametre systeme fourni par Eclipse
 	 * @throws Exception
 	 */
-	public void start(BundleContext context) throws Exception {
+	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 
 		try {
@@ -50,10 +50,11 @@ public class Coloane extends AbstractUIPlugin {
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --");
 
+
 			// Initialisation de l'interface graphique
 			ui = new UserInterface();
 			if (ui == null) {
-				System.err.println("Erreur lors du chargement de l'interface utilisateur");				
+				System.err.println("Erreur lors du chargement de l'interface utilisateur");
 			}
 
 			// Initialisation du moteur
@@ -78,7 +79,7 @@ public class Coloane extends AbstractUIPlugin {
 			ui.setMotor(motor);
 
 		} catch (Exception e) {
-			System.err.println("Erreur : "+e.getMessage());
+			System.err.println("Erreur : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +104,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * Le methode de fin de vie du plugin
 	 * @param context Parametre systeme fourni par Eclipse
 	 */
-	public void stop(BundleContext context) throws Exception {
+	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugin = null;
 	}
@@ -140,7 +141,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
-		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
+		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane", msg);
 
 	}
 
@@ -149,14 +150,14 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane",msg);
+		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane", msg);
 	}
 
 	/**
 	 * Donne la main sur le module de communication
 	 * @return Com le module de communication
 	 */
-	public Com getCom() {
+	public final Com getCom() {
 		return com;
 	}
 
@@ -164,14 +165,14 @@ public class Coloane extends AbstractUIPlugin {
 	 * Donne la main sur le module de communication
 	 * @return Com le module de communication
 	 */
-	public Motor getMotor() {
+	public final Motor getMotor() {
 		return motor;
 	}
 
 	/**
 	 * TODO: A documenter
 	 */
-	public static Composite getParent () {
+	public static Composite getParent() {
 		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 }

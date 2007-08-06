@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 
 public abstract class Menu {
-	protected String name;
-	protected String reference;
-	protected int level;
+	private String name;
+	private String reference;
+	private int level;
 	protected ArrayList<ChildMenu> menus;
 	protected boolean enabled = true;
 
-	public Menu(String name, String reference, int level) {
-		this.name = name;
-		this.reference = reference;
-		this.level = level;
+	public Menu(String menuName, String menuReference, int menuLevel) {
+		this.name = menuName;
+		this.reference = menuReference;
+		this.level = menuLevel;
 		menus = new ArrayList<ChildMenu>();
 	}
 
@@ -21,13 +21,13 @@ public abstract class Menu {
 	 * Adds a submenu to this menu.
 	 * @param name The name of the menu to add
 	 */
-	public void addMenu(String name) {
+	public final void addMenu(String menuName) {
 		ChildMenu subMenu = null;
 
 		if (this.level <= 1) {
-			subMenu = new ChildMenu(name,this.name,this.level+1);
+			subMenu = new ChildMenu(menuName, this.name, this.level + 1);
 		} else {
-			subMenu = new ChildMenu(name,this.reference,this.level+1);
+			subMenu = new ChildMenu(menuName, this.reference, this.level + 1);
 		}
 
 		menus.add(subMenu);
@@ -38,16 +38,16 @@ public abstract class Menu {
 	 * @param name The name of the menu to add
 	 * @param enabled
 	 */
-	public void addMenu(String name, boolean enabled) {
+	public final void addMenu(String menuName, boolean state) {
 		ChildMenu newMenu  = null;
 
 		if (this.level <= 1) {
-			newMenu = new ChildMenu(name,this.name,this.level+1);
+			newMenu = new ChildMenu(menuName, this.name, this.level + 1);
 		} else {
-			newMenu = new ChildMenu(name,this.reference,this.level+1);
+			newMenu = new ChildMenu(menuName, this.reference, this.level + 1);
 		}
 
-		newMenu.setEnabled(enabled);
+		newMenu.setEnabled(state);
 		menus.add(newMenu);
 	}
 
@@ -56,18 +56,18 @@ public abstract class Menu {
 	 * @param name The name of the menu to add
 	 * @param
 	 * 	fatherName
-	 * 	The name of the direct parent of the 
+	 * 	The name of the direct parent of the
 	 * @throws MenuNotFoundException
 	 */
-	public ChildMenu addMenu(String name, String fatherName) throws MenuNotFoundException {
+	public final ChildMenu addMenu(String menuName, String menuFatherName) throws MenuNotFoundException {
 
-		if (this.name.equals(fatherName)) {
+		if (this.name.equals(menuFatherName)) {
 			ChildMenu newMenu = null;
 
 			if (this.level <= 1) {
-				newMenu = new ChildMenu(name,this.name,this.level+1);
+				newMenu = new ChildMenu(menuName, this.name, this.level + 1);
 			} else {
-				newMenu = new ChildMenu(name,this.reference,this.level+1);
+				newMenu = new ChildMenu(menuName, this.reference, this.level + 1);
 			}
 
 			/* Le fils doit etre active si le pere est active (et vice-versa). */
@@ -77,8 +77,10 @@ public abstract class Menu {
 		} else {
 			for (ChildMenu child : menus) {
 				try {
-					return child.addMenu(name, fatherName);
-				} catch (MenuNotFoundException m) { ; }
+					return child.addMenu(name, menuFatherName);
+				} catch (MenuNotFoundException m) {
+					System.out.println("Echec lors de la creation du menu");
+				}
 			}
 		}
 
@@ -91,10 +93,10 @@ public abstract class Menu {
 	}
 
 
-	public ChildMenu addMenu(String name, String fatherName, boolean enabled) throws MenuNotFoundException {
+	public final ChildMenu addMenu(String menuName, String menuFatherName, boolean state) throws MenuNotFoundException {
 		try {
-			ChildMenu child = addMenu(name, fatherName);
-			child.enabled = enabled;
+			ChildMenu child = addMenu(name, menuFatherName);
+			child.enabled = state;
 			return child;
 		} catch (MenuNotFoundException m) { throw m; }
 	}
@@ -104,7 +106,7 @@ public abstract class Menu {
 	 * Destroys the menu and its submenus.
 	 *
 	 */
-	public void destroy() {
+	public final void destroy() {
 		for (Menu menu : menus) {
 			menu.destroy();
 			menus.remove(menu);
@@ -113,7 +115,7 @@ public abstract class Menu {
 		menus = null;
 	}
 
-	public boolean exists(String name) {
+	public final boolean exists(String menuName) {
 		try {
 			getMenu(name);
 			return true;
@@ -122,67 +124,71 @@ public abstract class Menu {
 		}
 	}
 
-	public ArrayList<ChildMenu> getChildren() {
+	public final ArrayList<ChildMenu> getChildren() {
 		return menus;
 	}
 
-	public int getChildrenNumber() {
+	public final int getChildrenNumber() {
 		return menus.size();
 	}
 
-	public boolean getEnabled() {
+	public final boolean getEnabled() {
 		return enabled;
 	}
 
-	public Menu getMenu(String name) throws MenuNotFoundException {
+	public final Menu getMenu(String menuName) throws MenuNotFoundException {
 
-		if (this.name.equals(name)) {
+		if (this.name.equals(menuName)) {
 			return this;
 		}
 
 		for (ChildMenu menu : menus) {
 			try {
-				return menu.getMenu(name);
-			} catch (MenuNotFoundException m) { ; }
-		}
-
-		throw new MenuNotFoundException();
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void removeMenu(String name) throws MenuNotFoundException {
-		for (Menu menu : menus) {
-			if (menu.getName().equals(name)) {
-				menu.destroy();
-				menus.remove(menu);
-				return;
-			} else {
-				try {
-					menu.removeMenu(name);
-					return;
-				} catch (MenuNotFoundException m) { ; }
+				return menu.getMenu(menuName);
+			} catch (MenuNotFoundException m) {
+				System.err.println("Error");
 			}
 		}
 
 		throw new MenuNotFoundException();
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public final String getName() {
+		return this.name;
+	}
+
+	public final void removeMenu(String menuName) throws MenuNotFoundException {
+		for (Menu menu : menus) {
+			if (menu.getName().equals(menuName)) {
+				menu.destroy();
+				menus.remove(menu);
+				return;
+			} else {
+				try {
+					menu.removeMenu(menuName);
+					return;
+				} catch (MenuNotFoundException m) {
+					System.err.println("Echec");
+				}
+			}
+		}
+
+		throw new MenuNotFoundException();
+	}
+
+	public final void setEnabled(boolean state) {
+		this.enabled = state;
 
 		for (ChildMenu child : this.getChildren()) {
 			child.setEnabled(enabled);
 		}
 	}
 
-	public void setEnabled(String name, boolean enabled) throws MenuNotFoundException {
+	public final void setEnabled(String menuName, boolean state) throws MenuNotFoundException {
 		getMenu(name).setEnabled(enabled);
 	}
 
-	public String getReference() {
+	public final String getReference() {
 		return this.reference;
 	}
 }

@@ -2,17 +2,16 @@ package fr.lip6.move.coloane.model;
 
 import java.util.Arrays;
 import java.util.Vector;
-import java.io.Serializable;
 
 
 /**
  * Classe representant un arc d'un modele dans les differents formalismes
  * implantes. Un arc possede obligatoire un noeud en entree et en sortie.
  * Un liste d'attribut peut etre en plus attache a un arc.
- * 
+ *
  * @author Olivier Rouquette, Christophe Janton
  */
-public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Serializable { 
+public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +29,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 	 * Traduit un objet Arc en chaine de caracteres CAMI correspondante
 	 * @return String[]
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		if (this.startingNode == null || this.endingNode == null) {
 			return null;
 		} else {
@@ -40,7 +39,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 
 			s = new StringBuffer();
 			s.append("CA(");
-			s.append(this.arcType.length() + ":" + this.arcType);
+			s.append(this.type.length() + ":" + this.type);
 			s.append(",");
 			s.append(this.id);
 			s.append(",");
@@ -62,7 +61,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc implements Se
 				s.append(",0,");
 				s.append("-1");
 				s.append(")");
-				vectorStringToReturn.addElement(s.toString()); 
+				vectorStringToReturn.addElement(s.toString());
 			}
 
 			for (int i = 0; i < this.getListOfAttrSize(); i++) {

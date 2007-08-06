@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.model.Node;
 
 /*Scenario de test:
  * Ajout d'un arc de facon correcte ou non aléatoirement
- * Tous les 8 tours, un ou plusieurs arcs sont ajoutés à la liste des arcs à retirer 
+ * Tous les 8 tours, un ou plusieurs arcs sont ajoutés à la liste des arcs à retirer
  * les arcs présents dans la liste sont alors supprimés
  * Le nombre de tour effectué est spécifié par la variable "max_tour"
  * Le nombre d'arc à supprimer est spécifié par la variable "nb_remove"
@@ -41,84 +41,84 @@ public class TestModel_Arc extends TestCase {
 				case 0: {
 					INode node1 = new Node("Node");
 					INode node2 = new Node("Node");
-	
+
 					arc.setStartingNode(node1);
 					arc.setEndingNode(node2);
-	
+
 					model.addNode(node1);
 					model.addNode(node2);
-	
+
 					id_node1 = node1.getId();
 					id_node2 = node2.getId();
-	
+
 					assertEquals(node1, model.getANode(id_node1));
 					assertEquals(node2, model.getANode(id_node2));
-	
+
 					model.addArc(arc);
 					break;
 				}
 				// Ajout d'un noeud source relié à un noeud déjà existant
-				case 1: {
+				case 1:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
-	
+
 					INode node1 = new Node("Node");
-	
+
 					int i = (int) (Math.random() * model.getListOfNodeSize());
-	
+
 					arc.setStartingNode(node1);
 					arc.setEndingNode(model.getNthNode(i));
-	
+
 					model.addNode(node1);
-	
+
 					id_node1 = node1.getId();
-	
+
 					assertEquals(node1, model.getANode(id_node1));
-	
+
 					model.addArc(arc);
 					break;
-				}
-	
+
+
 				// Ajout d'un noeud cible relie a un noeud deja present dans le modele
 				case 2: {
-	
+
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
-	
+
 					INode node2 = new Node("Node");
-	
+
 					int i = (int) (Math.random() * model.getListOfNodeSize());
-	
+
 					arc.setStartingNode(model.getNthNode(i));
 					arc.setEndingNode(node2);
-	
+
 					model.addNode(node2);
-	
+
 					id_node2 = node2.getId();
 					assertEquals(node2, model.getANode(id_node2));
-	
+
 					model.addArc(arc);
 					break;
 				}
-	
+
 				case 3: {
-	
+
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
-	
+
 					int i = (int) (Math.random() * model.getListOfNodeSize());
-	
+
 					arc.setStartingNode(model.getNthNode(i));
 					i = (int) (Math.random() * model.getListOfNodeSize());
 					arc.setEndingNode(model.getNthNode(i));
-	
+
 					model.addArc(arc);
 					break;
 				}
-	
+
 				default: {
 					break;
 				}
@@ -141,20 +141,20 @@ public class TestModel_Arc extends TestCase {
 				case 0: {
 					INode node1 = new Node("Node");
 					INode node2 = new Node("Node");
-	
+
 					arc.setStartingNode(node1);
 					arc.setEndingNode(node2);
-	
+
 					id_node1 = node1.getId();
 					id_node2 = node2.getId();
-	
+
 					assertTrue(node1 != model.getANode(id_node1));
 					assertTrue(node2 != model.getANode(id_node2));
-	
+
 					model.addArc(arc);
 					break;
 				}
-	
+
 				// Ajout d'un arc dont le noeud source n'est pas présent
 				// dans le
 				// modèle
@@ -162,17 +162,17 @@ public class TestModel_Arc extends TestCase {
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
-	
+
 					INode node1 = new Node("Node");
-	
+
 					int i = (int) (Math.random() * model.getListOfNodeSize());
-	
+
 					arc.setStartingNode(node1);
 					arc.setEndingNode(model.getNthNode(i));
-	
+
 					id_node1 = node1.getId();
 					assertTrue(model.getANode(id_node1) == null);
-	
+
 					model.addArc(arc);
 					break;
 				}
@@ -183,26 +183,26 @@ public class TestModel_Arc extends TestCase {
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
-	
+
 					INode node2 = new Node("Node");
-	
+
 					int i = (int) (Math.random() * model.getListOfNodeSize());
-	
+
 					arc.setStartingNode(model.getNthNode(i));
 					arc.setEndingNode(node2);
-	
+
 					id_node2 = node2.getId();
 					assertTrue(model.getANode(id_node2) == null);
-	
+
 					model.addArc(arc);
 					break;
 				}
-	
+
 				case 3: {
 					model.addArc(arc);
 					break;
 				}
-	
+
 				default: {
 					break;
 				}

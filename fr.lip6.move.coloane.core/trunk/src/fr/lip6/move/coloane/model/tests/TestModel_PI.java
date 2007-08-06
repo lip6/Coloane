@@ -15,7 +15,7 @@ public class TestModel_PI extends TestCase {
 	}
 
 	public void aleaAddPI(IArc arc, int x, int y) {
-		
+
 		boolean presence = false;
 
 		// On regarde si (x,y) existe pour l'arc
@@ -34,7 +34,7 @@ public class TestModel_PI extends TestCase {
 			} catch (SyntaxErrorException e) {
 				assertTrue(true);
 				System.out.println(e.toString());
-			
+
 			}
 
 		} else {
@@ -54,13 +54,13 @@ public class TestModel_PI extends TestCase {
 			} catch (SyntaxErrorException e) {
 				System.out.println(e.toString());
 				assertTrue(false);
-				
+
 			}
 		}
 	}
-	
+
 	public void aleaRemovePI(IArc arc, int x, int y) {
-		
+
 		boolean presence = false;
 
 		// On regarde si (x,y) existe pour l'arc
@@ -90,10 +90,10 @@ public class TestModel_PI extends TestCase {
 				// On test alors la présence du PI
 				// (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
-					
+
 					if (arc.getListOfPI().get(i).getXPosition() == x
 							&& arc.getListOfPI().get(i).getYPosition() == y) {
-						
+
 						//test echoué car (x,y) encore présent!
 						assertFalse(true);
 					}
@@ -101,9 +101,9 @@ public class TestModel_PI extends TestCase {
 			} catch (SyntaxErrorException e) {
 				System.out.println(e.toString());
 				assertTrue(false);
-				
+
 			}
 		}
 	}
-	
+
 }

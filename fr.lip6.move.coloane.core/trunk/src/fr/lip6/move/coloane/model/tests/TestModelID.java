@@ -11,24 +11,23 @@ import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.model.Node;
 
 /*Scenario de test:
- * Ajout d'un arc de facon correcte ou non aléatoirement
- * Tous les 8 tours, un ou plusieurs arcs sont ajoutés à la liste des arcs à retirer 
- * les arcs présents dans la liste sont alors supprimés
- * Tous les 15 tours 1 noeud choisi aléatoirement est supprimé.
- * Le nombre de tour effectué est spécifié par la variable "max_tour"
- * Le nombre d'arc à supprimer par est spécifié par la variable "nb_remove"
+ * Ajout d'un arc de facon correcte ou non aleatoirement
+ * Tous les 8 tours, un ou plusieurs arcs sont ajoutes a la liste des arcs a retirer
+ * les arcs presents dans la liste sont alors supprimes
+ * Tous les 15 tours 1 noeud choisi aleatoirement est supprime.
+ * Le nombre de tour effectue est specifie par la variable "max_tour"
+ * Le nombre d'arc a supprimer par est specifie par la variable "nb_remove"
  * */
 
-public class TestModel_ID extends TestCase {
-	int max_tour = 500;
+public class TestModelID extends TestCase {
+	private final int maxTour = 500;
+	private int nbRemove = 2;
 
-	int nb_remove = 2;
+	private int tour = 1;
 
-	int tour = 1;
+	private Model model = new Model();
 
-	Model model = new Model();
-
-	int id_node1, id_node2, id_arc;
+	private int idNode1, idNode2, idArc;
 
 	public void switchArcOK(IArc arc) {
 
@@ -37,7 +36,7 @@ public class TestModel_ID extends TestCase {
 		action_ok = (int) (Math.random() * 4);
 		try {
 			switch(action_ok){
-				// Ajout de 2 noeuds reliés par un arc
+				// Ajout de 2 noeuds relies par un arc
 				case 0: {
 					INode node1 = new Node("Node");
 					INode node2 = new Node("Node");
@@ -45,39 +44,31 @@ public class TestModel_ID extends TestCase {
 					arc.setStartingNode(node1);
 					arc.setEndingNode(node2);
 
-					assertFalse(model.getListOfId().contains(
-							Integer.valueOf(model.getMaxId() + 1)));
+					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 					model.addNode(node1);
-					id_node1 = node1.getId();
-					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_node1)));
-					assertEquals(id_node1, model.getMaxId());
+					idNode1 = node1.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode1)));
+					assertEquals(idNode1, model.getMaxId());
 
-					assertFalse(model.getListOfId().contains(
-							Integer.valueOf(model.getMaxId() + 1)));
+					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 					model.addNode(node2);
-					id_node2 = node2.getId();
-					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_node2)));
-					assertEquals(id_node2, model.getMaxId());
+					idNode2 = node2.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode2)));
+					assertEquals(idNode2, model.getMaxId());
 
-					assertEquals(node1, model.getANode(id_node1));
-					assertEquals(node2, model.getANode(id_node2));
+					assertEquals(node1, model.getANode(idNode1));
+					assertEquals(node2, model.getANode(idNode2));
 
-					assertFalse(model.getListOfId().contains(
-							Integer.valueOf(model.getMaxId() + 1)));
+					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 					model.addArc(arc);
-					id_arc = arc.getId();
-					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+					idArc = arc.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
-					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et des noeuds " + id_node1 + " et " + id_node2
-							+ "\n");
+					System.out.println("Ajout de l'arc " + arc.getId() + " et des noeuds " + idNode1 + " et " + idNode2 + "\n");
 					break;
 				}
-					// Ajout d'un noeud source relié à un noeud déjà existant
+					// Ajout d'un noeud source relie a un noeud deja existant
 				case 1: {
 					if (model.getListOfNodeSize() == 0) {
 						break;
@@ -93,28 +84,28 @@ public class TestModel_ID extends TestCase {
 					assertFalse(model.getListOfId().contains(
 							Integer.valueOf(model.getMaxId() + 1)));
 					model.addNode(node1);
-					id_node1 = node1.getId();
+					idNode1 = node1.getId();
 					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_node1)));
-					assertEquals(id_node1, model.getMaxId());
+							Integer.valueOf(idNode1)));
+					assertEquals(idNode1, model.getMaxId());
 
-					assertEquals(node1, model.getANode(id_node1));
+					assertEquals(node1, model.getANode(idNode1));
 
 					assertFalse(model.getListOfId().contains(
 							Integer.valueOf(model.getMaxId() + 1)));
 					model.addArc(arc);
-					id_arc = arc.getId();
+					idArc = arc.getId();
 					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+							Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
 					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et du noeud source " + id_node1
-							+ " relié au noeud " + id_node2 + "\n");
+							+ " et du noeud source " + idNode1
+							+ " relie au noeud " + idNode2 + "\n");
 					break;
 				}
 
-					// Ajout d'un noeud cible relié à un noeud déjà présent dans
+					// Ajout d'un noeud cible relie a un noeud deja present dans
 					// le modèle
 				case 2: {
 
@@ -132,24 +123,24 @@ public class TestModel_ID extends TestCase {
 					assertFalse(model.getListOfId().contains(
 							Integer.valueOf(model.getMaxId() + 1)));
 					model.addNode(node2);
-					id_node2 = node2.getId();
+					idNode2 = node2.getId();
 					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_node2)));
-					assertEquals(id_node2, model.getMaxId());
+							Integer.valueOf(idNode2)));
+					assertEquals(idNode2, model.getMaxId());
 
-					assertEquals(node2, model.getANode(id_node2));
+					assertEquals(node2, model.getANode(idNode2));
 
 					assertFalse(model.getListOfId().contains(
 							Integer.valueOf(model.getMaxId() + 1)));
 					model.addArc(arc);
-					id_arc = arc.getId();
+					idArc = arc.getId();
 					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+							Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
 					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et du noeud cible " + id_node2
-							+ " relié au noeud " + id_node2 + "\n");
+							+ " et du noeud cible " + idNode2
+							+ " relie au noeud " + idNode2 + "\n");
 					break;
 				}
 
@@ -168,13 +159,13 @@ public class TestModel_ID extends TestCase {
 					assertFalse(model.getListOfId().contains(
 							Integer.valueOf(model.getMaxId() + 1)));
 					model.addArc(arc);
-					id_arc = arc.getId();
+					idArc = arc.getId();
 					assertTrue(model.getListOfId().contains(
-							Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+							Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
 					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " relié aux noeuds "
+							+ " relie aux noeuds "
 							+ arc.getStartingNode().getId() + " et "
 							+ arc.getEndingNode().getId() + " du modele\n");
 					break;
@@ -198,7 +189,7 @@ public class TestModel_ID extends TestCase {
 		action_null = (int) (Math.random() * 4);
 		try {
 			switch(action_null){
-				// Ajout d'un arc dont les noeuds ne sont présent dans le modèle
+				// Ajout d'un arc dont les noeuds ne sont present dans le modèle
 				case 0: {
 					INode node1 = new Node("Node");
 					INode node2 = new Node("Node");
@@ -206,17 +197,17 @@ public class TestModel_ID extends TestCase {
 					arc.setStartingNode(node1);
 					arc.setEndingNode(node2);
 
-					id_node1 = node1.getId();
-					id_node2 = node2.getId();
+					idNode1 = node1.getId();
+					idNode2 = node2.getId();
 
-					assertTrue(node1 != model.getANode(id_node1));
-					assertTrue(node2 != model.getANode(id_node2));
+					assertTrue(node1 != model.getANode(idNode1));
+					assertTrue(node2 != model.getANode(idNode2));
 
 					model.addArc(arc);
 					break;
 				}
 
-					// Ajout d'un arc dont le noeud source n'est pas présent
+					// Ajout d'un arc dont le noeud source n'est pas present
 					// dans le modèle
 				case 1: {
 					if (model.getListOfNodeSize() == 0) {
@@ -230,13 +221,13 @@ public class TestModel_ID extends TestCase {
 					arc.setStartingNode(node1);
 					arc.setEndingNode(model.getNthNode(i));
 
-					id_node1 = node1.getId();
-					assertTrue(model.getANode(id_node1) == null);
+					idNode1 = node1.getId();
+					assertTrue(model.getANode(idNode1) == null);
 
 					model.addArc(arc);
 					break;
 				}
-					// Ajout d'un arc dont le noeud cible n'est pas présent dans
+					// Ajout d'un arc dont le noeud cible n'est pas present dans
 					// le modèle
 				case 2: {
 					if (model.getListOfNodeSize() == 0) {
@@ -250,8 +241,8 @@ public class TestModel_ID extends TestCase {
 					arc.setStartingNode(model.getNthNode(i));
 					arc.setEndingNode(node2);
 
-					id_node2 = node2.getId();
-					assertTrue(model.getANode(id_node2) == null);
+					idNode2 = node2.getId();
+					assertTrue(model.getANode(idNode2) == null);
 
 					model.addArc(arc);
 					break;
@@ -274,7 +265,7 @@ public class TestModel_ID extends TestCase {
 
 		int action_alea;
 
-		while (tour <= max_tour) {
+		while (tour <= maxTour) {
 			action_alea = (int) (Math.random() * 2);
 			IArc arc = new Arc("Arc");
 			System.out.println("Tour:" + tour);
@@ -283,7 +274,7 @@ public class TestModel_ID extends TestCase {
 				int ind = 0;
 				int i = 0;
 
-				while (i < nb_remove) {
+				while (i < nbRemove) {
 					if (model.getListOfArcSize() == 0) {
 						System.out.println("Aucun Arc a retirer\n");
 						break;
@@ -293,34 +284,34 @@ public class TestModel_ID extends TestCase {
 					arc = model.getNthArc(ind);
 					if (!(arc == null)) {
 
-						id_arc = arc.getId();
-						System.out.println("arc_id to remove=" + id_arc + "\n");
+						idArc = arc.getId();
+						System.out.println("arc_id to remove=" + idArc + "\n");
 						INode node1 = arc.getStartingNode();
 						INode node2 = arc.getEndingNode();
-						id_node1 = node1.getId();
-						id_node2 = node2.getId();
+						idNode1 = node1.getId();
+						idNode2 = node2.getId();
 
 						assertTrue(model.getListOfId().contains(
-								Integer.valueOf(id_arc)));
+								Integer.valueOf(idArc)));
 						model.removeArc(arc);
 
-						/* arc plus présent dans la liste des arcs du modèle */
-						assertTrue(model.getAnArc(id_arc) == null);
+						/* arc plus present dans la liste des arcs du modèle */
+						assertTrue(model.getAnArc(idArc) == null);
 
 						/*
-						 * arc plus présent dans la liste des noeuds de sa cible
+						 * arc plus present dans la liste des noeuds de sa cible
 						 * et de sa source
 						 */
 						assertFalse(node1.getListOfOutputArc().contains(arc));
 						assertFalse(node2.getListOfInputArc().contains(arc));
 
-						/* arc plus présent dans la liste des identifiants */
+						/* arc plus present dans la liste des identifiants */
 						assertFalse(model.getListOfId().contains(
-								Integer.valueOf(id_arc)));
+								Integer.valueOf(idArc)));
 
-						System.out.println("Retrait d'arcs\narc_id:" + id_arc
-								+ "\nid_node1:" + id_node1 + " id_node2:"
-								+ id_node2 + "\nMaxId:" + model.getMaxId()
+						System.out.println("Retrait d'arcs\narc_id:" + idArc
+								+ "\nid_node1:" + idNode1 + " id_node2:"
+								+ idNode2 + "\nMaxId:" + model.getMaxId()
 								+ "\n");
 						i = i + 1;
 					}
@@ -362,19 +353,19 @@ public class TestModel_ID extends TestCase {
 					System.out.println("Retrait de noeud\nid_node:" + id_node
 							+ "\n");
 				} else {
-					// Ajout autorisé
+					// Ajout autorise
 					if (action_alea == 0) {
-						System.out.println("Cas : Ajout autorisé");
+						System.out.println("Cas : Ajout autorise");
 						switchArcOK(arc);
 						if (!(model.getListOfNodeSize() == 0)) {
 
 							INode node1 = arc.getStartingNode();
 							INode node2 = arc.getEndingNode();
-							id_node1 = arc.getStartingNode().getId();
-							id_node2 = arc.getEndingNode().getId();
-							id_arc = arc.getId();
+							idNode1 = arc.getStartingNode().getId();
+							idNode2 = arc.getEndingNode().getId();
+							idArc = arc.getId();
 
-							assertTrue(model.getAnArc(id_arc) != null);
+							assertTrue(model.getAnArc(idArc) != null);
 							assertTrue(node1.getListOfOutputArc().contains(arc));
 							assertTrue(node2.getListOfInputArc().contains(arc));
 							// System.out.println("ADD
@@ -385,12 +376,12 @@ public class TestModel_ID extends TestCase {
 									.println("ListOfNode vide: l'ajout d'un arc ne peut s'effectuer\n");
 						}
 					} else {
-						// Action non autorisée
+						// Action non autorisee
 						System.out.println("Cas : Ajout non conforme");
 						switchArcNull(arc);
 						if (!(model.getListOfNodeSize() == 0)) {
-							id_arc = arc.getId();
-							assertTrue(model.getAnArc(id_arc) == null);
+							idArc = arc.getId();
+							assertTrue(model.getAnArc(idArc) == null);
 						} else {
 							System.out.println("ListOfNode vide\n");
 						}

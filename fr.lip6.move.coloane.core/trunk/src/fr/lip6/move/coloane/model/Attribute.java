@@ -13,38 +13,39 @@ import java.io.Serializable;
  * <li> Abscisse et ordonnee de l'attribut
  * <li> Identifiant de l'element d'un modele dont il est affecte
  * </ul>
- * 
+ *
  */
 public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 		implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private final int maxlength = 255;
+
 	/** Constructeur */
 	public Attribute(String name, String value, int refId) {
 		super(name, value, refId);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * Traduit un objet Attribute en la chaine de caracteres CAMI
 	 * correspondante.
-	 * 
+	 *
 	 * @return String[]
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		StringBuffer s;
 		String[] stringToReturn = null;
-		String[] tab_val = null;
+		String[] valueTable = null;
 		String val = this.getValue();
 		Vector<String> vectorStringToReturn = new Vector<String>();
 
 		// Decoupage de la chaine de charactere suivant un pattern
-		tab_val = val.split("(\n\r)|(\r\n)|(\n)|(\r)");
+		valueTable = val.split("(\n\r)|(\r\n)|(\n)|(\r)");
 
 		// Si la tableau obtenu est de taille 1 et que la ligne est de taille <
-		// à 255, on a un attribut d'une ligne
-		if (tab_val.length == 1 && tab_val[0].length() <= 255) {
+		// a 255, on a un attribut d'une ligne
+		if (valueTable.length == 1 && valueTable[0].length() <= maxlength) {
 
 			if (!val.equals("")) {
 				s = new StringBuffer();
@@ -53,42 +54,42 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 				s.append(",");
 				s.append(this.refId);
 				s.append(",");
-				s.append(tab_val[0].length() + ":" + tab_val[0]);
+				s.append(valueTable[0].length() + ":" + valueTable[0]);
 				s.append(")");
 				vectorStringToReturn.addElement(s.toString());
 			}
 
 			// Sinon, on a un attribut multiligne
 		} else {
-			int cpt_lig = 1; // compteur ligne utile
+			int lineCounter = 1; // compteur ligne utile
 
-			for (int i = 0; i < tab_val.length; i++) {
+			for (int i = 0; i < valueTable.length; i++) {
 
 				// Pour chaque ligne, on teste si on doit la decouper car trop
 				// longue
-				if (tab_val[i].length() < 255) {
+				if (valueTable[i].length() < maxlength) {
 					s = new StringBuffer();
 					s.append("CM(");
 					s.append(this.name.length() + ":" + this.name);
 					s.append(",");
 					s.append(this.refId);
 					s.append(",");
-					s.append(cpt_lig++);
+					s.append(lineCounter++);
 					s.append(",");
 					s.append(1); // archaisme de Framekit
 					s.append(",");
-					s.append(tab_val[i].length() + ":" + tab_val[i]);
+					s.append(valueTable[i].length() + ":" + valueTable[i]);
 					s.append(")");
 					vectorStringToReturn.addElement(s.toString());
 
 				} else {
 					int start = 0;
-					int end = 255;
+					int end = maxlength;
 
 					// Traduction des n*255 premiers caracteres
-					while (end < tab_val[i].length()) {
+					while (end < valueTable[i].length()) {
 
-						String sub = tab_val[i].substring(start, end);
+						String sub = valueTable[i].substring(start, end);
 
 						s = new StringBuffer();
 						s.append("CM(");
@@ -96,7 +97,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 						s.append(",");
 						s.append(this.refId);
 						s.append(",");
-						s.append(cpt_lig++);
+						s.append(lineCounter++);
 						s.append(",");
 						s.append(1); // archaisme de Framekit
 						s.append(",");
@@ -104,11 +105,11 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 						s.append(")");
 						vectorStringToReturn.addElement(s.toString());
 
-						start += 255;
-						end += 255;
+						start += maxlength;
+						end += maxlength;
 					}
 					// Traduction des caracteres restants
-					String sub = tab_val[i].substring(start, tab_val[i]
+					String sub = valueTable[i].substring(start, valueTable[i]
 							.length());
 					s = new StringBuffer();
 					s.append("CM(");
@@ -116,7 +117,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 					s.append(",");
 					s.append(this.refId);
 					s.append(",");
-					s.append(cpt_lig++);
+					s.append(lineCounter++);
 					s.append(",");
 					s.append(1); // archaisme de Framekit
 					s.append(",");
@@ -127,7 +128,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 			}
 
 		}
-		
+
 		//Traduit la position de l'attribut
 		if (this.xPosition != 0 || this.yPosition != 0) {
 			s = new StringBuffer();
@@ -142,7 +143,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute
 			s.append(")");
 			vectorStringToReturn.addElement(s.toString());
 		}
-		
+
 		stringToReturn = new String[vectorStringToReturn.size()];
 		vectorStringToReturn.toArray(stringToReturn);
 		return stringToReturn;

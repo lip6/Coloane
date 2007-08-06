@@ -4,16 +4,16 @@ import java.util.Iterator;
 
 
 public class ChildMenu extends Menu implements Iterable<ChildMenu> {
-	
-	public ChildMenu(String name,String reference, int level) {
-		super(name,reference,level);
+
+	public ChildMenu(String name, String reference, int level) {
+		super(name, reference, level);
 	}
 
-	public Iterator<ChildMenu> iterator() {
+	public final Iterator<ChildMenu> iterator() {
 		return this.menus.iterator();
 	}
-	
-	public boolean isLeaf() {
+
+	public final boolean isLeaf() {
 		return getChildrenNumber() == 0;
 	}
 }

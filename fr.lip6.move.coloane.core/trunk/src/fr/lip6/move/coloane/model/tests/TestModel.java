@@ -16,21 +16,21 @@ import fr.lip6.move.coloane.model.Node;
 /*Scenario de test:
  * Le nombre de tour effectué est spécifié par la variable "max_tour"
  * Le nombre d'arc à supprimer par est spécifié par la variable "nb_remove"
- * 
+ *
  * Ajout d'un arc de facon correcte ou non aléatoirement
  * Si on ne peut ajouter un arc alors on tente d'ajouter un noeud et un arc dont les identifiants
  * existe deja dans le modele
- * 
+ *
  * Tous les 8 tours, nb_remove arcs sont supprimés
- * 
+ *
  * Tous les 15 tours 1 noeud choisi aléatoirement est supprimé.
- * 
+ *
  * Tous les 10 tours on effectue un translate et un buildmodel (export/import) afin d'en comparer les sorties
  * tout en comparant l'ensemble de leurs noeuds et arcs des 2 models
  * Lors de la suppression d'un arc, on compare le model avant la suppression au model après la suppression
- * 
+ *
  * A chaque ajout d'un arc on ajoute aleatoirement un attribut au model, à un noeud ou à une arc
- * 
+ *
  * */
 
 public class TestModel extends TestCase {

@@ -1,19 +1,19 @@
 package fr.lip6.move.coloane.model;
 
-import java.util.Vector;
-import java.util.StringTokenizer;
-import java.util.NoSuchElementException;
-import java.util.Arrays;
-
-import java.io.File;
-import java.io.Serializable;
-
 import fr.lip6.move.coloane.api.utils.CamiParser;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.main.Coloane;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+
 
 /**
  * Cette classe represente un modele generique.<br>
@@ -27,10 +27,10 @@ import fr.lip6.move.coloane.main.Coloane;
  * A noter qu'un modele a toujours un identifiant egal a 1<br>
  * Le modele generique porte l'information sur son formalisme en tant que chaine
  * de caracteres.<br>
- * 
+ *
  * @see fr.lip6.move.coloane.interfaces.model.Model
  */
-public class Model extends fr.lip6.move.coloane.interfaces.model.Model implements Serializable {
+public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,12 +48,12 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 	/**
 	 * Construction du modele a partir d'un vecteur de commande CAMI
-	 * 
+	 *
 	 * @param Vector
 	 *            camiCommande Le vecteur de commandes CAMI
 	 * @throws SyntaxErrorException
 	 */
-	public void buildModel(Vector camiCommande) throws SyntaxErrorException {
+	public final void buildModel(Vector camiCommande) throws SyntaxErrorException {
 		String line = null;
 		String type = null;
 
@@ -94,7 +94,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					INode nodeEnd = getANode(Integer.parseInt(to));
 
 					if (nodeBegin == null || nodeEnd == null) {
-						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.9")); //$NON-NLS-1$    
+						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.9")); //$NON-NLS-1$
 					}
 
 					// Creation de l'arc
@@ -104,7 +104,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					nodeBegin.addOutputArc(arc);
 					nodeEnd.addInputArc(arc);
 					this.addArc(arc);
-					continue;// Prochaine commande
+					continue; // Prochaine commande
 				}
 
 				// Decouverte d'attribut sur une ligne
@@ -144,7 +144,6 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 				// Creation d'une ligne dans un attribut multi-ligne
 				if (type.equals("CM")) {
 					String value = new String();
-					;
 					boolean found = false;
 
 					String name = ps.parseString(",");
@@ -269,7 +268,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 					String ref = ps.parseInt(",");
 					String x = "";
 					String y = "";
-					
+
 					// !! Attention bidouille pour prendre en compte le PI avec ref == -
 					if (Integer.parseInt(ref) == -1) {
 						ref = ps.parseInt(",");
@@ -280,10 +279,10 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 						x = ps.parseInt(",");
 						y = ps.parseInt(")");
 					}
-					
+
  					// Dernier arc rencontre
  					IArc arc = this.getAnArc(Integer.parseInt(ref));
- 					
+
  					if (arc != null) {
  						arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
  					} else {
@@ -347,10 +346,10 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model implement
 
 	/**
 	 * Traduit un modele en chaines de caracteres CAMI correspondantes.
-	 * 
+	 *
 	 * @return la chaine de caracteres CAMI correspondante a l'objet Model
 	 */
-	public String[] translate() {
+	public final String[] translate() {
 		Vector<String> vec = new Vector<String>();
 		String[] nodes;
 		String[] arcs;
