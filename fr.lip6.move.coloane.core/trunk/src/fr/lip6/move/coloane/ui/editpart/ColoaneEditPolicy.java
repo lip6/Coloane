@@ -51,7 +51,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		};
 	}
 
-	/** 
+	/**
 	 * Traitement d'une demande d'ajout de noeud
 	 * @param request La requete formulee
 	 */
@@ -60,13 +60,13 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 		// Si l'objet a ajouter est un noeud... OK
 		if (childClass == NodeImplAdapter.class) {
-			INodeImpl newNode = (INodeImpl)request.getNewObject();			
+			INodeImpl newNode = (INodeImpl) request.getNewObject();
 			IModelImpl model = (IModelImpl) getHost().getModel();
-			
+
 			// On applique la commande de creation du noeud
-			return new NodeCreateCmd(newNode,model, (Rectangle) getConstraintFor(request));
+			return new NodeCreateCmd(newNode, model, (Rectangle) getConstraintFor(request));
 		}
-		
+
 		// Sinon... On ne permet pas l'ajout !
 		return null;
 	}
@@ -79,17 +79,17 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @param constraint La nouvelle position demandee
 	 */
 	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
-		
+
 		// Dans le cas d'un noeud
 		if (child instanceof ElementEditPart && constraint instanceof Rectangle) {
 			return new NodeSetConstraintCmd((INodeImpl) child.getModel(), (Rectangle) constraint);
 		}
-		
+
 		// Dans le cas d'un attribut
 		if (child instanceof AttributeEditPart) {
 			return new AttributeSetConstraintCmd((IAttributeImpl) child.getModel(), (Rectangle) constraint);
 		}
-		
+
 		// Dans tous les autres cas, on forwarde au pere
 		return super.createChangeConstraintCommand(request, child, constraint);
 	}

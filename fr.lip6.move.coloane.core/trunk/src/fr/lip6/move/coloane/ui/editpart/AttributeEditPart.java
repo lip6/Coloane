@@ -37,132 +37,132 @@ import fr.lip6.move.coloane.ui.model.INodeImpl;
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
 
-	
+
 	/**
 	 * Creation de la figure associee
 	 * Pour les attribut, on considere que la vue doit affiche un Label
 	 * @return IFigure
 	 */
-	protected IFigure createFigure() {
+	protected final IFigure createFigure() {
 		Label figure = new Label();
 		figure.setOpaque(true);
-		
-	
+
+
 		// Localisation
-		IAttributeImpl attribut = (IAttributeImpl)getModel();
-		
+		IAttributeImpl attribut = (IAttributeImpl) getModel();
+
 		// Si le referent est un noeud, on agit sur la position de l'attribut
 		Point attributePosition;
 		if (attribut.getReference() instanceof INodeImpl) {
-			
+
 			// Deux possibilites :
 			// Pas d'information de positionnement -> on utilise les indication du noeud
 			// Information de positionnement -> on les utilise
-			
+
 			// Cas 1
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
-				Point refLocation = ((INodeImpl)attribut.getReference()).getGraphicInfo().getLocation();
-				attributePosition = new Point(refLocation.x+20,refLocation.y-20);
-			
+				Point refLocation = ((INodeImpl) attribut.getReference()).getGraphicInfo().getLocation();
+				attributePosition = new Point(refLocation.x + 20, refLocation.y - 20);
+
 			// Cas 2
 			} else {
-				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
-			}			
-		
+				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
+			}
+
 		// Si le referent est un arc
 		} else if (attribut.getReference() instanceof IArcImpl) {
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
-				attributePosition = ((IArcImpl)attribut.getReference()).getGraphicInfo().findMiddlePoint();			
+				attributePosition = ((IArcImpl) attribut.getReference()).getGraphicInfo().findMiddlePoint();
 			// Cas 2
 			} else {
-				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
-			}			
-			
+				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
+			}
+
 		// Si le referent est le modele lui-meme
 		} else if (attribut.getReference() instanceof IModelImpl) {
-			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x,attribut.getGraphicInfo().getLocation().y);
-			
+			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
+
 		// Dans tous les autres cas... On reset
 		} else {
-			attributePosition = new Point(0,0);
+			attributePosition = new Point(0, 0);
 		}
 
 		// Recupere la figure du modele
-		ModelEditPart modelEditPart = (ModelEditPart)getParent();
-		
-		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite	
-		
+		ModelEditPart modelEditPart = (ModelEditPart) getParent();
+
+		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
+
 		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
-		Point attributePositionZone = new Point(attributePosition.x+5,attributePosition.y+5);
-		
+		Point attributePositionZone = new Point(attributePosition.x + 5, attributePosition.y + 5);
+
 		while ((modelEditPart.getFigure().findFigureAt(attributePosition) != null) || (modelEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
-			attributePosition.y = attributePosition.y+5; // Deplacement de 5 vers le bas si une figure est deja disposee 		
-			attributePositionZone.y = attributePositionZone.y+5;
+			attributePosition.y = attributePosition.y + 5; // Deplacement de 5 vers le bas si une figure est deja disposee
+			attributePositionZone.y = attributePositionZone.y + 5;
 		}
-		
+
 		// Stocke les information de positionnement
 		attribut.getGraphicInfo().setLocation(attributePosition.x, attributePosition.y);
-		
+
 		// Positionnement graphique
 		figure.setLocation(attributePosition);
-		
+
 		return figure;
 	}
 
 
-	/** 
+	/**
 	 * Mise a jour de la vue a partir des informations du modele<br>
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
-	protected void refreshVisuals() {
-		
-		IAttributeImpl attribut = (IAttributeImpl)getModel();
-		Label attributeFigure = (Label)getFigure();
-		
+	protected final void refreshVisuals() {
+
+		IAttributeImpl attribut = (IAttributeImpl) getModel();
+		Label attributeFigure = (Label) getFigure();
+
 		// Affichage du texte dans le Label
 		Font f;
 		switch (attribut.getType()) {
 			case IAttributeGraphicInfo.L1:
-				f = new Font(null,"arial",11,SWT.BOLD);
+				f = new Font(null, "arial", 11, SWT.BOLD);
 				break;
 			case IAttributeGraphicInfo.L2:
-				f = new Font(null,"arial",10,SWT.ITALIC);
+				f = new Font(null, "arial", 10, SWT.ITALIC);
 				break;
 			case IAttributeGraphicInfo.NOR:
-				f = new Font(null,"arial",9,SWT.NORMAL);
+				f = new Font(null, "arial", 9, SWT.NORMAL);
 				break;
-	
+
 			default:
-				f = new Font(null,"arial",9,SWT.NORMAL);
+				f = new Font(null, "arial", 9, SWT.NORMAL);
 				break;
 		}
-		
+
 		attributeFigure.setText(attribut.getValue());
 		attributeFigure.setFont(f);
-		
-		// On doit creer l'espace pour l'attribut 
-		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(),new Dimension(attributeFigure.getTextBounds().width,attributeFigure.getTextBounds().height));
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,getFigure(), bounds);
+
+		// On doit creer l'espace pour l'attribut
+		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 
 		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(((IElement)attribut).getModelAdapter());
+		Coloane.notifyModelChange(((IElement) attribut).getModelAdapter());
 	}
-	
+
 	/**
 	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
 	 * @param property L'evenement qui a ete leve
 	 */
-	public void propertyChange(PropertyChangeEvent property) {
-		String prop = property.getPropertyName();	
+	public final void propertyChange(PropertyChangeEvent property) {
+		String prop = property.getPropertyName();
 
 		if (IAttributeImpl.SELECT_LIGHT_PROP.equals(prop)) {
-			((Label)getFigure()).setBackgroundColor(ColorConstants.lightGray);
+			((Label) getFigure()).setBackgroundColor(ColorConstants.lightGray);
 		} else if (IAttributeImpl.SELECT_HEAVY_PROP.equals(prop)) {
-			((Label)getFigure()).setForegroundColor(ColorConstants.blue);
+			((Label) getFigure()).setForegroundColor(ColorConstants.blue);
 		} else if (IAttributeImpl.UNSELECT_LIGHT_PROP.equals(prop)) {
-			((Label)getFigure()).setBackgroundColor(ColorConstants.white);
+			((Label) getFigure()).setBackgroundColor(ColorConstants.white);
 		} else if (IAttributeImpl.UNSELECT_HEAVY_PROP.equals(prop)) {
-			((Label)getFigure()).setForegroundColor(ColorConstants.black);		
+			((Label) getFigure()).setForegroundColor(ColorConstants.black);
 		}
 		refreshVisuals();
 	}
@@ -171,9 +171,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	/**
 	 * Regles de gestion de l'objet
 	 */
-	protected void createEditPolicies() {
-				
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy(){
+	protected final void createEditPolicies() {
+
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 
 			@Override
 			protected Command getConnectionCompleteCommand(CreateConnectionRequest arg0) {
@@ -204,33 +204,33 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 
 	}
 
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
+	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
+	public final ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
+	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
+	public final ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * Installation des ecouteurs de l'objet
 	 */
-	public void activate() {
+	public final void activate() {
 		if (!isActive()) {
 			super.activate();
 			((AbstractModelElement) getModel()).addPropertyChangeListener(this);
@@ -240,7 +240,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	/**
 	 * Mise en veille des ecouteurs de l'objet
 	 */
-	public void deactivate() {
+	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
 			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
