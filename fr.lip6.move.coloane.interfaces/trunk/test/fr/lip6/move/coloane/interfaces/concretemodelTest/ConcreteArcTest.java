@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
-import java.util.Vector;
-
-import junit.framework.TestCase;
-
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteArc;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteNode;
@@ -13,6 +9,10 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.IPosition;
 import fr.lip6.move.coloane.interfaces.objects.Position;
+
+import java.util.Vector;
+
+import junit.framework.TestCase;
 
 public class ConcreteArcTest extends TestCase {
 
@@ -24,96 +24,97 @@ public class ConcreteArcTest extends TestCase {
 		super(name);
 	}
 
-	protected void setUp() throws Exception {
+	protected final void setUp() throws Exception {
 		super.setUp();
 		ca = new ConcreteArc("Arc concret");
 		caId = new ConcreteArc("Arc concret", 1);
 	}
 
-	protected void tearDown() throws Exception {
+	protected final void tearDown() throws Exception {
 		super.tearDown();
-		ca = caId = null;
+		ca = null;
+		caId = null;
 	}
 
-	public void testTranslate() {
-		assertTrue(true == true);
+	public final void testTranslate() {
+		//assertTrue(true == true);
 	}
 
-	public void testConcreteArcStringInt() {
-		ConcreteArc ca = new ConcreteArc("Arc concret", 5);
-		assertTrue(ca.getId() == 5);
-		assertTrue(ca.getArcType().equals("Arc concret"));
+	public final void testConcreteArcStringInt() {
+		ConcreteArc cb = new ConcreteArc("Arc concret", 5);
+		assertTrue(cb.getId() == 5);
+		assertTrue(cb.getArcType().equals("Arc concret"));
 	}
 
-	public void testConcreteArcString() {
-		ConcreteArc ca = new ConcreteArc("Arc concret");
-		assertTrue(ca.getArcType().equals("Arc concret"));
-		assertTrue(ca.getId() == 0);
+	public final void testConcreteArcString() {
+		ConcreteArc cb = new ConcreteArc("Arc concret");
+		assertTrue(cb.getArcType().equals("Arc concret"));
+		assertTrue(cb.getId() == 0);
 	}
 
-	public void testArcStringInt() {
+	public final void testArcStringInt() {
 		Arc a = new ConcreteArc("Arc abstrait", 3);
 		assertTrue(a.getArcType().equals("Arc abstrait"));
 		assertTrue(a.getId() == 3);
 	}
 
-	public void testArcString() {
+	public final void testArcString() {
 		Arc a = new ConcreteArc("Arc abstrait");
 		assertTrue(a.getArcType().equals("Arc abstrait"));
 		assertTrue(a.getId() == 0);
 	}
 
-	public void testGetArcType() {
+	public final void testGetArcType() {
 		assertTrue(ca.getArcType().equals("Arc concret"));
 		assertTrue(caId.getArcType().equals("Arc concret"));
 	}
 
-	public void testGetId() {
+	public final void testGetId() {
 		assertTrue(caId.getId() == 1);
 		assertTrue(ca.getId() == 0);
 	}
 
-	public void testSetId() {
+	public final void testSetId() {
 		ca.setId(3);
 		caId.setId(5);
 		assertTrue(ca.getId() == 3);
 		assertTrue(caId.getId() == 5);
 	}
 
-	public void testSetStartingNode() {
+	public final void testSetStartingNode() {
 		INode node = new ConcreteNode("Debut");
 		ca.setStartingNode(node);
 		assertTrue(ca.getStartingNode().equals(node));
 	}
 
-	public void testSetEndingNode() {
+	public final void testSetEndingNode() {
 		INode node = new ConcreteNode("Fin");
 		ca.setEndingNode(node);
 		assertTrue(ca.getEndingNode().equals(node));
 	}
 
-	public void testGetStartingNode() {
+	public final void testGetStartingNode() {
 		assertTrue(ca.getStartingNode() == null);
 		INode node = new ConcreteNode("debut");
 		ca.setStartingNode(node);
 		assertTrue(ca.getStartingNode().equals(node));
 	}
 
-	public void testGetEndingNode() {
+	public final void testGetEndingNode() {
 		assertTrue(ca.getEndingNode() == null);
 		INode node = new ConcreteNode("fin");
 		ca.setEndingNode(node);
 		assertTrue(ca.getEndingNode().equals(node));
 	}
 
-	public void testAddAttribute() {
+	public final void testAddAttribute() {
 		IAttribute attribute = new ConcreteAttribute("Attribute", "0", 1);
 		ca.addAttribute(attribute);
 		assertTrue(ca.getListOfAttrSize() == 1);
 		assertTrue(ca.getNthAttr(0).equals(attribute));
 	}
 
-	public void testRemoveAttributeIAttribute() {
+	public final void testRemoveAttributeIAttribute() {
 		IAttribute attribute = new ConcreteAttribute("Attribute", "0", 1);
 		IAttribute attr = new ConcreteAttribute("Attribute", "0", 2);
 		ca.addAttribute(attr);
@@ -125,7 +126,7 @@ public class ConcreteArcTest extends TestCase {
 		assertTrue(ca.getListOfAttrSize() == 0);
 	}
 
-	public void testRemoveAttributeInt() {
+	public final void testRemoveAttributeInt() {
 		IAttribute attribute = new ConcreteAttribute("Attribute", "0", 1);
 		IAttribute attr = new ConcreteAttribute("Attribute", "0", 2);
 		ca.addAttribute(attr);
@@ -134,7 +135,7 @@ public class ConcreteArcTest extends TestCase {
 		assertTrue(ca.getListOfAttrSize() == 1);
 	}
 
-	public void testGetListOfAttrSize() {
+	public final void testGetListOfAttrSize() {
 		IAttribute at1 = new ConcreteAttribute("Attribute", "0", 1);
 		IAttribute at2 = new ConcreteAttribute("Attribute", "0", 2);
 		IAttribute at3 = new ConcreteAttribute("Attribut", "0", 3);
@@ -144,7 +145,7 @@ public class ConcreteArcTest extends TestCase {
 		assertTrue(ca.getListOfAttrSize() == 3);
 	}
 
-	public void testGetListOfAttr() {
+	public final void testGetListOfAttr() {
 		Vector<IAttribute> via;
 		IAttribute at1 = new ConcreteAttribute("Attribute", "0", 1);
 		IAttribute at2 = new ConcreteAttribute("Attribute", "0", 2);
@@ -160,7 +161,7 @@ public class ConcreteArcTest extends TestCase {
 		assertTrue(via.elementAt(2).equals(at3));
 	}
 
-	public void testGetNthAttr() {
+	public final void testGetNthAttr() {
 		IAttribute at1 = new ConcreteAttribute("Attribute", "0", 1);
 		IAttribute at2 = new ConcreteAttribute("Attribute", "0", 2);
 		IAttribute at3 = new ConcreteAttribute("Attribut", "0", 3);
@@ -171,7 +172,7 @@ public class ConcreteArcTest extends TestCase {
 		assertTrue(ca.getNthAttr(2).equals(at3));
 	}
 
-	public void testGetListOfPI() {
+	public final void testGetListOfPI() {
 		Vector<IPosition> vip;
 		IPosition ip0 = new Position(0, 0);
 		IPosition ip1 = new Position(1, 1);
@@ -192,12 +193,12 @@ public class ConcreteArcTest extends TestCase {
 			assertTrue(vip.elementAt(2).getXPosition() == ip2.getXPosition());
 			assertTrue(vip.elementAt(2).getYPosition() == ip2.getYPosition());
 
-		} catch (SyntaxErrorException e) { 
+		} catch (SyntaxErrorException e) {
 			System.err.println("Erreur");
 		}
 	}
 
-	public void testAddPIIntInt() {
+	public final void testAddPIIntInt() {
 		try {
 			ca.addPI(0, 0);
 			ca.addPI(1, 1);
@@ -208,7 +209,7 @@ public class ConcreteArcTest extends TestCase {
 
 	}
 
-	public void testAddPIIntIntInt() {
+	public final void testAddPIIntIntInt() {
 		try {
 			ca.addPI(0, 0, 0);
 			ca.addPI(1, 1, 1);
@@ -219,7 +220,7 @@ public class ConcreteArcTest extends TestCase {
 
 	}
 
-	public void testRemovePIIntInt() {
+	public final void testRemovePIIntInt() {
 		try {
 			ca.addPI(0, 0);
 			ca.addPI(1, 1);
@@ -233,7 +234,7 @@ public class ConcreteArcTest extends TestCase {
 		}
 	}
 
-	public void testRemovePIInt() {
+	public final void testRemovePIInt() {
 		try {
 			ca.addPI(0, 1);
 			ca.addPI(1, 0);
@@ -248,7 +249,7 @@ public class ConcreteArcTest extends TestCase {
 
 	}
 
-	public void testModifyPI() {
+	public final void testModifyPI() {
 		try {
 			IPosition pi = new Position(0, 0);
 			ca.addPI(0, 0, 0);
@@ -264,7 +265,7 @@ public class ConcreteArcTest extends TestCase {
 		}
 	}
 
-	public void testGetNthPI() {
+	public final void testGetNthPI() {
 		try {
 			IPosition pi = new Position(0, 0);
 			ca.addPI(0, 0, 0);
@@ -273,7 +274,7 @@ public class ConcreteArcTest extends TestCase {
 			assertTrue(ca.getNthPI(0).getXPosition() == pi.getXPosition());
 			assertTrue(ca.getNthPI(0).getYPosition() == pi.getYPosition());
 
-		} catch (SyntaxErrorException e) { 
+		} catch (SyntaxErrorException e) {
 			System.err.println("Erreur");
 		}
 	}

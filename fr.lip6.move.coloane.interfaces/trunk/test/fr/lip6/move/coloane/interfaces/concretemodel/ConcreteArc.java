@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.interfaces.model.Arc;
 public class ConcreteArc extends Arc {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @param arcType
 	 * @param id
@@ -29,8 +29,8 @@ public class ConcreteArc extends Arc {
 		super(arcType);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public String[] translate(){
+
+	public final String[] translate() {
 		return null;
 	}
 }

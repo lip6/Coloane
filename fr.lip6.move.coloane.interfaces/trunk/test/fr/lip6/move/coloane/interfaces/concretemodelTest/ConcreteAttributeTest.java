@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
@@ -27,7 +27,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		ca = new ConcreteAttribute("Attribut","Concret",0);
+		ca = new ConcreteAttribute("Attribut", "Concret", 0);
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute#translate()}.
 	 */
 	public void testTranslate() {
-		assertTrue( true == true);
+		//assertTrue( true == true);
 	}
 
 	/**
@@ -58,19 +58,19 @@ public class ConcreteAttributeTest extends TestCase {
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#Attribute(java.lang.String, java.lang.String, int)}.
 	 */
 	public void testAttribute() {
-		Attribute a = new ConcreteAttribute("Attribut","abstrait",1);
+		Attribute a = new ConcreteAttribute("Attribut", "abstrait", 1);
 		assertTrue(a.getName().equals("Attribut"));
 		assertTrue(a.getValue().equals("abstrait"));
 		assertTrue(a.getRefId() == 1);
 	}
-	
+
 
 	/**
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#getName()}.
 	 */
 	public void testGetName() {
-		ConcreteAttribute ca = new ConcreteAttribute("Attribut","concret",0);
-		assertTrue(ca.getName().equals("Attribut"));
+		ConcreteAttribute cb = new ConcreteAttribute("Attribut", "concret", 0);
+		assertTrue(cb.getName().equals("Attribut"));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class ConcreteAttributeTest extends TestCase {
 	public void testSetPosition() {
 		assertTrue(ca.getXPosition() == 0);
 		assertTrue(ca.getYPosition() == 0);
-		ca.setPosition(1,1);
+		ca.setPosition(1, 1);
 		assertTrue(ca.getXPosition() == 1);
 		assertTrue(ca.getYPosition() == 1);
 	}
@@ -89,7 +89,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 */
 	public void testGetXPosition() {
 		assertTrue(ca.getXPosition() == 0);
-		ca.setPosition(1,1);
+		ca.setPosition(1, 1);
 		assertTrue(ca.getXPosition() == 1);
 	}
 
@@ -98,7 +98,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 */
 	public void testGetYPosition() {
 		assertTrue(ca.getYPosition() == 0);
-		ca.setPosition(1,1);
+		ca.setPosition(1, 1);
 		assertTrue(ca.getYPosition() == 1);
 	}
 
@@ -107,14 +107,14 @@ public class ConcreteAttributeTest extends TestCase {
 	 */
 	public void testGetRefId() {
 		assertTrue(ca.getRefId() == 0);
-		
+
 	}
 
 	/**
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#setRefId(int)}.
 	 */
 	public void testSetRefId() {
-		assertTrue(ca.getRefId() == 0);		
+		assertTrue(ca.getRefId() == 0);
 		ca.setRefId(1);
 		assertTrue(ca.getRefId() == 1);
 	}

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 
 /**
  * @author cdcharles
- * 
+ *
  */
 public class ConcreteModelTest extends TestCase {
 
@@ -34,7 +34,7 @@ public class ConcreteModelTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
@@ -44,7 +44,7 @@ public class ConcreteModelTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	protected void tearDown() throws Exception {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
@@ -26,7 +26,7 @@ public class ConcreteAttribute extends Attribute {
 	 * @see fr.lip6.move.coloane.interfaces.model.Attribute#translate()
 	 */
 	@Override
-	public String[] translate() {
+	public final String[] translate() {
 		// TODO Auto-generated method stub
 		return null;
 	}

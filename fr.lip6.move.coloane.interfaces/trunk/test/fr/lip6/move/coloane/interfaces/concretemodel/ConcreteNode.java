@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.Node;
 
 /**
  * @author cdcharles
- * 
+ *
  */
 public class ConcreteNode extends Node {
 
@@ -44,11 +44,11 @@ public class ConcreteNode extends Node {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.Node#translate()
 	 */
 	@Override
-	public String[] translate() {
+	public final String[] translate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
