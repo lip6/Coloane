@@ -10,15 +10,15 @@
 
 	<groupId>${project.parent.groupId}</groupId>
   <artifactId>interfaces</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging</name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/interfaces/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces/branches/interfaces-1.0.3-SNAPSHOT</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces/branches/interfaces-1.0.3-SNAPSHOT</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/interfaces/branches/interfaces-1.0.3-SNAPSHOT</url>
   </scm>
   
   <build>
