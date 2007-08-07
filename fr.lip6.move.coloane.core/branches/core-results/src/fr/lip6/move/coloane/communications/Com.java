@@ -5,7 +5,7 @@ import java.util.Vector;
 import org.eclipse.swt.widgets.Composite;
 
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.communications.objects.Results;
+//import fr.lip6.move.coloane.communications.objects.Results;
 
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
@@ -298,8 +298,8 @@ public class Com implements IComUi, IComApi, IComMotor {
 
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			// Transformation des resultats
-			Results results = new Results(resultsCom);
-			this.ui.setResults(serviceName,results);
+			//Results results = new Results(resultsCom);
+			this.ui.setResults(serviceName,resultsCom);
 		} else {
 			this.ui.setResults(serviceName,null);
 			this.ui.printResults();
