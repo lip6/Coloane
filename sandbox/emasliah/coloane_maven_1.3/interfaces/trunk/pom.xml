@@ -43,7 +43,7 @@
       	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
       	<configuration>
-      		<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces</tagBase>
+      		<!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/interfaces</tagBase>-->
       		<branch>${project.artifactId}-${project.version}</branch>
       	</configuration>	
      	</plugin>
