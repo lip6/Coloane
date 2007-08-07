@@ -218,7 +218,6 @@
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/releases</tagBase>-->
-          <preparationGoals>clean integration-test release:branch</preparationGoals>
       		<branchName>${project.artifactId}-${project.version}</branchName>
       		<updateBranchVersions>false</updateBranchVersions>
       		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
