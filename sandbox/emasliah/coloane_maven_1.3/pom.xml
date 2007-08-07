@@ -224,9 +224,6 @@
       		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
       	</configuration>	
      	</plugin>
-
-        </configuration>
-      </plugin>
       
    <plugin>
 		<!-- Pour les tests -->
