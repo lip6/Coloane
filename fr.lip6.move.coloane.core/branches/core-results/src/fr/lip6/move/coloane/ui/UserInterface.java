@@ -8,8 +8,10 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import fr.lip6.move.coloane.communications.objects.Results;
+//import fr.lip6.move.coloane.communications.objects.Results;
+import fr.lip6.move.coloane.factory.SyntaxCheckerReport;
 import fr.lip6.move.coloane.interfaces.*;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
@@ -31,7 +33,7 @@ import fr.lip6.move.coloane.ui.panels.*;
 
 public class UserInterface implements IUiCom, IUiMotor {
 
-	/** La fenêtre de travail */
+	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
 
 	/** Le module de communication */
@@ -133,7 +135,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param serviceName Le nom du service qui produit ses resultats
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
-	public void setResults(String serviceName, Results result) {
+	public void setResults(String serviceName, IResultsCom result) {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;
@@ -146,11 +148,17 @@ public class UserInterface implements IUiCom, IUiMotor {
 				String object = "";
 				r.add(new Result(object,description));				
 			}
+			
+			SyntaxCheckerReport scr = new SyntaxCheckerReport(result);
+			r = scr.getResultList();
+			
+			
+			
 
 			/*
 			 * SYNTAX CHECKER
 			 */
-			if (serviceName.equals("Petri net syntax checker")) {
+		/*	if (serviceName.equals("Petri net syntax checker")) {
 				labelService = "Syntax-Checker Results";
 				r = new ResultsList(labelService);
 
@@ -168,11 +176,11 @@ public class UserInterface implements IUiCom, IUiMotor {
 				for (String object : result.getListOfElement()) {
 					r.add(new Result(object,description));
 				}
-
+*/
 				/*
 				 * STRUCTURAL BOUNDS
 				 */
-			} else if (serviceName.equals("Compute structural bounds")) {
+		/*	} else if (serviceName.equals("Compute structural bounds")) {
 
 				labelService = "Structural Bounds";
 				r = new ResultsList(labelService);
@@ -181,11 +189,11 @@ public class UserInterface implements IUiCom, IUiMotor {
 				for (String object : result.getListOfElement()) {
 					r.add(new Result(object,result.getHeadDescription()));
 				}
-
+*/
 				/*
 				 * STRUCTURAL SAFETY
 				 */
-			} else if (serviceName.equals("Is the net structuraly safe?")) {
+			/*} else if (serviceName.equals("Is the net structuraly safe?")) {
 				labelService = "Structural safety";
 				r = new ResultsList(labelService);
 
@@ -200,20 +208,20 @@ public class UserInterface implements IUiCom, IUiMotor {
 					String description = "Your net is not safe";
 					r.add(new fr.lip6.move.coloane.results.Result(description,"Reasons are given above"));
 				}
-
+*/
 				/*
 				 * STRUCTURAL BOUNDS
 				 */
-			} else if (serviceName.equals("Is the net structurally bounded?")) {
+			/*} else if (serviceName.equals("Is the net structurally bounded?")) {
 				labelService = "Structural bounds";
 				r = new ResultsList(labelService);
 
 				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
-
+*/
 				/*
 				 * P INVARIANT
 				 */
-			} else if (serviceName.equals("P-invariants")) {
+			/*} else if (serviceName.equals("P-invariants")) {
 				labelService = "P-invariants";
 				r = new ResultsList(labelService);
 
@@ -230,12 +238,12 @@ public class UserInterface implements IUiCom, IUiMotor {
 				}
 
 				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
-
+*/
 
 				/*
 				 * T INVARIANT
 				 */
-			} else if (serviceName.equals("T-invariants")) {
+		/*	} else if (serviceName.equals("T-invariants")) {
 				labelService = "T-invariants";
 				r = new ResultsList(labelService);
 
@@ -252,7 +260,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 				}
 
 				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
-			}
+			}*/
 
 			serviceResultList.setResultsList(r);			
 		}
