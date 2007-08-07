@@ -743,22 +743,10 @@ public class Api implements IApi {
 	 *            La liste des resultats renvoyes par la plate-forme
 	 * @see ResultsCom
 	 */
-	public void setResults(Vector<IResultsCom> resultList) {
-		apiLogger.entering("Api", "setResults", resultList);
-		if (!resultList.isEmpty()) {
-			Iterator i = resultList.iterator();
-
-			// On envoie tous les services a la com qui est chargee de les
-			// afficher
-			while (i.hasNext()) {
-				IResultsCom r = (IResultsCom) i.next();
-				this.com.setResults(this.currentService, r);
-			}
-
-			this.com.printResults();
-		} else {
-			this.com.setResults("", null);
-		}
+	public void setResults(IResultsCom result) {
+		apiLogger.entering("Api", "setResults", result);
+		this.com.setResults(this.currentService, result);
+		this.com.printResults();
 		apiLogger.exiting("Api", "setResults");
 	}
 
