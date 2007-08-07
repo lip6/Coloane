@@ -16,7 +16,7 @@ public class SousResultsCom {
 	/** Liste des commandes WE (attirubute_change) */
 	private Vector<String> cmdWE;
 
-	/** Liste des commandes MT (atribute_outline) */
+	/** Liste des commandes MT (attribute_outline) */
 	private Vector<String> cmdMT;
 
 	/**
@@ -147,6 +147,14 @@ public class SousResultsCom {
 
 	public Vector<String> getCmdRO() {
 		return cmdRO;
+	}
+
+	public Vector<String> getCmdRT() {
+		return cmdRT;
+	}
+
+	public void setCmdRT(Vector<String> cmdRT) {
+		this.cmdRT = cmdRT;
 	}
 
 }
