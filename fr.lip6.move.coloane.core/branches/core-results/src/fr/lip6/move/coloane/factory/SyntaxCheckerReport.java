@@ -21,10 +21,11 @@ public class SyntaxCheckerReport implements IReport {
 	/**Liste des resultats envoyes par FK*/
 	private IResultsCom resultCom;
 	
+	/**Le nom du service*/
 	private final String label = "Petri Net Syntax Checker";
 	
 	/**La liste des resultats*/
-	private ResultsList result;
+	private ResultsList resultList;
 	
 	/**
 	 *Le constructeur
@@ -37,23 +38,30 @@ public class SyntaxCheckerReport implements IReport {
 	/**Cette methode renvoie la liste des resultats recuperes par FK
 	 * et les transmet a Coloane
 	 * @return ResultsList la liste des resultats
-	 */
+	 */	
 	public ResultsList getResultList(){
-		result = new ResultsList(label);
-		String descr = null;
+		resultList = new ResultsList(resultCom.getCmdRQ());
+		int i=0;
+		String descr = "";
+		Vector<SousResultsCom> sousR = resultCom.getSous_resultats();
 		
-		if(resultCom.getSous_resultats().get(0).equals("List of unamed places")){
-			descr = "Unamed Place";
-		} else if(resultCom.getSous_resultats().get(0).equals("List of unnamed transition")){
-			descr = "Unamed Transition";
+		while(i < sousR.size()){
+			descr = sousR.get(i).getCmdRT().get(0);
+			Vector<String> cmdRO = sousR.get(i).getCmdRO();
+			if(cmdRO.size() == 0){
+				resultList.add(new Result("", descr));
+			} else {
+				for(int j = 0; j< cmdRO.size();j++){
+					resultList.add(new Result(cmdRO.get(j),descr));
+				}
+			}
+			i++;
 		}
 		
-		SousResultsCom sousResult = new SousResultsCom();
-		Vector<String> roList = sousResult.getCmdRO();
-		
-		for(int i=0; i <roList.size(); i++){
-			result.add(new Result(roList.get(i),descr));
-		}
-		return result;
+		return resultList;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 }
