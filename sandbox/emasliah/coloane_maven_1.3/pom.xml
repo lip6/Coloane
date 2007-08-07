@@ -182,7 +182,6 @@
       		<connectionType>developerConnection</connectionType>
           <username>${server.username}</username>
           <password>${server.password}</password>
-          <branch>${project.artifactId}_${project.version}</branch>
       	</configuration>
       </plugin>
       
@@ -217,10 +216,15 @@
     		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-5</version>
         <configuration>
           <!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/releases</tagBase>-->
-          <preparationGoals>clean integration-test scm:branch</preparationGoals>
+          <preparationGoals>clean integration-test release:branch</preparationGoals>
+      		<branchName>${project.artifactId}-${project.version}</branchName>
+      		<updateBranchVersions>false</updateBranchVersions>
+      		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
+      	</configuration>	
+     	</plugin>
+
         </configuration>
       </plugin>
       
