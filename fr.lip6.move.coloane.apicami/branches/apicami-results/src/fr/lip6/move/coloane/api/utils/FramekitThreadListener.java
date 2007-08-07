@@ -140,7 +140,7 @@ public class FramekitThreadListener extends Thread {
 			// Analyse des commandes recues
 			try {
 
-				// Parcours de toutes les commandes re�ues
+				// Parcours de toutes les commandes recues
 				for (int numCommande = 0; numCommande<commandeRecue.size(); numCommande++) {
 
 					// Si la commande recue est vide : on passe a la suivante
@@ -429,7 +429,7 @@ public class FramekitThreadListener extends Thread {
 						}
 
 						// On envoie la liste des resultats
-						this.api.setResults(resultList);
+						this.api.setResults(result);
 						resetResults = true;
 
 						continue;
@@ -482,19 +482,20 @@ public class FramekitThreadListener extends Thread {
 					// Message DR
 					// Debut de la transmission d'une reponse d'un outil
 					if (listeArgs.firstElement().equals("DR")) {
+						result = new ResultsCom();
 						continue;
 					}
 
 					// Message RQ
 					// Designation de la question a laquelle on repond
-					if (listeArgs.firstElement().equals("RQ")) {
+					if (listeArgs.firstElement().equals("RQ")){
+						result.setcmdRQ((String) listeArgs.elementAt(2));
 						continue;
 					}
 
 					// Message DE
 					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane 
-					if (listeArgs.firstElement().equals("DE")) {
-						result = new ResultsCom();
+					if (listeArgs.firstElement().equals("DE")) {						
 						sousResults = new SousResultsCom();
 						continue;
 					}
@@ -505,7 +506,7 @@ public class FramekitThreadListener extends Thread {
 						if (!listeArgs.elementAt(1).equals("") && !listeArgs.elementAt(1).equals("0")) {
 							//result.addDescription((String) listeArgs.elementAt(1));
 							sousResults.addCmdRT((String) listeArgs.elementAt(1));
-							result.addResultats(sousResults);
+							//result.addResultats(sousResults);
 						}
 						continue;
 					}
@@ -515,25 +516,22 @@ public class FramekitThreadListener extends Thread {
 					if (listeArgs.firstElement().equals("RO")) {
 						//result.addElement((String) listeArgs.elementAt(1));
 						sousResults.addCmdRO((String) listeArgs.elementAt(1));
-						result.addResultats(sousResults);
+						//result.addResultats(sousResults);
 						continue;
 					}
 
 					// Message ME
 					// Mise en evidence d'un obet Coloane
 					if (listeArgs.firstElement().equals("ME")) {
+						sousResults.addCmdME((String) listeArgs.elementAt(1));
+						//result.addResultats(sousResults);
 						continue;
 					}
 
 					// Message FE
 					// Fin d'ensemble de resultats ou d'objets transmis
 					if (listeArgs.firstElement().equals("FE")) {
-						if (resetResults) {
-							resultList.removeAllElements();
-							resetResults = false;
-							
-						}
-						resultList.add(result);
+						result.addResultats(sousResults);
 						continue;
 					}
 
