@@ -5,7 +5,7 @@
   <parent>
     <groupId>fr.lip6.move.coloane</groupId>
     <artifactId>coloane_maven_1.3</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0</version>
   </parent>
   
   <groupId>${project.parent.groupId}</groupId>
