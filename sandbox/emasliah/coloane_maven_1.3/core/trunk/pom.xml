@@ -8,7 +8,6 @@
     <version>1.3.0</version>
   </parent>
 
-	<groupId>${project.parent.groupId}</groupId>
   <artifactId>core</artifactId>
   <version>0.9.3-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -21,9 +20,10 @@
  		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.parent.artifactId}/${project.artifactId}/trunk</url>
   </scm>
   
+	<!-- ~~~~~~~~~~~~~~~~~~~~ Les dependencies ~~~~~~~~~~~~~~~~~~~~ -->
 	<dependencies>
 	
-    <dependency>
+	  <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>interfaces</artifactId>
       <version>1.0.3-SNAPSHOT</version>
@@ -164,31 +164,7 @@
   
 	<build>
 
-		<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
-			
-		<plugins>
-  
-	  	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
-    			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
-      
-      <!--<plugin>
-    		<!~~ Pour modifier le manifest avec la version du pom ~~>
-    	  <groupId>org.apache.maven.plugins</groupId>
-      	<artifactId>maven-psteclipse-plugin</artifactId>
-        <executions>
-        	<execution>
-          	<phase>validate</phase>        
-          	<goals>
-            	<goal>eclipse-plugin</goal>
-          	</goals>
-        	</execution>
-        </executions>
-    	</plugin>-->
-     
-		</plugins>
-		
 		<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar ~~~~~~~~~~~~~~~~~~~~~~~~ -->
-		
 		<resources>
      <resource>
        <directory>.</directory>

@@ -262,27 +262,40 @@
       	</executions>
      	</plugin>
      	
+     	<!--<plugin>
+    		<!~~ Pour modifier le manifest avec la version du pom ~~>
+    	  <groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-psteclipse-plugin</artifactId>
+        <executions>
+        	<execution>
+          	<phase>validate</phase>        
+          	<goals>
+            	<goal>eclipse-plugin</goal>
+          	</goals>
+        	</execution>
+        </executions>
+    	</plugin>-->
+     	
     </plugins>
   
   </build>
   
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
+  
   <repositories>
+  	<!-- Le repository des plugins Eclipse -->
 		<!--<repository>
 			<id>eclipse</id>
 			<name>Eclipse Repository</name>
 			<url>http://repo1.maven.org/eclipse</url>
  	  	<releases>
  	    	<enabled>true</enabled>
- 	    	<updatePolicy>daily</updatePolicy>
- 	    	<checksumPolicy>warn</checksumPolicy>
  	  	</releases>
  	  	<snapshots>
  	    	<enabled>false</enabled>
- 	    	<updatePolicy>daily</updatePolicy>
- 	    	<checksumPolicy>warn</checksumPolicy>
  	  	</snapshots>
  		</repository>-->
- 		
+ 		<!-- Notre repository -->
  		<repository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
@@ -297,8 +310,8 @@
  	</repositories>
  	
  	<pluginRepositories>
- 	<!-- Notre plugin repository -->
- 	<<pluginRepository>>
+ 		<!-- Notre plugin repository -->
+ 		<pluginRepository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
 			<url>http://izanami/~emasliah/m2</url>
@@ -309,18 +322,7 @@
  	    	<enabled>true</enabled>
  	  	</snapshots>
  		</pluginRepository>
-    <pluginRepository>
-        <id>Tlc</id>
-        <name>TLC Repository</name>
-        <url>http://commons.ucalgary.ca/pub/m2</url>
-        <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-    </pluginRepository>
-		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
+    <!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
     <pluginRepository>
         <id>Tlc</id>
         <name>TLC Repository</name>
@@ -343,7 +345,7 @@
           <snapshots>
             <enabled>true</enabled>
           </snapshots>
-        </pluginRepository>
+    </pluginRepository>
 	</pluginRepositories>
    
 </project>
