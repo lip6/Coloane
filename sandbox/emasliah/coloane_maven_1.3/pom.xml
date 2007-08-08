@@ -143,7 +143,12 @@
        		<artifactId>maven-jar-plugin</artifactId>
        		<version>2.1</version>
      		</plugin>
-    	</plugins>
+     		<plugin>
+  	   		<groupId>org.apache.maven.release</groupId>
+       		<artifactId>maven-release-manager</artifactId>
+       		<version>1.0-alpha-4-SNAPSHOT</version>
+     		</plugin>
+			</plugins>
   	</pluginManagement>
   	
   	<!-- Pour ssh et ftp -->
@@ -182,6 +187,8 @@
       		<connectionType>developerConnection</connectionType>
           <username>${server.username}</username>
           <password>${server.password}</password>
+          <branch>${project.artifactId}-${project.version}</branch>
+          <message>[maven-scm-plugin] Checkin</message>
       	</configuration>
       </plugin>
       
@@ -212,18 +219,20 @@
       	<version>0.9.4</version>	
     	</plugin>
     	
-    	<plugin>
+    	
+			<plugin>
     		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/releases</tagBase>-->
       		<branchName>${project.artifactId}-${project.version}</branchName>
+      		<preparationGoals>scm:checkin clean integration-test release:branch</preparationGoals>
       		<updateBranchVersions>false</updateBranchVersions>
       		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
       	</configuration>	
      	</plugin>
-      
+
    <plugin>
 		<!-- Pour les tests -->
 		<groupId>org.apache.maven.plugins</groupId>
@@ -273,30 +282,68 @@
  	    	<checksumPolicy>warn</checksumPolicy>
  	  	</snapshots>
  		</repository>-->
+ 		
  		<repository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
 			<url>http://izanami/~emasliah/m2</url>
  	  	<releases>
  	    	<enabled>true</enabled>
- 	    	<updatePolicy>daily</updatePolicy>
- 	    	<checksumPolicy>warn</checksumPolicy>
  	  	</releases>
  	  	<snapshots>
  	    	<enabled>true</enabled>
- 	    	<updatePolicy>daily</updatePolicy>
- 	    	<checksumPolicy>warn</checksumPolicy>
  	  	</snapshots>
  		</repository>
  	</repositories>
  	
  	<pluginRepositories>
+ 	<!-- Notre plugin repository -->
+ 	<<pluginRepository>>
+			<id>Izanami</id>
+			<name>Izanami Repository</name>
+			<url>http://izanami/~emasliah/m2</url>
+ 	  	<releases>
+ 	    	<enabled>true</enabled>
+ 	  	</releases>
+ 	  	<snapshots>
+ 	    	<enabled>true</enabled>
+ 	  	</snapshots>
+ 		</pluginRepository>
+    <pluginRepository>
+        <id>Tlc</id>
+        <name>TLC Repository</name>
+        <url>http://commons.ucalgary.ca/pub/m2</url>
+        <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+    </pluginRepository>
 		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
     <pluginRepository>
         <id>Tlc</id>
         <name>TLC Repository</name>
         <url>http://commons.ucalgary.ca/pub/m2</url>
+        <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
     </pluginRepository>
+    <!-- Le plugin Repository de Maven pour les Snapshots -->
+    <pluginRepository>
+          <id>apache.org</id>
+          <name>Maven Plugin Snapshots</name>
+          <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
 	</pluginRepositories>
    
 </project>
