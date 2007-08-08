@@ -1,35 +1,30 @@
-/**
- *
- */
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
 import fr.lip6.move.coloane.interfaces.model.Arc;
 
 /**
- * @author cdcharles
- *
+ * Arc concret pour permettre les tests unitaires
  */
 public class ConcreteArc extends Arc {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
-	 * @param arcType
-	 * @param id
+	 * Constructeur
+	 * @param arcType Le type d'arc
+	 * @param id L'identifiant de l'arc
 	 */
 	public ConcreteArc(String arcType, int id) {
 		super(arcType, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param arcType
+	 * Constructeur
+	 * @param arcType Le type d'arc
 	 */
 	public ConcreteArc(String arcType) {
 		super(arcType);
-		// TODO Auto-generated constructor stub
 	}
 
+	// Pas besoin de traduction pour ce type d'arc
 	public final String[] translate() {
 		return null;
 	}

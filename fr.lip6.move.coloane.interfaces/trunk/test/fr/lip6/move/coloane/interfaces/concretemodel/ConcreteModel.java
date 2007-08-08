@@ -1,68 +1,30 @@
-/**
- *
- */
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.Model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Vector;
 
 /**
- * @author cdcharles
- *
+ * Model concret pour permettre les tests unitaires
  */
 public class ConcreteModel extends Model {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
-	 *
+	 * Constructeur
 	 */
 	public ConcreteModel() {
-		// TODO Auto-generated constructor stub
+
 	}
 
-	/**
-	 * @param commands
-	 */
-	public ConcreteModel(Vector<String> commands) {
-		super(commands);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param commandsFile
-	 * @throws IOException
-	 * @throws SyntaxErrorException
-	 */
-	public ConcreteModel(File commandsFile) throws IOException,
-			SyntaxErrorException {
-		super(commandsFile);
-		// TODO Auto-generated constructor stub
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see fr.lip6.move.coloane.interfaces.model.Model#translate()
-	 */
+	// Pas besoin de traduction pour cet objet
 	@Override
 	public final String[] translate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see fr.lip6.move.coloane.interfaces.model.IModel#buildModel(java.util.Vector)
-	 */
-	public void buildModel(Vector<String> commands) throws SyntaxErrorException {
-		// TODO Auto-generated method stub
-
+	// Pas besoin de construction de modele
+	public final void buildModel(Vector<String> commands) throws SyntaxErrorException {
+		return;
 	}
-
 }
