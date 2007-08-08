@@ -53,7 +53,7 @@
         <configuration>
           <!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/releases</tagBase>-->
       		<branchName>${project.artifactId}-${project.version}</branchName>
-      		<preparationGoals>clean integration-test</preparationGoals>
+      		<preparationGoals>clean integration-test release:branch</preparationGoals>
       		<updateBranchVersions>false</updateBranchVersions>
       		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
       		<updateVersionsToSnapshot>true</updateVersionsToSnapshot>
