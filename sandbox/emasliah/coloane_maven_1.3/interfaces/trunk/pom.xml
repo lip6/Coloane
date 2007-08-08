@@ -27,7 +27,16 @@
 		
 			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
 			
-				<plugin>
+			<plugin>
+    		<!-- Pour le svn -->
+       	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+    		<configuration>
+      		<message>modified pom</message>
+      	</configuration>
+      </plugin>
+			
+			<plugin>
     		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
