@@ -7,16 +7,16 @@
 	<name>Coloane - Maven-Packaging</name>
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
 	
-	<modules>
+	<!--<modules>
   	<module>../../interfaces/trunk</module>
   	<module>../../apicami/trunk</module>
   	<module>../../core/trunk</module>
-  </modules>
+  </modules>-->
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.3.0</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.3.0</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane-maven/tags/coloane-maven-1.3.0</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.artifactId}/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.artifactId}</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.artifactId}</url>
   </scm>
   
   <organization>
