@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.objects;
 
-public interface IPosition {
+public interface IInflexPoint {
 
 
 	int getXPosition();

@@ -13,6 +13,7 @@ package fr.lip6.move.coloane.interfaces.objects;
  * 	<li> Un message </li>
  * 	<li> Un type de saisie </li>
  * 	<li> Un indicateur de saisie multi-lignes</li>
+ *  <li> Une valeur par defaut</li>
  * </lu>
  *
  * Beaucoup d'indicateurs utilisent des constantes definies dans l'interface IDialog
@@ -20,15 +21,33 @@ package fr.lip6.move.coloane.interfaces.objects;
  */
 
 public final class DialogCom implements IDialogCom {
+
+	/** Identifiant de la boite de dialogue */
 	private int id;
+
+	/** Type */
 	private int type;
+
+	/** Ensemble de boutons a afficher */
 	private int buttonType;
+
+	/** Titre de la boite de dialogue */
 	private String title;
+
+	/** Message d'aide attache a la boite de dialogue */
 	private String help;
+
+	/** Message preconstruit */
 	private String message;
+
+	/** Type de saisie */
 	private int inputType;
+
+	/** Indicateur de saisie multiligne */
 	private int multiLine;
-	private String def = "";
+
+	/** Valeur par defaut */
+	private String defaut = "";
 
 	/**
 	 * Constructeur
@@ -57,15 +76,15 @@ public final class DialogCom implements IDialogCom {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getDef()
 	 */
-	public String getDef() {
-		return def;
+	public String getDefault() {
+		return defaut;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setDef(String)
 	 */
-	public void setDef(String dialogDef) {
-		this.def = dialogDef;
+	public void setDefault(String dialogDefaut) {
+		this.defaut = dialogDefaut;
 	}
 
 	/* (non-Javadoc)

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.objects.IPosition;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 
 import java.util.Vector;
 
@@ -13,6 +13,11 @@ public interface IArc {
 	 */
 	String getArcType();
 
+	/**
+	 * Indique le type de l'arc
+	 * @param arcType Le type de l'arc
+	 */
+	void setArcType(String arcType);
 
 	/**
 	 * Retourne l'identifiant unique de l'arc.
@@ -67,14 +72,14 @@ public interface IArc {
 	 * @param attribute Attribut a supprimer
 	 * @see IAttribute
 	 */
-	void removeAttribute(IAttribute attribute);
+	void removeAttribute(IAttribute attribute) throws ModelException;
 
 	/**
 	 * Spprime l'attribut en fonction de son index.
 	 * @param index Index de l'attribut a supprimer
 	 * @see IAttribute
 	 */
-	void removeAttribute(int index);
+	void removeAttribute(int index) throws ModelException;
 
 	/**
 	 * Cette methode retourne le nombre d'attributs de l'arc.
@@ -100,55 +105,54 @@ public interface IArc {
 	 * Retourne le vecteur de position des points intermediaires
 	 * @return Vector La liste des positions
 	 */
-	Vector<IPosition> getListOfPI();
+	Vector<IInflexPoint> getListOfPI();
 
 	/**
 	 * Ajout d'un point intermediaire a l'arc
 	 * @param x,y Position (x,y) a ajouter
-	 * @see Position
+	 * @see InflexPoint
 	 */
-	void addPI(int x, int y) throws SyntaxErrorException;
+	void addPI(int x, int y) throws ModelException;
 
 	/**
 	 * Ajout d'un point intermediaire a l'arc en precisant sa position dans la liste des points
 	 * @param x,y Position (x,y) a ajouter
 	 * @param index Position dans la liste des points d'inflexion
-	 * @see Position
+	 * @see InflexPoint
 	 */
-	void addPI(int x, int y, int index) throws SyntaxErrorException;
+	void addPI(int x, int y, int index) throws ModelException;
 
 
 	/**
 	 * Supprime le point d'inflexion repere par les coordonnees (x,y)
 	 * @param x,y Position(x,y) a supprimer
-	 * @see Position
+	 * @see InflexPoint
 	 */
-	void removePI(int x, int y) throws SyntaxErrorException;
+	void removePI(int x, int y) throws ModelException;
 
 	/**
 	 * Supprime le point d'inflexion donne par son indice dans la liste
 	 * @param index L'indice du point d'inflexion a supprimer
-	 * @throws SyntaxErrorException
-	 * @see Position
+	 * @throws ModelException
+	 * @see InflexPoint
 	 */
-	void removePI(int index) throws SyntaxErrorException;
+	void removePI(int index) throws ModelException;
 
 	/**
 	 * Modifie les coordonnees d'un point d'inflexion deja existant
 	 * @param index L'indice du point d'inflexion dans la liste
 	 * @param newX Nouvelle abscisse
 	 * @param newY Nouvelle ordonnee
-	 * @see Position
+	 * @see InflexPoint
 	 */
-	void modifyPI(int index, int newX, int newY);
+	void modifyPI(int index, int newX, int newY) throws ModelException;
 
 	/**
 	 * Retourne la nieme position intermediaire de l'arc
 	 * @param index Index de la position recherche
 	 * @return IPosition
 	 */
-	IPosition getNthPI(int index);
-
+	IInflexPoint getNthPI(int index);
 
 	/**
 	 * Traduit un arc en chaines de caracteres du protocole considere.

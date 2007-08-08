@@ -46,45 +46,10 @@ public interface IAttribute {
 	void setValue(String value);
 
 	/**
-	 * Modifie la valeur de la ligne line de l'attribut.
-	 * @param value la valeur de l'attribut
-	 * @param numLine la ligne de la valeur de l'attribut
-	 * @throws Exception si ce numuro de ligne n'existe pas
-	 */
-	// void setValue(String value, int numLine) throws Exception;
-
-	/**
-	 * Augmente le nombre de lignes de la valeur de l'attribut.
-	 * @param nb Nombre de lignes a rajouter a la valeur de l'attribut
-	 * @throws Exception si le nombre a ajouter est negatif
-	 */
-	// void riseNbLine(int nb) throws Exception;
-
-	/**
-	 * Cette methode retire la ligne line de la valeur de l'attribut.
-	 * La derniere ligne ne peut pas etre retiree.
-	 * @param line Ligne a retirer
-	 */
-	// void removeLine(int line);
-
-	/**
 	 * Retourne la valeur de la premiere ligne de l'attribut.
 	 * @return String
 	 */
 	String getValue();
-
-	/**
-	 * Retourne la valeur de la ligne line de l'attribut.
-	 * @param line la ligne de la valeur de l'attribut (0 pour la 1er ligne)
-	 * @return String
-	 */
-	// String getValue(int line);
-
-	/**
-	 * Retourne le nombre de lignes de l'attribut.
-	 * @return int
-	 */
-	// int getSize();
 
 	/**
 	 * Traduit un attribut en chaines de caracteres du protocole considere.

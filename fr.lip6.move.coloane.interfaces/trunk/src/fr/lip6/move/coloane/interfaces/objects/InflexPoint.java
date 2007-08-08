@@ -3,18 +3,18 @@ package fr.lip6.move.coloane.interfaces.objects;
 /**
  *
  */
-public class Position implements IPosition {
+public class InflexPoint implements IInflexPoint {
 
 	private int xPosition;
 	private int yPosition;
 
-	public Position() {
+	public InflexPoint() {
 		this.xPosition = 0;
 		this.yPosition = 0;
 	}
 
 
-	public Position(int x, int y) {
+	public InflexPoint(int x, int y) {
 		this.xPosition = x;
 		this.yPosition = y;
 	}

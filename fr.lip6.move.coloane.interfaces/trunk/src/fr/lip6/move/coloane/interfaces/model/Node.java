@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+
 import java.util.Vector;
 
 /**
@@ -23,16 +25,16 @@ public abstract class Node implements INode {
 	private static final long serialVersionUID = 1L;
 
 	/** Type du noeud */
-	protected String type;
+	private String type;
 
 	/** Identificateur du noeud */
-	protected int id;
+	private int id;
 
 	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-	protected int xPosition;
+	private int xPosition;
 
 	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-	protected int yPosition;
+	private int yPosition;
 
 	/** Liste des arc entrants */
 	private Vector<IArc> listOfInputArc;
@@ -47,8 +49,6 @@ public abstract class Node implements INode {
 	 * Constructeur
 	 *
 	 * @param nodeType Type du noeud
-	 * @see IAttribute
-	 * @see IArc
 	 */
 	public Node(String nodeType) {
 		this.type = nodeType;
@@ -66,17 +66,11 @@ public abstract class Node implements INode {
 	 * @param nodeType Type du noeud
 	 * @param x	Position x du noeud
 	 * @param y	Position y du noeud
-	 * @see IAttribute
-	 * @see IArc
 	 */
 	public Node(String nodeType, int x, int y) {
-		this.type = nodeType;
-		this.id = 0;
+		this(nodeType);
 		xPosition = x;
 		yPosition = y;
-		this.listOfAttr = new Vector<IAttribute>();
-		this.listOfInputArc = new Vector<IArc>();
-		this.listOfOutputArc = new Vector<IArc>();
 	}
 
 	/**
@@ -86,18 +80,10 @@ public abstract class Node implements INode {
 	 * @param nodeType Type du noeud
 	 * @param x	Position x du noeud
 	 * @param y	Position y du noeud
-	 * @see IAttribute
-	 * @see IArc
 	 */
 	public Node(String nodeType, int x, int y, int nodeId) {
-
-		this.type = nodeType;
+		this(nodeType, x, y);
 		this.id = nodeId;
-		xPosition = x;
-		yPosition = y;
-		this.listOfAttr = new Vector<IAttribute>();
-		this.listOfInputArc = new Vector<IArc>();
-		this.listOfOutputArc = new Vector<IArc>();
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +99,7 @@ public abstract class Node implements INode {
 	public final void setId(int nodeId) {
 		this.id = nodeId;
 
-		// Le changement d'idientifiant implique obligatoirement
-		// Le referencement des attributs
+		// L'attribution d'un identifiant implique obligatoirement le referencement des attributs
 		for (IAttribute att : this.listOfAttr) {
 			att.setRefId(id);
 		}
@@ -159,22 +144,22 @@ public abstract class Node implements INode {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public final void removeInputArc(IArc arc) {
+	public final void removeInputArc(IArc arc) throws ModelException {
 		try {
 			this.listOfInputArc.remove(arc);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the input arc");
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeInputArc(int)
 	 */
-	public final void removeInputArc(int index) {
+	public final void removeInputArc(int index) throws ModelException {
 		try {
 			this.listOfInputArc.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the input arc");
 		}
 	}
 
@@ -206,22 +191,22 @@ public abstract class Node implements INode {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
-	public final void removeOutputArc(IArc arc) {
+	public final void removeOutputArc(IArc arc) throws ModelException {
 		try {
 			this.listOfOutputArc.remove(arc);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the output arc");
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeOutputArc(int)
 	 */
-	public final void removeOutputArc(int index) {
+	public final void removeOutputArc(int index) throws ModelException {
 		try {
 			this.listOfOutputArc.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the output arc");
 		}
 	}
 
@@ -258,22 +243,22 @@ public abstract class Node implements INode {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)
 	 */
-	public final void removeAttribute(IAttribute attribute) {
+	public final void removeAttribute(IAttribute attribute) throws ModelException {
 		try {
 			this.listOfAttr.remove(attribute);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the attribute : it does not exist");
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#removeAttribute(int)
 	 */
-	public final void removeAttribute(int index) {
+	public final void removeAttribute(int index) throws ModelException {
 		try {
 			this.listOfAttr.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the attribute : it does not exist");
 		}
 	}
 

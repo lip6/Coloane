@@ -1,7 +1,11 @@
 package fr.lip6.move.coloane.interfaces.exceptions;
 
 /**
- * Erreur de syntaxe dans la reception ou l'envoi de commandes a la plateforme
+ * Syntax Error Exception
+ * <ul>
+ *  <li>Erreur de syntaxe dans la reception ou l'envoi de commandes a la plateforme</li>
+ *  <li>Erreur lors de la construction du modele</li>
+ * </ul>
  */
 public class SyntaxErrorException extends Exception {
 

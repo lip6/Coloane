@@ -15,13 +15,14 @@ public interface IDialogCom {
 	int getButtonType();
 
 	/**
-	 * TODO: Documenter
+	 * Retourne le message par defaut a afficher dans la boite de dialogue
+	 * @return La chaine de caracteres contenant la valeur par defaut
 	 */
-	String getDef();
+	String getDefault();
 
 	/**
 	 * Indique le message d'aide associe avec la boite de dialogue
-	 * @return La chaine de caractere contenant le message d'aide
+	 * @return La chaine de caracteres contenant le message d'aide
 	 */
 	String getHelp();
 
@@ -80,9 +81,10 @@ public interface IDialogCom {
 	void setButtonType(int buttonType);
 
 	/**
-	 * TODO : Documenter
+	 * Indique le message par defaut a afficher dans la boite de dialogue
+	 * @param dialogDefaut Valeur par defaut de la boite de dialogue
 	 */
-	void setDef(String def);
+	void setDefault(String defaut);
 
 	/**
 	 * Positionne la valeur du message d'aide de la boite de dialogue

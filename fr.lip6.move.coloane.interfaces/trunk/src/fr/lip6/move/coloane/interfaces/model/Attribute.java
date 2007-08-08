@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import java.io.Serializable;
-
 /**
  * Cette classe represente un attribut generique d'un modele. <br>
  * Un attribut se structure de la maniere suivante :
@@ -13,25 +11,22 @@ import java.io.Serializable;
  * </ul>
  *
  */
-public abstract class Attribute implements IAttribute, Serializable {
-
-	/** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
-	private static final long serialVersionUID = 1L;
+public abstract class Attribute implements IAttribute {
 
 	/** Nom de l'attribut sous forme de chaine de caracteres. */
-	protected String name;
+	private String name;
 
 	/** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
 	private String value;
 
 	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-	protected int xPosition;
+	private int xPosition;
 
 	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-	protected int yPosition;
+	private int yPosition;
 
 	/** Identifiant unique de l'element du modele possedant cette attribut. */
-	protected int refId;
+	private int refId;
 
 
 
@@ -99,7 +94,6 @@ public abstract class Attribute implements IAttribute, Serializable {
 	public final void setValue(String attributeValue) {
 		this.value = attributeValue;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#getValue()

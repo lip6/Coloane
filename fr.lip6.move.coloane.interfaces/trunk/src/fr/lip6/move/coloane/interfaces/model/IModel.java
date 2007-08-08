@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 import java.util.Vector;
@@ -37,14 +38,14 @@ public interface IModel {
 	 * @param node Noeud a ajouter
 	 * @see INode
 	 */
-	void addNode(INode node) throws SyntaxErrorException;
+	void addNode(INode node) throws ModelException;
 
 	/**
 	 * Ajoute un arc au modele
 	 * @param arc Arc a ajouter
 	 * @see Arc
 	 */
-	void addArc(IArc arc) throws SyntaxErrorException;
+	void addArc(IArc arc) throws ModelException;
 
 	/**
 	 * Ajoute un attribut au modele.
@@ -59,14 +60,14 @@ public interface IModel {
 	 * @see IArc
 	 * @see INode
 	 */
-	void removeNode(INode node);
+	void removeNode(INode node) throws ModelException;
 
 	/**
 	 * Supprime un arc du modele
 	 * @param arc Arc a supprimer du modele
 	 * @see IArc
 	 */
-	void removeArc(IArc arc);
+	void removeArc(IArc arc) throws ModelException;
 
 	/**
 	 * Retourne le nombre d'attributs du modele.

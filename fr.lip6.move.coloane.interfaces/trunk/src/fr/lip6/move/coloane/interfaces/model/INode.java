@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+
 import java.util.Vector;
 
 public interface INode {
@@ -55,14 +57,14 @@ public interface INode {
 	 * @param arc Arc a supprimer
 	 * @see IArc
 	 */
-	void removeInputArc(IArc arc);
+	void removeInputArc(IArc arc) throws ModelException;
 
 	/**
 	 * Supprime un arc entrant
 	 * @param index	Index de l'arc a supprimer
 	 * @see IArc
 	 */
-	void removeInputArc(int index);
+	void removeInputArc(int index) throws ModelException;
 
 	/**
 	 * Retourne le nombre d'arc entrants
@@ -89,14 +91,14 @@ public interface INode {
 	 * @param arc Arc a supprimer
 	 * @see IArc
 	 */
-	void removeOutputArc(IArc arc);
+	void removeOutputArc(IArc arc) throws ModelException;
 
 	/**
 	 * Supprime un arc sortant
 	 * @param index Index de l'arc a supprimer
 	 * @see IArc
 	 */
-	void removeOutputArc(int index);
+	void removeOutputArc(int index) throws ModelException;
 
 	/**
 	 * Retourne le nombre d'arcs sortants
@@ -124,13 +126,13 @@ public interface INode {
 	 * @param attribute	Attribut
 	 * @see IAttribute
 	 */
-	void removeAttribute(IAttribute attribute);
+	void removeAttribute(IAttribute attribute) throws ModelException;
 
 	/**
 	 * Suppression d'un attribut en fonction de son index dans la liste des attributs
 	 * @param index Index de l'attribut dans la liste
 	 */
-	void removeAttribute(int index);
+	void removeAttribute(int index) throws ModelException;
 
 	/**
 	 * Retourne le nombre d'attributs du noeud

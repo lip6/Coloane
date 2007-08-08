@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.objects.IPosition;
-import fr.lip6.move.coloane.interfaces.objects.Position;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
+import fr.lip6.move.coloane.interfaces.objects.InflexPoint;
 
-import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -22,76 +21,57 @@ import java.util.Vector;
  * <ul>
  * <li>Un arc possede obligatoirement un noeud source et un noeud cible.</li>
  * </ul>
- *
  * @see INode
  * @see IAttribute
  * @see IArc
  */
-public abstract class Arc implements IArc, Serializable {
-
-	/**
-	 * Utilise lors de la deserialization afin de s'assurer que les versions des
-	 * classes Java soient concordantes.
-	 */
-	private static final long serialVersionUID = 1L;
+public abstract class Arc implements IArc {
 
 	/** Type de l'arc */
-	protected String type;
+	private String type;
 
 	/** Identifiant de l'arc */
-	protected int id;
+	private int id;
 
 	/**
 	 * Vecteur contenant l'ensemble des objets de type Attribut de l'arc.
-	 *
 	 * @see IAttribute
 	 */
 	private Vector<IAttribute> listOfAttr;
 
 	/** Vecteur contenant l'ensemble des points intermediaire de type Position. */
-	private Vector<IPosition> listOfPI;
+	private Vector<IInflexPoint> listOfPI;
 
 	/** Noeud d'entree de l'arc. */
-	protected INode startingNode;
+	private INode startingNode;
 
 	/** Noeud de sortie de l'arc. */
-	protected INode endingNode;
+	private INode endingNode;
 
 	/**
 	 * Constructeur de la classe Arc.
-	 *
-	 * @param arcType
-	 *            Type de l'arc
-	 * @param id
-	 *            Identifant unique de l'arc
+	 * @param arcType Type de l'arc
+	 * @param arcId Identifant unique de l'arc
 	 */
 	public Arc(String arcType, int arcId) {
 		this.type = arcType;
 		this.id = arcId;
 		this.listOfAttr = new Vector<IAttribute>();
-		this.listOfPI = new Vector<IPosition>();
+		this.listOfPI = new Vector<IInflexPoint>();
 		this.startingNode = null;
 		this.endingNode = null;
 	}
 
 	/**
 	 * Constructeur de la classe Arc.
-	 *
-	 * @param arcType
-	 *            Type de l'arc
+	 * @param arcType Type de l'arc
 	 */
 	public Arc(String arcType) {
-		this.type = arcType;
-		this.id = 0;
-		this.listOfAttr = new Vector<IAttribute>();
-		this.listOfPI = new Vector<IPosition>();
-		this.startingNode = null;
-		this.endingNode = null;
+		this (arcType, 0);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getArcType()
 	 */
 	public final String getArcType() {
@@ -100,7 +80,14 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setType(java.lang.String)
+	 */
+	public final void setArcType(String arcType) {
+		this.type = arcType;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getId()
 	 */
 	public final int getId() {
@@ -109,14 +96,14 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setId(int)
 	 */
 	public final void setId(int arcId) {
 		this.id = arcId;
 
-		// Le changement d'idientifiant implique obligatoirement
-		// Le rereferencement des attributs
+		// L'attribution d'un identifiant implique obligatoirement
+		// le rereferencement des attributs. On parcours donc cette liste
+		// En modifiant chacun de ses membres.
 		for (IAttribute att : this.listOfAttr) {
 			att.setRefId(id);
 		}
@@ -124,7 +111,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setStartingNode(fr.lip6.move.coloane.interfaces.model.Node)
 	 */
 	public final void setStartingNode(INode node) {
@@ -133,7 +119,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#setEndingNode(fr.lip6.move.coloane.interfaces.model.Node)
 	 */
 	public final void setEndingNode(INode node) {
@@ -142,7 +127,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getStartingNode()
 	 */
 	public final INode getStartingNode() {
@@ -151,7 +135,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getEndingNode()
 	 */
 	public final INode getEndingNode() {
@@ -160,7 +143,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#addAttribute(fr.lip6.move.coloane.interfaces.model.Attribute)
 	 */
 	public final void addAttribute(IAttribute attribute) {
@@ -172,33 +154,30 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#removeAttribute(fr.lip6.move.coloane.interfaces.model.Attribute)
 	 */
-	public final void removeAttribute(IAttribute attribute) {
+	public final void removeAttribute(IAttribute attribute) throws ModelException {
 		try {
 			this.listOfAttr.remove(attribute);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the attribute. It does not exists !");
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#removeAttribute(int)
 	 */
-	public final void removeAttribute(int index) {
+	public final void removeAttribute(int index) throws ModelException {
 		try {
 			this.listOfAttr.remove(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
+			throw new ModelException("Cannot delete the attribute. It does not exists !");
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getListOfAttrSize()
 	 */
 	public final int getListOfAttrSize() {
@@ -207,7 +186,6 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getListOfAttr()
 	 */
 	public final Vector<IAttribute> getListOfAttr() {
@@ -216,21 +194,22 @@ public abstract class Arc implements IArc, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getNthAttr(int)
 	 */
 	public final IAttribute getNthAttr(int index) {
-		IAttribute attr = null;
 		try {
-			attr = (IAttribute) this.listOfAttr.get(index);
+			return (IAttribute) this.listOfAttr.get(index);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
-		return attr;
 	}
 
-	/* Retourne la liste des points intermediaires */
-	public final Vector<IPosition> getListOfPI() {
+	/**
+	 * Retourne la liste des points intermediaires de l'arc
+	 * @return Vector<IPosition>
+	 * @see IInflexPoint
+	 */
+	public final Vector<IInflexPoint> getListOfPI() {
 		return this.listOfPI;
 	}
 
@@ -255,23 +234,23 @@ public abstract class Arc implements IArc, Serializable {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#addPI(int, int)
 	 */
-	public final void addPI(int x, int y) throws SyntaxErrorException {
-		addPI(x, y, this.listOfPI.size());
+	public final void addPI(int x, int y) throws ModelException {
+		this.addPI(x, y, this.listOfPI.size());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#addPI(int, int, int)
 	 */
-	public final void addPI(int x, int y, int index) throws SyntaxErrorException {
+	public final void addPI(int x, int y, int index) throws ModelException {
 
 		// On doit verifier que le point n'existe pas deja
 		if (checkPI(x, y) >= 0) {
-			throw new SyntaxErrorException("Un point intermediaire de coordonnees identiques existe deja pour l'arc d'identifiant "	+ this.getId());
+			throw new ModelException("A bendpoint already exists for these coordinates");
 		}
 
 		// Si il est unique
-		IPosition p = new Position(x, y);
+		IInflexPoint p = new InflexPoint(x, y);
 		listOfPI.add(index, p);
 	}
 
@@ -279,12 +258,12 @@ public abstract class Arc implements IArc, Serializable {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#removePI(int, int)
 	 */
-	public final void removePI(int x, int y) throws SyntaxErrorException {
+	public final void removePI(int x, int y) throws ModelException {
 		int i = checkPI(x, y);
 		if (i >= 0) {
 			this.listOfPI.remove(i);
 		} else {
-			throw new SyntaxErrorException("Aucun point intermediaire ne correspond pour l'arc d'identifiant " + this.getId());
+			throw new ModelException("Aucun point intermediaire ne correspond pour l'arc d'identifiant " + this.getId());
 		}
 	}
 
@@ -292,30 +271,41 @@ public abstract class Arc implements IArc, Serializable {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#removePI(int)
 	 */
-	public final void removePI(int index) throws SyntaxErrorException {
+	public final void removePI(int index) throws ModelException {
 		if (index < this.listOfPI.size()) {
 			this.listOfPI.remove(index);
 		} else {
-			throw new SyntaxErrorException("Impossible de trouver le point d'inflexion a supprimer");
+			throw new ModelException("Impossible de trouver le point d'inflexion a supprimer");
 		}
 	}
 
-	public final void modifyPI(int index, int newX, int newY) {
-		IPosition p = this.listOfPI.get(index);
-		p.setPosition(newX, newY);
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IArc#modifyPI(int, int, int)
+	 */
+	public final void modifyPI(int index, int newX, int newY) throws ModelException {
+		try {
+			IInflexPoint p = this.listOfPI.get(index);
+			p.setPosition(newX, newY);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ModelException("The bendpoint does not exist");
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getNthPI(int)
 	 */
-	public final IPosition getNthPI(int index) {
-		return listOfPI.get(index);
+	public final IInflexPoint getNthPI(int index) {
+		try {
+			return listOfPI.get(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IArc#translateToCAMI()
 	 */
 	public abstract String[] translate();
