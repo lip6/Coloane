@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.ui;
 
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
-
 import fr.lip6.move.coloane.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.ui.editpart.ElementEditPart;
@@ -12,6 +9,8 @@ import fr.lip6.move.coloane.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartFactory;
 
 /**
  * Cette Factory construit les EditParts pour chacun des elements du modele.
@@ -23,7 +22,7 @@ public class PartFactory implements EditPartFactory {
 	 * @param context
 	 * @param modelElement l'element du modele pour lequel on doit construire un EditPart
 	 */
-	public EditPart createEditPart(EditPart context, Object modelElement) {
+	public final EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
 
 		// Si l'elemen est nul... Probleme

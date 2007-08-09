@@ -39,7 +39,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/select_form.png")); //$NON-NLS-1$
-		setWindowTitle(Coloane.traduction.getString("ui.wizards.NewModelWizard.1")); //$NON-NLS-1$
+		setWindowTitle(Coloane.getTranslate().getString("ui.wizards.NewModelWizard.1")); //$NON-NLS-1$
 		page1 = new SelectFormalismPage();
 		page2 = new ModelCreationPage(workbench, selection);
 	}
@@ -66,6 +66,6 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 */
 	public final void setFormalismName(String name) {
 		this.formalismName = name;
-		System.out.println(Coloane.traduction.getString("ui.wizards.NewModelWizard.2") + name); //$NON-NLS-1$
+		System.out.println(Coloane.getTranslate().getString("ui.wizards.NewModelWizard.2") + name); //$NON-NLS-1$
 	}
 }

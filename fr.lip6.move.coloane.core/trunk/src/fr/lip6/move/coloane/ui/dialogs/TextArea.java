@@ -22,14 +22,13 @@ public abstract class TextArea implements ITextArea {
 	/*
 	 * In CAMI : inputType, multiLine, defaultValue
 	 */
-	public TextArea(Composite parent, int inputType,
-			int multiLine, String defaultValue) {
+	public TextArea(Composite parent, int inputType, int multiLine, String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 
 	public abstract ArrayList<String> getText();
 
-	public void setToolTiptext(String toolTipText) {
+	public final void setToolTiptext(String toolTipText) {
 		textWidget.setToolTipText(toolTipText);
 	}
 }

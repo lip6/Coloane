@@ -37,7 +37,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		IProject newProject = projectCreationPage.getProjectHandle();
 		IProjectDescription description = workspace.newProjectDescription(newProject.getName());
 
-		String[] natureIds = {Coloane.traduction.getString("ui.wizards.NewProjectWizard.0")}; //$NON-NLS-1$
+		String[] natureIds = {Coloane.getTranslate().getString("ui.wizards.NewProjectWizard.0")}; //$NON-NLS-1$
 		description.setNatureIds(natureIds);
 		IPath oldPath = Platform.getLocation();
 		IPath newPath = projectCreationPage.getLocationPath();
@@ -66,7 +66,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/coin_new_project.png")); //$NON-NLS-1$
-		setWindowTitle(Coloane.traduction.getString("ui.wizards.NewProjectWizard.2")); //$NON-NLS-1$
+		setWindowTitle(Coloane.getTranslate().getString("ui.wizards.NewProjectWizard.2")); //$NON-NLS-1$
 		projectCreationPage = new ProjectCreationPage("newproject", selection); //$NON-NLS-1$
 	}
 

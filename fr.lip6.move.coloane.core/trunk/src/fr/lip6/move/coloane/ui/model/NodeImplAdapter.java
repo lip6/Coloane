@@ -186,7 +186,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			this.node.addInputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null, arcAdapter);
 		} else {
-			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
+			throw new BuildException(Coloane.translate.getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
 		}
 	}
 
@@ -200,7 +200,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			this.node.addOutputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null, arcAdapter);
 		} else {
-			throw new BuildException(Coloane.traduction.getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
+			throw new BuildException(Coloane.translate.getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
 		}
 	}
 

@@ -33,22 +33,22 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
-					Coloane.traduction.getString("ui.actions.ConnectModelAction.0"), //$NON-NLS-1$
-					Coloane.traduction.getString("ui.actions.ConnectModelAction.1")); //$NON-NLS-1$
+					Coloane.getTranslate().getString("ui.actions.ConnectModelAction.0"), //$NON-NLS-1$
+					Coloane.getTranslate().getString("ui.actions.ConnectModelAction.1")); //$NON-NLS-1$
 		}
 
-		System.out.println(Coloane.traduction.getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
-		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
+		System.out.println(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
+		HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
 
 		if (window.getActivePage().getActiveEditor() == null) {
-			HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.4")); //$NON-NLS-1$
+			HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.4")); //$NON-NLS-1$
 		} else {
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
 
 			try {
 				if (editor.getModel() != null) {
 					// Le modele existe... On peut essayer de le connecter
-					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.ConnectModelAction.5")); //$NON-NLS-1$
+					HistoryView.getInstance().addText(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.5")); //$NON-NLS-1$
 
 					// Transformation du modeles en modeles implementant l'interface de la Com
 					String eclipseSessionName;
@@ -66,16 +66,16 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 
 					if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
 						// TODO : Griser les menues adequats
-						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.14")); //$NON-NLS-1$
+						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.14")); //$NON-NLS-1$
 						MenuManipulation.setEnabled("Platform", "Connect model", false); //$NON-NLS-1$ //$NON-NLS-2$
 						MenuManipulation.setEnabled("Platform", "Disconnect model", true); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {
-						// TODO : GRiser les menus adequats
-						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.ConnectModelAction.15")); //$NON-NLS-1$
+						// TODO : Griser les menus adequats
+						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.15")); //$NON-NLS-1$
 					}
 
 				} else {
-					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.ConnectModelAction.16")); //$NON-NLS-1$
+					HistoryView.getInstance().addText(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.16")); //$NON-NLS-1$
 				}
 
 			} catch (Exception e) {

@@ -9,16 +9,15 @@ import org.eclipse.draw2d.geometry.Point;
 
 public interface IArcGraphicInfo {
 
-	// Style de sa figure
-	/** ID pour circle */
+	// Style de l'arc
+	/** ID pour fleche normale */
 	int FIG_ARC_SIMPLE = 0;
 
-	/** ID pour rectangle */
+	/** Losange au bout de la fleche */
 	int FIG_ARC_INHIBITOR = 1;
 
 	/**
 	 * Retourne le point central de l'arc
-	 * TODO : Gerer les arc casses
 	 * @return le point milieu
 	 */
 	Point findMiddlePoint();

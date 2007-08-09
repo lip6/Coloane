@@ -27,7 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 public class HistoryView extends ViewPart {
 
 	/** Point d'acces pour les autres classes */
-	public static HistoryView instance;
+	private static HistoryView instance;
 
 	/** Visionneuse */
 	private TextViewer viewer = null;
@@ -107,8 +107,8 @@ public class HistoryView extends ViewPart {
 						.canDoOperation(ITextOperationTarget.COPY);
 			}
 		};
-		copyAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
-		copyAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
+		copyAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
+		copyAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
 		copyAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_TOOL_COPY));
@@ -120,8 +120,8 @@ public class HistoryView extends ViewPart {
 						.doOperation(ITextOperationTarget.SELECT_ALL);
 			}
 		};
-		selectAllAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
-		selectAllAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
+		selectAllAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
+		selectAllAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
 		selectAllAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_OBJ_FILE));
@@ -130,8 +130,8 @@ public class HistoryView extends ViewPart {
 			public void run() {
 			}
 		};
-		findAction.setText(Coloane.traduction.getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
-		findAction.setToolTipText(Coloane.traduction.getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
+		findAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
+		findAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
 	}
 
 	/**
@@ -204,12 +204,10 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Ins�rer du texte dans la fen�tre de l'historique.
-	 *
-	 * @param text
-	 *            Texte � ins�rer
+	 * Inserer du texte dans la fenetre de l'historique.
+	 * @param text Texte a afficher
 	 */
-	public void addText(String text) {
+	public final void addText(String text) {
 		if (document != null) {
 
 			try {
@@ -222,6 +220,10 @@ public class HistoryView extends ViewPart {
 				 */
 			}
 		}
+	}
+
+	public static HistoryView getInstance() {
+		return instance;
 	}
 
 }

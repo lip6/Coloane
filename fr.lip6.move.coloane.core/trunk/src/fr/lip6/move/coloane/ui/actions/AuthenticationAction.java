@@ -37,18 +37,18 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 
 		System.out.println("Demande d'authentification");
 
-		HistoryView.instance.addText("[?] Authentification -> ");
+		HistoryView.getInstance().addText("[?] Authentification -> ");
 
 		// Affichage de la boite de dialogue d'authentification
 		AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
 
 		if (authDialog.open() == Dialog.OK) {
-			HistoryView.instance.addLine("OK");
+			HistoryView.getInstance().addLine("OK");
 			action.setEnabled(false);
 			MenuManipulation.setEnabled("Platform", "Connect model", true);
 			MenuManipulation.setEnabled("Platform", "Disconnect model", true);
 		} else {
-			HistoryView.instance.addLine("KO");
+			HistoryView.getInstance().addLine("KO");
 		}
 	}
 

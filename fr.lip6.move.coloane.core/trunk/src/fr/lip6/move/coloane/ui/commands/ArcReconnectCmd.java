@@ -157,7 +157,7 @@ public class ArcReconnectCmd extends Command {
 		if (connectionSource == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel(Coloane.traduction.getString("ui.commands.ArcReconnectCmd.0")); //$NON-NLS-1$
+		setLabel(Coloane.getTranslate().getString("ui.commands.ArcReconnectCmd.0")); //$NON-NLS-1$
 		newSource = connectionSource;
 		newTarget = null;
 	}
@@ -166,7 +166,7 @@ public class ArcReconnectCmd extends Command {
 		if (connectionTarget == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel(Coloane.traduction.getString("ui.commands.ArcReconnectCmd.1")); //$NON-NLS-1$
+		setLabel(Coloane.getTranslate().getString("ui.commands.ArcReconnectCmd.1")); //$NON-NLS-1$
 		newSource = null;
 		newTarget = connectionTarget;
 	}

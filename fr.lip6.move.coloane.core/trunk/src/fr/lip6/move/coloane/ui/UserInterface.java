@@ -66,8 +66,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				if (HistoryView.instance != null) {
-					HistoryView.instance.addLine(msg);
+				if (HistoryView.getInstance() != null) {
+					HistoryView.getInstance().addLine(msg);
 				}
 			}
 		});

@@ -33,8 +33,8 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	public ModelCreationPage(IWorkbench currentWorkbench, IStructuredSelection currentSelection) {
 		super("newmodel", currentSelection); //$NON-NLS-1$
 		this.workbench = currentWorkbench;
-		setTitle(Coloane.traduction.getString("ui.wizards.ModelCreationPage.1")); //$NON-NLS-1$
-		setDescription(Coloane.traduction.getString("ui.wizards.ModelCreationPage.2")); //$NON-NLS-1$
+		setTitle(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.1")); //$NON-NLS-1$
+		setDescription(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.2")); //$NON-NLS-1$
 		setPageComplete(true);
 	}
 
@@ -68,7 +68,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		// On doit verifier que le chargement du formalismManager est OK
 		if (formManager == null) {
-			setErrorMessage(Coloane.traduction.getString("ui.wizards.ModelCreationPage.5")); //$NON-NLS-1$
+			setErrorMessage(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.5")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -81,8 +81,8 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		// newFile != null si la creation reussie
 		IFile newFile = createNewFile();
 		if (newFile == null) {
-			setErrorMessage(Coloane.traduction.getString("ui.wizards.ModelCreationPage.7")); //$NON-NLS-1$
-			System.err.println(Coloane.traduction.getString("ui.wizards.ModelCreationPage.8")); //$NON-NLS-1$
+			setErrorMessage(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.7")); //$NON-NLS-1$
+			System.err.println(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.8")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -95,7 +95,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			try {
 				IDE.openEditor(page, newFile, true);
 			} catch (CoreException ce) {
-				System.err.println(Coloane.traduction.getString("ui.wizards.ModelCreationPage.9")); //$NON-NLS-1$
+				System.err.println(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.9")); //$NON-NLS-1$
 				Coloane.showErrorMsg(ce.getMessage());
 				return false;
 			}

@@ -8,7 +8,6 @@ import org.eclipse.draw2d.geometry.Point;
  * @see fr.lip6.move.coloane.ui.model.NodeGraphicInfo
  */
 
-
 public interface INodeGraphicInfo {
 
 	// Style de sa figure

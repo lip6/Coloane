@@ -18,14 +18,14 @@ public class ArcDeleteCmd extends Command {
 
 	/**
 	 * Effacer un arc
-	 * @param arc arc � effacer
+	 * @param arc arc a effacer
 	 */
 	public ArcDeleteCmd(IArcImpl arc) {
 
 		if (arc == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel(Coloane.traduction.getString("ui.commands.ArcDeleteCmd.0")); //$NON-NLS-1$
+		setLabel(Coloane.getTranslate().getString("ui.commands.ArcDeleteCmd.0")); //$NON-NLS-1$
 		this.connection = arc;
 	}
 

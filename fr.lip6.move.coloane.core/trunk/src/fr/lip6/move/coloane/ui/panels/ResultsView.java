@@ -22,7 +22,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ResultsView extends ViewPart implements Observer {
 
-	public static ResultsView instance;
+	private static ResultsView instance;
 
 	/** The ActionList displayed in this view. */
 	private ActionsList actionsList;
@@ -176,5 +176,9 @@ public class ResultsView extends ViewPart implements Observer {
 		actionsList = (ActionsList) o;
 		setLists();
 
+	}
+
+	public static ResultsView getInstance() {
+		return instance;
 	}
 }

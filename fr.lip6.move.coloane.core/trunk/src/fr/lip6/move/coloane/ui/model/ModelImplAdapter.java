@@ -159,7 +159,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				IArcImpl arc = new ArcImplAdapter(currentArc, source, target, this.formalism.string2Arc(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 			} else {
-				throw new Exception(Coloane.traduction.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
+				throw new Exception(Coloane.translate.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
 			}
 		}
 	}
@@ -255,7 +255,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.model.addNode(child.getGenericNode());
 			} catch (SyntaxErrorException e) {
-				throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
+				throw new BuildException(Coloane.translate.getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
@@ -264,7 +264,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
-			throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
+			throw new BuildException(Coloane.translate.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
 		}
 	}
 
@@ -306,7 +306,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Demande la mise a jour de l'affichage
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
-			throw new BuildException(Coloane.traduction.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
+			throw new BuildException(Coloane.translate.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
 		}
 	}
 
@@ -321,7 +321,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.model.addArc(child.getGenericArc());
 		} catch (SyntaxErrorException e) {
 			throw new BuildException(
-					Coloane.traduction.getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
+					Coloane.translate.getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
 		}
 	}
 

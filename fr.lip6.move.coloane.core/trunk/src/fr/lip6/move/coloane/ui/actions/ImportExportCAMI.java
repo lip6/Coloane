@@ -55,7 +55,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		if (ACT_EXPORT.equalsIgnoreCase(action.getId())) {
 
 			if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
-				Coloane.showErrorMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
+				Coloane.showErrorMsg(Coloane.getTranslate().getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
 				return;
 			}
 
@@ -65,7 +65,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 			// On demande la sauvegarde a l'utilisateur
 			if (editor.isDirty()) {
-				Coloane.showWarningMsg(Coloane.traduction.getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
+				Coloane.showWarningMsg(Coloane.getTranslate().getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
 				return;
 			}
 

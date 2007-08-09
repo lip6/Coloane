@@ -14,7 +14,7 @@ import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.objects.IPosition;
+import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
@@ -248,7 +248,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 
 	private void connect(INodeImpl arcSource, INodeImpl arcTarget) throws BuildException {
 		if (source == null || target == null) {
-			throw new BuildException(Coloane.traduction.getString("ui.model.ArcImplAdapter.0")); //$NON-NLS-1$
+			throw new BuildException(Coloane.getTranslate().getString("ui.model.ArcImplAdapter.0")); //$NON-NLS-1$
 		}
 
 		// On indique a l'arc generique quels sont ces sources et cibles
@@ -409,7 +409,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getInflexPoint(int)
 	 */
 	public final Point getInflexPoint(int index) {
-		IPosition p = this.arc.getNthPI(index);
+		IInflexPoint p = this.arc.getNthPI(index);
 		return new Point(p.getXPosition(), p.getYPosition());
 	}
 
@@ -419,7 +419,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 */
 	public final List<Bendpoint> getInflexPoints() {
 		List<Bendpoint> bendPoints = new ArrayList<Bendpoint>(); 
-		for (IPosition p : this.arc.getListOfPI()) {
+		for (IInflexPoint p : this.arc.getListOfPI()) {
 			bendPoints.add(new AbsoluteBendpoint(p.getXPosition(), p.getYPosition()));
 		}
 		return bendPoints;

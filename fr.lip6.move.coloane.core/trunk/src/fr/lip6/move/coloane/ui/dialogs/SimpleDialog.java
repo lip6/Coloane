@@ -39,9 +39,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 
 	protected TextArea textArea = null;
 
-	public SimpleDialog(int id, int type, int buttonType,
-			String title, String help, String message,
-			int inputType, int multiLine, String defaultValue) {
+	public SimpleDialog(int id, int type, int buttonType, String title, String help, String message, int inputType, int multiLine, String defaultValue) {
 
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 

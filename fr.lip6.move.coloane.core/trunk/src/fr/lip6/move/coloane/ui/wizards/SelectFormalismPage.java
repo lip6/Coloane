@@ -32,8 +32,8 @@ public class SelectFormalismPage extends WizardPage {
 	 */
 	public SelectFormalismPage() {
 		super("newmodel"); //$NON-NLS-1$
-		setTitle(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
-		setDescription(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
+		setTitle(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
+		setDescription(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class SelectFormalismPage extends WizardPage {
 
 		// La boite de selection
 		label = new Label(com, SWT.NONE);
-		label.setText(Coloane.traduction.getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
+		label.setText(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
 
 		tableFormalism = new Table(com, SWT.SINGLE | SWT.BORDER);
 		tableFormalism.setLayoutData(gridData);

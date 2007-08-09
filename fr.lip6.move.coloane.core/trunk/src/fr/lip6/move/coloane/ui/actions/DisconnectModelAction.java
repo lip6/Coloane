@@ -35,36 +35,36 @@ public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
-					Coloane.traduction.getString("ui.actions.DisconnectModelAction.0"), //$NON-NLS-1$
-					Coloane.traduction.getString("ui.actions.DisconnectModelAction.1")); //$NON-NLS-1$
+					Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.0"), //$NON-NLS-1$
+					Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.1")); //$NON-NLS-1$
 		}
 
-		System.out.println(Coloane.traduction.getString("ui.actions.DisconnectModelAction.2")); //$NON-NLS-1$
-		HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.3")); //$NON-NLS-1$
+		System.out.println(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.2")); //$NON-NLS-1$
+		HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.3")); //$NON-NLS-1$
 
 		if (window.getActivePage().getActiveEditor() == null) {
-			HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.4")); //$NON-NLS-1$
+			HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.4")); //$NON-NLS-1$
 		} else {
 			Editor editor = (Editor) window.getActivePage().getActiveEditor();
 
 			try {
 				if (editor.getModel() != null) {
 					// Le modele existe... On peut essayer de le connecter
-					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.DisconnectModelAction.5")); //$NON-NLS-1$
+					HistoryView.getInstance().addText(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.5")); //$NON-NLS-1$
 
 
 					if (Coloane.getDefault().getMotor().closeSession()) {
 						// TODO : Griser les menues adequats
-						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.6")); //$NON-NLS-1$
+						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.6")); //$NON-NLS-1$
 						MenuManipulation.setEnabled("Platform", "Connect model", true); //$NON-NLS-1$ //$NON-NLS-2$
 						MenuManipulation.setEnabled("Platform", "Disconnect model", false); //$NON-NLS-1$ //$NON-NLS-2$
 					} else {
-						// TODO : GRiser les menus adequats
-						HistoryView.instance.addLine(Coloane.traduction.getString("ui.actions.DisconnectModelAction.11")); //$NON-NLS-1$
+						// TODO : Griser les menus adequats
+						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.11")); //$NON-NLS-1$
 					}
 
 				} else {
-					HistoryView.instance.addText(Coloane.traduction.getString("ui.actions.DisconnectModelAction.12")); //$NON-NLS-1$
+					HistoryView.getInstance().addText(Coloane.getTranslate().getString("ui.actions.DisconnectModelAction.12")); //$NON-NLS-1$
 				}
 
 			} catch (Exception e) {

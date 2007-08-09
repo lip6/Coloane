@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.ui;
 
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.IPosition;
+import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
@@ -134,7 +134,7 @@ public class XmlEditor extends DefaultHandler {
 
 		// Pour chaque point d'inflexion...
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
-			IPosition pi = arc.getNthPI(i);
+			IInflexPoint pi = arc.getNthPI(i);
 			line += "<pi xposition='" + pi.getXPosition() + "' yposition='" + pi.getYPosition() + "'/>\n";
 		}
 		return line;
@@ -268,7 +268,7 @@ public class XmlEditor extends DefaultHandler {
 			// Ajout du noeud au modele
 			try {
 				this.model.addNode(node);
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				System.err.println(e.toString());
 			}
 
@@ -291,7 +291,7 @@ public class XmlEditor extends DefaultHandler {
 			// Ajout de l'arc au modele
 			try {
 				this.model.addArc(arc);
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				System.err.println(e.toString());
 			}
 
@@ -305,7 +305,7 @@ public class XmlEditor extends DefaultHandler {
 			if (baliseName.equals("pi")) {
 				try {
 					this.model.getAnArc(this.refId).addPI(x, y);
-				} catch (SyntaxErrorException e) {
+				} catch (ModelException e) {
 					System.err.println(e.toString());
 				}
 

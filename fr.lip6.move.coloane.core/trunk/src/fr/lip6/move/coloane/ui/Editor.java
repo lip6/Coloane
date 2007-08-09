@@ -189,10 +189,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	private Formalism formalism;
 
 	/** Constructeur de l'editeur */
-	public Editor() {
-
-	}
-
+	public Editor() { }
 
 	/**
 	 * Configuration de l'editeur
@@ -238,7 +235,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Set up the editor's inital content (after creation).
-	 *
 	 */
 	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
@@ -250,8 +246,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	/**
-	 * Retourne le model.
-	 * @return IModelImpl
+	 * Retourne le modele attache a l'editeur
+	 * @return IModelImpl Le modele augemente
 	 */
 	public final IModelImpl getModel() {
 		return model;
@@ -259,7 +255,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Retourne le path du modele en cours d'edition
-	 * @return
+	 * @return Le chemin du modele en cours dans l'editeur
 	 */
 	public final IPath getCurrentPath() {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
@@ -318,7 +314,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			Coloane.showErrorMsg(Coloane.traduction.getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			Coloane.showErrorMsg(Coloane.getTranslate().getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 

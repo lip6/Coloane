@@ -38,7 +38,7 @@ public class NodeDeleteCmd extends Command {
 		this.node = n;
 
 		// Indication de l'evenement
-		setLabel(Coloane.traduction.getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
+		setLabel(Coloane.getTranslate().getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
 	}
 
 	/**
