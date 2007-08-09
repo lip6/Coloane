@@ -3,14 +3,14 @@
   <groupId>fr.lip6.move.coloane</groupId>
   <artifactId>coloane-maven</artifactId>
   <packaging>pom</packaging>
-	<version>1.3.0</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<name>Coloane - Maven-Packaging</name>
 	<description>Super Pom</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/coloane-maven/tags/coloane-maven-1.3.0</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/coloane-maven/tags/coloane-maven-1.3.0</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/coloane-maven/tags/coloane-maven-1.3.0</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}/trunk</url>
   </scm>
   
   <organization>
@@ -305,6 +305,18 @@
  	</repositories>
  	
  	<pluginRepositories>
+    <pluginRepository>
+        <id>test</id>
+        <name>Test</name>
+        <url>http://izanami/~emasliah/m2_local/</url>
+        <releases>
+            <enabled>true</enabled>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+    </pluginRepository>
     <!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
     <pluginRepository>
         <id>Tlc</id>
