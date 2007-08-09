@@ -13,4 +13,10 @@
   	<module>core/trunk</module>
   </modules>
   
+  <scm>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3</url>
+  </scm>
+  
  </project>
