@@ -18,21 +18,18 @@ import org.osgi.framework.BundleContext;
 
 public class Coloane extends AbstractUIPlugin {
 
-	public static ResourceBundle traduction = null;
+	private static ResourceBundle translate = null;
 	private static Coloane plugin;
 	private Com com = null;
 	private Motor motor = null;
 	private UserInterface ui = null;
 
-	public Coloane() throws Exception {
+	public Coloane() {
 		plugin = this;
 		try {
-			traduction = ResourceBundle.getBundle("resources/LNG");
+			translate = ResourceBundle.getBundle("resources/LNG");
 		} catch (Exception e) {
-			System.err.println("Fichier de langue pas trouve !");
-			System.err.println("Erreur : " + e.getMessage());
-			e.printStackTrace();
-			throw e;
+			System.err.println("Localization files missing : " + e.getMessage());
 		}
 	}
 
@@ -42,6 +39,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param context Parametre systeme fourni par Eclipse
 	 * @throws Exception
 	 */
+	@Override
 	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 
@@ -49,7 +47,6 @@ public class Coloane extends AbstractUIPlugin {
 
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --");
-
 
 			// Initialisation de l'interface graphique
 			ui = new UserInterface();
@@ -63,8 +60,8 @@ public class Coloane extends AbstractUIPlugin {
 				System.err.println("Erreur lors du chargement du module moteur");
 			}
 
-			// Initialisation de la partie communications
-			com = new Com();
+			// Initialisation du module de communications
+			com = Com.getInstance();
 			if (com == null) {
 				System.err.println("Erreur lors du chargement du module de communications");
 			}
@@ -101,30 +98,37 @@ public class Coloane extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Retourne le module de traduction
+	 * @return ResourceBundle
+	 */
+	public static ResourceBundle getTranslate() {
+		return translate;
+	}
+
+	/**
 	 * Le methode de fin de vie du plugin
 	 * @param context Parametre systeme fourni par Eclipse
+	 * TODO: Appeler les methodes de fin pour chaque module
 	 */
+	@Override
 	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugin = null;
+		translate = null;
 	}
-
 
 	/**
 	 * Recupere le parametre dans le fichier de configuration
 	 * @param key L'identifiant du parametre
-	 * @return String le parametre demande
+	 * @return String Le parametre demande
 	 */
 	public static String getParam(String key) {
-		try {
-			return Platform.getResourceBundle(getDefault().getBundle()).getString(key);
-		} catch (Exception e) {
-			return key;
-		}
+		return Platform.getResourceBundle(getDefault().getBundle()).getString(key);
 	}
 
 	/**
 	 * Notifier le changement du modele de la session courrante
+	 * @param model Le modele manipule par l'UI
 	 */
 	public static void notifyModelChange(IModelImpl model) {
 		if (model != null) {
@@ -141,8 +145,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
-		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane", msg);
-
+		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg);
 	}
 
 	/**
@@ -150,7 +153,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane", msg);
+		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg);
 	}
 
 	/**
@@ -163,14 +166,15 @@ public class Coloane extends AbstractUIPlugin {
 
 	/**
 	 * Donne la main sur le module de communication
-	 * @return Com le module de communication
+	 * @return Motor le module de communication
 	 */
 	public final Motor getMotor() {
 		return motor;
 	}
 
 	/**
-	 * TODO: A documenter
+	 * Retourne le conteneur graphique de haut niveau
+	 * @return Composite Le conteneur parent
 	 */
 	public static Composite getParent() {
 		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();

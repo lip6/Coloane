@@ -9,10 +9,10 @@ import fr.lip6.move.coloane.ui.model.IModelImpl;
 public class Session {
 
 	/** Compteur de sessions */
-	public static int cntSession = 1;
+	private static int cntSession = 1;
 
 	/** Le modele associe */
-	public IModelImpl sessionModel;
+	private IModelImpl sessionModel;
 
 	/** Nom de la session */
 	private String sessionName;
@@ -35,9 +35,9 @@ public class Session {
 	 * @param name Nom de la session
 	 * @param num numero de la session
 	 */
-	public Session(String name, int id) {
+	public Session(String name) {
 		this.sessionName = name;
-		this.sessionId = id;
+		this.sessionId = cntSession++;
 		this.sessionModel = null;
 
 		this.sessionStatus = 0;
@@ -52,27 +52,11 @@ public class Session {
 	}
 
 	/**
-	 * Positionne le nom de la session
-	 * @param name nom de session
-	 */
-	public final void setName(String name) {
-		this.sessionName = name;
-	}
-
-	/**
 	 * Retourne le numero de la session
 	 * @return int Le numero de la session
 	 */
 	public final int getId() {
 		return this.sessionId;
-	}
-
-	/**
-	 * Positionne le nom de la session
-	 * @param number Le numero de la session
-	 */
-	public final void setId(int id) {
-		this.sessionId = id;
 	}
 
 	/**

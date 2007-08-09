@@ -10,8 +10,8 @@ public interface IComMotor {
 	 * @return booleen selon le resultat de la connexion
 	 * @throws Exception
 	 */
-	boolean openSession(IModelImpl modele) throws Exception;
+	boolean openSession(IModelImpl modele);
 
-	boolean closeSession() throws Exception;
+	boolean closeSession();
 
 }

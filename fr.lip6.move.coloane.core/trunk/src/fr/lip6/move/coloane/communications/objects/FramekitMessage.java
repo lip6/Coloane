@@ -46,9 +46,9 @@ public class FramekitMessage {
 	 */
 	public FramekitMessage(int messageType, String texte, int speType) throws WrongArgumentValueException {
 		if (messageType < TRACE || messageType > LISTEID) {
-			throw new WrongArgumentValueException(Coloane.traduction.getString("communications.objects.FramekitMessage.0")); //$NON-NLS-1$
+			throw new WrongArgumentValueException(Coloane.getTranslate().getString("communications.objects.FramekitMessage.0")); //$NON-NLS-1$
 		} else if (messageType == SPECIAL && (speType < TRACE || speType > STATE)) {
-			throw new WrongArgumentValueException(Coloane.traduction.getString("communications.objects.FramekitMessage.1")); //$NON-NLS-1$
+			throw new WrongArgumentValueException(Coloane.getTranslate().getString("communications.objects.FramekitMessage.1")); //$NON-NLS-1$
 		}
 
 		this.type = messageType;
