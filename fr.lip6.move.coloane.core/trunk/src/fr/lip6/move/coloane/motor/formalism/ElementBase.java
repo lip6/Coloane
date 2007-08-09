@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.motor.formalism;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * </ul>
  */
 
-public class ElementBase implements Serializable {
+public class ElementBase {
 
 	/** Id pour la serialisation */
 	private static final long serialVersionUID = 1L;
@@ -63,9 +62,10 @@ public class ElementBase implements Serializable {
 	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 * @param numFigure Numero permettant de savoir quel figure dessiner pour cet element.
 	 */
-	public ElementBase(String elementName, String elementPaletteName, int elementNumFigure, int elementWidth, int elementHeight, boolean elementIsFilled) {
+	public ElementBase(String elementName, String elementPaletteName, Formalism elementFormalism, int elementNumFigure, int elementWidth, int elementHeight, boolean elementIsFilled) {
 		this.name = elementName;
 		this.paletteName = elementPaletteName;
+		this.formalism = elementFormalism;
 		this.numFigure = elementNumFigure;
 		this.width = elementWidth;
 		this.height = elementHeight;
@@ -105,7 +105,6 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * TODO : A verifier
 	 * Retourne l'indication sur le dessin
 	 * @return int
 	 */
@@ -137,21 +136,12 @@ public class ElementBase implements Serializable {
 		return isFilled;
 	}
 
-
 	/**
 	 * Retourne l'adresse du fichier donnant l'icone de la figure.
 	 * @return String
 	 */
 	public final String getAddrIcone16() {
 		return addrIcone16;
-	}
-
-	/**
-	 * Positionne la valeur de l'adresse de l'icone
-	 * @param addrIcone L'adresse de l'icone
-	 */
-	public final void setAddrIcone16(String addrIcone) {
-		this.addrIcone16 = addrIcone;
 	}
 
 	/**
@@ -163,14 +153,6 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * Definit l'adresse de l'icone de 24 pixels
-	 * @param addrIcone24 L'adresse de l'icone de 24 pixels
-	 */
-	public final void setAddrIcone24(String elementAddrIcone24) {
-		this.addrIcone24 = elementAddrIcone24;
-	}
-
-	/**
 	 * Retourne le formalisme auquel appartient l'element de base
 	 * @return Formalism
 	 */
@@ -179,10 +161,18 @@ public class ElementBase implements Serializable {
 	}
 
 	/**
-	 * Definit le formalisme auquel appartient l'element de base.
-	 * @param formalism Le formalisme
+	 * Indique l'adresse de l'image pour la palette (16x16)
+	 * @param addrIcone16
 	 */
-	public final void setFormalism(Formalism elementFormalism) {
-		this.formalism = elementFormalism;
+	public final void setAddrIcone16(String elementAddrIcone16) {
+		this.addrIcone16 = elementAddrIcone16;
+	}
+
+	/**
+	 * Indique l'adresse de l'image pour la palette (24x24)
+	 * @param addrIcone24
+	 */
+	public final void setAddrIcone24(String elementAddrIcone24) {
+		this.addrIcone24 = elementAddrIcone24;
 	}
 }

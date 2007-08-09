@@ -5,9 +5,6 @@ package fr.lip6.move.coloane.motor.formalism;
  */
 public class NodeFormalism extends ElementBase {
 
-	/** Id pour la serialisation */
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Constructeur
 	 *
@@ -18,7 +15,7 @@ public class NodeFormalism extends ElementBase {
 	 * @param height Hauteur du dessin de l'element de base.
 	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 */
-	public NodeFormalism(String name, String paletteName, int numFigure, int width, int height, boolean isFilled) {
-		super(name, paletteName, numFigure, width, height, isFilled);
+	public NodeFormalism(String name, String paletteName, Formalism formalism, int numFigure, int width, int height, boolean isFilled) {
+		super(name, paletteName, formalism, numFigure, width, height, isFilled);
 	}
 }

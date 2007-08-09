@@ -1,36 +1,25 @@
 package fr.lip6.move.coloane.motor.formalism;
 
-import java.io.Serializable;
-
 /**
  * Regle de connexion pour un formalisme
  */
-public class Rule implements Serializable {
-
-	/** Id pour la serialisation */
-	private static final long serialVersionUID = 1L;
-
-	/** Nom de la regle. */
-	//private String name;
+public class Rule {
 
 	/** Element en entree de l'arc. */
-	public NodeFormalism elementIn;
+	private ElementBase elementIn;
 
 	/** Element en sortie de l'arc. */
-	public NodeFormalism elementOut;
-
-	/** Commentaire lie a la regle quand celle-ci est declenchee. */
-	//private String comment = null;
+	private ElementBase elementOut;
 
 	/**
-	 * Constructeur de la classe.
-	 *
-	 * @param name Nom de la regle.
-	 * @param comment Commentaire lie a la violation de la regle.
+	 * Constructeur
+	 * Etablit quelles sont les connexions impossibles
+	 * @param eltIn Element en entree
+	 * @param eltOut Element en Sortie
 	 */
-	public Rule(String name, String comment) {
-		//this.name    = name;
-		//this.comment = comment;
+	public Rule(ElementBase eltIn, ElementBase eltOut) {
+		this.elementIn = eltIn;
+		this.elementOut = eltOut;
 	}
 
 	/**
@@ -49,17 +38,5 @@ public class Rule implements Serializable {
 	 */
 	public final ElementBase getElementOut() {
 		return elementOut;
-	}
-
-	/**
-	 * Etabli quels sont les Node que l'on peut pas connecter a partir de leur nom.
-	 *
-	 * @param form formalisme auquel elemIn et elemOut appartiennent.
-	 * @param elemIn Nom de l'element en entree de l'arc.
-	 * @param elemOut Nom de l'element en sortie de l'arc.
-	 */
-	public final void forbidenRule(Formalism form, String elemIn, String elemOut) {
-		this.elementIn  = form.string2Node(elemIn);
-		this.elementOut = form.string2Node(elemOut);
 	}
 }

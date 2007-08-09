@@ -1,17 +1,12 @@
 package fr.lip6.move.coloane.motor.formalism;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Definition d'un formalisme
  */
 
-public class Formalism implements Serializable {
-
-	/** Id pour la serialisation */
-	private static final long serialVersionUID = 1L;
+public class Formalism {
 
 	/** Nom du formalisme. */
 	private String name;
@@ -29,21 +24,7 @@ public class Formalism implements Serializable {
 	private ArrayList<Rule> listOfRules;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
-	private String  imageName;
-
-
-
-	/**
-	 * Construteur de la classe Formalism
-	 *
-	 * @param name Nom du formalisme.
-	 */
-	public Formalism(String formalismName) {
-		this.name = formalismName;
-		this.listOfElementBase        = new ArrayList<ElementBase>();
-		this.listOfRules              = new ArrayList<Rule>();
-		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
-	}
+	private String imageName;
 
 	/**
 	 * Construteur de la classe Formalism (avec icone associee)
@@ -51,9 +32,10 @@ public class Formalism implements Serializable {
 	 * @param name Nom du formalisme.
 	 * @param img Nom du fichier de l'image
 	 */
-	public Formalism(String formalismName, String formalismImg) {
+	public Formalism(String formalismName, String formalismImg, String formalismExtension) {
 		this.imageName = formalismImg;
 		this.name = formalismName;
+		this.extension = formalismExtension;
 		this.listOfElementBase        = new ArrayList<ElementBase>();
 		this.listOfRules              = new ArrayList<Rule>();
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
@@ -66,111 +48,63 @@ public class Formalism implements Serializable {
 	 * @return boolean
 	 */
 	public final boolean isLinkAllowed(ElementBase elemIn, ElementBase elemOut) {
-
-		if (elemIn instanceof ArcFormalism) {
-			return false;
-		}
-		if (elemOut instanceof ArcFormalism) {
-			return false;
-		}
-		if (!(elemIn instanceof NodeFormalism)) {
-			return false;
-		}
-		if (!(elemOut instanceof NodeFormalism)) {
-			return false;
-		}
-
-		Iterator it;
-		Rule rule;
-
-		for (it = listOfRules.iterator(); it.hasNext();) {
-			rule = (Rule) it.next();
-			/** TODO: Revoir le resultat de la condition suivante */
-			if (rule.getElementIn().equals(elemIn)) {
-				if (rule.getElementOut().equals(elemOut)) {
-					return false;
-				}
+		for (Rule r : listOfRules) {
+			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
+				return false;
 			}
 		}
 		return true;
 	}
 
 	/**
-	 * Methode renvoyant un Objet Node a partir de son nom.
-	 *
-	 * @param name du Node que l'on cherche.
+	 * Methode renvoyant les informations sur un noeud du formalisme.
+	 * @param formalismName du Node que l'on cherche.
 	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
 	 */
-	public final NodeFormalism string2Node(String formalismName) {
-		ElementBase node;
-		Iterator it = listOfElementBase.iterator();
-		for (node = null; it.hasNext();) {
-			node = (ElementBase) it.next();
-			if (formalismName.equals(node.getName())) {
-				return (NodeFormalism) node;
+	public final NodeFormalism getNodeFormalism(String typeElt) {
+		for (ElementBase elt : listOfElementBase) {
+			if (typeElt.equals(elt.getName())) {
+				return (NodeFormalism) elt;
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * Methode renvoyant un Objet Node a partir de son nom.
-	 *
+	 * Methode renvoyant les informations sur un arc du formalisme
 	 * @param name du Node que l'on cherche.
 	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
 	 */
-	public final ElementBase string2Arc(String formalismName) {
-		ElementBase arc;
-		Iterator it = listOfElementBase.iterator();
-		for (arc = null; it.hasNext();) {
-			arc = (ElementBase) it.next();
-			if (formalismName.equals(arc.getName())) {
-				return arc;
+	public final ElementBase getArcFormalism(String typeElt) {
+		for (ElementBase elt : listOfElementBase) {
+			if (typeElt.equals(elt.getName())) {
+				return (NodeFormalism) elt;
 			}
 		}
 		return null;
 	}
 
-
-
-
-	/**
-	 * Methode renvoyant un Objet Node a partir de son ID.
-	 * @param id Identifiant du NodeFormalism recherhce.
-	 * @return NodeFormalism
-	 */
-	public final NodeFormalism int2Node(int formalismId) {
-		if (formalismId >= listOfElementBase.size()) {
-			return (NodeFormalism) listOfElementBase.get(formalismId);
-		} else {
-			return null;
-		}
-	}
 
 	/**
 	 * Ajout d'un element de base a l'interieur du formalisme.
-	 *
-	 * @param elemB Element de base a ajouter.
+	 * @param baseElement Element de base a ajouter.
 	 */
-	public final void addElementBase(ElementBase elemB) {
-		if (elemB == null) { return; }
-		try {
-			listOfElementBase.add(elemB);
-		} catch (Exception e) {
-			System.err.println("Erreur lors de l'ajout d'un element de base de le formalisme");
+	public final void addElementBase(ElementBase baseElement) {
+		if (baseElement == null) {
+			return;
 		}
+		listOfElementBase.add(baseElement);
 	}
 
 	/**
 	 * Ajoute une attribut (AttributeFormalism) a l'element de base.
-	 * @param attrForm attribut à ajouter
+	 * @param attFormalism attribut a ajouter
 	 */
-	public final void addAttributeFormalism(AttributeFormalism formalismAttrForm) {
-		try {
-			listOfAttributeFormalism.add(formalismAttrForm);
-		} catch (Exception e) {
-			System.out.println("Erreur addAttributeFormalism");
+	public final void addAttributeFormalism(AttributeFormalism attFormalism) {
+		if (attFormalism == null) {
+			return;
 		}
+		listOfAttributeFormalism.add(attFormalism);
 	}
 
 	/**
@@ -178,11 +112,10 @@ public class Formalism implements Serializable {
 	 * @param rule La regle a ajouter un formalisme
 	 */
 	public final void addRule(Rule rule) {
-		try {
-			listOfRules.add(rule);
-		} catch (Exception e) {
-			System.err.println("Erreur lors de l'ajout d'une regle au formalisme");
+		if (rule == null) {
+			return;
 		}
+		listOfRules.add(rule);
 	}
 
 	/**
@@ -231,13 +164,5 @@ public class Formalism implements Serializable {
 	 */
 	public final String getExtension() {
 		return extension;
-	}
-
-	/**
-	 * Modifie l'extension attachee au formalisme
-	 * @param extension L'extension a utiliser pour l'enregistrement.
-	 */
-	public final void setExtension(String formalismExtension) {
-		this.extension = formalismExtension;
 	}
 }

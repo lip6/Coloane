@@ -31,7 +31,7 @@ public class ArcFormalism extends ElementBase {
 	 * @param height Hauteur du dessin de l'element de base.
 	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 */
-	public ArcFormalism(String name, String paletteName, int numFigure, int width, int height, boolean isFilled) {
-		super(name, paletteName, numFigure, width, height, isFilled);
+	public ArcFormalism(String name, String paletteName, Formalism formalism, int numFigure) {
+		super(name, paletteName, formalism, numFigure, -1, -1, false);
 	}
 }
