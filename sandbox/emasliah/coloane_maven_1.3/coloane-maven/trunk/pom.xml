@@ -145,6 +145,16 @@
 			</plugins>
   	</pluginManagement>
   	
+  	<dependencyManagement>
+        <dependencies>
+          <dependency>
+          <groupId>org.apache.maven.release</groupId>
+       		<artifactId>maven-release-manager</artifactId>
+       		<version>1.0-alpha-4-SNAPSHOT</version>
+       		</dependency>
+       	</dependencies>
+  	</dependenciesManagement>
+  	
   	<!-- Pour ssh et ftp -->
   	<extensions>
       <extension>
@@ -218,7 +228,7 @@
     		<!-- Pour les releases -->  
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-7-SNAPSHOT</version>
+        <version>2.0-beta-6</version>
         <configuration>
           <!--<tagBase>https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/releases</tagBase>-->
       		<branchName>${project.artifactId}-${project.version}</branchName>
