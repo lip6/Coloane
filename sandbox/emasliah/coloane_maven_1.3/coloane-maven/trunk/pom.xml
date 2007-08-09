@@ -300,7 +300,7 @@
  	    	<enabled>false</enabled>
  	  	</snapshots>
  		</repository>-->
- 		<!-- Notre repository -->
+ 		<!-- Notre repository, pour les dependances de core -->
  		<repository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
@@ -315,18 +315,6 @@
  	</repositories>
  	
  	<pluginRepositories>
- 		<!-- Notre plugin repository -->
- 		<pluginRepository>
-			<id>Izanami</id>
-			<name>Izanami Repository</name>
-			<url>http://izanami/~emasliah/m2</url>
- 	  	<releases>
- 	    	<enabled>true</enabled>
- 	  	</releases>
- 	  	<snapshots>
- 	    	<enabled>true</enabled>
- 	  	</snapshots>
- 		</pluginRepository>
     <!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
     <pluginRepository>
         <id>Tlc</id>
