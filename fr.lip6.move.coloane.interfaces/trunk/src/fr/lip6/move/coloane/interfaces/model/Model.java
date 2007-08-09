@@ -435,6 +435,15 @@ public abstract class Model implements IModel {
 	 */
 	public abstract String[] translate();
 
+
+	/**
+	 * Construction du modele a partir d'un vecteur de commandes<br>
+	 * Cette method est a implementee par les concepteurs d'API a partir du protocole qu'ils utilisent
+	 * @param commands Un vecteur de commandes pour construire le modele
+	 * @throws SyntaxErrorException
+	 */
+	protected abstract void buildModel(Vector camiCommande) throws SyntaxErrorException;
+
 	/**
 	 * Renvoie la liste des ID des elements du modele
 	 * @return Vector<Integer> La liste

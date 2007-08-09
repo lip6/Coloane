@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+//import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 import java.util.Vector;
 
@@ -10,13 +10,6 @@ public interface IModel {
 	int INITIAL_X = 20;
 	int INITIAL_Y = 20;
 
-	/**
-	 * Construction du modele a partir d'un vecteur de commandes<br>
-	 * Cette method est a implementee par les concepteurs d'API a partir du protocole qu'ils utilisent
-	 * @param commands Un vecteur de commandes pour construire le modele
-	 * @throws SyntaxErrorException
-	 */
-	void buildModel(Vector<String> commands) throws SyntaxErrorException;
 	/**
 	 * Retourne le noeud d'identifiant uniqueId.
 	 * @param uniqueId Identifiant unique du noeud
