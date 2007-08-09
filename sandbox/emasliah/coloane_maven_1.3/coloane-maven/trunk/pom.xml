@@ -8,9 +8,9 @@
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
   
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.artifactId}/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.artifactId}</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.artifactId}</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}</url>
   </scm>
   
   <organization>
