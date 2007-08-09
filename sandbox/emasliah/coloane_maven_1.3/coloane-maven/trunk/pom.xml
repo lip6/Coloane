@@ -121,6 +121,16 @@
     	<url>ftp://izanami/coloane/snap</url>
   	</snapshotRepository>
   </distributionManagement>
+    	
+  	<dependencyManagement>
+        <dependencies>
+          <dependency>
+          <groupId>org.apache.maven.release</groupId>
+       		<artifactId>maven-release-manager</artifactId>
+       		<version>1.0-alpha-4-SNAPSHOT</version>
+       		</dependency>
+       	</dependencies>
+  	</dependencyManagement>
   
   <build>
   
@@ -144,16 +154,6 @@
      		</plugin>
 			</plugins>
   	</pluginManagement>
-  	
-  	<dependencyManagement>
-        <dependencies>
-          <dependency>
-          <groupId>org.apache.maven.release</groupId>
-       		<artifactId>maven-release-manager</artifactId>
-       		<version>1.0-alpha-4-SNAPSHOT</version>
-       		</dependency>
-       	</dependencies>
-  	</dependenciesManagement>
   	
   	<!-- Pour ssh et ftp -->
   	<extensions>
