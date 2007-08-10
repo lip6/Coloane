@@ -14,6 +14,7 @@
   <packaging>jar</packaging>
   <name>Interfaces - Maven-Packaging</name>
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
+  <url>https://srcdev.lip6.fr/trac/research/coloane</url>
   
   <scm>
   	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/coloane_maven_1.3/${project.artifactId}/trunk</connection>
@@ -34,14 +35,14 @@
         <configuration>
           <!--<configLocation>checkstyle.xml</configLocation>-->
           <failOnViolation>false</failOnViolation>
-          <outputFile>target/checkstyle-reports</outputFile>
+          <outputDirectory>target/checkstyle-reports</outputDirectory>
         </configuration>
       </plugin>
 
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
     			 
-    			       <plugin>
+     <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
     			 <executions>
