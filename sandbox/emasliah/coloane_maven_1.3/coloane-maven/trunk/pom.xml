@@ -184,6 +184,7 @@
           	<!-- Rajoute Implementation-Build dans le MANIFEST -->
           	<manifestEntries>
             	<Implementation-Build>${buildNumber}</Implementation-Build>
+            	<Implementation-Version>${project.version}</Implementation-Version>
           	</manifestEntries>
         	</archive>
       	</configuration>
@@ -211,6 +212,20 @@
 			<reportsDirectory>target/surefire-reports</reportsDirectory>
 		</configuration>
   </plugin>
+  
+  			
+      <plugin>
+      	<!-- Pour le checkstyle -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!--<configLocation>checkstyle.xml</configLocation>-->
+          <failOnViolation>false</failOnViolation>
+          <outputDirectory>target/checkstyle-reports</outputDirectory>
+        </configuration>
+      </plugin>
+  
+  
       
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
@@ -231,6 +246,21 @@
         	</execution>
       	</executions>
      	</plugin>
+     	
+     	 <plugin>
+     	 	<!-- Pour le checkstyle -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+    			 <executions>
+        	<execution>
+        		<id>Checkstyle</id>
+          	<phase>validate</phase>        
+          	<goals>
+            	<goal>check</goal>
+          	</goals>
+        	</execution>
+      	</executions>
+      </plugin>
      	
      	<!--<plugin>
     		<!~~ Pour modifier le manifest avec la version du pom ~~>

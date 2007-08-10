@@ -28,33 +28,9 @@
 		<plugins>
 		
 			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
-			
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <!--<configLocation>checkstyle.xml</configLocation>-->
-          <failOnViolation>false</failOnViolation>
-          <outputDirectory>target/checkstyle-reports</outputDirectory>
-        </configuration>
-      </plugin>
 
     	<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
     			 ~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
-    			 
-     <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-    			 <executions>
-        	<execution>
-        		<id>Checkstyle</id>
-          	<phase>validate</phase>        
-          	<goals>
-            	<goal>check</goal>
-          	</goals>
-        	</execution>
-      	</executions>
-      </plugin>
       
 		</plugins>
   
