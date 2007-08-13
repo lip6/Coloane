@@ -4,7 +4,7 @@
 	<groupId>com.mycompany.app</groupId>
 	<artifactId>my-app</artifactId>
 	<packaging>pom</packaging>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
 	<name>my-app</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
