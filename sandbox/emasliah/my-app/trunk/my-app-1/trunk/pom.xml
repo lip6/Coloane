@@ -10,7 +10,7 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app-1</artifactId>
   <name>my-app-1</name>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -21,8 +21,8 @@
     </dependency>
   </dependencies>
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-1/trunk</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-1/trunk</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/my-app-1/trunk</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.4</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.4</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/tags/my-app-1.4</url>
   </scm>
 </project>
