@@ -1,19 +1,17 @@
 package fr.lip6.move.coloane.model;
 
-import fr.lip6.move.coloane.api.utils.CamiParser;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.utils.CamiParser;
 import fr.lip6.move.coloane.main.Coloane;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
-
-
 
 /**
  * Cette classe represente un modele generique.<br>
@@ -32,322 +30,308 @@ import java.util.Vector;
  */
 public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 
-	private static final long serialVersionUID = 1L;
-
-	public Model(Vector<String> commands) {
-		super(commands);
-	}
-
+	/**
+	 * Constructeur
+	 */
 	public Model() {
 		super();
 	}
 
-	public Model(File commandsFile) throws Exception {
+	/**
+	 * Constructeur
+	 * @param commands La suite de commandes CAMI pour construire le modele
+	 * @throws SyntaxErrorException
+	 */
+	public Model(Vector<String> commands) throws SyntaxErrorException, ModelException {
+		super(commands);
+	}
+
+	/**
+	 * Constructeur
+	 * @param commandsFile Le fichier contenant les commandes CAMI pour construire le modele
+	 * @throws SyntaxErrorException
+	 */
+	public Model(File commandsFile) throws SyntaxErrorException, ModelException {
 		super(commandsFile);
 	}
 
 	/**
-	 * Construction du modele a partir d'un vecteur de commande CAMI
-	 *
-	 * @param Vector
-	 *            camiCommande Le vecteur de commandes CAMI
+	 * Construction du modele a partir d'un vecteur de commandes<br>
+	 * Cette method est a implementee par les concepteurs d'API a partir du protocole qu'ils utilisent
+	 * @param commands Un vecteur de commandes pour construire le modele
 	 * @throws SyntaxErrorException
 	 */
-	public final void buildModel(Vector camiCommande) throws SyntaxErrorException {
+	@Override
+	protected final void buildModel(Vector camiCommande) throws SyntaxErrorException, ModelException {
 		String line = null;
 		String type = null;
 
-		StringTokenizer st;
-		CamiParser ps;
+		StringTokenizer tokenizer;
+		CamiParser parser;
 
-		try {
-			for (int k = 0; k < camiCommande.size(); k++) {
-				line = (String) camiCommande.get(k);
-				st = new StringTokenizer(line);
-				ps = new CamiParser(line.substring(3));
-				type = st.nextToken("(");
+		for (int k = 0; k < camiCommande.size(); k++) {
+			line = (String) camiCommande.get(k);
+			tokenizer = new StringTokenizer(line);
+			parser = new CamiParser(line.substring(3));
 
-				// Decouverte d'un noeud
-				if (type.equals("CN")) {
-					String nodeType = ps.parseString(",");
-					String nodeId = ps.parseInt(")");
+			type = tokenizer.nextToken("(");
 
-					// Si le noeud en cours n'est pas le noeud principal du modele
-					if (Integer.parseInt(nodeId) != 1) {
-						INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
-						this.addNode(node);
-					} else {
-						this.setFormalism(nodeType);
-					}
-					continue; // Prochaine commande
+			// Decouverte d'un noeud
+			if (type.equals("CN")) {
+				String nodeType = parser.parseString(",");
+				String nodeId = parser.parseInt(")");
+
+				// Si le noeud en cours n'est pas le noeud principal du modele
+				if (Integer.parseInt(nodeId) != 1) {
+					INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
+					this.addNode(node);
+				} else {
+					this.setFormalism(nodeType);
+				}
+				continue; // Prochaine commande
+			}
+
+			// Decouverte d'un arc
+			if (type.equals("CA")) {
+				String arcType = parser.parseString(",");
+				String arcId = parser.parseInt(",");
+				String from = parser.parseInt(",");
+				String to = parser.parseInt(")");
+
+				// Recherche de la source et de la cible
+				INode nodeBegin = getANode(Integer.parseInt(from));
+				INode nodeEnd = getANode(Integer.parseInt(to));
+
+				if (nodeBegin == null || nodeEnd == null) {
+					throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.9")); //$NON-NLS-1$
 				}
 
-				// Decouverte d'un arc
-				if (type.equals("CA")) {
-					String arcType = ps.parseString(",");
-					String arcId = ps.parseInt(",");
-					String from = ps.parseInt(",");
-					String to = ps.parseInt(")");
+				// Creation de l'arc
+				IArc arc = new Arc(arcType, Integer.parseInt(arcId));
+				arc.setStartingNode(nodeBegin);
+				arc.setEndingNode(nodeEnd);
+				nodeBegin.addOutputArc(arc);
+				nodeEnd.addInputArc(arc);
+				this.addArc(arc);
+				continue; // Prochaine commande
+			}
 
-					// Recherche de la source et de la cible
-					INode nodeBegin = getANode(Integer.parseInt(from));
-					INode nodeEnd = getANode(Integer.parseInt(to));
+			// Decouverte d'attribut sur une ligne
+			if (type.equals("CT")) {
+				String value = new String();
+				String name = parser.parseString(",");
+				String ref = parser.parseInt(",");
+				value = parser.parseString(")");
 
-					if (nodeBegin == null || nodeEnd == null) {
-						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.9")); //$NON-NLS-1$
-					}
+				// Creation effective de l'attribut
+				IAttribute attr = new Attribute(name, value, Integer.parseInt(ref));
 
-					// Creation de l'arc
-					IArc arc = new Arc(arcType, Integer.parseInt(arcId));
-					arc.setStartingNode(nodeBegin);
-					arc.setEndingNode(nodeEnd);
-					nodeBegin.addOutputArc(arc);
-					nodeEnd.addInputArc(arc);
-					this.addArc(arc);
-					continue; // Prochaine commande
+				// L'attribut peut directement etre attache au modele
+				if (Integer.parseInt(ref) == 1) {
+					this.addAttribute(attr);
+					continue;
 				}
 
-				// Decouverte d'attribut sur une ligne
-				if (type.equals("CT")) {
-					String value = new String();
-					String name = ps.parseString(",");
-					String ref = ps.parseInt(",");
-					value = ps.parseString(")");
-
-					// Creation effective de l'attribut
-					IAttribute attr = new Attribute(name, value, Integer.parseInt(ref));
-
-					// L'attribut peut directement etre attache au modele
-					if (Integer.parseInt(ref) == 1) {
-						this.addAttribute(attr);
-						continue;
-					}
-
-					// Est-ce que l'attribut s'attache a un arc ?
-					IArc arc = getAnArc(Integer.parseInt(ref));
-					if (arc != null) {
-						arc.addAttribute(attr);
-						continue;
-					}
-
-					// Est-ce que l'attribut s'attache a un noeud ?
-					INode node = getANode(Integer.parseInt(ref));
-					if (node != null) {
-						node.addAttribute(attr);
-						continue;
-					}
-
-					// Sinon on retourne une erreur
-					throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.14")); //$NON-NLS-1$
+				// Est-ce que l'attribut s'attache a un arc ?
+				IArc arc = getAnArc(Integer.parseInt(ref));
+				if (arc != null) {
+					arc.addAttribute(attr);
+					continue;
 				}
 
-				// Creation d'une ligne dans un attribut multi-ligne
-				if (type.equals("CM")) {
-					String value = new String();
-					boolean found = false;
-
-					String name = ps.parseString(",");
-					String ref = ps.parseInt(",");
-					ps.parseInt(",");
-					ps.parseInt(",");
-					value = ps.parseString(")");
-					st = new StringTokenizer(line);
-
-					try {
-						// Si le referent a comme identifiant 1, alors il faut
-						// attacher l'attribut au modele
-						if (Integer.parseInt(ref) == 1) {
-
-							// On recherche l'attribut a modifier
-							for (int i = 0; i < this.getListOfAttrSize(); i++) {
-								IAttribute a = this.getNthAttr(i);
-								if (name.equals(a.getName())) {
-
-									a.setValue(a.getValue() + "\r" + value);
-									found = true;
-									break; // On sort de cette boucle de
-											// recherche
-								}
-							}
-
-							// Si aucun attribut n'a ete trouve... On en cree
-							// un!
-							if (!found) {
-								IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
-								this.addAttribute(att);
-							}
-							continue;
-
-						}
-
-						// On cherche a savoir si l'attribut s'attache a un arc
-						// ?
-						IArc arc = getAnArc(Integer.parseInt(ref));
-						if (arc != null) {
-							for (int i = 0; i < arc.getListOfAttrSize(); i++) {
-								IAttribute att = arc.getNthAttr(i);
-								if (name.equals(att.getName())) {
-									att.setValue(att.getValue() + "\r" + value);
-									found = true;
-									break;
-								}
-							}
-
-							// Si aucun attribut de l'arc ne correspond on en
-							// cree un
-							if (!found) {
-								// On cree un nouvel attribut
-								IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
-								arc.addAttribute(att);
-							}
-							continue;
-						}
-
-						// On cherche a savoir si l'attribut s'attache a un
-						// noeud ?
-						INode node = getANode(Integer.parseInt(ref));
-						if (node != null) {
-							for (int i = 0; i < node.getListOfAttrSize(); i++) {
-								IAttribute att = node.getNthAttr(i);
-								if (name.equals(att.getName())) {
-									att.setValue(att.getValue() + "\r" + value);
-									found = true;
-									break;
-								}
-							}
-
-							// Si aucun attribut du noeud ne correspond... On en
-							// cree un
-							if (!found) {
-								IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
-								node.addAttribute(att);
-							}
-
-						}
-
-					} catch (Exception e) {
-						throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.24")); //$NON-NLS-1$
-					}
-
+				// Est-ce que l'attribut s'attache a un noeud ?
+				INode node = getANode(Integer.parseInt(ref));
+				if (node != null) {
+					node.addAttribute(attr);
+					continue;
 				}
 
-				// Decouverte d'une position de noeud
-				if (type.equals("PO") || type.equals("pO")) {
-					String ref = ps.parseInt(",");
-					String x = "";
-					String y = "";
+				// Sinon on retourne une erreur
+				throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.14")); //$NON-NLS-1$
+			}
 
-					// !! Attention bidouille pour prendre en compte le PO de 3e
-					// type
-					if (Integer.parseInt(ref) == -1) {
-						ref = ps.parseInt(",");
-						x = ps.parseInt(",");
-						y = ps.parseInt(",");
-						// x = ps.parseInt(",");
-					} else {
-						x = ps.parseInt(",");
-						y = ps.parseInt(")");
-					}
+			// Creation d'une ligne dans un attribut multi-ligne
+			if (type.equals("CM")) {
+				String value = new String();
+				boolean found = false;
 
-					if (Integer.parseInt(ref) == 1) {
-						this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-					}
+				String name = parser.parseString(",");
+				String ref = parser.parseInt(",");
+				parser.parseInt(",");
+				parser.parseInt(",");
+				value = parser.parseString(")");
+				tokenizer = new StringTokenizer(line);
 
-					if (Integer.parseInt(ref) != 1) {
-						INode node = getANode(Integer.parseInt(ref));
-						if (node != null) {
-							node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-						} else {
-							throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.42"));
+				// Si le referent a comme identifiant 1, alors il faut
+				// attacher l'attribut au modele
+				if (Integer.parseInt(ref) == 1) {
+
+					// On recherche l'attribut a modifier
+					for (int i = 0; i < this.getListOfAttrSize(); i++) {
+						IAttribute a = this.getNthAttr(i);
+						if (name.equals(a.getName())) {
+							a.setValue(a.getValue() + "\r" + value);
+							found = true;
+							break; // On sort de cette boucle de recherche
 						}
 					}
+
+					// Si aucun attribut n'a ete trouve... On en cree un!
+					if (!found) {
+						IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
+						this.addAttribute(att);
+					}
+					continue;
 				}
 
-				// Decouverte d'une position intermediaire
-				if (type.equals("PI")) {
-					String ref = ps.parseInt(",");
-					String x = "";
-					String y = "";
-
-					// !! Attention bidouille pour prendre en compte le PI avec ref == -
-					if (Integer.parseInt(ref) == -1) {
-						ref = ps.parseInt(",");
-						x = ps.parseInt(",");
-						y = ps.parseInt(",");
-						// x = ps.parseInt(",");
-					} else {
-						x = ps.parseInt(",");
-						y = ps.parseInt(")");
+				// On cherche a savoir si l'attribut s'attache a un arc ?
+				IArc arc = getAnArc(Integer.parseInt(ref));
+				if (arc != null) {
+					for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+						IAttribute att = arc.getNthAttr(i);
+						if (name.equals(att.getName())) {
+							att.setValue(att.getValue() + "\r" + value);
+							found = true;
+							break;
+						}
 					}
 
- 					// Dernier arc rencontre
- 					IArc arc = this.getAnArc(Integer.parseInt(ref));
-
- 					if (arc != null) {
- 						arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
- 					} else {
- 						throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+					// Si aucun attribut de l'arc ne correspond on en cree un
+					if (!found) {
+						// On cree un nouvel attribut
+						IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
+						arc.addAttribute(att);
 					}
+					continue;
 				}
 
-				// Decouverte d'une position de texte
-				if (type.equals("PT")) {
-					String ref = ps.parseInt(",");
-					String name = ps.parseString(",");
-					String x = ps.parseInt(",");
-					String y = ps.parseInt(")");
-
-					if (Integer.parseInt(ref) == 1) {
-						for (int i = 0; i < this.getListOfAttrSize(); i++) {
-							IAttribute attr = this.getNthAttr(i);
-							if (attr.getName().equals(name)) {
-								attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-								break;
-							}
+				// On cherche a savoir si l'attribut s'attache a un noeud ?
+				INode node = getANode(Integer.parseInt(ref));
+				if (node != null) {
+					for (int i = 0; i < node.getListOfAttrSize(); i++) {
+						IAttribute att = node.getNthAttr(i);
+						if (name.equals(att.getName())) {
+							att.setValue(att.getValue() + "\r" + value);
+							found = true;
+							break;
 						}
-						continue;
 					}
 
-					IArc arc = getAnArc(Integer.parseInt(ref));
-					if (arc != null) {
-						for (int i = 0; i < arc.getListOfAttrSize(); i++) {
-							IAttribute attr = arc.getNthAttr(i);
-							if (attr.getName().equals(name)) {
-								attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-								break;
-							}
-						}
-						continue;
+					// Si aucun attribut du noeud ne correspond... On en cree un
+					if (!found) {
+						IAttribute att = new Attribute(name, value, Integer.parseInt(ref));
+						node.addAttribute(att);
 					}
-
-					INode node = getANode(Integer.parseInt(ref));
-					if (node != null) {
-						for (int i = 0; i < node.getListOfAttrSize(); i++) {
-							IAttribute attr = node.getNthAttr(i);
-							if (attr.getName().equals(name)) {
-								attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
-								break;
-							}
-						}
-						continue;
-					}
-
-					throw new SyntaxErrorException(Coloane.traduction.getString("model.Model.41")); //$NON-NLS-1$
 				}
 			}
 
+			// Decouverte d'une position de noeud
+			if (type.equals("PO") || type.equals("pO")) {
+				String ref = parser.parseInt(",");
+				String x = "";
+				String y = "";
 
-		} catch (NoSuchElementException e) {
-			e.printStackTrace();
-		} catch (SyntaxErrorException e) {
-			e.toString();
+				// !! Attention bidouille pour prendre en compte le PO de 3e type
+				if (Integer.parseInt(ref) == -1) {
+					ref = parser.parseInt(",");
+					x = parser.parseInt(",");
+					y = parser.parseInt(",");
+				} else {
+					x = parser.parseInt(",");
+					y = parser.parseInt(")");
+				}
+
+				if (Integer.parseInt(ref) == 1) {
+					this.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+				}
+
+				if (Integer.parseInt(ref) != 1) {
+					INode node = getANode(Integer.parseInt(ref));
+					if (node != null) {
+						node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+					} else {
+						throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.42"));
+					}
+				}
+			}
+
+			// Decouverte d'une position intermediaire
+			if (type.equals("PI")) {
+				String ref = parser.parseInt(",");
+				String x = "";
+				String y = "";
+
+				// !! Attention bidouille pour prendre en compte le PI avec ref == -
+				if (Integer.parseInt(ref) == -1) {
+					ref = parser.parseInt(",");
+					x = parser.parseInt(",");
+					y = parser.parseInt(",");
+					// x = ps.parseInt(",");
+				} else {
+					x = parser.parseInt(",");
+					y = parser.parseInt(")");
+				}
+
+				// Dernier arc rencontre
+				IArc arc = this.getAnArc(Integer.parseInt(ref));
+
+				if (arc != null) {
+					arc.addPI(Integer.parseInt(x), Integer.parseInt(y));
+				} else {
+					throw new SyntaxErrorException("La position est attachee a un element introuvable ou incorrect");
+				}
+			}
+
+			// Decouverte d'une position de texte
+			if (type.equals("PT")) {
+				String ref = parser.parseInt(",");
+				String name = parser.parseString(",");
+				String x = parser.parseInt(",");
+				String y = parser.parseInt(")");
+
+				if (Integer.parseInt(ref) == 1) {
+					for (int i = 0; i < this.getListOfAttrSize(); i++) {
+						IAttribute attr = this.getNthAttr(i);
+						if (attr.getName().equals(name)) {
+							attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+							break;
+						}
+					}
+					continue;
+				}
+
+				IArc arc = getAnArc(Integer.parseInt(ref));
+				if (arc != null) {
+					for (int i = 0; i < arc.getListOfAttrSize(); i++) {
+						IAttribute attr = arc.getNthAttr(i);
+						if (attr.getName().equals(name)) {
+							attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+							break;
+						}
+					}
+					continue;
+				}
+
+				INode node = getANode(Integer.parseInt(ref));
+				if (node != null) {
+					for (int i = 0; i < node.getListOfAttrSize(); i++) {
+						IAttribute attr = node.getNthAttr(i);
+						if (attr.getName().equals(name)) {
+							attr.setPosition(Integer.parseInt(x), Integer.parseInt(y));
+							break;
+						}
+					}
+					continue;
+				}
+
+				throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.41")); //$NON-NLS-1$
+			}
 		}
 	}
 
 	/**
 	 * Traduit un modele en chaines de caracteres CAMI correspondantes.
-	 *
-	 * @return la chaine de caracteres CAMI correspondante a l'objet Model
+	 * @return String[] la chaine de caracteres CAMI correspondante a l'objet Model
 	 */
 	public final String[] translate() {
 		Vector<String> vec = new Vector<String>();
@@ -358,12 +342,12 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 		// Ajout du modele
 		s = new StringBuffer();
 		s.append("CN(");
-		s.append(this.getFormalism().length() + ":" + this.getFormalism());
-		s.append(",");
+		s.append(this.getFormalism().length() + ":" + this.getFormalism() + ",");
 		s.append("1");
 		s.append(")");
 		vec.addElement(s.toString());
 
+		// Ajout des attributs
 		for (int i = 0; i < this.getListOfAttrSize(); i++) {
 			vec.addAll(Arrays.asList(this.getNthAttr(i).translate()));
 		}

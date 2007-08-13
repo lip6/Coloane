@@ -10,17 +10,33 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node {
 
 	private static final long serialVersionUID = 1L;
 
-	/** Constructeur */
+	/**
+	 * Constructeur
+	 * @param nodeType Type de noeud
+	 * @param x Position en X
+	 * @param y Position en Y
+	 * @param id ID du noeud
+	 */
 	public Node(String nodeType, int x, int y, int id) {
 		super(nodeType, x, y, id);
 	}
 
-	public Node(String nodeType) {
-		super(nodeType);
-	}
-
+	/**
+	 * Constructeur
+	 * @param nodeType Type du noeud
+	 * @param x Position en X
+	 * @param y Position en Y
+	 */
 	public Node(String nodeType, int x, int y) {
 		super(nodeType, x, y);
+	}
+
+	/**
+	 * Constructeur
+	 * @param nodeType Type du noeud
+	 */
+	public Node(String nodeType) {
+		super(nodeType);
 	}
 
 	/**
@@ -28,35 +44,31 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node {
 	 * @return String[]
 	 */
 	public final String[] translate() {
-		String[] stringToReturn;
 		StringBuffer s;
-		Vector<String> vectorStringToReturn = new Vector<String>(0);
+		Vector<String> toReturn = new Vector<String>(0);
 
 		s = new StringBuffer();
 		s.append("CN(");
-		s.append(type.length() + ":" + this.type);
-		s.append(",");
-		s.append(id);
+		s.append(getNodeType() + ":" + getNodeType() + ",");
+		s.append(getId());
 		s.append(")");
-		vectorStringToReturn.addElement(s.toString());
+		toReturn.addElement(s.toString());
 
 		s = new StringBuffer();
 		s.append("PO(");
-		s.append(id);
-		s.append(",");
-		s.append(xPosition);
-		s.append(",");
-		s.append(yPosition);
+		s.append(getId() + ",");
+		s.append(getXPosition() + ",");
+		s.append(getYPosition());
 		s.append(")");
-		vectorStringToReturn.addElement(s.toString());
+		toReturn.addElement(s.toString());
 
 		for (int i = 0; i < this.getListOfAttrSize(); i++) {
-			vectorStringToReturn.addAll(Arrays.asList(this.getNthAttr(i).translate()));
+			toReturn.addAll(Arrays.asList(this.getNthAttr(i).translate()));
 		}
 
-		stringToReturn = new String[vectorStringToReturn.size()];
-		vectorStringToReturn.toArray(stringToReturn);
-		return stringToReturn;
+		String[] result = new String[toReturn.size()];
+		toReturn.toArray(result);
+		return result;
 	}
 }
 
