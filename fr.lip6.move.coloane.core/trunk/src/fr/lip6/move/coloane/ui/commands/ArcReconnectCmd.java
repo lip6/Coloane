@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.ui.commands;
 
-import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -37,14 +35,27 @@ public class ArcReconnectCmd extends Command {
 	 * @param connection arc
 	 */
 	public ArcReconnectCmd(IArcImpl a) {
-
-		if (arc == null) {
-			throw new IllegalArgumentException();
-		}
-
 		this.arc = a;
 		this.oldSource = a.getSource();
 		this.oldTarget = a.getTarget();
+	}
+
+	/**
+	 * Indique la nouvelle source de l'arc
+	 * @param connectionSource
+	 */
+	public final void setNewSource(INodeImpl connectionSource) {
+		newSource = connectionSource;
+		newTarget = null;
+	}
+
+	/**
+	 * Indique la nouvelle cible de l'arc
+	 * @param connectionTarget
+	 */
+	public final void setNewTarget(INodeImpl connectionTarget) {
+		newSource = null;
+		newTarget = connectionTarget;
 	}
 
 
@@ -52,6 +63,7 @@ public class ArcReconnectCmd extends Command {
 	 * Savoir si on peut executer
 	 * @return booleen
 	 */
+	@Override
 	public final boolean canExecute() {
 
 		// Est-ce qu'on peut connecter la nouvelle source ?
@@ -121,54 +133,37 @@ public class ArcReconnectCmd extends Command {
 	/**
 	 * Executer
 	 */
+	@Override
 	public final void execute() {
-		if (newSource != null) {
-			try {
-				this.arc.reconnect(newSource, oldTarget);
-			} catch (BuildException e) {
-				System.err.println("Echec ! : " + e.getMessage()); //$NON-NLS-1$
-			}
-		} else if (newTarget != null) {
-			try {
-				this.arc.reconnect(oldSource, newTarget);
-			} catch (BuildException e) {
-				System.err.println("Echec ! : " + e.getMessage()); //$NON-NLS-1$
-			}
-		} else {
-			throw new IllegalStateException("Should not happen"); //$NON-NLS-1$
+		this.redo();
+	}
+
+	/**
+	 * Executer (ou Refaire)
+	 */
+	@Override
+	public final void redo() {
+		INodeImpl sourceToConnect = newSource;
+		INodeImpl targetToConnect = newTarget;
+
+		// Si la source ne change pas...
+		if (newSource == null) {
+			sourceToConnect = oldSource;
 		}
 
+		// si la cible ne change pas...
+		if (newTarget == null) {
+ 			targetToConnect = oldTarget;
+		}
+
+		this.arc.reconnect(sourceToConnect, targetToConnect);
 	}
 
 	/**
 	 * Annule la reconnexion
 	 */
+	@Override
 	public final void undo() {
-		try {
-			this.arc.reconnect(oldSource, oldTarget);
-		} catch (BuildException e) {
-			System.err.println("Echec ! : " + e.getMessage()); //$NON-NLS-1$
-		}
+		this.arc.reconnect(oldSource, oldTarget);
 	}
-
-
-
-	public final void setNewSource(INodeImpl connectionSource) {
-		if (connectionSource == null) {
-			throw new IllegalArgumentException();
-		}
-		setLabel(Coloane.getTranslate().getString("ui.commands.ArcReconnectCmd.0")); //$NON-NLS-1$
-		newSource = connectionSource;
-		newTarget = null;
-	}
-
-	public final void setNewTarget(INodeImpl connectionTarget) {
-		if (connectionTarget == null) {
-			throw new IllegalArgumentException();
-		}
-		setLabel(Coloane.getTranslate().getString("ui.commands.ArcReconnectCmd.1")); //$NON-NLS-1$
-		newSource = null;
-		newTarget = connectionTarget;
-	}
-
 }

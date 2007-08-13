@@ -6,9 +6,9 @@ import fr.lip6.move.coloane.ui.model.INodeImpl;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Premiere etape de la creation d'un lien entre deux noeuds !
- * Cette commande est creee lors du premier clic sur l'element de depart.
- * Elle sert a stocker des informations sur le noeud de depart
+ * Premiere etape de la creation d'un lien entre deux noeuds !<br>
+ * Cette commande est creee lors du premier clic sur l'element de depart.<br>
+ * Elle sert a stocker des informations sur le noeud de depart.<br>
  */
 
 public class ArcCreateCmd extends Command {
@@ -17,7 +17,7 @@ public class ArcCreateCmd extends Command {
 	private final INodeImpl source;
 
 	/** L'element de base (indication sur le formalisme de l'arc) */
-	private final ElementBase arcFormalism;
+	private final ElementBase formalism;
 
 
 	/**
@@ -26,21 +26,22 @@ public class ArcCreateCmd extends Command {
 	 * @param source Le noeud source de l'arc
 	 * @param base Le formalisme de base pour la creation de l'arc
 	 */
-	public ArcCreateCmd(INodeImpl arcSource, ElementBase base) {
+	public ArcCreateCmd(INodeImpl arcSource, ElementBase arcFormalism) {
 		this.source = arcSource;
-		this.arcFormalism = base;
+		this.formalism = arcFormalism;
 	}
 
 	/**
 	 * Savoir si on peut creer un arc
 	 * @return booleen
 	 */
+	@Override
 	public final boolean canExecute() {
 		return true;
 	}
 
 	/**
-	 * Getter de Source
+	 * Getter de l'element source de l'arc
 	 * @return source
 	 */
 	public final INodeImpl getSource() {
@@ -52,6 +53,6 @@ public class ArcCreateCmd extends Command {
 	 * @return elementBase
 	 */
 	public final ElementBase getElementBase() {
-		return arcFormalism;
+		return formalism;
 	}
 }

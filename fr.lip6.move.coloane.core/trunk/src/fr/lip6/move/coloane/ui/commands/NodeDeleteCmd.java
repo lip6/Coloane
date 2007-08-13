@@ -73,7 +73,17 @@ public class NodeDeleteCmd extends Command {
 	@Override
 	public final void undo() {
 		try {
-			model.addNode(node, sourceConnections, targetConnections);
+			model.addNode(node);
+
+			// Ajout des arcs entrants
+			for (IArcImpl arcIn : targetConnections) {
+				model.addArc(arcIn);
+			}
+
+			// Ajout des arcs sortants
+			for (IArcImpl arcOut : sourceConnections) {
+				model.addArc(arcOut);
+			}
 		} catch (BuildException e) {
 			System.err.println("Impossible d'annuler la suppression du noeud");
 		}

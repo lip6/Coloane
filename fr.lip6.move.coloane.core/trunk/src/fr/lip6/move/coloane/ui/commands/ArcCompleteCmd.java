@@ -26,7 +26,7 @@ public class ArcCompleteCmd extends Command {
 	private final INodeImpl target;
 
 	/** Element de base du formalisme (arc) */
-	private final ElementBase arcFormalism;
+	private final ElementBase formalism;
 
 	/** L'arc */
 	private IArcImpl arc;
@@ -37,19 +37,20 @@ public class ArcCompleteCmd extends Command {
 	 * @param target noeud cible
 	 * @param base elementBase
 	 */
-	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementBase base) {
+	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementBase arcFormalism) {
 		this.source = arcSource;
 		this.target = arcTarget;
-		this.arcFormalism = base;
+		this.formalism = arcFormalism;
 	}
 
 	/**
 	 * Savoir si l'action est executable
 	 * @return booleen
 	 */
+	@Override
 	public final boolean canExecute() {
 
-		Formalism form = arcFormalism.getFormalism();
+		Formalism form = formalism.getFormalism();
 
 		// La connexion est-elle autorisee par le formalisme ?
 		if (!form.isLinkAllowed(source.getElementBase(), target.getElementBase())) {
@@ -69,11 +70,13 @@ public class ArcCompleteCmd extends Command {
 
 	/**
 	 * Creation de la connexion
+	 * Creation de l'objet arc adapte
 	 */
+	@Override
 	public final void execute() {
 		try {
-			// Le constructeur se charge de la connexion
-			arc = new ArcImplAdapter(source, target, arcFormalism);
+			// Construction de l'arc
+			arc = new ArcImplAdapter(this.source, this.target, this.formalism);
 			arc.setModelAdapter(source.getModelAdapter());
 			this.redo();
 		} catch (BuildException e) {
@@ -82,8 +85,10 @@ public class ArcCompleteCmd extends Command {
 	}
 
 	/**
-	 * Refaire la methode Execute
+	 * Executer (ou Refaire)
+	 * Ajout de l'arc au modele
 	 */
+	@Override
 	public final void redo() {
 		try {
 			source.getModelAdapter().addArc(arc);
@@ -93,8 +98,10 @@ public class ArcCompleteCmd extends Command {
 	}
 
 	/**
-	 * Defaire la methode Execute
+	 * Annuler
+	 * Suppression de l'arc du modele generique
 	 */
+	@Override
 	public final void undo() {
 		source.getModelAdapter().removeArc(arc);
 	}
