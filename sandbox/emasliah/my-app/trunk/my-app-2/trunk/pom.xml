@@ -3,14 +3,14 @@
   <parent>
     <artifactId>my-app</artifactId>
     <groupId>com.mycompany.app</groupId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app-2</artifactId>
   <name>my-app-2</name>
-  <version>1.4</version>
+  <version>1.5-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -21,8 +21,8 @@
     </dependency>
   </dependencies>
     <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.4</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.4</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/tags/my-app-1.4</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-2/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-2/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/my-app-2/trunk</url>
   </scm>
 </project>
