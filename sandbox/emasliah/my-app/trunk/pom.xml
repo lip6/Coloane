@@ -4,7 +4,7 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <packaging>pom</packaging>
-  <version>1.3</version>
+  <version>1.4-SNAPSHOT</version>
   <name>my-app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -20,9 +20,9 @@
     <module>my-app-2/trunk</module>
   </modules>
   <scm>
-  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.3</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/tags/my-app-1.3</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/tags/my-app-1.3</url>
+  	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/trunk</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/trunk</developerConnection>
+ 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/trunk</url>
   </scm>
   <build>
   	<plugins>
