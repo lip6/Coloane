@@ -74,7 +74,7 @@ public abstract class Model implements IModel {
 	 * Constructeur
 	 * @param commands Une suite de commandes qui permettent de construire le modele.
 	 */
-	public Model(Vector<String> commands) throws SyntaxErrorException {
+	public Model(Vector<String> commands) throws SyntaxErrorException, ModelException {
 		this();
 
 		// Construction du modele a partir des commandes recues
@@ -90,7 +90,7 @@ public abstract class Model implements IModel {
 	 * @param commandsFile Un fichier contenant des commandes pour construire le modele
 	 * @throws IOException Erreur de lecture dans le fichier
 	 */
-	public Model(File commandsFile) throws SyntaxErrorException {
+	public Model(File commandsFile) throws SyntaxErrorException, ModelException {
 		this();
 
 		// Un vecteur de commandes de construction
@@ -267,7 +267,6 @@ public abstract class Model implements IModel {
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#removeArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
 	public final void removeArc(IArc arc) throws ModelException {
-
 		if (this.listOfArc.contains(arc)) {
 
 			// Suppression de la liste des arcs
@@ -442,7 +441,7 @@ public abstract class Model implements IModel {
 	 * @param commands Un vecteur de commandes pour construire le modele
 	 * @throws SyntaxErrorException
 	 */
-	protected abstract void buildModel(Vector camiCommande) throws SyntaxErrorException;
+	protected abstract void buildModel(Vector camiCommande) throws SyntaxErrorException, ModelException;
 
 	/**
 	 * Renvoie la liste des ID des elements du modele
