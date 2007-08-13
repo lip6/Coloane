@@ -20,7 +20,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-    <scm>
+	<scm>
   	<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-2/trunk</connection>
    	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/my-app/my-app-2/trunk</developerConnection>
  		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/my-app/my-app-2/trunk</url>
