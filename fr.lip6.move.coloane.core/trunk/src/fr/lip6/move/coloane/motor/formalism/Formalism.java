@@ -78,7 +78,7 @@ public class Formalism {
 	public final ElementBase getArcFormalism(String typeElt) {
 		for (ElementBase elt : listOfElementBase) {
 			if (typeElt.equals(elt.getName())) {
-				return (NodeFormalism) elt;
+				return (ArcFormalism) elt;
 			}
 		}
 		return null;

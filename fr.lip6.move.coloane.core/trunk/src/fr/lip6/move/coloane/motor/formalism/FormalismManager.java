@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.motor.formalism;
 
 import fr.lip6.move.coloane.exceptions.ColoaneException;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.main.Coloane;
@@ -101,6 +102,8 @@ public class FormalismManager {
 		try {
 			genericModel = new Model(new File(fileName));
 		} catch (SyntaxErrorException e) {
+			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
+		} catch (ModelException e) {
 			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
 		}
 
