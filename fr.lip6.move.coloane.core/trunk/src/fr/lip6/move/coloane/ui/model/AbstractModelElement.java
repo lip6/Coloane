@@ -1,16 +1,15 @@
 package fr.lip6.move.coloane.ui.model;
 
+import fr.lip6.move.coloane.ui.AttributePropertyDescriptor;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
-
-import fr.lip6.move.coloane.ui.AttributePropertyDescriptor;
 
 
 /**
@@ -22,11 +21,8 @@ import fr.lip6.move.coloane.ui.AttributePropertyDescriptor;
  * </ul>
  */
 
-public abstract class AbstractModelElement implements IPropertySource, Serializable {
+public abstract class AbstractModelElement implements IPropertySource {
 
-	/**
-	 * TODO : A documenter
-	 */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
 	/**
@@ -37,13 +33,13 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Cet attribut est fonction du formalisme
 	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
 	 */
-	protected IAttributeImpl[] propsList;
+	private IAttributeImpl[] propsList;
 
 	/**
 	 * Table des attributs en fonction de leurs identifiant
 	 * A surcharger et a implementer dans le constructeur.
 	 */
-	protected Hashtable<Object, IAttributeImpl> properties = new Hashtable<Object, IAttributeImpl>();
+	private Hashtable<Object, IAttributeImpl> properties = new Hashtable<Object, IAttributeImpl>();
 
 	/**
 	 * @return instance de la classe //pas implementer
@@ -66,7 +62,6 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 		for (Enumeration e = this.properties.elements(); e.hasMoreElements();) {
 			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
 
-			// TODO : Verifier qu'il n'existe pas de solution plus elegante sans passer par une HashMap
 			// Calcul de l'indice d'insertion dans la fenetre
 			int indice = Integer.parseInt(prop.getId());
 
@@ -139,18 +134,16 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Remet l'attribut a sa valeur par defaut, ne rien faire si pas de defaut
 	 * @param id Nom de la propriete
 	 */
-	public void resetPropertyValue(Object id) {
-	}
+	public void resetPropertyValue(Object id) { }
 
 	/**
 	 * Attache un listener (ecouteur) a l'objet
 	 * L'objet est donc maintenant sensible aux evenements recus
 	 */
-	public final synchronized void addPropertyChangeListener(PropertyChangeListener l) {
-		if (l == null) {
-			throw new IllegalArgumentException();
+	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+		if (listener != null) {
+			pcsDelegate.addPropertyChangeListener(listener);
 		}
-		pcsDelegate.addPropertyChangeListener(l);
 	}
 
 	/**
@@ -158,9 +151,9 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * pas implémentée
 	 * @param l une instance non-null de PropertyChangeListener
 	 */
-	public final synchronized void removePropertyChangeListener(PropertyChangeListener l) {
-		if (l != null) {
-			pcsDelegate.removePropertyChangeListener(l);
+	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+		if (listener != null) {
+			pcsDelegate.removePropertyChangeListener(listener);
 		}
 	}
 
@@ -188,17 +181,24 @@ public abstract class AbstractModelElement implements IPropertySource, Serializa
 	 * Table des PropertyImplAdapter de l'element du noeud
 	 * @return la table des PropertyImplAdapter de l'element du noeud
 	 */
-	public final Hashtable getProperties() {
+	protected final Hashtable getProperties() {
 		return properties;
 	}
 
 	/**
-	 * TODO: Description
+	 * Vide la table des proprietes
+	 * @return void
 	 */
-	public final void initPropertyChange() {
-		if (pcsDelegate == null) {
-			pcsDelegate = new PropertyChangeSupport(this);
-		}
+	protected final void clearProperties() {
+		this.properties.clear();
 	}
 
+	/**
+	 * Ajoute une propriete a la liste
+	 * @param key La clef d'insertion dans la table de hachage
+	 * @param attr L'attribut a a jouter dans la table
+	 */
+	protected final void addProperty(String key, IAttributeImpl attr) {
+		this.properties.put(key, attr);
+	}
 }

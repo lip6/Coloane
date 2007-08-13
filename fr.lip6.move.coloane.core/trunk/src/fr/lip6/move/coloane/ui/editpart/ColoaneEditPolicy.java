@@ -1,5 +1,13 @@
 package fr.lip6.move.coloane.ui.editpart;
 
+import fr.lip6.move.coloane.ui.commands.AttributeSetConstraintCmd;
+import fr.lip6.move.coloane.ui.commands.NodeCreateCmd;
+import fr.lip6.move.coloane.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+import fr.lip6.move.coloane.ui.model.INodeImpl;
+import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +19,6 @@ import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
-
-import fr.lip6.move.coloane.ui.commands.AttributeSetConstraintCmd;
-import fr.lip6.move.coloane.ui.commands.NodeCreateCmd;
-import fr.lip6.move.coloane.ui.commands.NodeSetConstraintCmd;
-import fr.lip6.move.coloane.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.ui.model.IModelImpl;
-import fr.lip6.move.coloane.ui.model.INodeImpl;
-import fr.lip6.move.coloane.ui.model.NodeImplAdapter;
-
 
 /**
  * Ensemble de regles definissant le comportement du modele vis a vis de ses noeuds fils.
@@ -37,7 +36,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * Le modele (en tant que conteneur) doit definir une politique vis a vis de ses enfants <br>
 	 */
 	@Override
-	protected EditPolicy createChildEditPolicy(EditPart child) {
+	protected final EditPolicy createChildEditPolicy(EditPart child) {
 
 		/**
 		 * Cette politique interdit aux enfants d'etre redimensionnes<br>
@@ -55,7 +54,8 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * Traitement d'une demande d'ajout de noeud
 	 * @param request La requete formulee
 	 */
-	protected Command getCreateCommand(CreateRequest request) {
+	@Override
+	protected final Command getCreateCommand(CreateRequest request) {
 		Object childClass = request.getNewObjectType();
 
 		// Si l'objet a ajouter est un noeud... OK
@@ -78,7 +78,8 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @param child L'EditPart concernee
 	 * @param constraint La nouvelle position demandee
 	 */
-	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
+	@Override
+	protected final Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 
 		// Dans le cas d'un noeud
 		if (child instanceof ElementEditPart && constraint instanceof Rectangle) {
@@ -95,7 +96,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	}
 
 	@Override
-	protected Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
+	protected final Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -18,7 +18,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
 	@Override
-	protected void buildActions() {
+	protected final void buildActions() {
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
 		addRetargetAction(new DeleteRetargetAction());
@@ -31,7 +31,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
 	 */
 	@Override
-	protected void declareGlobalActionKeys() {
+	protected final void declareGlobalActionKeys() {
 		addGlobalActionKey(ActionFactory.PRINT.getId());
 		addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
 		addGlobalActionKey(ActionFactory.PASTE.getId());
