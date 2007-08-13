@@ -27,6 +27,8 @@ public class SelectFormalismPage extends WizardPage {
 	private Label label = null;
 	private Table tableFormalism = null;
 
+	private static final int GRID_HEIGHT = 50;
+
 	/**
 	 * Constructeur de la classe
 	 */
@@ -41,20 +43,20 @@ public class SelectFormalismPage extends WizardPage {
 	 * @param parent parent
 	 */
 	public final void createControl(Composite parent) {
-		Composite com = new Composite(parent, SWT.NONE);
+		Composite composite = new Composite(parent, SWT.NONE);
 
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.grabExcessVerticalSpace = true;
-		gridData.heightHint = 100;
+		gridData.heightHint = GRID_HEIGHT;
 		gridData.verticalAlignment = GridData.FILL;
 
 		// La boite de selection
-		label = new Label(com, SWT.NONE);
+		label = new Label(composite, SWT.NONE);
 		label.setText(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
 
-		tableFormalism = new Table(com, SWT.SINGLE | SWT.BORDER);
+		tableFormalism = new Table(composite, SWT.SINGLE | SWT.BORDER);
 		tableFormalism.setLayoutData(gridData);
 		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLinesVisible(false);
@@ -75,17 +77,15 @@ public class SelectFormalismPage extends WizardPage {
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 
 			// Determine l'icone associe a l'item dans la table
-			//item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
-			// TODO Distinguer les icones des formalismes. (Dessiner les icones en question)
+			/* TODO: Distinguer les icones des formalismes */
 			item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/instance.gif").createImage()); //$NON-NLS-1$
 		}
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 
-		com.setLayout(gridLayout);
-		setControl(com);
-
+		composite.setLayout(gridLayout);
+		setControl(composite);
 	}
 
 	/**
@@ -93,6 +93,7 @@ public class SelectFormalismPage extends WizardPage {
 	 * La condition est simple : Un formalisme doit etre selectionne
 	 * @return booleen
 	 */
+	@Override
 	public final boolean canFlipToNextPage() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);
 	}

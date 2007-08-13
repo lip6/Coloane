@@ -13,6 +13,10 @@ public class ProjectCreationPage extends WizardNewProjectCreationPage {
 		setDescription(Coloane.getTranslate().getString("ui.wizards.ProjectCreationPage.2")); //$NON-NLS-1$
 	}
 
+	/**
+	 * Permission de finir ?
+	 * @return boolean (false)
+	 */
 	public final boolean finish() {
 		return true;
 	}

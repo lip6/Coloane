@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.wizards;
 
+import fr.lip6.move.coloane.main.Coloane;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
@@ -15,12 +17,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
-import fr.lip6.move.coloane.main.Coloane;
-
 public class NewProjectWizard extends Wizard implements INewWizard {
 
-	ProjectCreationPage projectCreationPage;
-	protected boolean creationFinished = false;
+	private ProjectCreationPage projectCreationPage;
 
 	public NewProjectWizard() {
 		// TODO Auto-generated constructor stub

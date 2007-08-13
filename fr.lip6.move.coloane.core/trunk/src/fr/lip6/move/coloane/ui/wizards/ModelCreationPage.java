@@ -23,8 +23,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	private final IWorkbench workbench;
 	private static int fileCount = 0;
 
-	Composite com, rootCom;
-
 	/**
 	 * Creer une nouvelle wizard page
 	 * @param workbench le workbench courant
@@ -42,17 +40,21 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * Cette methode ajoute les controle pour visualiser les projets ouverts
 	 * pour le control standard de WizardNewFileCreationPage
 	 */
+	@Override
 	public final void createControl(Composite parent) {
 		super.createControl(parent);
 
 		// On propose un nom par defaut
+		/* TODO: Meilleure gestion des nouveaux nom de fichier... */
 		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") + "_" + fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
+	 * Permission de passer a la page suivante ?
 	 * @return false
 	 * @see NewModelWizard#canFlipToNextPage()
 	 */
+	@Override
 	public final boolean canFlipToNextPage() {
 		return false;
 	}
@@ -104,13 +106,14 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Methode remplissant le fichier avec un contenu par default
+	 * Methode remplissant le fichier avec un contenu par defaut
+	 * @return InputStream
 	 */
+	@Override
 	protected final InputStream getInitialContents() {
 
 		// InputStream a retourner
 		InputStream inputS = null;
-
 
 		// Nouveau model
 		IModel model = new Model();
