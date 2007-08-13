@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.ui.model;
 
-import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
@@ -59,23 +58,6 @@ public interface IArcImpl {
 	 * @return ID
 	 */
 	int getId();
-
-	/**
-	 * Reconnecter
-	 */
-	void reconnect() throws BuildException;
-
-	/**
-	 * Reconnecter
-	 * @param source
-	 * @param target
-	 */
-	void reconnect(INodeImpl source, INodeImpl target) throws BuildException;
-
-	/**
-	 * Deconnecter un arc
-	 */
-	void disconnect();
 
 	/**
 	 * Retourne l'arc generique associe a cet arc augemente
@@ -172,4 +154,11 @@ public interface IArcImpl {
 	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible
 	 */
 	void updateAttributesPosition();
+
+	/**
+	 * Reconnecte un arc existant a des noeuds differents
+	 * @param newSource Nouvelle source
+	 * @param newTarget Nouvelle cible
+	 */
+	void reconnect(INodeImpl newSource, INodeImpl newTarget);
 }

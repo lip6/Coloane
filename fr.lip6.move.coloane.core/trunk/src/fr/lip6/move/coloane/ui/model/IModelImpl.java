@@ -32,9 +32,6 @@ public interface IModelImpl {
 	 */
 	void addNode(INodeImpl child) throws BuildException;
 
-	void addNode(INodeImpl child, List<IArcImpl> sourceConnections, List<IArcImpl> targetConnections) throws BuildException;
-
-
 	/**
 	 * Suppression d'un noeud
 	 * Cette methode s'occupe de supprimer le noeud du modele generique
@@ -127,11 +124,6 @@ public interface IModelImpl {
 	 *            (true = necessite de mise a jour)
 	 */
 	void setDirty(boolean dirty);
-
-	/**
-	 * Indique que le modele est en construction
-	 */
-	void setBeginBuilding();
 
 	/**
 	 * Indique que le modele n'est pas (plus) en construction

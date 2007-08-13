@@ -11,16 +11,17 @@ import org.eclipse.draw2d.geometry.Point;
 public interface INodeGraphicInfo {
 
 	// Style de sa figure
-	 /** ID pour circle */
+	 /** ID pour un cercle */
 	int FIG_CIRCLE = 0;
 
 	/** ID pour rectangle */
 	int FIG_RECT = 1;
 
-	/** ID pour double-circle */
+	/** ID pour un double-cercle */
 	int FIG_DBLCIRCLE = 2;
+	int DIFF_CIRCLE = 4;
 
-	/** ID pour la queue.*/
+	/** ID pour une queue (ellipse applatie)*/
 	int FIG_QUEUE = 3;
 
 	/**

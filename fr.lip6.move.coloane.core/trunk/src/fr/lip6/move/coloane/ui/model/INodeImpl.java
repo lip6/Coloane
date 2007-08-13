@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 
@@ -67,9 +68,7 @@ public interface INodeImpl {
 	 * @param arc L'arc a supprimer
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl
 	 */
-	void removeArc(IArcImpl arc);
-
-	void removeAllConnections();
+	void removeArc(IArcImpl arc) throws ModelException;
 
 	/**
 	 * Retourne la liste des arcs sortants du noeud
