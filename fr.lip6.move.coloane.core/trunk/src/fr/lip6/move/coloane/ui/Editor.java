@@ -321,8 +321,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Creation du model a partir du model generique
 		model = new ModelImplAdapter(handler.getModel(), this.formalism);
 
-		// Indication de debut de construction
-		model.setBeginBuilding();
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
