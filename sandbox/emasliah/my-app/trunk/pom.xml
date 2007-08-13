@@ -42,6 +42,7 @@
 				<version>2.0-beta-6</version>
 				<configuration>
 					<preparationGoals>scm:checkin clean integration-test scm:branch</preparationGoals>
+					<commitByProject>true</commitByProject>
 				</configuration>	
 			</plugin>
 		</plugins>
