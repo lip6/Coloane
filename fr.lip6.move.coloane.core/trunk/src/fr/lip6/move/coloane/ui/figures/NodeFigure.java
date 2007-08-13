@@ -24,6 +24,9 @@ public class NodeFigure extends Figure implements INodeFigure {
 	/** Les considerations graphiques du noeud */
 	private INodeGraphicInfo nodeGraphInfo;
 
+	/** L'epaisseur des lignes lors de la selection */
+	private static final int LINE_WIDTH = 3;
+
 	/**
 	 * Constructeur de l'objet graphique representant un noeud augemente.
 	 * Toute modification graphique concernant le noeud augmente passe par cet objet.
@@ -48,7 +51,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
-			figure.setSize(16, 16);
+			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
 
 			if (nodeGraphInfo.isFilled()) {
 				figure.setBackgroundColor(ColorConstants.black);
@@ -59,12 +62,12 @@ public class NodeFigure extends Figure implements INodeFigure {
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
-			figure.setSize(16, 16);
+			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
 
 			// Le cercle interieur
 			IFigure figure2 = new Ellipse();
 			figure2.setForegroundColor(ColorConstants.black);
-			figure2.setSize(12, 12);
+			figure2.setSize(node.getElementBase().getWidth() - INodeGraphicInfo.DIFF_CIRCLE, node.getElementBase().getHeight() - INodeGraphicInfo.DIFF_CIRCLE);
 			figure2.setLocation(new Point(2, 2));
 			figure.add(figure2);
 
@@ -73,14 +76,14 @@ public class NodeFigure extends Figure implements INodeFigure {
 		// Le cas d'une queue
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
 			figure = new RoundedRectangle();
-			figure.setSize(16, 8);
+			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
 			figure.setForegroundColor(ColorConstants.black);
 			add(figure);
 
 		// Le reste des cas (transition)
 		} else {
 			figure = new RectangleFigure();
-			figure.setSize(24, 8);
+			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
 			figure.setForegroundColor(ColorConstants.black);
 
 			if (nodeGraphInfo.isFilled()) {
@@ -110,7 +113,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void setSelect() {
 		figure.setForegroundColor(ColorConstants.blue);
-		((Shape) figure).setLineWidth(3);
+		((Shape) figure).setLineWidth(LINE_WIDTH);
 	}
 
 	/*
@@ -119,7 +122,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void setSelectSpecial() {
 		figure.setForegroundColor(ColorConstants.red);
-		((Shape) figure).setLineWidth(3);
+		((Shape) figure).setLineWidth(LINE_WIDTH);
 	}
 
 	/*
