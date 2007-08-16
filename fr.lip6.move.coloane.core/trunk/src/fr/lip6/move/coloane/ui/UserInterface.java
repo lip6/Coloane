@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.ui;
 
 import fr.lip6.move.coloane.communications.objects.Results;
+import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
 import fr.lip6.move.coloane.interfaces.IComUi;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.IUiMotor;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
-import fr.lip6.move.coloane.menus.MenuNotFoundException;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.results.ActionsList;

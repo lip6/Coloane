@@ -1,20 +1,21 @@
 package fr.lip6.move.coloane.model.tests;
 
-import junit.framework.TestCase;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+
 import java.lang.reflect.Array;
 
-import fr.lip6.move.coloane.interfaces.model.*;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import junit.framework.TestCase;
 
-public class TestModel_PI extends TestCase {
+public class TestModelPI extends TestCase {
 
-	public void affiche_translate(String[] t) {
+	public final void afficheTranslate(String[] t) {
 		for (int i = 0; i < Array.getLength(t); i++) {
 			System.out.println(t[i]);
 		}
 	}
 
-	public void aleaAddPI(IArc arc, int x, int y) {
+	public final void aleaAddPI(IArc arc, int x, int y) {
 
 		boolean presence = false;
 
@@ -26,23 +27,23 @@ public class TestModel_PI extends TestCase {
 				presence = true;
 			}
 		}
-		// Si oui, une exception doit être levée
+		// Si oui, une exception doit etre levee
 		if (presence) {
 			try {
 				arc.addPI(x, y);
 				assertTrue(false);
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				assertTrue(true);
 				System.out.println(e.toString());
 
 			}
 
 		} else {
-			// Sinon, l'ajout est effectué.
+			// Sinon, l'ajout est effectue.
 			try {
 				arc.addPI(x, y);
 
-				// On test alors la présence du PI
+				// On test alors la presence du PI
 				// (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
 					if (arc.getListOfPI().get(i).getXPosition() == x
@@ -51,7 +52,7 @@ public class TestModel_PI extends TestCase {
 						assertTrue(true);
 					}
 				}
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				System.out.println(e.toString());
 				assertTrue(false);
 
@@ -59,7 +60,7 @@ public class TestModel_PI extends TestCase {
 		}
 	}
 
-	public void aleaRemovePI(IArc arc, int x, int y) {
+	public final void aleaRemovePI(IArc arc, int x, int y) {
 
 		boolean presence = false;
 
@@ -72,33 +73,32 @@ public class TestModel_PI extends TestCase {
 			}
 		}
 
-		// Si (x,y) n'existe pas, une exception doit être levée
+		// Si (x,y) n'existe pas, une exception doit etre levee
 		if (!presence) {
 			try {
 				arc.removePI(x, y);
 				assertTrue(false);
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				assertTrue(true);
 				System.out.println(e.toString());
 			}
 
 		} else {
-			// Sinon, la suppresion est effectué.
+			// Sinon, la suppresion est effectue.
 			try {
 				arc.removePI(x, y);
 
-				// On test alors la présence du PI
-				// (x,y)
+				// On test alors la presence du PI (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
 
 					if (arc.getListOfPI().get(i).getXPosition() == x
 							&& arc.getListOfPI().get(i).getYPosition() == y) {
 
-						//test echoué car (x,y) encore présent!
+						//test echoue car (x,y) encore present!
 						assertFalse(true);
 					}
 				}
-			} catch (SyntaxErrorException e) {
+			} catch (ModelException e) {
 				System.out.println(e.toString());
 				assertTrue(false);
 

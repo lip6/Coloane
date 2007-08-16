@@ -1,64 +1,65 @@
 package fr.lip6.move.coloane.model.tests;
 
-import junit.framework.TestCase;
-import java.util.Vector;
-import java.lang.reflect.Array;
-
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.model.Node;
 
+import java.lang.reflect.Array;
+import java.util.Vector;
+
+import junit.framework.TestCase;
+
 /*Scenario de test:
- * Le nombre de tour effectué est spécifié par la variable "max_tour"
- * Le nombre d'arc à supprimer par est spécifié par la variable "nb_remove"
+ * Le nombre de tour effectue est specifie par la variable "MAXLOOP"
+ * Le nombre d'arc a supprimer par est specifie par la variable "NBREMOVE"
  *
- * Ajout d'un arc de facon correcte ou non aléatoirement
+ * Ajout d'un arc de facon correcte ou non aleatoirement
  * Si on ne peut ajouter un arc alors on tente d'ajouter un noeud et un arc dont les identifiants
  * existe deja dans le modele
  *
- * Tous les 8 tours, nb_remove arcs sont supprimés
+ * Tous les 8 tours, nb_remove arcs sont supprimes
  *
- * Tous les 15 tours 1 noeud choisi aléatoirement est supprimé.
+ * Tous les 15 tours 1 noeud choisi aleatoirement est supprime.
  *
  * Tous les 10 tours on effectue un translate et un buildmodel (export/import) afin d'en comparer les sorties
  * tout en comparant l'ensemble de leurs noeuds et arcs des 2 models
- * Lors de la suppression d'un arc, on compare le model avant la suppression au model après la suppression
+ * Lors de la suppression d'un arc, on compare le model avant la suppression au model apres la suppression
  *
- * A chaque ajout d'un arc on ajoute aleatoirement un attribut au model, à un noeud ou à une arc
+ * A chaque ajout d'un arc on ajoute aleatoirement un attribut au model, a un noeud ou a une arc
  *
  * */
 
 public class TestModel extends TestCase {
-	int max_tour =500;
 
-	int nb_remove = 2;
+	static final int MAXLOOP = 500;
+	static final int NBREMOVE = 2;
+	static final int RANDOM = 4;
 
-	int tour = 1;
+	private int tour = 1;
+	private Model model = new Model();
 
-	Model model = new Model();
+	private int idNode1, idNode2, idArc;
 
-	int id_node1, id_node2, id_arc;
+	/** switchArcOk regroupe les ajouts d'arc realisable * */
+	public final void switchArcOK(IArc arc) {
 
-	/** switchArcOk regroupe les ajouts d'arc réalisable * */
-	public void switchArcOK(IArc arc) {
+		int actionOK = (int) (Math.random() * RANDOM);
+		int i;
 
-		int action_ok;
+		// Creation des noeuds source et cible
+		INode node1 = new Node("Node");
+		INode node2 = new Node("Node");
 
-		action_ok = (int) (Math.random() * 4);
 		try {
-			switch(action_ok){
+			switch(actionOK) {
 
-				// Ajout de 2 noeuds reliés par un arc
-				case 0: {
-
-					// Creation des noeuds source et cible
-					INode node1 = new Node("Node");
-					INode node2 = new Node("Node");
+				// Ajout de 2 noeuds relies par un arc
+				case 0:
 
 					// Affectation des noeuds de l'arc
 					arc.setStartingNode(node1);
@@ -70,53 +71,47 @@ public class TestModel extends TestCase {
 					// Ajout du premier noeud
 					model.addNode(node1);
 
-					// Test si l'id est bien présent dans la liste des id
-					id_node1 = node1.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_node1)));
+					// Test si l'id est bien present dans la liste des id
+					idNode1 = node1.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode1)));
 
-					assertEquals(id_node1, model.getMaxId());
+					assertEquals(idNode1, model.getMaxId());
 
 					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 
 					// Ajout du second noeud
 					model.addNode(node2);
 
-					// Test si l'id est bien présent dans la liste des id
-					id_node2 = node2.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_node2)));
+					// Test si l'id est bien present dans la liste des id
+					idNode2 = node2.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode2)));
 
-					assertEquals(id_node2, model.getMaxId());
+					assertEquals(idNode2, model.getMaxId());
 
 					// Test la presence des noeuds dans le modele
-					assertEquals(node1, model.getANode(id_node1));
-					assertEquals(node2, model.getANode(id_node2));
+					assertEquals(node1, model.getANode(idNode1));
+					assertEquals(node2, model.getANode(idNode2));
 
 					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 
 					// Ajout de l'arc
 					model.addArc(arc);
 
-					// Test si l'id est bien présent dans la liste des id
-					id_arc = arc.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+					// Test si l'id est bien present dans la liste des id
+					idArc = arc.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
-					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et des noeuds " + id_node1 + " et " + id_node2
-							+ "\n");
 					break;
-				}
 
-					// Ajout d'un noeud source relié à un noeud déjà existant
-				case 1: {
+				// Ajout d'un noeud source relie a un noeud deja existant
+				case 1:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
 
 					// Creation du noeud source
-					INode node1 = new Node("Node");
-
-					int i = (int) (Math.random() * model.getListOfNodeSize());
+					i = (int) (Math.random() * model.getListOfNodeSize());
 
 					// Affectation des noeuds de l'arc
 					arc.setStartingNode(node1);
@@ -129,11 +124,11 @@ public class TestModel extends TestCase {
 					model.addNode(node1);
 
 					// Test id et presence du noeud dans le modele
-					id_node1 = node1.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_node1)));
-					assertEquals(id_node1, model.getMaxId());
+					idNode1 = node1.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode1)));
+					assertEquals(idNode1, model.getMaxId());
 
-					assertEquals(node1, model.getANode(id_node1));
+					assertEquals(node1, model.getANode(idNode1));
 
 					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 
@@ -141,28 +136,19 @@ public class TestModel extends TestCase {
 					model.addArc(arc);
 
 					// Test id
-					id_arc = arc.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+					idArc = arc.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
-					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et du noeud source " + id_node1
-							+ " relié au noeud " + id_node2 + "\n");
 					break;
-				}
 
-					// Ajout d'un noeud cible relié à un noeud déjà présent dans
-					// le modele
-				case 2: {
-
+					// Ajout d'un noeud cible relie a un noeud deja present dans le modele
+				case 2:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
 
-					// Creation du noeud source
-					INode node2 = new Node("Node");
-
-					int i = (int) (Math.random() * model.getListOfNodeSize());
+					i = (int) (Math.random() * model.getListOfNodeSize());
 
 					// Affectation des noeuds de l'arc
 					arc.setStartingNode(model.getNthNode(i));
@@ -175,11 +161,11 @@ public class TestModel extends TestCase {
 					model.addNode(node2);
 
 					// Test id et presence du noeud dans le modele
-					id_node2 = node2.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_node2)));
-					assertEquals(id_node2, model.getMaxId());
+					idNode2 = node2.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idNode2)));
+					assertEquals(idNode2, model.getMaxId());
 
-					assertEquals(node2, model.getANode(id_node2));
+					assertEquals(node2, model.getANode(idNode2));
 
 					assertFalse(model.getListOfId().contains(Integer.valueOf(model.getMaxId() + 1)));
 
@@ -187,24 +173,18 @@ public class TestModel extends TestCase {
 					model.addArc(arc);
 
 					// Test id
-					id_arc = arc.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
-
-					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " et du noeud cible " + id_node2
-							+ " relié au noeud " + id_node2 + "\n");
+					idArc = arc.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 					break;
-				}
-					// Ajout d'un arc dont les noeuds sont deja present dans le
-					// modele (choisis aleatoirement)
-				case 3: {
 
+					// Ajout d'un arc dont les noeuds sont deja present dans le modele (choisis aleatoirement)
+				case 3:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
 
-					int i = (int) (Math.random() * model.getListOfNodeSize());
+					i = (int) (Math.random() * model.getListOfNodeSize());
 
 					// Affectation des noeuds de l'arc
 					arc.setStartingNode(model.getNthNode(i));
@@ -218,114 +198,104 @@ public class TestModel extends TestCase {
 					model.addArc(arc);
 
 					// Test id
-					id_arc = arc.getId();
-					assertTrue(model.getListOfId().contains(Integer.valueOf(id_arc)));
-					assertEquals(id_arc, model.getMaxId());
+					idArc = arc.getId();
+					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+					assertEquals(idArc, model.getMaxId());
 
 					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " relié aux noeuds "
+							+ " relie aux noeuds "
 							+ arc.getStartingNode().getId() + " et "
 							+ arc.getEndingNode().getId() + " du modele\n");
 					break;
 
-				}
-				default: {
+				default:
 					break;
-				}
 			}
-		} catch (SyntaxErrorException e) {
+		} catch (ModelException e) {
 			e.toString();
 		}
 	}
 
-	/** switchArcNull regroupe les ajouts d'arc impossible à réaliser * */
-	public void switchArcNull(IArc arc) {
+	/** switchArcNull regroupe les ajouts d'arc impossible a realiser * */
+	public final void switchArcNull(IArc arc) {
 
-		int action_null;
+		int actionNull = (int) (Math.random() * RANDOM);
+		int i;
 
-		action_null = (int) (Math.random() * 4);
+		INode node1 = new Node("Node");
+		INode node2 = new Node("Node");
+
 		try {
-			switch(action_null){
-				// Ajout d'un arc dont les noeuds ne sont présent dans le modèle
-				case 0: {
-					INode node1 = new Node("Node");
-					INode node2 = new Node("Node");
+			switch(actionNull) {
+				// Ajout d'un arc dont les noeuds ne sont present dans le modele
+				case 0:
 
 					arc.setStartingNode(node1);
 					arc.setEndingNode(node2);
 
-					id_node1 = node1.getId();
-					id_node2 = node2.getId();
+					idNode1 = node1.getId();
+					idNode2 = node2.getId();
 
-					assertTrue(node1 != model.getANode(id_node1));
-					assertTrue(node2 != model.getANode(id_node2));
+					assertTrue(node1 != model.getANode(idNode1));
+					assertTrue(node2 != model.getANode(idNode2));
 
 					model.addArc(arc);
 					break;
-				}
-					// Ajout d'un arc dont le noeud source n'est pas présent
-					// dans le modèle
-				case 1: {
+
+					// Ajout d'un arc dont le noeud source n'est pas present
+					// dans le modele
+				case 1:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
 
-					INode node1 = new Node("Node");
-
-					int i = (int) (Math.random() * model.getListOfNodeSize());
+					i = (int) (Math.random() * model.getListOfNodeSize());
 
 					arc.setStartingNode(node1);
 					arc.setEndingNode(model.getNthNode(i));
 
-					id_node1 = node1.getId();
-					assertTrue(model.getANode(id_node1) == null);
+					idNode1 = node1.getId();
+					assertTrue(model.getANode(idNode1) == null);
 
 					model.addArc(arc);
 					break;
-				}
 
-					// Ajout d'un arc dont le noeud cible n'est pas présent dans
-					// le modèle
-				case 2: {
+					// Ajout d'un arc dont le noeud cible n'est pas present dans le modele
+				case 2:
 					if (model.getListOfNodeSize() == 0) {
 						break;
 					}
 
-					INode node2 = new Node("Node");
-
-					int i = (int) (Math.random() * model.getListOfNodeSize());
+					i = (int) (Math.random() * model.getListOfNodeSize());
 
 					arc.setStartingNode(model.getNthNode(i));
 					arc.setEndingNode(node2);
 
-					id_node2 = node2.getId();
-					assertTrue(model.getANode(id_node2) == null);
+					idNode2 = node2.getId();
+					assertTrue(model.getANode(idNode2) == null);
 
 					model.addArc(arc);
 					break;
-				}
-					// Ajout d'un arc dont le noeud cible et le noeud source ne
-					// sont pas présents dans
-					// le modèle
-				case 3: {
+
+					// Ajout d'un arc dont le noeud cible et le noeud source ne sont pas presents dans le modele
+				case 3:
 					model.addArc(arc);
 					break;
-				}
-				default: {
+
+				default:
 					break;
-				}
 			}
 
-		} catch (SyntaxErrorException e) {
+		} catch (ModelException e) {
 			e.toString();
 		}
 	}
 
 	/**
-	 * Ajoute aleatoirement un attribut quelconque à une des éléments du modele
-	 * ou au modele lui même*
+	 * Ajoute aleatoirement un attribut quelconque a une des elements du modele
+	 * ou au modele lui meme
 	 */
-	public void aleaAttribute() {
+	public final void aleaAttribute() {
 
 		int alea = (int) (Math.random() * model.getListOfId().size());
 		int id = model.getListOfId().get(alea);
@@ -348,7 +318,7 @@ public class TestModel extends TestCase {
 	}
 
 	/** Affiche le contenu du tableau t * */
-	public void affiche_translate(String[] t) {
+	public final void afficheTranslate(String[] t) {
 		for (int i = 0; i < Array.getLength(t); i++) {
 			System.out.println(t[i]);
 		}
@@ -358,7 +328,7 @@ public class TestModel extends TestCase {
 	 * Verifie si toutes les valeurs du tableau t1 sont dans le tableau t2 et
 	 * inversement *
 	 */
-	public boolean compareTab(String[] t1, String[] t2) {
+	public final boolean compareTab(String[] t1, String[] t2) {
 		boolean b = true;
 		boolean tmp = false;
 		if (Array.getLength(t1) == Array.getLength(t2)) {
@@ -366,7 +336,7 @@ public class TestModel extends TestCase {
 				for (int j = 0; j < Array.getLength(t2); j++) {
 					tmp = tmp || t1[i].equals(t2[j]);
 				}
-				// ligne a decommenter afin de connaitre les lignes différentes
+				// ligne a decommenter afin de connaitre les lignes differentes
 				// if(!tmp){System.out.println("Erreur Translate: ligne "+i);}
 				b = b && tmp;
 				tmp = false;
@@ -378,16 +348,16 @@ public class TestModel extends TestCase {
 	}
 
 	/** SCENARIO * */
-	public void testScenario() {
-		TestModel_PI PI = new TestModel_PI();
+	public final void testScenario() {
+		TestModelPI pi = new TestModelPI();
 		String[] translate;
-		String[] new_build = new String[1];
+		String[] newBuild = new String[1];
 		Vector<String> cami;
 
 		// Creation du modele
 		model.setFormalism("net");
-		String[] attributs = { "declaration", "author(s)", "version", "project" };
-		String[] valeurs = { "a", "c", "1.0", "d" };
+		String[] attributs = {"declaration", "author(s)", "version", "project"};
+		String[] valeurs = {"a", "c", "1.0", "d"};
 		for (int i = 0; i < 4; i++) {
 			String value = new String();
 			value = valeurs[i];
@@ -396,13 +366,12 @@ public class TestModel extends TestCase {
 
 		}
 
-		int action_alea; // represente l'action a effectuer (Ajout d'un arc
-		// correct ou non)
+		int actionAlea; // represente l'action a effectuer (Ajout d'un arc correct ou non)
 
 		// Effectue le scenarion sur max_tour de boucle
-		while (tour <= max_tour) {
+		while (tour <= MAXLOOP) {
 
-			action_alea = (int) (Math.random() * 2);
+			actionAlea = (int) (Math.random() * 2);
 			IArc arc = new Arc("Arc");
 
 			System.out.println("Tour:" + tour);
@@ -411,7 +380,7 @@ public class TestModel extends TestCase {
 			if ((tour % 10) == 0) {
 
 				translate = model.translate();
-				affiche_translate(translate);
+				afficheTranslate(translate);
 
 				cami = new Vector<String>();
 				for (int i = 0; i < Array.getLength(translate); i++) {
@@ -419,17 +388,17 @@ public class TestModel extends TestCase {
 				}
 				System.out.println("\nBuildModel");
 				try {
-					Model model_out = new Model(cami);
-					new_build = model_out.translate();
-					affiche_translate(new_build);
+					Model modelOut = new Model(cami);
+					newBuild = modelOut.translate();
+					afficheTranslate(newBuild);
 
-					assertTrue(compareTab(translate, new_build));
+					assertTrue(compareTab(translate, newBuild));
 
 					for (int a = 0; a < model.getListOfId().size(); a++) {
 						int id = model.getListOfId().get(a);
 						if (!(model.getAnArc(id) == null)) {
 
-							assertTrue(compareTab(model.getAnArc(id).translate(), model_out.getAnArc(id).translate()));
+							assertTrue(compareTab(model.getAnArc(id).translate(), modelOut.getAnArc(id).translate()));
 
 							// Test avec erreur du translate entre 2 arcs
 							// differents
@@ -455,7 +424,7 @@ public class TestModel extends TestCase {
 									nth = (int) (Math.random() * model.getListOfNodeSize());
 								}
 
-								assertFalse(compareTab(model.getANode(id).translate(), model_out.getNthNode(nth).translate()));
+								assertFalse(compareTab(model.getANode(id).translate(), modelOut.getNthNode(nth).translate()));
 							}
 						}
 					}
@@ -471,7 +440,7 @@ public class TestModel extends TestCase {
 					int i = 0;
 
 					// On retire nb_remove arcs
-					while (i < nb_remove) {
+					while (i < NBREMOVE) {
 
 						translate = model.translate();
 
@@ -484,108 +453,109 @@ public class TestModel extends TestCase {
 						arc = model.getNthArc(ind);
 						if (!(arc == null)) {
 
-							id_arc = arc.getId();
+							idArc = arc.getId();
 
 							INode node1 = arc.getStartingNode();
 							INode node2 = arc.getEndingNode();
 
-							id_node1 = node1.getId();
-							id_node2 = node2.getId();
+							idNode1 = node1.getId();
+							idNode2 = node2.getId();
 
-							// Arc présent dans la liste
-							assertTrue(model.getListOfId().contains(Integer.valueOf(id_arc)));
-							model.removeArc(arc);
+							// Arc present dans la liste
+							assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
+							try {
+								model.removeArc(arc);
+							} catch (ModelException e) {
+								fail(e.toString());
+							}
 
-							// Arc plus présent dans la liste des arcs du modèle
-							assertTrue(model.getAnArc(id_arc) == null);
+							// Arc plus present dans la liste des arcs du modele
+							assertTrue(model.getAnArc(idArc) == null);
 
-							// Arc plus présent dans la liste des noeuds de sa
+							// Arc plus present dans la liste des noeuds de sa
 							// cible et de sa source
 
 							assertFalse(node1.getListOfOutputArc().contains(arc));
 							assertFalse(node2.getListOfInputArc().contains(arc));
 
-							// Arc plus présent dans la liste des identifiants
-							// */
-							assertFalse(model.getListOfId().contains(Integer.valueOf(id_arc)));
+							// Arc plus present dans la liste des identifiants
+							assertFalse(model.getListOfId().contains(Integer.valueOf(idArc)));
 
-							// Test translate/buildmodel en cas de model
-							// differents
-							System.out.println("Retrait d'arcs\narc_id:"
-									+ id_arc + "\nid_node1:" + id_node1
-									+ " id_node2:" + id_node2 + "\nMaxId:"
-									+ model.getMaxId() + "\n");
 							i = i + 1;
 
-							new_build = model.translate();
+							newBuild = model.translate();
 
 							// affiche_translate(translate);
-							// System.out.println("\nTranslate erronné");
+							// System.out.println("\nTranslate erronne");
 							// affiche_translate(new_build);
-							assertFalse(compareTab(new_build, translate));
+							assertFalse(compareTab(newBuild, translate));
 						}
 					}
 				} else {
 					if ((tour % 15) == 0 && !(model.getListOfNodeSize() == 0)) {
 
-						int id_node;
+						int idNode;
 						int ind = 0;
 						Vector<IArc> outArc;
 						Vector<IArc> inArc;
 
-						INode node_remove;
+						INode nodeRemove;
 
 						ind = (int) (Math.random() * model.getListOfNodeSize());
 
-						// Copie du arcs sortant et entrant afin de recupèrer
-						// les id après la suppression du noeud
-						node_remove = model.getNthNode(ind);
-						id_node = node_remove.getId();
+						// Copie du arcs sortant et entrant afin de recuperer
+						// les id apres la suppression du noeud
+						nodeRemove = model.getNthNode(ind);
+						idNode = nodeRemove.getId();
 
-						outArc = new Vector<IArc>(node_remove.getListOfOutputArc());
-						inArc = new Vector<IArc>(node_remove.getListOfInputArc());
+						outArc = new Vector<IArc>(nodeRemove.getListOfOutputArc());
+						inArc = new Vector<IArc>(nodeRemove.getListOfInputArc());
 
 						// Suppresion du noeud elu
-						model.removeNode(node_remove);
+						try {
+							model.removeNode(nodeRemove);
+						} catch (ModelException e) {
+							fail(e.toString());
+						}
 
 						// On test que le noeud n'est plus present
-						assertTrue(model.getANode(id_node) == null);
+						assertTrue(model.getANode(idNode) == null);
 
-						// Test des la mise à jour des listes d'arc
+						// Test des la mise a jour des listes d'arc
 						for (int i = 0; i < outArc.size(); i++) {
 							IArc a = outArc.get(i);
 							INode n = a.getEndingNode();
-							int a_id = a.getId();
+							int aId = a.getId();
 
-							assertTrue(model.getAnArc(a_id) == null);
+							assertTrue(model.getAnArc(aId) == null);
 							assertFalse(n.getListOfInputArc().contains(a));
 						}
 
 						for (int i = 0; i < inArc.size(); i++) {
 							IArc a = inArc.get(i);
 							INode n = a.getStartingNode();
-							int a_id = a.getId();
+							int aId = a.getId();
 
-							assertTrue(model.getAnArc(a_id) == null);
+							assertTrue(model.getAnArc(aId) == null);
 							assertFalse(n.getListOfOutputArc().contains(a));
 						}
 						System.out.println("Retrait de noeud\nid_node:"
-								+ id_node + "\n");
+								+ idNode + "\n");
 
-						// Ajout d'un PI à un arc
+						// Ajout d'un PI a un arc
 						if (model.getListOfArcSize() != 0) {
 							int x = (int) (Math.random() * 50);
 							int y = (int) (Math.random() * 50);
-							int nth_arc = (int) (Math.random() * model.getListOfArcSize());
+							int nthArc = (int) (Math.random() * model.getListOfArcSize());
 
-							PI.aleaAddPI(model.getNthArc(nth_arc), x, y);
+							pi.aleaAddPI(model.getNthArc(nthArc), x, y);
 						}
 					} else {
 
-						// Ajout autorisé
-						if (action_alea == 0) {
+						// Ajout autorise
+						if (actionAlea == 0) {
 
-							System.out.println("Cas : Ajout autorisé");
+							System.out.println("Cas : Ajout autorise");
 
 							switchArcOK(arc);
 
@@ -596,26 +566,25 @@ public class TestModel extends TestCase {
 								INode node1 = arc.getStartingNode();
 								INode node2 = arc.getEndingNode();
 
-								id_node1 = arc.getStartingNode().getId();
-								id_node2 = arc.getEndingNode().getId();
-								id_arc = arc.getId();
+								idNode1 = arc.getStartingNode().getId();
+								idNode2 = arc.getEndingNode().getId();
+								idArc = arc.getId();
 
-								assertTrue(model.getAnArc(id_arc) != null);
+								assertTrue(model.getAnArc(idArc) != null);
 								assertTrue(node1.getListOfOutputArc().contains(arc));
 								assertTrue(node2.getListOfInputArc().contains(arc));
 
 								if (!(model.getListOfArcSize() == 0)) {
 
-									// On ajoute aleatoirement un attribut a un
-									// element du modele
+									// On ajoute aleatoirement un attribut a un element du modele
 									aleaAttribute();
 
-									// On retire un PI à un arc pris au hasard
+									// On retire un PI a un arc pris au hasard
 									int x = (int) (Math.random() * 50);
 									int y = (int) (Math.random() * 50);
-									int nth_arc = (int) (Math.random() * model.getListOfArcSize());
+									int nthArc = (int) (Math.random() * model.getListOfArcSize());
 
-									PI.aleaRemovePI(model.getNthArc(nth_arc), x, y);
+									pi.aleaRemovePI(model.getNthArc(nthArc), x, y);
 								}
 							} else {
 								System.out.println("ListOfNode vide: l'ajout d'un arc ne peut s'effectuer\n");
@@ -623,7 +592,7 @@ public class TestModel extends TestCase {
 
 						} else {
 
-							// Action non autorisée
+							// Action non autorisee
 							System.out.println("Cas : Ajout non conforme");
 
 							switchArcNull(arc);
@@ -631,8 +600,8 @@ public class TestModel extends TestCase {
 							if (!(model.getListOfNodeSize() == 0)) {
 
 								// On test si l'arc a ete ajoute au model
-								id_arc = arc.getId();
-								assertTrue(model.getAnArc(id_arc) == null);
+								idArc = arc.getId();
+								assertTrue(model.getAnArc(idArc) == null);
 
 								// Ajout d'un noeud dont
 								// l'identifiant existe deja
@@ -651,7 +620,7 @@ public class TestModel extends TestCase {
 									// aura une erreur d'assertion
 									assertTrue(false);
 
-								} catch (SyntaxErrorException e) {
+								} catch (ModelException e) {
 									System.out.println(e.toString());
 									// sinon
 									assertTrue(true);
@@ -685,7 +654,7 @@ public class TestModel extends TestCase {
 									// aura une erreur d'assertion
 									assertTrue(false);
 
-								} catch (SyntaxErrorException e) {
+								} catch (ModelException e) {
 									System.out.println(e.toString());
 									// sinon
 									assertTrue(true);
