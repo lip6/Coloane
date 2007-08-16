@@ -162,9 +162,7 @@ public class Api implements IApi {
 			apiLogger.finer("Dans la suite :");
 			apiLogger.finer("--> Vers FrameKit");
 			apiLogger.finer("<-- Vers Coloane");
-			// System.out.println("Dans la suite :");
-			// System.out.println("--> Vers FrameKit");
-			// System.out.println("<-- Vers Coloane");
+			
 			boolean rep = this.camiCmdConnection(login, password, apiName, apiVersion);
 			apiLogger.exiting("Api", "openConnexion", rep);
 			return rep;
