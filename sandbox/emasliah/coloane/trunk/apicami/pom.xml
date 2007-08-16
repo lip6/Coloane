@@ -18,7 +18,7 @@
 		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</connection>
    	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</developerConnection>
 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</url>
-   </scm>
+	</scm>
   
   <dependencies>
     <dependency>
@@ -26,6 +26,24 @@
       <artifactId>interfaces</artifactId>
 			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
+
+		<build>
+		<plugins>
+			<plugin>
+    		<!-- Repetition du super pom car Continuum oublie qu'il faut le lire.. -->  
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.0-beta-6</version>
+        <configuration>
+      		<branchName>${project.artifactId}-${project.version}</branchName>
+      		<preparationGoals>scm:checkin clean integration-test scm:branch</preparationGoals>
+      		<updateBranchVersions>false</updateBranchVersions>
+      		<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
+      	</configuration>	
+			</plugin>
+		</plugins>
+	</build>
+
  
 </project>
