@@ -136,7 +136,7 @@
   	<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
-    <directory>target/jar</directory>
+		<!--<directory>target/jar</directory>-->
   	
   	<!-- Pour ssh et ftp -->
   	<extensions>
@@ -230,7 +230,7 @@
         <configuration>
           <!--<configLocation>checkstyle.xml</configLocation>-->
           <failOnViolation>false</failOnViolation>
-          <outputDirectory>target/checkstyle-reports</outputDirectory>
+					<!--<outputDirectory>target/checkstyle-reports</outputDirectory>-->
         </configuration>
       </plugin>
   
@@ -256,7 +256,7 @@
       	</executions>
      	</plugin>
      	
-     	 <plugin>
+			<plugin>
      	 	<!-- Pour le checkstyle -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -265,11 +265,11 @@
         		<id>Checkstyle</id>
           	<phase>validate</phase>        
           	<goals>
-            	<goal>check</goal>
+            	<goal>checkstyle</goal>
           	</goals>
         	</execution>
       	</executions>
-      </plugin>
+			</plugin>
      	
      	<!--<plugin>
     		<!~~ Pour modifier le manifest avec la version du pom ~~>

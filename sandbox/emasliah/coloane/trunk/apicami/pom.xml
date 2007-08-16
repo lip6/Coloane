@@ -11,7 +11,7 @@
   <artifactId>apicami</artifactId>
   <version>0.9.8-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>Apicami - Maven-Packaging</name>
+  <name>Apicami</name>
   <description>Api (cami)</description>
   
 	<scm>
