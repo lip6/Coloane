@@ -1,12 +1,16 @@
-package fr.lip6.move.coloane.model.tests;
+package fr.lip6.move.coloane.model;
 
 import junit.framework.TestCase;
 import java.lang.reflect.Array;
 
 import fr.lip6.move.coloane.interfaces.model.*;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 public class TestModel_PI extends TestCase {
+
+	/** Lanceur des tests bidon */
+	public void testPI() {
+		assertTrue(true);
+	}
 
 	public void affiche_translate(String[] t) {
 		for (int i = 0; i < Array.getLength(t); i++) {
@@ -15,7 +19,7 @@ public class TestModel_PI extends TestCase {
 	}
 
 	public void aleaAddPI(IArc arc, int x, int y) {
-
+		
 		boolean presence = false;
 
 		// On regarde si (x,y) existe pour l'arc
@@ -31,10 +35,10 @@ public class TestModel_PI extends TestCase {
 			try {
 				arc.addPI(x, y);
 				assertTrue(false);
-			} catch (SyntaxErrorException e) {
+			} catch (Exception e) {
 				assertTrue(true);
 				System.out.println(e.toString());
-
+			
 			}
 
 		} else {
@@ -51,16 +55,16 @@ public class TestModel_PI extends TestCase {
 						assertTrue(true);
 					}
 				}
-			} catch (SyntaxErrorException e) {
+			} catch (Exception e) {
 				System.out.println(e.toString());
 				assertTrue(false);
-
+				
 			}
 		}
 	}
-
+	
 	public void aleaRemovePI(IArc arc, int x, int y) {
-
+		
 		boolean presence = false;
 
 		// On regarde si (x,y) existe pour l'arc
@@ -77,7 +81,7 @@ public class TestModel_PI extends TestCase {
 			try {
 				arc.removePI(x, y);
 				assertTrue(false);
-			} catch (SyntaxErrorException e) {
+			} catch (Exception e) {
 				assertTrue(true);
 				System.out.println(e.toString());
 			}
@@ -90,20 +94,20 @@ public class TestModel_PI extends TestCase {
 				// On test alors la présence du PI
 				// (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
-
+					
 					if (arc.getListOfPI().get(i).getXPosition() == x
 							&& arc.getListOfPI().get(i).getYPosition() == y) {
-
+						
 						//test echoué car (x,y) encore présent!
 						assertFalse(true);
 					}
 				}
-			} catch (SyntaxErrorException e) {
+			} catch (Exception e) {
 				System.out.println(e.toString());
 				assertTrue(false);
-
+				
 			}
 		}
 	}
-
+	
 }

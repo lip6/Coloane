@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.model.tests;
+package fr.lip6.move.coloane.model;
 
 import junit.framework.TestCase;
 import java.io.*;
@@ -6,14 +6,9 @@ import java.lang.reflect.Array;
 import java.util.Vector;
 
 
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.model.Arc;
-import fr.lip6.move.coloane.model.Attribute;
-import fr.lip6.move.coloane.model.Model;
-import fr.lip6.move.coloane.model.Node;
 
 public class TestModel_translate extends TestCase {
 
@@ -308,7 +303,7 @@ public class TestModel_translate extends TestCase {
 			}
 
 			System.out.println("FIN TEST");
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 
