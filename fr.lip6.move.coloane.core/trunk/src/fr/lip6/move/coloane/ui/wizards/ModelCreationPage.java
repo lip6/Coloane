@@ -45,7 +45,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		super.createControl(parent);
 
 		// On propose un nom par defaut
-		/* TODO: Meilleure gestion des nouveaux nom de fichier... */
 		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") + "_" + fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -68,23 +67,15 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 
-		// On doit verifier que le chargement du formalismManager est OK
-		if (formManager == null) {
-			setErrorMessage(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.5")); //$NON-NLS-1$
-			return false;
-		}
-
 		// Recupere le nom du formalisme deceide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		String extension = formManager.loadFormalism(formalismName).getExtension();
-		setFileName(getFileName() + "." + extension); //$NON-NLS-1$
+		setFileName(getFileName() + "." + formManager.loadFormalism(formalismName).getExtension());
 
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
 		IFile newFile = createNewFile();
 		if (newFile == null) {
 			setErrorMessage(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.7")); //$NON-NLS-1$
-			System.err.println(Coloane.getTranslate().getString("ui.wizards.ModelCreationPage.8")); //$NON-NLS-1$
 			return false;
 		}
 

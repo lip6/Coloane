@@ -77,8 +77,7 @@ public class SelectFormalismPage extends WizardPage {
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 
 			// Determine l'icone associe a l'item dans la table
-			/* TODO: Distinguer les icones des formalismes */
-			item.setImage(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/instance.gif").createImage()); //$NON-NLS-1$
+			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); //$NON-NLS-1$
 		}
 
 		GridLayout gridLayout = new GridLayout();
