@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 public class ReachabilityGraph extends Formalism {
 
 	private static final String NAME = "ReachabilityGraph";
-	private static final String IMG = "/resources/icons/gma.gif";
+	private static final String IMG = "/resources/icons/instance.gif";
 	private static final String EXTENSION = "rg";
 
 	private static final int INITIAL_WIDTH = 16;
@@ -45,8 +45,8 @@ public class ReachabilityGraph extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "value", IAttributeGraphicInfo.L2, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "initial", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "deadlock", false, true));
-		elt.setAddrIcone16("/resources/icons/initial16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/initial24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/initial16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/initial24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -57,8 +57,8 @@ public class ReachabilityGraph extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "value", IAttributeGraphicInfo.L2, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "initial", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "deadlock", false, true));
-		elt.setAddrIcone16("/resources/icons/terminal16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/terminal24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/terminal16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/terminal24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -69,8 +69,8 @@ public class ReachabilityGraph extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "value", IAttributeGraphicInfo.L2, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "initial", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "deadlock", false, true));
-		elt.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/place24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/place16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/place24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -79,8 +79,8 @@ public class ReachabilityGraph extends Formalism {
 		elt = new ArcFormalism("event", "Event", this, IArcGraphicInfo.FIG_ARC_SIMPLE); //$NON-NLS-1$ //$NON-NLS-2$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.NOR, true, false));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "value", false, true));
-		elt.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/arc24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/arc16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/arc24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 

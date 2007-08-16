@@ -13,7 +13,7 @@ import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 public class PetriNets extends Formalism {
 
 	private static final String NAME = "AMI-Net";
-	private static final String IMG = "/resources/icons/ami.gif";
+	private static final String IMG = "/resources/icons/instance.gif";
 	private static final String EXTENSION = "petri";
 
 	private static final int PLACE_WIDTH = 16;
@@ -59,8 +59,8 @@ public class PetriNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "component", false, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/place16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/place24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/place16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/place24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 
@@ -75,8 +75,8 @@ public class PetriNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "delay", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "action", false, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/transition16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/transition24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transition16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transition24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 
@@ -90,8 +90,8 @@ public class PetriNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "priority", IAttributeGraphicInfo.NOR, true, true, "1"));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "weight", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/transitionimmediate16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/transitionimmediate24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transitionimmediate16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transitionimmediate24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 
@@ -104,8 +104,8 @@ public class PetriNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "domain", IAttributeGraphicInfo.L2, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/queue16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/queue24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/queue16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/queue24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 
@@ -117,8 +117,8 @@ public class PetriNets extends Formalism {
 
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "valuation", IAttributeGraphicInfo.NOR, true, true, "1"));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/arc16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/arc24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/arc16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/arc24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 
@@ -129,8 +129,8 @@ public class PetriNets extends Formalism {
 		elt = new ArcFormalism("inhibitor arc", "Inhibitor Arc", this, IArcGraphicInfo.FIG_ARC_INHIBITOR); //$NON-NLS-1$ //$NON-NLS-2$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "valuation", IAttributeGraphicInfo.NOR, true, true, "1"));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "note", false, true));
-		elt.setAddrIcone16("/resources/icons/arcinhibiteur16.png"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/arcinhibiteur24.png"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/arcinhibiteur16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/arcinhibiteur24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 

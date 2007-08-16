@@ -13,7 +13,7 @@ import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 public class PrefixNets extends Formalism {
 
 	private static final String NAME = "Branching-Process";
-	private static final String IMG = "/resources/icons/prefix.gif";
+	private static final String IMG = "/resources/icons/instance.gif";
 	private static final String EXTENSION = "prefix";
 
 	/** Informations graphiques pour la place */
@@ -49,8 +49,8 @@ public class PrefixNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.L2, true, true));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true));
-		elt.setAddrIcone16("/resources/icons/place16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/place24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/place16.gif"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/place24.gif"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -59,8 +59,8 @@ public class PrefixNets extends Formalism {
 		elt = new NodeFormalism("event", "Event", this, INodeGraphicInfo.FIG_RECT, EVENT_WIDTH, EVENT_HEIGHT, false); //$NON-NLS-1$ //$NON-NLS-2$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.NOR, true, false));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.NOR, true, true, "true"));
-		elt.setAddrIcone16("/resources/icons/transition16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/transition24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transition16.gif"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transition24.gif"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -71,16 +71,16 @@ public class PrefixNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.L2, true, true, "true"));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "image", IAttributeGraphicInfo.NOR, true, true, "1"));
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "num_image", false, true, "1"));
-		elt.setAddrIcone16("/resources/icons/transitionimmediate16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/transitionimmediate24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transitionimmediate16.gif"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transitionimmediate24.gif"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
 
 		// Arc
 		elt = new ArcFormalism("arc", "Arc", this, IArcGraphicInfo.FIG_ARC_SIMPLE); //$NON-NLS-1$ //$NON-NLS-2$
-		elt.setAddrIcone16("/resources/icons/arc16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/icons/arc24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/arc16.gif"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/arc24.gif"); //$NON-NLS-1$
 		addElementBase(elt);
 
 
