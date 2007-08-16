@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 
 import fr.lip6.move.coloane.api.utils.CamiParser;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -29,7 +30,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.Model#Model(Vector<String>)
 	 */
-	public Model(Vector<String> commands) {
+	public Model(Vector<String> commands) throws SyntaxErrorException, ModelException {
 		super(commands);
 		logsutils = new LogsUtils();
 	}
@@ -63,7 +64,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 					// Si le noeud en cours n'est pas le noeud principal du modele
 					if (Integer.parseInt(nodeId) != 1) {
 						INode node = new Node(nodeType, 0, 0, Integer.parseInt(nodeId));
-						this.addNode(node);
+						try {
+							this.addNode(node);
+						} catch (ModelException me) {
+							me.printStackTrace();
+						}
 					}
 					continue; // Prochaine commande
 				}
@@ -93,8 +98,11 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 
 					nodeBegin.addOutputArc(arc);
 					nodeEnd.addInputArc(arc);
-
-					this.addArc(arc);
+					try {
+						this.addArc(arc);
+					} catch (ModelException me) {
+						me.printStackTrace();
+					}
 					continue; // Prochaine commande
 				}
 
