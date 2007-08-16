@@ -13,8 +13,6 @@ public class SousResultsCom {
 	/** Liste des commandes ME (object_outline) */
 	private Vector<String> cmdME;
 
-	/** Liste des commandes WE (attirubute_change) */
-	private Vector<String> cmdWE;
 
 	/** Liste des commandes MT (attribute_outline) */
 	private Vector<String> cmdMT;
@@ -33,7 +31,6 @@ public class SousResultsCom {
 		cmdRO = new Vector<String>();
 		cmdME = new Vector<String>();
 		cmdMT = new Vector<String>();
-		cmdWE = new Vector<String>();
 		cmdMT = new Vector<String>();
 	}
 
@@ -65,19 +62,6 @@ public class SousResultsCom {
 	 */
 	public void addCmdME(String cmd) {
 		cmdME.add(cmd);
-	}
-
-	/**
-	 * 
-	 * Ajoute une cmd WE dans la liste de commandes WE
-	 * 
-	 * @param cmd
-	 *            la commande a ajouter
-	 * 
-	 */
-
-	public void addCmdWE(String cmd) {
-		cmdWE.add(cmd);
 	}
 
 	/**
@@ -135,15 +119,6 @@ public class SousResultsCom {
 		cmdMT.add(cmd);
 	}
 
-	/**
-	 * Supprime la commande WE de la liste des commandes WE
-	 * 
-	 * @param cmd
-	 *            la commande a supprimer
-	 */
-	public void removeCmdWE(String cmd) {
-		cmdWE.remove(cmd);
-	}
 
 	public Vector<String> getCmdRO() {
 		return cmdRO;
