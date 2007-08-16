@@ -1,31 +1,25 @@
-/**
- *
- */
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
-
-import java.util.Vector;
 
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteArc;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteModel;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteNode;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.model.Node;
+
 import junit.framework.TestCase;
 
 /**
- * @author cdcharles
- *
+ * Test des methodes du modele generique
  */
 public class ConcreteModelTest extends TestCase {
 
 	private ConcreteModel cm;
 
 	/**
+	 * Constructeur de la classe de test
 	 * @param name
 	 */
 	public ConcreteModelTest(String name) {
@@ -34,65 +28,44 @@ public class ConcreteModelTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp() throws Exception {
+	protected final void setUp() throws Exception {
 		super.setUp();
-		cm = new ConcreteModel();
+		this.cm = new ConcreteModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	protected void tearDown() throws Exception {
+	protected final void tearDown() throws Exception {
 		super.tearDown();
-		cm = null;
+		this.cm = null;
 	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.concretemodel.ConcreteModel#translate()}.
-	 */
-	/*
-	 * public void testTranslate() { assertTrue(true == true); }
-	 */
 
 	/**
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.concretemodel.ConcreteModel#ConcreteModel()}.
 	 */
-	public void testConcreteModel() {
-		cm = new ConcreteModel();
+	public final void testConcreteModel() {
 		assertTrue(cm.getMaxId() == 1);
-		assertTrue(cm.getXPosition() == 20);
-		assertTrue(cm.getYPosition() == 20);
 	}
 
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#Model()}.
-	 */
-	public void testModel() {
-		Model m = new ConcreteModel();
-		assertTrue(m.getMaxId() == 1);
-		assertTrue(m.getXPosition() == 20);
-		assertTrue(m.getYPosition() == 20);
-	}
+	static final String TYPEARC = "arc";
+	static final String TYPENODE = "node";
 
 	/**
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getANode(int)}.
 	 */
-	public void testGetANode() {
-		INode node = new ConcreteNode("node");
+	public final void testGetANode() {
+		INode node = new ConcreteNode(TYPENODE);
 		try {
 			cm.addNode(node);
 			assertTrue(cm.getANode(node.getId()).equals(node));
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+		} catch (ModelException e) {
+			fail(e.toString());
 		}
 	}
 
@@ -100,92 +73,56 @@ public class ConcreteModelTest extends TestCase {
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getAnArc(int)}.
 	 */
-	public void testGetAnArc() {
-		IArc arc = new ConcreteArc("arc", 4);
-		INode nod = new ConcreteNode("deb");
-		INode node = new ConcreteNode("fin");
+
+	static final String TYPEBEGIN = "begin";
+	static final String TYPEEND = "end";
+
+	public final void testGetAnArc() {
+		IArc arc = new ConcreteArc(TYPEARC);
+		INode begin = new ConcreteNode(TYPEBEGIN);
+		INode end = new ConcreteNode(TYPEEND);
 
 		try {
-			cm.addNode(node);
-			cm.addNode(nod);
-			arc.setStartingNode(nod);
-			arc.setEndingNode(node);
-			cm.addArc(arc);
-			assertTrue(cm.getAnArc(4).equals(arc));
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addNode(fr.lip6.move.coloane.interfaces.model.INode)}.
-	 */
-	public void testAddNode() {
-		INode node = new ConcreteNode("node");
-		INode node1 = new ConcreteNode("node1");
-		try {
-			cm.addNode(node);
+			cm.addNode(begin);
 			assertTrue(cm.getListOfNodeSize() == 1);
-			cm.addNode(node1);
+			cm.addNode(end);
 			assertTrue(cm.getListOfNodeSize() == 2);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addArc(fr.lip6.move.coloane.interfaces.model.IArc)}.
-	 */
-	public void testAddArc() {
-		IArc arc = new ConcreteArc("arc");
-		Node deb = new ConcreteNode("deb");
-		Node fin = new ConcreteNode("fin");
-		try {
-			cm.addNode(deb);
-			cm.addNode(fin);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-		arc.setStartingNode(deb);
-		arc.setEndingNode(fin);
-		try {
+			arc.setStartingNode(begin);
+			arc.setEndingNode(end);
 			cm.addArc(arc);
 			assertTrue(cm.getListOfArcSize() == 1);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			assertTrue(cm.getAnArc(arc.getId()).equals(arc));
+		} catch (ModelException e) {
+			fail(e.toString());
 		}
-
 	}
 
 	/**
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)}.
 	 */
-	public void testAddAttribute() {
-		IAttribute at0 = new ConcreteAttribute("Attribut", " concret", 0);
-		IAttribute at1 = new ConcreteAttribute("Attribut", " concret", 0);
+	public final void testAddAttribute() {
+		IAttribute at0 = new ConcreteAttribute("Attribut", "concret", 0);
+		IAttribute at1 = new ConcreteAttribute("Attribut", "concret", 0);
 		cm.addAttribute(at1);
 		assertTrue(cm.getListOfAttrSize() == 1);
 		cm.addAttribute(at0);
 		assertTrue(cm.getListOfAttrSize() == 2);
-
 	}
 
 	/**
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeNode(fr.lip6.move.coloane.interfaces.model.INode)}.
 	 */
-	public void testRemoveNode() {
-		INode node = new ConcreteNode("node");
+	public final void testRemoveNode() {
+		INode node = new ConcreteNode(TYPENODE);
 		try {
 			cm.addNode(node);
 			assertTrue(cm.getListOfNodeSize() == 1);
 			cm.removeNode(node);
 			assertTrue(cm.getListOfNodeSize() == 0);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+		} catch (ModelException e) {
+			fail(e.toString());
 		}
 	}
 
@@ -193,77 +130,21 @@ public class ConcreteModelTest extends TestCase {
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeArc(fr.lip6.move.coloane.interfaces.model.IArc)}.
 	 */
-	public void testRemoveArc() {
-		IArc arc = new ConcreteArc("arc");
-		Node deb = new ConcreteNode("deb");
-		Node fin = new ConcreteNode("fin");
+	public final void testRemoveArc() {
+		IArc arc = new ConcreteArc(TYPEARC);
+		INode begin = new ConcreteNode(TYPEBEGIN);
+		INode end = new ConcreteNode(TYPEEND);
 		try {
-			cm.addNode(deb);
-			cm.addNode(fin);
-			arc.setStartingNode(deb);
-			arc.setEndingNode(fin);
+			cm.addNode(begin);
+			cm.addNode(end);
+			arc.setStartingNode(begin);
+			arc.setEndingNode(end);
 			cm.addArc(arc);
 			assertTrue(cm.getListOfArcSize() == 1);
 			cm.removeArc(arc);
 			assertTrue(cm.getListOfArcSize() == 0);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getListOfAttrSize()}.
-	 */
-	public void testGetListOfAttrSize() {
-		IAttribute at0 = new ConcreteAttribute("Attribut", " concret", 0);
-		IAttribute at1 = new ConcreteAttribute("Attribut", " concret", 0);
-		cm.addAttribute(at0);
-		assertTrue(cm.getListOfAttrSize() == 1);
-		cm.addAttribute(at1);
-		assertTrue(cm.getListOfAttrSize() == 2);
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getListOfArcSize()}.
-	 */
-	public void testGetListOfArcSize() {
-		IArc arc = new ConcreteArc("arc");
-		IArc arc1 = new ConcreteArc("arc1");
-		Node deb = new ConcreteNode("debut");
-		Node fin = new ConcreteNode("fin");
-		try {
-			arc.setStartingNode(deb);
-			arc.setEndingNode(fin);
-			arc1.setStartingNode(fin);
-			arc1.setEndingNode(deb);
-			cm.addNode(deb);
-			cm.addNode(fin);
-			cm.addArc(arc);
-			cm.addArc(arc1);
-			assertTrue(cm.getListOfArcSize() == 2);
-			cm.removeArc(arc);
-			assertTrue(cm.getListOfArcSize() == 1);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getListOfNodeSize()}.
-	 */
-	public void testGetListOfNodeSize() {
-		INode node = new ConcreteNode("node");
-		INode node1 = new ConcreteNode("node1");
-		try {
-			cm.addNode(node);
-			assertTrue(cm.getListOfNodeSize() == 1);
-			cm.addNode(node1);
-			assertTrue(cm.getListOfNodeSize() == 2);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+		} catch (ModelException e) {
+			fail(e.toString());
 		}
 	}
 
@@ -271,10 +152,10 @@ public class ConcreteModelTest extends TestCase {
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthAttr(int)}.
 	 */
-	public void testGetNthAttr() {
-		IAttribute at0 = new ConcreteAttribute("Attribut", " concret", 0);
-		IAttribute at1 = new ConcreteAttribute("Attribut", " concret", 1);
-		IAttribute at2 = new ConcreteAttribute("Attribut", " concret", 2);
+	public final void testGetNthAttr() {
+		IAttribute at0 = new ConcreteAttribute("Attribut", "concret", 0);
+		IAttribute at1 = new ConcreteAttribute("Attribut", "concret", 1);
+		IAttribute at2 = new ConcreteAttribute("Attribut", "concret", 2);
 
 		cm.addAttribute(at0);
 		cm.addAttribute(at1);
@@ -287,147 +168,25 @@ public class ConcreteModelTest extends TestCase {
 	 * Test method for
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthArc(int)}.
 	 */
-	public void testGetNthArc() {
-		IArc arc = new ConcreteArc("arc");
-		IArc arc1 = new ConcreteArc("arc1");
-		Node deb = new ConcreteNode("debut");
-		Node fin = new ConcreteNode("fin");
+	public final void testGetNthArc() {
+		IArc arc1 = new ConcreteArc(TYPEARC);
+		IArc arc2 = new ConcreteArc(TYPEARC);
+		INode begin = new ConcreteNode(TYPEBEGIN);
+		INode end = new ConcreteNode(TYPEEND);
 		try {
-			arc.setStartingNode(deb);
-			arc.setEndingNode(fin);
-			arc1.setStartingNode(fin);
-			arc1.setEndingNode(deb);
-			cm.addNode(deb);
-			cm.addNode(fin);
-			cm.addArc(arc);
+			arc1.setStartingNode(begin);
+			arc1.setEndingNode(end);
+			arc2.setStartingNode(end);
+			arc2.setEndingNode(begin);
+			cm.addNode(begin);
+			cm.addNode(end);
 			cm.addArc(arc1);
-			assertTrue(cm.getNthArc(0).getArcType().equals("arc"));
-			assertTrue(cm.getNthArc(1).equals(arc1));
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			cm.addArc(arc2);
+			assertTrue(cm.getNthArc(0).getArcType().equals(TYPEARC));
+			assertTrue(cm.getNthArc(1).equals(arc2));
+			assertTrue(cm.getNthNode(1).equals(begin));
+		} catch (ModelException e) {
+			fail(e.toString());
 		}
 	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthNode(int)}.
-	 */
-	public void testGetNthNode() {
-		INode node = new ConcreteNode("node");
-		INode node1 = new ConcreteNode("node1");
-		try {
-			cm.addNode(node);
-			cm.addNode(node1);
-			assertTrue(cm.getNthNode(1).equals(node1));
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getXPosition()}.
-	 */
-	public void testGetXPosition() {
-		assertTrue(cm.getXPosition() == 20);
-
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getYPosition()}.
-	 */
-	public void testGetYPosition() {
-		assertTrue(cm.getYPosition() == 20);
-
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#setPosition(int, int)}.
-	 */
-	public void testSetPosition() {
-		cm.setPosition(50, 50);
-		assertTrue(cm.getXPosition() == 50);
-		assertTrue(cm.getYPosition() == 50);
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#setFormalism(java.lang.String)}.
-	 */
-	public void testSetFormalism() {
-		assertTrue(cm.getFormalism().equals(""));
-		cm.setFormalism("toto");
-		assertTrue(cm.getFormalism().equals("toto"));
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getFormalism()}.
-	 */
-	public void testGetFormalism() {
-		assertTrue(cm.getFormalism().equals(""));
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getMaxId()}.
-	 */
-	public void testGetMaxId() {
-		assertTrue(cm.getMaxId() == 1);
-		IArc arc = new ConcreteArc("arc");
-		IArc arc1 = new ConcreteArc("arc1");
-		Node deb = new ConcreteNode("debut");
-		Node fin = new ConcreteNode("fin");
-		try {
-			arc.setStartingNode(deb);
-			arc.setEndingNode(fin);
-			arc1.setStartingNode(fin);
-			arc1.setEndingNode(deb);
-			cm.addNode(deb);
-			cm.addNode(fin);
-			cm.addArc(arc);
-			cm.addArc(arc1);
-			int max = cm.setMaxId(10);
-			assertFalse(cm.getMaxId() == max);
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#setMaxId(int)}.
-	 */
-	public void testSetMaxId() {
-		IArc arc = new ConcreteArc("arc");
-		IArc arc1 = new ConcreteArc("arc1");
-		Node deb = new ConcreteNode("debut");
-		Node fin = new ConcreteNode("fin");
-		try {
-			arc.setStartingNode(deb);
-			arc.setEndingNode(fin);
-			arc1.setStartingNode(fin);
-			arc1.setEndingNode(deb);
-			cm.addNode(deb);
-			cm.addNode(fin);
-			cm.addArc(arc);
-			cm.addArc(arc1);
-			assertTrue((cm.getListOfArcSize() + cm.getListOfNodeSize()) + 1 == cm.getMaxId());
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getListOfId()}.
-	 */
-	public void testGetListOfId() {
-		Vector<Integer> vi = new Vector<Integer>();
-		vi = cm.getListOfId();
-		assertTrue(!vi.isEmpty());
-	}
-
 }

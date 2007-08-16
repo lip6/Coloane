@@ -23,8 +23,11 @@ public class ConcreteModel extends Model {
 		return null;
 	}
 
-	// Pas besoin de construction de modele
-	public final void buildModel(Vector<String> commands) throws SyntaxErrorException {
+	// Pas besoin de construction pour cet objet
+	@Override
+	protected final void buildModel(Vector camiCommande) throws SyntaxErrorException {
 		return;
 	}
+
+
 }

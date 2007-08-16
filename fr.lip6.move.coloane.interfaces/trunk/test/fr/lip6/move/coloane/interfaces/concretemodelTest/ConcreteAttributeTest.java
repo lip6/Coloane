@@ -16,6 +16,7 @@ public class ConcreteAttributeTest extends TestCase {
 	static final int ATTREFID = 0;
 
 	/**
+	 * Constructeur de la classe de test
 	 * @param name
 	 */
 	public ConcreteAttributeTest(String name) {

@@ -10,18 +10,18 @@ public class ConcreteArc extends Arc {
 	/**
 	 * Constructeur
 	 * @param arcType Le type d'arc
-	 * @param id L'identifiant de l'arc
 	 */
-	public ConcreteArc(String arcType, int id) {
-		super(arcType, id);
+	public ConcreteArc(String arcType) {
+		super(arcType);
 	}
 
 	/**
 	 * Constructeur
 	 * @param arcType Le type d'arc
+	 * @param id L'identifiant de l'arc
 	 */
-	public ConcreteArc(String arcType) {
-		super(arcType);
+	public ConcreteArc(String arcType, int id) {
+		super(arcType, id);
 	}
 
 	// Pas besoin de traduction pour ce type d'arc
