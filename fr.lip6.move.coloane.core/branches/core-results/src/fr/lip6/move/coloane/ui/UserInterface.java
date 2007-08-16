@@ -9,7 +9,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 //import fr.lip6.move.coloane.communications.objects.Results;
-import fr.lip6.move.coloane.factory.SyntaxCheckerReport;
+import fr.lip6.move.coloane.factory.FactoryReport;
 import fr.lip6.move.coloane.interfaces.*;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
@@ -149,119 +149,8 @@ public class UserInterface implements IUiCom, IUiMotor {
 				r.add(new Result(object,description));				
 			}
 			
-			SyntaxCheckerReport scr = new SyntaxCheckerReport(result);
-			r = scr.getResultList();
-			
-			
-			
-
-			/*
-			 * SYNTAX CHECKER
-			 */
-		/*	if (serviceName.equals("Petri net syntax checker")) {
-				labelService = "Syntax-Checker Results";
-				r = new ResultsList(labelService);
-
-				String description = null;
-
-				if (result.getHeadDescription().equals("List of unnamed places.")) {
-					description = "This place is unnamed";
-				} else if (result.getHeadDescription().equals("List of unnamed transitions.")) {
-					description = "This transition is unnamed";
-				} else {
-					description = result.getHeadDescription();
-				}
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					r.add(new Result(object,description));
-				}
-*/
-				/*
-				 * STRUCTURAL BOUNDS
-				 */
-		/*	} else if (serviceName.equals("Compute structural bounds")) {
-
-				labelService = "Structural Bounds";
-				r = new ResultsList(labelService);
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					r.add(new Result(object,result.getHeadDescription()));
-				}
-*/
-				/*
-				 * STRUCTURAL SAFETY
-				 */
-			/*} else if (serviceName.equals("Is the net structuraly safe?")) {
-				labelService = "Structural safety";
-				r = new ResultsList(labelService);
-
-				if (result.getHeadDescription().equals("Here are unsafe places")) {					
-
-					// Parcours de mes resultats
-					for (String object : result.getSublistOfDescription(1)) {
-						r.add(new fr.lip6.move.coloane.results.Result(object,""));
-					}
-
-				} else if (result.getHeadDescription().equals("Your net is not safe")) {
-					String description = "Your net is not safe";
-					r.add(new fr.lip6.move.coloane.results.Result(description,"Reasons are given above"));
-				}
-*/
-				/*
-				 * STRUCTURAL BOUNDS
-				 */
-			/*} else if (serviceName.equals("Is the net structurally bounded?")) {
-				labelService = "Structural bounds";
-				r = new ResultsList(labelService);
-
-				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(),""));
-*/
-				/*
-				 * P INVARIANT
-				 */
-			/*} else if (serviceName.equals("P-invariants")) {
-				labelService = "P-invariants";
-				r = new ResultsList(labelService);
-
-				String liste = "";
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					liste = liste+object+",";
-				}
-
-				// Suppression de la derniere virgule
-				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length()-1);
-				}
-
-				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
-*/
-
-				/*
-				 * T INVARIANT
-				 */
-		/*	} else if (serviceName.equals("T-invariants")) {
-				labelService = "T-invariants";
-				r = new ResultsList(labelService);
-
-				String liste = "";
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					liste = liste+object+",";
-				}
-
-				// Suppression de la derniere virgule
-				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length()-1);
-				}
-
-				r.add(new fr.lip6.move.coloane.results.Result(liste,result.getHeadDescription()));				
-			}*/
-
+			FactoryReport factory = new FactoryReport(result);
+			r = (factory.createReport()).getResultList();
 			serviceResultList.setResultsList(r);			
 		}
 	}
