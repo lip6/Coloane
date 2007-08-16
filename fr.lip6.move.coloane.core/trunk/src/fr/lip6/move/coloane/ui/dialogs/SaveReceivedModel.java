@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
+import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.ui.Editor;
+import fr.lip6.move.coloane.ui.ModifyWorkspace;
+import fr.lip6.move.coloane.ui.model.IModelImpl;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -7,11 +12,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.ui.IWorkbenchWindow;
-
-import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.ui.Editor;
-import fr.lip6.move.coloane.ui.ModifyWorkspace;
-import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 /**
  * Gere la sauvegarde d'un model recu de FrameKit.<br>
@@ -32,21 +32,21 @@ public class SaveReceivedModel implements Runnable {
 	 * Constructeur
 	 * @param model Le modele a sauvegarder
 	 */
-	public SaveReceivedModel(IModelImpl model, IWorkbenchWindow window) {
-		this.model = model;
-		this.window = window;
+	public SaveReceivedModel(IModelImpl m, IWorkbenchWindow w) {
+		this.model = m;
+		this.window = w;
 	}
 
 	/**
 	 * Corps du thread
 	 */
-	public void run() {
+	public final void run() {
 
 		// Definition des boutons de la boite de dialogue
-		String[] buttons = new String[] {IDialogConstants.YES_LABEL,IDialogConstants.NO_LABEL};
+		String[] buttons = new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL};
 
 		// Definition de la boite de dialogue
-		MessageDialog d = new MessageDialog(window.getShell(),"Save the result",null,"Would you like to save the result into a new model file ?",	MessageDialog.QUESTION,	buttons, 0);
+		MessageDialog d = new MessageDialog(window.getShell(), "Save the result", null, "Would you like to save the result into a new model file ?",	MessageDialog.QUESTION,	buttons, 0);
 
 		// Ouverture de la boite de dialogue
 		if (d.open() == IDialogConstants.OK_ID) {
@@ -73,21 +73,21 @@ public class SaveReceivedModel implements Runnable {
 				// On cherche si le modele possede deja un indicage
 				int indPos = modelName.lastIndexOf(".");
 				if (indPos == -1) {
-					modelName = modelName+".2";
+					modelName = modelName + ".2";
 				} else {
 					String currentIndice = modelName.substring(indPos + 1);
 
 					// On verifie que l'extension est bien numerique
 					try {
 						int indice = Integer.parseInt(currentIndice);
-						modelName = modelName.substring(0, indPos).concat(Integer.toString(indice+1));
+						modelName = modelName.substring(0, indPos).concat(Integer.toString(indice + 1));
 					} catch (NumberFormatException ne) {
-						modelName = modelName+".2";
+						modelName = modelName + ".2";
 					}
 				}
 
 				// Fin du nom
-				modelCompleteName = modelName+"."+modelNameExtension;
+				modelCompleteName = modelName + "." + modelNameExtension;
 				path = path.removeLastSegments(1);
 				path = path.append(modelCompleteName);
 				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
@@ -95,7 +95,7 @@ public class SaveReceivedModel implements Runnable {
 
 			try {
 				// Sauvegarde effective et affichage dans un nouvel onglet
-				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window,file,this.model.getGenericModel()));
+				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.model.getGenericModel()));
 			} catch (Exception e) {
 				Coloane.showErrorMsg(e.getMessage());
 				e.printStackTrace();

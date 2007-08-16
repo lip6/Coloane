@@ -24,8 +24,6 @@ public class AttributeDialog extends IconAndMessageDialog {
 
 	private Control textarea;
 
-	protected Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-
 	public AttributeDialog(String t, String h, String d) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
@@ -35,20 +33,20 @@ public class AttributeDialog extends IconAndMessageDialog {
 	}
 
 	@Override
-	protected void configureShell(Shell shell) {
+	protected final void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(this.title);
 	}
 
 	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
+	protected final void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
 	}
 
 
 	@Override
-	protected Control createDialogArea(Composite parent) {
+	protected final Control createDialogArea(Composite parent) {
 		createMessageArea(parent);
 
 		// Create a composite to hold the textArea
@@ -81,8 +79,7 @@ public class AttributeDialog extends IconAndMessageDialog {
 
 
 	@Override
-	protected Image getImage() {
-		// TODO Auto-generated method stub
+	protected final Image getImage() {
 		return null;
 	}
 }

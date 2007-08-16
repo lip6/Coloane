@@ -81,15 +81,15 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 * For more details, please read the Dialog class' documentation for
 	 * more details.
 	 */
-	protected void createButtonsForButtonBar(Composite parent) {
+	protected final void createButtonsForButtonBar(Composite parent) {
 
 		switch (buttonType) {
 			case DLG_OK:
-				createButton(parent, IDialogConstants.OK_ID,IDialogConstants.OK_LABEL, false);
+				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
 				break;
 			case DLG_OK_CANCEL:
-				createButton(parent, IDialogConstants.CANCEL_ID,IDialogConstants.CANCEL_LABEL, false);
-				createButton(parent, IDialogConstants.OK_ID,IDialogConstants.OK_LABEL, false);
+				createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
 				break;
 			default:
 				break;
