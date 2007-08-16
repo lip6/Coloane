@@ -13,12 +13,12 @@
   <packaging>jar</packaging>
   <name>Core</name>
   <description>Core de Coloane</description>
-  
-  <scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</url>
-  </scm>
+
+	<scm>
+		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</developerConnection>
+		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</url>
+	</scm>
   
 	<!-- ~~~~~~~~~~~~~~~~~~~~ Les dependencies ~~~~~~~~~~~~~~~~~~~~ -->
 	<dependencies>

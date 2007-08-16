@@ -15,9 +15,9 @@
   <description>Interfaces and shared object between coloane's core and coloane's API</description>
 	
 	<scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</connection>
-   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</developerConnection>
- 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${parent.project.artifactId}/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</connection>
+   	<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</developerConnection>
+		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/sandbox/emasliah/${project.parent.artifactId}/trunk/${project.artifactId}</url>
     </scm>
   
 </project>
