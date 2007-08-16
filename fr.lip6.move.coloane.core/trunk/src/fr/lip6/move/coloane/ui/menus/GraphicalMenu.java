@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.ui.menus;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.ChildMenu;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.UserInterface;
@@ -26,8 +27,7 @@ public class GraphicalMenu {
 	/**
 	 * @param root
 	 * @param window The window repersenting the workbench.<br/>
-	 *  Can be obtained with
-	 *  	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+	 *  Can be obtained with PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 	 */
 	public GraphicalMenu(RootMenu r, IWorkbenchWindow window, UserInterface userInterface) {
 		this.shell  = window.getShell();
@@ -36,8 +36,7 @@ public class GraphicalMenu {
 	}
 
 	/**
-	 * Builds recursively a MenuManager from, using a RootMenu
-	 * given in the constructor.
+	 * Builds recursively a MenuManager from, using a RootMenu given in the constructor.
 	 */
 	public final MenuManager build() {
 		MenuManager rootMenuManager = new MenuManager(root.getName());
@@ -70,11 +69,9 @@ public class GraphicalMenu {
 		 * We search the Platform menu's position to add this
 		 * menu just after it.
 		 */
-		// TODO: remove the hardcoded menu name
 		for (int i = 0; i < mi.length; i++) {
-			if (mi[i].getText().contentEquals("Coloane Services")) {
-				rootMenuManager.fill(mi[i].getMenu(),
-						mi[i].getMenu().getItems().length);
+			if (mi[i].getText().contentEquals(Coloane.getParam("MENUBAR_LABEL"))) {
+				rootMenuManager.fill(mi[i].getMenu(), mi[i].getMenu().getItems().length);
 				break;
 			}
 		}
@@ -107,12 +104,10 @@ public class GraphicalMenu {
 
 	/**
 	 * Removes a menu from the menubar.
-	 *
 	 */
-	// TODO: remove the hardcoded menu name
 	public final void remove() {
 		for (MenuItem mi : shell.getMenuBar().getItems()) {
-			if (mi.getText().equals("Coloane Services")) {
+			if (mi.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) {
 				for (MenuItem mi1 : mi.getMenu().getItems()) {
 					if (mi1.getText().equals(root.getName())) {
 						mi1.dispose();

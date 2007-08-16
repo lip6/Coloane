@@ -10,7 +10,7 @@ public class ChildMenu extends Menu implements Iterable<ChildMenu> {
 	}
 
 	public final Iterator<ChildMenu> iterator() {
-		return this.menus.iterator();
+		return this.getChildren().iterator();
 	}
 
 	public final boolean isLeaf() {
