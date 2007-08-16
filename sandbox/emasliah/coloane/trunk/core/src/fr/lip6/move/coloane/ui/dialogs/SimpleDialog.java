@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.ui.dialogs;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.DialogConstants;
+
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
 import org.eclipse.swt.SWT;
@@ -84,10 +86,10 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 
 		switch (buttonType) {
-			case DLG_OK:
+			case DialogConstants.DLG_OK:
 				createButton(parent, IDialogConstants.OK_ID,IDialogConstants.OK_LABEL, false);
 				break;
-			case DLG_OK_CANCEL:
+			case DialogConstants.DLG_OK_CANCEL:
 				createButton(parent, IDialogConstants.CANCEL_ID,IDialogConstants.CANCEL_LABEL, false);
 				createButton(parent, IDialogConstants.OK_ID,IDialogConstants.OK_LABEL, false);
 				break;
@@ -153,5 +155,25 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		if (textArea != null && textArea instanceof ListTextArea) {
 			textArea.addChoice(choice);
 		}
+	}
+
+	public int getAnswerType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getDialogId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public ArrayList<String> getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean hasBeenModified() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

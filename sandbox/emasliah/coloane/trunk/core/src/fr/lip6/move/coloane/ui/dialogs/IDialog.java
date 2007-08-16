@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
-public interface IDialog extends fr.lip6.move.coloane.interfaces.IDialog {
+public interface IDialog extends fr.lip6.move.coloane.interfaces.IDialogResult {
 
 	// For the simple dialogs
 	public static final int TERMINATED_OK = 1;

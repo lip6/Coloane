@@ -35,7 +35,7 @@ public class Dialog {
 		this.message = dialogCom.getMessage();
 		this.inputType = dialogCom.getInputType();
 		this.multiLine = dialogCom.getMultiLine();
-		this.def = dialogCom.getDef();
+		this.def = dialogCom.getDefault();
 	}
 
 	public int getButtonType() {

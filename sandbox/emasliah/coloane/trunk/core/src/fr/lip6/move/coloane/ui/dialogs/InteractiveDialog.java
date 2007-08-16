@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
+import java.util.ArrayList;
+
 
 public class InteractiveDialog implements IDialog {
 
@@ -25,5 +27,25 @@ public class InteractiveDialog implements IDialog {
 	 */
 	public void addChoice(String choice) {
 		throw new UnsupportedOperationException();
+	}
+
+	public int getAnswerType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getDialogId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public ArrayList<String> getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean hasBeenModified() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

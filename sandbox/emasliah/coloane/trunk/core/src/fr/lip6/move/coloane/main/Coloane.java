@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
 
 public class Coloane extends AbstractUIPlugin {
 
-	private static ResourceBundle translate = null;
+	public static ResourceBundle translate = null;
 	private static Coloane plugin;
 	private Com com = null;
 	private Motor motor = null;

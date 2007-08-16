@@ -29,10 +29,6 @@ public class DummyTextArea extends TextArea {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setToolTiptext(String toolTipText) {
-		parent.setToolTipText(toolTipText);
-	}
-
 	protected void setToolTiptext(String toolTipText, Label label) {
 		label.setToolTipText(toolTipText);
 	}
