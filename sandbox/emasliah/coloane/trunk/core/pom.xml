@@ -164,7 +164,6 @@
   
 	<build>
 
-			<build>
 		<plugins>
 			<plugin>
     		<!-- Repetition du super pom car Continuum oublie qu'il faut le lire.. -->  
@@ -179,8 +178,6 @@
       	</configuration>	
 			</plugin>
 		</plugins>
-	</build>
-
 		
 		<!-- Pour ce ne pas faire les tests pour l'instant -->
 		<testSourceDirectory>dossier_qui_n_existe_pas</testSourceDirectory>
