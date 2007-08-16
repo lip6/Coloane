@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.concretemodel;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.Model;
 
@@ -24,7 +25,7 @@ public class ConcreteModel extends Model {
 	}
 
 	// Pas besoin de construction de modele
-	public final void buildModel(Vector<String> commands) throws SyntaxErrorException {
+	public final void buildModel(Vector<String> camiCommande) throws SyntaxErrorException, ModelException{
 		return;
 	}
 }

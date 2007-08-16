@@ -6,6 +6,7 @@ package fr.lip6.move.coloane.interfaces.concretemodelTest;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteArc;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteNode;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -182,7 +183,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addInputArc(arc);
 		node.addInputArc(arc1);
 		assertTrue(node.getListOfInputArcSize() == 2);
-		node.removeInputArc(arc);
+		try {
+			node.removeInputArc(arc);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertFalse(node.getListOfInputArcSize() == 2);
 	}
 
@@ -199,9 +204,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addInputArc(arcId);
 
 		assertTrue(node.getListOfInputArcSize() == 3);
-
-		node.removeInputArc(0);
-
+		try {
+			node.removeInputArc(0);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertTrue(node.getListOfInputArcSize() == 2);
 	}
 
@@ -256,7 +263,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addOutputArc(arc);
 		node.addOutputArc(arc1);
 		assertTrue(node.getListOfOutputArcSize() == 2);
-		node.removeOutputArc(arc);
+		try {
+			node.removeOutputArc(arc);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertFalse(node.getListOfOutputArcSize() == 2);
 	}
 
@@ -273,9 +284,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addOutputArc(arcId);
 
 		assertTrue(node.getListOfOutputArcSize() == 3);
-
-		node.removeOutputArc(2);
-
+		try {
+			node.removeOutputArc(2);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertTrue(node.getListOfOutputArcSize() == 2);
 	}
 
@@ -333,7 +346,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addAttribute(a2);
 
 		assertTrue(node.getListOfAttrSize() == 3);
-		node.removeAttribute(a2);
+		try {
+			node.removeAttribute(a2);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertTrue(node.getListOfAttrSize() == 2);
 
 	}
@@ -351,7 +368,11 @@ public class ConcreteNodeTest extends TestCase {
 		node.addAttribute(a2);
 
 		assertTrue(node.getListOfAttrSize() == 3);
-		node.removeAttribute(2);
+		try {
+			node.removeAttribute(2);
+		} catch (ModelException me) {
+			me.printStackTrace();
+		}
 		assertFalse(node.getListOfAttrSize() == 3);
 	}
 

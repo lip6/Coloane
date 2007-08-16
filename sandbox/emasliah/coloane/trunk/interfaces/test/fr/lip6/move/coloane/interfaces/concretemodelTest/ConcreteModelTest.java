@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteArc;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteModel;
 import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteNode;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -91,7 +90,7 @@ public class ConcreteModelTest extends TestCase {
 		try {
 			cm.addNode(node);
 			assertTrue(cm.getANode(node.getId()).equals(node));
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -112,7 +111,7 @@ public class ConcreteModelTest extends TestCase {
 			arc.setEndingNode(node);
 			cm.addArc(arc);
 			assertTrue(cm.getAnArc(4).equals(arc));
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -129,7 +128,7 @@ public class ConcreteModelTest extends TestCase {
 			assertTrue(cm.getListOfNodeSize() == 1);
 			cm.addNode(node1);
 			assertTrue(cm.getListOfNodeSize() == 2);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -145,7 +144,7 @@ public class ConcreteModelTest extends TestCase {
 		try {
 			cm.addNode(deb);
 			cm.addNode(fin);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		arc.setStartingNode(deb);
@@ -153,7 +152,7 @@ public class ConcreteModelTest extends TestCase {
 		try {
 			cm.addArc(arc);
 			assertTrue(cm.getListOfArcSize() == 1);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -184,7 +183,7 @@ public class ConcreteModelTest extends TestCase {
 			assertTrue(cm.getListOfNodeSize() == 1);
 			cm.removeNode(node);
 			assertTrue(cm.getListOfNodeSize() == 0);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -206,7 +205,7 @@ public class ConcreteModelTest extends TestCase {
 			assertTrue(cm.getListOfArcSize() == 1);
 			cm.removeArc(arc);
 			assertTrue(cm.getListOfArcSize() == 0);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -245,7 +244,7 @@ public class ConcreteModelTest extends TestCase {
 			assertTrue(cm.getListOfArcSize() == 2);
 			cm.removeArc(arc);
 			assertTrue(cm.getListOfArcSize() == 1);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -262,7 +261,7 @@ public class ConcreteModelTest extends TestCase {
 			assertTrue(cm.getListOfNodeSize() == 1);
 			cm.addNode(node1);
 			assertTrue(cm.getListOfNodeSize() == 2);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -303,7 +302,7 @@ public class ConcreteModelTest extends TestCase {
 			cm.addArc(arc1);
 			assertTrue(cm.getNthArc(0).getArcType().equals("arc"));
 			assertTrue(cm.getNthArc(1).equals(arc1));
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -319,7 +318,7 @@ public class ConcreteModelTest extends TestCase {
 			cm.addNode(node);
 			cm.addNode(node1);
 			assertTrue(cm.getNthNode(1).equals(node1));
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -391,7 +390,7 @@ public class ConcreteModelTest extends TestCase {
 			cm.addArc(arc1);
 			int max = cm.setMaxId(10);
 			assertFalse(cm.getMaxId() == max);
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -415,7 +414,7 @@ public class ConcreteModelTest extends TestCase {
 			cm.addArc(arc);
 			cm.addArc(arc1);
 			assertTrue((cm.getListOfArcSize() + cm.getListOfNodeSize()) + 1 == cm.getMaxId());
-		} catch (SyntaxErrorException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

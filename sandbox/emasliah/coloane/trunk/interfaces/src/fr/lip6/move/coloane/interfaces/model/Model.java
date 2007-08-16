@@ -441,7 +441,7 @@ public abstract class Model implements IModel {
 	 * @param commands Un vecteur de commandes pour construire le modele
 	 * @throws SyntaxErrorException
 	 */
-	protected abstract void buildModel(Vector camiCommande) throws SyntaxErrorException, ModelException;
+	protected abstract void buildModel(Vector<String> camiCommande) throws SyntaxErrorException, ModelException;
 
 	/**
 	 * Renvoie la liste des ID des elements du modele
