@@ -37,7 +37,7 @@ public class FramekitThreadSpeaker extends Thread {
 
 	/**
 	 * Ouverture d'une session du cote de FrameKit
-	 * @param sessionName LE nom de la session (utilse pour FK)
+	 * @param sessionName Le nom de la session (utilise pour FK)
 	 * @param date la date de derniere mise a jour du modele
 	 * @param sessionFormalism Le formalisme du modele qu'on envoie
 	 * @return booleen Reussite de l'operation d'ouverture de session
@@ -60,7 +60,7 @@ public class FramekitThreadSpeaker extends Thread {
 			Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", false);
 			return false;
 		}
-		
+
 		// Mise en attente
 		verrou.attendre(); //OS
 		verrou.attendre(); //TD

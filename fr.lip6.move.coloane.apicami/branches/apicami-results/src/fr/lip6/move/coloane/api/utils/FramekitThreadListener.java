@@ -160,7 +160,7 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un etat du service en cours de realisation
 					if (listeArgs.firstElement().equals("TQ")) {
 						int type = Integer.parseInt((String) listeArgs.elementAt(3));
-						//String message  = (String) listeArgs.elementAt(4);
+						//String message  = OB(String) listeArgs.elementAt(4);
 
 						switch(type) {
 
@@ -532,6 +532,7 @@ public class FramekitThreadListener extends Thread {
 					// Fin d'ensemble de resultats ou d'objets transmis
 					if (listeArgs.firstElement().equals("FE")) {
 						result.addResultats(sousResults);
+						sousResults = null;
 						continue;
 					}
 

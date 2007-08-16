@@ -45,7 +45,7 @@ public class LogsUtils {
 		StackTraceElement[] tab = e.getStackTrace();
 		String s = "";
 		for(int i=0; i<tab.length; i++){
-			s+= "\n \t "+tab[i] + " --> " + tab[i].getMethodName() + "\n";
+			s+= "\n\t "+tab[i] + " --> " + tab[i].getMethodName() + "\n";
 		}
 		return s;
 	
