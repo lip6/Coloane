@@ -14,19 +14,19 @@ package fr.lip6.move.coloane.interfaces.model;
 public abstract class Attribute implements IAttribute {
 
 	/** Nom de l'attribut sous forme de chaine de caracteres. */
-	private String name;
+	protected String name;
 
 	/** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
-	private String value;
+	protected String value;
 
 	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-	private int xPosition;
+	protected int xPosition;
 
 	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-	private int yPosition;
+	protected int yPosition;
 
 	/** Identifiant unique de l'element du modele possedant cette attribut. */
-	private int refId;
+	protected int refId;
 
 
 

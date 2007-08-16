@@ -25,16 +25,16 @@ public abstract class Node implements INode {
 	private static final long serialVersionUID = 1L;
 
 	/** Type du noeud */
-	private String type;
+	protected String type;
 
 	/** Identificateur du noeud */
-	private int id;
+	protected int id;
 
 	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
-	private int xPosition;
+	protected int xPosition;
 
 	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
-	private int yPosition;
+	protected int yPosition;
 
 	/** Liste des arc entrants */
 	private Vector<IArc> listOfInputArc;

@@ -28,25 +28,25 @@ import java.util.Vector;
 public abstract class Arc implements IArc {
 
 	/** Type de l'arc */
-	private String type;
+	protected String type;
 
 	/** Identifiant de l'arc */
-	private int id;
+	protected int id;
 
 	/**
 	 * Vecteur contenant l'ensemble des objets de type Attribut de l'arc.
 	 * @see IAttribute
 	 */
-	private Vector<IAttribute> listOfAttr;
+	protected Vector<IAttribute> listOfAttr;
 
 	/** Vecteur contenant l'ensemble des points intermediaire de type Position. */
-	private Vector<IInflexPoint> listOfPI;
+	protected Vector<IInflexPoint> listOfPI;
 
 	/** Noeud d'entree de l'arc. */
-	private INode startingNode;
+	protected INode startingNode;
 
 	/** Noeud de sortie de l'arc. */
-	private INode endingNode;
+	protected INode endingNode;
 
 	/**
 	 * Constructeur de la classe Arc.
