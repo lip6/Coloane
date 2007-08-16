@@ -26,7 +26,7 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc {
 	 */
 	public final String[] translate() {
 		Api.apiLogger.entering("Arc", "translate");
-		if (this.startingNode == null || this.endingNode == null) {
+		if (this.getStartingNode() == null || this.getEndingNode() == null) {
 			Api.apiLogger.exiting("Arc", "translate", null);
 			return null;
 		} else {
@@ -36,13 +36,13 @@ public class Arc extends fr.lip6.move.coloane.interfaces.model.Arc {
 
 			s = new StringBuffer();
 			s.append("CA(");
-			s.append(this.type.length() + ":" + this.type);
+			s.append(this.getArcType().length() + ":" + this.getArcType());
 			s.append(",");
-			s.append(this.id);
+			s.append(this.getId());
 			s.append(",");
-			s.append(this.startingNode.getId());
+			s.append(this.getStartingNode().getId());
 			s.append(",");
-			s.append(this.endingNode.getId());
+			s.append(this.getEndingNode().getId());
 			s.append(")");
 			vectorStringToReturn.addElement(s.toString());
 

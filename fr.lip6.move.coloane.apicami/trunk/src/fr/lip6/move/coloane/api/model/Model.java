@@ -3,11 +3,12 @@ package fr.lip6.move.coloane.api.model;
 import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 
-import fr.lip6.move.coloane.api.utils.CamiParser;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.utils.CamiParser;
 
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -29,7 +30,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.Model#Model(Vector<String>)
 	 */
-	public Model(Vector<String> commands) {
+	public Model(Vector<String> commands) throws SyntaxErrorException, ModelException {
 		super(commands);
 		logsutils = new LogsUtils();
 	}
@@ -300,6 +301,9 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 			Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 			//e.printStackTrace();
 		} catch (SyntaxErrorException e) {
+			Api.apiLogger.throwing("Model", "buildModel", e);
+			Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
+		} catch (ModelException e) {
 			Api.apiLogger.throwing("Model", "buildModel", e);
 			Api.apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
 		}

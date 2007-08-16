@@ -7,9 +7,11 @@ import java.util.logging.LogRecord;
 public class ApiFormatter extends Formatter {
 	private LogsUtils logsutils = new LogsUtils();
 
+	static final int BUFFERSIZE = 1000;
+
 	@Override
 	public final String format(LogRecord record) {
-		StringBuffer s = new StringBuffer(1000);
+		StringBuffer s = new StringBuffer(BUFFERSIZE);
 		Calendar c = Calendar.getInstance();
 
 		s.append("\n[" + record.getLevel() + "] ");

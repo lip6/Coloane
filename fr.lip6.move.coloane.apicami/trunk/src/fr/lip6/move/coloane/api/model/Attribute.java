@@ -40,9 +40,9 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 			if (!val.equals("")) {
 				s = new StringBuffer();
 				s.append("CT(");
-				s.append(this.name.length() + ":" + this.name);
+				s.append(this.getName().length() + ":" + this.getName());
 				s.append(",");
-				s.append(this.refId);
+				s.append(this.getRefId());
 				s.append(",");
 				s.append(valuesTable[0].length() + ":" + valuesTable[0]);
 				s.append(")");
@@ -58,9 +58,9 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 				if (valuesTable[i].length() < 255) {
 					s = new StringBuffer();
 					s.append("CM(");
-					s.append(this.name.length() + ":" + this.name);
+					s.append(this.getName().length() + ":" + this.getName());
 					s.append(",");
-					s.append(this.refId);
+					s.append(this.getRefId());
 					s.append(",");
 					s.append(lineCounter++);
 					s.append(",");
@@ -80,9 +80,9 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 
 						s = new StringBuffer();
 						s.append("CM(");
-						s.append(this.name.length() + ":" + this.name);
+						s.append(this.getName().length() + ":" + this.getName());
 						s.append(",");
-						s.append(this.refId);
+						s.append(this.getRefId());
 						s.append(",");
 						s.append(lineCounter++);
 						s.append(",");
@@ -99,9 +99,9 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 					String sub = valuesTable[i].substring(start, valuesTable[i].length());
 					s = new StringBuffer();
 					s.append("CM(");
-					s.append(this.name.length() + ":" + this.name);
+					s.append(this.getName().length() + ":" + this.getName());
 					s.append(",");
-					s.append(this.refId);
+					s.append(this.getRefId());
 					s.append(",");
 					s.append(lineCounter++);
 					s.append(",");
@@ -115,16 +115,16 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 
 
 
-			if (this.xPosition != 0 || this.yPosition != 0) {
+			if (this.getXPosition() != 0 || this.getYPosition() != 0) {
 				s = new StringBuffer();
 				s.append("PT(");
-				s.append(this.refId);
+				s.append(this.getRefId());
 				s.append(",");
-				s.append(this.name.length() + ":" + this.name);
+				s.append(this.getName().length() + ":" + this.getName());
 				s.append(",");
-				s.append(this.xPosition);
+				s.append(this.getXPosition());
 				s.append(",");
-				s.append(this.yPosition);
+				s.append(this.getYPosition());
 				s.append(")");
 				vectorStringToReturn.addElement(s.toString());
 			}

@@ -32,19 +32,19 @@ public class Node extends fr.lip6.move.coloane.interfaces.model.Node {
 
 		s = new StringBuffer();
 		s.append("CN(");
-		s.append(type.length() + ":" + this.type);
+		s.append(getNodeType().length() + ":" + this.getNodeType());
 		s.append(",");
-		s.append(id);
+		s.append(getId());
 		s.append(")");
 		vectorStringToReturn.addElement(s.toString());
 
 		s = new StringBuffer();
 		s.append("PO(");
-		s.append(id);
+		s.append(getId());
 		s.append(",");
-		s.append(xPosition);
+		s.append(getXPosition());
 		s.append(",");
-		s.append(yPosition);
+		s.append(getYPosition());
 		s.append(")");
 		vectorStringToReturn.addElement(s.toString());
 
