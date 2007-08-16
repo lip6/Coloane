@@ -7,7 +7,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="fr.lip6.move.coloane.ui.MainPerspectiveFactory"
-            icon="resources/icons/editor.gif"
+            icon="resources/icons/perspective.gif"
             id="fr.lip6.move.coloane.perspective"
             name="%PERSPECTIVE_NAME"/>
    </extension>
@@ -103,7 +103,7 @@
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.ui.panels.ResultsView"
-             icon="resources/icons/state_pane.gif"
+             icon="resources/icons/results.gif"
              id="fr.lip6.move.coloane.views.ResultsView"
              name="%RESULTS_VIEW"/>
     </extension>
@@ -115,7 +115,7 @@
              class="fr.lip6.move.coloane.ui.Editor"
              contributorClass="fr.lip6.move.coloane.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="petri, rg, pn"
+             extensions="petri"
              icon="resources/icons/instance.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
