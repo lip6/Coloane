@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.interfaces;
 import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.ui.dialogs.Dialog;
 
 import java.util.Vector;
 
@@ -14,9 +13,6 @@ public interface IUiCom {
 
 	/** Affichage des menus */
 	void drawMenu(RootMenu menu);
-
-	/** Affichage des boites de dialogue */
-	void drawDialog(Dialog dialog);
 
 	/** Mise a jour des menus */
 	void updateMenu(Vector<IUpdateMenuCom> updates);

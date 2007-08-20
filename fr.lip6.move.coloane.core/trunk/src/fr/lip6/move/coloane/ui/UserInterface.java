@@ -2,20 +2,20 @@ package fr.lip6.move.coloane.ui;
 
 import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
+import fr.lip6.move.coloane.exceptions.UnknowDialogException;
 import fr.lip6.move.coloane.interfaces.IComUi;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.IUiMotor;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.results.ActionsList;
 import fr.lip6.move.coloane.results.Result;
 import fr.lip6.move.coloane.results.ResultsList;
-import fr.lip6.move.coloane.ui.dialogs.Dialog;
 import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.IDialog;
-import fr.lip6.move.coloane.ui.dialogs.UnknowDialogException;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
@@ -37,7 +37,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	private static IWorkbenchWindow fenetreTravail;
 
 	/** Le module de communication */
-	private IComUi com = null;
+	private static IComUi com = null;
 
 	/** Le module de moteur */
 	private IMotorUi motor = null;
@@ -287,36 +287,30 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public final void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
-		this.com.askForService(rootMenuName, parentName, serviceName);
+		com.askForService(rootMenuName, parentName, serviceName);
 	}
 
 
 	/** Affichage d'une boite de dialogue
 	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
-	public final void drawDialog(Dialog d) {
-		IDialog dialog = null;
+	public static final void drawDialog(IDialogCom dialogCom) {
+		// Factory de boite de dialogue
+		IDialog dialog;
 		try {
-			dialog = DialogFactory.create(
-					d.id, d.type, d.buttonType, d.title,
-					d.help, d.message, d.inputType, d.multiLine, d.def);
-
-			// Ouverture de la boite de dialogue
-			dialog.open();
-
-			if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) {
-				return;
-			}
-
-			// Capture des resultats
-			this.com.getDialogAnswers(dialog.getDialogResult());
-
+			dialog = DialogFactory.create(dialogCom);
 		} catch (UnknowDialogException e) {
-			System.err.println("Echec de la construction de la boite de dialogue");
-			e.printStackTrace();
+			System.err.println("Unhandled dialogbox...");
+			return;
 		}
 
+		// Ouverture de la boite de dialogue
+		dialog.open();
 
+		if (dialog.getDialogResult().getAnswerType() == IDialog.TERMINATED_CANCEL) { return; }
+
+		// Capture des resultats
+		com.getDialogAnswers(dialog.getDialogResult());
 	}
 
 	/**
@@ -324,7 +318,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param IComUi L'interface
 	 */
 	public final void setCom(IComUi c) {
-		this.com = c;
+		com = c;
 	}
 
 

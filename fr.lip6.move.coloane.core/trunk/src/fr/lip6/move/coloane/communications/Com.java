@@ -17,8 +17,7 @@ import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
-import fr.lip6.move.coloane.ui.dialogs.Dialog;
-import fr.lip6.move.coloane.ui.dialogs.DialogResult;
+import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.Vector;
@@ -35,9 +34,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 	/** Une poignee sur l'interface utilisateur */
 	private IUiCom ui = null;
-
-	/** Le dialogue en cours de construction */
-	private Dialog dialog = null;
 
 	/** Le menu en cours de construction */
 	private RootMenu root = null;
@@ -66,9 +62,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @return Com Le module de communications
 	 */
 	public static synchronized Com getInstance() {
-		if (instance == null) {
-			instance = new Com();
-		}
+		if (instance == null) { instance = new Com(); }
 		return instance;
 	}
 
@@ -98,13 +92,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @throws Exception exception
 	 */
 	public boolean authentication(String login, String pass, String ip, int port) {
-		System.out.println(Coloane.getTranslate().getString("communications.Com.0")); //$NON-NLS-1$
-
-		System.out.println("  Login-> " + login); //$NON-NLS-1$
-		System.out.println("  Pass-> " + pass); //$NON-NLS-1$
-		System.out.println("  IP-> " + ip); //$NON-NLS-1$
-		System.out.println("  Port-> " + port); //$NON-NLS-1$
-
 		// Connexion a la plateforme
 		boolean retour = this.api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (retour) {
@@ -261,20 +248,12 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 
 	/**
-	 * Affichag d'une boite de dialogue
-	 * @param dialog La boite de dialogue entierement definie
+	 * Affichage d'une boite de dialogue
+	 * @param dialogCom La boite de dialogue entierement definie
 	 */
-	public void drawDialog(IDialogCom dialogCom) {
-
-		// Transformation du dialogue
-		dialog = new Dialog(dialogCom);
-
-		// Affichage de la boite de dialogue
-		parent.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				ui.drawDialog(dialog);
-			}
-		});
+	public void drawDialog(IDialogCom dialog) {
+		/* Affichage de la boite de dialogue dans une thread dediee */
+		parent.getDisplay().asyncExec(new DrawDialog(dialog));
 	}
 
 
@@ -282,7 +261,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Recupere les informations de la boite de dialogue
 	 * @results Les resultats sous forme d'objets
 	 */
-	public void getDialogAnswers(DialogResult results) {
+	public void getDialogAnswers(IDialogResult results) {
 		if (!this.api.getDialogAnswers((IDialogResult) results)) {
 			System.err.println(Coloane.getTranslate().getString("communications.Com.19")); //$NON-NLS-1$
 		}
