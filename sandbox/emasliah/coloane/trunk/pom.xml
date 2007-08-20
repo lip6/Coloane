@@ -97,7 +97,10 @@
       </notifier>
       <notifier>
         <type>mail</type>
+        <sendOnError>false</sendOnError>
+        <sendOnFailure>false</sendOnFailure>
         <sendOnSuccess>true</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
         <configuration>
         	<address>Jean-Baptiste.Voron@lip6.fr</address>
         </configuration>
@@ -296,7 +299,7 @@
  		<repository>
 			<id>Izanami</id>
 			<name>Izanami Repository</name>
-			<url>http://izanami/~emasliah/m2</url>
+			<url>http://izanami/coloane/repository</url>
  	  	<releases>
  	    	<enabled>true</enabled>
  	  	</releases>
