@@ -5,6 +5,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 public class MenuManipulation {
+
+	protected MenuManipulation() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/*
 	 * The first step is to find, on the menubar, the ancestor of
 	 * the menu we want to change the enabled property.
