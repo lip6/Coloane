@@ -78,7 +78,7 @@ public class AuthenticationDialog extends Dialog {
 	/** Label du bouton detail */
 	private static final String SHOW_DETAILS_LABEL = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.13"); //$NON-NLS-1$
 
-	private static final String HIDE_DETAILS_LABEL = "Hide details";
+	private static final String HIDE_DETAILS_LABEL = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.14"); //$NON-NLS-1$
 
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibility = true;
@@ -338,7 +338,6 @@ public class AuthenticationDialog extends Dialog {
 	 */
 	public static void tag(Widget tagged, String data) {
 		tagged.setData("name", data); //$NON-NLS-1$
-		System.out.println(tagged.getData("name"));
 	}
 
 	private void setVisibility(boolean newVisibility) {

@@ -30,12 +30,8 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		try {
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
-			MessageDialog.openError(window.getShell(),
-					"Error during view initialization",
-					"The Historic view cannot be opened");
+			MessageDialog.openError(window.getShell(), "Error during view initialization", "The Historic view cannot be opened");
 		}
-
-		System.out.println("Demande d'authentification");
 
 		HistoryView.getInstance().addText("[?] Authentification -> ");
 
