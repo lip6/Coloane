@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.ui.dialogs;
+package fr.lip6.move.coloane.exceptions;
 
 public class UnknownTextAreaException extends Exception {
 
