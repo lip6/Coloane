@@ -5,15 +5,15 @@ package fr.lip6.move.coloane.interfaces.objects;
  * Cette classe defini le contenu d'un boite de dialogue ainsi que sa structure.<br>
  * Divers elements composent une boite de dialogue :
  * <ul>
- * 	<li> Un identifiant unique</li>
- * 	<li> Un type </li>
- * 	<li> Une categorie de boutons a afficher</li>
- * 	<li> Un titre </li>
- * 	<li> Un message d'aide</li>
- * 	<li> Un message </li>
- * 	<li> Un type de saisie </li>
- * 	<li> Un indicateur de saisie multi-lignes</li>
- *  <li> Une valeur par defaut</li>
+ * 	<li>Un identifiant unique</li>
+ * 	<li>Un type </li>
+ * 	<li>Une categorie de boutons a afficher</li>
+ * 	<li>Un titre </li>
+ * 	<li>Un message d'aide</li>
+ * 	<li>Un message </li>
+ * 	<li>Un type de saisie </li>
+ * 	<li>Un indicateur de saisie multi-lignes</li>
+ *  <li>Une valeur par defaut</li>
  * </lu>
  *
  * Beaucoup d'indicateurs utilisent des constantes definies dans l'interface IDialog
