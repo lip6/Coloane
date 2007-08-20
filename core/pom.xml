@@ -179,9 +179,6 @@
 			</plugin>
 		</plugins>
 
-		<!-- Pour ce ne pas faire les tests pour l'instant -->
-		<testSourceDirectory>dossier_qui_n_existe_pas</testSourceDirectory>
-
 		<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar ~~~~~~~~~~~~~~~~~~~~~~~~ -->
 		<resources>
 			<resource>
