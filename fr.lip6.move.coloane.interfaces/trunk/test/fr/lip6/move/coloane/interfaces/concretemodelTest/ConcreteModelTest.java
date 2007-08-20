@@ -184,7 +184,7 @@ public class ConcreteModelTest extends TestCase {
 			cm.addArc(arc2);
 			assertTrue(cm.getNthArc(0).getArcType().equals(TYPEARC));
 			assertTrue(cm.getNthArc(1).equals(arc2));
-			assertTrue(cm.getNthNode(1).equals(begin));
+			assertTrue(cm.getNthNode(1).equals(end));
 		} catch (ModelException e) {
 			fail(e.toString());
 		}
