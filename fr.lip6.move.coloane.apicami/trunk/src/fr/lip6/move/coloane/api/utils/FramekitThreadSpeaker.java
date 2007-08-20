@@ -227,9 +227,9 @@ public class FramekitThreadSpeaker extends Thread {
 			ds.append("DS(");
 			ds.append(results.getDialogId());
 			ds.append(",");
-			ds.append(results.getText().get(0).length());
+			ds.append(results.getAnswer().get(0).length());
 			ds.append(":");
-			ds.append(results.getText().get(0));
+			ds.append(results.getAnswer().get(0));
 			ds.append(")");
 			String value = ds.toString();
 			commande = cmd.convertToFramekit(value);

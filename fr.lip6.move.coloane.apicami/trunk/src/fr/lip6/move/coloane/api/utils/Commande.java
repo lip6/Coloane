@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.api.utils;
 
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
 import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.utils.CamiParser;
+
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Commande {
 

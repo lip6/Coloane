@@ -92,7 +92,7 @@ public class Attribute extends fr.lip6.move.coloane.interfaces.model.Attribute {
 						s.append(")");
 						vectorStringToReturn.addElement(s.toString());
 
-						start += 255; 
+						start += 255;
 						end += 255;
 					}
 

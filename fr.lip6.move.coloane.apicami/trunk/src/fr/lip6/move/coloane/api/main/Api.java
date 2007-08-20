@@ -85,8 +85,7 @@ public class Api implements IApi {
 	 * Constructeur
 	 * @param moduleCom le module de communication
 	 * @param level le niveau de trace
-	 * */
-
+	 */
 	public Api(IComApi moduleCom, int level) {
 		//Le module de communication
 		this.com = moduleCom;

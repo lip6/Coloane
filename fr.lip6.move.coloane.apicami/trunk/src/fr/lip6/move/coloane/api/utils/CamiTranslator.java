@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.objects.MenuCom;
 import fr.lip6.move.coloane.api.objects.RootMenuCom;
-import fr.lip6.move.coloane.interfaces.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.DialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
@@ -201,16 +200,16 @@ public class CamiTranslator {
 		ttype = Integer.parseInt(camiCmd.get(2).toString());
 		switch (ttype) {
 			case 1:
-				type = IDialog.DLG_STANDARD;
+				type = IDialogCom.DLG_STANDARD;
 				break;
 			case 2:
-				type = IDialog.DLG_WARNING;
+				type = IDialogCom.DLG_WARNING;
 				break;
 			case 3:
-				type = IDialog.DLG_ERROR;
+				type = IDialogCom.DLG_ERROR;
 				break;
 			case 4:
-				type = IDialog.DLG_INTERACTIVE;
+				type = IDialogCom.DLG_INTERACTIVE;
 				break;
 			default:
 				UnexpectedCamiCommand e = new UnexpectedCamiCommand("Type de la boite de dialogue invalide");
@@ -231,13 +230,13 @@ public class CamiTranslator {
 		tnbButtons = Integer.parseInt(camiCmd.get(3).toString());
 		switch (tnbButtons) {
 			case 1:
-				nbButtons = IDialog.DLG_NO_BUTTON;
+				nbButtons = IDialogCom.DLG_NO_BUTTON;
 				break;
 			case 2:
-				nbButtons = IDialog.DLG_OK;
+				nbButtons = IDialogCom.DLG_OK;
 				break;
 			case 3:
-				nbButtons = IDialog.DLG_OK_CANCEL;
+				nbButtons = IDialogCom.DLG_OK_CANCEL;
 				break;
 			default:
 				UnexpectedCamiCommand e = new UnexpectedCamiCommand("Nombre de boutons de la boite de dialogue invalide");
@@ -287,11 +286,11 @@ public class CamiTranslator {
 			Api.apiLogger.warning(e.getMessage() + logsUtils.stackToString(e));
 			throw e;
 		} else if (camiCmd.get(7).toString().equals("1")) {
-			allowedEntry = IDialog.INPUT_AUTHORIZED;
+			allowedEntry = IDialogCom.INPUT_AUTHORIZED;
 		} else if (camiCmd.get(7).toString().equals("2")) {
-			allowedEntry = IDialog.INPUT_FORBIDDEN;
+			allowedEntry = IDialogCom.INPUT_FORBIDDEN;
 		} else if (camiCmd.get(7).toString().equals("5")) {
-			allowedEntry = IDialog.INPUT_AND_ABORT_AUTHORIZED;
+			allowedEntry = IDialogCom.INPUT_AND_ABORT_AUTHORIZED;
 			Api.apiLogger.warning("Abort command is not available yet...");
 			//System.err.println("Abort command is not available yet...");
 		} else {
@@ -308,11 +307,11 @@ public class CamiTranslator {
 			Api.apiLogger.warning(e.getMessage() + logsUtils.stackToString(e));
 			throw e;
 		} else if (camiCmd.get(8).toString().equals("1")) {
-			select = IDialog.MULTI_LINE_WITH_SINGLE_SELECTION;
+			select = IDialogCom.MULTI_LINE_WITH_SINGLE_SELECTION;
 		} else if (camiCmd.get(8).toString().equals("2")) {
-			select = IDialog.SINGLE_LINE;
+			select = IDialogCom.SINGLE_LINE;
 		} else if (camiCmd.get(8).toString().equals("5")) {
-			select = IDialog.MULTI_LINE_WITH_MULTI_SELECTION;
+			select = IDialogCom.MULTI_LINE_WITH_MULTI_SELECTION;
 		} else {
 			UnexpectedCamiCommand e = new UnexpectedCamiCommand("Indicateur de selection nul");
 			Api.apiLogger.throwing("CamiTranslator", "getDialog", e);
@@ -349,7 +348,7 @@ public class CamiTranslator {
 		// Creation de l'objet boite de dialogue
 		dialog = new DialogCom(id);
 		dialog.setButtonType(type);
-		dialog.setDef(contents.get(0));
+		dialog.setDefault(contents.get(0));
 		dialog.setHelp(helpMsg);
 		dialog.setTitle(title);
 		dialog.setMessage(msg);

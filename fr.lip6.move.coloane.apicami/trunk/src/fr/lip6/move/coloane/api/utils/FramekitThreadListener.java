@@ -162,37 +162,37 @@ public class FramekitThreadListener extends Thread {
 						switch(type) {
 
 							// Etat du service : inactif
-							case 1 : 
+							case 1 :
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							
+
 
 							// Etat du service : actif
-							case 2 : 
+							case 2 :
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							
+
 
 							// Etat du service : termine
-							case 3 : 
+							case 3 :
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							
+
 
 							// Etat du service : non documente!
-							case 5 : 
+							case 5 :
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							
+
 
 							// Etat du service : termine de facon errone
-							case 6 : 
+							case 6 :
 								//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 								break;
-							
+
 
 							// Modification de l'arbre des services : active
-							case 7 : 
+							case 7 :
 								try {
 									if (resetUpdates) {
 										menuUpdates.removeAllElements();
@@ -216,10 +216,10 @@ public class FramekitThreadListener extends Thread {
 									//System.err.println("Erreur reception TQ type = 7");
 								}
 								break;
-							
+
 
 							// Modification de l'arbre des services : desactive
-							case 8 : 
+							case 8 :
 								try {
 									if (resetUpdates) {
 										menuUpdates.removeAllElements();
@@ -243,13 +243,13 @@ public class FramekitThreadListener extends Thread {
 									//System.err.println("Erreur reception TQ type = 8");
 								}
 								break;
-							
+
 
 							// Depracated
-							case 9 : 
+							case 9 :
 								Api.apiLogger.finer("TQ = 9 => Deprecated");
 								break;
-							
+
 
 							default :
 								Api.apiLogger.warning("Commande inconnue" + type);
