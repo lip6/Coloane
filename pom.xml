@@ -232,7 +232,7 @@
 				<configuration>
 					<configLocation>http://izanami/~emasliah/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					<failOnViolation>false</failOnViolation>
+					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
 				</configuration>
 			</plugin>
