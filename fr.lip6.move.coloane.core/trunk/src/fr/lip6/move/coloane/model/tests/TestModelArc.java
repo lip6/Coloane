@@ -7,9 +7,9 @@ import fr.lip6.move.coloane.model.Arc;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.model.Node;
 
+import java.util.Vector;
 
 import junit.framework.TestCase;
-import java.util.Vector;
 
 /*Scenario de test:
  * Ajout d'un arc de facon correcte ou non aleatoirement

@@ -108,7 +108,6 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * Le methode de fin de vie du plugin
 	 * @param context Parametre systeme fourni par Eclipse
-	 * TODO: Appeler les methodes de fin pour chaque module
 	 */
 	@Override
 	public final void stop(BundleContext context) throws Exception {
