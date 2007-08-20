@@ -276,10 +276,16 @@ public class ConcreteNodeTest extends TestCase {
 
 		assertTrue(node.getListOfAttrSize() == 2);
 		try {
-			node.removeAttribute(2);
+			node.removeAttribute(1);
 		} catch (ModelException e) {
 			fail(e.toString());
 		}
-		assertFalse(node.getListOfAttrSize() == 1);
+
+		try {
+			node.removeAttribute(2);
+			fail("The attribute should not be removed");
+		} catch (ModelException e) {
+			assertFalse(node.getListOfAttrSize() == 0);
+		}
 	}
 }
