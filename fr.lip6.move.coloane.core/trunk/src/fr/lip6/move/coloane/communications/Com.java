@@ -44,6 +44,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	/** Conteneur graphique de haut niveau */
 	private Composite parent;
 
+	/** L'instance du singleton : Com */
 	private static Com instance;
 
 	/**

@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
  * Interface Utilisateur
  */
 
-public class UserInterface implements IUiCom, IUiMotor {
+public final class UserInterface implements IUiCom, IUiMotor {
 
 	/** La fenêtre de travail */
 	private static IWorkbenchWindow fenetreTravail;
@@ -45,15 +45,27 @@ public class UserInterface implements IUiCom, IUiMotor {
 	/** La gestion des resultats */
 	private ActionsList serviceResultList = null;
 
+	/** L'instance du singlaton : UserInterface */
+	private static UserInterface instance;
+
 
 	/**
 	 * Constructeur de la classe
 	 */
-	public UserInterface() {
+	private UserInterface() {
 		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
 		// Le gestionnaire de resultats de services
 		serviceResultList = new ActionsList();
+	}
+
+	/**
+	 * Retourne le module moteur
+	 * @return Motor Le module moteur
+	 */
+	public static synchronized UserInterface getInstance() {
+		if (instance == null) { instance = new UserInterface(); }
+		return instance;
 	}
 
 
@@ -61,7 +73,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Affichage d'un message sur la vue historique
 	 * @param message a afficher
 	 */
-	public final void printHistoryMessage(String message) {
+	public void printHistoryMessage(String message) {
 		final String msg = message;
 
 		Display.getDefault().asyncExec(new Runnable() {
@@ -77,7 +89,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Afficher un menu
 	 * @param menu La racine du menu a afficher
 	 */
-	public final void drawMenu(RootMenu menu) {
+	public void drawMenu(RootMenu menu) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		currentSession.setServicesMenu(menu);
 		GraphicalMenu gmenu = new GraphicalMenu(menu, fenetreTravail, this);
@@ -89,7 +101,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public final void updateMenu(Vector<IUpdateMenuCom> updates) {
+	public void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession != null) {
 
@@ -116,7 +128,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Demande la suppression d'un menu designee par son nom
 	 * @param menuName Le nom du menu a supprimer
 	 */
-	public final void removeMenu(String menuName) {
+	public void removeMenu(String menuName) {
 		MenuManipulation.remove(menuName);
 	}
 
@@ -125,7 +137,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * Desactivation du rootMenu
 	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
 	 */
-	public final void changeMenuStatus(String rootName, boolean status) {
+	public void changeMenuStatus(String rootName, boolean status) {
 		MenuManipulation.setEnabled(rootName, rootName, status);
 	}
 
@@ -135,7 +147,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param serviceName Le nom du service qui produit ses resultats
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
-	public final void setResults(String serviceName, Results result) {
+	public void setResults(String serviceName, Results result) {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;
@@ -264,7 +276,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	/**
 	 * Affichage des resultats dans la vue resultats
 	 */
-	public final void printResults() {
+	public void printResults() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
@@ -285,7 +297,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * @param parentName Le nom du pere de la feuille cliquee
 	 * @param serviceName LE nom du service demande
 	 */
-	public final void askForService(String rootMenuName, String parentName, String serviceName) {
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
 		com.askForService(rootMenuName, parentName, serviceName);
 	}
@@ -294,7 +306,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	/** Affichage d'une boite de dialogue
 	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
-	public static final void drawDialog(IDialogCom dialogCom) {
+	public static void drawDialog(IDialogCom dialogCom) {
 		// Factory de boite de dialogue
 		IDialog dialog;
 		try {
@@ -317,7 +329,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module de communication a l' l'interface utilisateur
 	 * @param IComUi L'interface
 	 */
-	public final void setCom(IComUi c) {
+	public void setCom(IComUi c) {
 		com = c;
 	}
 
@@ -326,7 +338,7 @@ public class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module du moteur a l' l'interface utilisateur
 	 * @param IMotorUi L'interface
 	 */
-	public final void setMotor(IMotorUi mot) {
+	public void setMotor(IMotorUi mot) {
 		this.motor = mot;
 	}
 }

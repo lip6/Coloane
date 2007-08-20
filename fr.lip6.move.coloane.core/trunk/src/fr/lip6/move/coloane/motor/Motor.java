@@ -22,7 +22,7 @@ import org.eclipse.ui.PlatformUI;
  * Le moteur est charge de faire le lien entre le module com et l'interface graphique
  * Il doit etre tenu au courant des changements de sessions
  */
-public class Motor implements IMotorCom, IMotorUi {
+public final class Motor implements IMotorCom, IMotorUi {
 	private static FormalismManager formalismManager;
 	private static SessionManager sessionManager;
 
@@ -32,19 +32,31 @@ public class Motor implements IMotorCom, IMotorUi {
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
+	/** L'instance du singleton : Motor */
+	private static Motor instance;
+
 	/**
 	 * Constructeur du module moteur
 	 */
-	public Motor() {
+	private Motor() {
 		Motor.formalismManager = new FormalismManager();
 		Motor.sessionManager = new SessionManager();
+	}
+
+	/**
+	 * Retourne le module moteur
+	 * @return Motor Le module moteur
+	 */
+	public static synchronized Motor getInstance() {
+		if (instance == null) { instance = new Motor(); }
+		return instance;
 	}
 
 	/**
 	 * Recupere une poignee sur le moteur
 	 * @param com le module de communication
 	 */
-	public final void setCom(IComMotor moduleCom) {
+	public void setCom(IComMotor moduleCom) {
 		this.com = moduleCom;
 	}
 
@@ -55,7 +67,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * @return booleen Le resultat de l'operation
 	 * @throws ColoaneException
 	 */
-	public final boolean openSession(IModelImpl model, String eclipseSessionName) throws ColoaneException {
+	public boolean openSession(IModelImpl model, String eclipseSessionName) throws ColoaneException {
 		// Verification de l'existence du module de communications
 		if (com == null) {
 			throw new ColoaneException(Coloane.getTranslate().getString("motor.Motor.0")); //$NON-NLS-1$
@@ -87,7 +99,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Fermeture de la session courante
 	 * @return boolean Le resultat de l'operation
 	 */
-	public final boolean closeSession() {
+	public boolean closeSession() {
 		boolean res = com.closeSession();
 		Motor.sessionManager.destroyCurrentSession();
 		return res;
@@ -100,7 +112,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * TODO: rendre cette methode generique
 	 * @param model le model brut
 	 */
-	public final void setNewModel(IModel model) {
+	public void setNewModel(IModel model) {
 		// Construit le modele en memoire a partir du modele generique recu
 		IModelImpl modelImpl = new ModelImplAdapter(model, getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
 
@@ -112,7 +124,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Donne la main sur le SessionManager
 	 * @return SessionManager Le gestionnaire de sessions
 	 */
-	public final SessionManager getSessionManager() {
+	public SessionManager getSessionManager() {
 		return Motor.sessionManager;
 	}
 
@@ -120,7 +132,7 @@ public class Motor implements IMotorCom, IMotorUi {
 	 * Donne la main sur le FormalismManager
 	 * @return FormalismManager Le gestionnaire de formalismes
 	 */
-	public final FormalismManager getFormalismManager() {
+	public FormalismManager getFormalismManager() {
 		return Motor.formalismManager;
 	}
 }

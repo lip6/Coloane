@@ -49,13 +49,13 @@ public class Coloane extends AbstractUIPlugin {
 			System.out.println("-- Initialisation du plugin Coloane --");
 
 			// Initialisation de l'interface graphique
-			ui = new UserInterface();
+			ui = UserInterface.getInstance();
 			if (ui == null) {
 				System.err.println("Erreur lors du chargement de l'interface utilisateur");
 			}
 
 			// Initialisation du moteur
-			motor = new Motor();
+			motor = Motor.getInstance();
 			if (motor == null) {
 				System.err.println("Erreur lors du chargement du module moteur");
 			}
