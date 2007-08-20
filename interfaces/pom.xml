@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.lip6.move</groupId>
+  <artifactId>fr.lip6.move.coloane.interfaces</artifactId>
+  <version>1.0.3</version>
+  <description>Interfaces and shared object between coloane's core and coloane's API</description>
+  
+  <build>
+    <sourceDirectory>src/fr/lip6/move/coloane/interfaces</sourceDirectory>
+    <directory>target/jar</directory>
+
+	<plugins>
+		<plugin>
+     		<groupId>org.apache.maven.plugins</groupId>
+      		<artifactId>maven-compiler-plugin</artifactId>
+      
+      		<configuration>
+        		<source>1.5</source>
+        		<target>1.5</target>
+      		</configuration>
+    	</plugin>
+    </plugins>
+    
+  </build>
+  
+</project>
+
