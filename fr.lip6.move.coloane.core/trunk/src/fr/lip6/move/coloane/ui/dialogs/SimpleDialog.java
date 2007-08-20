@@ -1,5 +1,11 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
+import fr.lip6.move.coloane.interfaces.IDialogResult;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.ui.dialogs.textarea.ListTextArea;
+import fr.lip6.move.coloane.ui.dialogs.textarea.TextArea;
+import fr.lip6.move.coloane.ui.dialogs.textarea.TextAreaFactory;
+
 import java.util.ArrayList;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -13,45 +19,45 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-/*
- * A CAMIDialog is divided in four zones :
- * 1. the icon's zone, indicating if it's a warning, an error, ...
- * 2. the message zone, which is a non-editable text zone
- * 3. the text area which can be a text input (multi or single line)
- *  or a list of choices (single or multi selection)
- * 4. a buttons' zone
+
+/**
+ * Une boite de dialogue est divise en quatre zones :
+ * <ul>
+ * 	<li>Une zone d'incone indiquant si la boite de dialogue est un warning, une erreur etc...</li>
+ * 	<li>Une zone de message</li>
+ * 	<li>Une zone de texte (simple ou multi-lignes)</li>
+ * 	<li>Une zone de boutons</li>
+ * </ul>
  */
 
 public class SimpleDialog extends IconAndMessageDialog implements IDialog {
-	protected int id;
-	protected int type;
-	protected int buttonType;
-	protected String title;
-	protected String help;
-	protected int inputType;
-	protected int multiLine;
-	protected String defaultValue;
-	protected DialogResult dialogResult;
-	protected ArrayList<String> choices = null;
 
-	protected Shell parentShell =
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	private int id;
+	private int buttonType;
+	private int inputType;
+	private int multiLine;
+	private String defaultValue;
+	private IDialogResult dialogResult;
+	private ArrayList<String> choices = null;
 
-	protected TextArea textArea = null;
+	private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
-	public SimpleDialog(int id, int type, int buttonType, String title, String help, String message, int inputType, int multiLine, String defaultValue) {
+	private TextArea textArea = null;
 
-		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+	/**
+	 * Constructeur de la boite de dialogue
+	 * @param dialog La boite de dialogue construite par la com
+	 */
+	public SimpleDialog(IDialogCom dialog) {
 
-		this.id = id;
-		this.type = type;
-		this.buttonType = buttonType;
-		this.title = title;
-		this.help = help;
-		this.message = message;
-		this.inputType = inputType;
-		this.multiLine = multiLine;
-		this.defaultValue = defaultValue;
+		super(parentShell);
+
+		this.id = dialog.getId();
+		this.buttonType = dialog.getButtonType();
+		this.message = dialog.getMessage();
+		this.inputType = dialog.getInputType();
+		this.multiLine = dialog.getMultiLine();
+		this.defaultValue = dialog.getDefault();
 
 		/*
 		 * There is a kind of dialog which does not contain any "OK" or "Cancel" button.
@@ -64,32 +70,19 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		choices = new ArrayList<String>();
 	}
 
-	protected void configureShell(Shell shell) {
-		super.configureShell(shell);
-		shell.setText(this.title);
-	}
-
-	@Override
-	protected Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
-	 * Defines which buttons will be displayed.<br/>
-	 * This method belongs to the org.eclipse.jfacee.dialogs.Dialog class.<br/>
-	 * For more details, please read the Dialog class' documentation for
-	 * more details.
+	 * Determine quels seront les boutons affiches
+	 * @param parent La fenetre en cours de construction
 	 */
 	protected final void createButtonsForButtonBar(Composite parent) {
-
 		switch (buttonType) {
-			case DLG_OK:
-				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
+			case IDialogCom.DLG_OK:
+				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
-			case DLG_OK_CANCEL:
+			case IDialogCom.DLG_OK_CANCEL:
 				createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
+				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
 			default:
 				break;
@@ -97,17 +90,12 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	}
 
 	/**
-	 * Creates the dialog area.<br/>
-	 * If the dialog does not permit input and is single-line,
-	 * there is nothing to do.
-	 *
-	 * Otherwise, fills this area with a TextArea object obtained
-	 * from a TextAreaFactory.
-	 *
-	 * @param parent the parent composite
+	 * Creation de la boite de dialogue
+	 * @param parent La fenetre en cours de construction
 	 * @return Control
 	 */
-	protected Control createDialogArea(Composite parent) {
+	@Override
+	protected final Control createDialogArea(Composite parent) {
 		createMessageArea(parent);
 
 		// Create a composite to hold the textArea
@@ -117,7 +105,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		composite.setLayoutData(data);
 		composite.setLayout(new FillLayout());
 
-		textArea = TextAreaFactory.create(composite,inputType, multiLine, defaultValue);
+		textArea = TextAreaFactory.create(composite, inputType, multiLine, defaultValue);
 
 		if (textArea instanceof ListTextArea) {
 			for (String choice : choices) {
@@ -125,33 +113,51 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 			}
 		}
 
-		textArea.setToolTiptext(this.help);
-
 		return composite;
 	}
 
-	public void buttonPressed(int buttonId) {
-		int answerType = buttonId == OK ? TERMINATED_OK : TERMINATED_CANCEL;
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
+	 */
+	@Override
+	public final void buttonPressed(int buttonId) {
+		int answerType;
 
-		dialogResult = new DialogResult(id, answerType,	!textArea.getText().get(0).equals(defaultValue),textArea.getText());
+		/* Selon le type de retour */
+		if (buttonId == OK) { answerType = TERMINATED_OK; } else { answerType = TERMINATED_CANCEL; }
+
+		dialogResult = new DialogResult(id, answerType,	!textArea.getText().get(0).equals(defaultValue), textArea.getText());
 
 		this.close();
 	}
 
-	public DialogResult getDialogResult() {
-		return dialogResult;
-	}
-
-
-
-	/**
-	 * Adds a choice in a list
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#addChoice(java.lang.String)
 	 */
-	public void addChoice(String choice) {
+	public final void addChoice(String choice) {
 		choices.add(choice);
-
 		if (textArea != null && textArea instanceof ListTextArea) {
 			textArea.addChoice(choice);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#getDialogResult()
+	 */
+	public final IDialogResult getDialogResult() {
+		return dialogResult;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
+	 */
+	@Override
+	protected final Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

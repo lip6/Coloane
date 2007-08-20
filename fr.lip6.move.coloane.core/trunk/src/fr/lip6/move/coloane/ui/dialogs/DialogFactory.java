@@ -1,18 +1,36 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
+import fr.lip6.move.coloane.exceptions.UnknowDialogException;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+
+/**
+ * Usines a boite de dialogue
+ */
 public class DialogFactory {
-	public static IDialog create(int id, int type, int buttonType, String title, String help, String message, int inputType, int multiLine, String defaultValue) throws UnknowDialogException {
 
-		switch (type) {
-			case IDialog.DLG_INTERACTIVE:
-				return new InteractiveDialog(id, buttonType, title, help, message,
-						inputType, multiLine, defaultValue);
+	/**
+	 * Constructeur protege
+	 */
+	protected DialogFactory() {
+		// TODO Auto-generated constructor stub
+	}
 
-			case IDialog.DLG_STANDARD:
-			case IDialog.DLG_WARNING:
-			case IDialog.DLG_ERROR:
-				return new SimpleDialog(id, type, buttonType, title, help, message,
-						inputType, multiLine, defaultValue);
+	/**
+	 * Creation d'une boite de dialogue suivant le type de IDialogCom
+	 * @param dialog La boite de dialogue
+	 * @return Une boite de dialogue Eclipse
+	 * @throws UnknowDialogException Lorsque la boite de dialogue n'est pas trouvee
+	 */
+	public static IDialog create(IDialogCom dialog) throws UnknowDialogException {
+
+		switch (dialog.getType()) {
+			case IDialogCom.DLG_INTERACTIVE:
+				throw new UnknowDialogException();
+
+			case IDialogCom.DLG_STANDARD:
+			case IDialogCom.DLG_WARNING:
+			case IDialogCom.DLG_ERROR:
+				return new SimpleDialog(dialog);
 
 			default:
 				throw new UnknowDialogException();

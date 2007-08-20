@@ -1,17 +1,36 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
-public interface IDialog extends fr.lip6.move.coloane.interfaces.IDialog {
+import fr.lip6.move.coloane.interfaces.IDialogResult;
 
-	// For the simple dialogs
-	public static final int TERMINATED_OK = 1;
-	public static final int TERMINATED_CANCEL = 2;
+/**
+ * Interface pour les objet boites de dialogue
+ */
+public interface IDialog {
 
-	// For the interactive dialogs
-	public static final int TERMINATED_ABORT = 1;
-	public static final int TERMINATED_QUIT = 2;
+	/** Pour les boites de dialogue simples */
+	int TERMINATED_OK = 1;
+	int TERMINATED_CANCEL = 2;
 
-	public int open();
-	public void addChoice(String choice);
-	public DialogResult getDialogResult();
+	/** Pour les boites de dialogues interactives */
+	int TERMINATED_ABORT = 1;
+	int TERMINATED_QUIT = 2;
 
+	/**
+	 * Ouverture et affichage d'une boite de dialogue
+	 * @return OK ou CANCEL
+	 */
+	int open();
+
+	/**
+	 * Ajoute un item a la liste de la boite de dialogue
+	 * Valable seulement pour les boites de dialogue a liste
+	 * @param choice La nouveau choix
+	 */
+	void addChoice(String choice);
+
+	/**
+	 * Retourne les resultat de la boite de dialogue
+	 * @return
+	 */
+	IDialogResult getDialogResult();
 }
