@@ -3,46 +3,38 @@ package fr.lip6.move.coloane.interfaces.objects;
 import java.util.Vector;
 
 /**
- * Interface fournie par l'interface a Coloane
- * pour la transmissions de resultats.
+ * Interface fournie par l'interface a Coloane pour la transmission de resultats.
  */
 public interface IResultsCom {
 
 	/**
-	 * Retourne la liste des elements de resultats
-	 * @return La liste des elements de resultats
+	 * Accede a la commande RQ
+	 * @return String la commande RQ
 	 */
-	Vector<String> getListOfElement();
+	String getQuestion();
 
 	/**
-	 * Retourne la liste des descriptions de resultats
-	 * @return La liste des descriptions de resutlats
+	 * Modifie la commande RQ
+	 * @param newQuestion la commande à modifier
 	 */
-	Vector<String> getListOfDescription();
+	void setcmdRQ(String newQuestion);
+
 
 	/**
-	 * Ajout d'un element de resultats
-	 * @param element Une chaine de caractere indiquant le resultat
+	 * Ajoute une liste de sous resultats DE et FE dans la liste des sous_resulats
+	 * @param sr la commande à ajouter
 	 */
-	void addElement(String element);
+	void addResultats(SousResultsCom sr);
 
 	/**
-	 * Ajout d'une description d'un resultat
-	 * @param description Une chaine de caractere decrivant un resultat
+	 * Enleve un element de la liste des sous resultats
+	 * @param sr la commande à enlever
 	 */
-	void addDescription(String description);
+	void removeResultats(SousResultsCom sr);
 
 	/**
-	 * Retourne une sous-liste des resultats
-	 * @param start Indice de depart des resultats desires
-	 * @return La sous liste des resutlats depuis l'indice de debut jusqu'a la fin
+	 * Accede au sous resultat compris entre DE et FE
+	 * @return Vector<SousResultsCom> la liste de sous resultats compris entre DE et FE
 	 */
-	Vector<String> getSublistOfDescription(int start);
-
-	/**
-	 * Retourne la premiere description
-	 * @return La chaine de caractere correspondant a la premiere description
-	 */
-	String getHeadDescription();
-
+	Vector<SousResultsCom> getSubResults();
 }

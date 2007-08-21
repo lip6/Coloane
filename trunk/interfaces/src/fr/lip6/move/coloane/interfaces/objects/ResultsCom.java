@@ -2,73 +2,66 @@ package fr.lip6.move.coloane.interfaces.objects;
 
 import java.util.Vector;
 
-
 /**
- * Cette classe defini la listes des reslutats renvoyes par la plate-forme
- * a la suite d'un appel de service. Ces resultats doivent etre envoyes a Coloane
- * pour affichage.
- *
+ * Cette classe defini la listes des resultats renvoyes par la plate-forme a la
+ * suite d'un appel de service. Ces resultats doivent etre envoyes a Coloane
+ * pour etre affiches.
  */
 
-public abstract class ResultsCom implements IResultsCom {
+public class ResultsCom implements IResultsCom {
 
-	/** La liste des descriptions de resultats */
-	private Vector<String> description;
-	/** La liste des resultats */
-	private Vector<String> elements;
+	/** Commande RQ (reponse a une question) */
+	private String question;
+
+	/** Liste des commandes comprises entre DE et FE */
+	private Vector<SousResultsCom> subResults;
 
 	/**
 	 * Constructeur
 	 */
 	public ResultsCom() {
-		this.description = new Vector<String>();
-		this.elements = new Vector<String>();
+		subResults = new Vector<SousResultsCom>();
+		question = new String();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#addElement(String)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#addResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
 	 */
-	public final void addElement(String element) {
-		this.elements.add(element);
+	public final void addResultats(SousResultsCom sr) {
+		subResults.add(sr);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#addDescription(String)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#removeResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
 	 */
-	public final void addDescription(String resultDescription) {
-		this.description.add(resultDescription);
+	public final void removeResultats(SousResultsCom sr) {
+		subResults.remove(sr);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getListOfElement()
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#getQuestion()
 	 */
-	public final Vector<String> getListOfElement() {
-		return this.elements;
+	public final String getQuestion() {
+		return question;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getListOfDescription()
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#setcmdRQ(java.lang.String)
 	 */
-	public final Vector<String> getListOfDescription() {
-		return this.description;
+	public final void setcmdRQ(String newQuestion) {
+		this.question = newQuestion;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getSublistOfDescription(int)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#getSubResults()
 	 */
-	public final Vector<String> getSublistOfDescription(int start) {
-		Vector<String> tmp = new Vector<String>();
-		for (int i = start; i < this.description.size(); i++) {
-			tmp.add(this.description.elementAt(i));
-		}
-		return tmp;
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultatsCom#getHeadDescription()
-	 */
-	public final String getHeadDescription() {
-		return this.description.elementAt(0);
+	public final Vector<SousResultsCom> getSubResults() {
+		return subResults;
 	}
 
 }
