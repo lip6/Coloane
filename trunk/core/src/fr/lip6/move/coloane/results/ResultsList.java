@@ -12,8 +12,12 @@ public class ResultsList extends Observable {
 	private String actionName;
 	private Vector<Result> resultsList;
 
-	public ResultsList(String resultActionName) {
-		this.actionName = resultActionName;
+	/**
+	 * Constructeur
+	 * @param question Le service auquel correspond cette liste de resultats
+	 */
+	public ResultsList(String question) {
+		this.actionName = question;
 		resultsList = new Vector<Result>();
 	}
 
