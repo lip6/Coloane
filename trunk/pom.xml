@@ -83,7 +83,7 @@
 	<!-- Pour les notifications -->
 	<ciManagement>
 		<system>continuum</system>
-		<url>http://127.0.0.1:8888/continuum</url>
+		<url>http://izanami:8080/continuum</url>
 		<notifiers>
 			<notifier>
 				<type>mail</type>
@@ -132,7 +132,35 @@
 			<name>Izanami Snapshots</name>
 			<url>ftp://izanami/snapshots</url>
 		</snapshotRepository>
+		<site>
+      <id>Izanami-scp-report</id>
+      <url>scp://izanami/home/emasliah/public_html/report</url>
+    </site>
 	</distributionManagement>
+
+	<reporting>
+		<plugins>
+      <plugin>
+				<!-- Pour le checkstyle -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>http://izanami/coloane/resources/coloane_checkstyle.xml</configLocation>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+				</configuration>
+			</plugin>
+      <plugin>
+				<!-- Pour la javadoc -->
+				<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+      <plugin>
+				<!-- Pour les tests -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<build>
 
