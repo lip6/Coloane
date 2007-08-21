@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.api.utils;
 import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.api.model.Model;
-import fr.lip6.move.coloane.api.objects.ResultsCom;
 import fr.lip6.move.coloane.api.objects.UpdateMenuCom;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -11,6 +10,8 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.ResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 import java.util.Vector;
 
@@ -40,7 +41,7 @@ public class FramekitThreadListener extends Thread {
 	/** Indicateur de fraicheur des mises a jour */
 	private boolean resetUpdates;
 
-	/** Indicateur de fraicheur des resultats */
+	/** Indicateur de fraicheur des ats */
 	private boolean resetResults;
 
 	/** Indicateur de fraicheur du modele */
@@ -89,6 +90,8 @@ public class FramekitThreadListener extends Thread {
 
 		// Le resultat en cours de construction
 		IResultsCom result = null;
+
+		SubResultsCom sousResults = null;
 
 		// La commande en cours de traitement
 		Commande cmd = new Commande();  // la commande recu
@@ -157,7 +160,7 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un etat du service en cours de realisation
 					if (listeArgs.firstElement().equals("TQ")) {
 						int type = Integer.parseInt((String) listeArgs.elementAt(3));
-						//String message  = (String) listeArgs.elementAt(4);
+						//String message  = OB(String) listeArgs.elementAt(4);
 
 						switch(type) {
 
@@ -426,7 +429,7 @@ public class FramekitThreadListener extends Thread {
 						}
 
 						// On envoie la liste des resultats
-						this.api.setResults(resultList);
+						this.api.setResults(result);
 						resetResults = true;
 
 						continue;
@@ -479,19 +482,21 @@ public class FramekitThreadListener extends Thread {
 					// Message DR
 					// Debut de la transmission d'une reponse d'un outil
 					if (listeArgs.firstElement().equals("DR")) {
+						result = new ResultsCom();
 						continue;
 					}
 
 					// Message RQ
 					// Designation de la question a laquelle on repond
 					if (listeArgs.firstElement().equals("RQ")) {
+						result.setcmdRQ((String) listeArgs.elementAt(2));
 						continue;
 					}
 
 					// Message DE
 					// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane
 					if (listeArgs.firstElement().equals("DE")) {
-						result = new ResultsCom();
+						sousResults = new SubResultsCom();
 						continue;
 					}
 
@@ -499,7 +504,9 @@ public class FramekitThreadListener extends Thread {
 					// Transmission d'un resultat textuel mono-ligne
 					if (listeArgs.firstElement().equals("RT")) {
 						if (!listeArgs.elementAt(1).equals("") && !listeArgs.elementAt(1).equals("0")) {
-							result.addDescription((String) listeArgs.elementAt(1));
+							//result.addDescription((String) listeArgs.elementAt(1));
+							sousResults.addCmdRT((String) listeArgs.elementAt(1));
+							//result.addResultats(sousResults);
 						}
 						continue;
 					}
@@ -507,24 +514,25 @@ public class FramekitThreadListener extends Thread {
 					// Message RO
 					// Designation d'un objet associe au resultat dans un ensemble
 					if (listeArgs.firstElement().equals("RO")) {
-						result.addElement((String) listeArgs.elementAt(1));
+						//result.addElement((String) listeArgs.elementAt(1));
+						sousResults.addCmdRO((String) listeArgs.elementAt(1));
+						//result.addResultats(sousResults);
 						continue;
 					}
 
 					// Message ME
 					// Mise en evidence d'un obet Coloane
 					if (listeArgs.firstElement().equals("ME")) {
+						sousResults.addCmdME((String) listeArgs.elementAt(1));
+						//result.addResultats(sousResults);
 						continue;
 					}
 
 					// Message FE
 					// Fin d'ensemble de resultats ou d'objets transmis
 					if (listeArgs.firstElement().equals("FE")) {
-						if (resetResults) {
-							resultList.removeAllElements();
-							resetResults = false;
-						}
-						resultList.add(result);
+						result.addResultats(sousResults);
+						sousResults = null;
 						continue;
 					}
 
