@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+/** test **/
 /**
  * API de communication entre Coloane et FrameKit
  *
@@ -164,9 +165,7 @@ public class Api implements IApi {
 			apiLogger.finer("Dans la suite :");
 			apiLogger.finer("--> Vers FrameKit");
 			apiLogger.finer("<-- Vers Coloane");
-			// System.out.println("Dans la suite :");
-			// System.out.println("--> Vers FrameKit");
-			// System.out.println("<-- Vers Coloane");
+
 			boolean rep = this.camiCmdConnection(login, password, apiName, apiVersion);
 			apiLogger.exiting("Api", "openConnexion", rep);
 			return rep;
@@ -745,22 +744,10 @@ public class Api implements IApi {
 	 *            La liste des resultats renvoyes par la plate-forme
 	 * @see ResultsCom
 	 */
-	public final void setResults(Vector<IResultsCom> resultList) {
-		apiLogger.entering("Api", "setResults", resultList);
-		if (!resultList.isEmpty()) {
-			Iterator i = resultList.iterator();
-
-			// On envoie tous les services a la com qui est chargee de les
-			// afficher
-			while (i.hasNext()) {
-				IResultsCom r = (IResultsCom) i.next();
-				this.com.setResults(this.currentService, r);
-			}
-
-			this.com.printResults();
-		} else {
-			this.com.setResults("", null);
-		}
+	public final void setResults(IResultsCom result) {
+		apiLogger.entering("Api", "setResults", result);
+		this.com.setResults(this.currentService, result);
+		this.com.printResults();
 		apiLogger.exiting("Api", "setResults");
 	}
 
