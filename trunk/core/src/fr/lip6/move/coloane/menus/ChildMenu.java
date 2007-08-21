@@ -1,19 +1,22 @@
 package fr.lip6.move.coloane.menus;
 
-import java.util.Iterator;
+public class ChildMenu extends Menu {
 
-
-public class ChildMenu extends Menu implements Iterable<ChildMenu> {
-
+	/**
+	 * Constructeur
+	 * @param name Le nom du sous-menu
+	 * @param reference Le nom de la reference
+	 * @param level Le niveau de ce sous-menu
+	 */
 	public ChildMenu(String name, String reference, int level) {
 		super(name, reference, level);
 	}
 
-	public final Iterator<ChildMenu> iterator() {
-		return this.getChildren().iterator();
-	}
-
+	/**
+	 * Le menu est-il une feuille (ie Pas de sous-menu)
+	 * @return booleen
+	 */
 	public final boolean isLeaf() {
-		return getChildrenNumber() == 0;
+		return getChildren().size() == 0;
 	}
 }
