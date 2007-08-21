@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+Checkstyle-Configuration: Coloane
+Description:
+Checkstyle for Coloane project
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="EmptyBlock"/>
+        <module name="NeedBraces"/>
+        <module name="IllegalImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="Indentation">
+            <property name="basicOffset" value="8"/>
+            <property name="caseIndent" value="8"/>
+        </module>
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="POST_DEC,POST_INC"/>
+        </module>
+        <module name="UnnecessaryParentheses"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="SimplifyBooleanReturn"/>
+    </module>
+</module>
