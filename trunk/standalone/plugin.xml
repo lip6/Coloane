@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run class="fr.lip6.move.coloane.standalone.Application"/>
+      </application>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="fr.lip6.move.coloane.standalone.application"
+            name="Coloane">
+         <property
+               name="aboutText"
+               value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane"/>
+         <property
+               name="aboutImage"
+               value="/fr.lip6.move.coloane/resources/icons/icone_ile.gif"/>
+         <property
+               name="startupForegroundColor"
+               value="000000"/>
+         <property
+               name="startupProgressRect"
+               value="0,0,0,0"/>
+         <property
+               name="startupMessageRect"
+               value="0,0,0,0"/>
+      </product>
+   </extension>
+
+</plugin>
