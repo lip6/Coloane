@@ -230,7 +230,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>http://izanami/~emasliah/checkstyle.xml</configLocation>
+					<configLocation>http://izanami/coloane/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
