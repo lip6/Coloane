@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.communications;
 
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.communications.objects.Results;
+//import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComMotor;
@@ -215,8 +215,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 			// Transformation des menus
 			root = new RootMenu(rootMenuCom.getRootMenuName());
 
-			for (int j = 0; j < rootMenuCom.getListMenu().size(); j++) {
-				IMenuCom menuCom = rootMenuCom.getListMenu().get(j);
+			for (IMenuCom menuCom : rootMenuCom.getListMenu()) {
 				root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
 			}
 
@@ -277,8 +276,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			// Transformation des resultats
-			Results results = new Results(resultsCom);
-			this.ui.setResults(serviceName, results);
+			this.ui.setResults(serviceName, resultsCom);
 		} else {
 			this.ui.setResults(serviceName, null);
 			this.ui.printResults();
