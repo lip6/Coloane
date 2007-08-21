@@ -114,7 +114,7 @@ public class TestModelArc extends TestCase {
 
 			}
 		} catch (ModelException e) {
-			System.out.println(e.toString());
+			return;
 		}
 
 	}
@@ -185,7 +185,7 @@ public class TestModelArc extends TestCase {
 					break;
 			}
 		} catch (ModelException e) {
-			System.out.println(e.toString());
+			return;
 		}
 	}
 
@@ -292,19 +292,12 @@ public class TestModelArc extends TestCase {
 						assertTrue(model.getAnArc(idArc) != null);
 						assertTrue(node1.getListOfOutputArc().contains(arc));
 						assertTrue(node2.getListOfInputArc().contains(arc));
-					} else {
-						System.out.println("ListOfNode vide - tour:" + tour
-								+ "\n");
 					}
 				} else {
-					// Action non autorisee
-					System.out.println("Ajout incorrect - tour :" + tour);
 					switchArcNull(arc);
 					if (!(model.getListOfNodeSize() == 0)) {
 						idArc = arc.getId();
 						assertTrue(model.getAnArc(idArc) == null);
-					} else {
-						System.out.println("ListOfNode vide - tour:" + tour + "\n");
 					}
 				}
 			}

@@ -64,7 +64,6 @@ public class TestModelID extends TestCase {
 					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
 					assertEquals(idArc, model.getMaxId());
 
-					System.out.println("Ajout de l'arc " + arc.getId() + " et des noeuds " + idNode1 + " et " + idNode2 + "\n");
 					break;
 
 					// Ajout d'un noeud source relie a un noeud deja existant
@@ -146,7 +145,7 @@ public class TestModelID extends TestCase {
 					break;
 			}
 		} catch (ModelException e) {
-			System.out.println(e.toString());
+			return;
 		}
 
 	}
@@ -220,7 +219,7 @@ public class TestModelID extends TestCase {
 
 			}
 		} catch (ModelException e) {
-			System.out.println(e.toString());
+			return;
 		}
 	}
 
@@ -231,7 +230,6 @@ public class TestModelID extends TestCase {
 		while (tour <= MAXLOOP) {
 			actionAlea = (int) (Math.random() * 2);
 			IArc arc = new Arc("Arc");
-			System.out.println("Tour:" + tour);
 
 			if ((tour % 8) == 0) {
 				int ind = 0;
@@ -239,7 +237,6 @@ public class TestModelID extends TestCase {
 
 				while (i < NBREMOVE) {
 					if (model.getListOfArcSize() == 0) {
-						System.out.println("Aucun Arc a retirer\n");
 						break;
 					}
 
@@ -248,7 +245,6 @@ public class TestModelID extends TestCase {
 					if (!(arc == null)) {
 
 						idArc = arc.getId();
-						System.out.println("arc_id to remove=" + idArc + "\n");
 						INode node1 = arc.getStartingNode();
 						INode node2 = arc.getEndingNode();
 						idNode1 = node1.getId();
@@ -318,7 +314,6 @@ public class TestModelID extends TestCase {
 				} else {
 					// Ajout autorise
 					if (actionAlea == 0) {
-						System.out.println("Cas : Ajout autorise");
 						switchArcOK(arc);
 						if (!(model.getListOfNodeSize() == 0)) {
 
@@ -334,24 +329,18 @@ public class TestModelID extends TestCase {
 							// System.out.println("ADD
 							// tour:"+tour+"\narc_id:"+id_arc+"\nid_node1:"+id_node1+"
 							// id_node2:"+id_node2+"\nMaxId:"+model.getMaxId()+"\n");
-						} else {
-							System.out.println("ListOfNode vide: l'ajout d'un arc ne peut s'effectuer\n");
 						}
 					} else {
 						// Action non autorisee
-						System.out.println("Cas : Ajout non conforme");
 						switchArcNull(arc);
 						if (!(model.getListOfNodeSize() == 0)) {
 							idArc = arc.getId();
 							assertTrue(model.getAnArc(idArc) == null);
-						} else {
-							System.out.println("ListOfNode vide\n");
 						}
 					}
 				}
 			}
 			tour++;
 		}
-		System.out.println("FIN DES TESTS!");
 	}
 }

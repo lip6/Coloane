@@ -3,17 +3,9 @@ package fr.lip6.move.coloane.model;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
-import java.lang.reflect.Array;
-
 import junit.framework.TestCase;
 
 public class TestModelPI extends TestCase {
-
-	public final void afficheTranslate(String[] t) {
-		for (int i = 0; i < Array.getLength(t); i++) {
-			System.out.println(t[i]);
-		}
-	}
 
 	public final void aleaAddPI(IArc arc, int x, int y) {
 
@@ -34,8 +26,6 @@ public class TestModelPI extends TestCase {
 				assertTrue(false);
 			} catch (ModelException e) {
 				assertTrue(true);
-				System.out.println(e.toString());
-
 			}
 
 		} else {
@@ -46,16 +36,12 @@ public class TestModelPI extends TestCase {
 				// On test alors la presence du PI
 				// (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
-					if (arc.getListOfPI().get(i).getXPosition() == x
-							&& arc.getListOfPI().get(i).getYPosition() == y) {
-
+					if (arc.getListOfPI().get(i).getXPosition() == x && arc.getListOfPI().get(i).getYPosition() == y) {
 						assertTrue(true);
 					}
 				}
 			} catch (ModelException e) {
-				System.out.println(e.toString());
 				assertTrue(false);
-
 			}
 		}
 	}
@@ -66,9 +52,7 @@ public class TestModelPI extends TestCase {
 
 		// On regarde si (x,y) existe pour l'arc
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
-			if (arc.getListOfPI().get(i).getXPosition() == x
-					&& arc.getListOfPI().get(i).getYPosition() == y) {
-
+			if (arc.getListOfPI().get(i).getXPosition() == x && arc.getListOfPI().get(i).getYPosition() == y) {
 				presence = true;
 			}
 		}
@@ -80,7 +64,6 @@ public class TestModelPI extends TestCase {
 				assertTrue(false);
 			} catch (ModelException e) {
 				assertTrue(true);
-				System.out.println(e.toString());
 			}
 
 		} else {
@@ -90,18 +73,13 @@ public class TestModelPI extends TestCase {
 
 				// On test alors la presence du PI (x,y)
 				for (int i = 0; i < arc.getListOfPI().size(); i++) {
-
-					if (arc.getListOfPI().get(i).getXPosition() == x
-							&& arc.getListOfPI().get(i).getYPosition() == y) {
-
+					if (arc.getListOfPI().get(i).getXPosition() == x && arc.getListOfPI().get(i).getYPosition() == y) {
 						//test echoue car (x,y) encore present!
 						assertFalse(true);
 					}
 				}
 			} catch (ModelException e) {
-				System.out.println(e.toString());
 				assertTrue(false);
-
 			}
 		}
 	}
