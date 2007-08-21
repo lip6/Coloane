@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.ui;
 
-import fr.lip6.move.coloane.communications.objects.Results;
+//import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
 import fr.lip6.move.coloane.exceptions.UnknowDialogException;
 import fr.lip6.move.coloane.interfaces.IComUi;
@@ -8,12 +8,14 @@ import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.IUiCom;
 import fr.lip6.move.coloane.interfaces.IUiMotor;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.results.ActionsList;
 import fr.lip6.move.coloane.results.Result;
 import fr.lip6.move.coloane.results.ResultsList;
+import fr.lip6.move.coloane.results.reports.FactoryReport;
 import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
@@ -33,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
 
 public final class UserInterface implements IUiCom, IUiMotor {
 
-	/** La fentre de travail */
+	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
 
 	/** Le module de communication */
@@ -147,7 +149,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * @param serviceName Le nom du service qui produit ses resultats
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
-	public void setResults(String serviceName, Results result) {
+	public void setResults(String serviceName, IResultsCom result) {
 		if (serviceResultList != null) {
 			String labelService;
 			ResultsList r = null;
@@ -161,113 +163,8 @@ public final class UserInterface implements IUiCom, IUiMotor {
 				r.add(new Result(object, description));
 			}
 
-			/*
-			 * SYNTAX CHECKER
-			 */
-			if (serviceName.equals("Petri net syntax checker")) {
-				labelService = "Syntax-Checker Results";
-				r = new ResultsList(labelService);
-
-				String description = null;
-
-				if (result.getHeadDescription().equals("List of unnamed places.")) {
-					description = "This place is unnamed";
-				} else if (result.getHeadDescription().equals("List of unnamed transitions.")) {
-					description = "This transition is unnamed";
-				} else {
-					description = result.getHeadDescription();
-				}
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					r.add(new Result(object, description));
-				}
-
-				/*
-				 * STRUCTURAL BOUNDS
-				 */
-			} else if (serviceName.equals("Compute structural bounds")) {
-
-				labelService = "Structural Bounds";
-				r = new ResultsList(labelService);
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					r.add(new Result(object, result.getHeadDescription()));
-				}
-
-				/*
-				 * STRUCTURAL SAFETY
-				 */
-			} else if (serviceName.equals("Is the net structuraly safe?")) {
-				labelService = "Structural safety";
-				r = new ResultsList(labelService);
-
-				if (result.getHeadDescription().equals("Here are unsafe places")) {
-
-					// Parcours de mes resultats
-					for (String object : result.getSublistOfDescription(1)) {
-						r.add(new fr.lip6.move.coloane.results.Result(object, ""));
-					}
-
-				} else if (result.getHeadDescription().equals("Your net is not safe")) {
-					String description = "Your net is not safe";
-					r.add(new fr.lip6.move.coloane.results.Result(description, "Reasons are given above"));
-				}
-
-				/*
-				 * STRUCTURAL BOUNDS
-				 */
-			} else if (serviceName.equals("Is the net structurally bounded?")) {
-				labelService = "Structural bounds";
-				r = new ResultsList(labelService);
-
-				r.add(new fr.lip6.move.coloane.results.Result(result.getHeadDescription(), ""));
-
-				/*
-				 * P INVARIANT
-				 */
-			} else if (serviceName.equals("P-invariants")) {
-				labelService = "P-invariants";
-				r = new ResultsList(labelService);
-
-				String liste = "";
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					liste = liste + object + ",";
-				}
-
-				// Suppression de la derniere virgule
-				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length() - 1);
-				}
-
-				r.add(new fr.lip6.move.coloane.results.Result(liste, result.getHeadDescription()));
-
-
-				/*
-				 * T INVARIANT
-				 */
-			} else if (serviceName.equals("T-invariants")) {
-				labelService = "T-invariants";
-				r = new ResultsList(labelService);
-
-				String liste = "";
-
-				// Parcours de mes resultats
-				for (String object : result.getListOfElement()) {
-					liste = liste + object + ",";
-				}
-
-				// Suppression de la derniere virgule
-				if (liste.length() > 1) {
-					liste = liste.substring(0, liste.length() - 1);
-				}
-
-				r.add(new fr.lip6.move.coloane.results.Result(liste, result.getHeadDescription()));
-			}
-
+			FactoryReport factory = new FactoryReport(result);
+			r = (factory.createReport()).getResultList();
 			serviceResultList.setResultsList(r);
 		}
 	}
