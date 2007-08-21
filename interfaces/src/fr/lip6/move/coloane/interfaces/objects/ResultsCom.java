@@ -5,7 +5,8 @@ import java.util.Vector;
 /**
  * Cette classe defini la listes des resultats renvoyes par la plate-forme a la
  * suite d'un appel de service. Ces resultats doivent etre envoyes a Coloane
- * pour etre affiches.
+ * pour etre affiches. En CAMI, toutes les commandes comprises entre DR et FR
+ * sont regroupees dans cet objet.
  */
 
 public class ResultsCom implements IResultsCom {
@@ -14,13 +15,13 @@ public class ResultsCom implements IResultsCom {
 	private String question;
 
 	/** Liste des commandes comprises entre DE et FE */
-	private Vector<SousResultsCom> subResults;
+	private Vector<SubResultsCom> subResults;
 
 	/**
 	 * Constructeur
 	 */
 	public ResultsCom() {
-		subResults = new Vector<SousResultsCom>();
+		subResults = new Vector<SubResultsCom>();
 		question = new String();
 	}
 
@@ -28,7 +29,7 @@ public class ResultsCom implements IResultsCom {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#addResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
 	 */
-	public final void addResultats(SousResultsCom sr) {
+	public final void addResultats(SubResultsCom sr) {
 		subResults.add(sr);
 	}
 
@@ -36,7 +37,7 @@ public class ResultsCom implements IResultsCom {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#removeResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
 	 */
-	public final void removeResultats(SousResultsCom sr) {
+	public final void removeResultats(SubResultsCom sr) {
 		subResults.remove(sr);
 	}
 
@@ -60,7 +61,7 @@ public class ResultsCom implements IResultsCom {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#getSubResults()
 	 */
-	public final Vector<SousResultsCom> getSubResults() {
+	public final Vector<SubResultsCom> getSubResults() {
 		return subResults;
 	}
 
