@@ -6,18 +6,13 @@ import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.UserInterface;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * This class takes a RootMenu and builds a graphic
- * menu for the Eclipse menubar, inserting it
- * just after the "Platform" menu.
- *
+ * This class takes a RootMenu and builds a graphic menu for the Eclipse menubar
  * @author Alexandre ORTIZ
- *
  */
 public class GraphicalMenu {
 	private RootMenu root;
@@ -25,9 +20,10 @@ public class GraphicalMenu {
 	private UserInterface ui;
 
 	/**
+	 * Constructeur
 	 * @param root
 	 * @param window The window repersenting the workbench.<br/>
-	 *  Can be obtained with PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+	 * Can be obtained with PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 	 */
 	public GraphicalMenu(RootMenu r, IWorkbenchWindow window, UserInterface userInterface) {
 		this.shell  = window.getShell();
@@ -44,37 +40,25 @@ public class GraphicalMenu {
 		/*
 		 * Before building anything, we have to verify that the menu does not already exits
 		 */
-		if (this.check()) {
+		if (this.alreadyExist()) {
 			this.remove();
 		}
 
 		/*
 		 * We recursively build the menu.
 		 */
-		for (ChildMenu aChild : root.getChildren()) {
-			if (aChild.isLeaf()) {
-				UIAction uiAction = new UIAction(ui, root.getName(), aChild.getReference(), aChild.getName());
-				uiAction.setEnabled(aChild.getEnabled());
-
+		for (ChildMenu child : root.getChildren()) {
+			if (child.isLeaf()) {
+				UIAction uiAction = new UIAction(ui, root.getName(), child.getReference(), child.getName());
+				uiAction.setEnabled(child.isEnabled());
 				rootMenuManager.add(uiAction);
 			} else {
-				buildChildMenu(aChild, rootMenuManager);
+				buildChildMenu(child, rootMenuManager);
 			}
 		}
 
-		Menu menuBar = shell.getMenuBar();
-		MenuItem[] mi = menuBar.getItems();
-
-		/*
-		 * We search the Platform menu's position to add this
-		 * menu just after it.
-		 */
-		for (int i = 0; i < mi.length; i++) {
-			if (mi[i].getText().contentEquals(Coloane.getParam("MENUBAR_LABEL"))) {
-				rootMenuManager.fill(mi[i].getMenu(), mi[i].getMenu().getItems().length);
-				break;
-			}
-		}
+		MenuItem coloane = locateColoaneMenu();
+		rootMenuManager.fill(coloane.getMenu(), coloane.getMenu().getItems().length);
 
 		return rootMenuManager;
 	}
@@ -84,7 +68,7 @@ public class GraphicalMenu {
 	 * @param child The child we want to add to the graphical menu
 	 * @param parentMenuManager The MenuManager on which we will add the child
 	 */
-	public final void buildChildMenu(ChildMenu child, MenuManager parentMenuManager) {
+	private void buildChildMenu(ChildMenu child, MenuManager parentMenuManager) {
 		MenuManager childMenuManager = new MenuManager(child.getName());
 		parentMenuManager.add(childMenuManager);
 
@@ -94,7 +78,7 @@ public class GraphicalMenu {
 			 */
 			if (littleChild.isLeaf()) {
 				UIAction exitAction = new UIAction(ui, root.getName(), littleChild.getReference(), littleChild.getName());
-				exitAction.setEnabled(littleChild.getEnabled());
+				exitAction.setEnabled(littleChild.isEnabled());
 				childMenuManager.add(exitAction);
 			} else {
 				buildChildMenu(littleChild, childMenuManager);
@@ -103,17 +87,29 @@ public class GraphicalMenu {
 	}
 
 	/**
+	 * Find the Coloane service menu in the menubar
+	 * @return an handle on the menu
+	 */
+	private MenuItem locateColoaneMenu() {
+		for (MenuItem mi : shell.getMenuBar().getItems()) {
+			if (mi.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) {
+				return mi;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Removes a menu from the menubar.
 	 */
 	public final void remove() {
-		for (MenuItem mi : shell.getMenuBar().getItems()) {
-			if (mi.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) {
-				for (MenuItem mi1 : mi.getMenu().getItems()) {
-					if (mi1.getText().equals(root.getName())) {
-						mi1.dispose();
-						return;
-					}
-				}
+		MenuItem coloane = locateColoaneMenu();
+		if (coloane == null) { return; }
+
+		for (MenuItem mi : coloane.getMenu().getItems()) {
+			if (mi.getText().equals(root.getName())) {
+				mi.dispose();
+				return;
 			}
 		}
 	}
@@ -121,17 +117,15 @@ public class GraphicalMenu {
 	/**
 	 * Check wether a menu is already in the menu bar
 	 */
-	private boolean check() {
-		for (MenuItem mi : shell.getMenuBar().getItems()) {
-			if (mi.getText().equals("Coloane Services")) {
-				for (MenuItem mi1 : mi.getMenu().getItems()) {
-					if (mi1.getText().equals(root.getName())) {
-						return true;
-					}
-				}
+	private boolean alreadyExist() {
+		MenuItem coloane = locateColoaneMenu();
+		if (coloane == null) { return false; }
+
+		for (MenuItem mi : coloane.getMenu().getItems()) {
+			if (mi.getText().equals(root.getName())) {
+				return true;
 			}
 		}
-
 		return false;
 	}
 
