@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.model.tests;
+package fr.lip6.move.coloane.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;

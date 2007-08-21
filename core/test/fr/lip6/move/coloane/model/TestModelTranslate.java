@@ -1,13 +1,9 @@
-package fr.lip6.move.coloane.model.tests;
+package fr.lip6.move.coloane.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.model.Arc;
-import fr.lip6.move.coloane.model.Attribute;
-import fr.lip6.move.coloane.model.Model;
-import fr.lip6.move.coloane.model.Node;
 
 import java.io.BufferedReader;
 import java.io.File;
