@@ -82,7 +82,7 @@ public interface IComApi {
 	 * La plate-forme peut envoye un certain nombre de messages purement indicatif :
 	 * (erreur, warnings etc...) a afficher sur le client.
 	 * @param type Le type du message
-	 * @param text Le message en lui-même
+	 * @param text Le message en lui-meme
 	 * @param specialType Un indicateur de messages speciaux fournis par la plate-forme
 	 */
 	void setUiMessage(int type, String text, int specialType);
