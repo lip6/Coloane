@@ -24,17 +24,17 @@ public interface IResultsCom {
 	 * Ajoute une liste de sous resultats DE et FE dans la liste des sous_resulats
 	 * @param sr la commande à ajouter
 	 */
-	void addResultats(SousResultsCom sr);
+	void addResultats(SubResultsCom sr);
 
 	/**
 	 * Enleve un element de la liste des sous resultats
 	 * @param sr la commande à enlever
 	 */
-	void removeResultats(SousResultsCom sr);
+	void removeResultats(SubResultsCom sr);
 
 	/**
 	 * Accede au sous resultat compris entre DE et FE
 	 * @return Vector<SousResultsCom> la liste de sous resultats compris entre DE et FE
 	 */
-	Vector<SousResultsCom> getSubResults();
+	Vector<SubResultsCom> getSubResults();
 }
