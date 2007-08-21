@@ -197,11 +197,6 @@ public class TestModel extends TestCase {
 					idArc = arc.getId();
 					assertTrue(model.getListOfId().contains(Integer.valueOf(idArc)));
 					assertEquals(idArc, model.getMaxId());
-
-					System.out.println("Ajout de l'arc " + arc.getId()
-							+ " relie aux noeuds "
-							+ arc.getStartingNode().getId() + " et "
-							+ arc.getEndingNode().getId() + " du modele\n");
 					break;
 
 				default:
@@ -313,13 +308,6 @@ public class TestModel extends TestCase {
 		}
 	}
 
-	/** Affiche le contenu du tableau t * */
-	public final void afficheTranslate(String[] t) {
-		for (int i = 0; i < Array.getLength(t); i++) {
-			System.out.println(t[i]);
-		}
-	}
-
 	/**
 	 * Verifie si toutes les valeurs du tableau t1 sont dans le tableau t2 et
 	 * inversement *
@@ -332,8 +320,6 @@ public class TestModel extends TestCase {
 				for (int j = 0; j < Array.getLength(t2); j++) {
 					tmp = tmp || t1[i].equals(t2[j]);
 				}
-				// ligne a decommenter afin de connaitre les lignes differentes
-				// if(!tmp){System.out.println("Erreur Translate: ligne "+i);}
 				b = b && tmp;
 				tmp = false;
 			}
@@ -370,23 +356,18 @@ public class TestModel extends TestCase {
 			actionAlea = (int) (Math.random() * 2);
 			IArc arc = new Arc("Arc");
 
-			System.out.println("Tour:" + tour);
-
 			// Tour de test pour buildModel/translate
 			if ((tour % 10) == 0) {
 
 				translate = model.translate();
-				afficheTranslate(translate);
 
 				cami = new Vector<String>();
 				for (int i = 0; i < Array.getLength(translate); i++) {
 					cami.addElement(translate[i]);
 				}
-				System.out.println("\nBuildModel");
 				try {
 					Model modelOut = new Model(cami);
 					newBuild = modelOut.translate();
-					afficheTranslate(newBuild);
 
 					assertTrue(compareTab(translate, newBuild));
 
@@ -426,7 +407,7 @@ public class TestModel extends TestCase {
 					}
 
 				} catch (Exception e) {
-					System.out.println(e.toString());
+					return;
 				}
 			} else {
 
@@ -441,7 +422,6 @@ public class TestModel extends TestCase {
 						translate = model.translate();
 
 						if (model.getListOfArcSize() == 0) {
-							System.out.println("Aucun Arc a retirer\n");
 							break;
 						}
 
@@ -481,9 +461,6 @@ public class TestModel extends TestCase {
 
 							newBuild = model.translate();
 
-							// affiche_translate(translate);
-							// System.out.println("\nTranslate erronne");
-							// affiche_translate(new_build);
 							assertFalse(compareTab(newBuild, translate));
 						}
 					}
@@ -535,8 +512,6 @@ public class TestModel extends TestCase {
 							assertTrue(model.getAnArc(aId) == null);
 							assertFalse(n.getListOfOutputArc().contains(a));
 						}
-						System.out.println("Retrait de noeud\nid_node:"
-								+ idNode + "\n");
 
 						// Ajout d'un PI a un arc
 						if (model.getListOfArcSize() != 0) {
@@ -551,7 +526,6 @@ public class TestModel extends TestCase {
 						// Ajout autorise
 						if (actionAlea == 0) {
 
-							System.out.println("Cas : Ajout autorise");
 
 							switchArcOK(arc);
 
@@ -582,14 +556,11 @@ public class TestModel extends TestCase {
 
 									pi.aleaRemovePI(model.getNthArc(nthArc), x, y);
 								}
-							} else {
-								System.out.println("ListOfNode vide: l'ajout d'un arc ne peut s'effectuer\n");
 							}
 
 						} else {
 
 							// Action non autorisee
-							System.out.println("Cas : Ajout non conforme");
 
 							switchArcNull(arc);
 
@@ -617,8 +588,6 @@ public class TestModel extends TestCase {
 									assertTrue(false);
 
 								} catch (ModelException e) {
-									System.out.println(e.toString());
-									// sinon
 									assertTrue(true);
 								}
 
@@ -651,13 +620,10 @@ public class TestModel extends TestCase {
 									assertTrue(false);
 
 								} catch (ModelException e) {
-									System.out.println(e.toString());
 									// sinon
 									assertTrue(true);
 								}
 
-							} else {
-								System.out.println("ListOfNode vide\n");
 							}
 
 						}
@@ -666,6 +632,5 @@ public class TestModel extends TestCase {
 			}
 			tour++;
 		}
-		System.out.println("FIN DES TESTS!");
 	}
 }
