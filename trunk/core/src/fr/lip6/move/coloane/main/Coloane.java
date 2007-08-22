@@ -55,18 +55,18 @@ public class Coloane extends AbstractUIPlugin {
 			String bundleLocation = getBundle().getLocation();
 			// Pour supprimer le update "@"
 			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@")+1);
-			System.out.println(traduction.getString("main.Coloane.1"));
+			System.out.println(translate.getString("main.Coloane.1"));
 			if (bundleLocation.endsWith(".jar")) {	
 				JarFile coreJar = new JarFile(bundleLocation);
 				Manifest mf = coreJar.getManifest();
 				Attributes atts = mf.getMainAttributes();
 				// Version
-				System.out.println(traduction.getString("main.Coloane.2") + atts.getValue("Implementation-Version"));
+				System.out.println(translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version"));
 				// Build
-				System.out.println(traduction.getString("main.Coloane.3") + atts.getValue("Implementation-Build"));
+				System.out.println(translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build"));
 			} else {
 				//Developpement
-				System.out.println(traduction.getString("main.Coloane.4"));
+				System.out.println(translate.getString("main.Coloane.4"));
 			}
 
 			// Initialisation de l'interface graphique
