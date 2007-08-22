@@ -134,7 +134,7 @@
 		</snapshotRepository>
 		<site>
       <id>Izanami-scp-report</id>
-      <url>scp://izanami/home/emasliah/public_html/report</url>
+			<url>scp://izanami/home/ftp/coloane/report</url>
     </site>
 	</distributionManagement>
 
