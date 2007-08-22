@@ -54,7 +54,7 @@ public class Coloane extends AbstractUIPlugin {
 			// Pour afficher la version et le numero de build 
 			String bundleLocation = getBundle().getLocation();
 			// Pour supprimer le update "@"
-			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@")+1);
+			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1);
 			System.out.println(translate.getString("main.Coloane.1"));
 			if (bundleLocation.endsWith(".jar")) {	
 				JarFile coreJar = new JarFile(bundleLocation);
