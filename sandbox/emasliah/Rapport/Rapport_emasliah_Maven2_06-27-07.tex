@@ -27,11 +27,11 @@ Voici l'architecture du projet sur le disque :\\
 \\
 fr.lip6.move.coloane
 \begin{itemize}
-  \item pom.xml
   \item branches
   \item tags
   \item trunk
   \begin{itemize}
+    \item pom.xml
     \item apicami
       \begin{itemize}
         \item pom.xml
@@ -64,14 +64,14 @@ Pour l'instant, prend toujours la valeur 4.0.0
 Permet de donner un nom unique à chaque partie d'un projet.\\
 groupID represente souvent le package general du projet.\\
 \textit{Ex : fr.lip6.move.coloane}\\
-artifactId represente quand à lui le nom du projet meme meme nom que le dossier du projet.\\
+artifactId represente quand à lui le nom du projet, meme nom que le dossier du projet.\\
 \textit{Ex : core, apicami et interfaces}
 
 \subsection{packaging}
 Permet de choisir le format de sortie.\\
 Jar pour avoir un jar.\\
 \textit{Ex : C'est le cas pour core, apicami et interfaces}
-Pom pour ne rien avoir (cela sert surtout pour le super pom dont je parlerais plus loin).\\
+Pom quand il n'y a pas de sources à compiller (cela sert surtout pour le super pom dont je parlerais plus loin).\\
 \textit{Ex : C'est le cas fr.lip6.move.coloane}
 
 \subsection{build}
@@ -89,9 +89,8 @@ Les modules seront traités dans l'ordre où ils sont écrit.\\
 </modules>
 \end{verbatim}
 
-
 \subsection{parent}
-Permet de définir le super projet(grace a son groupId et son artifactId) dont hérite un projet.
+Permet de définir le super pom (grace a son groupId et son artifactId) dont hérite un projet.
 
 \subsection{dependencies}
 Les autres projets dont dépendent le projet.
@@ -106,10 +105,11 @@ Les pom des sous projets d'un projet herite de tout le pom du projet mais peuven
 Les plugins de Maven ont tous différents paramétres, ces derniers sont trouvables sur le site de Maven ou en utilisant la commande mvn help:describe -Dfull -Dplugin=\textit{nom du plugin}.
 
 \subsection{configuration}
-Permet de passer les paramétres au plugin
+Permet de passer les paramétres au plugin.
 
 \subsection{goal}
-Permet de dire quand le plugin dois s'exécuter dans le Lifecycle
+Permet de dire quand le plugin dois s'exécuter dans le Lifecycle.\\
+\textit{Ex : validate, package}
 
 \section{Lifecycle}
 Maven marche par cycle de vie, c'est a dire qu'il prend une phase comme parametre et accomplis des buts pour réaliser cette phase.
@@ -119,7 +119,7 @@ Quelques phases utilent :
 \begin{itemize}
 \item compile : permet de compiler le projet
 \item package : permet de packager le projet
-\item install : permet d'installer le projet dans son repository
+\item install : permet d'installer le projet dans son repository local
 \item deploy : permet d'installer le projet dans un repository distant
 \item clean : permet de supprimer tout ce que Maven a créé
 \item site : permet de créer le site du projet
