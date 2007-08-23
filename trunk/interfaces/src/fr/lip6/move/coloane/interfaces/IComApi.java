@@ -105,4 +105,11 @@ public interface IComApi {
 	 * Destruction de toutes les sessions du cote Coloane
 	 */
 	void closeAllSessions();
+
+	/**
+	 * Permet la modification des menus de Coloane permettant l'authentification
+	 * @param authentication Est-ce que l'authentification est OK ?
+	 * @param session Est-ce que une session est ouverte ?
+	 */
+	void platformState(boolean authentication, boolean session);
 }
