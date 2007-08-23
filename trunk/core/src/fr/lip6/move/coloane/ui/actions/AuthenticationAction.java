@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.ui.actions;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
 import fr.lip6.move.coloane.ui.dialogs.AuthenticationDialog;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 import org.eclipse.jface.action.IAction;
@@ -21,13 +22,9 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public final void run(IAction action) {
-		/*
-		 * If we don't call this method here, the view is not
-		 * initialized and HistoryView.instance
-		 * is null (and it is bad).
-		 */
 
 		try {
+			// If we don't call this method here, the view is not initialized and HistoryView.instance is null (and it is bad).
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(), "Error during view initialization", "The Historic view cannot be opened");
@@ -41,19 +38,17 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		if (authDialog.open() == Dialog.OK) {
 			HistoryView.getInstance().addLine("OK");
 			action.setEnabled(false);
-			MenuManipulation.setEnabled("Platform", "Connect model", true);
-			MenuManipulation.setEnabled("Platform", "Disconnect model", true);
+			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true));
+			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
 		} else {
 			HistoryView.getInstance().addLine("KO");
 		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-
 	}
 
 	public final void dispose() {
-		// TODO Auto-generated method stub
 		return;
 	}
 }
