@@ -12,7 +12,7 @@
 	<artifactId>fragments</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Fragments</name>
+	<name>Coloane Fragments</name>
 	<description>Fragments pour Coloane</description>
 	
 	<scm>
