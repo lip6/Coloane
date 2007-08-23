@@ -54,7 +54,6 @@
                tooltip="%CONNECT_TIP">
          </action>
          <action
-               allowLabelUpdate="true"
                class="fr.lip6.move.coloane.ui.actions.AuthenticationAction"
                icon="resources/icons/auth.gif"
                id="authentication"
