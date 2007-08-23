@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.ui;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
@@ -225,7 +226,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0};
 		manager.setZoomLevels(zoomLevels);
 
-		// On ajoute certains zooms prŽdŽfinis
+		// On ajoute certains zooms prï¿½dï¿½finis
 		zoomContributions = new ArrayList<String>();
 		zoomContributions.add(ZoomManager.FIT_ALL);
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
@@ -318,7 +319,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			Coloane.showErrorMsg(Coloane.getTranslate().getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			Coloane.showErrorMsg(Translate.getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 

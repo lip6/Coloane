@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.actions;
 
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.XmlEditor;
@@ -30,7 +31,7 @@ import org.eclipse.ui.ide.IDE;
 
 public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 
-	/** Fen�tre de travail */
+	/** Fenetre de travail */
 	private IWorkbenchWindow window;
 
 	/** ID  pour le cas d'un nouveau model */
@@ -55,7 +56,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		if (ACT_EXPORT.equalsIgnoreCase(action.getId())) {
 
 			if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
-				Coloane.showErrorMsg(Coloane.getTranslate().getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
+				Coloane.showErrorMsg(Translate.getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
 				return;
 			}
 
@@ -65,7 +66,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 			// On demande la sauvegarde a l'utilisateur
 			if (editor.isDirty()) {
-				Coloane.showWarningMsg(Coloane.getTranslate().getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
+				Coloane.showWarningMsg(Translate.getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
 				return;
 			}
 

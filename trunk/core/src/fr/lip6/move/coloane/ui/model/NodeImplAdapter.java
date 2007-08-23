@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.model.Node;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
@@ -184,7 +184,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			this.node.addInputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null, arcAdapter);
 		} else {
-			throw new BuildException(Coloane.getTranslate().getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
+			throw new BuildException(Translate.getString("ui.model.NodeImplAdapter.0")); //$NON-NLS-1$
 		}
 	}
 
@@ -198,7 +198,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			this.node.addOutputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null, arcAdapter);
 		} else {
-			throw new BuildException(Coloane.getTranslate().getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
+			throw new BuildException(Translate.getString("ui.model.NodeImplAdapter.1")); //$NON-NLS-1$
 		}
 	}
 

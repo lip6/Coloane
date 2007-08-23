@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
 import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
@@ -97,9 +98,9 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		// Connexion a la plateforme
 		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (retour) {
-			System.out.println(Coloane.getTranslate().getString("communications.Com.7")); //$NON-NLS-1$
+			System.out.println(Translate.getString("communications.Com.7")); //$NON-NLS-1$
 		} else {
-			System.err.println(Coloane.getTranslate().getString("communications.Com.8")); //$NON-NLS-1$
+			System.err.println(Translate.getString("communications.Com.8")); //$NON-NLS-1$
 		}
 		return retour;
 	}
@@ -116,15 +117,15 @@ public final class Com implements IComUi, IComApi, IComMotor {
 			return false;
 		}
 
-		System.out.println(Coloane.getTranslate().getString("communications.Com.9")); //$NON-NLS-1$
+		System.out.println(Translate.getString("communications.Com.9")); //$NON-NLS-1$
 
 		// Recuperation du nom de la session courante
 		String sessionName = motor.getSessionManager().getCurrentSession().getName();
-		System.out.println(Coloane.getTranslate().getString("communications.Com.10") + sessionName); //$NON-NLS-1$
+		System.out.println(Translate.getString("communications.Com.10") + sessionName); //$NON-NLS-1$
 
 		// Recuperation du nom du formalime de la session courante
 		String formalismName = model.getFormalism().getName();
-		System.out.println(Coloane.getTranslate().getString("communications.Com.11") + formalismName); //$NON-NLS-1$
+		System.out.println(Translate.getString("communications.Com.11") + formalismName); //$NON-NLS-1$
 
 		// Demande de l'ouverture de session a l'API
 		Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
@@ -133,7 +134,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 			System.out.println("Connexion reussie !"); //$NON-NLS-1$
 			return true;
 		} else {
-			System.err.println(Coloane.getTranslate().getString("communications.Com.13")); //$NON-NLS-1$
+			System.err.println(Translate.getString("communications.Com.13")); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -145,6 +146,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @throws Exception exception
 	 */
 	public boolean closeSession() {
+
 		if (motor.getSessionManager().getCurrentSession() == null) {
 			return false;
 		}
@@ -166,10 +168,10 @@ public final class Com implements IComUi, IComApi, IComMotor {
 				this.ui.removeMenu(menuAdminName.getName());
 			}
 
-			System.out.println(Coloane.getTranslate().getString("communications.Com.15")); //$NON-NLS-1$
+			System.out.println(Translate.getString("communications.Com.15")); //$NON-NLS-1$
 			return true;
 		} else {
-			System.err.println(Coloane.getTranslate().getString("communications.Com.16")); //$NON-NLS-1$
+			System.err.println(Translate.getString("communications.Com.16")); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -224,7 +226,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 				}
 			});
 		} catch (Exception e) {
-			System.err.println(Coloane.getTranslate().getString("communications.Com.18")); //$NON-NLS-1$
+			System.err.println(Translate.getString("communications.Com.18")); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 
@@ -277,7 +279,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void getDialogAnswers(IDialogResult results) {
 		if (!this.api.getDialogAnswers((IDialogResult) results)) {
-			System.err.println(Coloane.getTranslate().getString("communications.Com.19")); //$NON-NLS-1$
+			System.err.println(Translate.getString("communications.Com.19")); //$NON-NLS-1$
 		}
 	}
 

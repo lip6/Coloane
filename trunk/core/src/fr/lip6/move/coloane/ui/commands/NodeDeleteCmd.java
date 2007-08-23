@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -38,7 +38,7 @@ public class NodeDeleteCmd extends Command {
 		this.node = n;
 
 		// Indication de l'evenement
-		setLabel(Coloane.getTranslate().getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
+		setLabel(Translate.getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
 	}
 
 	/**

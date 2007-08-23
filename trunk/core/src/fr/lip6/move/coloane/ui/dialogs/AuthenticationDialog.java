@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.ui.dialogs;
 import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.exceptions.GuiAuthenticationException;
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -61,24 +62,24 @@ public class AuthenticationDialog extends Dialog {
 	public static final String MSG_TITLE = "Authentication";
 
 	/** Login non valide et/ou erreur de mot de passe */
-	private static final String MSG_AUTH_ERROR = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.5"); //$NON-NLS-1$
+	private static final String MSG_AUTH_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.5"); //$NON-NLS-1$
 
 	/** Champs login vide */
-	private static final String MSG_LOGIN_ERROR = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.6"); //$NON-NLS-1$
+	private static final String MSG_LOGIN_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.6"); //$NON-NLS-1$
 
 	/** Champs login vide */
-	private static final String MSG_PASS_ERROR = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.7"); //$NON-NLS-1$
+	private static final String MSG_PASS_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.7"); //$NON-NLS-1$
 
 	/** General Error */
-	private static final String MSG_GNRL_ERROR = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.8"); //$NON-NLS-1$
+	private static final String MSG_GNRL_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.8"); //$NON-NLS-1$
 
 	/** Id du bouton Details */
 	private static final int DETAILS_ID = IDialogConstants.CLIENT_ID;
 
 	/** Label du bouton detail */
-	private static final String SHOW_DETAILS_LABEL = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.13"); //$NON-NLS-1$
+	private static final String SHOW_DETAILS_LABEL = Translate.getString("ui.dialogs.AuthenticationDialog.13"); //$NON-NLS-1$
 
-	private static final String HIDE_DETAILS_LABEL = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.14"); //$NON-NLS-1$
+	private static final String HIDE_DETAILS_LABEL = Translate.getString("ui.dialogs.AuthenticationDialog.14"); //$NON-NLS-1$
 
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibility = true;
@@ -125,21 +126,21 @@ public class AuthenticationDialog extends Dialog {
 		compo.setLayoutData(gridData);
 
 		// LOGIN
-		new Label(compo, SWT.NULL).setText(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.9")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.9")); //$NON-NLS-1$
 		login = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
 
 		// PASSWORD
-		new Label(compo, SWT.NULL).setText(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.10")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.10")); //$NON-NLS-1$
 		password = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD | SWT.LEFT);
 		tag(password, PASSWORD_TAG);
 		password.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		password.setTextLimit(TXT_LIMIT);
 
 		// LISTE DES SERVEURS
-		new Label(compo, SWT.NULL).setText(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.12")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.12")); //$NON-NLS-1$
 
 		// Recuperation des valeurs dans le fichier LNG et les inserer dans la combo
 		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS"));
@@ -149,8 +150,8 @@ public class AuthenticationDialog extends Dialog {
 			serversList[i] = Coloane.getParam("NAME" + (i + 1));
 			i++;
 		}
-		serversList[i] = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.1");
-		serversList[i + 1] = Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.2");
+		serversList[i] = Translate.getString("ui.dialogs.AuthenticationDialog.1");
+		serversList[i + 1] = Translate.getString("ui.dialogs.AuthenticationDialog.2");
 
 		comboServer = new Combo(compo, SWT.NULL);
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -170,7 +171,7 @@ public class AuthenticationDialog extends Dialog {
 						port = Coloane.getParam("PORT" + (i + 1));
 						setFrameKitPort(port);
 
-					} else if (comboServer.getText().equals(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.1"))) {
+					} else if (comboServer.getText().equals(Translate.getString("ui.dialogs.AuthenticationDialog.1"))) {
 						ip = InetAddress.getByName("localhost").getHostAddress();
 						setFrameKitIp(ip);
 						port = String.valueOf(Coloane.getParam("PORT_DEFAUT"));
@@ -182,14 +183,14 @@ public class AuthenticationDialog extends Dialog {
 						changeVisibility();
 					}
 				} catch (IOException ef) {
-					System.out.println(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.11"));
+					System.out.println(Translate.getString("ui.dialogs.AuthenticationDialog.11"));
 				}
 			}
 		});
 
 		// Invisible a la creation de la boite
 		framekitIpLabel = new Label(compo, SWT.NULL);
-		framekitIpLabel.setText(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.3"));
+		framekitIpLabel.setText(Translate.getString("ui.dialogs.AuthenticationDialog.3"));
 		framekitIpLabel.setVisible(false);
 		framekitIp = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -197,7 +198,7 @@ public class AuthenticationDialog extends Dialog {
 		framekitIp.setVisible(false);
 
 		framekitPortLabel = new Label(compo, SWT.NULL);
-		framekitPortLabel.setText(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.4")); //$NON-NLS-1$);
+		framekitPortLabel.setText(Translate.getString("ui.dialogs.AuthenticationDialog.4")); //$NON-NLS-1$);
 		framekitPortLabel.setVisible(false);
 		framekitPort = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -235,7 +236,7 @@ public class AuthenticationDialog extends Dialog {
 				Coloane.showErrorMsg(MSG_AUTH_ERROR);
 			}
 		} catch (GuiAuthenticationException erreur) {
-			Coloane.showErrorMsg(Coloane.getTranslate().getString("ui.dialogs.AuthenticationDialog.15") + erreur.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(Translate.getString("ui.dialogs.AuthenticationDialog.15") + erreur.getMessage()); //$NON-NLS-1$
 		} catch (Exception e) {
 			Coloane.showErrorMsg(MSG_GNRL_ERROR + ": " + e.getMessage()); //$NON-NLS-1$
 		}
