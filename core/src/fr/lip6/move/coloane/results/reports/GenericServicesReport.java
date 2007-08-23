@@ -1,7 +1,6 @@
 /**
  * Cette Classe permet de definir un report
  * pour le Syntax Checker
- * 
  */
 package fr.lip6.move.coloane.results.reports;
 
