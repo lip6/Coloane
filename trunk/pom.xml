@@ -78,6 +78,17 @@
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>dcheng</id>
+			<name>David Cheng</name>
+			<email>David.Cheng@src.lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 
 	<!-- Pour les notifications -->
