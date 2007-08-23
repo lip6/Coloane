@@ -18,8 +18,7 @@ public class MenuManipulation {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
 		/*
-		 * When we found it, we just verify recursively every child
-		 * until we find the Choosen One.
+		 * When we found it, we just verify recursively every child until we find the Choosen One.
 		 */
 		for (MenuItem item : shell.getMenuBar().getItems()) {
 			if (item.getText().equals("Coloane Services")) {
