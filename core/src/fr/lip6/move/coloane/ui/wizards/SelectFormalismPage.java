@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.wizards;
 
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class SelectFormalismPage extends WizardPage {
 	 */
 	public SelectFormalismPage() {
 		super("newmodel"); //$NON-NLS-1$
-		setTitle(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
-		setDescription(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
+		setTitle(Translate.getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
+		setDescription(Translate.getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class SelectFormalismPage extends WizardPage {
 
 		// La boite de selection
 		label = new Label(composite, SWT.NONE);
-		label.setText(Coloane.getTranslate().getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
+		label.setText(Translate.getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
 
 		tableFormalism = new Table(composite, SWT.SINGLE | SWT.BORDER);
 		tableFormalism.setLayoutData(gridData);

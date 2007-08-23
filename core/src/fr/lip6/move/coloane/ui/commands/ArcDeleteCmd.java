@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
 import org.eclipse.gef.commands.Command;
@@ -20,7 +20,7 @@ public class ArcDeleteCmd extends Command {
 	 * @param toDelete arc a effacer
 	 */
 	public ArcDeleteCmd(IArcImpl toDelete) {
-		setLabel(Coloane.getTranslate().getString("ui.commands.ArcDeleteCmd.0")); //$NON-NLS-1$
+		setLabel(Translate.getString("ui.commands.ArcDeleteCmd.0")); //$NON-NLS-1$
 		this.arc = toDelete;
 	}
 

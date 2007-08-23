@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.ui.panels;
 
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -107,8 +107,8 @@ public class HistoryView extends ViewPart {
 						.canDoOperation(ITextOperationTarget.COPY);
 			}
 		};
-		copyAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
-		copyAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
+		copyAction.setText(Translate.getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
+		copyAction.setToolTipText(Translate.getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
 		copyAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_TOOL_COPY));
@@ -120,8 +120,8 @@ public class HistoryView extends ViewPart {
 						.doOperation(ITextOperationTarget.SELECT_ALL);
 			}
 		};
-		selectAllAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
-		selectAllAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
+		selectAllAction.setText(Translate.getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
+		selectAllAction.setToolTipText(Translate.getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
 		selectAllAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages().getImageDescriptor(
 						ISharedImages.IMG_OBJ_FILE));
@@ -130,8 +130,8 @@ public class HistoryView extends ViewPart {
 			public void run() {
 			}
 		};
-		findAction.setText(Coloane.getTranslate().getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
-		findAction.setToolTipText(Coloane.getTranslate().getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
+		findAction.setText(Translate.getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
+		findAction.setToolTipText(Translate.getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
 	}
 
 	/**

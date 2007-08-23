@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.utils.CamiParser;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 
 import java.io.File;
 import java.util.Arrays;
@@ -103,7 +103,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 				INode nodeEnd = getANode(Integer.parseInt(to));
 
 				if (nodeBegin == null || nodeEnd == null) {
-					throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.9")); //$NON-NLS-1$
+					throw new SyntaxErrorException(Translate.getString("model.Model.9")); //$NON-NLS-1$
 				}
 
 				// Creation de l'arc
@@ -147,7 +147,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 				}
 
 				// Sinon on retourne une erreur
-				throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.14")); //$NON-NLS-1$
+				throw new SyntaxErrorException(Translate.getString("model.Model.14")); //$NON-NLS-1$
 			}
 
 			// Creation d'une ligne dans un attribut multi-ligne
@@ -250,7 +250,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 					if (node != null) {
 						node.setPosition(Integer.parseInt(x), Integer.parseInt(y));
 					} else {
-						throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.42"));
+						throw new SyntaxErrorException(Translate.getString("model.Model.42"));
 					}
 				}
 			}
@@ -324,7 +324,7 @@ public class Model extends fr.lip6.move.coloane.interfaces.model.Model {
 					continue;
 				}
 
-				throw new SyntaxErrorException(Coloane.getTranslate().getString("model.Model.41")); //$NON-NLS-1$
+				throw new SyntaxErrorException(Translate.getString("model.Model.41")); //$NON-NLS-1$
 			}
 		}
 	}

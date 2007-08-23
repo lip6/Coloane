@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.motor.formalism.defs.PetriNets;
 import fr.lip6.move.coloane.motor.formalism.defs.PrefixNets;
@@ -95,16 +95,16 @@ public class FormalismManager {
 
 		// On verifie qu'un formalisme existe bien pour cette extension
 		if (formalism == null) {
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.192")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.192")); //$NON-NLS-1$
 		}
 
 		IModel genericModel = null;
 		try {
 			genericModel = new Model(new File(fileName));
 		} catch (SyntaxErrorException e) {
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
 		} catch (ModelException e) {
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
 		}
 
 		// On indique au modele l'identifiant maximal
@@ -124,13 +124,13 @@ public class FormalismManager {
 	public final void exportModel(IModelImpl modelAdapter, String fileName) throws ColoaneException {
 
 		if (fileName.equalsIgnoreCase("") || fileName == null) { //$NON-NLS-1$
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.195")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.195")); //$NON-NLS-1$
 		}
 
 		// Extention du formalism
 		String ext = modelAdapter.getFormalism().getExtension();
 		if (ext == null) {
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.formalism.FormalismManager.196")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.196")); //$NON-NLS-1$
 		}
 		// Creation du fichier
 		FileOutputStream wr;

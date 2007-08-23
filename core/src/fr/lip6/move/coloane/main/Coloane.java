@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
-import java.util.ResourceBundle;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.jar.JarFile;
@@ -21,7 +20,6 @@ import org.osgi.framework.BundleContext;
 
 public class Coloane extends AbstractUIPlugin {
 
-	private static ResourceBundle translate = null;
 	private static Coloane plugin;
 	private Com com = null;
 	private Motor motor = null;
@@ -29,11 +27,6 @@ public class Coloane extends AbstractUIPlugin {
 
 	public Coloane() {
 		plugin = this;
-		try {
-			translate = ResourceBundle.getBundle("resources/LNG");
-		} catch (Exception e) {
-			System.err.println("Localization files missing : " + e.getMessage());
-		}
 	}
 
 	/**
@@ -49,42 +42,42 @@ public class Coloane extends AbstractUIPlugin {
 		try {
 
 			//System.out.println(traduction.getString("main.Coloane.0"));
-			System.out.println("-- Initialisation du plugin Coloane --");
+			System.out.println("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 
 			// Pour afficher la version et le numero de build 
 			String bundleLocation = getBundle().getLocation();
 			// Pour supprimer le update "@"
-			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1);
-			System.out.println(translate.getString("main.Coloane.1"));
-			if (bundleLocation.endsWith(".jar")) {	
+			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1); //$NON-NLS-1$
+			System.out.println(Translate.getString("main.Coloane.1")); //$NON-NLS-1$
+			if (bundleLocation.endsWith(".jar")) {	 //$NON-NLS-1$
 				JarFile coreJar = new JarFile(bundleLocation);
 				Manifest mf = coreJar.getManifest();
 				Attributes atts = mf.getMainAttributes();
 				// Version
-				System.out.println(translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version"));
+				System.out.println(Translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version")); //$NON-NLS-1$ //$NON-NLS-2$
 				// Build
-				System.out.println(translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build"));
+				System.out.println(Translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build")); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				//Developpement
-				System.out.println(translate.getString("main.Coloane.4"));
+				System.out.println(Translate.getString("main.Coloane.4")); //$NON-NLS-1$
 			}
 
 			// Initialisation de l'interface graphique
 			ui = UserInterface.getInstance();
 			if (ui == null) {
-				System.err.println("Erreur lors du chargement de l'interface utilisateur");
+				System.err.println("Erreur lors du chargement de l'interface utilisateur"); //$NON-NLS-1$
 			}
 
 			// Initialisation du moteur
 			motor = Motor.getInstance();
 			if (motor == null) {
-				System.err.println("Erreur lors du chargement du module moteur");
+				System.err.println("Erreur lors du chargement du module moteur"); //$NON-NLS-1$
 			}
 
 			// Initialisation du module de communications
 			com = Com.getInstance();
 			if (com == null) {
-				System.err.println("Erreur lors du chargement du module de communications");
+				System.err.println("Erreur lors du chargement du module de communications"); //$NON-NLS-1$
 			}
 
 			// Creation des liens
@@ -97,7 +90,7 @@ public class Coloane extends AbstractUIPlugin {
 			ui.setMotor(motor);
 
 		} catch (Exception e) {
-			System.err.println("Erreur : " + e.getMessage());
+			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 	}
@@ -119,14 +112,6 @@ public class Coloane extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Retourne le module de traduction
-	 * @return ResourceBundle
-	 */
-	public static ResourceBundle getTranslate() {
-		return translate;
-	}
-
-	/**
 	 * Le methode de fin de vie du plugin
 	 * @param context Parametre systeme fourni par Eclipse
 	 */
@@ -134,7 +119,6 @@ public class Coloane extends AbstractUIPlugin {
 	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugin = null;
-		translate = null;
 	}
 
 	/**
@@ -154,7 +138,7 @@ public class Coloane extends AbstractUIPlugin {
 		if (model != null) {
 			int dateUpdate = model.modifyDate();
 			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession() != null)) {
-				System.out.println("OK pour l'update");
+				System.out.println("OK pour l'update"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
 			}
 		}
@@ -165,7 +149,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
-		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg);
+		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
 	}
 
 	/**
@@ -173,7 +157,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg);
+		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
 	}
 
 	/**

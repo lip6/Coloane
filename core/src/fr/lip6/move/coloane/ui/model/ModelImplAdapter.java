@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
@@ -123,7 +123,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				arc.setModelAdapter(this);
 				this.addArc(arc);
 			} else {
-				throw new Exception(Coloane.getTranslate().getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
+				throw new Exception(Translate.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
 			}
 		}
 	}
@@ -187,7 +187,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.genericModel.addNode(child.getGenericNode());
 			} catch (ModelException e) {
-				throw new BuildException(Coloane.getTranslate().getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
+				throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
@@ -196,7 +196,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
-			throw new BuildException(Coloane.getTranslate().getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
+			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
 		}
 	}
 
@@ -230,7 +230,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Demande la mise a jour de l'affichage
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
-			throw new BuildException(Coloane.getTranslate().getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
+			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
 		}
 	}
 
@@ -243,7 +243,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Ajout de l'arc au modele generique
 			this.genericModel.addArc(child.getGenericArc());
 		} catch (ModelException e) {
-			throw new BuildException(Coloane.getTranslate().getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
+			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
 		}
 
 		// Connexion

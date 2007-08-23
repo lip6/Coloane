@@ -5,7 +5,7 @@ import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.motor.session.SessionManager;
@@ -70,7 +70,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	public boolean openSession(IModelImpl model, String eclipseSessionName) throws ColoaneException {
 		// Verification de l'existence du module de communications
 		if (com == null) {
-			throw new ColoaneException(Coloane.getTranslate().getString("motor.Motor.0")); //$NON-NLS-1$
+			throw new ColoaneException(Translate.getString("motor.Motor.0")); //$NON-NLS-1$
 		}
 
 		// On doit controller si une session ne se nomme deja pas pareil

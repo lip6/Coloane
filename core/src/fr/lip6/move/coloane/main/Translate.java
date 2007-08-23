@@ -1,0 +1,22 @@
+package fr.lip6.move.coloane.main;
+
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+public class Translate {
+	private static final String BUNDLE_NAME = "resources/lng/lng"; //$NON-NLS-1$
+
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+			.getBundle(BUNDLE_NAME);
+
+	private Translate() {
+	}
+
+	public static String getString(String key) {
+		try {
+			return RESOURCE_BUNDLE.getString(key);
+		} catch (MissingResourceException e) {
+			return '!' + key + '!';
+		}
+	}
+}
