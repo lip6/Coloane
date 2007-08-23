@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
@@ -243,6 +244,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		// Fin de la construction
 		model.setEndBuilding();
+
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false));
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
 	}
 
 	/**
