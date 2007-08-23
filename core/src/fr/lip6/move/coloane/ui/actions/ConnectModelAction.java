@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.ui.actions;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.MainPerspectiveFactory;
-import fr.lip6.move.coloane.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 import org.eclipse.core.resources.IFile;
@@ -24,12 +24,9 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public final void run(IAction action) {
-		/*
-		 * If we don't call this method here, the view is not
-		 * initialized and HistoryView.instance
-		 * is null (and it is bad).
-		 */
+
 		try {
+			// If we don't call this method here, the view is not initialized and HistoryView.instance is null (and it is bad).
 			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(),
@@ -37,7 +34,6 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 					Coloane.getTranslate().getString("ui.actions.ConnectModelAction.1")); //$NON-NLS-1$
 		}
 
-		System.out.println(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.2")); //$NON-NLS-1$
 		HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.3")); //$NON-NLS-1$
 
 		if (window.getActivePage().getActiveEditor() == null) {
@@ -65,12 +61,10 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 					System.out.println("Nom de session : " + eclipseSessionName); //$NON-NLS-1$
 
 					if (Coloane.getDefault().getMotor().openSession(editor.getModel(), eclipseSessionName)) {
-						// TODO : Griser les menues adequats
 						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.14")); //$NON-NLS-1$
-						MenuManipulation.setEnabled("Platform", "Connect model", false); //$NON-NLS-1$ //$NON-NLS-2$
-						MenuManipulation.setEnabled("Platform", "Disconnect model", true); //$NON-NLS-1$ //$NON-NLS-2$
+						Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false));
+						Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true));
 					} else {
-						// TODO : Griser les menus adequats
 						HistoryView.getInstance().addLine(Coloane.getTranslate().getString("ui.actions.ConnectModelAction.15")); //$NON-NLS-1$
 					}
 
@@ -85,11 +79,9 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-
 	}
 
 	public final void dispose() {
-		// TODO Auto-generated method stub
 		return;
 	}
 
