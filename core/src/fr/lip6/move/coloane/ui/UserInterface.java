@@ -143,7 +143,6 @@ public final class UserInterface implements IUiCom, IUiMotor {
 		MenuManipulation.setEnabled(rootName, rootName, status);
 	}
 
-
 	/**
 	 * Affichage des resultats d'un appel de service
 	 * @param serviceName Le nom du service qui produit ses resultats

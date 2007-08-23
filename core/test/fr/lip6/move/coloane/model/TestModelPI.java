@@ -83,21 +83,19 @@ public class TestModelPI extends TestCase {
 			}
 		}
 	}
-	
+
 	/** Test les 2 methodes ci-dessus **/
-	public final void testPI(){
-		
+	public final void testPI() {
+
 		IArc arc = new Arc("arc");
-		
+
 		aleaAddPI(arc, 10, 10);
 		aleaAddPI(arc, 10, 20);
 		aleaAddPI(arc, 10, 10);
-		
+
 		aleaRemovePI(arc, 10, 10);
 		aleaRemovePI(arc, 10, 20);
 		aleaRemovePI(arc, 10, 10);
-		
-		
 	}
 
 }
