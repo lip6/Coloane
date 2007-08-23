@@ -18,6 +18,7 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
+import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.Vector;
@@ -54,7 +55,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @see #getInstance()
 	 */
 	private Com() {
-		this.api = new Api(this, IApi.DEBUG);
+		this.api = Api.getInstance(this);
 		this.parent = (Composite) Coloane.getParent();
 	}
 
@@ -94,7 +95,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean authentication(String login, String pass, String ip, int port) {
 		// Connexion a la plateforme
-		boolean retour = this.api.openConnexion(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (retour) {
 			System.out.println(Coloane.getTranslate().getString("communications.Com.7")); //$NON-NLS-1$
 		} else {
@@ -144,8 +145,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @throws Exception exception
 	 */
 	public boolean closeSession() {
-		System.out.println(Coloane.getTranslate().getString("communications.Com.14")); //$NON-NLS-1$
-
 		if (motor.getSessionManager().getCurrentSession() == null) {
 			return false;
 		}
@@ -180,7 +179,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Cette deconnexion est provoquee par un KO ou un FC
 	 */
 	public void closeAllSessions() {
-		System.out.println(Coloane.getTranslate().getString("communications.Com.17")); //$NON-NLS-1$
 		motor.getSessionManager().destroyAllSessions();
 	}
 
@@ -244,6 +242,22 @@ public final class Com implements IComUi, IComApi, IComMotor {
 				ui.updateMenu(updates);
 			}
 		});
+	}
+
+	/**
+	 * Modifie l'etat d'un item du menu Platform
+	 * @param menuItem Le nom de l'item a modifier
+	 * @param newState Le nouvel etat pour l'item
+	 */
+	public void platformState(boolean authentication, boolean session) {
+		if (authentication && !session) {
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true));
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
+		} else if (!authentication) {
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true));
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false));
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
+		}
 	}
 
 
