@@ -22,6 +22,7 @@
 	</scm>
 	
 	<build>
+		
 		<plugins>
 			<plugin>
 				<!-- Repetition du super pom car Continuum oublie qu'il faut le lire.. -->  
@@ -36,6 +37,18 @@
 				</configuration>	
 			</plugin>
 		</plugins>
+		
+		<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>resources/**</include>
+					<include>build.properties</include>
+					<include>plugin.xml</include>
+				</includes>
+			</resource>
+		</resources>
+		
 	</build>
-	
 </project>
