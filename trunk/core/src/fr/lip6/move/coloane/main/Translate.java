@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.main;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class Translate {
+public final class Translate {
 	private static final String BUNDLE_NAME = "resources/lng/lng"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle

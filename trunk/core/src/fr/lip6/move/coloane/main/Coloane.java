@@ -6,8 +6,8 @@ import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -44,7 +44,7 @@ public class Coloane extends AbstractUIPlugin {
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 
-			// Pour afficher la version et le numero de build 
+			// Pour afficher la version et le numero de build
 			String bundleLocation = getBundle().getLocation();
 			// Pour supprimer le update "@"
 			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1); //$NON-NLS-1$
