@@ -3,12 +3,12 @@ package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.exceptions.UnexpectedCamiCommand;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.objects.MenuCom;
-import fr.lip6.move.coloane.api.objects.RootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.DialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
+import fr.lip6.move.coloane.interfaces.objects.MenuCom;
+import fr.lip6.move.coloane.interfaces.objects.RootMenuCom;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -31,7 +31,7 @@ public final class CamiBuilder {
 	 * @see RootMenuCom
 	 */
 
-	public static IRootMenuCom buildMenu(Vector camiVec) throws UnexpectedCamiCommand {
+	public static IRootMenuCom buildMenu(Vector<Vector<String>> camiVec) throws UnexpectedCamiCommand {
 		Iterator it = camiVec.iterator();
 		Vector camiCmd = (Vector) it.next();
 
@@ -64,7 +64,7 @@ public final class CamiBuilder {
 				throw new UnexpectedCamiCommand("Le menu est vide (aucun element AQ)");
 			} else if (!camiCmd.get(0).equals("AQ")) {
 				Api.getLogger().warning("Le menu ne contient pas d'element AQ en premiere position");
-				throw new UnexpectedCamiCommand("Le menu ne contient pas d'element AQ en premiere position");
+				throw new UnexpectedCamiCommand("Le menu ne contient pas d'element AQ en premiere position (" + camiCmd.get(0) + " lu)");
 			}
 
 			// Analyse de la commande AQ

@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-public class Commande {
+public class FKCommand {
 
 	/**
 	 * Prepare la commande CAMI conformement aux requirements de FK :<br>
@@ -148,8 +148,6 @@ public class Commande {
 	public final byte[] createCmdSimple(String type) {
 		String command = new String(type + "()");
 		return fillZero(command);
-
-
 	}
 
 	/**
@@ -178,7 +176,7 @@ public class Commande {
 	 * @param commande commande recue
 	 * @return Vecteur des arguements recus
 	 */
-	public final Vector getArgs(String commande) {
+	public static Vector<String> getArgs(String commande) {
 		String cmdString = "";
 		Vector<String> liste = new Vector<String>();
 

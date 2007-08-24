@@ -37,9 +37,9 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return booleen Reussite de l'operation d'ouverture de session
 	 */
 	public final boolean openSession(String sessionName, int date, String sessionFormalism) {
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 
-		// Compisition de la commande OS
+		// Composition de la commande OS
 		byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
 
 		try {
@@ -70,7 +70,7 @@ public class FramekitThreadSpeaker extends Thread {
 	public final void execService(String rootMenuName, String menuName, String serviceName) {
 		Object[] param = {rootMenuName, menuName, serviceName};
 		Api.getLogger().entering("FrameKitThreadSpeaker", "execService", param);
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 		try {
 
 			// Si le modele a ete mis a jour depuis le dernier appel de service on doit envoyer un <MS>
@@ -108,7 +108,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 * Envoyer un modele vers la plate-forme
 	 */
 	public final void sendModel() {
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 
 		Vector<String> modelCami = this.api.getModel().translate();
 
@@ -134,7 +134,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public final boolean sendNewDate(int newDate) {
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 		byte[] commande = cmd.createCmdSimple("QQ");
 		try {
 			lowCom.writeCommande(commande);
@@ -151,7 +151,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public final boolean sendDialogueResponse(IDialogResult results) {
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 
 		try {
 			// Message DP
@@ -210,7 +210,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 */
 	public final boolean sendSuspend() {
 		byte[] commande;
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 		commande = cmd.createCmdSimple("SS");
 		try {
 			lowCom.writeCommande(commande);
@@ -227,7 +227,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 */
 	public final void sendResume(String sName) {
 		byte[] commande;
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 		commande = cmd.createCmdRS(sName);
 		try {
 			lowCom.writeCommande(commande);
@@ -241,7 +241,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 */
 	public final boolean sendClose() {
 		byte[] commande;
-		Commande cmd = new Commande();
+		FKCommand cmd = new FKCommand();
 		commande = cmd.createCmdFS(1);
 		try {
 			lowCom.writeCommande(commande);

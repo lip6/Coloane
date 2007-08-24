@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.api.utils;
 
+import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
+import fr.lip6.move.coloane.api.exceptions.UnexpectedCamiCommand;
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.objects.UpdateMenuCom;
 
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -12,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.ResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.UpdateMenuCom;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import java.util.Vector;
@@ -33,20 +35,8 @@ public class FramekitThreadListener extends Thread {
 	/** Liste des menus a mettre a jour */
 	private Vector<IUpdateMenuCom> menuUpdates;
 
-	/** Indicateur de fraicheur des mises a jour */
-	private boolean resetUpdates;
-
-	/** Indicateur de fraicheur des ats */
-	private boolean resetResults;
-
-	/** Indicateur de fraicheur du modele */
-	private boolean modelState;
-
 	/** Liste des dialogues */
-	private Vector<IDialogCom> dialogList;
-
-	/** Liste des resultats */
-	private Vector<IResultsCom> resultList;
+	private Vector<IDialogCom> dialogsList;
 
 	/**
 	 * Constructeur
@@ -54,145 +44,86 @@ public class FramekitThreadListener extends Thread {
 	 * @param lowCom point d'entree vers la com
 	 * @param verrou le verrou du speaker
 	 */
-	public FramekitThreadListener(Api a, ComLowLevel lc) {
-
-		this.api = a;
-		this.lowCom = lc;
+	public FramekitThreadListener(Api activeAPI, ComLowLevel com) {
+		this.api = activeAPI;
+		this.lowCom = com;
 		this.menuList = new Vector<IRootMenuCom>();
 		this.menuUpdates = new Vector<IUpdateMenuCom>();
-		this.dialogList = new Vector<IDialogCom>();
-		this.resultList = new Vector<IResultsCom>();
-		this.resetUpdates = false;
-		this.resetResults = false;
-		this.modelState = false;
+		this.dialogsList = new Vector<IDialogCom>();
 	}
 
 	/**
 	 * Le corps du thread
 	 */
 	public final void run() {
-		Api.getLogger().entering("FrameKitThreadListener", "run");
-		// Le menu en cours de construction
-		IRootMenuCom menu = null;
 
-		// Le dialogue en cours de construction
-		IDialogCom dialog = null;
+		/* Le menu en cours de construction */
+		Vector<Vector<String>> menu = null;
 
-		// Le resultat en cours de construction
-		IResultsCom result = null;
+		/* La boite de dialogue en cours de construction */
+		Vector<Vector<String>> dialog = null;
 
-		SubResultsCom sousResults = null;
+		/* Le modele en cours de construction */
+		Vector<String> model = null;
 
-		// La commande en cours de traitement
-		Commande cmd = new Commande();  // la commande recu
+		/* L'ensemble de resultats en cours de construction */
+		IResultsCom results = null;
 
-		// La liste des arguments d'une commande en cours de traitement */
-		Vector listeArgs;
-
-		// Les instructions CAMI recues decrivant un menu
-		Vector<Vector> currentMenu = null;
-
-		// Le modele recu
-		Vector<String> modelReceive = new Vector<String>();
-
-		// Indications concernant la description d'une boite de dialogue
-		Vector<Vector> vectorDialog = new Vector<Vector>();
+		/* Un sous resultat */
+		SubResultsCom subresult = null;
 
 		// Boucle d'ecoute
 		while (true) {
 
-			// En mode turboboost, plusieurs commande peuvent �tre fournies
-			Vector commandeRecue;
+			// En mode turboboost, plusieurs commande peuvent etre fournies
+			Vector<String> receivedCommands = null;
 
+			// Lecture des commandes sur le flux d'entree
 			try {
-				// Lecture des commandes sur le flux d'entree
-				commandeRecue = this.lowCom.readCommande();
+				receivedCommands = this.lowCom.readCommande();
+			} catch (CommunicationCloseException e) {
+				Api.getLogger().warning("Connexion Failed");
+				api.closeConnexion(1, "Disconnected from Framekit", 1);
+				return;
+			}
 
-				// Si on recoit un mesage fin de service
-				if (commandeRecue.elementAt(0).equals("EOS")) {
-					api.closeConnexion(1, "Disconnected from Framekit", 1);
-					Api.getLogger().warning("Connexion Closed");
-					break;
-				}
-
-				// En cas d'erreur, on se deconnecte de FrameKit
-			} catch (Exception e) {
-				api.closeConnexion(1, "Deconnexion de FrameKit", 1);
+			// Si on recoit un mesage fin de service
+			if (receivedCommands.elementAt(0).equals("EOS")) {
+				api.closeConnexion(1, "Disconnected from Framekit", 1);
+				Api.getLogger().warning("Connexion Closed");
 				break;
 			}
 
-
-
 			// Parcours de toutes les commandes recues
-			for (int numCommande = 0; numCommande < commandeRecue.size(); numCommande++) {
+			for (String cmd : receivedCommands) {
 
 				// Si la commande recue est vide : on passe a la suivante
-				if (((String) commandeRecue.elementAt(numCommande)).length() == 0) {
-					continue;
-				}
+				if (cmd.length() == 0) { continue; }
 
 				// Decoupage des arguments
-				listeArgs = cmd.getArgs((String) commandeRecue.elementAt(numCommande));
+				Vector<String> listeArgs = FKCommand.getArgs(cmd);
 
 				// Si la commande recue ne conteient aucun argument
-				if (listeArgs == null) {
-					continue;
-				}
+				if (listeArgs == null) { continue; }
 
 				// Message TQ
 				// Transmission d'un etat du service en cours de realisation
 				if (listeArgs.firstElement().equals("TQ")) {
 					int type = Integer.parseInt((String) listeArgs.elementAt(3));
-					//String message  = OB(String) listeArgs.elementAt(4);
 
 					switch(type) {
 
-					// Etat du service : inactif
-					case 1 :
-						//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-						break;
-
-
-						// Etat du service : actif
 					case 2 :
-						//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 						break;
 
-
-						// Etat du service : termine
 					case 3 :
-						//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
 						break;
-
-
-						// Etat du service : non documente!
-					case 5 :
-						//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-						break;
-
-
-						// Etat du service : termine de facon errone
-					case 6 :
-						//this.api.sendMessageUI(FramekitMessage.STATE, message, 1);
-						break;
-
 
 						// Modification de l'arbre des services : active
 					case 7 :
 						try {
-							if (resetUpdates) {
-								menuUpdates.removeAllElements();
-								resetUpdates = false;
-							}
 							String root = (String) listeArgs.get(1);
 							String toUpdate = (String) listeArgs.get(2);
-
-							// On essaye de recuperer l'indicateur du menu de syntaxe
-							// pour savoir si le modele est propre ou sale
-							if (toUpdate.equals("Petri net syntax checker")) {
-								this.modelState = true; // Le modele est sale
-							}
-
 							IUpdateMenuCom update = new UpdateMenuCom(root, toUpdate, true);
 							menuUpdates.add(update);
 						} catch (Exception e) {
@@ -204,19 +135,8 @@ public class FramekitThreadListener extends Thread {
 						// Modification de l'arbre des services : desactive
 					case 8 :
 						try {
-							if (resetUpdates) {
-								menuUpdates.removeAllElements();
-								resetUpdates = false;
-							}
 							String root = (String) listeArgs.get(1);
 							String toUpdate = (String) listeArgs.get(2);
-
-							// On essaye de recuperer l'indicateur du menu de syntaxe
-							// pour savoir si le modele est propre ou sale
-							if (toUpdate.equals("Petri net syntax checker")) {
-								this.modelState = false; // Le modele est propre
-							}
-
 							IUpdateMenuCom update = new UpdateMenuCom(root, toUpdate, false);
 							menuUpdates.add(update);
 						} catch (Exception e) {
@@ -230,86 +150,46 @@ public class FramekitThreadListener extends Thread {
 						Api.getLogger().warning("TQ = 9 => Deprecated");
 						break;
 
-
 					default :
-						Api.getLogger().warning("Commande inconnue" + type);
-					break;
+						Api.getLogger().warning("Commande TQ inconnue " + type);
 					}
-					continue;
-				}
-
-				// Message OS
-				// Ouverture d'une session
-				if (listeArgs.firstElement().equals("OS")) {
-					continue;
-				}
-
-				// Message TD
-				// TODO : Documenter ?
-				if (listeArgs.firstElement().equals("TD")) {
-					continue;
-				}
-
-				// Message FA
-				// TODO : Documenter ?
-				if (listeArgs.firstElement().equals("FA")) {
-					continue;
-				}
-
-				// Message TL
-				// TODO : Documenter ?
-				if (listeArgs.firstElement().equals("TL")) {
-					continue;
-				}
-
-
-				// Message VI
-				// TODO : Documenter
-				if (listeArgs.firstElement().equals("VI")) {
-					continue;
-				}
-
-				// Message FL
-				// TODO : Documenter
-				if (listeArgs.firstElement().equals("FL")) {
-					continue;
-				}
-
-				// Message DQ
-				// Debut de la transmission d'un arbre de services
-				if (listeArgs.firstElement().equals("DQ")) {
 					continue;
 				}
 
 				// Message CQ
 				// Creation du noeud racine de l'arbre des services
 				if (listeArgs.firstElement().equals("CQ")) {
-					currentMenu = new Vector<Vector>();
-					currentMenu.add(listeArgs);
+					menu = new Vector<Vector<String>>();
+					menu.add(listeArgs);
 					continue;
 				}
 
 				// Message AQ
 				// Ajout d'un service dans l'arbre des services
 				if (listeArgs.firstElement().equals("AQ")) {
-					currentMenu.add(listeArgs);
+					menu.add(listeArgs);
 					continue;
 				}
 
-				// Message HQ
-				// Aide associee a une entree du menu de services
-				if (listeArgs.firstElement().equals("HQ")) {
+				// Message FQ
+				// Fin de la transmission d'un menu de services
+				if (listeArgs.firstElement().equals("FQ")) {
+					try {
+						menuList.add(CamiBuilder.buildMenu(menu));
+					} catch (UnexpectedCamiCommand e) {
+						Api.getLogger().warning("Erreur lors de la construction du menu");
+					}
 					continue;
 				}
 
 				// Message VQ
-				// TODO : A verifier ? Affichage d'un menu ?
+				// Affichage d'un menu (premiere construction a l'aide de AQ)
 				if (listeArgs.firstElement().equals("VQ")) {
-					String toDraw = (String) listeArgs.elementAt(1);
+					String menuToDraw = (String) listeArgs.elementAt(1);
 
 					// On recupere le menu a afficher
 					for (IRootMenuCom rootMenu : menuList) {
-						if (rootMenu.getRootMenuName().equals(toDraw)) {
+						if (rootMenu.getRootMenuName().equals(menuToDraw)) {
 							api.drawMenu(rootMenu);
 							break;
 						}
@@ -317,82 +197,15 @@ public class FramekitThreadListener extends Thread {
 					continue;
 				}
 
-				// Message EQ
-				// Cacher un menu de services
-				if (listeArgs.firstElement().equals("EQ")) {
-					continue;
-				}
-
-				// Message SQ
-				// Desctruction d'un menu de services
-				if (listeArgs.firstElement().equals("SQ")) {
-					continue;
-				}
-
-				// Message FQ
-				// Fin de la transmission d'un menu de services
-				if (listeArgs.firstElement().equals("FQ")) {
-
-					// Construction du menu
-					try {
-						menu = CamiBuilder.buildMenu(currentMenu);
-						menuList.add(menu);
-					} catch (Exception e) {
-						Api.getLogger().warning("Erreur dans FQ = Impossible de construire le menu");
-					}
-				}
-
 				// Message QQ
 				// Le menu est mis a jour !
-				if ((listeArgs.firstElement().equals("QQ")) && ((listeArgs.elementAt(1).equals("2")) || (listeArgs.elementAt(1).equals("3")))) {
-
-					// Si la liste des menus est marquee comme invalide, on la vide nous meme
-					// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les menus
-					if (resetUpdates) {
-						menuUpdates.removeAllElements();
-						resetUpdates = false;
-					}
+				if (listeArgs.firstElement().equals("QQ")) {
 
 					// Mise a jour des menus
 					api.updateMenu(menuUpdates);
-					resetUpdates = true;
 
 					// Indique l'etat de fraicheur du modele
-					// Important au retour de la connexion par exemple
-					this.api.setModelDirty(this.modelState);
-
-					continue;
-				}
-
-				// Message FR
-				// Fin de la transmission d'une reponse a un service
-				if (listeArgs.firstElement().equals("FR")) {
-
-					// Si la liste des menus est marquee comme invalide, on la vide nous meme
-					// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les menus
-					if (resetUpdates) {
-						menuUpdates.removeAllElements();
-						resetUpdates = false;
-					}
-
-					// On recherche les menus qui ont ete mis a jour
-					api.updateMenu(menuUpdates);
-					resetUpdates = true;
-
-					// Le retour d'un service indique que le modele est a jour sur la plate-forme
-					this.api.setModelDirty(false);
-
-					// Si la liste des resultats est toujours marquee comme invalide...
-					// On la vide nous meme
-					// Ce code est utilisee dans le cas ou aucun changement n'a ete effectue sur les resultats
-					if (resetResults) {
-						resultList.removeAllElements();
-						resetResults = false;
-					}
-
-					// On envoie la liste des resultats
-					this.api.setResults(result);
-					resetResults = true;
+					 this.api.setModelDirty(true);
 
 					continue;
 				}
@@ -412,23 +225,15 @@ public class FramekitThreadListener extends Thread {
 					continue;
 				}
 
-				// Message TR
-				// TODO : A documenter
-				if (listeArgs.firstElement().equals("TR")) {
-					//this.api.sendMessageUI(FramekitMessage.TRACE, (String) listeArgs.elementAt(1), 1);
-					continue;
-				}
-
 				// Message WN
-				// TODO : A documenter
+				// Message de Warning
 				if (listeArgs.firstElement().equals("WN")) {
 					this.api.printHistory((String) listeArgs.elementAt(1));
 					continue;
 				}
 
-
 				// Message MO
-				// TODO : A documenter
+				// Message d'Information
 				if (listeArgs.firstElement().equals("MO")) {
 					this.api.printHistory((String) listeArgs.elementAt(2));
 					continue;
@@ -437,28 +242,43 @@ public class FramekitThreadListener extends Thread {
 				// Message DF
 				// Demande du contenu d'un modele
 				if (listeArgs.firstElement().equals("DF")) {
-					FramekitThreadSpeaker speaker = this.api.getCurrentSpeaker();
-					speaker.sendModel();
+					this.api.getCurrentSpeaker().sendModel();
 				}
 
 				// Message DR
 				// Debut de la transmission d'une reponse d'un outil
 				if (listeArgs.firstElement().equals("DR")) {
-					result = new ResultsCom();
+					results = new ResultsCom();
+					continue;
+				}
+
+				// Message FR
+				// Fin de la transmission d'une reponse a un service
+				if (listeArgs.firstElement().equals("FR")) {
+
+					// On recherche les menus qui ont ete mis a jour
+					api.updateMenu(menuUpdates);
+
+					// Le retour d'un service indique que le modele est a jour sur la plate-forme
+					this.api.setModelDirty(false);
+
+					// On envoie la liste des resultats
+					this.api.setResults(results);
+
 					continue;
 				}
 
 				// Message RQ
 				// Designation de la question a laquelle on repond
 				if (listeArgs.firstElement().equals("RQ")) {
-					result.setcmdRQ((String) listeArgs.elementAt(2));
+					results.setcmdRQ((String) listeArgs.elementAt(2));
 					continue;
 				}
 
 				// Message DE
 				// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane
 				if (listeArgs.firstElement().equals("DE")) {
-					sousResults = new SubResultsCom();
+					subresult = new SubResultsCom();
 					continue;
 				}
 
@@ -466,9 +286,7 @@ public class FramekitThreadListener extends Thread {
 				// Transmission d'un resultat textuel mono-ligne
 				if (listeArgs.firstElement().equals("RT")) {
 					if (!listeArgs.elementAt(1).equals("") && !listeArgs.elementAt(1).equals("0")) {
-						//result.addDescription((String) listeArgs.elementAt(1));
-						sousResults.addCmdRT((String) listeArgs.elementAt(1));
-						//result.addResultats(sousResults);
+						subresult.addCmdRT((String) listeArgs.elementAt(1));
 					}
 					continue;
 				}
@@ -476,70 +294,51 @@ public class FramekitThreadListener extends Thread {
 				// Message RO
 				// Designation d'un objet associe au resultat dans un ensemble
 				if (listeArgs.firstElement().equals("RO")) {
-					//result.addElement((String) listeArgs.elementAt(1));
-					sousResults.addCmdRO((String) listeArgs.elementAt(1));
-					//result.addResultats(sousResults);
+					subresult.addCmdRO((String) listeArgs.elementAt(1));
 					continue;
 				}
 
 				// Message ME
 				// Mise en evidence d'un obet Coloane
 				if (listeArgs.firstElement().equals("ME")) {
-					sousResults.addCmdME((String) listeArgs.elementAt(1));
-					//result.addResultats(sousResults);
+					subresult.addCmdME((String) listeArgs.elementAt(1));
 					continue;
 				}
 
 				// Message FE
 				// Fin d'ensemble de resultats ou d'objets transmis
 				if (listeArgs.firstElement().equals("FE")) {
-					result.addResultats(sousResults);
-					sousResults = null;
+					results.addResultats(subresult);
+					subresult = null;
 					continue;
 				}
 
-				// Message SS
-				// Suspension d'un session Coloane
-				if (listeArgs.firstElement().equals("SS")) {
-					continue;
-				}
-
-				// Message RS
-				// Reprise d'une session Coloane
-				if (listeArgs.firstElement().equals("RS")) {
-					continue;
-				}
-
-				// Message FS
-				// Fin d'une session Coloane
-				if (listeArgs.firstElement().equals("FS")) {
-					continue;
-				}
 
 				// Message DC
 				// Debut de transmission de la definition d'une boite de dialogue
 				if (listeArgs.firstElement().equals("DC")) {
-					vectorDialog = new Vector<Vector>();
-					vectorDialog.add(listeArgs);
+					dialog = new Vector<Vector<String>>();
+					dialog.add(listeArgs);
 				}
 
 				// Message CE
 				// Creation d'un dialogue
 				if (listeArgs.firstElement().equals("CE")) {
-					vectorDialog.add(listeArgs);
+					dialog.add(listeArgs);
 					continue;
 				}
 
 				// Message DS
 				// Suite de la construction d'une boite de dialogue
 				if (listeArgs.firstElement().equals("DS")) {
-					vectorDialog.add(listeArgs);
+					dialog.add(listeArgs);
 				}
 
 				// Message DB
 				// Debut de transmission d'un modele
 				if (listeArgs.firstElement().equals("DB")) {
-					modelReceive = new Vector<String>();
+					model = new Vector<String>();
+					continue;
 				}
 
 				// Messages CN CB CA CT CM PO PT PI
@@ -554,32 +353,31 @@ public class FramekitThreadListener extends Thread {
 						|| (listeArgs.firstElement()).equals("PT")
 						|| (listeArgs.firstElement()).equals("PI")) {
 
-					modelReceive.add((String) commandeRecue.get(numCommande));
+					model.add(cmd);
 				}
 
 				// Message FB
 				// Fin de la transmission d'un modele
 				if (listeArgs.firstElement().equals("FB")) {
-					IModel model;
+					IModel builtModel;
 					try {
-						model = new Model(modelReceive, new CamiTranslator());
+						builtModel = new Model(model, new CamiTranslator());
 					} catch (SyntaxErrorException e) {
 						e.printStackTrace();
 						return;
 					}
-					this.api.setNewModel(model);
+					this.api.setNewModel(builtModel);
 					continue;
 				}
 
 				// Message FF
 				// Fin de la transmission d'une boite de dialogue
 				if (listeArgs.firstElement().equals("FF")) {
-					vectorDialog.add(listeArgs);
+					dialog.add(listeArgs);
 
 					// Construction du menu
 					try {
-						dialog = CamiBuilder.buildDialog(vectorDialog);
-						dialogList.add(dialog);
+						dialogsList.add(CamiBuilder.buildDialog(dialog));
 					} catch (Exception e) {
 						Api.getLogger().warning("Erreur dans FF = Impossible de construire la boite de dialogue");
 					}
@@ -596,9 +394,9 @@ public class FramekitThreadListener extends Thread {
 
 					// Recherche de la boite de dialogue
 					boolean indic = false;
-					for (int index = 0; index < dialogList.size(); index++) {
-						if (identity == dialogList.get(index).getId()) {
-							api.drawDialog(dialogList.get(index));
+					for (IDialogCom d : dialogsList) {
+						if (identity == d.getId()) {
+							api.drawDialog(d);
 							indic = true;
 							break;
 						}
@@ -612,17 +410,6 @@ public class FramekitThreadListener extends Thread {
 					continue;
 				}
 
-				// Message HD
-				// Cacher une fen�tre de dialogue
-				if (listeArgs.firstElement().equals("HD")) {
-					continue;
-				}
-
-				// Message DG
-				// Destruction d'un dialogue
-				if (listeArgs.firstElement().equals("DG")) {
-					continue;
-				}
 			}
 		}
 	}
