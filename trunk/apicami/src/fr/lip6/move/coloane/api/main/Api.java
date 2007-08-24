@@ -1,16 +1,12 @@
 package fr.lip6.move.coloane.api.main;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
-import fr.lip6.move.coloane.api.exceptions.TraceLevelException;
-import fr.lip6.move.coloane.api.exceptions.WrongArgumentValueException;
-import fr.lip6.move.coloane.api.log.ApiFormatter;
-import fr.lip6.move.coloane.api.log.LogsUtils;
+import fr.lip6.move.coloane.api.log.ColoaneHandler;
 
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
 import fr.lip6.move.coloane.api.utils.Commande;
 import fr.lip6.move.coloane.api.utils.FramekitThreadListener;
 import fr.lip6.move.coloane.api.utils.FramekitThreadSpeaker;
-import fr.lip6.move.coloane.api.utils.Lock;
 
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
@@ -23,14 +19,10 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Vector;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-/** test **/
 /**
  * API de communication entre Coloane et FrameKit
  *
@@ -39,7 +31,7 @@ import java.util.logging.Logger;
  * dialogues entre ces deux entites sont effectues en CAMI
  */
 
-public class Api implements IApi {
+public final class Api implements IApi {
 
 	/** Indique si la connexion avec Framekit est ouverte ou non */
 	private boolean connexionOpened;
@@ -59,36 +51,36 @@ public class Api implements IApi {
 	/** Liste des threads speakers associes aux sessions ouvertes */
 	private HashMap<String, FramekitThreadSpeaker> listeThread;
 
-	/**
-	 * Thread listener permettant d'ecouter tous les messages provenant de
-	 * Framekit
-	 */
+	/** Thread listener permettant d'ecouter tous les messages provenant de Framekit */
 	private FramekitThreadListener listener;
-
-	/** Verrou de la threadListener */
-	private Lock verrou;
 
 	/** Module de communications */
 	private IComApi com;
 
 	/** Journalisation de la classe */
-	public static Logger apiLogger;
+	private static Logger apiLog;
 
-	/** Fichier d'enregistrements des logs de l'api au format simple */
-	private FileHandler f;
-
-	/** Ce champ fournissant les outils pour formater les messages d'affichage du logs*/
-	private LogsUtils logsutils;
-
-
+	/** Instance de la classe privee pour singleton */
+	private static Api instance;
 
 	/**
-	 * Constructeur
-	 * @param moduleCom le module de communication
-	 * @param level le niveau de trace
+	 * Retourne l'instance d'API qui convient.<br>
+	 * Evite les doublons !
+	 * @param moduleCom Le module Com en association avec l'API
+	 * @return L'API
 	 */
-	public Api(IComApi moduleCom, int level) {
-		//Le module de communication
+	public static synchronized Api getInstance(IComApi moduleCom) {
+		if (instance == null) { return new Api(moduleCom); }
+		return instance;
+	}
+
+	/**
+	 * Constructeur privee pour singleton<br>
+	 * Mise en place de la classe de communications bas niveau<br>
+	 * Ce constructeur se charge aussi de la mise en place du module de log
+	 * @param moduleCom le module de communication
+	 */
+	private Api(IComApi moduleCom) {
 		this.com = moduleCom;
 
 		// Les services rendus par la couche basse
@@ -96,49 +88,21 @@ public class Api implements IApi {
 
 		// Liste des threads ouverts pour la communication
 		this.listeThread = new HashMap<String, FramekitThreadSpeaker>();
-		this.verrou = new Lock();
 
 		// Liste d'indicateurs
 		this.connexionOpened = false; // Est-ce que je suis authentifie aupres de la plate-forme
 		this.sessionOpened = false;	  // Existe-t-il une session ouverte
 		this.currentSessionName = ""; // Le nom de la session courante;
 
-		//Lancement du logger
-		apiLogger = Logger.getLogger("fr.lip6.move.coloane.api.main.Api");
-		LogManager.getLogManager().reset();
-		logsutils = new LogsUtils();
-		switch (level) {
-			case DEBUG:
-				apiLogger.setLevel(Level.FINEST);
-				break;
+		// Initialisation du logger
+		this.initializeLogger();
 
-			case BETA:
-				apiLogger.setLevel(Level.FINE);
-				break;
-
-			case NORMAL:
-				apiLogger.setLevel(Level.INFO);
-				break;
-
-			default:
-				TraceLevelException tle = new TraceLevelException("Niveau de trace non defini");
-				apiLogger.throwing("Api", "Api", tle);
-				apiLogger.warning(tle.getMessage());
-		}
-		try {
-			f = new FileHandler("coloane_apicami.log");
-			f.setFormatter(new ApiFormatter());
-			apiLogger.addHandler(f);
-
-		} catch (IOException e) {
-			apiLogger.throwing("Api", "Api", e);
-			apiLogger.warning("Erreur d'ouverture du fichier" + logsutils.stackToString(e));
-		}
+		apiLog.config("Initialisation de l'API de communication CAMI");
+		apiLog.config("Initialisation du module de Log");
 	}
 
 	/**
 	 * Ouvre une connexion sur la plateforme FrameKit.
-	 *
 	 * @param login le login de l'utilisateur
 	 * @param password le mot de passe de l'utilisateur
 	 * @param ip ip de la machine hebergeant la plateforme FrameKit
@@ -147,152 +111,121 @@ public class Api implements IApi {
 	 * @param apiVersion La version de l'API
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
-	public final boolean openConnexion(String login, String password, String ip, int port, String apiName, String apiVersion) {
+	public boolean openConnection(String login, String password, String ip, int port, String apiName, String apiVersion) {
 		Object[] param = {login, password, ip, port, apiName, apiVersion};
-		apiLogger.entering("Api", "openConnexion", param);
+		apiLog.entering("Api", "openConnection", param);
 
 		// Si une connexion est deja ouverte, on refuse une nouvelle connexion
 		if (connexionOpened) {
-			apiLogger.exiting("Api", "openConnexion", false);
+			apiLog.warning("Une session est deja ouverte");
 			return false;
 		}
 
 		try {
-			apiLogger.finer("Debut connexion vers " + ip + ":" + port);
-			// System.out.println("Debut connexion vers " + ip + ":" + port);
+			apiLog.finer("Debut connexion vers " + ip + ":" + port);
+
+			// Creation de la socket de communications
 			comLowServices.createCom(ip, port);
 
-			apiLogger.finer("Dans la suite :");
-			apiLogger.finer("--> Vers FrameKit");
-			apiLogger.finer("<-- Vers Coloane");
+			apiLog.finer("Dans la suite :");
+			apiLog.finer("--> Vers FrameKit");
+			apiLog.finer("<-- Vers Coloane");
 
+			// Ecriture de la commande de demande de connexion et attente de la reponse
 			boolean rep = this.camiCmdConnection(login, password, apiName, apiVersion);
-			apiLogger.exiting("Api", "openConnexion", rep);
+			apiLog.exiting("Api", "openConnection", rep);
 			return rep;
 
 		} catch (CommunicationCloseException e) {
-			apiLogger.throwing("Api", "openConnexion", e);
-			apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
-			this.closeConnexion(1, "Connexion detruite par Framekit", 1);
-			apiLogger.exiting("Api", "openConnexion", false);
+			apiLog.throwing("Api", "openConnection", e);
+			apiLog.exiting("Api", "openConnection", false);
 			return false;
-		} catch (WrongArgumentValueException e) {
-			apiLogger.throwing("Api", "openConnexion", e);
-			apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
-			apiLogger.exiting("Api", "openConnexion", false);
-			return false;
-		} catch (Exception e) {
-			apiLogger.throwing("Api", "openConnexion", e);
-			// e.printStackTrace();
-			apiLogger.warning(e.getMessage() + logsutils.stackToString(e));
-			apiLogger.exiting("Api", "openConnexion", false);
+		} catch (IOException e) {
+			apiLog.throwing("Api", "openConnection", e);
+			apiLog.exiting("Api", "openConnection", false);
 			return false;
 		}
 	}
 
 	/**
 	 * Creation et envoi de la commande de connexion a Framekit (SC) compatible Framekit CPN-AMI 3.0
-	 *
 	 * @param login Le login de l'utilisateur
 	 * @param password Le mot de passe de l'utilisateur
 	 * @param apiName Le nom de l'API
 	 * @param apiVersion La version de l'API
 	 * @throws erreurs de connexion qui sont catchees par openConnexion
 	 */
-	private boolean camiCmdConnection(String login, String password, String apiName, String apiVersion) throws Exception {
-		Vector reponse;
-		Vector commandeRecue;
+	private boolean camiCmdConnection(String login, String password, String apiName, String apiVersion) throws CommunicationCloseException {
 		Object[] param = {login, password, apiName, apiVersion};
-		apiLogger.entering("Api", "camiCmdConnection", param);
+		apiLog.entering("Api", "camiCmdConnection", param);
+
 		try {
 			Commande cmd = new Commande();
-			apiLogger.finer("Construction de la commande CAMI");
-			// System.out.println("Construction de la commande CAMI...");
 
 			/* Premiere partie : Le login et le password */
-			// Construction de la commande CAMI sans toucher aux 4 premiers
-			// octets
+			// Construction de la commande CAMI sans toucher aux 4 premiers octets
 			byte[] send = cmd.createCmdSC(login, password);
+
+			// Envoi de la commande vers FK
 			comLowServices.writeCommande(send);
-			commandeRecue = comLowServices.readCommande();
-			reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
+
+			// Lecture de la reponse en provenance de FK
+			Vector commandeRecue = comLowServices.readCommande();
+			Vector reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
 
 			/* Si la reponse de FK differe de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
-				apiLogger.warning("Balise non attendue (attendue SC)"
-						+ (String) reponse.firstElement());
-				// System.err.println("Balise non attendue (attendue SC) :" +
-				// (String) reponse.firstElement());
-				apiLogger.exiting("Api", "camiCmdConnection", false);
+				apiLog.warning("Balise non attendue (attendue SC)" + (String) reponse.firstElement());
+				apiLog.exiting("Api", "camiCmdConnection", false);
 				return false;
 			}
 
-			/* Deuxieme partie les finerrmations sur l'API */
+			/* Deuxieme partie les informations sur l'API */
 			send = cmd.createCmdOC(apiName, apiVersion, login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
 			reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
 
 			if (!(reponse.firstElement().equals("OC"))) {
-				apiLogger.warning("Balise non attendue (attendue OC)"
-						+ (String) reponse.firstElement());
-				// System.err.println("Balise non attendue (attendue OC) :"+
-				// (String) reponse.firstElement());
-				apiLogger.exiting("Api", "camiCmdConnection", false);
+				apiLog.warning("Balise non attendue (attendue OC)" + (String) reponse.firstElement());
+				apiLog.exiting("Api", "camiCmdConnection", false);
 				return false;
 			} else {
-				// TODO : Affichage d'un message dans la console de
-				// l'utilisateur
 				this.connexionOpened = true;
-				apiLogger.exiting("Api", "camiCmdConnection", true);
+				apiLog.exiting("Api", "camiCmdConnection", true);
 				return true;
 			}
-		} catch (Exception e) {
-			apiLogger.throwing("Api", "camiCmdConnection", e);
-			apiLogger.warning("Erreur dans la connexion a Framekit:"
-					+ e.getMessage() + logsutils.stackToString(e));
-			// System.err.println("Erreur dans la connexion a FrameKit: " +
-			// e.getMessage());
+		} catch (CommunicationCloseException e) {
+			apiLog.throwing("Api", "camiCmdConnection", e);
 			throw e;
 		}
 	}
 
 	/**
 	 * Ouverture d'une session (une session est associee a un modele)
-	 *
 	 * @param sessionName est le nom du modele
 	 * @param date est la date de creation de la session
 	 * @param sessionFormalism est le nom du formalisme auquel est attache le modele
 	 * @return retourne TRUE si la session est ouverte et FALSE dans le cas contraire
 	 */
-	public final boolean openSession(String sessionName, int date,
-			String sessionFormalism) {
-		boolean result;
+	public  boolean openSession(String sessionName, int date, String sessionFormalism) {
 		Object[] param = {sessionName, date, sessionFormalism};
-		apiLogger.entering("Api", "openSession", param);
-		// Si aucune connexion n'est ouverte, l'ouverture de session doit etre
-		// impossible
+		apiLog.entering("Api", "openSession", param);
+		// Si aucune connexion n'est ouverte, l'ouverture de session doit etre impossible
 		if (!this.connexionOpened) {
-			apiLogger
-					.warning("Tentative d'ouverture de session sans ouverture de connexion");
-			// System.err.println("Tentative d'ouverture de session sans
-			// ouverture de connexion");
-			apiLogger.exiting("Api", "openSession", false);
+			apiLog.warning("Tentative d'ouverture de session sans ouverture de connexion");
+			apiLog.exiting("Api", "openSession", false);
 			return false;
 		}
 
-		// On lance le thread charge d'ecouter les commandes CAMI en provenance
-		// de FrameKit
+		// On lance le thread charge d'ecouter les commandes CAMI en provenance de FrameKit
 		if (listener == null) {
-			listener = new FramekitThreadListener(this, comLowServices,
-					this.verrou);
+			listener = new FramekitThreadListener(this, comLowServices);
 			listener.start();
 		}
 
-		// Creation du thread associe a la session qui enverra les commandes
-		// CAMI
-		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this,
-				comLowServices, verrou);
+		// Creation du thread associe a la session qui enverra les commandes CAMI
+		FramekitThreadSpeaker speak = new FramekitThreadSpeaker(this, comLowServices);
 		speak.start();
 
 		// On detecte si une session est deja ouverte
@@ -302,116 +235,86 @@ public class Api implements IApi {
 			}
 		}
 
-		// On envoie les commandes necessaires pour l'ouverture de session du
-		// cote FK
-		result = speak.openSession(sessionName, date, sessionFormalism);
-
-		// Si le resultat est OK on ajoute le thread speaker dans une table
-		// La session est ouverte
-		if (result) {
+		// Si la demande d'ouverture de session recoit une reponse positive :
+		// - On ajoute le thread speaker dans une table
+		// - La session est marquee comme ouverte
+		if (speak.openSession(sessionName, date, sessionFormalism)) {
 			listeThread.put(sessionName, speak);
 
 			// Mise a jour des indicateurs
 			this.sessionOpened = true;
 			this.currentSessionName = sessionName;
-			apiLogger.exiting("Api", "openSession", true);
+			apiLog.exiting("Api", "openSession", true);
 			return true;
 
-			// La session n'est pas ouverte
+		// Sinon
 		} else {
 			// Suppression du thread speaker utilise
 			speak = null;
-			apiLogger.exiting("Api", "openSession", false);
+			apiLog.exiting("Api", "openSession", false);
 			return false;
 		}
 	}
 
 	/**
-	 * Permet de fermer la connexion entre l'interface utilisateur et la
-	 * plate-forme La fermeture de la connexion implique la fermeture prealable
-	 * de toutes les sessions ATTENTION : La fermeture des sessions doit etre
-	 * faite avant. (C'est un prerequis
+	 * Permet de fermer la connexion entre l'interface utilisateur et la plate-forme.<br>
+	 * La fermeture de la connexion implique la fermeture prealable de toutes les sessions<br>
+	 * ATTENTION : La fermeture des sessions doit etre faite avant. (C'est un prerequis !)
 	 */
-	public final void closeConnexion() {
-		apiLogger.entering("Api", "closeConnexion");
+	public void closeConnexion() {
+		apiLog.entering("Api", "closeConnexion");
+
 		// Une connexion doit etre disponible
 		if (this.connexionOpened) {
 
+			// Fabrication de la commande FC
+			Commande cmd = new Commande();
+			byte[] send = cmd.createCmdFC();
+
 			try {
-				// Fabrication de la commande FC
-				Commande cmd = new Commande();
-				byte[] send = cmd.createCmdFC();
 				comLowServices.writeCommande(send);
-
-				// Fermeture des threads restants
-				if (!this.listeThread.isEmpty()) {
-
-					Iterator it = listeThread.values().iterator();
-
-					// On ferme toutes les threads liees aux modeles ouverts
-					while (it.hasNext()) {
-						@SuppressWarnings("unused")
-						FramekitThreadSpeaker speaker = (FramekitThreadSpeaker) it
-								.next();
-						speaker = null;
-					}
-					listeThread.clear();
-				}
-
-				// Mise a jour des indicateur
-				this.connexionOpened = false;
-				this.sessionOpened = false;
-
-				// Fermeture des socket de bas niveau
-				this.comLowServices.closeCom();
-
-				// Fermeture de la thread listener
-				listener = null;
-
-				System.out.flush();
-				System.err.flush();
-
-				this.currentSessionName = null;
-			} catch (Exception e) {
-				apiLogger.throwing("Api", "closeConnexion", e);
-				apiLogger.warning(e.getMessage());
-				// e.printStackTrace();
+			} catch (CommunicationCloseException e) {
+				apiLog.warning("Aucune connexion detectee : Deconnexion impossible");
+				apiLog.throwing("Api", "closeConnexion", e);
+				apiLog.exiting("Api", "closeConnexion");
+				return;
 			}
+
+			// Fermeture des threads restants
+			for (FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
+			listeThread.clear();
+
+			// Mise a jour des indicateurs
+			this.connexionOpened = false;
+			this.sessionOpened = false;
+
+			// Fermeture des sockets de bas niveau
+			this.comLowServices.closeCom();
+
+			// Fermeture de la thread listener
+			listener = null;
+
+			this.currentSessionName = null;
 		} else {
-			apiLogger
-					.warning("Aucune connexion detectee : Detection impossible");
-			// System.err.println("Aucune connexion detectee : Deconnexion
-			// impossible");
+			apiLog.warning("Aucune connexion detectee : Deconnexion impossible");
 		}
-		apiLogger.exiting("Api", "closeConnexion");
+		apiLog.exiting("Api", "closeConnexion");
 	}
 
 	/**
-	 * Fermture de la connexion demandee par la plateforme Cette fermeture a
-	 * lieu lors de la reception d'un FC ou d'un KO
-	 *
+	 * Fermture de la connexion demandee par la plateforme.<br>
+	 * Cette fermeture a lieu lors de la reception d'un FC ou d'un KO
 	 * @param type Raison de la fermeture de la connexion
 	 * @param message Message a afficher (transmis par la plate-forme)
 	 * @param severity Gravite de l'incident (transmis par la plate-forme)
 	 */
-	public final void closeConnexion(int type, String message, int severity) {
+	public void closeConnexion(int type, String message, int severity) {
 		Object[] param = {type, message, severity};
-		apiLogger.entering("Api", "closeConnexion", param);
-		// On doit fermer tous les threads speaker ouvert (un par session)
-		// On doit aussi prevenir les sessions pour qu'elles se mettent a jour
-		if (!this.listeThread.isEmpty()) {
-			Iterator it = listeThread.keySet().iterator();
+		apiLog.entering("Api", "closeConnexion", param);
 
-			// Fermeture des threads
-			while (it.hasNext()) {
-				String sessionName = (String) it.next();
-				@SuppressWarnings("unused")
-				FramekitThreadSpeaker threadSpeaker = (FramekitThreadSpeaker) listeThread
-						.get(sessionName);
-				threadSpeaker = null;
-			}
-			listeThread.clear();
-		}
+		// Fermeture des threads restants
+		for (FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
+		listeThread.clear();
 
 		// Mise a jour de toutes les sessions
 		this.com.closeAllSessions();
@@ -420,42 +323,39 @@ public class Api implements IApi {
 		listener = null;
 
 		// Mise a jour des indicateurs
-		this.connexionOpened = false;
 		this.sessionOpened = false;
 		this.currentSessionName = null;
 
 		// Fermeture des sockets bas-niveau
-		try {
+		if (severity > 1) {
+			this.connexionOpened = false;
 			this.comLowServices.closeCom();
-		} catch (Exception e) {
-			apiLogger.throwing("Api", "closeConnexion", e);
-			apiLogger
-					.warning("Erreur lors de la fermeture des services de bas niveau"
-							+ logsutils.stackToString(e));
-			// System.err.println("Erreur lors de la fermeture des services de
-			// bas niveau");
 		}
-		apiLogger.exiting("Api", "closeConnexion");
+
+		// Mise a jour des menus du cote coloane
+		this.com.platformState(this.connexionOpened, this.sessionOpened);
+
+		apiLog.exiting("Api", "closeConnexion");
 	}
 
 	/**
-	 * Suspend la session courante
-	 *
+	 * Suspension de la session courante
 	 * @return resultat de l'operation
 	 */
-	public final boolean suspendCurrentSession() {
-		apiLogger.entering("Api", "suspendConnexion");
+	public boolean suspendCurrentSession() {
+		apiLog.entering("Api", "suspendConnexion");
 		if (this.sessionOpened && this.currentSessionName != null) {
 
 			// Suppression de la session courante
 			this.currentSessionName = null;
 
 			// On demande a FrameKit de suspendre la session
-			apiLogger.exiting("Api", "suspendCurrentSession", this
-					.getCurrentSpeaker().sendSuspend());
-			return this.getCurrentSpeaker().sendSuspend();
+			boolean result = this.getCurrentSpeaker().sendSuspend();
+			apiLog.exiting("Api", "suspendCurrentSession", result);
+			return result;
 		} else {
-			apiLogger.exiting("Api", "suspendCurrentSession", false);
+			apiLog.warning("Aucune session ouverte");
+			apiLog.exiting("Api", "suspendCurrentSession", false);
 			return false;
 		}
 
@@ -463,134 +363,124 @@ public class Api implements IApi {
 
 	/**
 	 * Reprend l'execution d'une session
-	 *
-	 * @param sessionName
-	 *            le nom de la session
+	 * @param sessionName le nom de la session
 	 * @return le resultat de l'operation
 	 */
-	public final boolean resumeSession(String sessionName) {
-		/* Pas encore implementee */
+	public boolean resumeSession(String sessionName) {
 		return false;
 	}
 
 	/**
-	 * Supprime une session (fermeture de session)
-	 *
+	 * Ferme la session courante (fermeture de session)
 	 * @return Le resultat de l'operation booleen
 	 */
-	public final boolean closeCurrentSession() {
-		apiLogger.entering("Api", "closeCurrentSession");
-		if (!this.sessionOpened || this.currentSessionName == null) {
-			apiLogger.exiting("Api", "closeCurrentSession", false);
-			return false;
-		} else {
+	public boolean closeCurrentSession() {
+		apiLog.entering("Api", "closeCurrentSession");
+		if (this.sessionOpened && this.currentSessionName != null) {
+
+			// Si FrameKit accorde la fermeture de session
 			if (this.getCurrentSpeaker().sendClose()) {
 				listeThread.remove(this.currentSessionName);
 				this.currentSessionName = null;
 				if (listeThread.isEmpty()) {
 					this.sessionOpened = false;
 				}
-				apiLogger.exiting("Api", "closeCurrentSession", true);
+				apiLog.exiting("Api", "closeCurrentSession", true);
 				return true;
+			} else {
+				apiLog.exiting("Api", "closeCurrentSession", false);
+				return false;
 			}
-			apiLogger.exiting("Api", "closeCurrentSession", false);
+		} else {
+			apiLog.warning("Aucune session ouverte");
+			apiLog.exiting("Api", "closeCurrentSession", false);
 			return false;
 		}
 	}
 
 	/**
 	 * Permet de notifier a la plate-forme que le modele a ete modifie
-	 *
-	 * @param date
-	 *            Nouvelle date soumise
+	 * @param date Nouvelle date soumise
 	 * @return TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
-	public final boolean changeModeleDate(int date) {
-		apiLogger.entering("Api", "changeModelDate", date);
-		if (!this.sessionOpened || this.currentSessionName == null) {
-			apiLogger.exiting("Api", "changeModelDate", false);
-			return false;
+	public boolean changeModeleDate(int date) {
+		apiLog.entering("Api", "changeModelDate", date);
+		if (this.sessionOpened && this.currentSessionName != null) {
+			FramekitThreadSpeaker speaker = this.getCurrentSpeaker();
+			boolean result = speaker.sendNewDate(date);
+			apiLog.exiting("Api", "changeModelDate", result);
+			return result;
 		} else {
-			FramekitThreadSpeaker idThread = this.getCurrentSpeaker();
-			apiLogger.exiting("Api", "changeModelDate", idThread
-					.sendNewDate(date));
-			return idThread.sendNewDate(date);
+			apiLog.warning("Aucune session ouverte");
+			apiLog.exiting("Api", "changeModelDate", false);
+			return false;
 		}
 	}
 
 	/**
 	 * Recupere l'etat du modele
-	 *
 	 * @return l'etat du modele (booleen)
 	 */
-	public final boolean getDirtyState() {
-		apiLogger.entering("Api", "getDirtyState");
-		apiLogger.exiting("Api", "getDirtyState", this.com.getDirtyState());
-		return this.com.getDirtyState();
+	public boolean getDirtyState() {
+		boolean status = this.com.getDirtyState();
+		apiLog.finer("Demande de l'etat du modele : " + status);
+		return status;
 	}
 
 	/**
 	 * Recupere la date de derniere modification du modele
-	 *
 	 * @return la date de derniere modification
 	 */
-	public final int getDateModel() {
-		apiLogger.entering("Api", "getDateModel");
-		apiLogger.exiting("Api", "getDateModel", this.com.getDateModel());
-		return this.com.getDateModel();
+	public int getDateModel() {
+		int date = this.com.getDateModel();
+		apiLog.finer("Demande la date du modele : " + date);
+		return date;
 	}
 
 	/**
 	 * Permet de faire une demande de service a la plate-forme
 	 *
-	 * @param rootMenuName
-	 *            nom racine de l'arbre des menus
-	 * @param parentName
-	 *            premier noeud de l'arbre des menus
-	 * @param serviceName
-	 *            nom du service
+	 * @param rootMenuName nom racine de l'arbre des menus
+	 * @param parentName premier noeud de l'arbre des menus
+	 * @param serviceName nom du service
 	 */
-	public final void askForService(String rootMenuName, String parentName,
-			String serviceName) {
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		Object[] param = {rootMenuName, parentName, serviceName};
-		apiLogger.entering("Api", "askForService", param);
+		apiLog.entering("Api", "askForService", param);
+
 		// On sauvegarde le nom de service pour les resultats
 		this.currentService = serviceName;
 
 		if (this.sessionOpened && this.currentSessionName != null) {
-			FramekitThreadSpeaker speak;
-			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-			speak.execService(rootMenuName, parentName, serviceName);
-			apiLogger.finer("Demande de service OK");
-			// System.out.println("Demande de service OK");
+			FramekitThreadSpeaker speaker = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
+			speaker.execService(rootMenuName, parentName, serviceName);
+			apiLog.finer("Demande de service OK");
 		} else {
-			apiLogger.warning("Demande de service KO");
-			// System.err.println("Demande de service KO");
+			apiLog.warning("Demande de service KO");
 		}
-		apiLogger.exiting("Api", "askForService");
+		apiLog.exiting("Api", "askForService");
 	}
 
 	/**
 	 * Envoie d'une reponse a la plate-forme
 	 *
-	 * @param results
-	 *            Ensemble des reponses de la boite de dialogue
+	 * @param results Ensemble des reponses de la boite de dialogue
 	 * @return resultat de l'operation
 	 * @see IDialogResult
 	 */
-	public final boolean getDialogAnswers(IDialogResult results) {
-		apiLogger.entering("Api", "getDialogAnswers", results);
+	public boolean getDialogAnswers(IDialogResult results) {
+		apiLog.entering("Api", "getDialogAnswers", results);
 		if (!this.sessionOpened || this.currentSessionName == null) {
-			apiLogger.exiting("Api", "getDialogAnswers", false);
+			apiLog.exiting("Api", "getDialogAnswers", false);
 			return false;
 		} else {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
 			if (!speak.sendDialogueResponse(results)) {
-				apiLogger.exiting("Api", "getDialogAnswers", false);
+				apiLog.exiting("Api", "getDialogAnswers", false);
 				return false;
 			}
-			apiLogger.exiting("Api", "getDialogAnswers", true);
+			apiLog.exiting("Api", "getDialogAnswers", true);
 			return true;
 		}
 	}
@@ -598,187 +488,137 @@ public class Api implements IApi {
 	/**
 	 * Demande l'arret du service
 	 *
-	 * @param serviceName
-	 *            le service que l'on veut arreter
+	 * @param serviceName le service que l'on veut arreter
 	 * @return TRUE si l'arret du service est effectif
 	 */
-	public final boolean stopService(String serviceName) {
-		apiLogger.entering("Api", "stopService", serviceName);
-		apiLogger.exiting("Api", "stopService", true);
+	public boolean stopService(String serviceName) {
 		return true;
 	}
 
 	/**
-	 * Faire suivre les messages de FrameKit vers l'IHM (Coloane)
-	 *
-	 * @param type
-	 *            Type du message
-	 * @param text
-	 *            Texte a ecrire
-	 * @param specialType
-	 *            Type du message warning
-	 * @throws Exception
-	 *             Si non respect des types
-	 */
-	public final void sendMessageUI(int type, String text, int specialType) {
-		Object[] param = {type, text, specialType};
-		apiLogger.entering("Api", "sendMessageUI", param);
-		this.com.setUiMessage(type, text, specialType);
-		apiLogger.exiting("Api", "sendMessageUI");
-	}
-
-	/**
 	 * Affichage d'un message dans la console historique
-	 *
-	 * @param message
-	 *            Le message a afficher dans la vue History
+	 * @param message Le message a afficher dans la vue History
 	 */
-	public final void printHistory(String message) {
-		apiLogger.entering("Api", "printHistory", message);
-		apiLogger.finer("Affichage historique (API)" + message);
-		// System.out.println("Affichage historique (API)"+message);
+	public void printHistory(String message) {
+		apiLog.finer("Affichage dans l'historique (API)" + message);
 		this.com.printHistoryMessage(message);
-		apiLogger.exiting("Api", "printHistory");
 	}
 
 	/**
 	 * Affichage des menus
-	 *
-	 * @param menu
-	 *            Le menu a afficher
+	 * @param menu Le menu a afficher
 	 * @see IRootMenuCom
 	 */
-	public final void drawMenu(IRootMenuCom menu) {
-		apiLogger.entering("Api", "drawMenu", menu);
+	public void drawMenu(IRootMenuCom menu) {
+		apiLog.finer("Affichage des menus de services");
 		this.com.drawMenu(menu);
-		apiLogger.exiting("Api", "drawMenu");
 	}
 
 	/**
 	 * Demande de mise a jour des menus
-	 *
-	 * @param updates
-	 *            L'ensemble des mises a jour a effectuer sur les menus
+	 * @param updates L'ensemble des mises a jour a effectuer sur les menus
 	 */
-	public final void updateMenu(Vector<IUpdateMenuCom> updates) {
-		apiLogger.entering("Api", "updateMenu", updates);
+	public void updateMenu(Vector<IUpdateMenuCom> updates) {
+		apiLog.finer("Mise a jour des menus de services");
 		this.com.updateMenu(updates);
-		apiLogger.exiting("Api", "updateMenu");
 	}
 
 	/**
 	 * Indique a Coloane que le modele a change d'etat
-	 *
-	 * @param state
-	 *            Le nouvel etat
+	 * @param state Le nouvel etat
 	 */
-	public final void setModelDirty(boolean state) {
-		apiLogger.entering("Api", "setModelDirty", state);
+	public void setModelDirty(boolean state) {
+		apiLog.finer("FrameKit indique a Coloane l'etat du modele : DIRTY = " + state);
 		this.com.setModelDirty(state);
-		apiLogger.exiting("Api", "setModelDirty");
 	}
 
 	/**
-	 * Demande l'affichage d'une boite de dialogue Reminder : Les boites de
-	 * dialogue sont construite sous l'autorite de la plate-forme
-	 *
-	 * @param dialog
-	 *            La boite de dialogue entierement definie
+	 * Demande l'affichage d'une boite de dialogue<br>
+	 * Reminder : Les boites de dialogue sont construite sous l'autorite de la plate-forme
+	 * @param dialog La boite de dialogue entierement definie
 	 * @see IDialogCom
 	 */
-	public final void drawDialog(IDialogCom dialog) {
-		apiLogger.entering("Api", "drawDialog", dialog);
+	public void drawDialog(IDialogCom dialog) {
+		apiLog.finer("Affichage d'une boite de dialogue " + dialog.getId());
 		this.com.drawDialog(dialog);
-		apiLogger.exiting("Api", "drawDialog");
 	}
 
 	/**
 	 * Cacher une boite de dialogue
-	 *
-	 * @param numDialog
-	 *            L'identite de la boite a masquer
+	 * @param numDialog L'identite de la boite a masquer
 	 */
-	public final  void hideDialogUI(int numDialog) {
-		apiLogger.entering("Api", "hideDialogUI", numDialog);
-		// TODO: Cacher une boite de dialogue
-		apiLogger.warning("Not available yet");
-		// System.err.println("Not available yet...");
-		apiLogger.exiting("Api", "hideDialogUI");
+	public void hideDialogUI(int numDialog) {
+		apiLog.warning("hideDialogUI : Not available yet");
 	}
 
 	/**
 	 * Supprimer une boite de dialogue
-	 *
 	 * @param numDialog L'identite de la boite a detruire
-	 *
 	 */
-	public final void destroyDialogUI(int numDialog) {
-		apiLogger.entering("Api", "destroyDialogUI", numDialog);
-		apiLogger.warning("Not available yet");
-		// System.err.println("Not available yet...");
-		apiLogger.exiting("Api", "hideDialogUI");
+	public void destroyDialogUI(int numDialog) {
+		apiLog.warning("destroyDialogUI : Not available yet");
 	}
 
 	/**
 	 * Transmet un nouveau modele a creer<br>
-	 * Dans certains cas, la plate-forme renvoie des modeles a afficher dans
-	 * l'IHM.<br>
+	 * Dans certains cas, la plate-forme renvoie des modeles a afficher dans l'IHM.<br>
 	 * La construction se fait donc du cote API et l'affichage du cote Coloane
 	 *
-	 * @param model
-	 *            Modele a creer du cote Coloane
+	 * @param model Modele a creer du cote Coloane
 	 * @see IModel
 	 */
-	public final void setNewModel(IModel model) {
-		apiLogger.entering("Api", "destroyDialogUI", model);
+	public void setNewModel(IModel model) {
+		apiLog.finer("Transmission d'un nouveau modele");
 		this.com.setNewModel(model);
-		apiLogger.exiting("Api", "setNewModel");
 	}
 
 	/**
 	 * Traite les resultats d'un appel de services.<br>
-	 * Un appel de service peut provoquer un certain dnombre de resultats a
-	 * afficher.
-	 *
-	 * @param resultList
-	 *            La liste des resultats renvoyes par la plate-forme
+	 * Un appel de service peut provoquer un certain dnombre de resultats a afficher.
+	 * @param resultList  La liste des resultats renvoyes par la plate-forme
 	 * @see ResultsCom
 	 */
-	public final void setResults(IResultsCom result) {
-		apiLogger.entering("Api", "setResults", result);
+	public void setResults(IResultsCom result) {
+		apiLog.finer("Transmission et affichage des resultats de service");
 		this.com.setResults(this.currentService, result);
 		this.com.printResults();
-		apiLogger.exiting("Api", "setResults");
 	}
 
 	/**
 	 * Demande du modele cote Coloane.<br>
-	 * L'API peut avoir besoin de recuperer le modele en cours d'edition du cote
-	 * Coloane.<br>
-	 * Cette methode permet de transferer le modele depuis Coloane vers l'API de
-	 * communication
-	 *
+	 * L'API peut avoir besoin de recuperer le modele en cours d'edition du cote Coloane.<br>
+	 * Cette methode permet de transferer le modele depuis Coloane vers l'API de communication
 	 * @return le modele courant
 	 * @see IModel
 	 */
-	public final IModel getModel() {
-		apiLogger.entering("Api", "getModel");
-		apiLogger.exiting("Api", "getModel", this.com.getModel());
+	public IModel getModel() {
+		apiLog.finer("Recuperation du modele edite par Coloane");
 		return this.com.getModel();
 	}
 
 	/**
-	 * Retourne la thread qui permet d'envoyer des commandes pour la session
-	 * courrante.<br>
+	 * Retourne la thread qui permet d'envoyer des commandes pour la session courrante.<br>
 	 * Chaque session est associee a un thread de communication.
-	 *
 	 * @return la thread liee a la session courrante
 	 */
-	public final FramekitThreadSpeaker getCurrentSpeaker() {
-		apiLogger.entering("Api", "getCurrentSpeaker");
-		FramekitThreadSpeaker speak;
-		speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
-		apiLogger.exiting("Api", "getCurrentSpeaker", speak);
-		return speak;
+	public FramekitThreadSpeaker getCurrentSpeaker() {
+		return (FramekitThreadSpeaker) listeThread.get(currentSessionName);
+	}
+
+	/**
+	 * Initialisation du logger d'evenements
+	 */
+	private void initializeLogger() {
+		apiLog = Logger.getLogger("fr.lip6.move.coloane.api");
+		apiLog.setLevel(Level.FINEST); // On loggue tout !
+		apiLog.addHandler(new ColoaneHandler());
+	}
+
+	/**
+	 * Retourne le gestionnaire de logs
+	 * @return Le logger
+	 */
+	public static Logger getLogger() {
+		return apiLog;
 	}
 }
