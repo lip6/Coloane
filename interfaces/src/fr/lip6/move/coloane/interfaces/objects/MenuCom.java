@@ -11,7 +11,7 @@ package fr.lip6.move.coloane.interfaces.objects;
  * </ul>
  */
 
-public abstract class MenuCom implements IMenuCom {
+public class MenuCom implements IMenuCom {
 	private String fatherName;
 	private String serviceName;
 	private boolean enabled;
@@ -50,23 +50,9 @@ public abstract class MenuCom implements IMenuCom {
 	}
 
 	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#setFatherName(String)
-	 */
-	public final void setFatherName(String menuFatherName) {
-		this.fatherName = menuFatherName;
-	}
-
-	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#getServiceName()
 	 */
 	public final String getServiceName() {
 		return serviceName;
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#setServiceName(String)
-	 */
-	public final void setServiceName(String menuServiceName) {
-		this.serviceName = menuServiceName;
 	}
 }

@@ -9,7 +9,7 @@ package fr.lip6.move.coloane.interfaces.objects;
  * 	<li>Un nouvel etat</li>
  * </ul>
  */
-public abstract class UpdateMenuCom implements IUpdateMenuCom {
+public class UpdateMenuCom implements IUpdateMenuCom {
 
 	/** Le menu root auquel le service est attache */
 	private String root;
