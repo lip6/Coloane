@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.interfaces.objects;
 
 import java.util.Vector;
 
-public abstract class RootMenuCom implements IRootMenuCom {
+public class RootMenuCom implements IRootMenuCom {
 
 	/** Le nom du menu root */
 	private String name;
