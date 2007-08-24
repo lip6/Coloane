@@ -1,15 +1,18 @@
 package fr.lip6.move.coloane.menus;
 
+/**
+ * Definition d'un sous-menu, qui est lui meme un menu<br>
+ * Il dispose en plus des methodes du menu simple, un indicateur de fin
+ */
 public class ChildMenu extends Menu {
 
 	/**
 	 * Constructeur
 	 * @param name Le nom du sous-menu
-	 * @param reference Le nom de la reference
-	 * @param level Le niveau de ce sous-menu
+	 * @param fatherMenu Le menu parent
 	 */
-	public ChildMenu(String name, String reference) {
-		super(name, reference);
+	public ChildMenu(String name, Menu fatherMenu) {
+		super(name, fatherMenu);
 	}
 
 	/**
