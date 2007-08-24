@@ -81,7 +81,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			add(figure);
 
 		// Le reste des cas (transition)
-		} else {
+		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_RECT) {
 			figure = new RectangleFigure();
 			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
 			figure.setForegroundColor(ColorConstants.black);
@@ -94,12 +94,24 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 		// Ecoute des evenements ENTER et EXIT de la souris
 		MouseMotionListener listener = new MouseMotionListener.Stub() {
+			/*
+			 * (non-Javadoc)
+			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseEntered(org.eclipse.draw2d.MouseEvent)
+			 */
 			public void mouseEntered(MouseEvent me) {
 				((Shape) me.getSource()).setBackgroundColor(ColorConstants.yellow);
 				node.setAttributesSelected(true, true);
 			}
+			/*
+			 * (non-Javadoc)
+			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseExited(org.eclipse.draw2d.MouseEvent)
+			 */
 			public void mouseExited(MouseEvent me) {
-				((Shape) me.getSource()).setBackgroundColor(ColorConstants.white);
+				if (nodeGraphInfo.isFilled()) {
+					((Shape) me.getSource()).setBackgroundColor(ColorConstants.black);
+				} else {
+					((Shape) me.getSource()).setBackgroundColor(ColorConstants.white);
+				}
 				node.setAttributesSelected(true, false);
 			}
 		};
