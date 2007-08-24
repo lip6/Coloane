@@ -49,7 +49,7 @@ public class GraphicalMenu {
 		 */
 		for (ChildMenu child : root.getChildren()) {
 			if (child.isLeaf()) {
-				UIAction uiAction = new UIAction(ui, root.getName(), child.getParent(), child.getName());
+				UIAction uiAction = new UIAction(ui, root.getName(), child.getReference().getName(), child.getName());
 				uiAction.setEnabled(child.isEnabled());
 				rootMenuManager.add(uiAction);
 			} else {
@@ -77,7 +77,7 @@ public class GraphicalMenu {
 			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
-				UIAction exitAction = new UIAction(ui, root.getName(), littleChild.getParent(), littleChild.getName());
+				UIAction exitAction = new UIAction(ui, root.getName(), littleChild.getReference().getName(), littleChild.getName());
 				exitAction.setEnabled(littleChild.isEnabled());
 				childMenuManager.add(exitAction);
 			} else {

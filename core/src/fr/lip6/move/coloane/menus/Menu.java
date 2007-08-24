@@ -4,19 +4,21 @@ import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
 
 import java.util.ArrayList;
 
+/**
+ * Definition d'un menu
+ */
 public abstract class Menu {
 	private String name;
-	private String parent;
+	private Menu parent;
 	private ArrayList<ChildMenu> childMenus;
 	private boolean enabled = true;
 
 	/**
 	 * Constructeur
 	 * @param menuName Nom du menu
-	 * @param menuReference Nom du menu reference
-	 * @param menuLevel Niveau du menu
+	 * @param menuReference Menu parent
 	 */
-	public Menu(String menuName, String menuFatherName) {
+	public Menu(String menuName, Menu menuFatherName) {
 		this.name = menuName;
 		this.parent = menuFatherName;
 		this.childMenus = new ArrayList<ChildMenu>();
@@ -31,7 +33,7 @@ public abstract class Menu {
 
 		// Si ce menu est le pere du sous-menu qu'on cherche a ajouter
 		if (this.name.equals(menuFatherName)) {
-			ChildMenu newMenu = new ChildMenu(menuName, menuFatherName);
+			ChildMenu newMenu = new ChildMenu(menuName, this);
 			// Le fils doit etre active si le pere est active (et vice-versa).
 			newMenu.setEnabled(this.enabled);
 			this.childMenus.add(newMenu);
@@ -54,10 +56,9 @@ public abstract class Menu {
 	 * @param menuName Le nom du menu a ajouter
 	 * @param menuFatherName Le nom du menu parent
 	 * @param state L'etat du menu a ajouter
-	 * @return Le menu qui vient d'etre ajouter
-	 * @throws MenuNotFoundException
+	 * @return Le menu qui vient d'etre ajoute
 	 */
-	public final ChildMenu addMenu(String menuName, String menuFatherName, boolean state) throws MenuNotFoundException {
+	public final ChildMenu addMenu(String menuName, String menuFatherName, boolean state) {
 		ChildMenu child = addMenu(menuName, menuFatherName);
 		if (child != null) { child.setEnabled(state); }
 		return child;
@@ -111,8 +112,29 @@ public abstract class Menu {
 	 * Retourne la reference du menu courant
 	 * @return Le nom du menu de reference courant
 	 */
-	public final String getParent() {
+	public final Menu getParent() {
 		return this.parent;
+	}
+
+	/**
+	 * Le menu est-il un menu de reference<br>
+	 * Un menu de reference est un menu immediatement sous root
+	 * @return booleen
+	 */
+	protected final boolean isCategory() {
+		return (this.parent instanceof RootMenu);
+	}
+
+	/**
+	 * Retourne la reference necessaire lors de l'invocation de service
+	 * @return Le menu immediatement sous root qui contient ce menu
+	 */
+	public final Menu getReference() {
+		if (this.isCategory()) {
+			return this;
+		} else {
+			return this.parent.getReference();
+		}
 	}
 
 	/**
