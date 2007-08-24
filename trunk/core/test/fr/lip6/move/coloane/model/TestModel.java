@@ -1,9 +1,15 @@
 package fr.lip6.move.coloane.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.Arc;
+import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.model.Node;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import java.lang.reflect.Array;
 import java.util.Vector;
@@ -37,7 +43,7 @@ public class TestModel extends TestCase {
 	static final int RANDOM = 4;
 
 	private int tour = 1;
-	private Model model = new Model();
+	private IModel model = new Model(new CamiTranslator());
 
 	private int idNode1, idNode2, idArc;
 
@@ -312,13 +318,13 @@ public class TestModel extends TestCase {
 	 * Verifie si toutes les valeurs du tableau t1 sont dans le tableau t2 et
 	 * inversement *
 	 */
-	public final boolean compareTab(String[] t1, String[] t2) {
+	public final boolean compareTab(Vector<String> t1, Vector<String> t2) {
 		boolean b = true;
 		boolean tmp = false;
 		if (Array.getLength(t1) == Array.getLength(t2)) {
 			for (int i = 0; i < Array.getLength(t1); i++) {
 				for (int j = 0; j < Array.getLength(t2); j++) {
-					tmp = tmp || t1[i].equals(t2[j]);
+					tmp = tmp || t1.get(i).equals(t2.get(j));
 				}
 				b = b && tmp;
 				tmp = false;
@@ -332,8 +338,8 @@ public class TestModel extends TestCase {
 	/** SCENARIO * */
 	public final void testScenario() {
 		TestModelPI pi = new TestModelPI();
-		String[] translate;
-		String[] newBuild = new String[1];
+		Vector<String> translate;
+		Vector<String> newBuild;
 		Vector<String> cami;
 
 		// Creation du modele
@@ -363,48 +369,13 @@ public class TestModel extends TestCase {
 
 				cami = new Vector<String>();
 				for (int i = 0; i < Array.getLength(translate); i++) {
-					cami.addElement(translate[i]);
+					cami.addElement(translate.get(i));
 				}
 				try {
-					Model modelOut = new Model(cami);
+					IModel modelOut = new Model(cami, new CamiTranslator());
 					newBuild = modelOut.translate();
 
 					assertTrue(compareTab(translate, newBuild));
-
-					for (int a = 0; a < model.getListOfId().size(); a++) {
-						int id = model.getListOfId().get(a);
-						if (!(model.getAnArc(id) == null)) {
-
-							assertTrue(compareTab(model.getAnArc(id).translate(), modelOut.getAnArc(id).translate()));
-
-							// Test avec erreur du translate entre 2 arcs
-							// differents
-							if (model.getListOfArcSize() > 1) {
-								int anth = (int) (Math.random() * model.getListOfArcSize());
-								while (model.getNthArc(anth).getId() == id) {
-									anth = (int) (Math.random() * model.getListOfArcSize());
-								}
-
-								assertFalse(compareTab(model.getAnArc(id).translate(), model.getNthArc(anth).translate()));
-							}
-						} else if (!(model.getANode(id) == null)) {
-
-							assertTrue(compareTab(model.getANode(id).translate(), model.getANode(id).translate()));
-
-							// Test avec erreur du translate entre 2 arcs
-							// differents
-							if (model.getListOfNodeSize() > 1) {
-
-								int nth = (int) (Math.random() * model.getListOfNodeSize());
-
-								while (model.getNthNode(nth).getId() == id) {
-									nth = (int) (Math.random() * model.getListOfNodeSize());
-								}
-
-								assertFalse(compareTab(model.getANode(id).translate(), modelOut.getNthNode(nth).translate()));
-							}
-						}
-					}
 
 				} catch (Exception e) {
 					return;
