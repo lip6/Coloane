@@ -17,10 +17,10 @@ public class ReachabilityGraph extends Formalism {
 
 	private static final int INITIAL_WIDTH = 16;
 	private static final int INITIAL_HEIGHT = 16;
-	private static final int TERMINAL_WIDTH = 24;
-	private static final int TERMINAL_HEIGHT = 8;
+	private static final int TERMINAL_WIDTH = 16;
+	private static final int TERMINAL_HEIGHT = 16;
 	private static final int STATE_WIDTH = 16;
-	private static final int STATE_HEIGHT = 8;
+	private static final int STATE_HEIGHT = 16;
 
 	public ReachabilityGraph() {
 		super(NAME, IMG, EXTENSION);
