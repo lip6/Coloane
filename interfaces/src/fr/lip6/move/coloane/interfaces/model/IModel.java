@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-//import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 
 import java.util.Vector;
 
@@ -142,7 +141,7 @@ public interface IModel {
 
 	/**
 	 * Permet de modifier la valeur maximale des identifiants des elements du modele
-	 * De cette facon la numerotation peut �tre modifiee.
+	 * De cette facon la numerotation peut etre modifiee.
 	 * @param max L'identifiant maximum qu'on souhaite affecter
 	 */
 	int setMaxId(int max);
@@ -153,11 +152,32 @@ public interface IModel {
 	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
 	 * @return un ensemble de commandes de construction
 	 */
-	String[] translate();
+	Vector<String> translate();
 
 	/**
 	 * Renvoie la liste des identifiants pour les tests unitaires
 	 * @return la liste des identifiants
 	 */
 	Vector<Integer> getListOfId();
+
+	/**
+	 * Retour la liste des arcs du modele
+	 * @return un vecteur d'arcs
+	 * @see {@link IArc}
+	 */
+	Vector<IArc> getListOfArcs();
+
+	/**
+	 * Retour la liste des attributs du modele
+	 * @return un vecteur d'attributs
+	 * @see {@link IAttribute}
+	 */
+	Vector<IAttribute> getListOfAttributes();
+
+	/**
+	 * Retour la liste des noeuds du modele
+	 * @return un vecteur de noeuds
+	 * @see {@link INode}
+	 */
+	Vector<INode> getListOfNodes();
 }
