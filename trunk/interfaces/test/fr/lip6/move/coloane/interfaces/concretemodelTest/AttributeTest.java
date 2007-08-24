@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
-import fr.lip6.move.coloane.interfaces.concretemodel.ConcreteAttribute;
+import fr.lip6.move.coloane.interfaces.model.Attribute;
 import junit.framework.TestCase;
 
 /**
  * Test des attributs du modele generique
  */
 
-public class ConcreteAttributeTest extends TestCase {
+public class AttributeTest extends TestCase {
 
-	private ConcreteAttribute ca;
+	private Attribute ca;
 
 	static final String ATTNAME = "Attribute";
 	static final String ATTVALUE = "hello";
@@ -19,7 +19,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 * Constructeur de la classe de test
 	 * @param name
 	 */
-	public ConcreteAttributeTest(String name) {
+	public AttributeTest(String name) {
 		super(name);
 	}
 
@@ -28,7 +28,7 @@ public class ConcreteAttributeTest extends TestCase {
 	 */
 	protected final void setUp() throws Exception {
 		super.setUp();
-		ca = new ConcreteAttribute(ATTNAME, ATTVALUE, ATTREFID);
+		ca = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
 	}
 
 	/* (non-Javadoc)
