@@ -2,13 +2,8 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.translators.Translator;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.Vector;
 
 /**
@@ -24,21 +19,18 @@ import java.util.Vector;
  * Le modele generique porte l'information sur son formalisme en tant que chaine
  * de caracteres.
  */
-public abstract class Model implements IModel {
+public class Model implements IModel {
+
+	/** Traducteur du modele */
+	private Translator translator;
 
 	/** Type du modele. */
 	private String formalism = "";
 
-	/**
-	 * Position absolue horizontale depuis le bord gauche de la fenetre
-	 * d'affichage du modele.
-	 */
+	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
 	private int xPosition;
 
-	/**
-	 * Position absolue verticale depuis le bord haut de la fenetre d'affichage
-	 * du modele.
-	 */
+	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
 	private int yPosition;
 
 	/** Liste de l'ensemble des elements noeuds du modele. */
@@ -59,7 +51,8 @@ public abstract class Model implements IModel {
 	/**
 	 * Constructeur
 	 */
-	public Model() {
+	public Model(Translator myTranslator) {
+		this.translator = myTranslator;
 		this.xPosition = INITIAL_X;
 		this.yPosition = INITIAL_Y;
 		this.listOfArc = new Vector<IArc>();
@@ -72,55 +65,28 @@ public abstract class Model implements IModel {
 
 	/**
 	 * Constructeur
-	 * @param commands Une suite de commandes qui permettent de construire le modele.
+	 * @param m Un modele a convertir
+	 * @param myTranslator Le traducteur retenu
 	 */
-	public Model(Vector<String> commands) throws SyntaxErrorException, ModelException {
-		this();
-
-		// Construction du modele a partir des commandes recues
-		try {
-			this.buildModel(commands);
-		} catch (SyntaxErrorException e) {
-			throw new SyntaxErrorException("Cannot build the model : " + e.getMessage());
-		}
+	public Model(IModel m, Translator myTranslator) {
+		this.translator = myTranslator;
+		this.xPosition = m.getXPosition();
+		this.yPosition = m.getYPosition();
+		this.listOfArc = m.getListOfArcs();
+		this.listOfAttr = m.getListOfAttributes();
+		this.listOfNode = m.getListOfNodes();
+		this.listOfId = m.getListOfId();
+		this.maxId = m.getMaxId();
+		this.listOfId.addElement(Integer.valueOf(maxId));
 	}
 
 	/**
 	 * Constructeur
-	 * @param commandsFile Un fichier contenant des commandes pour construire le modele
-	 * @throws IOException Erreur de lecture dans le fichier
+	 * @param commands Une suite de commandes qui permettent de construire le modele.
+	 * @param myTranslator Le traducteur retenu
 	 */
-	public Model(File commandsFile) throws SyntaxErrorException, ModelException {
-		this();
-
-		// Un vecteur de commandes de construction
-		Vector<String> commands = new Vector<String>();
-
-		try {
-			// Lecture du fichier
-			BufferedReader buffer = new BufferedReader(new FileReader(commandsFile));
-			while (buffer.ready()) {
-				commands.add(buffer.readLine());
-			}
-			buffer.close();
-
-			this.buildModel(commands);
-
-		} catch (NoSuchElementException e) {
-			throw new SyntaxErrorException("Cannot build the model : " + e.getMessage());
-
-		// Erreur de localisation du fichier
-		} catch (FileNotFoundException e) {
-			throw new SyntaxErrorException("Cannot build the model (file not found)");
-
-		// Erreur de lecture du fichier
-		} catch (IOException e) {
-			throw new SyntaxErrorException("Cannot build the model (cannot read the file)");
-
-		// Erreur de syntaxe
-		} catch (SyntaxErrorException e) {
-			throw new SyntaxErrorException("Cannot build the model : " + e.getMessage());
-		}
+	public Model(Vector<String> commands, Translator myTranslator) throws SyntaxErrorException {
+		this(myTranslator.loadModel(commands), myTranslator);
 	}
 
 	/*
@@ -432,16 +398,9 @@ public abstract class Model implements IModel {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#translate()
 	 */
-	public abstract String[] translate();
-
-
-	/**
-	 * Construction du modele a partir d'un vecteur de commandes<br>
-	 * Cette method est a implementee par les concepteurs d'API a partir du protocole qu'ils utilisent
-	 * @param commands Un vecteur de commandes pour construire le modele
-	 * @throws SyntaxErrorException
-	 */
-	protected abstract void buildModel(Vector camiCommande) throws SyntaxErrorException, ModelException;
+	public final Vector<String> translate() {
+		return this.translator.translateModel(this);
+	}
 
 	/**
 	 * Renvoie la liste des ID des elements du modele
@@ -449,5 +408,29 @@ public abstract class Model implements IModel {
 	 */
 	public final Vector<Integer> getListOfId() {
 		return listOfId;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfArcs()
+	 */
+	public final Vector<IArc> getListOfArcs() {
+		return listOfArc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfAttributes()
+	 */
+	public final Vector<IAttribute> getListOfAttributes() {
+		return listOfAttr;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfNodes()
+	 */
+	public final Vector<INode> getListOfNodes() {
+		return listOfNode;
 	}
 }
