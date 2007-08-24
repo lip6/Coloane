@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.log.ColoaneHandler;
 
 import fr.lip6.move.coloane.api.utils.ComLowLevel;
-import fr.lip6.move.coloane.api.utils.Commande;
+import fr.lip6.move.coloane.api.utils.FKCommand;
 import fr.lip6.move.coloane.api.utils.FramekitThreadListener;
 import fr.lip6.move.coloane.api.utils.FramekitThreadSpeaker;
 
@@ -160,7 +160,7 @@ public final class Api implements IApi {
 		apiLog.entering("Api", "camiCmdConnection", param);
 
 		try {
-			Commande cmd = new Commande();
+			FKCommand cmd = new FKCommand();
 
 			/* Premiere partie : Le login et le password */
 			// Construction de la commande CAMI sans toucher aux 4 premiers octets
@@ -171,7 +171,7 @@ public final class Api implements IApi {
 
 			// Lecture de la reponse en provenance de FK
 			Vector commandeRecue = comLowServices.readCommande();
-			Vector reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
+			Vector reponse = FKCommand.getArgs((String) commandeRecue.elementAt(0));
 
 			/* Si la reponse de FK differe de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
@@ -184,7 +184,7 @@ public final class Api implements IApi {
 			send = cmd.createCmdOC(apiName, apiVersion, login);
 			comLowServices.writeCommande(send);
 			commandeRecue = comLowServices.readCommande();
-			reponse = cmd.getArgs((String) commandeRecue.elementAt(0));
+			reponse = FKCommand.getArgs((String) commandeRecue.elementAt(0));
 
 			if (!(reponse.firstElement().equals("OC"))) {
 				apiLog.warning("Balise non attendue (attendue OC)" + (String) reponse.firstElement());
@@ -268,7 +268,7 @@ public final class Api implements IApi {
 		if (this.connexionOpened) {
 
 			// Fabrication de la commande FC
-			Commande cmd = new Commande();
+			FKCommand cmd = new FKCommand();
 			byte[] send = cmd.createCmdFC();
 
 			try {
