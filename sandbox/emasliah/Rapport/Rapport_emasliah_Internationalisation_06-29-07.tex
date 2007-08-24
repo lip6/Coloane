@@ -37,8 +37,14 @@ Le fichier ou se trouve la traduction se nomme
 
 \subsection{Contenu}
 Le fichier .properties est de la forme suivante :\\
-identifiant\_mis\_dans\_le\_fichier\_java = traduction
-
+identifiant\_mis\_dans\_le\_fichier\_java = traduction\\
+La traduction dois être êcrite en utf-16, soit tous les caractéres latin non accentués peuvent être écrit normalement et tout le reste doit être ecrit avec son code utf-16, soit :
+\begin{verbatim}
+ exemple.emasliah.1 = Voici de l'arabe : \u062E\u0646
+\end{verbatim}
+%Ce qui affichera :\\
+% Voici de l'arabe : خن 
+On peux trouver un convertisseur de caractère sur cette page :  http://hapax.qc.ca/conversion.fr.html
 
 \section{Conclusion}
 Cette technique est facile à mettre en place mais il faut faire attention au probléme de longeur de la traduction, de l'encodage, etc.
