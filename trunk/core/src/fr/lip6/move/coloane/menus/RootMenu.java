@@ -12,6 +12,6 @@ public class RootMenu extends Menu {
 	 * @param name Nom du menu racine
 	 */
 	public RootMenu(String name) {
-		super(name, "", 0);
+		super(name, "");
 	}
 }

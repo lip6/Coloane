@@ -8,8 +8,8 @@ public class ChildMenu extends Menu {
 	 * @param reference Le nom de la reference
 	 * @param level Le niveau de ce sous-menu
 	 */
-	public ChildMenu(String name, String reference, int level) {
-		super(name, reference, level);
+	public ChildMenu(String name, String reference) {
+		super(name, reference);
 	}
 
 	/**
