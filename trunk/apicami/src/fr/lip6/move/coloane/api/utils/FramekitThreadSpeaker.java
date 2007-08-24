@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
-import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+
+import java.util.Vector;
 
 /**
  * Classe implementant le comportement du haut-parleur
@@ -17,21 +17,15 @@ public class FramekitThreadSpeaker extends Thread {
 	/** Reference vers l'objet ComLowLevel */
 	private ComLowLevel lowCom;
 
-	/** Verrou */
-	private Lock verrou;
-
-	private LogsUtils logutils;
 	/**
 	 * Constructeur
 	 * @param api point d'entre vers l'api
 	 * @param lowCom point d'entree vers la couche bas niveau
 	 * @param verrou
 	 */
-	public FramekitThreadSpeaker(Api a, ComLowLevel lc, Lock v) {
+	public FramekitThreadSpeaker(Api a, ComLowLevel lc) {
 		this.api = a;
 		this.lowCom = lc;
-		this.verrou = v;
-		logutils = new LogsUtils();
 	}
 
 
@@ -43,46 +37,27 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return booleen Reussite de l'operation d'ouverture de session
 	 */
 	public final boolean openSession(String sessionName, int date, String sessionFormalism) {
-		Object[] param = {sessionName, date, sessionFormalism};
-		Api.apiLogger.entering("FrameKitThreadSpreaker", "openSession", param);
 		Commande cmd = new Commande();
 
 		// Compisition de la commande OS
 		byte[] send = cmd.createCmdOS(sessionName, date, sessionFormalism);
-		String serviceName;
 
 		try {
 			lowCom.writeCommande(send);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "openSession", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
-			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
-			Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", false);
+			this.api.closeConnexion(1, "Connexion detruite par Framekit", 2);
 			return false;
 		}
-
-		// Mise en attente
-		verrou.attendre(); //OS
-		verrou.attendre(); //TD
-		verrou.attendre(); //FA
-		verrou.attendre(); //TL
-		serviceName = verrou.attendreServiceName(); //VI
-		verrou.attendre(); //FL
 
 		try {
 			lowCom.writeCommande(cmd.createCmdDI());
-			lowCom.writeCommande(cmd.createCmdCI(serviceName, 1));
+			lowCom.writeCommande(cmd.createCmdCI(sessionName, 1)); /***/
 			lowCom.writeCommande(cmd.createCmdFI());
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThread", "openSession", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
-			Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", false);
 			return false;
 		}
 
-		verrou.attendre(); //QQ(3)
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "openSession", true);
 		return true;
 	}
 
@@ -94,7 +69,7 @@ public class FramekitThreadSpeaker extends Thread {
 	 */
 	public final void execService(String rootMenuName, String menuName, String serviceName) {
 		Object[] param = {rootMenuName, menuName, serviceName};
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "execService", param);
+		Api.getLogger().entering("FrameKitThreadSpeaker", "execService", param);
 		Commande cmd = new Commande();
 		try {
 
@@ -124,46 +99,33 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(ft);
 
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "execService", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
 
 		}
-		Api.apiLogger.exiting("FramekitthreadSpeaker", "execService");
 	}
 
 	/**
 	 * Envoyer un modele vers la plate-forme
 	 */
 	public final void sendModel() {
-		Api.apiLogger.entering("FrameKitThread", "sendModel");
-		String[] modelCami;
-
 		Commande cmd = new Commande();
 
-		IModel model = this.api.getModel();
-		modelCami = model.translate();
+		Vector<String> modelCami = this.api.getModel().translate();
 
 		try {
 			byte[] commande = cmd.createCmdSimple("DB");
 			lowCom.writeCommande(commande);
 
-			for (int i = 0; i < modelCami.length; i++) {
-				commande = cmd.convertToFramekit(modelCami[i]);
-				Api.apiLogger.finer(modelCami[i]);
-				//System.out.println(modelCami[i]);
+			for (String line : modelCami) {
+				commande = cmd.convertToFramekit(line);
 				lowCom.writeCommande(commande);
 			}
 
 			commande = cmd.createCmdSimple("FB");
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThread", "sendModel", e);
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 		}
-		Api.apiLogger.exiting("FrameKitThread", "sendModel");
-
 	}
 
 	/**
@@ -172,19 +134,14 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public final boolean sendNewDate(int newDate) {
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "sendNewDate", newDate);
 		Commande cmd = new Commande();
 		byte[] commande = cmd.createCmdSimple("QQ");
 		try {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThread", "sendNewDate", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
-			Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendNewDate", false);
 			return false;
 		}
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendNewDate", true);
 		return true;
 	}
 
@@ -194,7 +151,6 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public final boolean sendDialogueResponse(IDialogResult results) {
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "sendDialogueResponse", results);
 		Commande cmd = new Commande();
 
 		try {
@@ -243,13 +199,9 @@ public class FramekitThreadSpeaker extends Thread {
 			lowCom.writeCommande(commande);
 
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendDialogueResponse", e);
 			this.api.closeConnexion(1, "Connexion detruite par FrameKit", 1);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
-			Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendDialogResponse", false);
 			return false;
 		}
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendDialogResponse", true);
 		return true;
 	}
 
@@ -257,23 +209,15 @@ public class FramekitThreadSpeaker extends Thread {
 	 * Suspendre la session courante
 	 */
 	public final boolean sendSuspend() {
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "sendSuspend");
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdSimple("SS");
 		try {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendSuspend", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
 		}
 
-		// Attente du message SS
-		verrou.attendre(); //SS
-		Api.apiLogger.finer("Attente validee SS");
-		//System.out.println("Attente validee SS");
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendSuspend", true);
 		return true;
 	}
 
@@ -282,42 +226,29 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @param sName le nom de la session
 	 */
 	public final void sendResume(String sName) {
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "sendResume", sName);
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdRS(sName);
 		try {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendResume", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
 		}
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendResume");
 	}
 
 	/**
 	 * Fermer la session courante
 	 */
 	public final boolean sendClose() {
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "sendResume");
 		byte[] commande;
 		Commande cmd = new Commande();
 		commande = cmd.createCmdFS(1);
 		try {
 			lowCom.writeCommande(commande);
 		} catch (CommunicationCloseException e) {
-			Api.apiLogger.throwing("FrameKitThreadSpeaker", "sendClose", e);
-			Api.apiLogger.warning(e.getMessage() + logutils.stackToString(e));
 			this.api.closeConnexion(1, "Connexion detruite par Framekit", 1);
 		}
 
-		// Attente du message FS
-		verrou.attendre(); //FS
-
-		Api.apiLogger.finer("Attente validee FS");
-		//System.out.println("Attente validee FS");
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "sendSuspend", true);
 		return true;
 	}
 
@@ -329,12 +260,6 @@ public class FramekitThreadSpeaker extends Thread {
 	 * @return boolean
 	 */
 	public final boolean stopServive(String root, String service, String option) {
-		Object[] param = {root, service, option};
-		Api.apiLogger.entering("FrameKitThreadSpeaker", "stopService", param);
-		//Commande cmd = new Commande();
-		//byte[] commande = cmd.createCmdTQ(root,service,4,option); //a construire
-		//comm.writeCommande(commande);
-		Api.apiLogger.exiting("FrameKitThreadSpeaker", "stopService", true);
 		return true;
 	}
 }
