@@ -19,7 +19,7 @@ import java.util.Vector;
  * @see IAttribute
  * @see IArc
  */
-public abstract class Node implements INode {
+public class Node implements INode {
 
 	/** Utilise lors de la deserialization afin de s'assurer que les versions des classes Java soient concordantes. */
 	private static final long serialVersionUID = 1L;
@@ -286,12 +286,6 @@ public abstract class Node implements INode {
 			return null;
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INode#translateToCAMI()
-	 */
-	public abstract String[] translate();
-
 
 	/****** AJOUTS POUR TESTS UNITAIRES******/
 

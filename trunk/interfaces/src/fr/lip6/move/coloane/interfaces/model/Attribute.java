@@ -11,7 +11,7 @@ package fr.lip6.move.coloane.interfaces.model;
  * </ul>
  *
  */
-public abstract class Attribute implements IAttribute {
+public class Attribute implements IAttribute {
 
 	/** Nom de l'attribut sous forme de chaine de caracteres. */
 	private String name;
@@ -101,10 +101,4 @@ public abstract class Attribute implements IAttribute {
 	public final String getValue() {
 		return (String) this.value;
 	}
-
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttribute#translateToCAMI()
-	 */
-	public abstract String[] translate();
 }
