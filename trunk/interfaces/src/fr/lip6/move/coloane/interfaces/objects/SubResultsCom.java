@@ -21,10 +21,14 @@ public class SubResultsCom {
 	/** Liste des commandes MT (attribute_outline) */
 	private Vector<String> cmdMT;
 
+	/** Un texte de details pour ce sous-resultat */
+	private String details;
+
 	/**
 	 * Constructeur
 	 */
-	public SubResultsCom() {
+	public SubResultsCom(String d) {
+		details = d;
 		cmdRT = new Vector<String>();
 		cmdRO = new Vector<String>();
 		cmdME = new Vector<String>();
@@ -106,6 +110,14 @@ public class SubResultsCom {
 	}
 
 	/**
+	 * Retourne la liste des commandes ME enregistrees
+	 * @return Vector de commande ME
+	 */
+	public final Vector<String> getCmdME() {
+		return cmdME;
+	}
+
+	/**
 	 * Retourne la liste des commandes RT enregistrees
 	 * @return Vector de commande RO
 	 */
@@ -119,5 +131,13 @@ public class SubResultsCom {
 	 */
 	public final void setCmdRT(Vector<String> rtList) {
 		this.cmdRT = rtList;
+	}
+
+	/**
+	 * Retourne le texte de details attache au sous-resultat
+	 * @return Le texte
+	 */
+	public final String getDetails() {
+		return this.details;
 	}
 }
