@@ -1,16 +1,17 @@
 package fr.lip6.move.coloane.ui;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.Arc;
+import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.model.Node;
 import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.model.Arc;
-import fr.lip6.move.coloane.model.Attribute;
-import fr.lip6.move.coloane.model.Model;
-import fr.lip6.move.coloane.model.Node;
 
 import java.net.URL;
 
@@ -230,7 +231,7 @@ public class XmlEditor extends DefaultHandler {
 
 	/* --------------- Lecture --------------- */
 
-	private IModel model = new Model();
+	private IModel model = new Model(new CamiTranslator());
 	private IAttribute currentAttribute = null;
 	private String currentObject = "";
 
