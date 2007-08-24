@@ -114,7 +114,7 @@
              class="fr.lip6.move.coloane.ui.Editor"
              contributorClass="fr.lip6.move.coloane.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="petri"
+             extensions="petri rg prefix"
              icon="resources/icons/instance.gif"
              id="fr.lip6.move.coloane.editor"
              name="Editor"/>
