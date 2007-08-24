@@ -13,4 +13,5 @@ Provide-Package: fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.interfaces.exceptions,
  fr.lip6.move.coloane.interfaces.model,
  fr.lip6.move.coloane.interfaces.objects,
+ fr.lip6.move.coloane.interfaces.translators,
  fr.lip6.move.coloane.interfaces.utils
