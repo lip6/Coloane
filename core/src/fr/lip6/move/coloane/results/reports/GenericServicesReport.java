@@ -1,6 +1,5 @@
 /**
- * Cette Classe permet de definir un report
- * pour le Syntax Checker
+ * Cette Classe permet de definir un report pour le Syntax Checker
  */
 package fr.lip6.move.coloane.results.reports;
 
@@ -18,9 +17,6 @@ public class GenericServicesReport implements IReport {
 
 	/**Le nom du service*/
 	private final String label = "Petri Net Syntax Checker";
-
-	/**La liste des resultats*/
-	private ResultsList resultList;
 
 	/**
 	 *Le constructeur
