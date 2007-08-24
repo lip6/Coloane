@@ -3,46 +3,32 @@ package fr.lip6.move.coloane.results.reports;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 import fr.lip6.move.coloane.results.Result;
-import fr.lip6.move.coloane.results.ResultsList;
 
-public class SyntaxCheckerReport implements IReport {
-
-	/** Liste des resultats envoyes par FK */
-	private IResultsCom resultCom;
-
-	/** Le nom du service */
-	private static final String LABEL = "Petri Net Syntax Checker";
-
-	/** La liste des resultats */
-	private ResultsList resultList;
+public class SyntaxCheckerReport extends Report {
 
 	/**
 	 * Constructeur du rapport
 	 * @param results
 	 */
 	public SyntaxCheckerReport(IResultsCom results) {
-		this.resultCom = results;
-		this.resultList = new ResultsList(LABEL);
-		this.buildReport();
+		super("Petri Net Syntax Checker", results);
 	}
 
-	/**
-	 * Construction effective du rapport :
-	 * <ul>
-	 * 	<li>Liste de resultats</li>
-	 *  <li>Tous les resultats atomiques</li>
-	 * </ul>
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.results.reports.Report#buildReport()
 	 */
-	private void buildReport() {
+	@Override
+	protected final void buildReport() {
 		String description = "";
 
 		// Si il n'y a pas de resultat : Aucun probleme !
-		if (this.resultCom.getSubResults().size() == 0) {
-			this.resultList.add(new Result("Your model is correct !", ""));
+		if (getResultsCom().getSubResults().size() == 0) {
+			getResultList().add(new Result("Your model is correct !", ""));
 		}
 
 		// Parcours de tous les DE-FE
-		for (SubResultsCom sr : this.resultCom.getSubResults()) {
+		for (SubResultsCom sr : getResultsCom().getSubResults()) {
 			String label = sr.getCmdRT().get(0);
 
 			if (label.equalsIgnoreCase("List of unnamed places.")) {
@@ -55,15 +41,10 @@ public class SyntaxCheckerReport implements IReport {
 
 			// Parcours de tous les objets mis en valeur
 			for (String object : sr.getCmdRO()) {
-				this.resultList.add(new Result(object, description));
+				getResultList().add(new Result(object, description));
 			}
 		}
 	}
 
-	/**
-	 * Retourne la liste des resultats a afficher
-	 */
-	public final ResultsList getResultList() {
-		return this.resultList;
-	}
+
 }
