@@ -50,12 +50,4 @@ public interface IAttribute {
 	 * @return String
 	 */
 	String getValue();
-
-	/**
-	 * Traduit un attribut en chaines de caracteres du protocole considere.
-	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
-	 * @return un ensemble de commandes de construction
-	 */
-	String[] translate();
-
 }

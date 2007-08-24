@@ -155,13 +155,6 @@ public interface INode {
 	 */
 	IAttribute getNthAttr(int index);
 
-	/**
-	 * Traduit un noeud en chaines de caracteres du protocole considere.
-	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
-	 * @return un ensemble de commandes de construction
-	 */
-	String[] translate();
-
 	/*** /!\ *** AJOUTS POUR TESTS UNITAIRES*** /!\ ***/
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfInputArc()

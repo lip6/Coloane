@@ -25,7 +25,7 @@ import java.util.Vector;
  * @see IAttribute
  * @see IArc
  */
-public abstract class Arc implements IArc {
+public class Arc implements IArc {
 
 	/** Type de l'arc */
 	private String type;
@@ -33,10 +33,7 @@ public abstract class Arc implements IArc {
 	/** Identifiant de l'arc */
 	private int id;
 
-	/**
-	 * Vecteur contenant l'ensemble des objets de type Attribut de l'arc.
-	 * @see IAttribute
-	 */
+	/** Vecteur contenant l'ensemble des objets de type Attribut de l'arc. */
 	private Vector<IAttribute> listOfAttr;
 
 	/** Vecteur contenant l'ensemble des points intermediaire de type Position. */
@@ -204,10 +201,9 @@ public abstract class Arc implements IArc {
 		}
 	}
 
-	/**
-	 * Retourne la liste des points intermediaires de l'arc
-	 * @return Vector<IPosition>
-	 * @see IInflexPoint
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IArc#getListOfPI()
 	 */
 	public final Vector<IInflexPoint> getListOfPI() {
 		return this.listOfPI;
@@ -303,10 +299,4 @@ public abstract class Arc implements IArc {
 			return null;
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IArc#translateToCAMI()
-	 */
-	public abstract String[] translate();
 }

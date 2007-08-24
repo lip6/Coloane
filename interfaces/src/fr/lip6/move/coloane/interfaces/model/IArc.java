@@ -153,12 +153,4 @@ public interface IArc {
 	 * @return IPosition
 	 */
 	IInflexPoint getNthPI(int index);
-
-	/**
-	 * Traduit un arc en chaines de caracteres du protocole considere.
-	 * Cette methode doit etre implementee par les developpeurs d'API de communication en fonction de leur protocole d'echange
-	 * @return un ensemble de commandes de construction
-	 */
-	String[] translate();
-
 }
