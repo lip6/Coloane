@@ -11,7 +11,7 @@ import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.model.Node;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
-import java.lang.reflect.Array;
+
 import java.util.Vector;
 
 import junit.framework.TestCase;
@@ -321,9 +321,9 @@ public class TestModel extends TestCase {
 	public final boolean compareTab(Vector<String> t1, Vector<String> t2) {
 		boolean b = true;
 		boolean tmp = false;
-		if (Array.getLength(t1) == Array.getLength(t2)) {
-			for (int i = 0; i < Array.getLength(t1); i++) {
-				for (int j = 0; j < Array.getLength(t2); j++) {
+		if (t1.size() == t2.size()) {
+			for (int i = 0; i < t1.size(); i++) {
+				for (int j = 0; j < t2.size(); j++) {
 					tmp = tmp || t1.get(i).equals(t2.get(j));
 				}
 				b = b && tmp;
@@ -368,7 +368,7 @@ public class TestModel extends TestCase {
 				translate = model.translate();
 
 				cami = new Vector<String>();
-				for (int i = 0; i < Array.getLength(translate); i++) {
+				for (int i = 0; i < translate.size(); i++) {
 					cami.addElement(translate.get(i));
 				}
 				try {
@@ -390,6 +390,14 @@ public class TestModel extends TestCase {
 					// On retire nb_remove arcs
 					while (i < NBREMOVE) {
 
+						if (model.getListOfArcSize() != 0) {
+							int x = (int) (Math.random() * 50);
+							int y = (int) (Math.random() * 50);
+							int nthArc = (int) (Math.random() * model.getListOfArcSize());
+
+							pi.aleaAddPI(model.getNthArc(nthArc), x, y);
+						}
+						
 						translate = model.translate();
 
 						if (model.getListOfArcSize() == 0) {
