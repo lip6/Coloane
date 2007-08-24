@@ -100,9 +100,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @return boolean Le resultat de l'operation
 	 */
 	public boolean closeSession() {
-		boolean res = com.closeSession();
-		Motor.sessionManager.destroyCurrentSession();
-		return res;
+		if (com.closeSession()) {
+			Motor.sessionManager.destroyCurrentSession();
+			return true;
+		}
+		return false;
 	}
 
 	/**
