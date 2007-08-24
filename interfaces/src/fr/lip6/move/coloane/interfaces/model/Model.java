@@ -70,6 +70,7 @@ public class Model implements IModel {
 	 */
 	public Model(IModel m, Translator myTranslator) {
 		this.translator = myTranslator;
+		this.formalism = m.getFormalism();
 		this.xPosition = m.getXPosition();
 		this.yPosition = m.getYPosition();
 		this.listOfArc = m.getListOfArcs();
