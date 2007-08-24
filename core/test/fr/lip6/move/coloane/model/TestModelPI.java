@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.Arc;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import junit.framework.TestCase;

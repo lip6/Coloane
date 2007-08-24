@@ -1,8 +1,13 @@
 package fr.lip6.move.coloane.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.Arc;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.model.Node;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import java.util.Vector;
 
@@ -24,7 +29,7 @@ public class TestModelArc extends TestCase {
 	static final int RANDOM = 4;
 
 	private int tour = 1;
-	private Model model = new Model();
+	private IModel model = new Model(new CamiTranslator());
 
 	private int idNode1, idNode2, idArc;
 
