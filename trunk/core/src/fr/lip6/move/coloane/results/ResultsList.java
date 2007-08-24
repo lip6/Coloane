@@ -44,4 +44,8 @@ public class ResultsList extends Observable {
 	public final int getResultsNumber() {
 		return resultsList.size();
 	}
+
+	public final void setActionName(String newActionName) {
+		this.actionName = newActionName;
+	}
 }
