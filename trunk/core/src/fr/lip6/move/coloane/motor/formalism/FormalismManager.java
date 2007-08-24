@@ -1,25 +1,29 @@
 package fr.lip6.move.coloane.motor.formalism;
 
 import fr.lip6.move.coloane.exceptions.ColoaneException;
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Translate;
-import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.motor.formalism.defs.PetriNets;
 import fr.lip6.move.coloane.motor.formalism.defs.PrefixNets;
 import fr.lip6.move.coloane.motor.formalism.defs.ReachabilityGraph;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.ModelImplAdapter;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * Classe du gestionnaire de formalismes.
@@ -100,11 +104,33 @@ public class FormalismManager {
 
 		IModel genericModel = null;
 		try {
-			genericModel = new Model(new File(fileName));
+			File toImport = new File(fileName);
+
+			// Un vecteur de commandes de construction
+			Vector<String> commands = new Vector<String>();
+
+			// Lecture du fichier
+			BufferedReader buffer = new BufferedReader(new FileReader(toImport));
+			while (buffer.ready()) {
+				commands.add(buffer.readLine());
+			}
+			buffer.close();
+
+			genericModel = new Model(commands, new CamiTranslator());
 		} catch (SyntaxErrorException e) {
 			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
-		} catch (ModelException e) {
-			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
+
+			// Erreur de localisation du fichier
+		} catch (FileNotFoundException e) {
+			throw new ColoaneException("Cannot build the model (file not found)");
+
+			// Erreur de lecture du fichier
+		} catch (IOException e) {
+			throw new ColoaneException("Cannot build the model (cannot read the file)");
+
+			// Autre erreur
+		} catch (NoSuchElementException e) {
+			throw new ColoaneException("Cannot build the model : " + e.getMessage());
 		}
 
 		// On indique au modele l'identifiant maximal
@@ -143,9 +169,9 @@ public class FormalismManager {
 
 		// Traduction du modele entier
 		try {
-			String[] cami = modelAdapter.getGenericModel().translate();
-			for (int i = 0; i < cami.length; i++) {
-				buff.write(cami[i]);
+			Vector<String> cami = modelAdapter.getGenericModel().translate();
+			for (String line : cami) {
+				buff.write(line);
 				buff.newLine();
 			}
 		} catch (Exception e) {
