@@ -12,9 +12,6 @@ import java.util.List;
  */
 public class AttributeImplAdapter extends AbstractModelElement implements IAttributeImpl, IElement {
 
-	/** Id pour la serialisation */
-	private static final long serialVersionUID = 1L;
-
 	/** Attribut generique a adapter */
 	private IAttribute attribute;
 

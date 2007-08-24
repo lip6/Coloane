@@ -1,13 +1,8 @@
 package fr.lip6.move.coloane.ui.model;
 
-import java.io.Serializable;
-
 import org.eclipse.draw2d.geometry.Point;
 
-public class AttributeGraphicInfo implements IAttributeGraphicInfo, Serializable {
-
-	/** Id pour la serialisation */
-	private static final long serialVersionUID = 1L;
+public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** Le noeud enrichi */
 	private final IAttributeImpl attribute;
