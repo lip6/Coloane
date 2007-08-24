@@ -1,23 +1,24 @@
 package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
-import fr.lip6.move.coloane.api.log.LogsUtils;
 import fr.lip6.move.coloane.api.main.Api;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Vector;
 
 /**
- * Cette class g�re les communications de bas niveau avec la plateforme
+ * Cette class gere les communications de bas niveau avec la plateforme
  * FrameKit, et en particulier la gestion des sockets.
  * Mais aucun traitement des commandes CAMI n'est fait ici.
  */
 
 public class ComLowLevel {
+
 	/** Identifiant de socket permettant de dialoguer avec la plateforme */
 	private Socket socket;
 
@@ -27,58 +28,41 @@ public class ComLowLevel {
 	/** Objet qui permet de recevoir les communications entrantes */
 	private DataInputStream socketInput;
 
-	/** Fournit des outils necessaires pour formater les messsages de logs*/
-	private final LogsUtils logsutils = new LogsUtils();
-
 	/**
 	 * Ecrire sur le flux de sortie vers Framekit
-	 * @param commande commande � envoyer � FrameKit
+	 * @param commande commande a envoyer a FrameKit
 	 * @return Retourne true si OK
-	 * @throws CommunicationCloseException si la lecture se passe mal
+	 * @throws CommunicationCloseException si l'ecriture se passe mal
 	 */
 	public final boolean writeCommande(byte[] commande) throws CommunicationCloseException {
-		Api.apiLogger.entering("ComLowLevel", "writeCommand", commande);
 		try {
 			if (!this.socket.isOutputShutdown()) {
-
-				// <DEBUG>
 				String msg = new String(commande, 4, commande.length - 4);
-				Api.apiLogger.finer("[CO-->FK] : " + msg);
-				//System.out.println("[CO-->FK] : " + msg);
-				// </DEBUG>
-
+				Api.getLogger().finer("[CO-->FK] : " + msg);
 				this.socketOutput.write(commande, 0, commande.length);
-				Api.apiLogger.exiting("ComLowLevel", "writeCommande", true);
 				return true;
 			} else {
-				Api.apiLogger.exiting("ComLowLevel", "writeCommande", false);
 				return false;
 			}
-		} catch (Exception e) {
-			//System.err.println("Erreur lors de l'�criture sur la socket" + e.getMessage());
-			CommunicationCloseException cce = new CommunicationCloseException(e.getMessage());
-			Api.apiLogger.throwing("ComLowLevel", "writeCommande", cce);
-			Api.apiLogger.warning("Erreur lors de l'ecriture sur la socket");
-			Api.apiLogger.warning(logsutils.stackToString(e));
-			throw cce;
+		} catch (IOException e) {
+			Api.getLogger().warning("Erreur lors de l'ecriture sur la socket : " + e.getMessage());
+			throw new CommunicationCloseException(e.getMessage());
 		}
 	}
 
 
 	/**
-	 * Lis une commande sur le flux d'entr�e
+	 * Lis une commande sur le flux d'entree
 	 * @return Vector L'ensemble des commande qu'on a lues
+	 * @throws CommunicationCloseException En cas d'echec de lecture sur la socket
 	 */
-	public final synchronized Vector readCommande() {
-		Api.apiLogger.entering("ComLowLevel", "readCommande");
+	public final synchronized Vector<String> readCommande() throws CommunicationCloseException {
 		Vector<String> liste = new Vector<String>();
-		int longueurMessage = 0;
 		String commande = "";
 
 		try {
-
 			// Lecture des 4 premiers octets donnant la taille du message
-			longueurMessage = this.socketInput.readInt();
+			int longueurMessage = this.socketInput.readInt();
 
 			// Lecture de la socket selon la longueur donnee.
 			for (int j = 0; j < longueurMessage; j++) {
@@ -86,69 +70,62 @@ public class ComLowLevel {
 
 				if (monChar == '\n') {
 					// Nouvelle commande detectee
-					Api.apiLogger.finer("[CO<--FK] : " + commande);
-					//System.out.println("[CO<--FK] : "+commande);
+					Api.getLogger().finer("[CO<--FK] : " + commande);
 					liste.add(commande);
 					commande = "";
 				} else {
 					commande += monChar;
 				}
 			}
-			Api.apiLogger.finer("[CO<--FK] : " + commande);
-			//System.out.println("[CO<--FK] : "+commande);
+			Api.getLogger().finer("[CO<--FK] : " + commande);
 			liste.add(commande);
-			Api.apiLogger.exiting("ComLowlevel", "readCommande", liste);
 			return liste;
 
-		} catch (Exception e) {
-			Api.apiLogger.throwing("ComLowLevel", "readCommande", e);
-			Api.apiLogger.warning(logsutils.stackToString(e));
-			Api.apiLogger.exiting("ComLowLevel", "readCommande", null);
-			return null;
+		} catch (EOFException e) {
+			Api.getLogger().warning("La socket est vide...");
+			throw new CommunicationCloseException("Socket vide (lecture)");
+		} catch (IOException e) {
+			Api.getLogger().warning("Erreur lors de la lecture sur la socket");
+			throw new CommunicationCloseException(e.getMessage());
 		}
 	}
 
 
 	/**
-	 * Permet de creer une socket (utilisation des parametres par d�faut)
+	 * Creation d'une socket (utilisation des parametres par defaut)
 	 * @return Retourne true si OK
-	 * @throws Exception une exception est levee si il y a un probleme
+	 * @throws IOException En cas d'echec lors de la creation de la socket
 	 */
-	public final boolean createCom(String ip, int port) throws Exception {
-		Object[] param = {ip, port};
-		Api.apiLogger.entering("ComLowLevel", "createCom", param);
+	public final boolean createCom(String ip, int port) throws IOException {
 		this.socket = new Socket();
 
 		// Ouverture d'une socket
 		try {
 			this.socket.connect(new InetSocketAddress(ip, port));
-		} catch (Exception e) {
-			Api.apiLogger.warning("Erreur lors de la creation de la socket :" + logsutils.stackToString(e));
-			//System.err.println("Erreur lors de la creation de la socket :" + e.getMessage());
+		} catch (IOException e) {
+			Api.getLogger().warning("Erreur lors de la creation de la socket :");
 			throw e;
 		}
 
 		this.socketInput = new DataInputStream(this.socket.getInputStream());
 		this.socketOutput = new DataOutputStream(this.socket.getOutputStream());
-		Api.apiLogger.exiting("ComLowLevel", "createCom", true);
 		return true;
 	}
 
 	/**
-	 * Ferme les connexions ouvertes
-	 * @return boolean R�ussite de l'op�ration
+	 * Ferme le flux de donnees entrant<br>
+	 * Ferme le flux de donnees sortant<br>
+	 * Ferme la socket<br>
+	 * @return boolean Indicateur de reussite de l'operation
 	 */
 	public final boolean closeCom() {
-		Api.apiLogger.entering("ComLowLevel", "closeCom");
 		try {
 			this.socketInput.close();
 			this.socketOutput.close();
-			Api.apiLogger.exiting("ComLowLevel", "closeCom", true);
+			this.socket.close();
 			return true;
 		} catch (IOException e) {
-			Api.apiLogger.throwing("ComLowLevel", "closeCom", e);
-			Api.apiLogger.warning(logsutils.stackToString(e));
-			Api.apiLogger.exiting("ComLowLevel", "closeCom", false);
+			Api.getLogger().warning("Erreur lors de la destruction de la socket :");
 			return false;
 		}
 	}
