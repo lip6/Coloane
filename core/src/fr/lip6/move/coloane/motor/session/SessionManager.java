@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.motor.session;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Gestionnaire de Sessions
@@ -40,15 +39,10 @@ public class SessionManager {
 	 * @return Session la session courante
 	 */
 	public final Session getSession(String sessionName) {
-		Iterator it;
-		Session session = null;
-		for (it = listOfSessions.iterator(); it.hasNext();) {
-			session = (Session) it.next();
-			if (sessionName.equals(session.getName())) {
-				return session;
-			}
+		for (Session session : listOfSessions) {
+			if (sessionName.equals(session.getName())) { return session; }
 		}
-		return session;
+		return null;
 	}
 
 
@@ -107,15 +101,11 @@ public class SessionManager {
 	 * Deconnexion brutale de tous les modeles
 	 */
 	public final void destroyAllSessions() {
-		Iterator i;
-		Session session = null;
-		for (i = listOfSessions.iterator(); i.hasNext();) {
-			session = (Session) i.next();
+		for (Session session : this.listOfSessions) {
 			session.setServicesMenu(null);
 			session.setAdminMenu(null);
-			this.listOfSessions.remove(session);
 		}
-
+		this.listOfSessions.clear();
 		this.currentSession = null;
 	}
 }
