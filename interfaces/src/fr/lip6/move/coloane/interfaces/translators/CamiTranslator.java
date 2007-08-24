@@ -65,6 +65,11 @@ public class CamiTranslator extends Translator {
 		Vector<String> toReturn = new Vector<String>();
 		String attributeValue = attribute.getValue();
 
+		// Si la valeur de l'attribut est vide... on retourne
+		if (attributeValue.equals("")) {
+			return toReturn;
+		}
+
 		// Decoupage de la chaine de charactere suivant un pattern
 		String[] valueTable = attributeValue.split("(\n\r)|(\r\n)|(\n)|(\r)");
 
@@ -142,6 +147,10 @@ public class CamiTranslator extends Translator {
 		Vector<String> toReturn = new Vector<String>();
 		toReturn.add(new String("CN(" + node.getNodeType().length() + ":" + node.getNodeType() + "," + node.getId() + ")"));
 		toReturn.add(new String("PO(" + node.getId() + "," + node.getXPosition() + "," + node.getYPosition() + ")"));
+
+		// Traduction des attributs
+		for (IAttribute att : node.getListOfAttr()) { toReturn.addAll(this.translateAttribute(att));	}
+
 		return toReturn;
 	}
 
