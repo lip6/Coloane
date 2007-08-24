@@ -51,7 +51,7 @@ public class CamiTranslator extends Translator {
 
 		// Traduction des points intermediaires
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
-			toReturn.add(new String("PI(-1," + arc.getNthPI(i).getXPosition() + "," + arc.getNthPI(i).getYPosition() + ",0,-1"));
+			toReturn.add(new String("PI(-1," + arc.getId() + "," + arc.getNthPI(i).getXPosition() + "," + arc.getNthPI(i).getYPosition() + ",-1)"));
 		}
 
 		// Traduction des attributs
