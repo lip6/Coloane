@@ -35,7 +35,7 @@ public interface IApi {
 	 * @param apiVersion La version de l'API
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
-	boolean openConnexion(String login, String password, String ip, int port, String apiName, String apiVersion);
+	boolean openConnection(String login, String password, String ip, int port, String apiName, String apiVersion);
 
 	/**
 	 * Permet de fermer la connexion entre l'interface utilisateur et la plateforme.
