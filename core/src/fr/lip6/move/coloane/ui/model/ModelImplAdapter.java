@@ -2,12 +2,12 @@ package fr.lip6.move.coloane.ui.model;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.main.Translate;
-import fr.lip6.move.coloane.model.Attribute;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -59,6 +59,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		/* Modele en cours de construction */
 		this.buildingStatus = true;
+
+		this.date = (int) System.currentTimeMillis();
 
 		this.genericModel = model;
 		this.formalism = f;

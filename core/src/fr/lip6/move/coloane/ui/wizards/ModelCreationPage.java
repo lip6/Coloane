@@ -1,9 +1,10 @@
 package fr.lip6.move.coloane.ui.wizards;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.main.Translate;
-import fr.lip6.move.coloane.model.Model;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.XmlEditor;
 
@@ -108,7 +109,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		InputStream inputS = null;
 
 		// Nouveau model
-		IModel model = new Model();
+		IModel model = new Model(new CamiTranslator());
 
 		// Formalisme choisi
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
