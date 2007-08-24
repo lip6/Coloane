@@ -185,6 +185,14 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 		return this.graphicInfo;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getElementBase()
+	 */
+	public final ElementBase getElementBase() {
+		return elementBase;
+	}
+
 	/**
 	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
 	 * @return Le liste des attributs

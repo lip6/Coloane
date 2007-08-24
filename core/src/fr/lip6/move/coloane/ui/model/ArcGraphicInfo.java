@@ -1,13 +1,8 @@
 package fr.lip6.move.coloane.ui.model;
 
-import java.io.Serializable;
-
 import org.eclipse.draw2d.geometry.Point;
 
-public class ArcGraphicInfo implements IArcGraphicInfo, Serializable {
-
-	/** Pour la serialisation */
-	private static final long serialVersionUID = 1L;
+public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	/** Il faut conserver le dernier middle point */
 	private Point oldMiddlePoint = null;
@@ -44,5 +39,13 @@ public class ArcGraphicInfo implements IArcGraphicInfo, Serializable {
 	 */
 	public final Point getMiddlePoint() {
 		return this.oldMiddlePoint;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#getFigureStyle()
+	 */
+	public final int getFigureStyle() {
+		return this.arc.getElementBase().getNumFigure();
 	}
 }

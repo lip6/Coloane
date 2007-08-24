@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.model;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.Collection;
@@ -142,6 +143,12 @@ public interface IArcImpl {
 	 * @return IGraphicInfo
 	 */
 	IArcGraphicInfo getGraphicInfo();
+
+	/**
+	 * Retourne l'element de base de l'arc
+	 * @return L'element de base de l'arc
+	 */
+	ElementBase getElementBase();
 
 	/**
 	 * Demande la mise en valeur des attributs attaches a l'objet
