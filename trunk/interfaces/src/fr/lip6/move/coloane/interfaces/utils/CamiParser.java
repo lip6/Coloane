@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
  * On trouvera entre autre :
  * <ul>
  * <li> Un parseur d'entier</li>
- * <li> Un parseur de chaie de caracteres</li>
+ * <li> Un parseur de chaine de caracteres</li>
  * <li> Un producteur de chaines conformes CAMI</li>
  * </ul>
  */
@@ -18,16 +18,15 @@ public class CamiParser {
 
 
 	public CamiParser(String commandeCAMI) {
-		this.message = commandeCAMI;
+		this.message = commandeCAMI.substring(3);
 	}
 
 	/**
 	 * Retourne l'entier CAMI du message CAMI
 	 *
-	 * @param token
-	 *            Le separateur
-	 * @return l'entier CAMI decouvert (sous forme de chaine de caracteres) Si
-	 *         aucun entier n'est trouve... La methode renvoie la chaine vide
+	 * @param token Le separateur
+	 * @return l'entier CAMI decouvert (sous forme de chaine de caracteres)
+	 * 	Si aucun entier n'est trouve... La methode renvoie la chaine vide
 	 */
 	public final String parseInt(String token) {
 
@@ -53,8 +52,7 @@ public class CamiParser {
 	/**
 	 * Retourne la chaine CAMI du message CAMI
 	 *
-	 * @param token
-	 *            Le separateur
+	 * @param token Le separateur
 	 * @return la chaine CAMI
 	 */
 	public final String parseString(String token) {
@@ -66,15 +64,13 @@ public class CamiParser {
 
 		if (!(this.message.subSequence(0, 1)).equals(token)) {
 
-			// Recup�re la taille indiquee par la commande CAMI
+			// Recupere la taille indiquee par la commande CAMI
 			tailleChaine = st.nextToken(":");
 			taille = Integer.parseInt(tailleChaine);
 
-			// Recup�re le texte ecrit apr�s la taille (et les :) jusqu'au bout
-			res = this.message.substring(tailleChaine.length() + 1,
-					tailleChaine.length() + 1 + taille);
-			this.message = this.message.substring(tailleChaine.length() + 1
-					+ taille + 1); // ??
+			// Recupere le texte ecrit apres la taille (et les :) jusqu'au bout
+			res = this.message.substring(tailleChaine.length() + 1, tailleChaine.length() + 1 + taille);
+			this.message = this.message.substring(tailleChaine.length() + 1 + taille + 1); // ??
 
 			return res;
 		} else {
@@ -85,11 +81,10 @@ public class CamiParser {
 	}
 
 	/**
-	 * Conversion d'une chaine de carateres en message CAMI. En CAMI chaque
-	 * chaine de carateres est precede de sa taille et de ':'
+	 * Conversion d'une chaine de carateres en message CAMI.<br>
+	 * En CAMI chaque chaine de carateres est precede de sa taille et de ':'
 	 *
-	 * @param s
-	 *            la chaine a convertir
+	 * @param s la chaine a convertir
 	 * @return la chaine convertie
 	 */
 	public static String stringToCAMI(String s) {
