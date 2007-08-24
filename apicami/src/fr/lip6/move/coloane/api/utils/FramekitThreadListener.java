@@ -232,6 +232,13 @@ public class FramekitThreadListener extends Thread {
 					continue;
 				}
 
+				// Message TR
+				// Message de Trace
+				if (listeArgs.firstElement().equals("TR")) {
+					this.api.printHistory((String) listeArgs.elementAt(1));
+					continue;
+				}
+
 				// Message MO
 				// Message d'Information
 				if (listeArgs.firstElement().equals("MO")) {
@@ -278,7 +285,11 @@ public class FramekitThreadListener extends Thread {
 				// Message DE
 				// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane
 				if (listeArgs.firstElement().equals("DE")) {
-					subresult = new SubResultsCom();
+					if (listeArgs.size() > 1) {
+						subresult = new SubResultsCom(listeArgs.get(1));
+					} else {
+						subresult = new SubResultsCom("");
+					}
 					continue;
 				}
 
