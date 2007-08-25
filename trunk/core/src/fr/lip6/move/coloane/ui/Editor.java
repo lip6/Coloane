@@ -91,6 +91,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			super(viewer);
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.ui.part.Page#init(org.eclipse.ui.part.IPageSite)
+		 */
 		public void init(IPageSite pageSite) {
 			super.init(pageSite);
 			ActionRegistry registry = getActionRegistry();
@@ -108,6 +112,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			bars.updateActionBars();
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
+		 */
 		public void createControl(Composite parent) {
 			pageBook = new PageBook(parent, SWT.NONE);
 			overview = new Canvas(pageBook, SWT.NONE);
@@ -115,6 +123,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			showPage();
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.ui.part.Page#dispose()
+		 */
 		public void dispose() {
 			unhookOutlineViewer();
 			if (thumbnail != null) {
@@ -126,6 +138,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			outlinePage = null;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+		 */
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(ZoomManager.class.toString());
@@ -133,6 +149,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			return null;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
+		 */
 		public Control getControl() {
 			return pageBook;
 		}
@@ -193,9 +213,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	/** Constructeur de l'editeur */
 	public Editor() { }
 
-	/**
-	 * Configuration de l'editeur
-	 *
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	@Override
 	protected final void configureGraphicalViewer() {
@@ -226,7 +247,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0};
 		manager.setZoomLevels(zoomLevels);
 
-		// On ajoute certains zooms pr�d�finis
+		// On ajoute certains zooms predefinis
 		zoomContributions = new ArrayList<String>();
 		zoomContributions.add(ZoomManager.FIT_ALL);
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
@@ -235,8 +256,9 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	}
 
-	/**
-	 * Set up the editor's inital content (after creation).
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
 	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
@@ -271,7 +293,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Creation de la palette d'outils
-	 * @return PaletteRoot
+	 * @return PaletteRoot Le pere de la palette
 	 */
 	protected final PaletteRoot getPaletteRoot() {
 		paletteRoot = PaletteFactory.createPalette(this.formalism);
@@ -292,7 +314,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Ce fichier a bien sur ete cree par l'assistant
 	 * @param input Toutes les informations concernant le modele
 	 */
-
 	protected final void setInput(IEditorInput input) {
 		super.setInput(input);
 
@@ -361,7 +382,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	/**
-	 * Sauvegarde d'un fichier dans un autre emplacement
+	 * Sauvegarde du modele dans un autre fichier
 	 */
 	public final void doSaveAs() {
 
@@ -373,7 +394,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		// Recupere le resultat de la boite de dialogue
 		IPath path = dialog.getResult();
-
 
 		if (path != null) {
 			// try to save the editor's contents under a different file name
@@ -413,28 +433,41 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+	 */
 	public final boolean isSaveAsAllowed() {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
+	 */
 	public final void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 		super.commandStackChanged(event);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+	 */
 	protected final PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
 				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+				viewer.addPaletteListener(new PaletteToolListener());
 			}
 		};
 	}
 
-	protected final FigureCanvas getEditor() {
-		return (FigureCanvas) getGraphicalViewer().getControl();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
+	 */
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
@@ -462,5 +495,12 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 
 		// Dans tous les autres cas
 		return super.getAdapter(type);
+	}
+
+	/**
+	 * Retourne un handle sur l'editeur
+	 */
+	protected final FigureCanvas getEditor() {
+		return (FigureCanvas) getGraphicalViewer().getControl();
 	}
 }
