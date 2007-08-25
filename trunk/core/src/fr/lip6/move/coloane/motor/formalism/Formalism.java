@@ -122,7 +122,7 @@ public class Formalism {
 	 * Retourne la liste des elements de base attache au formalisme
 	 * @return ArrayList
 	 */
-	public final ArrayList getListOfElementBase() {
+	public final ArrayList<ElementBase> getListOfElementBase() {
 		return listOfElementBase;
 	}
 
