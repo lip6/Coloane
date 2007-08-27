@@ -11,9 +11,7 @@ public class DialogFactory {
 	/**
 	 * Constructeur protege
 	 */
-	protected DialogFactory() {
-		// TODO Auto-generated constructor stub
-	}
+	protected DialogFactory() { }
 
 	/**
 	 * Creation d'une boite de dialogue suivant le type de IDialogCom

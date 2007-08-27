@@ -22,9 +22,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	private ProjectCreationPage projectCreationPage;
 
-	public NewProjectWizard() {
-		// TODO Auto-generated constructor stub
-	}
+	public NewProjectWizard() {	}
 
 
 	public final void addPages() {

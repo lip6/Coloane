@@ -11,9 +11,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class TextAreaFactory {
 
-	protected TextAreaFactory() {
-		// TODO Auto-generated constructor stub
-	}
+	protected TextAreaFactory() { }
 
 	/**
 	 * Construction de la zone de texte
