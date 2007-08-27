@@ -6,7 +6,7 @@ Implementation-Title: fr.lip6.move.coloane.interfaces
 Implementation-Version: build703
 Implementation-Vendor: LIP6 - MoVe
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
-Bundle-Version: 1.0.3
+Bundle-Version: 1.0.9
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
 Provide-Package: fr.lip6.move.coloane.interfaces,
@@ -15,3 +15,4 @@ Provide-Package: fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.interfaces.objects,
  fr.lip6.move.coloane.interfaces.translators,
  fr.lip6.move.coloane.interfaces.utils
+Require-Bundle: org.junit
