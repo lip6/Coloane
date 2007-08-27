@@ -5,9 +5,9 @@ import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
+//import java.util.jar.Attributes;
+//import java.util.jar.JarFile;
+//import java.util.jar.Manifest;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -44,23 +44,25 @@ public class Coloane extends AbstractUIPlugin {
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 
-			// Pour afficher la version et le numero de build
-			String bundleLocation = getBundle().getLocation();
-			// Pour supprimer le update "@"
-			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1); //$NON-NLS-1$
-			System.out.println(Translate.getString("main.Coloane.1")); //$NON-NLS-1$
-			if (bundleLocation.endsWith(".jar")) {	 //$NON-NLS-1$
-				JarFile coreJar = new JarFile(bundleLocation);
-				Manifest mf = coreJar.getManifest();
-				Attributes atts = mf.getMainAttributes();
-				// Version
-				System.out.println(Translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version")); //$NON-NLS-1$ //$NON-NLS-2$
-				// Build
-				System.out.println(Translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build")); //$NON-NLS-1$ //$NON-NLS-2$
-			} else {
-				//Developpement
-				System.out.println(Translate.getString("main.Coloane.4")); //$NON-NLS-1$
-			}
+//			// Pour afficher la version et le numero de build
+//			String bundleLocation = getBundle().getLocation();
+//			// Pour supprimer le update "@"
+//			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1); //$NON-NLS-1$
+//			System.out.println("First Bundle Location : " + bundleLocation);
+//			System.out.println(Translate.getString("main.Coloane.1")); //$NON-NLS-1$
+//			System.out.println("Bundle Location : " + bundleLocation);
+//			if (bundleLocation.endsWith(".jar")) {	 //$NON-NLS-1$
+//				JarFile coreJar = new JarFile(bundleLocation);
+//				Manifest mf = coreJar.getManifest();
+//				Attributes atts = mf.getMainAttributes();
+//				// Version
+//				System.out.println(Translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version")); //$NON-NLS-1$ //$NON-NLS-2$
+//				// Build
+//				System.out.println(Translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build")); //$NON-NLS-1$ //$NON-NLS-2$
+//			} else {
+//				//Developpement
+//				System.out.println(Translate.getString("main.Coloane.4")); //$NON-NLS-1$
+//			}
 
 			// Initialisation de l'interface graphique
 			ui = UserInterface.getInstance();
