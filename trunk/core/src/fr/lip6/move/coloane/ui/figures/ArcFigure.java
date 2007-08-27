@@ -52,4 +52,31 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 		// Epaisseur de la ligne
 		setLineWidth(1);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setHighlight()
+	 */
+	public final void setHighlight() {
+		this.setForegroundColor(ColorConstants.darkGreen);
+		this.setLineWidth(2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setSelect()
+	 */
+	public final void setSelect() {
+		this.setForegroundColor(ColorConstants.blue);
+		this.setLineWidth(2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
+	 */
+	public final void unsetSelect() {
+		this.setForegroundColor(ColorConstants.black);
+		this.setLineWidth(1);
+	}
 }

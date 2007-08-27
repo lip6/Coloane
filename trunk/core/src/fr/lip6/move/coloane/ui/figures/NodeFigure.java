@@ -143,7 +143,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		figure.setBackgroundColor(ColorConstants.lightGreen);
+		figure.setBackgroundColor(ColorConstants.darkGreen);
 	}
 
 	/*

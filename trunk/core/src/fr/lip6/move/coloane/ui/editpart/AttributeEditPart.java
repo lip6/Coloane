@@ -190,6 +190,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 						((INodeImpl) ref).setSelect(false);
 						((Label) getFigure()).setForegroundColor(ColorConstants.black);
 					}
+				} else if (ref instanceof IArcImpl) {
+					if (state > 0) {
+						((IArcImpl) ref).setSelect(true);
+						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
+					} else {
+						((IArcImpl) ref).setSelect(false);
+						((Label) getFigure()).setForegroundColor(ColorConstants.black);
+					}
 				}
 			}
 

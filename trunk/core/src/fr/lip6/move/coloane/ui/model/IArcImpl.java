@@ -34,6 +34,12 @@ public interface IArcImpl {
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String INFLEXPOINT_PROP = "Arc.InflexPoint";
 
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String SETSELECT_PROP = "Arc.Select";
+
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String SETUNSELECT_PROP = "Arc.UnSelect";
+
 
 	/**
 	 * Retourne l'attribut ContextMenus
@@ -168,4 +174,10 @@ public interface IArcImpl {
 	 * @param newTarget Nouvelle cible
 	 */
 	void reconnect(INodeImpl newSource, INodeImpl newTarget);
+
+	/**
+	 * Permet de mettre en valeur l'arc
+	 * @param state : L'etat de selection
+	 */
+	void setSelect(boolean state);
 }
