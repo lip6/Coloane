@@ -7,7 +7,6 @@ public class GenericReport extends Report {
 
 	public GenericReport(String label, IResultsCom results) {
 		super(label, results);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

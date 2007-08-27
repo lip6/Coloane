@@ -40,9 +40,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 	/** ID pour le cas d'ouverture d'un model */
 	private static final String ACT_EXPORT = "cami_export"; //$NON-NLS-1$
 
-	public void dispose() {
-		// TODO Auto-generated method stub
-	}
+	public void dispose() { }
 
 	public final void init(IWorkbenchWindow w) {
 		this.window = w;
@@ -158,8 +156,6 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
-	}
+	public void selectionChanged(IAction action, ISelection selection) { }
 
 }

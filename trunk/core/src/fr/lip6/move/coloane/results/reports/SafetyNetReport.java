@@ -8,7 +8,6 @@ public class SafetyNetReport extends Report {
 
 	public SafetyNetReport(String label, IResultsCom results) {
 		super(label, results);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
