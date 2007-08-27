@@ -39,7 +39,7 @@ public class XmlEditor extends DefaultHandler {
 
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			URL dtd = Coloane.getDefault().getBundle().getEntry("resources/coloane.dtd");
+			URL dtd = Coloane.class.getResource("/resources/coloane.dtd");
 			URL	path = FileLocator.toFileURL(dtd);
 			line += "<!DOCTYPE model SYSTEM '" + path.getPath() + "'>\n";
 		} catch (Exception e) {
