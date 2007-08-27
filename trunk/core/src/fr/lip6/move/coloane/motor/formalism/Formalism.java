@@ -127,14 +127,6 @@ public class Formalism {
 	}
 
 	/**
-	 * Retourne la liste des regles associees au formalisme
-	 * @return ArrayList
-	 */
-	public final ArrayList getListOfRules() {
-		return listOfRules;
-	}
-
-	/**
 	 * Retourne le nom du formalisme
 	 * @return String
 	 */
@@ -146,7 +138,7 @@ public class Formalism {
 	 * Retourne la liste des atttributs du formalisme.
 	 * @return ArrayList
 	 */
-	public final ArrayList getListOfAttribute() {
+	public final ArrayList<AttributeFormalism> getListOfAttribute() {
 		return listOfAttributeFormalism;
 	}
 

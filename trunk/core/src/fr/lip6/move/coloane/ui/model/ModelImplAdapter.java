@@ -13,7 +13,6 @@ import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -100,21 +99,21 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			INodeImpl source = null;
 
 			// Pour chaque enfant, on cherche si l'arc est source ou destination
-			Iterator iterator = this.children.iterator();
 			boolean findSource = false;
 			boolean findTarget = false;
 
 			// Parcours de la liste precedemment cree pour trouver le noeud source et cible
-			while ((iterator.hasNext()) && ((!findSource) || (!findTarget))) {
+			for (IElement currentNode : this.children) {
+				if ((!findSource) || (!findTarget)) {
+					INodeImpl cn = (INodeImpl) currentNode;
 
-				INodeImpl currentNode = (INodeImpl) iterator.next();
-
-				if (currentArc.getEndingNode() == currentNode.getGenericNode()) {
-					target = currentNode;
-					findTarget = true;
-				} else if (currentArc.getStartingNode() == currentNode.getGenericNode()) {
-					source = currentNode;
-					findSource = true;
+					if (currentArc.getEndingNode() == cn.getGenericNode()) {
+						target = cn;
+						findTarget = true;
+					} else if (currentArc.getStartingNode() == cn.getGenericNode()) {
+						source = cn;
+						findSource = true;
+					}
 				}
 			}
 
@@ -141,12 +140,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	private void setProperties(IModel m) {
 
 		// Parcours de tous les attributs prevus par le formalisme
-		Iterator iterator = this.getFormalism().getListOfAttribute().iterator();
-		while (iterator.hasNext()) {
+		for (AttributeFormalism attributeFormalism : this.getFormalism().getListOfAttribute()) {
 			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
-
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
 			// On parcours tous les attributs deja definis dans notre modele generique
 			// On cherche l'attribut dans notre modele generique qui correspond a l'attibut prevu par le formalisme (courant)
@@ -299,9 +295,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public final List<IElement> getAttributes() {
 		List<IElement> attrList = new ArrayList<IElement>();
-		Iterator iterator = this.getProperties().values().iterator();
-		while (iterator.hasNext()) {
-			IAttributeImpl att = (IAttributeImpl) iterator.next();
+		for (IAttributeImpl att : this.getProperties().values()) {
 			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
 				attrList.add((IElement) att);
 			}

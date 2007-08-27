@@ -4,8 +4,6 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
-import java.util.Iterator;
-
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -101,8 +99,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (Iterator i = this.newSource.getSourceArcs().iterator(); i.hasNext();) {
-			IArcImpl existingConnection = (IArcImpl) i.next();
+		for (IArcImpl existingConnection : this.newSource.getSourceArcs()) {
 			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}
@@ -121,8 +118,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (Iterator i = newTarget.getTargetArcs().iterator(); i.hasNext();) {
-			IArcImpl existingConnection = (IArcImpl) i.next();
+		for (IArcImpl existingConnection : newTarget.getTargetArcs()) {
 			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
 				return false;
 			}

@@ -142,6 +142,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
+		@SuppressWarnings("unchecked")
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(ZoomManager.class.toString());
@@ -468,6 +469,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
+	@SuppressWarnings("unchecked")
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());

@@ -78,7 +78,7 @@ public class FormalismManager {
 	 * Retourne la liste des formalismes disponibles
 	 * @return listOfFormalism
 	 */
-	public final ArrayList getListOfFormalisms() {
+	public final ArrayList<Formalism> getListOfFormalisms() {
 		return listOfFormalisms;
 	}
 
