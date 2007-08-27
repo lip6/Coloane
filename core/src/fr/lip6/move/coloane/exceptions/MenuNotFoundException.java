@@ -9,9 +9,7 @@ public class MenuNotFoundException extends Exception {
 	/**
 	 * Constructeur simple
 	 */
-	public MenuNotFoundException() {
-		// TODO Auto-generated constructor stub
-	}
+	public MenuNotFoundException() { }
 
 	/**
 	 * Constructeur avec indication

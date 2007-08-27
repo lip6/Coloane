@@ -111,7 +111,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * Creation d'un nouveau modele et affichage dans l'editeur
 	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
 	 * Cette action est particulierement utile lors de la generation d'un modele par FK
-	 * TODO: rendre cette methode generique
+	 * TODO: Rendre cette methode generique
 	 * @param model le model brut
 	 */
 	public void setNewModel(IModel model) {
