@@ -12,9 +12,7 @@ public abstract class Translator {
 
 	static final int MAXLENGTH = 255;
 
-	public Translator() {
-		// TODO Auto-generated constructor stub
-	}
+	public Translator() { }
 
 	public abstract Vector<String> translateModel(IModel model);
 
