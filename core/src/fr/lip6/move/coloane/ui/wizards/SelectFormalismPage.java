@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -69,11 +68,9 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.removeAll();
 
 		// Recupere la liste des formalismes
-		ArrayList formalismList = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
-		Iterator iterator = formalismList.iterator();
+		ArrayList<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
 
-		while (iterator.hasNext()) {
-			Formalism formalism = (Formalism) iterator.next();			// Parcours de la liste des formalismes
+		for (Formalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 
