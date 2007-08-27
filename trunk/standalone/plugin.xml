@@ -16,19 +16,32 @@
             name="Coloane">
          <property
                name="aboutText"
-               value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane"/>
+               value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane">
+         </property>
          <property
                name="aboutImage"
-               value="/fr.lip6.move.coloane/resources/icons/icone_ile.gif"/>
+               value="/fr.lip6.move.coloane/resources/icons/icone_ile.gif">
+         </property>
          <property
                name="startupForegroundColor"
-               value="000000"/>
+               value="000000">
+         </property>
          <property
                name="startupProgressRect"
-               value="0,0,0,0"/>
+               value="0,0,0,0">
+         </property>
          <property
                name="startupMessageRect"
-               value="0,0,0,0"/>
+               value="0,0,0,0">
+         </property>
+         <property
+               name="appName"
+               value="Coloane">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
       </product>
    </extension>
 

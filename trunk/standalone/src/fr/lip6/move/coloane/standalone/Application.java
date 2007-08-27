@@ -1,22 +1,28 @@
 package fr.lip6.move.coloane.standalone;
 
-import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-public class Application implements IPlatformRunnable {
+public class Application implements IApplication {
 
-	public Object run(Object args) throws Exception {
+	public Object start(IApplicationContext context) throws Exception {
 		Display display = PlatformUI.createDisplay();
+		
 		try {
-			int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
-			if (returnCode == PlatformUI.RETURN_RESTART) {
-				return IPlatformRunnable.EXIT_RESTART;
-			}
-			return IPlatformRunnable.EXIT_OK;
+			int code = PlatformUI.createAndRunWorkbench(display,new ApplicationWorkbenchAdvisor());
+
+			// Exit the application with an appropriate return code
+			return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
 		} finally {
-			display.dispose();
-		}    
+			if (display != null) { display.dispose(); }
+		}
+	}
+
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
