@@ -3,19 +3,17 @@ package fr.lip6.move.coloane.api.log;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+/**
+ * Classe en charge de la gestion des messages de log<br>
+ * Ici, elle permet l'affichage de tous les message sur la console.
+ */
 public class ColoaneHandler extends Handler {
 
 	@Override
-	public void close() throws SecurityException {
-		// TODO Auto-generated method stub
-
-	}
+	public void close() throws SecurityException { }
 
 	@Override
-	public void flush() {
-		// TODO Auto-generated method stub
-
-	}
+	public void flush() { }
 
 	@Override
 	public final void publish(LogRecord log) {

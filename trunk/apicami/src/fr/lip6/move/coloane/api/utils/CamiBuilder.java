@@ -18,9 +18,7 @@ import java.util.Vector;
  */
 public final class CamiBuilder {
 
-	private CamiBuilder() {
-		// TODO Auto-generated constructor stub
-	}
+	private CamiBuilder() {	}
 
 	/**
 	 * Traduction CAMI -> MENU
