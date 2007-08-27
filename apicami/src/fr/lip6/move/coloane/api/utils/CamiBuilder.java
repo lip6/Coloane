@@ -30,8 +30,8 @@ public final class CamiBuilder {
 	 */
 
 	public static IRootMenuCom buildMenu(Vector<Vector<String>> camiVec) throws UnexpectedCamiCommand {
-		Iterator it = camiVec.iterator();
-		Vector camiCmd = (Vector) it.next();
+		Iterator<Vector<String>> it = camiVec.iterator();
+		Vector<String> camiCmd = (Vector<String>) it.next();
 
 		// On verifie que le vecteur n'est pas vide
 		if (camiVec.size() == 0) {
@@ -50,7 +50,7 @@ public final class CamiBuilder {
 
 		// Construction du menu (Parcours des elements du vecteur)
 		while (it.hasNext()) {
-			camiCmd = (Vector) it.next();
+			camiCmd = (Vector<String>) it.next();
 
 			// Si c'est une fin de service
 			if (camiCmd.get(0).equals("FQ")) {
@@ -83,16 +83,16 @@ public final class CamiBuilder {
 	 * @throws UnexpectedCAMICommand si le vecteur de commandes contient une mauvaise commande
 	 * @see DialogCom
 	 */
-	public static IDialogCom buildDialog(Vector camiVec) throws UnexpectedCamiCommand {
-		Iterator it = camiVec.iterator();
-		Vector camiCmd = (Vector) it.next();
+	public static IDialogCom buildDialog(Vector<Vector<String>> camiVec) throws UnexpectedCamiCommand {
+		Iterator<Vector<String>> it = camiVec.iterator();
+		Vector<String> camiCmd = (Vector<String>) it.next();
 
 		// On veirife que le vecteur n'est pas vide
 		if (camiVec.size() == 0) { throw new UnexpectedCamiCommand("La boite de dialogue est mal definie");	}
 		// La premiere commande attendue est un DC
 		if (!camiCmd.get(0).equals("DC")) {	throw new UnexpectedCamiCommand("La boite de dialogue est mal definie" + camiCmd.get(0) + "a la place de DC");	}
 
-		camiCmd = (Vector) it.next();
+		camiCmd = (Vector<String>) it.next();
 
 		// Commande suivante attendue : CE
 		if (!camiCmd.get(0).equals("CE")) {
@@ -191,7 +191,7 @@ public final class CamiBuilder {
 		// Certains contenus peuvent etre transmis par FK a la boite de dialogue
 		Vector<String> contents = new Vector<String>();
 		while (it.hasNext()) {
-			camiCmd = (Vector) it.next();
+			camiCmd = (Vector<String>) it.next();
 
 			// Dans le cas d'une fin de boite de dialogue
 			if (camiCmd.get(0).equals("FF")) {
