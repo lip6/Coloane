@@ -8,7 +8,6 @@ import fr.lip6.move.coloane.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
 import java.beans.PropertyChangeEvent;
@@ -90,8 +89,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 				super.setSelectedState(state);
 				if (state != 0) {
 					((IArcImpl) getModel()).setAttributesSelected(true);
+					((IArcFigure) getFigure()).setSelect();
 				} else {
 					((IArcImpl) getModel()).setAttributesSelected(false);
+					((IArcFigure) getFigure()).unsetSelect();
 				}
 			}
 
@@ -121,8 +122,12 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		String prop = property.getPropertyName();
 
 		// Propriete de modification/suppression/ajout de point d'inflexion
-		if (ArcImplAdapter.INFLEXPOINT_PROP.equals(prop)) {
+		if (IArcImpl.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
+		} else if (IArcImpl.SETSELECT_PROP.equals(prop)) {
+			((IArcFigure) getFigure()).setHighlight();
+		} else if (IArcImpl.SETUNSELECT_PROP.equals(prop)) {
+			((IArcFigure) getFigure()).unsetSelect();
 		}
 	}
 

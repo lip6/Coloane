@@ -222,6 +222,18 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setSelect(boolean)
+	 */
+	public final void setSelect(boolean state) {
+		if (state) {
+			firePropertyChange(IArcImpl.SETSELECT_PROP, null, null);
+		} else {
+			firePropertyChange(IArcImpl.SETUNSELECT_PROP, null, null);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
 	public final List<IElement> getAttributes() {
