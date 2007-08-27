@@ -4,10 +4,9 @@ Bundle-Name: Coloane Launcher
 Bundle-SymbolicName: fr.lip6.move.coloane.standalone;singleton:=true
 Bundle-Version: 0.9.1.0
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.runtime.compatibility,
+Require-Bundle: fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.apicami,
+ fr.lip6.move.coloane.interfaces,
  org.eclipse.ui,
- org.eclipse.ui.ide,
- fr.lip6.move.coloane.core,
- fr.lip6.move.coloane.apicami
+ org.eclipse.equinox.app
 Bundle-Vendor: LIP6 - MoVe
