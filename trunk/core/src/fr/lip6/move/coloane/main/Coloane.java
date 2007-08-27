@@ -5,10 +5,6 @@ import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
-//import java.util.jar.Attributes;
-//import java.util.jar.JarFile;
-//import java.util.jar.Manifest;
-
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -44,26 +40,6 @@ public class Coloane extends AbstractUIPlugin {
 			//System.out.println(traduction.getString("main.Coloane.0"));
 			System.out.println("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 
-//			// Pour afficher la version et le numero de build
-//			String bundleLocation = getBundle().getLocation();
-//			// Pour supprimer le update "@"
-//			bundleLocation = bundleLocation.substring(bundleLocation.indexOf("@") + 1); //$NON-NLS-1$
-//			System.out.println("First Bundle Location : " + bundleLocation);
-//			System.out.println(Translate.getString("main.Coloane.1")); //$NON-NLS-1$
-//			System.out.println("Bundle Location : " + bundleLocation);
-//			if (bundleLocation.endsWith(".jar")) {	 //$NON-NLS-1$
-//				JarFile coreJar = new JarFile(bundleLocation);
-//				Manifest mf = coreJar.getManifest();
-//				Attributes atts = mf.getMainAttributes();
-//				// Version
-//				System.out.println(Translate.getString("main.Coloane.2") + atts.getValue("Implementation-Version")); //$NON-NLS-1$ //$NON-NLS-2$
-//				// Build
-//				System.out.println(Translate.getString("main.Coloane.3") + atts.getValue("Implementation-Build")); //$NON-NLS-1$ //$NON-NLS-2$
-//			} else {
-//				//Developpement
-//				System.out.println(Translate.getString("main.Coloane.4")); //$NON-NLS-1$
-//			}
-
 			// Initialisation de l'interface graphique
 			ui = UserInterface.getInstance();
 			if (ui == null) {
@@ -91,6 +67,14 @@ public class Coloane extends AbstractUIPlugin {
 			ui.setCom(com);
 			ui.setMotor(motor);
 
+			// Pour afficher la version et le numero de build
+			String version = (String) getBundle().getHeaders().get("Implementation-Version");
+			String build = (String) getBundle().getHeaders().get("Implementation-Build");
+			if ((version != null) && (build != null)) {
+				ui.printHistoryMessage("Core Version : " + version + " Build : " + build);
+			} else {
+				ui.printHistoryMessage("Core Version (Dev) : " + getBundle().getHeaders().get("Bundle-Version"));
+			}
 		} catch (Exception e) {
 			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
