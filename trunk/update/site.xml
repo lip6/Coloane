@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/fr.lip6.move.coloane.feature_0.9.2.0.jar" id="fr.lip6.move.coloane.feature" version="0.9.2.0" os="linux,macosx,win32" ws="carbon,gtk,win32" nl="en,fr" arch="ppc,x86">
+   <description url="http://izanami/coloane/updates/">
+      Izanami Updates Site
+   </description>
+   <feature url="features/fr.lip6.move.coloane.feature_0.9.12.6.jar" id="fr.lip6.move.coloane.feature" version="0.9.12.6" os="linux,macosx,win32" ws="carbon,gtk,win32" nl="en,fr" arch="ppc,x86">
       <category name="Modeling Tools"/>
    </feature>
    <category-def name="Modeling Tools" label="Modelling Tools">
