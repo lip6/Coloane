@@ -170,8 +170,8 @@ public final class Api implements IApi {
 			comLowServices.writeCommande(send);
 
 			// Lecture de la reponse en provenance de FK
-			Vector commandeRecue = comLowServices.readCommande();
-			Vector reponse = FKCommand.getArgs((String) commandeRecue.elementAt(0));
+			Vector<String> commandeRecue = comLowServices.readCommande();
+			Vector<String> reponse = FKCommand.getArgs((String) commandeRecue.elementAt(0));
 
 			/* Si la reponse de FK differe de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
