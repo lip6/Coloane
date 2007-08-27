@@ -63,7 +63,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
 
 			// Calcul de l'indice d'insertion dans la fenetre
-			int indice = Integer.parseInt(prop.getId());
+			int indice = prop.getId();
 
 			// Selection du descripteur selon le type d'attribut
 			if (prop.isMultiline()) { // Multiligne
@@ -84,7 +84,8 @@ public abstract class AbstractModelElement implements IPropertySource {
 	 * @param id Nom de la propriete
 	 */
 	public final Object getPropertyValue(Object id) {
-		IAttributeImpl prop = (IAttributeImpl) this.properties.get(id);
+		String idS = id.toString();
+		IAttributeImpl prop = (IAttributeImpl) this.properties.get(idS);
 
 		// Si l'attribut a une veritable valeur
 		if (prop.getValue() != null) {
@@ -109,7 +110,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 	 * @param value Valeur de la propriete
 	 */
 	public final void setPropertyValue(Object id, Object newValue) {
-		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id);
+		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id.toString());
 
 		// Sauvegarde de l'ancienne valeur
 		String oldValue = attribute.getValue();
