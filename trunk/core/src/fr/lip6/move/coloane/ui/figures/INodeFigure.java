@@ -26,4 +26,10 @@ public interface INodeFigure extends IFigure {
 	 * Annulation de la mise en valeur provoquee par un retour de service
 	 */
 	void unsetSelectSpecial();
+
+	/**
+	 *
+	 *
+	 */
+	void setHighlight();
 }

@@ -39,7 +39,7 @@ public interface IAttributeImpl {
 	 * Retourne l'identifiant de l'attribut
 	 * @return
 	 */
-	String getId();
+	int getId();
 
 	/**
 	 * Retourne la chaine qui sera affichee sur la fenetre PropertiesView d'Eclipse

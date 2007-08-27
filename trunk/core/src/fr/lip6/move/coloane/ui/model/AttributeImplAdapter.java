@@ -22,7 +22,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	private IElement reference;
 
 	/** Un identifiant unique pour etre gere par Ecplipse */
-	private String id;
+	private int id;
 
 	/** Indique si l'attribut est afficheable dans la fenetre propriete */
 	private boolean drawable;
@@ -52,7 +52,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		this.reference = r;
 
 		// Affectation de l'identifiant
-		this.id = String.valueOf(f.getOrder());
+		this.id = f.getOrder();
 
 		// Divers parametres
 		this.drawable = f.isDrawable();			// L'attribut doit-il etre affiche dans la fenetre des proprietes
@@ -69,7 +69,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getId()
 	 */
-	public final String getId() {
+	public final int getId() {
 		return this.id;
 	}
 
@@ -168,7 +168,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValidation()
 	 */
 	public final boolean getValidation() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -177,7 +176,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#getValidationMessage()
 	 */
 	public final String getValidationMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

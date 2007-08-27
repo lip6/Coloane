@@ -42,6 +42,12 @@ public interface INodeImpl {
 	/** ID pour la propriete lorsque le noeud est deselectionne */
 	String UNSELECT_PROP = "Node.UnSelectUpdate";
 
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SPECIAL_PROP = "Node.SpecialUpdate";
+
+	/** ID pour la propriete lorsque le noeud est deselectionne */
+	String UNSPECIAL_PROP = "Node.UnSpecialUpdate";
+
 	/**
 	 * Ajouter un arc entrant.
 	 * L'arc doit etre rajoute dans la liste des arcs entrants du noeud adapte
@@ -145,6 +151,12 @@ public interface INodeImpl {
 	 * @param state
 	 */
 	void setSpecial(boolean state);
+
+	/**
+	 * DEmande la mise en valeur du noeud suite a la selection d'un des objets referents
+	 * @param state
+	 */
+	void setSelect(boolean state);
 
 	/**
 	 * Demande la mise en valeur des attributs attaches a l'objet

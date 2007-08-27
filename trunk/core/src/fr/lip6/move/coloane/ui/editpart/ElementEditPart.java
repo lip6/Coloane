@@ -82,11 +82,18 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
 
-		// Propriete de selection
-		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
+		// Propriete de selection speciale
+		} else if (INodeImpl.SPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setSelectSpecial();
-		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
+		} else if (INodeImpl.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).unsetSelectSpecial();
+
+			// Propriete de selection
+		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setHighlight();
+			//((INodeImpl) getModel()).setAttributesSelected(false, true);
+		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setUnselect();
 		}
 
 		// Dans tous les cas, rafraichissement de la figure
@@ -251,8 +258,9 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	}
 
 
-	/**
-	 * Installation des ecouteurs de l'objet
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
 	public final void activate() {
 		if (!isActive()) {
@@ -261,8 +269,9 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		}
 	}
 
-	/**
-	 * Mise en veille des ecouteurs de l'objet
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
 	public final void deactivate() {
 		if (isActive()) {

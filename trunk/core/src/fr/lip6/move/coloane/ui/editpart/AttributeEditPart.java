@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.ui.editpart;
+ package fr.lip6.move.coloane.ui.editpart;
 
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
@@ -27,6 +27,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
+import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.SWT;
@@ -40,7 +41,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
 	/**
-	 * Creation de la figure associee
+	 * Creation de la figure associee<br>
 	 * Pour les attribut, on considere que la vue doit affiche un Label
 	 * @return IFigure
 	 */
@@ -173,57 +174,80 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	 */
 	protected final void createEditPolicies() {
 
+		/* Ensemble de regles concernant la selection/deselection de l'objet */
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
+
+			// Comportement lorsque l'objet est selectionne
+			@Override
+			protected void setSelectedState(int state) {
+				super.setSelectedState(state);
+				IElement ref = ((IAttributeImpl) getModel()).getReference();
+				if (ref instanceof INodeImpl) {
+					if (state > 0) {
+						((INodeImpl) ref).setSelect(true);
+						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
+					} else {
+						((INodeImpl) ref).setSelect(false);
+						((Label) getFigure()).setForegroundColor(ColorConstants.black);
+					}
+				}
+			}
+
+			@Override
+			protected void hideSelection() { }
+
+			@Override
+			protected void showSelection() { }
+		});
+
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 
 			@Override
-			protected Command getConnectionCompleteCommand(CreateConnectionRequest arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+			protected Command getConnectionCompleteCommand(CreateConnectionRequest arg0) { return null;	}
 
 			@Override
-			protected Command getConnectionCreateCommand(CreateConnectionRequest arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+			protected Command getConnectionCreateCommand(CreateConnectionRequest arg0) { return null; }
 
 			@Override
-			protected Command getReconnectSourceCommand(ReconnectRequest arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+			protected Command getReconnectSourceCommand(ReconnectRequest arg0) { return null; }
 
 			@Override
-			protected Command getReconnectTargetCommand(ReconnectRequest arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+			protected Command getReconnectTargetCommand(ReconnectRequest arg0) { return null; }
 		}
 		);
 
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
 	public final ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
 	public final ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
