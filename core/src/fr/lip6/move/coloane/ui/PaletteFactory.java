@@ -34,9 +34,7 @@ public final class PaletteFactory {
 	/** Preference ID used to persist the flyout palette's state. */
 	private static final String PALETTE_STATE = "PaletteFactory.State";
 
-	protected PaletteFactory() {
-		// TODO Auto-generated constructor stub
-	}
+	protected PaletteFactory() { }
 
 	/**
 	 * Creation de la paletteRoot et ajout de tous les elements de la palette
