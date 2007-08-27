@@ -113,7 +113,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return String Le parametre demande
 	 */
 	public static String getParam(String key) {
-		return Platform.getResourceBundle(getDefault().getBundle()).getString(key);
+		return Platform.getResourceString(getDefault().getBundle(), key);
 	}
 
 	/**
