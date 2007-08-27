@@ -172,9 +172,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				this.genericModel.addAttribute(attribute);
 			}
 
-			// Augmente la liste des proprietes pour le modele (fenetre
-			// properties de la vue)
-			this.addProperty(attributeAdapter.getId(), attributeAdapter);
+			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
+			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
 		}
 	}
 
@@ -434,5 +433,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	public final IModelImpl getModelAdapter() {
 		return this;
+	}
+
+	public final int getId() {
+		return 1;
 	}
 }

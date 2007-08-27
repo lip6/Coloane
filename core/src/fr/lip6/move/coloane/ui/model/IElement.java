@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Interface definissant un element, tronc commun de tous les elements affiches sur l'editeur
- *
  */
 
 public interface IElement {
@@ -17,7 +16,14 @@ public interface IElement {
 
 	/**
 	 * Renvoie le modele augmente
+	 * @return Le modele augmente
 	 */
 	IModelImpl getModelAdapter();
+
+	/**
+	 * Retourne l'identifiant de l'element
+	 * @return l'identifiant
+	 */
+	int getId();
 
 }
