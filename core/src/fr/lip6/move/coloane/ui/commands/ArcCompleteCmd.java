@@ -7,8 +7,6 @@ import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
-import java.util.Iterator;
-
 import org.eclipse.gef.commands.Command;
 
 
@@ -58,8 +56,7 @@ public class ArcCompleteCmd extends Command {
 		}
 
 		// Evite les doublons en renvoyant faux si le lien existe deja
-		for (Iterator iter = source.getSourceArcs().iterator(); iter.hasNext();) {
-			IArcImpl a = (IArcImpl) iter.next();
+		for (IArcImpl a : source.getSourceArcs()) {
 			if (a.getTarget().equals(target)) {
 				return false;
 			}

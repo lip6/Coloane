@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.editpart;
 
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
+import fr.lip6.move.coloane.ui.model.IElement;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.beans.PropertyChangeEvent;
@@ -35,7 +36,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * Retourne la liste des enfants du modele
 	 * @return List La liste des enfants dans la représentation arborescente du modele
 	 */
-	protected final List getModelChildren() {
+	protected final List<IElement> getModelChildren() {
 		return ((IModelImpl) getModel()).getChildren();
 	}
 

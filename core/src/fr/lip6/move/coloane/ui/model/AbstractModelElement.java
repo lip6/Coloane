@@ -59,7 +59,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
 
 		// Recupere la table contenant toutes les proprietes (attributs) des objets
-		for (Enumeration e = this.properties.elements(); e.hasMoreElements();) {
+		for (Enumeration<IAttributeImpl> e = this.properties.elements(); e.hasMoreElements();) {
 			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
 
 			// Calcul de l'indice d'insertion dans la fenetre
@@ -182,7 +182,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 	 * Table des PropertyImplAdapter de l'element du noeud
 	 * @return la table des PropertyImplAdapter de l'element du noeud
 	 */
-	protected final Hashtable getProperties() {
+	protected final Hashtable<Object, IAttributeImpl> getProperties() {
 		return properties;
 	}
 

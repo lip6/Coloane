@@ -100,7 +100,7 @@ public class ElementBase {
 	 * Retourne la liste des attributs d'un element.
 	 * @return ArrayList
 	 */
-	public final ArrayList getListOfAttribute() {
+	public final ArrayList<AttributeFormalism> getListOfAttribute() {
 		return listOfAttributeElem;
 	}
 

@@ -39,8 +39,8 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * Constructeur du module moteur
 	 */
 	private Motor() {
-		Motor.formalismManager = new FormalismManager();
-		Motor.sessionManager = new SessionManager();
+		formalismManager = new FormalismManager();
+		sessionManager = new SessionManager();
 	}
 
 	/**
@@ -74,7 +74,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		}
 
 		// On doit controller si une session ne se nomme deja pas pareil
-		if (Motor.sessionManager.getSession(eclipseSessionName) != null) {
+		if (sessionManager.getSession(eclipseSessionName) != null) {
 			System.err.println("Une session homonyme existe deja...");
 			return false;
 		}
@@ -82,14 +82,14 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Creation d'une nouvelle session
 		Session session = new Session(eclipseSessionName);
 		session.setModel(model); // On associe le modele a la session
-		Motor.sessionManager.setSession(session); // On ajoute la session au moteur de sessions
+		sessionManager.setSession(session); // On ajoute la session au moteur de sessions
 
 		// Demande de connexion du modele au module de communications
 		boolean result = com.openSession(model);
 
 		// Si l'ouverture de connexion echoue, on supprime la session existante
 		if (!result) {
-			Motor.sessionManager.destroyCurrentSession();
+			sessionManager.destroyCurrentSession();
 		}
 
 		return result;
@@ -101,7 +101,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public boolean closeSession() {
 		if (com.closeSession()) {
-			Motor.sessionManager.destroyCurrentSession();
+			sessionManager.destroyCurrentSession();
 			return true;
 		}
 		return false;
@@ -127,7 +127,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @return SessionManager Le gestionnaire de sessions
 	 */
 	public SessionManager getSessionManager() {
-		return Motor.sessionManager;
+		return sessionManager;
 	}
 
 	/**
@@ -135,6 +135,6 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @return FormalismManager Le gestionnaire de formalismes
 	 */
 	public FormalismManager getFormalismManager() {
-		return Motor.formalismManager;
+		return formalismManager;
 	}
 }

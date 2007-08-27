@@ -13,7 +13,6 @@ import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
@@ -108,10 +107,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	private void setProperties() {
 
 		// Parcours de tous les attributs du formalisme
-		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
-
-		while (iterator.hasNext()) {
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+		for (AttributeFormalism attributeFormalism : this.elementBase.getListOfAttribute()) {
 
 			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
@@ -199,9 +195,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 */
 	private List<IAttributeImpl> getDrawableAttributes() {
 		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-		Iterator iterator = this.getProperties().values().iterator();
-		while (iterator.hasNext()) {
-			IAttributeImpl att = (IAttributeImpl) iterator.next();
+		for (IAttributeImpl att : this.getProperties().values()) {
 			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
 				list.add(att);
 			}

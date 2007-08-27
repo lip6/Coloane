@@ -13,7 +13,6 @@ import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -96,10 +95,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		this.clearProperties();
 
 		// Creation de tous les attributs prevus par le formalisme
-		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
-
-		while (iterator.hasNext()) {
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
+		for (AttributeFormalism attributeFormalism : this.elementBase.getListOfAttribute()) {
 
 			/* Creation de l'attribut generique */
 			IAttribute attribute = new Attribute(attributeFormalism.getName(), new String(attributeFormalism.getDefaultValue()), node.getId());
@@ -123,12 +119,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	private void setProperties(INode n) {
 
 		// Parcours de tous les attributs du formalisme
-		Iterator iterator = this.elementBase.getListOfAttribute().iterator();
-		while (iterator.hasNext()) {
+		for (AttributeFormalism attributeFormalism : this.elementBase.getListOfAttribute()) {
 			IAttributeImpl attributeAdapter = null;
 			IAttribute attribute = null;
-
-			AttributeFormalism attributeFormalism = (AttributeFormalism) iterator.next();
 
 			// On parcours tous les attributs deja definis dans notre noeud generique
 			// On cherche l'attribut dans notre noeud generique qui correspond a l'attibut prevu par le formalisme (courant)
@@ -226,9 +219,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 */
 	private List<IAttributeImpl> getDrawableAttributes() {
 		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-		Iterator iterator = this.getProperties().values().iterator();
-		while (iterator.hasNext()) {
-			IAttributeImpl att = (IAttributeImpl) iterator.next();
+		for (IAttributeImpl att : this.getProperties().values()) {
 			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
 				list.add(att);
 			}
