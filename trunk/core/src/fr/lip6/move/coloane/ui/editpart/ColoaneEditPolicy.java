@@ -97,7 +97,6 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 	@Override
 	protected final Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

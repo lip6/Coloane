@@ -87,7 +87,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 
 			@Override
 			protected void setSelectedState(int state) {
-				// TODO Auto-generated method stub
 				super.setSelectedState(state);
 				if (state != 0) {
 					((IArcImpl) getModel()).setAttributesSelected(true);
@@ -97,14 +96,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			}
 
 			@Override
-			protected void hideSelection() {
-				// TODO Auto-generated method stub
-			}
+			protected void hideSelection() { }
 
 			@Override
-			protected void showSelection() {
-				// TODO Auto-generated method stub
-			}
+			protected void showSelection() { }
 		});
 
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());

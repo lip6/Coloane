@@ -157,7 +157,6 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 */
 	@Override
 	protected final Image getImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

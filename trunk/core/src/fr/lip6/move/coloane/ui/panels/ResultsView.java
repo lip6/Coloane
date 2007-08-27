@@ -167,17 +167,27 @@ public class ResultsView extends ViewPart implements Observer {
 		setResultsListSelectionListener();
 	}
 
+	/**
+	 * TODO : A Documenter
+	 * @param oActionsList
+	 */
 	public final void setActionsList(ActionsList oActionsList) {
 		this.actionsList = oActionsList;
 	}
 
+	/**
+	 * TODO: A documenter
+	 */
 	public final void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		actionsList = (ActionsList) o;
 		setLists();
 
 	}
 
+	/**
+	 * TODO : A documenter
+	 * @return
+	 */
 	public static ResultsView getInstance() {
 		return instance;
 	}

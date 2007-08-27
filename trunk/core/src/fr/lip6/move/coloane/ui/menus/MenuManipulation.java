@@ -6,9 +6,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class MenuManipulation {
 
-	protected MenuManipulation() {
-		// TODO Auto-generated constructor stub
-	}
+	protected MenuManipulation() { }
 
 	/*
 	 * The first step is to find, on the menubar, the ancestor of
