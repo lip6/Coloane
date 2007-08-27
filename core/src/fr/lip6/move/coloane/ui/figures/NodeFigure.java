@@ -15,6 +15,7 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 public class NodeFigure extends Figure implements INodeFigure {
 
@@ -70,7 +71,6 @@ public class NodeFigure extends Figure implements INodeFigure {
 			figure2.setSize(node.getElementBase().getWidth() - INodeGraphicInfo.DIFF_CIRCLE, node.getElementBase().getHeight() - INodeGraphicInfo.DIFF_CIRCLE);
 			figure2.setLocation(new Point(2, 2));
 			figure.add(figure2);
-
 			add(figure);
 
 		// Le cas d'une queue
@@ -94,11 +94,16 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 		// Ecoute des evenements ENTER et EXIT de la souris
 		MouseMotionListener listener = new MouseMotionListener.Stub() {
+
+			/** Sauvegarde de la couleur de fond */
+			private Color previousBackgroundColor;
+
 			/*
 			 * (non-Javadoc)
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseEntered(org.eclipse.draw2d.MouseEvent)
 			 */
 			public void mouseEntered(MouseEvent me) {
+				previousBackgroundColor = ((Shape) me.getSource()).getBackgroundColor();
 				((Shape) me.getSource()).setBackgroundColor(ColorConstants.yellow);
 				node.setAttributesSelected(true, true);
 			}
@@ -107,11 +112,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseExited(org.eclipse.draw2d.MouseEvent)
 			 */
 			public void mouseExited(MouseEvent me) {
-				if (nodeGraphInfo.isFilled()) {
-					((Shape) me.getSource()).setBackgroundColor(ColorConstants.black);
-				} else {
-					((Shape) me.getSource()).setBackgroundColor(ColorConstants.white);
-				}
+				((Shape) me.getSource()).setBackgroundColor(previousBackgroundColor);
 				node.setAttributesSelected(true, false);
 			}
 		};
@@ -139,10 +140,24 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#setHighlight()
+	 */
+	public final void setHighlight() {
+		figure.setBackgroundColor(ColorConstants.lightGreen);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
 	 */
 	public final void setUnselect() {
 		figure.setForegroundColor(ColorConstants.black);
+		figure.setBackgroundColor(ColorConstants.white);
+
+		if (nodeGraphInfo.isFilled()) {
+			figure.setBackgroundColor(ColorConstants.black);
+		}
+
 		((Shape) figure).setLineWidth(1);
 	}
 

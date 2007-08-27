@@ -109,7 +109,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 
 			/* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
-			this.addProperty(attributeAdapter.getId(), attributeAdapter);
+			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(attributeAdapter.getId(), attributeAdapter);
+			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
 		}
 	}
 
@@ -282,9 +282,21 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 */
 	public final void setSpecial(boolean state) {
 		if (state) {
-			firePropertyChange(NodeImplAdapter.SELECT_PROP, null, null);
+			firePropertyChange(INodeImpl.SPECIAL_PROP, null, null);
 		} else {
-			firePropertyChange(NodeImplAdapter.UNSELECT_PROP, null, null);
+			firePropertyChange(INodeImpl.UNSPECIAL_PROP, null, null);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setSelect(boolean)
+	 */
+	public final void setSelect(boolean state) {
+		if (state) {
+			firePropertyChange(INodeImpl.SELECT_PROP, null, null);
+		} else {
+			firePropertyChange(INodeImpl.UNSELECT_PROP, null, null);
 		}
 	}
 
