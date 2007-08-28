@@ -5,7 +5,6 @@ import java.util.ArrayList;
 /**
  * Definition d'un formalisme
  */
-
 public class Formalism {
 
 	/** Nom du formalisme. */
@@ -29,15 +28,16 @@ public class Formalism {
 	/**
 	 * Construteur de la classe Formalism (avec icone associee)
 	 *
-	 * @param name Nom du formalisme.
-	 * @param img Nom du fichier de l'image
+	 * @param formalismName Nom du formalisme.
+	 * @param formalismImg Nom du fichier de l'image
+	 * @param formalismExtension Extension associee au formalisme
 	 */
 	public Formalism(String formalismName, String formalismImg, String formalismExtension) {
 		this.imageName = formalismImg;
 		this.name = formalismName;
 		this.extension = formalismExtension;
-		this.listOfElementBase        = new ArrayList<ElementBase>();
-		this.listOfRules              = new ArrayList<Rule>();
+		this.listOfElementBase = new ArrayList<ElementBase>();
+		this.listOfRules = new ArrayList<Rule>();
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
 	}
 

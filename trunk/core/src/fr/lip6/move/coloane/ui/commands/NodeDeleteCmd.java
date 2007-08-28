@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.main.Translate;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -12,7 +12,6 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Commande de suppression d'un noeud du modele
- * @see INodeImpl
  */
 public class NodeDeleteCmd extends Command {
 
@@ -36,39 +35,36 @@ public class NodeDeleteCmd extends Command {
 	public NodeDeleteCmd(IModelImpl m, INodeImpl n) {
 		this.model = m;
 		this.node = n;
-
-		// Indication de l'evenement
-		setLabel(Translate.getString("ui.commands.NodeDeleteCmd.1")); //$NON-NLS-1$
 	}
 
-	/**
-	 * Execution de la commande
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
 		sourceConnections = node.getSourceArcs();
 		targetConnections = node.getTargetArcs();
-
 		this.redo(); // Execute
 	}
 
-	/**
-	 * Execution de la commande (REDO)
-	 * @throws BuildException
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	@Override
 	public final void redo() {
 		try {
 			model.removeNode(node);
 		} catch (BuildException e) {
-			System.err.println("Impossible de supprimer le noeud");
+			Coloane.getLogger().warning("Impossible de supprimer le noeud : " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
-	/**
-	 * Annulation de la commande (UNDO)
-	 * --> Ajout du noeud qu'on vient de supprimer
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public final void undo() {
@@ -85,7 +81,7 @@ public class NodeDeleteCmd extends Command {
 				model.addArc(arcOut);
 			}
 		} catch (BuildException e) {
-			System.err.println("Impossible d'annuler la suppression du noeud");
+			Coloane.getLogger().warning("Impossible d'annuler la suppression du noeud : " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 }

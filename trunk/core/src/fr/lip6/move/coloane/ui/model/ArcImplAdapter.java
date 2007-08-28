@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -145,7 +146,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			this.source.removeArc(this);
 			this.target.removeArc(this);
 		} catch (ModelException e) {
-			System.err.println("Cannot delete the old nodes");
+			Coloane.getLogger().warning("Impossible de supprimer les references : (" + this.source.getId() + "," + this.target.getId() + ")");
 		}
 
 		// Nouvelles cible et source
@@ -157,7 +158,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			this.target.addInputArc(this);
 			this.source.addOutputArc(this);
 		} catch (BuildException e) {
-			System.err.println("Cannot create new links");
+			Coloane.getLogger().warning("Impossible de creer les references : (" + this.source.getId() + "," + this.target.getId() + ")");
 		}
 
 		// On indique a l'arc generique quels sont ces sources et cibles
@@ -328,8 +329,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			this.genericArc.addPI(p.x, p.y, index);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
-			System.err.println("Imopssible d'ajouter le point d'inflexion");
-			e.printStackTrace();
+			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId());
 		}
 	}
 
@@ -342,8 +342,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			this.genericArc.removePI(index);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
-			System.err.println("Imopssible de supprimer le point d'inflexion");
-			e.printStackTrace();
+			Coloane.getLogger().warning("Impossible de supprimer le point d'inflexion sur : " + this.genericArc.getId());
 		}
 	}
 
@@ -356,7 +355,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 			this.genericArc.modifyPI(index, p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
-			e.printStackTrace();
+			Coloane.getLogger().warning("Impossible de modifier le point d'inflexion sur : " + this.genericArc.getId());
 		}
 	}
 

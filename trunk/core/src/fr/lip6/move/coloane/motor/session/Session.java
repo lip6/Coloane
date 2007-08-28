@@ -33,13 +33,11 @@ public class Session {
 	/**
 	 * Constructeur de la classe Session
 	 * @param name Nom de la session
-	 * @param num numero de la session
 	 */
 	public Session(String name) {
 		this.sessionName = name;
 		this.sessionId = cntSession++;
 		this.sessionModel = null;
-
 		this.sessionStatus = 0;
 	}
 

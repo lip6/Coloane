@@ -2,10 +2,10 @@ package fr.lip6.move.coloane.ui.model;
 
 import org.eclipse.draw2d.geometry.Point;
 
-	/**
-	 * Interface pour l'information graphique d'un noeud
-	 * @see IARC
-	 */
+/**
+ * Interface pour l'information graphique d'un noeud
+ * @see IARC
+ */
 
 public interface IArcGraphicInfo {
 
@@ -27,7 +27,6 @@ public interface IArcGraphicInfo {
 	 * Met a jour l'indicateur de point milieu pour l'arc
 	 */
 	void updateMiddlePoint();
-
 
 	/**
 	 * Retourne le point de milieu de l'arc

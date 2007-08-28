@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
-import fr.lip6.move.coloane.exceptions.UnknowDialogException;
+import fr.lip6.move.coloane.exceptions.UIException;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
 /**
- * Usines a boite de dialogue
+ * Usines a boites de dialogue
  */
 public class DialogFactory {
 
@@ -19,11 +19,11 @@ public class DialogFactory {
 	 * @return Une boite de dialogue Eclipse
 	 * @throws UnknowDialogException Lorsque la boite de dialogue n'est pas trouvee
 	 */
-	public static IDialog create(IDialogCom dialog) throws UnknowDialogException {
+	public static IDialog create(IDialogCom dialog) throws UIException {
 
 		switch (dialog.getType()) {
 			case IDialogCom.DLG_INTERACTIVE:
-				throw new UnknowDialogException();
+				throw new UIException(Messages.DialogFactory_0);
 
 			case IDialogCom.DLG_STANDARD:
 			case IDialogCom.DLG_WARNING:
@@ -31,7 +31,7 @@ public class DialogFactory {
 				return new SimpleDialog(dialog);
 
 			default:
-				throw new UnknowDialogException();
+				throw new UIException(Messages.DialogFactory_1);
 		}
 	}
 }

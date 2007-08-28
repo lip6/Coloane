@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * Une boite de dialogue est divise en quatre zones :
  * <ul>

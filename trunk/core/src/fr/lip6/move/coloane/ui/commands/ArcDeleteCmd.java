@@ -1,55 +1,59 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
-import fr.lip6.move.coloane.main.Translate;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Groupe d'actions a entreprendre lors de la suppression d'un arc
+ * Commande de suppression d'un arc
  */
 public class ArcDeleteCmd extends Command {
 
 	/** L'arc adapte */
 	private final IArcImpl arc;
 
-
 	/**
 	 * Effacer un arc
 	 * @param toDelete arc a effacer
 	 */
 	public ArcDeleteCmd(IArcImpl toDelete) {
-		setLabel(Translate.getString("ui.commands.ArcDeleteCmd.0")); //$NON-NLS-1$
 		this.arc = toDelete;
 	}
 
-	/**
-	 * Executer
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public final void execute() {
 		this.redo();
 	}
 
-	/**
-	 * Executer (ou Refaire)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	@Override
 	public final void redo() {
-		this.arc.getModelAdapter().removeArc(this.arc);
+		try {
+			arc.getModelAdapter().removeArc(arc);
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage());
+		}
 	}
 
-	/**
-	 * Annuler
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public final void undo() {
 		try {
-			this.arc.getModelAdapter().addArc(this.arc);
+			arc.getModelAdapter().addArc(arc);
 		} catch (BuildException e) {
-			e.getStackTrace();
-			System.err.println("Echec : Impossible d'annuler ! : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.getLogger().warning("Impossible d'annuler la suppression de l'arc un arc (" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

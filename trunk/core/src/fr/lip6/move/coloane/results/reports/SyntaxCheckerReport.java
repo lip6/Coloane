@@ -11,7 +11,7 @@ public class SyntaxCheckerReport extends Report {
 	 * @param results
 	 */
 	public SyntaxCheckerReport(IResultsCom results) {
-		super("Petri Net Syntax Checker", results);
+		super(Messages.SyntaxCheckerReport_0, results);
 	}
 
 	/*
@@ -20,21 +20,21 @@ public class SyntaxCheckerReport extends Report {
 	 */
 	@Override
 	protected final void buildReport() {
-		String description = "";
+		String description = ""; //$NON-NLS-1$
 
 		// Si il n'y a pas de resultat : Aucun probleme !
 		if (getResultsCom().getSubResults().size() == 0) {
-			getResultList().add(new Result("Your model is correct !", ""));
+			getResultList().add(new Result(Messages.SyntaxCheckerReport_2, Messages.SyntaxCheckerReport_8)); //$NON-NLS-2$
 		}
 
 		// Parcours de tous les DE-FE
 		for (SubResultsCom sr : getResultsCom().getSubResults()) {
 			String label = sr.getCmdRT().get(0);
 
-			if (label.equalsIgnoreCase("List of unnamed places.")) {
-				description = "This place is unnamed";
-			} else if (label.equalsIgnoreCase("List of unnamed transitions.")) {
-				description = "This transition is unnamed";
+			if (label.equalsIgnoreCase("List of unnamed places.")) { //$NON-NLS-1$
+				description = Messages.SyntaxCheckerReport_5;
+			} else if (label.equalsIgnoreCase("List of unnamed transitions.")) { //$NON-NLS-1$
+				description = Messages.SyntaxCheckerReport_7;
 			} else {
 				for (String desc : sr.getCmdRT()) {	description += desc; }
 			}

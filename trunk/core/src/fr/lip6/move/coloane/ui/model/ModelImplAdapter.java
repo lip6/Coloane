@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.main.Translate;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
@@ -53,7 +53,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @param genericModel Le modele existant
 	 * @param formalism Le formalisme du modele
 	 */
-	public ModelImplAdapter(IModel model, Formalism f) {
+	public ModelImplAdapter(IModel model, Formalism f) throws BuildException {
 		super();
 
 		/* Modele en cours de construction */
@@ -67,8 +67,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		/* Creation de tous les adapteurs */
 		try {
 			this.setModelAdapters();
-		} catch (Exception e) {
-			System.out.println("Erreur lors de la construction du modele");
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
+			throw e;
 		}
 
 		/* Ajout de tous les attributs deja indiques dans le modele */
@@ -82,7 +83,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * modele augmente Les noeuds du cote generique existent deja... Il faut
 	 * donc creer les noeuds du cote augemente
 	 */
-	private void setModelAdapters() throws Exception {
+	private void setModelAdapters() throws BuildException {
 
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.genericModel.getListOfNodeSize(); i++) {
@@ -124,7 +125,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 				arc.setModelAdapter(this);
 				this.addArc(arc);
 			} else {
-				throw new Exception(Translate.getString("ui.model.ModelImplAdapter.1")); //$NON-NLS-1$
+				throw new BuildException(Messages.ModelImplAdapter_1);
 			}
 		}
 	}
@@ -184,7 +185,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.genericModel.addNode(child.getGenericNode());
 			} catch (ModelException e) {
-				throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.2")); //$NON-NLS-1$
+				throw new BuildException(Messages.ModelImplAdapter_2 + child.getId());
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
@@ -193,7 +194,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
 		} else {
-			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.3")); //$NON-NLS-1$
+			throw new BuildException(Messages.ModelImplAdapter_3);
 		}
 	}
 
@@ -208,18 +209,14 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			try {
 				this.genericModel.removeNode(child.getGenericNode());
 			} catch (ModelException e) {
-				e.printStackTrace();
+				throw new BuildException(Messages.ModelImplAdapter_4);
 			}
 
 			// Suppression de tous les arcs entrants
-			for (IArcImpl arcIn : child.getTargetArcs()) {
-				this.removeArc(arcIn);
-			}
+			for (IArcImpl arcIn : child.getTargetArcs()) { this.removeArc(arcIn); }
 
 			// Suppression de tous les arcs sortants
-			for (IArcImpl arcOut : child.getSourceArcs()) {
-				this.removeArc(arcOut);
-			}
+			for (IArcImpl arcOut : child.getSourceArcs()) { this.removeArc(arcOut); }
 
 			// Enleve le noeud au modele augmente
 			this.children.remove(child);
@@ -227,7 +224,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Demande la mise a jour de l'affichage
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
 		} else {
-			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.4")); //$NON-NLS-1$
+			throw new BuildException(Messages.ModelImplAdapter_5);
 		}
 	}
 
@@ -240,7 +237,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			// Ajout de l'arc au modele generique
 			this.genericModel.addArc(child.getGenericArc());
 		} catch (ModelException e) {
-			throw new BuildException(Translate.getString("ui.model.ModelImplAdapter.5")); //$NON-NLS-1$
+			throw new BuildException(Messages.ModelImplAdapter_6 + child.getId());
 		}
 
 		// Connexion
@@ -252,11 +249,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#removeArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public final void removeArc(IArcImpl child) {
+	public final void removeArc(IArcImpl child) throws BuildException {
 		try {
 			this.genericModel.removeArc(child.getGenericArc());
 		} catch (ModelException e) {
-			e.printStackTrace();
+			throw new BuildException(Messages.ModelImplAdapter_7);
 		}
 
 		// Deconnexion
@@ -264,7 +261,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			child.getSource().removeArc(child);
 			child.getTarget().removeArc(child);
 		} catch (ModelException e) {
-			System.err.println("Cannot remove the arc");
+			throw new BuildException(Messages.ModelImplAdapter_8);
 		}
 	}
 
@@ -406,29 +403,27 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
+	/**
+	 * Annule l'effet de la mise en valeur des noeuds
+	 */
 	public final void switchoffNodes() {
 		for (IElement node : this.children) {
 			((INodeImpl) node).setSpecial(false);
 		}
 	}
 
-	/***************************************************************************
-	 * DUMP
-	 **************************************************************************/
-	public final void dumpModel() {
-		System.err.println("--> Debut du dump !"); //$NON-NLS-1$
-		System.out.println("Liste des noeud :"); //$NON-NLS-1$
-		for (int i = 0; i < children.size(); i++) {
-			INodeImpl n = (INodeImpl) children.get(i);
-			System.out.println(i + ": " + n.getId() + " (" //$NON-NLS-1$ //$NON-NLS-2$
-					+ n.getGenericNode().getNodeType() + ")"); //$NON-NLS-1$
-		}
-	}
-
+	/**
+	 * Retourne le modele
+	 * @return {@link IModelImpl}
+	 */
 	public final IModelImpl getModelAdapter() {
 		return this;
 	}
 
+	/**
+	 * Retourne l'ID du modele
+	 * @return 1
+	 */
 	public final int getId() {
 		return 1;
 	}

@@ -20,7 +20,7 @@ public class AttributeDialog extends IconAndMessageDialog {
 	private String byDefault;
 
 	// OUTPUTS
-	private String result = "";
+	private String result = ""; //$NON-NLS-1$
 
 	private Control textarea;
 
@@ -32,19 +32,30 @@ public class AttributeDialog extends IconAndMessageDialog {
 		this.byDefault = d;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
+	 */
 	@Override
 	protected final void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(this.title);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	protected final void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	protected final Control createDialogArea(Composite parent) {
 		createMessageArea(parent);
@@ -64,6 +75,10 @@ public class AttributeDialog extends IconAndMessageDialog {
 		return composite;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
+	 */
 	public final void buttonPressed(int button) {
 		//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
 
@@ -73,11 +88,18 @@ public class AttributeDialog extends IconAndMessageDialog {
 	}
 
 
+	/**
+	 * Retourne le resultat
+	 * @return
+	 */
 	public final String getResult() {
 		return this.result;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
+	 */
 	@Override
 	protected final Image getImage() {
 		return null;

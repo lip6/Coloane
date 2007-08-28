@@ -8,25 +8,25 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
  */
 public class FactoryReport {
 
-	private static final String SER_SYNTAXCHECKER = "Petri net syntax checker";
-	private static final String SER_COMPUTEBOUNDS = "Compute structural bounds";
-	private static final String SER_PPOSITIVEINV = "P-positive invariants";
-	private static final String SER_TPOSITIVEINV = "T-positive invariants";
-	private static final String SER_PINV = "P-invariants";
-	private static final String SER_TINV = "T-invariants";
-	private static final String SER_COLOREDINV = "Colored invariants";
-	private static final String SER_LINEARCHARVERBOSE = "Linear characterization (verbose)";
-	private static final String SER_LINEARCHAR = "Linear characterization";
-	private static final String SER_SAFETY = "Is the net structuraly safe?";
-	private static final String SER_BOUNDED = "Is the net structurally bounded?";
-	private static final String SER_COLORSAFETY = "Is the colored structurally net safe (by unfolding)?";
-	private static final String SER_COLORBOUNDED = "Is the colored net structurally bounded?";
-	private static final String SER_SYPHON = "Minimal syphon ";
-	private static final String SER_TRAPS = "Minimal traps ";
-	private static final String SER_BDDSYPHON = "BDD based Minimal syphon";
-	private static final String SER_BDDTRAPS = "BDD based Minimal traps";
-	private static final String SER_SYPHONUNFOLD = "Minimal syphon by unfolding";
-	private static final String SER_TRAPSUNFOLD = "Minimal traps by unfolding";
+	private static final String SER_SYNTAXCHECKER = "Petri net syntax checker"; //$NON-NLS-1$
+	private static final String SER_COMPUTEBOUNDS = "Compute structural bounds"; //$NON-NLS-1$
+	private static final String SER_PPOSITIVEINV = "P-positive invariants"; //$NON-NLS-1$
+	private static final String SER_TPOSITIVEINV = "T-positive invariants"; //$NON-NLS-1$
+	private static final String SER_PINV = "P-invariants"; //$NON-NLS-1$
+	private static final String SER_TINV = "T-invariants"; //$NON-NLS-1$
+	private static final String SER_COLOREDINV = "Colored invariants"; //$NON-NLS-1$
+	private static final String SER_LINEARCHARVERBOSE = "Linear characterization (verbose)"; //$NON-NLS-1$
+	private static final String SER_LINEARCHAR = "Linear characterization"; //$NON-NLS-1$
+	private static final String SER_SAFETY = "Is the net structuraly safe?"; //$NON-NLS-1$
+	private static final String SER_BOUNDED = "Is the net structurally bounded?"; //$NON-NLS-1$
+	private static final String SER_COLORSAFETY = "Is the colored structurally net safe (by unfolding)?"; //$NON-NLS-1$
+	private static final String SER_COLORBOUNDED = "Is the colored net structurally bounded?"; //$NON-NLS-1$
+	private static final String SER_SYPHON = "Minimal syphon "; //$NON-NLS-1$
+	private static final String SER_TRAPS = "Minimal traps "; //$NON-NLS-1$
+	private static final String SER_BDDSYPHON = "BDD based Minimal syphon"; //$NON-NLS-1$
+	private static final String SER_BDDTRAPS = "BDD based Minimal traps"; //$NON-NLS-1$
+	private static final String SER_SYPHONUNFOLD = "Minimal syphon by unfolding"; //$NON-NLS-1$
+	private static final String SER_TRAPSUNFOLD = "Minimal traps by unfolding"; //$NON-NLS-1$
 
 	private IResultsCom resultCom;
 
@@ -111,6 +111,6 @@ public class FactoryReport {
 			return new SyphonTrapsReport(SER_TRAPSUNFOLD, this.resultCom);
 		}
 
-		return new GenericReport("No results", this.resultCom);
+		return new GenericReport(Messages.FactoryReport_0, this.resultCom);
 	}
 }

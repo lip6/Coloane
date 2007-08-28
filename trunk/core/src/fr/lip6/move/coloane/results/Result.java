@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.results;
 
 /**
- * Description d'un resultat atomique.
- * Lors de l'affichage, le nom du resultat correspond a la deuxieme colonne de la vue Results
- * La description du resultat correspond a la troisieme colonne de la vue Results
+ * Description d'un resultat atomique.<br>
+ * Lors de l'affichage, le nom du resultat correspond a la deuxieme colonne de la vue Results<br>
+ * La description du resultat correspond a la troisieme colonne de la vue Results.
  */
 public class Result {
 

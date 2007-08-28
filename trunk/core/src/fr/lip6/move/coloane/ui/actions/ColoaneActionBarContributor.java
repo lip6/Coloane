@@ -14,7 +14,8 @@ import org.eclipse.ui.actions.ActionFactory;
 
 public class ColoaneActionBarContributor extends ActionBarContributor {
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
 	@Override
@@ -27,7 +28,8 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	}
 
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
 	 */
 	@Override
@@ -38,8 +40,9 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addGlobalActionKey(ActionFactory.DELETE.getId());
 	}
 
-	/**
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(IToolBarManager)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
 	 */
 	public final void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));

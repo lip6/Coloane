@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.ui.wizards;
 
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ public class SelectFormalismPage extends WizardPage {
 	 */
 	public SelectFormalismPage() {
 		super("newmodel"); //$NON-NLS-1$
-		setTitle(Translate.getString("ui.wizards.SelectFormalismPage.1")); //$NON-NLS-1$
-		setDescription(Translate.getString("ui.wizards.SelectFormalismPage.2"));	 //$NON-NLS-1$
+		setTitle(Messages.SelectFormalismPage_0);
+		setDescription(Messages.SelectFormalismPage_1);
 	}
 
 	/**
@@ -54,7 +53,7 @@ public class SelectFormalismPage extends WizardPage {
 
 		// La boite de selection
 		label = new Label(composite, SWT.NONE);
-		label.setText(Translate.getString("ui.wizards.SelectFormalismPage.3")); //$NON-NLS-1$
+		label.setText(Messages.SelectFormalismPage_2);
 
 		tableFormalism = new Table(composite, SWT.SINGLE | SWT.BORDER);
 		tableFormalism.setLayoutData(gridData);
@@ -73,7 +72,6 @@ public class SelectFormalismPage extends WizardPage {
 		for (Formalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
-
 			// Determine l'icone associe a l'item dans la table
 			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); //$NON-NLS-1$
 		}

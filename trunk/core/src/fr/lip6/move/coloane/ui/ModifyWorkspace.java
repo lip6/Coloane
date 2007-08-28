@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui;
 
 import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.main.Coloane;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,8 +17,6 @@ import org.eclipse.ui.ide.IDE;
 /**
  * Cette classe agit sur le contenu du workspace.
  * Elle sauvegarde le modele recu dans un nouveau fichier du workspace et l'affiche
- *
- * @author Jean-Baptiste Voron
  * @see WorkspaceModifyOperation
  */
 public class ModifyWorkspace extends WorkspaceModifyOperation {
@@ -39,6 +38,10 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 		this.window = w;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.actions.WorkspaceModifyOperation#execute(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
@@ -56,8 +59,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 				file.setContents(inputS, true, false, monitor);
 			}
 		} catch (CoreException e) {
-			System.err.println("Erreur lors de la sauvegarde du modele");
-			e.printStackTrace();
+			Coloane.getLogger().warning(Messages.ModifyWorkspace_0);
 		}
 
 		// Affichage du nouveau modele dans un nouvel onglet

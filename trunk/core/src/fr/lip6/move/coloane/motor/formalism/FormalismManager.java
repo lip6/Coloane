@@ -1,11 +1,12 @@
 package fr.lip6.move.coloane.motor.formalism;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
-import fr.lip6.move.coloane.main.Translate;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.defs.PetriNets;
 import fr.lip6.move.coloane.motor.formalism.defs.PrefixNets;
 import fr.lip6.move.coloane.motor.formalism.defs.ReachabilityGraph;
@@ -85,8 +86,8 @@ public class FormalismManager {
 	/**
 	 * Importe un modele en determinant son formalisme en fonction de l'extension du fichier
 	 * @param fileName nom de fchier a importer
-	 * @return le model adapter correspondant
-	 * @throws Exception leve d'exception si le fichier n'est pas valide
+	 * @return le model adapte correspondant
+	 * @throws ColoaneException si le fichier n'est pas valide
 	 */
 	public final IModelImpl importModel(String fileName) throws ColoaneException {
 
@@ -99,7 +100,7 @@ public class FormalismManager {
 
 		// On verifie qu'un formalisme existe bien pour cette extension
 		if (formalism == null) {
-			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.192")); //$NON-NLS-1$
+			throw new ColoaneException(Messages.FormalismManager_0);
 		}
 
 		IModel genericModel = null;
@@ -118,53 +119,58 @@ public class FormalismManager {
 
 			genericModel = new Model(commands, new CamiTranslator());
 		} catch (SyntaxErrorException e) {
-			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.193")); //$NON-NLS-1$
+			throw new ColoaneException(Messages.FormalismManager_1);
 
 			// Erreur de localisation du fichier
 		} catch (FileNotFoundException e) {
-			throw new ColoaneException("Cannot build the model (file not found)");
+			throw new ColoaneException(Messages.FormalismManager_2);
 
 			// Erreur de lecture du fichier
 		} catch (IOException e) {
-			throw new ColoaneException("Cannot build the model (cannot read the file)");
+			throw new ColoaneException(Messages.FormalismManager_3);
 
 			// Autre erreur
 		} catch (NoSuchElementException e) {
-			throw new ColoaneException("Cannot build the model : " + e.getMessage());
+			throw new ColoaneException(Messages.FormalismManager_4);
 		}
 
 		// On indique au modele l'identifiant maximal
 		// Cette etape est importante, si on souhaite ajouter de nouveaux noeuds et arcs au modele
 		genericModel.setMaxId(genericModel.getMaxId());
 
-		return new ModelImplAdapter(genericModel, formalism);
+		try {
+			return new ModelImplAdapter(genericModel, formalism);
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
+			return null;
+		}
 	}
 
 	/**
-	 * Export un modeladapter en model en fonction de son formalisme
+	 * Exporte un modeladapter en modele en fonction de son formalisme
 	 * @param modelAdapter le model a enregistrer
 	 * @param fileName nom du fichier desire sans les extentions
-	 * @throws Exception
+	 * @throws ColoaneException en cas d'echec
 	 */
 
 	public final void exportModel(IModelImpl modelAdapter, String fileName) throws ColoaneException {
 
 		if (fileName.equalsIgnoreCase("") || fileName == null) { //$NON-NLS-1$
-			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.195")); //$NON-NLS-1$
+			throw new ColoaneException(Messages.FormalismManager_5);
 		}
 
 		// Extention du formalism
 		String ext = modelAdapter.getFormalism().getExtension();
 		if (ext == null) {
-			throw new ColoaneException(Translate.getString("motor.formalism.FormalismManager.196")); //$NON-NLS-1$
+			throw new ColoaneException(Messages.FormalismManager_6);
 		}
 		// Creation du fichier
 		FileOutputStream wr;
 		try {
-			wr = new FileOutputStream(new File(fileName + "." + ext));
+			wr = new FileOutputStream(new File(fileName + "." + ext)); //$NON-NLS-1$
 		} catch (FileNotFoundException e1) {
-			throw new ColoaneException("");
-		}  //$NON-NLS-1$
+			throw new ColoaneException(Messages.FormalismManager_7 + fileName + "." + ext); //$NON-NLS-2$
+		}
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
 
 		// Traduction du modele entier
@@ -175,7 +181,7 @@ public class FormalismManager {
 				buff.newLine();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ColoaneException(Messages.FormalismManager_9);
 		}
 
 		try {
@@ -184,7 +190,7 @@ public class FormalismManager {
 			buff.close();
 			wr.close();
 		} catch (IOException e) {
-			throw new ColoaneException("");
+			throw new ColoaneException(Messages.FormalismManager_10);
 		}
 	}
 }

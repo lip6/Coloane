@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.ui.actions;
 
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.Editor;
 import fr.lip6.move.coloane.ui.XmlEditor;
@@ -42,10 +41,16 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 
 	public void dispose() { }
 
-	public final void init(IWorkbenchWindow w) {
-		this.window = w;
-	}
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 */
+	public final void init(IWorkbenchWindow w) { this.window = w; }
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
 	public final void run(IAction action) {
 
 		final Shell shell = window.getShell();
@@ -54,7 +59,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		if (ACT_EXPORT.equalsIgnoreCase(action.getId())) {
 
 			if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
-				Coloane.showErrorMsg(Translate.getString("ui.actions.ImportExportCAMI.2")); //$NON-NLS-1$
+				Coloane.showErrorMsg(Messages.ImportExportCAMI_0);
 				return;
 			}
 
@@ -64,7 +69,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 			// On demande la sauvegarde a l'utilisateur
 			if (editor.isDirty()) {
-				Coloane.showWarningMsg(Translate.getString("ui.actions.ImportExportCAMI.3")); //$NON-NLS-1$
+				Coloane.showWarningMsg(Messages.ImportExportCAMI_1);
 				return;
 			}
 
@@ -95,7 +100,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 			SaveAsDialog sd = new SaveAsDialog(shell) {
 				protected void configureShell(Shell shell) {
 					super.configureShell(shell);
-					shell.setText(Coloane.getParam("ACT_IMPORT")); //$NON-NLS-1$
+					shell.setText(Messages.ImportExportCAMI_2);
 				}
 			};
 
@@ -121,7 +126,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 								try {
 									// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
 									if (file.exists()) {
-										Coloane.showErrorMsg("You can't overwrite a workspace's file");
+										Coloane.showErrorMsg(Messages.ImportExportCAMI_3);
 										return;
 									} else {
 										file.create(inputS, true, monitor);
@@ -147,6 +152,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		}
 
 	}
+
 	private void doExport(IModelImpl model, String filePath) {
 		try {
 			FormalismManager fm = Coloane.getDefault().getMotor().getFormalismManager();
@@ -156,6 +162,10 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 */
 	public void selectionChanged(IAction action, ISelection selection) { }
 
 }

@@ -1,9 +1,13 @@
 package fr.lip6.move.coloane.main;
 
 import fr.lip6.move.coloane.communications.Com;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -16,14 +20,22 @@ import org.osgi.framework.BundleContext;
 
 public class Coloane extends AbstractUIPlugin {
 
+	/** L'instance du plugin */
 	private static Coloane plugin;
+
+	/** Le module de communication */
 	private Com com = null;
+
+	/** Le moteur de formalisme et de sessions */
 	private Motor motor = null;
+
+	/** L'interface utilisateur */
 	private UserInterface ui = null;
 
-	public Coloane() {
-		plugin = this;
-	}
+	/** Journalisation du projet */
+	private static Logger coreLog;
+
+	public Coloane() { plugin = this; }
 
 	/**
 	 * Methode de lancement du plugin
@@ -36,44 +48,42 @@ public class Coloane extends AbstractUIPlugin {
 		super.start(context);
 
 		try {
-
-			//System.out.println(traduction.getString("main.Coloane.0"));
-			System.out.println("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
+			// Initialisation du logger
+			this.initializeLogger();
+			coreLog.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 
 			// Initialisation de l'interface graphique
 			ui = UserInterface.getInstance();
 			if (ui == null) {
-				System.err.println("Erreur lors du chargement de l'interface utilisateur"); //$NON-NLS-1$
+				coreLog.warning("Erreur lors du chargement de l'interface utilisateur"); //$NON-NLS-1$
 			}
 
 			// Initialisation du moteur
 			motor = Motor.getInstance();
 			if (motor == null) {
-				System.err.println("Erreur lors du chargement du module moteur"); //$NON-NLS-1$
+				coreLog.warning("Erreur lors du chargement du module moteur"); //$NON-NLS-1$
 			}
 
 			// Initialisation du module de communications
 			com = Com.getInstance();
 			if (com == null) {
-				System.err.println("Erreur lors du chargement du module de communications"); //$NON-NLS-1$
+				coreLog.warning("Erreur lors du chargement du module de communications"); //$NON-NLS-1$
 			}
 
 			// Creation des liens
 			com.setUi(ui);
 			com.setMotor(motor);
-
 			motor.setCom(com);
-
 			ui.setCom(com);
 			ui.setMotor(motor);
 
 			// Pour afficher la version et le numero de build
-			String version = (String) getBundle().getHeaders().get("Implementation-Version");
-			String build = (String) getBundle().getHeaders().get("Implementation-Build");
+			String version = (String) getBundle().getHeaders().get("Implementation-Version"); //$NON-NLS-1$
+			String build = (String) getBundle().getHeaders().get("Implementation-Build"); //$NON-NLS-1$
 			if ((version != null) && (build != null)) {
-				ui.printHistoryMessage("Core Version : " + version + " Build : " + build);
+				ui.printHistoryMessage("Core Version : " + version + " Build : " + build); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				ui.printHistoryMessage("Core Version (Dev) : " + getBundle().getHeaders().get("Bundle-Version"));
+				ui.printHistoryMessage("Core Version (Dev) : " + getBundle().getHeaders().get("Bundle-Version")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
@@ -113,7 +123,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return String Le parametre demande
 	 */
 	public static String getParam(String key) {
-		return Platform.getResourceString(getDefault().getBundle(), key);
+		return Platform.getResourceBundle(getDefault().getBundle()).getString(key);
 	}
 
 	/**
@@ -168,5 +178,22 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	public static Composite getParent() {
 		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	}
+
+	/**
+	 * Initialisation du logger d'evenements
+	 */
+	private void initializeLogger() {
+		coreLog = Logger.getLogger("fr.lip6.move.coloane.api"); //$NON-NLS-1$
+		coreLog.setLevel(Level.FINEST); // On loggue tout !
+		coreLog.addHandler(new ColoaneLogHandler());
+	}
+
+	/**
+	 * Retourne le gestionnaire de logs
+	 * @return Le logger
+	 */
+	public static Logger getLogger() {
+		return coreLog;
 	}
 }

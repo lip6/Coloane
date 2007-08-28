@@ -6,6 +6,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+/**
+ * Commande de deplacement d'un attribut
+ */
 public class AttributeSetConstraintCmd extends Command {
 
 	/** Enregistre la nouvelle taille et le nouvel endroit */
@@ -33,30 +36,36 @@ public class AttributeSetConstraintCmd extends Command {
 	/**
 	 * On peut toujours deplacer un noeud.
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
-	 * @return booleen
+	 * @return true
 	 */
 	public final boolean canExecute() {
 		return true;
 	}
 
-	/**
-	 * Executer
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		oldBounds = attribute.getGraphicInfo().getLocation();
 		this.redo();
 	}
 
-	/**
-	 * Refaire
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		attribute.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
 	}
 
-	/**
-	 * Annuler
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		attribute.getGraphicInfo().setLocation(oldBounds.x, oldBounds.y);
 	}

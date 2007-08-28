@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.ui.menus;
 
+import fr.lip6.move.coloane.main.Coloane;
+
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -19,7 +21,7 @@ public class MenuManipulation {
 		 * When we found it, we just verify recursively every child until we find the Choosen One.
 		 */
 		for (MenuItem item : shell.getMenuBar().getItems()) {
-			if (item.getText().equals("Coloane Services")) {
+			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
 				setEnabled(item, menuName, enabled);
 			}
 		}
@@ -65,7 +67,7 @@ public class MenuManipulation {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
 		for (MenuItem item : shell.getMenuBar().getItems()) {
-			if (item.getText().equals("Coloane Services")) {
+			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
 				remove(item, menuName);
 			}
 		}

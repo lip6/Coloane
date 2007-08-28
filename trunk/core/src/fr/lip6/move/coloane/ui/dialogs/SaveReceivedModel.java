@@ -20,8 +20,6 @@ import org.eclipse.ui.IWorkbenchWindow;
  * a partir du nom du modele de base. Pour eviter les problemes, on evite les
  * doublons. Par consequent, on calcule des noms de fichiers qui n'existe pas deja.
  *
- * @author Jean-Baptiste Voron
- *
  */
 public class SaveReceivedModel implements Runnable {
 
@@ -46,7 +44,7 @@ public class SaveReceivedModel implements Runnable {
 		String[] buttons = new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL};
 
 		// Definition de la boite de dialogue
-		MessageDialog d = new MessageDialog(window.getShell(), "Save the result", null, "Would you like to save the result into a new model file ?",	MessageDialog.QUESTION,	buttons, 0);
+		MessageDialog d = new MessageDialog(window.getShell(), Messages.SaveReceivedModel_0, null, Messages.SaveReceivedModel_1,	MessageDialog.QUESTION,	buttons, 0);
 
 		// Ouverture de la boite de dialogue
 		if (d.open() == IDialogConstants.OK_ID) {
@@ -71,9 +69,9 @@ public class SaveReceivedModel implements Runnable {
 				String modelName = modelCompleteName.substring(0, extPos);
 
 				// On cherche si le modele possede deja un indicage
-				int indPos = modelName.lastIndexOf(".");
+				int indPos = modelName.lastIndexOf("."); //$NON-NLS-1$
 				if (indPos == -1) {
-					modelName = modelName + ".2";
+					modelName = modelName + ".2"; //$NON-NLS-1$
 				} else {
 					String currentIndice = modelName.substring(indPos + 1);
 
@@ -82,12 +80,12 @@ public class SaveReceivedModel implements Runnable {
 						int indice = Integer.parseInt(currentIndice);
 						modelName = modelName.substring(0, indPos).concat(Integer.toString(indice + 1));
 					} catch (NumberFormatException ne) {
-						modelName = modelName + ".2";
+						modelName = modelName + ".2"; //$NON-NLS-1$
 					}
 				}
 
 				// Fin du nom
-				modelCompleteName = modelName + "." + modelNameExtension;
+				modelCompleteName = modelName + "." + modelNameExtension; //$NON-NLS-1$
 				path = path.removeLastSegments(1);
 				path = path.append(modelCompleteName);
 				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);

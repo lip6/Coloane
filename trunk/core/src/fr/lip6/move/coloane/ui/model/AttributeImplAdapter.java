@@ -118,7 +118,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 		// Affectation de la nouvelle valeur au modele
 		if (newValue == null) {
-			this.attribute.setValue("");
+			this.attribute.setValue(""); //$NON-NLS-1$
 		} else {
 			this.attribute.setValue(newValue);
 		}

@@ -1,8 +1,6 @@
 package fr.lip6.move.coloane.ui;
 
-//import fr.lip6.move.coloane.communications.objects.Results;
-import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
-import fr.lip6.move.coloane.exceptions.UnknowDialogException;
+import fr.lip6.move.coloane.exceptions.UIException;
 import fr.lip6.move.coloane.interfaces.IComUi;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.IUiCom;
@@ -10,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.IUiMotor;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.results.ActionsList;
@@ -56,7 +55,6 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 */
 	private UserInterface() {
 		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-
 		// Le gestionnaire de resultats de services
 		serviceResultList = new ActionsList();
 	}
@@ -112,11 +110,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 
 			for (IUpdateMenuCom up : updates) {
 				if (up.getRoot().equals(service.getName())) {
-					try {
-						service.setEnabled(up.getService(), up.getState());
-					} catch (MenuNotFoundException e) {
-						System.err.println("Le menu " + up.getService() + " n'a pu etre mis a jour");
-					}
+					service.setEnabled(up.getService(), up.getState());
 				}
 			}
 
@@ -154,11 +148,11 @@ public final class UserInterface implements IUiCom, IUiMotor {
 			ResultsList r = null;
 
 
-			if ((serviceName == "") || (result == null)) {
-				labelService = "No result";
+			if ((serviceName == "") || (result == null)) { //$NON-NLS-1$
+				labelService = Messages.UserInterface_1;
 				r = new ResultsList(labelService);
-				String  description = "";
-				String object = "";
+				String  description = ""; //$NON-NLS-1$
+				String object = ""; //$NON-NLS-1$
 				r.add(new Result(object, description));
 			}
 
@@ -180,7 +174,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 					fenetreTravail.getActivePage().showView(MainPerspectiveFactory.RESULTS_VIEW);
 					serviceResultList.display(MainPerspectiveFactory.RESULTS_VIEW, fenetreTravail);
 				} catch (PartInitException e) {
-					e.printStackTrace();
+					Coloane.getLogger().warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -204,12 +198,12 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public static void drawDialog(IDialogCom dialogCom) {
 		// Factory de boite de dialogue
-		IDialog dialog;
+		IDialog dialog = null;
 		try {
 			dialog = DialogFactory.create(dialogCom);
-		} catch (UnknowDialogException e) {
-			System.err.println("Unhandled dialogbox...");
-			return;
+		} catch (UIException e) {
+			Coloane.getLogger().warning("Erreur lors de la creation de la boite de dialogue : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(e.getMessage());
 		}
 
 		// Ouverture de la boite de dialogue

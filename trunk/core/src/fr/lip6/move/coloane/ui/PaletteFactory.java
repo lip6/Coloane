@@ -28,11 +28,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public final class PaletteFactory {
 
 	/** Preference ID used to persist the palette location. */
-	private static final String PALETTE_DOCK_LOCATION = "PaletteFactory.Location";
+	private static final String PALETTE_DOCK_LOCATION = "PaletteFactory.Location"; //$NON-NLS-1$
 	/** Preference ID used to persist the palette size. */
-	private static final String PALETTE_SIZE = "PaletteFactory.Size";
+	private static final String PALETTE_SIZE = "PaletteFactory.Size"; //$NON-NLS-1$
 	/** Preference ID used to persist the flyout palette's state. */
-	private static final String PALETTE_STATE = "PaletteFactory.State";
+	private static final String PALETTE_STATE = "PaletteFactory.State"; //$NON-NLS-1$
 
 	protected PaletteFactory() { }
 
@@ -42,7 +42,7 @@ public final class PaletteFactory {
 	 * @return une nouvelle PaletteRoot
 	 */
 	static PaletteRoot createPalette(Formalism formalism) {
-		if (formalism == null) { System.out.println("Erreur lors de la creation de la palette"); }
+		if (formalism == null) { Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); } //$NON-NLS-1$
 
 		PaletteRoot palette = new PaletteRoot();
 		palette.add(createToolsGroup(palette));
@@ -60,7 +60,7 @@ public final class PaletteFactory {
 	private static PaletteContainer createShapesNodeDrawer(Formalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
-		PaletteDrawer componentsNodeDrawer = new PaletteDrawer("Nodes");
+		PaletteDrawer componentsNodeDrawer = new PaletteDrawer(Messages.PaletteFactory_4);
 
 		// Liste des elements de bases associes au formalisme
 		CombinedTemplateCreationEntry component; // Un element de la palette
@@ -95,7 +95,7 @@ public final class PaletteFactory {
 	private static PaletteContainer createShapesArcDrawer(Formalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
-		PaletteDrawer componentsArcDrawer = new PaletteDrawer("Arcs");
+		PaletteDrawer componentsArcDrawer = new PaletteDrawer(Messages.PaletteFactory_5);
 
 		// Liste des elements de base du formalisme
 		ConnectionCreationToolEntry component; /* Un element de la palette */
@@ -126,7 +126,7 @@ public final class PaletteFactory {
 	 * @return PaletteContainer
 	 */
 	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
-		PaletteGroup toolGroup = new PaletteGroup("Tools");
+		PaletteGroup toolGroup = new PaletteGroup(Messages.PaletteFactory_6);
 
 		// Outil de selection d'un objet
 		ToolEntry tool = new PanningSelectionToolEntry();

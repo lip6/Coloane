@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.XmlEditor;
 
@@ -33,8 +32,8 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	public ModelCreationPage(IWorkbench currentWorkbench, IStructuredSelection currentSelection) {
 		super("newmodel", currentSelection); //$NON-NLS-1$
 		this.workbench = currentWorkbench;
-		setTitle(Translate.getString("ui.wizards.ModelCreationPage.1")); //$NON-NLS-1$
-		setDescription(Translate.getString("ui.wizards.ModelCreationPage.2")); //$NON-NLS-1$
+		setTitle(Messages.ModelCreationPage_0);
+		setDescription(Messages.ModelCreationPage_1);
 		setPageComplete(true);
 	}
 
@@ -45,7 +44,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	@Override
 	public final void createControl(Composite parent) {
 		super.createControl(parent);
-
 		// On propose un nom par defaut
 		setFileName(Coloane.getParam("WIZARD_FILENAME_BASE") + "_" + fileCount); //$NON-NLS-1$ //$NON-NLS-2$
 	}
@@ -71,13 +69,13 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		// Recupere le nom du formalisme deceide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		setFileName(getFileName() + "." + formManager.loadFormalism(formalismName).getExtension());
+		setFileName(getFileName() + "." + formManager.loadFormalism(formalismName).getExtension()); //$NON-NLS-1$
 
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
 		IFile newFile = createNewFile();
 		if (newFile == null) {
-			setErrorMessage(Translate.getString("ui.wizards.ModelCreationPage.7")); //$NON-NLS-1$
+			setErrorMessage(Messages.ModelCreationPage_3);
 			return false;
 		}
 
@@ -90,7 +88,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			try {
 				IDE.openEditor(page, newFile, true);
 			} catch (CoreException ce) {
-				System.err.println(Translate.getString("ui.wizards.ModelCreationPage.9")); //$NON-NLS-1$
+				Coloane.getLogger().warning(ce.getMessage());
 				Coloane.showErrorMsg(ce.getMessage());
 				return false;
 			}

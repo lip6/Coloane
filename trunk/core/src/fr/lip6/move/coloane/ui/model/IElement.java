@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * Interface definissant un element, tronc commun de tous les elements affiches sur l'editeur
  */
-
 public interface IElement {
 
 	/**
@@ -25,5 +24,4 @@ public interface IElement {
 	 * @return l'identifiant
 	 */
 	int getId();
-
 }

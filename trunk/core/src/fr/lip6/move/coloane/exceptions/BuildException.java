@@ -1,35 +1,30 @@
 package fr.lip6.move.coloane.exceptions;
 
 /**
- * Exception utilisee pour faire remonter les erreurs
- * de conception de modele.
+ * Exception utilisee pour faire remonter les erreurs de construction de modele.
  */
-
 public class BuildException extends Exception {
-	/**
-	 * Utilisé pour la serialisation
-	 */
-	private static final long serialVersionUID = 3722590923091130674L;
+	/** Utilisé pour la serialisation */
+	private static final long serialVersionUID = 1L;
 
-
-	/**
-	 * Message d'information sur l'exception
-	 */
-	private String msg;
+	/** Message d'information sur l'exception */
+	private String message;
 
 	/**
 	 * Constructeur de la classe
 	 * @param s message associatée à l'exception
 	 */
-	public BuildException(String s) {
-		super(s);
-		msg = s;
+	public BuildException(String msg) {
+		super(msg);
+		message = msg;
 	}
 
 	/**
+	 * Retourne le message associe a l'exception
 	 * @return string message d'erreur
 	 */
+	@Override
 	public final String getMessage() {
-		return msg;
+		return Messages.BuildException_0 + message;
 	}
 }

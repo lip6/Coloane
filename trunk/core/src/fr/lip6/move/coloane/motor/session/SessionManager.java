@@ -47,13 +47,12 @@ public class SessionManager {
 
 
 	/**
-	 * Positionne la session courante
+	 * Positionne la session courante<br>
 	 * Si aucune session est courante... Celle la devient la session courante
 	 * @param s la session a positionner comme courante
 	 */
 	public final void setSession(Session s) {
 		if (this.currentSession == null) {
-			System.out.println("Session par defaut : " + s.getName());
 			this.currentSession = s;
 		}
 		this.listOfSessions.add(s);

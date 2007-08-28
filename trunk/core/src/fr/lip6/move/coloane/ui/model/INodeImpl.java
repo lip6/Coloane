@@ -25,28 +25,28 @@ import java.util.List;
 public interface INodeImpl {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
-	String SOURCE_ARCS_PROP = "Node.OutputArc";
+	String SOURCE_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String TARGET_ARCS_PROP = "Node.InputArc";
+	String TARGET_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsqu'un changement de la position */
-	String LOCATION_PROP = "Node.Location";
+	String LOCATION_PROP = "Node.Location"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsqu'un changement de la valeur */
-	String VALUE_PROP = "Node.ValueUpdate";
+	String VALUE_PROP = "Node.ValueUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque le noeud est selectionne */
-	String SELECT_PROP = "Node.SelectUpdate";
+	String SELECT_PROP = "Node.SelectUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque le noeud est deselectionne */
-	String UNSELECT_PROP = "Node.UnSelectUpdate";
+	String UNSELECT_PROP = "Node.UnSelectUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque le noeud est selectionne */
-	String SPECIAL_PROP = "Node.SpecialUpdate";
+	String SPECIAL_PROP = "Node.SpecialUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque le noeud est deselectionne */
-	String UNSPECIAL_PROP = "Node.UnSpecialUpdate";
+	String UNSPECIAL_PROP = "Node.UnSpecialUpdate"; //$NON-NLS-1$
 
 	/**
 	 * Ajouter un arc entrant.

@@ -43,6 +43,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		 * La redefinition de la methode interne supprime toute trace de cadre de selection.
 		 */
 		return new NonResizableEditPolicy() {
+			@SuppressWarnings("unchecked") //$NON-NLS-1$
 			@Override
 			protected List createSelectionHandles() {
 				return new ArrayList(); // Doit retourner une arraylist vide et non null
@@ -95,6 +96,10 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		return super.createChangeConstraintCommand(request, child, constraint);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
+	 */
 	@Override
 	protected final Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
 		return null;

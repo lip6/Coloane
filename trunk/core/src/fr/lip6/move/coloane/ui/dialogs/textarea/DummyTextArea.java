@@ -12,7 +12,7 @@ public class DummyTextArea extends TextArea {
 	 * @param parent La boite de dialogue en cours de construction
 	 */
 	public DummyTextArea(Composite p) {
-		super(p, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, "");
+		super(p, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, ""); //$NON-NLS-1$
 	}
 
 	/*
@@ -21,7 +21,7 @@ public class DummyTextArea extends TextArea {
 	 */
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
-		result.add("");
+		result.add(""); //$NON-NLS-1$
 		return result;
 	}
 
