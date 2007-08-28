@@ -11,7 +11,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-
 /**
  * Cette classe abstraite de base fournit les fonctionalites pour tous les elements de modele, y compris :
  * <ul>
@@ -67,7 +66,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 
 			// Selection du descripteur selon le type d'attribut
 			if (prop.isMultiline()) { // Multiligne
-				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue());
+				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue()); //$NON-NLS-1$
 			} else { // Normal
 				liste[indice - 1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
 			}
@@ -91,14 +90,14 @@ public abstract class AbstractModelElement implements IPropertySource {
 		if (prop.getValue() != null) {
 
 			// Si l'attribut est multiligne, on ne prend que la premiere ligne
-			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) {
-				return (prop.getValue().split("\r"))[0] + " ...";
+			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) { //$NON-NLS-1$
+				return (prop.getValue().split("\r"))[0] + " ..."; //$NON-NLS-1$ //$NON-NLS-2$
 			// Sinon on retourne la valeur normale
 			} else {
 				return (String) prop.getValue();
 			}
 		}
-		return new String("");
+		return new String(""); //$NON-NLS-1$
 	}
 
 	/**

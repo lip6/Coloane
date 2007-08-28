@@ -32,13 +32,13 @@ import org.eclipse.draw2d.geometry.Point;
 public interface IArcImpl {
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String INFLEXPOINT_PROP = "Arc.InflexPoint";
+	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETSELECT_PROP = "Arc.Select";
+	String SETSELECT_PROP = "Arc.Select"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETUNSELECT_PROP = "Arc.UnSelect";
+	String SETUNSELECT_PROP = Messages.IArcImpl_2;
 
 
 	/**

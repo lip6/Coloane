@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.menus;
 import org.eclipse.jface.action.Action;
 
 /**
- * Represents an action (i.e. a leaf) of the menu.
+ * Decrit une action associee a un menu
  */
 public class CAction extends Action {
 	public CAction(String text) {

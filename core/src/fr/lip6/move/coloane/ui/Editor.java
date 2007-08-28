@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.ui;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
@@ -142,7 +142,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked") //$NON-NLS-1$
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(ZoomManager.class.toString());
@@ -269,8 +269,8 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Fin de la construction
 		model.setEndBuilding();
 
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false));
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 	}
 
 	/**
@@ -340,13 +340,18 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
-			System.out.println(e.toString());
-			Coloane.showErrorMsg(Translate.getString("ui.Editor.3") + file.getName() + " - " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.Editor_1 + file.getName() + " - " + e.getMessage()); //$NON-NLS-2$
 		}
 
 
 		// Creation du model a partir du model generique
-		model = new ModelImplAdapter(handler.getModel(), this.formalism);
+		try {
+			model = new ModelImplAdapter(handler.getModel(), this.formalism);
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.Editor_3 + e.getMessage());
+		}
 
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
@@ -375,8 +380,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		try {
 			file.setContents(inputS, true, false, monitor);
 		} catch (CoreException e) {
-			System.err.println("Erreur lors de la sauvegarde du modele");
-			e.printStackTrace();
+			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
 		}
 
 		getCommandStack().markSaveLocation();
@@ -469,7 +473,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());

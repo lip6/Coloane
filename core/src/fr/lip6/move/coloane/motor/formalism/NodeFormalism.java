@@ -7,9 +7,9 @@ public class NodeFormalism extends ElementBase {
 
 	/**
 	 * Constructeur
-	 *
 	 * @param name Nom de l'element de base.
 	 * @param paletteName Nom de l'element de base affiche dans la palette.
+	 * @param formalism Le formalisme associe au noeud
 	 * @param numFigure	Indication sur la forme du dessin de l'element
 	 * @param width	Largeur du dessin de l'element de base.
 	 * @param height Hauteur du dessin de l'element de base.

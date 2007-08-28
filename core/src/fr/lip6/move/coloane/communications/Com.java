@@ -16,7 +16,6 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
 import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
@@ -97,11 +96,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	public boolean authentication(String login, String pass, String ip, int port) {
 		// Connexion a la plateforme
 		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
-		if (retour) {
-			System.out.println(Translate.getString("communications.Com.7")); //$NON-NLS-1$
-		} else {
-			System.err.println(Translate.getString("communications.Com.8")); //$NON-NLS-1$
-		}
+		if (retour) { Coloane.getLogger().fine("Authentification OK"); } else { Coloane.getLogger().warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
 		return retour;
 	}
 
@@ -113,30 +108,18 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean openSession(IModelImpl model) {
 		if (model == null) {
-			System.err.println("Aucun model a connecter");
+			Coloane.getLogger().warning("Aucun modele a connecter"); //$NON-NLS-1$
 			return false;
 		}
-
-		System.out.println(Translate.getString("communications.Com.9")); //$NON-NLS-1$
-
 		// Recuperation du nom de la session courante
 		String sessionName = motor.getSessionManager().getCurrentSession().getName();
-		System.out.println(Translate.getString("communications.Com.10") + sessionName); //$NON-NLS-1$
-
 		// Recuperation du nom du formalime de la session courante
 		String formalismName = model.getFormalism().getName();
-		System.out.println(Translate.getString("communications.Com.11") + formalismName); //$NON-NLS-1$
 
 		// Demande de l'ouverture de session a l'API
 		Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
-
-		if (retour) {
-			System.out.println("Connexion reussie !"); //$NON-NLS-1$
-			return true;
-		} else {
-			System.err.println(Translate.getString("communications.Com.13")); //$NON-NLS-1$
-			return false;
-		}
+		if (retour) { Coloane.getLogger().fine("Connexion reussie !"); } else { Coloane.getLogger().warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
+		return retour;
 	}
 
 	/**
@@ -146,10 +129,8 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @throws Exception exception
 	 */
 	public boolean closeSession() {
-
-		if (motor.getSessionManager().getCurrentSession() == null) {
-			return false;
-		}
+		// On verifie qu'il y a bien une sesssion courante
+		if (motor.getSessionManager().getCurrentSession() == null) { return false; }
 
 		// On sauvegarde les noms des menus a supprimer
 		RootMenu menuServiceName = motor.getSessionManager().getCurrentSession().getServicesMenu();
@@ -159,25 +140,18 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		if (api.closeCurrentSession()) {
 
 			// Suppression du menu de services
-			if (menuServiceName != null) {
-				this.ui.removeMenu(menuServiceName.getName());
-			}
-
+			if (menuServiceName != null) { this.ui.removeMenu(menuServiceName.getName()); }
 			// Suppression du menu d'administration
-			if (menuAdminName != null) {
-				this.ui.removeMenu(menuAdminName.getName());
-			}
+			if (menuAdminName != null) { this.ui.removeMenu(menuAdminName.getName()); }
 
-			System.out.println(Translate.getString("communications.Com.15")); //$NON-NLS-1$
 			return true;
 		} else {
-			System.err.println(Translate.getString("communications.Com.16")); //$NON-NLS-1$
 			return false;
 		}
 	}
 
 	/**
-	 * Deconnexion brutale de tous les modeles (demande de FrameKit)
+	 * Deconnexion brutale de tous les modeles (demande de FrameKit)<br>
 	 * Cette deconnexion est provoquee par un KO ou un FC
 	 */
 	public void closeAllSessions() {
@@ -214,24 +188,19 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		try {
 			// Transformation des menus
 			root = new RootMenu(rootMenuCom.getRootMenuName());
-
 			for (IMenuCom menuCom : rootMenuCom.getListMenu()) {
 				root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
 			}
 
 			// Demande d'affichage a l'UI
 			parent.getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					ui.drawMenu(root);
-				}
+				public void run() { ui.drawMenu(root); }
 			});
 		} catch (Exception e) {
-			System.err.println(Translate.getString("communications.Com.18")); //$NON-NLS-1$
-			e.printStackTrace();
+			Coloane.getLogger().warning("Unable to build the model"); //$NON-NLS-1$
 		}
 
 	}
-
 
 	/**
 	 * Affichage des menus construit a partir des commandes CAMI
@@ -240,9 +209,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
 		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				ui.updateMenu(updates);
-			}
+			public void run() { ui.updateMenu(updates); }
 		});
 	}
 
@@ -253,15 +220,14 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public void platformState(boolean authentication, boolean session) {
 		if (authentication && !session) {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true));
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 		} else if (!authentication) {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true));
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false));
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false));
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 		}
 	}
-
 
 	/**
 	 * Affichage d'une boite de dialogue
@@ -272,15 +238,12 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		parent.getDisplay().asyncExec(new DrawDialog(dialog));
 	}
 
-
 	/**
 	 * Recupere les informations de la boite de dialogue
 	 * @results Les resultats sous forme d'objets
 	 */
 	public void getDialogAnswers(IDialogResult results) {
-		if (!this.api.getDialogAnswers((IDialogResult) results)) {
-			System.err.println(Translate.getString("communications.Com.19")); //$NON-NLS-1$
-		}
+		this.api.getDialogAnswers((IDialogResult) results);
 	}
 
 	/**
@@ -289,9 +252,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
-			// Transformation des resultats
 			this.ui.setResults(serviceName, resultsCom);
 		} else {
 			this.ui.setResults(serviceName, null);

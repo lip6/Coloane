@@ -16,8 +16,8 @@ public class SyphonTrapsReport extends Report {
 			String description = sr.getCmdRT().get(0);
 
 			// Parcours de mes resultats
-			String liste = "";
-			for (String object : sr.getCmdRO()) { liste = liste + object + ","; }
+			String liste = ""; //$NON-NLS-1$
+			for (String object : sr.getCmdRO()) { liste = liste + object + ","; } //$NON-NLS-1$
 
 			// Suppression de la derniere virgule
 			if (liste.length() > 1) { liste = liste.substring(0, liste.length() - 1); }

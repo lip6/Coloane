@@ -11,7 +11,7 @@ public class GenericReport extends Report {
 
 	@Override
 	protected final void buildReport() {
-		getResultList().add(new Result("", "This service is not supported"));
+		getResultList().add(new Result("", Messages.GenericReport_1)); //$NON-NLS-1$
 	}
 
 }

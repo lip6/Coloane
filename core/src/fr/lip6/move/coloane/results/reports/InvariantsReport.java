@@ -13,23 +13,23 @@ public class InvariantsReport extends Report {
 	@Override
 	protected final void buildReport() {
 		if (getResultsCom().getSubResults().size() == 0) {
-			getResultList().add(new Result("No invariants", ""));
+			getResultList().add(new Result(Messages.InvariantsReport_0, Messages.InvariantsReport_2)); //$NON-NLS-2$
 			return;
 		}
 
 		for (SubResultsCom sr : getResultsCom().getSubResults()) {
 
 			// En cas d'erreur retournee par l'outil
-			if (sr.getDetails().equalsIgnoreCase("Error")) {
-				getResultList().add(new Result("Error", sr.getCmdRT().get(0)));
+			if (sr.getDetails().equalsIgnoreCase("Error")) { //$NON-NLS-1$
+				getResultList().add(new Result(Messages.InvariantsReport_1, sr.getCmdRT().get(0)));
 				return;
 			}
 
 			String description = sr.getCmdRT().get(0);
 
 			// Parcours de mes resultats
-			String liste = "";
-			for (String object : sr.getCmdME()) { liste = liste + object + ","; }
+			String liste = ""; //$NON-NLS-1$
+			for (String object : sr.getCmdME()) { liste = liste + object + ","; } //$NON-NLS-1$
 
 			// Suppression de la derniere virgule
 			if (liste.length() > 1) { liste = liste.substring(0, liste.length() - 1); }

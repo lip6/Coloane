@@ -10,7 +10,6 @@ import org.eclipse.gef.commands.Command;
  * Cette commande est creee lors du premier clic sur l'element de depart.<br>
  * Elle sert a stocker des informations sur le noeud de depart.<br>
  */
-
 public class ArcCreateCmd extends Command {
 
 	/** Le noeud source */
@@ -31,9 +30,9 @@ public class ArcCreateCmd extends Command {
 		this.formalism = arcFormalism;
 	}
 
-	/**
-	 * Savoir si on peut creer un arc
-	 * @return booleen
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	@Override
 	public final boolean canExecute() {

@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.ui;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.ui.editpart.ElementEditPart;
@@ -27,14 +28,14 @@ public class PartFactory implements EditPartFactory {
 
 		// Si l'elemen est nul... Probleme
 		if (modelElement == null) {
-			System.err.println("L'element est nul");
+			Coloane.getLogger().warning("L'element est nul : La factory ne peut rien produire"); //$NON-NLS-1$
 		} else {
 			// Selon l'element on construit un EditPart different
 			part = getPartForElement(modelElement);
 			if (part != null) {
 				part.setModel(modelElement);
 			} else {
-				System.err.println("Objet du modele non pris en charge");
+				Coloane.getLogger().warning("L'element n'est pas supporte par la factory"); //$NON-NLS-1$
 			}
 		}
 		return part;

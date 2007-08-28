@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
 
@@ -10,7 +11,6 @@ import org.eclipse.gef.commands.Command;
 /**
  * Commande pour ajouter un nouveau noeud
  */
-
 public class NodeCreateCmd extends Command {
 
 	/** Nouveau noeud a creer */
@@ -26,7 +26,7 @@ public class NodeCreateCmd extends Command {
 	 * Creer une commande qui ajoutera le noeud au modle
 	 *
 	 * @param node Le nouveau noeud ˆ ajouter
-	 * @param model Le modle qui contiendra le noeud
+	 * @param m Le modle qui contiendra le noeud
 	 * @param bound Les limites du noeud; (la taille peut tre (-1, -1))
 	 */
 	public NodeCreateCmd(INodeImpl node, IModelImpl m, Rectangle b) {
@@ -39,41 +39,42 @@ public class NodeCreateCmd extends Command {
 	/**
 	 * Savoir si on peux executer la commande ?
 	 * --> Toujours OK
-	 * @return booleen
+	 * @return true
 	 */
 	public final boolean canExecute() {
 		return true;
 	}
 
-	/**
-	 * Executer la commande
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public final void execute() {
 		this.newNode.getGraphicInfo().setLocation(bounds.getLocation().x, bounds.getLocation().y);
 		this.redo();
 	}
 
-	/**
-	 * Refaire les actions de la methode Execute
-	 * --> Revient a faire un nouvel ajout d'un noeud
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public final void redo() {
 		try {
 			model.addNode(newNode);
 		} catch (BuildException e) {
-			System.err.println("Impossible de creer un noeud");
+			Coloane.getLogger().warning("Impossible de creer un noeud : " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
-	/**
-	 * Annuler les modifications faites par la methode Execute
-	 * --> Revient a supprimer le noeud cree
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public final void undo() {
 		try {
 			model.removeNode(newNode);
 		} catch (BuildException e) {
-			System.err.println("Impossible d'annuler la creation du noeud");
+			Coloane.getLogger().warning("Impossible d'annuler la creation du noeud : " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 }

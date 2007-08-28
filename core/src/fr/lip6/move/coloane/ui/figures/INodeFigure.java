@@ -28,8 +28,7 @@ public interface INodeFigure extends IFigure {
 	void unsetSelectSpecial();
 
 	/**
-	 *
-	 *
+	 * Mise en valeur du noeud (selection d'un attribut referent)
 	 */
 	void setHighlight();
 }

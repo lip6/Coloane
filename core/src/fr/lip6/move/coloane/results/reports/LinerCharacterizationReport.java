@@ -14,16 +14,16 @@ public class LinerCharacterizationReport extends Report {
 	protected final void buildReport() {
 		for (SubResultsCom sr : getResultsCom().getSubResults()) {
 			for (String object : sr.getCmdRO()) {
-				if (object.equals("1")) { object = "Model"; }
+				if (object.equals("1")) { object = Messages.LinerCharacterizationReport_1; } //$NON-NLS-1$
 				getResultList().add(new Result(object, sr.getCmdRT().get(0)));
 				return;
 			}
 
-			String res = "";
+			String res = ""; //$NON-NLS-1$
 			for (String object : sr.getCmdRT()) {
-				res += object + "\n";
+				res += object + "\n"; //$NON-NLS-1$
 			}
-			getResultList().add(new Result("", res));
+			getResultList().add(new Result("", res)); //$NON-NLS-1$
 		}
 	}
 

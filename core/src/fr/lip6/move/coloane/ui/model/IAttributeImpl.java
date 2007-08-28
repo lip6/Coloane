@@ -18,22 +18,22 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 public interface IAttributeImpl {
 
 	/** ID pour la propriete lorsqu'un changement de valeur */
-	String VALUE_PROP = "Attribute.ValueUpdate";
+	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsqu'un changement de la position */
-	String LOCATION_PROP = "Attribute.Location";
+	String LOCATION_PROP = "Attribute.Location"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
-	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate";
+	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
-	String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate";
+	String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
-	String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate";
+	String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
-	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate";
+	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
 
 	/**
 	 * Retourne l'identifiant de l'attribut

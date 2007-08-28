@@ -15,7 +15,7 @@ public class NodeSetConstraintCmd extends Command {
 	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Rectangle oldBounds;
 
-	/** Noeud ˆ manipuler */
+	/** Noeud a manipuler */
 	private final INodeImpl node;
 
 	/**
@@ -34,22 +34,24 @@ public class NodeSetConstraintCmd extends Command {
 	/**
 	 * On peut toujours deplacer un noeud.
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
-	 * @return booleen
+	 * @return true
 	 */
 	public final boolean canExecute() {
 		return true;
 	}
 
-	/**
-	 * Executer
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public final void execute() {
 		oldBounds = new Rectangle(node.getGraphicInfo().getLocation(), node.getGraphicInfo().getSize());
 		redo();
 	}
 
-	/**
-	 * Refaire
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public final void redo() {
 		node.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
@@ -57,12 +59,12 @@ public class NodeSetConstraintCmd extends Command {
 		node.updateArcAttributesPosition();
 	}
 
-	/**
-	 * Annuler
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public final void undo() {
 		node.getGraphicInfo().setLocation(oldBounds.getLocation().x, oldBounds.getLocation().y);
-		/* TODO : Mise a jour de la position des attributs */
 	}
 
 }

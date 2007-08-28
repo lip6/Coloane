@@ -229,7 +229,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Retourne la liste des arcs sortant du noeud considere
 	 * @return List of IArcImpl
 	 */
-	protected final List getModelSourceConnections() {
+	protected final List<IArcImpl> getModelSourceConnections() {
 		return ((INodeImpl) getModel()).getSourceArcs();
 	}
 
@@ -237,7 +237,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Retourne la liste des arcs entrants du noeud considere
 	 * @return List of IArcImpl
 	 */
-	protected final List getModelTargetConnections() {
+	protected final List<IArcImpl> getModelTargetConnections() {
 		return ((INodeImpl) getModel()).getTargetArcs();
 	}
 

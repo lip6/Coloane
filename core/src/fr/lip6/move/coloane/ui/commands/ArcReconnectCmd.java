@@ -74,7 +74,6 @@ public class ArcReconnectCmd extends Command {
 			return false;
 		}
 
-
 		Formalism form = this.arc.getFormalism();
 
 		if ((this.newSource != null) && !form.isLinkAllowed(newSource.getElementBase(), oldTarget.getElementBase())) {
@@ -126,16 +125,18 @@ public class ArcReconnectCmd extends Command {
 		return true;
 	}
 
-	/**
-	 * Executer
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public final void execute() {
 		this.redo();
 	}
 
-	/**
-	 * Executer (ou Refaire)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	@Override
 	public final void redo() {
@@ -155,8 +156,9 @@ public class ArcReconnectCmd extends Command {
 		this.arc.reconnect(sourceToConnect, targetToConnect);
 	}
 
-	/**
-	 * Annule la reconnexion
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public final void undo() {

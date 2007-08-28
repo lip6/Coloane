@@ -47,8 +47,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
-		//ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		//connLayer.setConnectionRouter(new BendpointConnectionRouter());
 	}
 
 

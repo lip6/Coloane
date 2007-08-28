@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.ui.commands;
 
 import fr.lip6.move.coloane.exceptions.BuildException;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.ElementBase;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.ui.model.ArcImplAdapter;
@@ -9,12 +10,10 @@ import fr.lip6.move.coloane.ui.model.INodeImpl;
 
 import org.eclipse.gef.commands.Command;
 
-
 /**
- * Deuxieme etape de la creation d'un lien entre deux noeuds ! Cette commande
- * est creee lors du second clic (donc sur l'element d'arrivee).
+ * Deuxieme etape de la creation d'un lien entre deux noeuds !<br>
+ * Cette commande est creee lors du second clic (donc sur l'element d'arrivee).
  */
-
 public class ArcCompleteCmd extends Command {
 
 	/** Noeud source */
@@ -41,9 +40,9 @@ public class ArcCompleteCmd extends Command {
 		this.formalism = arcFormalism;
 	}
 
-	/**
-	 * Savoir si l'action est executable
-	 * @return booleen
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	@Override
 	public final boolean canExecute() {
@@ -65,9 +64,9 @@ public class ArcCompleteCmd extends Command {
 		return true;
 	}
 
-	/**
-	 * Creation de la connexion
-	 * Creation de l'objet arc adapte
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	@Override
 	public final void execute() {
@@ -77,29 +76,33 @@ public class ArcCompleteCmd extends Command {
 			arc.setModelAdapter(source.getModelAdapter());
 			this.redo();
 		} catch (BuildException e) {
-			System.err.println("Echec ! : " + e.getMessage());
+			Coloane.getLogger().warning("Impossible d'ajouter un arc (" + source.getId() + "," + source.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
-	/**
-	 * Executer (ou Refaire)
-	 * Ajout de l'arc au modele
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	@Override
 	public final void redo() {
 		try {
 			source.getModelAdapter().addArc(arc);
 		} catch (BuildException e) {
-			System.err.println("Echec ! : " + e.getMessage());
+			Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
-	/**
-	 * Annuler
-	 * Suppression de l'arc du modele generique
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	@Override
 	public final void undo() {
-		source.getModelAdapter().removeArc(arc);
+		try {
+			source.getModelAdapter().removeArc(arc);
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage()); //$NON-NLS-1$
+		}
 	}
 }

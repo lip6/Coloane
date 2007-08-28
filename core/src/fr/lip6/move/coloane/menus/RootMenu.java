@@ -4,7 +4,6 @@ package fr.lip6.move.coloane.menus;
  * Description du menu racine
  * @see {@link Menu}
  */
-
 public class RootMenu extends Menu {
 
 	/**

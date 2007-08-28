@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.ui.panels;
 
-import fr.lip6.move.coloane.main.Translate;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -16,13 +14,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
  * Cette classe implemente la fenetre de l'historique
- *
  */
 public class HistoryView extends ViewPart {
 
@@ -37,9 +33,6 @@ public class HistoryView extends ViewPart {
 
 	/** Action copier */
 	private Action copyAction = null;
-
-	/** Action Trouver */
-	private Action findAction = null;
 
 	/** Action Tout selectionner */
 	private Action selectAllAction = null;
@@ -93,7 +86,6 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Creer des actions
-	 *
 	 */
 	private void createActions() {
 		// Copy
@@ -103,68 +95,45 @@ public class HistoryView extends ViewPart {
 			};
 
 			public boolean isEnabled() {
-				return HistoryView.this.viewer
-						.canDoOperation(ITextOperationTarget.COPY);
+				return HistoryView.this.viewer.canDoOperation(ITextOperationTarget.COPY);
 			}
 		};
-		copyAction.setText(Translate.getString("ui.panels.HistoryView.1")); //$NON-NLS-1$
-		copyAction.setToolTipText(Translate.getString("ui.panels.HistoryView.2")); //$NON-NLS-1$
-		copyAction.setImageDescriptor(PlatformUI.getWorkbench()
-				.getSharedImages().getImageDescriptor(
-						ISharedImages.IMG_TOOL_COPY));
+		copyAction.setText(Messages.HistoryView_0);
+		copyAction.setToolTipText(Messages.HistoryView_1);
+		copyAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 
 		// Select all
 		selectAllAction = new Action() {
 			public void run() {
-				HistoryView.this.viewer
-						.doOperation(ITextOperationTarget.SELECT_ALL);
+				HistoryView.this.viewer.doOperation(ITextOperationTarget.SELECT_ALL);
 			}
 		};
-		selectAllAction.setText(Translate.getString("ui.panels.HistoryView.3")); //$NON-NLS-1$
-		selectAllAction.setToolTipText(Translate.getString("ui.panels.HistoryView.4")); //$NON-NLS-1$
-		selectAllAction.setImageDescriptor(PlatformUI.getWorkbench()
-				.getSharedImages().getImageDescriptor(
-						ISharedImages.IMG_OBJ_FILE));
-		// Find action
-		findAction = new Action() {
-			public void run() {
-			}
-		};
-		findAction.setText(Translate.getString("ui.panels.HistoryView.5")); //$NON-NLS-1$
-		findAction.setToolTipText(Translate.getString("ui.panels.HistoryView.6")); //$NON-NLS-1$
+		selectAllAction.setText(Messages.HistoryView_2);
+		selectAllAction.setToolTipText(Messages.HistoryView_3);
+		selectAllAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_FILE));
 	}
 
 	/**
 	 * Creer des actions et les ajouter au menu
-     *
-	 * @param manager
-	 *            Menu contextuel
+	 * @param manager Menu contextuel
 	 */
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(copyAction);
 		manager.add(selectAllAction);
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(findAction);
 	}
 
 	/**
 	 * Ajouter des actions au local Pulldown menu
-	 *
-	 * @param manager
-	 *            Local pulldown menu
+	 * @param manager Local pulldown menu
 	 */
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(copyAction);
 		manager.add(selectAllAction);
-		manager.add(new Separator());
-		manager.add(findAction);
 	}
 
 	/**
-	 * Ajouter des actions � la barre d'outils
-	 *
-	 * @param manager
-	 *            Toolbar
+	 * Ajouter des actions a la barre d'outils
+	 * @param manager Toolbar
 	 */
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.removeAll();
@@ -183,23 +152,14 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Inserer une nouvelle ligne � la fenetre de l'historique
-	 *
-	 * @param text
-	 *            Texte � ins�rer
+	 * Inserer une nouvelle ligne a la fenetre de l'historique
+	 * @param text Texte a inserer
 	 */
 	public final void addLine(String text) {
 		if (document != null) {
-
 			try {
 				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
-
-			} catch (Exception e) { return;
-				/*
-				 * BadLocationException this exception never raised because we
-				 * call function with constants
-				 */
-			}
+			} catch (Exception e) { return; }
 		}
 	}
 
@@ -209,21 +169,13 @@ public class HistoryView extends ViewPart {
 	 */
 	public final void addText(String text) {
 		if (document != null) {
-
 			try {
 				document.replace(document.getLength(), 0, text);
-
-			} catch (Exception be) { return;
-				/*
-				 * BadLocationException this exception never raised because we
-				 * call function with constants
-				 */
-			}
+			} catch (Exception e) { return; }
 		}
 	}
 
 	public static HistoryView getInstance() {
 		return instance;
 	}
-
 }

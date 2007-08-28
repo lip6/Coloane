@@ -14,7 +14,7 @@ public class SafetyNetReport extends Report {
 	protected final void buildReport() {
 		// Parcours de tous les DE-FE
 		for (SubResultsCom sr : getResultsCom().getSubResults()) {
-			getResultList().add(new Result(sr.getCmdRT().get(0), ""));
+			getResultList().add(new Result(sr.getCmdRT().get(0), "")); //$NON-NLS-1$
 		}
 	}
 }

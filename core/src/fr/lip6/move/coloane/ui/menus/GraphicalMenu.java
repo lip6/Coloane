@@ -92,7 +92,7 @@ public class GraphicalMenu {
 	 */
 	private MenuItem locateColoaneMenu() {
 		for (MenuItem mi : shell.getMenuBar().getItems()) {
-			if (mi.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) {
+			if (mi.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
 				return mi;
 			}
 		}

@@ -14,13 +14,13 @@ import java.util.List;
 public interface IModelImpl {
 
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
-	String NODE_ADDED_PROP = "Model.AddingNode";
+	String NODE_ADDED_PROP = "Model.AddingNode"; //$NON-NLS-1$
 
 	/** ID de propriete lorsqu'un noeud est supprime du modele */
-	String NODE_REMOVED_PROP = "Model.RemovingNode";
+	String NODE_REMOVED_PROP = "Model.RemovingNode"; //$NON-NLS-1$
 
 	/** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
-	String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute";
+	String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute"; //$NON-NLS-1$
 
 	/**
 	 * Ajout d'un noeud au modele
@@ -53,7 +53,7 @@ public interface IModelImpl {
 	 * Retrait d'un arc au modele
 	 * @param child L'arc adapte qu'il faut supprimer du modele generique
 	 */
-	void removeArc(IArcImpl child);
+	void removeArc(IArcImpl child) throws BuildException;
 
 	/**
 	 * Retourne la liste des INodeImpl du modele
@@ -69,7 +69,6 @@ public interface IModelImpl {
 
 	/**
 	 * Retourne le modele generique
-	 *
 	 * @return Model Le mdoele generique
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel
 	 */
@@ -77,7 +76,6 @@ public interface IModelImpl {
 
 	/**
 	 * Retourne le formalisme associe au modele
-	 *
 	 * @return Formalism
 	 * @see fr.lip6.move.coloane.motor.formalism.Formalism
 	 */
@@ -86,42 +84,32 @@ public interface IModelImpl {
 	/**
 	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
 	 * Indique si l'envoi d'un message a FK est necessaire
-	 *
-	 * @return boolean Indique si un message doit etre envoye a FK en donnant
-	 *         une datee
+	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
 	 */
 	int modifyDate();
 
 	/**
 	 * Retourne la date associee au modele
-	 *
 	 * @return int
 	 */
 	int getDate();
 
 	/**
 	 * Change la valeur de la propriete
-	 *
-	 * @param id
-	 *            Objet dont il faut modifier la valeur
-	 * @param value
-	 *            Nouvelle valeur pour l'objet
+	 * @param id Objet dont il faut modifier la valeur
+	 * @param value Nouvelle valeur pour l'objet
 	 */
 	void setPropertyValue(Object id, Object value);
 
 	/**
 	 * Indicateur de fraicheur du modele
-	 *
 	 * @return boolean
 	 */
 	boolean isDirty();
 
 	/**
-	 * Permet de rendre obsolete (ou a jour) le modele (pour demande une maj ou
-	 * sinigifer une maj)
-	 *
-	 * @param dirty
-	 *            (true = necessite de mise a jour)
+	 * Permet de rendre obsolete (ou a jour) le modele (pour demande une maj ou signifier une maj)
+	 * @param dirty (true = necessite de mise a jour)
 	 */
 	void setDirty(boolean dirty);
 
@@ -130,11 +118,14 @@ public interface IModelImpl {
 	 */
 	void setEndBuilding();
 
-	/*
+	/**
 	 * Met en valeur un noeud
 	 */
 	void highlightNode(String idhighlight, String unhighlight);
 
+	/**
+	 * Reinitialise l'aspect des noeuds
+	 */
 	void switchoffNodes();
 
 	/**

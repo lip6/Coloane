@@ -1,11 +1,12 @@
 package fr.lip6.move.coloane.motor;
 
+import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
 import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.main.Translate;
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.motor.session.Session;
 import fr.lip6.move.coloane.motor.session.SessionManager;
@@ -18,9 +19,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Gestionnaire de Sessions/Formalismes
- * Le moteur est charge de faire le lien entre le module com et l'interface graphique
- * Il doit etre tenu au courant des changements de sessions
+ * Gestionnaire de Sessions/Formalismes<br>
+ * Le moteur est charge de faire le lien entre le module com et l'interface graphique<br>
+ * Il doit etre tenu au courant des changements de sessions.
  */
 public final class Motor implements IMotorCom, IMotorUi {
 	private static FormalismManager formalismManager;
@@ -35,9 +36,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	/** L'instance du singleton : Motor */
 	private static Motor instance;
 
-	/**
-	 * Constructeur du module moteur
-	 */
+	/** Constructeur du module moteur */
 	private Motor() {
 		formalismManager = new FormalismManager();
 		sessionManager = new SessionManager();
@@ -57,6 +56,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @param com le module de communication
 	 */
 	public void setCom(IComMotor moduleCom) {
+		Coloane.getLogger().config("Attachement du module de communication avec le moteur"); //$NON-NLS-1$
 		this.com = moduleCom;
 	}
 
@@ -70,12 +70,12 @@ public final class Motor implements IMotorCom, IMotorUi {
 	public boolean openSession(IModelImpl model, String eclipseSessionName) throws ColoaneException {
 		// Verification de l'existence du module de communications
 		if (com == null) {
-			throw new ColoaneException(Translate.getString("motor.Motor.0")); //$NON-NLS-1$
+			throw new ColoaneException(Messages.Motor_0);
 		}
 
 		// On doit controller si une session ne se nomme deja pas pareil
 		if (sessionManager.getSession(eclipseSessionName) != null) {
-			System.err.println("Une session homonyme existe deja...");
+			Coloane.getLogger().warning("Une session homonyme existe deja"); //$NON-NLS-1$
 			return false;
 		}
 
@@ -89,6 +89,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 
 		// Si l'ouverture de connexion echoue, on supprime la session existante
 		if (!result) {
+			Coloane.getLogger().warning("Echec de l'ouverture de session : Destruction de moignon"); //$NON-NLS-1$
 			sessionManager.destroyCurrentSession();
 		}
 
@@ -115,9 +116,17 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @param model le model brut
 	 */
 	public void setNewModel(IModel model) {
-		// Construit le modele en memoire a partir du modele generique recu
-		IModelImpl modelImpl = new ModelImplAdapter(model, getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
+		Coloane.getLogger().fine("Sauvegarde du modele en provenance de la plateforme"); //$NON-NLS-1$
 
+		// Construit le modele en memoire a partir du modele generique recu
+		IModelImpl modelImpl;
+		try {
+			modelImpl = new ModelImplAdapter(model, getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
+		} catch (BuildException e) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modele : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.Motor_2 + e.getMessage());
+			return;
+		} 
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
 		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
 	}

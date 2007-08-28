@@ -19,7 +19,6 @@ import org.eclipse.ui.part.ViewPart;
 /**
  * Gestion de la vue des resultats
  */
-
 public class ResultsView extends ViewPart implements Observer {
 
 	private static ResultsView instance;
@@ -40,9 +39,7 @@ public class ResultsView extends ViewPart implements Observer {
 	private StyledText text;
 
 	/** Constructor for ResultsView */
-	public ResultsView() {
-		super();
-	}
+	public ResultsView() { super(); }
 
 	@Override
 	public final void createPartControl(Composite parent) {
@@ -60,13 +57,15 @@ public class ResultsView extends ViewPart implements Observer {
 
 		currentActionDisplayed = 0;
 
-		if (actionsList != null) {
-			setLists();
-		}
+		if (actionsList != null) { setLists(); }
 
 		instance = this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
 	@Override
 	public final void setFocus() {
 		return;
@@ -135,7 +134,7 @@ public class ResultsView extends ViewPart implements Observer {
 	 */
 	private void setResultsListSelectionListener() {
 		resultsList.addSelectionListener(new SelectionListener() {
-			private String mem = "0";
+			private String mem = "0"; //$NON-NLS-1$
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -151,7 +150,7 @@ public class ResultsView extends ViewPart implements Observer {
 
 
 				// Activation de l'objet designe
-				System.out.println("... :" + r.getName());
+				System.out.println("... :" + r.getName()); //$NON-NLS-1$
 				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(r.getName(), mem);
 				mem = r.getName();
 			}

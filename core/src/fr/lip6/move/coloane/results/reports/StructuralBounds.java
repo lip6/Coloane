@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.results.Result;
 public class StructuralBounds extends Report {
 
 	public StructuralBounds(IResultsCom results) {
-		super("Compute structural bounds", results);
+		super(Messages.StructuralBounds_0, results);
 	}
 
 	@Override

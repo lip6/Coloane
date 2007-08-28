@@ -1,9 +1,8 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
 import fr.lip6.move.coloane.communications.Com;
-import fr.lip6.move.coloane.exceptions.GuiAuthenticationException;
+import fr.lip6.move.coloane.exceptions.UIException;
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -59,36 +58,36 @@ public class AuthenticationDialog extends Dialog {
 	public static final int TXT_LIMIT = 255;
 
 	/** Titre de la boite de dialogue */
-	public static final String MSG_TITLE = "Authentication";
+	public static final String MSG_TITLE = Messages.AuthenticationDialog_0;
 
 	/** Login non valide et/ou erreur de mot de passe */
-	private static final String MSG_AUTH_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.5"); //$NON-NLS-1$
+	private static final String MSG_AUTH_ERROR = Messages.AuthenticationDialog_1;
 
 	/** Champs login vide */
-	private static final String MSG_LOGIN_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.6"); //$NON-NLS-1$
+	private static final String MSG_LOGIN_ERROR = Messages.AuthenticationDialog_2;
 
 	/** Champs login vide */
-	private static final String MSG_PASS_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.7"); //$NON-NLS-1$
+	private static final String MSG_PASS_ERROR = Messages.AuthenticationDialog_3;
 
 	/** General Error */
-	private static final String MSG_GNRL_ERROR = Translate.getString("ui.dialogs.AuthenticationDialog.8"); //$NON-NLS-1$
+	//private static final String MSG_GNRL_ERROR = "Global Error";
 
 	/** Id du bouton Details */
 	private static final int DETAILS_ID = IDialogConstants.CLIENT_ID;
 
 	/** Label du bouton detail */
-	private static final String SHOW_DETAILS_LABEL = Translate.getString("ui.dialogs.AuthenticationDialog.13"); //$NON-NLS-1$
+	private static final String SHOW_DETAILS_LABEL = Messages.AuthenticationDialog_4;
 
-	private static final String HIDE_DETAILS_LABEL = Translate.getString("ui.dialogs.AuthenticationDialog.14"); //$NON-NLS-1$
+	private static final String HIDE_DETAILS_LABEL = Messages.AuthenticationDialog_5;
 
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibility = true;
 
 	/**L'adresse IP de FrameKit */
-	private String ip = "";
+	private String ip = ""; //$NON-NLS-1$
 
 	/** Le port de Framekit */
-	private String port = "";
+	private String port = ""; //$NON-NLS-1$
 
 
 	/**
@@ -126,32 +125,32 @@ public class AuthenticationDialog extends Dialog {
 		compo.setLayoutData(gridData);
 
 		// LOGIN
-		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.9")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Messages.AuthenticationDialog_8);
 		login = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
 
 		// PASSWORD
-		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.10")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Messages.AuthenticationDialog_9);
 		password = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD | SWT.LEFT);
 		tag(password, PASSWORD_TAG);
 		password.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		password.setTextLimit(TXT_LIMIT);
 
 		// LISTE DES SERVEURS
-		new Label(compo, SWT.NULL).setText(Translate.getString("ui.dialogs.AuthenticationDialog.12")); //$NON-NLS-1$
+		new Label(compo, SWT.NULL).setText(Messages.AuthenticationDialog_10);
 
 		// Recuperation des valeurs dans le fichier LNG et les inserer dans la combo
-		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS"));
+		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS")); //$NON-NLS-1$
 		String[] serversList = new String[nbservers + 2];
 		int i = 0;
 		while (i < nbservers) {
-			serversList[i] = Coloane.getParam("NAME" + (i + 1));
+			serversList[i] = Coloane.getParam("NAME" + (i + 1)); //$NON-NLS-1$
 			i++;
 		}
-		serversList[i] = Translate.getString("ui.dialogs.AuthenticationDialog.1");
-		serversList[i + 1] = Translate.getString("ui.dialogs.AuthenticationDialog.2");
+		serversList[i] = Messages.AuthenticationDialog_13;
+		serversList[i + 1] = Messages.AuthenticationDialog_14;
 
 		comboServer = new Combo(compo, SWT.NULL);
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -161,36 +160,36 @@ public class AuthenticationDialog extends Dialog {
 				try {
 
 					int i = 0;
-					while (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))	&& !comboServer.getText().equals(Coloane.getParam("NAME" + (i + 1)))) {
+					while (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))	&& !comboServer.getText().equals(Coloane.getParam("NAME" + (i + 1)))) { //$NON-NLS-1$ //$NON-NLS-2$
 						i++;
 					}
 
-					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) {
-						ip = Coloane.getParam("IP" + (i + 1));
+					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) { //$NON-NLS-1$
+						ip = Coloane.getParam("IP" + (i + 1)); //$NON-NLS-1$
 						setFrameKitIp(ip);
-						port = Coloane.getParam("PORT" + (i + 1));
+						port = Coloane.getParam("PORT" + (i + 1)); //$NON-NLS-1$
 						setFrameKitPort(port);
 
-					} else if (comboServer.getText().equals(Translate.getString("ui.dialogs.AuthenticationDialog.1"))) {
-						ip = InetAddress.getByName("localhost").getHostAddress();
+					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
+						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
 						setFrameKitIp(ip);
-						port = String.valueOf(Coloane.getParam("PORT_DEFAUT"));
+						port = String.valueOf(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
 						setFrameKitPort(port);
 					} else { // Autre ..
-						setFrameKitIp("");
-						setFrameKitPort("");
+						setFrameKitIp(""); //$NON-NLS-1$
+						setFrameKitPort(""); //$NON-NLS-1$
 						setVisibility(true);
 						changeVisibility();
 					}
 				} catch (IOException ef) {
-					System.out.println(Translate.getString("ui.dialogs.AuthenticationDialog.11"));
+					Coloane.getLogger().warning("IP introuvable"); //$NON-NLS-1$
 				}
 			}
 		});
 
 		// Invisible a la creation de la boite
 		framekitIpLabel = new Label(compo, SWT.NULL);
-		framekitIpLabel.setText(Translate.getString("ui.dialogs.AuthenticationDialog.3"));
+		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
 		framekitIpLabel.setVisible(false);
 		framekitIp = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -198,7 +197,7 @@ public class AuthenticationDialog extends Dialog {
 		framekitIp.setVisible(false);
 
 		framekitPortLabel = new Label(compo, SWT.NULL);
-		framekitPortLabel.setText(Translate.getString("ui.dialogs.AuthenticationDialog.4")); //$NON-NLS-1$);
+		framekitPortLabel.setText(Messages.AuthenticationDialog_27);
 		framekitPortLabel.setVisible(false);
 		framekitPort = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -210,7 +209,6 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Configurer le shell pour la legende
-	 *
 	 * @param newShell Cette instance
 	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
 	 */
@@ -221,24 +219,19 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Executer l'authentification en la transferant a la COM
-	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	protected final void okPressed() {
-
-		// Appel de l'authentification du module de Com
 		try {
+			// Appel de l'authentification du module de Com
 			Com com = Coloane.getDefault().getCom();
-			if (com.authentication(getLogin(), getPassword(),
-					getFrameKitIp(), getFrameKitPort())) {
+			if (com.authentication(getLogin(), getPassword(), getFrameKitIp(), getFrameKitPort())) {
 				super.okPressed();
 			} else {
 				Coloane.showErrorMsg(MSG_AUTH_ERROR);
 			}
-		} catch (GuiAuthenticationException erreur) {
-			Coloane.showErrorMsg(Translate.getString("ui.dialogs.AuthenticationDialog.15") + erreur.getMessage()); //$NON-NLS-1$
-		} catch (Exception e) {
-			Coloane.showErrorMsg(MSG_GNRL_ERROR + ": " + e.getMessage()); //$NON-NLS-1$
+		} catch (UIException e) {
+			Coloane.showErrorMsg(Messages.AuthenticationDialog_28 + e.getMessage());
 		}
 	}
 
@@ -248,16 +241,13 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Obtenir la valeur de login
-	 *
 	 * @return String Retourne le login
-	 *
-	 * @throws GuiAuthenticationException
-	 *             if login is blank
+	 * @throws UIException si le login est vide
 	 */
-	public final String getLogin() throws GuiAuthenticationException {
+	public final String getLogin() throws UIException {
 		String loginTemp = login.getText();
 		if (loginTemp.trim().length() == 0) {
-			throw new GuiAuthenticationException(MSG_LOGIN_ERROR);
+			throw new UIException(MSG_LOGIN_ERROR);
 		}
 		return loginTemp;
 	}
@@ -272,13 +262,13 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Obtenir le mot de passe
-	 *
-	 * @return Retourne le mot de passe
+	 * @return String Retourne le mot de passe
+	 * @throws UIException si le pass est vide
 	 */
-	public final String getPassword() throws GuiAuthenticationException {
+	public final String getPassword() throws UIException {
 		String passTemp = password.getText();
 		if (passTemp.trim().length() == 0) {
-			throw new GuiAuthenticationException(MSG_PASS_ERROR);
+			throw new UIException(MSG_PASS_ERROR);
 		}
 		return passTemp;
 	}
@@ -324,14 +314,6 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-	 * Donner une valeur au port ou
-	 * @param int fp l'ip de la plateforme Framekit
-	 */
-	public final void setFrameKitPort(int fp) {
-		this.framekitPort.setText((new Integer(fp)).toString());
-	}
-
-	/**
 	 * Donner une valeur au tag pour le widget a tester
 	 * Set tag for widget for testing
 	 * @param tagged widget to set tag
@@ -341,6 +323,10 @@ public class AuthenticationDialog extends Dialog {
 		tagged.setData("name", data); //$NON-NLS-1$
 	}
 
+	/**
+	 * Change la visibilite des champs d'informations
+	 * @param newVisibility
+	 */
 	private void setVisibility(boolean newVisibility) {
 		this.visibility = newVisibility;
 	}

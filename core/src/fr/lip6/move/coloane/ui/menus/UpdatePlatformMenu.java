@@ -41,11 +41,11 @@ public class UpdatePlatformMenu implements Runnable {
 
 		// Parcours des items de la barre de menus
 		for (MenuItem item : shell.getMenuBar().getItems()) {
-			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) {
+			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
 
 				// Parcours des items du sous-menu Platform
 				for (MenuItem subItem : item.getMenu().getItems()) {
-					if (subItem.getText().equals(Coloane.getParam("PLATFORM_MENU"))) {
+					if (subItem.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
 
 						// On cherche le bon item
 						for (MenuItem subSubItem : subItem.getMenu().getItems()) {

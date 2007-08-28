@@ -1,16 +1,22 @@
 package fr.lip6.move.coloane.menus;
 
-import fr.lip6.move.coloane.exceptions.MenuNotFoundException;
-
 import java.util.ArrayList;
 
 /**
- * Definition d'un menu
+ * Definition d'un menu de service
  */
 public abstract class Menu {
+
+	/** Le nom du menu */
 	private String name;
+
+	/** Le parent du menu */
 	private Menu parent;
+
+	/** La liste des enfants du menu */
 	private ArrayList<ChildMenu> childMenus;
+
+	/** L'etat du menu */
 	private boolean enabled = true;
 
 	/**
@@ -152,7 +158,7 @@ public abstract class Menu {
 	 * @param state Le nouvel etat
 	 * @throws MenuNotFoundException
 	 */
-	public final void setEnabled(String menuName, boolean state) throws MenuNotFoundException {
+	public final void setEnabled(String menuName, boolean state) {
 		Menu toUpdate = getMenu(menuName);
 		if (toUpdate != null) { toUpdate.setEnabled(state); }
 	}

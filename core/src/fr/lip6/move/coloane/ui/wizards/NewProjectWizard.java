@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.ui.wizards;
 
 import fr.lip6.move.coloane.main.Coloane;
-import fr.lip6.move.coloane.main.Translate;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -24,18 +23,25 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	public NewProjectWizard() {	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
 	public final void addPages() {
 		addPage(projectCreationPage);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
 	@Override
 	public final boolean performFinish() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IProject newProject = projectCreationPage.getProjectHandle();
 		IProjectDescription description = workspace.newProjectDescription(newProject.getName());
 
-		String[] natureIds = {Translate.getString("ui.wizards.NewProjectWizard.0")}; //$NON-NLS-1$
+		String[] natureIds = {Messages.NewProjectWizard_0};
 		description.setNatureIds(natureIds);
 		IPath oldPath = Platform.getLocation();
 		IPath newPath = projectCreationPage.getLocationPath();
@@ -62,9 +68,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+	 */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/newproject_corner.png")); //$NON-NLS-1$
-		setWindowTitle(Translate.getString("ui.wizards.NewProjectWizard.2")); //$NON-NLS-1$
+		setWindowTitle(Messages.NewProjectWizard_1);
 		projectCreationPage = new ProjectCreationPage("newproject", selection); //$NON-NLS-1$
 	}
 
