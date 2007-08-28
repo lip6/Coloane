@@ -4,3 +4,4 @@ Bundle-Version: 0.9.8.0
 Bundle-Name: Coloane API (cami)
 Bundle-Vendor: LIP6 - MoVe
 Require-Bundle: fr.lip6.move.coloane.interfaces
+Provide-Package: fr.lip6.move.coloane.api
