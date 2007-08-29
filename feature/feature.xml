@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.12.6"
+      version="0.9.13"
       provider-name="LIP6 - MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
@@ -144,14 +144,14 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
 
    <requires>
       <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
    <plugin
@@ -181,13 +181,6 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="fr.lip6.move.coloane.standalone"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
          unpack="false"/>
 
 </feature>
