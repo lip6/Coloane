@@ -38,7 +38,7 @@ public interface IArcImpl {
 	String SETSELECT_PROP = "Arc.Select"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETUNSELECT_PROP = Messages.IArcImpl_2;
+	String SETUNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
 
 
 	/**

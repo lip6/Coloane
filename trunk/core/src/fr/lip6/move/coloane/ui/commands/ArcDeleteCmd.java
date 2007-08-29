@@ -40,7 +40,7 @@ public class ArcDeleteCmd extends Command {
 		try {
 			arc.getModelAdapter().removeArc(arc);
 		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage());
+			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 

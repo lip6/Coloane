@@ -32,7 +32,7 @@ public class PetriNets extends Formalism {
 
 		addAttributeFormalism(new AttributeFormalism(i++, "declaration", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
 		addAttributeFormalism(new AttributeFormalism(i++, "author(s)", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
-		addAttributeFormalism(new AttributeFormalism(i++, Messages.PetriNets_5, IAttributeGraphicInfo.NOR, true, false, "0,0")); //$NON-NLS-1$
+		addAttributeFormalism(new AttributeFormalism(i++, "version", IAttributeGraphicInfo.NOR, true, false, "0,0")); //$NON-NLS-1$ //$NON-NLS-2$
 		addAttributeFormalism(new AttributeFormalism(i++, "project", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
 		addAttributeFormalism(new AttributeFormalism(i++, "title", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
 		addAttributeFormalism(new AttributeFormalism(i++, "date", IAttributeGraphicInfo.NOR, true, false)); //$NON-NLS-1$
