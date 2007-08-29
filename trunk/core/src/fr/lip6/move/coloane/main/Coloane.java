@@ -80,12 +80,12 @@ public class Coloane extends AbstractUIPlugin {
 			ui.setMotor(motor);
 
 			// Pour afficher la version et le numero de build
-			String version = (String) getBundle().getHeaders().get("Implementation-Version"); //$NON-NLS-1$
-			String build = (String) getBundle().getHeaders().get("Implementation-Build"); //$NON-NLS-1$
-			if ((version != null) && (build != null)) {
+			String version = this.getVersion();
+			String build = this.getBuild();
+			if (build != null) {
 				ui.printHistoryMessage("Core Version : " + version + " Build : " + build); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				ui.printHistoryMessage("Core Version (Dev) : " + getBundle().getHeaders().get("Bundle-Version")); //$NON-NLS-1$ //$NON-NLS-2$
+				ui.printHistoryMessage("Core Version (Dev) : " + version); //$NON-NLS-1$
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
@@ -191,7 +191,9 @@ public class Coloane extends AbstractUIPlugin {
 		coreLog.setLevel(Level.FINEST); // On loggue tout !
 		try {
 			ColoaneLogHandler handler = new ColoaneLogHandler();
-			handler.setFormatter(new ColoaneLogFormatter());
+			ColoaneLogFormatter format = new ColoaneLogFormatter();
+			format.setVersion(getVersion());
+			handler.setFormatter(format);
 			coreLog.addHandler(handler);
 		} catch (Exception e) {
 			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
@@ -204,5 +206,25 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	public static Logger getLogger() {
 		return coreLog;
+	}
+
+	/**
+	 * Retourne la version du Core
+	 * @return String
+	 */
+	private String getVersion() {
+		String version = (String) getBundle().getHeaders().get("Implementation-Version");
+		if (version == null) { return (String) getBundle().getHeaders().get("Bundle-Version"); }
+		return version;
+	}
+
+	/**
+	 * Retourne le numero de build du Core
+	 * @return String
+	 */
+	private String getBuild() {
+		String build = (String) getBundle().getHeaders().get("Implementation-Build");
+		if (build == null) { return null; }
+		return build;
 	}
 }
