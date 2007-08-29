@@ -126,7 +126,6 @@ AMMMMMNU                     %AMMMMMQ0%                0NMMMMNU
                 2UUUUUUUUUUUUUUUD0UUUUUUUUUUUUUUUUD$         
  */
 
-import fr.lip6.move.coloane.api.session.message.IMessage;
 
 public interface IState {
 

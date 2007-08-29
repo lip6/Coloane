@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.session.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -10,7 +11,8 @@ import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import fr.lip6.move.coloane.api.session.message.IMessage;
+import fr.lip6.move.coloane.api.framekit.Network;
+
 
 public final class Controller implements IController {
 
@@ -18,8 +20,7 @@ public final class Controller implements IController {
 		private static final long serialVersionUID = -6204590417521133935L;
 	}
 
-	private InputStream fromFrameKit;
-	private OutputStream toFrameKit;
+	private Network frameKit;
 	private BlockingQueue<IMessage> fromColoane;
 	private BlockingQueue<IMessage> toColoane;
 	private Map<SessionIdentifier, Stack<IState>> protocols;
@@ -27,8 +28,7 @@ public final class Controller implements IController {
 	private SessionIdentifier nextSession;
 
 	public Controller() {
-		this.fromFrameKit = null;
-		this.toFrameKit = null;
+		this.frameKit= null;
 		this.fromColoane = new LinkedBlockingQueue<IMessage>();
 		this.toColoane = new LinkedBlockingQueue<IMessage>();
 		this.protocols = new HashMap<SessionIdentifier, Stack<IState>>();
@@ -79,12 +79,13 @@ public final class Controller implements IController {
 		return newIdentifier;
 	}
 
-	public InputStream getFromFrameKit() {
-		return fromFrameKit;
+	public InputStream getFromFrameKit() throws IOException {
+		System.out.println("Controller.getFromFrameKit()");
+		return this.frameKit.getInput();
 	}
 
-	public OutputStream getToFrameKit() {
-		return toFrameKit;
+	public OutputStream getToFrameKit() throws IOException {
+		return this.frameKit.getOutput();
 	}
 
 	public BlockingQueue<IMessage> getFromColoane() {
@@ -95,12 +96,12 @@ public final class Controller implements IController {
 		return toColoane;
 	}
 
-	public void setFromFrameKit(InputStream fromFrameKit) {
-		this.fromFrameKit = fromFrameKit;
+	public Network getFrameKit() {
+		return frameKit;
 	}
 
-	public void setToFrameKit(OutputStream toFrameKit) {
-		this.toFrameKit = toFrameKit;
+	public void setFrameKit(Network frameKit) {
+		this.frameKit = frameKit;
 	}
 
 	public void setFromColoane(BlockingQueue<IMessage> fromColoane) {
@@ -111,5 +112,10 @@ public final class Controller implements IController {
 		this.toColoane = toColoane;
 	}
 
-	
+	public void run() {
+		try {
+			this.apply();
+		} catch (EmergencyStopException e) {
+		}
+	}	
 }

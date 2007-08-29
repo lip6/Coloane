@@ -1,7 +1,11 @@
 grammar Cami;
 
 @header{
-import org.antlr.runtime.*;
+package fr.lip6.move.coloane.api.camiParser;
+}
+
+@lexer::header{
+package fr.lip6.move.coloane.api.camiParser;
 }
 
 /*------------------------------------------------------------------
@@ -137,6 +141,18 @@ special_message
  
 
 // Connection handler
+
+open_communication
+	:
+	  ack_open_communication 
+	  {
+	  
+	  }
+	| close_connection_panic
+	  {
+	
+	  }
+	;
 
 ack_open_communication
 	:

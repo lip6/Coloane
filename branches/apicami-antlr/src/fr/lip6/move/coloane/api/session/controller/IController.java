@@ -60,14 +60,15 @@ iii++++++++++++++iiitIVBMMMMMMMMMMBMBMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 ++++++++++++++iiiitIVBMMMMBBMMBBBBMMMMMMMMMMMBMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.concurrent.BlockingQueue;
 
-import fr.lip6.move.coloane.api.session.message.IMessage;
+import fr.lip6.move.coloane.api.framekit.Network;
 
-public interface IController {
+public interface IController extends Runnable {
 
 	class SessionIdentifier {
 		private BigInteger id;
@@ -89,17 +90,17 @@ public interface IController {
 	
 	public SessionIdentifier register(IState p);
 
-	public InputStream getFromFrameKit();
+	public InputStream getFromFrameKit() throws IOException;
 
-	public OutputStream getToFrameKit();
+	public OutputStream getToFrameKit() throws IOException;
 
 	public BlockingQueue<IMessage> getFromColoane();
 
 	public BlockingQueue<IMessage> getToColoane();
 
-	public void setFromFrameKit(InputStream fromFrameKit);
+	public Network getFrameKit();
 
-	public void setToFrameKit(OutputStream toFrameKit);
+	public void setFrameKit(Network frameKit);
 
 	public void setFromColoane(BlockingQueue<IMessage> fromColoane);
 

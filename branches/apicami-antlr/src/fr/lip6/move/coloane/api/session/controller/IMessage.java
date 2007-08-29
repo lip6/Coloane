@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.session.message;
+package fr.lip6.move.coloane.api.session.controller;
 
 /**
 BBBBMMBBMMMMMMMMBBBBBMBBMMMMBBBRXYi:,,,:iVXXVXXWRRRBBRBBBRMBRBBBRRBMMMMMMMMM

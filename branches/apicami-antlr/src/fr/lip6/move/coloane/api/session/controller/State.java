@@ -11,8 +11,6 @@ public abstract class State implements IState {
 
 	private IController controller;
 
-	// private CamiParser parser;
-
 	public State(IController controller) {
 		this.controller = controller;
 	}
@@ -22,7 +20,9 @@ public abstract class State implements IState {
 	}
 
 	protected CamiParser getParser() throws IOException {
+		System.out.println("State.getParser() 1");
 		ANTLRInputStream input = new ANTLRInputStream(this.controller.getFromFrameKit());
+		System.out.println("getParser() 2");
 		CamiLexer lexer = new CamiLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		return new CamiParser(tokens);

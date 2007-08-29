@@ -1,41 +1,34 @@
 package fr.lip6.move.coloane.api;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
 import fr.lip6.move.coloane.api.framekit.Network;
 import fr.lip6.move.coloane.api.session.controller.IController;
+import fr.lip6.move.coloane.api.session.states.authentication.LoginPassword;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
 public class API implements IApi {
 
-	private Network network;
 	private IController controller;
+	private Thread controllerThread;
 	
 	public API(IController controller) {
-		this.network = null;
-		this.controller = null;
+		this.controller = controller;
+		this.controllerThread = new Thread(this.controller);
+		this.controllerThread.start();
 	}
 	
 	public boolean openConnection(String login, String password, String ip, int port, String apiName, String apiVersion) {
-		boolean result = true;
 		try {
-			this.network = new Network(ip, port);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			this.controller.setFrameKit(new Network(ip,port));
+			this.controller.getFromColoane().put(new LoginPassword(login,password,apiName,apiVersion));
+			this.controller.getToColoane().take();
+			
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
-			result = false;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			result = false;
+			return false;
 		}
-		this.controller.setFromFrameKit(this.network.getInput());
-		this.controller.setToFrameKit(this.network.getOutput());
-		// TODO
-		return result;
 	}
 
 	public void askForService(String rootMenuName, String menuName,
@@ -53,7 +46,7 @@ public class API implements IApi {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	public boolean closeCurrentSession() {
 		// TODO Auto-generated method stub
 		return false;

@@ -5,25 +5,33 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public final class Network {
 
 	private Socket socket;
-	private InputStream input;
-	private OutputStream output;
+	private FkOutputStream output;
+	private FkInputStream input;
 	
-	public Network(String ip, int port) throws UnknownHostException, IOException {
+	public Network(String ip, int port) throws IOException {
 		this.socket = new Socket( InetAddress.getByName(ip) , port);
-		this.output = this.socket.getOutputStream();
-		this.input = this.socket.getInputStream();
+		this.output = new FkOutputStream(this.socket.getOutputStream());
+		this.input = new  FkInputStream(this.socket.getInputStream());
 	}
 	
-	public InputStream getInput() {
-		return input;
+	public InputStream getInput() throws IOException {
+		//this.reconnect();
+		// System.out.println("Network.getInput()");
+		//return this.socket.getInputStream();
+		return this.input;
 	}
 
-	public OutputStream getOutput() {
-		return output;
+	public OutputStream getOutput() throws IOException {
+		//this.reconnect();
+		return this.output;
 	}
+
+//	private void reconnect() throws IOException {		
+//		if( socket.isClosed() )
+//			socket.connect(this.socket.getRemoteSocketAddress());
+//	}
 }
