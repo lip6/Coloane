@@ -70,7 +70,7 @@ public final class Api implements IApi {
 	 * @return L'API
 	 */
 	public static synchronized Api getInstance(IComApi moduleCom) {
-		if (instance == null) { return new Api(moduleCom); }
+		if (instance == null) { instance = new Api(moduleCom); }
 		return instance;
 	}
 
