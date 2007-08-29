@@ -126,7 +126,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele : " + e.getMessage()); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Motor_2 + e.getMessage());
 			return;
-		} 
+		}
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
 		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
 	}
