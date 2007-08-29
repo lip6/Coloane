@@ -178,31 +178,15 @@ public class AuthenticationDialog extends Dialog {
 					} else { // Autre ..
 						setFrameKitIp(""); //$NON-NLS-1$
 						setFrameKitPort(""); //$NON-NLS-1$
-						setVisibility(true);
-						changeVisibility();
+						if (visibility) {
+							changeVisibility();
+						}
 					}
 				} catch (IOException ef) {
 					Coloane.getLogger().warning("IP introuvable"); //$NON-NLS-1$
 				}
 			}
 		});
-
-		// Invisible a la creation de la boite
-		framekitIpLabel = new Label(compo, SWT.NULL);
-		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
-		framekitIpLabel.setVisible(false);
-		framekitIp = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
-		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		framekitIp.setTextLimit(TXT_LIMIT);
-		framekitIp.setVisible(false);
-
-		framekitPortLabel = new Label(compo, SWT.NULL);
-		framekitPortLabel.setText(Messages.AuthenticationDialog_27);
-		framekitPortLabel.setVisible(false);
-		framekitPort = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
-		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		framekitPort.setTextLimit(TXT_LIMIT);
-		framekitPort.setVisible(false);
 
 		return compo;
 	}
@@ -310,7 +294,7 @@ public class AuthenticationDialog extends Dialog {
 	 * @param fp l'ip de la plateforme Framekit
 	 */
 	public final void setFrameKitPort(String fp) {
-		this.framekitPort.setText(new String(fp));
+		this.framekitPort.setText(fp);
 	}
 
 	/**
@@ -324,28 +308,57 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-	 * Change la visibilite des champs d'informations
-	 * @param newVisibility
+	 * Methode qui affiche les details concernant le serveur Framekit
 	 */
-	private void setVisibility(boolean newVisibility) {
-		this.visibility = newVisibility;
+	private void showDetails() {
+		//Invisible a la creation de la boite
+		framekitIpLabel = new Label(compo, SWT.NULL);
+		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
+
+		framekitIp = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		framekitIp.setTextLimit(TXT_LIMIT);
+
+		framekitPortLabel = new Label(compo, SWT.NULL);
+		framekitPortLabel.setText(Messages.AuthenticationDialog_27);
+
+		framekitPort = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		framekitPort.setTextLimit(TXT_LIMIT);
+
+		setFrameKitIp(ip);
+		setFrameKitPort(port);
+	}
+
+	/**
+	 * Methode qui supprime les details concernant le serveur Framekit
+	 */
+	private void hideDetails() {
+		framekitIp.dispose();
+		framekitPort.dispose();
+		framekitIpLabel.dispose();
+		framekitPortLabel.dispose();
+
+		framekitIp = null;
+		framekitPort = null;
+		framekitIpLabel = null;
+		framekitPortLabel = null;
 	}
 
 	/** Methode de service qui permet de masquer les labels et les zones de texte a ajouter
 	 * @param boolean v determine si ces composants sont visibles
 	 */
 	private void changeVisibility() {
-		framekitIpLabel.setVisible(this.visibility);
-		framekitIp.setVisible(this.visibility);
-		framekitPortLabel.setVisible(this.visibility);
-		framekitPort.setVisible(this.visibility);
-
 		if (this.visibility) {
 			detailsButton.setText(HIDE_DETAILS_LABEL);
 			this.visibility = false;
+			showDetails();
+			this.getShell().pack();
 		} else {
 			detailsButton.setText(SHOW_DETAILS_LABEL);
 			this.visibility = true;
+			hideDetails();
+			this.getShell().pack();
 		}
 	}
 
