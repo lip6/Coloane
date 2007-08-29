@@ -13,10 +13,12 @@ import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Coloane;
 
+import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -24,6 +26,21 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /** Classe de gestion du modele au format xml */
 public class XmlEditor extends DefaultHandler {
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.xml.sax.helpers.DefaultHandler#resolveEntity(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public final InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+		if (systemId.endsWith("coloane.dtd")) {
+            // Retourne une copie locale de la DTD
+			URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/coloane.dtd");
+			URL	path = FileLocator.toFileURL(dtd);
+            return new InputSource(path.getPath());
+        }
+		return null;
+	}
 
 	/* --------------- Ecriture --------------- */
 
@@ -39,9 +56,7 @@ public class XmlEditor extends DefaultHandler {
 
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			URL dtd = Coloane.class.getResource("/resources/coloane.dtd"); //$NON-NLS-1$
-			URL	path = FileLocator.toFileURL(dtd);
-			line += "<!DOCTYPE model SYSTEM '" + path.getPath() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
+			line += "<!DOCTYPE model SYSTEM 'coloane.dtd'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Exception e) {
 			Coloane.getLogger().warning("DTD introuvable"); //$NON-NLS-1$
 		}
