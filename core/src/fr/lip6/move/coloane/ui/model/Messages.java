@@ -4,7 +4,6 @@ import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.ui.model.messages"; //$NON-NLS-1$
-	public static String IArcImpl_2;
 	public static String ModelImplAdapter_1;
 	public static String ModelImplAdapter_2;
 	public static String ModelImplAdapter_3;

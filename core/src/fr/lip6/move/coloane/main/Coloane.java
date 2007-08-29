@@ -1,12 +1,14 @@
 package fr.lip6.move.coloane.main;
 
 import fr.lip6.move.coloane.communications.Com;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -185,8 +187,15 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void initializeLogger() {
 		coreLog = Logger.getLogger("fr.lip6.move.coloane.api"); //$NON-NLS-1$
+		LogManager.getLogManager().reset();
 		coreLog.setLevel(Level.FINEST); // On loggue tout !
-		coreLog.addHandler(new ColoaneLogHandler());
+		try {
+			ColoaneLogHandler handler = new ColoaneLogHandler();
+			handler.setFormatter(new ColoaneLogFormatter());
+			coreLog.addHandler(handler);
+		} catch (Exception e) {
+			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
+		}
 	}
 
 	/**
