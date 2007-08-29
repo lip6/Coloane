@@ -261,6 +261,7 @@ public final class Api implements IApi {
 	 * La fermeture de la connexion implique la fermeture prealable de toutes les sessions<br>
 	 * ATTENTION : La fermeture des sessions doit etre faite avant. (C'est un prerequis !)
 	 */
+	@SuppressWarnings("unused")
 	public void closeConnexion() {
 		apiLog.entering("Api", "closeConnexion");
 
@@ -281,7 +282,8 @@ public final class Api implements IApi {
 			}
 
 			// Fermeture des threads restants
-			for (FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
+			for (
+			FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
 			listeThread.clear();
 
 			// Mise a jour des indicateurs
@@ -308,6 +310,7 @@ public final class Api implements IApi {
 	 * @param message Message a afficher (transmis par la plate-forme)
 	 * @param severity Gravite de l'incident (transmis par la plate-forme)
 	 */
+	@SuppressWarnings("unused")
 	public void closeConnexion(int type, String message, int severity) {
 		Object[] param = {type, message, severity};
 		apiLog.entering("Api", "closeConnexion", param);
