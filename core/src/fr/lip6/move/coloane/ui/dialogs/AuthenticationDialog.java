@@ -166,20 +166,29 @@ public class AuthenticationDialog extends Dialog {
 
 					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) { //$NON-NLS-1$
 						ip = Coloane.getParam("IP" + (i + 1)); //$NON-NLS-1$
-						setFrameKitIp(ip);
 						port = Coloane.getParam("PORT" + (i + 1)); //$NON-NLS-1$
-						setFrameKitPort(port);
+
+						if (!visibility) {
+							setFrameKitIp(ip);
+							setFrameKitPort(port);
+						}
 
 					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
 						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
-						setFrameKitIp(ip);
 						port = String.valueOf(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
-						setFrameKitPort(port);
+
+						if (!visibility) {
+							setFrameKitIp(ip);
+							setFrameKitPort(port);
+						}
 					} else { // Autre ..
-						setFrameKitIp(""); //$NON-NLS-1$
-						setFrameKitPort(""); //$NON-NLS-1$
+						ip = "";
+						port = "";
 						if (visibility) {
 							changeVisibility();
+						} else {
+							setFrameKitIp(""); //$NON-NLS-1$
+							setFrameKitPort(""); //$NON-NLS-1$
 						}
 					}
 				} catch (IOException ef) {
@@ -270,6 +279,10 @@ public class AuthenticationDialog extends Dialog {
 	 * @return Retourne l'IP fournie de la plateforme FrameKit
 	 */
 	public final String getFrameKitIp() {
+		//si l'ip et le port ne sont pas recuperable via les champs Text
+		if (visibility) {
+			return ip;
+		}
 		return framekitIp.getText();
 	}
 
@@ -286,6 +299,10 @@ public class AuthenticationDialog extends Dialog {
 	 * @return Retourne le port fourni de la plateforme FrameKit
 	 */
 	public final int getFrameKitPort() {
+		//si l'ip et le port ne sont pas recuperable via les champs Text
+		if (visibility) {
+			return Integer.parseInt(port);
+		}
 		return Integer.parseInt(framekitPort.getText());
 	}
 
@@ -338,11 +355,6 @@ public class AuthenticationDialog extends Dialog {
 		framekitPort.dispose();
 		framekitIpLabel.dispose();
 		framekitPortLabel.dispose();
-
-		framekitIp = null;
-		framekitPort = null;
-		framekitIpLabel = null;
-		framekitPortLabel = null;
 	}
 
 	/** Methode de service qui permet de masquer les labels et les zones de texte a ajouter
