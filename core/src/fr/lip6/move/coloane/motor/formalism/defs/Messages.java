@@ -8,7 +8,6 @@ public final class Messages extends NLS {
 	public static String PetriNets_22;
 	public static String PetriNets_34;
 	public static String PetriNets_44;
-	public static String PetriNets_5;
 	public static String PetriNets_52;
 	public static String PetriNets_59;
 	public static String PrefixNets_13;
