@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2007-08-29 18:56:49
+// $ANTLR 3.0.1 Cami.g 2007-08-30 17:51:21
 
 package fr.lip6.move.coloane.api.camiParser;
 
@@ -1305,13 +1305,13 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:406:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:407:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:408:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:409:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start542 = getCharIndex();
             mNUMBER(); 
             NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start542, getCharIndex()-1);
-            nbToRead = Integer.parseInt(NUMBER1.getText());
+            nbToRead = Integer.parseInt(NUMBER1.getText()); System.out.println("nbToRead " + nbToRead);
             match(':'); 
             int fsStart553 = getCharIndex();
             mFIXED_LENGTH_STRING(nbToRead); 
@@ -1330,10 +1330,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:415:2: ( ({...}? => . )* )
-            // Cami.g:416:2: ({...}? => . )*
+            // Cami.g:417:2: ( ({...}? => . )* )
+            // Cami.g:418:2: ({...}? => . )*
             {
-            // Cami.g:416:2: ({...}? => . )*
+            // Cami.g:418:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -1346,7 +1346,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:416:4: {...}? => .
+            	    // Cami.g:418:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -1375,10 +1375,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:419:8: ( ( '0' .. '9' )+ )
-            // Cami.g:420:2: ( '0' .. '9' )+
+            // Cami.g:421:8: ( ( '0' .. '9' )+ )
+            // Cami.g:422:2: ( '0' .. '9' )+
             {
-            // Cami.g:420:2: ( '0' .. '9' )+
+            // Cami.g:422:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1392,7 +1392,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:420:2: '0' .. '9'
+            	    // Cami.g:422:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1422,10 +1422,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:423:9: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:424:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:425:9: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:426:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:424:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:426:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -1439,9 +1439,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:424:4: ( '\\r' )? '\\n'
+            	    // Cami.g:426:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:424:4: ( '\\r' )?
+            	    // Cami.g:426:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -1450,7 +1450,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:424:4: '\\r'
+            	            // Cami.g:426:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1488,8 +1488,8 @@ public class CamiLexer extends Lexer {
     public final void mEOF() throws RecognitionException {
         try {
             int _type = EOF;
-            // Cami.g:427:5: ()
-            // Cami.g:428:2: 
+            // Cami.g:429:5: ()
+            // Cami.g:430:2: 
             {
             skip();
 

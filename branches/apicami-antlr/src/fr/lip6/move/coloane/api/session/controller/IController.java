@@ -66,6 +66,8 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.concurrent.BlockingQueue;
 
+import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
+import fr.lip6.move.coloane.api.camiParser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
 
 public interface IController extends Runnable {
@@ -100,10 +102,12 @@ public interface IController extends Runnable {
 
 	public Network getFrameKit();
 
-	public void setFrameKit(Network frameKit);
+	public void setFrameKit(Network frameKit) throws IOException;
 
 	public void setFromColoane(BlockingQueue<IMessage> fromColoane);
 
 	public void setToColoane(BlockingQueue<IMessage> toColoane);
+	
+	public CamiParser getParser();
 
 }

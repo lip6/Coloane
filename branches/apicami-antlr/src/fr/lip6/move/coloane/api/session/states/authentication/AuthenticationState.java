@@ -18,26 +18,13 @@ public final class AuthenticationState extends State {
 			try {
 				LoginPassword mess = (LoginPassword)m;
 				
-				String command = "SC(" + mess.getLogin().length() + ':' + mess.getLogin() + ',' 
+				String command = "SC(" 	+ mess.getLogin().length() + ':' + mess.getLogin() + ',' 
 										+ mess.getPassword().length() + ':' + mess.getPassword() + ')';
 				
 				this.getController().getToFrameKit().write(command.getBytes());
-				
-//				byte[] answer = new byte[4];
-//				this.getController().getFromFrameKit().read(answer,0,4);
-//				int size = new Byte(answer[3]).intValue();
-				
-//				System.err.println( "size = |" + size  + "|" );
-//				answer = new byte[size];
-//				this.getController().getFromFrameKit().read(answer,0,size);
-//				System.err.println(new String(answer));
-				
-//				this.getParser().open_communication();
-
-				byte[] tmp = new byte[256];
-				this.getController().getFromFrameKit().read(tmp, 0, 61);
-				System.out.println("tmp" + new String(tmp));
-				
+				System.err.println("sent: " + command);
+				this.getController().getParser().open_communication();
+								
 				command = "OC(" +
 								mess.getApiName().length() + ':' + mess.getApiName() + ',' +
 								mess.getApiVersion().length() + ':' + mess.getApiVersion() + ',' +
@@ -46,21 +33,8 @@ public final class AuthenticationState extends State {
 							 ')';
 		
 				this.getController().getToFrameKit().write(command.getBytes());
-
-				tmp = new byte[256];
-				this.getController().getFromFrameKit().read(tmp, 0, 7);
-				System.out.println("tmp" + new String(tmp));
-				
-//				answer = new byte[4];
-//				this.getController().getFromFrameKit().read(answer,0,4);
-//				size = new Byte(answer[3]).intValue();
-//				
-//				System.err.println( "size = |" + size  + "|" );
-//				answer = new byte[size];
-//				this.getController().getFromFrameKit().read(answer,0,size);
-//				System.err.println(new String(answer));
-			
-				this.getController().getToColoane().put(this.getParser().check_version());
+				System.err.println("sent: " + command);
+				this.getController().getToColoane().put(this.getController().getParser().check_version());
 				
 				return this;
 			

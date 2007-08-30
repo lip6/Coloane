@@ -11,6 +11,11 @@ import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.antlr.runtime.CommonTokenStream;
+
+import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
+import fr.lip6.move.coloane.api.camiParser.CamiLexer;
+import fr.lip6.move.coloane.api.camiParser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
 
 
@@ -26,14 +31,16 @@ public final class Controller implements IController {
 	private Map<SessionIdentifier, Stack<IState>> protocols;
 	private SessionIdentifier activeSession;
 	private SessionIdentifier nextSession;
-
-	public Controller() {
+	private CamiParser parser;
+	
+	public Controller() throws IOException {
 		this.frameKit= null;
 		this.fromColoane = new LinkedBlockingQueue<IMessage>();
 		this.toColoane = new LinkedBlockingQueue<IMessage>();
 		this.protocols = new HashMap<SessionIdentifier, Stack<IState>>();
 		this.activeSession = null;
 		this.nextSession = new SessionIdentifier(new BigInteger("0"));
+		this.parser = null;
 	}
 
 	public void apply() throws EmergencyStopException {
@@ -100,8 +107,9 @@ public final class Controller implements IController {
 		return frameKit;
 	}
 
-	public void setFrameKit(Network frameKit) {
+	public void setFrameKit(Network frameKit) throws IOException {
 		this.frameKit = frameKit;
+		this.parser = new CamiParser(new CommonTokenStream(new CamiLexer(new ANTLRSocketStream(this.frameKit.getInput()))));
 	}
 
 	public void setFromColoane(BlockingQueue<IMessage> fromColoane) {
@@ -117,5 +125,10 @@ public final class Controller implements IController {
 			this.apply();
 		} catch (EmergencyStopException e) {
 		}
+	}
+
+	public CamiParser getParser() {
+		return this.parser;
 	}	
+	
 }
