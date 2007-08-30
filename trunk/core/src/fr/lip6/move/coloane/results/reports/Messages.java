@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.results.reports;
 import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
-	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.motor.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.results.reports.messages"; //$NON-NLS-1$
 	public static String FactoryReport_0;
 	public static String GenericReport_1;
 	public static String InvariantsReport_0;
