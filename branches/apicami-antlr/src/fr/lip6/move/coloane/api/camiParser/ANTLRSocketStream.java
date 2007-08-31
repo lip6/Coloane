@@ -73,12 +73,8 @@ public class ANTLRSocketStream implements CharStream {
 
 	public int LA(int i) {
 		
-		System.err.println("LA(" + i + ")");
-		System.err.println("pos=" + pos + ", count=" + count);
-		
 		try {
-			if (this.encounteredEOF && (this.pos == this.count)) {
-			//			if( count == 0 ) { 
+			if (this.encounteredEOF && (this.pos == this.count)) { 
 				this.fillBufffer();
 				this.encounteredEOF = false;
 			}
@@ -90,25 +86,19 @@ public class ANTLRSocketStream implements CharStream {
 			if ( i < 0 ) {
 				++i;
 				if( ( this.pos + i - 1) < 0 ) {
-					System.err.println("<- LA-0");
 					this.encounteredEOF = true;
 					return CharStream.EOF;
 				}
 			}
 			
 			if( ( this.pos + i - 1) >= this.count ) {
-				System.err.println("<- LA-1");
 				this.encounteredEOF = true;
 				return CharStream.EOF;
 			}
 			
-			//this.fillBufffer();
-			
-			System.err.println("<- LA-2 : " + data.charAt(pos+i-1));
 			return data.charAt(pos+i-1);
 			
 		} catch (IOException e) {
-			System.err.println("LA:IOException");
 			return CharStream.EOF;
 		}
 	}
@@ -175,7 +165,6 @@ public class ANTLRSocketStream implements CharStream {
 
 	public void rewind(int marker) {
 		CharStreamState state = markers.get(marker);
-		// restore stream state
 		this.seek(state.p);
 		this.lineNumber = state.line;
 		this.charPositionInLine = state.charPositionInLine;
@@ -200,9 +189,6 @@ public class ANTLRSocketStream implements CharStream {
 		
 		if( this.pos == this.count ) {
 			
-			
-			System.out.println("Filling buffer");
-			
 			byte[] tmp = new byte[256];
 			int nbRead = this.input.read(tmp);
 						
@@ -213,9 +199,6 @@ public class ANTLRSocketStream implements CharStream {
 			else {
 				throw new IOException();
 			}
-			
-			System.out.println("Buffer filled");
-			
 		}
 		
 	}

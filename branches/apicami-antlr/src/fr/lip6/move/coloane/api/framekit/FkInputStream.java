@@ -44,7 +44,7 @@ public final class FkInputStream extends FilterInputStream {
 		if( (nbRead = super.in.read(b,0,length)) == -1 )
 			return -1;
 		this.nbToRead -= nbRead;
-		System.err.println("Read: " + new String(b));
+		System.err.println("FkInputStream has read: " + new String(b));
 		return nbRead;
 	}
 	

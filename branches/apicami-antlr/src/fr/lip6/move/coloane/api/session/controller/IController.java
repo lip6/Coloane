@@ -67,7 +67,6 @@ import java.math.BigInteger;
 import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 
-import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
 import fr.lip6.move.coloane.api.camiParser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
 

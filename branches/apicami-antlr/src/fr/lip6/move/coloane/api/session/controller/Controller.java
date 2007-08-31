@@ -15,7 +15,6 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 
 import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
-import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStreamDebug;
 import fr.lip6.move.coloane.api.camiParser.CamiLexer;
 import fr.lip6.move.coloane.api.camiParser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
@@ -111,6 +110,7 @@ public final class Controller implements IController {
 
 	public void setFrameKit(Network frameKit) throws IOException {
 		this.frameKit = frameKit;
+		//this.parserStream  = new ANTLRSocketStreamDebug(this.frameKit.getInput());
 		this.parserStream  = new ANTLRSocketStream(this.frameKit.getInput());
 //		this.parser = new CamiParser(new CommonTokenStream(new CamiLexer(new ANTLRSocketStreamDebug(this.frameKit.getInput()))));
 	}
