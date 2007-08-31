@@ -64,7 +64,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 
 import fr.lip6.move.coloane.api.camiParser.CamiParser;
@@ -72,7 +71,7 @@ import fr.lip6.move.coloane.api.framekit.Network;
 
 public interface IController extends Runnable {
 
-	class SessionIdentifier {
+	public class SessionIdentifier {
 		private BigInteger id;
 
 		public SessionIdentifier(BigInteger id) {
@@ -83,15 +82,17 @@ public interface IController extends Runnable {
 			return id;
 		}
 	}
-	
+		
 	class UnknownSessionException extends Exception {
 		private static final long serialVersionUID = 6152106346632100839L;
 	}
 	
 	public void changeSession(SessionIdentifier id) throws UnknownSessionException;
 	
-	public SessionIdentifier register(Stack<IState> p);
-
+	public SessionIdentifier getDefaultSessionIdentifier();
+	public void addState(IState s);
+	public SessionIdentifier addSession(IState s);
+	
 	public InputStream getFromFrameKit() throws IOException;
 
 	public OutputStream getToFrameKit() throws IOException;

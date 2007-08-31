@@ -36,6 +36,8 @@ public final class AuthenticationState extends State {
 				System.err.println("sent: " + command);
 				this.getController().getToColoane().put(this.getController().getParser().check_version());
 				
+				// TODO: this.getController.addState();
+				
 				return this;
 			
 			} catch (AuthenticationFailure e) {
