@@ -137,8 +137,12 @@ warning_message
 	;
 
 special_message
+	returns [String message]
 	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'
+	{
+		message = $CAMI_STRING.text;
+	}
 	;
  
 
@@ -154,7 +158,7 @@ open_communication
 	| close_connection_panic
 	  {
 	  	if( true ) // to avoid an error in the generated code
-		  	throw new AuthenticationFailure($close_connection_panic.s);
+		  	throw new AuthenticationFailure($close_connection_panic.message);
 	  }
 	;
 
@@ -165,10 +169,10 @@ check_version
 	  {
 	  	message = new AuthenticationAck();  
 	  }
-	| close_connection_panic
+	| special_message // TODO REALLY handle KO or MO outputs...
 	  {
 	  	if(true) // to avoid an error in the generated code
-	  		throw new VersionFailure($close_connection_panic.s);
+	  		throw new VersionFailure($special_message.message);
 	  }
 	;
 
@@ -188,11 +192,11 @@ close_connection_normal
 	;
 	
 close_connection_panic
-	returns [String s]
+	returns [String message]
 	:
 	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'
 	{
-		s=$mess.text;
+		message=$mess.text;
 	}
 	;
 

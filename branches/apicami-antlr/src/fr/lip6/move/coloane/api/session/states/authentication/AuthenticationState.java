@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.session.states.authentication;
 
+import fr.lip6.move.coloane.api.camiCommands.CamiBuilder;
 import fr.lip6.move.coloane.api.session.controller.IController;
 import fr.lip6.move.coloane.api.session.controller.IMessage;
 import fr.lip6.move.coloane.api.session.controller.IState;
@@ -11,29 +12,17 @@ public final class AuthenticationState extends State {
 		super(controller);
 	}
 
-	public IState apply(IMessage m) throws RewindException, ErrorException {
+	public IState apply(IMessage message) throws RewindException, ErrorException {
 		
 		try {
 			
 			try {
-				LoginPassword mess = (LoginPassword)m;
+				LoginPassword mess = (LoginPassword)message;
 				
-				String command = "SC(" 	+ mess.getLogin().length() + ':' + mess.getLogin() + ',' 
-										+ mess.getPassword().length() + ':' + mess.getPassword() + ')';
-				
-				this.getController().getToFrameKit().write(command.getBytes());
-				System.err.println("sent: " + command);
+				this.getController().getToFrameKit().write(CamiBuilder.authentication(mess.getLogin(),mess.getPassword()).getBytes());
 				this.getController().getParser().open_communication();
 				
-				command = "OC(" +
-								mess.getApiName().length() + ':' + mess.getApiName() + ',' +
-								mess.getApiVersion().length() + ':' + mess.getApiVersion() + ',' +
-								mess.getLogin().length() + ':' + mess.getLogin() + ',' +
-								'0' +
-							 ')';
-		
-				this.getController().getToFrameKit().write(command.getBytes());
-				System.err.println("sent: " + command);
+				this.getController().getToFrameKit().write(CamiBuilder.clientVersion(mess.getApiName(),mess.getApiVersion(),mess.getLogin()).getBytes());
 				this.getController().getToColoane().put(this.getController().getParser().check_version());
 				
 				// TODO: this.getController.addState();
