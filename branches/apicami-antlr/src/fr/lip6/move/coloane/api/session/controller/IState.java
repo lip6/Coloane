@@ -137,8 +137,6 @@ public interface IState {
 		private static final long serialVersionUID = 1882292943740356666L;
 	}
 	
-	public enum Kind {NewMessage, RewindMessage}
-	
-	public IState apply(IMessage m, Kind k) throws RewindException, ErrorException;
+	public IState apply(IMessage m) throws RewindException, ErrorException;
 		
 }

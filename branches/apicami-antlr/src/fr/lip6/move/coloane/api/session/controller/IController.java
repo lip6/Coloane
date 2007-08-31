@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 
 import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
@@ -90,7 +91,7 @@ public interface IController extends Runnable {
 	
 	public void changeSession(SessionIdentifier id) throws UnknownSessionException;
 	
-	public SessionIdentifier register(IState p);
+	public SessionIdentifier register(Stack<IState> p);
 
 	public InputStream getFromFrameKit() throws IOException;
 

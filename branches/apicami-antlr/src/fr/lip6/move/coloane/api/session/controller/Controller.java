@@ -48,29 +48,31 @@ public final class Controller implements IController {
 	public void apply() throws EmergencyStopException {
 		do {
 			try {
-				this.apply(this.fromColoane.take(), IState.Kind.NewMessage);
+				this.apply(this.fromColoane.take());
 			} catch (InterruptedException e) {
 				throw new EmergencyStopException();
 			}
 		} while (true);
 	}
 
-	private void apply(IMessage m, IState.Kind k) throws EmergencyStopException {
-		Stack<IState> protocols = this.protocols.get(this.activeSession);
+	private void apply(IMessage m) throws EmergencyStopException {
+		Stack<IState> states = this.protocols.get(this.activeSession);
 		try {
-			IState top = protocols.peek();
-			protocols.push(top.apply(m, k));
-		} catch (IState.RewindException e) {
-			try {
-				protocols.pop();
-				this.apply(m, IState.Kind.RewindMessage);
-			} catch (EmptyStackException x) {
-				throw new EmergencyStopException();
+			stackLoop: while (true) {
+				IState top = states.peek();
+				try {
+					states.push(top.apply(m));
+					break stackLoop;
+				} catch (IState.RewindException e) {
+					states.pop();
+				}
 			}
+		} catch (EmptyStackException x) {
+			throw new EmergencyStopException();
 		} catch (IState.ErrorException e) {
 			throw new EmergencyStopException();
 		}
-	}
+	}	
 
 	public void changeSession(SessionIdentifier id) throws UnknownSessionException {
 		this.activeSession = id;
@@ -79,12 +81,10 @@ public final class Controller implements IController {
 		}
 	}
 
-	public SessionIdentifier register(IState p) {
+	public SessionIdentifier register(Stack<IState> p) {
 		SessionIdentifier newIdentifier = this.nextSession;
 		this.nextSession = new SessionIdentifier(newIdentifier.getId().add(new BigInteger("1")));
-		Stack<IState> newStack = new Stack<IState>();
-		newStack.push(p);
-		this.protocols.put(newIdentifier, newStack);
+		this.protocols.put(newIdentifier, p);
 		return newIdentifier;
 	}
 
@@ -111,7 +111,7 @@ public final class Controller implements IController {
 
 	public void setFrameKit(Network frameKit) throws IOException {
 		this.frameKit = frameKit;
-		this.parserStream  = new ANTLRSocketStreamDebug(this.frameKit.getInput());
+		this.parserStream  = new ANTLRSocketStream(this.frameKit.getInput());
 //		this.parser = new CamiParser(new CommonTokenStream(new CamiLexer(new ANTLRSocketStreamDebug(this.frameKit.getInput()))));
 	}
 

@@ -4,6 +4,7 @@
 package fr.lip6.move.coloane.api;
 
 import java.io.IOException;
+import java.util.Stack;
 
 import fr.lip6.move.coloane.api.session.controller.Controller;
 import fr.lip6.move.coloane.api.session.controller.IController;
@@ -22,9 +23,10 @@ public class ApiFactory implements IApiFactory {
 		
 		try {
 			controller = new Controller();
+			Stack<IState> stateStack = new Stack<IState>();
 			IState initialState = new AuthenticationState(controller);
-		
-			controller.changeSession(controller.register(initialState));
+			stateStack.push(initialState);
+			controller.changeSession(controller.register(stateStack));
 		
 		} catch (UnknownSessionException e) {
 			e.printStackTrace();

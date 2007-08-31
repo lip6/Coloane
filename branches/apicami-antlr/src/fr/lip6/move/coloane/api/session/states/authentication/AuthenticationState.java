@@ -11,7 +11,7 @@ public final class AuthenticationState extends State {
 		super(controller);
 	}
 
-	public IState apply(IMessage m, Kind k) throws RewindException, ErrorException {
+	public IState apply(IMessage m) throws RewindException, ErrorException {
 		
 		try {
 			
