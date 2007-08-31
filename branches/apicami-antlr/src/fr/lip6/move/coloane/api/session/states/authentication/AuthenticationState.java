@@ -24,7 +24,7 @@ public final class AuthenticationState extends State {
 				this.getController().getToFrameKit().write(command.getBytes());
 				System.err.println("sent: " + command);
 				this.getController().getParser().open_communication();
-								
+				
 				command = "OC(" +
 								mess.getApiName().length() + ':' + mess.getApiName() + ',' +
 								mess.getApiVersion().length() + ':' + mess.getApiVersion() + ',' +

@@ -31,14 +31,11 @@ public final class FkInputStream extends FilterInputStream {
 	public int read(byte[] b, int offset, int length) throws IOException {
 		
 		int nbRead = 0;
-		
 		if( this.nbToRead == 0 ) {
-			
 			byte[] size = new byte[4];
 			if( super.in.read(size,0,4) == -1 )
 				return -1;
 			this.nbToRead = new Byte(size[3]).intValue();
-			
 		}
 		
 		if (length > this.nbToRead )
@@ -47,7 +44,7 @@ public final class FkInputStream extends FilterInputStream {
 		if( (nbRead = super.in.read(b,0,length)) == -1 )
 			return -1;
 		this.nbToRead -= nbRead;
-				
+		System.err.println("Read: " + new String(b));
 		return nbRead;
 	}
 	

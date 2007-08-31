@@ -11,7 +11,7 @@ import org.antlr.runtime.CharStream;
 
 import fr.lip6.move.coloane.api.camiParser.CharStreamState;
 
-public final class ANTLRSocketStream implements CharStream {
+public class ANTLRSocketStream implements CharStream {
 
 	/** Represents the stream which we are reading from */
 	private InputStream input;
@@ -30,6 +30,8 @@ public final class ANTLRSocketStream implements CharStream {
 	private List<CharStreamState> markers;
 	private int lastMarker;
 	
+	private boolean encounteredEOF;
+	
 	public ANTLRSocketStream(InputStream input) {
 		super();
 		this.input = input;
@@ -41,6 +43,8 @@ public final class ANTLRSocketStream implements CharStream {
 		this.markDepth = 0;
 		this.markers = null;
 		this.lastMarker = 0;
+		
+		this.encounteredEOF = true;
 	}
 
 	public int LT(int i) {
@@ -69,11 +73,14 @@ public final class ANTLRSocketStream implements CharStream {
 
 	public int LA(int i) {
 		
-		//System.out.println("LA(" + i + ")");
+		System.err.println("LA(" + i + ")");
+		System.err.println("pos=" + pos + ", count=" + count);
 		
 		try {
-			if( count == 0 ) { 
+			if (this.encounteredEOF && (this.pos == this.count)) {
+			//			if( count == 0 ) { 
 				this.fillBufffer();
+				this.encounteredEOF = false;
 			}
 				
 			if( i == 0 ) {
@@ -83,19 +90,25 @@ public final class ANTLRSocketStream implements CharStream {
 			if ( i < 0 ) {
 				++i;
 				if( ( this.pos + i - 1) < 0 ) {
+					System.err.println("<- LA-0");
+					this.encounteredEOF = true;
 					return CharStream.EOF;
 				}
 			}
 			
 			if( ( this.pos + i - 1) >= this.count ) {
+				System.err.println("<- LA-1");
+				this.encounteredEOF = true;
 				return CharStream.EOF;
 			}
 			
-			this.fillBufffer();
+			//this.fillBufffer();
 			
+			System.err.println("<- LA-2 : " + data.charAt(pos+i-1));
 			return data.charAt(pos+i-1);
 			
 		} catch (IOException e) {
+			System.err.println("LA:IOException");
 			return CharStream.EOF;
 		}
 	}
@@ -183,7 +196,7 @@ public final class ANTLRSocketStream implements CharStream {
 		return this.count;
 	}
 	
-	private void fillBufffer() throws IOException {
+	public void fillBufffer() throws IOException {
 		
 		if( this.pos == this.count ) {
 			
