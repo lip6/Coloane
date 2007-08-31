@@ -24,7 +24,7 @@ public class SyntaxCheckerReport extends Report {
 
 		// Si il n'y a pas de resultat : Aucun probleme !
 		if (getResultsCom().getSubResults().size() == 0) {
-			getResultList().add(new Result(Messages.SyntaxCheckerReport_2, Messages.SyntaxCheckerReport_8)); //$NON-NLS-2$
+			getResultList().add(new Result(Messages.SyntaxCheckerReport_2, "")); //$NON-NLS-1$
 		}
 
 		// Parcours de tous les DE-FE

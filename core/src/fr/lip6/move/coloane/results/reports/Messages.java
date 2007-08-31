@@ -8,14 +8,12 @@ public final class Messages extends NLS {
 	public static String GenericReport_1;
 	public static String InvariantsReport_0;
 	public static String InvariantsReport_1;
-	public static String InvariantsReport_2;
 	public static String LinerCharacterizationReport_1;
 	public static String StructuralBounds_0;
 	public static String SyntaxCheckerReport_0;
 	public static String SyntaxCheckerReport_2;
 	public static String SyntaxCheckerReport_5;
 	public static String SyntaxCheckerReport_7;
-	public static String SyntaxCheckerReport_8;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
