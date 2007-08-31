@@ -58,7 +58,7 @@ object_position
 	:
 	  'PO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
 	| 'pO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
-	| 'PO(' NUMBER ',' id=NUMBER ',' left=NUMBER ',' right=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
+	| 'PO(-1,' id=NUMBER ',' left=NUMBER ',' right=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
 	;
 
 text_position
@@ -146,7 +146,6 @@ special_message
 
 open_communication
 	returns [AuthenticationAck message]
-	@init{System.err.println("Before open_communication");}
 	:
 	  ack_open_communication 
 	  {
@@ -161,11 +160,9 @@ open_communication
 
 check_version
 	returns [AuthenticationAck message]
-@init{System.err.println("Before check_version");}
 	:
 	  ack_open_connection
 	  {
-	  	System.err.println("ack_open_communication recognized");
 	  	message = new AuthenticationAck();  
 	  }
 	| close_connection_panic
@@ -193,7 +190,7 @@ close_connection_normal
 close_connection_panic
 	returns [String s]
 	:
-	'KO(' NUMBER ',' mess=CAMI_STRING ',' level=NUMBER ')'
+	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'
 	{
 		s=$mess.text;
 	}
@@ -406,7 +403,7 @@ CAMI_STRING
     	:
 	NUMBER {nbToRead = Integer.parseInt($NUMBER.text);}
 	':' 
-	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text); 	  	System.err.println("CAMI_STRING => " + $fs.text);}
+	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text);}
 	;
 
 fragment
