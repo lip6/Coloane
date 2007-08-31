@@ -22,7 +22,7 @@ public class CamiTranslator extends Translator {
 		Vector<String> toReturn = new Vector<String>();
 
 		// Ajout du noeud du modele
-		toReturn.add(new String("CN(" + model.getFormalism().length() + ":" + model.getFormalism() + ",1)"));
+		toReturn.add(new String("CN(3:net,1)"));
 
 		// Ajout des attributs
 		for (IAttribute attribute : model.getListOfAttributes()) { toReturn.addAll(this.translateAttribute(attribute));	}
