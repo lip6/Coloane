@@ -13,7 +13,7 @@ public class InvariantsReport extends Report {
 	@Override
 	protected final void buildReport() {
 		if (getResultsCom().getSubResults().size() == 0) {
-			getResultList().add(new Result(Messages.InvariantsReport_0, Messages.InvariantsReport_2)); //$NON-NLS-2$
+			getResultList().add(new Result(Messages.InvariantsReport_0, "")); //$NON-NLS-1$
 			return;
 		}
 

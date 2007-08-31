@@ -27,6 +27,7 @@ public class FactoryReport {
 	private static final String SER_BDDTRAPS = "BDD based Minimal traps"; //$NON-NLS-1$
 	private static final String SER_SYPHONUNFOLD = "Minimal syphon by unfolding"; //$NON-NLS-1$
 	private static final String SER_TRAPSUNFOLD = "Minimal traps by unfolding"; //$NON-NLS-1$
+	private static final String SER_STARTPROD = "Start/Continue the Reachability Graph construction"; //$NON-NLS-1$
 
 	private IResultsCom resultCom;
 
@@ -109,6 +110,10 @@ public class FactoryReport {
 
 		if (this.resultCom.getQuestion().equalsIgnoreCase(SER_TRAPSUNFOLD)) {
 			return new SyphonTrapsReport(SER_TRAPSUNFOLD, this.resultCom);
+		}
+
+		if (this.resultCom.getQuestion().equalsIgnoreCase(SER_STARTPROD)) {
+			return new EmptyReport(SER_STARTPROD, this.resultCom);
 		}
 
 		return new GenericReport(Messages.FactoryReport_0, this.resultCom);
