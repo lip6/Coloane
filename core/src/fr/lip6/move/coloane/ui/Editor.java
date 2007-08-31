@@ -80,16 +80,10 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
 		private PageBook pageBook;
-
 		private Canvas overview;
-
 		private Thumbnail thumbnail;
-
 		private DisposeListener disposeListener;
-
-		public OutlinePage(EditPartViewer viewer) {
-			super(viewer);
-		}
+		public OutlinePage(EditPartViewer viewer) { super(viewer); }
 
 		/*
 		 * (non-Javadoc)
@@ -211,9 +205,24 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	/** Formalisme */
 	private Formalism formalism;
 
+	/** Le listener de focus */
+	private static TabListener listener = null;
+
 	/** Constructeur de l'editeur */
 	public Editor() { }
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
+	 */
+	protected final void initializeGraphicalViewer() {
+		super.initializeGraphicalViewer();
+		GraphicalViewer viewer = getGraphicalViewer();
+		viewer.setContents(getModel()); // Mise en place du contenu dans l'editeur
+
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -254,23 +263,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
 		zoomContributions.add(ZoomManager.FIT_WIDTH);
 		manager.setZoomLevelContributions(zoomContributions);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
-	 */
-	protected final void initializeGraphicalViewer() {
-		super.initializeGraphicalViewer();
-		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setContents(getModel()); // set the contents of this editor
-
-		// Fin de la construction
-		model.setEndBuilding();
-
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 	}
 
 	/**
@@ -290,23 +282,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		String projectName = file.getProject().getName();
 		IPath path = new Path(projectName);
 		return path.append(file.getProjectRelativePath());
-	}
-
-	/**
-	 * Creation de la palette d'outils
-	 * @return PaletteRoot Le pere de la palette
-	 */
-	protected final PaletteRoot getPaletteRoot() {
-		paletteRoot = PaletteFactory.createPalette(this.formalism);
-		return paletteRoot;
-	}
-
-	/**
-	 * Retourne les preferences de la palette
-	 * @return FlyoutPreferences
-	 */
-	protected final FlyoutPreferences getPalettePreferences() {
-		return PaletteFactory.createPalettePreferences();
 	}
 
 	/**
@@ -333,7 +308,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 		// Creation d'un instance du handler
 		XmlEditor handler = new XmlEditor();
 
-
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setValidating(true); // Demande de validation lors du parse du fichier
@@ -343,7 +317,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Editor_1 + file.getName() + " - " + e.getMessage()); //$NON-NLS-2$
 		}
-
 
 		// Creation du model a partir du model generique
 		try {
@@ -364,20 +337,16 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 * Sauvegarde d'un fichier
 	 */
 	public final void doSave(IProgressMonitor monitor) {
-
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-
 		// Recuperation du modele generique
 		IModel genericModel = getModel().getGenericModel();
-
 		// Traduction du modele au format xml
 		String xmlString = XmlEditor.translateToXML(genericModel);
-
 		// Creation de l'input stream a partir d'une chaine de caractere
 		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
-		// Ecriture du fichier de sauvegarder a partir du l'input stream
 		try {
+			// Ecriture du fichier de sauvegarder a partir du l'input stream
 			file.setContents(inputS, true, false, monitor);
 		} catch (CoreException e) {
 			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
@@ -436,6 +405,31 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 				ite.printStackTrace();
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	public final void createPartControl(Composite parent) {
+		if (listener == null) {
+			Coloane.getLogger().config("Mise en place de l'ecouteur de focus");
+			listener = new TabListener();
+			getSite().getPage().addPartListener(listener);
+		}
+		super.createPartControl(parent);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
+	 */
+	@Override
+	public final void dispose() {
+		//System.out.println("DISPOSE");
+		//getSite().getPage().removePartListener(listener);
+		super.dispose();
 	}
 
 	/*
@@ -508,5 +502,22 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	protected final FigureCanvas getEditor() {
 		return (FigureCanvas) getGraphicalViewer().getControl();
+	}
+
+	/**
+	 * Creation de la palette d'outils
+	 * @return PaletteRoot Le pere de la palette
+	 */
+	protected final PaletteRoot getPaletteRoot() {
+		paletteRoot = PaletteFactory.createPalette(this.formalism);
+		return paletteRoot;
+	}
+
+	/**
+	 * Retourne les preferences de la palette
+	 * @return FlyoutPreferences
+	 */
+	protected final FlyoutPreferences getPalettePreferences() {
+		return PaletteFactory.createPalettePreferences();
 	}
 }
