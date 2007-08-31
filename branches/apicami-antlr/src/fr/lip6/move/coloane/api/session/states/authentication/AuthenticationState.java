@@ -19,10 +19,10 @@ public final class AuthenticationState extends State {
 			try {
 				LoginPassword mess = (LoginPassword)message;
 				
-				this.getController().getToFrameKit().write(CamiBuilder.authentication(mess.getLogin(),mess.getPassword()).getBytes());
+				this.getController().getToFrameKit().write(CamiBuilder.authentication(mess.getLogin(),mess.getPassword()));
 				this.getController().getParser().open_communication();
 				
-				this.getController().getToFrameKit().write(CamiBuilder.clientVersion(mess.getApiName(),mess.getApiVersion(),mess.getLogin()).getBytes());
+				this.getController().getToFrameKit().write(CamiBuilder.clientVersion(mess.getApiName(),mess.getApiVersion(),mess.getLogin()));
 				this.getController().getToColoane().put(this.getController().getParser().check_version());
 				
 				// TODO: this.getController.addState();

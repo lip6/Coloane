@@ -26,12 +26,12 @@ public class CamiBuilder {
 		return camiTemplate.toString();
 	}
 
-	public static String authentication(String login, String password) {
-		return generate("SC",login,password);
+	public static byte[] authentication(String login, String password) {
+		return generate("SC",login,password).getBytes();
 	}
 
-	public static String clientVersion(String apiName, String apiVersion, String login) {
-		return generate("OC",apiName,apiVersion,login,0);
+	public static byte[] clientVersion(String apiName, String apiVersion, String login) {
+		return generate("OC",apiName,apiVersion,login,0).getBytes();
 	}
 	
 }
