@@ -208,8 +208,10 @@ public final class CamiBuilder {
 
 		// Creation de l'objet boite de dialogue
 		IDialogCom dialog = new DialogCom(id);
-		dialog.setButtonType(type);
-		dialog.setDefault(contents.get(0));
+		dialog.setType(type);
+		if (contents.size() > 0) {
+			dialog.setDefault(contents.get(0));
+		}
 		dialog.setButtonType(nbButtons);
 		dialog.setHelp(helpMsg);
 		dialog.setTitle(title);
