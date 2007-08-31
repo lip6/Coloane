@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.utils;
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
+import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
 import java.util.Vector;
 
@@ -165,34 +166,35 @@ public class FramekitThreadSpeaker extends Thread {
 			rd.append(",");
 			rd.append(results.getAnswerType());
 			rd.append(",");
-			//int tmp = results.hasBeenModified() == true?1:0;
-			//rd.append(tmp);
-			rd.append("1");
+			rd.append(results.hasBeenModified() == true?1:2);
 			rd.append(",");
 			rd.append(")");
 			String answer = rd.toString();
 			commande = cmd.convertToFramekit(answer);
 			lowCom.writeCommande(commande);
+			
+			if (results.getAnswerType() != 2) {
 
-			// Ensemble de resultats
-			commande = cmd.createCmdSimple("DE");
-			lowCom.writeCommande(commande);
+				// Ensemble de resultats
+				commande = cmd.createCmdSimple("DE");
+				lowCom.writeCommande(commande);
 
-			// Contenu de la boite de dialogue
-			StringBuffer ds = new StringBuffer();
-			ds.append("DS(");
-			ds.append(results.getDialogId());
-			ds.append(",");
-			ds.append(results.getAnswer().get(0).length());
-			ds.append(":");
-			ds.append(results.getAnswer().get(0));
-			ds.append(")");
-			String value = ds.toString();
-			commande = cmd.convertToFramekit(value);
-			lowCom.writeCommande(commande);
+				// Contenu de la boite de dialogue
+				StringBuffer ds = new StringBuffer();
+				ds.append("DS(");
+				ds.append(results.getDialogId());
+				ds.append(",");
+				ds.append(results.getAnswer().get(0).length());
+				ds.append(":");
+				ds.append(results.getAnswer().get(0));
+				ds.append(")");
+				String value = ds.toString();
+				commande = cmd.convertToFramekit(value);
+				lowCom.writeCommande(commande);
 
-			commande = cmd.createCmdSimple("FE");
-			lowCom.writeCommande(commande);
+				commande = cmd.createCmdSimple("FE");
+				lowCom.writeCommande(commande);
+			}
 
 			// Message FP
 			commande = cmd.createCmdSimple("FP");
