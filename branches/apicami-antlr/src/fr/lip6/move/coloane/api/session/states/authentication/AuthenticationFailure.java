@@ -1,20 +1,23 @@
 package fr.lip6.move.coloane.api.session.states.authentication;
 
 import org.antlr.runtime.RecognitionException;
+import fr.lip6.move.coloane.api.camiCommands.CloseConnectionPanic;
 
 public final class AuthenticationFailure extends RecognitionException implements IAuthenticationMessage {
 
 	private static final long serialVersionUID = -4840351905150773735L;
-	private String errorMessage;
+	private CloseConnectionPanic closeConnectionPanic;
 	
-	public AuthenticationFailure(String errorMessage) {
+	public AuthenticationFailure(CloseConnectionPanic closeConnectionPanic) {
 		super();
-		this.errorMessage = errorMessage;
+		this.closeConnectionPanic = closeConnectionPanic;
 	}
-
-	public final String getErrorMessage() {
-		return errorMessage;
+	
+	public CloseConnectionPanic getKo() {
+		return closeConnectionPanic;
 	}
-
+	
+	
+	
 }
 

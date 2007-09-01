@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.api.session.controller.IController;
 import fr.lip6.move.coloane.api.session.controller.IMessage;
 import fr.lip6.move.coloane.api.session.controller.IState;
 import fr.lip6.move.coloane.api.session.controller.State;
+import fr.lip6.move.coloane.api.session.states.MessageFormatFailure;
 
 public final class AuthenticationState extends State {
 
@@ -34,6 +35,10 @@ public final class AuthenticationState extends State {
 				return this;
 			
 			} catch (VersionFailure e) {
+				this.getController().getToColoane().put(e);
+				return this;
+				
+			} catch (MessageFormatFailure e) {
 				this.getController().getToColoane().put(e);
 				return this;
 			}

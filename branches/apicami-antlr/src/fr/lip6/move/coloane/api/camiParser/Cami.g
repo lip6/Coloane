@@ -1,9 +1,12 @@
 grammar Cami;
 
-@header{
+@parser::header{
 package fr.lip6.move.coloane.api.camiParser;
 
+import fr.lip6.move.coloane.api.session.states.*;
 import fr.lip6.move.coloane.api.session.states.authentication.*;
+import fr.lip6.move.coloane.api.camiCommands.*;
+import fr.lip6.move.coloane.api.camiCommands.types.*;
 }
 
 @lexer::header{
@@ -31,21 +34,21 @@ syntactic
 	;
 
 node	:	
-	'CN(' CAMI_STRING ',' NUMBER ')'
+	'CN(' CAMI_STRING ',' number ')'
 	;
 	
 box	:
-	'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+	'CB(' CAMI_STRING ',' number ',' number ')'
 	;
 	
 arc	:
-	'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
+	'CA(' CAMI_STRING ',' number ',' number ',' number ')'
 	;
 
 textual_attribute
 	:
-	  'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
-	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+	  'CT(' CAMI_STRING ',' number ',' CAMI_STRING ')'
+	| 'CM(' CAMI_STRING ',' number ',' number ',' number ',' CAMI_STRING ')'
 	;
 
 
@@ -56,19 +59,19 @@ aestetic
 
 object_position
 	:
-	  'PO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
-	| 'pO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
-	| 'PO(-1,' id=NUMBER ',' left=NUMBER ',' right=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
+	  'PO(' id=number ',' h_distance=number ',' v_distance=number ')'
+	| 'pO(' id=number ',' h_distance=number ',' v_distance=number ')'
+	| 'PO(-1,' id=number ',' left=number ',' right=number ',' top=number ',' bottom=number')'
 	;
 
 text_position
 	:	
-	'PT(' id=NUMBER ',' name_attr=CAMI_STRING ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
+	'PT(' id=number ',' name_attr=CAMI_STRING ',' h_distance=number ',' v_distance=number ')'
 	;
 
 intermediary_point
 	:	
-	'PI(' NUMBER ',' NUMBER ',' NUMBER ')'
+	'PI(' number ',' number ',' number ')'
 	;
 
 /*------------------------------------------------------------------
@@ -85,33 +88,33 @@ dialog_definition
 
 dialog_creation
 	:
-	'CE(' NUMBER ',' NUMBER ',' NUMBER ','  CAMI_STRING ',' CAMI_STRING ',' CAMI_STRING ',' 
-		NUMBER ',' NUMBER ',' CAMI_STRING? ')'
+	'CE(' number ',' number ',' number ','  CAMI_STRING ',' CAMI_STRING ',' CAMI_STRING ',' 
+		number ',' number ',' CAMI_STRING? ')'
 	;
 
 next_dialog
 	:
-	'DS(' NUMBER ',' CAMI_STRING ')'
+	'DS(' number ',' CAMI_STRING ')'
 	;
 
 display_dialog
 	:
-	'AD(' NUMBER ')'
+	'AD(' number ')'
 	;
 	
 hide_dialog
 	:
-	'HD(' NUMBER ')'
+	'HD(' number ')'
 	;
 	
 destroy_dialog
 	:
-	'DG(' NUMBER ')'
+	'DG(' number ')'
 	;
 
 interactive_response
 	:
-	'RI(' NUMBER ',' NUMBER ')'
+	'MI(' number ',' number ')'
 	;
 
 
@@ -137,11 +140,29 @@ warning_message
 	;
 
 special_message
-	returns [String message]
+	returns [SpecialMessages camiContent]
 	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'
+	'MO(' number ',' CAMI_STRING ')'
 	{
-		message = $CAMI_STRING.text;
+		SpecialMessageType messageType = null;
+		switch ($number.value) {
+			case 1:
+				messageType = SpecialMessageType.motd;	
+			break;
+		case 2:
+				messageType = SpecialMessageType.quickAndUrgentWarning;
+			break;
+		case 3:
+				messageType = SpecialMessageType.copyrightMessage;
+			break;
+		case 4:
+				messageType = SpecialMessageType.executionStatistics;
+			break;
+		default:
+			break;
+		}
+		
+		camiContent = new SpecialMessages(messageType,$CAMI_STRING.text);
 	}
 	;
  
@@ -149,41 +170,55 @@ special_message
 // Connection handler
 
 open_communication
-	returns [AuthenticationAck message]
+	returns [AuthenticationCommunicationAck message]
 	:
 	  ack_open_communication 
 	  {
-	  	message = new AuthenticationAck();
+	  	message = new AuthenticationCommunicationAck($ack_open_communication.camiContent);
 	  }
 	| close_connection_panic
 	  {
 	  	if( true ) // to avoid an error in the generated code
-		  	throw new AuthenticationFailure($close_connection_panic.message);
+		  	throw new AuthenticationFailure($close_connection_panic.camiContent);
 	  }
+  	| special_message
+	  {
+	  	if(true) // to avoid an error in the generated code
+	  		throw new MessageFormatFailure($special_message.camiContent);
+	  }
+
 	;
 
 check_version
-	returns [AuthenticationAck message]
+	returns [AuthenticationVersionAck message]
 	:
 	  ack_open_connection
 	  {
-	  	message = new AuthenticationAck();  
+	  	message = new AuthenticationVersionAck($ack_open_connection.camiContent);  
 	  }
-	| special_message // TODO REALLY handle KO or MO outputs...
+	| special_message
 	  {
 	  	if(true) // to avoid an error in the generated code
-	  		throw new VersionFailure($special_message.message);
+	  		throw new MessageFormatFailure($special_message.camiContent);
 	  }
 	;
 
 ack_open_communication
+	returns [AckOpenCommunication camiContent]
 	:
-	'SC(' CAMI_STRING ')' 
+	'SC(' CAMI_STRING ')'
+	{
+		camiContent = new AckOpenCommunication($CAMI_STRING.text);
+	}
 	;
 	
 ack_open_connection
+	returns [AckOpenConnection camiContent]
 	:
-	'OC(' NUMBER ',' NUMBER ')'
+	'OC(' n1=number ',' n2=number ')'
+	{
+		camiContent = new AckOpenConnection($n1.value,$n2.value);
+	}
 	;
 
 close_connection_normal
@@ -192,11 +227,11 @@ close_connection_normal
 	;
 	
 close_connection_panic
-	returns [String message]
+	returns [CloseConnectionPanic camiContent]
 	:
-	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'
+	'KO(1,' CAMI_STRING ',' number ')'
 	{
-		message=$mess.text;
+		camiContent = new CloseConnectionPanic($CAMI_STRING.text,$number.value);
 	}
 	;
 
@@ -211,7 +246,7 @@ interlocutor_table
 
 body_table
 	:
-	'VI(' service_name=CAMI_STRING ',' about_service=CAMI_STRING ',' '3' ',' new_model=NUMBER ')'
+	'VI(' service_name=CAMI_STRING ',' about_service=CAMI_STRING ',' '3' ',' new_model=number ')'
 ;
 
 // Invokation of a service
@@ -227,21 +262,21 @@ result_reception
 	'DR()'
 	question_reply
 	( question_state | special_message | warning_message | result )* 
-	'FR(' NUMBER ')'
+	'FR(' number ')'
 	;
 
 question_reply
 	:
-	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' NUMBER ')'
+	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' number ')'
 	;
 
 question_state	
 	:
-	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=NUMBER ',' mess=CAMI_STRING? ')'
+	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=number ',' mess=CAMI_STRING? ')'
 	;
 
 result	:	
-	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'
+	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=number ')'
 	result_body+
 	'FE()'
 	;
@@ -265,47 +300,51 @@ result_body
  
  attribute_change
  	:
- 	'WE(' id=NUMBER ',' attr_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
+ 	'WE(' id=number ',' attr_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
  	;
  
  object_designation
  	:
- 	'RO(' id=NUMBER ')'
+ 	'RO(' id=number ')'
  	;
  
  object_outline
  	:
- 	'ME(' id=NUMBER ')'
+ 	'ME(' id=number ')'
  	;
  
  attribute_outline
  	:
- 	'MT(' id=NUMBER ',' attr_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')'
+ 	'MT(' id=number ',' attr_name=CAMI_STRING ',' begin=number? ',' end=number? ')'
  	;
  
  object_creation
  	:
-	  'CN(' CAMI_STRING ',' NUMBER ')'
-	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
-	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
-	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
-	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+	  'CN(' CAMI_STRING ',' number ')'
+	| 'CB(' CAMI_STRING ',' number ',' number ')'
+	| 'CA(' CAMI_STRING ',' number ',' number ',' number ')'
+	| 'CT(' CAMI_STRING ',' number ',' CAMI_STRING ')'
+	| 'CM(' CAMI_STRING ',' number ',' number ',' number ',' CAMI_STRING ')'
  	;
  
 object_deletion
 	:
- 	  'SU(' id=NUMBER ')'
- 	| 'SI(' page_id=NUMBER ',' id=NUMBER ')'
+ 	  'SU(' id=number ')'
+ 	| 'SI(' page_id=number ',' id=number ')'
  	;
  
 // Session handler
 
 ack_open_session
+	returns [AckOpenSession camiContent]
 	:
-	'OS(' CAMI_STRING')'
+	'OS(' CAMI_STRING ')'
 	'TD()'
 	'FA()'
 	interlocutor_table
+	{
+		camiContent = new AckOpenSession($CAMI_STRING.text);
+	}
 	;
 
 ack_close_current_session 
@@ -318,12 +357,23 @@ ack_suspend_current_session
 	'SS()'
 	;
 
-ack_resume_suspend_current_session
+ack_resume_session
+	returns [AckResumeSession camiContent]
 	:
 	'RS(' CAMI_STRING ')'
+	{
+		camiContent = new AckResumeSession($CAMI_STRING.text);
+	}
 	;
 
 // Model asking
+
+ask_and_get_model
+	:
+	  ask_for_a_model
+	| model_definition
+	| change_date
+	;
 
 ask_for_a_model
 	:
@@ -337,14 +387,14 @@ ask_simple
 
 ask_hierarchic
 	:
-	'DF(-2,' NUMBER ',' NUMBER ')'
+	'DF(-2,' number ',' number ')'
 	;
 
 // Modification of a model's date
 
 change_date
 	:
-	'MS(' NUMBER ')'
+	'MS(' number ')'
 	;
 
 // Service menu reception
@@ -359,15 +409,15 @@ service_menu_reception
 
 menu_name
 	:
-	'CQ(' name=CAMI_STRING ',' NUMBER ',' NUMBER ')'
+	'CQ(' name=CAMI_STRING ',' number ',' number ')'
 	;
 
 question_add
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
-		question_type=NUMBER? ',' question_behavior=NUMBER? ',' 
-		set_item=NUMBER? ','  historic=NUMBER? ',' stop_authorized=NUMBER? ',' 
-		ouput_formalism=CAMI_STRING? ',' active=NUMBER? ')'
+		question_type=number? ',' question_behavior=number? ',' 
+		set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
+		ouput_formalism=CAMI_STRING? ',' active=number? ')'
 	;
 
 service_menu_modification
@@ -389,7 +439,7 @@ disable_main_question
 
 end_menu_transmission
 	:
-	'QQ(' NUMBER ')'
+	'QQ(' number ')'
 	;
 
 help_question
@@ -400,6 +450,12 @@ help_question
 /*------------------------------------------------------------------
  * LEXER RULES
  *------------------------------------------------------------------*/
+
+number	
+	returns [int value]
+	:
+	NUMBER {value = Integer.parseInt($NUMBER.text);}
+	;
 
 // A CAMI string -> NUMBER:STRING where NUMBER is the size of the STRING to be read
 CAMI_STRING
@@ -417,7 +473,8 @@ FIXED_LENGTH_STRING
 	( { len > 0 }?=> .{len--;})* // Gated predicate : deactivate the '.' when len chars have been read
 	;
 	
-NUMBER	: 	
+NUMBER	
+	:
 	'0'..'9'+
 	;
 
