@@ -1,14 +1,19 @@
 package fr.lip6.move.coloane.api.camiCommands;
 
-import fr.lip6.move.coloane.api.camiCommands.types.SpecialMessageType;
-
 public final class SpecialMessages {
 
-	public SpecialMessageType type;
+	public enum SpecialMessageType {
+		motd,
+		quickAndUrgentWarning,
+		copyrightMessage,
+		executionStatistics;
+	}
+	
+	public SpecialMessageType messageType;
 	public String message;
 
-	public SpecialMessages(SpecialMessageType type, String message) {
-		this.type = type;
+	public SpecialMessages( SpecialMessageType messageType, String message) {
+		this.messageType = messageType;
 		this.message = message;
 	}
 }

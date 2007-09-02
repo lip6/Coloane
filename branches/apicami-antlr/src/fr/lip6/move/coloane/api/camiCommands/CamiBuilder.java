@@ -5,7 +5,6 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.sun.tools.javac.util.List;
 
 import fr.lip6.move.coloane.api.camiCommands.types.InteractiveAnswerType;
-import fr.lip6.move.coloane.api.camiCommands.types.SpecialMessageType;
 import fr.lip6.move.coloane.api.camiCommands.types.UrgentMessageType;
 
 public class CamiBuilder {

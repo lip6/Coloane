@@ -3,10 +3,12 @@ grammar Cami;
 @parser::header{
 package fr.lip6.move.coloane.api.camiParser;
 
+import fr.lip6.move.coloane.api.camiCommands.*;
+import fr.lip6.move.coloane.api.camiCommands.results.*;
 import fr.lip6.move.coloane.api.session.states.*;
 import fr.lip6.move.coloane.api.session.states.authentication.*;
-import fr.lip6.move.coloane.api.camiCommands.*;
-import fr.lip6.move.coloane.api.camiCommands.types.*;
+import fr.lip6.move.coloane.api.camiCommands.results.*;
+import fr.lip6.move.coloane.api.camiCommands.SpecialMessages.*;
 }
 
 @lexer::header{
@@ -130,13 +132,21 @@ message_to_user
 	;
 
 trace_message
+	returns [TraceMessage camiContent]
 	:
 	'TR(' CAMI_STRING ')'
+	{
+		camiContent = new TraceMessage($CAMI_STRING.text);
+	}
 	;
 
 warning_message
+	returns [WarningMessage camiContent]
 	:
 	'WN(' CAMI_STRING ')'
+	{
+		camiContent = new WarningMessage($CAMI_STRING.text);
+	}
 	;
 
 special_message
@@ -258,30 +268,40 @@ pre_result_reception
 	;
 
 result_reception
+	returns [Results results]
 	:
 	'DR()'
-	question_reply
-	( question_state | special_message | warning_message | result )* 
+	reply_to_question
+	r+=( question_state | special_message | warning_message | result )*
 	'FR(' number ')'
+	{
+	}
 	;
 
-question_reply
+reply_to_question
 	:
 	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' number ')'
 	;
 
-question_state	
+question_state
+	returns [QuestionState questionState]
 	:
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=number ',' mess=CAMI_STRING? ')'
+	{
+		questionState = new QuestionState($service_name.text,$question_name.text,$state.value,$mess.text);
+	}
 	;
 
-result	:	
+result	
+	returns [ResultSet resultSet]
+	:
 	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=number ')'
 	result_body+
 	'FE()'
 	;
  
 result_body
+ 	returns [IResult res]
  	:
  	  result
  	| textual_result
@@ -294,43 +314,86 @@ result_body
  	;
  
  textual_result
+ 	returns [IResult res]
  	:
  	'RT(' CAMI_STRING ')'
+ 	{
+ 		res = new TextualResult($CAMI_STRING.text);
+ 	}
  	;
  
  attribute_change
+ 	returns [IResult res]
  	:
  	'WE(' id=number ',' attr_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
+ 	{
+ 		res = new AttributeChange($id.value,$attr_name.text,$new_value.text);
+ 	}
  	;
  
  object_designation
+ 	returns [IResult res]
  	:
  	'RO(' id=number ')'
+ 	{
+ 		res = new ObjectDesignation($id.value);
+ 	}
  	;
  
  object_outline
+ 	returns [IResult res]
  	:
  	'ME(' id=number ')'
+ 	{
+ 		res = new ObjectOutline($id.value);
+ 	}
  	;
  
  attribute_outline
+ 	returns [IResult res]
  	:
  	'MT(' id=number ',' attr_name=CAMI_STRING ',' begin=number? ',' end=number? ')'
+ 	{
+		res = new AttributeOutline($id.value,$attr_name.text);
+ 	}
  	;
  
  object_creation
+ 	returns [IResult res]
  	:
-	  'CN(' CAMI_STRING ',' number ')'
-	| 'CB(' CAMI_STRING ',' number ',' number ')'
-	| 'CA(' CAMI_STRING ',' number ',' number ',' number ')'
-	| 'CT(' CAMI_STRING ',' number ',' CAMI_STRING ')'
-	| 'CM(' CAMI_STRING ',' number ',' number ',' number ',' CAMI_STRING ')'
+	  'CN(' node_box_type=CAMI_STRING ',' id=number ')'
+	  {
+	  	res = new CreateNode($node_box_type.text,$id.value);
+	  }
+	| 'CB(' node_box_type=CAMI_STRING ',' id=number ',' page_id=number ')'
+	  {
+	  	res = new CreateBox($node_box_type.text,$id.value,$page_id.value);
+	  }
+	| 'CA(' arc_type=CAMI_STRING ',' id=number ',' start_node=number ',' end_node=number ')'
+	  {
+	  	res = new CreateArc($arc_type.text,$id.value,$start_node.value,$end_node.value);
+	  }
+	| 'CT(' attribute_name=CAMI_STRING ',' associated_node=number ',' value=CAMI_STRING ')'
+	  {
+	  	res = new CreateMonolineAttribute($attribute_name.text,$associated_node.value,$value.text);
+	  }
+	| 'CM(' attribute_name=CAMI_STRING ',' associated_node=number ',' line_number=number ',' number ',' value=CAMI_STRING ')'
+	  {
+	  	res = new CreateMultilineAttribute($attribute_name.text,$associated_node.value,$line_number.value,$value.text);
+	  }
  	;
  
 object_deletion
+ 	returns [IResult res]
 	:
  	  'SU(' id=number ')'
+ 	  {
+ 	  	res = new ObjectDeletion($id.value);
+ 	  }
  	| 'SI(' page_id=number ',' id=number ')'
+ 	  {
+ 	  	res = new MultipleObjectDeletion($page_id.value,$id.value);
+ 	  }
  	;
  
 // Session handler
