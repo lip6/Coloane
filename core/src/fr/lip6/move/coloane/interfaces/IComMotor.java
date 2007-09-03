@@ -14,4 +14,6 @@ public interface IComMotor {
 
 	boolean closeSession();
 
+	boolean isAuthenticated();
+
 }
