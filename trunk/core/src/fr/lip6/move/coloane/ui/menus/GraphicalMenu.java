@@ -35,6 +35,7 @@ public class GraphicalMenu {
 	 * Builds recursively a MenuManager from, using a RootMenu given in the constructor.
 	 */
 	public final MenuManager build() {
+		if (root == null) { return null; }
 		MenuManager rootMenuManager = new MenuManager(root.getName());
 
 		/*

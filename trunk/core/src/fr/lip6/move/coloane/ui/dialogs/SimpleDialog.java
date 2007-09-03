@@ -28,15 +28,30 @@ import org.eclipse.ui.PlatformUI;
  * 	<li>Une zone de boutons</li>
  * </ul>
  */
-
 public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 
+	/** L'identifiant de la boite de dialogue */
 	private int id;
+
+	/** Le type de la boite de dialogue : ERROR, WARNING, STANDART */
+	private int type;
+
+	/** Les types de boutons de la boite de dialogue */
 	private int buttonType;
+
+	/** Le type de saisie */
 	private int inputType;
+
+	/** Est-ce que la saisie est multi-ligne ? */
 	private int multiLine;
+
+	/** Valeur par defaut */
 	private String defaultValue;
+
+	/** L'objet de resultats */
 	private IDialogResult dialogResult;
+
+	/** Les choix de la boite de dialogue */
 	private ArrayList<String> choices = null;
 
 	private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -48,50 +63,47 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 * @param dialog La boite de dialogue construite par la com
 	 */
 	public SimpleDialog(IDialogCom dialog) {
-
 		super(parentShell);
 
-		this.id = dialog.getId();
-		this.buttonType = dialog.getButtonType();
-		this.message = dialog.getMessage();
-		this.inputType = dialog.getInputType();
-		this.multiLine = dialog.getMultiLine();
-		this.defaultValue = dialog.getDefault();
+		// On recupere les informations de l'objet transmis par l'API
+		id = dialog.getId();
+		type = dialog.getType();
+		buttonType = dialog.getButtonType();
+		message = dialog.getMessage();
+		inputType = dialog.getInputType();
+		multiLine = dialog.getMultiLine();
+		defaultValue = dialog.getDefault();
 
-		/*
-		 * There is a kind of dialog which does not contain any "OK" or "Cancel" button.
-		 * For this kind of dialog, we create a default result.
-		 * For the other dialog, this result will be overwritten by a result created
-		 * when the user will clic on "OK" or "Cancel".
-		 */
-		dialogResult = new DialogResult(id, IDialog.TERMINATED_OK, false, new ArrayList<String>());
-
+		// La liste des choix
 		choices = new ArrayList<String>();
 	}
 
 
-	/**
-	 * Determine quels seront les boutons affiches
-	 * @param parent La fenetre en cours de construction
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
+			// 1 bouton
 			case IDialogCom.DLG_OK:
 				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
+			// 2 boutons
 			case IDialogCom.DLG_OK_CANCEL:
 				createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
+			// Aucun bouton
 			default:
 				break;
 		}
 	}
 
-	/**
-	 * Creation de la boite de dialogue
-	 * @param parent La fenetre en cours de construction
-	 * @return Control
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected final Control createDialogArea(Composite parent) {
@@ -105,11 +117,8 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		composite.setLayout(new FillLayout());
 
 		textArea = TextAreaFactory.create(composite, inputType, multiLine, defaultValue);
-
 		if (textArea instanceof ListTextArea) {
-			for (String choice : choices) {
-				textArea.addChoice(choice);
-			}
+			for (String choice : choices) { textArea.addChoice(choice); }
 		}
 
 		return composite;
@@ -121,12 +130,19 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 */
 	@Override
 	public final void buttonPressed(int buttonId) {
+
+		// Selon le type de retour
 		int answerType;
+		if (buttonId == OK) {
+			answerType = TERMINATED_OK;
+		} else {
+			answerType = TERMINATED_CANCEL;
+		}
 
-		/* Selon le type de retour */
-		if (buttonId == OK) { answerType = TERMINATED_OK; } else { answerType = TERMINATED_CANCEL; }
+		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?
+		boolean hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
 
-		dialogResult = new DialogResult(id, answerType,	!textArea.getText().get(0).equals(defaultValue), textArea.getText());
+		dialogResult = new DialogResult(id, answerType, hasbeenmodified, textArea.getText());
 
 		this.close();
 	}
@@ -156,6 +172,11 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 */
 	@Override
 	protected final Image getImage() {
-		return null;
+		switch (type) {
+		case IDialogCom.DLG_ERROR:	return getErrorImage();
+		case IDialogCom.DLG_WARNING: return getWarningImage();
+		case IDialogCom.DLG_STANDARD: return getInfoImage();
+		default: return getInfoImage();
+		}
 	}
 }

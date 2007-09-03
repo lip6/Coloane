@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.motor.session;
 
+import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
@@ -38,7 +39,27 @@ public class Session {
 		this.sessionName = name;
 		this.sessionId = cntSession++;
 		this.sessionModel = null;
-		this.sessionStatus = 0;
+		this.sessionStatus = SessionManager.CLOSED;
+	}
+
+	/**
+	 * Suspend la session
+	 */
+	protected final void suspend() {
+		Coloane.getLogger().finer("Suspension de la session " + this.sessionName);
+		if (sessionStatus == SessionManager.CONNECTED) {
+			sessionStatus = SessionManager.SUSPENDED;
+		}
+	}
+
+	/**
+	 * Resume la session
+	 */
+	protected final void resume() {
+		Coloane.getLogger().finer("Reprise de la session " + this.sessionName);
+		if (sessionStatus == SessionManager.SUSPENDED) {
+			sessionStatus = SessionManager.CONNECTED;
+		}
 	}
 
 	/**
@@ -53,7 +74,7 @@ public class Session {
 	 * Retourne le numero de la session
 	 * @return int Le numero de la session
 	 */
-	public final int getId() {
+	protected final int getId() {
 		return this.sessionId;
 	}
 
@@ -109,7 +130,7 @@ public class Session {
 	 * Retourne le status courant de la session
 	 * @return le status courant de la session
 	 */
-	public final int getStatus() {
+	protected final int getStatus() {
 		return sessionStatus;
 	}
 
@@ -117,7 +138,7 @@ public class Session {
 	 * Modifie le status courant de la session
 	 * @param sessionStatus Le status courant de la session
 	 */
-	public final void setStatus(int status) {
+	protected final void setStatus(int status) {
 		this.sessionStatus = status;
 	}
 }

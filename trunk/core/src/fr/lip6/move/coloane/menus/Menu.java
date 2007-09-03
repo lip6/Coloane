@@ -36,7 +36,6 @@ public abstract class Menu {
 	 * @param fatherName Le nom du parent direct du sous-menu
 	 */
 	public final ChildMenu addMenu(String menuName, String menuFatherName) {
-
 		// Si ce menu est le pere du sous-menu qu'on cherche a ajouter
 		if (this.name.equals(menuFatherName)) {
 			ChildMenu newMenu = new ChildMenu(menuName, this);
@@ -55,7 +54,6 @@ public abstract class Menu {
 
 		return null;
 	}
-
 
 	/**
 	 * Ajoute un menu dans la hierarchie des menus
