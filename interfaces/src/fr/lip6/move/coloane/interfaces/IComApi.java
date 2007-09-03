@@ -28,7 +28,7 @@ public interface IComApi {
 	void drawMenu(IRootMenuCom menu);
 
 	/**
-	 * Mise a jour du contenu des fichiers.
+	 * Mise a jour du contenu des menus
 	 * Chaque appel de service, ou plus simplement chaque action sur la plate-forme
 	 * peut provoquer la mise a jour des menus affiches par Coloane. Ces modifications
 	 * doivent etre prise en compte et repercutees sur Coloane
@@ -48,14 +48,7 @@ public interface IComApi {
 	 * @return L'interface sur le modele en cours d'edition
 	 * @see IModel
 	 */
-	IModel getModel();
-
-	/**
-	 * Met a jour l'etat de fraicheur du modele.
-	 * Apres un service, le modele est frais...
-	 * @param state Le nouvel etat du modele
-	 */
-	void setModelDirty(boolean state);
+	IModel sendModel();
 
 	/**
 	 * Indique l'etat de fraicheur du modele
@@ -105,11 +98,4 @@ public interface IComApi {
 	 * Destruction de toutes les sessions du cote Coloane
 	 */
 	void closeAllSessions();
-
-	/**
-	 * Permet la modification des menus de Coloane permettant l'authentification
-	 * @param authentication Est-ce que l'authentification est OK ?
-	 * @param session Est-ce que une session est ouverte ?
-	 */
-	void platformState(boolean authentication, boolean session);
 }
