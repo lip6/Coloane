@@ -76,6 +76,8 @@ public class SessionManager {
 	 */
 	public final void setCurrentSessionDisconnected() {
 		if (currentSession != null) {
+			currentSession.setServicesMenu(null);
+			currentSession.setAdminMenu(null);
 			currentSession.setStatus(CLOSED);
 		}
 	}

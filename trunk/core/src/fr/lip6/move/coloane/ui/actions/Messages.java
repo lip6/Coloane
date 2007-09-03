@@ -22,6 +22,8 @@ public final class Messages extends NLS {
 	public static String DisconnectModelAction_2;
 	public static String DisconnectModelAction_3;
 	public static String DisconnectModelAction_4;
+	public static String DisconnectModelAction_6;
+	public static String DisconnectModelAction_9;
 	public static String DisconnectModelAction_7;
 	public static String ImportExportCAMI_0;
 	public static String ImportExportCAMI_1;

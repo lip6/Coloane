@@ -125,6 +125,8 @@ public final class Motor implements IMotorCom, IMotorUi {
 	public boolean closeSession() {
 		if (com.closeSession()) {
 			sessionManager.setCurrentSessionDisconnected();
+			ui.platformState(com.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+			ui.redrawMenus();
 			return true;
 		}
 		return false;
