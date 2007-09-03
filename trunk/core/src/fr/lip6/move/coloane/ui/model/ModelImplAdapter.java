@@ -36,11 +36,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	/** Date de derniere modification */
 	private int date;
 
-	/** Indicateur de construction */
-	private boolean buildingStatus = true;
-
 	/** Etat du modele par rapport a FK (true -> pas a jour) */
-	private boolean dirty = true;
+	private boolean dirty = false;
 
 	/**
 	 * Construction d'un modele pour le formalisme et un pour un modele deja existant
@@ -55,10 +52,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public ModelImplAdapter(IModel model, Formalism f) throws BuildException {
 		super();
-
-		/* Modele en cours de construction */
-		this.buildingStatus = true;
-
 		this.date = (int) System.currentTimeMillis();
 
 		this.genericModel = model;
@@ -267,7 +260,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getChildren()
 	 */
 	public final List<IElement> getChildren() {
@@ -318,7 +310,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getFormalism()
 	 */
 	public final Formalism getFormalism() {
@@ -327,22 +318,19 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#modifyDate()
 	 */
 	public final int modifyDate() {
-		// Le changement de date doit etre effectif si et seulement si le modele
-		// n'est pas en construction
-		if (!this.buildingStatus) {
-			date = (int) System.currentTimeMillis();
-
-			// Si le modele n'etait pas marque comme sale, on le marque
-			if (!dirty) {
-				dirty = true;
-				return date;
-			}
+		Coloane.getLogger().finest("Demande de mise a jour de la date du modele");
+		date = (int) System.currentTimeMillis();
+		// Si le modele n'etait pas marque comme sale, on le marque
+		if (!dirty) {
+			setDirty(true);
+			return date;
+		// Sinon le modele etait deja sale (on a juste mis a jour la date)
+		} else {
+			return 0;
 		}
-		return 0;
 	}
 
 	/*
@@ -366,15 +354,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public final void setDirty(boolean state) {
+		if (state) { Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); } else { Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE");	}
 		this.dirty = state;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setEndBuilding()
-	 */
-	public final void setEndBuilding() {
-		this.buildingStatus = false;
 	}
 
 	/**
