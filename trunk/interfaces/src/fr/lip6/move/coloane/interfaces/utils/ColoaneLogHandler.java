@@ -9,16 +9,14 @@ import java.util.logging.FileHandler;
  */
 public final class ColoaneLogHandler extends FileHandler {
 
-	private static ColoaneLogHandler instance;
-	
+	private static ColoaneLogHandler instance = null;
+
 	private ColoaneLogHandler() throws IOException, SecurityException {
 		super("%t/coloane.log", true);
 	}
-	
+
 	public static ColoaneLogHandler getInstance() throws IOException, SecurityException {
-		if (instance == null) { instance = new ColoaneLogHandler();}
+		if (instance == null) { instance = new ColoaneLogHandler(); }
 		return instance;
 	}
-
-
 }
