@@ -151,7 +151,7 @@ public class ResultsView extends ViewPart implements Observer {
 
 				// Activation de l'objet designe
 				System.out.println("... :" + r.getName()); //$NON-NLS-1$
-				Coloane.getDefault().getMotor().getSessionManager().getCurrentSession().getModel().highlightNode(r.getName(), mem);
+				Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel().highlightNode(r.getName(), mem);
 				mem = r.getName();
 			}
 		});

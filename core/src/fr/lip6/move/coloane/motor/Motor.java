@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.IComMotor;
 import fr.lip6.move.coloane.interfaces.IMotorCom;
 import fr.lip6.move.coloane.interfaces.IMotorUi;
+import fr.lip6.move.coloane.interfaces.IUiMotor;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
@@ -29,6 +30,9 @@ public final class Motor implements IMotorCom, IMotorUi {
 
 	/** Le module de communications */
 	private IComMotor com = null;
+
+	/** L'interface utilisateur */
+	private IUiMotor ui = null;
 
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -61,38 +65,56 @@ public final class Motor implements IMotorCom, IMotorUi {
 	}
 
 	/**
+	 * Recupere une poignee sur l'interface utilisateur
+	 * @param ui L'interface utilisateur
+	 */
+	public void setUi(IUiMotor moduleUi) {
+		Coloane.getLogger().config("Attachement de l'interface utilisateur avec le moteur"); //$NON-NLS-1$
+		this.ui = moduleUi;
+	}
+
+	/**
+	 * Creation d'une session
+	 * @param model Le modele qui doit etre attache a la session
+	 * @param name Le nom de la session
+	 * @return boolean Resultat de l'operation
+	 */
+	public boolean createSession(IModelImpl model, String name) {
+		// On doit controller si une session ne se nomme deja pas pareil
+		if (sessionManager.getSession(name) != null) {
+			Coloane.getLogger().warning("Une session homonyme existe deja"); //$NON-NLS-1$
+			return false;
+		}
+
+		Coloane.getLogger().fine("Creation de la session : " + name); //$NON-NLS-1$
+		// Creation d'une nouvelle session
+		Session session = new Session(name);
+		session.setModel(model); // On associe le modele a la session
+		sessionManager.attachSession(session); // On ajoute la session au moteur de sessions
+
+		return true;
+	}
+
+	/**
 	 * Ouvre une connexion pour un modele (connect model)
 	 * @param model Le modele adapte
 	 * @param sessionName Le nom de la session eclipse
 	 * @return booleen Le resultat de l'operation
 	 * @throws ColoaneException
 	 */
-	public boolean openSession(IModelImpl model, String eclipseSessionName) throws ColoaneException {
+	public boolean openSession() throws ColoaneException {
 		// Verification de l'existence du module de communications
-		if (com == null) {
-			throw new ColoaneException(Messages.Motor_0);
-		}
-
-		// On doit controller si une session ne se nomme deja pas pareil
-		if (sessionManager.getSession(eclipseSessionName) != null) {
-			Coloane.getLogger().warning("Une session homonyme existe deja"); //$NON-NLS-1$
-			return false;
-		}
-
-		// Creation d'une nouvelle session
-		Session session = new Session(eclipseSessionName);
-		session.setModel(model); // On associe le modele a la session
-		sessionManager.setSession(session); // On ajoute la session au moteur de sessions
-
+		if (com == null) { throw new ColoaneException(Messages.Motor_0); }
 		// Demande de connexion du modele au module de communications
-		boolean result = com.openSession(model);
-
+		boolean result = com.openSession(sessionManager.getCurrentSessionModel());
 		// Si l'ouverture de connexion echoue, on supprime la session existante
 		if (!result) {
-			Coloane.getLogger().warning("Echec de l'ouverture de session : Destruction de moignon"); //$NON-NLS-1$
+			Coloane.getLogger().warning("Echec de l'ouverture de session sur FK : Destruction de moignon"); //$NON-NLS-1$
 			sessionManager.destroyCurrentSession();
+		} else {
+			sessionManager.setCurrentSessionConnected();
+			ui.platformState(com.isAuthenticated(), sessionManager.getCurrentSessionStatus());
 		}
-
 		return result;
 	}
 
@@ -102,7 +124,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public boolean closeSession() {
 		if (com.closeSession()) {
-			sessionManager.destroyCurrentSession();
+			sessionManager.setCurrentSessionDisconnected();
 			return true;
 		}
 		return false;
@@ -129,6 +151,22 @@ public final class Motor implements IMotorCom, IMotorUi {
 		}
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
 		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
+	}
+
+	/**
+	 * Suspend la session designee
+	 * @param name Le nom de la session a suspendre
+	 * @return un booleen qui indique si l'operation s'est bien passee
+	 */
+	public void resumeSession(String name) {
+		if (sessionManager.resumeSession(name)) {
+			Coloane.getLogger().finer("OK pour la reprise de session");
+			ui.platformState(com.isAuthenticated(), sessionManager.getSessionStatus(name));
+			ui.redrawMenus();
+		} else {
+			Coloane.getLogger().warning("Echec lors de la reprise de session");
+		}
+		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName());
 	}
 
 	/**

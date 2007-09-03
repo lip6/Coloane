@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.exceptions.BuildException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import fr.lip6.move.coloane.main.Coloane;
+import fr.lip6.move.coloane.motor.Motor;
 import fr.lip6.move.coloane.motor.formalism.Formalism;
 import fr.lip6.move.coloane.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
@@ -315,17 +316,22 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.Editor_1 + file.getName() + " - " + e.getMessage()); //$NON-NLS-2$
+			Coloane.getLogger().finer("Details : " + e.getMessage() + e.toString()); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.Editor_1 + file.getName() + " - " + e.toString() + e.getMessage()); //$NON-NLS-2$ //$NON-NLS-1$
 		}
 
-		// Creation du model a partir du model generique
+		// Creation du modele a partir du modele generique
 		try {
 			model = new ModelImplAdapter(handler.getModel(), this.formalism);
+
+			// Creation d'une session pour ce modele
+			if (!Motor.getInstance().createSession(model, file.getName())) {
+				Coloane.getLogger().warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
+			}
 		} catch (BuildException e) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Editor_3 + e.getMessage());
 		}
-
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
@@ -414,7 +420,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public final void createPartControl(Composite parent) {
 		if (listener == null) {
-			Coloane.getLogger().config("Mise en place de l'ecouteur de focus");
+			Coloane.getLogger().config("Mise en place de l'ecouteur de focus"); //$NON-NLS-1$
 			listener = new TabListener();
 			getSite().getPage().addPartListener(listener);
 		}

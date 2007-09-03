@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.motor.session.Session;
+import fr.lip6.move.coloane.motor.session.SessionManager;
 import fr.lip6.move.coloane.results.ActionsList;
 import fr.lip6.move.coloane.results.Result;
 import fr.lip6.move.coloane.results.ResultsList;
@@ -19,10 +20,12 @@ import fr.lip6.move.coloane.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.panels.HistoryView;
 
 import java.util.Vector;
 
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -49,7 +52,6 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	/** L'instance du singlaton : UserInterface */
 	private static UserInterface instance;
 
-
 	/**
 	 * Constructeur de la classe
 	 */
@@ -68,6 +70,16 @@ public final class UserInterface implements IUiCom, IUiMotor {
 		return instance;
 	}
 
+	/**
+	 * Demande d'un service
+	 * @param rootMenuName Le nom du menu racine
+	 * @param parentName Le nom du pere de la feuille cliquee
+	 * @param serviceName LE nom du service demande
+	 */
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
+		serviceResultList.removeAll();
+		com.askForService(rootMenuName, parentName, serviceName);
+	}
 
 	/**
 	 * Affichage d'un message sur la vue historique
@@ -78,9 +90,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				if (HistoryView.getInstance() != null) {
-					HistoryView.getInstance().addLine(msg);
-				}
+				if (HistoryView.getInstance() != null) { HistoryView.getInstance().addLine(msg); }
 			}
 		});
 	}
@@ -90,7 +100,15 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * @param menu La racine du menu a afficher
 	 */
 	public void drawMenu(RootMenu menu) {
+		// Supprime tous les menus sauf PLATFORM
+		MenuManipulation.clean();
+
 		Session currentSession = motor.getSessionManager().getCurrentSession();
+		if (currentSession == null) {
+			Coloane.getLogger().warning("Aucune session courante");
+			Coloane.showWarningMsg("Impossible d'afficher le menu");
+			return;
+		}
 		currentSession.setServicesMenu(menu);
 		GraphicalMenu gmenu = new GraphicalMenu(menu, fenetreTravail, this);
 		gmenu.build();
@@ -103,20 +121,37 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
-		if (currentSession != null) {
-
-			// Recuperation du menu de service de la session
-			RootMenu service = currentSession.getServicesMenu();
-
-			for (IUpdateMenuCom up : updates) {
-				if (up.getRoot().equals(service.getName())) {
-					service.setEnabled(up.getService(), up.getState());
-				}
-			}
-
-			GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
-			gmenu.update();
+		if (currentSession == null) {
+			Coloane.getLogger().warning("Aucune session courante");
+			Coloane.showWarningMsg("Impossible de mettre a jour le menu");
+			return;
 		}
+		// Recuperation du menu de service de la session
+		RootMenu service = currentSession.getServicesMenu();
+		for (IUpdateMenuCom up : updates) {
+			if (up.getRoot().equals(service.getName())) {
+				service.setEnabled(up.getService(), up.getState());
+			}
+		}
+		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
+		gmenu.update();
+	}
+
+	/**
+	 *
+	 */
+	public void redrawMenus() {
+		// Supprime tous les menus sauf PLATFORM
+		MenuManipulation.clean();
+
+		Session currentSession = motor.getSessionManager().getCurrentSession();
+		if (currentSession == null) {
+			Coloane.getLogger().warning("Aucune session courante");
+			Coloane.showWarningMsg("Impossible d'afficher le menu");
+			return;
+		}
+		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
+		gmenu.build();
 	}
 
 
@@ -181,18 +216,6 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	}
 
 
-	/**
-	 * Demande d'un service
-	 * @param rootMenuName Le nom du menu racine
-	 * @param parentName Le nom du pere de la feuille cliquee
-	 * @param serviceName LE nom du service demande
-	 */
-	public void askForService(String rootMenuName, String parentName, String serviceName) {
-		serviceResultList.removeAll();
-		com.askForService(rootMenuName, parentName, serviceName);
-	}
-
-
 	/** Affichage d'une boite de dialogue
 	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
@@ -210,7 +233,45 @@ public final class UserInterface implements IUiCom, IUiMotor {
 		dialog.open();
 
 		// Capture des resultats
-		com.getDialogAnswers(dialog.getDialogResult());
+		com.sendDialogAnswers(dialog.getDialogResult());
+	}
+
+	/**
+	 * Modifie l'etat d'un item du menu Platform
+	 * @param menuItem Le nom de l'item a modifier
+	 * @param newState Le nouvel etat pour l'item
+	 */
+	public void platformState(boolean authentication, int session) {
+		Coloane.getLogger().fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")");
+		Composite parent = (Composite) Coloane.getParent();
+
+		// Prise en compte de l'authentification
+		if (!authentication) {
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			return;
+		} else {
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
+		}
+
+		// Prise en compte de l'etat de la session
+		switch (session) {
+		case SessionManager.CLOSED:
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			break;
+
+		case SessionManager.ERROR:
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			break;
+
+		default:
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
+			break;
+		}
 	}
 
 	/**

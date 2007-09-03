@@ -60,6 +60,23 @@ public class MenuManipulation {
 	}
 
 	/**
+	 * Supprime tous les menus sauf PLATFORM
+	 */
+	public static void clean() {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+
+		for (MenuItem root : shell.getMenuBar().getItems()) {
+			if (root.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
+				for (MenuItem item : root.getMenu().getItems()) {
+					if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) {
+						item.dispose();
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Removes a menu from the menubar
 	 * @param menuName The name of menu we want to delete
 	 */
@@ -73,6 +90,11 @@ public class MenuManipulation {
 		}
 	}
 
+	/**
+	 *
+	 * @param father
+	 * @param menuName
+	 */
 	public static void remove(MenuItem father, String menuName) {
 		for (MenuItem mi : father.getMenu().getItems()) {
 			if (mi.getText().equals(menuName)) {
