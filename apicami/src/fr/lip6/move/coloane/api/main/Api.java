@@ -16,6 +16,8 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -615,6 +617,15 @@ public final class Api implements IApi {
 		apiLog = Logger.getLogger("fr.lip6.move.coloane.api");
 		apiLog.setLevel(Level.FINEST); // On loggue tout !
 		apiLog.addHandler(new ColoaneHandler());
+		try {
+			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
+			ColoaneLogFormatter format = new ColoaneLogFormatter();
+			format.setVersion("Api 0.9.8.13");
+			handler.setFormatter(format);
+			apiLog.addHandler(handler);
+		}catch(IOException e){			
+			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
+		}
 	}
 
 	/**
@@ -624,4 +635,14 @@ public final class Api implements IApi {
 	public static Logger getLogger() {
 		return apiLog;
 	}
+	
+	/**
+	 * Modifie le niveau de verbosite du log de l'Api
+	 * @param niveau le nouveau niveau du log
+	 * */
+	
+	public void setVerbosity(Level niveau){
+		apiLog.setLevel(niveau);
+	}
+
 }
