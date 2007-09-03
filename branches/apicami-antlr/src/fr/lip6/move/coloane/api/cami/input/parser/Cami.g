@@ -1,18 +1,47 @@
 grammar Cami;
 
 @parser::header{
-package fr.lip6.move.coloane.api.camiParser;
+package fr.lip6.move.coloane.api.cami.input.parser;
 
-import fr.lip6.move.coloane.api.camiCommands.*;
-import fr.lip6.move.coloane.api.camiCommands.results.*;
-import fr.lip6.move.coloane.api.session.states.*;
-import fr.lip6.move.coloane.api.session.states.authentication.*;
-import fr.lip6.move.coloane.api.camiCommands.results.*;
-import fr.lip6.move.coloane.api.camiCommands.SpecialMessages.*;
+import java.util.Vector;	
+
+import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
+import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
+import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionNormal;
+import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic;
+import fr.lip6.move.coloane.api.cami.input.messages.IMessage;
+import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
+import fr.lip6.move.coloane.api.cami.input.messages.TraceMessage;
+import fr.lip6.move.coloane.api.cami.input.messages.WarningMessage;
+import fr.lip6.move.coloane.api.cami.input.results.AttributeChange;
+import fr.lip6.move.coloane.api.cami.input.results.AttributeOutline;
+import fr.lip6.move.coloane.api.cami.input.results.CreateArc;
+import fr.lip6.move.coloane.api.cami.input.results.CreateBox;
+import fr.lip6.move.coloane.api.cami.input.results.CreateMonolineAttribute;
+import fr.lip6.move.coloane.api.cami.input.results.CreateMultilineAttribute;
+import fr.lip6.move.coloane.api.cami.input.results.CreateNode;
+import fr.lip6.move.coloane.api.cami.input.results.IResult;
+import fr.lip6.move.coloane.api.cami.input.results.MultipleObjectDeletion;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectDeletion;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectDesignation;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectOutline;
+import fr.lip6.move.coloane.api.cami.input.results.QuestionAnswer;
+import fr.lip6.move.coloane.api.cami.input.results.QuestionState;
+import fr.lip6.move.coloane.api.cami.input.results.ResultSet;
+import fr.lip6.move.coloane.api.cami.input.results.Results;
+import fr.lip6.move.coloane.api.cami.input.results.TextualResult;
+import fr.lip6.move.coloane.api.cami.input.session.AckCloseCurrentSession;
+import fr.lip6.move.coloane.api.cami.input.session.AckOpenSession;
+import fr.lip6.move.coloane.api.cami.input.session.AckResumeSession;
+import fr.lip6.move.coloane.api.cami.input.session.AckSuspendCurrentSession;
+import fr.lip6.move.coloane.api.session.states.MessageFormatFailure;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationCommunicationAck;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationFailure;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationVersionAck;
 }
 
 @lexer::header{
-package fr.lip6.move.coloane.api.camiParser;
+package fr.lip6.move.coloane.api.cami.input.parser;
 }
 
 /*------------------------------------------------------------------
@@ -127,34 +156,47 @@ interactive_response
 // Traces and messages
 
 message_to_user
+	returns [IMessage camiContent]
 	:
-	trace_message | warning_message | special_message
+	  trace_message 
+	  {
+	  	camiContent = $trace_message.message;
+	  }
+	| warning_message 
+	  {
+	  	camiContent = $warning_message.message;
+	  }
+
+	| special_message
+	  {
+	  	camiContent = $special_message.message;
+	  }
 	;
 
 trace_message
-	returns [TraceMessage camiContent]
+	returns [TraceMessage message]
 	:
 	'TR(' CAMI_STRING ')'
 	{
-		camiContent = new TraceMessage($CAMI_STRING.text);
+		message = new TraceMessage($CAMI_STRING.text);
 	}
 	;
 
 warning_message
-	returns [WarningMessage camiContent]
+	returns [WarningMessage message]
 	:
 	'WN(' CAMI_STRING ')'
 	{
-		camiContent = new WarningMessage($CAMI_STRING.text);
+		message = new WarningMessage($CAMI_STRING.text);
 	}
 	;
 
 special_message
-	returns [SpecialMessages camiContent]
+	returns [SpecialMessages message]
 	:	
-	'MO(' message_type=number ',' message=CAMI_STRING ')'
+	'MO(' message_type=number ',' message_content=CAMI_STRING ')'
 	{
-		camiContent = new SpecialMessages(SpecialMessages.SpecialMessageType($message_type.value),$message.text);
+		message = new SpecialMessages(SpecialMessages.SpecialMessageType($message_type.value),$message_content.text);
 	}
 	;
  
@@ -176,7 +218,7 @@ open_communication
   	| special_message
 	  {
 	  	if(true) // to avoid an error in the generated code
-	  		throw new MessageFormatFailure($special_message.camiContent);
+	  		throw new MessageFormatFailure($special_message.message);
 	  }
 
 	;
@@ -191,7 +233,7 @@ check_version
 	| special_message
 	  {
 	  	if(true) // to avoid an error in the generated code
-	  		throw new MessageFormatFailure($special_message.camiContent);
+	  		throw new MessageFormatFailure($special_message.message);
 	  }
 	;
 
@@ -207,23 +249,28 @@ ack_open_communication
 ack_open_connection
 	returns [AckOpenConnection camiContent]
 	:
-	'OC(' n1=number ',' n2=number ')'
+	'OC(' major=number ',' minor=number ')'
 	{
-		camiContent = new AckOpenConnection($n1.value,$n2.value);
+		camiContent = new AckOpenConnection($major.value,$minor.value);
 	}
 	;
 
 close_connection_normal
+	returns [CloseConnectionNormal camiContent]
 	:
 	'FC()'
+	{
+		camiContent = new CloseConnectionNormal();
+	}
 	;
 	
 close_connection_panic
 	returns [CloseConnectionPanic camiContent]
 	:
-	'KO(1,' CAMI_STRING ',' number ')'
+	'KO(1,' message=CAMI_STRING ',' severity=number ')'
 	{
-		camiContent = new CloseConnectionPanic($CAMI_STRING.text,$number.value);
+		camiContent = new CloseConnectionPanic($message.text,
+							CloseConnectionPanic.Severity.makeSeverity($severity.value));
 	}
 	;
 
@@ -238,7 +285,7 @@ interlocutor_table
 
 body_table
 	:
-	'VI(' service_name=CAMI_STRING ',' about_service=CAMI_STRING ',' '3' ',' new_model=number ')'
+	'VI(' service_name=CAMI_STRING ',' about_service=CAMI_STRING ',' deprecated=number ',' new_model=number ')'
 ;
 
 // Invokation of a service
@@ -251,18 +298,54 @@ pre_result_reception
 
 result_reception
 	returns [Results results]
+	@init
+	{
+		Vector<QuestionState> questionStates = new Vector<QuestionState>();
+		Vector<IMessage> messages = new Vector<IMessage>();
+		Vector<ResultSet> resultSets = new Vector<ResultSet>();
+		QuestionAnswer questionAnswer = null;
+	}
 	:
 	'DR()'
 	reply_to_question
-	r+=( question_state | special_message | warning_message | result )*
-	'FR(' number ')'
 	{
+		questionAnswer = $reply_to_question.questionAnswer;
+	}
+	( 
+	  question_state
+	  {
+	  	questionStates.add($question_state.questionState);
+	  }
+	| special_message
+	  {
+	  	messages.add($special_message.message);
+	  }
+	| warning_message
+	  {
+	 	messages.add($warning_message.message);
+	  }
+	| result
+	  {
+	  	resultSets.add($result.res);
+	  }
+	)*
+	'FR(' answer_type=number ')'
+	{
+		results = new Results(	questionAnswer,
+					messages,
+					questionStates,
+					resultSets,
+					Results.ResultType.makeResultType($answer_type.value));
 	}
 	;
 
 reply_to_question
+	returns [QuestionAnswer questionAnswer]
 	:
-	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' number ')'
+	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' deprecated=number ')'
+	{
+		questionAnswer = new QuestionAnswer($service_name.text,$question_name.text);
+	}
 	;
 
 question_state
@@ -270,29 +353,70 @@ question_state
 	:
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=number ',' mess=CAMI_STRING? ')'
 	{
-		questionState = new QuestionState($service_name.text,$question_name.text,$state.value,$mess.text);
+		String message = null;
+		if( $mess != null ) 
+			message = $mess.text;
+		questionState = new QuestionState($service_name.text,$question_name.text,$state.value,message);
 	}
 	;
 
 result	
-	returns [ResultSet resultSet]
+	returns [ResultSet res]
+	@init
+	{
+		Vector<IResult> results = new Vector<IResult>();
+	}
 	:
 	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=number ')'
-	result_body+
+	(
+	result_body
+	{
+		results.add($result_body.res);
+	}
+	)+
 	'FE()'
+	{
+		res = new ResultSet(	$ensemble_name.text,
+					ResultSet.ResultSetType.makeResultSetType($ensemble_type.value),
+					results );
+	}
 	;
  
 result_body
  	returns [IResult res]
  	:
  	  result
+ 	  {
+ 		res = $result.res;
+ 	  }
  	| textual_result
+ 	  {
+ 		res = $textual_result.res;
+ 	  }
  	| attribute_change
+ 	  {
+ 		res = $attribute_change.res;
+ 	  }
  	| object_designation
+ 	  {
+ 		res = $object_designation.res;
+ 	  }
  	| object_outline
+ 	  {
+ 		res = $object_outline.res;
+ 	  }
  	| attribute_outline
+ 	  {
+ 		res = $attribute_outline.res;
+ 	  }
  	| object_creation
+ 	  {
+ 		res = $object_creation.res;
+ 	  }
  	| object_deletion
+ 	  {
+ 		res = $object_deletion.res;
+ 	  }
  	;
  
  textual_result
@@ -359,7 +483,7 @@ result_body
 	  {
 	  	res = new CreateMonolineAttribute($attribute_name.text,$associated_node.value,$value.text);
 	  }
-	| 'CM(' attribute_name=CAMI_STRING ',' associated_node=number ',' line_number=number ',' number ',' value=CAMI_STRING ')'
+	| 'CM(' attribute_name=CAMI_STRING ',' associated_node=number ',' line_number=number ',' deprecated=number ',' value=CAMI_STRING ')'
 	  {
 	  	res = new CreateMultilineAttribute($attribute_name.text,$associated_node.value,$line_number.value,$value.text);
 	  }
@@ -383,31 +507,39 @@ object_deletion
 ack_open_session
 	returns [AckOpenSession camiContent]
 	:
-	'OS(' CAMI_STRING ')'
+	'OS(' session_name=CAMI_STRING ')'
 	'TD()'
 	'FA()'
 	interlocutor_table
 	{
-		camiContent = new AckOpenSession($CAMI_STRING.text);
+		camiContent = new AckOpenSession($session_name.text);
 	}
 	;
 
 ack_close_current_session 
-	:	
+	returns [AckCloseCurrentSession camiContent]
+	:
 	'FS()'
+	{
+		camiContent = new AckCloseCurrentSession();
+	}
 	;
 
-ack_suspend_current_session 
+ack_suspend_current_session
+	returns [AckSuspendCurrentSession camiContent]
 	:	 
 	'SS()'
+	{
+		camiContent = new AckSuspendCurrentSession();
+	}
 	;
 
 ack_resume_session
 	returns [AckResumeSession camiContent]
 	:
-	'RS(' CAMI_STRING ')'
+	'RS(' session_name=CAMI_STRING ')'
 	{
-		camiContent = new AckResumeSession($CAMI_STRING.text);
+		camiContent = new AckResumeSession($session_name.text);
 	}
 	;
 

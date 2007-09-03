@@ -1,54 +1,53 @@
 package fr.lip6.move.coloane.api.cami.input.results;
 
-import com.sun.tools.javac.util.List;
+import java.util.Collection;
 
-import fr.lip6.move.coloane.api.cami.both.Question;
-import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
-import fr.lip6.move.coloane.api.cami.input.messages.WarningMessage;
+import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic.Severity;
+import fr.lip6.move.coloane.api.cami.input.messages.IMessage;
 
 public final class Results {
 
 	public enum ResultType {
-		completeAnswer(), 
-		incompleteAnswer(), 
-		modelHasBeenModified();
+		completeAnswer(1), 
+		incompleteAnswer(2), 
+		modelHasBeenModified(3);
 		
-		private ResultType() {
-			// TODO Auto-generated constructor stub
+		private int value;
+		
+		private ResultType(int value) {
+			this.value = value;
 		}
+		
+		public int getInt() {
+			return this.value;
+		}
+		
+		public static ResultType makeResultType(int i) {
+			ResultType toReturn = completeAnswer;
+			for( ResultType s : ResultType.values() ) {
+				if( s.value == i ) {
+					toReturn = s;
+				}
+			}
+			return toReturn;
+		}
+
+		
 	}
 	
-	public Question question;
-	public List<SpecialMessages> specialMessages;
-	public List<WarningMessage> warningMessages;
-	public List<QuestionState> questionStates;
-	public List<ResultSet> results;
+	public QuestionAnswer questionAnswer;
+	public Collection<IMessage> messages;
+	public Collection<QuestionState> questionStates;
+	public Collection<ResultSet> resultSets;
 	public ResultType resultType;
 	
-	public Results(	Question question, List<SpecialMessages> specialMessages, List<WarningMessage> warningMessages,
-					List<QuestionState> questionSates, List<ResultSet> resultSet, ResultType resultType) {
-		this.question = question;
-		this.specialMessages = specialMessages;
-		this.warningMessages = warningMessages;
-		this.questionStates = questionSates;
-		this.results = resultSet;
+	public Results(	QuestionAnswer questionAnswer, Collection<IMessage> messages,
+					Collection<QuestionState> questionStates, Collection<ResultSet> resultSets,
+					ResultType resultType) {
+		this.questionAnswer = questionAnswer;
+		this.messages = messages;
+		this.questionStates = questionStates;
+		this.resultSets = resultSets;
 		this.resultType = resultType;
-	}
-	
-	public void addSpecialMessage(SpecialMessages specialMessage) {
-		this.specialMessages.add(specialMessage);
-	}
-	
-	public void addWarningMessage(WarningMessage warningMessage) {
-		this.warningMessages.add(warningMessage);
-	}
-	
-	public void addQuestionState(QuestionState questionState) {
-		this.questionStates.add(questionState);
-	}
-	
-	public void addResultSet(ResultSet resultSet) {
-		this.results.add(resultSet);
-	}
-	
+	}	
 }

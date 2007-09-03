@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.cami.input.messages;
 
-public final class SpecialMessages {
+public final class SpecialMessages implements IMessage {
 
 	public enum SpecialMessageType {
 		motd(1),
@@ -8,7 +8,14 @@ public final class SpecialMessages {
 		copyrightMessage(3),
 		executionStatistics(4);
 		
-		private SpecialMessageType(int i) {
+		private int value;
+		
+		private SpecialMessageType(int value) {
+			this.value = value;
+		}
+		
+		public int getInt() {
+			return this.value;
 		}
 	}
 

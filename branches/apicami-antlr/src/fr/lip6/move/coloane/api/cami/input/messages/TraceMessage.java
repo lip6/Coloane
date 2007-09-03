@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.cami.input.messages;
 
-public class TraceMessage {
+public class TraceMessage implements IMessage {
 
 	public String message;
 
