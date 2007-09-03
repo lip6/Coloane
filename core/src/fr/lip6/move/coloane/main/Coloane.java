@@ -8,7 +8,6 @@ import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -188,10 +187,9 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void initializeLogger() {
 		coreLog = Logger.getLogger("fr.lip6.move.coloane.api"); //$NON-NLS-1$
-		LogManager.getLogManager().reset();
 		coreLog.setLevel(Level.FINEST); // On loggue tout !
 		try {
-			ColoaneLogHandler handler = new ColoaneLogHandler();
+			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();
 			format.setVersion(getVersion());
 			handler.setFormatter(format);
