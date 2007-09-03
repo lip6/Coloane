@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -226,5 +227,30 @@ public class Coloane extends AbstractUIPlugin {
 		String build = (String) getBundle().getHeaders().get("Implementation-Build");
 		if (build == null) { return null; }
 		return build;
+	}
+
+
+	/**PREFERENCES PAGE*/
+
+	/**
+	 * Initializes a preference store with default preference values
+	 * for this plug-in.
+	 * @param store the preference store to fill
+	 */
+	protected final void initializeDefaultPreferences(IPreferenceStore store) {
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), "");
+	}
+
+	public final void setDefaultPreference(String key) {
+		Coloane.getDefault().getPreferenceStore().setValue(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key),
+				Coloane.getDefault().getPreferenceStore().getDefaultString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key)));
+	}
+
+	public final void setPreference(String key, String value) {
+		Coloane.getDefault().getPreferenceStore().setValue(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key), value);
+	}
+
+	public final String getPreference(String key) {
+		return Coloane.getDefault().getPreferenceStore().getString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key));
 	}
 }
