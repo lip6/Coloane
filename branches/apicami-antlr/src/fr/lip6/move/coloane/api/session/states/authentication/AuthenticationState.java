@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.session.states.authentication;
 
-import fr.lip6.move.coloane.api.camiCommands.CamiBuilder;
+import fr.lip6.move.coloane.api.cami.output.CamiBuilder;
 import fr.lip6.move.coloane.api.session.controller.IController;
 import fr.lip6.move.coloane.api.session.controller.IMessage;
 import fr.lip6.move.coloane.api.session.controller.IState;

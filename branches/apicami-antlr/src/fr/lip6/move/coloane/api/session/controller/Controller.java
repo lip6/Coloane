@@ -14,9 +14,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 
-import fr.lip6.move.coloane.api.camiParser.ANTLRSocketStream;
-import fr.lip6.move.coloane.api.camiParser.CamiLexer;
-import fr.lip6.move.coloane.api.camiParser.CamiParser;
+import fr.lip6.move.coloane.api.cami.input.parser.ANTLRSocketStream;
+import fr.lip6.move.coloane.api.cami.input.parser.CamiLexer;
+import fr.lip6.move.coloane.api.cami.input.parser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
 
 

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.session.states;
 
-import fr.lip6.move.coloane.api.camiCommands.SpecialMessages;
+import fr.lip6.move.coloane.api.cami.SpecialMessages;
 import fr.lip6.move.coloane.api.session.controller.IMessage;
 import org.antlr.runtime.RecognitionException;
 

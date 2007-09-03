@@ -66,7 +66,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.concurrent.BlockingQueue;
 
-import fr.lip6.move.coloane.api.camiParser.CamiParser;
+import fr.lip6.move.coloane.api.cami.input.parser.CamiParser;
 import fr.lip6.move.coloane.api.framekit.Network;
 
 public interface IController extends Runnable {

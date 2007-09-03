@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.api.session.states.authentication;
 
 import org.antlr.runtime.RecognitionException;
-import fr.lip6.move.coloane.api.camiCommands.CloseConnectionPanic;
+
+import fr.lip6.move.coloane.api.cami.CloseConnectionPanic;
 
 public final class AuthenticationFailure extends RecognitionException implements IAuthenticationMessage {
 
