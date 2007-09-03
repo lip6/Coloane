@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.communications;
 
 import fr.lip6.move.coloane.api.main.Api;
-//import fr.lip6.move.coloane.communications.objects.Results;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComMotor;
@@ -18,7 +17,6 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
-import fr.lip6.move.coloane.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
 import java.util.Vector;
@@ -48,6 +46,9 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	/** L'instance du singleton : Com */
 	private static Com instance;
 
+	/** Indicateur d'authentification */
+	private static boolean isAuthenticated = false;
+
 	/**
 	 * Le constructeur en private
 	 * Le module de communications doit creer un lien avec l'API de communications
@@ -70,15 +71,15 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 	/**
 	 * Permet de rattacher le moteur au module de communications
-	 * @param theMotor
+	 * @param theMotor Le module moteur
 	 */
 	public void setMotor(IMotorCom theMotor) {
 		this.motor = theMotor;
 	}
 
 	/**
-	 * Creer une attache avec l'interface utilisateur
-	 * @param theUi L'interface de l'interface utilisateur pour le module de communications
+	 * Permet d'attacher l'interface utilisateur au module de communications
+	 * @param theUi L'interface utilisateur
 	 */
 	public void setUi(IUiCom theUi) {
 		this.ui = theUi;
@@ -91,12 +92,15 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param ip IP ou est la plateforme FrameKit
 	 * @param port Port ou joindre la plateforme FrameKit
 	 * @return boolean indiquant si l'authentification c'est bien passee
-	 * @throws Exception exception
 	 */
 	public boolean authentication(String login, String pass, String ip, int port) {
+		Coloane.getLogger().fine("Demande d'authentification");
+
 		// Connexion a la plateforme
 		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
+		// Log du resultat
 		if (retour) { Coloane.getLogger().fine("Authentification OK"); } else { Coloane.getLogger().warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
+		isAuthenticated = retour;
 		return retour;
 	}
 
@@ -107,18 +111,26 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @throws Exception
 	 */
 	public boolean openSession(IModelImpl model) {
+		Coloane.getLogger().fine("Connexion d'un modele"); //$NON-NLS-1$
+
+		// Si le modele est nul on ne peut rien faire
 		if (model == null) {
 			Coloane.getLogger().warning("Aucun modele a connecter"); //$NON-NLS-1$
 			return false;
 		}
 		// Recuperation du nom de la session courante
-		String sessionName = motor.getSessionManager().getCurrentSession().getName();
+		String sessionName = motor.getSessionManager().getCurrentSessionName();
 		// Recuperation du nom du formalime de la session courante
 		String formalismName = model.getFormalism().getName();
 
 		// Demande de l'ouverture de session a l'API
-		Boolean retour = api.openSession(sessionName, motor.getSessionManager().getCurrentSession().getModel().getDate(), formalismName);
+		Boolean retour = api.openSession(sessionName, model.getDate(), formalismName);
+		// Log du resultat
 		if (retour) { Coloane.getLogger().fine("Connexion reussie !"); } else { Coloane.getLogger().warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
+
+		// Au commencement, un modele est toujours propre
+		model.setDirty(false);
+
 		return retour;
 	}
 
@@ -158,18 +170,18 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		motor.getSessionManager().destroyAllSessions();
 	}
 
-	/**
-	 * Demande de service a la plateforme FrameKit
-	 * @param rootMenuName Nom de la racine du menu
-	 * @param parentName Nom du pere du service demande
-	 * @param serviceName Nom du service demande (nom de la feuille cliquee)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IComUi#askForService(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
+		Coloane.getLogger().fine("Demande de service : " + serviceName); //$NON-NLS-1$
 		// Grisage du menu de services
 		this.ui.changeMenuStatus(rootMenuName, false);
-
 		// Requete a l'API
 		this.api.askForService(rootMenuName, parentName, serviceName);
+		// Au retour d'un service, le modele est toujours propre
+		this.motor.getSessionManager().getCurrentSessionModel().setDirty(false);
 	}
 
 	/**
@@ -177,6 +189,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param message Message a afficher dans la console
 	 */
 	public void printHistoryMessage(String message) {
+		Coloane.getLogger().finest("Affichage dans l'historique : " + message); //$NON-NLS-1$
 		this.ui.printHistoryMessage(message);
 	}
 
@@ -185,6 +198,8 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param menu La racine du menu a afficher
 	 */
 	public void drawMenu(IRootMenuCom rootMenuCom) {
+		Coloane.getLogger().fine("Affichage des menus"); //$NON-NLS-1$
+
 		try {
 			// Transformation des menus
 			root = new RootMenu(rootMenuCom.getRootMenuName());
@@ -207,26 +222,11 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param updates La racine du menu a afficher
 	 */
 	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
+		Coloane.getLogger().fine("Mise a jour des menus");
 		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() { ui.updateMenu(updates); }
 		});
-	}
-
-	/**
-	 * Modifie l'etat d'un item du menu Platform
-	 * @param menuItem Le nom de l'item a modifier
-	 * @param newState Le nouvel etat pour l'item
-	 */
-	public void platformState(boolean authentication, boolean session) {
-		if (authentication && !session) {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-		} else if (!authentication) {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-		}
 	}
 
 	/**
@@ -242,7 +242,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Recupere les informations de la boite de dialogue
 	 * @results Les resultats sous forme d'objets
 	 */
-	public void getDialogAnswers(IDialogResult results) {
+	public void sendDialogAnswers(IDialogResult results) {
 		this.api.getDialogAnswers((IDialogResult) results);
 	}
 
@@ -252,6 +252,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
+		Coloane.getLogger().fine("Preparation des resultats pour le service : " + serviceName);
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			this.ui.setResults(serviceName, resultsCom);
 		} else {
@@ -265,6 +266,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Cette methode doit etre appelee apres la methode setResults
 	 */
 	public void printResults() {
+		Coloane.getLogger().fine("Affichage des resultats");
 		this.ui.printResults();
 	}
 
@@ -280,56 +282,59 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 
 	/**
-	 * Informe FK que le modele a ete mis a jour
-	 * @param dateUpdate La date de derniere mise a jour du modele
-	 */
-	public void toUpdate(int dateUpdate) {
-		this.api.changeModeleDate(dateUpdate);
-	}
-
-
-	/**
-	 * Recupere le modele
+	 * Recupere le modele pour le transmettre a l'API
 	 * @return IModel Le modele en cours
 	 * @see IModel
 	 */
-	public IModel getModel() {
-		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
+	public IModel sendModel() {
+		Coloane.getLogger().fine("Transmission d'un modele a la plateforme");
+		return this.motor.getSessionManager().getCurrentSessionModel().getGenericModel();
 	}
 
 
 	/**
-	 * Demande la creation d'un nouveau modele a partir des inputs de FK
+	 * Demande la creation d'un nouveau modele a partir des inputs de FK<br>
+	 * En general, l'API est responsable de cet appel !
 	 * @param Le modele construit par l'api de communication
 	 */
 	public void setNewModel(IModel model) {
+		Coloane.getLogger().fine("Reception d'un nouveau modele");
 		this.motor.setNewModel(model);
 	}
 
 
 	/**
-	 * Permet de noter le modele comme sale ou propre apres communication avec la plate-forme
-	 * @param boolean true indique que le modele a ete sali et doit donc etre mis a jour
+	 * Informe FK que le modele a ete mis a jour
+	 * @param dateUpdate La date de derniere mise a jour du modele
 	 */
-	public void setModelDirty(boolean state) {
-		this.motor.getSessionManager().getCurrentSession().getModel().setDirty(state);
+	public void toUpdate(int dateUpdate) {
+		Coloane.getLogger().fine("Le modele doit etre mis a jour du cote de la plateforme");
+		this.api.changeModeleDate(dateUpdate);
 	}
-
 
 	/**
 	 * Retourne l'etat de fraicheur actuel du modele
 	 * @return boolean Indicateur de fraicheur
 	 */
 	public boolean getDirtyState() {
-		boolean rep = this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
-		return rep;
+		boolean state = this.motor.getSessionManager().getCurrentSessionModel().isDirty();
+		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); }
+		return this.motor.getSessionManager().getCurrentSessionModel().isDirty();
 	}
 
-
-	/** Retourne la date de derniere modification du modele
+	/**
+	 * Retourne la date de derniere modification du modele
 	 * @return int Date
 	 */
 	public int getDateModel() {
-		return this.motor.getSessionManager().getCurrentSession().getModel().getDate();
+		return this.motor.getSessionManager().getCurrentSessionModel().getDate();
+	}
+
+	/**
+	 * Donne l'etat d'authentification
+	 * @return un booleen
+	 */
+	public boolean isAuthenticated() {
+		return isAuthenticated;
 	}
 }
