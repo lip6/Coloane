@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.motor.Motor;
+import fr.lip6.move.coloane.motor.session.SessionManager;
 import fr.lip6.move.coloane.ui.UserInterface;
 import fr.lip6.move.coloane.ui.model.IModelImpl;
 
@@ -76,6 +77,7 @@ public class Coloane extends AbstractUIPlugin {
 			com.setUi(ui);
 			com.setMotor(motor);
 			motor.setCom(com);
+			motor.setUi(ui);
 			ui.setCom(com);
 			ui.setMotor(motor);
 
@@ -116,6 +118,7 @@ public class Coloane extends AbstractUIPlugin {
 	@Override
 	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
+		coreLog.config("Arret du plugin");
 		plugin = null;
 	}
 
@@ -135,8 +138,8 @@ public class Coloane extends AbstractUIPlugin {
 	public static void notifyModelChange(IModelImpl model) {
 		if (model != null) {
 			int dateUpdate = model.modifyDate();
-			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession() != null)) {
-				System.out.println("OK pour l'update"); //$NON-NLS-1$
+			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSessionStatus() == SessionManager.CONNECTED)) {
+				coreLog.fine("Demande de mise a jour du modele sur la plateforme");
 				plugin.com.toUpdate(dateUpdate);
 			}
 		}
@@ -147,6 +150,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
+		coreLog.fine("Affichage d'un message d'erreur : " + msg);
 		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
 	}
 
@@ -155,6 +159,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
+		coreLog.fine("Affichage d'un message de warning : " + msg);
 		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
 	}
 
@@ -186,7 +191,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * Initialisation du logger d'evenements
 	 */
 	private void initializeLogger() {
-		coreLog = Logger.getLogger("fr.lip6.move.coloane.api"); //$NON-NLS-1$
+		coreLog = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 		coreLog.setLevel(Level.FINEST); // On loggue tout !
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
