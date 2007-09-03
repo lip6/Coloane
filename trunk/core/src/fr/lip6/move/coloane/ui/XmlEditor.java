@@ -33,12 +33,15 @@ public class XmlEditor extends DefaultHandler {
 	 */
 	@Override
 	public final InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-		if (systemId.endsWith("coloane.dtd")) {
+		if (systemId.endsWith("coloane.dtd")) { //$NON-NLS-1$
             // Retourne une copie locale de la DTD
-			URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/coloane.dtd");
+			URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/coloane.dtd"); //$NON-NLS-1$
+			Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 			URL	path = FileLocator.toFileURL(dtd);
+			Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
             return new InputSource(path.getPath());
         }
+		Coloane.getLogger().fine("Impossible de trouver une DTD valide (demande de " + systemId + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
 	}
 
@@ -240,8 +243,6 @@ public class XmlEditor extends DefaultHandler {
 		txt = txt.replaceAll("&gt;", ">"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;
 	}
-
-
 
 
 	/* --------------- Lecture --------------- */
