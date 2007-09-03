@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.cami.output;
+package fr.lip6.move.coloane.api.cami.both;
 
 public class Question {
 

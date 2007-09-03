@@ -4,10 +4,10 @@ import org.antlr.stringtemplate.StringTemplate;
 
 import com.sun.tools.javac.util.List;
 
-import fr.lip6.move.coloane.api.cami.input.Question;
+import fr.lip6.move.coloane.api.cami.both.Question;
 import fr.lip6.move.coloane.api.cami.output.DialogAnswer.DialogAnswerType;
-import fr.lip6.move.coloane.api.cami.types.InteractiveAnswerType;
-import fr.lip6.move.coloane.api.cami.types.UrgentMessageType;
+import fr.lip6.move.coloane.api.cami.output.types.InteractiveAnswerType;
+import fr.lip6.move.coloane.api.cami.output.types.UrgentMessageType;
 
 public class CamiBuilder {
 

@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.cami.types;
+package fr.lip6.move.coloane.api.cami.output.types;
 
 public enum InteractiveAnswerType {
 	normalMessageWithDisplay(0),

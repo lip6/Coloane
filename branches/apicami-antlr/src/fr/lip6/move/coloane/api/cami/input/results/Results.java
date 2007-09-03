@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.cami.input.results;
 
 import com.sun.tools.javac.util.List;
 
-import fr.lip6.move.coloane.api.cami.input.Question;
+import fr.lip6.move.coloane.api.cami.both.Question;
 import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
 import fr.lip6.move.coloane.api.cami.input.messages.WarningMessage;
 
