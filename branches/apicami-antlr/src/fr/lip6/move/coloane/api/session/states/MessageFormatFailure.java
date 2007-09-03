@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.api.session.states;
 
-import fr.lip6.move.coloane.api.cami.SpecialMessages;
-import fr.lip6.move.coloane.api.session.controller.IMessage;
 import org.antlr.runtime.RecognitionException;
+
+import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
+import fr.lip6.move.coloane.api.session.controller.IMessage;
 
 public final class MessageFormatFailure extends RecognitionException implements IMessage {
 

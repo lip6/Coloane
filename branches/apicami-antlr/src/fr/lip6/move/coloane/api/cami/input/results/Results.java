@@ -1,12 +1,10 @@
-package fr.lip6.move.coloane.api.cami.results;
+package fr.lip6.move.coloane.api.cami.input.results;
 
 import com.sun.tools.javac.util.List;
 
-import fr.lip6.move.coloane.api.cami.Question;
-import fr.lip6.move.coloane.api.cami.SpecialMessages;
-import fr.lip6.move.coloane.api.cami.WarningMessage;
-import fr.lip6.move.coloane.api.cami.results.QuestionState;
-import fr.lip6.move.coloane.api.cami.results.ResultSet;
+import fr.lip6.move.coloane.api.cami.input.Question;
+import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
+import fr.lip6.move.coloane.api.cami.input.messages.WarningMessage;
 
 public final class Results {
 

@@ -4,8 +4,8 @@ import org.antlr.stringtemplate.StringTemplate;
 
 import com.sun.tools.javac.util.List;
 
-import fr.lip6.move.coloane.api.cami.DialogAnswer;
-import fr.lip6.move.coloane.api.cami.Question;
+import fr.lip6.move.coloane.api.cami.input.Question;
+import fr.lip6.move.coloane.api.cami.output.DialogAnswer.DialogAnswerType;
 import fr.lip6.move.coloane.api.cami.types.InteractiveAnswerType;
 import fr.lip6.move.coloane.api.cami.types.UrgentMessageType;
 
@@ -92,8 +92,8 @@ public class CamiBuilder {
 	
 	public static byte[] dialogAnswer(DialogAnswer answer) {
 		String command = "DP()";
-		command += generate("RD", answer.dialogID, answer.canceledAnswer?2:1, answer.hasModifiedEntry?2:2, answer.valueEntered);
-		if( !answer.canceledAnswer ) {
+		command += generate("RD", answer.dialogID, answer.answerType.getInt(), answer.modificationType.getInt(), answer.valueEntered);
+		if( answer.answerType == DialogAnswerType.ok ) {
 			command += "DE()";
 			for( String s : answer.lines ) {
 				command += generate("DS", answer.dialogID, s);
@@ -105,39 +105,11 @@ public class CamiBuilder {
 	}
 	
 	public static byte[] interactiveAnswer(int dialogID, InteractiveAnswerType answerType, String message) {
-		int typeValue = -1;
-		switch (answerType) {
-			case errorMessage:
-				typeValue = 3;
-				break;
-			case warningMessage:
-				typeValue = 2;
-				break;
-			case normalMessage:
-				typeValue = 1;
-				break;
-			case normalMessageWithDisplay:
-				typeValue = 0;
-				break;
-			default:
-				break;
-		}
-		return generate("RI", dialogID, typeValue, message).getBytes();
+		return generate("RI", dialogID, answerType.getInt(), message).getBytes();
 	}
 	
 	public static byte[] urgentMessage(int dialogID, UrgentMessageType messageType) {
-		int typeValue = -1;
-		switch (messageType) {
-			case abort:
-				typeValue = 1;
-				break;
-			case quit:
-				typeValue = 2;
-				break;
-			default:
-				break;
-		}
-		return generate("MU",dialogID,typeValue).getBytes();
+		return generate("MU",dialogID,messageType.getInt()).getBytes();
 	}
 	
 	private CamiBuilder() {

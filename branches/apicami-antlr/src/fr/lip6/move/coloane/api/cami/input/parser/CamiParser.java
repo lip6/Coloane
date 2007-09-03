@@ -2,33 +2,44 @@
 
 package fr.lip6.move.coloane.api.cami.input.parser;
 
-import fr.lip6.move.coloane.api.cami.*;
-import fr.lip6.move.coloane.api.cami.SpecialMessages.*;
-import fr.lip6.move.coloane.api.cami.results.*;
-import fr.lip6.move.coloane.api.camiCommands.AttributeChange;
-import fr.lip6.move.coloane.api.camiCommands.AttributeOutline;
-import fr.lip6.move.coloane.api.camiCommands.CreateArc;
-import fr.lip6.move.coloane.api.camiCommands.CreateBox;
-import fr.lip6.move.coloane.api.camiCommands.CreateMonolineAttribute;
-import fr.lip6.move.coloane.api.camiCommands.CreateMultilineAttribute;
-import fr.lip6.move.coloane.api.camiCommands.CreateNode;
-import fr.lip6.move.coloane.api.camiCommands.IResult;
-import fr.lip6.move.coloane.api.camiCommands.MultipleObjectDeletion;
-import fr.lip6.move.coloane.api.camiCommands.ObjectDeletion;
-import fr.lip6.move.coloane.api.camiCommands.ObjectDesignation;
-import fr.lip6.move.coloane.api.camiCommands.ObjectOutline;
-import fr.lip6.move.coloane.api.camiCommands.QuestionState;
-import fr.lip6.move.coloane.api.camiCommands.ResultSet;
-import fr.lip6.move.coloane.api.camiCommands.Results;
-import fr.lip6.move.coloane.api.camiCommands.TextualResult;
-import fr.lip6.move.coloane.api.session.states.*;
-import fr.lip6.move.coloane.api.session.states.authentication.*;
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
+
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+
+import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
+import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
+import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic;
+import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
+import fr.lip6.move.coloane.api.cami.input.messages.TraceMessage;
+import fr.lip6.move.coloane.api.cami.input.messages.WarningMessage;
+import fr.lip6.move.coloane.api.cami.input.results.AttributeChange;
+import fr.lip6.move.coloane.api.cami.input.results.AttributeOutline;
+import fr.lip6.move.coloane.api.cami.input.results.CreateArc;
+import fr.lip6.move.coloane.api.cami.input.results.CreateBox;
+import fr.lip6.move.coloane.api.cami.input.results.CreateMonolineAttribute;
+import fr.lip6.move.coloane.api.cami.input.results.CreateMultilineAttribute;
+import fr.lip6.move.coloane.api.cami.input.results.CreateNode;
+import fr.lip6.move.coloane.api.cami.input.results.IResult;
+import fr.lip6.move.coloane.api.cami.input.results.MultipleObjectDeletion;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectDeletion;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectDesignation;
+import fr.lip6.move.coloane.api.cami.input.results.ObjectOutline;
+import fr.lip6.move.coloane.api.cami.input.results.QuestionState;
+import fr.lip6.move.coloane.api.cami.input.results.ResultSet;
+import fr.lip6.move.coloane.api.cami.input.results.Results;
+import fr.lip6.move.coloane.api.cami.input.results.TextualResult;
+import fr.lip6.move.coloane.api.cami.input.session.AckOpenSession;
+import fr.lip6.move.coloane.api.cami.input.session.AckResumeSession;
+import fr.lip6.move.coloane.api.session.states.MessageFormatFailure;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationCommunicationAck;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationFailure;
+import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationVersionAck;
 
 public class CamiParser extends Parser {
     public static final String[] tokenNames = new String[] {

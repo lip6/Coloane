@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.cami;
+package fr.lip6.move.coloane.api.cami.input.messages;
 
 public class TraceMessage {
 

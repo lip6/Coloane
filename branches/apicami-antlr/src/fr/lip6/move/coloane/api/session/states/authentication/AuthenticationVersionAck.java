@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.session.states.authentication;
 
-import fr.lip6.move.coloane.api.cami.AckOpenConnection;
+import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
 
 public final class AuthenticationVersionAck implements IAuthenticationMessage {
 

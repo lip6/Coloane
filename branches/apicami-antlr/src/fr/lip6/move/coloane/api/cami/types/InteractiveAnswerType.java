@@ -6,7 +6,14 @@ public enum InteractiveAnswerType {
 	warningMessage(2),
 	errorMessage(3); 
 	
-	private InteractiveAnswerType(int i) {
+	private int value;
+	
+	private InteractiveAnswerType(int value) {
+		this.value = value;
+	}
+	
+	public int getInt() {
+		return this.value;
 	}
 	
 }

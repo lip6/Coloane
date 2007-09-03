@@ -1,5 +1,4 @@
-package fr.lip6.move.coloane.api.cami.results;
-
+package fr.lip6.move.coloane.api.cami.input.results;
 public final class CreateArc implements IResult {
 
 	public String arcType;
