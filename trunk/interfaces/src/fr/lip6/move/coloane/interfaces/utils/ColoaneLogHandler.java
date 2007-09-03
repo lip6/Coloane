@@ -7,10 +7,17 @@ import java.util.logging.FileHandler;
  * Classe en charge de la gestion des messages de log<br>
  * Ici, elle permet l'affichage de tous les message sur la console.
  */
-public class ColoaneLogHandler extends FileHandler {
+public final class ColoaneLogHandler extends FileHandler {
 
-	public ColoaneLogHandler() throws IOException, SecurityException {
+	private static ColoaneLogHandler instance;
+	
+	private ColoaneLogHandler() throws IOException, SecurityException {
 		super("%t/coloane.log", true);
+	}
+	
+	public static ColoaneLogHandler getInstance() throws IOException, SecurityException {
+		if (instance == null) { instance = new ColoaneLogHandler();}
+		return instance;
 	}
 
 
