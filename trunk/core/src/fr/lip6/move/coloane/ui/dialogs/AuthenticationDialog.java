@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.communications.Com;
 import fr.lip6.move.coloane.exceptions.UIException;
 import fr.lip6.move.coloane.main.Coloane;
 
+
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -130,6 +131,9 @@ public class AuthenticationDialog extends Dialog {
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
+		if (Coloane.getDefault().getPreference("LOGIN") != "") {
+			login.setText(Coloane.getDefault().getPreference("LOGIN"));
+		}
 
 		// PASSWORD
 		new Label(compo, SWT.NULL).setText(Messages.AuthenticationDialog_9);

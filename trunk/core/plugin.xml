@@ -144,4 +144,16 @@
              name="%MODEL_WIZARD"
              project="false"/>
     </extension>
+	<extension point="org.eclipse.ui.preferencePages">
+        <page id="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
+                name="Coloane"
+                class="fr.lip6.move.coloane.ui.dialogs.ColoanePrefsPage">
+        </page>
+        <page id="org.eclipse.ui.articles.BadWordsColorPreference"
+                name="Colors"
+                class="fr.lip6.move.coloane.ui.dialogs.ColoanePrefsPage"
+                category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
+        </page>
+    
+	</extension>
 </plugin>
