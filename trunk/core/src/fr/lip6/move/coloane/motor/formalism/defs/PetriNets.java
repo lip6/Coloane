@@ -98,7 +98,7 @@ public class PetriNets extends Formalism {
 		i = 1;
 
 		// La queue:
-		elt = new NodeFormalism("queue", Messages.PetriNets_44, this, INodeGraphicInfo.FIG_QUEUE, QUEUE_WIDTH, QUEUE_HEIGHT, true); //$NON-NLS-1$
+		elt = new NodeFormalism("queue", Messages.PetriNets_44, this, INodeGraphicInfo.FIG_QUEUE, QUEUE_WIDTH, QUEUE_HEIGHT, false); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "domain", IAttributeGraphicInfo.L2, true, true)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
