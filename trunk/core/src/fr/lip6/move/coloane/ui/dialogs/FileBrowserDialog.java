@@ -27,22 +27,26 @@ import org.eclipse.ui.PlatformUI;
 public class FileBrowserDialog extends Dialog implements IDialog {
 
 	private int id;
+
 	private int buttonType;
-	//private int inputType;
-	//private int multiLine;
+
+	// private int inputType;
+	// private int multiLine;
 	private String defaultValue;
+
 	private IDialogResult dialogResult;
 
-	//private ArrayList<String> choices = null;
+	// private ArrayList<String> choices = null;
 
 	private Text fileField = null;
+
 	private Shell shell = null;
 
 	/** Id du bouton Browse */
 	private static final int BROWSE_ID = IDialogConstants.CLIENT_ID;
 
-	private static Shell parentShell = PlatformUI.getWorkbench()
-			.getActiveWorkbenchWindow().getShell();
+
+	 private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
 	/**
 	 * Constructeur de la boite de dialogue
@@ -67,12 +71,13 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		dialogResult = new DialogResult(id, IDialog.TERMINATED_OK, false,
 				new ArrayList<String>());
 
-		//choices = new ArrayList<String>();
+		// choices = new ArrayList<String>();
 	}
 
 	/**
 	 * Determine quels seront les boutons affiches
-	 * @param parent La fenetre en cours de construction
+	 * @param parent
+	 *            La fenetre en cours de construction
 	 */
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
@@ -128,11 +133,12 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 	@Override
 	public final void buttonPressed(int buttonId) {
 		int answerType;
-
 		/* Selon le type de retour */
 		if (buttonId == BROWSE_ID) {
 			String fileName = new FileDialog(shell).open();
-			fileField.setText(fileName);
+			if (fileName != null) {
+				fileField.setText(fileName);
+			}
 		}
 		if (buttonId == OK) {
 			answerType = TERMINATED_OK;
@@ -140,7 +146,8 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 			answerType = TERMINATED_CANCEL;
 		}
 
-		dialogResult = new DialogResult(id, answerType, !fileField.getText().equals(defaultValue), pathToArrayList(fileField.getText()));
+		dialogResult = new DialogResult(id, answerType, !fileField.getText()
+				.equals(defaultValue), pathToArrayList(fileField.getText()));
 
 		this.close();
 	}
@@ -161,7 +168,6 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		return dialogResult;
 	}
 
-
 	/**
 	 * Copie le contenu d'un fichier en ArrayList<String>
 	 * @param path Chemin complet du fichier
@@ -171,14 +177,16 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		ArrayList<String> result = new ArrayList<String>();
 
 		try {
-			InputStream ips = new FileInputStream(path);
-			InputStreamReader ipsr = new InputStreamReader(ips);
-			BufferedReader br = new BufferedReader(ipsr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				result.add(line);
+			if (path != null) {
+				InputStream ips = new FileInputStream(path);
+				InputStreamReader ipsr = new InputStreamReader(ips);
+				BufferedReader br = new BufferedReader(ipsr);
+				String line;
+				while ((line = br.readLine()) != null) {
+					result.add(line);
+				}
+				br.close();
 			}
-			br.close();
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
