@@ -114,12 +114,9 @@ public interface IModelImpl {
 	void setDirty(boolean dirty);
 
 	/**
-	 * Indique que le modele n'est pas (plus) en construction
-	 */
-	void setEndBuilding();
-
-	/**
-	 * Met en valeur un noeud
+	 * Mise en valeur d'un noeud
+	 * @param idhighlight
+	 * @param unhighlight
 	 */
 	void highlightNode(String idhighlight, String unhighlight);
 
