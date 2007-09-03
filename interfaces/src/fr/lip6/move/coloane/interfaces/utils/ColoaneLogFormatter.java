@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.utils;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -21,10 +21,26 @@ public class ColoaneLogFormatter extends Formatter {
 	 */
 	@Override
 	public final String format(LogRecord record) {
-		Date d = new Date(record.getMillis());
-
+		Calendar c = Calendar.getInstance();
+		String name ="";
+		
+		if(record.getLoggerName().equals("fr.lip6.move.coloane.core")){
+			name = "Core";
+		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.api")){
+			name = "Api";
+		}
+		
 		StringBuffer l = new StringBuffer();
-		l.append(d.toString());
+		
+		l.append(c.get(Calendar.DAY_OF_MONTH)+"/");
+		l.append(+ c.get(Calendar.MONTH) + "/" );
+		l.append(c.get(Calendar.YEAR) + " ");
+		
+		l.append(c.get(Calendar.HOUR) + ":");
+		l.append(c.get(Calendar.MINUTE) + ":");
+		l.append(c.get(Calendar.SECOND) + " ");
+		
+		l.append("(" + name + ") ");
 		l.append(" [" + record.getLevel() + "] ");
 		l.append(record.getMessage());
 		l.append("\n");
