@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
-import fr.lip6.move.coloane.api.main.Api;
+//import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.main.Coloane;
 
 import java.util.logging.Level;
@@ -22,9 +22,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
-
-
 
 public class ColoanePrefsPage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -71,13 +68,13 @@ public class ColoanePrefsPage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("NORMAL")) {
 					Coloane.setVerbosity(Level.INFO);
-					Api.setVerbosity(Level.INFO);
+					//Api.setVerbosity(Level.INFO);
 				} else if (combo.getText().equals("BETA")) {
 					Coloane.setVerbosity(Level.FINE);
-					Api.setVerbosity(Level.FINE);
+					//Api.setVerbosity(Level.FINE);
 				} else if (combo.getText().equals("DEBUG")) {
 					Coloane.setVerbosity(Level.FINEST);
-					Api.setVerbosity(Level.FINEST);
+					//Api.setVerbosity(Level.FINEST);
 				}
 			}
 		});
