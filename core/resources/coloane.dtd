@@ -1,14 +1,16 @@
-<!ELEMENT model (declaration?,authors?,version?,project?,title?,date?,code?,note?,nodes,arcs)>
+<!ELEMENT model (declaration?,type?,authors?,information?,version?,project?,title?,date?,code?,note?,nodes,arcs)>
 <!ELEMENT nodes (node*)>
 <!ELEMENT arcs (arc*)>
-<!ELEMENT node (name?,domain?,marking?,component?,guard?,priority?,weight?,delay?,action?,note?)>
-<!ELEMENT arc (pi*,valuation?,note?)>
+<!ELEMENT node (name?,domain?,marking?,component?,guard?,priority?,weight?,delay?,action?,note?,value?)>
+<!ELEMENT arc (pi*,valuation?,note?,label?)>
 <!ELEMENT pi (#PCDATA)>
 
 <!ELEMENT declaration (#PCDATA)>
 <!ELEMENT authors (#PCDATA)>
 <!ELEMENT version  (#PCDATA)> 
 <!ELEMENT project (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT information (#PCDATA)>
 <!ELEMENT title (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
 <!ELEMENT code (#PCDATA)>
@@ -23,6 +25,8 @@
 <!ELEMENT action (#PCDATA)>
 <!ELEMENT valuation (#PCDATA)>
 <!ELEMENT note (#PCDATA)>
+<!ELEMENT label (#PCDATA)>
+<!ELEMENT value (#PCDATA)>
 
 
 <!ATTLIST model
@@ -66,6 +70,16 @@
 	xposition CDATA #REQUIRED>
 <!ATTLIST authors
 	yposition CDATA #REQUIRED>
+	
+<!ATTLIST type
+	xposition CDATA #REQUIRED>
+<!ATTLIST type
+	yposition CDATA #REQUIRED>
+	
+<!ATTLIST information
+	xposition CDATA #REQUIRED>
+<!ATTLIST information
+	yposition CDATA #REQUIRED>
 
 <!ATTLIST version 
 	xposition CDATA #REQUIRED>
@@ -141,8 +155,18 @@
 	xposition CDATA #REQUIRED>
 <!ATTLIST valuation
 	yposition CDATA #REQUIRED>
+	
+<!ATTLIST label
+	xposition CDATA #REQUIRED>
+<!ATTLIST label
+	yposition CDATA #REQUIRED>
 
 <!ATTLIST note
 	xposition CDATA #REQUIRED>
 <!ATTLIST note
+	yposition CDATA #REQUIRED> 
+	
+<!ATTLIST value
+	xposition CDATA #REQUIRED>
+<!ATTLIST value
 	yposition CDATA #REQUIRED>

@@ -14,7 +14,9 @@ import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 import fr.lip6.move.coloane.main.Coloane;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.xml.sax.Attributes;
@@ -31,16 +33,16 @@ public class XmlEditor extends DefaultHandler {
 	 * (non-Javadoc)
 	 * @see org.xml.sax.helpers.DefaultHandler#resolveEntity(java.lang.String, java.lang.String)
 	 */
-	@Override
-	public final InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-		if (systemId.endsWith("coloane.dtd")) { //$NON-NLS-1$
+	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+		if ((systemId != null) && (systemId.endsWith("coloane.dtd"))) { //$NON-NLS-1$
             // Retourne une copie locale de la DTD
 			URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/coloane.dtd"); //$NON-NLS-1$
 			Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 			URL	path = FileLocator.toFileURL(dtd);
 			Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
-            return new InputSource(path.getPath());
-        }
+			InputStream in = path.openStream();
+			return new InputSource(in);
+		}
 		Coloane.getLogger().fine("Impossible de trouver une DTD valide (demande de " + systemId + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
 	}
@@ -252,11 +254,14 @@ public class XmlEditor extends DefaultHandler {
 	private String currentObject = ""; //$NON-NLS-1$
 
 	private int refId = 0; // Le dernier ID lu
+	private Logger logger = Coloane.getLogger();
 
 	/**
 	 * Lecture des balises ouvrantes du modele
 	 */
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
+
+		logger.finest("Balise lue : " + baliseName);
 
 		// Balise MODEL
 		if (baliseName.equals("model")) { //$NON-NLS-1$
