@@ -577,52 +577,95 @@ change_date
 // Service menu reception
 
 service_menu_reception
+  returns [ServiceMenuReception serviceMenuReception]
+  @init
+  {
+    Collection<QuestionAdd> questions = new Vector<QuestionAdd>();
+  }
 	:
 	'DQ()'
 	menu_name
-	question_add*
+	(question=question_add { questions.add($question); })*
 	'FQ()'
+	{
+	 serviceMenuReception = new ServiceMenuReception($menu_name.menuName, questions);
+	}
 	;
 
 menu_name
+  returns [MenuName menuName]
 	:
-	'CQ(' name=CAMI_STRING ',' number ',' number ')'
+	'CQ(' name=CAMI_STRING ',' unknown1=number ',' unknown2=number ')'
+	{
+	  menuName = new MenuName($name.text, $unknown1.value, $unknown2.value);
+	}
 	;
 
 question_add
+  returns [QuestionAdd questionAdd]
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
-		question_type=number? ',' question_behavior=number? ',' 
-		set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
-		ouput_formalism=CAMI_STRING? ',' active=number? ')'
+		    question_type=number? ',' question_behavior=number? ',' 
+		    set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
+		    ouput_formalism=CAMI_STRING? ',' active=number? ')'
+  returns [QuestionAdd question]
+  {
+    questionAdd = new QuestionAdd(); // TODO
+  }
 	;
 
 service_menu_modification
+  returns [ServiceMenuModification serviceMenuModification]
+  @init
+  {
+    Collection<QuestionState> questionStates = new Vector<QuestionState>();
+  }
 	:
 	enable_main_question
-	question_state*
+	(qs=question_state { questionStates.add(qs); })*
 	end_menu_transmission
+	{
+	  serviceMenuModification = new ServiceMenuModification($enable_main_question.enableMainQuestion,
+	                                                        questionStates,
+	                                                        $end_menu_transmission.endMenuTransmission);
+	}
 	;
 
 enable_main_question
+  returns [EnableMainQuestion enableMainQuestion]
 	:
 	'VQ(' main_question_name=CAMI_STRING ')'
+	{
+	 enableMainQuestion = new EnableMainQuestion($main_question_name.text);
+	}
 	;
 
 disable_main_question
+  returns [DisableMainQuestion disableMainQuestion]
 	:
 	'EQ(' main_question_name=CAMI_STRING ')'
+	{
+	 disableMainQuestion = new DisableMainQuestion($main_question_name.text);
+	}
 	;
 
 end_menu_transmission
+  returns [EndMenuTransmission endMenuTransmission]
 	:
 	'QQ(' number ')'
+	{
+	 endMenuTransmission = new EndMenuTransmission($number.value);
+	}
 	;
 
 help_question
+  returns [HelpQuestion helpQuestion]
 	:
 	'HQ(' question_name=CAMI_STRING ',' help_message=CAMI_STRING ')'
-	;
+  {
+    helpQuestion = new HelpQuestion($question_name.text, $help_message.text);
+  }
+  ;
 
 /*------------------------------------------------------------------
  * LEXER RULES
