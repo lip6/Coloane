@@ -16,7 +16,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -240,8 +244,22 @@ public class Coloane extends AbstractUIPlugin {
 	 * for this plug-in.
 	 * @param store the preference store to fill
 	 */
+
+
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), "");
+
+		//Node color
+		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE"), color.getRGB());
+
+		//Node highlight
+		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_HIGHLIGHT"), color.getRGB());
+
+		//Node mouse over
+		color = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_MOUSE"), color.getRGB());
 	}
 
 	public final void setDefaultPreference(String key) {
@@ -256,14 +274,14 @@ public class Coloane extends AbstractUIPlugin {
 	public final String getPreference(String key) {
 		return Coloane.getDefault().getPreferenceStore().getString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key));
 	}
-	
-	
+
+
 	/**
 	 * Modifie le niveau de verbosite du log du Core
 	 * @param niveau le nouveau niveau du log
 	 * */
-	
-	public static void setVerbosity(Level niveau){
+
+	public static void setVerbosity(Level niveau) {
 		coreLog.setLevel(niveau);
 	}
 }

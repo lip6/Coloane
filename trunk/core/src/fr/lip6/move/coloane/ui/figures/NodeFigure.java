@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.ui.figures;
 
+import fr.lip6.move.coloane.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.ui.model.INodeImpl;
@@ -104,7 +105,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 */
 			public void mouseEntered(MouseEvent me) {
 				previousBackgroundColor = ((Shape) me.getSource()).getBackgroundColor();
-				((Shape) me.getSource()).setBackgroundColor(ColorConstants.yellow);
+				((Shape) me.getSource()).setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE"));
 				node.setAttributesSelected(true, true);
 			}
 			/*
@@ -125,7 +126,8 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setSelect()
 	 */
 	public final void setSelect() {
-		figure.setForegroundColor(ColorConstants.blue);
+		//figure.setForegroundColor(ColorConstants.blue);
+		figure.setForegroundColor(ColorsPrefs.setColor("COLORNODE"));
 		((Shape) figure).setLineWidth(LINE_WIDTH);
 	}
 
@@ -143,7 +145,8 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		figure.setBackgroundColor(ColorConstants.darkGreen);
+		figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT"));
+		//figure.setBackgroundColor(ColorConstants.darkGreen);
 	}
 
 	/*
