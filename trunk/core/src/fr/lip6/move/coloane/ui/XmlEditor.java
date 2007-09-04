@@ -286,7 +286,7 @@ public class XmlEditor extends DefaultHandler {
 			try {
 				this.model.addNode(node);
 			} catch (ModelException e) {
-				System.err.println(e.toString());
+				Coloane.getLogger().warning("Impossible d'ajouter le noeud au modele : " + e.toString());
 			}
 
 		// Balise ARC
@@ -309,7 +309,7 @@ public class XmlEditor extends DefaultHandler {
 			try {
 				this.model.addArc(arc);
 			} catch (ModelException e) {
-				System.err.println(e.toString());
+				Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele : " + e.toString());
 			}
 
 		// Balise ATTRIBUT & PI
@@ -323,7 +323,7 @@ public class XmlEditor extends DefaultHandler {
 				try {
 					this.model.getAnArc(this.refId).addPI(x, y);
 				} catch (ModelException e) {
-					System.err.println(e.toString());
+					Coloane.getLogger().warning("Impossible de trouver l'arc referent" + e.toString());
 				}
 
 			//Si on lit un attribut
