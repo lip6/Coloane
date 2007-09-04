@@ -1,12 +1,6 @@
 Manifest-Version: 1.0
-Specification-Title: Interfaces API/Coloane
-Specification-Version: 1.0.3
-Specification-Vendor: LIP6 - MoVe
-Implementation-Title: fr.lip6.move.coloane.interfaces
-Implementation-Version: build703
-Implementation-Vendor: LIP6 - MoVe
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
-Bundle-Version: 1.0.10
+Bundle-Version: 1.0.11
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
 Provide-Package: fr.lip6.move.coloane.interfaces,
