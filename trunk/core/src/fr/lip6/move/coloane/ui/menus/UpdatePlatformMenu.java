@@ -36,8 +36,14 @@ public class UpdatePlatformMenu implements Runnable {
 	}
 
 	public final void run() {
+		Shell shell;
 
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		try {
+			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		} catch (NullPointerException e) {
+			Coloane.getLogger().warning("Shell inaccessible");
+			return;
+		}
 
 		// Parcours des items de la barre de menus
 		for (MenuItem item : shell.getMenuBar().getItems()) {
