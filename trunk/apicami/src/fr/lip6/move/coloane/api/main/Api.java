@@ -337,9 +337,6 @@ public final class Api implements IApi {
 			this.comLowServices.closeCom();
 		}
 
-		// Mise a jour des menus du cote coloane
-		this.com.platformState(this.connexionOpened, this.sessionOpened);
-
 		apiLog.exiting("Api", "closeConnexion");
 	}
 
@@ -533,8 +530,8 @@ public final class Api implements IApi {
 	 * @param state Le nouvel etat
 	 */
 	public void setModelDirty(boolean state) {
-		apiLog.finer("FrameKit indique a Coloane l'etat du modele : DIRTY = " + state);
-		this.com.setModelDirty(state);
+		//apiLog.finer("FrameKit indique a Coloane l'etat du modele : DIRTY = " + state);
+		//this.com.setModelDirty(state);
 	}
 
 	/**
@@ -598,7 +595,7 @@ public final class Api implements IApi {
 	 */
 	public IModel getModel() {
 		apiLog.finer("Recuperation du modele edite par Coloane");
-		return this.com.getModel();
+		return this.com.sendModel();
 	}
 
 	/**
@@ -620,7 +617,7 @@ public final class Api implements IApi {
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();
-			format.setVersion("Api 0.9.8.13");
+			format.setVersion("Api");
 			handler.setFormatter(format);
 			apiLog.addHandler(handler);
 		}catch(IOException e){			
