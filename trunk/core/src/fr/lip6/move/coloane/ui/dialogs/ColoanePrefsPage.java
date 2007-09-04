@@ -1,5 +1,9 @@
 package fr.lip6.move.coloane.ui.dialogs;
 
+
+import java.util.logging.Level;
+
+import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.main.Coloane;
 
 //import org.eclipse.core.runtime.Platform;
@@ -8,13 +12,17 @@ import org.eclipse.jface.preference.PreferencePage;
 
 import org.eclipse.swt.SWT;
 
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 //import org.eclipse.swt.layout.GridData;
 //import org.eclipse.swt.layout.GridLayout;
 
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 //import org.eclipse.swt.widgets.Label;
@@ -26,6 +34,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class ColoanePrefsPage extends PreferencePage implements
 		IWorkbenchPreferencePage {
+	
+	private Combo combo = null;
 
 	// Names for preferences
 	//private static final String LOGIN = Coloane.getDefault().getPreference(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("LOGIN"));
@@ -43,7 +53,13 @@ public class ColoanePrefsPage extends PreferencePage implements
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
-
+	
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.horizontalSpan = 2;				
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		
+		
 		// Get the preference store
 		//IPreferenceStore preferenceStore = getPreferenceStore();
 
@@ -53,7 +69,32 @@ public class ColoanePrefsPage extends PreferencePage implements
 		loginField = new Text(composite, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		loginField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		loginField.setText(Coloane.getDefault().getPreference("LOGIN"));
-
+		
+		Group p = new Group(composite, SWT.NONE);
+		p.setText("Level");
+		p.setLayoutData(data);
+		p.setLayout(layout);
+		
+		(new Label(p, SWT.NULL)).setText("Niveau :");
+		combo = new Combo(p, SWT.NULL);
+		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		String levelList[] = {"NORMAL", "BETA", "DEBUG"};
+		combo.setItems(levelList);
+		combo.setText("Choisir le niveau");
+		combo.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e) {
+				if(combo.getText().equals("NORMAL")){
+					Coloane.setVerbosity(Level.INFO);
+					Api.setVerbosity(Level.INFO);
+				} else if(combo.getText().equals("BETA")){
+					Coloane.setVerbosity(Level.FINE);
+					Api.setVerbosity(Level.FINE);
+				} else if(combo.getText().equals("DEBUG")){
+					Coloane.setVerbosity(Level.FINEST);
+					Api.setVerbosity(Level.FINEST);
+				}
+			}
+		});
 		return composite;
 	}
 

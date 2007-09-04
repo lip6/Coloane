@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 
+
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -26,15 +27,18 @@ public class ColorsPrefs extends PreferencePage implements
 
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
-
+		
+		
 		// Create a data that takes up the extra space in the dialog .
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.grabExcessHorizontalSpace = true;
 		composite.setLayoutData(data);
-
+		
+		
 		GridLayout layout = new GridLayout();
 		composite.setLayout(layout);
-
+		
+		
 		Composite colorComposite = new Composite(composite, SWT.NONE);
 
 		colorComposite.setLayout(new GridLayout());
@@ -48,6 +52,7 @@ public class ColorsPrefs extends PreferencePage implements
 		colorEditor.setPreferenceStore(getPreferenceStore());
 		colorEditor.load();
 
+		
 		return composite;
 	}
 }

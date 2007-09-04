@@ -256,4 +256,14 @@ public class Coloane extends AbstractUIPlugin {
 	public final String getPreference(String key) {
 		return Coloane.getDefault().getPreferenceStore().getString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key));
 	}
+	
+	
+	/**
+	 * Modifie le niveau de verbosite du log du Core
+	 * @param niveau le nouveau niveau du log
+	 * */
+	
+	public static void setVerbosity(Level niveau){
+		coreLog.setLevel(niveau);
+	}
 }
