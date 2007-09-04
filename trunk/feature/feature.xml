@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.13"
+      version="0.9.16"
       provider-name="LIP6 - MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
@@ -155,13 +155,6 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="fr.lip6.move.coloane.apicami"
          download-size="0"
          install-size="0"
@@ -181,6 +174,13 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="fr.lip6.move.coloane.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
