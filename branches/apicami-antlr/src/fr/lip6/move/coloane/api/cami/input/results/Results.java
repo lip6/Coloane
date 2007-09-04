@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.api.cami.input.results;
 
 import java.util.Collection;
 
-import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic.Severity;
 import fr.lip6.move.coloane.api.cami.input.messages.IMessage;
 
 public final class Results {
@@ -22,17 +21,6 @@ public final class Results {
 			return this.value;
 		}
 		
-		public static ResultType makeResultType(int i) {
-			ResultType toReturn = completeAnswer;
-			for( ResultType s : ResultType.values() ) {
-				if( s.value == i ) {
-					toReturn = s;
-				}
-			}
-			return toReturn;
-		}
-
-		
 	}
 	
 	public QuestionAnswer questionAnswer;
@@ -41,13 +29,25 @@ public final class Results {
 	public Collection<ResultSet> resultSets;
 	public ResultType resultType;
 	
-	public Results(	QuestionAnswer questionAnswer, Collection<IMessage> messages,
-					Collection<QuestionState> questionStates, Collection<ResultSet> resultSets,
+	public Results(	QuestionAnswer questionAnswer,
+					Collection<IMessage> messages,
+					Collection<QuestionState> questionStates,
+					Collection<ResultSet> resultSets,
 					ResultType resultType) {
 		this.questionAnswer = questionAnswer;
 		this.messages = messages;
 		this.questionStates = questionStates;
 		this.resultSets = resultSets;
 		this.resultType = resultType;
-	}	
+	}
+
+	public static ResultType ResultType(int i) {
+		ResultType toReturn = ResultType.completeAnswer;
+		for( ResultType s : ResultType.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
+	}
 }

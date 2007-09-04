@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.cami.input.connection;
 
+import fr.lip6.move.coloane.api.cami.input.results.Results.ResultType;
+
 public final class CloseConnectionPanic {
 
 	public enum Severity {
@@ -16,16 +18,6 @@ public final class CloseConnectionPanic {
 		public int getInt() {
 			return this.value;
 		}
-		
-		public static Severity makeSeverity(int i) {
-			Severity toReturn = maximal;
-			for( Severity s : Severity.values() ) {
-				if( s.value == i ) {
-					toReturn = s;
-				}
-			}
-			return toReturn;
-		}
 	}
 	
 	public String message;
@@ -36,4 +28,15 @@ public final class CloseConnectionPanic {
 		this.severity = severity;
 	}
 
+	public static Severity Severity(int i) {
+		Severity toReturn = Severity.minimal;
+		for( Severity s : Severity.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
+	}
+
+	
 }

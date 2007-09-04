@@ -270,7 +270,7 @@ close_connection_panic
 	'KO(1,' message=CAMI_STRING ',' severity=number ')'
 	{
 		camiContent = new CloseConnectionPanic($message.text,
-							CloseConnectionPanic.Severity.makeSeverity($severity.value));
+							CloseConnectionPanic.Severity($severity.value));
 	}
 	;
 
@@ -335,7 +335,7 @@ result_reception
 					messages,
 					questionStates,
 					resultSets,
-					Results.ResultType.makeResultType($answer_type.value));
+					Results.ResultType($answer_type.value));
 	}
 	;
 
@@ -377,7 +377,7 @@ result
 	'FE()'
 	{
 		res = new ResultSet(	$ensemble_name.text,
-					ResultSet.ResultSetType.makeResultSetType($ensemble_type.value),
+					ResultSet.ResultSetType($ensemble_type.value),
 					results );
 	}
 	;

@@ -7,10 +7,6 @@ import java.util.List;
 
 import org.antlr.runtime.CharStream;
 
-
-
-import fr.lip6.move.coloane.api.cami.input.parser.CharStreamState;
-
 public class ANTLRSocketStream implements CharStream {
 
 	/** Represents the stream which we are reading from */
@@ -202,5 +198,4 @@ public class ANTLRSocketStream implements CharStream {
 		}
 		
 	}
-
 }

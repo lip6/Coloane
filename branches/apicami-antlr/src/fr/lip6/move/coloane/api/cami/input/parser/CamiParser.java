@@ -1,8 +1,16 @@
-// $ANTLR 3.0.1 /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g 2007-09-03 19:45:49
+// $ANTLR 3.0.1 /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g 2007-09-04 10:12:04
 
 package fr.lip6.move.coloane.api.cami.input.parser;
 
-import java.util.Vector;	
+import java.util.Vector;
+
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
@@ -37,12 +45,6 @@ import fr.lip6.move.coloane.api.session.states.MessageFormatFailure;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationCommunicationAck;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationFailure;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationVersionAck;
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class CamiParser extends Parser {
     public static final String[] tokenNames = new String[] {
@@ -1468,7 +1470,7 @@ public class CamiParser extends Parser {
             match(input,12,FOLLOW_12_in_close_connection_panic864); 
 
             		camiContent = new CloseConnectionPanic(message.getText(),
-            							CloseConnectionPanic.Severity.makeSeverity(severity));
+            							CloseConnectionPanic.Severity(severity));
             	
 
             }
@@ -1752,7 +1754,7 @@ public class CamiParser extends Parser {
             					messages,
             					questionStates,
             					resultSets,
-            					Results.ResultType.makeResultType(answer_type));
+            					Results.ResultType(answer_type));
             	
 
             }
@@ -1947,7 +1949,7 @@ public class CamiParser extends Parser {
             match(input,45,FOLLOW_45_in_result1169); 
 
             		res = new ResultSet(	ensemble_name.getText(),
-            					ResultSet.ResultSetType.makeResultSetType(ensemble_type),
+            					ResultSet.ResultSetType(ensemble_type),
             					results );
             	
 

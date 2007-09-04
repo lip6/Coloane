@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.api.cami.output;
 
-import com.sun.tools.javac.util.List;
+import java.util.Collection;
+
+import fr.lip6.move.coloane.api.cami.input.results.ResultSet.ResultSetType;
 
 public final class DialogAnswer {
 
@@ -17,7 +19,6 @@ public final class DialogAnswer {
 		public int getInt() {
 			return this.value;
 		}
-		
 	}
 	
 	public enum DialogModificationType {
@@ -39,9 +40,12 @@ public final class DialogAnswer {
 	public DialogAnswerType answerType;
 	public DialogModificationType modificationType;
 	public String valueEntered;
-	public List<String> lines;
+	public Collection<String> lines;
 
-	public DialogAnswer(int dialogID, DialogAnswerType answerType, DialogModificationType modificationType, String valueEntered, List<String> lines) {
+	public DialogAnswer(int dialogID, 
+						DialogAnswerType answerType,
+						DialogModificationType modificationType,
+						String valueEntered, Collection<String> lines) {
 		this.dialogID = dialogID;
 		this.answerType = answerType;
 		this.modificationType = modificationType;
@@ -49,8 +53,24 @@ public final class DialogAnswer {
 		this.lines = lines;
 	}
 
-	public DialogAnswer(int dialogID, DialogAnswerType answerType, DialogModificationType modificationType, String valueEntered) {
-		this(dialogID,answerType,modificationType,valueEntered,null);
+	public static DialogAnswerType DialogAnswerType(int i) {
+		DialogAnswerType toReturn = DialogAnswerType.ok;
+		for( DialogAnswerType s : DialogAnswerType.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
+	}
+
+	public static DialogModificationType DialogModificationType(int i) {
+		DialogModificationType toReturn = DialogModificationType.modified;
+		for( DialogModificationType s : DialogModificationType.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
 	}
 
 }

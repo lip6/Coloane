@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.cami.input.messages;
 
+import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic.Severity;
+
 public final class SpecialMessages implements IMessage {
 
 	public enum SpecialMessageType {
@@ -27,7 +29,13 @@ public final class SpecialMessages implements IMessage {
 		this.message = message;
 	}
 
-	public static SpecialMessageType SpecialMessageType(int intValue) {
-		return SpecialMessageType(intValue);
+	public static SpecialMessageType SpecialMessageType(int i) {
+		SpecialMessageType toReturn = SpecialMessageType.motd;
+		for( SpecialMessageType s : SpecialMessageType.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
 	}
 }

@@ -2,8 +2,6 @@ package fr.lip6.move.coloane.api.cami.input.results;
 
 import java.util.Collection;
 
-import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic.Severity;
-
 public final class ResultSet implements IResult {
 
 	public enum ResultSetType {
@@ -17,14 +15,8 @@ public final class ResultSet implements IResult {
 			this.value = value;
 		}
 		
-		public static ResultSetType makeResultSetType(int i) {
-			ResultSetType toReturn = normal;
-			for( ResultSetType s : ResultSetType.values() ) {
-				if( s.value == i ) {
-					toReturn = s;
-				}
-			}
-			return toReturn;
+		public int getInt() {
+			return this.value;
 		}
 	}
 	
@@ -37,5 +29,14 @@ public final class ResultSet implements IResult {
 		this.setType = setType;
 		this.results = results;
 	}
-	
+
+	public static ResultSetType ResultSetType(int i) {
+		ResultSetType toReturn = ResultSetType.normal;
+		for( ResultSetType s : ResultSetType.values() ) {
+			if( s.value == i ) {
+				toReturn = s;
+			}
+		}
+		return toReturn;
+	}
 }
