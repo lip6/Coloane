@@ -638,7 +638,7 @@ public final class Api implements IApi {
 	 * @param niveau le nouveau niveau du log
 	 * */
 	
-	public void setVerbosity(Level niveau){
+	public static void setVerbosity(Level niveau){
 		apiLog.setLevel(niveau);
 	}
 
