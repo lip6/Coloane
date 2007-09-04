@@ -1,10 +1,16 @@
 package fr.lip6.move.coloane.api.cami.input.connection;
 
-public final class AckOpenCommunication {
+import fr.lip6.move.coloane.api.cami.ICommand;
 
-	public String hostInformation;
+public final class AckOpenCommunication implements ICommand {
+
+	private String hostInformation;
 
 	public AckOpenCommunication(String hostInformation) {
 		this.hostInformation = hostInformation;
+	}
+
+	public String getHostInformation() {
+		return hostInformation;
 	}
 }

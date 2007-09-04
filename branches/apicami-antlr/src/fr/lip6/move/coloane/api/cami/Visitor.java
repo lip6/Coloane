@@ -4,6 +4,7 @@ public abstract class Visitor<Base, Result> {
 
 	public abstract Result defaultVisit(Base o);
 	
+	@SuppressWarnings("unchecked")
 	public Result visit(Base o) {
 		try {
 			Class<? extends Visitor> self = this.getClass();

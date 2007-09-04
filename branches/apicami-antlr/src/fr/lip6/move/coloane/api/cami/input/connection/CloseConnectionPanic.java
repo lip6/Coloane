@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.api.cami.input.connection;
 
-import fr.lip6.move.coloane.api.cami.input.results.Results.ResultType;
+import fr.lip6.move.coloane.api.cami.ICommand;
 
-public final class CloseConnectionPanic {
+public final class CloseConnectionPanic implements ICommand {
 
 	public enum Severity {
 		minimal(1), average(2), maximal(3);

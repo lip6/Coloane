@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.cami.input.connection;
 
-public final class CloseConnectionNormal {
+import fr.lip6.move.coloane.api.cami.ICommand;
+
+public final class CloseConnectionNormal implements ICommand {
 
 }

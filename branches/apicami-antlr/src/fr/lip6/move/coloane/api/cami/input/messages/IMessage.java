@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.cami.input.messages;
 
-public interface IMessage {
+import fr.lip6.move.coloane.api.cami.ICommand;
+
+public interface IMessage extends ICommand {
 
 }

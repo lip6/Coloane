@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.cami.input.results;
 
-public interface IResult {
+import fr.lip6.move.coloane.api.cami.ICommand;
+
+public interface IResult extends ICommand {
 
 }

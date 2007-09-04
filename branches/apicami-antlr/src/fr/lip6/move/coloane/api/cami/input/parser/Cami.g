@@ -6,6 +6,7 @@ package fr.lip6.move.coloane.api.cami.input.parser;
 import java.util.Collection;
 import java.util.Vector;	
 
+import fr.lip6.move.coloane.api.cami.ICommand;
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
 import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionNormal;
@@ -126,7 +127,7 @@ intermediary_point
  *------------------------------------------------------------------*/
 
 dialog_definition
-	returns [DialogDefinition dialogDefinition]
+	returns [DialogDefinition camiContent]
 	@init
 	{
 		Collection<NextDialog> nextDialogs = new Vector<NextDialog>();
@@ -136,22 +137,22 @@ dialog_definition
 	dialog_creation
 	( next_dialog
 	{
-		nextDialogs.add($next_dialog.nextDialog);
+		nextDialogs.add($next_dialog.camiContent);
 	} )+
 	'FF()'
 	{
-		return new DialogDefinition($dialog_creation.dialogCreation, nextDialogs);
+		return new DialogDefinition($dialog_creation.camiContent, nextDialogs);
 	}
 	;
 
 dialog_creation
-	returns [DialogCreation dialogCreation]
+	returns [DialogCreation camiContent]
 	:
 	'CE(' dialog_id=number ',' dialog_type=number ',' buttons_type=number ','  window_title=CAMI_STRING ',' help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' 
 		input_type=number ',' line_type=number ',' default_value=CAMI_STRING? ')'
 	{
 		String defaultValue = "";
-		dialogCreation = new DialogCreation( 	$dialog_id.value,
+		camiContent = new DialogCreation( 	$dialog_id.value,
 							DialogCreation.DialogType($dialog_type.value),
 							DialogCreation.ButtonsType($buttons_type.value),
 							$window_title.text,
@@ -164,38 +165,38 @@ dialog_creation
 	;
 
 next_dialog
-	returns [NextDialog nextDialog]
+	returns [NextDialog camiContent]
 	:
 	'DS(' dialog_id=number ',' line=CAMI_STRING ')'
 	{
-		nextDialog = new NextDialog($dialog_id.value,$line.text);
+		camiContent = new NextDialog($dialog_id.value,$line.text);
 	}
 	;
 
 display_dialog
-	returns [DisplayDialog displayDialog]
+	returns [DisplayDialog camiContent]
 	:
 	'AD(' dialog_id=number ')'
 	{
-		displayDialog = new DisplayDialog($dialog_id.value);
+		camiContent = new DisplayDialog($dialog_id.value);
 	}
 	;
 	
 hide_dialog
-	returns [HideDialog hideDialog]
+	returns [HideDialog camiContent]
 	:
 	'HD(' dialog_id=number ')'
 	{
-		hideDialog = new HideDialog($dialog_id.value);
+		camiContent = new HideDialog($dialog_id.value);
 	}
 	;
 	
 destroy_dialog
-	returns [DestroyDialog destroyDialog]
+	returns [DestroyDialog camiContent]
 	:
 	'DG(' dialog_id=number ')'
 	{
-		destroyDialog = new DestroyDialog($dialog_id.value);
+		camiContent = new DestroyDialog($dialog_id.value);
 	}
 	;
 
@@ -217,43 +218,43 @@ message_to_user
 	:
 	  trace_message 
 	  {
-	  	camiContent = $trace_message.message;
+	  	camiContent = $trace_message.camiContent;
 	  }
 	| warning_message 
 	  {
-	  	camiContent = $warning_message.message;
+	  	camiContent = $warning_message.camiContent;
 	  }
 
 	| special_message
 	  {
-	  	camiContent = $special_message.message;
+	  	camiContent = $special_message.camiContent;
 	  }
 	;
 
 trace_message
-	returns [TraceMessage message]
+	returns [TraceMessage camiContent]
 	:
 	'TR(' CAMI_STRING ')'
 	{
-		message = new TraceMessage($CAMI_STRING.text);
+		camiContent = new TraceMessage($CAMI_STRING.text);
 	}
 	;
 
 warning_message
-	returns [WarningMessage message]
+	returns [WarningMessage camiContent]
 	:
 	'WN(' CAMI_STRING ')'
 	{
-		message = new WarningMessage($CAMI_STRING.text);
+		camiContent = new WarningMessage($CAMI_STRING.text);
 	}
 	;
 
 special_message
-	returns [SpecialMessages message]
+	returns [SpecialMessages camiContent]
 	:	
 	'MO(' message_type=number ',' message_content=CAMI_STRING ')'
 	{
-		message = new SpecialMessages(SpecialMessages.SpecialMessageType($message_type.value),$message_content.text);
+		camiContent = new SpecialMessages(SpecialMessages.SpecialMessageType($message_type.value),$message_content.text);
 	}
 	;
  
@@ -261,36 +262,32 @@ special_message
 // Connection handler
 
 open_communication
-	returns [AuthenticationCommunicationAck message]
+	returns [ICommand camiContent]
 	:
 	  ack_open_communication 
 	  {
-	  	message = new AuthenticationCommunicationAck($ack_open_communication.camiContent);
+		camiContent = $ack_open_communication.camiContent;
 	  }
 	| close_connection_panic
 	  {
-	  	if( true ) // to avoid an error in the generated code
-		  	throw new AuthenticationFailure($close_connection_panic.camiContent);
+		camiContent = $close_connection_panic.camiContent;
 	  }
   	| special_message
 	  {
-	  	if(true) // to avoid an error in the generated code
-	  		throw new MessageFormatFailure($special_message.message);
+		camiContent = $special_message.camiContent;
 	  }
-
 	;
 
 check_version
-	returns [AuthenticationVersionAck message]
+	returns [ICommand camiContent]
 	:
 	  ack_open_connection
 	  {
-	  	message = new AuthenticationVersionAck($ack_open_connection.camiContent);  
+	  	camiContent = $ack_open_connection.camiContent;
 	  }
 	| special_message
 	  {
-	  	if(true) // to avoid an error in the generated code
-	  		throw new MessageFormatFailure($special_message.message);
+	  	camiContent = $special_message.camiContent;
 	  }
 	;
 
@@ -354,7 +351,7 @@ pre_result_reception
 	;
 
 result_reception
-	returns [Results results]
+	returns [Results camiContent]
 	@init
 	{
 		Collection<QuestionState> questionStates = new Vector<QuestionState>();
@@ -366,29 +363,29 @@ result_reception
 	'DR()'
 	reply_to_question
 	{
-		questionAnswer = $reply_to_question.questionAnswer;
+		questionAnswer = $reply_to_question.camiContent;
 	}
 	( 
 	  question_state
 	  {
-	  	questionStates.add($question_state.questionState);
+	  	questionStates.add($question_state.camiContent);
 	  }
 	| special_message
 	  {
-	  	messages.add($special_message.message);
+	  	messages.add($special_message.camiContent);
 	  }
 	| warning_message
 	  {
-	 	messages.add($warning_message.message);
+	 	messages.add($warning_message.camiContent);
 	  }
 	| result
 	  {
-	  	resultSets.add($result.res);
+	  	resultSets.add($result.camiContent);
 	  }
 	)*
 	'FR(' answer_type=number ')'
 	{
-		results = new Results(	questionAnswer,
+		camiContent = new Results(	questionAnswer,
 					messages,
 					questionStates,
 					resultSets,
@@ -397,40 +394,40 @@ result_reception
 	;
 
 reply_to_question
-	returns [QuestionAnswer questionAnswer]
+	returns [QuestionAnswer camiContent]
 	:
 	'RQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' deprecated=number ')'
 	{
-		questionAnswer = new QuestionAnswer($service_name.text,$question_name.text);
+		camiContent = new QuestionAnswer($service_name.text,$question_name.text);
 	}
 	;
 
 question_state
-	returns [QuestionState questionState]
+	returns [QuestionState camiContent]
 	:
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=number ',' mess=CAMI_STRING? ')'
 	{
 		String message = null;
 		if( $mess != null ) 
 			message = $mess.text;
-		questionState = new QuestionState($service_name.text,$question_name.text,$state.value,message);
+		camiContent = new QuestionState($service_name.text,$question_name.text,$state.value,message);
 	}
 	;
 	question_add
- 	returns [QuestionAdd questionAdd]
+ 	returns [QuestionAdd camiContent]
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
 		    question_type=number? ',' question_behavior=number? ',' 
 		    set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
 		    ouput_formalism=CAMI_STRING? ',' active=number? ')'
 	{
-		questionAdd = new QuestionAdd(); // TODO
+		camiContent = new QuestionAdd(); // TODO
 	}
 	;
 
 
 result	
-	returns [ResultSet res]
+	returns [ResultSet camiContent]
 	@init
 	{
 		Collection<IResult> results = new Vector<IResult>();
@@ -440,134 +437,134 @@ result
 	(
 	result_body
 	{
-		results.add($result_body.res);
+		results.add($result_body.camiContent);
 	}
 	)+
 	'FE()'
 	{
-		res = new ResultSet(	$ensemble_name.text,
+		camiContent = new ResultSet(	$ensemble_name.text,
 					ResultSet.ResultSetType($ensemble_type.value),
 					results );
 	}
 	;
  
 result_body
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	  result
  	  {
- 		res = $result.res;
+ 		camiContent = $result.camiContent;
  	  }
  	| textual_result
  	  {
- 		res = $textual_result.res;
+ 		camiContent = $textual_result.camiContent;
  	  }
  	| attribute_change
  	  {
- 		res = $attribute_change.res;
+ 		camiContent = $attribute_change.camiContent;
  	  }
  	| object_designation
  	  {
- 		res = $object_designation.res;
+ 		camiContent = $object_designation.camiContent;
  	  }
  	| object_outline
  	  {
- 		res = $object_outline.res;
+ 		camiContent = $object_outline.camiContent;
  	  }
  	| attribute_outline
  	  {
- 		res = $attribute_outline.res;
+ 		camiContent = $attribute_outline.camiContent;
  	  }
  	| object_creation
  	  {
- 		res = $object_creation.res;
+ 		camiContent = $object_creation.camiContent;
  	  }
  	| object_deletion
  	  {
- 		res = $object_deletion.res;
+ 		camiContent = $object_deletion.camiContent;
  	  }
  	;
  
  textual_result
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	'RT(' CAMI_STRING ')'
  	{
- 		res = new TextualResult($CAMI_STRING.text);
+ 		camiContent = new TextualResult($CAMI_STRING.text);
  	}
  	;
  
  attribute_change
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	'WE(' id=number ',' attr_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
  	{
- 		res = new AttributeChange($id.value,$attr_name.text,$new_value.text);
+ 		camiContent = new AttributeChange($id.value,$attr_name.text,$new_value.text);
  	}
  	;
  
  object_designation
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	'RO(' id=number ')'
  	{
- 		res = new ObjectDesignation($id.value);
+ 		camiContent = new ObjectDesignation($id.value);
  	}
  	;
  
  object_outline
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	'ME(' id=number ')'
  	{
- 		res = new ObjectOutline($id.value);
+ 		camiContent = new ObjectOutline($id.value);
  	}
  	;
  
  attribute_outline
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
  	'MT(' id=number ',' attr_name=CAMI_STRING ',' begin=number? ',' end=number? ')'
  	{
-		res = new AttributeOutline($id.value,$attr_name.text);
+		camiContent = new AttributeOutline($id.value,$attr_name.text);
  	}
  	;
  
  object_creation
- 	returns [IResult res]
+ 	returns [IResult camiContent]
  	:
 	  'CN(' node_box_type=CAMI_STRING ',' id=number ')'
 	  {
-	  	res = new CreateNode($node_box_type.text,$id.value);
+	  	camiContent = new CreateNode($node_box_type.text,$id.value);
 	  }
 	| 'CB(' node_box_type=CAMI_STRING ',' id=number ',' page_id=number ')'
 	  {
-	  	res = new CreateBox($node_box_type.text,$id.value,$page_id.value);
+	  	camiContent = new CreateBox($node_box_type.text,$id.value,$page_id.value);
 	  }
 	| 'CA(' arc_type=CAMI_STRING ',' id=number ',' start_node=number ',' end_node=number ')'
 	  {
-	  	res = new CreateArc($arc_type.text,$id.value,$start_node.value,$end_node.value);
+	  	camiContent = new CreateArc($arc_type.text,$id.value,$start_node.value,$end_node.value);
 	  }
 	| 'CT(' attribute_name=CAMI_STRING ',' associated_node=number ',' value=CAMI_STRING ')'
 	  {
-	  	res = new CreateMonolineAttribute($attribute_name.text,$associated_node.value,$value.text);
+	  	camiContent = new CreateMonolineAttribute($attribute_name.text,$associated_node.value,$value.text);
 	  }
 	| 'CM(' attribute_name=CAMI_STRING ',' associated_node=number ',' line_number=number ',' deprecated=number ',' value=CAMI_STRING ')'
 	  {
-	  	res = new CreateMultilineAttribute($attribute_name.text,$associated_node.value,$line_number.value,$value.text);
+	  	camiContent = new CreateMultilineAttribute($attribute_name.text,$associated_node.value,$line_number.value,$value.text);
 	  }
  	;
  
 object_deletion
- 	returns [IResult res]
+ 	returns [IResult camiContent]
 	:
  	  'SU(' id=number ')'
  	  {
- 	  	res = new ObjectDeletion($id.value);
+ 	  	camiContent = new ObjectDeletion($id.value);
  	  }
  	| 'SI(' page_id=number ',' id=number ')'
  	  {
- 	  	res = new MultipleObjectDeletion($page_id.value,$id.value);
+ 	  	camiContent = new MultipleObjectDeletion($page_id.value,$id.value);
  	  }
  	;
  
@@ -638,7 +635,7 @@ ask_hierarchic
 // Service menu reception
 
 service_menu_reception
-  	returns [ServiceMenuReception serviceMenuReception]
+  	returns [ServiceMenuReception camiContent]
  	@init
 	{
 		Collection<QuestionAdd> questions = new Vector<QuestionAdd>();
@@ -649,27 +646,27 @@ service_menu_reception
 	(
 	question_add 
 	{ 
-		questions.add($question_add.questionAdd); 
+		questions.add($question_add.camiContent); 
 	}
 	)*
 	'FQ()'
 	{
-		serviceMenuReception = new ServiceMenuReception($menu_name.menuName, questions);
+		camiContent = new ServiceMenuReception($menu_name.camiContent, questions);
 	}
 	;
 
 menu_name
-	returns [MenuName menuName]
+	returns [MenuName camiContent]
 	:
 	'CQ(' name=CAMI_STRING ',' always_three=number ',' always_three=number ')'
 	{
-		menuName = new MenuName($name.text);
+		camiContent = new MenuName($name.text);
 	}
 	;
 
 
 service_menu_modification
- 	returns [ServiceMenuModification serviceMenuModification]
+ 	returns [ServiceMenuModification camiContent]
  	@init
  	{
  		Collection<QuestionState> questionStates = new Vector<QuestionState>();
@@ -679,50 +676,50 @@ service_menu_modification
 	(
 	question_state 
 	{ 
-		questionStates.add($question_state.questionState); 
+		questionStates.add($question_state.camiContent); 
 	}
 	)*
 	end_menu_transmission
 	{
-		serviceMenuModification = new ServiceMenuModification(	$enable_main_question.enableMainQuestion,
-	                                                       		questionStates,
-	                                                        	$end_menu_transmission.endMenuTransmission);
+		camiContent = new ServiceMenuModification(	$enable_main_question.camiContent,
+	                                                       	questionStates,
+	                                                        $end_menu_transmission.camiContent);
 	}
 	;
 
 enable_main_question
-  	returns [EnableMainQuestion enableMainQuestion]
+  	returns [EnableMainQuestion camiContent]
 	:
 	'VQ(' main_question_name=CAMI_STRING ')'
 	{
-		enableMainQuestion = new EnableMainQuestion($main_question_name.text);
+		camiContent = new EnableMainQuestion($main_question_name.text);
 	}
 	;
 
 disable_main_question
- 	returns [DisableMainQuestion disableMainQuestion]
+ 	returns [DisableMainQuestion camiContent]
 	:
 	'EQ(' main_question_name=CAMI_STRING ')'
 	{
-		disableMainQuestion = new DisableMainQuestion($main_question_name.text);
+		camiContent = new DisableMainQuestion($main_question_name.text);
 	}
 	;
 
 end_menu_transmission
-	returns [EndMenuTransmission endMenuTransmission]
+	returns [EndMenuTransmission camiContent]
 	:
 	'QQ(' number ')'
 	{
-		endMenuTransmission = new EndMenuTransmission(EndMenuTransmission.AckType($number.value));
+		camiContent = new EndMenuTransmission(EndMenuTransmission.AckType($number.value));
 	}
 	;
 
 help_question
- 	returns [HelpQuestion helpQuestion]
+ 	returns [HelpQuestion camiContent]
 	:
 	'HQ(' question_name=CAMI_STRING ',' help_message=CAMI_STRING ')'
  	{
-		helpQuestion = new HelpQuestion($question_name.text, $help_message.text);
+		camiContent = new HelpQuestion($question_name.text, $help_message.text);
  	}
   	;
 

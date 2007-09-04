@@ -9,6 +9,8 @@ import fr.lip6.move.coloane.api.cami.output.DialogAnswer.DialogAnswerType;
 import fr.lip6.move.coloane.api.cami.output.types.InteractiveAnswerType;
 import fr.lip6.move.coloane.api.cami.output.types.UrgentMessageType;
 
+// TODO: use a StringBuffer instead of '+=' when used in loops
+
 public class CamiBuilder {
 
 	static StringTemplate camiTemplate = new StringTemplate("$command$($arg; separator=\",\"$)");

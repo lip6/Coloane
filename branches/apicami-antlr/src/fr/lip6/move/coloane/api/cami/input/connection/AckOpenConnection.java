@@ -1,12 +1,26 @@
 package fr.lip6.move.coloane.api.cami.input.connection;
 
-public final class AckOpenConnection {
+import fr.lip6.move.coloane.api.cami.ICommand;
 
-	public int versionPart1;
-	public int versionPart2;
+public final class AckOpenConnection implements ICommand {
 
-	public AckOpenConnection(int versionPart1, int versionPart2) {
-		this.versionPart1 = versionPart1;
-		this.versionPart2 = versionPart2;
+	private int major;
+	private int minor;
+
+	public AckOpenConnection(int major, int minor) {
+		this.major = major;
+		this.minor = minor;
+	}
+
+	public int getVersionPart1() {
+		return major;
+	}
+
+	public int getVersionPart2() {
+		return minor;
+	}
+	
+	public String version() {
+		return major + "." + minor;
 	}
 }
