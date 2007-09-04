@@ -10,8 +10,11 @@ import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
 import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionNormal;
 import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic;
+import fr.lip6.move.coloane.api.cami.input.dialog.DestroyDialog;
 import fr.lip6.move.coloane.api.cami.input.dialog.DialogCreation;
 import fr.lip6.move.coloane.api.cami.input.dialog.DialogDefinition;
+import fr.lip6.move.coloane.api.cami.input.dialog.DisplayDialog;
+import fr.lip6.move.coloane.api.cami.input.dialog.HideDialog;
 import fr.lip6.move.coloane.api.cami.input.dialog.NextDialog;
 import fr.lip6.move.coloane.api.cami.input.menus.DisableMainQuestion;
 import fr.lip6.move.coloane.api.cami.input.menus.EnableMainQuestion;
@@ -50,6 +53,7 @@ import fr.lip6.move.coloane.api.session.states.MessageFormatFailure;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationCommunicationAck;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationFailure;
 import fr.lip6.move.coloane.api.session.states.authentication.AuthenticationVersionAck;
+
 }
 
 @lexer::header{
@@ -169,20 +173,33 @@ next_dialog
 	;
 
 display_dialog
+	returns [DisplayDialog displayDialog]
 	:
-	'AD(' number ')'
+	'AD(' dialog_id=number ')'
+	{
+		displayDialog = new DisplayDialog($dialog_id.value);
+	}
 	;
 	
 hide_dialog
+	returns [HideDialog hideDialog]
 	:
-	'HD(' number ')'
+	'HD(' dialog_id=number ')'
+	{
+		hideDialog = new HideDialog($dialog_id.value);
+	}
 	;
 	
 destroy_dialog
+	returns [DestroyDialog destroyDialog]
 	:
-	'DG(' number ')'
+	'DG(' dialog_id=number ')'
+	{
+		destroyDialog = new DestroyDialog($dialog_id.value);
+	}
 	;
 
+// Deprecated
 interactive_response
 	:
 	'MI(' number ',' number ')'
