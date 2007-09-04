@@ -6,7 +6,7 @@ public final class CreateMultilineAttribute implements IResult {
 	public int associatedNode;
 	public int lineNumber;
 	public String value;
-	
+
 	public CreateMultilineAttribute(String attributeName, int associatedNode, int lineNumber, String value) {
 		this.attributeName = attributeName;
 		this.associatedNode = associatedNode;

@@ -6,7 +6,7 @@ public class Question {
 	public String elementName;
 	public String moreInformation;
 
-	public Question( String rootName, String elementName, String moreInformation) {
+	public Question(String rootName, String elementName, String moreInformation) {
 		this.rootName = rootName;
 		this.elementName = elementName;
 		this.moreInformation = moreInformation;

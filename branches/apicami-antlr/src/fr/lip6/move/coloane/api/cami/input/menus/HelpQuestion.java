@@ -4,10 +4,10 @@ public final class HelpQuestion {
 
 	public String questionName;
 	public String helpMessage;
-	
+
 	public HelpQuestion(String questionName, String helpMessage) {
 		this.questionName = questionName;
 		this.helpMessage = helpMessage;
 	}
-	
+
 }

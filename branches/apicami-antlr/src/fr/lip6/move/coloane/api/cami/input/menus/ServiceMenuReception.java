@@ -6,7 +6,7 @@ public final class ServiceMenuReception {
 
 	public MenuName name;
 	public Collection<QuestionAdd> questions;
-	
+
 	public ServiceMenuReception(MenuName name, Collection<QuestionAdd> questions) {
 		this.name = name;
 		this.questions = questions;

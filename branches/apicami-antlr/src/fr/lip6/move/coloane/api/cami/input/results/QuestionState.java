@@ -6,7 +6,7 @@ public final class QuestionState {
 	public String questionName;
 	public int state;
 	public String message;
-	
+
 	public QuestionState(String serviceName, String questionName, int state, String message) {
 		this.serviceName = serviceName;
 		this.questionName = questionName;

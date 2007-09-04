@@ -9,13 +9,12 @@ public class ServiceMenuModification {
 	public EnableMainQuestion enableMainQuestion;
 	public Collection<QuestionState> questionStates;
 	public EndMenuTransmission endMenuTransmission;
-	
-	public ServiceMenuModification(EnableMainQuestion enableMainQuestion,
-			Collection<QuestionState> questionStates,
+
+	public ServiceMenuModification(EnableMainQuestion enableMainQuestion, Collection<QuestionState> questionStates,
 			EndMenuTransmission endMenuTransmission) {
 		this.enableMainQuestion = enableMainQuestion;
 		this.questionStates = questionStates;
 		this.endMenuTransmission = endMenuTransmission;
 	}
-	
+
 }

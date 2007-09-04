@@ -1,17 +1,12 @@
-// $ANTLR 3.0.1 /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g 2007-09-04 10:12:04
+// $ANTLR 3.0.1 /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g 2007-09-04 15:10:18
 
 package fr.lip6.move.coloane.api.cami.input.parser;
 
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonToken;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.FailedPredicateException;
-import org.antlr.runtime.Lexer;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.Token;
+import org.antlr.runtime.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
 public class CamiLexer extends Lexer {
     public static final int T14=14;
@@ -41,7 +36,6 @@ public class CamiLexer extends Lexer {
     public static final int T41=41;
     public static final int T24=24;
     public static final int T19=19;
-    public static final int T69=69;
     public static final int T39=39;
     public static final int T21=21;
     public static final int T62=62;
@@ -73,7 +67,7 @@ public class CamiLexer extends Lexer {
     public static final int EOF=-1;
     public static final int T67=67;
     public static final int T47=47;
-    public static final int Tokens=70;
+    public static final int Tokens=69;
     public static final int T53=53;
     public static final int T60=60;
     public static final int T31=31;
@@ -774,10 +768,10 @@ public class CamiLexer extends Lexer {
     public final void mT44() throws RecognitionException {
         try {
             int _type = T44;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:42:5: ( 'DE(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:42:7: 'DE('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:42:5: ( 'AQ(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:42:7: 'AQ('
             {
-            match("DE("); 
+            match("AQ("); 
 
 
             }
@@ -793,10 +787,10 @@ public class CamiLexer extends Lexer {
     public final void mT45() throws RecognitionException {
         try {
             int _type = T45;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:43:5: ( 'FE()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:43:7: 'FE()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:43:5: ( 'DE(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:43:7: 'DE('
             {
-            match("FE()"); 
+            match("DE("); 
 
 
             }
@@ -812,10 +806,10 @@ public class CamiLexer extends Lexer {
     public final void mT46() throws RecognitionException {
         try {
             int _type = T46;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:44:5: ( 'RT(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:44:7: 'RT('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:44:5: ( 'FE()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:44:7: 'FE()'
             {
-            match("RT("); 
+            match("FE()"); 
 
 
             }
@@ -831,10 +825,10 @@ public class CamiLexer extends Lexer {
     public final void mT47() throws RecognitionException {
         try {
             int _type = T47;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:45:5: ( 'WE(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:45:7: 'WE('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:45:5: ( 'RT(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:45:7: 'RT('
             {
-            match("WE("); 
+            match("RT("); 
 
 
             }
@@ -850,10 +844,10 @@ public class CamiLexer extends Lexer {
     public final void mT48() throws RecognitionException {
         try {
             int _type = T48;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:46:5: ( 'RO(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:46:7: 'RO('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:46:5: ( 'WE(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:46:7: 'WE('
             {
-            match("RO("); 
+            match("WE("); 
 
 
             }
@@ -869,10 +863,10 @@ public class CamiLexer extends Lexer {
     public final void mT49() throws RecognitionException {
         try {
             int _type = T49;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:47:5: ( 'ME(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:47:7: 'ME('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:47:5: ( 'RO(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:47:7: 'RO('
             {
-            match("ME("); 
+            match("RO("); 
 
 
             }
@@ -888,10 +882,10 @@ public class CamiLexer extends Lexer {
     public final void mT50() throws RecognitionException {
         try {
             int _type = T50;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:48:5: ( 'MT(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:48:7: 'MT('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:48:5: ( 'ME(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:48:7: 'ME('
             {
-            match("MT("); 
+            match("ME("); 
 
 
             }
@@ -907,10 +901,10 @@ public class CamiLexer extends Lexer {
     public final void mT51() throws RecognitionException {
         try {
             int _type = T51;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:49:5: ( 'SU(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:49:7: 'SU('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:49:5: ( 'MT(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:49:7: 'MT('
             {
-            match("SU("); 
+            match("MT("); 
 
 
             }
@@ -926,10 +920,10 @@ public class CamiLexer extends Lexer {
     public final void mT52() throws RecognitionException {
         try {
             int _type = T52;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:50:5: ( 'SI(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:50:7: 'SI('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:50:5: ( 'SU(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:50:7: 'SU('
             {
-            match("SI("); 
+            match("SU("); 
 
 
             }
@@ -945,10 +939,10 @@ public class CamiLexer extends Lexer {
     public final void mT53() throws RecognitionException {
         try {
             int _type = T53;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:51:5: ( 'OS(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:51:7: 'OS('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:51:5: ( 'SI(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:51:7: 'SI('
             {
-            match("OS("); 
+            match("SI("); 
 
 
             }
@@ -964,10 +958,10 @@ public class CamiLexer extends Lexer {
     public final void mT54() throws RecognitionException {
         try {
             int _type = T54;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:52:5: ( 'TD()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:52:7: 'TD()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:52:5: ( 'OS(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:52:7: 'OS('
             {
-            match("TD()"); 
+            match("OS("); 
 
 
             }
@@ -983,10 +977,10 @@ public class CamiLexer extends Lexer {
     public final void mT55() throws RecognitionException {
         try {
             int _type = T55;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:53:5: ( 'FA()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:53:7: 'FA()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:53:5: ( 'TD()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:53:7: 'TD()'
             {
-            match("FA()"); 
+            match("TD()"); 
 
 
             }
@@ -1002,10 +996,10 @@ public class CamiLexer extends Lexer {
     public final void mT56() throws RecognitionException {
         try {
             int _type = T56;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:54:5: ( 'FS()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:54:7: 'FS()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:54:5: ( 'FA()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:54:7: 'FA()'
             {
-            match("FS()"); 
+            match("FA()"); 
 
 
             }
@@ -1021,10 +1015,10 @@ public class CamiLexer extends Lexer {
     public final void mT57() throws RecognitionException {
         try {
             int _type = T57;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:55:5: ( 'SS()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:55:7: 'SS()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:55:5: ( 'FS()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:55:7: 'FS()'
             {
-            match("SS()"); 
+            match("FS()"); 
 
 
             }
@@ -1040,10 +1034,10 @@ public class CamiLexer extends Lexer {
     public final void mT58() throws RecognitionException {
         try {
             int _type = T58;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:56:5: ( 'RS(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:56:7: 'RS('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:56:5: ( 'SS()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:56:7: 'SS()'
             {
-            match("RS("); 
+            match("SS()"); 
 
 
             }
@@ -1059,10 +1053,10 @@ public class CamiLexer extends Lexer {
     public final void mT59() throws RecognitionException {
         try {
             int _type = T59;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:57:5: ( 'DF()' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:57:7: 'DF()'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:57:5: ( 'RS(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:57:7: 'RS('
             {
-            match("DF()"); 
+            match("RS("); 
 
 
             }
@@ -1078,10 +1072,10 @@ public class CamiLexer extends Lexer {
     public final void mT60() throws RecognitionException {
         try {
             int _type = T60;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:58:5: ( 'DF(-2,' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:58:7: 'DF(-2,'
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:58:5: ( 'DF()' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:58:7: 'DF()'
             {
-            match("DF(-2,"); 
+            match("DF()"); 
 
 
             }
@@ -1097,10 +1091,10 @@ public class CamiLexer extends Lexer {
     public final void mT61() throws RecognitionException {
         try {
             int _type = T61;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:59:5: ( 'MS(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:59:7: 'MS('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:59:5: ( 'DF(-2,' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:59:7: 'DF(-2,'
             {
-            match("MS("); 
+            match("DF(-2,"); 
 
 
             }
@@ -1173,10 +1167,10 @@ public class CamiLexer extends Lexer {
     public final void mT65() throws RecognitionException {
         try {
             int _type = T65;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:63:5: ( 'AQ(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:63:7: 'AQ('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:63:5: ( 'VQ(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:63:7: 'VQ('
             {
-            match("AQ("); 
+            match("VQ("); 
 
 
             }
@@ -1192,10 +1186,10 @@ public class CamiLexer extends Lexer {
     public final void mT66() throws RecognitionException {
         try {
             int _type = T66;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:64:5: ( 'VQ(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:64:7: 'VQ('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:64:5: ( 'EQ(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:64:7: 'EQ('
             {
-            match("VQ("); 
+            match("EQ("); 
 
 
             }
@@ -1211,10 +1205,10 @@ public class CamiLexer extends Lexer {
     public final void mT67() throws RecognitionException {
         try {
             int _type = T67;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:65:5: ( 'EQ(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:65:7: 'EQ('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:65:5: ( 'QQ(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:65:7: 'QQ('
             {
-            match("EQ("); 
+            match("QQ("); 
 
 
             }
@@ -1230,27 +1224,8 @@ public class CamiLexer extends Lexer {
     public final void mT68() throws RecognitionException {
         try {
             int _type = T68;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:66:5: ( 'QQ(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:66:7: 'QQ('
-            {
-            match("QQ("); 
-
-
-            }
-
-            this.type = _type;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end T68
-
-    // $ANTLR start T69
-    public final void mT69() throws RecognitionException {
-        try {
-            int _type = T69;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:67:5: ( 'HQ(' )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:67:7: 'HQ('
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:66:5: ( 'HQ(' )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:66:7: 'HQ('
             {
             match("HQ("); 
 
@@ -1262,7 +1237,7 @@ public class CamiLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end T69
+    // $ANTLR end T68
 
     // $ANTLR start CAMI_STRING
     public final void mCAMI_STRING() throws RecognitionException {
@@ -1272,17 +1247,17 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:640:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:641:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:725:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:726:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
-            int NUMBER1Start526 = getCharIndex();
+            int NUMBER1Start518 = getCharIndex();
             mNUMBER(); 
-            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start526, getCharIndex()-1);
+            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start518, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
             match(':'); 
-            int fsStart537 = getCharIndex();
+            int fsStart529 = getCharIndex();
             mFIXED_LENGTH_STRING(nbToRead); 
-            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart537, getCharIndex()-1);
+            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart529, getCharIndex()-1);
             setText(fs.getText());
 
             }
@@ -1297,10 +1272,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:649:2: ( ({...}? => . )* )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:650:2: ({...}? => . )*
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:734:2: ( ({...}? => . )* )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:735:2: ({...}? => . )*
             {
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:650:2: ({...}? => . )*
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:735:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -1313,7 +1288,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:650:4: {...}? => .
+            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:735:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -1342,10 +1317,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:654:2: ( ( '0' .. '9' )+ )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:655:2: ( '0' .. '9' )+
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:739:2: ( ( '0' .. '9' )+ )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:740:2: ( '0' .. '9' )+
             {
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:655:2: ( '0' .. '9' )+
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:740:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1359,7 +1334,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:655:2: '0' .. '9'
+            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:740:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1389,10 +1364,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:658:9: ( ( ( '\\r' )? '\\n' )+ )
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:659:2: ( ( '\\r' )? '\\n' )+
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:743:9: ( ( ( '\\r' )? '\\n' )+ )
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:744:2: ( ( '\\r' )? '\\n' )+
             {
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:659:2: ( ( '\\r' )? '\\n' )+
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:744:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -1406,9 +1381,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:659:4: ( '\\r' )? '\\n'
+            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:744:4: ( '\\r' )? '\\n'
             	    {
-            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:659:4: ( '\\r' )?
+            	    // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:744:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -1417,7 +1392,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:659:4: '\\r'
+            	            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:744:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1455,8 +1430,8 @@ public class CamiLexer extends Lexer {
     public final void mEOF() throws RecognitionException {
         try {
             int _type = EOF;
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:662:5: ()
-            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:663:2: 
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:747:5: ()
+            // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:748:2: 
             {
             skip();
 
@@ -1470,8 +1445,8 @@ public class CamiLexer extends Lexer {
     // $ANTLR end EOF
 
     public void mTokens() throws RecognitionException {
-        // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | CAMI_STRING | NUMBER | NEWLINE | EOF )
-        int alt5=66;
+        // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | CAMI_STRING | NUMBER | NEWLINE | EOF )
+        int alt5=65;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
@@ -1902,35 +1877,28 @@ public class CamiLexer extends Lexer {
                 }
                 break;
             case 62 :
-                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:252: T69
-                {
-                mT69(); 
-
-                }
-                break;
-            case 63 :
-                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:256: CAMI_STRING
+                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:252: CAMI_STRING
                 {
                 mCAMI_STRING(); 
 
                 }
                 break;
-            case 64 :
-                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:268: NUMBER
+            case 63 :
+                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:264: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 65 :
-                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:275: NEWLINE
+            case 64 :
+                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:271: NEWLINE
                 {
                 mNEWLINE(); 
 
                 }
                 break;
-            case 66 :
-                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:283: EOF
+            case 65 :
+                // /Users/supermac/Documents/workspace33/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/input/parser/Cami.g:1:279: EOF
                 {
                 match(EOF); 
 
@@ -1944,53 +1912,78 @@ public class CamiLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\1\26\23\uffff\1\115\73\uffff\1\124\4\uffff";
+        "\1\26\23\uffff\1\114\72\uffff\1\123\4\uffff";
     static final String DFA5_eofS =
-        "\125\uffff";
+        "\124\uffff";
     static final String DFA5_minS =
         "\1\12\1\102\2\101\2\uffff\1\111\1\uffff\2\104\1\105\1\104\1\105"+
         "\2\103\1\uffff\1\111\1\117\2\uffff\1\60\2\uffff\1\50\30\uffff\1"+
-        "\50\36\uffff\1\51\1\55\4\uffff";
+        "\50\35\uffff\1\51\1\55\4\uffff";
     static final String DFA5_maxS =
         "\1\160\2\123\1\124\2\uffff\1\124\1\uffff\2\121\1\124\1\122\1\116"+
         "\1\125\1\123\1\uffff\1\121\1\124\2\uffff\1\72\2\uffff\1\50\30\uffff"+
-        "\1\50\36\uffff\2\55\4\uffff";
+        "\1\50\35\uffff\2\55\4\uffff";
     static final String DFA5_acceptS =
-        "\4\uffff\1\4\1\5\1\uffff\1\13\7\uffff\1\35\2\uffff\1\74\1\75\1\uffff"+
-        "\1\101\1\102\1\uffff\1\22\1\25\1\1\1\17\1\45\1\67\1\41\1\37\1\70"+
-        "\1\46\1\34\1\60\1\61\1\2\1\20\1\42\1\3\1\71\1\21\1\6\1\10\1\11\1"+
-        "\7\1\15\1\uffff\1\16\1\23\1\72\1\24\1\76\1\66\1\53\1\26\1\31\1\52"+
-        "\1\44\1\57\1\36\1\27\1\50\1\30\1\54\1\32\1\62\1\55\1\56\1\33\1\73"+
-        "\1\40\1\51\1\47\1\43\1\63\1\100\1\77\2\uffff\1\65\1\64\1\14\1\12";
+        "\4\uffff\1\4\1\5\1\uffff\1\13\7\uffff\1\35\2\uffff\1\73\1\74\1\uffff"+
+        "\1\100\1\101\1\uffff\1\25\1\46\1\22\1\1\1\67\1\41\1\17\1\47\1\34"+
+        "\1\61\1\37\1\2\1\20\1\62\1\70\1\42\1\71\1\6\1\11\1\10\1\7\1\3\1"+
+        "\21\1\16\1\uffff\1\15\1\45\1\23\1\75\1\24\1\31\1\26\1\53\1\54\1"+
+        "\36\1\60\1\44\1\27\1\51\1\30\1\55\1\32\1\63\1\56\1\33\1\57\1\40"+
+        "\1\72\1\64\1\52\1\50\1\43\1\77\1\76\2\uffff\1\66\1\65\1\14\1\12";
     static final String DFA5_specialS =
-        "\125\uffff}>";
+        "\124\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\25\2\uffff\1\25\33\uffff\1\5\2\uffff\1\4\3\uffff\12\24\7"+
             "\uffff\1\10\1\uffff\1\3\1\1\1\22\1\2\1\uffff\1\11\2\uffff\1"+
             "\17\1\uffff\1\12\1\uffff\1\16\1\6\1\23\1\21\1\15\1\13\1\uffff"+
             "\1\20\1\14\30\uffff\1\7",
-            "\1\32\1\33\1\uffff\1\34\1\27\1\31\11\uffff\1\35\1\36\1\30",
-            "\1\43\1\45\1\42\1\uffff\1\41\1\46\5\uffff\1\37\4\uffff\1\40"+
-            "\1\47\1\44",
-            "\1\56\1\53\2\uffff\1\52\7\uffff\1\55\1\50\2\uffff\1\51\2\uffff"+
-            "\1\54",
+            "\1\33\1\36\1\uffff\1\31\1\27\1\30\11\uffff\1\34\1\35\1\32",
+            "\1\41\1\43\1\40\1\uffff\1\37\1\44\5\uffff\1\42\4\uffff\1\46"+
+            "\1\47\1\45",
+            "\1\54\1\51\2\uffff\1\56\7\uffff\1\52\1\55\2\uffff\1\50\2\uffff"+
+            "\1\53",
             "",
             "",
-            "\1\61\5\uffff\1\60\4\uffff\1\57",
+            "\1\57\5\uffff\1\60\4\uffff\1\61",
             "",
-            "\1\62\14\uffff\1\63",
-            "\1\64\14\uffff\1\65",
-            "\1\72\3\uffff\1\70\5\uffff\1\71\3\uffff\1\66\1\67",
-            "\1\74\7\uffff\1\75\4\uffff\1\73\1\76",
-            "\1\77\10\uffff\1\100",
-            "\1\102\5\uffff\1\104\11\uffff\1\103\1\uffff\1\101",
-            "\1\106\17\uffff\1\105",
+            "\1\63\14\uffff\1\62",
+            "\1\65\14\uffff\1\64",
+            "\1\70\3\uffff\1\67\5\uffff\1\66\4\uffff\1\71",
+            "\1\73\7\uffff\1\72\4\uffff\1\74\1\75",
+            "\1\76\10\uffff\1\77",
+            "\1\101\5\uffff\1\103\11\uffff\1\102\1\uffff\1\100",
+            "\1\104\17\uffff\1\105",
             "",
-            "\1\110\7\uffff\1\107",
-            "\1\111\1\uffff\1\113\1\uffff\1\114\1\112",
+            "\1\106\7\uffff\1\107",
+            "\1\111\1\uffff\1\113\1\uffff\1\110\1\112",
             "",
             "",
-            "\12\24\1\116",
+            "\12\24\1\115",
+            "",
+            "",
+            "\1\116",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "",
             "",
             "\1\117",
@@ -2018,39 +2011,13 @@ public class CamiLexer extends Lexer {
             "",
             "",
             "",
-            "\1\120",
             "",
             "",
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\122\3\uffff\1\121",
-            "\1\123",
+            "\1\121\3\uffff\1\120",
+            "\1\122",
             "",
             "",
             "",
@@ -2087,7 +2054,7 @@ public class CamiLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | CAMI_STRING | NUMBER | NEWLINE | EOF );";
+            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | CAMI_STRING | NUMBER | NEWLINE | EOF );";
         }
     }
  

@@ -3,12 +3,24 @@ grammar Cami;
 @parser::header{
 package fr.lip6.move.coloane.api.cami.input.parser;
 
+import java.util.Collection;
 import java.util.Vector;	
 
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenCommunication;
 import fr.lip6.move.coloane.api.cami.input.connection.AckOpenConnection;
 import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionNormal;
 import fr.lip6.move.coloane.api.cami.input.connection.CloseConnectionPanic;
+import fr.lip6.move.coloane.api.cami.input.dialog.DialogCreation;
+import fr.lip6.move.coloane.api.cami.input.dialog.DialogDefinition;
+import fr.lip6.move.coloane.api.cami.input.dialog.NextDialog;
+import fr.lip6.move.coloane.api.cami.input.menus.DisableMainQuestion;
+import fr.lip6.move.coloane.api.cami.input.menus.EnableMainQuestion;
+import fr.lip6.move.coloane.api.cami.input.menus.EndMenuTransmission;
+import fr.lip6.move.coloane.api.cami.input.menus.HelpQuestion;
+import fr.lip6.move.coloane.api.cami.input.menus.MenuName;
+import fr.lip6.move.coloane.api.cami.input.menus.QuestionAdd;
+import fr.lip6.move.coloane.api.cami.input.menus.ServiceMenuModification;
+import fr.lip6.move.coloane.api.cami.input.menus.ServiceMenuReception;
 import fr.lip6.move.coloane.api.cami.input.messages.IMessage;
 import fr.lip6.move.coloane.api.cami.input.messages.SpecialMessages;
 import fr.lip6.move.coloane.api.cami.input.messages.TraceMessage;
@@ -110,22 +122,50 @@ intermediary_point
  *------------------------------------------------------------------*/
 
 dialog_definition
+	returns [DialogDefinition dialogDefinition]
+	@init
+	{
+		Collection<NextDialog> nextDialogs = new Vector<NextDialog>();
+	}
 	:	
 	'DC()'
 	dialog_creation
-	next_dialog+
+	( next_dialog
+	{
+		nextDialogs.add($next_dialog.nextDialog);
+	} )+
 	'FF()'
+	{
+		return new DialogDefinition($dialog_creation.dialogCreation, nextDialogs);
+	}
 	;
 
 dialog_creation
+	returns [DialogCreation dialogCreation]
 	:
-	'CE(' number ',' number ',' number ','  CAMI_STRING ',' CAMI_STRING ',' CAMI_STRING ',' 
-		number ',' number ',' CAMI_STRING? ')'
+	'CE(' dialog_id=number ',' dialog_type=number ',' buttons_type=number ','  window_title=CAMI_STRING ',' help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' 
+		input_type=number ',' line_type=number ',' default_value=CAMI_STRING? ')'
+	{
+		String defaultValue = "";
+		dialogCreation = new DialogCreation( 	$dialog_id.value,
+							DialogCreation.DialogType($dialog_type.value),
+							DialogCreation.ButtonsType($buttons_type.value),
+							$window_title.text,
+							$help.text,
+							$title_or_message.text,
+							DialogCreation.InputType($input_type.value),
+							DialogCreation.LineType($line_type.value),
+							defaultValue);
+	}
 	;
 
 next_dialog
+	returns [NextDialog nextDialog]
 	:
-	'DS(' number ',' CAMI_STRING ')'
+	'DS(' dialog_id=number ',' line=CAMI_STRING ')'
+	{
+		nextDialog = new NextDialog($dialog_id.value,$line.text);
+	}
 	;
 
 display_dialog
@@ -300,9 +340,9 @@ result_reception
 	returns [Results results]
 	@init
 	{
-		Vector<QuestionState> questionStates = new Vector<QuestionState>();
-		Vector<IMessage> messages = new Vector<IMessage>();
-		Vector<ResultSet> resultSets = new Vector<ResultSet>();
+		Collection<QuestionState> questionStates = new Vector<QuestionState>();
+		Collection<IMessage> messages = new Vector<IMessage>();
+		Collection<ResultSet> resultSets = new Vector<ResultSet>();
 		QuestionAnswer questionAnswer = null;
 	}
 	:
@@ -359,12 +399,24 @@ question_state
 		questionState = new QuestionState($service_name.text,$question_name.text,$state.value,message);
 	}
 	;
+	question_add
+ 	returns [QuestionAdd questionAdd]
+	:
+	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
+		    question_type=number? ',' question_behavior=number? ',' 
+		    set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
+		    ouput_formalism=CAMI_STRING? ',' active=number? ')'
+	{
+		questionAdd = new QuestionAdd(); // TODO
+	}
+	;
+
 
 result	
 	returns [ResultSet res]
 	@init
 	{
-		Vector<IResult> results = new Vector<IResult>();
+		Collection<IResult> results = new Vector<IResult>();
 	}
 	:
 	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=number ')'
@@ -549,7 +601,6 @@ ask_and_get_model
 	:
 	  ask_for_a_model
 	| model_definition
-	| change_date
 	;
 
 ask_for_a_model
@@ -567,105 +618,96 @@ ask_hierarchic
 	'DF(-2,' number ',' number ')'
 	;
 
-// Modification of a model's date
-
-change_date
-	:
-	'MS(' number ')'
-	;
-
 // Service menu reception
 
 service_menu_reception
-  returns [ServiceMenuReception serviceMenuReception]
-  @init
-  {
-    Collection<QuestionAdd> questions = new Vector<QuestionAdd>();
-  }
+  	returns [ServiceMenuReception serviceMenuReception]
+ 	@init
+	{
+		Collection<QuestionAdd> questions = new Vector<QuestionAdd>();
+	}
 	:
 	'DQ()'
 	menu_name
-	(question=question_add { questions.add($question); })*
+	(
+	question_add 
+	{ 
+		questions.add($question_add.questionAdd); 
+	}
+	)*
 	'FQ()'
 	{
-	 serviceMenuReception = new ServiceMenuReception($menu_name.menuName, questions);
+		serviceMenuReception = new ServiceMenuReception($menu_name.menuName, questions);
 	}
 	;
 
 menu_name
-  returns [MenuName menuName]
+	returns [MenuName menuName]
 	:
-	'CQ(' name=CAMI_STRING ',' unknown1=number ',' unknown2=number ')'
+	'CQ(' name=CAMI_STRING ',' always_three=number ',' always_three=number ')'
 	{
-	  menuName = new MenuName($name.text, $unknown1.value, $unknown2.value);
+		menuName = new MenuName($name.text);
 	}
 	;
 
-question_add
-  returns [QuestionAdd questionAdd]
-	:
-	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
-		    question_type=number? ',' question_behavior=number? ',' 
-		    set_item=number? ','  historic=number? ',' stop_authorized=number? ',' 
-		    ouput_formalism=CAMI_STRING? ',' active=number? ')'
-  returns [QuestionAdd question]
-  {
-    questionAdd = new QuestionAdd(); // TODO
-  }
-	;
 
 service_menu_modification
-  returns [ServiceMenuModification serviceMenuModification]
-  @init
-  {
-    Collection<QuestionState> questionStates = new Vector<QuestionState>();
-  }
+ 	returns [ServiceMenuModification serviceMenuModification]
+ 	@init
+ 	{
+ 		Collection<QuestionState> questionStates = new Vector<QuestionState>();
+ 	}
 	:
 	enable_main_question
-	(qs=question_state { questionStates.add(qs); })*
+	(
+	question_state 
+	{ 
+		questionStates.add($question_state.questionState); 
+	}
+	)*
 	end_menu_transmission
 	{
-	  serviceMenuModification = new ServiceMenuModification($enable_main_question.enableMainQuestion,
-	                                                        questionStates,
-	                                                        $end_menu_transmission.endMenuTransmission);
+		serviceMenuModification = new ServiceMenuModification(	$enable_main_question.enableMainQuestion,
+	                                                       		questionStates,
+	                                                        	$end_menu_transmission.endMenuTransmission);
 	}
 	;
 
 enable_main_question
-  returns [EnableMainQuestion enableMainQuestion]
+  	returns [EnableMainQuestion enableMainQuestion]
 	:
 	'VQ(' main_question_name=CAMI_STRING ')'
 	{
-	 enableMainQuestion = new EnableMainQuestion($main_question_name.text);
+		enableMainQuestion = new EnableMainQuestion($main_question_name.text);
 	}
 	;
 
 disable_main_question
-  returns [DisableMainQuestion disableMainQuestion]
+ 	returns [DisableMainQuestion disableMainQuestion]
 	:
 	'EQ(' main_question_name=CAMI_STRING ')'
 	{
-	 disableMainQuestion = new DisableMainQuestion($main_question_name.text);
+		disableMainQuestion = new DisableMainQuestion($main_question_name.text);
 	}
 	;
 
 end_menu_transmission
-  returns [EndMenuTransmission endMenuTransmission]
+	returns [EndMenuTransmission endMenuTransmission]
 	:
 	'QQ(' number ')'
 	{
-	 endMenuTransmission = new EndMenuTransmission($number.value);
+		endMenuTransmission = new EndMenuTransmission(EndMenuTransmission.AckType($number.value));
 	}
 	;
 
 help_question
-  returns [HelpQuestion helpQuestion]
+ 	returns [HelpQuestion helpQuestion]
 	:
 	'HQ(' question_name=CAMI_STRING ',' help_message=CAMI_STRING ')'
-  {
-    helpQuestion = new HelpQuestion($question_name.text, $help_message.text);
-  }
-  ;
+ 	{
+		helpQuestion = new HelpQuestion($question_name.text, $help_message.text);
+ 	}
+  	;
 
 /*------------------------------------------------------------------
  * LEXER RULES

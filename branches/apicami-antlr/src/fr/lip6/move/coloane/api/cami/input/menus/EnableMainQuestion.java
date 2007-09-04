@@ -7,5 +7,5 @@ public final class EnableMainQuestion {
 	public EnableMainQuestion(String mainQuestionName) {
 		this.mainQuestionName = mainQuestionName;
 	}
-	
+
 }
