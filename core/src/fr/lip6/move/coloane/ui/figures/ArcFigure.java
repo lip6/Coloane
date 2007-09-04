@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.ui.figures;
 
+import fr.lip6.move.coloane.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.ui.model.IArcImpl;
 
@@ -58,7 +59,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		this.setForegroundColor(ColorConstants.darkGreen);
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT"));
 		this.setLineWidth(2);
 	}
 
@@ -67,7 +68,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setSelect()
 	 */
 	public final void setSelect() {
-		this.setForegroundColor(ColorConstants.blue);
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC"));
 		this.setLineWidth(2);
 	}
 

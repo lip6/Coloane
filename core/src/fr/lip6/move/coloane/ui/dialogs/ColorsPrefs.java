@@ -11,6 +11,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 
 
 import org.eclipse.ui.IWorkbench;
@@ -23,9 +24,15 @@ public class ColorsPrefs extends PreferencePage implements
 	private ColorFieldEditor nodeColorEditor1;
 	private ColorFieldEditor nodeColorEditor2;
 
+	private ColorFieldEditor arcColorEditor;
+	private ColorFieldEditor arcColorEditor1;
+
 	private static final String COLORNODE = "colorNode";
 	private static final String COLORNODE_HIGHLIGHT = "colorNode_Highlight";
 	private static final String COLORNODE_MOUSE = "colorNode_Mouse";
+
+	private static final String COLORARC = "colorArc";
+	private static final String COLORARC_HIGHLIGHT = "colorArc_Highlight";
 
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
@@ -48,20 +55,40 @@ public class ColorsPrefs extends PreferencePage implements
 
 		colorComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+		//NODE
+		Group node = new Group(colorComposite, SWT.NONE);
+		node.setText("Node");
+		node.setLayoutData(data);
+
 		//Node color
-		nodeColorEditor = new ColorFieldEditor(COLORNODE, "Node", colorComposite);
+		nodeColorEditor = new ColorFieldEditor(COLORNODE, "Color:", node);
 		nodeColorEditor.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor.load();
 
 		//Node highlight color
-		nodeColorEditor1 = new ColorFieldEditor(COLORNODE_HIGHLIGHT, "Node Highlight", colorComposite);
+		nodeColorEditor1 = new ColorFieldEditor(COLORNODE_HIGHLIGHT, "Highlight:", node);
 		nodeColorEditor1.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor1.load();
 
 		//Node mouseover color
-		nodeColorEditor2 = new ColorFieldEditor(COLORNODE_MOUSE, "Node Mouse over", colorComposite);
+		nodeColorEditor2 = new ColorFieldEditor(COLORNODE_MOUSE, "Mouse over:", node);
 		nodeColorEditor2.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor2.load();
+
+		//ARC
+		Group arc = new Group(colorComposite, SWT.NONE);
+		arc.setText("Arc");
+		arc.setLayoutData(data);
+
+		//Node color
+		arcColorEditor = new ColorFieldEditor(COLORARC, "Color:", arc);
+		arcColorEditor.setPreferenceStore(getPreferenceStore());
+		arcColorEditor.load();
+
+		//Node highlight color
+		arcColorEditor1 = new ColorFieldEditor(COLORARC_HIGHLIGHT, "Highlight:", arc);
+		arcColorEditor1.setPreferenceStore(getPreferenceStore());
+		arcColorEditor1.load();
 
 
 		return composite;
@@ -76,6 +103,8 @@ public class ColorsPrefs extends PreferencePage implements
 		nodeColorEditor.loadDefault();
 		nodeColorEditor1.loadDefault();
 		nodeColorEditor2.loadDefault();
+		arcColorEditor.loadDefault();
+		arcColorEditor1.loadDefault();
 	}
 	/**
 	 * Method declared on IPreferencePage. Save the
@@ -85,8 +114,12 @@ public class ColorsPrefs extends PreferencePage implements
 		nodeColorEditor.store();
 		nodeColorEditor1.store();
 		nodeColorEditor2.store();
+		arcColorEditor.store();
+		arcColorEditor1.store();
 		return super.performOk();
 	}
+
+	//TODO performApply effectue un performOK, rajouter un redraw a preformOK
 
 	/**
 	 * Return a new Color based on preference string "r,g,b"

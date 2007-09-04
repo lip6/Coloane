@@ -260,6 +260,14 @@ public class Coloane extends AbstractUIPlugin {
 		//Node mouse over
 		color = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
 		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_MOUSE"), color.getRGB());
+
+		//Arc color
+		color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC"), color.getRGB());
+
+		//Arc highlight
+		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC_HIGHLIGHT"), color.getRGB());
 	}
 
 	public final void setDefaultPreference(String key) {
