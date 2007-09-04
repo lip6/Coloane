@@ -175,11 +175,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
-			Coloane.getLogger().finer("OK pour la reprise de session");
+			Coloane.getLogger().finer("OK pour la reprise de session" + name);
 			ui.platformState(com.isAuthenticated(), sessionManager.getSessionStatus(name));
 			ui.redrawMenus();
 		} else {
-			Coloane.getLogger().warning("Echec lors de la reprise de session");
+			Coloane.getLogger().warning("Echec lors de la reprise de session" + name);
 		}
 		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName());
 	}

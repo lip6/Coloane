@@ -158,7 +158,7 @@ public class SessionManager {
 	 * @param sessionName nom de la session
 	 */
 	public final boolean destroySession(String sessionName) {
-		Coloane.getLogger().fine("Destruction de la session courante");
+		Coloane.getLogger().fine("Destruction de la session " + sessionName);
 		Session toDestroy = getSession(sessionName);
 		if (toDestroy != null) {
 			// Suppression de la liste des sessions active
