@@ -89,14 +89,12 @@ public class TestModel extends TestCase {
 			switch (k) {
 			// Test translate
 			case 0:
-				System.out.println("cas0:" + tour);
 				testTranslate.testTranslate(model);
 				break;
 
 			// Test le retrait d'arc et la comparaison du translate sur 2
 			// modeles differents
 			case 1:
-				System.out.println("cas1:" + tour);
 				int i = 0;
 
 				// On retire NBREMOVE arcs
@@ -144,7 +142,6 @@ public class TestModel extends TestCase {
 				break;
 
 			default:
-				System.out.println("casdef");
 				// Ajout autorise
 				if (actionAlea == 0) {
 

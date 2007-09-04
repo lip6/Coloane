@@ -331,9 +331,6 @@ public class TestModelID extends TestCase {
 							assertTrue(model.getAnArc(idArc) != null);
 							assertTrue(node1.getListOfOutputArc().contains(arc));
 							assertTrue(node2.getListOfInputArc().contains(arc));
-							// System.out.println("ADD
-							// tour:"+tour+"\narc_id:"+id_arc+"\nid_node1:"+id_node1+"
-							// id_node2:"+id_node2+"\nMaxId:"+model.getMaxId()+"\n");
 						}
 					} else {
 						// Action non autorisee
