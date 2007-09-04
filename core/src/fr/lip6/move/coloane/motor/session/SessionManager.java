@@ -154,22 +154,27 @@ public class SessionManager {
 	}
 
 	/**
-	 * Deconnexion du modele de la session courante
+	 * Destruction de la session courante
 	 * @param sessionName nom de la session
 	 */
-	public final void destroyCurrentSession() {
+	public final boolean destroySession(String sessionName) {
 		Coloane.getLogger().fine("Destruction de la session courante");
-		if (currentSession != null) {
+		Session toDestroy = getSession(sessionName);
+		if (toDestroy != null) {
 			// Suppression de la liste des sessions active
-			this.listOfSessions.remove(this.currentSession);
+			listOfSessions.remove(toDestroy);
 
 			// Supression des menus
-			this.currentSession.setServicesMenu(null);
-			this.currentSession.setAdminMenu(null);
+			toDestroy.setServicesMenu(null);
+			toDestroy.setAdminMenu(null);
 
 			// La session courante devient nulle
-			this.currentSession = null;
+			if (sessionName.equals(currentSession.getName())) {
+				currentSession = null;
+			}
+			return true;
 		}
+		return false;
 	}
 
 	/**
