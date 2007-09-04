@@ -151,7 +151,7 @@
         </page>
         <page id="org.eclipse.ui.articles.BadWordsColorPreference"
                 name="Colors"
-                class="fr.lip6.move.coloane.ui.dialogs.ColoanePrefsPage"
+                class="fr.lip6.move.coloane.ui.dialogs.ColorsPrefs"
                 category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
         </page>
     
