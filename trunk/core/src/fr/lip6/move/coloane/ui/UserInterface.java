@@ -147,7 +147,6 @@ public final class UserInterface implements IUiCom, IUiMotor {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
 			Coloane.getLogger().warning("Aucune session courante");
-			Coloane.showWarningMsg("Impossible d'afficher le menu");
 			return;
 		}
 		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
@@ -263,7 +262,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 			break;
 
 		case SessionManager.ERROR:
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 

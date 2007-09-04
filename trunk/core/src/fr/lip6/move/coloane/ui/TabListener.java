@@ -23,7 +23,7 @@ public class TabListener implements IPartListener2 {
 	 */
 	public final void partClosed(IWorkbenchPartReference partRef) {
 		Coloane.getLogger().finer("Fermeture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		//Motor.getInstance().suspendSession(partRef.getPartName());
+		Motor.getInstance().destroySession(partRef.getPartName());
 	}
 
 	/*

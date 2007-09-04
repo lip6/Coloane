@@ -110,7 +110,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Si l'ouverture de connexion echoue, on supprime la session existante
 		if (!result) {
 			Coloane.getLogger().warning("Echec de l'ouverture de session sur FK : Destruction de moignon"); //$NON-NLS-1$
-			sessionManager.destroyCurrentSession();
+			sessionManager.destroySession(sessionManager.getCurrentSessionName());
 		} else {
 			sessionManager.setCurrentSessionConnected();
 			ui.platformState(com.isAuthenticated(), sessionManager.getCurrentSessionStatus());
@@ -130,6 +130,19 @@ public final class Motor implements IMotorCom, IMotorUi {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Detruit la session designee
+	 * @param sessionName Le nom de la session a detruire
+	 */
+	public void destroySession(String sessionName) {
+		if (sessionManager.destroySession(sessionName)) {
+			Coloane.getLogger().finer("OK pour la destruction de la session");
+			ui.platformState(com.isAuthenticated(), SessionManager.ERROR);
+			ui.redrawMenus();
+			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName());
+		}
 	}
 
 	/**
