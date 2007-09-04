@@ -42,7 +42,7 @@ public class ColoaneLogFormatter extends Formatter {
 
 		l.append("(" + name + ") ");
 		l.append(" [" + record.getLevel() + "] ");
-		l.append(record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")) + " : ");
+		l.append(record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".") + 1) + " -> ");
 		l.append(record.getMessage());
 		l.append("\n");
 
