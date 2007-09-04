@@ -235,7 +235,6 @@
 						<!-- Rajoute Implementation-Build dans le MANIFEST -->
 						<manifestEntries>
 							<Implementation-Build>${buildNumber}</Implementation-Build>
-							<Implementation-Version>${project.version}</Implementation-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -311,6 +310,28 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+					<execution>
+						<id>Deploy</id>
+						<phase>package</phase>        
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+					<executable>deploy.sh</executable>
+          <arguments>
+						<argument>${build.finalName}.${packaging}</argument>
+						<argument>${groupId}.${artifactId}</argument>
+						<argument>${buildNumber}</argument>
+          </arguments>
+        </configuration>
 			</plugin>
 
 			<!--<plugin>
