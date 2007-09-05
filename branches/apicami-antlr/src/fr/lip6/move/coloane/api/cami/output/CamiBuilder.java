@@ -54,7 +54,7 @@ public class CamiBuilder {
 	public static byte[] askForService(List<Question> questions, List<String> textList, List<Integer> objectList) {
 		String command = "DQ()";
 		for (Question q : questions) {
-			command += generate("PQ", q.rootName, q.elementName, "");
+			command += generate("PQ", q.getRootName(), q.getElementName(), "");
 		}
 		command += "DE()";
 		if (textList != null) {

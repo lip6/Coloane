@@ -18,8 +18,8 @@ public final class CloseConnectionPanic implements ICommand {
 		}
 	}
 
-	public String message;
-	public Severity severity;
+	private String message;
+	private Severity severity;
 
 	public CloseConnectionPanic(String message, Severity severity) {
 		this.message = message;
@@ -34,6 +34,14 @@ public final class CloseConnectionPanic implements ICommand {
 			}
 		}
 		return toReturn;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public Severity getSeverity() {
+		return severity;
 	}
 
 }

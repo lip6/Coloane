@@ -21,11 +21,11 @@ public final class Results {
 
 	}
 
-	public QuestionAnswer questionAnswer;
-	public Collection<IMessage> messages;
-	public Collection<QuestionState> questionStates;
-	public Collection<ResultSet> resultSets;
-	public ResultType resultType;
+	private QuestionAnswer questionAnswer;
+	private Collection<IMessage> messages;
+	private Collection<QuestionState> questionStates;
+	private Collection<ResultSet> resultSets;
+	private ResultType resultType;
 
 	public Results(QuestionAnswer questionAnswer, Collection<IMessage> messages,
 			Collection<QuestionState> questionStates, Collection<ResultSet> resultSets, ResultType resultType) {
@@ -45,4 +45,25 @@ public final class Results {
 		}
 		return toReturn;
 	}
+
+	public QuestionAnswer getQuestionAnswer() {
+		return questionAnswer;
+	}
+
+	public Collection<IMessage> getMessages() {
+		return messages;
+	}
+
+	public Collection<QuestionState> getQuestionStates() {
+		return questionStates;
+	}
+
+	public Collection<ResultSet> getResultSets() {
+		return resultSets;
+	}
+
+	public ResultType getResultType() {
+		return resultType;
+	}
+
 }

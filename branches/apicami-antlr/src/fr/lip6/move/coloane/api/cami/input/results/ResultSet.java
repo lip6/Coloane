@@ -18,9 +18,9 @@ public final class ResultSet implements IResult {
 		}
 	}
 
-	public String setName;
-	public ResultSetType setType;
-	public Collection<IResult> results;
+	private String setName;
+	private ResultSetType setType;
+	private Collection<IResult> results;
 
 	public ResultSet(String setName, ResultSetType setType, Collection<IResult> results) {
 		this.setName = setName;
@@ -37,4 +37,17 @@ public final class ResultSet implements IResult {
 		}
 		return toReturn;
 	}
+
+	public String getSetName() {
+		return setName;
+	}
+
+	public ResultSetType getSetType() {
+		return setType;
+	}
+
+	public Collection<IResult> getResults() {
+		return results;
+	}
+
 }

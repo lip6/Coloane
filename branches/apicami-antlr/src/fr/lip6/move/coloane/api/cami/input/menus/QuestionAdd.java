@@ -8,14 +8,50 @@ package fr.lip6.move.coloane.api.cami.input.menus;
  */
 public final class QuestionAdd {
 
-	public String parentMenu;
-	public String entryName;
-	public Integer questionType;
-	public Integer questionBehavior;
-	public Integer setItem;
-	public Integer historic;
-	public Integer stopAuthorized;
-	public String outputFormalism;
-	public Integer activeNumber;
+	private String parentMenu;
+	private String entryName;
+	private Integer questionType;
+	private Integer questionBehavior;
+	private Integer setItem;
+	private Integer historic;
+	private Integer stopAuthorized;
+	private String outputFormalism;
+	private Integer activeNumber;
+
+	public String getParentMenu() {
+		return parentMenu;
+	}
+
+	public String getEntryName() {
+		return entryName;
+	}
+
+	public Integer getQuestionType() {
+		return questionType;
+	}
+
+	public Integer getQuestionBehavior() {
+		return questionBehavior;
+	}
+
+	public Integer getSetItem() {
+		return setItem;
+	}
+
+	public Integer getHistoric() {
+		return historic;
+	}
+
+	public Integer getStopAuthorized() {
+		return stopAuthorized;
+	}
+
+	public String getOutputFormalism() {
+		return outputFormalism;
+	}
+
+	public Integer getActiveNumber() {
+		return activeNumber;
+	}
 
 }

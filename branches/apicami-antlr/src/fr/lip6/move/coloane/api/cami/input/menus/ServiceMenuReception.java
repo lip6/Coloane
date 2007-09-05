@@ -4,12 +4,20 @@ import java.util.Collection;
 
 public final class ServiceMenuReception {
 
-	public MenuName name;
-	public Collection<QuestionAdd> questions;
+	private MenuName name;
+	private Collection<QuestionAdd> questions;
 
 	public ServiceMenuReception(MenuName name, Collection<QuestionAdd> questions) {
 		this.name = name;
 		this.questions = questions;
+	}
+
+	public MenuName getName() {
+		return name;
+	}
+
+	public Collection<QuestionAdd> getQuestions() {
+		return questions;
 	}
 
 }

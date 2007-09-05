@@ -1,10 +1,15 @@
 package fr.lip6.move.coloane.api.cami.input.messages;
 
-public class WarningMessage implements IMessage {
+public final class WarningMessage implements IMessage {
 
-	public String message;
+	private String message;
 
 	public WarningMessage(String message) {
 		this.message = message;
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
 }
