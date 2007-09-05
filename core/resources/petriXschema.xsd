@@ -1,0 +1,156 @@
+<xs:element name="model">
+	<xs:complexType>
+		<xs:choice>
+			<xs:element name="nodes" maxOccurs="1">
+				<xs:complexType>
+					<xs:element name="node" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="name" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="guard" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="priority" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="delay" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="component" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="action" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="note" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								<xs:element>
+								<xs:element name="domain" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="marking" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="weight" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+										<xs:attribute name="xposition" type="xs:string" use="required"/>
+										<xs:attribute name="yposition" type="xs:string" use="required"/>								
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="nodeType" type="xs:string" use="required"/>
+							<xs:attribute name="id" type="xs:string" use="required"/>
+							<xs:attribute name="xposition" type="xs:string" use="required"/>
+							<xs:attribute name="yposition" type="xs:string" use="required"/>
+					</xs:complexType>
+					</xs:element>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="arcs" maxOccurs="1">
+				<xs:complexType>
+					<xs:element name="arc" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="valuation" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+											<xs:attribute name="xposition" type="xs:string" use="required"/>
+											<xs:attribute name="yposition" type="xs:string" use="required"/>								
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="note" type="xs:string" maxOccurs="1" minOccurs="0">
+									<xs:complexType>
+											<xs:attribute name="xposition" type="xs:string" use="required"/>
+											<xs:attribute name="yposition" type="xs:string" use="required"/>								
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="arctype" type="xs:string" use="required"/>
+							<xs:attribute name="xposition" type="xs:string" use="required"/>
+							<xs:attribute name="yposition" type="xs:string" use="required"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="declaration" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="authors" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			<xs:element>
+			<xs:element name="version" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			<xs:element>
+			<xs:element name="project" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="title" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="date" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="code" type="xs:string" maxOccurs="1" minOccurs="0">
+			<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="note" type="xs:string" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="xposition" type="xs:string" use="required"/>
+					<xs:attribute name="yposition" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="formalism" type="xs:string" use="required">
+		<xs:attribute name="xposition" type="xs:string" use="required">
+		<xs:attribute name="yposition" type="xs:string" use="required">
+	</xs:complexType>
+</xs:element>
