@@ -44,7 +44,6 @@ public class HistoryView extends ViewPart {
 	 */
 	public final void createPartControl(Composite parent) {
 		viewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
-
 		// Readonly window
 		viewer.setEditable(false);
 		document = new Document();
@@ -158,6 +157,7 @@ public class HistoryView extends ViewPart {
 	public final void addLine(String text) {
 		if (document != null) {
 			try {
+				viewer.setTopIndex(viewer.getBottomIndex());
 				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
 			} catch (Exception e) { return; }
 		}
@@ -170,6 +170,7 @@ public class HistoryView extends ViewPart {
 	public final void addText(String text) {
 		if (document != null) {
 			try {
+				viewer.setTopIndex(viewer.getBottomIndex());
 				document.replace(document.getLength(), 0, text);
 			} catch (Exception e) { return; }
 		}
