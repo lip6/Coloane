@@ -14,6 +14,7 @@
 		<module>interfaces</module>
 		<module>apicami</module>
 		<module>core</module>
+		<module>feature</module>
 	</modules>
 
 	<scm>
