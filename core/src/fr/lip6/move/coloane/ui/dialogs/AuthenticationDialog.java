@@ -159,6 +159,13 @@ public class AuthenticationDialog extends Dialog {
 		comboServer = new Combo(compo, SWT.NULL);
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		comboServer.setItems(serversList);
+
+		if (!(Coloane.getDefault().getPreference("SERVER").equals(""))) {
+			comboServer.setText(Coloane.getDefault().getPreference("SERVER"));
+			ip = Coloane.getDefault().getPreference("IP");
+			port = Coloane.getDefault().getPreference("PORT");
+		}
+
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
