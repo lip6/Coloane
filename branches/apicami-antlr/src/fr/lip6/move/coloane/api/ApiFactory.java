@@ -13,12 +13,12 @@ import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.utils.IApiFactory;
 
-public class ApiFactory implements IApiFactory {
+public final class ApiFactory implements IApiFactory {
 
 	public IApi create(IComApi com) {
-		
+
 		IController controller = null;
-		
+
 		try {
 			controller = new Controller();
 			IState initialState = new AuthenticationState(controller);
@@ -26,9 +26,9 @@ public class ApiFactory implements IApiFactory {
 				} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
+		}
+
 		return new API(controller);
 	}
-	
+
 }

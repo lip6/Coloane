@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.cami.both;
 
-public class Question {
+public final class Question {
 
 	private String rootName;
 	private String elementName;

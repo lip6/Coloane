@@ -19,7 +19,7 @@ public final class AckOpenConnection implements ICommand {
 	public int getVersionPart2() {
 		return minor;
 	}
-	
+
 	public String version() {
 		return major + "." + minor;
 	}

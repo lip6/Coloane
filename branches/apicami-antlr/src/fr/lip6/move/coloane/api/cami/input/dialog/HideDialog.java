@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.cami.input.dialog;
 
 import fr.lip6.move.coloane.api.cami.ICommand;
 
-public class HideDialog implements ICommand {
+public final class HideDialog implements ICommand {
 
 	private int dialogId;
 

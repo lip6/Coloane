@@ -108,8 +108,15 @@ public final class DialogCreation {
 	private LineType lineType;
 	private String defaultValue;
 
-	public DialogCreation(int dialogId, DialogType dialogType, ButtonsType buttonsTypes, String windowTitle,
-			String help, String titleOrMessage, InputType inputType, LineType lineType, String defaultValue) {
+	public DialogCreation(int dialogId,
+							DialogType dialogType,
+							ButtonsType buttonsTypes,
+							String windowTitle,
+							String help,
+							String titleOrMessage,
+							InputType inputType,
+							LineType lineType,
+							String defaultValue) {
 		super();
 		this.dialogId = dialogId;
 		this.dialogType = dialogType;
