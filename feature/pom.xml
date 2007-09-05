@@ -10,9 +10,9 @@
 	<description>La feature de coloane</description>
 
 	<scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.parent.artifactId}/trunk/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.parent.artifactId}/trunk/${project.artifactId}</developerConnection>
-		<url>https://srcdev.lip6.fr/trac/research/${project.parent.artifactId}/browser/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/trunk/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/trunk/${project.artifactId}</developerConnection>
+		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/trunk/${project.artifactId}</url>
 	</scm>
 
 
