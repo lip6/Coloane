@@ -36,7 +36,6 @@ public class ColoanePrefsPage extends PreferencePage implements
 	private Label framekitPortLabel = null;
 	private Group connection = null;
 
-	private String server;
 	private String ip;
 	private String port;
 
@@ -105,21 +104,21 @@ public class ColoanePrefsPage extends PreferencePage implements
 					}
 
 					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) { //$NON-NLS-1$
-						server = Coloane.getParam("NAME" + (i + 1));
+
 						ip = Coloane.getParam("IP" + (i + 1)); //$NON-NLS-1$
 						port = Coloane.getParam("PORT" + (i + 1)); //$NON-NLS-1$
 
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
 					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) { //$NON-NLS-1$
-						server = Messages.AuthenticationDialog_13;
+
 						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
 						port = String.valueOf(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
 
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
 					} else { // Autre ..
-						server = Messages.AuthenticationDialog_14;
+
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
 
@@ -209,7 +208,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 */
 	public final boolean performOk() {
 		Coloane.getDefault().setPreference("LOGIN", loginField.getText());
-		Coloane.getDefault().setPreference("SERVER", server);
+		Coloane.getDefault().setPreference("SERVER", comboServer.getText());
 		Coloane.getDefault().setPreference("IP", framekitIp.getText());
 		Coloane.getDefault().setPreference("PORT", framekitPort.getText());
 		return super.performOk();
