@@ -249,6 +249,11 @@ public class Coloane extends AbstractUIPlugin {
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), "");
 
+		//Server name, IP and port for Framekit
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("SERVER"), "");
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("IP"), "");
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("PORT"), "");
+
 		//Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
 		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE"), color.getRGB());
