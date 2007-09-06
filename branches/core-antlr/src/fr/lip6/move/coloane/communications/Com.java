@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.communications;
 
-import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IComMotor;
@@ -14,6 +13,9 @@ import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.interfaces.utils.ApiSingleton;
+import fr.lip6.move.coloane.interfaces.utils.IApiFactory;
+import fr.lip6.move.coloane.interfaces.utils.ApiSingleton.FactoryException;
 import fr.lip6.move.coloane.main.Coloane;
 import fr.lip6.move.coloane.menus.RootMenu;
 import fr.lip6.move.coloane.ui.dialogs.DrawDialog;
@@ -52,13 +54,26 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	/**
 	 * Le constructeur en private
 	 * Le module de communications doit creer un lien avec l'API de communications
-	 * Pour eviter les doublonson utilise le pattern <b>Singleton</b>
+	 * Pour eviter les doublons on utilise le pattern <b>Singleton</b><br>
+	 * 
+	 * L'API de communication est choisie en fonction des API disponibles
 	 * @see #getInstance()
 	 */
+	@SuppressWarnings("unchecked")
 	private Com() {
-		this.api = Api.getInstance(this);
-		this.parent = (Composite) Coloane.getParent();
-	}
+		try {
+			Class<IApiFactory> myApi = (Class<IApiFactory>) Class.forName(Coloane.getParam("API_TYPE"));
+			IApiFactory f = myApi.getConstructor().newInstance();
+            this.api = ApiSingleton.getInstance(f,this);
+        } catch (FactoryException e) {
+			Coloane.getLogger().warning("Impossible de construire la classe API choisie (" + Coloane.getParam("API_TYPE") + ")" + e.getMessage());
+        } catch (ClassNotFoundException e) {
+			Coloane.getLogger().warning("Impossible de trouver la classe API choisie (" + Coloane.getParam("API_TYPE") + ")" + e.getMessage());
+		} catch (Exception e) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modeel COM");
+		}
+        this.parent = (Composite) Coloane.getParent();
+    }
 
 	/**
 	 * Retourne le module de communications
