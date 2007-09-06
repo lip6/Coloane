@@ -73,6 +73,10 @@
                 <xs:element ref="valuation" minOccurs="0"/>
                 <xs:element ref="note" minOccurs="0"/>
             </xs:choice>
+            <xs:attribute name="arctype" type="string"/>
+            <xs:attribute name="startid" type="string"/>
+            <xs:attribute name="endid" type="string"/>
+            <xs:attribute name="id" type="string"/> 
         </xs:complexType>
     </xs:element>
     
