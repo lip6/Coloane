@@ -4,7 +4,7 @@
 
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>feature</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<version>0.5.3-SNAPSHOT</version>
 	<name>Feature</name>
 	<description>La feature de coloane</description>
@@ -15,5 +15,77 @@
 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/trunk/${project.artifactId}</url>
 	</scm>
 
+	<build>
+		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
+
+		<plugins>
+
+			<plugin>
+				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
+				/!\ Ne marche que avec svn en anglais -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>maven-buildnumber-plugin</artifactId>
+				<version>0.9.4</version>
+				<executions>
+					<execution>
+						<id>BuildNumber</id>
+						<phase>validate</phase>        
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+					<execution>
+						<id>Build_feature</id>
+						<phase>validate</phase>        
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+					<executable>build_feature.pl</executable>
+          <arguments>
+						<argument>feature.xml</argument>
+						<argument>${buildNumber}</argument>
+						<argument>/home/ftp/coloane/night-updates/plugins</argument>
+						<argument>/home/ftp/coloane/night-updates/features</argument>
+					</arguments>
+        </configuration>
+			</plugin>
+
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>feature.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
+	</build>
+
+<pluginRepositories>
+	<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
+	<pluginRepository>
+		<id>Tlc</id>
+		<name>TLC Repository</name>
+		<url>http://commons.ucalgary.ca/pub/m2</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+	</pluginRepository>
+</pluginRepositories>
 
 </project>

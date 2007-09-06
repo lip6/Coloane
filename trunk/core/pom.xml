@@ -201,6 +201,7 @@
           <arguments>
 						<argument>${gef.groupId}.${gef.artifactId}</argument>
 						<argument>${gef.version}</argument>
+						<argument>/home/ftp/coloane/night-updates/features</argument>
 					</arguments>
         </configuration>
 			</plugin>
