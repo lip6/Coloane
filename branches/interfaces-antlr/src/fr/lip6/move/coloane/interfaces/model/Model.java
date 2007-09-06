@@ -403,9 +403,9 @@ public class Model implements IModel {
 		return this.translator.translateModel(this);
 	}
 
-	/**
-	 * Renvoie la liste des ID des elements du modele
-	 * @return Vector<Integer> La liste
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfId()
 	 */
 	public final Vector<Integer> getListOfId() {
 		return listOfId;

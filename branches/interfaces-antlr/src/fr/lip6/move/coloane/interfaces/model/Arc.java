@@ -10,7 +10,7 @@ import java.util.Vector;
  * Cette classe decrit un arc generique d'un modele.<br>
  * Un arc se compose des elements suivants :
  * <ul>
- * <li> Un type regroupant des informations destinees au formalisme </li>
+ * <li> Un type regroupant des informations provenant du formalisme </li>
  * <li> Un identifiant unique le designant dans un modele</li>
  * <li> Un positionnement (X,Y)</li>
  * <li> Une liste d'attributs </li>

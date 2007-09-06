@@ -155,8 +155,8 @@ public interface IModel {
 	Vector<String> translate();
 
 	/**
-	 * Renvoie la liste des identifiants pour les tests unitaires
-	 * @return la liste des identifiants
+	 * Renvoie la liste des ID des elements du modele
+	 * @return Vector<Integer> La liste
 	 */
 	Vector<Integer> getListOfId();
 
