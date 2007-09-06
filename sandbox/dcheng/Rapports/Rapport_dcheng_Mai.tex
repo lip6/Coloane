@@ -11,9 +11,9 @@
 \section{D\'emarches}
 
 La classe TestModel regroupe l'ensemble des tests unitaires d'ajouts et de suppressions d'arcs,d'ajout de noeuds, d'unicit\'e des identifiants, 
-d'ajout d'un attibut et du translate/buildmodel.\\
+d'ajout d'un attribut et du translate/buildmodel.\\
 
-Ces tests ont \'et\'e regroup\'e au sein d'un m\^eme sc\'enario afin de simuler au mieux les actions d'un utilisateur.
+Ces tests ont \'et\'e regroup\'es au sein d'un m\^eme sc\'enario afin de simuler au mieux les actions d'un utilisateur.
 A la suite de ces tests, des modifications du meta-meta model sont apport\'ees afin d'ajouter 
 de nouvelles fonctionnalit\'es, de simplifier ou de corriger le code.
 
@@ -93,7 +93,7 @@ Le sc\'enario est donc le suivant:\\
 Le nombre de tour est fix\'e par la variable "max\_tour".
 Le nombre d'arc \`a supprimer est fix\'e par la variable "nb\_remove".\\
 
-Al\'eatoirement, on ajoute un arc de façon correcte ou non au mod\`ele \`a chaque tour sauf au tour 
+Al\'eatoirement, on ajoute un arc de fa\c{c}on correcte ou non au mod\`ele \`a chaque tour sauf au tour 
 o\`u l'on supprime nb\_remove arcs ou un noeud.
 Si un arc est ajout\'e alors un attribut est ajout\'e soit au mod\`ele, soit \`a un noeud, soit \`a un arc.\\
 
@@ -144,7 +144,7 @@ Les deux tableaux sont alors compar\'e et doivent \^etre diff\'erents.
 \subsection{Tests sur les noeud et les arcs}
 Tous les 10 tours,\`a partir de la liste des identifiants, 
 on teste si tous les noeuds et arcs du mod\`ele courant et du mod\`ele M
-\textit{(cf. Tests sur les mod\`e)} ayant le m\^eme identifiant,ont une traduction en CAMI identique.\\
+\textit{(cf. Tests sur les mod\`ele)} ayant le m\^eme identifiant, ont une traduction en CAMI identique.\\
 
 On teste ensuite si un noeud (resp. arc) a bien une traduction en CAMI diff\'erente
 d'un noeud (resp. arc) ayant un identifiant diff\'erent.
@@ -217,9 +217,9 @@ A la suite des diff\'erents tests unitaires, des modifications et des ajouts ont
 \section{Conclusion}
 Le meta-meta model a \'et\'e modifi\'e afin de le simplifi\'e et qu'il soit d'avantage ind\'ependant de l'API.\\
 
-Les attributs multilignes ne sont plus sous forme tableau mais d'une cha\^ine de carat\`ere 
+Les attributs multilignes ne sont plus sous forme tableau mais d'une cha\^ine de caract\`eres 
 qu'il faudra traiter hors du meta-meta model.
-Ainsi, suivant l'API, il n'y aura pas à modifier le meta-meta model car la traduction sera \'etudi\'e
+Ainsi, suivant l'API, il n'y aura pas \`a modifier le meta-meta model car la traduction sera \'etudi\'e
 à l'impl\'ementation de la m\'ethode abstraite translate().
 
 

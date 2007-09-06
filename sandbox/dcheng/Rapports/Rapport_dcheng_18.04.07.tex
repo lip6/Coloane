@@ -2,7 +2,7 @@
 
 \usepackage[francais]{babel}
 
-\title{Rapport: Diagramme de classe du meta-mod\`ele}
+\title{Rapport: Diagramme de classe du meta-meta-mod\`ele}
 \author{David Cheng}
 \date{18 Avril 2007}
 
@@ -11,18 +11,18 @@
 \section{Objectif}
 \indent
 L'utilisation d'Omomdo permet d'avoir une vision globable du projet sous forme de diagramme de classes.
-Ainsi, les dependances, les h\'eritages et les associations entre les diff\'erents packages et classes peuvent \^etre mis en \'evidence.
+Ainsi, les d\'ependances, les h\'eritages et les associations entre les diff\'erents packages et classes peuvent \^etre mis en \'evidence.
 
 \section{Demarches}
 \indent
-Afin de pouvoir r\'ealiser les diagrammes et montrer les d\'ependances entre les paquetages et les classes, j'ai regroup\'e l'ensemble des paquetages utilesau mod\`ele dans un seul projet.
+Afin de pouvoir r\'ealiser les diagrammes et montrer les d\'ependances entre les paquetages et les classes, j'ai regroup\'e l'ensemble des paquetages utiles au mod\`ele dans un seul projet.
 La mod\`elisation du mod\`ele a \'et\'e r\'ealis\'e \`a l'aide d'Omondo, un plugin Eclipse.
 
 
 \section{Diagrammes de classe}
 \subsection{Liste des diagrammes}
 
-Gr\^ace à l'utilisation d'Omondo, j'ai pu r\'ealiser l'ensemble des diagrammes suivants:
+Gr\^ace \`a l'utilisation d'Omondo, j'ai pu r\'ealiser l'ensemble des diagrammes suivants:
 
 \begin{itemize}
 \item[1] Diagramme de classe repr\'esentant les d\'ependances entre les paquetages ainsi que l'h\'eritage
@@ -33,15 +33,15 @@ Gr\^ace à l'utilisation d'Omondo, j'ai pu r\'ealiser l'ensemble des diagrammes 
 
 \textit{Model\_Dependencies.jpeg}
 
-\item[3] Diagramme de classe représentant les associations
-entre les différentes classes du paquetage "interfaces.model"
-ainsi que une possibilité d'implémentation d'un modèle dans un noeud
+\item[3] Diagramme de classe repr\'esentant les associations
+entre les diff\'erentes classes du paquetage "interfaces.model"
+ainsi que une possibilit\'e d'impl\'ementation d'un mod\`ele dans un noeud
 
 \textit{Model\_Associations\_ListOfModel.jpg}
 
-\item[4] Diagramme de classe repr\'esentant les associations(compositions et aggrégations) 
-entre les différentes classes du paquetage "interfaces.model"
-ainsi que une possibilité d'implémentation d'un modèle dans un noeud
+\item[4] Diagramme de classe repr\'esentant les associations(compositions et aggr\'egations) 
+entre les diff\'erentes classes du paquetage "interfaces.model"
+ainsi qu'une possibilit\'e d'impl\'ementation d'un mod\`ele dans un noeud
 
 \textit{Model\_Association.Compositions\_Classes\_View.jpg}
 \end{itemize}
@@ -53,7 +53,7 @@ La repr\'esentation des diagrammes permet de visualiser les d\'ependances entre 
 
 On peut en d\'eduire que le paquetage interfaces est ind\`ependant des paquetages api et coloane mais pas r\'eciproquement.
 
-En effet, les classes au sein des paquetages api.model et coloane.model héritent des classes abstraites du paquetages interfaces.model.
+En effet, les classes au sein des paquetages api.model et coloane.model h\'eritent des classes abstraites du paquetages interfaces.model.
 Elles doivent donc d\'efinir les m\'ethodes abstraites des classes dont elles h\'eritent.
 
 
@@ -74,7 +74,7 @@ Les diagrammes 3 et 4 montrent une possibilit\'e d'impl\'ementer un mod\`ele dan
 L'attribut "listOfModel" de la classe Node permet de lier un ou plusieurs mod\`ele \`a un noeud.
 Le mod\`ele sera ind\'ependant du noeud auquel il est affect\'e, d'o\`u l'aggr\'egation.	
 
-Les m\'ethodes *ListOfModel* de la classe Node, pr\'esentes sur le diagramme ont \'et\'e g\'en\'er\'ees automatiquement par Omondo mais ne sont pas pr\'esentes dans le code d'origine.
+Les m\'ethodes associ\'ées \`a ``ListOfModel'' de la classe Node, pr\'esentes sur le diagramme ont \'et\'e g\'en\'er\'ees automatiquement par Omondo mais ne sont pas pr\'esentes dans le code d'origine.
 
 
 

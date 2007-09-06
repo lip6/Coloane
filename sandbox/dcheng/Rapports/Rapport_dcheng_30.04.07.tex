@@ -12,7 +12,7 @@
 
 La classe TestModel\_ID regroupe les tests d'unicit\'e des identifiants,
 d'ajouts et de suppressions d'arcs et de suppression de noeuds.
-Ces 3 tests ont \'et\'e regroup\'e au sein d'un m\^eme sc\'enario afin de 
+Ces 3 tests ont \'et\'e regroup\'es au sein d'un m\^eme sc\'enario afin de 
 simuler au mieux les actions d'un utilisateur.
 
 
@@ -94,10 +94,10 @@ liste "listOfInputArc".
 Le sc\'enario est donc le suivant:
 \\
 
-Le nombre de tour est fix\'e par la variable \"max\_tour\".
+Le nombre de tour est fix\'e par la variable ``max\_tour''.
 Le nombre d'arc \`a supprimer est fix\'e par la variable "nb\_remove".
-Al\'eatoirement, on ajoute un arc de façon correcte ou non au mod\`ele \`a 
-chaque tour sauf au tour où l'on supprime nb\_remove-arcs ou un noeud.
+Al\'eatoirement, on ajoute un arc de fa\c{c}on correcte ou non au mod\`ele \`a 
+chaque tour sauf au tour o l'on supprime nb\_remove-arcs ou un noeud.
 Tous les 8 tours, nb\_remove arcs sont choisis al\'eatoirement puis supprim\'es.
 \\
 
@@ -109,13 +109,13 @@ un noeud choisi al\'etoirement est retir\'e du mod\`ele.
 Tant que le nombre de tour est inf\'erieur au nombre de tour maximal:
 \\
 
-Si tour modulo 8 est \'egal \'a 0 et qu'il y'a au moins un arc dans le 
+Si tour modulo 8 est \'egal \`a 0 et qu'il y'a au moins un arc dans le 
 mod\'ele, on teste si l'arc \`a retirer est pr\'esent, on le retire.
 On teste alors s'il a bien \'et\'e retir\'e, c'est \`a dire qu'il n'est 
 plus pr\'esent dans la liste des arcs du mod\`ele et la liste des ses noeuds.
 \\
 
-Si tour modulo 15 est \'egal \'a 0 et qu'il y'a au moins un noeud dans le 
+Si tour modulo 15 est \'egal \`a 0 et qu'il y'a au moins un noeud dans le 
 mod\`ele, on cr\'ee 2 listes d'arc afin de copier les listes d'arc sortant et 
 entrant du noeud \`a supprimer.
 On supprime le noeud choisi, puis on teste si le noeud est encore pr\'esent 

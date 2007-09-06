@@ -46,11 +46,11 @@ Cette gestion de balises est effectu\'ee dans XmlEditor.
 L'\'ecriture du fichier de sauvegarde est \'effectu\'ee par les m\'ethodes doSave() et doSaveAs() de la classe Editor (fr.lip6.move.coloane.ui.Editor).
 Ces m\'ethodes sont appel\'ees lorsque qu'on souhaite sauvegarder un mod\`ele.
 
-Afin d'effectuer l'\'ecriture d'un fichier de sauvegarde, diff\'erentes m\'ethodes de conversion d'\'el\'ement du mod\`ele en chaîne de caract\`eres au format xml sont invoqu\'ees.
+Afin d'effectuer l'\'ecriture d'un fichier de sauvegarde, diff\'erentes m\'ethodes de conversion d'\'el\'ement du mod\`ele en cha\^ine de caract\`eres au format xml sont invoqu\'ees.
 Ces m\'ethodes se trouvent dans la classe XmlEditor (fr.lip6.move.coloane.ui.XmlEditor).
 
 Ainsi, nous obtenons une chaine de caract\`eres repr\'esentant le mod\`ele traduit en langage XML.
-L'\'ecriture du fichier peut alors s'effectuer en lisant cette chaîne.
+L'\'ecriture du fichier peut alors s'effectuer en lisant cette cha\^ine.
 
 \section{Avantages,D\'esanvantages}
 
@@ -69,7 +69,7 @@ Il faut aussi mettre \`a jouer les m\'ethodes d'\'ecritures et de lectures de la
 
 La m\'ethode de sauvegarde gr\^ace \`a des fichiers XML est la plus simple \`a mettre en oeuvre car il suffit d'une simple ecriture de fichier et d'un parsage SAX.
 Elle permet de recharger les fichiers correctement suite \`a des modifications apport\'ees \`a Coloane (hors m\'eta-mod\`ele).
-Afin d'emp\^echer une modification manuelle des fichiers, il est possible d'effectuer une s\'erialisation du contenu du fichier mais un changement dans la lecture de fichier du cot\'e de Java entraînerait la perde de tous les mod\`eles anciennement sauvegard\'es.
+Afin d'emp\^echer une modification manuelle des fichiers, il est possible d'effectuer une s\'erialisation du contenu du fichier mais un changement dans la lecture de fichier du cot\'e de Java entra\^inerait la perde de tous les mod\`eles anciennement sauvegard\'es.
 Il serait donc interr\'essant de trouver un moyen d'emp\^echer la modification manuelle des fichiers de sauvegarde.
 \end{document}
 
