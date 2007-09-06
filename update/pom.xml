@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.lip6.move.coloane.update</groupId>
-	<artifactId>feature</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>update</artifactId>
+	<packaging>pom</packaging>
 	<version>0.5.3-SNAPSHOT</version>
-	<name>Feature</name>
-	<description>La feature de coloane</description>
+	<name>Site</name>
+	<description>Le site d'update de coloane</description>
 
 	<scm>
 		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/trunk/${project.artifactId}</connection>
@@ -16,26 +16,8 @@
 	</scm>
 
 	<build>
-		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
-
+		
 		<plugins>
-
-			<plugin>
-				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
-				/!\ Ne marche que avec svn en anglais -->
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>maven-buildnumber-plugin</artifactId>
-				<version>0.9.4</version>
-				<executions>
-					<execution>
-						<id>BuildNumber</id>
-						<phase>validate</phase>        
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -48,11 +30,9 @@
               <goal>exec</goal>
             </goals>
         		<configuration>
-							<executable>build_feature.pl</executable>
+							<executable>build_site.pl</executable>
           		<arguments>
-								<argument>feature.xml</argument>
-								<argument>${buildNumber}</argument>
-								<argument>/home/ftp/coloane/night-updates/plugins</argument>
+								<argument>site.xml</argument>
 								<argument>/home/ftp/coloane/night-updates/features</argument>
 							</arguments>
         		</configuration>
@@ -64,46 +44,16 @@
               <goal>exec</goal>
             </goals>
 						<configuration>
-							<executable>deploy.sh</executable>
+							<executable>deploy_site.sh</executable>
           		<arguments>
-								<argument>${build.finalName}.${packaging}</argument>
-								<argument>${buildNumber}</argument>
-								<argument>/home/ftp/coloane/night-updates/features</argument>
+								<argument>/home/ftp/coloane/night-updates</argument>
          	 	</arguments>
         		</configuration>
           </execution>
         </executions>
 			</plugin>
 
-			<plugin>
-				<!-- Pour configurer le jar de sortie -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<!-- Donne notre MANIFEST -->
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
-						<manifest>
-							<addDefaultImplementationEntries>false</addDefaultImplementationEntries>
-						</manifest>
-						<!-- Rajoute Implementation-Build dans le MANIFEST -->
-						<manifestEntries>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-
 		</plugins>
-
-		<resources>
-			<resource>
-				<directory>resources</directory>
-				<includes>
-					<include>feature.xml</include>
-				</includes>
-			</resource>
-		</resources>
 
 		<!-- Pour ssh et ftp -->
 		<extensions>
@@ -119,22 +69,8 @@
 			</extension>
 		</extensions>
 
+	
 	</build>
-
-<pluginRepositories>
-	<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
-	<pluginRepository>
-		<id>Tlc</id>
-		<name>TLC Repository</name>
-		<url>http://commons.ucalgary.ca/pub/m2</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</pluginRepository>
-</pluginRepositories>
 
 	<!-- Envoie par ftp lors du deploy -->
 	<distributionManagement>
