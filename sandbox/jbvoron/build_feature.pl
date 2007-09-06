@@ -28,6 +28,7 @@ $xml->parsefile($featurefile);
 # Find the root and the 'version' element
 my $root = $xml->root;
 my $version = $root->att('version');
+my $nameid = $root->att('id');
 my $newversion = $version.".r".$build;
 $root->set_att(version => $newversion); 
 
@@ -65,14 +66,19 @@ foreach my $plugin (@plugins) {
 	$plugin->set_att(version => $lastversion);
 }   
 
-
 #$xml->flush();
 
 # Openning feature.xml for writing
 print "Writing...\n" if $debug;
 $xml->print_to_file("resources/".$featurefile,pretty_print => 'indented');
 
-# Print on STDOUT the new version of feature
-print STDOUT $newversion;
+# Print on MANIFEST the new version of feature (and its name)
+print STDOUT "Writing the MANIFEST file\n" if $debug;
+
+open (LAST, ">META-INF/MANIFEST.MF") or die "FAILURE for MANIFEST !!!\n"; 
+print LAST "Manifest-Version: 1.0\n";
+print LAST "Bundle-SymbolicName: $nameid\n";
+print LAST "Bundle-Version: $newversion\n";
+close(LAST);
 
 1;
