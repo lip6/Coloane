@@ -182,6 +182,7 @@ public class AuthenticationDialog extends Dialog {
 						if (!visibility) {
 							setFrameKitIp(ip);
 							setFrameKitPort(port);
+							enableFields(false);
 						}
 
 					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
@@ -191,6 +192,7 @@ public class AuthenticationDialog extends Dialog {
 						if (!visibility) {
 							setFrameKitIp(ip);
 							setFrameKitPort(port);
+							enableFields(false);
 						}
 					} else { // Autre ..
 						ip = "";
@@ -200,6 +202,7 @@ public class AuthenticationDialog extends Dialog {
 						} else {
 							setFrameKitIp(""); //$NON-NLS-1$
 							setFrameKitPort(""); //$NON-NLS-1$
+							enableFields(true);
 						}
 					}
 				} catch (IOException ef) {
@@ -385,4 +388,11 @@ public class AuthenticationDialog extends Dialog {
 		}
 	}
 
+	/**
+	 * Enable or Disable IP/Port fields in preference page
+	 */
+	public final void enableFields(boolean view) {
+			framekitIp.setEnabled(view);
+			framekitPort.setEnabled(view);
+	}
 }
