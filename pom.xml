@@ -318,7 +318,7 @@
         <executions>
 					<execution>
 						<id>Deploy</id>
-						<phase>deploy</phase>        
+						<phase>package</phase>        
             <goals>
               <goal>exec</goal>
             </goals>
@@ -328,8 +328,8 @@
 					<executable>deploy.sh</executable>
           <arguments>
 						<argument>${build.finalName}.${packaging}</argument>
-						<argument>${groupId}.${artifactId}</argument>
 						<argument>${buildNumber}</argument>
+						<argument>/home/ftp/coloane/night-updates/plugins</argument>
           </arguments>
         </configuration>
 			</plugin>
