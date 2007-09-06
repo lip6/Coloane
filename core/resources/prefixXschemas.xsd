@@ -52,6 +52,10 @@
                 <xs:element ref="image" minOccurs="0"/>
                 <xs:element ref="num_image" minOccurs="0"/>
             </xs:choice>
+            <xs:attribute name="nodeType" type="string" use="required"/>
+            <xs:attribute name="id" type="string" use="required"/>
+            <xs:attribute name="xposition" type="string" use="required"/>
+            <xs:attribute name = "ypostion" type="string" use="required"/> 
         </xs:complexType>
     </xs:element>
     
@@ -60,7 +64,7 @@
     <xs:element name="arcs">
         <xs:complexType>
             <xs:choice> 
-                <xs:element ref="arc" minOccurs="0"/>
+                <xs:element ref="arc" maxOccurs="unbounded"/>
             </xs:choice>
         </xs:complexType>            
     </xs:element>
@@ -70,7 +74,7 @@
     <xs:element name="nodes">
         <xs:complexType>
             <xs:choice> 
-                <xs:element ref="node" minOccurs="0"/>
+                <xs:element ref="node" maxOccurs="unbounded"/>
             </xs:choice>
         </xs:complexType>            
     </xs:element>
@@ -81,10 +85,10 @@
     <xs:element name="model">
         <xs:complexType>
             <xs:choice>
-                <xs:element ref="tool" minOccurs="0"/>
-                <xs:element ref="origin" minOccurs="0"/>
-                <xs:element ref="nodes" maxOccurs="unbounded"/>
-                <xs:element ref="arcs" maxOccurs="unbounded"/>
+                <xs:element ref="tool" minOccurs ="0"/>
+                <xs:element ref="origin" minOccurs ="0"/>
+                <xs:element ref="nodes"  maxOccurs="1"/>
+                <xs:element ref="arcs"  maxOccurs="1"/>
             </xs:choice>
         </xs:complexType>
     </xs:element>
