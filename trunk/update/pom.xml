@@ -24,7 +24,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
 					<execution>
-						<id>Build_feature</id>
+						<id>Build_site</id>
 						<phase>validate</phase>        
             <goals>
               <goal>exec</goal>
