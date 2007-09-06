@@ -341,7 +341,7 @@ public class AuthenticationDialog extends Dialog {
 	/**
 	 * Methode qui affiche les details concernant le serveur Framekit
 	 */
-	private void showDetails() {
+	private void showDetails(String serveur) {
 		//Invisible a la creation de la boite
 		framekitIpLabel = new Label(compo, SWT.NULL);
 		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
@@ -359,6 +359,10 @@ public class AuthenticationDialog extends Dialog {
 
 		setFrameKitIp(ip);
 		setFrameKitPort(port);
+		
+		if (!serveur.equals(Messages.AuthenticationDialog_14)) {
+			enableFields(false);
+		}
 	}
 
 	/**
@@ -378,7 +382,7 @@ public class AuthenticationDialog extends Dialog {
 		if (this.visibility) {
 			detailsButton.setText(HIDE_DETAILS_LABEL);
 			this.visibility = false;
-			showDetails();
+			showDetails(comboServer.getText());
 			this.getShell().pack();
 		} else {
 			detailsButton.setText(SHOW_DETAILS_LABEL);
