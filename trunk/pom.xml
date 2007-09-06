@@ -322,16 +322,16 @@
             <goals>
               <goal>exec</goal>
             </goals>
+      			<configuration>
+							<executable>deploy.sh</executable>
+          		<arguments>
+								<argument>${build.finalName}.${packaging}</argument>
+								<argument>${buildNumber}</argument>
+								<argument>/home/ftp/coloane/night-updates/plugins</argument>
+          		</arguments>
+        		</configuration>
           </execution>
         </executions>
-        <configuration>
-					<executable>deploy.sh</executable>
-          <arguments>
-						<argument>${build.finalName}.${packaging}</argument>
-						<argument>${buildNumber}</argument>
-						<argument>/home/ftp/coloane/night-updates/plugins</argument>
-          </arguments>
-        </configuration>
 			</plugin>
 
 			<!--<plugin>
