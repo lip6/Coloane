@@ -78,7 +78,7 @@ print STDOUT "Writing the MANIFEST file\n" if $debug;
 open (LAST, ">META-INF/MANIFEST.MF") or die "FAILURE for MANIFEST !!!\n"; 
 print LAST "Manifest-Version: 1.0\n";
 print LAST "Bundle-SymbolicName: $nameid\n";
-print LAST "Bundle-Version: $newversion\n";
+print LAST "Bundle-Version: $version\n";
 close(LAST);
 
 1;
