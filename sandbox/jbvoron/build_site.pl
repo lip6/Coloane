@@ -12,6 +12,8 @@ diagnostics::enable();
 
 use XML::Twig;
 
+my $debug = 0;
+
 # Fetch paramaters
 my $sitefile = shift;
 my $dirfeature = shift;
