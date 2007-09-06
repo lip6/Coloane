@@ -70,7 +70,7 @@ foreach my $plugin (@plugins) {
 
 # Openning feature.xml for writing
 print "Writing...\n" if $debug;
-$xml->print_to_file("resources".$featurefile,pretty_print => 'indented');
+$xml->print_to_file("resources/".$featurefile,pretty_print => 'indented');
 
 # Print on STDOUT the new version of feature
 print STDOUT $newversion;

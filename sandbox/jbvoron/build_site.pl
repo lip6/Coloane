@@ -28,6 +28,6 @@ $feature->set_att(url => $pathfeature);
 $feature->set_att(version => $versionfeature); 
 
 # Openning feature.xml for writing
-$xml->print_to_file($sitefile,pretty_print => 'indented');
+$xml->print_to_file("resources/".$sitefile,pretty_print => 'indented');
 
 1;
