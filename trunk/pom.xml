@@ -355,21 +355,9 @@
 <!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
 
 <repositories>
-	<!-- Notre repository, pour les dependances de core -->
-	<repository>
-		<id>Izanami</id>
-		<name>Izanami Repository</name>
-		<url>http://izanami/coloane/repository</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</repository>
 	<!-- Le repository des plugins Eclipse -->
 	<repository>
-		<id>eclipse</id>
+		<id>Eclipse</id>
 		<name>Eclipse Repository</name>
 		<url>http://repo1.maven.org/eclipse</url>
 		<releases>
@@ -379,6 +367,18 @@
 			<enabled>false</enabled>
 		</snapshots>
 	</repository>
+	<!-- Notre repository, pour les dependances de core -->
+	<!--<repository>
+		<id>Izanami</id>
+		<name>Izanami Repository</name>
+		<url>http://izanami/coloane/repository</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+	</repository>-->
 </repositories>
 
 <pluginRepositories>
