@@ -34,14 +34,30 @@ public class XmlEditor extends DefaultHandler {
 	 * @see org.xml.sax.helpers.DefaultHandler#resolveEntity(java.lang.String, java.lang.String)
 	 */
 	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-		if ((systemId != null) && (systemId.endsWith("coloane.dtd"))) { //$NON-NLS-1$
-            // Retourne une copie locale de la DTD
-			URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/coloane.dtd"); //$NON-NLS-1$
-			Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
-			URL	path = FileLocator.toFileURL(dtd);
-			Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
-			InputStream in = path.openStream();
-			return new InputSource(in);
+		//Choisit le Xschemas en fonction du modele
+		if(systemId != null){
+			if(systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))){
+				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/petriXschemas.xsd"); //$NON-NLS-1$
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				URL	path = FileLocator.toFileURL(dtd);
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				InputStream in = path.openStream();
+				return new InputSource(in);
+			} else if(systemId.endsWith("prefixXschemas.xsd")){
+				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/prefixXschemas.xsd"); //$NON-NLS-1$
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				URL	path = FileLocator.toFileURL(dtd);
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				InputStream in = path.openStream();
+				return new InputSource(in);
+			} else if(systemId.endsWith("ReachibilityXschemas.xsd")){
+				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/ReachibilityXschemas.xsd"); //$NON-NLS-1$
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				URL	path = FileLocator.toFileURL(dtd);
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				InputStream in = path.openStream();
+				return new InputSource(in);
+			}
 		}
 		Coloane.getLogger().fine("Impossible de trouver une DTD valide (demande de " + systemId + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
@@ -57,11 +73,18 @@ public class XmlEditor extends DefaultHandler {
 	public static String translateToXML(IModel model) {
 
 		// L'entete XML
-		String line = "<?xml version='1.0' encoding='ISO-8859-1'?>\n"; //$NON-NLS-1$
-
+		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
+		String schemas = "";
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			line += "<!DOCTYPE model SYSTEM 'coloane.dtd'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
+			if(model.getFormalism().equals("AMI-NET")){
+				schemas = "petriXschemas.xsd";
+			} else if(model.getFormalism().equals("ReachabilityGraph")){
+				schemas = "ReachabilityXschemas.xsd";
+			} else if(model.getFormalism().equals("Branching-Process")){
+				schemas = "prefixXschemas.xsd";
+			}
+			line += "<!DOCTYPE model SYSTEM '" + schemas + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Exception e) {
 			Coloane.getLogger().warning("DTD introuvable"); //$NON-NLS-1$
 		}
