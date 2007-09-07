@@ -10,7 +10,7 @@
         <xs:simpleContent>
             <xs:extension base="string">
                 <xs:attribute name="xposition" type="string" use="required"/>
-                <xs:attribute name = "ypostion" type="string" use="required"/>        
+                <xs:attribute name ="yposition" type="string" use="required"/>        
             </xs:extension>
         </xs:simpleContent>      
     </xs:complexType>
@@ -48,7 +48,7 @@
     
     <xs:element name="node">
         <xs:complexType>
-            <xs:choice>
+            <xs:all>
                 <xs:element ref="name" minOccurs="0"/>
                 <xs:element ref="guard" minOccurs="0"/>
                 <xs:element ref="priority" minOccurs="0"/>
@@ -58,21 +58,21 @@
                 <xs:element ref="domain" minOccurs="0"/>
                 <xs:element ref="marking" minOccurs="0"/>
                 <xs:element ref="weight" minOccurs="0"/>
-            </xs:choice>
-            <xs:attribute name="nodeType" type="string" use="required"/>
+            </xs:all>
+            <xs:attribute name="nodetype" type="string" use="required"/>
             <xs:attribute name="id" type="string" use="required"/>
             <xs:attribute name="xposition" type="string" use="required"/>
-            <xs:attribute name = "ypostion" type="string" use="required"/> 
+            <xs:attribute name="yposition" type="string" use="required"/> 
         </xs:complexType>
     </xs:element>
     
     
     <xs:element name="arc">
         <xs:complexType>
-            <xs:choice>
+            <xs:all>
                 <xs:element ref="valuation" minOccurs="0"/>
                 <xs:element ref="note" minOccurs="0"/>
-            </xs:choice>
+            </xs:all>
             <xs:attribute name="arctype" type="string"/>
             <xs:attribute name="startid" type="string"/>
             <xs:attribute name="endid" type="string"/>
@@ -86,6 +86,7 @@
             <xs:choice> 
                 <xs:element ref="node" maxOccurs="unbounded"/>
             </xs:choice>
+          
         </xs:complexType>
     </xs:element>
     
@@ -101,7 +102,7 @@
     <!--Definition d'un model petri en Xschemas-->
     <xs:element name="model">
         <xs:complexType>
-            <xs:choice>
+            <xs:all>
                 <xs:element ref="declaration" minOccurs="0"/>
                 <xs:element ref="authors"     minOccurs="0"/>
                 <xs:element ref="version"     minOccurs="0"/>
@@ -110,12 +111,12 @@
                 <xs:element ref="date"        minOccurs="0"/>
                 <xs:element ref="code"        minOccurs="0"/>
                 <xs:element ref="note"        minOccurs="0"/>
-                <xs:element ref="nodes"       maxOccurs="unbounded"/>
-                <xs:element ref="arcs"        maxOccurs="unbounded"/>
-            </xs:choice>
+                <xs:element ref="nodes"       maxOccurs="1"/>
+                <xs:element ref="arcs"        maxOccurs="1"/>
+            </xs:all>
             <xs:attribute name="formalism" type="string" use="required"/>
             <xs:attribute name="xposition" type="string" use="required"/>
-            <xs:attribute name = "ypostion" type="string" use="required"/> 
+            <xs:attribute name="yposition" type="string" use="required"/> 
         </xs:complexType>
     </xs:element>    
 </xs:schema>
