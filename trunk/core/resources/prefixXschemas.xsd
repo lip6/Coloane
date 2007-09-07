@@ -10,7 +10,7 @@
         <xs:simpleContent>
             <xs:extension base="string">
                 <xs:attribute name="xposition" type="string" use="required"/>
-                <xs:attribute name = "ypostion" type="string" use="required"/>        
+                <xs:attribute name = "yposition" type="string" use="required"/>        
             </xs:extension>
         </xs:simpleContent>      
     </xs:complexType>
