@@ -15,6 +15,16 @@
 		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/trunk/${project.artifactId}</url>
 	</scm>
 
+	<dependencies>
+
+		<dependency>
+			<groupId>fr.lip6.move.coloane.update</groupId>
+			<artifactId>feature</artifactId>
+			<version>0.5.3-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
 	<build>
 		
 		<plugins>
@@ -71,6 +81,21 @@
 
 	
 	</build>
+
+<repositories>
+	<!-- Le repository des plugins Eclipse -->
+	<repository>
+		<id>Eclipse</id>
+		<name>Eclipse Repository</name>
+		<url>http://repo1.maven.org/eclipse</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+	</repository>
+</repositories>
 
 	<!-- Envoie par ftp lors du deploy -->
 	<distributionManagement>
