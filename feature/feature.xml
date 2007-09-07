@@ -18,7 +18,7 @@ Thanks to a simple UI, you can invoke a large collection of tools
 on your model without any efforts.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
       Copyright (c) 2006-2007 LIP6/MoVe.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License
@@ -33,7 +33,7 @@ Contributors:
 - Clarence-Dimitri Charles - Developer
    </copyright>
 
-   <license url="http://www.example.com/license">
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
       ECLIPSE FOUNDATION SOFTWARE USER AGREEMENT
 March 17, 2005
 
@@ -135,14 +135,11 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
    <url>
       <update label="Izanami Updates Site" url="http://izanami/coloane/updates/"/>
       <discovery label="Eclipse 3.2 updates" url="http://update.eclipse.org/updates/3.2/"/>
+      <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
    </url>
 
-   <includes
-         id="org.eclipse.gef"
-         version="0.0.0"
-         search-location="both"/>
-
    <requires>
+      <import plugin="org.junit"/>
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.ui"/>
@@ -150,36 +147,35 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.junit"/>
       <import plugin="org.eclipse.jface.text"/>
    </requires>
 
    <plugin
          id="fr.lip6.move.coloane.apicami"
-         download-size="0"
-         install-size="0"
+         download-size="46"
+         install-size="46"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="fr.lip6.move.coloane.interfaces"
-         download-size="0"
-         install-size="0"
+         download-size="86"
+         install-size="86"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="fr.lip6.move.coloane.core.nl1"
-         download-size="0"
-         install-size="0"
+         download-size="7"
+         install-size="7"
          version="0.0.0"
          fragment="true"
          unpack="false"/>
 
    <plugin
          id="fr.lip6.move.coloane.core"
-         download-size="0"
-         install-size="0"
+         download-size="300"
+         install-size="300"
          version="0.0.0"
          unpack="false"/>
 
