@@ -4,6 +4,7 @@ Bundle-Version: 1.0.11
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
 Provide-Package: fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.coloane.interfaces.containers,
  fr.lip6.move.coloane.interfaces.exceptions,
  fr.lip6.move.coloane.interfaces.model,
  fr.lip6.move.coloane.interfaces.objects,
