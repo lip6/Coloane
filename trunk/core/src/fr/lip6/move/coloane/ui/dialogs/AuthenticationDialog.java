@@ -359,7 +359,7 @@ public class AuthenticationDialog extends Dialog {
 
 		setFrameKitIp(ip);
 		setFrameKitPort(port);
-		
+
 		if (!serveur.equals(Messages.AuthenticationDialog_14)) {
 			enableFields(false);
 		}
