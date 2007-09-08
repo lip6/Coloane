@@ -35,22 +35,22 @@ public class XmlEditor extends DefaultHandler {
 	 */
 	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 		//Choisit le Xschemas en fonction du modele
-		if(systemId != null){
-			if(systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))){
+		if (systemId != null) {
+			if (systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))) {
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/petriXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
 				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if(systemId.endsWith("prefixXschemas.xsd")){
+			} else if (systemId.endsWith("prefixXschemas.xsd")) {
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/prefixXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
 				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if(systemId.endsWith("ReachibilityXschemas.xsd")){
+			} else if (systemId.endsWith("ReachibilityXschemas.xsd")) {
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/ReachibilityXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
@@ -77,11 +77,11 @@ public class XmlEditor extends DefaultHandler {
 		String schemas = "";
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			if(model.getFormalism().equals("AMI-NET")){
+			if (model.getFormalism().equals("AMI-NET")) {
 				schemas = "petriXschemas.xsd";
-			} else if(model.getFormalism().equals("ReachabilityGraph")){
+			} else if (model.getFormalism().equals("ReachabilityGraph")) {
 				schemas = "ReachabilityXschemas.xsd";
-			} else if(model.getFormalism().equals("Branching-Process")){
+			} else if (model.getFormalism().equals("Branching-Process")) {
 				schemas = "prefixXschemas.xsd";
 			}
 			line += "<!DOCTYPE model SYSTEM '" + schemas + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
