@@ -620,7 +620,7 @@ public final class Api implements IApi {
 			format.setVersion("Api");
 			handler.setFormatter(format);
 			apiLog.addHandler(handler);
-		}catch(IOException e){			
+		} catch (IOException e) {
 			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
 		}
 	}
@@ -632,13 +632,13 @@ public final class Api implements IApi {
 	public static Logger getLogger() {
 		return apiLog;
 	}
-	
+
 	/**
 	 * Modifie le niveau de verbosite du log de l'Api
 	 * @param niveau le nouveau niveau du log
 	 * */
-	
-	public static void setVerbosity(Level niveau){
+
+	public static void setVerbosity(Level niveau) {
 		apiLog.setLevel(niveau);
 	}
 

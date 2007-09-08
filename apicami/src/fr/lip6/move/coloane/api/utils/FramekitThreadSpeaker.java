@@ -172,7 +172,7 @@ public class FramekitThreadSpeaker extends Thread {
 			String answer = rd.toString();
 			commande = cmd.convertToFramekit(answer);
 			lowCom.writeCommande(commande);
-			
+
 			if (results.getAnswerType() != 2) {
 
 				// Ensemble de resultats
