@@ -42,9 +42,14 @@
 			<resource>
 				<directory>.</directory>
 				<includes>
-					<include>resources/**</include>
 					<include>build.properties</include>
 					<include>plugin.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
 				</includes>
 			</resource>
 		</resources>

@@ -41,6 +41,16 @@
 				</configuration>	
 			</plugin>
 		</plugins>
+		
+			<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar	~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 
 	</build>
 
