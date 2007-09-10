@@ -350,6 +350,16 @@
 
 	</plugins>
 
+	<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar	~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<resources>
+			<resource>
+				<directory>${sourceDirectory}</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+
 </build>
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
