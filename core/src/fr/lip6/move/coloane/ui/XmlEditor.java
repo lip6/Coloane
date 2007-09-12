@@ -35,22 +35,22 @@ public class XmlEditor extends DefaultHandler {
 	 */
 	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 		//Choisit le Xschemas en fonction du modele
-		if (systemId != null) {
-			if (systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))) {
+		if(systemId != null){
+			if(systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))){
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/petriXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
 				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if (systemId.endsWith("prefixXschemas.xsd")) {
+			} else if(systemId.endsWith("prefixXschemas.xsd")){
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/prefixXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
 				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if (systemId.endsWith("ReachibilityXschemas.xsd")) {
+			} else if(systemId.endsWith("ReachibilityXschemas.xsd")){
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/ReachibilityXschemas.xsd"); //$NON-NLS-1$
 				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
 				URL	path = FileLocator.toFileURL(dtd);
@@ -77,20 +77,24 @@ public class XmlEditor extends DefaultHandler {
 		String schemas = "";
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			if (model.getFormalism().equals("AMI-NET")) {
+			if(model.getFormalism().equals("AMI-NET")){
 				schemas = "petriXschemas.xsd";
-			} else if (model.getFormalism().equals("ReachabilityGraph")) {
+			} else if(model.getFormalism().equals("REACHABILITYGRAPH")){
 				schemas = "ReachabilityXschemas.xsd";
-			} else if (model.getFormalism().equals("Branching-Process")) {
+			} else if(model.getFormalism().equals("BRANCHING-PROCESS")){
 				schemas = "prefixXschemas.xsd";
 			}
-			line += "<!DOCTYPE model SYSTEM '" + schemas + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$
+			
+			
+			line+= "<model  xmlns='file:/home/cdcharles/workspace/fr.lip6.move.coloane.core/resources/'\n";;//$NON-NLS-1$
+			line+="\txmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n"; ;//$NON-NLS-1$
+			line+="\txsi:schemaLocation='"+ schemas + "'\n";//$NON-NLS-1$ //$NON-NLS-2$
+			line+="\tformalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n" ;//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} catch (Exception e) {
 			Coloane.getLogger().warning("DTD introuvable"); //$NON-NLS-1$
 		}
 
-		// Ecriture des attributs relatifs au formalisme et positions
-		line += "<model formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		// Ecriture des attributs du modele
 		if (!(model.getListOfAttrSize() == 0)) {
@@ -413,7 +417,9 @@ public class XmlEditor extends DefaultHandler {
 		data = ""; //$NON-NLS-1$
 	}
 
-	public void startDocument() throws SAXException { };
+	public void startDocument() throws SAXException { 
+		System.out.println("start");
+	};
 	public void endDocument() throws SAXException { };
 	public void processingInstruction(String target, String d) throws SAXException { };
 	public void startPrefixMapping(String prefix, String uri) throws SAXException { };
