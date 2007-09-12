@@ -43,7 +43,7 @@
 							<executable>build_site.pl</executable>
           		<arguments>
 								<argument>site.xml</argument>
-								<argument>/home/ftp/coloane/night-updates/features</argument>
+								<argument>/coloane/public/night-updates/features</argument>
 							</arguments>
         		</configuration>
           </execution>
@@ -56,7 +56,7 @@
 						<configuration>
 							<executable>deploy_site.sh</executable>
           		<arguments>
-								<argument>/home/ftp/coloane/night-updates</argument>
+								<argument>/coloane/public/night-updates</argument>
          	 	</arguments>
         		</configuration>
           </execution>
