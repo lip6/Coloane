@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>fr.lip6.move.coloane.fragments</groupId>
-		<artifactId>fragments</artifactId>
-		<version>1.3.0-SNAPSHOT</version> 
+		<groupId>fr.lip6.move.coloane</groupId>
+		<artifactId>coloane</artifactId>
+		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>core-translation</artifactId>

@@ -97,19 +97,19 @@
 	</repository>
 </repositories>
 
-	<!-- Envoie par ftp lors du deploy -->
+	<!-- Envoie par scp lors du deploy -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
-			<id>Izanami-ftp</id>
-			<name>Izanami Releases</name>
-			<url>ftp://izanami/releases</url>
+			<id>Coloane-Releases</id>
+			<name>Coloane Releases</name>
+			<url>scp://coloane.rsr.lip6.fr/coloane/public/releases</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
-			<id>Izanami-ftp-snap</id>
-			<name>Izanami Snapshots</name>
-			<url>ftp://izanami/snapshots</url>
+			<id>Coloane-Snapshots</id>
+			<name>Coloane Snapshots</name>
+			<url>scp://coloane.rsr.lip6.fr/coloane/public/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
