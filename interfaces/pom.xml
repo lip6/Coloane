@@ -15,9 +15,9 @@
 	<description>Interfaces and shared object between coloane's core and coloane's API</description>
 
 	<scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.parent.artifactId}/trunk/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.parent.artifactId}/trunk/${project.artifactId}</developerConnection>
-		<url>https://srcdev.lip6.fr/trac/research/${project.parent.artifactId}/browser/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
+		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
 	</scm>
 
 	<build>

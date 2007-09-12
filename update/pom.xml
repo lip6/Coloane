@@ -10,9 +10,9 @@
 	<description>Le site d'update de coloane</description>
 
 	<scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/trunk/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/coloane/trunk/${project.artifactId}</developerConnection>
-		<url>https://srcdev.lip6.fr/trac/research/coloane/browser/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
+		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
 	</scm>
 
 	<dependencies>
