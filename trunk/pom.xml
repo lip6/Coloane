@@ -8,7 +8,7 @@
 	<version>1.3.0-SNAPSHOT</version>
 	<name>Coloane</name>
 	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
-	<url>https://srcdev.lip6.fr/trac/research/coloane</url>
+	<url>https://coloane.rsr.lip6.fr/trac</url>
 
 	<modules>
 		<module>interfaces</module>
@@ -18,9 +18,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.artifactId}/trunk</connection>
-		<developerConnection>scm:svn:https://srcdev.lip6.fr/svn/research/${project.artifactId}/trunk</developerConnection>
-		<url>https://srcdev.lip6.fr/trac/research/${project.artifactId}/browser/trunk</url>
+		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk</connection>
+		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk</developerConnection>
+		<url>https://coloane.rsr.lip6.fr/trac</url>
 	</scm>
 
 	<organization>
