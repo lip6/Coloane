@@ -9,6 +9,6 @@ ver=$2
 nightUpdatesFeatures=$3
 
 echo $ver > last_$implementationTitle
-echo "scp last_$implementationTitle continuum@izanami:$nightUpdatesFeatures"
-`scp last_$implementationTitle continuum@izanami:$nightUpdatesFeatures`
+echo "scp last_$implementationTitle coloane.rsr.lip6.fr:$nightUpdatesFeatures"
+`scp last_$implementationTitle coloane.rsr.lip6.fr:$nightUpdatesFeatures`
 rm -f last_$implementationTitle

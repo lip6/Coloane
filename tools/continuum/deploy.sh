@@ -28,10 +28,10 @@ bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print 
 
 newjar=`echo $bundleSymbolicName\_$bundleVersion.r$rev.jar`
 
-echo "scp target/$jar continuum@izanami:$nightUpdatesPlugins/$newjar"
-`scp target/$jar continuum@izanami:$nightUpdatesPlugins/$newjar`
+echo "scp target/$jar coloane.rsr.lip6.fr:$nightUpdatesPlugins/$newjar"
+`scp target/$jar coloane.rsr.lip6.fr:$nightUpdatesPlugins/$newjar`
 
 echo $bundleVersion.r$rev > last_$bundleSymbolicName
-`scp last_$bundleSymbolicName continuum@izanami:$nightUpdatesPlugins`
+`scp last_$bundleSymbolicName coloane.rsr.lip6.fr:$nightUpdatesPlugins`
 rm -f last_$bundleSymbolicName
 

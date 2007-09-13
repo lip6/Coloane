@@ -12,5 +12,5 @@ if [ ! -f resources/site.xml ]; then
 	exit 0 
 fi
 
-echo "scp resources/site.xml continuum@izanami:$nightUpdates/site.xml"
-`scp resources/site.xml continuum@izanami:$nightUpdates/site.xml`
+echo "scp resources/site.xml coloane.rsr.lip6.fr:$nightUpdates/site.xml"
+`scp resources/site.xml coloane.rsr.lip6.fr:$nightUpdates/site.xml`
