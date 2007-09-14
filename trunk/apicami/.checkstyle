@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fileset-config file-format-version="1.2.0" simple-config="false">
-    <fileset name="tous" enabled="false" check-config-name="Sun Checks" local="false">
-        <file-match-pattern match-pattern="." include-pattern="true"/>
-    </fileset>
-    <fileset name="Coloane FileSet" enabled="true" check-config-name="Coloane CheckStyle" local="false">
+    <fileset name="Coloane FileSet" enabled="true" check-config-name="Coloane Checkstyle" local="false">
         <file-match-pattern match-pattern=".java$" include-pattern="true"/>
         <file-match-pattern match-pattern="Messages.java" include-pattern="false"/>
     </fileset>
