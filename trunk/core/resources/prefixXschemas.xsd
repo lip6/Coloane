@@ -1,95 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-   
-     <!-- Definition des types  -->
-    <xs:simpleType name="string">
-        <xs:restriction base="xs:string"/>                    
-    </xs:simpleType>    
-    
-    <xs:complexType name="generic">
-        <xs:simpleContent>
-            <xs:extension base="string">
-                <xs:attribute name="xposition" type="string" use="required"/>
-                <xs:attribute name = "yposition" type="string" use="required"/>        
-            </xs:extension>
-        </xs:simpleContent>      
-    </xs:complexType>
-    
-    
-    <!--Definition des elts du modele -->
-    
-    <xs:element name="tool" type="generic"/>
-    <xs:element name="origin" type="generic"/>
-    
-    
-    <!--Definition des elts d'un node-->
-    <xs:element name="name" type="generic"/>
-    <xs:element name="label" type="generic"/>
-    <xs:element name="marking" type="generic"/>
-    <xs:element name="image" type="generic"/>
-    <xs:element name="num_image" type="generic"/>
-    
-    
-    
-    <!-- Definition de l'elt arc -->
-    <xs:element name="arc">
-        <xs:complexType>
-            <xs:attribute name="arctype" type="string"/>
-            <xs:attribute name="startid" type="string"/>
-            <xs:attribute name="endid" type="string"/>
-            <xs:attribute name="id" type="string"/> 
-        </xs:complexType>
-    </xs:element> 
-    
-    <!--Definition d'un noeud -->
-    
-    <xs:element name="node">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="name" minOccurs="0"/>
-                <xs:element ref="marking" minOccurs="0"/>
-                <xs:element ref="label" minOccurs="0"/>                
-                <xs:element ref="image" minOccurs="0"/>
-                <xs:element ref="num_image" minOccurs="0"/>
-            </xs:choice>
-            <xs:attribute name="nodeType" type="string" use="required"/>
-            <xs:attribute name="id" type="string" use="required"/>
-            <xs:attribute name="xposition" type="string" use="required"/>
-            <xs:attribute name = "ypostion" type="string" use="required"/> 
-        </xs:complexType>
-    </xs:element>
-    
-    <!--Definition des arcs -->
-    
-    <xs:element name="arcs">
-        <xs:complexType>
-            <xs:choice> 
-                <xs:element ref="arc" maxOccurs="unbounded"/>
-            </xs:choice>
-        </xs:complexType>            
-    </xs:element>
-    
-    
-    <!--Definition des noeuds -->
-    <xs:element name="nodes">
-        <xs:complexType>
-            <xs:choice> 
-                <xs:element ref="node" maxOccurs="unbounded"/>
-            </xs:choice>
-        </xs:complexType>            
-    </xs:element>
-    
-    
-    <!--Definition du modele -->
-    
-    <xs:element name="model">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="tool" minOccurs ="0"/>
-                <xs:element ref="origin" minOccurs ="0"/>
-                <xs:element ref="nodes"  maxOccurs="1"/>
-                <xs:element ref="arcs"  maxOccurs="1"/>
-            </xs:choice>
-        </xs:complexType>
-    </xs:element>
+
+	<!-- Definition du type d'un attribut graphique -->
+	<xs:complexType name="graph">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="xposition" type="xs:string"/>
+				<xs:attribute name ="yposition" type="xs:string"/>        
+			</xs:extension>
+		</xs:simpleContent>      
+	</xs:complexType>
+
+	<!-- Definition d'un modele -->
+	<xs:complexType name="tmodel">
+		<xs:all>
+			<xs:element name="tool" type="graph" minOccurs ="0"/>
+			<xs:element name="origin" type="graph" minOccurs ="0"/>
+			<xs:element name="nodes" type="tnodes" maxOccurs="1"/>
+			<xs:element name="arcs" type="tarcs" maxOccurs="1"/>
+		</xs:all>
+	</xs:complexType>
+
+	<!-- Definition d'un noeud -->
+	<xs:complexType name="tnode">
+		<xs:choice>
+			<xs:element name="name" type="graph" minOccurs="0"/>
+			<xs:element name="marking" type="graph" minOccurs="0"/>
+			<xs:element name="label" type="graph" minOccurs="0"/>                
+			<xs:element name="image" type="graph" minOccurs="0"/>
+			<xs:element name="num_image" type="graph" minOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="nodeType" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="xposition" type="xs:string"/>
+		<xs:attribute name = "ypostion" type="xs:string"/> 
+	</xs:complexType>
+
+	<!-- Definition d'un arc -->
+	<xs:complexType name="tarc">
+		<xs:attribute name="arctype" type="xs:string" use="required"/>
+		<xs:attribute name="startid" type="xs:string" use="required"/>
+		<xs:attribute name="endid" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="xs:string" use="required"/> 
+	</xs:complexType>
+
+	<!-- Definition d'un ensemble de noeuds -->
+	<xs:complexType name="tnodes">
+		<xs:sequence> 
+			<xs:element name="node" type="tnode" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Definition d'un ensemble d'arcs -->
+	<xs:complexType name="tarcs">
+		<xs:sequence> 
+			<xs:element name="arc" type="tarc" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Definition d'un noeud -->
+	<xs:element name="node" type="tnode" />
+
+	<!-- Definition d'un arc -->
+	<xs:element name="arc" type="tarc" />
+
+	<!-- Definition des groupes de noeuds-->
+	<xs:element name="nodes" type="tnodes" />
+
+	<!-- Definition d'un groupe d'arcs -->
+	<xs:element name="arcs" type="tarc" />
+
+	<!-- Definition d'un modele -->
+	<xs:element name="model" type="tmodel" />
 </xs:schema>

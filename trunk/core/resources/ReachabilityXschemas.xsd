@@ -1,107 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    
-    
-    <!-- Definition des types  -->
-    <xs:simpleType name="string">
-        <xs:restriction base="xs:string"/>                    
-    </xs:simpleType>    
-    
-    <xs:complexType name="generic">
-        <xs:simpleContent>
-            <xs:extension base="string">
-                <xs:attribute name="xposition" type="string" use="required"/>
-                <xs:attribute name = "ypostion" type="string" use="required"/>        
-            </xs:extension>
-        </xs:simpleContent>      
-    </xs:complexType>
 
-    
-    <!--Definition des elts du modele -->
-    <xs:element name="authors" type="generic"/>
-    <xs:element name="title" type="generic"/>
-    <xs:element name="version" type="generic"/>
-    <xs:element name="project" type="generic"/>
-    <xs:element name="type" type="generic"/>
-    <xs:element name="information" type="generic"/>
-    
-    
-    <!--Definition des elts des noeuds -->
-    <xs:element name="name" type="generic"/>
-    <xs:element name="value" type="generic"/>
-    <xs:element name="initial" type="generic"/>
-    <xs:element name="deadlock" type="generic"/>
-    
-    
-    <!--Definition des elts des arcs -->
-    
-    <xs:element name="label" type="generic"/>
-    
-    
-    
-    <!--Definition d'un noeud -->
-    <xs:element name="node">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="name" minOccurs="0"/>
-                <xs:element ref="value" minOccurs="0"/>
-                <xs:element ref="initial" minOccurs="0"/>
-                <xs:element ref="deadlock" minOccurs="0"/>
-            </xs:choice>
-            <xs:attribute name="nodeType" type="string" use="required"/>
-            <xs:attribute name="id" type="string" use="required"/>
-            <xs:attribute name="xposition" type="string" use="required"/>
-            <xs:attribute name = "ypostion" type="string" use="required"/> 
-        </xs:complexType>
-    </xs:element>
-    
-    
-    <!--Definition d'un arc -->
-    <xs:element name="arc">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="label" minOccurs="0"/>
-                <xs:element ref="value" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
-    </xs:element>
-    
-    
-    <!--Definition de l'ensemble des nodes -->
-    
-    <xs:element name="nodes">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="node" maxOccurs="unbounded"/>
-            </xs:choice>
-        </xs:complexType>
-    </xs:element>
-    
-    <!--Definition de l'ensemble des arcs -->
-    
-    <xs:element name="arcs">
-        <xs:complexType>
-            <xs:choice> 
-                <xs:element ref="arc" maxOccurs="unbounded"/>
-            </xs:choice>
-        </xs:complexType>            
-    </xs:element>
-    
-    
-    <!--Definition du modele -->
-    
-    <xs:element name="model">
-        <xs:complexType>
-            <xs:choice>
-                <xs:element ref="authors" minOccurs ="0"/>
-                <xs:element ref="title" minOccurs ="0"/>
-                <xs:element ref="version" minOccurs="0"/>
-                <xs:element ref="project" minOccurs="0"/>
-                <xs:element ref="type" minOccurs="0"/>
-                <xs:element ref="information" minOccurs="0"/>
-                <xs:element ref="nodes"  maxOccurs="1"/>
-                <xs:element ref="arcs"  maxOccurs="1"/>
-            </xs:choice>
-        </xs:complexType>
-    </xs:element>
+	<!-- Definition du type d'un attribut graphique -->
+	<xs:complexType name="graph">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="xposition" type="xs:string"/>
+				<xs:attribute name ="yposition" type="xs:string"/>        
+			</xs:extension>
+		</xs:simpleContent>      
+	</xs:complexType>
+	
+	<!-- Definition d'un modele -->
+	<xs:complexType name="tmodel">
+		<xs:all>
+			<xs:element name="authors" type="graph" minOccurs ="0"/>
+			<xs:element name="title" type="graph" minOccurs ="0"/>
+			<xs:element name="version" type="graph" minOccurs="0"/>
+			<xs:element name="project" type="graph" minOccurs="0"/>
+			<xs:element name="type" type="graph" minOccurs="0"/>
+			<xs:element name="information" type="graph" minOccurs="0"/>
+			<xs:element name="nodes" type="tnodes" maxOccurs="1"/>
+			<xs:element name="arcs" type="tarcs" maxOccurs="1"/>
+		</xs:all>
+	</xs:complexType>
+	
+	<!-- Definition d'un ensemble de noeuds -->
+	<xs:complexType name="tnodes">
+		<xs:sequence> 
+			<xs:element name="node" type="tnode" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Definition d'un ensemble d'arcs -->
+	<xs:complexType name="tarcs">
+		<xs:sequence> 
+			<xs:element name="arc" type="tarc" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Definition d'un arc -->
+	<xs:complexType name="tarc">
+		<xs:all>
+			<xs:element name="label" type="graph" minOccurs="0"/>
+			<xs:element name="value" type="graph" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	
+	<!-- Definition d'un node -->
+	<xs:complexType name="tnode">
+		<xs:all>
+			<xs:element name="name" type="graph" minOccurs="0"/>
+			<xs:element name="value" type="graph" minOccurs="0"/>
+			<xs:element name="initial" type="graph" minOccurs="0"/>
+			<xs:element name="deadlock" type="graph" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="nodeType" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="xposition" type="xs:string" use="required"/>
+		<xs:attribute name = "ypostion" type="xs:string" use="required"/> 
+	</xs:complexType>
+	
+	<!-- Definition d'un noeud -->
+	<xs:element name="node" type="tnode" />
+
+	<!-- Definition d'un arc -->
+	<xs:element name="arc" type="tarc" />
+
+	<!-- Definition des groupes de noeuds-->
+	<xs:element name="nodes" type="tnodes" />
+
+	<!-- Definition d'un groupe d'arcs -->
+	<xs:element name="arcs" type="tarc" />
+
+	<!-- Definition d'un modele -->
+	<xs:element name="model" type="tmodel" />
 </xs:schema>
