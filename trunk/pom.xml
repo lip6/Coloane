@@ -314,6 +314,22 @@
 			</plugin>
 
 			<plugin>
+            			<groupId>org.apache.maven.plugins</groupId>
+            			<artifactId>maven-scm-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>UpTools</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+						<configuration>
+							<basedir>/coloane/tools</basedir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
