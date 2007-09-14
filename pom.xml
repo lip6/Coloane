@@ -344,7 +344,7 @@
           		<arguments>
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
-								<argument>/home/ftp/coloane/night-updates/plugins</argument>
+								<argument>/coloane/public/night-updates/plugins</argument>
           		</arguments>
         		</configuration>
           </execution>
