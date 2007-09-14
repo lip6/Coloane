@@ -321,7 +321,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#modifyDate()
 	 */
 	public final int modifyDate() {
-		Coloane.getLogger().finest("Demande de mise a jour de la date du modele");
+		Coloane.getLogger().finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
 		date = (int) System.currentTimeMillis();
 		// Si le modele n'etait pas marque comme sale, on le marque
 		if (!dirty) {
@@ -354,7 +354,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public final void setDirty(boolean state) {
-		if (state) { Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); } else { Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE");	}
+		if (state) { Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); } else { Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE");	} //$NON-NLS-1$ //$NON-NLS-2$
 		this.dirty = state;
 	}
 

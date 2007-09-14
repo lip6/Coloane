@@ -106,7 +106,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 
 		/* Composite composite = new Composite(parent, SWT.NONE); */
 		shell = this.getShell();
-		shell.setText("File browser");
+		shell.setText(Messages.FileBrowserDialog_0);
 		Composite composite = (Composite) super.createDialogArea(parent);
 
 		GridLayout gridLayout = new GridLayout();
@@ -115,9 +115,9 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		composite.setLayoutData(gridData);
 
-		super.createButton(parent, BROWSE_ID, "Browse", true);
+		super.createButton(parent, BROWSE_ID, Messages.FileBrowserDialog_1, true);
 
-		new Label(composite, SWT.NULL).setText("File:");
+		new Label(composite, SWT.NULL).setText(Messages.FileBrowserDialog_2);
 		fileField = new Text(composite, SWT.BORDER);
 		gridData = new GridData();
 		gridData.widthHint = 200;

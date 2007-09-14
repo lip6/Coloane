@@ -131,8 +131,8 @@ public class AuthenticationDialog extends Dialog {
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
-		if (Coloane.getDefault().getPreference("LOGIN") != "") {
-			login.setText(Coloane.getDefault().getPreference("LOGIN"));
+		if (Coloane.getDefault().getPreference("LOGIN") != "") { //$NON-NLS-1$ //$NON-NLS-2$
+			login.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
 		}
 
 		// PASSWORD
@@ -160,10 +160,10 @@ public class AuthenticationDialog extends Dialog {
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		comboServer.setItems(serversList);
 
-		if (!(Coloane.getDefault().getPreference("SERVER").equals(""))) {
-			comboServer.setText(Coloane.getDefault().getPreference("SERVER"));
-			ip = Coloane.getDefault().getPreference("IP");
-			port = Coloane.getDefault().getPreference("PORT");
+		if (!(Coloane.getDefault().getPreference("SERVER").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+			comboServer.setText(Coloane.getDefault().getPreference("SERVER")); //$NON-NLS-1$
+			ip = Coloane.getDefault().getPreference("IP"); //$NON-NLS-1$
+			port = Coloane.getDefault().getPreference("PORT"); //$NON-NLS-1$
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
@@ -195,8 +195,8 @@ public class AuthenticationDialog extends Dialog {
 							enableFields(false);
 						}
 					} else { // Autre ..
-						ip = "";
-						port = "";
+						ip = ""; //$NON-NLS-1$
+						port = ""; //$NON-NLS-1$
 						if (visibility) {
 							changeVisibility();
 						} else {

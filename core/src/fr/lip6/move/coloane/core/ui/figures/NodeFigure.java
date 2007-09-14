@@ -105,7 +105,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 */
 			public void mouseEntered(MouseEvent me) {
 				previousBackgroundColor = ((Shape) me.getSource()).getBackgroundColor();
-				((Shape) me.getSource()).setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE"));
+				((Shape) me.getSource()).setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
 				node.setAttributesSelected(true, true);
 			}
 			/*
@@ -127,7 +127,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void setSelect() {
 		//figure.setForegroundColor(ColorConstants.blue);
-		figure.setForegroundColor(ColorsPrefs.setColor("COLORNODE"));
+		figure.setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
 		((Shape) figure).setLineWidth(LINE_WIDTH);
 	}
 
@@ -145,7 +145,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.INodeFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT"));
+		figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
 		//figure.setBackgroundColor(ColorConstants.darkGreen);
 	}
 

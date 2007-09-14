@@ -41,7 +41,7 @@ public class UpdatePlatformMenu implements Runnable {
 		try {
 			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		} catch (NullPointerException e) {
-			Coloane.getLogger().warning("Shell inaccessible");
+			Coloane.getLogger().warning("Shell inaccessible"); //$NON-NLS-1$
 			return;
 		}
 

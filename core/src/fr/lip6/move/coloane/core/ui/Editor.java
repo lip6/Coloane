@@ -316,7 +316,7 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
-			Coloane.getLogger().finer("Details : " + e.getMessage() + " " + e.toString()); //$NON-NLS-1$
+			Coloane.getLogger().finer("Details : " + e.getMessage() + " " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			Coloane.showErrorMsg(Messages.Editor_1 + file.getName() + " - " + e.toString() + " " + e.getMessage()); //$NON-NLS-2$ //$NON-NLS-1$
 		}
 

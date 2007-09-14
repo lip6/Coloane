@@ -94,7 +94,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @return boolean indiquant si l'authentification c'est bien passee
 	 */
 	public boolean authentication(String login, String pass, String ip, int port) {
-		Coloane.getLogger().fine("Demande d'authentification");
+		Coloane.getLogger().fine("Demande d'authentification"); //$NON-NLS-1$
 
 		// Connexion a la plateforme
 		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -222,7 +222,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param updates La racine du menu a afficher
 	 */
 	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
-		Coloane.getLogger().fine("Mise a jour des menus");
+		Coloane.getLogger().fine("Mise a jour des menus"); //$NON-NLS-1$
 		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() { ui.updateMenu(updates); }
@@ -252,7 +252,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-		Coloane.getLogger().fine("Preparation des resultats pour le service : " + serviceName);
+		Coloane.getLogger().fine("Preparation des resultats pour le service : " + serviceName); //$NON-NLS-1$
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			this.ui.setResults(serviceName, resultsCom);
 		} else {
@@ -266,7 +266,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Cette methode doit etre appelee apres la methode setResults
 	 */
 	public void printResults() {
-		Coloane.getLogger().fine("Affichage des resultats");
+		Coloane.getLogger().fine("Affichage des resultats"); //$NON-NLS-1$
 		this.ui.printResults();
 	}
 
@@ -287,7 +287,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @see IModel
 	 */
 	public IModel sendModel() {
-		Coloane.getLogger().fine("Transmission d'un modele a la plateforme");
+		Coloane.getLogger().fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
 		return this.motor.getSessionManager().getCurrentSessionModel().getGenericModel();
 	}
 
@@ -298,7 +298,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param Le modele construit par l'api de communication
 	 */
 	public void setNewModel(IModel model) {
-		Coloane.getLogger().fine("Reception d'un nouveau modele");
+		Coloane.getLogger().fine("Reception d'un nouveau modele"); //$NON-NLS-1$
 		this.motor.setNewModel(model);
 	}
 
@@ -308,7 +308,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * @param dateUpdate La date de derniere mise a jour du modele
 	 */
 	public void toUpdate(int dateUpdate) {
-		Coloane.getLogger().fine("Le modele doit etre mis a jour du cote de la plateforme");
+		Coloane.getLogger().fine("Le modele doit etre mis a jour du cote de la plateforme"); //$NON-NLS-1$
 		this.api.changeModeleDate(dateUpdate);
 	}
 
@@ -318,7 +318,7 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 */
 	public boolean getDirtyState() {
 		boolean state = this.motor.getSessionManager().getCurrentSessionModel().isDirty();
-		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); }
+		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
 		return this.motor.getSessionManager().getCurrentSessionModel().isDirty();
 	}
 

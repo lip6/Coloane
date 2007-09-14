@@ -105,8 +105,8 @@ public final class UserInterface implements IUiCom, IUiMotor {
 
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante");
-			Coloane.showWarningMsg("Impossible d'afficher le menu");
+			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
+			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
 			return;
 		}
 		currentSession.setServicesMenu(menu);
@@ -122,8 +122,8 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	public void updateMenu(Vector<IUpdateMenuCom> updates) {
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante");
-			Coloane.showWarningMsg("Impossible de mettre a jour le menu");
+			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
+			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
 			return;
 		}
 		// Recuperation du menu de service de la session
@@ -146,7 +146,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 
 		Session currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante");
+			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
 			return;
 		}
 		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
@@ -241,7 +241,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * @param newState Le nouvel etat pour l'item
 	 */
 	public void platformState(boolean authentication, int session) {
-		Coloane.getLogger().fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")");
+		Coloane.getLogger().fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Composite parent = (Composite) Coloane.getParent();
 
 		// Prise en compte de l'authentification

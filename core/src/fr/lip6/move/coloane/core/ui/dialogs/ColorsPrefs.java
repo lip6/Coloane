@@ -27,12 +27,12 @@ public class ColorsPrefs extends PreferencePage implements
 	private ColorFieldEditor arcColorEditor;
 	private ColorFieldEditor arcColorEditor1;
 
-	private static final String COLORNODE = "colorNode";
-	private static final String COLORNODE_HIGHLIGHT = "colorNode_Highlight";
-	private static final String COLORNODE_MOUSE = "colorNode_Mouse";
+	private static final String COLORNODE = "colorNode"; //$NON-NLS-1$
+	private static final String COLORNODE_HIGHLIGHT = "colorNode_Highlight"; //$NON-NLS-1$
+	private static final String COLORNODE_MOUSE = "colorNode_Mouse"; //$NON-NLS-1$
 
-	private static final String COLORARC = "colorArc";
-	private static final String COLORARC_HIGHLIGHT = "colorArc_Highlight";
+	private static final String COLORARC = "colorArc"; //$NON-NLS-1$
+	private static final String COLORARC_HIGHLIGHT = "colorArc_Highlight"; //$NON-NLS-1$
 
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
@@ -57,36 +57,36 @@ public class ColorsPrefs extends PreferencePage implements
 
 		//NODE
 		Group node = new Group(colorComposite, SWT.NONE);
-		node.setText("Node");
+		node.setText(Messages.ColorsPrefs_5);
 		node.setLayoutData(data);
 
 		//Node color
-		nodeColorEditor = new ColorFieldEditor(COLORNODE, "Color:", node);
+		nodeColorEditor = new ColorFieldEditor(COLORNODE, Messages.ColorsPrefs_6, node);
 		nodeColorEditor.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor.load();
 
 		//Node highlight color
-		nodeColorEditor1 = new ColorFieldEditor(COLORNODE_HIGHLIGHT, "Highlight:", node);
+		nodeColorEditor1 = new ColorFieldEditor(COLORNODE_HIGHLIGHT, Messages.ColorsPrefs_7, node);
 		nodeColorEditor1.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor1.load();
 
 		//Node mouseover color
-		nodeColorEditor2 = new ColorFieldEditor(COLORNODE_MOUSE, "Mouse over:", node);
+		nodeColorEditor2 = new ColorFieldEditor(COLORNODE_MOUSE, Messages.ColorsPrefs_8, node);
 		nodeColorEditor2.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor2.load();
 
 		//ARC
 		Group arc = new Group(colorComposite, SWT.NONE);
-		arc.setText("Arc");
+		arc.setText(Messages.ColorsPrefs_9);
 		arc.setLayoutData(data);
 
 		//Node color
-		arcColorEditor = new ColorFieldEditor(COLORARC, "Color:", arc);
+		arcColorEditor = new ColorFieldEditor(COLORARC, Messages.ColorsPrefs_10, arc);
 		arcColorEditor.setPreferenceStore(getPreferenceStore());
 		arcColorEditor.load();
 
 		//Node highlight color
-		arcColorEditor1 = new ColorFieldEditor(COLORARC_HIGHLIGHT, "Highlight:", arc);
+		arcColorEditor1 = new ColorFieldEditor(COLORARC_HIGHLIGHT, Messages.ColorsPrefs_11, arc);
 		arcColorEditor1.setPreferenceStore(getPreferenceStore());
 		arcColorEditor1.load();
 
@@ -128,7 +128,7 @@ public class ColorsPrefs extends PreferencePage implements
 	 */
 	public static Color setColor(String key) {
 		String s = Coloane.getDefault().getPreference(key);
-		String[] rgb = s.split(",");
+		String[] rgb = s.split(","); //$NON-NLS-1$
 		return new Color(null, Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
 	}
 }

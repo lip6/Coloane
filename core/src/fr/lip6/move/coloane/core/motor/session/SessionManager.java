@@ -36,7 +36,7 @@ public class SessionManager {
 	 */
 	public final String getCurrentSessionName() {
 		if (currentSession != null) {
-			Coloane.getLogger().fine("La session courante est : " + currentSession.getName() + "(Id:" + currentSession.getId() + ")");
+			Coloane.getLogger().fine("La session courante est : " + currentSession.getName() + "(Id:" + currentSession.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return currentSession.getName();
 		}
 		return null;
@@ -118,14 +118,14 @@ public class SessionManager {
 	 * @return booleen Un indicateur de deroulement
 	 */
 	public final boolean suspendSession(String sessionName) {
-		Coloane.getLogger().finer("Suspension d'une session : " + sessionName);
+		Coloane.getLogger().finer("Suspension d'une session : " + sessionName); //$NON-NLS-1$
 		Session toSuspend = getSession(sessionName);
 		if (toSuspend != null) {
-			Coloane.getLogger().finer("Session suspendue : " + toSuspend.getName() + "(" + toSuspend.getId() + ")");
+			Coloane.getLogger().finer("Session suspendue : " + toSuspend.getName() + "(" + toSuspend.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			toSuspend.suspend();
 			return true;
 		} else {
-			Coloane.getLogger().finer("Session suspendue non enregistree");
+			Coloane.getLogger().finer("Session suspendue non enregistree"); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -136,19 +136,19 @@ public class SessionManager {
 	 * @return booleen Un indicateur de deroulement
 	 */
 	public final boolean resumeSession(String sessionName) {
-		Coloane.getLogger().finer("Tentative de reprise d'une session : " + sessionName);
+		Coloane.getLogger().finer("Tentative de reprise d'une session : " + sessionName); //$NON-NLS-1$
 		Session toResume = getSession(sessionName);
 		if (toResume != null) {
-			Coloane.getLogger().finer("La session est enregistree !");
+			Coloane.getLogger().finer("La session est enregistree !"); //$NON-NLS-1$
 			toResume.resume();
 			if ((currentSession != null) && (!currentSession.getName().equals(sessionName))) {
-				Coloane.getLogger().warning("La session courante n'est pas suspendue");
+				Coloane.getLogger().warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
 				suspendSession(currentSession.getName());
 			}
 			this.currentSession = toResume;
 			return true;
 		} else {
-			Coloane.getLogger().warning("Session active non enregistree");
+			Coloane.getLogger().warning("Session active non enregistree"); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -158,7 +158,7 @@ public class SessionManager {
 	 * @param sessionName nom de la session
 	 */
 	public final boolean destroySession(String sessionName) {
-		Coloane.getLogger().fine("Destruction de la session " + sessionName);
+		Coloane.getLogger().fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		Session toDestroy = getSession(sessionName);
 		if (toDestroy != null) {
 			// Suppression de la liste des sessions active
@@ -181,7 +181,7 @@ public class SessionManager {
 	 * Deconnexion brutale de tous les modeles
 	 */
 	public final void destroyAllSessions() {
-		Coloane.getLogger().fine("Destruction de toutes les sessions");
+		Coloane.getLogger().fine("Destruction de toutes les sessions"); //$NON-NLS-1$
 		for (Session session : this.listOfSessions) {
 			session.setServicesMenu(null);
 			session.setAdminMenu(null);

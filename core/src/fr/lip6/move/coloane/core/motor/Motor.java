@@ -138,10 +138,10 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void destroySession(String sessionName) {
 		if (sessionManager.destroySession(sessionName)) {
-			Coloane.getLogger().finer("OK pour la destruction de la session");
+			Coloane.getLogger().finer("OK pour la destruction de la session"); //$NON-NLS-1$
 			ui.platformState(com.isAuthenticated(), SessionManager.ERROR);
 			ui.redrawMenus();
-			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName());
+			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
 		}
 	}
 
@@ -175,13 +175,13 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
-			Coloane.getLogger().finer("OK pour la reprise de session" + name);
+			Coloane.getLogger().finer("OK pour la reprise de session" + name); //$NON-NLS-1$
 			ui.platformState(com.isAuthenticated(), sessionManager.getSessionStatus(name));
 			ui.redrawMenus();
 		} else {
-			Coloane.getLogger().warning("Echec lors de la reprise de session" + name);
+			Coloane.getLogger().warning("Echec lors de la reprise de session" + name); //$NON-NLS-1$
 		}
-		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName());
+		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
 	}
 
 	/**

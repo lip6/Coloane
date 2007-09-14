@@ -36,25 +36,25 @@ public class XmlEditor extends DefaultHandler {
 	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 		//Choisit le Xschemas en fonction du modele
 		if (systemId != null) {
-			if (systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))) {
+			if (systemId.endsWith("petriXschemas.xsd") || (systemId.endsWith("coloane.dtd"))) { //$NON-NLS-1$ //$NON-NLS-2$
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/petriXschemas.xsd"); //$NON-NLS-1$
-				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath()); //$NON-NLS-1$
 				URL	path = FileLocator.toFileURL(dtd);
-				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath()); //$NON-NLS-1$
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if (systemId.endsWith("prefixXschemas.xsd")) {
+			} else if (systemId.endsWith("prefixXschemas.xsd")) { //$NON-NLS-1$
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/prefixXschemas.xsd"); //$NON-NLS-1$
-				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath()); //$NON-NLS-1$
 				URL	path = FileLocator.toFileURL(dtd);
-				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath()); //$NON-NLS-1$
 				InputStream in = path.openStream();
 				return new InputSource(in);
-			} else if (systemId.endsWith("ReachibilityXschemas.xsd")) {
+			} else if (systemId.endsWith("ReachibilityXschemas.xsd")) { //$NON-NLS-1$
 				URL dtd = Coloane.getDefault().getBundle().getEntry("/resources/ReachibilityXschemas.xsd"); //$NON-NLS-1$
-				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD (ressource) : " + dtd.getPath()); //$NON-NLS-1$
 				URL	path = FileLocator.toFileURL(dtd);
-				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath());
+				Coloane.getLogger().finer("Recherche de la DTD : " + path.getPath()); //$NON-NLS-1$
 				InputStream in = path.openStream();
 				return new InputSource(in);
 			}
@@ -74,22 +74,22 @@ public class XmlEditor extends DefaultHandler {
 
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
-		String schemas = "";
+		String schemas = ""; //$NON-NLS-1$
 		// On tente de recuperer la DTD pour pouvoir inclure don adresse en debut de fichier
 		try {
-			if (model.getFormalism().equals("AMI-NET")) {
-				schemas = "petriXschemas.xsd";
-			} else if (model.getFormalism().equals("ReachabilityGraph")) {
-				schemas = "ReachabilityXschemas.xsd";
-			} else if (model.getFormalism().equals("Branching-Process")) {
-				schemas = "prefixXschemas.xsd";
+			if (model.getFormalism().equals("AMI-NET")) { //$NON-NLS-1$
+				schemas = "petriXschemas.xsd"; //$NON-NLS-1$
+			} else if (model.getFormalism().equals("ReachabilityGraph")) { //$NON-NLS-1$
+				schemas = "ReachabilityXschemas.xsd"; //$NON-NLS-1$
+			} else if (model.getFormalism().equals("Branching-Process")) { //$NON-NLS-1$
+				schemas = "prefixXschemas.xsd"; //$NON-NLS-1$
 			}
 		} catch (Exception e) {
 			Coloane.getLogger().warning("DTD introuvable"); //$NON-NLS-1$
 		}
 
 		// Ecriture des attributs relatifs au formalisme et positions
-		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='" + schemas + "' formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='" + schemas + "' formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		// Ecriture des attributs du modele
 		if (!(model.getListOfAttrSize() == 0)) {
@@ -283,7 +283,7 @@ public class XmlEditor extends DefaultHandler {
 	 */
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 
-		logger.finest("Balise lue : " + baliseName);
+		logger.finest("Balise lue : " + baliseName); //$NON-NLS-1$
 
 		// Balise MODEL
 		if (baliseName.equals("model")) { //$NON-NLS-1$
@@ -313,7 +313,7 @@ public class XmlEditor extends DefaultHandler {
 			try {
 				this.model.addNode(node);
 			} catch (ModelException e) {
-				Coloane.getLogger().warning("Impossible d'ajouter le noeud au modele : " + e.toString());
+				Coloane.getLogger().warning("Impossible d'ajouter le noeud au modele : " + e.toString()); //$NON-NLS-1$
 			}
 
 		// Balise ARC
@@ -336,7 +336,7 @@ public class XmlEditor extends DefaultHandler {
 			try {
 				this.model.addArc(arc);
 			} catch (ModelException e) {
-				Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele : " + e.toString());
+				Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele : " + e.toString()); //$NON-NLS-1$
 			}
 
 		// Balise ATTRIBUT & PI
@@ -350,7 +350,7 @@ public class XmlEditor extends DefaultHandler {
 				try {
 					this.model.getAnArc(this.refId).addPI(x, y);
 				} catch (ModelException e) {
-					Coloane.getLogger().warning("Impossible de trouver l'arc referent" + e.toString());
+					Coloane.getLogger().warning("Impossible de trouver l'arc referent" + e.toString()); //$NON-NLS-1$
 				}
 
 			//Si on lit un attribut
@@ -375,7 +375,7 @@ public class XmlEditor extends DefaultHandler {
 	 * Gestion des donnees contenues dans les balises
 	 */
 	public final void characters(char[] ch, int start, int length) throws SAXException {
-		data = "";
+		data = ""; //$NON-NLS-1$
 
 		// Creation de la donnees (chaine de caracteres)
 		for (int i = 0; i < length; i++) {
