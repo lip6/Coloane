@@ -92,7 +92,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 
 		// Set the server list
 		comboServer.setItems(serversList);
-		comboServer.setText(Coloane.getDefault().getPreference("SERVER"));
+		comboServer.setText(Coloane.getDefault().getPreference("SERVER")); //$NON-NLS-1$
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -122,8 +122,8 @@ public class ColoanePrefsPage extends PreferencePage implements
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
 
-						ip = "";
-						port = "";
+						ip = ""; //$NON-NLS-1$
+						port = ""; //$NON-NLS-1$
 					}
 					framekitIp.setText(ip);
 					framekitPort.setText(port);
@@ -139,7 +139,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 
 		framekitIp = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		framekitIp.setText(Coloane.getDefault().getPreference("IP"));
+		framekitIp.setText(Coloane.getDefault().getPreference("IP")); //$NON-NLS-1$
 		framekitIp.setTextLimit(TXT_LIMIT);
 
 		framekitPortLabel = new Label(connection, SWT.NULL);
@@ -148,7 +148,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 		framekitPort = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		framekitPort.setText(Coloane.getDefault().getPreference("PORT"));
+		framekitPort.setText(Coloane.getDefault().getPreference("PORT")); //$NON-NLS-1$
 		framekitPort.setTextLimit(TXT_LIMIT);
 
 		// Enable Ip/Port fields if "Other..." is selected
@@ -156,25 +156,25 @@ public class ColoanePrefsPage extends PreferencePage implements
 
 		// Dimitri
 		Group p = new Group(composite, SWT.NONE);
-		p.setText("Level");
+		p.setText(Messages.ColoanePrefsPage_5);
 		p.setLayoutData(data);
 		p.setLayout(layout);
 
-		(new Label(p, SWT.NULL)).setText("Niveau :");
+		(new Label(p, SWT.NULL)).setText(Messages.ColoanePrefsPage_6);
 		combo = new Combo(p, SWT.NULL);
 		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		String levelList[] = {"NORMAL", "BETA", "DEBUG"};
+		String levelList[] = {"NORMAL", "BETA", "DEBUG"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		combo.setItems(levelList);
-		combo.setText("Choisir le niveau");
+		combo.setText(Messages.ColoanePrefsPage_10);
 		combo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (combo.getText().equals("NORMAL")) {
+				if (combo.getText().equals("NORMAL")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.INFO);
 					//Api.setVerbosity(Level.INFO);
-				} else if (combo.getText().equals("BETA")) {
+				} else if (combo.getText().equals("BETA")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.FINE);
 					//Api.setVerbosity(Level.FINE);
-				} else if (combo.getText().equals("DEBUG")) {
+				} else if (combo.getText().equals("DEBUG")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.FINEST);
 					//Api.setVerbosity(Level.FINEST);
 				}
@@ -191,14 +191,14 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 * be the default
 	 */
 	protected final void performDefaults() {
-		Coloane.getDefault().setDefaultPreference("LOGIN");
-		Coloane.getDefault().setDefaultPreference("SERVER");
-		Coloane.getDefault().setDefaultPreference("IP");
-		Coloane.getDefault().setDefaultPreference("PORT");
+		Coloane.getDefault().setDefaultPreference("LOGIN"); //$NON-NLS-1$
+		Coloane.getDefault().setDefaultPreference("SERVER"); //$NON-NLS-1$
+		Coloane.getDefault().setDefaultPreference("IP"); //$NON-NLS-1$
+		Coloane.getDefault().setDefaultPreference("PORT"); //$NON-NLS-1$
 
-		loginField.setText(Coloane.getDefault().getPreference("LOGIN"));
-		framekitIp.setText(Coloane.getDefault().getPreference("IP"));
-		framekitPort.setText(Coloane.getDefault().getPreference("PORT"));
+		loginField.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
+		framekitIp.setText(Coloane.getDefault().getPreference("IP")); //$NON-NLS-1$
+		framekitPort.setText(Coloane.getDefault().getPreference("PORT")); //$NON-NLS-1$
 	}
 
 
@@ -207,10 +207,10 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 * author name to the preference store.
 	 */
 	public final boolean performOk() {
-		Coloane.getDefault().setPreference("LOGIN", loginField.getText());
-		Coloane.getDefault().setPreference("SERVER", comboServer.getText());
-		Coloane.getDefault().setPreference("IP", framekitIp.getText());
-		Coloane.getDefault().setPreference("PORT", framekitPort.getText());
+		Coloane.getDefault().setPreference("LOGIN", loginField.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("SERVER", comboServer.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("IP", framekitIp.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("PORT", framekitPort.getText()); //$NON-NLS-1$
 		return super.performOk();
 	}
 
@@ -219,7 +219,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 */
 	public final void enableFields() {
 //		 Enable Ip/Port fields if "Other..." is selected
-		if (Coloane.getDefault().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) {
+		if (Coloane.getDefault().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) { //$NON-NLS-1$
 			framekitIp.setEnabled(true);
 			framekitPort.setEnabled(true);
 		} else {

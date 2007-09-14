@@ -68,7 +68,7 @@ public class MenuManipulation {
 		for (MenuItem root : shell.getMenuBar().getItems()) {
 			if (root.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
 				for (MenuItem item : root.getMenu().getItems()) {
-					if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) {
+					if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
 						item.dispose();
 					}
 				}

@@ -19,8 +19,21 @@ public final class Messages extends NLS {
 	public static String AuthenticationDialog_5;
 	public static String AuthenticationDialog_8;
 	public static String AuthenticationDialog_9;
+	public static String ColoanePrefsPage_10;
+	public static String ColoanePrefsPage_5;
+	public static String ColoanePrefsPage_6;
+	public static String ColorsPrefs_10;
+	public static String ColorsPrefs_11;
+	public static String ColorsPrefs_5;
+	public static String ColorsPrefs_6;
+	public static String ColorsPrefs_7;
+	public static String ColorsPrefs_8;
+	public static String ColorsPrefs_9;
 	public static String DialogFactory_0;
 	public static String DialogFactory_1;
+	public static String FileBrowserDialog_0;
+	public static String FileBrowserDialog_1;
+	public static String FileBrowserDialog_2;
 	public static String SaveReceivedModel_0;
 	public static String SaveReceivedModel_1;
 	static {

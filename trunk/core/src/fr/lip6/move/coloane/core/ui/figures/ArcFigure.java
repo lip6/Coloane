@@ -59,7 +59,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		this.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT"));
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
 		this.setLineWidth(2);
 	}
 
@@ -68,7 +68,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setSelect()
 	 */
 	public final void setSelect() {
-		this.setForegroundColor(ColorsPrefs.setColor("COLORARC"));
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
 		this.setLineWidth(2);
 	}
 

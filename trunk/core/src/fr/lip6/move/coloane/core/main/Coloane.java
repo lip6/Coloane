@@ -122,7 +122,7 @@ public class Coloane extends AbstractUIPlugin {
 	@Override
 	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
-		coreLog.config("Arret du plugin");
+		coreLog.config("Arret du plugin"); //$NON-NLS-1$
 		plugin = null;
 	}
 
@@ -143,7 +143,7 @@ public class Coloane extends AbstractUIPlugin {
 		if (model != null) {
 			int dateUpdate = model.modifyDate();
 			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSessionStatus() == SessionManager.CONNECTED)) {
-				coreLog.fine("Demande de mise a jour du modele sur la plateforme");
+				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
 			}
 		}
@@ -154,7 +154,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
-		coreLog.fine("Affichage d'un message d'erreur : " + msg);
+		coreLog.fine("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
 		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
 	}
 
@@ -163,7 +163,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		coreLog.fine("Affichage d'un message de warning : " + msg);
+		coreLog.fine("Affichage d'un message de warning : " + msg); //$NON-NLS-1$
 		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
 	}
 
@@ -204,7 +204,7 @@ public class Coloane extends AbstractUIPlugin {
 			handler.setFormatter(format);
 			coreLog.addHandler(handler);
 		} catch (Exception e) {
-			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
+			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier"); //$NON-NLS-1$
 		}
 	}
 
@@ -221,8 +221,8 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return String
 	 */
 	private String getVersion() {
-		String version = (String) getBundle().getHeaders().get("Implementation-Version");
-		if (version == null) { return (String) getBundle().getHeaders().get("Bundle-Version"); }
+		String version = (String) getBundle().getHeaders().get("Implementation-Version"); //$NON-NLS-1$
+		if (version == null) { return (String) getBundle().getHeaders().get("Bundle-Version"); } //$NON-NLS-1$
 		return version;
 	}
 
@@ -231,7 +231,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return String
 	 */
 	private String getBuild() {
-		String build = (String) getBundle().getHeaders().get("Implementation-Build");
+		String build = (String) getBundle().getHeaders().get("Implementation-Build"); //$NON-NLS-1$
 		if (build == null) { return null; }
 		return build;
 	}
@@ -247,32 +247,32 @@ public class Coloane extends AbstractUIPlugin {
 
 
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), "");
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Server name, IP and port for Framekit
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("SERVER"), "");
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("IP"), "");
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("PORT"), "");
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("SERVER"), ""); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("IP"), ""); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("PORT"), ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE"), color.getRGB());
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE"), color.getRGB()); //$NON-NLS-1$
 
 		//Node highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_HIGHLIGHT"), color.getRGB());
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_HIGHLIGHT"), color.getRGB()); //$NON-NLS-1$
 
 		//Node mouse over
 		color = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_MOUSE"), color.getRGB());
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_MOUSE"), color.getRGB()); //$NON-NLS-1$
 
 		//Arc color
 		color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC"), color.getRGB());
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC"), color.getRGB()); //$NON-NLS-1$
 
 		//Arc highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC_HIGHLIGHT"), color.getRGB());
+		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC_HIGHLIGHT"), color.getRGB()); //$NON-NLS-1$
 	}
 
 	public final void setDefaultPreference(String key) {

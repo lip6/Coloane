@@ -51,7 +51,7 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 					HistoryView.getInstance().addLine(Messages.ConnectModelAction_9);
 				}
 			} catch (ColoaneException e) {
-				Coloane.getLogger().warning("Impossible de connecter le modele : " + e.getMessage());
+				Coloane.getLogger().warning("Impossible de connecter le modele : " + e.getMessage()); //$NON-NLS-1$
 				HistoryView.getInstance().addLine(Messages.ConnectModelAction_9);
 			}
 		}
