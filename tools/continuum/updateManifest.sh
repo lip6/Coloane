@@ -13,6 +13,8 @@ fi
 
 echo "Updating Manifest File..."
 echo "Current Manifest File"
+echo `pwd`
+echo `ls -al`
 cat META-INF/MANIFEST.MF
 
 # # Modifie la version du projet
