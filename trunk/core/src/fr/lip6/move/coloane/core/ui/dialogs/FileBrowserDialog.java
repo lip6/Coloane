@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
@@ -82,14 +83,11 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
 		case IDialogCom.DLG_OK:
-			createButton(parent, IDialogConstants.OK_ID,
-					IDialogConstants.OK_LABEL, true);
+			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 			break;
 		case IDialogCom.DLG_OK_CANCEL:
-			createButton(parent, IDialogConstants.CANCEL_ID,
-					IDialogConstants.CANCEL_LABEL, false);
-			createButton(parent, IDialogConstants.OK_ID,
-					IDialogConstants.OK_LABEL, true);
+			createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 			break;
 		default:
 			break;
@@ -146,8 +144,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 			answerType = TERMINATED_CANCEL;
 		}
 
-		dialogResult = new DialogResult(id, answerType, !fileField.getText()
-				.equals(defaultValue), pathToArrayList(fileField.getText()));
+		dialogResult = new DialogResult(id, answerType, !fileField.getText().equals(defaultValue), pathToArrayList(fileField.getText()));
 
 		this.close();
 	}
@@ -188,7 +185,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 				br.close();
 			}
 		} catch (IOException e) {
-			System.out.println(e.toString());
+			Coloane.getLogger().warning("Erreur d'entree/sortie sur le fichier" + e.getMessage()); //$NON-NLS-1$
 		}
 		return result;
 	}
