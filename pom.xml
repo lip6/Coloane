@@ -264,7 +264,7 @@
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 						<!-- <manifestEntries> -->
-						<!-- 	<Implementation-Build>${buildNumber}</Implementation-Build> -->
+							<Implementation-Build>${project.version}.${buildNumber}</Implementation-Build>
 						<!-- </manifestEntries> -->
 					</archive>
 				</configuration>
@@ -293,6 +293,15 @@
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
 				</configuration>
+				<executions>
+					<execution>
+						<id>Checkstyle</id>
+						<phase>validate</phase>        
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -307,21 +316,6 @@
 						<phase>validate</phase>        
 						<goals>
 							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Pour le checkstyle -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>Checkstyle</id>
-						<phase>validate</phase>        
-						<goals>
-							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -379,8 +373,7 @@
 
 	</build>
 
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
-
+	<!-- Depots (Repositories) -->
 	<repositories>
 		<!-- Le repository des plugins Eclipse -->
 		<repository>
