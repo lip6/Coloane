@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.actions;
 import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
-	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.ui.actions.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.ui.actions.messages"; //$NON-NLS-1$
 	public static String AuthenticationAction_0;
 	public static String AuthenticationAction_1;
 	public static String AuthenticationAction_2;

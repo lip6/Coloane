@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.wizards;
 import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
-	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.ui.wizards.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.ui.wizards.messages"; //$NON-NLS-1$
 	public static String ModelCreationPage_0;
 	public static String ModelCreationPage_1;
 	public static String ModelCreationPage_3;
