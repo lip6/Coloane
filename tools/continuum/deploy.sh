@@ -40,7 +40,7 @@ echo $bundleVersion > last_$bundleSymbolicName
 rm -f last_$bundleSymbolicName
 
 # Nettoyage
-if [ ! -d META-INF/.svn ]; then
+if [ -d META-INF/.svn ]; then
 	echo "Suppression du MANIFEST modifie"
 	svn revert META-INF/MANIFEST.MF
 fi
