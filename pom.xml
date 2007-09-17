@@ -7,8 +7,8 @@
 	<packaging>pom</packaging>
 	<version>1.3.0-SNAPSHOT</version>
 	<name>Coloane</name>
-	<description>Eclipse plugin to edit Petri nets and connect them to FrameKit</description>
-	<url>https://coloane.rsr.lip6.fr/trac</url>
+	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
+	<url>http://coloane.rsr.lip6.fr</url>
 
 	<modules>
 		<module>interfaces</module>
@@ -24,11 +24,11 @@
 	</scm>
 
 	<organization>
-		<name>LIP6</name>
-		<url>http://www.lip6.fr</url>
+		<name>LIP6 MoVe</name>
+		<url>http://move.lip6.fr</url>
 	</organization>
 
-	<!-- Les developpeurs --> 
+	<!-- L'équipe de développement (actifs)--> 
 	<developers>
 		<developer>
 			<id>fkordon</id>
@@ -38,6 +38,7 @@
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
+				<role>team-leader</role>
 				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
@@ -50,17 +51,16 @@
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
+				<role>project-manager</role>
 				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
-			<properties>
-				<tracUrl>https://srcdev.lip6.fr/trac/research/jbvoron</tracUrl>
-			</properties>
 		</developer>
 		<developer>
-			<id>emasliah</id>
-			<name>Eric Masliah</name>
-			<email>Eric.Masliah@src.lip6.fr</email>
+			<id>ahamez</id>
+			<name>Alexandre Hamez</name>
+			<email>Alexandre.Hamez@lip6.fr</email>
+			<url>http://www-src.lip6.fr/homepages/Alexandre.Hamez/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -69,20 +69,10 @@
 			<timezone>+1</timezone>
 		</developer>
 		<developer>
-			<id>dcharles</id>
-			<name>Dimitri Charles</name>
-			<email>Clarence-Dimitri.Charles@src.lip6.fr</email>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<id>dcheng</id>
-			<name>David Cheng</name>
-			<email>David.Cheng@src.lip6.fr</email>
+			<id>alinard</id>
+			<name>Alban Linard</name>
+			<email>Alban.Linard@lip6.fr</email>
+			<url>http://www-src.lip6.fr/homepages/Alban.Linard/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -92,10 +82,55 @@
 		</developer>
 	</developers>
 
+	<!-- Les contributeurs : Anciens développeurs -->
+	<contributors>
+		<contributor>
+			<name>Nicolas Gibelin</name>
+			<email>Nicolas.Gibelin@lip6.fr</email>
+			<url>http://www-src.lip6.fr/homepages/Nicolas.Gibelin/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>system administrator</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Eric Masliah</name>
+			<email>Eric.Masliah@src.lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Dimitri Charles</name>
+			<email>Clarence-Dimitri.Charles@src.lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>David Cheng</name>
+			<email>David.Cheng@src.lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+	</contributors>
+
 	<!-- Pour les notifications -->
 	<ciManagement>
 		<system>continuum</system>
-		<url>http://izanami:8080/continuum</url>
+		<url>http://coloane.rsr.lip6.fr:8080/continuum</url>
 		<notifiers>
 			<notifier>
 				<type>mail</type>
@@ -104,7 +139,7 @@
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>true</sendOnWarning>
 				<configuration>
-					<address>Eric.Masliah@src.lip6.fr</address>
+					<address>Jean-Baptiste.Voron@lip6.fr</address>
 				</configuration>
 			</notifier>
 			<notifier>
@@ -114,7 +149,7 @@
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>false</sendOnWarning>
 				<configuration>
-					<address>Jean-Baptiste.Voron@lip6.fr</address>
+					<address>Fabrice.Kordon@lip6.fr</address>
 				</configuration>
 			</notifier>
 		</notifiers>
@@ -130,7 +165,7 @@
 		</dependency>
 	</dependencies>
 
-	<!-- Envoie par scp lors du deploy -->
+	<!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
@@ -145,28 +180,28 @@
 			<url>scp://coloane.rsr.lip6.fr/coloane/public/snapshots</url>
 		</snapshotRepository>
 		<site>
-      <id>Coloane-Reports</id>
+			<id>Coloane-Reports</id>
 			<url>scp://coloane.rsr.lip6.fr/coloane/public/reports</url>
-    </site>
+		</site>
 	</distributionManagement>
 
 	<reporting>
 		<plugins>
-      <plugin>
+			<plugin>
 				<!-- Pour le checkstyle -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>http://izanami/coloane/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>https://coloane.rsr.lip6.fr/public/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 			</plugin>
-      <plugin>
+			<plugin>
 				<!-- Pour la javadoc -->
 				<groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
-      <plugin>
+			<plugin>
 				<!-- Pour les tests -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -175,7 +210,6 @@
 	</reporting>
 
 	<build>
-
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
@@ -188,19 +222,13 @@
 				<artifactId>wagon-ssh-external</artifactId>
 				<version>1.0-alpha-5</version>
 			</extension>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>1.0-alpha-6</version>
-			</extension>
 		</extensions>
 
+		<!-- Configuration des plugin de Maven -->
 		<plugins>
 
-			<!-- ~~~~~~~~~~~~~~~~~~~~ Configuration des plugins ~~~~~~~~~~~~~~~~~~~~ -->
-
+			<!-- Pour compiler avec le jdk 1.5 -->
 			<plugin>
-				<!-- Pour compiler avec le jdk 1.5 -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -209,8 +237,8 @@
 				</configuration>
 			</plugin>
 
+			<!-- Pour le SVN -->
 			<plugin>
-				<!-- Pour le svn -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
 				<configuration>
@@ -222,21 +250,22 @@
 				</configuration>
 			</plugin>
 
+			<!-- Pour configurer le JAR de sortie -->
 			<plugin>
-				<!-- Pour configurer le jar de sortie -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<!-- Donne notre MANIFEST -->
+						<!-- Indique où se trouve notre manifest.mf -->
 						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
+						<!-- Rajoute Implementation-Build dans le MANIFEST -->
 						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> 
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
-						<!-- Rajoute Implementation-Build dans le MANIFEST -->
-						<manifestEntries>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
-						</manifestEntries>
+						<!-- <manifestEntries> -->
+						<!-- 	<Implementation-Build>${buildNumber}</Implementation-Build> -->
+						<!-- </manifestEntries> -->
 					</archive>
 				</configuration>
 			</plugin>
@@ -254,36 +283,21 @@
 				</configuration>	
 			</plugin>
 
-			<!--<plugin>
-				<!~~ Pour les tests ~~>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<reportsDirectory>target/surefire-reports</reportsDirectory>
-				</configuration>
-			</plugin>-->
-
-
 			<plugin>
 				<!-- Pour le checkstyle -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>http://izanami/coloane/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>https://coloane.rsr.lip6.fr/public/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
 				</configuration>
 			</plugin>
 
-
-
-			<!-- ~~~~~~~~~~~~~~~~~~~~~ Executions des plugins ~~~~~~~~~~~~~~~~~~~~~~
-			~~~~~~~~~~~~~~~~~~~~~ S'effectue dans l'ordre ~~~~~~~~~~~~~~~~~~~~~ -->
-
 			<plugin>
-				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
-				/!\ Ne marche que avec svn en anglais -->
+				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
+				<!-- /!\ Ne marche qu'avec un SVN en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
 				<version>0.9.4</version>
@@ -298,8 +312,8 @@
 				</executions>
 			</plugin>
 
+			<!-- Pour le checkstyle -->
 			<plugin>
-				<!-- Pour le checkstyle -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<executions>
@@ -314,8 +328,8 @@
 			</plugin>
 
 			<plugin>
-            			<groupId>org.apache.maven.plugins</groupId>
-            			<artifactId>maven-scm-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>UpTools</id>
@@ -329,45 +343,31 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
-            <goals>
-              <goal>exec</goal>
-            </goals>
-      			<configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
 							<executable>deploy.sh</executable>
-          		<arguments>
+							<arguments>
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/plugins</argument>
-          		</arguments>
-        		</configuration>
-          </execution>
-        </executions>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+		</plugins>
 
-			<!--<plugin>
-			<!~~ Pour modifier le manifest avec la version du pom ~~>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-psteclipse-plugin</artifactId>
-			<executions>
-				<execution>
-					<phase>validate</phase>        
-					<goals>
-						<goal>eclipse-plugin</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>-->
-
-	</plugins>
-
-	<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar	~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<!-- Ce qu'on va rajouter dans le JAR -->
 		<resources>
 			<resource>
 				<directory>src</directory>
@@ -377,62 +377,50 @@
 			</resource>
 		</resources>
 
-</build>
+	</build>
 
-<!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~ Repositories ~~~~~~~~~~~~~~~~~~~~~~ -->
 
-<repositories>
-	<!-- Le repository des plugins Eclipse -->
-	<repository>
-		<id>Eclipse</id>
-		<name>Eclipse Repository</name>
-		<url>http://repo1.maven.org/eclipse</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</repository>
-	<!-- Notre repository, pour les dependances de core -->
-	<!--<repository>
-		<id>Izanami</id>
-		<name>Izanami Repository</name>
-		<url>http://izanami/coloane/repository</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</repository>-->
-</repositories>
+	<repositories>
+		<!-- Le repository des plugins Eclipse -->
+		<repository>
+			<id>Eclipse</id>
+			<name>Eclipse Repository</name>
+			<url>http://repo1.maven.org/eclipse</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
-<pluginRepositories>
-	<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
-	<pluginRepository>
-		<id>Tlc</id>
-		<name>TLC Repository</name>
-		<url>http://commons.ucalgary.ca/pub/m2</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</pluginRepository>
-	<!-- Le plugin Repository de Maven pour les Snapshots -->
-	<pluginRepository>
-		<id>apache.org</id>
-		<name>Maven Plugin Snapshots</name>
-		<url>http://people.apache.org/repo/m2-snapshot-repository</url>
-		<releases>
-			<enabled>false</enabled>
-		</releases>
-		<snapshots>
-			<enabled>true</enabled>
-		</snapshots>
-	</pluginRepository>
-</pluginRepositories>
-
+	<pluginRepositories>
+		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
+		<pluginRepository>
+			<id>Tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		
+		<!-- Le plugin Repository de Maven pour les Snapshots -->
+		<pluginRepository>
+			<id>apache.org</id>
+			<name>Maven Plugin Snapshots</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
