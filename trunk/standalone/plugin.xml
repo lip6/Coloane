@@ -2,25 +2,25 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         id="application"
+         id="application_standalone"
+         name="Standalone Application Coloane"
          point="org.eclipse.core.runtime.applications">
-      <application>
-         <run class="fr.lip6.move.coloane.standalone.Application"/>
+      <application
+            visible="true">
+         <run
+               class="fr.lip6.move.coloane.standalone.Application">
+         </run>
       </application>
    </extension>
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="fr.lip6.move.coloane.standalone.application"
+            application="fr.lip6.move.coloane.standalone.application_standalone"
             name="Coloane">
          <property
                name="aboutText"
-               value="Coloane &#x0A;Version 0.9.1&#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane">
-         </property>
-         <property
-               name="aboutImage"
-               value="/fr.lip6.move.coloane/resources/icons/icone_ile.gif">
+               value="Coloane &#x0A;by Jean-Baptiste Voron&#x0A;&#x0A;For more information please visit :&#x0A;http://www.lip6.fr/coloane">
          </property>
          <property
                name="startupForegroundColor"
