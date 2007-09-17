@@ -11,14 +11,18 @@ if [ ! -f META-INF/MANIFEST.MF ]; then
 	exit 0
 fi
 
+echo "-----------------------------"
 echo "Updating Manifest File..."
 echo "Current Manifest File"
 cat META-INF/MANIFEST.MF
+echo "-----------------------------"
 
 # # Modifie la version du projet
 echo "Writing a new Manifest file !"
+echo "-----------------------------"
 perl -i -pe 's/^Bundle-Version: ([^\s]*)/Bundle-Version: $1.r'$number'/' META-INF/MANIFEST.MF
 echo "Updated Manifest File"
 cat META-INF/MANIFEST.MF
+echo "-----------------------------"
 
 echo "Updating Manifest File complete..."
