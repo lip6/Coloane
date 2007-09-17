@@ -1,4 +1,6 @@
-#! /bin/sh
+#! /bin/sh 
+set -x
+
 if [ $# -ne 3 ]; then
 	echo "FAILURE: This script needs 3 arguments : Jar's name, Build number and Plugin's directory"
 	exit 1
