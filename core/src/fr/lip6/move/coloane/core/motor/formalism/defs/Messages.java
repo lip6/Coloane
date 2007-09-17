@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
-	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.motor.formalism.defs.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.motor.formalism.defs.messages"; //$NON-NLS-1$
 	public static String PetriNets_13;
 	public static String PetriNets_22;
 	public static String PetriNets_34;
