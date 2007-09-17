@@ -29,12 +29,12 @@ fi
 bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print $2}' | tr -d "\r"`
 
 # Affichage indicatif
-newjar=`echo $bundleSymbolicName\_$bundleVersion.r$rev.jar`
+newjar=`echo $bundleSymbolicName\_$bundleVersion.jar`
 
 # Copie...
 `scp target/$jar coloane.rsr.lip6.fr:$directory/$newjar`
 
-echo $bundleVersion.r$rev > last_$bundleSymbolicName
+echo $bundleVersion > last_$bundleSymbolicName
 `scp last_$bundleSymbolicName coloane.rsr.lip6.fr:$directory`
 rm -f last_$bundleSymbolicName
 
