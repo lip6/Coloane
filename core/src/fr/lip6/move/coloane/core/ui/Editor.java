@@ -433,8 +433,6 @@ public class Editor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	@Override
 	public final void dispose() {
-		//System.out.println("DISPOSE");
-		//getSite().getPage().removePartListener(listener);
 		super.dispose();
 	}
 
