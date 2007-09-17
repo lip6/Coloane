@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>core</artifactId>
-	<version>0.9.8-SNAPSHOT</version>
+	<version>0.9.12-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>Core de Coloane</description>
@@ -26,7 +26,7 @@
 		<gef.version>3.2.100-v20070620</gef.version>
 	</properties>
 
-	<!-- ~~~~~~~~~~~~~~~~~~~~ Les dependencies ~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- Les dépendances -->
 	<dependencies>
 
 		<dependency>
@@ -148,7 +148,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<!-- Repetition du super pom car Continuum oublie qu'il faut le lire.. -->  
@@ -162,11 +161,9 @@
 					<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
 				</configuration>	
 			</plugin>
-
-
 		</plugins>
 
-		<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<!-- A ajouter dans le JAR -->
 		<resources>
 			<resource>
 				<directory>.</directory>
@@ -185,7 +182,5 @@
 				</includes>
 			</resource>
 		</resources>
-
 	</build>
-
 </project>
