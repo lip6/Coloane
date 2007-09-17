@@ -41,8 +41,8 @@
 		<plugins>
 
 			<plugin>
-				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} 
-				/!\ Ne marche que avec svn en anglais -->
+				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
+				<!-- /!\ Ne marche que avec svn en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
 				<version>0.9.4</version>
@@ -58,41 +58,54 @@
 			</plugin>
 
 			<plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>UpManifest</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>updateManifest.sh</executable>
+							<arguments>
+								<argument>${buildNumber}</argument>
+							</arguments>
+						</configuration>
+					</execution>
 					<execution>
 						<id>Build_feature</id>
 						<phase>validate</phase>        
-            <goals>
-              <goal>exec</goal>
-            </goals>
-        		<configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
 							<executable>build_feature.pl</executable>
-          		<arguments>
+							<arguments>
 								<argument>feature.xml</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/plugins</argument>
 								<argument>/coloane/public/night-updates/features</argument>
 							</arguments>
-        		</configuration>
-          </execution>
+						</configuration>
+					</execution>
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
-            <goals>
-              <goal>exec</goal>
-            </goals>
+						<goals>
+							<goal>exec</goal>
+						</goals>
 						<configuration>
 							<executable>deploy.sh</executable>
-          		<arguments>
+							<arguments>
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/features</argument>
-         	 	</arguments>
-        		</configuration>
-          </execution>
-        </executions>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -141,35 +154,35 @@
 
 	</build>
 
-<repositories>
-	<!-- Le repository des plugins Eclipse -->
-	<repository>
-		<id>Eclipse</id>
-		<name>Eclipse Repository</name>
-		<url>http://repo1.maven.org/eclipse</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</repository>
-</repositories>
+	<repositories>
+		<!-- Le repository des plugins Eclipse -->
+		<repository>
+			<id>Eclipse</id>
+			<name>Eclipse Repository</name>
+			<url>http://repo1.maven.org/eclipse</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
-<pluginRepositories>
-	<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
-	<pluginRepository>
-		<id>Tlc</id>
-		<name>TLC Repository</name>
-		<url>http://commons.ucalgary.ca/pub/m2</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</pluginRepository>
-</pluginRepositories>
+	<pluginRepositories>
+		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
+		<pluginRepository>
+			<id>Tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<!-- Envoie par scp lors du deploy -->
 	<distributionManagement>
