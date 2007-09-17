@@ -17,7 +17,7 @@ cat META-INF/MANIFEST.MF
 
 # # Modifie la version du projet
 echo "Writing a new Manifest file !"
-perl -pe 's/^Bundle-Version: ([^\s]*)/Bundle-Version: $1.'$number'/' META-INF/MANIFEST.MF
+perl -i -pe 's/^Bundle-Version: ([^\s]*)/Bundle-Version: $1.'$number'/' META-INF/MANIFEST.MF
 echo "Updated Manifest File"
 cat META-INF/MANIFEST.MF
 
