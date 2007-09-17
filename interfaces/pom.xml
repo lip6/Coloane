@@ -12,7 +12,7 @@
 	<version>1.0.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Interfaces</name>
-	<description>Interfaces and shared object between coloane's core and coloane's API</description>
+	<description>Interfaces and shared objects between Core and API</description>
 
 	<scm>
 		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</connection>
