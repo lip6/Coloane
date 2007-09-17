@@ -28,10 +28,6 @@ fi
 # Recupere la version du projet
 bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print $2}' | tr -d "\r"`
 
-# # Modifie la version du projet
-# echo "Writing a new Manifest file !"
-# sed "/^Bundle-Version:/ s/:.*/: $bundleVersion.r$rev/" META-INF/MANIFEST.MF > META-INF/MANIFEST.MF
-
 # Affichage indicatif
 newjar=`echo $bundleSymbolicName\_$bundleVersion.r$rev.jar`
 
@@ -43,3 +39,6 @@ echo $bundleVersion.r$rev > last_$bundleSymbolicName
 `scp last_$bundleSymbolicName coloane.rsr.lip6.fr:$nightUpdatesPlugins`
 rm -f last_$bundleSymbolicName
 
+# Nettoyage
+echo "Suppression du MANIFEST modifie"
+svn revert META-INF/MANIFEST.MF
