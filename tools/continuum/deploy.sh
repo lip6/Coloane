@@ -32,11 +32,10 @@ bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print 
 newjar=`echo $bundleSymbolicName\_$bundleVersion.r$rev.jar`
 
 # Copie...
-#echo "scp target/$jar coloane.rsr.lip6.fr:$nightUpdatesPlugins/$newjar"
 `scp target/$jar coloane.rsr.lip6.fr:$directory/$newjar`
 
 echo $bundleVersion.r$rev > last_$bundleSymbolicName
-`scp last_$bundleSymbolicName coloane.rsr.lip6.fr:$nightUpdatesPlugins`
+`scp last_$bundleSymbolicName coloane.rsr.lip6.fr:$directory`
 rm -f last_$bundleSymbolicName
 
 # Nettoyage
