@@ -192,7 +192,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>https://coloane.rsr.lip6.fr/public/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>http://coloane.rsr.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 			</plugin>
@@ -288,7 +288,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>https://coloane.rsr.lip6.fr/public/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>http://coloane.rsr.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
