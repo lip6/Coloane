@@ -1,5 +1,4 @@
 #! /bin/sh 
-set -x
 
 if [ $# -ne 3 ]; then
 	echo "FAILURE: This script needs 3 arguments : Jar's name, Build number and Plugin's directory"
@@ -41,5 +40,7 @@ echo $bundleVersion > last_$bundleSymbolicName
 rm -f last_$bundleSymbolicName
 
 # Nettoyage
-echo "Suppression du MANIFEST modifie"
-svn revert META-INF/MANIFEST.MF
+if [ ! -d META-INF/.svn ]; then
+	echo "Suppression du MANIFEST modifie"
+	svn revert META-INF/MANIFEST.MF
+fi
