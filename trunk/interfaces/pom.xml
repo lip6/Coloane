@@ -36,7 +36,7 @@
 			</plugin>
 		</plugins>
 
-		<!-- A inclure dans le JAR -->
+		<!-- A inclure dans le JAR... -->
 		<resources>
 			<resource>
 				<directory>src</directory>
