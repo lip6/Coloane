@@ -86,13 +86,7 @@ public class Coloane extends AbstractUIPlugin {
 			ui.setMotor(motor);
 
 			// Pour afficher la version et le numero de build
-			String version = this.getVersion();
-			String build = this.getBuild();
-			if (build != null) {
-				ui.printHistoryMessage("Core Version : " + version + " Build : " + build); //$NON-NLS-1$ //$NON-NLS-2$
-			} else {
-				ui.printHistoryMessage("Core Version (Dev) : " + version); //$NON-NLS-1$
-			}
+			ui.printHistoryMessage("Core Version : " + getVersion()); //$NON-NLS-1$
 		} catch (Exception e) {
 			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
@@ -221,21 +215,8 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return String
 	 */
 	private String getVersion() {
-		String version = (String) getBundle().getHeaders().get("Implementation-Version"); //$NON-NLS-1$
-		if (version == null) { return (String) getBundle().getHeaders().get("Bundle-Version"); } //$NON-NLS-1$
-		return version;
+		return (String) getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$
 	}
-
-	/**
-	 * Retourne le numero de build du Core
-	 * @return String
-	 */
-	private String getBuild() {
-		String build = (String) getBundle().getHeaders().get("Implementation-Build"); //$NON-NLS-1$
-		if (build == null) { return null; }
-		return build;
-	}
-
 
 	/**PREFERENCES PAGE*/
 
