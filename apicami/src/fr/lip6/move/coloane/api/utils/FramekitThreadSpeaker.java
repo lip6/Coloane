@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.api.utils;
 import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
 import java.util.Vector;
 
@@ -166,7 +165,7 @@ public class FramekitThreadSpeaker extends Thread {
 			rd.append(",");
 			rd.append(results.getAnswerType());
 			rd.append(",");
-			rd.append(results.hasBeenModified() == true?1:2);
+			rd.append(results.hasBeenModified() == true ? 1 : 2);
 			rd.append(",");
 			rd.append(")");
 			String answer = rd.toString();

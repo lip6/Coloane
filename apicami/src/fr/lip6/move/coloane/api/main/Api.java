@@ -259,6 +259,31 @@ public final class Api implements IApi {
 	}
 
 	/**
+	 * Indique la fin d'une ouverture de session
+	 * @return
+	 */
+	public void setEndOpenSession() {
+		apiLog.fine("Fin de l'ouverture de session");
+		com.setEndOpenSession();
+	}
+
+	/**
+	 * Indique la fin de la fermeture de session (deconnexion)
+	 */
+	public void setEndCloseCurrentSession() {
+		apiLog.fine("Fin de la fermeture de session");
+		com.setEndCloseSession();
+	}
+
+	/**
+	 * Indique la fin de service
+	 */
+	public void setEndService() {
+		apiLog.fine("Fin du service");
+		com.setEndService();
+	}
+
+	/**
 	 * Permet de fermer la connexion entre l'interface utilisateur et la plate-forme.<br>
 	 * La fermeture de la connexion implique la fermeture prealable de toutes les sessions<br>
 	 * ATTENTION : La fermeture des sessions doit etre faite avant. (C'est un prerequis !)
@@ -461,6 +486,12 @@ public final class Api implements IApi {
 			apiLog.warning("Demande de service KO");
 		}
 		apiLog.exiting("Api", "askForService");
+	}
+
+
+	public void setTaskDescription(String service, String description) {
+		apiLog.fine("Demande d'affichage de description pour la tache (" + service + " : " + description);
+		com.setTaskDescription(service, description);
 	}
 
 	/**
