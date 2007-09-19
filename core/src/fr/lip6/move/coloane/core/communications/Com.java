@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.interfaces.IMotorCom;
 import fr.lip6.move.coloane.core.interfaces.IUiCom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.DrawDialog;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.interfaces.IApi;
@@ -21,6 +22,7 @@ import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 import java.util.Vector;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 
 public final class Com implements IComUi, IComApi, IComMotor {
@@ -45,9 +47,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 
 	/** L'instance du singleton : Com */
 	private static Com instance;
-
-	/** Indicateur d'authentification */
-	private static boolean isAuthenticated = false;
 
 	/**
 	 * Le constructeur en private
@@ -85,46 +84,58 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		this.ui = theUi;
 	}
 
-	/**
-	 * Authentification de l'utilisateur
-	 * @param login login
-	 * @param pass mot de passe
-	 * @param ip IP ou est la plateforme FrameKit
-	 * @param port Port ou joindre la plateforme FrameKit
-	 * @return boolean indiquant si l'authentification c'est bien passee
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#authentication(fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public boolean authentication(String login, String pass, String ip, int port) {
+	public boolean authentication(AuthenticationInformation authInformation, IProgressMonitor monitor) {
 		Coloane.getLogger().fine("Demande d'authentification"); //$NON-NLS-1$
 
+		monitor.beginTask("Connecting...", 2);
+
 		// Connexion a la plateforme
-		boolean retour = this.api.openConnection(login, pass, ip, port, Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean retour = this.api.openConnection(authInformation.getLogin(), authInformation.getPass(), authInformation.getIp(), authInformation.getPort(), Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		monitor.worked(1);
+		monitor.setTaskName("Logging...");
+
 		// Log du resultat
 		if (retour) { Coloane.getLogger().fine("Authentification OK"); } else { Coloane.getLogger().warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
-		isAuthenticated = retour;
+
+		monitor.worked(1);
+		monitor.done(); // Pas d'asynchronisme... L'authentification est terminee
 		return retour;
 	}
 
-	/**
-	 * Connecte un modele a la plate-forme
-	 * @param model Le modelea connecter a la plateforme
-	 * @return boolean Selon le resultat de la connexion
-	 * @throws Exception
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#openSession(fr.lip6.move.coloane.core.ui.model.IModelImpl, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public boolean openSession(IModelImpl model) {
+	public boolean openSession(IModelImpl model, IProgressMonitor monitor) {
 		Coloane.getLogger().fine("Connexion d'un modele"); //$NON-NLS-1$
+
+		monitor.beginTask("Connecting current model...", 3);
 
 		// Si le modele est nul on ne peut rien faire
 		if (model == null) {
 			Coloane.getLogger().warning("Aucun modele a connecter"); //$NON-NLS-1$
 			return false;
 		}
+
+		monitor.worked(1);
+		monitor.setTaskName("Fetching information about the model");
+
 		// Recuperation du nom de la session courante
 		String sessionName = motor.getSessionManager().getCurrentSessionName();
 		// Recuperation du nom du formalime de la session courante
 		String formalismName = model.getFormalism().getName();
 
 		// Demande de l'ouverture de session a l'API
-		Boolean retour = api.openSession(sessionName, model.getDate(), formalismName);
+		boolean retour = api.openSession(sessionName, model.getDate(), formalismName);
+
+		monitor.worked(1);
+		monitor.setTaskName("Receiving available services");
+
 		// Log du resultat
 		if (retour) { Coloane.getLogger().fine("Connexion reussie !"); } else { Coloane.getLogger().warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -134,54 +145,50 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		return retour;
 	}
 
-	/**
-	 * Deconnecte un modele (Demande en provenance de Coloane)
-	 * @param modele Le modele a deconnecter
-	 * @return boolean Si la deconnexion c'est bien passee
-	 * @throws Exception exception
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#closeSession(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public boolean closeSession() {
+	public boolean closeSession(IProgressMonitor monitor) {
 		// On verifie qu'il y a bien une sesssion courante
 		if (motor.getSessionManager().getCurrentSession() == null) { return false; }
 
-		// On sauvegarde les noms des menus a supprimer
-		RootMenu menuServiceName = motor.getSessionManager().getCurrentSession().getServicesMenu();
-		RootMenu menuAdminName = motor.getSessionManager().getCurrentSession().getAdminMenu();
+		monitor.beginTask("Disconnecting current model...", 2);
 
-		// Si la deconnexion du cote API se passe bien
-		if (api.closeCurrentSession()) {
+		// Deconnexion du cote de l'API
+		boolean retour = api.closeCurrentSession();
 
-			// Suppression du menu de services
-			if (menuServiceName != null) { this.ui.removeMenu(menuServiceName.getName()); }
-			// Suppression du menu d'administration
-			if (menuAdminName != null) { this.ui.removeMenu(menuAdminName.getName()); }
-
-			return true;
-		} else {
-			return false;
-		}
+		monitor.worked(1);
+		return retour; // Pas de done puisque l'action est asynchrone
 	}
 
 	/**
-	 * Deconnexion brutale de tous les modeles (demande de FrameKit)<br>
+	 * Deconnexion brutale de tous les modeles (a la demande de FrameKit)<br>
 	 * Cette deconnexion est provoquee par un KO ou un FC
 	 */
 	public void closeAllSessions() {
+		Coloane.getLogger().fine("Framekit demande la deconnexion de tous les modeles");
 		motor.getSessionManager().destroyAllSessions();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IComUi#askForService(java.lang.String, java.lang.String, java.lang.String)
+	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#askForService(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public void askForService(String rootMenuName, String parentName, String serviceName) {
+	public void askForService(String rootMenuName, String referenceName, String serviceName, IProgressMonitor monitor) {
 		Coloane.getLogger().fine("Demande de service : " + serviceName); //$NON-NLS-1$
-		// Grisage du menu de services
-		this.ui.changeMenuStatus(rootMenuName, false);
+
 		// Requete a l'API
-		this.api.askForService(rootMenuName, parentName, serviceName);
-		// Au retour d'un service, le modele est toujours propre
-		this.motor.getSessionManager().getCurrentSessionModel().setDirty(false);
+		monitor.beginTask("Asking the platform...", IProgressMonitor.UNKNOWN);
+		api.askForService(rootMenuName, referenceName, serviceName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IComApi#setTaskDescription(java.lang.String, java.lang.String)
+	 */
+	public void setTaskDescription(String service, String description) {
+		motor.setTaskDescription(service, description);
 	}
 
 	/**
@@ -271,17 +278,6 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	}
 
 	/**
-	 * Afichage d'un message de FrameKit
-	 * @param type Le type de message
-	 * @param text Le texte du message
-	 * @param specialType Un indicateur
-	 */
-	public void setUiMessage(int type, String text, int specialType) {
-		Coloane.showWarningMsg(text);
-	}
-
-
-	/**
 	 * Recupere le modele pour le transmettre a l'API
 	 * @return IModel Le modele en cours
 	 * @see IModel
@@ -330,11 +326,30 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		return this.motor.getSessionManager().getCurrentSessionModel().getDate();
 	}
 
-	/**
-	 * Donne l'etat d'authentification
-	 * @return un booleen
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndOpenSession()
 	 */
-	public boolean isAuthenticated() {
-		return isAuthenticated;
+	public void setEndOpenSession() {
+		Coloane.getLogger().finer("Fin de la demande d'ouverture de session (connexion)");
+		motor.endService();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndCloseSession()
+	 */
+	public void setEndCloseSession() {
+		Coloane.getLogger().finer("Fin de la demande de fermeture de session (deconnexion)");
+		motor.endService();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndService()
+	 */
+	public void setEndService() {
+		Coloane.getLogger().finer("Fin du service recu et transmis par l'API");
+		motor.endService();
 	}
 }
