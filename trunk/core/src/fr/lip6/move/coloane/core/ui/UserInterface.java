@@ -78,7 +78,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		serviceResultList.removeAll();
-		com.askForService(rootMenuName, parentName, serviceName);
+		motor.askForService(rootMenuName, parentName, serviceName);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * Desactivation du rootMenu
 	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
 	 */
-	public void changeMenuStatus(String rootName, boolean status) {
+	public void changeRootMenuStatus(String rootName, boolean status) {
 		MenuManipulation.setEnabled(rootName, rootName, status);
 	}
 
