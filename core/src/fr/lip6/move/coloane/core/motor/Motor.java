@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.motor;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.interfaces.IComMotor;
 import fr.lip6.move.coloane.core.interfaces.IMotorCom;
 import fr.lip6.move.coloane.core.interfaces.IMotorUi;
@@ -10,12 +9,19 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -25,8 +31,15 @@ import org.eclipse.ui.PlatformUI;
  * Il doit etre tenu au courant des changements de sessions.
  */
 public final class Motor implements IMotorCom, IMotorUi {
+
+	/** Le gestionnaire de formalismes */
 	private static FormalismManager formalismManager;
+
+	/** Le gestionnaire de session */
 	private static SessionManager sessionManager;
+
+	/** L'operation courante */
+	private ColoaneProgress currentProgress;
 
 	/** Le module de communications */
 	private IComMotor com = null;
@@ -40,7 +53,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	/** L'instance du singleton : Motor */
 	private static Motor instance;
 
-	/** Constructeur du module moteur */
+	/**
+	 * Constructeur du module moteur en prive pour eviter les doublons<br>
+	 * Pattern singleton<br>
+	 * Instanciation des 2 managers : formalismes et sessions
+	 */
 	private Motor() {
 		formalismManager = new FormalismManager();
 		sessionManager = new SessionManager();
@@ -74,6 +91,55 @@ public final class Motor implements IMotorCom, IMotorUi {
 	}
 
 	/**
+	 * Demande l'authentification aupres de la plateforme
+	 * @param authInformation Les informations recues de la boite de dialogue
+	 */
+	public void authentication(final AuthenticationInformation authInformation) {
+		Boolean res = Boolean.FALSE;
+
+		// Verification que toutes les donnees sont fournies
+		if (authInformation == null) {
+			Coloane.showErrorMsg("Please fill the form ! All fields are required !");
+			return;
+		}
+
+		// Affichage dans la zone d'historique
+		HistoryView.getInstance().addText("Authentication : ");
+
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IRunnableContext context = workbench.getProgressService();
+
+		// Definition de l'operation d'authentification
+		ColoaneProgress runnable = new ColoaneProgress(res) {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				setMonitor(monitor);
+				setResults(com.authentication(authInformation, monitor));
+			}
+		};
+
+		try {
+			context.run(false, false, runnable);
+		} catch (Exception e) {
+			Coloane.getLogger().warning("Echec de l'authentification: " + e.getMessage()); //$NON-NLS-1$
+		}
+
+		// Recupere le resultat de l'operation
+		res = (Boolean) runnable.getResults();
+
+		// Si l'authentification s'est bien passee
+		if (res.booleanValue()) {
+			HistoryView.getInstance().addLine("SUCCESS");
+			sessionManager.setAuthenticated(true);
+		} else {
+			HistoryView.getInstance().addLine("FAILURE");
+			sessionManager.setAuthenticated(false);
+		}
+
+		// Mise a jour des boutons et menus de connexion
+		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+	}
+
+	/**
 	 * Creation d'une session
 	 * @param model Le modele qui doit etre attache a la session
 	 * @param name Le nom de la session
@@ -102,35 +168,174 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * @return booleen Le resultat de l'operation
 	 * @throws ColoaneException
 	 */
-	public boolean openSession() throws ColoaneException {
+	public void openSession() {
 		// Verification de l'existence du module de communications
-		if (com == null) { throw new ColoaneException(Messages.Motor_0); }
-		// Demande de connexion du modele au module de communications
-		boolean result = com.openSession(sessionManager.getCurrentSessionModel());
-		// Si l'ouverture de connexion echoue, on supprime la session existante
-		if (!result) {
-			Coloane.getLogger().warning("Echec de l'ouverture de session sur FK : Destruction de moignon"); //$NON-NLS-1$
-			sessionManager.destroySession(sessionManager.getCurrentSessionName());
-		} else {
-			sessionManager.setCurrentSessionConnected();
-			ui.platformState(com.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+		if (com == null) {
+			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
+			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			return;
 		}
-		return result;
+
+		// On verifie que l'utilisateur est authentifie avant de connecter le modele
+		if (!sessionManager.isAuthenticated()) {
+			Coloane.getLogger().warning("Aucune authentification prealable"); //$NON-NLS-1$
+			Coloane.showWarningMsg("You are not authenticated. Please authenticate yourself first.");
+			return;
+		}
+
+		Boolean res = Boolean.FALSE;
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IRunnableContext context = workbench.getProgressService();
+
+		ColoaneProgress runnable = new ColoaneProgress(res) {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				setMonitor(monitor);
+				setResults(com.openSession(sessionManager.getCurrentSessionModel(), monitor));
+				waitUntilEnd(); // Attente de la fin de l'operation
+			}
+		};
+
+		// Doit etre positionne avant le run !!
+		currentProgress = runnable;
+
+		// Affichage dans la zone d'historique
+		HistoryView.getInstance().addText("Connecting current model : ");
+
+		// Recuperation de la session courante
+		Session current = Motor.getInstance().getSessionManager().getCurrentSession();
+		if (current != null) {
+			// Le modele existe... On peut essayer de le connecter
+			HistoryView.getInstance().addLine(current.getName());
+			Coloane.getLogger().fine("Session courante : " + current.getName()); //$NON-NLS-1$
+
+			try {
+				context.run(true, false, runnable);
+			} catch (Exception e) {
+				Coloane.getLogger().warning("Echec de la connexion du modele: " + e.getMessage()); //$NON-NLS-1$
+			}
+
+			// Recupere le resultat de l'ouverture de session de la com
+			res = (Boolean) runnable.getResults();
+
+			// Si l'ouverture de connexion echoue, on supprime la session existante
+			if (!res.booleanValue()) {
+				Coloane.getLogger().warning("Echec de l'ouverture de session sur FK : Destruction de moignon"); //$NON-NLS-1$
+				sessionManager.destroySession(current.getName());
+
+			// Si l'ouverture reussie
+			} else {
+				sessionManager.setCurrentSessionConnected();
+				ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+			}
+		} else {
+			Coloane.getLogger().warning("Aucun modele actif"); //$NON-NLS-1$
+			HistoryView.getInstance().addLine("FAILURE");
+			Coloane.showWarningMsg("No model to connect");
+		}
 	}
 
 	/**
 	 * Fermeture de la session courante
 	 * @return boolean Le resultat de l'operation
 	 */
-	public boolean closeSession() {
-		if (com.closeSession()) {
-			sessionManager.setCurrentSessionDisconnected();
-			ui.platformState(com.isAuthenticated(), sessionManager.getCurrentSessionStatus());
-			ui.redrawMenus();
-			return true;
+	public void closeSession() {
+		// Verification de l'existence du module de communications
+		if (com == null) {
+			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
+			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			return;
 		}
-		return false;
+
+		// On verifie que le modele courant est bien connecte avant de le deconnecter
+		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
+			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
+			Coloane.showWarningMsg("The current modeli s not connected. No need to disconnect it");
+			return;
+		}
+
+		Boolean res = Boolean.FALSE;
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IRunnableContext context = workbench.getProgressService();
+
+		ColoaneProgress runnable = new ColoaneProgress(res) {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				setMonitor(monitor);
+				setResults(com.closeSession(monitor));
+				waitUntilEnd(); // Attente de la fin de l'operation
+			}
+		};
+
+		// Doit etre positionne avant le run !!
+		currentProgress = runnable;
+
+		try {
+			context.run(true, false, runnable);
+		} catch (Exception e) {
+			Coloane.getLogger().warning("Echec de la deconnexion du modele: " + e.getMessage());
+		}
+
+		// Recupere le resultat de la fermeture de session
+		res = (Boolean) runnable.getResults();
+
+		// Si la fermeture de session echoue
+		if (res.booleanValue()) {
+			sessionManager.setCurrentSessionDisconnected();
+			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+			ui.redrawMenus();
+		} else {
+			Coloane.getLogger().warning("La deconnexion de la session courante a echouee");
+			Coloane.showErrorMsg("The current session has not been disconnected. Please retry...");
+		}
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IMotorUi#askForService(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public void askForService(final String rootMenuName, final String referenceName, final String serviceName) {
+		// Verification de l'existence du module de communications
+		if (com == null) {
+			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
+			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			return;
+		}
+
+		// On verifie que le modele courant est bien connecte avant de le deconnecter
+		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
+			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
+			Coloane.showWarningMsg("The current model is not connected. Please connect it before call services...");
+			return;
+		}
+
+		Boolean res = Boolean.FALSE;
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IRunnableContext context = workbench.getProgressService();
+
+		ColoaneProgress runnable = new ColoaneProgress(res) {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				setMonitor(monitor);
+				com.askForService(rootMenuName, referenceName, serviceName, monitor);
+				waitUntilEnd(); // Attente de la fin de l'operation
+			}
+		};
+
+		// Doit etre positionne avant le run !!
+		currentProgress = runnable;
+
+		// Grisage du menu de services
+		this.ui.changeRootMenuStatus(rootMenuName, false);
+
+		try {
+			context.run(true, false, runnable);
+		} catch (Exception e) {
+			Coloane.getLogger().warning("Echec de l'invocation de service (" + serviceName + ") " + e.getMessage());
+		}
+
+		// Au retour d'un service, le modele est toujours propre
+		sessionManager.getCurrentSessionModel().setDirty(false);
+	}
+
 
 	/**
 	 * Detruit la session designee
@@ -139,7 +344,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	public void destroySession(String sessionName) {
 		if (sessionManager.destroySession(sessionName)) {
 			Coloane.getLogger().finer("OK pour la destruction de la session"); //$NON-NLS-1$
-			ui.platformState(com.isAuthenticated(), SessionManager.ERROR);
+			ui.platformState(sessionManager.isAuthenticated(), SessionManager.ERROR);
 			ui.redrawMenus();
 			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
 		}
@@ -176,7 +381,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
 			Coloane.getLogger().finer("OK pour la reprise de session" + name); //$NON-NLS-1$
-			ui.platformState(com.isAuthenticated(), sessionManager.getSessionStatus(name));
+			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSessionStatus(name));
 			ui.redrawMenus();
 		} else {
 			Coloane.getLogger().warning("Echec lors de la reprise de session" + name); //$NON-NLS-1$
@@ -198,5 +403,33 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public FormalismManager getFormalismManager() {
 		return formalismManager;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IMotorCom#endService()
+	 */
+	public void endService() {
+		if (currentProgress != null) {
+			Coloane.getLogger().finer("Demande de liberation de moniteur");
+			currentProgress.freeMonitor();
+			currentProgress = null;
+		} else {
+			Coloane.getLogger().warning("Aucun service en cours...");
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.interfaces.IMotorCom#setTaskDescription(java.lang.String, java.lang.String)
+	 */
+	public void setTaskDescription(String service, String description) {
+		if (currentProgress != null) {
+			Coloane.getLogger().finer("Demande d'affichage de precision sur la tache en cours");
+			currentProgress.getMonitor().worked(1);
+			if (description != "") { currentProgress.getMonitor().setTaskName(service + " - " + description); }
+		} else {
+			Coloane.getLogger().warning("Aucun service en cours...");
+		}
 	}
 }
