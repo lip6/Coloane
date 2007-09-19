@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature"
       label="Coloane"
-      version="0.9.17"
+      version="0.9.18"
       provider-name="LIP6 - MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
@@ -133,7 +133,7 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
    </license>
 
    <url>
-      <update label="Coloane Night Updates Site" url="http://coloane.rsr.lip6.fr/night-updates/"/>
+      <update label="Coloane Night-Updates Site" url="http://coloane.rsr.lip6.fr/night-updates/"/>
       <discovery label="Eclipse 3.2 updates" url="http://update.eclipse.org/updates/3.2/"/>
       <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
    </url>
