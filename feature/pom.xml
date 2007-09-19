@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane.update</groupId>
 	<artifactId>feature</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5.3-SNAPSHOT</version>
+	<version>0.9.18-SNAPSHOT</version>
 	<name>Feature</name>
 	<description>La feature de coloane</description>
 
@@ -20,17 +20,17 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane</groupId>
 			<artifactId>interfaces</artifactId>
-			<version>1.0.9-SNAPSHOT</version>
+			<version>1.0.12-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane</groupId>
 			<artifactId>apicami</artifactId>
-			<version>0.9.8-SNAPSHOT</version>
+			<version>0.9.11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane</groupId>
 			<artifactId>core</artifactId>
-			<version>0.9.8-SNAPSHOT</version>
+			<version>0.9.13-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
