@@ -84,7 +84,6 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		bottom.addView(HISTORY_VIEW);
 		bottom.addView(RESULTS_VIEW);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
-		bottom.addView(IPageLayout.ID_PROGRESS_VIEW);
 	}
 
 }
