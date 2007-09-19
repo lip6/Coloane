@@ -71,16 +71,6 @@ public interface IComApi {
 	void setNewModel(IModel model);
 
 	/**
-	 * Affichage des messages de service de FK.
-	 * La plate-forme peut envoye un certain nombre de messages purement indicatif :
-	 * (erreur, warnings etc...) a afficher sur le client.
-	 * @param type Le type du message
-	 * @param text Le message en lui-meme
-	 * @param specialType Un indicateur de messages speciaux fournis par la plate-forme
-	 */
-	void setUiMessage(int type, String text, int specialType);
-
-	/**
 	 * Affichage des resultats suite a un appel de service
 	 * Les resultats sont envoyes auparavant gracce a la methode setResults
 	 */
@@ -98,4 +88,28 @@ public interface IComApi {
 	 * Destruction de toutes les sessions du cote Coloane
 	 */
 	void closeAllSessions();
+
+	/**
+	 * Indique la fin de l'ouverture de session<br>
+	 * Une fois que tout les menus ont ete recus<br>
+	 * Cette methode redonne la main a l'utilisateur.
+	 */
+	void setEndOpenSession();
+
+	/**
+	 * Fin de la fermeture de session
+	 */
+	void setEndCloseSession();
+
+	/**
+	 * Indique la fin du service courant
+	 */
+	void setEndService();
+
+	/**
+	 * Demande au client d'afficher des informations concernant la tache en cours
+	 * @param service Le service en cours d'execution
+	 * @param description La description a afficher du cote client
+	 */
+	void setTaskDescription(String service, String description);
 }
