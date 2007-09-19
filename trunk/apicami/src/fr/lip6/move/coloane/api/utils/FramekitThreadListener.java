@@ -114,6 +114,9 @@ public class FramekitThreadListener extends Thread {
 					switch(type) {
 
 					case 2 :
+						String service = (String) listeArgs.elementAt(2);
+						String description = (String) listeArgs.elementAt(4);
+						api.setTaskDescription(service, description);
 						break;
 
 					case 3 :
@@ -207,6 +210,9 @@ public class FramekitThreadListener extends Thread {
 					// Indique l'etat de fraicheur du modele
 					 this.api.setModelDirty(true);
 
+					 int type = Integer.parseInt((String) listeArgs.elementAt(1));
+					 if (type == 3) { api.setEndOpenSession(); }
+
 					continue;
 				}
 
@@ -271,6 +277,9 @@ public class FramekitThreadListener extends Thread {
 
 					// On envoie la liste des resultats
 					this.api.setResults(results);
+
+					// Indication de la fin de service
+					this.api.setEndService();
 
 					continue;
 				}
@@ -343,6 +352,12 @@ public class FramekitThreadListener extends Thread {
 				// Suite de la construction d'une boite de dialogue
 				if (listeArgs.firstElement().equals("DS")) {
 					dialog.add(listeArgs);
+				}
+
+				// Message FS
+				// Suite de la construction d'une boite de dialogue
+				if (listeArgs.firstElement().equals("FS")) {
+					api.setEndCloseCurrentSession();
 				}
 
 				// Message DB
