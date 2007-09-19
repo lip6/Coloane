@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>core</artifactId>
-	<version>0.9.12-SNAPSHOT</version>
+	<version>0.9.13-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>Core de Coloane</description>
