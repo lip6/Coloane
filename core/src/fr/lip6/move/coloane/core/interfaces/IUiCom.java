@@ -21,9 +21,6 @@ public interface IUiCom {
 	/** Suppression d'un menu */
 	void removeMenu(String menuName);
 
-	/** Desactivation des menus (lors d'un appel de service par exemple) */
-	void changeMenuStatus(String rootName, boolean status);
-
 	void setResults(String serviceName, IResultsCom result);
 
 	void printResults();
