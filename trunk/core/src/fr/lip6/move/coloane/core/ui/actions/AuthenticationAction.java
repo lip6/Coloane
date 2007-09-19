@@ -3,8 +3,6 @@ package fr.lip6.move.coloane.core.ui.actions;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.MainPerspectiveFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationDialog;
-import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
-import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
@@ -14,6 +12,14 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
 
+/**
+ * Demande d'authentification aupres de la plateforme<br>
+ * Cette action est provoquee par un clic de l'utilisateur sur :
+ * <ul>
+ * 	<li>Le bouton dans la barre d'outils</li>
+ * 	<li>L'item dans le menu de la plateforme</li>
+ * </ul>
+ */
 public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 
@@ -38,18 +44,10 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 			MessageDialog.openError(window.getShell(), Messages.AuthenticationAction_0, Messages.AuthenticationAction_1);
 		}
 
-		HistoryView.getInstance().addText(Messages.AuthenticationAction_2);
-
 		// Affichage de la boite de dialogue d'authentification
 		AuthenticationDialog authDialog = new AuthenticationDialog(window.getShell());
-
 		if (authDialog.open() == Dialog.OK) {
-			HistoryView.getInstance().addLine(Messages.AuthenticationAction_3);
-			action.setEnabled(false);
-			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
-			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-		} else {
-			HistoryView.getInstance().addLine(Messages.AuthenticationAction_6);
+			Coloane.getDefault().getMotor().authentication(authDialog.getResults());
 		}
 	}
 

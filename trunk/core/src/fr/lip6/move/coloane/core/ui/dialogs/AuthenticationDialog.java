@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.exceptions.UIException;
 import fr.lip6.move.coloane.core.main.Coloane;
-
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -40,8 +38,9 @@ public class AuthenticationDialog extends Dialog {
 	private Label framekitIpLabel = null;
 	private Label framekitPortLabel = null;
 	private Composite compo = null;
-
 	private Button detailsButton = null;
+
+	private AuthenticationInformation results;
 
 	/** Tag pour le champ homonyme */
 	public static final String PASSWORD_TAG = "password"; //$NON-NLS-1$
@@ -61,17 +60,11 @@ public class AuthenticationDialog extends Dialog {
 	/** Titre de la boite de dialogue */
 	public static final String MSG_TITLE = Messages.AuthenticationDialog_0;
 
-	/** Login non valide et/ou erreur de mot de passe */
-	private static final String MSG_AUTH_ERROR = Messages.AuthenticationDialog_1;
-
 	/** Champs login vide */
 	private static final String MSG_LOGIN_ERROR = Messages.AuthenticationDialog_2;
 
 	/** Champs login vide */
 	private static final String MSG_PASS_ERROR = Messages.AuthenticationDialog_3;
-
-	/** General Error */
-	//private static final String MSG_GNRL_ERROR = "Global Error";
 
 	/** Id du bouton Details */
 	private static final int DETAILS_ID = IDialogConstants.CLIENT_ID;
@@ -224,24 +217,6 @@ public class AuthenticationDialog extends Dialog {
 		newShell.setText(MSG_TITLE);
 	}
 
-	/**
-	 * Executer l'authentification en la transferant a la COM
-	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
-	 */
-	protected final void okPressed() {
-		try {
-			// Appel de l'authentification du module de Com
-			Com com = Coloane.getDefault().getCom();
-			if (com.authentication(getLogin(), getPassword(), getFrameKitIp(), getFrameKitPort())) {
-				super.okPressed();
-			} else {
-				Coloane.showErrorMsg(MSG_AUTH_ERROR);
-			}
-		} catch (UIException e) {
-			Coloane.showErrorMsg(Messages.AuthenticationDialog_28 + e.getMessage());
-		}
-	}
-
 	public final String getItem(String server) {
 		return (String) comboServer.getData(server);
 	}
@@ -338,6 +313,16 @@ public class AuthenticationDialog extends Dialog {
 		tagged.setData("name", data); //$NON-NLS-1$
 	}
 
+	@Override
+	protected final void okPressed() {
+		try {
+			this.results = new AuthenticationInformation(getLogin(), getPassword(), getFrameKitIp(), getFrameKitPort());
+		} catch (UIException e) {
+			this.results = null;
+		}
+		super.okPressed();
+	}
+
 	/**
 	 * Methode qui affiche les details concernant le serveur Framekit
 	 */
@@ -398,5 +383,14 @@ public class AuthenticationDialog extends Dialog {
 	public final void enableFields(boolean view) {
 			framekitIp.setEnabled(view);
 			framekitPort.setEnabled(view);
+	}
+
+	/**
+	 * Retourne les resultats de la boite de dialogue dans une structure
+	 * @return La structure contenant tous les resultats
+	 * @see AuthenticationInformation
+	 */
+	public final AuthenticationInformation getResults() {
+		return results;
 	}
 }
