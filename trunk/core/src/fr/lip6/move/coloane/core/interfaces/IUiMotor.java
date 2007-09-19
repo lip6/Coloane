@@ -9,6 +9,17 @@ public interface IUiMotor {
 	 */
 	void platformState(boolean authentication, int session);
 
+	/**
+	 * Demande de reaffichage des menus<br>
+	 * Rien ne garantie que les menus ont ete effectivement modifie...
+	 */
 	void redrawMenus();
+
+	/**
+	 * Desactivation du menu principal (lors d'un appel de service par exemple)
+	 * @param rootName Le nom du menu root
+	 * @param Le nouveau status a appliquer a ce menu
+	 */
+	void changeRootMenuStatus(String rootName, boolean status);
 
 }
