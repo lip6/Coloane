@@ -65,7 +65,6 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 
 		// Il faut avertir FrameKit
-		// TODO : Verifier que le notify ne doit pas etre positionne dans le propertyChange
 		Coloane.notifyModelChange(nodeModel.getModelAdapter());
 	}
 
@@ -79,8 +78,10 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		// Propriete de connexion
 		if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
+			refreshVisuals();
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
+			refreshVisuals();
 
 		// Propriete de selection speciale
 		} else if (INodeImpl.SPECIAL_PROP.equalsIgnoreCase(prop)) {
@@ -95,9 +96,6 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
 		}
-
-		// Dans tous les cas, rafraichissement de la figure
-		refreshVisuals();
 	}
 
 	/**

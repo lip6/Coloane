@@ -165,7 +165,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		} else if (IAttributeImpl.UNSELECT_HEAVY_PROP.equals(prop)) {
 			((Label) getFigure()).setForegroundColor(ColorConstants.black);
 		}
-		refreshVisuals();
 	}
 
 
