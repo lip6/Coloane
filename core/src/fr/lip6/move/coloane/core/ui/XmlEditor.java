@@ -285,6 +285,9 @@ public class XmlEditor extends DefaultHandler {
 
 		logger.finest("Balise lue : " + baliseName); //$NON-NLS-1$
 
+		// Remise a zero du champs data
+		data = "";
+
 		// Balise MODEL
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
@@ -375,8 +378,6 @@ public class XmlEditor extends DefaultHandler {
 	 * Gestion des donnees contenues dans les balises
 	 */
 	public final void characters(char[] ch, int start, int length) throws SAXException {
-		data = ""; //$NON-NLS-1$
-
 		// Creation de la donnees (chaine de caracteres)
 		for (int i = 0; i < length; i++) {
 			data += ch[start + i];
