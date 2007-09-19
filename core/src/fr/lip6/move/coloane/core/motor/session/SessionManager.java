@@ -10,6 +10,9 @@ import java.util.ArrayList;
  */
 public class SessionManager {
 
+	/** Est-on authentifie sur la plate-forme ? */
+	private boolean authenticated;
+
 	/** La session courante */
 	private Session currentSession;
 
@@ -28,6 +31,14 @@ public class SessionManager {
 	 */
 	public SessionManager() {
 		this.currentSession = null;
+	}
+
+	/**
+	 * Retourne la session courante
+	 * @return La session courante
+	 */
+	public final Session getCurrentSession() {
+		return currentSession;
 	}
 
 	/**
@@ -53,7 +64,7 @@ public class SessionManager {
 
 	/**
 	 * Retourne le status de la session courante
-	 * @return Le status de la session courante
+	 * @return Le status de la session courante (ou ERROR en cas de session inexistante)
 	 */
 	public final int getCurrentSessionStatus() {
 		if (currentSession != null) {
@@ -63,7 +74,8 @@ public class SessionManager {
 	}
 
 	/**
-	 * Indique que la session courante est connectee
+	 * Indique que la session courante est connectee<br>
+	 * Attention connectee =! authentifie (cf {@link #authenticated}
 	 */
 	public final void setCurrentSessionConnected() {
 		if (currentSession != null) {
@@ -72,7 +84,8 @@ public class SessionManager {
 	}
 
 	/**
-	 * Indique que la session courante est connectee
+	 * Indique que la session courante est deconnectee
+	 * Attention connectee =! authentifie (cf {@link #authenticated}
 	 */
 	public final void setCurrentSessionDisconnected() {
 		if (currentSession != null) {
@@ -80,14 +93,6 @@ public class SessionManager {
 			currentSession.setAdminMenu(null);
 			currentSession.setStatus(CLOSED);
 		}
-	}
-
-	/**
-	 * Retourne la session courante
-	 * @return La session courante
-	 */
-	public final Session getCurrentSession() {
-		return currentSession;
 	}
 
 	/**
@@ -202,5 +207,22 @@ public class SessionManager {
 		} else {
 			return s.getStatus();
 		}
+	}
+
+	/**
+	 * Retourne le status d'authentification du client<br>
+	 * L'authentification est valable pour tous les modeles
+	 * @return Un booleen
+	 */
+	public final boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	/**
+	 * Positionne le status d'authentification du client
+	 * @param authenticated Le nouveau status du client
+	 */
+	public final void setAuthenticated(boolean authStatus) {
+		this.authenticated = authStatus;
 	}
 }
