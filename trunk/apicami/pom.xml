@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>apicami</artifactId>
-	<version>0.9.10-SNAPSHOT</version>
+	<version>0.9.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Apicami</name>
 	<description>Api (cami)</description>
