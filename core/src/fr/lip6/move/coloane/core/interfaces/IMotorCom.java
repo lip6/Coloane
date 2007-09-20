@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.interfaces;
 
+import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
@@ -28,5 +29,11 @@ public interface IMotorCom {
 	 * @param description La description a afficher du cote client
 	 */
 	void setTaskDescription(String service, String description);
+
+	/**
+	 * Retourne et Indique la session attachee a l'operation en cours
+	 * @return Le session concenee
+	 */
+	Session getConcernedSession();
 
 }

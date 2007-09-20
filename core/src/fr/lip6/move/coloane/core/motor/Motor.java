@@ -110,7 +110,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		IRunnableContext context = workbench.getProgressService();
 
 		// Definition de l'operation d'authentification
-		ColoaneProgress runnable = new ColoaneProgress(res) {
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.authentication(authInformation, monitor));
@@ -187,7 +187,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IRunnableContext context = workbench.getProgressService();
 
-		ColoaneProgress runnable = new ColoaneProgress(res) {
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.openSession(sessionManager.getCurrentSessionModel(), monitor));
@@ -257,7 +257,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IRunnableContext context = workbench.getProgressService();
 
-		ColoaneProgress runnable = new ColoaneProgress(res) {
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.closeSession(monitor));
@@ -312,7 +312,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IRunnableContext context = workbench.getProgressService();
 
-		ColoaneProgress runnable = new ColoaneProgress(res) {
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				com.askForService(rootMenuName, referenceName, serviceName, monitor);
@@ -380,11 +380,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
-			Coloane.getLogger().finer("OK pour la reprise de session" + name); //$NON-NLS-1$
+			Coloane.getLogger().finer("OK pour la reprise de session " + name); //$NON-NLS-1$
 			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSessionStatus(name));
 			ui.redrawMenus();
 		} else {
-			Coloane.getLogger().warning("Echec lors de la reprise de session" + name); //$NON-NLS-1$
+			Coloane.getLogger().warning("Echec lors de la reprise de session " + name); //$NON-NLS-1$
 		}
 		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
 	}
@@ -405,6 +405,20 @@ public final class Motor implements IMotorCom, IMotorUi {
 		return formalismManager;
 	}
 
+	/**
+	 * Retourne la session concernee par les oparations en cours
+	 * @return La session attachee a l'operation
+	 */
+	public Session getConcernedSession() {
+		if (currentProgress != null) {
+			Coloane.getLogger().finer("Recuperation de la session attachee");
+			return currentProgress.getAttachedSession();
+		} else {
+			Coloane.getLogger().warning("Aucun service en cours...");
+			return null;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.interfaces.IMotorCom#endService()
@@ -413,7 +427,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		if (currentProgress != null) {
 			Coloane.getLogger().finer("Demande de liberation de moniteur");
 			currentProgress.freeMonitor();
-			currentProgress = null;
+			//currentProgress = null;
 		} else {
 			Coloane.getLogger().warning("Aucun service en cours...");
 		}
@@ -427,7 +441,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		if (currentProgress != null) {
 			Coloane.getLogger().finer("Demande d'affichage de precision sur la tache en cours");
 			currentProgress.getMonitor().worked(1);
-			if (description != "") { currentProgress.getMonitor().setTaskName(service + " - " + description); }
+			if (description != "") { currentProgress.getMonitor().setTaskName(description); }
 		} else {
 			Coloane.getLogger().warning("Aucun service en cours...");
 		}

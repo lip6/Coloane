@@ -232,7 +232,9 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		Coloane.getLogger().fine("Mise a jour des menus"); //$NON-NLS-1$
 		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable() {
-			public void run() { ui.updateMenu(updates); }
+			public void run() {
+				ui.updateMenu(motor.getConcernedSession(), updates);
+			}
 		});
 	}
 
