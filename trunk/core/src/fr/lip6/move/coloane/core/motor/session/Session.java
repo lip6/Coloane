@@ -46,20 +46,22 @@ public class Session {
 	 * Suspend la session
 	 */
 	protected final void suspend() {
-		Coloane.getLogger().finer("Suspension de la session " + this.sessionName); //$NON-NLS-1$
+		Coloane.getLogger().finer("Suspension de la session " + sessionName); //$NON-NLS-1$
 		if (sessionStatus == SessionManager.CONNECTED) {
 			sessionStatus = SessionManager.SUSPENDED;
 		}
+		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$
 	}
 
 	/**
 	 * Resume la session
 	 */
 	protected final void resume() {
-		Coloane.getLogger().finer("Reprise de la session " + this.sessionName); //$NON-NLS-1$
+		Coloane.getLogger().finer("Reprise de la session " + sessionName + " (Etat actuel : " + sessionStatus + ")"); //$NON-NLS-1$
 		if (sessionStatus == SessionManager.SUSPENDED) {
 			sessionStatus = SessionManager.CONNECTED;
 		}
+		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$
 	}
 
 	/**

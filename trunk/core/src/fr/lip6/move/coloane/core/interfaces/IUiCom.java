@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.interfaces;
 
 import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 //import fr.lip6.move.coloane.interfaces.resultats.Results;
@@ -16,7 +17,7 @@ public interface IUiCom {
 	void drawMenu(RootMenu menu);
 
 	/** Mise a jour des menus */
-	void updateMenu(Vector<IUpdateMenuCom> updates);
+	void updateMenu(Session concernedSession, Vector<IUpdateMenuCom> updates);
 
 	/** Suppression d'un menu */
 	void removeMenu(String menuName);

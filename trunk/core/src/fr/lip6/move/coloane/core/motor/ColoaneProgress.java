@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.Session;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -17,13 +18,15 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 
 	private Object operationResult;
 	private IProgressMonitor progressMonitor;
+	private Session attachedSession;
 
 	/**
 	 * Constructeur
 	 * @param res L'objet qui servira a stocker le resultat de l'operation
 	 */
-	public ColoaneProgress(Object res) {
+	public ColoaneProgress(Session session, Object res) {
 		this.operationResult = res;
+		this.attachedSession = session;
 	}
 
 	/**
@@ -77,6 +80,14 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	 */
 	public final IProgressMonitor getMonitor() {
 		return progressMonitor;
+	}
+
+	/**
+	 * Retourne la session attachée a l'action
+	 * @return La session
+	 */
+	public final Session getAttachedSession() {
+		return attachedSession;
 	}
 
 	/**

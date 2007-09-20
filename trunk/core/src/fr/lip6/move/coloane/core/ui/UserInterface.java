@@ -119,21 +119,23 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu(Vector<IUpdateMenuCom> updates) {
-		Session currentSession = motor.getSessionManager().getCurrentSession();
-		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
+	public void updateMenu(Session concernedSession, Vector<IUpdateMenuCom> updates) {
+		if (concernedSession == null) {
+			Coloane.getLogger().warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
 			return;
 		}
 		// Recuperation du menu de service de la session
-		RootMenu service = currentSession.getServicesMenu();
+		RootMenu service = concernedSession.getServicesMenu();
+		if (service == null) {
+			return;
+		}
 		for (IUpdateMenuCom up : updates) {
 			if (up.getRoot().equals(service.getName())) {
 				service.setEnabled(up.getService(), up.getState());
 			}
 		}
-		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
+		GraphicalMenu gmenu = new GraphicalMenu(concernedSession.getServicesMenu(), fenetreTravail, this);
 		gmenu.update();
 	}
 
