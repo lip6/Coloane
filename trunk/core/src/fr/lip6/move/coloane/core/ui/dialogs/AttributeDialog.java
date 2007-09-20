@@ -39,7 +39,7 @@ public class AttributeDialog extends IconAndMessageDialog {
 	@Override
 	protected final void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(this.title);
+		shell.setText("Edit property : " + this.title);
 	}
 
 	/*
