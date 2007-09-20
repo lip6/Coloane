@@ -78,24 +78,28 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		// Propriete de connexion
 		if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
-			refreshVisuals();
 		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
-			refreshVisuals();
 
 		// Propriete de selection speciale
 		} else if (INodeImpl.SPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setSelectSpecial();
+			return;
 		} else if (INodeImpl.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).unsetSelectSpecial();
+			return;
 
 			// Propriete de selection
 		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setHighlight();
+			return;
 			//((INodeImpl) getModel()).setAttributesSelected(false, true);
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
+			return;
 		}
+
+		refreshVisuals();
 	}
 
 	/**

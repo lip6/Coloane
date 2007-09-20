@@ -158,13 +158,19 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 
 		if (IAttributeImpl.SELECT_LIGHT_PROP.equals(prop)) {
 			((Label) getFigure()).setBackgroundColor(ColorConstants.lightGray);
+			return;
 		} else if (IAttributeImpl.SELECT_HEAVY_PROP.equals(prop)) {
 			((Label) getFigure()).setForegroundColor(ColorConstants.blue);
+			return;
 		} else if (IAttributeImpl.UNSELECT_LIGHT_PROP.equals(prop)) {
 			((Label) getFigure()).setBackgroundColor(ColorConstants.white);
+			return;
 		} else if (IAttributeImpl.UNSELECT_HEAVY_PROP.equals(prop)) {
 			((Label) getFigure()).setForegroundColor(ColorConstants.black);
+			return;
 		}
+
+		refreshVisuals();
 	}
 
 
