@@ -55,11 +55,31 @@ public interface IModel {
 	void removeNode(INode node) throws ModelException;
 
 	/**
+	 * Supprime brutalement un noeud du modele<br>
+	 * <b>ATTENTION</b> : En general, vous n'avez pas besoin d'appeler cette methode</br>
+	 * Utilisez plutot {@link #removeNode(INode)}<br>
+	 * Cette methode ne maintient pas la coherence du modele.
+	 * @param node Le noeud a supprimer du modele
+	 * @throws ModelException
+	 */
+	void delNode(INode node) throws ModelException;
+
+	/**
 	 * Supprime un arc du modele
 	 * @param arc Arc a supprimer du modele
 	 * @see IArc
 	 */
 	void removeArc(IArc arc) throws ModelException;
+
+	/**
+	 * Supprime brutalement un arc du modele<br>
+	 * <b>ATTENTION</b> : En general, vous n'avez pas besoin d'appeler cette methode</br>
+	 * Utilisez plutot {@link #removeArc(IArc)}<br>
+	 * Cette methode ne maintient pas la coherence du modele.
+	 * @param arc L'arc a supprimer du modele
+	 * @throws ModelException
+	 */
+	void delArc(IArc arc) throws ModelException;
 
 	/**
 	 * Retourne le nombre d'attributs du modele.
@@ -96,11 +116,25 @@ public interface IModel {
 	IArc getNthArc(int index);
 
 	/**
+	 * Retourne l'arc designe par son ID
+	 * @param id L'identifiant de l'arc
+	 * @return L'arc ou null si aucun arc n'a ete trouve
+	 */
+	IArc getIdArc(int id);
+
+	/**
 	 * Rend le nieme noeud du modele.
 	 * @param index Indice du noeud
 	 * @return INode
 	 */
 	INode getNthNode(int index);
+
+	/**
+	 * Retourne le noeud designe par son ID
+	 * @param id L'identifiant du noeud
+	 * @return Le noeud ou null si aucun noeud n'a ete trouve
+	 */
+	INode getIdNode(int id);
 
 	/**
 	 * Retourne la coordonnee X

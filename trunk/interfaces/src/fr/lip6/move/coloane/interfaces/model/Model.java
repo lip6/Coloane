@@ -231,6 +231,14 @@ public class Model implements IModel {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#delNode(fr.lip6.move.coloane.interfaces.model.INode)
+	 */
+	public final void delNode(INode node) throws ModelException {
+		this.listOfNode.remove(node);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#removeArc(fr.lip6.move.coloane.interfaces.model.IArc)
 	 */
 	public final void removeArc(IArc arc) throws ModelException {
@@ -256,6 +264,14 @@ public class Model implements IModel {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#delArc(fr.lip6.move.coloane.interfaces.model.IArc)
+	 */
+	public final void delArc(IArc arc) throws ModelException {
+		this.listOfArc.remove(arc);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfAttrSize()
 	 */
 	public final int getListOfAttrSize() {
@@ -272,7 +288,6 @@ public class Model implements IModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getListOfNodeSize()
 	 */
 	public final int getListOfNodeSize() {
@@ -305,6 +320,17 @@ public class Model implements IModel {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getIdArc(int)
+	 */
+	public final IArc getIdArc(int id) {
+		for (IArc arc : getListOfArcs()) {
+			if (arc.getId() == id) { return arc; }
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getNthNode(int)
 	 */
 	public final INode getNthNode(int index) {
@@ -313,6 +339,17 @@ public class Model implements IModel {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IModel#getIdNode(int)
+	 */
+	public final INode getIdNode(int id) {
+		for (INode node : getListOfNodes()) {
+			if (node.getId() == id) { return node; }
+		}
+		return null;
 	}
 
 	/*
