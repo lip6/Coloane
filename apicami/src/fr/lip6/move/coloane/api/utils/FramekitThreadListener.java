@@ -260,6 +260,8 @@ public class FramekitThreadListener extends Thread {
 				// Message MO
 				// Message d'Information
 				if (listeArgs.firstElement().equals("MO")) {
+					int urgent = Integer.parseInt(listeArgs.elementAt(1));
+					if (urgent == 2) { this.api.setEndService(); }
 					this.api.printHistory((String) listeArgs.elementAt(2));
 					continue;
 				}
@@ -309,6 +311,9 @@ public class FramekitThreadListener extends Thread {
 
 					// Indication de la fin de service
 					this.api.setEndService();
+
+					// Remise a zero des boites de dialogues
+					dialogsList.clear();
 
 					continue;
 				}
