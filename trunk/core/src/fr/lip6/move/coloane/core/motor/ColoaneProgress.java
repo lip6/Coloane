@@ -51,7 +51,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	public final synchronized void waitUntilEnd() {
 		try {
 			Coloane.getLogger().finest("Mise en attente du moniteur");
-			wait(20000);
+			wait();
 		} catch (InterruptedException e) {
 			System.err.println("Erreur Wait Monitor");
 		}
