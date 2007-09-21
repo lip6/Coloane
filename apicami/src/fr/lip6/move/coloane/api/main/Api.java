@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.api.utils.FramekitThreadSpeaker;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -114,8 +115,6 @@ public final class Api implements IApi {
 	 * @return retourne TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
 	public boolean openConnection(String login, String password, String ip, int port, String apiName, String apiVersion) {
-		Object[] param = {login, password, ip, port, apiName, apiVersion};
-		apiLog.entering("Api", "openConnection", param);
 
 		// Si une connexion est deja ouverte, on refuse une nouvelle connexion
 		if (connexionOpened) {
@@ -135,16 +134,13 @@ public final class Api implements IApi {
 
 			// Ecriture de la commande de demande de connexion et attente de la reponse
 			boolean rep = this.camiCmdConnection(login, password, apiName, apiVersion);
-			apiLog.exiting("Api", "openConnection", rep);
 			return rep;
 
 		} catch (CommunicationCloseException e) {
 			apiLog.throwing("Api", "openConnection", e);
-			apiLog.exiting("Api", "openConnection", false);
 			return false;
 		} catch (IOException e) {
 			apiLog.throwing("Api", "openConnection", e);
-			apiLog.exiting("Api", "openConnection", false);
 			return false;
 		}
 	}
@@ -158,9 +154,6 @@ public final class Api implements IApi {
 	 * @throws erreurs de connexion qui sont catchees par openConnexion
 	 */
 	private boolean camiCmdConnection(String login, String password, String apiName, String apiVersion) throws CommunicationCloseException {
-		Object[] param = {login, password, apiName, apiVersion};
-		apiLog.entering("Api", "camiCmdConnection", param);
-
 		try {
 			FKCommand cmd = new FKCommand();
 
@@ -178,7 +171,6 @@ public final class Api implements IApi {
 			/* Si la reponse de FK differe de SC */
 			if (!(reponse.firstElement().equals("SC"))) {
 				apiLog.warning("Balise non attendue (attendue SC)" + (String) reponse.firstElement());
-				apiLog.exiting("Api", "camiCmdConnection", false);
 				return false;
 			}
 
@@ -190,16 +182,17 @@ public final class Api implements IApi {
 
 			if (!(reponse.firstElement().equals("OC"))) {
 				apiLog.warning("Balise non attendue (attendue OC)" + (String) reponse.firstElement());
-				apiLog.exiting("Api", "camiCmdConnection", false);
 				return false;
 			} else {
 				this.connexionOpened = true;
-				apiLog.exiting("Api", "camiCmdConnection", true);
 				return true;
 			}
 		} catch (CommunicationCloseException e) {
 			apiLog.throwing("Api", "camiCmdConnection", e);
 			throw e;
+		} catch (SyntaxErrorException e) {
+			apiLog.throwing("Api", "camiCmdConnection", e);
+			throw new CommunicationCloseException("Erreur lors de l'envoi et/ou de la reception des commandes");
 		}
 	}
 
@@ -211,12 +204,9 @@ public final class Api implements IApi {
 	 * @return retourne TRUE si la session est ouverte et FALSE dans le cas contraire
 	 */
 	public  boolean openSession(String sessionName, int date, String sessionFormalism) {
-		Object[] param = {sessionName, date, sessionFormalism};
-		apiLog.entering("Api", "openSession", param);
 		// Si aucune connexion n'est ouverte, l'ouverture de session doit etre impossible
 		if (!this.connexionOpened) {
 			apiLog.warning("Tentative d'ouverture de session sans ouverture de connexion");
-			apiLog.exiting("Api", "openSession", false);
 			return false;
 		}
 
@@ -246,14 +236,12 @@ public final class Api implements IApi {
 			// Mise a jour des indicateurs
 			this.sessionOpened = true;
 			this.currentSessionName = sessionName;
-			apiLog.exiting("Api", "openSession", true);
 			return true;
 
 		// Sinon
 		} else {
 			// Suppression du thread speaker utilise
 			speak = null;
-			apiLog.exiting("Api", "openSession", false);
 			return false;
 		}
 	}
@@ -290,8 +278,6 @@ public final class Api implements IApi {
 	 */
 	@SuppressWarnings("unused")
 	public void closeConnexion() {
-		apiLog.entering("Api", "closeConnexion");
-
 		// Une connexion doit etre disponible
 		if (this.connexionOpened) {
 
@@ -303,21 +289,22 @@ public final class Api implements IApi {
 				comLowServices.writeCommande(send);
 			} catch (CommunicationCloseException e) {
 				apiLog.warning("Aucune connexion detectee : Deconnexion impossible");
-				apiLog.throwing("Api", "closeConnexion", e);
-				apiLog.exiting("Api", "closeConnexion");
-				return;
 			}
 
 			// Fermeture des threads restants
-			for (
-			FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
+			for (FramekitThreadSpeaker speaker : listeThread.values()) {
+				speaker = null;
+			}
+
 			listeThread.clear();
 
 			// Mise a jour des indicateurs
+			apiLog.finer("Mise a jour des indicateurs : AUTH=NO  CONNECT=NO");
 			this.connexionOpened = false;
 			this.sessionOpened = false;
 
 			// Fermeture des sockets de bas niveau
+			apiLog.fine("Fermeture des socket bas-niveau");
 			this.comLowServices.closeCom();
 
 			// Fermeture de la thread listener
@@ -327,7 +314,6 @@ public final class Api implements IApi {
 		} else {
 			apiLog.warning("Aucune connexion detectee : Deconnexion impossible");
 		}
-		apiLog.exiting("Api", "closeConnexion");
 	}
 
 	/**
@@ -339,10 +325,8 @@ public final class Api implements IApi {
 	 */
 	@SuppressWarnings("unused")
 	public void closeConnexion(int type, String message, int severity) {
-		Object[] param = {type, message, severity};
-		apiLog.entering("Api", "closeConnexion", param);
-
 		// Fermeture des threads restants
+		apiLog.fine("Demande de deconnexion brutale de la plateforme (initiee par la plateforme");
 		for (FramekitThreadSpeaker speaker : listeThread.values()) { speaker = null; }
 		listeThread.clear();
 
@@ -361,8 +345,6 @@ public final class Api implements IApi {
 			this.connexionOpened = false;
 			this.comLowServices.closeCom();
 		}
-
-		apiLog.exiting("Api", "closeConnexion");
 	}
 
 	/**
@@ -370,7 +352,7 @@ public final class Api implements IApi {
 	 * @return resultat de l'operation
 	 */
 	public boolean suspendCurrentSession() {
-		apiLog.entering("Api", "suspendConnexion");
+		apiLog.finer("Suspension de la session");
 		if (this.sessionOpened && this.currentSessionName != null) {
 
 			// Suppression de la session courante
@@ -378,11 +360,10 @@ public final class Api implements IApi {
 
 			// On demande a FrameKit de suspendre la session
 			boolean result = this.getCurrentSpeaker().sendSuspend();
-			apiLog.exiting("Api", "suspendCurrentSession", result);
+			apiLog.finer("Session courante suspendue");
 			return result;
 		} else {
 			apiLog.warning("Aucune session ouverte");
-			apiLog.exiting("Api", "suspendCurrentSession", false);
 			return false;
 		}
 
@@ -402,25 +383,23 @@ public final class Api implements IApi {
 	 * @return Le resultat de l'operation booleen
 	 */
 	public boolean closeCurrentSession() {
-		apiLog.entering("Api", "closeCurrentSession");
+		apiLog.fine("Fermeture de la session courante");
 		if (this.sessionOpened && this.currentSessionName != null) {
 
 			// Si FrameKit accorde la fermeture de session
 			if (this.getCurrentSpeaker().sendClose()) {
+				apiLog.fine("FrameKit accorde la fermeture de session");
 				listeThread.remove(this.currentSessionName);
 				this.currentSessionName = null;
 				if (listeThread.isEmpty()) {
 					this.sessionOpened = false;
 				}
-				apiLog.exiting("Api", "closeCurrentSession", true);
 				return true;
 			} else {
-				apiLog.exiting("Api", "closeCurrentSession", false);
 				return false;
 			}
 		} else {
 			apiLog.warning("Aucune session ouverte");
-			apiLog.exiting("Api", "closeCurrentSession", false);
 			return false;
 		}
 	}
@@ -431,15 +410,12 @@ public final class Api implements IApi {
 	 * @return TRUE si ca c'est bien passe et FALSE dans le cas contraire
 	 */
 	public boolean changeModeleDate(int date) {
-		apiLog.entering("Api", "changeModelDate", date);
 		if (this.sessionOpened && this.currentSessionName != null) {
 			FramekitThreadSpeaker speaker = this.getCurrentSpeaker();
 			boolean result = speaker.sendNewDate(date);
-			apiLog.exiting("Api", "changeModelDate", result);
 			return result;
 		} else {
 			apiLog.warning("Aucune session ouverte");
-			apiLog.exiting("Api", "changeModelDate", false);
 			return false;
 		}
 	}
@@ -450,7 +426,7 @@ public final class Api implements IApi {
 	 */
 	public boolean getDirtyState() {
 		boolean status = this.com.getDirtyState();
-		apiLog.finer("Demande de l'etat du modele : " + status);
+		apiLog.finer("Demande de l'etat du modele => " + status);
 		return status;
 	}
 
@@ -460,7 +436,7 @@ public final class Api implements IApi {
 	 */
 	public int getDateModel() {
 		int date = this.com.getDateModel();
-		apiLog.finer("Demande la date du modele : " + date);
+		apiLog.finer("Demande la date du modele => " + date);
 		return date;
 	}
 
@@ -472,9 +448,6 @@ public final class Api implements IApi {
 	 * @param serviceName nom du service
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
-		Object[] param = {rootMenuName, parentName, serviceName};
-		apiLog.entering("Api", "askForService", param);
-
 		// On sauvegarde le nom de service pour les resultats
 		this.currentService = serviceName;
 
@@ -485,7 +458,6 @@ public final class Api implements IApi {
 		} else {
 			apiLog.warning("Demande de service KO");
 		}
-		apiLog.exiting("Api", "askForService");
 	}
 
 
@@ -496,31 +468,28 @@ public final class Api implements IApi {
 
 	/**
 	 * Envoie d'une reponse a la plate-forme
-	 *
 	 * @param results Ensemble des reponses de la boite de dialogue
 	 * @return resultat de l'operation
 	 * @see IDialogResult
 	 */
 	public boolean getDialogAnswers(IDialogResult results) {
-		apiLog.entering("Api", "getDialogAnswers", results);
+		apiLog.fine("Transmission des resultats de la boite de dialogue a la plateforme");
 		if (!this.sessionOpened || this.currentSessionName == null) {
-			apiLog.exiting("Api", "getDialogAnswers", false);
+			apiLog.warning("La session n'existe pas ou n'est pas connectee");
 			return false;
 		} else {
 			FramekitThreadSpeaker speak;
 			speak = (FramekitThreadSpeaker) listeThread.get(currentSessionName);
 			if (!speak.sendDialogueResponse(results)) {
-				apiLog.exiting("Api", "getDialogAnswers", false);
+				apiLog.warning("Echec de la transmission des resultats");
 				return false;
 			}
-			apiLog.exiting("Api", "getDialogAnswers", true);
 			return true;
 		}
 	}
 
 	/**
 	 * Demande l'arret du service
-	 *
 	 * @param serviceName le service que l'on veut arreter
 	 * @return TRUE si l'arret du service est effectif
 	 */
@@ -557,15 +526,6 @@ public final class Api implements IApi {
 	}
 
 	/**
-	 * Indique a Coloane que le modele a change d'etat
-	 * @param state Le nouvel etat
-	 */
-	public void setModelDirty(boolean state) {
-		//apiLog.finer("FrameKit indique a Coloane l'etat du modele : DIRTY = " + state);
-		//this.com.setModelDirty(state);
-	}
-
-	/**
 	 * Demande l'affichage d'une boite de dialogue<br>
 	 * Reminder : Les boites de dialogue sont construite sous l'autorite de la plate-forme
 	 * @param dialog La boite de dialogue entierement definie
@@ -596,7 +556,6 @@ public final class Api implements IApi {
 	 * Transmet un nouveau modele a creer<br>
 	 * Dans certains cas, la plate-forme renvoie des modeles a afficher dans l'IHM.<br>
 	 * La construction se fait donc du cote API et l'affichage du cote Coloane
-	 *
 	 * @param model Modele a creer du cote Coloane
 	 * @see IModel
 	 */
@@ -672,5 +631,4 @@ public final class Api implements IApi {
 	public static void setVerbosity(Level niveau) {
 		apiLog.setLevel(niveau);
 	}
-
 }
