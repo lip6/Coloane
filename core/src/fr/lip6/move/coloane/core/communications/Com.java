@@ -171,6 +171,13 @@ public final class Com implements IComUi, IComApi, IComMotor {
 		motor.getSessionManager().destroyAllSessions();
 	}
 
+	/**
+	 * Demande de deconnexion brutale (initiee par le client)
+	 */
+	public void breakConnection() {
+		api.closeConnexion();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#askForService(java.lang.String, java.lang.String, java.lang.String)
