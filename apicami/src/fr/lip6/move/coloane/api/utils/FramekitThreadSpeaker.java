@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -174,25 +175,34 @@ public class FramekitThreadSpeaker extends Thread {
 
 			if (results.getAnswerType() != 2) {
 
-				// Ensemble de resultats
-				commande = cmd.createCmdSimple("DE");
-				lowCom.writeCommande(commande);
+				if (results.getAnswer().size() <= 0) {
+					Api.getLogger().warning("Pas de reponse a transmettre...");
+				} else if ((results.getAnswer().size() <= 1) && (results.getAnswer().get(0) == "")) {
+					Api.getLogger().warning("Pas de reponse a transmettre...");
+				} else {
+					// Ensemble de resultats
+					commande = cmd.createCmdSimple("DE");
+					lowCom.writeCommande(commande);
 
-				// Contenu de la boite de dialogue
-				StringBuffer ds = new StringBuffer();
-				ds.append("DS(");
-				ds.append(results.getDialogId());
-				ds.append(",");
-				ds.append(results.getAnswer().get(0).length());
-				ds.append(":");
-				ds.append(results.getAnswer().get(0));
-				ds.append(")");
-				String value = ds.toString();
-				commande = cmd.convertToFramekit(value);
-				lowCom.writeCommande(commande);
+					// Contenu de la boite de dialogue
 
-				commande = cmd.createCmdSimple("FE");
-				lowCom.writeCommande(commande);
+					for (String part : results.getAnswer()) {
+						StringBuffer ds = new StringBuffer();
+						ds.append("DS(");
+						ds.append(results.getDialogId());
+						ds.append(",");
+						ds.append(part.length());
+						ds.append(":");
+						ds.append(part);
+						ds.append(")");
+						String value = ds.toString();
+						commande = cmd.convertToFramekit(value);
+						lowCom.writeCommande(commande);
+					}
+
+					commande = cmd.createCmdSimple("FE");
+					lowCom.writeCommande(commande);
+				}
 			}
 
 			// Message FP

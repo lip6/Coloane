@@ -560,6 +560,7 @@ public final class Api implements IApi {
 	 * @see IModel
 	 */
 	public void setNewModel(IModel model) {
+		if (model == null) { return; }
 		apiLog.finer("Transmission d'un nouveau modele");
 		this.com.setNewModel(model);
 	}

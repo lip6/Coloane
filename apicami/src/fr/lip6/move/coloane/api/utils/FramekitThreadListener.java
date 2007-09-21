@@ -221,6 +221,8 @@ public class FramekitThreadListener extends Thread {
 						 api.setEndOpenSession();
 					 }
 
+					 api.setEndService();
+
 					continue;
 				}
 
@@ -229,6 +231,7 @@ public class FramekitThreadListener extends Thread {
 				if (listeArgs.firstElement().equals("KO")) {
 					Integer i = new Integer(listeArgs.elementAt(3).toString());
 					api.closeConnexion(1, (String) listeArgs.elementAt(2), i.intValue());
+					api.setEndService();
 					continue;
 				}
 
@@ -236,6 +239,7 @@ public class FramekitThreadListener extends Thread {
 				// Fin de connexion
 				if (listeArgs.firstElement().equals("FC")) {
 					api.closeConnexion(1, "Fermeture standard de FrameKit", 1);
+					api.setEndService();
 					continue;
 				}
 
@@ -269,6 +273,7 @@ public class FramekitThreadListener extends Thread {
 				// Message DR
 				// Debut de la transmission d'une reponse d'un outil
 				if (listeArgs.firstElement().equals("DR")) {
+					Api.getLogger().finest("Debut de resultats");
 					results = new ResultsCom();
 					continue;
 				}
@@ -276,12 +281,31 @@ public class FramekitThreadListener extends Thread {
 				// Message FR
 				// Fin de la transmission d'une reponse a un service
 				if (listeArgs.firstElement().equals("FR")) {
+					Api.getLogger().finest("Fin de resultats");
 
 					// On recherche les menus qui ont ete mis a jour
 					api.updateMenu(menuUpdates);
 
 					// On envoie la liste des resultats
 					this.api.setResults(results);
+
+					// Gestion du modele recu pendant les resultats
+					if (model != null) {
+						IModel builtModel;
+						try {
+							builtModel = new Model(model, new CamiTranslator());
+							builtModel.setFormalism("AMI-NET");
+						} catch (SyntaxErrorException e) {
+							Api.getLogger().warning("Echec de la construction du modele recu : " + e.getMessage());
+							return;
+						} finally {
+							model = null;
+						}
+
+						this.api.setNewModel(builtModel);
+
+						continue;
+					}
 
 					// Indication de la fin de service
 					this.api.setEndService();
@@ -299,6 +323,7 @@ public class FramekitThreadListener extends Thread {
 				// Message DE
 				// Debut d'un ensemble de resultats ou d'objets transmis par la plate-forme a Coloane
 				if (listeArgs.firstElement().equals("DE")) {
+					Api.getLogger().finest("Debut de reception du sous-resultat");
 					if (listeArgs.size() > 1) {
 						subresult = new SubResultsCom(listeArgs.get(1));
 					} else {
@@ -333,6 +358,7 @@ public class FramekitThreadListener extends Thread {
 				// Message FE
 				// Fin d'ensemble de resultats ou d'objets transmis
 				if (listeArgs.firstElement().equals("FE")) {
+					Api.getLogger().finest("Fin de reception du sous-resultat");
 					results.addResultats(subresult);
 					subresult = null;
 					continue;
@@ -382,7 +408,13 @@ public class FramekitThreadListener extends Thread {
 						|| (listeArgs.firstElement()).equals("PO")
 						|| (listeArgs.firstElement()).equals("pO")
 						|| (listeArgs.firstElement()).equals("PT")
-						|| (listeArgs.firstElement()).equals("PI")) {
+						|| (listeArgs.firstElement()).equals("PI")
+						|| (listeArgs.firstElement()).equals("SU")) {
+
+					if (model == null) {
+						model = new Vector<String>();
+						model = this.api.getModel().translate();
+					}
 
 					model.add(cmd);
 				}
@@ -393,11 +425,15 @@ public class FramekitThreadListener extends Thread {
 					IModel builtModel;
 					try {
 						builtModel = new Model(model, new CamiTranslator());
+						builtModel.setFormalism("ReachabilityGraph");
 					} catch (SyntaxErrorException e) {
 						e.printStackTrace();
 						return;
+					} finally {
+						model = null;
 					}
 					this.api.setNewModel(builtModel);
+
 					continue;
 				}
 
