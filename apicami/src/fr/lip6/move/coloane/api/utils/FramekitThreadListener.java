@@ -101,7 +101,13 @@ public class FramekitThreadListener extends Thread {
 				if (cmd.length() == 0) { continue; }
 
 				// Decoupage des arguments
-				Vector<String> listeArgs = FKCommand.getArgs(cmd);
+				Vector<String> listeArgs;
+				try {
+					listeArgs = FKCommand.getArgs(cmd);
+				} catch (SyntaxErrorException e) {
+					Api.getLogger().warning("Erreur de parse de la commande " + cmd);
+					continue;
+				}
 
 				// Si la commande recue ne conteient aucun argument
 				if (listeArgs == null) { continue; }
@@ -120,6 +126,9 @@ public class FramekitThreadListener extends Thread {
 						break;
 
 					case 3 :
+						break;
+
+					case 6 :
 						break;
 
 						// Modification de l'arbre des services : active
@@ -207,11 +216,10 @@ public class FramekitThreadListener extends Thread {
 					// Mise a jour des menus
 					api.updateMenu(menuUpdates);
 
-					// Indique l'etat de fraicheur du modele
-					 this.api.setModelDirty(true);
-
 					 int type = Integer.parseInt((String) listeArgs.elementAt(1));
-					 if (type == 3) { api.setEndOpenSession(); }
+					 if (type == 3) {
+						 api.setEndOpenSession();
+					 }
 
 					continue;
 				}
@@ -271,9 +279,6 @@ public class FramekitThreadListener extends Thread {
 
 					// On recherche les menus qui ont ete mis a jour
 					api.updateMenu(menuUpdates);
-
-					// Le retour d'un service indique que le modele est a jour sur la plate-forme
-					this.api.setModelDirty(false);
 
 					// On envoie la liste des resultats
 					this.api.setResults(results);

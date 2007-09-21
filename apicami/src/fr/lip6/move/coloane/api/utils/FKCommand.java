@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.utils;
 
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
 import fr.lip6.move.coloane.interfaces.utils.CamiParser;
 
 import java.util.NoSuchElementException;
@@ -176,7 +177,7 @@ public class FKCommand {
 	 * @param commande commande recue
 	 * @return Vecteur des arguements recus
 	 */
-	public static Vector<String> getArgs(String commande) {
+	public static Vector<String> getArgs(String commande) throws SyntaxErrorException {
 		String cmdString = "";
 		Vector<String> liste = new Vector<String>();
 
