@@ -168,12 +168,17 @@ public class FramekitThreadSpeaker extends Thread {
 			rd.append(",");
 			rd.append(results.hasBeenModified() == true ? 1 : 2);
 			rd.append(",");
+
+			if (!results.isMultiLineAnswer()) {
+				rd.append(results.getAnswer().get(0).length() + ":" + results.getAnswer().get(0));
+			}
+
 			rd.append(")");
 			String answer = rd.toString();
 			commande = cmd.convertToFramekit(answer);
 			lowCom.writeCommande(commande);
 
-			if (results.getAnswerType() != 2) {
+			if ((results.getAnswerType() != 2) && (results.isMultiLineAnswer())) {
 
 				if (results.getAnswer().size() <= 0) {
 					Api.getLogger().warning("Pas de reponse a transmettre...");
