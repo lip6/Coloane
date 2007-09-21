@@ -218,15 +218,10 @@ public class Coloane extends AbstractUIPlugin {
 		return (String) getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$
 	}
 
-	/**PREFERENCES PAGE*/
-
 	/**
-	 * Initializes a preference store with default preference values
-	 * for this plug-in.
-	 * @param store the preference store to fill
+	 * Initialise le groupe de preferences avec des valeurs par defaut pour ce plugin
+	 * @param store Le groupe ou stocker les preferences
 	 */
-
-
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), ""); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -273,8 +268,7 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * Modifie le niveau de verbosite du log du Core
 	 * @param niveau le nouveau niveau du log
-	 * */
-
+	 */
 	public static void setVerbosity(Level niveau) {
 		coreLog.setLevel(niveau);
 	}
