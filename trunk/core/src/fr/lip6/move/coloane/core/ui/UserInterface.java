@@ -251,9 +251,11 @@ public final class UserInterface implements IUiCom, IUiMotor {
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 			return;
 		} else {
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
 		}
 
 		// Prise en compte de l'etat de la session
