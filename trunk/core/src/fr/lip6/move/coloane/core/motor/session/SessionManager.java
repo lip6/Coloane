@@ -190,9 +190,8 @@ public class SessionManager {
 		for (Session session : this.listOfSessions) {
 			session.setServicesMenu(null);
 			session.setAdminMenu(null);
+			session.setStatus(CLOSED);
 		}
-		this.listOfSessions.clear();
-		this.currentSession = null;
 	}
 
 	/**
