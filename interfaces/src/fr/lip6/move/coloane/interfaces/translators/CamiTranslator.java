@@ -171,8 +171,6 @@ public class CamiTranslator extends Translator {
 			} catch (ModelException e) {
 				throw new SyntaxErrorException("Impossible d'ajouter le noeud au modele : " + e.getMessage());
 			}
-		} else {
-			model.setFormalism(nodeType);
 		}
 
 		return model;
@@ -508,6 +506,24 @@ public class CamiTranslator extends Translator {
 			// Decouverte d'une position de texte
 			if (type.equals("PT")) {
 				model = this.loadTextPosition(model, parser);
+				continue;
+			}
+
+			// Decouverte d'une position de texte
+			if (type.equals("SU")) {
+				int toDel = Integer.parseInt(parser.parseInt(")"));
+				try {
+					IArc a = model.getIdArc(toDel);
+					if (a != null) {
+						model.delArc(a);
+					}
+					INode n = model.getIdNode(toDel);
+					if (n != null) {
+						model.delNode(n);
+					}
+				} catch (ModelException e) {
+					throw new SyntaxErrorException("Impossible de supprimer l'element : " + toDel);
+				}
 				continue;
 			}
 
