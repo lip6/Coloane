@@ -43,7 +43,6 @@
                tooltip="%DISCONNECT_TIP">
          </action>
          <action
-               allowLabelUpdate="true"
                class="fr.lip6.move.coloane.core.ui.actions.ConnectModelAction"
                icon="resources/icons/connect.gif"
                id="connect"
@@ -52,6 +51,15 @@
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%CONNECT_TIP">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.BreakConnectionAction"
+               icon="resources/icons/force_deco.gif"
+               id="breakconnection"
+               label="%BREAK_ITEM"
+               menubarPath="coloaneServicesMenu/plateformMenu/group1"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons">
          </action>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.AuthenticationAction"
