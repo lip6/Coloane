@@ -21,6 +21,9 @@ public class DialogResult implements IDialogResult {
 	/** Le resultat */
 	private ArrayList<String> answer;
 
+	/** Le resultat provient-il d'une saisie multiligne ? */
+	private boolean multiLine;
+
 	/**
 	 * Constructeur de la structure de resultats
 	 * @param id L'identifiant de la boite de dialogue
@@ -28,11 +31,12 @@ public class DialogResult implements IDialogResult {
 	 * @param modified Le resultat a-t-il ete modifie depuis l'affichage de la boite de dialogue
 	 * @param returnedAnswer Le resutlat de la boite de dialogue
 	 */
-	public DialogResult(int id, int returnType, boolean modified, ArrayList<String> returnedAnswer) {
+	public DialogResult(int id, int returnType, boolean modified, ArrayList<String> returnedAnswer, boolean multiLineAnswer) {
 		this.dialogId = id;
 		this.answerType = returnType;
 		this.hasBeenModified = modified;
 		this.answer = returnedAnswer;
+		this.multiLine = multiLineAnswer;
 	}
 
 	/*
@@ -65,5 +69,13 @@ public class DialogResult implements IDialogResult {
 	 */
 	public final boolean hasBeenModified() {
 		return hasBeenModified;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#isMultiLineAnswer()
+	 */
+	public final boolean isMultiLineAnswer() {
+		return multiLine;
 	}
 }

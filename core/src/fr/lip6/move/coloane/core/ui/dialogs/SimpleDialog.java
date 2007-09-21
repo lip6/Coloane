@@ -142,7 +142,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?
 		boolean hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
 
-		dialogResult = new DialogResult(id, answerType, hasbeenmodified, textArea.getText());
+		dialogResult = new DialogResult(id, answerType, hasbeenmodified, textArea.getText(), (multiLine != TextArea.SINGLE_LINE));
 
 		this.close();
 	}

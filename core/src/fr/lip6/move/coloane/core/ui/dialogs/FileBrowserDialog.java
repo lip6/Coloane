@@ -69,8 +69,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		 * other dialog, this result will be overwritten by a result created
 		 * when the user will clic on "OK" or "Cancel".
 		 */
-		dialogResult = new DialogResult(id, IDialog.TERMINATED_OK, false,
-				new ArrayList<String>());
+		dialogResult = new DialogResult(id, IDialog.TERMINATED_OK, false, new ArrayList<String>(), true);
 
 		// choices = new ArrayList<String>();
 	}
@@ -144,7 +143,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 			answerType = TERMINATED_CANCEL;
 		}
 
-		dialogResult = new DialogResult(id, answerType, !fileField.getText().equals(defaultValue), pathToArrayList(fileField.getText()));
+		dialogResult = new DialogResult(id, answerType, !fileField.getText().equals(defaultValue), pathToArrayList(fileField.getText()), true);
 
 		this.close();
 	}
