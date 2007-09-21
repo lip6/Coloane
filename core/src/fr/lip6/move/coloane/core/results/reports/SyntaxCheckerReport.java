@@ -20,7 +20,6 @@ public class SyntaxCheckerReport extends Report {
 	 */
 	@Override
 	protected final void buildReport() {
-		String description = ""; //$NON-NLS-1$
 
 		// Si il n'y a pas de resultat : Aucun probleme !
 		if (getResultsCom().getSubResults().size() == 0) {
@@ -29,6 +28,7 @@ public class SyntaxCheckerReport extends Report {
 
 		// Parcours de tous les DE-FE
 		for (SubResultsCom sr : getResultsCom().getSubResults()) {
+			String description = ""; //$NON-NLS-1$
 			String label = sr.getCmdRT().get(0);
 
 			if (label.equalsIgnoreCase("List of unnamed places.")) { //$NON-NLS-1$

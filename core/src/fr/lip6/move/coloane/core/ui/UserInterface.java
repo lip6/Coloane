@@ -203,6 +203,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * Affichage des resultats dans la vue resultats
 	 */
 	public void printResults() {
+		Coloane.getLogger().fine("Affichage des resultats du service");
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
