@@ -34,4 +34,10 @@ public interface IDialogResult {
 	 */
 	boolean hasBeenModified();
 
+	/**
+	 * Indique si la reponse provient d'une boite de dialogue multilignes
+	 * @return Un booleen
+	 */
+	boolean isMultiLineAnswer();
+
 }
