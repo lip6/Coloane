@@ -61,7 +61,7 @@ public class TestModel extends TestCase {
 		int k; // cas du switch suivant le tour...
 
 		// Creation du modele
-		model.setFormalism("net");
+		model.setFormalism("AMI-Net");
 		String[] attributs = {"declaration", "author(s)", "version", "project"};
 		String[] valeurs = {"a", "c", "1.0", "d"};
 		for (int i = 0; i < 4; i++) {
