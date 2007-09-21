@@ -42,4 +42,9 @@ public interface IComMotor {
 	 * @param monitor monitor Le moniteur d'avancement associee a l'operation (barre de progression)
 	 */
 	void askForService(String rootMenuName, String referenceName, String serviceName, IProgressMonitor monitor);
+
+	/**
+	 * Demande de deconnexion brutale (initiee par le client)
+	 */
+	void breakConnection();
 }
