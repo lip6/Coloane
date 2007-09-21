@@ -33,7 +33,7 @@ public class EditableTextArea extends TextArea {
 	 */
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
-		String[] tokens = ((Text) getTextWidget()).getText().split("\n"); //$NON-NLS-1$
+		String[] tokens = ((Text) getTextWidget()).getText().split("(\n\r)|(\r\n)|(\n)|(\r)"); //$NON-NLS-1$
 
 		for (String token : tokens) {
 			result.add(token);
