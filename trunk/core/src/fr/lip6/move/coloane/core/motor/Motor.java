@@ -136,7 +136,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		}
 
 		// Mise a jour des boutons et menus de connexion
-		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+		ui.platformState(sessionManager.isAuthenticated(), SessionManager.CLOSED);
 	}
 
 	/**
@@ -445,5 +445,16 @@ public final class Motor implements IMotorCom, IMotorUi {
 		} else {
 			Coloane.getLogger().warning("Aucun service en cours...");
 		}
+	}
+
+	/**
+	 * Demande de deconnexion brutale (initiee par le client)
+	 */
+	public void breakConnection() {
+		Coloane.getLogger().fine("Deconnexion brutale initiee par le client");
+		sessionManager.destroyAllSessions();
+		sessionManager.setAuthenticated(false);
+		this.com.breakConnection();
+		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
 	}
 }
