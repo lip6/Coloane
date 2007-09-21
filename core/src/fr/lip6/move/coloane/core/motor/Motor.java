@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.interfaces.IMotorCom;
 import fr.lip6.move.coloane.core.interfaces.IMotorUi;
 import fr.lip6.move.coloane.core.interfaces.IUiMotor;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
@@ -363,7 +364,13 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Construit le modele en memoire a partir du modele generique recu
 		IModelImpl modelImpl;
 		try {
-			modelImpl = new ModelImplAdapter(model, getFormalismManager().loadFormalism("ReachabilityGraph")); //$NON-NLS-1$
+			Formalism f;
+			if (model.getFormalism() != null) {
+				f = getFormalismManager().loadFormalism(model.getFormalism());
+			} else {
+				f = getFormalismManager().loadFormalism("ReachabilityGraph");
+			}
+			modelImpl = new ModelImplAdapter(model, f); //$NON-NLS-1$
 		} catch (BuildException e) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele : " + e.getMessage()); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Motor_2 + e.getMessage());
@@ -455,6 +462,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		sessionManager.destroyAllSessions();
 		sessionManager.setAuthenticated(false);
 		this.com.breakConnection();
+		ui.redrawMenus();
 		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
 	}
 }
