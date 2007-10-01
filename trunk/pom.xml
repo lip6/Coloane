@@ -369,6 +369,13 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>CleanManifest</id>
+						<phase>clean</phase>        
+						<configuration>
+							<executable>cleanManifest.sh</executable>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
