@@ -11,6 +11,12 @@ if [ ! -f META-INF/MANIFEST.MF ]; then
 	exit 0
 fi
 
+# Nettoyage
+if [ -d META-INF/.svn ]; then
+	echo "Suppression du MANIFEST modifie"
+	svn revert META-INF/MANIFEST.MF
+fi
+
 echo "-----------------------------"
 echo "Updating Manifest File..."
 echo "Current Manifest File"
