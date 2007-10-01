@@ -372,6 +372,9 @@
 					<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
 						<configuration>
 							<executable>cleanManifest.sh</executable>
 						</configuration>
