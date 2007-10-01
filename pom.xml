@@ -278,7 +278,6 @@
 				<configuration>
 					<branchName>${project.artifactId}-${project.version}</branchName>
 					<preparationGoals>clean verify</preparationGoals>
-					<dryRun>true</dryRun>
 				</configuration>	
 			</plugin>
 
