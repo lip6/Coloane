@@ -29,22 +29,7 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<!-- Repetition du super pom car Continuum oublie qu'il faut le lire.. -->  
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.0-beta-6</version>
-				<configuration>
-					<branchName>${project.artifactId}-${project.version}</branchName>
-					<preparationGoals>scm:checkin clean integration-test scm:branch</preparationGoals>
-					<updateBranchVersions>false</updateBranchVersions>
-					<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
-				</configuration>	
-			</plugin>
-		</plugins>
-		
-			<!-- ~~~~~~~~~~~~~~~~~~~~ Ce qu'on va rajouter dans le jar	~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<!-- A ajouter dans le JAR -->
 		<resources>
 			<resource>
 				<directory>src</directory>
