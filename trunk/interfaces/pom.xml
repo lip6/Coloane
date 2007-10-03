@@ -5,19 +5,19 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane</groupId>
 		<artifactId>coloane</artifactId>
-		<version>0.10.0</version>
+		<version>0.10.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>interfaces</artifactId>
-	<version>1.0.12</version>
+	<version>1.0.13-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Interfaces</name>
 	<description>Interfaces and shared objects between Core and API</description>
 
 	<scm>
-		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/tags/coloane-0.10.0/interfaces</connection>
-		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/tags/coloane-0.10.0/interfaces</developerConnection>
-		<url>https://coloane.rsr.lip6.fr/trac/browser/tags/coloane-0.10.0/browser/trunk/interfaces</url>
+		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/interfaces</connection>
+		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/interfaces</developerConnection>
+		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/interfaces</url>
 	</scm>
 
 	<build>

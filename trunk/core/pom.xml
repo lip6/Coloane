@@ -5,19 +5,19 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane</groupId>
 		<artifactId>coloane</artifactId>
-		<version>0.10.0</version>
+		<version>0.10.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>core</artifactId>
-	<version>0.9.13</version>
+	<version>0.9.14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>Core de Coloane</description>
 
 	<scm>
-		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/tags/coloane-0.10.0/core</connection>
-		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/tags/coloane-0.10.0/core</developerConnection>
-		<url>https://coloane.rsr.lip6.fr/trac/browser/tags/coloane-0.10.0/browser/trunk/core</url>
+		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/core</connection>
+		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/core</developerConnection>
+		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/core</url>
 	</scm>
 
 	<properties>
