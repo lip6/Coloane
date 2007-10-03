@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>coloane</artifactId>
 	<packaging>pom</packaging>
-	<version>0.10.1-SNAPSHOT</version>
+	<version>0.10.0-SNAPSHOT</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
 	<url>http://coloane.rsr.lip6.fr</url>
@@ -28,7 +28,7 @@
 		<url>http://move.lip6.fr</url>
 	</organization>
 
-	<!-- L'??quipe de d??veloppement (actifs)--> 
+	<!-- L'équipe de développement (actifs)--> 
 	<developers>
 		<developer>
 			<id>fkordon</id>
@@ -82,7 +82,7 @@
 		</developer>
 	</developers>
 
-	<!-- Les contributeurs : Anciens d??veloppeurs -->
+	<!-- Les contributeurs : Anciens développeurs -->
 	<contributors>
 		<contributor>
 			<name>Nicolas Gibelin</name>
@@ -165,7 +165,7 @@
 		</dependency>
 	</dependencies>
 
-	<!-- Envoie par SCP lors du d??ploiement (deploy) -->
+	<!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
@@ -256,7 +256,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<!-- Indique o?? se trouve notre manifest.mf -->
+						<!-- Indique où se trouve notre manifest.mf -->
 						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
 						<!-- Rajoute Implementation-Build dans le MANIFEST -->
 						<manifest>
