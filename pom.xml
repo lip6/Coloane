@@ -422,13 +422,18 @@
 	</repositories>
 
 	<pluginRepositories>
-		<!-- Le plugin Repository de Maven pour les Snapshots -->
+		<pluginRepository>
+			<id>tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+		</pluginRepository>
+
 		<pluginRepository>
 			<id>codehausSnapshots</id>
 			<name>Codehaus Snapshots</name>
 			<url>http://snapshots.repository.codehaus.org/</url>      
 			<releases>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>always</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
@@ -439,5 +444,6 @@
 			</snapshots>
 			<layout>default</layout>
 		</pluginRepository>
+
 	</pluginRepositories>
 </project>
