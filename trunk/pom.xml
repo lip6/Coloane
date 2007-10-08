@@ -396,9 +396,20 @@
 
 	<!-- Depots (Repositories) -->
 	<repositories>
+		<repository>
+			<id>Maven1</id>
+			<name>Official Maven Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 		<!-- Le repository des plugins Eclipse -->
 		<repository>
-			<id>Eclipse</id>
+			<id>Eclipse1</id>
 			<name>Eclipse Repository</name>
 			<url>http://repo1.maven.org/eclipse</url>
 			<releases>
@@ -411,30 +422,22 @@
 	</repositories>
 
 	<pluginRepositories>
-		<!-- Pour chercher les mise a jour de maven-buildnumber-plugin -->
-		<pluginRepository>
-			<id>Tlc</id>
-			<name>TLC Repository</name>
-			<url>http://commons.ucalgary.ca/pub/m2</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
 		<!-- Le plugin Repository de Maven pour les Snapshots -->
 		<pluginRepository>
-			<id>apache.org</id>
-			<name>Maven Plugin Snapshots</name>
-			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<id>codehausSnapshots</id>
+			<name>Codehaus Snapshots</name>
+			<url>http://snapshots.maven.codehaus.org/maven2</url>      
 			<releases>
 				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
+			<layout>default</layout>
 		</pluginRepository>
 	</pluginRepositories>
 </project>
