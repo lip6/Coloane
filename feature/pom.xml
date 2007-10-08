@@ -10,9 +10,9 @@
 	<description>La feature de coloane</description>
 
 	<scm>
-		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
-		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
+		<url>https://coloane.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
 	</scm>
 
 	<dependencies>
@@ -190,13 +190,13 @@
 		<repository>
 			<id>Coloane-Releases</id>
 			<name>Coloane Releases</name>
-			<url>scp://coloane.rsr.lip6.fr/coloane/public/releases</url>
+			<url>scp://coloane.lip6.fr/coloane/public/releases</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>Coloane-Snapshots</id>
 			<name>Coloane Snapshots</name>
-			<url>scp://coloane.rsr.lip6.fr/coloane/public/snapshots</url>
+			<url>scp://coloane.lip6.fr/coloane/public/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
