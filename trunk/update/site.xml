@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="http://coloane.rsr.lip6.fr/night-updates">
+   <description url="http://coloane.lip6.fr/night-updates">
       Coloane Updates site
    </description>
    <feature url="features/fr.lip6.move.coloane.feature_0.9.17.jar" id="fr.lip6.move.coloane.feature" version="0.9.17" os="linux,macosx,win32" ws="carbon,gtk,win32" nl="en,fr" arch="ppc,x86">

@@ -8,7 +8,7 @@
 	<version>0.10.0-SNAPSHOT</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
-	<url>http://coloane.rsr.lip6.fr</url>
+	<url>http://coloane.lip6.fr</url>
 
 	<modules>
 		<module>interfaces</module>
@@ -18,9 +18,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk</connection>
-		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk</developerConnection>
-		<url>https://coloane.rsr.lip6.fr/trac</url>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
+		<url>https://coloane.lip6.fr/trac</url>
 	</scm>
 
 	<organization>
@@ -130,7 +130,7 @@
 	<!-- Pour les notifications -->
 	<ciManagement>
 		<system>continuum</system>
-		<url>http://coloane.rsr.lip6.fr:8080/continuum</url>
+		<url>http://coloane.lip6.fr:8080/continuum</url>
 		<notifiers>
 			<notifier>
 				<type>mail</type>
@@ -171,17 +171,17 @@
 		<repository>
 			<id>Coloane-Releases</id>
 			<name>Coloane Releases</name>
-			<url>scp://coloane.rsr.lip6.fr/coloane/public/releases</url>
+			<url>scp://coloane.lip6.fr/coloane/public/releases</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>Coloane-Snapshots</id>
 			<name>Coloane Snapshots</name>
-			<url>scp://coloane.rsr.lip6.fr/coloane/public/snapshots</url>
+			<url>scp://coloane.lip6.fr/coloane/public/snapshots</url>
 		</snapshotRepository>
 		<site>
 			<id>Coloane-Reports</id>
-			<url>scp://coloane.rsr.lip6.fr/coloane/public/reports</url>
+			<url>scp://coloane.lip6.fr/coloane/public/reports</url>
 		</site>
 	</distributionManagement>
 
@@ -192,7 +192,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>http://coloane.rsr.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 			</plugin>
@@ -286,7 +286,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>http://coloane.rsr.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
+					<configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>

@@ -15,9 +15,9 @@
 	<description>Fragments contenant des fichiers de langues pour le core</description>
 	
 	<scm>
-		<connection>https://coloane.rsr.lip6.fr/svn/trunk/fragments/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://coloane.rsr.lip6.fr/svn/trunk/fragements/${project.artifactId}</developerConnection>
-		<url>https://coloane.rsr.lip6.fr/trac/browser/trunk/fragments/${project.artifactId}</url>
+		<connection>https://coloane.lip6.fr/svn/trunk/fragments/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk/fragements/${project.artifactId}</developerConnection>
+		<url>https://coloane.lip6.fr/trac/browser/trunk/fragments/${project.artifactId}</url>
 	</scm>
 	
 	<build>
