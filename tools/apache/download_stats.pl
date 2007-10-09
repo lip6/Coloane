@@ -11,7 +11,7 @@ my @months = ("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov",
 # Author : Jean-Baptiste Voron (LIP6/MoVe)
 # Description : Try to find the number of downloads of Coloane
 #
-# Use : perl download_stats.pl
+# Use : perl download_stats.pl [-f=file with stats] [-t analyse today activity]
 #
 
 #
@@ -30,18 +30,29 @@ sub pad_day {
 my $counter = 0;
 my %details;
 
-# Debug state
-my $debug = 1;
+# Some properties
+my $filedesc = "/coloane/logs/access.log";
+my $when = 0;
+
+# Browse arguments
+if ($#ARGV > -1) {
+	for (my $i = -1; $i <= $#ARGV; $i++) {
+		my $tmp = shift @ARGV;
+		$filedesc = $1 if ($tmp =~ /^-f=(.*)$/);
+		$when = 1 if ($tmp =~ /^-t$/);
+	}
+}
 
 # Open stats file
-my $filedesc = "/coloane/logs/access.log";
-# my $filedesc = "access.log";
 open (DESC, "<$filedesc") or die "FAILURE !!! Unable to read : $filedesc \n";
 
-# Browse the stats file and look for insterresting lines
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time - 24 * 60 * 60);
+# Calculate the date
+my $period = (time - 24 * 60 * 60);
+$period = (time) if ($when);
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($period);
 my $pattern_date = pad_day($mday)."/".$months[$mon]."/".($year+1900);
 
+# Browse the stats file and look for insterresting lines
 while (<DESC>) {
 	my $ligne = $_;
 	chomp $ligne;
@@ -55,6 +66,7 @@ while (<DESC>) {
 	}
 }
 
+# Output 
 print "@@ ".$pattern_date." : ".$counter." \n";
 for my $ip (keys %details) {
 	print "%% $ip -> ".$details{$ip}." \n";
