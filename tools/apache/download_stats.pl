@@ -34,8 +34,8 @@ my %details;
 my $debug = 1;
 
 # Open stats file
-# my $filedesc = "/coloane/logs/access.log";
-my $filedesc = "access.log";
+my $filedesc = "/coloane/logs/access.log";
+# my $filedesc = "access.log";
 open (DESC, "<$filedesc") or die "FAILURE !!! Unable to read : $filedesc \n";
 
 # Browse the stats file and look for insterresting lines
