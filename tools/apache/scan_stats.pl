@@ -58,7 +58,7 @@ while (<DESC>) {
 	chomp $ligne;
 	
 	# Pattern calculation
-	my $pattern = '^(\d+\.\d+\.\d+\.\d+) - - \['.$pattern_date.'.+\] \"GET \/night-updates\/features\/fr\.lip6\.move.coloane\.feature.*200 ';
+	my $pattern = '^(\d+\.\d+\.\d+\.\d+) - - \['.$pattern_date.'.+\] \"GET \/night-updates\/site\.xml.*200 ';
 	
 	if ($ligne =~ /$pattern/) {
 		if (exists $details{$1}) { $details{$1}++ } else { $details{$1}=1; }
