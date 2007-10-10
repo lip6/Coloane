@@ -33,6 +33,7 @@ my %details;
 # Some properties
 my $filedesc = "/coloane/logs/access.log";
 my $when = 0;
+my $backday = 1;
 
 # Browse arguments
 if ($#ARGV > -1) {
@@ -40,6 +41,7 @@ if ($#ARGV > -1) {
 		my $tmp = shift @ARGV;
 		$filedesc = $1 if ($tmp =~ /^-f=(.*)$/);
 		$when = 1 if ($tmp =~ /^-t$/);
+		$backday = $1 if ($tmp =~ /^-b(\d+)$/);
 	}
 }
 
@@ -47,7 +49,7 @@ if ($#ARGV > -1) {
 open (DESC, "<$filedesc") or die "FAILURE !!! Unable to read : $filedesc \n";
 
 # Calculate the date
-my $period = (time - 24 * 60 * 60);
+my $period = (time - 24 * 60 * 60 * $backday);
 $period = (time) if ($when);
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($period);
 my $pattern_date = pad_day($mday)."/".$months[$mon]."/".($year+1900);
