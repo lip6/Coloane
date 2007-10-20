@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane</groupId>
 		<artifactId>coloane</artifactId>
-		<version>0.10.0-SNAPSHOT</version>
+		<version>0.10</version>
 	</parent>
 
 	<artifactId>apicami</artifactId>
-	<version>0.9.11-SNAPSHOT</version>
+	<version>0.10</version>
 	<packaging>jar</packaging>
 	<name>Apicami</name>
 	<description>Api (cami)</description>
@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>interfaces</artifactId>
-			<version>1.0.12-SNAPSHOT</version>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 
