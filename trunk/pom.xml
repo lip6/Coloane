@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>coloane</artifactId>
 	<packaging>pom</packaging>
-	<version>0.10.0-SNAPSHOT</version>
+	<version>0.10</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
 	<url>http://coloane.lip6.fr</url>
@@ -118,6 +118,16 @@
 		<contributor>
 			<name>David Cheng</name>
 			<email>David.Cheng@src.lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Alexandre Ortiz</name>
+			<email>Alexandre.Ortiz@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>

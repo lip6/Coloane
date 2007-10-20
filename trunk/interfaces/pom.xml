@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane</groupId>
 		<artifactId>coloane</artifactId>
-		<version>0.10.0-SNAPSHOT</version>
+		<version>0.10</version>
 	</parent>
 
 	<artifactId>interfaces</artifactId>
-	<version>1.0.12-SNAPSHOT</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 	<name>Interfaces</name>
 	<description>Interfaces and shared objects between Core and API</description>
