@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane.update</groupId>
 	<artifactId>update</artifactId>
 	<packaging>pom</packaging>
-	<version>0.10</version>
+	<version>0.10.0</version>
 	<name>Site</name>
 	<description>Le site d'update de coloane</description>
 
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.update</groupId>
 			<artifactId>feature</artifactId>
-			<version>0.10</version>
+			<version>0.10.0</version>
 		</dependency>
 
 	</dependencies>

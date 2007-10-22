@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane</groupId>
 		<artifactId>coloane</artifactId>
-		<version>0.10</version>
+		<version>0.10.0</version>
 	</parent>
 
 	<artifactId>core</artifactId>
-	<version>0.10</version>
+	<version>0.10.0</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>Core de Coloane</description>
@@ -32,12 +32,12 @@
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>interfaces</artifactId>
-			<version>1.1</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>apicami</artifactId>
-			<version>0.10</version>
+			<version>0.10.0</version>
 		</dependency>
 
 		<dependency>
