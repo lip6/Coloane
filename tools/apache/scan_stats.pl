@@ -89,7 +89,7 @@ for my $ip (keys %details) {
 	print "%% $ip -> ".$details{$ip}." \n";
 }
 for my $ip (keys %details_up) {
-	print "%% $ip -> ".$details_up{$ip}." \n";
+	print "++ $ip -> ".$details_up{$ip}." \n";
 }
 
 close (DESC);
