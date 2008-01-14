@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.monir.test.convert.actionConvert"
+            label="actionConvert"
+            visible="true">
+         <menu
+               id="File"
+               label="File">
+         </menu>
+         <action
+               class="org.monir.test.convert.Convert"
+               id="org.monir.test.convert.action.actionConvert"
+               label="Convertir..."
+               menubarPath="File/convertGroup"
+               toolbarPath="convertGroup">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>
