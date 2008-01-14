@@ -21,8 +21,9 @@ public class Convert implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
 		System.out.println("CONVERT");
-		ConvertDialog convertDialog = new ConvertDialog(window.getShell());
-		convertDialog.open();
+		ConvertDialog1 convertDialog = new ConvertDialog1(window.getShell());
+		int x = convertDialog.open();
+		System.out.println(x);
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
