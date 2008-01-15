@@ -29,14 +29,11 @@ public class Convert implements IWorkbenchWindowActionDelegate {
 		System.out.println(choix);
 		
 		if ( choix == Dialog.OK ){
-			System.out.println("a1");
 			Convertiseur convertiseur = ConvertExtension.createConvertInstance(convertDialog.getMonnaie());
-			System.out.println("a2");
 			double res = convertiseur.convert(convertDialog.getPrice());
 			MessageDialog.openInformation(window.getShell(),
 					"Convertiseur",
-					"Prix convertie"+res);
-			System.out.println("a3");
+					"Prix convertie: "+res);
 		}
 	}
 
