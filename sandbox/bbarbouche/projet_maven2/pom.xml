@@ -15,10 +15,10 @@
 		</dependency>
 
 		<dependency>
-			<groupeId>fr.lip6.calcul</groupeId>
+			<groupId>fr.lip6.calcul</groupId>
 			<artifactId>projet_maven</artifactId>
 			<version>1.0</version>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

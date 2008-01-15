@@ -5,10 +5,10 @@ import fr.lip6.calcul.*;
 
 public class Operation_dependance {
 
-	Operation op=new Operation();
+	public Operation op=new Operation();
 	
 		public int carre(int a){
-			return op.multiplication(a, a);
+			return op.multiplication(a,a);
 		}
 	
 		public int factorielle(int a){
