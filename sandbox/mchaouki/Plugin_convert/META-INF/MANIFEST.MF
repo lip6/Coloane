@@ -7,3 +7,4 @@ Bundle-Activator: org.monir.test.convert.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Eclipse-LazyStart: true
+Export-Package: org.monir.test.convert

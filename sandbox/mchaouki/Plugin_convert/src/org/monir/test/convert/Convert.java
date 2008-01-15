@@ -1,6 +1,8 @@
 package org.monir.test.convert;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
@@ -20,10 +22,22 @@ public class Convert implements IWorkbenchWindowActionDelegate {
 
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
+		int choix;
 		System.out.println("CONVERT");
-		ConvertDialog1 convertDialog = new ConvertDialog1(window.getShell());
-		int x = convertDialog.open();
-		System.out.println(x);
+		ConvertDialog convertDialog = new ConvertDialog(window.getShell());
+		choix = convertDialog.open();
+		System.out.println(choix);
+		
+		if ( choix == Dialog.OK ){
+			System.out.println("a1");
+			Convertiseur convertiseur = ConvertExtension.createConvertInstance(convertDialog.getMonnaie());
+			System.out.println("a2");
+			double res = convertiseur.convert(convertDialog.getPrice());
+			MessageDialog.openInformation(window.getShell(),
+					"Convertiseur",
+					"Prix convertie"+res);
+			System.out.println("a3");
+		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
