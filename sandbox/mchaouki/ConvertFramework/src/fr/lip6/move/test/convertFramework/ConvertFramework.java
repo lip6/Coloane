@@ -11,19 +11,23 @@ public class ConvertFramework {
 	
 	public double convertToFranc(double prix){
 		Utils2 utils2 = new Utils2();
-		return utils2.multiplication(prix, 6.55);	}
+		return utils2.multiplication(prix, 6.55);
+	}
 	
 	public double convertToLivre(double prix){
 		Utils2 utils2 = new Utils2();
-		return utils2.multiplication(prix, 1.33);	}
+		return utils2.multiplication(prix, 1.33);
+	}
 	
 	public double convertToDirham(double prix){
 		Utils2 utils2 = new Utils2();
-		return utils2.multiplication(prix, 10);	}
+		return utils2.multiplication(prix, 10);
+	}
 	
 	public double convertToYen(double prix){
 		Utils2 utils2 = new Utils2();
-		return utils2.multiplication(prix, 100);	}
+		return utils2.multiplication(prix, 100);	
+	}
 	
 	public double taxer(double prix){
 		Utils1 utils1 = new Utils1();
