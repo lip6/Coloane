@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="fr.lip6.move.pnml.cpnami_1.0.0.jar"/>
+	<classpathentry kind="lib" path="fr.lip6.move.pnml.framework_1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.common_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.commonj.sdo_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.change_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.change.edit_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.edit_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.sdo_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.sdo.edit_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.ecore.xmi_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.edit_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/emf.mapping.ecore2xml_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/isorelax.jar"/>
+	<classpathentry kind="lib" path="lib/jing.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_ri.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.resources_3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime_3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/saxon.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/xsd_2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/xsd.edit_2.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
