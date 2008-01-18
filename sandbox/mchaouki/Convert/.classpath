@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="lib/convertFramework.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/utils1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/utils2.jar"/>
+	<classpathentry kind="lib" path="/fr.lip6.move.test.convertFramework/fr.lip6.move.test.convertFramework_fat.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
