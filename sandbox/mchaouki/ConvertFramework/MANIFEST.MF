@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: fr.lip6.move.test.convertFramework.TestConvertFramework
-Class-Path: lib\utils2.jar .
-
