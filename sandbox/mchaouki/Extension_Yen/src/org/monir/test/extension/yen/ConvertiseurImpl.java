@@ -10,7 +10,7 @@ public class ConvertiseurImpl implements Convertiseur {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+	//@Override
 	public double convert(double prix) {
 		// TODO Auto-generated method stub
 		Tools tools = new Tools();
@@ -21,13 +21,13 @@ public class ConvertiseurImpl implements Convertiseur {
 		return prixConvertie;
 	}
 
-	@Override
+	//@Override
 	public double getTaux() {
 		// TODO Auto-generated method stub
 		return taux;
 	}
 
-	@Override
+	//@Override
 	public void setTaux(double taux) {
 		// TODO Auto-generated method stub
 		

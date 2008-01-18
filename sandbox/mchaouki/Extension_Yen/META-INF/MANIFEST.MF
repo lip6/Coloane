@@ -9,7 +9,4 @@ Require-Bundle: org.eclipse.ui,
  org.monir.test.convert
 Eclipse-LazyStart: true
 Bundle-ClassPath: .,
- lib/utils1.jar,
- lib/utils2.jar,
- lib/convertFramework.jar,
- lib/convert.jar
+ lib/fr.lip6.move.test.convert_fat.jar
