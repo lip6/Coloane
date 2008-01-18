@@ -14,7 +14,7 @@ public class ConvertiseurImpl implements Convertiseur {
 		// TODO Auto-generated method stub
 		Tools tools = new Tools();
 		
-		double prixConvertie = tools.convertTo(prix, 4);
+		double prixConvertie = tools.convertTo(prix, 4);  // J'ai mis 4 comme parammetre pour la monnaie car cela correspont au Yen
 		
 		System.out.println("Voicie le Prix convertie"+prixConvertie);
 		return prixConvertie;
