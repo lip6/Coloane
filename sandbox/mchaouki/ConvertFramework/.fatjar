@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Fri Jan 18 11:17:52 CET 2008
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=fr.lip6.move.test.convertFramework_fat.jar
+manifest.mergeall=true
+manifest.mainclass=fr.lip6.move.test.convertFramework.TestConvertFramework
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
