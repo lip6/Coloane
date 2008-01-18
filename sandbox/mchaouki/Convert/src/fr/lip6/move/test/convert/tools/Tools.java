@@ -21,11 +21,6 @@ public class Tools {
 		System.out.println("Prix   :"+prix);
 		System.out.println("Monnaie:"+monnaie);
 		ArrayList<Double> res = convertToAll(prix);
-		
-		for (Double p: res){
-			System.out.print("\t"+p);
-		}
-		System.out.println("");
 		System.out.println("Convert:"+res.get(monnaie));
 		
 		return res.get(monnaie);

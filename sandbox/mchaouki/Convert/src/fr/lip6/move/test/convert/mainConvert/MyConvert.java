@@ -8,6 +8,6 @@ public class MyConvert {
 		
 		double prixConvertie = tools.convertTo(Double.parseDouble(args[0]), Integer.parseInt(args[1]));
 		
-		System.out.println("Voicie le Prix convertie"+prixConvertie);
+		System.out.println("Voicie le Prix convertie :"+prixConvertie);
 	}
 }
