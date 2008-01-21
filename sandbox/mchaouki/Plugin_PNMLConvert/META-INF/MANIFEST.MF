@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Convert Plug-in
+Bundle-SymbolicName: fr.lip6.move.test.cami.convert;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: fr.lip6.move.test.cami.convert.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Export-Package: fr.lip6.move.test.cami.interfaceConvert
