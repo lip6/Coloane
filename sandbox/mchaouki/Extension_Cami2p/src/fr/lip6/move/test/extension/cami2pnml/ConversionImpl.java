@@ -11,20 +11,43 @@ public class ConversionImpl implements Conversion {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void convert(String inputFile, String outputFile) {
+	public void convert(String inputFile, String outputFile) throws CamiException {
 		// TODO Auto-generated method stub
-		final Runner myRunner = CamiPackage.eINSTANCE.getCamiFactory().createRunner();
+		Runner myRunner = CamiPackage.eINSTANCE.getCamiFactory().createRunner();
 		
 		try {
 			System.out.println("aaaaaaaa");
-			final String f1 = "-cami2p";
-			final String f2 = "/home/mchaouki/Desktop/Test_PNMLConvert/Piscine";
-			final String[] tab = new String[]{f1,f2};
-			myRunner.run(tab);
-			System.out.println("bbbbbbbbb");
+			String f1 = "-cami2p";
+			String f2 = inputFile;
+			String f3 = "-output";
+			String f4 = outputFile;
+			
+			if (inputFile.equals("")){
+				System.out.println("Pas de inputFile");
+				return;
+			}
+			
+			if (outputFile.equals("")){
+				System.out.println("Pas de outputFile");
+				String[] tab1 = new String[]{f1,f2};
+				myRunner.run(tab1);
+				System.out.println("Fin ecriture");
+				return;
+			}
+			else{
+				System.out.println("un outputFile");
+				String[] tab2 = new String[]{f1,f2,f3,f4};
+				myRunner.run(tab2);
+				System.out.println("Fin ecriture");
+				return;
+			}
+			
 		} catch (CamiException e) {
+			System.out.println("ERROR0");
 			System.err.println("Main: Problem when launching Runner: "
 					+ e.getMessage());
+			throw new CamiException(e.getMessage());
+			//System.out.println("ERROR1");
 			//System.exit(-1);
 		}
 	}
