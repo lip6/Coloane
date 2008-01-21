@@ -2,6 +2,7 @@ package fr.lip6.move.test.cami.convert;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
@@ -37,7 +38,14 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 			System.out.println("2");
 			System.out.println(exportDilog.getInputFile());
 			System.out.println(exportDilog.getOutputFile());
-			convertiseur.convert(exportDilog.getInputFile(), exportDilog.getOutputFile());
+			try {
+				convertiseur.convert(exportDilog.getInputFile(), exportDilog.getOutputFile());
+				MessageDialog.openInformation(window.getShell(), "Export To...", " Votre fichier CAMI a bien etait exporter au format PNML");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				MessageDialog.openError(window.getShell(), "Export To...", e.getMessage());
+			}
 			System.out.println("OK");
 		}
 		
