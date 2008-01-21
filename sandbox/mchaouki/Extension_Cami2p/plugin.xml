@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.test.cami.convert.exportTo">
+      <ExportTo
+            class="fr.lip6.move.test.extension.cami2pnml.ConversionImpl"
+            id="exportTo"
+            name="PNML">
+      </ExportTo>
+   </extension>
+
+</plugin>
