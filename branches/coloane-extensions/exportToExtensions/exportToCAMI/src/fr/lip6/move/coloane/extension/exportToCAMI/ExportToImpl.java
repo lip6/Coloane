@@ -13,16 +13,12 @@ public class ExportToImpl implements IExportTo {
 	public void export(IModelImpl modelAdapter, String fileName) throws Exception {
 		// TODO Auto-generated method stub
 		
-		/**
-		 * Creation d'un FormalismManager ???
-		 * 
-		 */
+		//Creation d'un FormalismManager ???
 		FormalismManager fm = new FormalismManager();
 		
-		/**
-		 * Appel la methode exportModel qui export le model courant au format CAMI
-		 */
+		//Appel la methode exportModel qui export le model courant au format CAMI
 		fm.exportModel(modelAdapter, fileName);
+		
 	}
 
 }
