@@ -68,10 +68,7 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 				e.printStackTrace();
 				MessageDialog.openWarning(window.getShell(), "Export To...", e.getMessage());
 			}
-			System.out.println("OK");
-			
 		}
-		System.out.println("CANCEL");
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
