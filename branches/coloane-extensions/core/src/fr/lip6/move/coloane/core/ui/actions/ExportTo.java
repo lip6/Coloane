@@ -14,7 +14,9 @@ import fr.lip6.move.coloane.core.ui.Editor;
 import fr.lip6.move.coloane.core.ui.dialogs.ExportToDilaog;
 
 public class ExportTo implements IWorkbenchWindowActionDelegate {
-	/** Fenetre de travail */
+	/** 
+	 * Fenetre de travail
+	 */
 	private IWorkbenchWindow window;
 	
 	public void dispose() {
@@ -27,6 +29,9 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		this.window = window;
 	}
 
+	/**
+	 * Action a effectuer en demande un exportation du model courant
+	 */
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
 		
@@ -54,18 +59,19 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		if (choix == Dialog.OK){
 			System.out.println("Creation d'un instance pour l'exportation au format:"+exportDialog.getFormat());
 			IExportTo exportateur = ExportToExtension.createConvertInstance(exportDialog.getFormat());
-			MessageDialog.openInformation(window.getShell(), "Export To...", " Votre fichier a bien etait exporter au format: "+exportDialog.getFormat());
 			
 			try {
 				exportateur.export(editor.getModel(), exportDialog.getOutputFile());
+				MessageDialog.openInformation(window.getShell(), "Export To...", " Votre fichier a bien etait exporter au format: "+exportDialog.getFormat());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				MessageDialog.openError(window.getShell(), "Export To...", e.getMessage());
+				MessageDialog.openWarning(window.getShell(), "Export To...", e.getMessage());
 			}
+			System.out.println("OK");
 			
 		}
-
+		System.out.println("CANCEL");
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
