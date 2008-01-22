@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import fr.lip6.move.coloane.core.extensions.ExportToExtension;
+
 public class ExportToDilaog extends Dialog {
 	/**
 	 * Attributs de la boite de dialogue 'Export To...'
@@ -62,7 +64,7 @@ public class ExportToDilaog extends Dialog {
 		formatLbl.setText("Format");
 		
 		formatCombo = new Combo(dialog, SWT.DROP_DOWN|SWT.READ_ONLY);
-		formatCombo.setItems(new String[]{}/* A COMPLETER PAR LA LISTE DES NOMS DES EXTENSIONs */);
+		formatCombo.setItems(ExportToExtension.getAllNameExtensionConvert());
 		
 		rienLbl = new Label(dialog,SWT.NONE);
 		rienLbl.setText("");
