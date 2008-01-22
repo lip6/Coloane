@@ -86,7 +86,7 @@ public class ExportToDilaog extends Dialog {
 				new Listener(){
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
-				FileDialog fileDialog = new FileDialog(dialog.getShell());
+				FileDialog fileDialog = new FileDialog(dialog.getShell(),SWT.SAVE);
 				outputFile = fileDialog.open();
 				outputFileTxt.setText(outputFile);
 			}
