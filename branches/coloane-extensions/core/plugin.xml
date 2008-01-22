@@ -90,6 +90,13 @@
                label="%EXPORT_ITEM"
                menubarPath="file/import.ext"
                style="push"/>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.ExportTo"
+               id="exportTo"
+               label="Export To..."
+               menubarPath="file/import.ext"
+               style="push">
+         </action>
       </actionSet>
    </extension>
     <extension
