@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import fr.lip6.move.coloane.core.extensions.ImportToExtension;
+
 public class ImportToDialog extends Dialog{
 	
 	/**
@@ -65,7 +67,7 @@ public class ImportToDialog extends Dialog{
 		formatLbl.setText("Format");
 		
 		formatCombo = new Combo(dialog, SWT.DROP_DOWN|SWT.READ_ONLY);
-		formatCombo.setItems(new String[]{});
+		formatCombo.setItems(ImportToExtension.getAllNameExtensionConvert());
 		
 		rienLbl = new Label(dialog,SWT.NONE);
 		rienLbl.setText("");
@@ -79,6 +81,7 @@ public class ImportToDialog extends Dialog{
 		
 		filePathTxt = new Text(dialog,SWT.BORDER);
 		filePathTxt.setText("");
+		filePathTxt.setEditable(false);
 		
 		filePathBtn = new Button(dialog,SWT.NONE);
 		filePathBtn.setText("Parcourire...");
