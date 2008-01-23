@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="exports" name="Exports" schema="schema/exports.exsd"/>
+   <extension-point id="imports" name="Imports" schema="schema/imports.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
