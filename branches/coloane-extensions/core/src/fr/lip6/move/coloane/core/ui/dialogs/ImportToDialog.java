@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import java.io.File;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,7 +22,8 @@ public class ImportToDialog extends Dialog{
 	 * Attributs de la boite de dialogue 'Import To...'
 	 */
 	private String format;
-	private String inputFile;
+	private String filePath;
+	private String fileName;
 	
 	/**
 	 * Composants servant a recuperer le format dans lequel exporter
@@ -32,9 +35,9 @@ public class ImportToDialog extends Dialog{
 	/**
 	 * Composants servant a recuperer le chemin du fichier a creer
 	 */
-	private Label inputFileLbl;
-	private Text inputFileTxt;
-	private Button inputFileBtn;
+	private Label filePathLbl;
+	private Text filePathTxt;
+	private Button filePathBtn;
 	
 	
 	public ImportToDialog(Shell parentShell) {
@@ -71,22 +74,23 @@ public class ImportToDialog extends Dialog{
 		 * Creation de la partie permettant de declarer le chemin du
 		 * fichie a creer dans le format choisie precedement
 		 */	
-		inputFileLbl = new Label(dialog,SWT.CENTER);
-		inputFileLbl.setText("Nom");
+		filePathLbl = new Label(dialog,SWT.CENTER);
+		filePathLbl.setText("Nom");
 		
-		inputFileTxt = new Text(dialog,SWT.BORDER);
-		inputFileTxt.setText("");
+		filePathTxt = new Text(dialog,SWT.BORDER);
+		filePathTxt.setText("");
 		
-		inputFileBtn = new Button(dialog,SWT.NONE);
-		inputFileBtn.setText("Parcourire...");
+		filePathBtn = new Button(dialog,SWT.NONE);
+		filePathBtn.setText("Parcourire...");
 		
-		inputFileBtn.addListener(SWT.Selection, 
+		filePathBtn.addListener(SWT.Selection, 
 				new Listener(){
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
 				FileDialog fileDialog = new FileDialog(dialog.getShell(),SWT.OPEN | SWT.SINGLE);
-				inputFile = fileDialog.open();
-				inputFileTxt.setText(inputFile);
+				filePath = fileDialog.open();
+				fileName = new File(filePath).getName();
+				filePathTxt.setText(filePath);
 			}
 	
 		});
@@ -104,10 +108,14 @@ public class ImportToDialog extends Dialog{
 	
 	/**
 	 * 
-	 * @return Le nom du fichier dans lequel enregister le model courant
+	 * @return Le chemin du fichier dans lequel enregister le model courant
 	 */
-	public String getInputFile(){
-		return inputFile;
+	public String getFilePath(){
+		return filePath;
+	}
+	
+	public String getFileName(){
+		return fileName;
 	}
 	
 	/**
@@ -129,7 +137,8 @@ public class ImportToDialog extends Dialog{
 	 */
 	protected final void okPressed() {
 		this.format = formatCombo.getItems()[formatCombo.getSelectionIndex()];
-		this.inputFile = inputFileTxt.getText();
+		this.filePath = filePathTxt.getText();
+		this.fileName = new File(this.filePath).getName();
 		super.okPressed();
 	}
 	
@@ -138,7 +147,7 @@ public class ImportToDialog extends Dialog{
 	 */
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Export To...");
+		newShell.setText("Import To...");
 	}
 
 }
