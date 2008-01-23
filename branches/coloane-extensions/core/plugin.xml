@@ -79,30 +79,18 @@
             label="%FILEACTIONS_ID"
             visible="true">
          <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportExportCAMI"
-               icon="resources/icons/import_wiz.gif"
-               id="cami_import"
-               label="%IMPORT_ITEM"
-               menubarPath="file/import.ext"
-               style="push"/>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportExportCAMI"
-               icon="resources/icons/export_wiz.gif"
-               id="cami_export"
-               label="%EXPORT_ITEM"
-               menubarPath="file/import.ext"
-               style="push"/>
-         <action
                class="fr.lip6.move.coloane.core.ui.actions.ExportTo"
+               icon="resources/icons/export_wiz.gif"
                id="exportTo"
-               label="Export To..."
+               label="%EXPORT_TO_ITEM"
                menubarPath="file/import.ext"
                style="push">
          </action>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.ImportTo"
+               icon="resources/icons/import_wiz.gif"
                id="importTo"
-               label="Import To..."
+               label="%IMPORT_TO_ITEM"
                menubarPath="file/import.ext"
                style="push">
          </action>
