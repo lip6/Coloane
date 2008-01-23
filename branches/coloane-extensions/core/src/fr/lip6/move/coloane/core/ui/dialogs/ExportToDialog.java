@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Text;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 
-public class ExportToDilaog extends Dialog {
+public class ExportToDialog extends Dialog {
 	/**
 	 * Attributs de la boite de dialogue 'Export To...'
 	 */
@@ -39,7 +39,7 @@ public class ExportToDilaog extends Dialog {
 	
 	
 
-	public ExportToDilaog(Shell parentShell) {
+	public ExportToDialog(Shell parentShell) {
 		super(parentShell);
 		// TODO Auto-generated constructor stub
 	}
