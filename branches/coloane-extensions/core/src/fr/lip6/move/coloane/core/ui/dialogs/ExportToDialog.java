@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,15 +14,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IFileEditorInput;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
+import fr.lip6.move.coloane.core.ui.Editor;
 
 public class ExportToDialog extends Dialog {
 	/**
 	 * Attributs de la boite de dialogue 'Export To...'
 	 */
 	private String format;
-	private String outputFile;
+	private String filePath;
+	//private String fileName;
+	private Editor editor;
 	
 	/**
 	 * Composants servant a recuperer le format dans lequel exporter
@@ -33,14 +38,15 @@ public class ExportToDialog extends Dialog {
 	/**
 	 * Composants servant a recuperer le chemin du fichier a creer
 	 */
-	private Label outputFileLbl;
-	private Text outputFileTxt;
-	private Button outputFileBtn;
+	private Label filePathLbl;
+	private Text filePathTxt;
+	private Button filePathBtn;
 	
 	
 
-	public ExportToDialog(Shell parentShell) {
+	public ExportToDialog(Shell parentShell,Editor editor) {
 		super(parentShell);
+		this.editor = editor;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -73,22 +79,34 @@ public class ExportToDialog extends Dialog {
 		 * Creation de la partie permettant de declarer le chemin du
 		 * fichie a creer dans le format choisie precedement
 		 */	
-		outputFileLbl = new Label(dialog,SWT.CENTER);
-		outputFileLbl.setText("Nom");
+		filePathLbl = new Label(dialog,SWT.CENTER);
+		filePathLbl.setText("Nom");
 		
-		outputFileTxt = new Text(dialog,SWT.BORDER);
-		outputFileTxt.setText("");
+		filePathTxt = new Text(dialog,SWT.BORDER);
+		filePathTxt.setText("");
 		
-		outputFileBtn = new Button(dialog,SWT.NONE);
-		outputFileBtn.setText("Parcourire...");
+		filePathBtn = new Button(dialog,SWT.NONE);
+		filePathBtn.setText("Parcourire...");
 		
-		outputFileBtn.addListener(SWT.Selection, 
+		filePathBtn.addListener(SWT.Selection, 
 				new Listener(){
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
+				
+				// Recupere le fichier de l'editeur courrant
+				IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
+				
+				// Cree une FileDialog
 				FileDialog fileDialog = new FileDialog(dialog.getShell(),SWT.SAVE);
-				outputFile = fileDialog.open();
-				outputFileTxt.setText(outputFile);
+				
+				// Definie un nom par defaut : celui de l'editeur courant
+				int fLength = file.getName().length();
+				String ext = file.getFileExtension();
+				fileDialog.setFileName(file.getName().substring(0, fLength - ext.length() - 1));
+				
+				// Ouvre la FileDialog
+				filePath = fileDialog.open();
+				filePathTxt.setText(filePath);
 			}
 	
 		});
@@ -106,10 +124,10 @@ public class ExportToDialog extends Dialog {
 	
 	/**
 	 * 
-	 * @return Le nom du fichier dans lequel enregister le model courant
+	 * @return Le chemin du fichier dans lequel enregister le model courant
 	 */
-	public String getOutputFile(){
-		return outputFile;
+	public String getFilePath(){
+		return filePath;
 	}
 	
 	/**
@@ -131,7 +149,7 @@ public class ExportToDialog extends Dialog {
 	 */
 	protected final void okPressed() {
 		this.format = formatCombo.getItems()[formatCombo.getSelectionIndex()];
-		this.outputFile = outputFileTxt.getText();
+		this.filePath = filePathTxt.getText();
 		super.okPressed();
 	}
 	
