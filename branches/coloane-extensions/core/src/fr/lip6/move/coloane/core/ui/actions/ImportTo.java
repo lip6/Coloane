@@ -68,9 +68,11 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 					shell.setText(Messages.ImportExportCAMI_2);
 				}
 			};
-
+			
+			// Donne un nom par default au fichier importer
 			sd.setOriginalName(fileName);
 
+			
 			if (sd.open() == SaveAsDialog.OK) {
 				IPath path = sd.getResult();
 
@@ -83,7 +85,7 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 								// Creation de l'instance qui permet d'importer le format selectionner
 								IImportTo importateur = (IImportTo) ImportToExtension.createConvertInstance(importDialog.getFormat());
 
-								// Importe le modele dans l'editeur
+								// Importe le modele, via l'instance precedement creee
 								IModelImpl model = importateur.importTo(filePath);
 								
 								
