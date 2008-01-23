@@ -4,6 +4,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
@@ -35,6 +36,8 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
 		
+		Shell shell = window.getShell();
+		
 		// Verification si on est dans un Editor ???
 		if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
 			Coloane.showErrorMsg(Messages.ImportExportCAMI_0);
@@ -53,7 +56,7 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		
 		int choix;
 		
-		ExportToDialog exportDialog = new ExportToDialog(window.getShell(),editor);
+		ExportToDialog exportDialog = new ExportToDialog(shell,editor);
 		choix = exportDialog.open();
 		String filePath = exportDialog.getFilePath();
 
@@ -63,11 +66,11 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 			
 			try {
 				exportateur.export(editor.getModel(), filePath);
-				MessageDialog.openInformation(window.getShell(), "Export To...", " Votre modele a bien etait exporter au format: "+exportDialog.getFormat());
+				MessageDialog.openInformation(shell, "Export To...", " Votre modele a bien etait exporter au format: "+exportDialog.getFormat());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				MessageDialog.openWarning(window.getShell(), "Export To...", e.getMessage());
+				MessageDialog.openWarning(shell, "Export To...", e.getMessage());
 			}
 		}
 	}
