@@ -5,6 +5,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
+import fr.lip6.move.coloane.core.ui.dialogs.ImportToDialog;
+
 public class ImportTo implements IWorkbenchWindowActionDelegate {
 	/** 
 	 * Fenetre de travail
@@ -24,6 +26,8 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
+		ImportToDialog importDialog = new ImportToDialog(window.getShell());
+		importDialog.open();
 
 	}
 
