@@ -98,6 +98,13 @@
                menubarPath="file/import.ext"
                style="push">
          </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.ImportTo"
+               id="importTo"
+               label="Import To..."
+               menubarPath="file/import.ext"
+               style="push">
+         </action>
       </actionSet>
    </extension>
     <extension
