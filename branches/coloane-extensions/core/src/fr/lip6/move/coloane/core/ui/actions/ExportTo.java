@@ -11,7 +11,7 @@ import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 import fr.lip6.move.coloane.core.interfaces.IExportTo;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.Editor;
-import fr.lip6.move.coloane.core.ui.dialogs.ExportToDilaog;
+import fr.lip6.move.coloane.core.ui.dialogs.ExportToDialog;
 
 public class ExportTo implements IWorkbenchWindowActionDelegate {
 	/** 
@@ -53,7 +53,7 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		
 		int choix;
 		
-		ExportToDilaog exportDialog = new ExportToDilaog(window.getShell());
+		ExportToDialog exportDialog = new ExportToDialog(window.getShell());
 		choix = exportDialog.open();
 		
 		if (choix == Dialog.OK){
