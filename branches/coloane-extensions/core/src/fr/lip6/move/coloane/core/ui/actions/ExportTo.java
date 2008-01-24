@@ -71,8 +71,8 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 				MessageDialog.openInformation(shell, "Export To...", " Votre modele a bien etait exporter au format: "+exportDialog.getFormat());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				Coloane.showErrorMsg( e.getMessage());
 				e.printStackTrace();
-				MessageDialog.openWarning(shell, "Export To...", e.getMessage());
 			}
 		}
 	}
