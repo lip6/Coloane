@@ -8,15 +8,16 @@ import fr.lip6.move.coloane.core.interfaces.IExportTo;
 
 public class ExportToExtension {
 	/**
-	 * Attributs du point d'extension convert
+	 * Attributs du point d'extension 'exports'
 	 */
 	private static final String EXTENSIN_POINT_ID = "fr.lip6.move.coloane.core.exports";
 	private static final String NAME_EXTENSION = "name";
 	private static final String CLASS_EXTENSION = "class";
 	
 	/**
-	 * Récupére les noms de tous les points d'extension qui définise un convertiseur
-	 * @return le tableau des noms des convertiseurs présent
+	 * Consulte le registre des extensions pour trouver les contributions au point d'extension 'EXTENSIN_POINT_ID'
+	 * et récupère la valeur de l'attribut 'NAME_EXTENSION' de chaque extension.
+	 * @return le tableau des noms des convertiseurs présents
 	 */
 	public static String[] getAllNameExtensionConvert(){		
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSIN_POINT_ID);
@@ -29,7 +30,7 @@ public class ExportToExtension {
 	
 	/**
 	 * Créer une instance de convertiseur
-	 * @param nomConvertiseur nom du convertiseur a instancier
+	 * @param nomConvertiseur nom du convertiseur à instancier
 	 * @return un convertiseur
 	 */
 	public static IExportTo createConvertInstance(String nomConvertiseur){
