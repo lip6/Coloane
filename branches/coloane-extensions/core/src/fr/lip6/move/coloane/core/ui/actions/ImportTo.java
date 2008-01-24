@@ -43,15 +43,16 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 
 	}
 
+	/**
+	 * Actions à effectuer lors d'un demande d'importations.
+	 */
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
 		final Shell shell = window.getShell();
 		
-		// Ouverture de la boite de dialogue 'Import To...'
-		int choix;
+		// Création et ouverture de la boite de dialogue 'Import To...'
 		final ImportToDialog importDialog = new ImportToDialog(shell);
-		choix = importDialog.open();
-		
+		int choix = importDialog.open();
 		
 		if (choix == Dialog.OK){
 			if (importDialog.getFilePath() == null){
@@ -61,7 +62,7 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 			final String filePath = importDialog.getFilePath();
 			final String fileName = importDialog.getFileName();
 			
-			// Ouverture de la boite de dialogue permettant d'enregister le model dans un projet
+			// Création et ouverture de la boite de dialogue permettant d'enregister le model dans un projet
 			SaveAsDialog sd = new SaveAsDialog(shell) {
 				protected void configureShell(Shell shell) {
 					super.configureShell(shell);

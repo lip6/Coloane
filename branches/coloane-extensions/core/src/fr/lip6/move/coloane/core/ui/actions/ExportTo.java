@@ -31,14 +31,14 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 	}
 
 	/**
-	 * Action a effectuer en demande un exportation du model courant
+	 * Actions à effectuer lors d'un demande d'exportation.
 	 */
 	public void run(IAction action) {
 		// TODO Auto-generated method stub
 		
 		Shell shell = window.getShell();
 		
-		// Verification si on est dans un Editor ???
+		// Verification si on est dans un Editor
 		if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
 			Coloane.showErrorMsg(Messages.ImportExportCAMI_0);
 			return;
@@ -54,15 +54,14 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 			return;
 		}
 		
-		int choix;
-		
-		// Creation de la boite de dialogue ExportTo
+		// Création et ouverture de la boite de dialogue ExportTo
 		ExportToDialog exportDialog = new ExportToDialog(shell,editor);
-		choix = exportDialog.open();
+		int choix = exportDialog.open();
 		String filePath = exportDialog.getFilePath();
 
 		if (choix == Dialog.OK){
 			System.out.println("Creation d'un instance pour l'exportation au format:"+exportDialog.getFormat());
+			
 			// Creation d'une instance qui permet l'exportation du model courant
 			IExportTo exportateur = ExportToExtension.createConvertInstance(exportDialog.getFormat());
 
