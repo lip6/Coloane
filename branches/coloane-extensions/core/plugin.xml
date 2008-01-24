@@ -87,10 +87,10 @@
                style="push">
          </action>
          <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportTo"
+               class="fr.lip6.move.coloane.core.ui.actions.ImportFrom"
                icon="resources/icons/import_wiz.gif"
-               id="importTo"
-               label="%IMPORT_TO_ITEM"
+               id="importFrom"
+               label="%IMPORT_FROM_ITEM"
                menubarPath="file/import.ext"
                style="push">
          </action>

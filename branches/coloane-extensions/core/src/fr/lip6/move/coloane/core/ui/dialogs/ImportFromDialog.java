@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Text;
 
 import fr.lip6.move.coloane.core.extensions.ImportToExtension;
 
-public class ImportToDialog extends Dialog{
+public class ImportFromDialog extends Dialog{
 	
 	/**
 	 * Attributs de la boite de dialogue 'Import To...'
@@ -42,7 +42,7 @@ public class ImportToDialog extends Dialog{
 	private Button filePathBtn;
 	
 	
-	public ImportToDialog(Shell parentShell) {
+	public ImportFromDialog(Shell parentShell) {
 		super(parentShell);
 		// TODO Auto-generated constructor stub
 	}

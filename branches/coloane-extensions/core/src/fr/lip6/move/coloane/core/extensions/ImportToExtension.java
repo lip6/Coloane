@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import fr.lip6.move.coloane.core.interfaces.IImportTo;
+import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 
 public class ImportToExtension {
 	/**
@@ -34,7 +34,7 @@ public class ImportToExtension {
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */
-	public static IImportTo createConvertInstance(String nomConvertiseur) throws CoreException{
+	public static IImportFrom createConvertInstance(String nomConvertiseur) throws CoreException{
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSIN_POINT_ID);
 		IConfigurationElement extensionConvertiseur = null;
 		for (int i = 0; i < contributions.length; i++) {
@@ -44,9 +44,9 @@ public class ImportToExtension {
 			}
 		}
 		
-		IImportTo convertiseur = null;
+		IImportFrom convertiseur = null;
 		if(extensionConvertiseur != null) {
-			convertiseur = (IImportTo)extensionConvertiseur.createExecutableExtension(CLASS_EXTENSION);
+			convertiseur = (IImportFrom)extensionConvertiseur.createExecutableExtension(CLASS_EXTENSION);
 		}
 		return convertiseur;
 	}

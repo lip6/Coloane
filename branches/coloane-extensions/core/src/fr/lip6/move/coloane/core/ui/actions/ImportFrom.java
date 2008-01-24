@@ -20,13 +20,13 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IDE;
 
 import fr.lip6.move.coloane.core.extensions.ImportToExtension;
-import fr.lip6.move.coloane.core.interfaces.IImportTo;
+import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.XmlEditor;
-import fr.lip6.move.coloane.core.ui.dialogs.ImportToDialog;
+import fr.lip6.move.coloane.core.ui.dialogs.ImportFromDialog;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
-public class ImportTo implements IWorkbenchWindowActionDelegate {
+public class ImportFrom implements IWorkbenchWindowActionDelegate {
 	/** 
 	 * Fenetre de travail
 	 */
@@ -51,7 +51,7 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 		final Shell shell = window.getShell();
 		
 		// Création et ouverture de la boite de dialogue 'Import To...'
-		final ImportToDialog importDialog = new ImportToDialog(shell);
+		final ImportFromDialog importDialog = new ImportFromDialog(shell);
 		int choix = importDialog.open();
 		
 		if (choix == Dialog.OK){
@@ -84,7 +84,7 @@ public class ImportTo implements IWorkbenchWindowActionDelegate {
 							try {
 
 								// Creation de l'instance qui permet d'importer le format selectionner
-								IImportTo importateur = (IImportTo) ImportToExtension.createConvertInstance(importDialog.getFormat());
+								IImportFrom importateur = (IImportFrom) ImportToExtension.createConvertInstance(importDialog.getFormat());
 
 								// Importe le modele, via l'instance precedement creee
 								IModelImpl model = importateur.importTo(filePath);
