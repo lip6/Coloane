@@ -10,14 +10,18 @@ public class ExportToImpl implements IExportTo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void export(IModelImpl modelAdapter, String fileName) throws Exception {
+	/**
+	 * Export le modele courant modelAdapter (selon sa représentation interne) vers le format CAMI
+	 * dans le fichier qui lui est passé en paramétre
+	 */
+	public void export(IModelImpl modelAdapter, String filePath) throws Exception {
 		// TODO Auto-generated method stub
 		
 		//Creation d'un FormalismManager ???
 		FormalismManager fm = new FormalismManager();
 		
-		//Appel la methode exportModel qui export le model courant au format CAMI
-		fm.exportModel(modelAdapter, fileName);
+		//Appel la methode exportModel (qui existe déjà) qui export le model courant au format CAMI
+		fm.exportModel(modelAdapter, filePath);
 		
 	}
 

@@ -11,6 +11,9 @@ public class ImportToImpl implements IImportTo {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Retourne un modele (selon la représentation interne de Coloane), depuis un ficier au format CAMI
+	 */
 	public IModelImpl importTo(String filePath) throws Exception {
 		// TODO Auto-generated method stub
 		FormalismManager fm = new FormalismManager();
