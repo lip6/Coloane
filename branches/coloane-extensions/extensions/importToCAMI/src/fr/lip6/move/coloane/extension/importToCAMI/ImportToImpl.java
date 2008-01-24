@@ -15,7 +15,7 @@ public class ImportToImpl implements IImportFrom {
 	/**
 	 * Retourne un modele (selon la représentation interne de Coloane), depuis un ficier au format CAMI
 	 */
-	public IModelImpl importTo(String filePath) throws ColoaneException {
+	public IModelImpl importFrom(String filePath) throws ColoaneException {
 		// TODO Auto-generated method stub
 		FormalismManager fm = new FormalismManager();
 		return fm.importModel(filePath);

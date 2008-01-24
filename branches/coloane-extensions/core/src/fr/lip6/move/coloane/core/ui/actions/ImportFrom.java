@@ -87,7 +87,7 @@ public class ImportFrom implements IWorkbenchWindowActionDelegate {
 								IImportFrom importateur = (IImportFrom) ImportToExtension.createConvertInstance(importDialog.getFormat());
 
 								// Importe le modele, via l'instance precedement creee
-								IModelImpl model = importateur.importTo(filePath);
+								IModelImpl model = importateur.importFrom(filePath);
 								
 								
 								// traduction du modele au format xml
