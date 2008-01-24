@@ -62,13 +62,13 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		if (choix == Dialog.OK){
 			System.out.println("Creation d'un instance pour l'exportation au format:"+exportDialog.getFormat());
 			
-			// Creation d'une instance qui permet l'exportation du model courant
-			IExportTo exportateur = ExportToExtension.createConvertInstance(exportDialog.getFormat());
-
 			try {
+				// Creation d'une instance qui permet l'exportation du model courant
+				IExportTo exportateur = ExportToExtension.createConvertInstance(exportDialog.getFormat());
+
 				// Exporte le modele, via l'instance precedement creee
 				exportateur.export(editor.getModel(), filePath);
-				MessageDialog.openInformation(shell, "Export To...", " Votre modele a bien etait exporter au format: "+exportDialog.getFormat());
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Coloane.showErrorMsg( e.getMessage());
