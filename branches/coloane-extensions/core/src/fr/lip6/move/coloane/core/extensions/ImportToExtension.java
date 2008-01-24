@@ -32,8 +32,9 @@ public class ImportToExtension {
 	 * Créer une instance de convertiseur.
 	 * @param nomConvertiseur nom du convertiseur à instancier
 	 * @return un convertiseur
+	 * @throws CoreException Exception lors de la creation de une instance
 	 */
-	public static IImportTo createConvertInstance(String nomConvertiseur){
+	public static IImportTo createConvertInstance(String nomConvertiseur) throws CoreException{
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSIN_POINT_ID);
 		IConfigurationElement extensionConvertiseur = null;
 		for (int i = 0; i < contributions.length; i++) {
@@ -45,14 +46,7 @@ public class ImportToExtension {
 		
 		IImportTo convertiseur = null;
 		if(extensionConvertiseur != null) {
-				try {
-					System.out.println("a");
-					convertiseur = (IImportTo)extensionConvertiseur.createExecutableExtension(CLASS_EXTENSION);
-					System.out.println("b");
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			convertiseur = (IImportTo)extensionConvertiseur.createExecutableExtension(CLASS_EXTENSION);
 		}
 		return convertiseur;
 	}
