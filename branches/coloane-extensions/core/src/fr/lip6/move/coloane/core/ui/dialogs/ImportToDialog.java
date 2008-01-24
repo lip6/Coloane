@@ -117,6 +117,10 @@ public class ImportToDialog extends Dialog{
 		return filePath;
 	}
 	
+	/**
+	 * 
+	 * @return Le nom du fichier dans lequel enregister le model courant
+	 */
 	public String getFileName(){
 		return fileName;
 	}
