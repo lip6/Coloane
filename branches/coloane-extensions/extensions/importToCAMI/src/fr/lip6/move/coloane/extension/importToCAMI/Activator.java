@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importtocami;
+package fr.lip6.move.coloane.extension.importToCAMI;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
