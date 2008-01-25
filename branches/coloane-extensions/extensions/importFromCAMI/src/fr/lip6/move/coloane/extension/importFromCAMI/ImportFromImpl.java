@@ -7,17 +7,23 @@ import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 public class ImportFromImpl implements IImportFrom {
 
+	/**
+	 * Constructeur
+	 */
 	public ImportFromImpl() {
-		// TODO Auto-generated constructor stub
+		// Rien a faire dans le constructeur
 	}
 
 	/**
-	 * Retourne un modele (selon la représentation interne de Coloane), depuis un ficier au format CAMI
+	 * Retourne un modele adapte lu depuis un fichier CAMI
+	 * @param filePath Le nom du fichier contenant les commande CAMI
 	 */
 	public IModelImpl importFrom(String filePath) throws ColoaneException {
-		// TODO Auto-generated method stub
+
+		// Chargement du gestionnaire de formalismes
 		FormalismManager fm = new FormalismManager();
+		
+		// Importation
 		return fm.importModel(filePath);
 	}
-
 }
