@@ -7,21 +7,23 @@ import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 public class ExportToImpl implements IExportTo {
 
-	public ExportToImpl() {
-		// TODO Auto-generated constructor stub
+	/**
+	 * Constructeur
+	 */
+	public ExportToImpl() {	
+		// Rien a faire dans le constructeur
 	}
 
 	/**
-	 * Export le modele courant modelAdapter (selon sa représentation interne) vers le format CAMI
-	 * dans le fichier qui lui est passé en paramétre
+	 * Methode chargee de l'export du modele courant vers un fichier CAMI
+	 * @param modelAdapter Le modele adapte a traduire en CAMI
+	 * @param filePath Le nom du fichier de sortie
 	 */
 	public void export(IModelImpl modelAdapter, String filePath) throws ColoaneException {
-		// TODO Auto-generated method stub
-		
-		//Creation d'un FormalismManager ???
+		// Creation du gestionnaire de formalism en charge de l'export
 		FormalismManager fm = new FormalismManager();
 		
-		//Appel la methode exportModel (qui existe déjà) qui export le model courant au format CAMI
+		// Exportation
 		fm.exportModel(modelAdapter, filePath);
 		
 	}

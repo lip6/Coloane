@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ExportToCAMI Plug-in
+Bundle-Name: ExportToCAMI Extension
 Bundle-SymbolicName: fr.lip6.move.coloane.extension.exportToCAMI;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: fr.lip6.move.coloane.extension.exportToCAMI.Activator
