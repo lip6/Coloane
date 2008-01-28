@@ -192,7 +192,7 @@ public class DotTranslator {
 						System.out.println("value :"+att.getValue()+" ;");
 					}
 				}
-				toReturn.add(startingNode+" -> "+endingNode+" [arrowtail=dot, arrowhead=open] ;");
+				toReturn.add(startingNode+" -> "+endingNode+" [arrowtail=none, arrowhead=odot] ;");
 			}
 			
 		}
