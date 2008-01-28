@@ -1,0 +1,60 @@
+\section{Quelques problèmes}
+\subsection{Développement}
+\subsubsection{Chemins des dépendances}
+\par
+C'est l'une des parties les plus importantes de la configuration
+du projet.\\
+La configuration de ces chemins se trouve à trois endroits
+différents.\\
+Le premier est dans la configuration du projet et on y accède
+en faisant un clic droit sur le nom du projet puis ``Build
+Path -> Configure Build Path''.\\
+Les deux autres sont accessibles \textit{via} l'interface
+graphique de PDE qui s'ouvre quand on accède au fichier
+plugin.xml, dans les onglets Runtime et Build.\\
+Toute modification (même si elle paraît minime)
+sur la configuration des chemins peut faire échouer la construction
+du projet.\\
+La configuration actuelle a été faite avec (beaucoup d') essais
+et (beaucoup d') erreurs et en regardant sur des exemples de plug-ins
+existants.
+
+
+
+\subsection{Utilisation}
+\subsubsection{Affichage du menu Platform}
+\par
+L'ajout d'une nouvelle entrée dans la barre de menus
+Eclipse ne provoque pas automatiquement son affichage lorsque le plug-in
+est chargé (ni lorsqu'une perspective associée au plug-in
+l'est).\\
+Les concepteurs d'Eclipse ont choisi ce comportement pour
+éviter la prolifération de menus.\\
+Pour afficher le menu Platform, c'est à l'utilisateur du plug-in
+de spécifier qu'il souhaite que le menu s'affiche.\\
+On active un menu avec ``Window -> Customize Perspective''.\\
+Par contre, il faut faire attention à la perspective dans
+laquelle on se trouve quand on modifie cette option. En effet,
+si on active un menu, par exemple, dans la perspective Java,
+il ne sera visible que dans cette perspective et sera
+absent dans les autres.\\
+Il faut donc que l'utilisateur se trouve dans la perspective de
+Coloane lorsqu'il active le menu.
+\par
+Selon moi, 'idéal serait non pas d'avoir un nouveau menu, mais seulement
+un ou plusieurs boutons pour configurer la connexion
+à Framekit (même si cela provoque un changement par rapport à Macao).\\
+Pour la connexion du modèle en cours, une entrée de plus dans
+le menu contextuel du modèle serait également plus ergonomique.
+
+\subsubsection{Utilisation du menu Platform}
+\par
+Une fois réglé le problème de l'affichage, le menu pose
+encore problème avec un fonctionnement assez aléatoire.\\
+Les entrées du menu ne produisent pas toujours l'effet escompté,
+avec comme constat que si ça a fonctionné une fois lors d'une
+session Eclipse, alors le menu ne posera plus de problème
+dans la suite de la session.\\
+Inversement, si, lorsque l'on clique sur une entrée du menu,
+rien ne se produit, alors le menu sera inutilisable pour
+tout le reste de la session.

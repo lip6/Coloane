@@ -1,0 +1,266 @@
+\documentclass{article}
+
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[left=2cm, right=3cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{pslatex}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{picins}
+\usepackage{hyperref}
+
+\title{Rapport de stage - Coloane}
+\date{janvier 2007}
+\author{Alexandre Ortiz}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\addcontentsline{toc}{section}{Introduction}
+\section*{Introduction}
+
+\addcontentsline{toc}{subsection}{Sujet du stage}
+\subsection*{Sujet du stage}
+\includegraphics{images/schema_coloane.jpg}
+\par
+Après une introduction à l'architecture de Coloane par
+Jean-Baptiste (qui a fait le schéma ci-dessus),
+les deux premiers jours de stage m'ont servi à plonger un
+peu dans le code, et à effectuer quelques corrections très
+simples (ajouts de méthodes appelées mais manquantes,
+modifications d'appels qui appelaient les mauvaises
+méthodes, \ldots).
+
+\par
+J'ai ensuite été orienté vers la partie interface graphique
+de Coloane, pendant que Jean-Baptiste se chargeait des
+éléments internes du plugin.
+
+\par
+Ce rapport va donc se poursuivre par une présentation
+succinte des bibliothèques permettant de réaliser des interfaces
+graphiques en Java et, plus particulièrement, celles utilisés par
+Eclipse.\\
+Je continuerai ensuite sur le travail que j'ai réalisé.
+
+\addcontentsline{toc}{subsection}{Quelques liens}
+\subsection*{Quelques liens}
+\par
+Des articles sur Eclipse en général :
+\begin{itemize}
+\item \url{http://www.eclipsecon.org/}
+\item \url{http://www.eclipsecon.org/2005/tutorials.php}
+\item \url{http://www.eclipsecon.org/2006/Sub.do?id=all&type=tutorial}
+\item \url{http://wiki.eclipse.org/index.php/The_Official_Eclipse_FAQs}
+\item \url{http://wiki.eclipse.org/index.php/FAQ_Pages\%2C_parts\%2C_sites\%2C_windows:_What_is_all_this_stuff\%3F}
+\end{itemize}
+\par
+Concernant les boîtes de dialogue et les menus, j'ai écrit des plugins
+minimaux d'exemple, qui sont disponibles sur le svn à
+\href{https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/examples}
+{https://srcdev.lip6.fr/svn/research/jbvoron/projets/coloane/examples}.
+\par
+Et en dernier, \textbf{le plus important} : \url{http://help.eclipse.org/help32/index.jsp}
+(et en particulier \url{http://help.eclipse.org/help32/topic/org.eclipse.platform.doc.isv/reference/api/overview-summary.html}).
+
+
+\section{Les interfaces graphiques en Java}
+\subsection{Petit historique}
+
+\subsubsection{AWT}
+\par
+La première API permettant de développer des interfaces
+graphiques en Java est AWT. Sun, voulant
+être sûr que les programmes écrits avec AWT soient
+exactement les mêmes quelque soit l'OS sur lesquels
+ils fonctionneraient, a choisi la stratégie du ``plus
+petit dénominateur commun'' : seuls les composants
+disponibles sur tous les OS sur lesquels une
+machine virtuelle était disponible ont été implémentés
+(nativement).\\
+L'avantage est que cette bibliothèque est rapide, mais
+un problème évident se pose : il manque des composants
+donc on aurait pourtant bien besoin (par exemple la barre
+de progression et la représentation arborescente).
+
+\subsubsection{Swing}
+\par
+Pour palier à ce manque, Sun a ajouté une surcouche
+graphique : Swing. Swing ne remplace pas AWT, il utilise la gestion des
+événements de ce dernier et certaines de ses classe de bases
+(Color, Image, \ldots).
+Certains composants plus ``évolués'' sont ajoutés. Comme ces
+composants ne sont pas disponibles sur tous les systèmes
+d'exploitation, ils doivent être émulés, ce qui provoque
+une perte de performances non négligeable par rapport 
+à AWT (mais de moins en moins visible sur les machines actuelles).
+
+\subsubsection{SWT}
+\par
+IBM n'étant pas satisfaite par Swing pour développer
+Eclipse, elle a écrit une nouvelle bibliothèque graphique : SWT.
+SWT utilise des composants natifs du système d'exploitation, et permet
+donc un gain de performance et une meilleure intégration.
+\par
+En contrepartie, il faut déployer les bibliothèques SWT sur le
+système cible, une machine virtuelle Java sans ces bibliothèques
+n'étant plus suffisante pour exécuter le code utilisant SWT.
+
+
+\subsubsection{JFace}
+\par
+JFace est une couche d'abstraction pour SWT. Elle permet,
+par exemple, de générer des layout, des menus, \ldots\\
+Comme JFace est de plus haut niveau que SWT, elle
+offre une interface plus simple (voir par exemple les différences
+entre les menus SWT et le MenuManager JFace).
+
+
+\subsection{L'interface graphique d'Eclipse}
+\subsubsection{Quelles bibliothèques utiliser ?}
+\par
+L'interface graphique d'Eclipse utilise SWT et JFace. Ce sont donc
+avec ces deux bibliothèques que l'on écrit la partie graphique
+de Coloane.\\
+La règle à utiliser pour savoir si on doit utiliser un
+composants JFace ou SWT est très simple : si un composant
+fait ce dont on a besoin dans JFace, on prend celui-là car
+ce sera plus simple, sinon on prend un composant SWT.
+
+\subsubsection{Comment accéder aux éléments graphiques d'Eclipse ?}
+\par
+Il arrive souvent que l'on veuille accéder à un composant de
+l'interface graphique d'Eclipse (un menu, une vue, \ldots).
+Pour se faire, la classe PlatformUI fournit la méthode
+statique getWorkbench() qui, suivie de la bonne série de
+get (merci la complétion d'Eclipse :D), permet d'accéder aux composants de
+l'interface graphique.
+
+
+\section{Les boîtes de dialogue}
+\subsection{Implémentation}
+\par
+Les classes des boîtes de dialogue sont situées dans le
+package fr.lip6.move.coloane.ui.dialogs.\\
+La création des boîtes de dialogue se fait à travers la
+classe DialogFactory, qui prend les mêmes paramètres que la
+commande CAMI CE.
+Une fois que le dialogue a été créé et que l'utilisateur a fait
+ce qu'il avait à faire avec, on récupère le résultat sous la forme
+d'un objet DialogResult, qui contient les informations
+demandées par FrameKit.\\
+Les codes numériques utilisés (que ce soit pour la création
+du dialogue ou pour le résultat) sont les même que ceux
+décrits dans la documentation de
+FrameKit (sous forme de membres statiques dans les
+classes qui vont bien).
+\bigskip
+
+\par
+Chaque dialogue contient ce que j'ai appelé une TextArea (que l'on
+obtient, comme pour les dialogues, à l'aide d'une factory nommée
+ici TextAreaFactory).\\
+Ce composant est utilisé pour recevoir les entrées de l'utilisateur (du
+texte sur une ou plusieurs lignes ou un choix simple ou multiple dans une liste).\\
+Pour les dialogues qui se contente d'afficher du texte, une classe
+DummyTextArea a été créée, ce qui permet de récupérer un résultat (vide ici,
+mais nécessaire car il doit être envoyé à FrameKit)
+même dans le cas d'une boîte sans saisie.
+
+\subsection{Ce qu'il manque}
+\subsubsection{Les icônes}
+\par
+Selon la documentation de FrameKit, un dialogue simple
+doit afficher une icône selon son type (message normal,
+avertissement, erreur, ...).\\
+Le problème auquel j'ai été confronté est que, lorsque
+je voulais insérer une icône dans le dialogue, j'avais
+toujours une erreur de type ``File not found''.
+\par
+Je pense que le problème vient  du fait que, lorsqu'on
+veut ajouter une icône dans un plugin Eclipse (dans le
+code Java), il faut probablement utiliser une constante
+qui donne le répertoire courant (ou le répertoire des icônes
+d'Eclipse, dans le cas où on veut utiliser une icône prédéfinie).
+
+\subsubsection{Les dialogues interactifs}
+\par
+Compte-tenu des points plus importants à régler (et du
+fait que ce genre de dialogue n'est jamais utilisé),
+les dialogues interactifs n'ont pas été terminés.
+
+
+\section{Les menus}
+\par
+Concernant les menus, deux choses m'ont été demandées :
+\begin{itemize}
+\item permettre une création générique de menus (car ils ne
+sont pas connus à l'avance)
+\item permettre d'activer et de désactiver des éléments de menus.
+\end{itemize}
+
+\subsection{Création de menus}
+\par
+Concernant la création de menus, les classes du package
+fr.lip6.move.coloane.menus représentent le modèle des
+menus utilisé.\\
+Ce modèle est utilisé par les classes GraphicalMenu et
+UIAction (présentes dans le package fr.lip6.move.coloane.ui.menus)
+pour construire le menu graphique et récupérer les événements
+sur ce menu.
+\bigskip
+
+\par
+Pour implémenter ces menus, j'ai utilisé la classe MenuManager,
+qui fait partie de JFace.
+Chaque sous-menu est un MenuManager et chaque feuille du
+menu est une Action.\\
+\textbf{Attention} : si les feuilles ne sont pas des Action,
+alors le menu ne s'affichera pas.
+
+
+\subsection{Activation et désactivation d'éléments de menu}
+\par
+Là tout se passe dans la classe
+fr.lip6.move.coloane.ui.menus.MenuManipulation.\\
+L'activation/désactivation se fait en utilisant
+org.eclipse.swt.widgets.MenuItem. Comme indiqué dans
+le commentaire du commit lors de l'ajout de cette classe,
+elle a été écrite rapidement pour répondre à un besoin
+urgent, et la manière de procéder est mauvaise.
+\bigskip
+
+\par
+Le problème qui se pose est le suivant : le fichier plugin.xml
+permet de désactiver des éléments de menu par défaut (avec un
+petit clic droit sur l'action et new ``enablement'', dans
+l'onglet ``Extensions''). Ces
+éléments doivent bien sûr pouvoir être activables au moment
+où on en a besoin.\\
+Avec la classe MenuManipulation, on arrive à dégriser des entrées
+de menu mais, quand on clique dessus, l'événement n'est pas pris
+en compte.\\
+Je pense que le MenuItem de SWT ne prend en compte qu'une partie
+des informations utilisées par Eclipse pour la gestion des menus.
+Avec un peu de recul, la classe Action (de JFace) me paraît plus appropriée
+pour faire ces changements.
+
+
+\addcontentsline{toc}{section}{Conclusion}
+\section*{Conclusion}
+\par
+La dernière remarque que j'ai à faire concerne l'architecture
+de Coloane.\\
+Le code contient des dépendances circulaires qui nous ont
+posé des problèmes lors de la découpe du projet pour ISR.
+Il faut, selon moi, enlever très vite ces dépendances qui vont,
+tôt ou tard, se réléver beaucoup plus gênantes pour les
+personnes qui vont être chargées de maintenir Coloane.
+
+\end{document}
