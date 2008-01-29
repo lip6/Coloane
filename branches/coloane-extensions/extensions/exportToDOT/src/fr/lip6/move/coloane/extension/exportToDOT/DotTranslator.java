@@ -20,7 +20,13 @@ public class DotTranslator {
 	public final Vector<String> translateModel(IModel model) {
 		Vector<String> toReturn = new Vector<String>();
 		
+		// Ajouter des CONSTANTES
+		// Ajouter des COMMANTAIRES
+		
+		
+		// contenu du debut du fichier dot
 		toReturn.add("digraph G {");
+		toReturn.add("ratio=0.5;");
 		toReturn.add("compound=false;");
 		
 		Vector<String> places = getPlaces(model);
@@ -40,7 +46,8 @@ public class DotTranslator {
 		
 		Vector<String> inhibitorArcs = getInhibitorArcs(model);
 		toReturn.addAll(inhibitorArcs);
-				
+		
+		// contenu de la fin du fichier dot
 		toReturn.add("}");
 		return toReturn;
 	}
@@ -52,15 +59,34 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("place")){
+				// Creation d'une zone pour le graph contenant la place
 				toReturn.add("subgraph cluster"+noeud.getId()+" {");
+				// Contoure de la zone de couleur blanche (i.e. transparant ;-)) 
 				toReturn.add("color=white");
+				
+				// Parcour tous les attributs de la place
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (! att.getValue().equals("") ){
-						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
-						toReturn.add(etiquette+" [shape=plaintext ] ;");
-						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+					// Si c'est le nom, on le met on valeur
+					if (att.getName().equals("name")){
+						if (! att.getValue().equals("") ){
+							// Creation d'un noeud unique pour definir le nom de la place
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [label=\""+att.getValue()+"\" shape=plaintext, fontsize=42, fontname=\"Times-Bold\"] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
+					}
+					//sinon on affiche les atributs avec leur valeur
+					else{
+						// Si les valeurs de l'attrinuts est non null
+						if (! att.getValue().equals("") ){
+							// Creation d'un noeud unique pour definir l'attibut de la place
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [ label="+"\""+att.getName()+"="+att.getValue()+"\""+" shape=plaintext ] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
 					}
 				}
+				// Creation du cercle repersentant la place
 				toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");
 				toReturn.add("}");
 			}
@@ -79,10 +105,21 @@ public class DotTranslator {
 				toReturn.add("subgraph cluster"+noeud.getId()+" {");
 				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (! att.getValue().equals("") ){
-						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
-						toReturn.add(etiquette+" [shape=plaintext ] ;");
-						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+					///////////////////////////
+					if (att.getName().equals("name")){
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [label=\""+att.getValue()+"\" shape=plaintext, fontsize=42, fontname=\"Times-Bold\"] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
+					}
+					else{
+					//////////////////////////
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [ label="+"\""+att.getName()+"="+att.getValue()+"\""+" shape=plaintext ] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, fixedsize=true];");
@@ -101,10 +138,21 @@ public class DotTranslator {
 				toReturn.add("subgraph cluster"+noeud.getId()+" {");
 				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (! att.getValue().equals("") ){
-						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
-						toReturn.add(etiquette+" [shape=plaintext ] ;");
-						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+					///////////////////////////
+					if (att.getName().equals("name")){
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [label=\""+att.getValue()+"\" shape=plaintext, fontsize=42, fontname=\"Times-Bold\"] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
+					}
+					else{
+					//////////////////////////
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [ label="+"\""+att.getName()+"="+att.getValue()+"\""+" shape=plaintext ] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, style=filled, color=black, fixedsize=true];");
@@ -123,10 +171,21 @@ public class DotTranslator {
 				toReturn.add("subgraph cluster"+noeud.getId()+" {");
 				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (! att.getValue().equals("") ){
-						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
-						toReturn.add(etiquette+" [shape=plaintext ] ;");
-						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+					///////////////////////////
+					if (att.getName().equals("name")){
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [label=\""+att.getValue()+"\" shape=plaintext, fontsize=42, fontname=\"Times-Bold\"] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
+					}
+					else{
+					//////////////////////////
+						if (! att.getValue().equals("") ){
+							String etiquette = ""+att.getName()+noeud.getId();
+							toReturn.add(etiquette+" [ label="+"\""+att.getName()+"="+att.getValue()+"\""+" shape=plaintext ] ;");
+							toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
+						}
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, style=rounded, fixedsize=true];");
@@ -158,7 +217,13 @@ public class DotTranslator {
 						endingNode = ""+arc.getEndingNode().getId();
 					}
 				}
-				toReturn.add(startingNode+" -> "+endingNode+" ;");
+				String valuation ="";
+				for ( IAttribute att : arc.getListOfAttr()){
+					if (att.getName().equals("valuation")){
+						valuation = att.getValue();
+					}
+				}
+				toReturn.add(startingNode+" -> "+endingNode+" [label=\""+valuation+"\"] ;");
 			}
 			
 		}
@@ -191,7 +256,13 @@ public class DotTranslator {
 						endingNode = ""+arc.getEndingNode().getId();
 					}
 				}
-				toReturn.add(startingNode+" -> "+endingNode+" [arrowtail=none, arrowhead=odot] ;");
+				String valuation ="";
+				for ( IAttribute att : arc.getListOfAttr()){
+					if (att.getName().equals("valuation")){
+						valuation = att.getValue();
+					}
+				}
+				toReturn.add(startingNode+" -> "+endingNode+" [label=\""+valuation+"\""+" arrowtail=none, arrowhead=odot] ;");
 			}
 			
 		}
