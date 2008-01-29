@@ -19,7 +19,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IDE;
 
-import fr.lip6.move.coloane.core.extensions.ImportToExtension;
+import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.XmlEditor;
@@ -84,7 +84,7 @@ public class ImportFrom implements IWorkbenchWindowActionDelegate {
 							try {
 
 								// Creation de l'instance qui permet d'importer le format selectionner
-								IImportFrom importateur = (IImportFrom) ImportToExtension.createConvertInstance(importDialog.getFormat());
+								IImportFrom importateur = (IImportFrom) ImportFromExtension.createConvertInstance(importDialog.getFormat());
 
 								// Importe le modele, via l'instance precedement creee
 								IModelImpl model = importateur.importFrom(filePath);

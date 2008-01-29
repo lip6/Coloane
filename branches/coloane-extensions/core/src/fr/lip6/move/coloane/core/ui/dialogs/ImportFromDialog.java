@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.lip6.move.coloane.core.extensions.ImportToExtension;
+import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 
 public class ImportFromDialog extends Dialog{
 	
@@ -65,7 +65,7 @@ public class ImportFromDialog extends Dialog{
 		formatLbl.setText(Messages.ImportFromDialog_0);
 		
 		formatCombo = new Combo(dialog, SWT.DROP_DOWN|SWT.READ_ONLY);
-		formatCombo.setItems(ImportToExtension.getAllNameExtensionConvert());
+		formatCombo.setItems(ImportFromExtension.getAllNameExtensionConvert());
 		
 		rienLbl = new Label(dialog,SWT.NONE);
 		rienLbl.setText(""); //$NON-NLS-1$
