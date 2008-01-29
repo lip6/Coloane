@@ -21,12 +21,7 @@ public class DotTranslator {
 		Vector<String> toReturn = new Vector<String>();
 		
 		toReturn.add("digraph G {");
-		
-		Vector<IArc> listeArcs = model.getListOfArcs();
-		for ( IArc arc : listeArcs){
-			System.out.println(arc.getArcType());
-		}
-		
+		toReturn.add("compound=false;");
 		
 		Vector<String> places = getPlaces(model);
 		toReturn.addAll(places);
@@ -57,14 +52,17 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("place")){
-				System.out.println("-----------PLACE-----------");
-				System.out.println("Type  :"+noeud.getNodeType());
+				toReturn.add("subgraph cluster"+noeud.getId()+" {");
+				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (att.getName().equals("name")){
-						System.out.println("value :"+att.getValue()+";");
-						toReturn.add(att.getValue()+" [shape=circle];");
+					if (! att.getValue().equals("") ){
+						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
+						toReturn.add(etiquette+" [shape=plaintext ] ;");
+						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
 					}
 				}
+				toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");
+				toReturn.add("}");
 			}
 		}
 		return toReturn;
@@ -78,14 +76,17 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("transition")){
-				System.out.println("-----------TRANSITION-----------");
-				System.out.println("Type  :"+noeud.getNodeType());
+				toReturn.add("subgraph cluster"+noeud.getId()+" {");
+				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (att.getName().equals("name")){
-						System.out.println("value :"+att.getValue()+" ;");
-						toReturn.add(att.getValue()+" [shape=box];");
+					if (! att.getValue().equals("") ){
+						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
+						toReturn.add(etiquette+" [shape=plaintext ] ;");
+						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
 					}
 				}
+				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, fixedsize=true];");
+				toReturn.add("}");
 			}
 		}
 		return toReturn;		
@@ -97,14 +98,17 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("immediate transition")){
-				System.out.println("-----------immediate transition-----------");
-				System.out.println("Type  :"+noeud.getNodeType());
+				toReturn.add("subgraph cluster"+noeud.getId()+" {");
+				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (att.getName().equals("name")){
-						System.out.println("value :"+att.getValue()+" ;");
-						toReturn.add("\""+att.getValue()+"\""+" [shape=box, style=filled, color=black, fontcolor=white];");
+					if (! att.getValue().equals("") ){
+						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
+						toReturn.add(etiquette+" [shape=plaintext ] ;");
+						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
 					}
 				}
+				toReturn.add(noeud.getId()+" [shape=box, style=filled, color=black, fixedsize=true];");
+				toReturn.add("}");
 			}
 		}
 		return toReturn;		
@@ -116,14 +120,17 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("queue")){
-				System.out.println("-----------queue-----------");
-				System.out.println("Type  :"+noeud.getNodeType());
+				toReturn.add("subgraph cluster"+noeud.getId()+" {");
+				toReturn.add("color=white");
 				for ( IAttribute att : noeud.getListOfAttr()){
-					if (att.getName().equals("name")){
-						System.out.println("value :"+att.getValue()+" ;");
-						toReturn.add("\""+att.getValue()+"\""+" [shape=box, style=rounded];");
+					if (! att.getValue().equals("") ){
+						String etiquette = "\""+att.getName()+noeud.getId()+"="+att.getValue()+"\"";
+						toReturn.add(etiquette+" [shape=plaintext ] ;");
+						toReturn.add( etiquette+" -> "+noeud.getId()+" [color=gold];");
 					}
 				}
+				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, style=rounded, fixedsize=true];");
+				toReturn.add("}");
 			}
 		}
 		return toReturn;		
@@ -141,18 +148,14 @@ public class DotTranslator {
 		for ( IArc arc : listeArcs){
 			if (arc.getArcType().equals("arc")){
 				oneArc = true;
-				System.out.println("-----------ARCS-----------");
-				System.out.println("Type  :"+arc.getArcType());
 				for ( IAttribute att : arc.getStartingNode().getListOfAttr()){
 					if (att.getName().equals("name")){
-						startingNode = att.getValue();
-						System.out.println("value :"+att.getValue()+" ;");
+						startingNode = ""+arc.getStartingNode().getId();
 					}
 				}
 				for ( IAttribute att : arc.getEndingNode().getListOfAttr()){
 					if (att.getName().equals("name")){
-						endingNode = att.getValue();
-						System.out.println("value :"+att.getValue()+" ;");
+						endingNode = ""+arc.getEndingNode().getId();
 					}
 				}
 				toReturn.add(startingNode+" -> "+endingNode+" ;");
@@ -178,18 +181,14 @@ public class DotTranslator {
 		for ( IArc arc : listeArcs){
 			if (arc.getArcType().equals("inhibitor arc")){
 				oneArc = true;
-				System.out.println("-----------Inhibitor ARCS-----------");
-				System.out.println("Type  :"+arc.getArcType());
 				for ( IAttribute att : arc.getStartingNode().getListOfAttr()){
 					if (att.getName().equals("name")){
-						startingNode = att.getValue();
-						System.out.println("value :"+att.getValue()+" ;");
+						startingNode = ""+arc.getStartingNode().getId();
 					}
 				}
 				for ( IAttribute att : arc.getEndingNode().getListOfAttr()){
 					if (att.getName().equals("name")){
-						endingNode = att.getValue();
-						System.out.println("value :"+att.getValue()+" ;");
+						endingNode = ""+arc.getEndingNode().getId();
 					}
 				}
 				toReturn.add(startingNode+" -> "+endingNode+" [arrowtail=none, arrowhead=odot] ;");
