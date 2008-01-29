@@ -33,7 +33,7 @@ public class ExportToDialog extends Dialog {
 	 */
 	private Label formatLbl;
 	private Combo formatCombo;
-	private Label rienLbl;// ne sert a rien; juste pour combler un "trou"
+	private Label rienLbl; // Ne sert a rien; juste pour combler un "trou"
 	
 	/**
 	 * Composants servant a recuperer le chemin du fichier a creer
@@ -67,26 +67,26 @@ public class ExportToDialog extends Dialog {
 		 * Creation de la partie permettant le choix du format
 		 */
 		formatLbl = new Label(dialog,SWT.CENTER);
-		formatLbl.setText("Format");
+		formatLbl.setText(Messages.ExportToDialog_0);
 		
 		formatCombo = new Combo(dialog, SWT.DROP_DOWN|SWT.READ_ONLY);
 		formatCombo.setItems(ExportToExtension.getAllNameExtensionConvert());
 		
 		rienLbl = new Label(dialog,SWT.NONE);
-		rienLbl.setText("");
+		rienLbl.setText(""); //$NON-NLS-1$
 		
 		/**
 		 * Creation de la partie permettant de declarer le chemin du
 		 * fichie a creer dans le format choisie precedement
 		 */	
 		filePathLbl = new Label(dialog,SWT.CENTER);
-		filePathLbl.setText("Nom");
+		filePathLbl.setText(Messages.ExportToDialog_2);
 		
 		filePathTxt = new Text(dialog,SWT.BORDER);
-		filePathTxt.setText("");
+		filePathTxt.setText(""); //$NON-NLS-1$
 		
 		filePathBtn = new Button(dialog,SWT.NONE);
-		filePathBtn.setText("Parcourire...");
+		filePathBtn.setText(Messages.ExportToDialog_4);
 		
 		filePathBtn.addListener(SWT.Selection, 
 				new Listener(){
@@ -138,7 +138,7 @@ public class ExportToDialog extends Dialog {
 	}
 
 	/**
-	 * Actions a effecttuer si on presse un boutton ???
+	 * Actions a effectuer si on presse un boutton ???
 	 */
 	protected void buttonPressed(int buttonId) {
 		super.buttonPressed(buttonId);
@@ -158,7 +158,7 @@ public class ExportToDialog extends Dialog {
 	 */
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Export To...");
+		newShell.setText(Messages.ExportToDialog_5);
 	}
 
 

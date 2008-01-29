@@ -32,7 +32,7 @@ public class ImportFromDialog extends Dialog{
 	 */
 	private Label formatLbl;
 	private Combo formatCombo;
-	private Label rienLbl;// ne sert a rien; juste pour combler un "trou"
+	private Label rienLbl;// Ne sert a rien; juste pour combler un "trou"
 	
 	/**
 	 * Composants servant a recuperer le chemin du fichier a creer
@@ -44,12 +44,10 @@ public class ImportFromDialog extends Dialog{
 	
 	public ImportFromDialog(Shell parentShell) {
 		super(parentShell);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * Methode permettant la creation et le placement des composants de
-	 * la boite de dialog
+	 * Methode permettant la creation et le placement des composants de la boite de dialogue
 	 */
 	protected Control createDialogArea(Composite parent) {
 		final Composite dialog = (Composite) super.createDialogArea(parent);
@@ -64,32 +62,31 @@ public class ImportFromDialog extends Dialog{
 		 * Creation de la partie permettant le choix du format
 		 */
 		formatLbl = new Label(dialog,SWT.CENTER);
-		formatLbl.setText("Format");
+		formatLbl.setText(Messages.ImportFromDialog_0);
 		
 		formatCombo = new Combo(dialog, SWT.DROP_DOWN|SWT.READ_ONLY);
 		formatCombo.setItems(ImportToExtension.getAllNameExtensionConvert());
 		
 		rienLbl = new Label(dialog,SWT.NONE);
-		rienLbl.setText("");
+		rienLbl.setText(""); //$NON-NLS-1$
 		
 		/**
 		 * Creation de la partie permettant de declarer le chemin du
 		 * fichie a creer dans le format choisie precedement
 		 */	
 		filePathLbl = new Label(dialog,SWT.CENTER);
-		filePathLbl.setText("Nom");
+		filePathLbl.setText(Messages.ImportFromDialog_2);
 		
 		filePathTxt = new Text(dialog,SWT.BORDER);
-		filePathTxt.setText("");
+		filePathTxt.setText(""); //$NON-NLS-1$
 		filePathTxt.setEditable(false);
 		
 		filePathBtn = new Button(dialog,SWT.NONE);
-		filePathBtn.setText("Parcourire...");
+		filePathBtn.setText(Messages.ImportFromDialog_4);
 		
 		filePathBtn.addListener(SWT.Selection, 
 				new Listener(){
 			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
 				FileDialog fileDialog = new FileDialog(dialog.getShell(),SWT.OPEN | SWT.SINGLE);
 				filePath = fileDialog.open();
 				fileName = new File(filePath).getName();
@@ -154,7 +151,7 @@ public class ImportFromDialog extends Dialog{
 	 */
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Import To...");
+		newShell.setText(Messages.ImportFromDialog_5);
 	}
 
 }
