@@ -6,7 +6,7 @@
       <Import
             class="fr.lip6.move.coloane.extension.importFromCAMI.ImportFromImpl"
             id="importFromCAMI"
-            name="CAMI2">
+            name="CAMI">
       </Import>
    </extension>
 </plugin>
