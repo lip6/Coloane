@@ -1,34 +1,5 @@
 package fr.lip6.move.coloane.api.session.controller;
 
-/**
-BWBBWBWYIi+++itYVVXXXYIVYVVVVXWXWRRBBBMMMBBBMMMVVWYXt;+itIYYYYItii++iiittttttii
-BXXBWRWIt+;;:;;+itYVXXVYIttIYYVVVXWRBMMMMMBMMMMBXVXYWttYVVVVYttiii+itttttttttii
-BVtRWWWYi;;::::;;++iIVWRWVItItIIVVVXWBMMMMMMMMMMMRXWWXVXXVYItiiiiittttttttttttt
-WY;VXWWV+;::,,::::;;++iIVWRWVIittIIVXWBMMMMMMMMBMMBBRRXVYYttiiiiitttIIIttttttII
-Vt:YVWXY;:,,,,::::::;;;;itYWBBWVitttYXWBMMMMMMMMMMMMMWXYtiii+iiitttIIIIIIIIIIII
-Y+:IVVVI:,,,,,,,,,::;:::;;+itVWBBWVttVRMMMMMMMMMMMMMMRVYi+++iiitttttttIIIIIttti
-I+:tVVV;,..,,,,,,,,::::::::;;+itVXWBRRMMMMMMMMMMMMMMMMXIi++i+iiiiiiiiiiiiiii+++
-+::IVVY:,,,:;;itttttti+;;:::;;;;;+itXBBBRBMMMMMMMMMMMMMVti+++++++++++++++;;;;;;
-++++;;;;;;::::::::::::::::::::, ..,:+;;tIIi+;,,,,,,,,  +;;+WRBBBBBBBRRXVYYIIIIY
-i++++;;;;;;;;;:;:::::::::::::,,,:,::;+iIIYt+;,,  .,,,  ,;;+VRWWRBRVWXRYYttttIIY
-ii+++++;;;;;;;;;;;:::::::::::,,::,,::;iittI+++,,,,  ,   +;;+XRRRBWVYYV++ii+iiii
-ii+++++;;;;;;;;;;;:;::::::::,,::::::::;iti+iII+;;+;,.   ,;;+tXRRWVYYVti+itiiiit
-YIii+++++;;;;;;;;::::::::::,,::::::::::;;:itIYIi,,++;    ,;;iWWXVXXXVYttttttttI
-tIYYti++++;;;;;;;;;:::::::,.,:::::::::::,:itIYYIi++++,   ,;+iVXVXVVXXVYYYYIIIIY
-iitIYYti++++;;;;;;;:;:::::..:::::::::::..:;+iIYYII++ii;,;+;;+IXVVVXVXXXVVYYYYYY
-iiiitIYYIi++++;;;;;;;;;::,.:::::::::::,..:;;++tYYIItIIti;;+;+IXVYYVVVVXXXVVVYVY
-iiiiiiiIYYIii+++;;;;;;;;:,,::;;:::::::, .:;;;;+iIVVIIIII;;;+iYVYYYVVVVVVVVVVVYY
-++iiiiiiitYYYti++++;;;;;;::;;::;:::::::::;:::;;+tYXXYIIIi;;iIVYYYVVVXVVVVVXVVVY
-+++++iiiiiitIYYYIti++++++;;;;;;;;;::::::::::;;+iIYVWWIItI+;YVVXXXVVXXXVVXXXVVVV
-+ii+++++iiiiiiiIYVXVYtii+;;++++;;;;;;;;;;;;;++ittIVRBXVVY,:WXWWWWWWWWWXXXXXXXXX
-+iii+++++iiiiiiiiitYVWWXVYttii++++++;;;;;;+++ittIYWMBRRRY,iRRRRRRRRRRRRRRRRRRRR
-++iiiii++iiii++++iitIYVXWBBBRXVYttiiiii+iittIYVttYBMBBBBRVBBBBBBBBBBMMBBBBBBBBB
-iiiiiiii+++++++++iittIYXBMMMMMMMBBBRRWWRWRBMMMBIiWMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-iii++++++++++++++iiitIVBMMMMMMMMMMBMBMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-+++++++++++++++++iiitVBMMMMMMMMMBMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-++++++++++++++iiiitIVBMMMMBBMMBBBBMMMMMMMMMMMBMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
- */
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
