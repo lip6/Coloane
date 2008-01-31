@@ -136,12 +136,7 @@ public class DotTranslator {
 		// Parcours tous les noeuds du model
 		for ( INode noeud : listeNoeuds){
 			// Si c'est un place
-			if ( noeud.getNodeType().equals("place")){
-				// Creation d'une zone pour le graph contenant la place
-				toReturn.add("subgraph cluster"+noeud.getId()+" {");
-				// Contoure de la zone de couleur blanche (i.e. transparant ;-)) 
-				toReturn.add("color=white;");
-				
+			if ( noeud.getNodeType().equals("place")){				
 				// Parcour tous les attributs de la place
 				for ( IAttribute att : noeud.getListOfAttr()){
 					// Si c'est le nom, on le met on valeur
@@ -169,7 +164,6 @@ public class DotTranslator {
 				}
 				// Creation du cercle repersentant la place
 				toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");
-				toReturn.add("}");
 			}
 		}
 		return toReturn;
@@ -190,8 +184,6 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("transition")){
-				toReturn.add("subgraph cluster"+noeud.getId()+" {");
-				toReturn.add("color=white;");
 				for ( IAttribute att : noeud.getListOfAttr()){
 					if (att.getName().equals("name")){
 						if (! att.getValue().equals("") ){
@@ -209,7 +201,6 @@ public class DotTranslator {
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, regular=true, fontcolor=white, fixedsize=true];");
-				toReturn.add("}");
 			}
 		}
 		return toReturn;		
@@ -228,8 +219,6 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("immediate transition")){
-				toReturn.add("subgraph cluster"+noeud.getId()+" {");
-				toReturn.add("color=white;");
 				for ( IAttribute att : noeud.getListOfAttr()){
 					if (att.getName().equals("name")){
 						if (! att.getValue().equals("") ){
@@ -247,7 +236,6 @@ public class DotTranslator {
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, regular=true, style=filled, color=black, fixedsize=true];");
-				toReturn.add("}");
 			}
 		}
 		return toReturn;		
@@ -266,8 +254,6 @@ public class DotTranslator {
 		
 		for ( INode noeud : listeNoeuds){
 			if ( noeud.getNodeType().equals("queue")){
-				toReturn.add("subgraph cluster"+noeud.getId()+" {");
-				toReturn.add("color=white;");
 				for ( IAttribute att : noeud.getListOfAttr()){
 					if (att.getName().equals("name")){
 						if (! att.getValue().equals("") ){
@@ -285,7 +271,6 @@ public class DotTranslator {
 					}
 				}
 				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, style=rounded, fixedsize=true];");
-				toReturn.add("}");
 			}
 		}
 		return toReturn;		
