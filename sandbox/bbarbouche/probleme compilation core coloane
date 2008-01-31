@@ -1,4 +1,4 @@
-Voici les poblèmes(bugs) trouvés et corrigés.
+Voici les poblemes(bugs) trouves et corriges.
 Lors de la compilation du core,une erreur de compilation survient:
 
 1)Couldn't find a version in [1.0.0-v20070606, 1.0.0-v20070423] to match range [1.0.0,2.0.0)
@@ -31,7 +31,7 @@ Les poms qui demandent cette dependance sont dans : /org/eclipse/ui/workbench/3.
 
 
 
-Il demande:
+Ils demandent:
 
 
 <dependency>
@@ -46,6 +46,9 @@ J'ai du changer la version en:
 
 
 3)Encore d'autres problemes de ce genre.
+4)
+5)
+6)
 
 Je peux arriver a la compilation vu que je sais resoudre le probleme.
 
@@ -58,10 +61,13 @@ A la compilation, ca me genre un probleme de build car pour lui 3.0.0 /= 3.0.0-v
 
 Je peux bien sur "tricher" en allant dans mon repository local et changer les verions dans les poms en consequence,ce qui marche mais je pense qu'en cas de mis a jour d'un plugin,il faudra reagir car je suis en train de changer un plugin du repository central et si une mis a jour survient ,ma modification sera écrasée(sauf si on ne choisi qu'une version  x=version  et non pas x>=version)
 
-Voila donc,soit je change les poms en consequence et je sui sur d'arriver a une compilation soit je fais autre chose.
+Voila donc,soit je change les poms en consequence et je suis sur d'arriver a une compilation soit je fais autre chose.
+Je pense que opter pour une version brute est pas mal,car a l'avenir on n'aura plus a se soucier des mis a jour(deja qu'elles sont assez rare).
+Après pour vous suivre les mis a jour régulièrement du plugin eclipse peut être primordial.
 
 
-Après renseignement,c'est possible qu'ils me répondent que ces artifacts Eclipse ne respectent pas les préconisations Maven en terme de versioning (X.Y.Z).
+
+Après renseignement,c'est possible qu'ils(l'equipe maven) me répondent que ces artifacts Eclipse ne respectent pas les préconisations Maven en terme de versioning (X.Y.Z).
  cf: http://docs.codehaus.org/display/MAVEN/Dependency+Mediation+and+Conflict+Resolution
 
 
