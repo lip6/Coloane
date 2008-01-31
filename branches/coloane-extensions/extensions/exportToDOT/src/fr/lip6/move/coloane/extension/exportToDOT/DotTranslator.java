@@ -189,7 +189,7 @@ public class DotTranslator {
 					toReturn.add(noeud.getId()+" [ label=\""+marking+"\", shape=circle, fontcolor="+BLACK+", fixedsize=true];");
 				}
 				else{
-					toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");					
+					toReturn.add(noeud.getId()+" [ label=\"\", shape=circle, fontcolor=white, fixedsize=true];");					
 				}
 			}
 		}
@@ -227,7 +227,7 @@ public class DotTranslator {
 						}
 					}
 				}
-				toReturn.add(noeud.getId()+" [shape=box, regular=true, fontcolor=white, fixedsize=true];");
+				toReturn.add(noeud.getId()+" [ label=\"\", shape=box, regular=true, fontcolor=white, fixedsize=true];");
 			}
 		}
 		return toReturn;		
@@ -262,7 +262,7 @@ public class DotTranslator {
 						}
 					}
 				}
-				toReturn.add(noeud.getId()+" [shape=box, regular=true, style=filled, color=black, fixedsize=true];");
+				toReturn.add(noeud.getId()+" [ label=\"\", shape=box, regular=true, style=filled, color=black, fixedsize=true];");
 			}
 		}
 		return toReturn;		
@@ -297,7 +297,7 @@ public class DotTranslator {
 						}
 					}
 				}
-				toReturn.add(noeud.getId()+" [shape=box, fontcolor=white, style=rounded, fixedsize=true];");
+				toReturn.add(noeud.getId()+" [ label=\"\", shape=box, fontcolor=white, style=rounded, fixedsize=true];");
 			}
 		}
 		return toReturn;		
