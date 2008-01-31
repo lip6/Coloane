@@ -59,7 +59,9 @@ public class DotTranslator {
 	//****************************************************//
 	//     PARAMETRES POUR LE FICHIER DOT A CREER         //
 	// ***************************************************//
-	private String RATIO ="0.5";
+	private String RATIO ="";
+	
+	private int TAILLE_MARKING = 2;
 	
 	private String FONTNAME_NAME_NODE = TIMES;
 	private String FONTSIZE_NAME_NODE = "42";
@@ -83,7 +85,10 @@ public class DotTranslator {
 		
 		// contenu du debut du fichier dot
 		toReturn.add("digraph G {");
-		toReturn.add("ratio="+RATIO+";");
+		
+		if (! RATIO.equals("")){
+			toReturn.add("ratio="+RATIO+";");
+		}
 		toReturn.add("compound=false;");
 		
 		
@@ -136,7 +141,9 @@ public class DotTranslator {
 		// Parcours tous les noeuds du model
 		for ( INode noeud : listeNoeuds){
 			// Si c'est un place
-			if ( noeud.getNodeType().equals("place")){				
+			if ( noeud.getNodeType().equals("place")){
+				// Pour récupere le marking
+				String marking = "";
 				// Parcour tous les attributs de la place
 				for ( IAttribute att : noeud.getListOfAttr()){
 					// Si c'est le nom, on le met on valeur
@@ -148,6 +155,21 @@ public class DotTranslator {
 							// Affichage du nom
 							toReturn.add(etiquette+" [label=\""+att.getValue()+"\", fontsize="+FONTSIZE_NAME_NODE+", fontname=\""+FONTNAME_NAME_NODE+"\", fontcolor="+FONTCOLOR_NAME_NODE+", shape=plaintext] ;");
 							toReturn.add( etiquette+" -> "+noeud.getId()+" [color="+COLOR_EDGE_ATTRIBUTE+", style="+STYLE_EDGE_ATTRIBUTE+"];");
+						}
+					}
+					// Si c'est le marking
+					else if (att.getName().equals("marking")){
+						// Si la valeurs de l'attrinuts est non null
+						if (! att.getValue().equals("") ){
+							// Enregistre la valeur du marking
+							marking = att.getValue();
+							// Si le marking est grand pour entrer dans la place
+							if (marking.length() > TAILLE_MARKING){
+								// Creation d'un noeud unique pour definir le marking de la place
+								String etiquette = ""+att.getName()+noeud.getId();
+								toReturn.add(etiquette+" [ label="+"\""+att.getName()+"="+att.getValue()+"\""+", fontname=\""+FONTNAME_ATTRIBUTS+"\", fontsize="+FONTSIZE_ATTRIBUTS+", "+"fontcolor="+FONTCOLOR_ATTRIBUTE+", shape=plaintext ] ;");
+								toReturn.add( etiquette+" -> "+noeud.getId()+" [color="+COLOR_EDGE_ATTRIBUTE+", style="+STYLE_EDGE_ATTRIBUTE+"];");
+							}
 						}
 					}
 					//sinon on affiche les atributs avec leur valeur
@@ -163,7 +185,12 @@ public class DotTranslator {
 					}
 				}
 				// Creation du cercle repersentant la place
-				toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");
+				if (marking.length() <= TAILLE_MARKING){
+					toReturn.add(noeud.getId()+" [ label=\""+marking+"\", shape=circle, fontcolor="+BLACK+", fixedsize=true];");
+				}
+				else{
+					toReturn.add(noeud.getId()+" [shape=circle, fontcolor=white, fixedsize=true];");					
+				}
 			}
 		}
 		return toReturn;
