@@ -21,14 +21,20 @@ public class ExportToImpl implements IExportTo {
 		
 		// Creation du Runner
 		Runner myRunner = CamiPackage.eINSTANCE.getCamiFactory().createRunner();
+		// Reinisiatlisation du Runner
+		myRunner.resetIdsRepository();
+		
 		
 		// Recuperation du model sous forme d'un vector<Sting>
 		Vector<String> cami = modeleCourant.getGenericModel().translate();
+		
+		// Affichage de Vector<String> cam
 		System.out.println("Vector<String> cami");
 		for (int i=0; i<cami.size();i++){
 			System.out.println(cami.get(i));
 		}
 		System.out.println("Taille de Vector<String> cami:"+cami.size());
+		
 		// Convertion du model Vector<String> vers String[]
 		Object[] camiModelObjet = cami.toArray();
 		String[] camiModelString = new String[cami.size()+2];
@@ -38,7 +44,7 @@ public class ExportToImpl implements IExportTo {
 		}
 		camiModelString[cami.size()+1] = "FB()";
 		
-		// Affichage du model
+		// Affichage du model String[] camiModelString
 		System.out.println("String[] camiModelString");
 		for (int i=0; i<cami.size()+2;i++){
 			System.out.println(camiModelString[i]);
