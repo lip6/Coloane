@@ -59,19 +59,20 @@ public class DotTranslator {
 	//****************************************************//
 	//     PARAMETRES POUR LE FICHIER DOT A CREER         //
 	// ***************************************************//
-	private String RATIO ="";
+	private String RATIO ="";		// RATIO voir le man dot; souvent inutile
+	private String SIZE = "";		// SIZE voir le man dot ; souvent inutile
 	
-	private int TAILLE_MARKING = 2;
+	private int TAILLE_MARKING = 2;			// longueur maximum des de la chaine marking pour qu'elle soit contenu dans la place
 	
-	private String FONTNAME_NAME_NODE = TIMES;
-	private String FONTSIZE_NAME_NODE = "42";
-	private String FONTCOLOR_NAME_NODE = BLACK;
+	private String FONTNAME_NAME_NODE = TIMES;		//Font du nom des places, transition, ...
+	private String FONTSIZE_NAME_NODE = "42";		//Taille du nom des places, transition, ...
+	private String FONTCOLOR_NAME_NODE = BLACK;		//Couleur du nom des places, transition, ...
 	
-	private String FONTNAME_ATTRIBUTS = TIMES;
-	private String FONTSIZE_ATTRIBUTS = "14";
-	private String FONTCOLOR_ATTRIBUTE = BLACK;
-	private String STYLE_EDGE_ATTRIBUTE = STYLE_FILLED;
-	private String COLOR_EDGE_ATTRIBUTE = GOLD;
+	private String FONTNAME_ATTRIBUTS = TIMES;		//Font des attributs des places, transition, ...
+	private String FONTSIZE_ATTRIBUTS = "14";		//Taille des attributs des places, transition, ...
+	private String FONTCOLOR_ATTRIBUTE = BLACK;		//Couleur des attributs des places, transition, ...
+	private String STYLE_EDGE_ATTRIBUTE = STYLE_FILLED;	// Style des fleches qui lies les attributs aux places, transition, ...
+	private String COLOR_EDGE_ATTRIBUTE = GOLD;			// Couleur des fleches qui lies les attributs aux places, transition, ...
 	
 	
 	/**
@@ -87,8 +88,13 @@ public class DotTranslator {
 		toReturn.add("digraph G {");
 		
 		if (! RATIO.equals("")){
-			toReturn.add("ratio="+RATIO+";");
+			toReturn.add("ratio=\""+RATIO+"\";");
 		}
+		
+		if (! SIZE.equals("")){
+			toReturn.add("size=\""+SIZE+"\";");
+		}
+		
 		toReturn.add("compound=false;");
 		
 		
