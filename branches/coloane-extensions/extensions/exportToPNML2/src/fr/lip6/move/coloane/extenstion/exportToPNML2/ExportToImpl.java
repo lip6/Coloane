@@ -21,9 +21,12 @@ public class ExportToImpl implements IExportTo {
 		// Reinisiatlisation du Runner
 		myRunner.resetIdsRepository();
 		
-		
 		// Recuperation du model sous forme d'un vector<Sting>
 		Vector<String> cami = modeleCourant.getGenericModel().translate();
+		// Ajout de FB() a la fin du vecteur
+		cami.add("FB()");
+		// Ajout de DB() au debut du vecteur
+		cami.add(0,"DB()");
 		
 		// Affichage de Vector<String> cam
 		//System.out.println("Vector<String> cami");
@@ -32,25 +35,9 @@ public class ExportToImpl implements IExportTo {
 		//}
 		//System.out.println("Taille de Vector<String> cami:"+cami.size());
 		
-		// Convertion du model Vector<String> vers String[]
-		Object[] camiModelObjet = cami.toArray();
-		String[] camiModelString = new String[cami.size()+2];
-		camiModelString[0] = "DB()";
-		for (int i=0; i< cami.size();i++){
-			camiModelString[i+1] = camiModelObjet[i].toString();
-		}
-		camiModelString[cami.size()+1] = "FB()";
-		
-		// Affichage du model String[] camiModelString
-		//System.out.println("String[] camiModelString");
-		//for (int i=0; i<cami.size()+2;i++){
-		//	System.out.println(camiModelString[i]);
-		//}
-		//System.out.println("Taille de String[] camiModelString:"+camiModelString.length);
-		
 		try {
 			//System.out.println(filePath);
-			myRunner.cami2p(camiModelString, filePath);
+			myRunner.cami2p(cami, filePath);
 		} catch (CamiException e){
 			e.printStackTrace();
 			throw new ColoaneException(e.getMessage());

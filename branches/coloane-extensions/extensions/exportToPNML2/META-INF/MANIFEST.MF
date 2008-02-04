@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces
 Eclipse-LazyStart: true
-Bundle-ClassPath: lib/fr.lip6.move.pnml.cpnami_1.2.2.jar,
+Bundle-ClassPath: lib/fr.lip6.move.pnml.cpnami.jar,
  .,
  lib/fr.lip6.move.pnml.framework_1.2.2.jar,
  lib/lib/org.eclipse.emf.common_2.3.0.v200709252135.jar,
