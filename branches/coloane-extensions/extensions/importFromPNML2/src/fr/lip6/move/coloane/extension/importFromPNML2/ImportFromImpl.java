@@ -22,12 +22,9 @@ import fr.lip6.move.pnml.cpnami.cami.Runner;
 
 public class ImportFromImpl implements IImportFrom {
 
-	public ImportFromImpl() {
-		// TODO Auto-generated constructor stub
-	}
+	public ImportFromImpl() {}
 
 	public IModelImpl importFrom(String filePath) throws ColoaneException {
-		// TODO Auto-generated method stub
 		
 		// Determination du formalism avec l'extension
 		StringTokenizer file = new StringTokenizer(filePath, ".");
@@ -49,6 +46,7 @@ public class ImportFromImpl implements IImportFrom {
 		Runner myRunner = CamiPackage.eINSTANCE.getCamiFactory().createRunner();
 		String[] camiModel;
 		
+		// Recuperation d'un model CAMI en String[]
 		try{
 			camiModel = myRunner.p2cami(filePath);
 		} catch (CamiException e){
@@ -56,10 +54,13 @@ public class ImportFromImpl implements IImportFrom {
 			throw new ColoaneException(e.getMessage());
 		}
 		
+		// Converstion de String[] vers Vector<String>
 		Vector<String> cami = new Vector<String>();
 		for (int i=0; i<camiModel.length; i++){
 			cami.add(camiModel[i]);
 		}
+		
+		// ??
 		try {
 			genericModel = new Model(cami, new CamiTranslator());
 		} catch(SyntaxErrorException e){
