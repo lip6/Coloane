@@ -44,25 +44,25 @@ public class ImportFromImpl implements IImportFrom {
 		
 		// Creation du Runner
 		Runner myRunner = CamiPackage.eINSTANCE.getCamiFactory().createRunner();
-		String[] camiModel;
-		
+	
 		// Recuperation d'un model CAMI en String[]
+		Vector<String> camiModel;
 		try{
 			camiModel = myRunner.p2cami(filePath);
+			
+			// Suppresion du dernier element :FE
+			camiModel.remove(camiModel.size()-1);
+			// Suppresion du premier element :DE
+			camiModel.remove(0);
+			
 		} catch (CamiException e){
 			e.printStackTrace();
 			throw new ColoaneException(e.getMessage());
 		}
 		
-		// Converstion de String[] vers Vector<String>
-		Vector<String> cami = new Vector<String>();
-		for (int i=0; i<camiModel.length; i++){
-			cami.add(camiModel[i]);
-		}
-		
 		// ??
 		try {
-			genericModel = new Model(cami, new CamiTranslator());
+			genericModel = new Model(camiModel, new CamiTranslator());
 		} catch(SyntaxErrorException e){
 			e.printStackTrace();
 			throw new ColoaneException(Messages.FormalismManager_1);
