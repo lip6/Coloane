@@ -20,12 +20,10 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 	
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public void init(IWorkbenchWindow window) {
-		// TODO Auto-generated method stub
 		this.window = window;
 	}
 
@@ -33,7 +31,6 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 	 * Actions à effectuer lors d'un demande d'exportation.
 	 */
 	public void run(IAction action) {
-		// TODO Auto-generated method stub
 		
 		Shell shell = window.getShell();
 		
@@ -59,7 +56,7 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		String filePath = exportDialog.getFilePath();
 
 		if (choix == Dialog.OK){
-			System.out.println("Creation d'un instance pour l'exportation au format:"+exportDialog.getFormat());
+			//System.out.println("Creation d'un instance pour l'exportation au format:"+exportDialog.getFormat());
 			
 			try {
 				// Creation d'une instance qui permet l'exportation du model courant
@@ -69,7 +66,6 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 				exportateur.export(editor.getModel(), filePath);
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				Coloane.showErrorMsg( e.getMessage());
 				e.printStackTrace();
 			}
@@ -77,7 +73,6 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
 
 	}
 
