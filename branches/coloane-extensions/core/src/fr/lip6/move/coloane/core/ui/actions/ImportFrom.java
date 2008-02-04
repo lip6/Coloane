@@ -33,12 +33,10 @@ public class ImportFrom implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 	
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void init(IWorkbenchWindow window) {
-		// TODO Auto-generated method stub
 		this.window = window;
 
 	}
@@ -47,7 +45,6 @@ public class ImportFrom implements IWorkbenchWindowActionDelegate {
 	 * Actions à effectuer lors d'un demande d'importations.
 	 */
 	public void run(IAction action) {
-		// TODO Auto-generated method stub
 		final Shell shell = window.getShell();
 		
 		// Création et ouverture de la boite de dialogue 'Import To...'
