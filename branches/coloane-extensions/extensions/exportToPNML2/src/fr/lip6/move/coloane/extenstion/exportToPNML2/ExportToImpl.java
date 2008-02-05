@@ -36,7 +36,7 @@ public class ExportToImpl implements IExportTo {
 		//System.out.println("Taille de Vector<String> cami:"+cami.size());
 		
 		try {
-			//System.out.println(filePath);
+			System.out.println(filePath);
 			myRunner.cami2p(cami, filePath);
 		} catch (CamiException e){
 			e.printStackTrace();
