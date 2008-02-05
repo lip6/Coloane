@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToPNML2 Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extenstion.exportToPNML2;singleton:=true
+Bundle-SymbolicName: fr.lip6.move.coloane.extension.exportToPNML2;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: fr.lip6.move.coloane.extenstion.exportToPNML2.Activator
 Require-Bundle: org.eclipse.ui,
