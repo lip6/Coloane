@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extenstion.exportToPNML2.ExportToImpl"
+            class="fr.lip6.move.coloane.extension.exportToPNML2.ExportToImpl"
             id="exportToPNML2"
             name="PNML2">
       </Export>

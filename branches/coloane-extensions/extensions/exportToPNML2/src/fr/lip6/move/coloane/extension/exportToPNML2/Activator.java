@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extenstion.exportToPNML2;
+package fr.lip6.move.coloane.extension.exportToPNML2;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
