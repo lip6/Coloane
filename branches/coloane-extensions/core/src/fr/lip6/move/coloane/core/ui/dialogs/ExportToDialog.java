@@ -142,6 +142,15 @@ public class ExportToDialog extends Dialog {
 	 * Actions a effectuer si on presse un boutton ???
 	 */
 	protected void buttonPressed(int buttonId) {
+		// Si le filePath n'est pas précisé, alors ne rien faire.
+		if ( buttonId == Dialog.OK) {
+			if ( filePath == null ){
+				return ;
+			}
+			if ( filePath.equalsIgnoreCase("")){
+				return ;
+			}
+		}
 		super.buttonPressed(buttonId);
 	}
 
