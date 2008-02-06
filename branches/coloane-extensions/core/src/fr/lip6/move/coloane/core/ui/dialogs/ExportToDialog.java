@@ -84,6 +84,7 @@ public class ExportToDialog extends Dialog {
 		
 		filePathTxt = new Text(dialog,SWT.BORDER);
 		filePathTxt.setText(""); //$NON-NLS-1$
+		filePathTxt.setEditable(false);
 		
 		filePathBtn = new Button(dialog,SWT.NONE);
 		filePathBtn.setText(Messages.ExportToDialog_4);
