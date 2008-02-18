@@ -378,7 +378,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<execution>
+					<!--<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
 						<goals>
@@ -387,7 +387,7 @@
 						<configuration>
 							<executable>cleanManifest.sh</executable>
 						</configuration>
-					</execution>
+					</execution>-->
 				</executions>
 			</plugin>
 		</plugins>
