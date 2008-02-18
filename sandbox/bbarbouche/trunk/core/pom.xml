@@ -81,6 +81,12 @@
 			<version>[3.1.200-v20070502,)</version>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>jface</artifactId>
+			<version>[3.3.0-I20070601-1200,)</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>common</artifactId>
 			<version>[3.3.0-v20070426,)</version>
@@ -88,18 +94,14 @@
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>preferences</artifactId>
-			<version>[3.2.100-v20070522,)</version>
+			<version>[3.2.100-v20070409,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>registry</artifactId>
-			<version>[3.3.0-v20070522,)</version>
+			<version>[3.3.0-v20070416,)</version>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>jface</artifactId>
-			<version>[3.3.0-I20070601-1200,)</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.jface</groupId>
 			<artifactId>text</artifactId>
