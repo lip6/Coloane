@@ -407,6 +407,7 @@
 							</arguments>
 						</configuration>
 					</execution>
+<!--
 					<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
@@ -417,7 +418,7 @@
 							<executable>cleanManifest.sh</executable>
 						</configuration>
 					</execution>
-
+-->
 				</executions>
 			</plugin>
 		</plugins>
