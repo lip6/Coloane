@@ -170,7 +170,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.3.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -210,6 +210,36 @@
 				<!-- Pour la javadoc -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+			
+</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javancss-maven-plugin</artifactId>
+				<version>2.0-beta-2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<!-- Pour les tests -->
@@ -253,8 +283,8 @@
 				<artifactId>maven-scm-plugin</artifactId>
 				<configuration>
 					<connectionType>developerConnection</connectionType>
-					<username>${server.username}</username>
-					<password>${server.password}</password>
+					<username>continuum</username>
+					<password>coloane</password>
 					<branch>${project.artifactId}-${project.version}</branch>
 					<message>[maven-scm-plugin]</message>
 				</configuration>
@@ -317,7 +347,6 @@
 				<!-- /!\ Ne marche qu'avec un SVN en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
-				<version>0.9.4</version>
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
@@ -378,7 +407,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<!--<execution>
+					<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
 						<goals>
@@ -387,7 +416,8 @@
 						<configuration>
 							<executable>cleanManifest.sh</executable>
 						</configuration>
-					</execution>-->
+					</execution>
+
 				</executions>
 			</plugin>
 		</plugins>
