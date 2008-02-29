@@ -45,10 +45,80 @@ J'ai du changer la version en:
 	<version>[3.3.0-v20070606-0010,)</version>
 
 
-3)Encore d'autres problemes de ce genre.
+3)
+
+
+Couldn't find a version in [3.3.0-I20070606-0010, 3.2.1-M20060908-1000, 3.3.0-I20070601-1200] to match range [3.3.0,4.0.0)
+  org.eclipse:jface:jar:null
+
+Les poms qui demandent cette dependance sont dans: org/eclipse/gef/3.2.100-v20070620/gef-3.2.100-v20070620.pom
+						   org/eclipse/ui/workbench/3.3.0-I20070608-1100/workbench-3.3.0-I20070608-1100.pom
+
+
+J'ai du changer changer la version en:
+
+		<version>3.2.1-M20060908-1000</version>
+
+
 4)
+
+Couldn't find a version in [3.3.0-v3346, 3.2.1-v3235e, 3.3.0-v3345b] to match range [3.3.0,4.0.0)
+  org.eclipse:swt:jar:null
+
+
+Les poms qui demandent cette dependance sont dans:
+
+org/eclipse/jface/3.2.1-M20060908-1000/jface-3.2.1-M20060908-1000.pom
+org/eclipse/draw2d/3.2.100-v20070529/draw2d-3.2.100-v20070529.pom
+org/eclipse/ui/workbench/3.3.0-I20070608-1100/workbench-3.3.0-I20070608-1100.pom
+
+
+version changé en :   <version>3.3.0-v3346</version>
+
+
+
 5)
+
+Couldn't find a version in [1.1.0-I20070606-0010, 1.0.0-I20060605-1400, 1.1.0-I20070530-0100] to match range [1.1.0,2.0.0)
+  org.eclipse.jface:databinding:jar:null
+
+org/eclipse/ui/workbench/3.3.0-I20070608-1100/workbench-3.3.0-I20070608-1100.pom:
+
+
+<version>1.1.0-I20070606-0010</version>
+
+
+
 6)
+
+
+Couldn't find a version in [3.3.0-I20070605-0010, 3.2.0-I20060605-1400, 3.3.0-I20070523-1500] to match range [3.3.0,4.0.0)
+  org.eclipse.core:commands:jar:null
+
+
+org/eclipse/jface/3.2.1-M20060908-1000/jface-3.2.1-M20060908-1000.pom:
+org/eclipse/jface/3.3.0-I20070606-0010/jface-3.3.0-I20070606-0010.pom
+
+
+7)
+
+Couldn't find a version in [3.3.0-v20070606-0010, 3.2.0-v20060605-1400, 3.3.0-v20070531-1300] to match range [3.3.0,4.0.0)
+  org.eclipse:text:jar:null
+
+
+org/eclipse/jface/text/3.3.0-v20070606-0010/text-3.3.0-v20070606-0010.pom:
+
+
+
+8)
+
+Couldn't find a version in [3.3.0-v20070426, 3.2.0-v20060603] to match range [3.3.0,4.0.0)
+  org.eclipse.equinox:common:jar:null
+
+
+9)
+
+
 
 Je peux arriver a la compilation vu que je sais resoudre le probleme.
 
