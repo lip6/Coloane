@@ -1,8 +1,0 @@
-package fr.lip6.dependance_calcul;
-import junit.framework.TestCase;
-
-public class Operation_dependance_test extends TestCase{
-	
-	
-
-}
