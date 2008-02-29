@@ -10,9 +10,11 @@
 		<module>projet_maven3</module>
 		<module>projet_maven4</module>
 	</modules>
+	
 	<scm>
-    		<connection>scm:/home/bbarbouche/Desktop/maven_project</connection>
-  	</scm>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/sandbox/bbarbouche/projet_release</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/sandbox/bbarbouche/projet_release</developerConnection>
+	</scm>
 	
 <!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
