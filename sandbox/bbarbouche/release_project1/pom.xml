@@ -17,6 +17,17 @@
 		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/sandbox/bbarbouche/release_project1</developerConnection>
 	</scm>
 	
+	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<configuration>
+					<connectionType>developerConnection</connectionType>
+					<username>continuum</username>
+					<password>coloane</password>
+					<branch>${project.artifactId}-${project.version}</branch>
+					<message>[maven-scm-plugin]</message>
+				</configuration>
+	</plugin>
 <!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
@@ -36,6 +47,16 @@
 			<url>scp://coloane.lip6.fr/coloane/public/reports</url>
 		</site>-->
 	</distributionManagement>
+	
+	<!-- Pour les releases -->  
+	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<branchName>${project.artifactId}-${project.version}</branchName>
+					<preparationGoals>clean verify</preparationGoals>
+				</configuration>	
+	</plugin>
 	<build>
 		<extensions>
 			<extension>
@@ -52,6 +73,58 @@
 		</extensions>
 	</build>
 
+
+	<repositories>
+		<repository>
+			<id>Maven1</id>
+			<name>Official Maven Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<!-- Le repository des plugins Eclipse -->
+		<repository>
+			<id>Eclipse1</id>
+			<name>Eclipse Repository</name>
+			<url>http://repo1.maven.org/eclipse</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>codehausSnapshots</id>
+			<name>Codehaus Snapshots</name>
+			<url>http://snapshots.repository.codehaus.org/</url>      
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<layout>default</layout>
+		</pluginRepository>
+
+	</pluginRepositories>
 
 
 
