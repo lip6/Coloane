@@ -20,11 +20,11 @@
 <!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
-		<!--<repository>
+		<repository>
 			<id>Coloane-Releases</id>
 			<name>Coloane Releases</name>
 			<url>scp://132.227.64.65/coloane/public/releases</url>
-		</repository>-->
+		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>Coloane-Snapsho</id>
@@ -36,7 +36,7 @@
 			<url>scp://coloane.lip6.fr/coloane/public/reports</url>
 		</site>-->
 	</distributionManagement>
-	<!--<build>
+	<build>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -51,7 +51,7 @@
 			
 		</extensions>
 	</build>
--->
+
 
 
 
