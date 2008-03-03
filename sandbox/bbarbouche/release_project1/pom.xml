@@ -75,7 +75,7 @@
 						<message>[maven-scm-plugin]</message>
      					 </configuration>
     			</plugin>
-		<plugins>
+		</plugins>
 	</build>
 
 
