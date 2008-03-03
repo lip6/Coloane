@@ -17,17 +17,7 @@
 		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/sandbox/bbarbouche/release_project1</developerConnection>
 	</scm>
 	
-	<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<configuration>
-					<connectionType>developerConnection</connectionType>
-					<username>continuum</username>
-					<password>coloane</password>
-					<branch>${project.artifactId}-${project.version}</branch>
-					<message>[maven-scm-plugin]</message>
-				</configuration>
-	</plugin>
+	
 <!-- Envoie par SCP lors du déploiement (deploy) -->
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
@@ -49,14 +39,7 @@
 	</distributionManagement>
 	
 	<!-- Pour les releases -->  
-	<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<branchName>${project.artifactId}-${project.version}</branchName>
-					<preparationGoals>clean verify</preparationGoals>
-				</configuration>	
-	</plugin>
+	
 	<build>
 		<extensions>
 			<extension>
@@ -71,6 +54,28 @@
 			</extension>
 			
 		</extensions>
+
+		<plugins>	
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<branchName>${project.artifactId}-${project.version}</branchName>
+						<preparationGoals>clean verify</preparationGoals>
+					</configuration>	
+			</plugin>
+			<plugin>
+      					<groupId>org.apache.maven.plugins</groupId>
+      					<artifactId>maven-scm-plugin</artifactId>
+      					<configuration>
+						<connectionType>developerConnection</connectionType>
+						<username>continuum</username>
+						<password>coloane</password>
+						<branch>${project.artifactId}-${project.version}</branch>
+						<message>[maven-scm-plugin]</message>
+     					 </configuration>
+    			</plugin>
+		<plugins>
 	</build>
 
 
