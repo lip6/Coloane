@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -12,8 +11,24 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import org.xml.sax.helpers.DefaultHandler;
-
+//import org.xml.sax.ErrorHandler;
+//import org.xml.sax.helpers.DefaultHandler;
+//import org.xml.sax.helpers.*;
+//import sax2r3.src.org.xml.sax.*;
+//import sax2r3.classes.org.xml.sax.*;
+//import org.apache.xml.*;
+//import org.apache.xerces.parsers.*;
+//import org.apache.xerces.*;
+//import javax.xml.parsers.*;
+//import javax.xml.transform.*;
+//import javax.xml.transform.sax.*;
+//import javax.xml.validation.*;
+//import javax.xml.parsers.SAXParserFactory;
+//import javax.xml.parsers.SAXParser;
+//import org.apache.*;
+//import sax.*;
+//import essai.TraceErrorChemin;
+import javax.xml.*;
 
 public class CheminHandler implements ContentHandler {
 
@@ -57,22 +72,22 @@ public class CheminHandler implements ContentHandler {
 	} // -- setDocumentLocator()
 	
 	public void startDocument() throws SAXException {
-	    System.out.println("startDocument") ;
+	    System.out.println("StartDocument \n") ;
 	} // evenement Debut Document
 	
 	public void endDocument() throws SAXException {
-	    System.out.println("endDocument") ;
+	    System.out.println("EndDocument") ;
 	} // evenement Fin Document
 
 	
 	public void startElement(String URI, String localName,
 			String qName, Attributes atts)throws SAXException {
-		System.out.println("Debut de l'element : [" + qName + "]") ;
+			System.out.println("Deb élement :[" + qName + "]") ;
 	} // Debut de l'element 
 
 	 public void endElement(String namespaceURI, String localName,
               String qName) throws SAXException {
-		  System.out.println("Fin de l'element :[" + qName + "]") ;
+		  	System.out.println("Fin élement :[" + qName + "]") ;
 	 } // Fin de l'element
 	 
 	 public void characters(char[] ch, int start, int length)
@@ -115,13 +130,16 @@ public class CheminHandler implements ContentHandler {
 	    //String Parser = null;
 		try {
 	        // Création des instances pour faire l'analyse
-	        XMLReader reader = XMLReaderFactory.createXMLReader(Parser) ;
+	        //XMLReader reader = XMLReaderFactory.createXMLReader(Parser);
+			XMLReader reader = XMLReaderFactory.createXMLReader();
 	        ContentHandler listeContent = new CheminHandler() ;
-	        ErrorHandler listeError = new TraceErrorHandler() ;
+	       // ErrorHandler listeError = new ErrorChemin() ;
+	      ////// TraceErrorChemin listeError = new TraceErrorChemin() ;
+	        
 	        // Enregistre le gestionnaire de contenu
 	        reader.setContentHandler(listeContent) ;
 	        // Enregistre le gestionnaire d’erreurs
-	        reader.setErrorHandler(listeError) ;
+	     //////   reader.setErrorHandler(listeError) ;
 	       /*
 	        *  // Demande la validation du document
 	        URI = "http://xml.org/sax/features/validation" ;
@@ -155,27 +173,23 @@ public class CheminHandler implements ContentHandler {
 
 	public static void main (String[] args) {
 	    try {
-	        if (args.length != 1) {
+	    	if (args.length != 1) {
 	            System.out.println("Noooooooooo :Il Manque le Fichier XML a parser " +
 	            					"\"Mais Reveilles Toi\"") ;
 	            System.exit(0) ; //on sort
 	        } 
 	        CheminHandler listeur = new CheminHandler();
-	        //listeur.listeEvenements(args[0]) ;
-	        listeur.listeEvenements(xmlPersonnes) ;
+	        listeur.listeEvenements(args[0]) ;
+	        //listeur.listeEvenements(xmlPersonnes);
 	    } catch (Exception e) {
 	        e.printStackTrace() ;
 
-	        System.out.println("pb de: "+e.getMessage());
+	        System.out.println("Impossible de: "+e.getMessage());
 	        System.out.println("J'arrive pas a trouver : "+e.getStackTrace());
 
 	    } 
 	} // -- Fin du Main
 
-	
-	
-	
-	
 	
 }
 
