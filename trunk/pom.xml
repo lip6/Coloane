@@ -217,7 +217,6 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh-external</artifactId>
-				<version>1.0-alpha-5</version>
 			</extension>
 		</extensions>
 
@@ -231,19 +230,6 @@
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
-				</configuration>
-			</plugin>
-
-			<!-- Pour le SVN -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<configuration>
-					<connectionType>developerConnection</connectionType>
-					<username>${server.username}</username>
-					<password>${server.password}</password>
-					<branch>${project.artifactId}-${project.version}</branch>
-					<message>[maven-scm-plugin]</message>
 				</configuration>
 			</plugin>
 
@@ -304,7 +290,6 @@
 				<!-- /!\ Ne marche qu'avec un SVN en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
-				<version>0.9.4</version>
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
@@ -312,23 +297,6 @@
 						<goals>
 							<goal>create</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>UpTools</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>update</goal>
-						</goals>
-						<configuration>
-							<basedir>/coloane/tools</basedir>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
