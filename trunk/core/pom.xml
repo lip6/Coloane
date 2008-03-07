@@ -50,6 +50,15 @@
 			<artifactId>draw2d</artifactId>
 			<version>3.2.100-v20070529</version>
 		</dependency>
+		
+		<!-- waiting anther solution... -->
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>app</artifactId>
+			<version>[0.1,)</version>
+		</dependency>
+		<!-- ... -->
+		
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>commands</artifactId>
