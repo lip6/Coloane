@@ -39,7 +39,6 @@
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
 				<role>team-leader</role>
-				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -61,18 +60,6 @@
 			<name>Alexandre Hamez</name>
 			<email>Alexandre.Hamez@lip6.fr</email>
 			<url>http://www-src.lip6.fr/homepages/Alexandre.Hamez/</url>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<id>alinard</id>
-			<name>Alban Linard</name>
-			<email>Alban.Linard@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Alban.Linard/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
