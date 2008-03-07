@@ -23,3 +23,6 @@ LOcalement,le faire serait inutile car je n'aurai pas besoin du svn.
 
 La compilation du pom parent apporte toujours un problème a la compilation par maven donc même si l'accés distant aurait reussi,on serait confronté a ce problème.
 
+
+http://confluence.public.thoughtworks.org/display/CC/CI+Feature+Matrix
+
