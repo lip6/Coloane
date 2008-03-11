@@ -61,10 +61,11 @@ public class Chemin2 implements ContentHandler {
 			"</personne>\n"+
 		"</personnes>  \n";
 		*/
-	
-	private String Parser;
+	private String cc;
+	//private String Parser;
 	public Chemin2() {
-	 Parser="";
+	// Parser="";
+	
 	} // Constructeur Chemin
 	
 	public void setDocumentLocator(Locator locator) {
@@ -86,10 +87,20 @@ public class Chemin2 implements ContentHandler {
 			for (int i=0;i<atts.getLength();i++){
 				System.out.println("Att : {"+atts.getValue(i)+"}");
 				if (atts.getValue(i).equals("f") && (atts.getQName(i).equals("sexe"))){
-					System.out.println("Bonjour Madame: "+atts.getValue(i+1)+"---"+ atts.getQName(i)+"---");
+					System.out.print("Bonjour Madame: "+atts.getValue(i+1)+"---"+ atts.getQName(i)+"---");
+					if (qName.equals("name")){
+						System.out.println(cc);
+					}
+
+					
+				}
+				
+				if (atts.getValue(i).equals("oui") && (atts.getQName(i).equals("mobile"))){
+					System.out.println("Joignable: "+"par---"+ qName.toUpperCase()+" au :"+cc);
 				
 					
 				}
+				
 				
 				if	(atts.getValue(i).equals("m"))
 					System.out.println("Bonjour Monsieur: "+atts.getValue(i+1));
@@ -98,13 +109,24 @@ public class Chemin2 implements ContentHandler {
 
 	 public void endElement(String namespaceURI, String localName,
               String qName) throws SAXException {
-		  	System.out.println("F-E :[" + qName + "]") ;
+		  	/*
+		  	 System.out.println("F-E :[" + qName + "]") ;
+		  	if (qName.equals("telephone"))
+		  		System.out.println("j'etais joignable");
+		  		*/
+		 System.out.println(cc);
 	 } // Fin de l'element
 	 
 	 public void characters(char[] ch, int start, int length)
                             throws SAXException {
-		  System.out.println("ch:[" + new String(ch,start,length) + "]") ;
-	
+		 
+		 //System.out.println("--" + new String(ch,start,length) + "--") ;
+		 	
+		 cc=("-" + new String(ch,start,length) + "-") ;
+		 
+		 cc=cc.trim();
+		 System.out.println(cc);
+		 
 	 } // -- characters()
 	 
 	public void endPrefixMapping(String arg0) throws SAXException {
@@ -145,12 +167,12 @@ public class Chemin2 implements ContentHandler {
 			XMLReader reader = XMLReaderFactory.createXMLReader();
 	        ContentHandler listeContent = new Chemin2() ;
 	       // ErrorHandler listeError = new ErrorChemin() ;
-	      ////// TraceErrorChemin listeError = new TraceErrorChemin() ;
+	      TraceErrorChemin listeError = new TraceErrorChemin() ;
 	        
 	        // Enregistre le gestionnaire de contenu
 	        reader.setContentHandler(listeContent) ;
 	        // Enregistre le gestionnaire d’erreurs
-	     //////   reader.setErrorHandler(listeError) ;
+	      reader.setErrorHandler(listeError) ;
 	       /*
 	        *  // Demande la validation du document
 	        URI = "http://xml.org/sax/features/validation" ;
@@ -170,12 +192,12 @@ public class Chemin2 implements ContentHandler {
 	        reader.parse(inputSource) ;
 	        
 	    } catch (SAXNotRecognizedException e) {
-	        System.out.println("La classe de l’analyseur " + Parser
+	        System.out.println("La classe de l’analyseur " + /*Parser*/""
 	                           + " ne reconnaît pas l’URI d’option " +URI) ;
 	        System.exit(0) ;
 	        
 	    } catch (SAXNotSupportedException e) {
-	        System.out.println("La classe de l’analyseur " + Parser
+	        System.out.println("La classe de l’analyseur " + /*Parser*/""
 	                           + " ne prend pas en compte l’URI d’option " + URI) ;
 	        System.exit(0) ;
 	        
@@ -195,8 +217,8 @@ public class Chemin2 implements ContentHandler {
 	    } catch (Exception e) {
 	        e.printStackTrace() ;
 
-	        System.out.println("Impossible de: "+e.getMessage());
-	        System.out.println("J'arrive pas a trouver : "+e.getStackTrace());
+	        System.out.println("Problème ici: "+e.getMessage());
+	        //System.out.println("J'arrive pas a trouver : "+e.getStackTrace());
 
 	    } 
 	} // -- Fin du Main
