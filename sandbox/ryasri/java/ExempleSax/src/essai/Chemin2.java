@@ -1,6 +1,9 @@
 package essai;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -32,37 +35,17 @@ import javax.xml.*;
 
 public class Chemin2 implements ContentHandler {
 
-	/*public final static String xmlPersonnes =
-		  "<?xml version=\"1.0\"?>\n"
-		+"<personnes>\n"+
-			"<personne sexe='m'>\n"+
-				"Je Suis\n"+
-			"</personne>\n"+
-			"<persoonne sexe='m'>\n"+
-				"Tu Es\n"+
-			"</persoonne>\n"+
-			"<personne sexe='m'>\n"+
-				"Il Est\n"+
-			"</personne>\n"+
-			"<personne sexe='f'>\n"+
-				"Elle Est\n"+
-			"</personne>\n"+
-			"<personne sexe='m'>\n"+
-				"Nous Sommes\n"+
-			"</personne>\n"+
-			"<personne sexe='f'>\n"+
-				"Vous Etes\n"+
-			"</personne>\n"+
-			"<personne sexe='m'>\n"+
-				"Ils Sont\n"+
-			"</personne>\n"+
-			"<personne sexe='f'>\n"+
-				"Elle Sont\n"+
-			"</personne>\n"+
-		"</personnes>  \n";
-		*/
 	private String cc;
 	//private String Parser;
+	//------------------------Debut---------Essai ---------------------------
+	//021550108     0550220730   eltayeb mounib
+	private List<String> stack;
+	//private List<String> stackElement;
+	//private List<String> stackAttribut;
+	//private List<String> stackText;
+	private StringBuffer affich=new StringBuffer();
+	//------------------------Fin---------Essai ---------------------------
+
 	public Chemin2() {
 	// Parser="";
 	
@@ -73,62 +56,84 @@ public class Chemin2 implements ContentHandler {
 	} // -- setDocumentLocator()
 	
 	public void startDocument() throws SAXException {
+		//stackElement = new ArrayList<String>();					/*creation Pile ---rajout su type String*/
+		//stackAttribut = new ArrayList<String>();					/*creation Pile ---rajout su type String*/
+		//stackText = new ArrayList<String>();					/*creation Pile ---rajout su type String*/
+		stack= new ArrayList<String>();	
 	    System.out.println("StartDocument \n") ;
+	    
 	} // evenement Debut Document
 	
 	public void endDocument() throws SAXException {
-	    System.out.println("EndDocument") ;
+	    System.out.println("\n\nEndDocument") ;
 	} // evenement Fin Document
 
 	
-	public void startElement(String URI, String localName,
-			String qName, Attributes atts)throws SAXException {
-			System.out.println("D-E :[" + qName + "]") ;
-			for (int i=0;i<atts.getLength();i++){
-				System.out.println("Att : {"+atts.getValue(i)+"}");
-				if (atts.getValue(i).equals("f") && (atts.getQName(i).equals("sexe"))){
-					System.out.print("Bonjour Madame: "+atts.getValue(i+1)+"---"+ atts.getQName(i)+"---");
-					if (qName.equals("name")){
-						System.out.println(cc);
-					}
-
-					
-				}
-				
-				if (atts.getValue(i).equals("oui") && (atts.getQName(i).equals("mobile"))){
-					System.out.println("Joignable: "+"par---"+ qName.toUpperCase()+" au :"+cc);
-				
-					
-				}
-				
-				
-				if	(atts.getValue(i).equals("m"))
-					System.out.println("Bonjour Monsieur: "+atts.getValue(i+1));
-			}
+	public void startElement(String URI, String localName,String qName, Attributes atts)throws SAXException {
+		
+		stack.add(qName);
+		for (int i=0;i<atts.getLength();i++){
+			
+			//if (atts.getValue(i).equals("f") && (atts.getQName(i).equals("sexe"))){
+				stack.add(atts.getQName(i));
+				stack.add(atts.getValue(i));
+		}
+		
+		
 	} // Debut de l'element 
 
 	 public void endElement(String namespaceURI, String localName,
               String qName) throws SAXException {
-		  	/*
-		  	 System.out.println("F-E :[" + qName + "]") ;
-		  	if (qName.equals("telephone"))
-		  		System.out.println("j'etais joignable");
-		  		*/
-		 System.out.println(cc);
+
+		//------------------------Debut---------Essai ---------------------------		 
+		 
+		 stack.remove(stack.size()-1);
+		
+		 if(qName.equals("nom")){
+			 if(stack.get(stack.size()-7).equals("m"))
+			 System.out.println("Au revoir  Monsieur  "+stack.get(stack.size()-2));
+			 if(stack.get(stack.size()-5).equals(""))
+				 System.out.println("Au revoir  Madame  "+stack.get(stack.size()-2));
+			 //------------------------Fin---------Essai ---------------------------
+		 }
 	 } // Fin de l'element
 	 
 	 public void characters(char[] ch, int start, int length)
                             throws SAXException {
 		 
 		 //System.out.println("--" + new String(ch,start,length) + "--") ;
-		 	
-		 cc=("-" + new String(ch,start,length) + "-") ;
 		 
+		 //------------------------Debut---------Essai ---------------------------
+	
+		 if(stack.size()>0 && stack.get(stack.size()-1).equals("nom")&& stack.get(stack.size()-5).equals("m")){
+			 //System.out.println(stack.get(stack.size()));
+			 //affich.append(new String(ch,start,length));
+			 stack.add(new String(ch,start,length));
+			 //System.out.print("Booooooonjour");
+			 System.out.println("Bonjour "+ "Monsieur "/*stack.get(stack.size()-6) */+ stack.get(stack.size()-1));
+		 }
+		 if(stack.size()>0 && stack.get(stack.size()-1).equals("nom")&& stack.get(stack.size()-5).equals("f")){
+			 stack.add(new String(ch,start,length));
+			 System.out.println("Bonjour "+ "Madame "/*stack.get(stack.size()-6) */+ stack.get(stack.size()-1));
+		 }
+		 	stack.add(new String(ch,start,length));
+			
+		//------------------------Fin---------Essai ---------------------------
+		 	/*
+		 cc=("-" + new String(ch,start,length) + "-") ;
 		 cc=cc.trim();
 		 System.out.println(cc);
-		 
+		 	 */		 
 	 } // -- characters()
+	 	 
+		//------------------------Debut---------Essai ---------------------------
+
+	 public String getText(){
+		 return affich.toString();
+	 } 
 	 
+		//------------------------Fin---------Essai ---------------------------
+
 	public void endPrefixMapping(String arg0) throws SAXException {
 		// TODO Auto-generated method stub
 		
@@ -213,6 +218,13 @@ public class Chemin2 implements ContentHandler {
 	        } 
 	        Chemin2 listeur = new Chemin2();
 	        listeur.listeEvenements(args[0]) ;
+			//------------------------Debut---------Essai ---------------------------
+
+	        String resultat=listeur.getText();
+	        System.out.println(resultat);
+	        
+			//------------------------Fin---------Essai ---------------------------
+
 	        //listeur.listeEvenements(xmlPersonnes);
 	    } catch (Exception e) {
 	        e.printStackTrace() ;
@@ -222,7 +234,60 @@ public class Chemin2 implements ContentHandler {
 
 	    } 
 	} // -- Fin du Main
+	
+/*
+ ------------------------------START  ELEMENT-------------------
+		//------------------------Debut---------Essai ---------------------------
+		Iterator<String> iter=stack.iterator();
+		StringBuffer context=new StringBuffer(iter.next().toString());
+		while(iter.hasNext()) {
+			context.append("//");
+			context.append(iter.next());
+			System.out.println(context);
+	    }
+	    
+		//------------------------Fin--------Essai ---------------------------
 
+		System.out.println("D-E :[" + qName + "]") ;
+		for (int i=0;i<atts.getLength();i++){
+			System.out.println("Att : {"+atts.getValue(i)+"}");
+			if (atts.getValue(i).equals("f") && (atts.getQName(i).equals("sexe"))){
+				System.out.print("Bonjour Madame: "+atts.getValue(i+1)+"---"+ atts.getQName(i)+"---");
+				if (qName.equals("name")){
+					System.out.println(cc);
+				}			
+			}	
+			if (atts.getValue(i).equals("oui") && (atts.getQName(i).equals("mobile"))){
+				System.out.println("Joignable: "+"par---"+ qName.toUpperCase()+" au :"+cc);
+			}
+			if	(atts.getValue(i).equals("m"))
+				System.out.println("Bonjour Monsieur: "+atts.getValue(i+1));
+			}
+	//Iterator<String> iter=stack.iterator();
+	//StringBuffer context=new StringBuffer(iter.next().toString());
+	//for(int i=0;i<stack.size();i++){				
+			 //if(qName.equals("nom") && stack.get(stack.size()-5).equals("m"))
+				// System.out.println("-----|||||"+stack.get(stack.size()-3)+"|||||-----");
+				 
+		
+	//}
+	
+	//while(iter.hasNext()) {
+		//context.append("//");
+		//context.append(iter.next());
+		//if (iter.next().equals(""))
+			while(iter.next().equals("f")){
+				stack.remove(iter.next());
+			}
+		//System.out.println("hey!!! Madame"+iter.next());
+			//this.getText();
+			
+    //}
+	if (stack.size()>0 && stack.get(stack.size()-1).equals("nom")){
+			System.out.print(stack.get(1));
+	}
+	
+ */
 	
 }
 
