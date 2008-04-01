@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
@@ -14,6 +14,8 @@ public class ReachabilityGraph extends Formalism {
 	private static final String NAME = "ReachabilityGraph"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
 	private static final String EXTENSION = "rg"; //$NON-NLS-1$
+	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NL-1$
+
 
 	private static final int INITIAL_WIDTH = 16;
 	private static final int INITIAL_HEIGHT = 16;
@@ -23,7 +25,7 @@ public class ReachabilityGraph extends Formalism {
 	private static final int STATE_HEIGHT = 16;
 
 	public ReachabilityGraph() {
-		super(NAME, IMG, EXTENSION);
+		super(NAME, IMG, EXTENSION, XSCHEMA);
 
 		int i = 1;
 
@@ -40,7 +42,7 @@ public class ReachabilityGraph extends Formalism {
 		// etat initial, etat final, etat, event (arc)
 
 		// L'etat initial:
-		ElementBase elt = new NodeFormalism("initial_state", Messages.ReachabilityGraph_0, this, INodeGraphicInfo.FIG_DBLCIRCLE, INITIAL_WIDTH, INITIAL_HEIGHT, false); //$NON-NLS-1$
+		ElementFormalism elt = new NodeFormalism("initial_state", Messages.ReachabilityGraph_0, this, INodeGraphicInfo.FIG_DBLCIRCLE, INITIAL_WIDTH, INITIAL_HEIGHT, false); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "value", IAttributeGraphicInfo.L2, true, true)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "initial", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$

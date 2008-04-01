@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Rule;
@@ -15,6 +15,7 @@ public class PrefixNets extends Formalism {
 	private static final String NAME = "Branching-Process"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
 	private static final String EXTENSION = "prefix"; //$NON-NLS-1$
+	private static final String XSCHEMA = "branching-process.xsd"; //$NON-NL-1$
 
 	/** Informations graphiques pour la place */
 	private static final int CONDITION_WIDTH = 16;
@@ -25,7 +26,7 @@ public class PrefixNets extends Formalism {
 	private static final int CUTOFF_HEIGHT = 8;
 
 	public PrefixNets() {
-		super(NAME, IMG, EXTENSION);
+		super(NAME, IMG, EXTENSION, XSCHEMA);
 
 		int i = 1;
 
@@ -45,7 +46,7 @@ public class PrefixNets extends Formalism {
 		 */
 
 		// Condition
-		ElementBase elt = new NodeFormalism("condition", Messages.PrefixNets_6, this, INodeGraphicInfo.FIG_CIRCLE, CONDITION_WIDTH, CONDITION_HEIGHT, false); //$NON-NLS-1$
+		ElementFormalism elt = new NodeFormalism("condition", Messages.PrefixNets_6, this, INodeGraphicInfo.FIG_CIRCLE, CONDITION_WIDTH, CONDITION_HEIGHT, false); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.L2, true, true)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
