@@ -12,9 +12,12 @@ public class Formalism {
 
 	/** Nom de l'extension du fichier dans lequel on enregistrera le formalisme */
 	private String extension;
+	
+	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
+	private String xschema;
 
 	/** Liste des elements de base du formalisme. */
-	private ArrayList<ElementBase> listOfElementBase;
+	private ArrayList<ElementFormalism> listOfElementBase;
 
 	/** Liste des attributs propres a un formalisme. */
 	private ArrayList<AttributeFormalism> listOfAttributeFormalism;
@@ -32,11 +35,12 @@ public class Formalism {
 	 * @param formalismImg Nom du fichier de l'image
 	 * @param formalismExtension Extension associee au formalisme
 	 */
-	public Formalism(String formalismName, String formalismImg, String formalismExtension) {
+	public Formalism(String formalismName, String formalismImg, String formalismExtension, String formalismXschema) {
 		this.imageName = formalismImg;
 		this.name = formalismName;
 		this.extension = formalismExtension;
-		this.listOfElementBase = new ArrayList<ElementBase>();
+		this.xschema = formalismXschema;
+		this.listOfElementBase = new ArrayList<ElementFormalism>();
 		this.listOfRules = new ArrayList<Rule>();
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
 	}
@@ -47,7 +51,7 @@ public class Formalism {
 	 * @param elemOut Element de base en sortie de l'arc
 	 * @return boolean
 	 */
-	public final boolean isLinkAllowed(ElementBase elemIn, ElementBase elemOut) {
+	public final boolean isLinkAllowed(ElementFormalism elemIn, ElementFormalism elemOut) {
 		for (Rule r : listOfRules) {
 			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
 				return false;
@@ -62,7 +66,7 @@ public class Formalism {
 	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
 	 */
 	public final NodeFormalism getNodeFormalism(String typeElt) {
-		for (ElementBase elt : listOfElementBase) {
+		for (ElementFormalism elt : listOfElementBase) {
 			if (typeElt.equals(elt.getName())) {
 				return (NodeFormalism) elt;
 			}
@@ -75,8 +79,8 @@ public class Formalism {
 	 * @param name du Node que l'on cherche.
 	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
 	 */
-	public final ElementBase getArcFormalism(String typeElt) {
-		for (ElementBase elt : listOfElementBase) {
+	public final ElementFormalism getArcFormalism(String typeElt) {
+		for (ElementFormalism elt : listOfElementBase) {
 			if (typeElt.equals(elt.getName())) {
 				return (ArcFormalism) elt;
 			}
@@ -89,7 +93,7 @@ public class Formalism {
 	 * Ajout d'un element de base a l'interieur du formalisme.
 	 * @param baseElement Element de base a ajouter.
 	 */
-	public final void addElementBase(ElementBase baseElement) {
+	public final void addElementBase(ElementFormalism baseElement) {
 		if (baseElement == null) {
 			return;
 		}
@@ -122,7 +126,7 @@ public class Formalism {
 	 * Retourne la liste des elements de base attache au formalisme
 	 * @return ArrayList
 	 */
-	public final ArrayList<ElementBase> getListOfElementBase() {
+	public final ArrayList<ElementFormalism> getListOfElementBase() {
 		return listOfElementBase;
 	}
 
@@ -156,5 +160,13 @@ public class Formalism {
 	 */
 	public final String getExtension() {
 		return extension;
+	}
+	
+	/**
+	 * Retourne l'adresse du xschema a utliser pour la validation
+	 * @return String
+	 */
+	public final String getSchema() {
+		return xschema;
 	}
 }
