@@ -26,7 +26,7 @@ public class PartFactory implements EditPartFactory {
 	public final EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
 
-		// Si l'elemen est nul... Probleme
+		// Si l'element est nul... Probleme
 		if (modelElement == null) {
 			Coloane.getLogger().warning("L'element est nul : La factory ne peut rien produire"); //$NON-NLS-1$
 		} else {

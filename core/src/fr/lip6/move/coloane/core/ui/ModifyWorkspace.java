@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ import org.eclipse.ui.ide.IDE;
 public class ModifyWorkspace extends WorkspaceModifyOperation {
 
 	private IFile file;
-	private IModel model;
+	private IModelImpl model;
 	private IWorkbenchWindow window;
 
 	/**
@@ -32,7 +32,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	 * @param file Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
 	 * @param model Le modele a sauvegarder (modele generique)
 	 */
-	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IModel m) {
+	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IModelImpl m) {
 		this.file = f;
 		this.model = m;
 		this.window = w;
@@ -46,7 +46,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
 		// Traduction du modele au format xml
-		String xmlString = XmlEditor.translateToXML(model);
+		String xmlString = ModelWriter.translateToXML(model);
 
 		// Creation de l'input stream a partir d'une chaine de caractere
 		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
@@ -59,7 +59,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 				file.setContents(inputS, true, false, monitor);
 			}
 		} catch (CoreException e) {
-			Coloane.getLogger().warning(Messages.ModifyWorkspace_0);
+			Coloane.getLogger().warning(ColoaneMessages.ModifyWorkspace_0);
 		}
 
 		// Affichage du nouveau modele dans un nouvel onglet
