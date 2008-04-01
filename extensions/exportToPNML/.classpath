@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.emf.common_2.3.0.v200709252135.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.emf.ecore_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="/home/mchaouki/workspace_Coloane/Simple_PNML_Release/fr.lip6.move.pnml_cpnami/fr.lip6.move.pnml.cpnami_1.2.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
