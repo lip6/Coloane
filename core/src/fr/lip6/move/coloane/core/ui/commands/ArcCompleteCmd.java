@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
@@ -23,7 +23,7 @@ public class ArcCompleteCmd extends Command {
 	private final INodeImpl target;
 
 	/** Element de base du formalisme (arc) */
-	private final ElementBase formalism;
+	private final ElementFormalism formalism;
 
 	/** L'arc */
 	private IArcImpl arc;
@@ -34,7 +34,7 @@ public class ArcCompleteCmd extends Command {
 	 * @param target noeud cible
 	 * @param base elementBase
 	 */
-	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementBase arcFormalism) {
+	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism arcFormalism) {
 		this.source = arcSource;
 		this.target = arcTarget;
 		this.formalism = arcFormalism;
