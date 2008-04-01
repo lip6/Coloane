@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Rule;
@@ -15,6 +15,7 @@ public class PetriNets extends Formalism {
 	private static final String NAME = "AMI-Net"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
 	private static final String EXTENSION = "petri"; //$NON-NLS-1$
+	private static final String XSCHEMA = "ami-net.xsd"; //$NON-NL-1$
 
 	private static final int PLACE_WIDTH = 16;
 	private static final int PLACE_HEIGHT = 16;
@@ -27,7 +28,7 @@ public class PetriNets extends Formalism {
 	 * Constructeur du formalisme
 	 */
 	public PetriNets() {
-		super(NAME, IMG, EXTENSION);
+		super(NAME, IMG, EXTENSION, XSCHEMA);
 		int i = 1;
 
 		addAttributeFormalism(new AttributeFormalism(i++, "declaration", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
@@ -52,7 +53,7 @@ public class PetriNets extends Formalism {
 		i = 1;
 
 		// La place:
-		ElementBase elt = new NodeFormalism("place", Messages.PetriNets_13, this, INodeGraphicInfo.FIG_CIRCLE, PLACE_WIDTH, PLACE_HEIGHT, false); //$NON-NLS-1$
+		ElementFormalism elt = new NodeFormalism("place", Messages.PetriNets_13, this, INodeGraphicInfo.FIG_CIRCLE, PLACE_WIDTH, PLACE_HEIGHT, false); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "domain", IAttributeGraphicInfo.L2, true, true)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
