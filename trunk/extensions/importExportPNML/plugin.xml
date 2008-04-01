@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extension.importExportPNML.exportToPNML.ExportToImpl"
+            id="importExportPNML"
+            name="PNML">
+      </Export>
+   </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.imports">
+      <Import
+            class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImlp"
+            id="importExportPNML"
+            name="PNML">
+      </Import>
+   </extension>
+
+</plugin>
