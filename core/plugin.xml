@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   <extension-point id="exports" name="Exports" schema="schema/exports.exsd"/>
+   <extension-point id="imports" name="Imports" schema="schema/imports.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -78,19 +80,21 @@
             label="%FILEACTIONS_ID"
             visible="true">
          <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportExportCAMI"
-               icon="resources/icons/import_wiz.gif"
-               id="cami_import"
-               label="%IMPORT_ITEM"
-               menubarPath="file/import.ext"
-               style="push"/>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportExportCAMI"
+               class="fr.lip6.move.coloane.core.ui.actions.ExportTo"
                icon="resources/icons/export_wiz.gif"
-               id="cami_export"
-               label="%EXPORT_ITEM"
+               id="exportTo"
+               label="%EXPORT_TO_ITEM"
                menubarPath="file/import.ext"
-               style="push"/>
+               style="push">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.ImportFrom"
+               icon="resources/icons/import_wiz.gif"
+               id="importFrom"
+               label="%IMPORT_FROM_ITEM"
+               menubarPath="file/import.ext"
+               style="push">
+         </action>
       </actionSet>
    </extension>
     <extension
