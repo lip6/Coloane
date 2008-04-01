@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
@@ -162,7 +162,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 				INodeImpl source = (INodeImpl) getHost().getModel();
 
 				// Demande la creation d'un arc (1ere etape)
-				ArcCreateCmd cmd = new ArcCreateCmd(source, (ElementBase) request.getNewObjectType());
+				ArcCreateCmd cmd = new ArcCreateCmd(source, (ElementFormalism) request.getNewObjectType());
 				request.setStartCommand(cmd);
 				return cmd;
 			}
