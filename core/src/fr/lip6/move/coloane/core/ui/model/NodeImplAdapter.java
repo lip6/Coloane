@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -33,7 +33,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	private INodeGraphicInfo graphicInfo;
 
 	/** Element de base du formalisme associe au noeud */
-	private ElementBase elementBase;
+	private ElementFormalism elementBase;
 
 	/** Liste des arcs sortants */
 	private List<IArcImpl> sourceArcs = new ArrayList<IArcImpl>();
@@ -49,7 +49,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * @param node le noeud generique a adapter pour le module
 	 * @param base L'element de base du formalisme
 	 */
-	public NodeImplAdapter(INode n, ElementBase b) {
+	public NodeImplAdapter(INode n, ElementFormalism b) {
 		super();
 
 		this.elementBase = b;	// Element de base du formalisme
@@ -67,7 +67,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * Creation d'un noeud a partir d'un element de formalisme
 	 * @param base Element de base du formalisme
 	 */
-	public NodeImplAdapter(ElementBase base) {
+	public NodeImplAdapter(ElementFormalism base) {
 		super();
 
 		// Element de base du formalisme
@@ -318,7 +318,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getElementBase()
 	 */
-	public final ElementBase getElementBase() {
+	public final ElementFormalism getElementBase() {
 		return elementBase;
 	}
 
@@ -377,6 +377,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
 	 */
+	@SuppressWarnings("unchecked")
 	public final Collection getContextMenus() {
 		return null;
 	}

@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Arc;
@@ -42,7 +42,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	private IArcGraphicInfo graphicInfo;
 
 	/** Element de base du formalisme associe au noeud */
-	private ElementBase elementBase;
+	private ElementFormalism elementBase;
 
 	/** Le modele augemente qui contient cet arc augemente */
 	private IModelImpl modelAdapter;
@@ -56,7 +56,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * @param base Element de base du formalisme
 	 * @throws BuildException
 	 */
-	public ArcImplAdapter(IArc arc, INodeImpl arcSource, INodeImpl arcTarget, ElementBase base) throws BuildException {
+	public ArcImplAdapter(IArc arc, INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
 		this.elementBase = base;
 		this.genericArc = arc;
 		this.source = arcSource;
@@ -81,7 +81,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * @param base Element de base du formalisme
 	 * @throws BuildException
 	 */
-	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementBase base) throws BuildException {
+	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
 		this.elementBase = base;
 		this.source = arcSource;
 		this.target = arcTarget;
@@ -186,7 +186,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getElementBase()
 	 */
-	public final ElementBase getElementBase() {
+	public final ElementFormalism getElementBase() {
 		return elementBase;
 	}
 
@@ -245,6 +245,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
 	 */
+	@SuppressWarnings("unchecked")
 	public final Collection getContextMenus() {
 		return null;
 	}

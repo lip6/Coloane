@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -117,7 +117,7 @@ public interface INodeImpl {
 	 * Retourne l'element de base du noeud
 	 * @return L'element de base du noeud
 	 */
-	ElementBase getElementBase();
+	ElementFormalism getElementBase();
 
 	/**
 	 * Retourne la valeur de l'attribut designe par le parametre
@@ -144,6 +144,7 @@ public interface INodeImpl {
 	 * Retourner le menu contextuel associe au noeud
 	 * @return Collection
 	 */
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**
