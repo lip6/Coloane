@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.api.exceptions.CommunicationCloseException;
 import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 /**
