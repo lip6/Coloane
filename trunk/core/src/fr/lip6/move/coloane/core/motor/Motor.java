@@ -366,9 +366,9 @@ public final class Motor implements IMotorCom, IMotorUi {
 		try {
 			Formalism f;
 			if (model.getFormalism() != null) {
-				f = getFormalismManager().loadFormalism(model.getFormalism());
+				f = getFormalismManager().getFormalismByName(model.getFormalism());
 			} else {
-				f = getFormalismManager().loadFormalism("ReachabilityGraph");
+				f = getFormalismManager().getFormalismByName("ReachabilityGraph");
 			}
 			modelImpl = new ModelImplAdapter(model, f); //$NON-NLS-1$
 		} catch (BuildException e) {
