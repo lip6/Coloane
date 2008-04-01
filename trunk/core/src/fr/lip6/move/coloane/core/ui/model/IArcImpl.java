@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
@@ -45,6 +45,7 @@ public interface IArcImpl {
 	 * Retourne l'attribut ContextMenus
 	 * @return Collection
 	 */
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**
@@ -154,7 +155,7 @@ public interface IArcImpl {
 	 * Retourne l'element de base de l'arc
 	 * @return L'element de base de l'arc
 	 */
-	ElementBase getElementBase();
+	ElementFormalism getElementBase();
 
 	/**
 	 * Demande la mise en valeur des attributs attaches a l'objet

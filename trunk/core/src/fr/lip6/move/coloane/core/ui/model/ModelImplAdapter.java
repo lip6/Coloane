@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
@@ -81,7 +81,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.genericModel.getListOfNodeSize(); i++) {
 			INode currentNode = this.genericModel.getNthNode(i);
-			INodeImpl node = new NodeImplAdapter(currentNode, (ElementBase) this.formalism.getNodeFormalism(currentNode.getNodeType()));
+			INodeImpl node = new NodeImplAdapter(currentNode, (ElementFormalism) this.formalism.getNodeFormalism(currentNode.getNodeType()));
 			node.setModelAdapter(this);
 			this.children.add((IElement) node);
 		}
