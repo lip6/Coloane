@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalism;
 /**
  * Formalisme associe a un arc
  */
-public class ArcFormalism extends ElementBase {
+public class ArcFormalism extends ElementFormalism {
 	/** Constante representant le dessin d'une fleche au bout de l'arc. */
 	public static final int NOTHING = 0;
 
