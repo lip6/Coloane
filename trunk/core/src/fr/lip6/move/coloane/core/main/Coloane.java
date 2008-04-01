@@ -11,8 +11,6 @@ import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -99,14 +97,6 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	public static Coloane getDefault() {
 		return plugin;
-	}
-
-	/**
-	 * Permet de recuperer le workspace
-	 * @return le workspace
-	 */
-	public static IWorkspace getWorkspace() {
-		return ResourcesPlugin.getWorkspace();
 	}
 
 	/**
