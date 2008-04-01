@@ -6,10 +6,10 @@ package fr.lip6.move.coloane.core.motor.formalism;
 public class Rule {
 
 	/** Element en entree de l'arc. */
-	private ElementBase elementIn;
+	private ElementFormalism elementIn;
 
 	/** Element en sortie de l'arc. */
-	private ElementBase elementOut;
+	private ElementFormalism elementOut;
 
 	/**
 	 * Constructeur
@@ -17,7 +17,7 @@ public class Rule {
 	 * @param eltIn Element en entree
 	 * @param eltOut Element en Sortie
 	 */
-	public Rule(ElementBase eltIn, ElementBase eltOut) {
+	public Rule(ElementFormalism eltIn, ElementFormalism eltOut) {
 		this.elementIn = eltIn;
 		this.elementOut = eltOut;
 	}
@@ -25,18 +25,18 @@ public class Rule {
 	/**
 	 * Retourne l'element en entree de l'arc.
 	 * @return ElementBase
-	 * @see ElementBase
+	 * @see ElementFormalism
 	 */
-	public final ElementBase getElementIn() {
+	public final ElementFormalism getElementIn() {
 		return elementIn;
 	}
 
 	/**
 	 * Retourne l'element en sortie de l'arc.
 	 * @return ElementBase
-	 * @see ElementBase
+	 * @see ElementFormalism
 	 */
-	public final ElementBase getElementOut() {
+	public final ElementFormalism getElementOut() {
 		return elementOut;
 	}
 }

@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalism;
 /**
  * Formalisme d'un Noeud
  */
-public class NodeFormalism extends ElementBase {
+public class NodeFormalism extends ElementFormalism {
 
 	/**
 	 * Constructeur
