@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.Editor;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.ModifyWorkspace;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
@@ -48,7 +48,7 @@ public class SaveReceivedModel implements Runnable {
 
 		// Ouverture de la boite de dialogue
 		if (d.open() == IDialogConstants.OK_ID) {
-			IPath path = ((Editor) window.getActivePage().getActiveEditor()).getCurrentPath();
+			IPath path = ((ColoaneEditor) window.getActivePage().getActiveEditor()).getCurrentPath();
 
 			// Manipulation du path (pour ajout de l'extension du nouveu formalisme)
 			path = path.removeFileExtension();
@@ -93,7 +93,7 @@ public class SaveReceivedModel implements Runnable {
 
 			try {
 				// Sauvegarde effective et affichage dans un nouvel onglet
-				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.model.getGenericModel()));
+				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.model));
 			} catch (Exception e) {
 				Coloane.showErrorMsg(e.getMessage());
 				e.printStackTrace();
