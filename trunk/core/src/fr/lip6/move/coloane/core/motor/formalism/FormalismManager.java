@@ -47,21 +47,6 @@ public class FormalismManager {
 	}
 
 	/**
-	 * Charger un formalisme a partir de son nom
-	 * @param formalismName Nom du formalisme
-	 * @return Formalism Le formalisme souhaite ou null si le formalisme n'existe pas
-	 * @see Formalism
-	 */
-	public final Formalism loadFormalism(String formalismName) {
-		for (Formalism form : listOfFormalisms) {
-			if (formalismName.equalsIgnoreCase(form.getName())) {
-				return form;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Cette methode retourne un formalisme a partir d'une extension utilisee lors de la sauvegarde d'un modele
 	 * @param extension Extension recherchee
 	 * @return Formalism
@@ -69,6 +54,20 @@ public class FormalismManager {
 	public final Formalism getFormalismByExtension(String extension) {
 		for (Formalism form : listOfFormalisms) {
 			if (extension.equals(form.getExtension())) {
+				return form;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Cette methode retourne un formalisme a partir de son nom
+	 * @param name Le nom du formalism qu'on cherche
+	 * @return Formalism
+	 */
+	public final Formalism getFormalismByName(String name) {
+		for (Formalism form : listOfFormalisms) {
+			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;
 			}
 		}
@@ -91,7 +90,7 @@ public class FormalismManager {
 	 */
 	public final IModelImpl importModel(String fileName) throws ColoaneException {
 
-		// Determination du formalism avec l'extension
+		// Determination du formalisme avec l'extension
 		StringTokenizer file = new StringTokenizer(fileName, "."); //$NON-NLS-1$
 		String fext = file.nextToken(); // Debut du nom
 		fext = file.nextToken(); // Extension
