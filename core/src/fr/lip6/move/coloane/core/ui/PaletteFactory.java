@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementBase;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
 import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
@@ -60,13 +60,13 @@ public final class PaletteFactory {
 	private static PaletteContainer createShapesNodeDrawer(Formalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
-		PaletteDrawer componentsNodeDrawer = new PaletteDrawer(Messages.PaletteFactory_4);
+		PaletteDrawer componentsNodeDrawer = new PaletteDrawer(ColoaneMessages.PaletteFactory_4);
 
 		// Liste des elements de bases associes au formalisme
 		CombinedTemplateCreationEntry component; // Un element de la palette
 
 		// Parcours de la liste des elements de base associe au formalisme
-		for (final ElementBase element : formalism.getListOfElementBase()) {
+		for (final ElementFormalism element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
 			if (element instanceof NodeFormalism) {
@@ -95,13 +95,13 @@ public final class PaletteFactory {
 	private static PaletteContainer createShapesArcDrawer(Formalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
-		PaletteDrawer componentsArcDrawer = new PaletteDrawer(Messages.PaletteFactory_5);
+		PaletteDrawer componentsArcDrawer = new PaletteDrawer(ColoaneMessages.PaletteFactory_5);
 
 		// Liste des elements de base du formalisme
 		ConnectionCreationToolEntry component; /* Un element de la palette */
 
 		// Parcours de la liste des elements de base
-		for (final ElementBase element : formalism.getListOfElementBase()) {
+		for (final ElementFormalism element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un arc
 			if (element instanceof ArcFormalism) {
@@ -126,7 +126,7 @@ public final class PaletteFactory {
 	 * @return PaletteContainer
 	 */
 	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
-		PaletteGroup toolGroup = new PaletteGroup(Messages.PaletteFactory_6);
+		PaletteGroup toolGroup = new PaletteGroup(ColoaneMessages.PaletteFactory_6);
 
 		// Outil de selection d'un objet
 		ToolEntry tool = new PanningSelectionToolEntry();

@@ -5,8 +5,11 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 /**
-* Class principal for CPN-AMI Perspective
-*
+* Classe decrivantt la configuration de la perspective Coloane
+* <ul>
+* 	<li>Description des vues</li>
+* 	<li>Positionnement des vues</li>
+* </ul>
 */
 
 public class MainPerspectiveFactory implements IPerspectiveFactory {
@@ -23,7 +26,6 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	/** ID for wizard */
 	public static final String PROJECT_WIZARD = "fr.lip6.move.coloane.wizard.projectWizard"; //$NON-NLS-1$
 	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard"; //$NON-NLS-1$
-
 
 	/**
 	 * Creation du plan de travail
@@ -57,7 +59,6 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
-
 	}
 
 	/**
@@ -85,5 +86,4 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		bottom.addView(RESULTS_VIEW);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
 	}
-
 }
