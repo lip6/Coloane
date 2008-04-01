@@ -2,10 +2,7 @@ package fr.lip6.move.coloane.core.ui.wizards;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.core.ui.XmlEditor;
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
+import fr.lip6.move.coloane.core.ui.ModelWriter;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -67,9 +64,9 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
 
-		// Recupere le nom du formalisme deceide la page precedente
+		// Recupere le nom du formalisme decide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		setFileName(getFileName() + "." + formManager.loadFormalism(formalismName).getExtension()); //$NON-NLS-1$
+		setFileName(getFileName() + "." + formManager.getFormalismByName(formalismName).getExtension()); //$NON-NLS-1$
 
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
@@ -102,23 +99,16 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 */
 	@Override
 	protected final InputStream getInitialContents() {
-
-		// InputStream a retourner
-		InputStream inputS = null;
-
-		// Nouveau model
-		IModel model = new Model(new CamiTranslator());
-
-		// Formalisme choisi
+		// Formalisme choisi par l'utilisateur dans la boite de dialogue
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
+		Coloane.getLogger().fine("Choix du formalisme : "+formalismName);
 
-		model.setFormalism(formalismName);
-
-		// Traduction du modele au format xml
-		String xmlString = XmlEditor.translateToXML(model);
+		// Creation du fihier sous-jacent par defaut
+		Coloane.getLogger().fine("Creation du fichier sous-jacent");
+		String xmlString = ModelWriter.createDefault(formalismName);
 
 		// Creation de l'input stream a partir d'une chaine de caractere
-		inputS = new ByteArrayInputStream(xmlString.getBytes());
+		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
 		return inputS;
 	}

@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.core.ui.Editor;
-import fr.lip6.move.coloane.core.ui.XmlEditor;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
+import fr.lip6.move.coloane.core.ui.ModelWriter;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 import java.io.ByteArrayInputStream;
@@ -58,13 +58,13 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 		// Pour l'export
 		if (ACT_EXPORT.equalsIgnoreCase(action.getId())) {
 
-			if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
+			if (!(window.getActivePage().getActiveEditor() instanceof ColoaneEditor)) {
 				Coloane.showErrorMsg(Messages.ImportExportCAMI_0);
 				return;
 			}
 
 			// Recupere le modele courant
-			Editor editor = (Editor) window.getActivePage().getActiveEditor();
+			ColoaneEditor editor = (ColoaneEditor) window.getActivePage().getActiveEditor();
 
 			// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 			// On demande la sauvegarde a l'utilisateur
@@ -120,7 +120,7 @@ public class ImportExportCAMI implements IWorkbenchWindowActionDelegate {
 								IModelImpl model = fm.importModel(filePath);
 
 								// traduction du modele au format xml
-								String xmlString = XmlEditor.translateToXML(model.getGenericModel());
+								String xmlString = ModelWriter.translateToXML(model);
 								InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
 								try {
