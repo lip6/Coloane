@@ -8,7 +8,7 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
 /**
  * Un ecouteur pour la palette<br>
  * Cet ecouteur permet de detecter l'outil en cours d'utilisation.
- * @see Editor#createPaletteViewerProvider()
+ * @see ColoaneEditor#createPaletteViewerProvider()
  */
 public class PaletteToolListener implements PaletteListener {
 
