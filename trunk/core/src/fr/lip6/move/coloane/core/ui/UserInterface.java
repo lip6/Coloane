@@ -185,7 +185,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 
 
 			if ((serviceName == "") || (result == null)) { //$NON-NLS-1$
-				labelService = Messages.UserInterface_1;
+				labelService = ColoaneMessages.UserInterface_1;
 				r = new ResultsList(labelService);
 				String  description = ""; //$NON-NLS-1$
 				String object = ""; //$NON-NLS-1$
