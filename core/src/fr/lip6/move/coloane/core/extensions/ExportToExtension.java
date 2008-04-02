@@ -11,21 +11,24 @@ public class ExportToExtension {
 	 * Attributs du point d'extension 'exports'
 	 */
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.exports";
-	private static final String NAME_EXTENSION = "name";
+	private static final String WIZREF_EXTENSION = "reference";
 	private static final String CLASS_EXTENSION = "class";
+	private static final String EXT_EXTENSION = "extension";
+	
 	
 	/**
-	 * Consulte le registre des extensions pour trouver les contributions au point d'extension 'EXTENSION_POINT_ID'
-	 * et recupere la valeur de l'attribut 'NAME_EXTENSION' de chaque extension.
-	 * @return le tableau des noms des convertiseurs presents
+	 * Consulte le registre des extensions pour trouver l'extension de fichier associee au wizard invoque
+	 * @param ref La reference du wizard
+	 * @return L'extension de fichier sous forme de chaine de caracteres (ou null)
 	 */
-	public static String[] getAllNameExtensionConvert(){		
+	public static String findExtension(String ref) {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		String[] nomsConvertiseurs = new String[contributions.length];
 		for (int i = 0; i < contributions.length; i++) {
-			nomsConvertiseurs[i] = contributions[i].getAttribute(NAME_EXTENSION);
+			if(contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
+				return contributions[i].getAttribute(EXT_EXTENSION);
+			}
 		}
-		return nomsConvertiseurs;
+		return null;		
 	}
 	
 	/**
@@ -34,20 +37,20 @@ public class ExportToExtension {
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */
-	public static IExportTo createConvertInstance(String nomConvertiseur) throws CoreException{
+	public static IExportTo createConvertInstance(String ref) throws CoreException{
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		IConfigurationElement extensionConvertiseur = null;
+		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {
-			if(contributions[i].getAttribute(NAME_EXTENSION).equals(nomConvertiseur)) {
-				extensionConvertiseur = contributions[i];
+			if(contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
+				convertContribution = contributions[i];
 				break;
 			}
 		}
 		
-		IExportTo convertiseur = null;
-		if(extensionConvertiseur != null) {
-			convertiseur = (IExportTo)extensionConvertiseur.createExecutableExtension(CLASS_EXTENSION);
+		IExportTo convertInstance = null;
+		if(convertContribution != null) {
+			convertInstance = (IExportTo)convertContribution.createExecutableExtension(CLASS_EXTENSION);
 		}
-		return convertiseur;
+		return convertInstance;
 	}
 }
