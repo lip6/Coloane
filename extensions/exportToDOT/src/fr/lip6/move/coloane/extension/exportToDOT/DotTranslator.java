@@ -423,12 +423,11 @@ public class DotTranslator {
 	 */
 	public final void saveModel(Vector<String> model, String fileName)throws ColoaneException {
 		// Creation du fichier
-		String ext = "dot";
 		FileOutputStream wr;
 		try {
-			wr = new FileOutputStream(new File(fileName + "." + ext)); //$NON-NLS-1$
+			wr = new FileOutputStream(new File(fileName)); //$NON-NLS-1$
 		} catch (FileNotFoundException e1) {
-			throw new ColoaneException(Messages.FormalismManager_7 + fileName + "." + ext); //$NON-NLS-2$
+			throw new ColoaneException(Messages.FormalismManager_7 + fileName); //$NON-NLS-2$
 		}
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
 
