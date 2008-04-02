@@ -5,17 +5,27 @@
          point="fr.lip6.move.coloane.core.exports">
       <Export
             class="fr.lip6.move.coloane.extension.importExportCAMI.exportToCAMI.ExportToImpl"
-            id="importExportCAMI"
-            name="CAMI">
+            extension="cami"
+            id="fr.lip6.move.coloane.extensions.exportcami"
+            reference="fr.lip6.move.coloane.wizard.export.cami">
       </Export>
    </extension>
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
             class="fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI.ImportFromImpl"
-            id="importExportCAMI"
-            name="CAMI">
+            id="fr.lip6.move.coloane.extensions.importcami"
+            name="Import CAMI">
       </Import>
+   </extension>
+   <extension
+   		 point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
+            id="fr.lip6.move.coloane.wizard.export.cami"
+            name="Cami File">
+      </wizard>
    </extension>
 
 </plugin>
