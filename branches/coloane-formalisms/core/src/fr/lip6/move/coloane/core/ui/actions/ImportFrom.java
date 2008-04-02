@@ -22,7 +22,7 @@ import org.eclipse.ui.ide.IDE;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.XmlEditor;
+import fr.lip6.move.coloane.core.ui.ModelWriter;
 import fr.lip6.move.coloane.core.ui.dialogs.ImportFromDialog;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
@@ -88,7 +88,7 @@ public class ImportFrom implements IWorkbenchWindowActionDelegate {
 								
 								
 								// traduction du modele au format xml
-								String xmlString = XmlEditor.translateToXML(model.getGenericModel());
+								String xmlString = ModelWriter.translateToXML(model);
 								InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
 								try {
