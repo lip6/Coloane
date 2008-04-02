@@ -158,17 +158,12 @@ public class FormalismManager {
 			throw new ColoaneException(Messages.FormalismManager_5);
 		}
 
-		// Extention du formalism
-		String ext = modelAdapter.getFormalism().getExtension();
-		if (ext == null) {
-			throw new ColoaneException(Messages.FormalismManager_6);
-		}
 		// Creation du fichier
 		FileOutputStream wr;
 		try {
-			wr = new FileOutputStream(new File(fileName + "." + ext)); //$NON-NLS-1$
+			wr = new FileOutputStream(new File(fileName)); //$NON-NLS-1$
 		} catch (FileNotFoundException e1) {
-			throw new ColoaneException(Messages.FormalismManager_7 + fileName + "." + ext); //$NON-NLS-2$
+			throw new ColoaneException(Messages.FormalismManager_7 + fileName); //$NON-NLS-2$
 		}
 		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
 
