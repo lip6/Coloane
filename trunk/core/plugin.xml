@@ -75,27 +75,6 @@
                tooltip="%AUTHENTICATION_TIP">
          </action>
       </actionSet>
-      <actionSet
-            id="fr.lip6.move.coloane.actionSet.file"
-            label="%FILEACTIONS_ID"
-            visible="true">
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.ExportTo"
-               icon="resources/icons/export_wiz.gif"
-               id="exportTo"
-               label="%EXPORT_TO_ITEM"
-               menubarPath="file/import.ext"
-               style="push">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.ImportFrom"
-               icon="resources/icons/import_wiz.gif"
-               id="importFrom"
-               label="%IMPORT_FROM_ITEM"
-               menubarPath="file/import.ext"
-               style="push">
-         </action>
-      </actionSet>
    </extension>
     <extension
           id="views"
@@ -157,7 +136,10 @@
              name="%MODEL_WIZARD"
              project="false"/>
     </extension>
-	<extension point="org.eclipse.ui.preferencePages">
+	<extension
+       id="preferencePages"
+       name="Coloane&apos;s Preference Pages"
+       point="org.eclipse.ui.preferencePages">
         <page id="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
                 name="Coloane"
                 class="fr.lip6.move.coloane.core.ui.dialogs.ColoanePrefsPage">
@@ -169,4 +151,13 @@
         </page>
     
 	</extension>
+ <extension
+       id="exportWizards"
+       name="Coloane&apos;s Wizards for Export"
+       point="org.eclipse.ui.exportWizards">
+    <category
+          id="fr.lip6.move.coloane.wizard.export.coloane"
+          name="Coloane">
+    </category>
+ </extension>
 </plugin>
