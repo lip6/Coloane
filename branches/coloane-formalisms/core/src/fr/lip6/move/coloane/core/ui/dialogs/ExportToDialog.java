@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IFileEditorInput;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
-import fr.lip6.move.coloane.core.ui.Editor;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 
 public class ExportToDialog extends Dialog {
 	/**
@@ -26,7 +26,7 @@ public class ExportToDialog extends Dialog {
 	private String format;
 	private String filePath;
 	//private String fileName;
-	private Editor editor;
+	private ColoaneEditor editor;
 	
 	/**
 	 * Composants servant a recuperer le format dans lequel exporter
@@ -44,7 +44,7 @@ public class ExportToDialog extends Dialog {
 	
 	
 
-	public ExportToDialog(Shell parentShell,Editor editor) {
+	public ExportToDialog(Shell parentShell,ColoaneEditor editor) {
 		super(parentShell);
 		this.editor = editor;
 		// TODO Auto-generated constructor stub
