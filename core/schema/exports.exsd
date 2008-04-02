@@ -6,7 +6,7 @@
          <meta.schema plugin="fr.lip6.move.coloane.core" id="exports" name="Exports"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Extension point to add export processes
       </documentation>
    </annotation>
 
@@ -51,7 +51,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="name" type="string" use="required">
+         <attribute name="reference" type="string" use="required">
             <annotation>
                <documentation>
                   
@@ -66,6 +66,13 @@
                <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.interfaces.IExportTo"/>
                </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="extension" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
