@@ -9,8 +9,7 @@ public class ExportToImpl implements IExportTo {
 
 	public ExportToImpl() {}
 
-	public void export(IModelImpl modeleCourant, String filePath)
-			throws ColoaneException {
+	public void export(IModelImpl modeleCourant, String filePath) throws ColoaneException {
 		// Creation du gestionnaire de formalism en charge de l'export
 		FormalismManager fm = new FormalismManager();
 		
