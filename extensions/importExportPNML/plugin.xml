@@ -5,17 +5,27 @@
          point="fr.lip6.move.coloane.core.exports">
       <Export
             class="fr.lip6.move.coloane.extension.importExportPNML.exportToPNML.ExportToImpl"
-            id="importExportPNML"
-            name="PNML">
+            extension="pnml"
+            id="fr.lip6.move.coloane.extensions.exportpnml"
+            reference="fr.lip6.move.coloane.wizard.export.pnml">
       </Export>
    </extension>
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
             class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImlp"
-            id="importExportPNML"
-            name="PNML">
+            id="fr.lip6.move.coloane.extensions.exportpnml"
+            name="Import PNML">
       </Import>
+   </extension>
+      <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
+            id="fr.lip6.move.coloane.wizard.export.pnml"
+            name="Pnml File">
+      </wizard>
    </extension>
 
 </plugin>
