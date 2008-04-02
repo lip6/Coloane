@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 import fr.lip6.move.coloane.core.interfaces.IExportTo;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.Editor;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.dialogs.ExportToDialog;
 
 public class ExportTo implements IWorkbenchWindowActionDelegate {
@@ -35,13 +35,13 @@ public class ExportTo implements IWorkbenchWindowActionDelegate {
 		Shell shell = window.getShell();
 		
 		// Verification si on est dans un Editor
-		if (!(window.getActivePage().getActiveEditor() instanceof Editor)) {
+		if (!(window.getActivePage().getActiveEditor() instanceof ColoaneEditor)) {
 			Coloane.showErrorMsg(Messages.ImportExportCAMI_0);
 			return;
 		}
 
 		// Recupere le modele courant
-		Editor editor = (Editor) window.getActivePage().getActiveEditor();
+		ColoaneEditor editor = (ColoaneEditor) window.getActivePage().getActiveEditor();
 
 		// Si le modele n'a pas ete sauvegarde... On ne peut pas exporter.
 		// On demande la sauvegarde a l'utilisateur
