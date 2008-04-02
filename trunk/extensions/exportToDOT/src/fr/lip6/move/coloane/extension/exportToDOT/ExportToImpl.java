@@ -8,16 +8,12 @@ import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 public class ExportToImpl implements IExportTo {
 
-	public ExportToImpl() {
-		// TODO Auto-generated constructor stub
-	}
+	public ExportToImpl() {	}
 
-	public void export(IModelImpl modeleCourant, String filePath)
-			throws ColoaneException {
-		// TODO Auto-generated method stub
+	public void export(IModelImpl modeleCourant, String newFilePath) throws ColoaneException {
 		DotTranslator translator = new DotTranslator();
 		Vector<String> model = translator.translateModel(modeleCourant.getGenericModel());
-		translator.saveModel(model, filePath);
+		translator.saveModel(model, newFilePath);
 	}
 
 }
