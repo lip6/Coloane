@@ -23,6 +23,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
+            icon="resources/red_file.png"
             id="fr.lip6.move.coloane.wizard.export.cami"
             name="Cami File">
       </wizard>
