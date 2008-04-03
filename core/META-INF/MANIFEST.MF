@@ -23,4 +23,5 @@ Export-Package: fr.lip6.move.coloane.core.exceptions,
  fr.lip6.move.coloane.core.interfaces,
  fr.lip6.move.coloane.core.main,
  fr.lip6.move.coloane.core.motor.formalism,
- fr.lip6.move.coloane.core.ui.model
+ fr.lip6.move.coloane.core.ui.model,
+ fr.lip6.move.coloane.core.ui.wizards
