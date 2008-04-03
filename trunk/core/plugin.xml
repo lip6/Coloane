@@ -160,4 +160,20 @@
           name="Coloane">
     </category>
  </extension>
+ <extension
+       id="importWizards"
+       name="Coloane&apos;s Wizards for Import"
+       point="org.eclipse.ui.importWizards">
+    <category
+          id="fr.lip6.move.coloane.wizard.import.coloane"
+          name="Coloane">
+    </category>
+    <wizard
+          category="fr.lip6.move.coloane.wizard.import.coloane"
+          class="fr.lip6.move.coloane.core.ui.wizards.ImportWizard"
+          icon="resources/icons/results.gif"
+          id="fr.lip6.move.coloane.core.wizardTest"
+          name="Test Import">
+    </wizard>
+ </extension>
 </plugin>

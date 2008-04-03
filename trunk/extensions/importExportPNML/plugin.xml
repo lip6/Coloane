@@ -15,7 +15,7 @@
       <Import
             class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImlp"
             id="fr.lip6.move.coloane.extensions.exportpnml"
-            name="Import PNML">
+            reference="fr.lip6.move.coloane.wizard.import.pnml">
       </Import>
    </extension>
       <extension
@@ -28,5 +28,15 @@
             name="Pnml File">
       </wizard>
    </extension>
+      <extension
+            point="org.eclipse.ui.importWizards">
+         <wizard
+               category="fr.lip6.move.coloane.wizard.import.coloane"
+               class="fr.lip6.move.coloane.core.ui.wizards.ImportWizard"
+               icon="resources/green_file.png"
+               id="fr.lip6.move.coloane.wizard.import.pnml"
+               name="Pnml File">
+         </wizard>
+      </extension>
 
 </plugin>
