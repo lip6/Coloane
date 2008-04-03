@@ -15,7 +15,7 @@
       <Import
             class="fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importcami"
-            name="Import CAMI">
+            reference="fr.lip6.move.coloane.wizard.import.cami">
       </Import>
    </extension>
    <extension
@@ -25,6 +25,16 @@
             class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
             icon="resources/red_file.png"
             id="fr.lip6.move.coloane.wizard.export.cami"
+            name="Cami File">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.import.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.ImportWizard"
+            icon="resources/red_file.png"
+            id="fr.lip6.move.coloane.wizard.import.cami"
             name="Cami File">
       </wizard>
    </extension>
