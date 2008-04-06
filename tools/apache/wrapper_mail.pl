@@ -150,7 +150,7 @@ while (<USR>) {
 		if ($1 eq "/") { $group = "root"; $path = ""; } else { $group = $1; $path = $2; $path .= "/" if ($2 =~ /^.*[^\/]$/); }
 
 		print OUT "[".$group."]\n";
-		print OUT "for_paths=$path \n";
+		print OUT "for_paths=^$path \n";
 		
 		my $exclude_path; 
 		if ($group eq "root") { $group = "/"; } else { $group = $2; }
