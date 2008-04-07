@@ -50,18 +50,18 @@ public class Session {
 		if (sessionStatus == SessionManager.CONNECTED) {
 			sessionStatus = SessionManager.SUSPENDED;
 		}
-		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$
+		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Resume la session
 	 */
 	protected final void resume() {
-		Coloane.getLogger().finer("Reprise de la session " + sessionName + " (Etat actuel : " + sessionStatus + ")"); //$NON-NLS-1$
+		Coloane.getLogger().finer("Reprise de la session " + sessionName + " (Etat actuel : " + sessionStatus + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if (sessionStatus == SessionManager.SUSPENDED) {
 			sessionStatus = SessionManager.CONNECTED;
 		}
-		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$
+		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

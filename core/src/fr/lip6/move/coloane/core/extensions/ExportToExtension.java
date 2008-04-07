@@ -10,10 +10,10 @@ public class ExportToExtension {
 	/**
 	 * Attributs du point d'extension 'exports'
 	 */
-	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.exports";
-	private static final String WIZREF_EXTENSION = "reference";
-	private static final String CLASS_EXTENSION = "class";
-	private static final String EXT_EXTENSION = "extension";
+	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.exports"; //$NON-NLS-1$
+	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
+	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
+	private static final String EXT_EXTENSION = "extension"; //$NON-NLS-1$
 	
 	
 	/**

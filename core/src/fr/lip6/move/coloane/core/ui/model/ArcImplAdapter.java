@@ -245,7 +245,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public final Collection getContextMenus() {
 		return null;
 	}

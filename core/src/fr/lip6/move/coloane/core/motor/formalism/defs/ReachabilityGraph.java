@@ -14,7 +14,7 @@ public class ReachabilityGraph extends Formalism {
 	private static final String NAME = "ReachabilityGraph"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
 	private static final String EXTENSION = "rg"; //$NON-NLS-1$
-	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NL-1$
+	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NLS-1$
 
 
 	private static final int INITIAL_WIDTH = 16;

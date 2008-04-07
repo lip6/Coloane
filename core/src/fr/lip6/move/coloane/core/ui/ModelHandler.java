@@ -35,7 +35,7 @@ public class ModelHandler extends DefaultHandler {
 		logger.finest("Balise lue : " + baliseName); //$NON-NLS-1$
 
 		// Remise a zero du champs data
-		data = "";
+		data = ""; //$NON-NLS-1$
 
 		// Balise MODEL
 		if (baliseName.equals("model")) { //$NON-NLS-1$

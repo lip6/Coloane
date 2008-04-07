@@ -201,7 +201,7 @@ public class ModelWriter {
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
 		String schema = Motor.getInstance().getFormalismManager().getFormalismByName(formalismName).getSchema();
 		
-		Coloane.getLogger().finer("CHoix du schema de validation : "+schema);
+		Coloane.getLogger().finer("CHoix du schema de validation : "+schema); //$NON-NLS-1$
 		
 		// Ecriture des attributs relatifs au formalisme et positions
 		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='" + schema + "' formalism='" + formalismName + "' xposition='0' yposition='0'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$

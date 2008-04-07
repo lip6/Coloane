@@ -30,9 +30,9 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * @param selection
 	 */
 	protected ExportWizardPage(String pageName, IStructuredSelection selection) {
-		super("FileSystemExportPage", null);
-		setTitle("Export...");
-		setDescription("Export file to a secrete destination");
+		super("FileSystemExportPage", null); //$NON-NLS-1$
+		setTitle(Messages.ExportWizardPage_1);
+		setDescription(Messages.ExportWizardPage_2);
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		destinationSelectionGroup.setFont(font);
 
 		Label destinationLabel = new Label(destinationSelectionGroup, SWT.NONE);
-		destinationLabel.setText("To directory :");
+		destinationLabel.setText(Messages.ExportWizardPage_3);
 		destinationLabel.setFont(font);
 
 		// destination name entry field
@@ -65,7 +65,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 
 		// destination browse button
 		destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
-		destinationBrowseButton.setText("Browse");
+		destinationBrowseButton.setText(Messages.ExportWizardPage_4);
 		destinationBrowseButton.addListener(SWT.Selection, this );
 		setButtonLayoutData(destinationBrowseButton);
 
@@ -88,7 +88,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 */
 	protected void createHeader(Group optionsGroup, Font font) {
 		headerCheckbox = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-		headerCheckbox.setText("Add header to exported files");
+		headerCheckbox.setText(Messages.ExportWizardPage_5);
 		headerCheckbox.setFont(font);
 
 	}
@@ -113,8 +113,8 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 */
 	protected void handleDestinationBrowseButtonPressed() {
 		DirectoryDialog dialog = new DirectoryDialog(getContainer().getShell(), SWT.SAVE);
-		dialog.setMessage("Message1");
-		dialog.setText("Message2");
+		dialog.setMessage(Messages.ExportWizardPage_6);
+		dialog.setText(Messages.ExportWizardPage_7);
 		dialog.setFilterPath(getSelectedDirectory());
 		String selectedDirectoryName = dialog.open();
 
@@ -135,7 +135,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * Retourne les ressources selectionnees dans la fenetre
 	 * @return Une liste de ressources
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public List<IResource> getSelectedRessource() {
 		List<IResource> selectedResources = getWhiteCheckedResources();
 		return selectedResources;
@@ -169,13 +169,13 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 
 		// Existence du repertoire 
 		if (!directory.exists()) {
-			if (!queryYesNoQuestion("This directory does not exists. Would you like to create it ?")) {
+			if (!queryYesNoQuestion(Messages.ExportWizardPage_9)) {
 				return false;
 			}
 
 			// Est-il possible de la creer ?
 			if (!directory.mkdirs()) {
-				displayErrorDialog("The directory creation has failed. Please choose another one");
+				displayErrorDialog(Messages.ExportWizardPage_10);
 				giveFocusToDestination();
 				return false;
 			}
@@ -191,7 +191,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 */
 	public boolean ensureTargetIsValid(File targetDirectory) {
 		if (targetDirectory.exists() && !targetDirectory.isDirectory()) {
-			displayErrorDialog("Message 444");
+			displayErrorDialog(Messages.ExportWizardPage_11);
 			giveFocusToDestination();
 			return false;
 		}

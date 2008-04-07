@@ -35,8 +35,8 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 	public ImportWizardPage(String pageName, IStructuredSelection selection) {
 		super(pageName, selection);
-		setTitle(pageName); //NON-NLS-1
-		setDescription("Import a file from the local file system into the workspace"); //NON-NLS-1
+		setTitle(Messages.ImportWizardPage_0);
+		setDescription(Messages.ImportWizardPage_1);
 	}
 
 	/* (non-Javadoc)
@@ -54,14 +54,14 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		fileSelectionLayout.marginHeight = 0;
 		fileSelectionArea.setLayout(fileSelectionLayout);
 		
-		editor = new FileFieldEditor("fileSelect","Select File: ",fileSelectionArea); //NON-NLS-1 //NON-NLS-2
+		editor = new FileFieldEditor("fileSelect","Select File: ",fileSelectionArea); //$NON-NLS-1$ //$NON-NLS-2$
 		editor.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener(){
 			public void modifyText(ModifyEvent e) {
 				IPath path = new Path(ImportWizardPage.this.editor.getStringValue());
 				setFileName(path.lastSegment());
 			}
 		});
-		String[] extensions = new String[] { "*.*" }; //NON-NLS-1
+		String[] extensions = new String[] { "*.*" }; //$NON-NLS-1$
 		editor.setFileExtensions(extensions);
 		fileSelectionArea.moveAbove(null);
 
@@ -92,13 +92,13 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
 	 */
 	protected String getNewFileLabel() {
-		return "New File Name:"; //NON-NLS-1
+		return "New File Name:"; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
 	 */
 	protected IStatus validateLinkedResource() {
-		return new Status(IStatus.OK, "fr.lip6.move.coloane.core", IStatus.OK, "", null); //NON-NLS-1 //NON-NLS-2
+		return new Status(IStatus.OK, "fr.lip6.move.coloane.core", IStatus.OK, "", null); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
