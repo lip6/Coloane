@@ -50,10 +50,10 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	 */
 	public final synchronized void waitUntilEnd() {
 		try {
-			Coloane.getLogger().finest("Mise en attente du moniteur");
+			Coloane.getLogger().finest("Mise en attente du moniteur"); //$NON-NLS-1$
 			wait();
 		} catch (InterruptedException e) {
-			System.err.println("Erreur Wait Monitor");
+			System.err.println("Erreur Wait Monitor"); //$NON-NLS-1$
 		}
 	}
 
@@ -61,7 +61,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	 * Notifier le thread de la fin de l'operation
 	 */
 	public final synchronized void freeMonitor() {
-		Coloane.getLogger().finest("Liberation du moniteur");
+		Coloane.getLogger().finest("Liberation du moniteur"); //$NON-NLS-1$
 		progressMonitor.done();
 		notify();
 	}

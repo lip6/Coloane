@@ -11,7 +11,6 @@ public final class Messages extends NLS {
 	public static String FormalismManager_3;
 	public static String FormalismManager_4;
 	public static String FormalismManager_5;
-	public static String FormalismManager_6;
 	public static String FormalismManager_7;
 	public static String FormalismManager_9;
 	static {

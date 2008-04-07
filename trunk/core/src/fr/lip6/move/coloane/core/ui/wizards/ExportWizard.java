@@ -50,7 +50,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 */
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
-		this.page = new ExportWizardPage("ExportPage", currentSelection);
+		this.page = new ExportWizardPage("ExportPage", currentSelection); //$NON-NLS-1$
 		super.init(workbench, currentSelection);
 	}
 
@@ -60,10 +60,10 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 */
 	@Override
 	public boolean canFinish() {
-		if ((this.idWizard != null) && (!page.getSelectedDirectory().equals("")) && (page.getSelectedRessource().size() > 0)) {
+		if ((this.idWizard != null) && (!page.getSelectedDirectory().equals("")) && (page.getSelectedRessource().size() > 0)) { //$NON-NLS-1$
 			return super.canFinish();
 		} else {
-			page.setErrorMessage("You must choose at least one file to export and the directory");
+			page.setErrorMessage(ColoaneMessages.ExportWizard_2);
 			return false;
 		}
 	}
@@ -95,7 +95,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 		// Parcours de toutes les ressources selectionnees
 		for (IResource res : page.getSelectedRessource()) {
-			Coloane.getLogger().finer("Fichier a exporter : "+res.getName()+" vers "+page.getSelectedDirectory());
+			Coloane.getLogger().finer("Fichier a exporter : "+res.getName()+" vers "+page.getSelectedDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Recuperation du FormalismManager existant
 			Formalism formalism = formManager.getFormalismByExtension(res.getFileExtension());
@@ -106,7 +106,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			try {
 				SAXParserFactory factory = SAXParserFactory.newInstance();
 				SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);	
-				Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/resources/"+formalism.getSchema()));
+				Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/resources/"+formalism.getSchema())); //$NON-NLS-1$
 				Schema schema = schemaFactory.newSchema(schemaSource);
 
 				// Phase de validation
@@ -131,7 +131,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 				IExportTo exportInstance = ExportToExtension.createConvertInstance(this.idWizard);
 				if (exportInstance == null) { return false;	}
-				exportInstance.export(model, page.getSelectedDirectory()+"/"+newName);
+				exportInstance.export(model, page.getSelectedDirectory()+"/"+newName); //$NON-NLS-1$
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -144,7 +144,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 * @param exportFormat Le format a utiliser pour l'export
 	 */
 	protected void setExportFormat(String idWizard) {
-		Coloane.getLogger().finer("Wizard selectionne : "+idWizard);
+		Coloane.getLogger().finer("Wizard selectionne : "+idWizard); //$NON-NLS-1$
 		this.idWizard = idWizard;
 	}
 
@@ -155,6 +155,6 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 */
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		// Recuperation de l'identitifant de l'appelant permettant ansi de determiner le format d'export
-		this.setExportFormat(config.getAttribute("id"));
+		this.setExportFormat(config.getAttribute("id")); //$NON-NLS-1$
 	}
 }

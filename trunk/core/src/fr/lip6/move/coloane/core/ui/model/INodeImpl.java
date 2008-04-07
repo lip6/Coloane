@@ -144,7 +144,7 @@ public interface INodeImpl {
 	 * Retourner le menu contextuel associe au noeud
 	 * @return Collection
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	Collection getContextMenus();
 
 	/**

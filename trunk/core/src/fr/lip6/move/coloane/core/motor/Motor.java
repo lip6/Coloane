@@ -100,12 +100,12 @@ public final class Motor implements IMotorCom, IMotorUi {
 
 		// Verification que toutes les donnees sont fournies
 		if (authInformation == null) {
-			Coloane.showErrorMsg("Please fill the form ! All fields are required !");
+			Coloane.showErrorMsg(Messages.Motor_0);
 			return;
 		}
 
 		// Affichage dans la zone d'historique
-		HistoryView.getInstance().addText("Authentication : ");
+		HistoryView.getInstance().addText(Messages.Motor_15);
 
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IRunnableContext context = workbench.getProgressService();
@@ -129,10 +129,10 @@ public final class Motor implements IMotorCom, IMotorUi {
 
 		// Si l'authentification s'est bien passee
 		if (res.booleanValue()) {
-			HistoryView.getInstance().addLine("SUCCESS");
+			HistoryView.getInstance().addLine(Messages.Motor_3);
 			sessionManager.setAuthenticated(true);
 		} else {
-			HistoryView.getInstance().addLine("FAILURE");
+			HistoryView.getInstance().addLine(Messages.Motor_4);
 			sessionManager.setAuthenticated(false);
 		}
 
@@ -173,14 +173,14 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Verification de l'existence du module de communications
 		if (com == null) {
 			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			Coloane.showErrorMsg(Messages.Motor_5);
 			return;
 		}
 
 		// On verifie que l'utilisateur est authentifie avant de connecter le modele
 		if (!sessionManager.isAuthenticated()) {
 			Coloane.getLogger().warning("Aucune authentification prealable"); //$NON-NLS-1$
-			Coloane.showWarningMsg("You are not authenticated. Please authenticate yourself first.");
+			Coloane.showWarningMsg(Messages.Motor_6);
 			return;
 		}
 
@@ -200,7 +200,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		currentProgress = runnable;
 
 		// Affichage dans la zone d'historique
-		HistoryView.getInstance().addText("Connecting current model : ");
+		HistoryView.getInstance().addText(Messages.Motor_7);
 
 		// Recuperation de la session courante
 		Session current = Motor.getInstance().getSessionManager().getCurrentSession();
@@ -230,8 +230,8 @@ public final class Motor implements IMotorCom, IMotorUi {
 			}
 		} else {
 			Coloane.getLogger().warning("Aucun modele actif"); //$NON-NLS-1$
-			HistoryView.getInstance().addLine("FAILURE");
-			Coloane.showWarningMsg("No model to connect");
+			HistoryView.getInstance().addLine(Messages.Motor_8);
+			Coloane.showWarningMsg(Messages.Motor_9);
 		}
 	}
 
@@ -243,14 +243,14 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Verification de l'existence du module de communications
 		if (com == null) {
 			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			Coloane.showErrorMsg(Messages.Motor_10);
 			return;
 		}
 
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
 		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
 			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
-			Coloane.showWarningMsg("The current modeli s not connected. No need to disconnect it");
+			Coloane.showWarningMsg(Messages.Motor_11);
 			return;
 		}
 
@@ -272,7 +272,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		try {
 			context.run(true, false, runnable);
 		} catch (Exception e) {
-			Coloane.getLogger().warning("Echec de la deconnexion du modele: " + e.getMessage());
+			Coloane.getLogger().warning("Echec de la deconnexion du modele: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		// Recupere le resultat de la fermeture de session
@@ -284,8 +284,8 @@ public final class Motor implements IMotorCom, IMotorUi {
 			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
 			ui.redrawMenus();
 		} else {
-			Coloane.getLogger().warning("La deconnexion de la session courante a echouee");
-			Coloane.showErrorMsg("The current session has not been disconnected. Please retry...");
+			Coloane.getLogger().warning("La deconnexion de la session courante a echouee"); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.Motor_12);
 		}
 	}
 
@@ -298,14 +298,14 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Verification de l'existence du module de communications
 		if (com == null) {
 			Coloane.getLogger().warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg("Global error. Please relaunch the application");
+			Coloane.showErrorMsg(Messages.Motor_13);
 			return;
 		}
 
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
 		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
 			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
-			Coloane.showWarningMsg("The current model is not connected. Please connect it before call services...");
+			Coloane.showWarningMsg(Messages.Motor_14);
 			return;
 		}
 
@@ -330,7 +330,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		try {
 			context.run(true, false, runnable);
 		} catch (Exception e) {
-			Coloane.getLogger().warning("Echec de l'invocation de service (" + serviceName + ") " + e.getMessage());
+			Coloane.getLogger().warning("Echec de l'invocation de service (" + serviceName + ") " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		// Au retour d'un service, le modele est toujours propre
@@ -368,7 +368,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 			if (model.getFormalism() != null) {
 				f = getFormalismManager().getFormalismByName(model.getFormalism());
 			} else {
-				f = getFormalismManager().getFormalismByName("ReachabilityGraph");
+				f = getFormalismManager().getFormalismByName("ReachabilityGraph"); //$NON-NLS-1$
 			}
 			modelImpl = new ModelImplAdapter(model, f); //$NON-NLS-1$
 		} catch (BuildException e) {
@@ -418,10 +418,10 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public Session getConcernedSession() {
 		if (currentProgress != null) {
-			Coloane.getLogger().finer("Recuperation de la session attachee");
+			Coloane.getLogger().finer("Recuperation de la session attachee"); //$NON-NLS-1$
 			return currentProgress.getAttachedSession();
 		} else {
-			Coloane.getLogger().warning("Aucun service en cours...");
+			Coloane.getLogger().warning("Aucun service en cours..."); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -432,11 +432,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void endService() {
 		if (currentProgress != null) {
-			Coloane.getLogger().finer("Demande de liberation de moniteur");
+			Coloane.getLogger().finer("Demande de liberation de moniteur"); //$NON-NLS-1$
 			currentProgress.freeMonitor();
 			//currentProgress = null;
 		} else {
-			Coloane.getLogger().warning("Aucun service en cours...");
+			Coloane.getLogger().warning("Aucun service en cours..."); //$NON-NLS-1$
 		}
 	}
 
@@ -446,11 +446,11 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 */
 	public void setTaskDescription(String service, String description) {
 		if (currentProgress != null) {
-			Coloane.getLogger().finer("Demande d'affichage de precision sur la tache en cours");
+			Coloane.getLogger().finer("Demande d'affichage de precision sur la tache en cours"); //$NON-NLS-1$
 			currentProgress.getMonitor().worked(1);
-			if (description != "") { currentProgress.getMonitor().setTaskName(description); }
+			if (description != "") { currentProgress.getMonitor().setTaskName(description); } //$NON-NLS-1$
 		} else {
-			Coloane.getLogger().warning("Aucun service en cours...");
+			Coloane.getLogger().warning("Aucun service en cours..."); //$NON-NLS-1$
 		}
 	}
 
@@ -458,7 +458,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * Demande de deconnexion brutale (initiee par le client)
 	 */
 	public void breakConnection() {
-		Coloane.getLogger().fine("Deconnexion brutale initiee par le client");
+		Coloane.getLogger().fine("Deconnexion brutale initiee par le client"); //$NON-NLS-1$
 		sessionManager.destroyAllSessions();
 		sessionManager.setAuthenticated(false);
 		this.com.breakConnection();

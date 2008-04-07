@@ -327,7 +327,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 						
-			Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/resources/"+this.formalism.getSchema()));
+			Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/resources/"+this.formalism.getSchema())); //$NON-NLS-1$
 			Schema schema = schemaFactory.newSchema(schemaSource);
 
 			// Phase de validation
@@ -338,7 +338,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			saxParser.parse(file.getLocation().toString(), handler);
 		} catch (Exception e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
-			Coloane.getLogger().fine("Stack : ");
+			Coloane.getLogger().fine("Stack : "); //$NON-NLS-1$
 			e.printStackTrace();
 			Coloane.getLogger().finer("Details : " + e.getMessage() + " " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + file.getName() + " - " + e.toString() + " " + e.getMessage()); //$NON-NLS-2$ //$NON-NLS-1$
@@ -550,7 +550,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
 	protected void createActions() {
 		super.createActions();

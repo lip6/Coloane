@@ -39,7 +39,6 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 			Coloane.showErrorMsg(e.getMessage());
 			e.printStackTrace();
 		}
-
 		return true;
 	}
 	
@@ -48,9 +47,9 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("File Import Wizard"); //NON-NLS-1
+		setWindowTitle("File Import Wizard"); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
-		mainPage = new ImportWizardPage("Import File",selection); //NON-NLS-1
+		mainPage = new ImportWizardPage("Import File",selection); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -66,7 +65,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	 * @param exportFormat Le format a utiliser pour l'export
 	 */
 	protected void setImportFormat(String idWizard) {
-		Coloane.getLogger().finer("Wizard selectionne : "+idWizard);
+		Coloane.getLogger().finer("Wizard selectionne : "+idWizard); //$NON-NLS-1$
 		this.idWizard = idWizard;
 	}
 
@@ -76,7 +75,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	 */
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		// Recuperation de l'identitifant de l'appelant permettant ansi de determiner le format d'export
-		this.setImportFormat(config.getAttribute("id"));
+		this.setImportFormat(config.getAttribute("id")); //$NON-NLS-1$
 	}
 
 }
