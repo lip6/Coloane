@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
@@ -14,13 +14,13 @@ public interface IModel {
 	 * @return le tableau des noeuds.
 	 */
 	ArrayList<INode> getNodes();
-	
+
 	/**
 	 * Donne les box de notre modéle.
 	 * @return le tableau des box.
 	 */
 	ArrayList<IBox>   getBoxes();
-	
+
 	/**
 	 * Donne les arcs de notre modéle.
 	 * @return le tableau des arcs.

@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
@@ -15,18 +15,18 @@ public interface INode {
 	    * @return String
 	    */
 	String getNodeType();
-	
+
 
     /**
 	 * Retourne l'identifiant unique du noeud.
 	 * @return int
 	 */
     int getId();
-	
+
     /**
 	 * Retourne les attributs du noeud.
 	 * @return un tableau de attributs(String).
 	 */
-	ArrayList<String> getAttribute(); 
-	 
+	ArrayList<String> getAttribute();
+
 }

@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
@@ -13,65 +13,65 @@ public interface IMenu {
 	/**
 	 * donne le parent de l'élèment courant.
 	 * @return IMenu (le pére).
-	 */ 
-	  IMenu getParent();          
-	  
+	 */
+	  IMenu getParent();
+
 	  /**
 		 * Donne le nom de l'élèment.
 		 * @return string.
 		 */
-	  String getName();            
-	  
+	  String getName();
+
 	  /**
 		 * Donne le type de la question.
 		 * @return int.
 		 */
-	  int getQuestionType();      
-	  
+	  int getQuestionType();
+
 	  /**
 		 * Donne le type du choix.
 		 * @return int.
 		 */
-	  int getQuestionBehavior();  
-	  
+	  int getQuestionBehavior();
+
 	  /**
 		 * nous renseigne sur le validation.
 		 * valide par defaut.
 		 * @return bool.
 		 */
-	  boolean isValide();          
-	  
+	  boolean isValide();
+
 	  /**
 		 * nous renseigne sur le dialogue
-		 * si interdit ou permis. 
+		 * si interdit ou permis.
 		 * @return bool.
 		 */
-	  boolean isDialogAllowed();  
-	  
+	  boolean isDialogAllowed();
+
 	  /**
 		 * arrêt possible ou pas.
 		 * @return bool.
 		 */
-	  boolean StopAuthorized();   
-	  
+	  boolean StopAuthorized();
+
 	  /**
 		 * nous renseigne sur le domaine du résultat.
 		 * @return bool.
 		 */
-	  boolean outputFormalism();  
+	  boolean outputFormalism();
 	  /**
 		 * Enable ou disable
 		 * @return bool.
 		 */
-	  boolean IsActiv();    
-	  
+	  boolean IsActiv();
+
 	  /**
 		 * Donne les sous-menus fils de l'élèment.
 		 * @return le tableau des fils.
 		 */
-	  ArrayList<IMenu> getChildren();  
+	  ArrayList<IMenu> getChildren();
 	}
 
-	
-	
+
+
 

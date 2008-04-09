@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 /**
  * cette interface est retournée en asynchrone par OpenConnection,
@@ -15,21 +15,21 @@ public interface IFKVersion {
 	 * @return String
 	 */
 		String getFkName();
-		
+
 
 		/**
 		 * Retourne le numéro de version majeur.
 		 * @return int
 		 */
 		int getFKMajor();
-		
+
 
 		/**
 		 * Retourne le numéro de version mineur.
 		 * @return int
 		 */
 		int getFKMinor();
-	
 
-	
+
+
 }

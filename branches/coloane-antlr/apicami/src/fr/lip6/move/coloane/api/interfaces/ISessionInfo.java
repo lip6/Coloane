@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 
 /**
@@ -9,24 +9,24 @@ package interfaces;
  */
 
 public interface ISessionInfo {
-	
+
 	/**
 	 * Retourne le nom de la session.
 	 * @return String
 	 */
-	String getSessionName(); 
-	
+	String getSessionName();
+
 	/**
 	 * Retourne la date du modèle, lors de l'ouverture de la session.
 	 * @return String
 	 */
-	String getSessionDate(); 
-	
+	String getSessionDate();
+
 	/**
 	 * Retourne le formalisme du modèle.
 	 * @return String
 	 */
-    String getSessionFormalism(); 	
+    String getSessionFormalism();
 
-	
+
 }

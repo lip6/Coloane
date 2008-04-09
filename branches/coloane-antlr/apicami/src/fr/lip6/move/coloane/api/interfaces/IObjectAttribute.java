@@ -1,4 +1,4 @@
-package interfaces;
+package fr.lip6.move.coloane.api.interfaces;
 
 
 /**
@@ -12,29 +12,29 @@ public interface IObjectAttribute {
 	    * Retourne le nom de l'attribut.
 	    * @return String
 	    */
-	String getAttributeName(); 
-	
+	String getAttributeName();
+
 	 /**
 	    * Retourne la nomination.
 	    * @return String
 	    */
 	String getNomination();
-	
+
 	 /**
 	    * si unique ou pas.
 	    * @return bool.
 	    */
 	boolean isUnique();
-	
+
 	 /**
 	    * si permanent ou pas.
 	    * @return bool.
 	    */
 	boolean isPermanent();
-	
+
 	 /**
 	    * Retourne la valeur pas default.
 	    * @return String
 	    */
-	String getDefaultValue();	
+	String getDefaultValue();
 }
