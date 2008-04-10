@@ -88,7 +88,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IUpdate .
 		 */
-		IUpdate BuildUpdate(ArrayList<ArrayList<String>> CamiUpdate);
+		IUpdateItem BuildUpdateItem(ArrayList<ArrayList<String>> CamiUpdateItem);
 
 		/**
 		 * nous construit l'objet IAttributeModify.
@@ -96,4 +96,19 @@ public interface ICamiObjectBuilder {
 		 * @return IAttributeModify.
 		 */
 		IAttributeModify BuildAttributeModify(ArrayList<ArrayList<String>> CamiAttributeModify);
+
+		/**
+		 * nous construit l'objet IFKVersion.
+		 * @param les commandes venant de FrameKit.
+		 * @return IFKVersion.
+		 */
+		IFKVersion BuildFKVersion(ArrayList<ArrayList<String>> CamiFKVersion);
+
+
+		/**
+		 * nous construit l'objet IFKInfo.
+		 * @param les commandes venant de FrameKit.
+		 * @return IFKInfo.
+		 */
+		IFKInfo BuildFKInfo(ArrayList<ArrayList<String>> CamiFKInfo);
 }

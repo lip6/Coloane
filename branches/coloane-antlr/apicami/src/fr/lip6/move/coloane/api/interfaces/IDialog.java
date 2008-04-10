@@ -32,7 +32,7 @@ public interface IDialog {
 	int getId();
 
 
-	//	 saisie autorisée, interdite, abort.
+	//saisie autorisée, interdite, abort.
 	/**
 	 * Indique le type de saisie autorise<br>
 	 * Les valeurs possibles sont presentees dans IDialogCom
