@@ -35,7 +35,7 @@ my $repos = shift @ARGV;
 my $output = "/tmp/mail_param_$repos.cfg";
 
 # Creating the new config file
-open(OUT, ">$output") or die "Error : Impossible to create the output file\n";
+open(OUT, ">$output") or die "Error : Impossible to create the output file ($output)\n";
 
 # Openning & Reading & Copying the header file
 open(HEADER, $header_file) or die "Error : Impossible to open the header file. Please check $header_file \n";
