@@ -34,7 +34,7 @@
 			<id>fkordon</id>
 			<name>Fabrice Kordon</name>
 			<email>Fabrice.Kordon@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Fabrice.Kordon/</url>
+			<url>http://lip6.fr/Fabrice.Kordon/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -46,7 +46,7 @@
 			<id>jbvoron</id>
 			<name>Jean-Baptiste Voron</name>
 			<email>Jean-Baptiste.Voron@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Jean-Baptiste.Voron/</url>
+			<url>http://lip6.fr/Jean-Baptiste.Voron/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -58,7 +58,7 @@
 			<id>ahamez</id>
 			<name>Alexandre Hamez</name>
 			<email>Alexandre.Hamez@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Alexandre.Hamez/</url>
+			<url>http://lip6.fr/Alexandre.Hamez/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -103,8 +103,35 @@
 				<sendOnWarning>true</sendOnWarning>
 				<configuration>
 					<address>jean-baptiste.voron@lip6.fr</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
 					<address>alexandre.hamez@lip6.fr</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
 					<address>youcef.belattaf@etu.upmc.fr</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
 					<address>kahina.bouarab@etu.upmc.fr</address>
 				</configuration>
 			</notifier>
