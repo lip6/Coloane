@@ -18,8 +18,8 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
-		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/branches/coloane-antlr</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/branches/coloane-antlr</developerConnection>
 		<url>https://coloane.lip6.fr/trac</url>
 	</scm>
 
