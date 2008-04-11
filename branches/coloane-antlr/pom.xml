@@ -51,7 +51,6 @@
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
 				<role>project-manager</role>
-				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -63,66 +62,33 @@
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
+				<role>project-manager</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>kbouarab</id>
+			<name>Kahina Bouarab</name>
+			<email>kahina.bouarab@etu.upmc.fr</email>
+			<organization>UPMC</organization>
+			<organizationUrl>http://etu.upmc.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>ybelattaf</id>
+			<name>Youcef Belattaf</name>
+			<email>youcef.belattaf@etu.upmc.fr</email>
+			<organization>UPMC</organization>
+			<organizationUrl>http://etu.upmc.fr</organizationUrl>
+			<roles>
 				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-
-	<!-- Les contributeurs : Anciens développeurs -->
-	<contributors>
-		<contributor>
-			<name>Nicolas Gibelin</name>
-			<email>Nicolas.Gibelin@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Nicolas.Gibelin/</url>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>system administrator</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Eric Masliah</name>
-			<email>Eric.Masliah@src.lip6.fr</email>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Dimitri Charles</name>
-			<email>Clarence-Dimitri.Charles@src.lip6.fr</email>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>David Cheng</name>
-			<email>David.Cheng@src.lip6.fr</email>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Alexandre Ortiz</name>
-			<email>Alexandre.Ortiz@src.lip6.fr</email>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-	</contributors>
 
 	<!-- Pour les notifications -->
 	<ciManagement>
@@ -136,7 +102,10 @@
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>true</sendOnWarning>
 				<configuration>
-					<address>Jean-Baptiste.Voron@lip6.fr</address>
+					<address>jean-baptiste.voron@lip6.fr</address>
+					<address>alexandre.hamez@lip6.fr</address>
+					<address>youcef.belattaf@etu.upmc.fr</address>
+					<address>kahina.bouarab@etu.upmc.fr</address>
 				</configuration>
 			</notifier>
 			<notifier>
@@ -146,7 +115,7 @@
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>false</sendOnWarning>
 				<configuration>
-					<address>Fabrice.Kordon@lip6.fr</address>
+					<address>fabrice.kordon@lip6.fr</address>
 				</configuration>
 			</notifier>
 		</notifiers>
