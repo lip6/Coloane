@@ -1,5 +1,13 @@
 package fr.lip6.move.coloane.api.interfaces;
-import observers.*;
+import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IFKCloseConnectionObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IServiceObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IServiceStateObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IWarningObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.*;
 
 
 /**
