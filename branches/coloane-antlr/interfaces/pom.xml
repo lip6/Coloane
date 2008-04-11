@@ -15,9 +15,9 @@
 	<description>Interfaces and shared objects between Core and API</description>
 
 	<scm>
-		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
-		<url>https://coloane.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/branches/coloane-antlr/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/branches/coloane-antlr/${project.artifactId}</developerConnection>
+		<url>https://coloane.lip6.fr/trac/browser/branches/coloane-antlr/${project.artifactId}</url>
 	</scm>
 
 	<build>
