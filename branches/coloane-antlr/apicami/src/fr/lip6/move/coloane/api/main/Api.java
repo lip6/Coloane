@@ -72,6 +72,7 @@ public final class Api implements IApi {
 	 * @param moduleCom Le module Com en association avec l'API
 	 * @return L'API
 	 */
+	
 	public static synchronized Api getInstance(IComApi moduleCom) {
 		if (instance == null) { instance = new Api(moduleCom); }
 		return instance;

@@ -1,27 +1,47 @@
 package teststub;
 
 
-import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IAPIConnection;
-import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.api.interfaces.observers.*;
+import fr.lip6.move.coloane.api.apiPackage.Api;
+import fr.lip6.move.coloane.api.interfaces.IApiConnection;
+
+/**
+ * 
+ * @author UU & KAHOO
+ *
+ * Bouchon de test coté Coloane
+ */
 
 public class ComStub {
 
-	final static String IP_ADRESS = "10.0.0.1" ; // Adresse Ip de la machine à contacter à définir
-	final static int PORT = 1700 // Port d'écoute de FrameKit à définir
+	/**
+	 * Adresse Ip de la machine à contacter
+	 */
+	final static String IP_ADRESS = "127.0.0.1" ;
+	
+	/**
+	 * Port d'écoute de FrameKit
+	 */
+	final static int PORT = 7001;
+	
+	/**
+	 * Login
+	 */
 	final static String LOGIN = "TP1";
+	
+	/**
+	 * Password
+	 */
 	final static String PASSWORD = "123456";
-
-
-	public static void main(String args[]){
-
-		/** Instancier un objet Api	 */
-		Api api = new Api();
-
+	
+	
+	/**
+	 * Test l'ouverture d'une connexion
+	 *
+	 */	
+	private static void testOpenConnection(){
 		/** Demander un objet implémentant l'interface ApiConnection */
-		IAPIConnection connection = Api.getApiConnection();
+		IApiConnection connection = Api.getApiConnection();
 
 		/** Configurer la connexion
 		 * IP + PORT + LOGIN + PASSWORD
@@ -31,11 +51,37 @@ public class ComStub {
 		connection.setLogin(LOGIN);
 		connection.setPassWord(PASSWORD);
 
-		connection.set;
+		/** configurer les objets de callback */
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver());
+		connection.setConnectionObserver(new ConnectionObserver());
+		connection.setDialogObserver(new DialogObserver());
+		connection.setServiceObserver(new ServiceObserver());
+		connection.setServiceStateObserver(new ServiceStateObserver());
+		connection.setSessionObserver(new SessionObserver());
+		connection.setTraceMessageObserver(new TraceMessageObserver());
+		connection.setWarningObserver(new WarningObserver());
 
+		/** Test ouverture connexion */
+		connection.openConnection();
 
+		
+	}
 
-
+	/**
+	 * Test l'ouverture d'une session
+	 *
+	 */
+	public static void testOpenSession(){
+	// TODO
+	}
+	
+	public static void main(String args[]){
+		
+		/** Test l'ouverture de la connexion */
+		testOpenConnection();
+		
+		/** Test l'ouverture d'une session */
+		testOpenSession();
 
 	}
 

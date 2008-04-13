@@ -1,12 +1,6 @@
 package fr.lip6.move.coloane.api.interfaces;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IFKCloseConnectionObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IServiceObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IServiceStateObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IWarningObserver;
+
+import teststub.TraceMessageObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.*;
 
 
@@ -16,7 +10,7 @@ import fr.lip6.move.coloane.api.interfaces.observers.*;
  * @author KAHOO & UU
  *
  */
-public interface IAPIConnection {
+public interface IApiConnection {
 
 
 	/**
@@ -25,7 +19,7 @@ public interface IAPIConnection {
 	 * @return bool.
 	 */
 
-	boolean setITraceMessageObserver( ITraceMessageObserver o);
+	boolean setTraceMessageObserver( TraceMessageObserver observer);
 
 
 	/**
@@ -34,7 +28,7 @@ public interface IAPIConnection {
 	 * @return bool.
 	 */
 
-	boolean setIWarningObserver ( IWarningObserver o);
+	boolean setWarningObserver ( IWarningObserver o);
 
 
 	/**
@@ -43,7 +37,7 @@ public interface IAPIConnection {
 	 * @return bool
 	 */
 
-	boolean setIServiceStateObserver( IServiceStateObserver o);
+	boolean setServiceStateObserver( IServiceStateObserver o);
 
 
 	/**
@@ -52,7 +46,7 @@ public interface IAPIConnection {
 	 * @return bool.
 	 */
 
-	boolean setIBrutalInterruptObserver( IBrutalInterruptObserver o);
+	boolean setBrutalInterruptObserver( IBrutalInterruptObserver o);
 
 
 
@@ -62,7 +56,7 @@ public interface IAPIConnection {
 	 * @return bool.
 	 */
 
-	boolean setIFKCloseConnectionObserver( IFKCloseConnectionObserver o);
+	boolean setFKCloseConnectionObserver( IFKCloseConnectionObserver o);
 
 
 
@@ -72,7 +66,7 @@ public interface IAPIConnection {
 	 * @return bool.
 	 */
 
-	boolean setIDialogObserver( IDialogObserver o);
+	boolean setDialogObserver( IDialogObserver o);
 
 
 
@@ -144,6 +138,7 @@ public interface IAPIConnection {
 	boolean closeConnection();
 
 
+	
 
 	/**
 	 * la méthode qui retourne l'objet IAPISession.
