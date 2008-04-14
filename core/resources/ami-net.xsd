@@ -34,15 +34,15 @@
 	<xs:complexType name="tnode">
 		<xs:all>
 			<xs:element name="name" type="graph" minOccurs="0"/>
-			<xs:element name="guard" type="graph" minOccurs="0"/>	<!--propre a transition-->
-			<xs:element name="priority" type="graph" minOccurs="0"/><!--propre a transition-->
-			<xs:element name="delay" type="graph" minOccurs="0"/>	<!--propre a transition-->
-			<xs:element name="component" type="graph" minOccurs="0"/><!--propre a place-->	
-			<xs:element name="action" type="graph" minOccurs="0"/>	<!--propre a transition--> <!--rectification de Actions par action -->
-			<xs:element name="domain" type="graph" minOccurs="0"/>	<!--propre a place et queue-->
-			<xs:element name="marking" type="graph" minOccurs="0"/>	<!--propre a place et queue-->
-			<xs:element name="weight" type="graph" minOccurs="0"/>	<!--propre a transition immediate -->
-			<xs:element name="note" type="graph" minOccurs="0"/>	<!--rajout de l'element Note -->
+			<xs:element name="guard" type="graph" minOccurs="0"/>
+			<xs:element name="priority" type="graph" minOccurs="0"/>
+			<xs:element name="delay" type="graph" minOccurs="0"/>
+			<xs:element name="component" type="graph" minOccurs="0"/>
+			<xs:element name="action" type="graph" minOccurs="0"/>
+			<xs:element name="domain" type="graph" minOccurs="0"/>
+			<xs:element name="marking" type="graph" minOccurs="0"/>
+			<xs:element name="weight" type="graph" minOccurs="0"/>
+			<xs:element name="note" type="graph" minOccurs="0"/>
 		</xs:all>
 		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:attribute name="nodetype" type="xs:string" use="required" />
@@ -57,10 +57,10 @@
 			<xs:element name="pi" type="graph" minOccurs="0"/>
 			<xs:element name="note" type="graph" minOccurs="0"/>
 		</xs:all>
-		<xs:attribute name="id" type="xs:string" use="required"/> 	<!--id: n'est pas mentionné dans .java-->
-		<xs:attribute name="arctype" type="xs:string" use="required"/>	<!--arctype: n'est pas mentionné dans .java-->
-		<xs:attribute name="startid" type="xs:string" use="required"/>	<!--startid: n'est pas mentionné dans .java-->
-		<xs:attribute name="endid" type="xs:string" use="required"/>	<!--endid: n'est pas mentionné dans .java-->
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="arctype" type="xs:string" use="required"/>
+		<xs:attribute name="startid" type="xs:string" use="required"/>
+		<xs:attribute name="endid" type="xs:string" use="required"/>
 	</xs:complexType>
 
 	<!-- Definition d'un ensemble de noeuds -->
