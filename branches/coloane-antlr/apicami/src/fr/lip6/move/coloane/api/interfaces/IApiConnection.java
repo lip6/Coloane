@@ -19,7 +19,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setTraceMessageObserver( TraceMessageObserver observer);
+	boolean setTraceMessageObserver( ITraceMessageObserver o);
 
 
 	/**
@@ -138,7 +138,7 @@ public interface IApiConnection {
 	boolean closeConnection();
 
 
-	
+
 
 	/**
 	 * la méthode qui retourne l'objet IAPISession.

@@ -4,9 +4,10 @@ package teststub;
 
 import fr.lip6.move.coloane.api.apiPackage.Api;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
+import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
 
 /**
- * 
+ *
  * @author UU & KAHOO
  *
  * Bouchon de test coté Coloane
@@ -18,27 +19,27 @@ public class ComStub {
 	 * Adresse Ip de la machine à contacter
 	 */
 	final static String IP_ADRESS = "127.0.0.1" ;
-	
+
 	/**
 	 * Port d'écoute de FrameKit
 	 */
 	final static int PORT = 7001;
-	
+
 	/**
 	 * Login
 	 */
 	final static String LOGIN = "TP1";
-	
+
 	/**
 	 * Password
 	 */
 	final static String PASSWORD = "123456";
-	
-	
+
+
 	/**
 	 * Test l'ouverture d'une connexion
 	 *
-	 */	
+	 */
 	private static void testOpenConnection(){
 		/** Demander un objet implémentant l'interface ApiConnection */
 		IApiConnection connection = Api.getApiConnection();
@@ -64,7 +65,7 @@ public class ComStub {
 		/** Test ouverture connexion */
 		connection.openConnection();
 
-		
+
 	}
 
 	/**
@@ -74,12 +75,12 @@ public class ComStub {
 	public static void testOpenSession(){
 	// TODO
 	}
-	
+
 	public static void main(String args[]){
-		
+
 		/** Test l'ouverture de la connexion */
 		testOpenConnection();
-		
+
 		/** Test l'ouverture d'une session */
 		testOpenSession();
 
