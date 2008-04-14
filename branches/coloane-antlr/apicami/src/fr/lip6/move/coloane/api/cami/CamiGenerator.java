@@ -45,55 +45,53 @@ public class CamiGenerator implements ICamiGenerator{
 	}
 
 
-	@Override
+
 	public ArrayList<byte[]> generateCamiDialogue(IDialog d) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCamiModel(IModel m) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdCI(String SessionName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdDI() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public ArrayList<byte[]> generateCmdDT() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdFI() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public ArrayList<byte[]> generateCmdFT() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdMS(String date) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	// TODO verifier est ce que ArrayList est nécessaire
 	public ArrayList<byte[]> generateCmdOC(String UiName, String version, String login) {
 
@@ -104,26 +102,26 @@ public class CamiGenerator implements ICamiGenerator{
 
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdOS(String SessionName, String date,
 			String SessionFormalism) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdPQ(String rootName, String ServiceName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdQQ() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdRS(String SessionName) {
 		// TODO Auto-generated method stub
 		return null;
@@ -144,7 +142,7 @@ public class CamiGenerator implements ICamiGenerator{
 		return cmdSet;
 	}
 
-	@Override
+
 	public ArrayList<byte[]> generateCmdSS() {
 		// TODO Auto-generated method stub
 		return null;
