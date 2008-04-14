@@ -102,7 +102,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IFKVersion.
 		 */
-		IFKVersion BuildFKVersion(ArrayList<ArrayList<String>> CamiFKVersion);
+		IFKVersion BuildFKVersion(ArrayList<String> CamiFKVersion);
 
 
 		/**
