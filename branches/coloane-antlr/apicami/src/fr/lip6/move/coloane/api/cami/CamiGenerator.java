@@ -94,10 +94,14 @@ public class CamiGenerator implements ICamiGenerator{
 	}
 
 	@Override
+	// TODO verifier est ce que ArrayList est nécessaire
 	public ArrayList<byte[]> generateCmdOC(String UiName, String version, String login) {
-		// TODO Auto-generated method stub
+
+		ArrayList<byte[]> cmdSet = new ArrayList<byte[]>();
 		String command = new String("OC(" + UiName.length() + ":" + UiName + "," + version.length() + ":" + version + "," + login.length()	+ ":" + login + "," + 0 + ")");
-		return null;
+		cmdSet.add(this.initCommand(command));
+		return cmdSet;
+
 	}
 
 	@Override

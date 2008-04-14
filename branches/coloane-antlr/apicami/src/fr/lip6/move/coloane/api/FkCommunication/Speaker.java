@@ -26,9 +26,9 @@ public class Speaker implements ISpeaker {
 
 	}
 
-	public void OpenConnection(String IPAdress, int port, String login,
-			String password) {
+	public void OpenConnection(String IPAdress, int port, String login,	String password) {
 		// TODO Auto-generated method stub
+		
 
 	}
 
