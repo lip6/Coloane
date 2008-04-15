@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.comWithCOM.FKVersion;
+import fr.lip6.move.coloane.api.camiObject.FKVersion;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
@@ -50,8 +50,9 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 		return null;
 	}
 
-	public IFKInfo BuildFKInfo(ArrayList<ArrayList<String>> CamiFKInfo) {
-		// TODO Auto-generated method stub
+	public IFKInfo BuildFKInfo(ArrayList<String> CamiFKInfo) {
+		
+		
 		return null;
 	}
 

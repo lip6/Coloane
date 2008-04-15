@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.comWithCOM;
+package fr.lip6.move.coloane.api.camiObject;
 
 import fr.lip6.move.coloane.api.interfaces.IFKVersion;
 
