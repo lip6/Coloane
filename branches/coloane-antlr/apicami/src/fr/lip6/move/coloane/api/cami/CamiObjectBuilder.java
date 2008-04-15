@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.FKVersion;
 import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import fr.lip6.move.coloane.api.interfaces.IArc;
@@ -52,8 +53,11 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 
 	public IAttributeModify BuildAttributeModify(
 			ArrayList<String> CamiAttributeModify) {
-		// TODO Auto-generated method stub
-		return null;
+		String attributeType = CamiAttributeModify.get(1);
+		String newContent =CamiAttributeModify.get(2);
+		int objectID=Integer.parseInt(CamiAttributeModify.get(3));
+		IAttributeModify at = new AttributeModify(attributeType,newContent,objectID);
+		return at;
 	}
 
 	public IBox BuildBox(ArrayList<String> CamiBox) {
