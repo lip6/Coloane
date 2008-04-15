@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.cami;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.camiObject.FKVersion;
+import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
@@ -23,37 +24,15 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 public class CamiObjectBuilder implements ICamiObjectBuilder {
 
-	public IArc BuildArc(ArrayList<ArrayList<String>> CamiArc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public IAttributeModify BuildAttributeModify(
-			ArrayList<ArrayList<String>> CamiAttributeModify) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IBox BuildBox(ArrayList<ArrayList<String>> CamiBox) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IDialog BuildDialog(ArrayList<ArrayList<String>> CamiDialog) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IDomainTable BuildDomainTable(
-			ArrayList<ArrayList<String>> CamiDomainTable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public IFKInfo BuildFKInfo(ArrayList<String> CamiFKInfo) {
-		
-		
-		return null;
+		String aboutService = CamiFKInfo.get(1);
+		String  incremental = CamiFKInfo.get(2);
+		String nameService = CamiFKInfo.get(3);
+		String resultatCalcule = CamiFKInfo.get(4);
+        IFKInfo kfi = new FkInfo(aboutService,incremental,nameService,resultatCalcule);
+		return kfi;
 	}
 
 	public IFKVersion BuildFKVersion(ArrayList<String> CamiFKVersion) {
@@ -65,43 +44,71 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 		return fkv;
 	}
 
-	public IMenu BuildMenu(ArrayList<ArrayList<String>> CamiMenu) {
+
+	public IArc BuildArc(ArrayList<String> CamiArc) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IModel BuildModel(ArrayList<ArrayList<String>> CamiModel) {
+	public IAttributeModify BuildAttributeModify(
+			ArrayList<String> CamiAttributeModify) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public INode BuildNode(ArrayList<ArrayList<String>> CamiNode) {
+	public IBox BuildBox(ArrayList<String> CamiBox) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IDialog BuildDialog(ArrayList<String> CamiDialog) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IDomainTable BuildDomainTable(ArrayList<String> CamiDomainTable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IMenu BuildMenu(ArrayList<String> CamiMenu) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IModel BuildModel(ArrayList<String> CamiModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public INode BuildNode(ArrayList<String> CamiNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IObjectAttribute BuildObjectAttribute(
-			ArrayList<ArrayList<String>> CamiObjectAttribute) {
+			ArrayList<String> CamiObjectAttribute) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IObjectDomainTable BuildObjectDomainTable(
-			ArrayList<ArrayList<String>> CamiObjectDomainTable) {
+			ArrayList<String> CamiObjectDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IResult BuildResult(ArrayList<ArrayList<String>> CamiResult) {
+	public IResult BuildResult(ArrayList<String> CamiResult) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IUpdateItem BuildUpdateItem(
-			ArrayList<ArrayList<String>> CamiUpdateItem) {
+	public IUpdateItem BuildUpdateItem(ArrayList<String> CamiUpdateItem) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 

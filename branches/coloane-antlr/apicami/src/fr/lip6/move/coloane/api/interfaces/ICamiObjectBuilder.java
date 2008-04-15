@@ -14,7 +14,7 @@ public interface ICamiObjectBuilder {
 	 * @param les commandes venant de FrameKit.
 	 * @return IMenu .
 	 */
-		IMenu BuildMenu(ArrayList<ArrayList<String>> CamiMenu);
+		IMenu BuildMenu(ArrayList<String> CamiMenu);
 
 
 		/**
@@ -22,35 +22,35 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IArc .
 		 */
-		IArc BuildArc(ArrayList<ArrayList<String>> CamiArc);
+		IArc BuildArc(ArrayList<String> CamiArc);
 
 		/**
 		 * nous construit l'objet IBox.
 		 * @param les commandes venant de FrameKit.
 		 * @return IBox .
 		 */
-		IBox BuildBox(ArrayList<ArrayList<String>> CamiBox);
+		IBox BuildBox(ArrayList<String> CamiBox);
 
 		/**
 		 * nous construit l'objet IDialog.
 		 * @param les commandes venant de FrameKit.
 		 * @return IDialog.
 		 */
-		IDialog BuildDialog(ArrayList<ArrayList<String>> CamiDialog);
+		IDialog BuildDialog(ArrayList<String> CamiDialog);
 
 		/**
 		 * nous construit l'objet IDomainTable.
 		 * @param les commandes venant de FrameKit.
 		 * @return IDomainTable.
 		 */
-		IDomainTable BuildDomainTable(ArrayList<ArrayList<String>> CamiDomainTable);
+		IDomainTable BuildDomainTable(ArrayList<String> CamiDomainTable);
 
 		/**
 		 * nous construit l'objet IModel.
 		 * @param les commandes venant de FrameKit.
 		 * @return IModel.
 		 */
-		IModel BuildModel(ArrayList<ArrayList<String>> CamiModel);
+		IModel BuildModel(ArrayList<String> CamiModel);
 
 
 		/**
@@ -58,7 +58,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return INode .
 		 */
-		INode BuildNode(ArrayList<ArrayList<String>> CamiNode);
+		INode BuildNode(ArrayList<String> CamiNode);
 
 
 		/**
@@ -66,7 +66,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IObjectAttribute.
 		 */
-		IObjectAttribute BuildObjectAttribute(ArrayList<ArrayList<String>> CamiObjectAttribute);
+		IObjectAttribute BuildObjectAttribute(ArrayList<String> CamiObjectAttribute);
 
 
 		/**
@@ -74,28 +74,28 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IObjectDomainTable .
 		 */
-		IObjectDomainTable BuildObjectDomainTable(ArrayList<ArrayList<String>> CamiObjectDomainTable);
+		IObjectDomainTable BuildObjectDomainTable(ArrayList<String> CamiObjectDomainTable);
 
 		/**
 		 * nous construit l'objet IResult.
 		 * @param les commandes venant de FrameKit.
 		 * @return IResult .
 		 */
-		IResult BuildResult(ArrayList<ArrayList<String>> CamiResult);
+		IResult BuildResult(ArrayList<String> CamiResult);
 
 		/**
 		 * nous construit l'objet IUpdate.
 		 * @param les commandes venant de FrameKit.
 		 * @return IUpdate .
 		 */
-		IUpdateItem BuildUpdateItem(ArrayList<ArrayList<String>> CamiUpdateItem);
+		IUpdateItem BuildUpdateItem(ArrayList<String> CamiUpdateItem);
 
 		/**
 		 * nous construit l'objet IAttributeModify.
 		 * @param les commandes venant de FrameKit.
 		 * @return IAttributeModify.
 		 */
-		IAttributeModify BuildAttributeModify(ArrayList<ArrayList<String>> CamiAttributeModify);
+		IAttributeModify BuildAttributeModify(ArrayList<String> CamiAttributeModify);
 
 		/**
 		 * nous construit l'objet IFKVersion.
@@ -110,5 +110,5 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IFKInfo.
 		 */
-		IFKInfo BuildFKInfo(ArrayList<ArrayList<String>> CamiFKInfo);
+		IFKInfo BuildFKInfo(ArrayList<String> CamiFKInfo);
 }

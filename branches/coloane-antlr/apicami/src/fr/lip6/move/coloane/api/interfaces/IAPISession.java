@@ -32,7 +32,7 @@ public interface IAPISession {
 	 * @param l'interface ISessionInfo qui porte des informations
 	 * relatives à la session.
 	 */
-	void openSession(ISessionInfo session);
+	void openSession( String SessionDate,String SessionFormalism,String SessionName);
 
 
 	/**
