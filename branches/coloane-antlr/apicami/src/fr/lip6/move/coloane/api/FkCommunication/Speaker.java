@@ -4,7 +4,18 @@ import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
+/**
+ * 
+ * @author UU & Kahoo
+ * Le rôle de cette classe est d'offrir une interface de haut niveau
+ * aux modules de API pour envoyer des commandes à FrameKit. 
+ */
+
 public class Speaker implements ISpeaker {
+
+	public Speaker(FkComLowLevel lowLevel) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public void AskForService(String rootName, String ServiceName) {
 		// TODO Auto-generated method stub

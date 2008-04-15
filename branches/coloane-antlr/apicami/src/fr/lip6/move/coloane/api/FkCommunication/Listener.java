@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.api.interfaces.IListener;
 public class Listener extends Thread implements IListener {
 	/**
 	 * Constructeur
+	 * @param lowLevel résponsable des léctures et ecritures bas niveau
 	 */
-	public Listener(){};
+	public Listener(FkComLowLevel lowLevel){};
 }
