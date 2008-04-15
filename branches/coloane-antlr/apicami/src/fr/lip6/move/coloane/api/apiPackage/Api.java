@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.apiPackage;
 
+import java.io.IOException;
+
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 
 
@@ -11,7 +13,7 @@ import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 
 public class Api {
 
-	public static IApiConnection getApiConnection(){
+	public static IApiConnection getApiConnection() throws IOException{
 		return new ApiConnection();
 	}
 

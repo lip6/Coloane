@@ -1,8 +1,11 @@
 package fr.lip6.move.coloane.api.apiPackage;
 
 
-import teststub.BrutalInterruptObserver;
-import teststub.TraceMessageObserver;
+
+import java.io.IOException;
+
+import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
+import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.interfaces.IAPISession;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
@@ -15,7 +18,6 @@ import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IWarningObserver;
 
-import fr.lip6.move.coloane.api.FkCommunication.FkComFactory;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
@@ -71,23 +73,25 @@ public class ApiConnection implements IApiConnection {
 	/** IWarningObserver*/
 	private IWarningObserver iwo;
 
+
+
 	/** Constructeur
 	 * Initialise la connexion en créant :
 	 *  - le thread listener.
 	 *  - le speaker.
 	 * La connexion n'est pas ouverte ici, elle est faite sur l'appel
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
+	 * @throws IOException
 	 */
-	public ApiConnection(){
+	public ApiConnection() throws IOException{
 
+		Pair<ISpeaker, IListener> p;
 		this.state = false; // connexion initialement non ouverte
 
-		/** Demander un objet Listner */
-		listener = FkComFactory.getFkComListener();
+	     p = FkInitCom.initCom(this.ipServer, this.portServer);
+        this.listener = p.getListener();
 
-		/** Demander un Objet speaker */
-		speaker = FkComFactory.getFkComSpeaker();
-
+        this.speaker = p.getSpeaker();
 
 	}
 

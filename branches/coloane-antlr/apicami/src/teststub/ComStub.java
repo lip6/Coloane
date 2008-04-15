@@ -2,6 +2,8 @@ package teststub;
 
 
 
+import java.io.IOException;
+
 import fr.lip6.move.coloane.api.apiPackage.Api;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
@@ -38,9 +40,10 @@ public class ComStub {
 
 	/**
 	 * Test l'ouverture d'une connexion
+	 * @throws IOException
 	 *
 	 */
-	private static void testOpenConnection(){
+	private static void testOpenConnection() throws IOException{
 		/** Demander un objet implémentant l'interface ApiConnection */
 		IApiConnection connection = Api.getApiConnection();
 
@@ -76,7 +79,7 @@ public class ComStub {
 	// TODO
 	}
 
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
 
 		/** Test l'ouverture de la connexion */
 		testOpenConnection();
