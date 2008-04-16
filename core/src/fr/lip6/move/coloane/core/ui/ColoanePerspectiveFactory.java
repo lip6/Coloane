@@ -12,10 +12,10 @@ import org.eclipse.ui.IPerspectiveFactory;
 * </ul>
 */
 
-public class MainPerspectiveFactory implements IPerspectiveFactory {
+public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 
 	/** ID for action sets Platform */
-	public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSet"; //$NON-NLS-1$
+	public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSets"; //$NON-NLS-1$
 
 	/** ID for history view */
 	public static final String HISTORY_VIEW = "fr.lip6.move.coloane.views.HistoricView"; //$NON-NLS-1$
@@ -26,6 +26,8 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 	/** ID for wizard */
 	public static final String PROJECT_WIZARD = "fr.lip6.move.coloane.wizard.projectWizard"; //$NON-NLS-1$
 	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard"; //$NON-NLS-1$
+	
+	public static final String MODEL_NAVIGATOR = "fr.lip6.move.coloane.views.NavigatorView"; // $NON-NLS-1$
 
 	/**
 	 * Creation du plan de travail
@@ -59,6 +61,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
+		layout.addShowViewShortcut(MODEL_NAVIGATOR);
 	}
 
 	/**
@@ -74,7 +77,7 @@ public class MainPerspectiveFactory implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 
 		// Top left: Resource Navigator
-		layout.createFolder("TOPLEFT", IPageLayout.LEFT, topLeftRatio, editorArea).addView(IPageLayout.ID_RES_NAV); //$NON-NLS-1$
+		layout.createFolder("TOPLEFT", IPageLayout.LEFT, topLeftRatio, editorArea).addView(MODEL_NAVIGATOR); //$NON-NLS-1$
 
 		// Outline view is just after
 		layout.createFolder("OUTLINE", IPageLayout.BOTTOM, outlineRatio, "TOPLEFT").addView(IPageLayout.ID_OUTLINE); //$NON-NLS-1$ //$NON-NLS-2$

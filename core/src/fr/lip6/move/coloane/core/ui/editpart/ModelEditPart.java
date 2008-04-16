@@ -12,6 +12,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
@@ -22,6 +23,24 @@ import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 public class ModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
 	/**
+	 * Creation des differentes regles d'edition pour le modele
+	 */
+	protected final void createEditPolicies() {
+		installEditPolicy(EditPolicy.NODE_ROLE, null);
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+		
+		// Interdiction de suppression de l'objet modele
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+
+		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy());
+
+		// Impossible de selectionenr le modele
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+	}
+	
+	/**
 	 * Construction de la figure root du modele.
 	 * Cette figure est invisible mais sert de conteneur a tous les autres objets.
 	 * @return IFigure
@@ -29,6 +48,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	protected final IFigure createFigure() {
 		Figure root = new FreeformLayer();
 		root.setLayoutManager(new FreeformLayout());
+		root.setBorder(new MarginBorder(5));
 		return root;
 	}
 
@@ -47,22 +67,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
-	}
-
-
-
-	/**
-	 * Creation des differentes regles d'edition pour le modele
-	 */
-	protected final void createEditPolicies() {
-		// Interdiction de suppression de l'objet modele
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
-
-		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy());
-
-		// Impossible de selectionenr le modele
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 	}
 
 
