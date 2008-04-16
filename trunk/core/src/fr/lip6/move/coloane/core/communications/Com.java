@@ -1,12 +1,10 @@
 package fr.lip6.move.coloane.core.communications;
 
 import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.core.interfaces.IComMotor;
-import fr.lip6.move.coloane.core.interfaces.IComUi;
-import fr.lip6.move.coloane.core.interfaces.IMotorCom;
-import fr.lip6.move.coloane.core.interfaces.IUiCom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.motor.Motor;
+import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.DrawDialog;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
@@ -25,16 +23,16 @@ import java.util.Vector;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 
-public final class Com implements IComUi, IComApi, IComMotor {
+public final class Com implements IComApi {
 
 	/** Une poignee sur l'API de communication avec la plateforme */
 	private IApi api = null;
 
 	/** Une poignee sur le moteur */
-	private IMotorCom motor = null;
+	private Motor motor = null;
 
 	/** Une poignee sur l'interface utilisateur */
-	private IUiCom ui = null;
+	private UserInterface ui = null;
 
 	/** Le menu en cours de construction */
 	private RootMenu root = null;
@@ -72,16 +70,16 @@ public final class Com implements IComUi, IComApi, IComMotor {
 	 * Permet de rattacher le moteur au module de communications
 	 * @param theMotor Le module moteur
 	 */
-	public void setMotor(IMotorCom theMotor) {
-		this.motor = theMotor;
+	public void setMotor(Motor motor) {
+		this.motor = motor;
 	}
 
 	/**
 	 * Permet d'attacher l'interface utilisateur au module de communications
 	 * @param theUi L'interface utilisateur
 	 */
-	public void setUi(IUiCom theUi) {
-		this.ui = theUi;
+	public void setUi(UserInterface ui) {
+		this.ui = ui;
 	}
 
 	/*
