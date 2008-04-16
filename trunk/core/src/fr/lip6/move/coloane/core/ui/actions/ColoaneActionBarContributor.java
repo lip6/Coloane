@@ -18,7 +18,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
 public class ColoaneActionBarContributor extends ActionBarContributor {
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.MainPerspectiveFactory;
+import fr.lip6.move.coloane.core.ui.ColoanePerspectiveFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationDialog;
 
 import org.eclipse.jface.action.IAction;
@@ -39,7 +39,7 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 
 		try {
 			// If we don't call this method here, the view is not initialized and HistoryView.instance is null (and it is bad).
-			window.getActivePage().showView(MainPerspectiveFactory.HISTORY_VIEW);
+			window.getActivePage().showView(ColoanePerspectiveFactory.HISTORY_VIEW);
 		} catch (PartInitException e) {
 			MessageDialog.openError(window.getShell(), Messages.AuthenticationAction_0, Messages.AuthenticationAction_1);
 		}

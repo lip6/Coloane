@@ -1,12 +1,10 @@
 package fr.lip6.move.coloane.core.ui;
 
+import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.exceptions.UIException;
-import fr.lip6.move.coloane.core.interfaces.IComUi;
-import fr.lip6.move.coloane.core.interfaces.IMotorUi;
-import fr.lip6.move.coloane.core.interfaces.IUiCom;
-import fr.lip6.move.coloane.core.interfaces.IUiMotor;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ActionsList;
@@ -35,16 +33,16 @@ import org.eclipse.ui.PlatformUI;
  * Interface Utilisateur
  */
 
-public final class UserInterface implements IUiCom, IUiMotor {
+public final class UserInterface{
 
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
 
 	/** Le module de communication */
-	private static IComUi com = null;
+	private static Com com = null;
 
 	/** Le module de moteur */
-	private IMotorUi motor = null;
+	private Motor motor = null;
 
 	/** La gestion des resultats */
 	private ActionsList serviceResultList = null;
@@ -208,8 +206,8 @@ public final class UserInterface implements IUiCom, IUiMotor {
 			public void run() {
 				try {
 					serviceResultList.addResultsList();
-					fenetreTravail.getActivePage().showView(MainPerspectiveFactory.RESULTS_VIEW);
-					serviceResultList.display(MainPerspectiveFactory.RESULTS_VIEW, fenetreTravail);
+					fenetreTravail.getActivePage().showView(ColoanePerspectiveFactory.RESULTS_VIEW);
+					serviceResultList.display(ColoanePerspectiveFactory.RESULTS_VIEW, fenetreTravail);
 				} catch (PartInitException e) {
 					Coloane.getLogger().warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
 				}
@@ -282,7 +280,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module de communication a l' l'interface utilisateur
 	 * @param IComUi L'interface
 	 */
-	public void setCom(IComUi c) {
+	public void setCom(Com c) {
 		com = c;
 	}
 
@@ -291,7 +289,7 @@ public final class UserInterface implements IUiCom, IUiMotor {
 	 * On attache le module du moteur a l' l'interface utilisateur
 	 * @param IMotorUi L'interface
 	 */
-	public void setMotor(IMotorUi mot) {
+	public void setMotor(Motor mot) {
 		this.motor = mot;
 	}
 }
