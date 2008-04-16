@@ -1,29 +1,18 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
-
+import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
+import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -62,7 +51,7 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;	
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -87,6 +76,8 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
 
 public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
+	
+	
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
@@ -213,9 +204,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	/** La palette */
 	private PaletteRoot paletteRoot;
 
-	/** Formalisme */
-	private Formalism formalism;
-
 	/** Le listener de focus */
 	private static TabListener listener = null;
 
@@ -308,54 +296,21 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	protected final void setInput(IEditorInput input) {
 		super.setInput(input);
 
+		// Recuperation du fichier XML decrivant un modele
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
-
-		// Le gestionnaire de formalismes pour reconnaitre le formalisme en fonction de l'extension
-		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-		this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
-
+	
+		try {
+			model = ModelLoader.LoadFromXML(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
 		setEditDomain(new DefaultEditDomain(this));
-
-		// Creation d'un instance du handler
-		ModelHandler handler = new ModelHandler();
-
-		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-						
-			Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/resources/"+this.formalism.getSchema())); //$NON-NLS-1$
-			Schema schema = schemaFactory.newSchema(schemaSource);
-
-			// Phase de validation
-			Validator validator = schema.newValidator();
-			validator.validate(new StreamSource(file.getContents()));
-			
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(file.getLocation().toString(), handler);
-		} catch (Exception e) {
-			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + file.getName()); //$NON-NLS-1$
-			Coloane.getLogger().fine("Stack : "); //$NON-NLS-1$
-			e.printStackTrace();
-			Coloane.getLogger().finer("Details : " + e.getMessage() + " " + e.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + file.getName() + " - " + e.toString() + " " + e.getMessage()); //$NON-NLS-2$ //$NON-NLS-1$
-		}
-
-		// Creation du modele a partir du modele generique
-		try {
-			model = new ModelImplAdapter(handler.getModel(), this.formalism);
-
-			// Creation d'une session pour ce modele
-			if (!Motor.getInstance().createSession(model, file.getName())) {
-				Coloane.getLogger().warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
-			}
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_3 + e.getMessage());
-		}
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
@@ -534,7 +489,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @return PaletteRoot Le pere de la palette
 	 */
 	protected final PaletteRoot getPaletteRoot() {
-		paletteRoot = PaletteFactory.createPalette(this.formalism);
+		paletteRoot = PaletteFactory.createPalette(this.model.getFormalism());
 		return paletteRoot;
 	}
 
