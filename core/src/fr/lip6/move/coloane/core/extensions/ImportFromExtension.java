@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 
 public class ImportFromExtension {
 	/**
