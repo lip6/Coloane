@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import fr.lip6.move.coloane.core.interfaces.IExportTo;
 
 public class ExportToExtension {
 	/**
@@ -37,7 +36,7 @@ public class ExportToExtension {
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */
-	public static IExportTo createConvertInstance(String ref) throws CoreException{
+	public static IExportTo createConvertInstance(String ref) throws CoreException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {
