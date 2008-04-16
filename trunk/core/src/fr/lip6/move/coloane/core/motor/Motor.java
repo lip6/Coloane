@@ -1,15 +1,12 @@
 package fr.lip6.move.coloane.core.motor;
 
+import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.interfaces.IComMotor;
-import fr.lip6.move.coloane.core.interfaces.IMotorCom;
-import fr.lip6.move.coloane.core.interfaces.IMotorUi;
-import fr.lip6.move.coloane.core.interfaces.IUiMotor;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
@@ -31,7 +28,7 @@ import org.eclipse.ui.PlatformUI;
  * Le moteur est charge de faire le lien entre le module com et l'interface graphique<br>
  * Il doit etre tenu au courant des changements de sessions.
  */
-public final class Motor implements IMotorCom, IMotorUi {
+public final class Motor {
 
 	/** Le gestionnaire de formalismes */
 	private static FormalismManager formalismManager;
@@ -43,10 +40,10 @@ public final class Motor implements IMotorCom, IMotorUi {
 	private ColoaneProgress currentProgress;
 
 	/** Le module de communications */
-	private IComMotor com = null;
+	private Com com = null;
 
 	/** L'interface utilisateur */
-	private IUiMotor ui = null;
+	private UserInterface ui = null;
 
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -77,7 +74,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * Recupere une poignee sur le moteur
 	 * @param com le module de communication
 	 */
-	public void setCom(IComMotor moduleCom) {
+	public void setCom(Com moduleCom) {
 		Coloane.getLogger().config("Attachement du module de communication avec le moteur"); //$NON-NLS-1$
 		this.com = moduleCom;
 	}
@@ -86,7 +83,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 	 * Recupere une poignee sur l'interface utilisateur
 	 * @param ui L'interface utilisateur
 	 */
-	public void setUi(IUiMotor moduleUi) {
+	public void setUi(UserInterface moduleUi) {
 		Coloane.getLogger().config("Attachement de l'interface utilisateur avec le moteur"); //$NON-NLS-1$
 		this.ui = moduleUi;
 	}
@@ -364,13 +361,7 @@ public final class Motor implements IMotorCom, IMotorUi {
 		// Construit le modele en memoire a partir du modele generique recu
 		IModelImpl modelImpl;
 		try {
-			Formalism f;
-			if (model.getFormalism() != null) {
-				f = getFormalismManager().getFormalismByName(model.getFormalism());
-			} else {
-				f = getFormalismManager().getFormalismByName("ReachabilityGraph"); //$NON-NLS-1$
-			}
-			modelImpl = new ModelImplAdapter(model, f); //$NON-NLS-1$
+			modelImpl = new ModelImplAdapter(model);
 		} catch (BuildException e) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele : " + e.getMessage()); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Motor_2 + e.getMessage());
