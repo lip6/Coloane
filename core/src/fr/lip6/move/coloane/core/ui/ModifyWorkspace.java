@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 import java.io.ByteArrayInputStream;
