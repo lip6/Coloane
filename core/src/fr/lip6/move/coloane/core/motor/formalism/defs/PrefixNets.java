@@ -50,8 +50,8 @@ public class PrefixNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.L1, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.L2, true, true)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "marking", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
-		elt.setAddrIcone16("/resources/formalisms/place16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/formalisms/place24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/place16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/place24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -60,8 +60,8 @@ public class PrefixNets extends Formalism {
 		elt = new NodeFormalism("event", Messages.PrefixNets_13, this, INodeGraphicInfo.FIG_RECT, EVENT_WIDTH, EVENT_HEIGHT, false); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "name", IAttributeGraphicInfo.NOR, true, false)); //$NON-NLS-1$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.NOR, true, true, "true")); //$NON-NLS-1$ //$NON-NLS-2$
-		elt.setAddrIcone16("/resources/formalisms/transition16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/formalisms/transition24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transition16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transition24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
@@ -72,16 +72,16 @@ public class PrefixNets extends Formalism {
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "label", IAttributeGraphicInfo.L2, true, true, "true")); //$NON-NLS-1$ //$NON-NLS-2$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "image", IAttributeGraphicInfo.NOR, true, true, "1")); //$NON-NLS-1$ //$NON-NLS-2$
 		elt.addAttributeFormalism(new AttributeFormalism(i++, "num_image", false, true, "1")); //$NON-NLS-1$ //$NON-NLS-2$
-		elt.setAddrIcone16("/resources/formalisms/transitionimmediate16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/formalisms/transitionimmediate24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/transitionimmediate16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/transitionimmediate24.png"); //$NON-NLS-1$
 
 		addElementBase(elt);
 		i = 1;
 
 		// Arc
 		elt = new ArcFormalism("arc", Messages.PrefixNets_31, this, IArcGraphicInfo.FIG_ARC_SIMPLE); //$NON-NLS-1$
-		elt.setAddrIcone16("/resources/formalisms/arc16.gif"); //$NON-NLS-1$
-		elt.setAddrIcone24("/resources/formalisms/arc24.gif"); //$NON-NLS-1$
+		elt.setAddrIcone16("/resources/formalisms/arc16.png"); //$NON-NLS-1$
+		elt.setAddrIcone24("/resources/formalisms/arc24.png"); //$NON-NLS-1$
 		addElementBase(elt);
 
 
