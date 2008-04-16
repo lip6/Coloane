@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.main.Coloane;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -35,31 +34,41 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public final boolean performFinish() {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		// Recuperation des informations sur le nouveau projet a creer
 		IProject newProject = projectCreationPage.getProjectHandle();
-		IProjectDescription description = workspace.newProjectDescription(newProject.getName());
-
-		String[] natureIds = {Messages.NewProjectWizard_0};
-		description.setNatureIds(natureIds);
-		IPath oldPath = Platform.getLocation();
-		IPath newPath = projectCreationPage.getLocationPath();
-
-		if (!oldPath.equals(newPath)) {
-			oldPath = newPath;
-			description.setLocation(newPath);
+		
+		// On recupere le template de description pour les nouveaux projects
+		IProjectDescription basicDescription = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
+		
+		String[] natures = basicDescription.getNatureIds();
+		String[] newNatures = new String[natures.length + 1];
+		System.arraycopy(natures, 0, newNatures, 0, natures.length);
+		newNatures[natures.length] = "fr.lip6.move.coloane.core.modelingproject";
+		basicDescription.setNatureIds(newNatures);
+		
+		IPath platformPath = Platform.getLocation();
+		IPath askedPath = projectCreationPage.getLocationPath();
+		
+		// On doit prendre en compte la demande de l'utilisateur concernant le chemin de sauvegarde
+		if (!platformPath.equals(askedPath)) {
+			platformPath = askedPath;
+			basicDescription.setLocation(askedPath);
 		}
 
 		try {
+			// On verifie que le projet n'existe pas deja
 			if (!newProject.exists()) {
-				newProject.create(description, null);
+				newProject.create(basicDescription, null);
 			}
 
+			// Si le projet n'est pas ouvert... on l'ouvre !
 			if (!newProject.isOpen()) {
 				newProject.open(null);
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		
 		// Select and reveal the project in the workbench window
 		BasicNewProjectResourceWizard.updatePerspective(null);
 		BasicNewResourceWizard.selectAndReveal(newProject, Coloane.getDefault().getWorkbench().getActiveWorkbenchWindow());
