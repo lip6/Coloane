@@ -313,7 +313,16 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		// Le gestionnaire de formalismes pour reconnaitre le formalisme en fonction de l'extension
 		FormalismManager formManager = Coloane.getDefault().getMotor().getFormalismManager();
-		this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
+
+//******************** Debut   Modification    ************************
+
+		//ModelHandler modFor = new ModelHandler();
+				
+		this.formalism = formManager.getFormalismByName("AMI-NET");
+		
+//******************** Fin     Modification    ************************		
+		
+		//this.formalism = formManager.getFormalismByExtension(file.getFileExtension());
 
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
