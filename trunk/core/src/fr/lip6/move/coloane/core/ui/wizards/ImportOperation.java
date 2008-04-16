@@ -11,10 +11,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
 
+import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
-import fr.lip6.move.coloane.core.interfaces.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.ModelWriter;
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 public class ImportOperation extends WorkspaceModifyOperation {
