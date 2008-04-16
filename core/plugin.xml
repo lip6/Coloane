@@ -118,7 +118,7 @@
              extensions="petri"
              icon="resources/icons/cube-blue.png"
              id="fr.lip6.move.coloane.editor.petri"
-             name="Coloane Editor"/>
+             name="%EDITOR_NAME"/>
        <editor
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
@@ -126,7 +126,7 @@
              extensions="rg"
              icon="resources/icons/cube-green.png"
              id="fr.lip6.move.coloane.editor.rg"
-             name="Coloane Editor">
+             name="%EDITOR_NAME">
        </editor>
        <editor
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
@@ -135,7 +135,7 @@
              extensions="prefix"
              icon="resources/icons/cube-red.png"
              id="fr.lip6.move.coloane.editor.prefix"
-             name="Coloane Editor">
+             name="%EDITOR_NAME">
        </editor>
     </extension>
     <extension
