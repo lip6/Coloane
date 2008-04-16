@@ -27,13 +27,12 @@ public class ModelWriter {
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
 		String schema = modelimpl.getFormalism().getSchema();
 		
+		String extension="model";
+		
 		//Ecriture du corps générique***********************Rajout
 		
-		line += "<file name=' ' extensionFile='eee'>\n";
-		if (!(model.getListOfAttrSize() == 0)) {
-			line += translateAttributesToXML(model);
-		}
-
+		line += "<file name=' ' extensionFile='" + extension + "'>\n";
+		
 		//*********************** Fin Rajout
 		
 		// Ecriture des attributs relatifs au formalisme et positions
@@ -218,6 +217,7 @@ public class ModelWriter {
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
 		String schema = Motor.getInstance().getFormalismManager().getFormalismByName(formalismName).getSchema();
 		
+		String extension="model";
 		
 		//********** Debut   Rajout
 		//Soutirer le nom du fichier
@@ -231,7 +231,7 @@ public class ModelWriter {
 		
 //Ecriture du corps générique***********************Rajout
 		
-		line += "<file name='Nom du Fichier** A faire **' extensionFile='model'>\n";
+		line += "<file name='A_faire' extensionFile='" + extension +"'>\n";
 		
 		//*********************** Fin Rajout
 		
