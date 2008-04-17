@@ -154,6 +154,11 @@
 			<artifactId>workbench</artifactId>
 			<version>[3.2,)</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.ui</groupId>
+            <artifactId>navigator</artifactId>
+            <version>3.3.0-I20070605-0010</version>
+        </dependency>
 	</dependencies>
 
 	<build>
