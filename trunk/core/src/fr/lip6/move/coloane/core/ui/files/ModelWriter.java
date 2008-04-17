@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -199,7 +198,7 @@ public class ModelWriter {
 	public static String createDefault(String formalismName) {
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
-		String schema = FormalismManager.getFormalismByName(formalismName).getSchema();
+		String schema = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalismName).getSchema();
 		
 		Coloane.getLogger().finer("Choix du schema de validation : "+schema); //$NON-NLS-1$
 		

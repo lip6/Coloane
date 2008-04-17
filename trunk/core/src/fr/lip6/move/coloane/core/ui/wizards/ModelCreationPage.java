@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.wizards;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 
 import java.io.ByteArrayInputStream;
@@ -63,7 +62,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	public final boolean finish() {
 
 		// On ajoute l'extension au fichier fraichement cree
-		setFileName(getFileName() + "." + FormalismManager.getFormalismByName(((NewModelWizard) getWizard()).getFormalismName()).getExtension()); //$NON-NLS-1$
+		setFileName(getFileName() + "." + Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(((NewModelWizard) getWizard()).getFormalismName()).getExtension()); //$NON-NLS-1$
 
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
