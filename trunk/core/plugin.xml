@@ -165,17 +165,9 @@
              name="%MODEL_WIZARD"
              preferredPerspectives="fr.lip6.move.coloane.perspective"
              project="false"/>
-       <category
-             id="fr.lip6.move.coloane.core.wizardcat"
-             name="Model Wizards">
-       </category>
        <primaryWizard
              id="fr.lip6.move.coloane.wizard.projectWizard">
        </primaryWizard>
-       <category
-             id="fr.lip6.move.coloane.core.wizardcat"
-             name="Model Wizards">
-       </category>
     </extension>
 	<extension
        id="preferencePages"
