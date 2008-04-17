@@ -36,6 +36,9 @@
             icon="resources/red_file.png"
             id="fr.lip6.move.coloane.wizard.import.cami"
             name="Cami File">
+         <description>
+            Import models written in CAMI from the local file system.
+         </description>
       </wizard>
    </extension>
 
