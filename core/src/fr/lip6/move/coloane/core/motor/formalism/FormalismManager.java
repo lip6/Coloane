@@ -31,7 +31,7 @@ public class FormalismManager {
 	 * @param name Le nom du formalism qu'on cherche
 	 * @return Formalism
 	 */
-	public static final Formalism getFormalismByName(String name) {
+	public final Formalism getFormalismByName(String name) {
 		for (Formalism form : listOfFormalisms) {
 			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;

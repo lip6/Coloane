@@ -15,7 +15,6 @@ import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.ui.ColoaneMessages;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
@@ -59,7 +58,7 @@ public class ModelLoader {
 		}
 
 		// On determine le formalisme (objet) pour trouver le bon XSchema
-		Formalism currentFormalism = FormalismManager.getFormalismByName(globalHandler.getModel().getFormalism());
+		Formalism currentFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(globalHandler.getModel().getFormalism());
 
 		// Deuxieme verification pour voir si le fichier respecte le formalisme qu'il est cense utiliser
 		try {

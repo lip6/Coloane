@@ -10,5 +10,5 @@ public interface IImportFrom {
 	 * @return un modele correspendant a la represention interne de Coloane
 	 * @throws ColoaneException toutes les exceptions susceptiblent d'etre engendrees et a afficher
 	 */
-	public IModelImpl importFrom(String filePath) throws ColoaneException;
+	public IModelImpl importFrom(String filePath, String formalism) throws ColoaneException;
 }

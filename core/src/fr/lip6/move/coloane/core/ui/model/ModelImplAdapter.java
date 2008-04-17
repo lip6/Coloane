@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -56,7 +55,12 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		this.date = (int) System.currentTimeMillis();
 
 		this.genericModel = model;
-		this.formalism = FormalismManager.getFormalismByName(model.getFormalism());
+		this.formalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(model.getFormalism());
+		
+		if (this.formalism == null) {
+			Coloane.getLogger().warning("Erreur lors de la construction du modele : Aucun formalisme associe"); //$NON-NLS-1$
+			throw new BuildException(Messages.ModelImplAdapter_9);
+		}
 
 		/* Creation de tous les adapteurs */
 		try {

@@ -12,6 +12,7 @@ public final class Messages extends NLS {
 	public static String ModelImplAdapter_6;
 	public static String ModelImplAdapter_7;
 	public static String ModelImplAdapter_8;
+	public static String ModelImplAdapter_9;
 	public static String NodeImplAdapter_0;
 	public static String NodeImplAdapter_1;
 	static {
