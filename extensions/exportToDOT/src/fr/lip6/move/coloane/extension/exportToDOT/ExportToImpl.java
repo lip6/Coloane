@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.extension.exportToDOT;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.interfaces.IExportTo;
+import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 public class ExportToImpl implements IExportTo {
