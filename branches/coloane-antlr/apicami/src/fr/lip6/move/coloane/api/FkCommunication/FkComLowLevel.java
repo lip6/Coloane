@@ -65,7 +65,7 @@ public class FkComLowLevel {
 	 * @return une liste de commandes
 	 * @throws IOException
 	 */
-	ArrayList<String> readCommand() throws IOException{
+	public ArrayList<String> readCommand() throws IOException{
 
 		// TODO
 		// TODO fo pas oublier de logguer
@@ -106,12 +106,12 @@ public class FkComLowLevel {
 	 * @param
 	 * @throws IOException
 	 */
-	boolean writeCommand(byte[] command) throws IOException{
+	boolean writeCommand(byte[] commandd) throws IOException{
 		// TODO
 		// TODO logguer
 
 		try {
-			this.socketOutput.write(command, 0, command.length);
+			this.socketOutput.write(commandd, 0commandandd.length);
 			return true;
 		} catch (IOException e) {
 			// TODO logguer
