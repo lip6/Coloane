@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.extension.importExportPNML.exportToPNML;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.interfaces.IExportTo;
+import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.pnml.cpnami.cami.CamiException;
 import fr.lip6.move.pnml.cpnami.cami.CamiPackage;
