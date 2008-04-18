@@ -1,14 +1,11 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.interfaces.IImportFrom;
+import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.motor.formalism.Messages;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
@@ -24,20 +21,7 @@ public class ImportFromImlp implements IImportFrom {
 
 	public ImportFromImlp() {}
 
-	public IModelImpl importFrom(String filePath) throws ColoaneException {
-		
-		// Determination du formalism avec l'extension
-		StringTokenizer file = new StringTokenizer(filePath, ".");
-		String fext = file.nextToken(); // Debut du nom
-		fext = file.nextToken(); // Extension
-		
-		FormalismManager fm = new FormalismManager();
-		Formalism formalism = fm.getFormalismByExtension(fext);
-		
-		// On verifie qu'un formalisme existe bien pour cette extension
-		if (formalism == null){
-			throw new ColoaneException(Messages.FormalismManager_0);
-		}
+	public IModelImpl importFrom(String filePath, String formalism) throws ColoaneException {
 		
 		// Creation d'un model
 		IModel genericModel = null;
@@ -62,6 +46,7 @@ public class ImportFromImlp implements IImportFrom {
 		// ??
 		try {
 			genericModel = new Model(camiModel, new CamiTranslator());
+			genericModel.setFormalism(formalism);
 		} catch (SyntaxErrorException e){
 			e.printStackTrace();
 			throw new ColoaneException(Messages.FormalismManager_1);
@@ -72,7 +57,7 @@ public class ImportFromImlp implements IImportFrom {
 		genericModel.setMaxId(genericModel.getMaxId());
 		
 		try{
-			return new ModelImplAdapter(genericModel, formalism);
+			return new ModelImplAdapter(genericModel);
 		} catch (BuildException e){
 			e.printStackTrace();
 			Coloane.getLogger().warning("Erreur lors de la construction du modele");
