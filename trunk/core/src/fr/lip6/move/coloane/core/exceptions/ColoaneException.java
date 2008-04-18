@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.exceptions;
 
 /**
- * Exception utilisee en cas d'erreur importante de Coloane
+ * Exception utilisee en cas d'erreur importante et non specialisee de Coloane
  */
 public class ColoaneException extends Exception {
-	/** Utilisé pour la serialisation */
+	/** Utilise pour la serialisation */
 	private static final long serialVersionUID = 1L;
 
 	/** Message d'information sur l'exception */
@@ -12,7 +12,7 @@ public class ColoaneException extends Exception {
 
 	/**
 	 * Constructeur de la classe
-	 * @param s message associatée à l'exception
+	 * @param msg Message associee a l'exception
 	 */
 	public ColoaneException(String msg) {
 		super(msg);
@@ -21,7 +21,7 @@ public class ColoaneException extends Exception {
 
 	/**
 	 * Retourne le message associe a l'exception
-	 * @return string message d'erreur
+	 * @return Le message d'erreur
 	 */
 	@Override
 	public final String getMessage() {
