@@ -8,7 +8,7 @@ package fr.lip6.move.coloane.core.exceptions;
  * </ul>
  */
 public class UIException extends Exception {
-	/** Utilisé pour la serialisation */
+	/** Utilise pour la serialisation */
 	private static final long serialVersionUID = 1L;
 
 	/** Message d'information sur l'exception */
@@ -16,7 +16,7 @@ public class UIException extends Exception {
 
 	/**
 	 * Constructeur de la classe
-	 * @param msg message associe a l'exception
+	 * @param msg Message associe a l'exception
 	 */
 	public  UIException(String msg) {
 		super(msg);
@@ -25,7 +25,7 @@ public class UIException extends Exception {
 
 	/**
 	 * Retourne le message associe a l'exception
-	 * @return string message d'erreur
+	 * @return Le message d'erreur
 	 */
 	@Override
 	public final String getMessage() {
