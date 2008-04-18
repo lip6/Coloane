@@ -26,24 +26,53 @@ public class Arc implements IArc{
 	 /** l'inode du debut*/
 	private INode startingNode;
 
+/**
+ * le constructeur de notre classe
+ */
 
+	public Arc(){
+	}
 
+	/**
+	 * le constructeur par defaut.
+	 */
+
+	public Arc(){
+
+	}
+
+	/**
+	 * retourne le type de larc
+	 */
 	public String getArcType() {
 		return this.arcType;
 	}
 
+	/**
+	 * les attributs de notre arc.
+	 */
 	public ArrayList<String> getAttribute(){
 		return this.attribute;
 	}
 
+	/**
+	 * le noeud de fin.
+	 */
+
 	public INode getEndingNode() {
 		return this.endingNode;
 	}
-
+/**
+ * lidentifiant de larc;
+ */
 	public int getId() {
 		return this.id;
 	}
 
+
+	/**
+	 * l noeud de debut.
+	 */
 	public INode getStartingNode() {
 		return this.startingNode;
 	}
