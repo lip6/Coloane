@@ -13,17 +13,31 @@ import java.util.ArrayList;
 public class FormalismManager {
 
 	/** Liste des formalismes disponibles. */
-	private static ArrayList<Formalism> listOfFormalisms;
-
+	private ArrayList<Formalism> listOfFormalisms;
+	
+	/** L'instance du singleton : FormalismManager */
+	private static FormalismManager instance;
+	
 	/**
 	 * Constructeur de la classe FormalismsManager
 	 * Constitution de la liste des formalismes
+	 * Pour eviter les doublonson utilise le pattern <b>Singleton</b>
+	 * @see #getInstance()
 	 */
-	public FormalismManager() {
+	private FormalismManager() {
 		listOfFormalisms = new ArrayList<Formalism>();
 		listOfFormalisms.add(new PetriNets());
 		listOfFormalisms.add(new PrefixNets());
 		listOfFormalisms.add(new ReachabilityGraph());
+	}
+
+	/**
+	 * Retourne le module de communications
+	 * @return Com Le module de communications
+	 */
+	public static synchronized FormalismManager getInstance() {
+		if (instance == null) { instance = new FormalismManager(); }
+		return instance;
 	}
 	
 	/**
@@ -47,7 +61,4 @@ public class FormalismManager {
 	public final ArrayList<Formalism> getListOfFormalisms() {
 		return listOfFormalisms;
 	}
-
-	
-	
 }

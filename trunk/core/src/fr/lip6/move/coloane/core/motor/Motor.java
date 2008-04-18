@@ -57,7 +57,7 @@ public final class Motor {
 	 * Instanciation des 2 managers : formalismes et sessions
 	 */
 	private Motor() {
-		formalismManager = new FormalismManager();
+		formalismManager = FormalismManager.getInstance();
 		sessionManager = new SessionManager();
 	}
 
