@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Gestionnaire de Sessions
  */
-public class SessionManager {
+public final class SessionManager {
 
 	/** Est-on authentifie sur la plate-forme ? */
 	private boolean authenticated;
@@ -19,18 +19,29 @@ public class SessionManager {
 	/** Liste des sessions */
 	private ArrayList<Session> listOfSessions = new ArrayList<Session>();
 
+	/** L'instance singleton du Session Manager */
+	private static SessionManager instance = null;
+	
 	/** Les indicateurs de statuts */
 	public static final int ERROR = -1;
 	public static final int CLOSED = 0;
 	public static final int CONNECTED = 1;
 	public static final int SUSPENDED = 2;
 
-
 	/**
 	 * Constructeur du gestionnaire de sessions
 	 */
-	public SessionManager() {
+	private SessionManager() {
 		this.currentSession = null;
+	}
+	
+	/**
+	 * Retourne le gestionnaire de sessions
+	 * @return SessionManager Une instance du gestionnaire de sessions
+	 */
+	public static synchronized SessionManager getInstance() {
+		if (instance == null) { instance = new SessionManager(); }
+		return instance;
 	}
 
 	/**
