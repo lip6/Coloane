@@ -56,7 +56,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		this.genericModel = model;
 		this.formalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(model.getFormalism());
-		
+
 		if (this.formalism == null) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele : Aucun formalisme associe"); //$NON-NLS-1$
 			throw new BuildException(Messages.ModelImplAdapter_9);

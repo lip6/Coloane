@@ -12,7 +12,7 @@ public class Formalism {
 
 	/** Nom de l'extension du fichier dans lequel on enregistrera le formalisme */
 	private String extension;
-	
+
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
 
@@ -161,7 +161,7 @@ public class Formalism {
 	public final String getExtension() {
 		return extension;
 	}
-	
+
 	/**
 	 * Retourne l'adresse du xschema a utliser pour la validation
 	 * @return String

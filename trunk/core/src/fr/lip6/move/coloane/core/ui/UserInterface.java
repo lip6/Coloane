@@ -33,7 +33,7 @@ import org.eclipse.ui.PlatformUI;
  * Interface Utilisateur
  */
 
-public final class UserInterface{
+public final class UserInterface {
 
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;

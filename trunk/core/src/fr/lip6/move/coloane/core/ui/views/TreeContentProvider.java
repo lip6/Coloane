@@ -3,8 +3,8 @@ package fr.lip6.move.coloane.core.ui.views;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class TreeContentProvider implements ITreeContentProvider {
-	
+public final class TreeContentProvider implements ITreeContentProvider {
+
 	public Object[] getChildren(Object parentElement) {
 		return null;
 	}

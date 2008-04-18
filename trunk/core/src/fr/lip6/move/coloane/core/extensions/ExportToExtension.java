@@ -5,7 +5,10 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 
-public class ExportToExtension {
+public final class ExportToExtension {
+
+	private ExportToExtension() { }
+
 	/**
 	 * Attributs du point d'extension 'exports'
 	 */
@@ -13,8 +16,7 @@ public class ExportToExtension {
 	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 	private static final String EXT_EXTENSION = "extension"; //$NON-NLS-1$
-	
-	
+
 	/**
 	 * Consulte le registre des extensions pour trouver l'extension de fichier associee au wizard invoque
 	 * @param ref La reference du wizard
@@ -23,13 +25,13 @@ public class ExportToExtension {
 	public static String findExtension(String ref) {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (int i = 0; i < contributions.length; i++) {
-			if(contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
+			if (contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
 				return contributions[i].getAttribute(EXT_EXTENSION);
 			}
 		}
-		return null;		
+		return null;
 	}
-	
+
 	/**
 	 * Creer une instance de convertiseur
 	 * @param nomConvertiseur nom du convertiseur a instancier
@@ -40,15 +42,15 @@ public class ExportToExtension {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {
-			if(contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
+			if (contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
 				convertContribution = contributions[i];
 				break;
 			}
 		}
-		
+
 		IExportTo convertInstance = null;
-		if(convertContribution != null) {
-			convertInstance = (IExportTo)convertContribution.createExecutableExtension(CLASS_EXTENSION);
+		if (convertContribution != null) {
+			convertInstance = (IExportTo) convertContribution.createExecutableExtension(CLASS_EXTENSION);
 		}
 		return convertInstance;
 	}

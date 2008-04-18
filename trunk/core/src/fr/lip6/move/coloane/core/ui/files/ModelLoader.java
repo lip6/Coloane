@@ -1,5 +1,13 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.exceptions.BuildException;
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.Motor;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.ui.ColoaneMessages;
+import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -11,17 +19,11 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.ui.ColoaneMessages;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+public final class ModelLoader {
 
-public class ModelLoader {
+	private ModelLoader() {	}
 
-	public static final IModelImpl LoadFromXML(IFile xmlFile) throws Exception {
+	public static IModelImpl loadFromXML(IFile xmlFile) throws Exception {
 		IModelImpl model = null;
 
 		// Creation de deux handler.
@@ -53,7 +55,7 @@ public class ModelLoader {
 
 		// Verifie la presence d'un indice sur le formalisme
 		if (globalHandler.getModel().getFormalism() == "") {
-			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier "+xmlFile.getName());
+			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName());
 			return null;
 		}
 
@@ -65,7 +67,7 @@ public class ModelLoader {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/"+currentFormalism.getSchema())); //$NON-NLS-1$
+			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/" + currentFormalism.getSchema())); //$NON-NLS-1$
 			Schema schema = schemaFactory.newSchema(schemaSource);
 
 			// Phase de validation du fichier par rapport au modele global

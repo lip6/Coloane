@@ -4,7 +4,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-public class LabelProvider implements ILabelProvider {
+public final class LabelProvider implements ILabelProvider {
 
 	public Image getImage(Object element) {
 		// TODO Auto-generated method stub

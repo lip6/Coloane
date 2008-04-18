@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class FileHandler extends DefaultHandler {
 	private IModel model = new Model(new CamiTranslator());
@@ -20,10 +20,10 @@ public class FileHandler extends DefaultHandler {
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
 			this.model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
-			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : "+this.model.getFormalism());
+			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism());
 		}
 	}
-	
+
 
 	/**
 	 * Retourne le modele cree par le parcours du fichier xml

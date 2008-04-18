@@ -21,7 +21,7 @@ public final class SessionManager {
 
 	/** L'instance singleton du Session Manager */
 	private static SessionManager instance = null;
-	
+
 	/** Les indicateurs de statuts */
 	public static final int ERROR = -1;
 	public static final int CLOSED = 0;
@@ -34,7 +34,7 @@ public final class SessionManager {
 	private SessionManager() {
 		this.currentSession = null;
 	}
-	
+
 	/**
 	 * Retourne le gestionnaire de sessions
 	 * @return SessionManager Une instance du gestionnaire de sessions
@@ -48,7 +48,7 @@ public final class SessionManager {
 	 * Retourne la session courante
 	 * @return La session courante
 	 */
-	public final Session getCurrentSession() {
+	public Session getCurrentSession() {
 		return currentSession;
 	}
 
@@ -56,7 +56,7 @@ public final class SessionManager {
 	 * Retourne le nom de la session courante
 	 * @return Le nom de la session courante
 	 */
-	public final String getCurrentSessionName() {
+	public String getCurrentSessionName() {
 		if (currentSession != null) {
 			Coloane.getLogger().fine("La session courante est : " + currentSession.getName() + "(Id:" + currentSession.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return currentSession.getName();
@@ -68,7 +68,7 @@ public final class SessionManager {
 	 * Retourne le modele attache a la session courante
 	 * @return Le modele attache a la session courante
 	 */
-	public final IModelImpl getCurrentSessionModel() {
+	public IModelImpl getCurrentSessionModel() {
 		if (currentSession != null) { return currentSession.getModel();	}
 		return null;
 	}
@@ -77,7 +77,7 @@ public final class SessionManager {
 	 * Retourne le status de la session courante
 	 * @return Le status de la session courante (ou ERROR en cas de session inexistante)
 	 */
-	public final int getCurrentSessionStatus() {
+	public int getCurrentSessionStatus() {
 		if (currentSession != null) {
 			return currentSession.getStatus();
 		}
@@ -88,7 +88,7 @@ public final class SessionManager {
 	 * Indique que la session courante est connectee<br>
 	 * Attention connectee =! authentifie (cf {@link #authenticated}
 	 */
-	public final void setCurrentSessionConnected() {
+	public void setCurrentSessionConnected() {
 		if (currentSession != null) {
 			currentSession.setStatus(CONNECTED);
 		}
@@ -98,7 +98,7 @@ public final class SessionManager {
 	 * Indique que la session courante est deconnectee
 	 * Attention connectee =! authentifie (cf {@link #authenticated}
 	 */
-	public final void setCurrentSessionDisconnected() {
+	public void setCurrentSessionDisconnected() {
 		if (currentSession != null) {
 			currentSession.setServicesMenu(null);
 			currentSession.setAdminMenu(null);
@@ -111,7 +111,7 @@ public final class SessionManager {
 	 * @param sessionName nom de la session
 	 * @return Session la session designe ou NULL si on ne trouve pas la session
 	 */
-	public final Session getSession(String sessionName) {
+	public Session getSession(String sessionName) {
 		for (Session session : listOfSessions) {
 			if (sessionName.equals(session.getName())) { return session; }
 		}
@@ -123,7 +123,7 @@ public final class SessionManager {
 	 * Si aucune session est courante... Celle la devient la session courante
 	 * @param s la session a positionner comme courante
 	 */
-	public final void attachSession(Session s) {
+	public void attachSession(Session s) {
 		if (this.currentSession == null) { this.currentSession = s;	}
 		this.listOfSessions.add(s);
 	}
@@ -133,7 +133,7 @@ public final class SessionManager {
 	 * @param sessionName Le nom de la session
 	 * @return booleen Un indicateur de deroulement
 	 */
-	public final boolean suspendSession(String sessionName) {
+	public boolean suspendSession(String sessionName) {
 		Coloane.getLogger().finer("Suspension d'une session : " + sessionName); //$NON-NLS-1$
 		Session toSuspend = getSession(sessionName);
 		if (toSuspend != null) {
@@ -151,7 +151,7 @@ public final class SessionManager {
 	 * @param sessionName nom de la session
 	 * @return booleen Un indicateur de deroulement
 	 */
-	public final boolean resumeSession(String sessionName) {
+	public boolean resumeSession(String sessionName) {
 		Coloane.getLogger().finer("Tentative de reprise d'une session : " + sessionName); //$NON-NLS-1$
 		Session toResume = getSession(sessionName);
 		if (toResume != null) {
@@ -173,7 +173,7 @@ public final class SessionManager {
 	 * Destruction de la session courante
 	 * @param sessionName nom de la session
 	 */
-	public final boolean destroySession(String sessionName) {
+	public boolean destroySession(String sessionName) {
 		Coloane.getLogger().fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		Session toDestroy = getSession(sessionName);
 		if (toDestroy != null) {
@@ -196,7 +196,7 @@ public final class SessionManager {
 	/**
 	 * Deconnexion brutale de tous les modeles
 	 */
-	public final void destroyAllSessions() {
+	public void destroyAllSessions() {
 		Coloane.getLogger().fine("Destruction de toutes les sessions"); //$NON-NLS-1$
 		for (Session session : this.listOfSessions) {
 			session.setServicesMenu(null);
@@ -210,7 +210,7 @@ public final class SessionManager {
 	 * @param sessionName Le nom de la session concernee
 	 * @return L'etat de la session
 	 */
-	public final int getSessionStatus(String sessionName) {
+	public int getSessionStatus(String sessionName) {
 		Session s = getSession(sessionName);
 		if (s == null) {
 			return ERROR;
@@ -224,7 +224,7 @@ public final class SessionManager {
 	 * L'authentification est valable pour tous les modeles
 	 * @return Un booleen
 	 */
-	public final boolean isAuthenticated() {
+	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
@@ -232,7 +232,7 @@ public final class SessionManager {
 	 * Positionne le status d'authentification du client
 	 * @param authenticated Le nouveau status du client
 	 */
-	public final void setAuthenticated(boolean authStatus) {
+	public void setAuthenticated(boolean authStatus) {
 		this.authenticated = authStatus;
 	}
 }

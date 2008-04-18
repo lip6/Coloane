@@ -49,8 +49,6 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 				return new ArrayList(); // Doit retourner une arraylist vide et non null
 			}
 		};
-		
-		
 	}
 
 	/**

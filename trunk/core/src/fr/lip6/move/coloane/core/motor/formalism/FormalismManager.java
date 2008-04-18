@@ -14,10 +14,10 @@ public final class FormalismManager {
 
 	/** Liste des formalismes disponibles. */
 	private ArrayList<Formalism> listOfFormalisms;
-	
+
 	/** L'instance du singleton : FormalismManager */
 	private static FormalismManager instance = null;
-	
+
 	/**
 	 * Constructeur de la classe FormalismsManager
 	 * Constitution de la liste des formalismes
@@ -39,13 +39,13 @@ public final class FormalismManager {
 		if (instance == null) { instance = new FormalismManager(); }
 		return instance;
 	}
-	
+
 	/**
 	 * Cette methode retourne un formalisme a partir de son nom
 	 * @param name Le nom du formalism qu'on cherche
 	 * @return Formalism
 	 */
-	public final Formalism getFormalismByName(String name) {
+	public Formalism getFormalismByName(String name) {
 		for (Formalism form : listOfFormalisms) {
 			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;
@@ -58,7 +58,7 @@ public final class FormalismManager {
 	 * Retourne la liste des formalismes disponibles
 	 * @return listOfFormalism
 	 */
-	public final ArrayList<Formalism> getListOfFormalisms() {
+	public ArrayList<Formalism> getListOfFormalisms() {
 		return listOfFormalisms;
 	}
 }
