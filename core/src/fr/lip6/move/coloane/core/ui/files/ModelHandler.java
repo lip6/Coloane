@@ -1,11 +1,5 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import java.util.logging.Logger;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Arc;
@@ -17,6 +11,13 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.model.Node;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
+
+import java.util.logging.Logger;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 
 public class ModelHandler extends DefaultHandler {
 
@@ -162,7 +163,7 @@ public class ModelHandler extends DefaultHandler {
 		// Remise a zero des donnees lues
 		data = ""; //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Gestion des caracteres speciaux (deprotection)
 	 * @param txt Le texte a deproteger
@@ -173,7 +174,6 @@ public class ModelHandler extends DefaultHandler {
 		txt = txt.replaceAll("&gt;", ">"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;
 	}
-	
 
 	/* Retourne le modele cree par le parcours du fichier xml */
 	public final IModel getModel() {

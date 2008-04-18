@@ -36,19 +36,19 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	public final boolean performFinish() {
 		// Recuperation des informations sur le nouveau projet a creer
 		IProject newProject = projectCreationPage.getProjectHandle();
-		
+
 		// On recupere le template de description pour les nouveaux projects
 		IProjectDescription basicDescription = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
-		
+
 		String[] natures = basicDescription.getNatureIds();
 		String[] newNatures = new String[natures.length + 1];
 		System.arraycopy(natures, 0, newNatures, 0, natures.length);
 		newNatures[natures.length] = "fr.lip6.move.coloane.core.modelingproject";
 		basicDescription.setNatureIds(newNatures);
-		
+
 		IPath platformPath = Platform.getLocation();
 		IPath askedPath = projectCreationPage.getLocationPath();
-		
+
 		// On doit prendre en compte la demande de l'utilisateur concernant le chemin de sauvegarde
 		if (!platformPath.equals(askedPath)) {
 			platformPath = askedPath;
@@ -68,7 +68,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		// Select and reveal the project in the workbench window
 		BasicNewProjectResourceWizard.updatePerspective(null);
 		BasicNewResourceWizard.selectAndReveal(newProject, Coloane.getDefault().getWorkbench().getActiveWorkbenchWindow());

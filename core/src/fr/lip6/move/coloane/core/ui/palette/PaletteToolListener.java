@@ -5,7 +5,6 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 
-import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 
 /**
  * Un ecouteur pour la palette<br>

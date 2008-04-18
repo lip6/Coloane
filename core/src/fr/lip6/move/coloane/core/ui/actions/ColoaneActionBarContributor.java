@@ -18,7 +18,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
 public class ColoaneActionBarContributor extends ActionBarContributor {
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
@@ -30,9 +30,9 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new DeleteRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
-		
+
 		addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX));
-		
+
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.CENTER));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.RIGHT));
@@ -53,15 +53,15 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addGlobalActionKey(ActionFactory.PASTE.getId());
 		addGlobalActionKey(ActionFactory.DELETE.getId());
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
 	 */
-	@Override 
-	public void contributeToMenu(IMenuManager menuManager) { 
-		super.contributeToMenu(menuManager); 
-	} 
+	@Override
+	public final void contributeToMenu(IMenuManager menuManager) {
+		super.contributeToMenu(menuManager);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -71,22 +71,22 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
-		
+
 		toolBarManager.add(new Separator());
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
-		
+
 		toolBarManager.add(new Separator());
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_TOP));
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_MIDDLE));
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_BOTTOM));
-		
+
 		toolBarManager.add(new Separator());
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_LEFT));
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_CENTER));
 		toolBarManager.add(getAction(GEFActionConstants.ALIGN_RIGHT));
-		
+
 		toolBarManager.add(new Separator());
 		toolBarManager.add(getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
 	}

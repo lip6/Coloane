@@ -29,7 +29,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		
+
 		// Interdiction de suppression de l'objet modele
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 
@@ -39,7 +39,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		// Impossible de selectionenr le modele
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 	}
-	
+
 	/**
 	 * Construction de la figure root du modele.
 	 * Cette figure est invisible mais sert de conteneur a tous les autres objets.

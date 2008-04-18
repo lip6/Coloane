@@ -11,7 +11,11 @@ import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 /**
  * Classe regroupant les outils pour ecrire un modele sous forme XML
  */
-public class ModelWriter {
+public final class ModelWriter {
+
+	private ModelWriter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Retourne une chaine contenant tout le modele en XML
@@ -24,7 +28,7 @@ public class ModelWriter {
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
 		String schema = modelimpl.getFormalism().getSchema();
-		
+
 		// Ecriture des attributs relatifs au formalisme et positions
 		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/" + schema + "' formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
@@ -193,15 +197,15 @@ public class ModelWriter {
 		txt = txt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;
 	}
-	
-	
+
+
 	public static String createDefault(String formalismName) {
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
 		String schema = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalismName).getSchema();
-		
-		Coloane.getLogger().finer("Choix du schema de validation : "+schema); //$NON-NLS-1$
-		
+
+		Coloane.getLogger().finer("Choix du schema de validation : " + schema); //$NON-NLS-1$
+
 		// Ecriture des attributs relatifs au formalisme et positions
 		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='" + schema + "' formalism='" + formalismName + "' xposition='0' yposition='0'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 

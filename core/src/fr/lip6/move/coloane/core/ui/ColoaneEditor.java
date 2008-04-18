@@ -51,7 +51,7 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;	
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -76,8 +76,6 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
 
 public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
-	
-	
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
@@ -251,11 +249,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		ZoomManager manager = rootEditPart.getZoomManager();
 		getActionRegistry().registerAction(new ZoomInAction(manager));
 		getActionRegistry().registerAction(new ZoomOutAction(manager));
-		
+
 		// Grille
 		IAction showGrid = new ToggleGridAction(getGraphicalViewer());
 		getActionRegistry().registerAction(showGrid);
-		
+
 		// Liste des zooms possibles 1 = 100%
 		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0};
 		manager.setZoomLevels(zoomLevels);
@@ -299,14 +297,13 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		// Recuperation du fichier XML decrivant un modele
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
-	
+
 		try {
-			model = ModelLoader.LoadFromXML(file);
+			model = ModelLoader.loadFromXML(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
@@ -500,19 +497,19 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	protected final FlyoutPreferences getPalettePreferences() {
 		return PaletteFactory.createPalettePreferences();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
 	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
-	protected void createActions() {
+	protected final void createActions() {
 		super.createActions();
-		
+
 		ActionRegistry registry = getActionRegistry();
 		IAction action;
-		
+
 		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());

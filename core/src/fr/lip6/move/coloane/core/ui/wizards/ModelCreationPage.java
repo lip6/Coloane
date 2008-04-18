@@ -97,7 +97,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	protected final InputStream getInitialContents() {
 		// Formalisme choisi par l'utilisateur dans la boite de dialogue
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		Coloane.getLogger().fine("Choix du formalisme : "+formalismName); //$NON-NLS-1$
+		Coloane.getLogger().fine("Choix du formalisme : " + formalismName); //$NON-NLS-1$
 
 		// Creation du fihier sous-jacent par defaut
 		Coloane.getLogger().fine("Creation du fichier sous-jacent"); //$NON-NLS-1$

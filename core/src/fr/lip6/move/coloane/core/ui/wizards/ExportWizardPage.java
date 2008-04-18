@@ -21,7 +21,7 @@ import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 
 public class ExportWizardPage extends WizardExportResourcesPage {
 	private Button destinationBrowseButton;
-	protected Button headerCheckbox;
+	private Button headerCheckbox;
 	private Text destinationNameField;
 
 	/**
@@ -40,7 +40,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * @see org.eclipse.ui.dialogs.WizardExportResourcesPage#createDestinationGroup(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	protected void createDestinationGroup(Composite parent) {
+	protected final void createDestinationGroup(Composite parent) {
 		Font font = parent.getFont();
 		// destination specification group
 		Composite destinationSelectionGroup = new Composite(parent, SWT.NONE);
@@ -55,9 +55,9 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		destinationLabel.setFont(font);
 
 		// destination name entry field
-		destinationNameField = new Text(destinationSelectionGroup,SWT.SINGLE | SWT.BORDER);
-		destinationNameField.addListener(SWT.Modify, this );
-		destinationNameField.addListener(SWT.Selection, this );
+		destinationNameField = new Text(destinationSelectionGroup, SWT.SINGLE | SWT.BORDER);
+		destinationNameField.addListener(SWT.Modify, this);
+		destinationNameField.addListener(SWT.Selection, this);
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		destinationNameField.setLayoutData(data);
@@ -66,7 +66,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		// destination browse button
 		destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
 		destinationBrowseButton.setText(Messages.ExportWizardPage_4);
-		destinationBrowseButton.addListener(SWT.Selection, this );
+		destinationBrowseButton.addListener(SWT.Selection, this);
 		setButtonLayoutData(destinationBrowseButton);
 
 		new Label(parent, SWT.NONE); // vertical spacer;
@@ -76,7 +76,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardDataTransferPage#createOptionsGroupButtons(org.eclipse.swt.widgets.Group)
 	 */
-	protected void createOptionsGroupButtons(Group optionsGroup) {
+	protected final void createOptionsGroupButtons(Group optionsGroup) {
 		Font font = optionsGroup.getFont();
 		createHeader(optionsGroup, font);
 	}
@@ -86,7 +86,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * @param optionsGroup Le groupe d'elements graphiques nomme "options"
 	 * @param font La police utilisee dans ce group d'elements
 	 */
-	protected void createHeader(Group optionsGroup, Font font) {
+	protected final void createHeader(Group optionsGroup, Font font) {
 		headerCheckbox = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		headerCheckbox.setText(Messages.ExportWizardPage_5);
 		headerCheckbox.setFont(font);
@@ -97,21 +97,20 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * (non-Javadoc)
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent(Event e) {
+	public final void handleEvent(Event e) {
 		Widget source = e.widget;
 
 		// Detecte le clic sur le bouton BROWSE
 		if (source == destinationBrowseButton) {
 			handleDestinationBrowseButtonPressed();
 		}
-		
 		updatePageCompletion();
 	}
 
 	/**
 	 * Dessine la fenetre de selection de la destination d'export
 	 */
-	protected void handleDestinationBrowseButtonPressed() {
+	protected final void handleDestinationBrowseButtonPressed() {
 		DirectoryDialog dialog = new DirectoryDialog(getContainer().getShell(), SWT.SAVE);
 		dialog.setMessage(Messages.ExportWizardPage_6);
 		dialog.setText(Messages.ExportWizardPage_7);
@@ -127,7 +126,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	/**
 	 * Donne le focus sur le champs "directory"
 	 */
-	protected void giveFocusToDestination() {
+	protected final void giveFocusToDestination() {
 		destinationNameField.setFocus();
 	}
 
@@ -136,7 +135,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * @return Une liste de ressources
 	 */
 	@SuppressWarnings("unchecked") //$NON-NLS-1$
-	public List<IResource> getSelectedRessource() {
+	public final List<IResource> getSelectedRessource() {
 		List<IResource> selectedResources = getWhiteCheckedResources();
 		return selectedResources;
 	}
@@ -145,7 +144,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * Retourne la destination choisie pour l'export
 	 * @return La chaine de caracteres correspondant au chemin choisi
 	 */
-	protected String getSelectedDirectory() {
+	protected final String getSelectedDirectory() {
 		return destinationNameField.getText().trim();
 	}
 
@@ -153,21 +152,19 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * Positionne la valeur du champ "directory" a la valeur choisie dans la fenetre BROWSE
 	 * @param value La valeur de la destination
 	 */
-	protected void setDestinationValue(String value) {
+	protected final void setDestinationValue(String value) {
 		destinationNameField.setText(value);
 		notify();
 	}
-	
-	
 
 	/**
 	 * Verification que la destination existe ou potentiellement creeable
 	 * @param directory La destination a veirifer
 	 * @return true ou false
 	 */
-	protected boolean ensureDirectoryExists(File directory) {
+	protected final boolean ensureDirectoryExists(File directory) {
 
-		// Existence du repertoire 
+		// Existence du repertoire
 		if (!directory.exists()) {
 			if (!queryYesNoQuestion(Messages.ExportWizardPage_9)) {
 				return false;
@@ -189,13 +186,12 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * @param targetDirectory La destination finale
 	 * @return un booleen
 	 */
-	public boolean ensureTargetIsValid(File targetDirectory) {
+	public final boolean ensureTargetIsValid(File targetDirectory) {
 		if (targetDirectory.exists() && !targetDirectory.isDirectory()) {
 			displayErrorDialog(Messages.ExportWizardPage_11);
 			giveFocusToDestination();
 			return false;
 		}
-
 		return ensureDirectoryExists(targetDirectory);
 	}
 

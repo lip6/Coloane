@@ -10,5 +10,5 @@ public interface IExportTo {
 	 * @param filePath chemin du fichier dans lequel exporter le modele courant
 	 * @throws ColoaneException toutes les exceptions susceptiblent d'etre engendrees et a afficher
 	 */
-	public void export(IModelImpl modeleCourant,String filePath) throws ColoaneException;
+	void export(IModelImpl modeleCourant, String filePath) throws ColoaneException;
 }
