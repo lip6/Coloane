@@ -85,13 +85,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public ApiConnection() throws IOException{
 
-		Pair<ISpeaker, IListener> p;
-		this.state = false; // connexion initialement non ouverte
-
-	     p = FkInitCom.initCom(this.ipServer, this.portServer);
-        this.listener = p.getListener();
-
-        this.speaker = p.getSpeaker();
+		// TODO
 
 	}
 
@@ -108,6 +102,22 @@ public class ApiConnection implements IApiConnection {
 	public void openConnection() {
 		// TODO Auto-generated method stub
 		// TODO Vérifier que la connexion est configuré
+
+		Pair<ISpeaker, IListener> p;
+		this.state = false; // connexion initialement non ouverte
+
+
+		try { /** Ouverture de la connexion */
+
+			p = FkInitCom.initCom(this.ipServer, this.portServer);
+			this.listener = p.getListener();
+	        this.speaker = p.getSpeaker();
+
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.ICamiGenerator;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 
@@ -16,7 +15,7 @@ import fr.lip6.move.coloane.api.interfaces.IModel;
  */
 
 
-public class CamiGenerator implements ICamiGenerator{
+public class CamiGenerator {
 
 	/**
 	 * Prepare la commande CAMI conformement aux requirements de FK
@@ -26,7 +25,7 @@ public class CamiGenerator implements ICamiGenerator{
 	 * @param command
 	 * @return
 	 */
-	private byte[] initCommand(String command) {
+	private static byte[] initCommand(String command) {
 		byte[] toSend = new byte[command.length() + 4];
 		byte[] message = command.getBytes();
 
@@ -92,13 +91,17 @@ public class CamiGenerator implements ICamiGenerator{
 	}
 
 
-	// TODO verifier est ce que ArrayList est nécessaire
-	public ArrayList<byte[]> generateCmdOC(String UiName, String version, String login) {
+	/**
+	 *
+	 * @param UiName  : nom du client
+	 * @param version : version du client
+	 * @param login   : nom d'utilisateur
+	 * @return commande SC sous forme d'un tableau de bytes
+	 */
+	public static byte[] generateCmdOC(String UiName, String version, String login) {
 
-		ArrayList<byte[]> cmdSet = new ArrayList<byte[]>();
 		String command = new String("OC(" + UiName.length() + ":" + UiName + "," + version.length() + ":" + version + "," + login.length()	+ ":" + login + "," + 0 + ")");
-		cmdSet.add(this.initCommand(command));
-		return cmdSet;
+		return (initCommand(command));
 
 	}
 
@@ -133,13 +136,12 @@ public class CamiGenerator implements ICamiGenerator{
 	 * @return Commande cami SC
 	 */
 
-	// TODO revoir si arrayList est vraiment nécessaire
-	public ArrayList<byte[]> generateCmdSC(String login, String password) {
 
-		ArrayList<byte[]> cmdSet = new ArrayList<byte[]>();
+	public static byte[] generateCmdSC(String login, String password) {
+
 		String command = new String("SC(" + login.length() + ":" + login + "," + password.length() + ":" + password + ")");
-		cmdSet.add(this.initCommand(command));
-		return cmdSet;
+		return initCommand(command);
+
 	}
 
 
