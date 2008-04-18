@@ -73,14 +73,14 @@ public class FkComLowLevel {
 		// le tableau de commandes à retourner
 		ArrayList<String> list = new ArrayList<String>();
 		String command = "";
+		try{
+			// Lecture des 4 premiers octets donnant la taille du message
+			int messageLength = this.socketInput.readInt();
 
-		// Lecture des 4 premiers octets donnant la taille du message
-		int messageLength = this.socketInput.readInt();
+			// Lecture selon la longueur donnée
+			for(int i=0; i<messageLength; i++){
 
-		// Lecture selon la longueur donnée
-		for(int i=0; i<messageLength; i++){
-			try{
-				byte car = this.socketInput.readByte();
+				char car = (char) this.socketInput.readByte();
 				if(car == '\n'){
 					// Nouvelle commande
 					list.add(command);
@@ -90,12 +90,14 @@ public class FkComLowLevel {
 					// Commande en cours de lecture
 					command += car;
 				}
-
-			} catch (IOException e) {
-				// TODO Logguer
-				throw e;
 			}
+		} catch (IOException e) {
+			// TODO Logguer
+			throw e;
 		}
+
+		// Ajouter la dernière commande a la liste de commande
+		list.add(command);
 		return list;
 	}
 
@@ -106,12 +108,12 @@ public class FkComLowLevel {
 	 * @param
 	 * @throws IOException
 	 */
-	boolean writeCommand(byte[] commandd) throws IOException{
+	boolean writeCommand(byte[] command) throws IOException{
 		// TODO
 		// TODO logguer
 
 		try {
-			this.socketOutput.write(commandd, 0commandandd.length);
+			this.socketOutput.write(command, 0,command.length);
 			return true;
 		} catch (IOException e) {
 			// TODO logguer
