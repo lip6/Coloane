@@ -10,13 +10,13 @@ import java.util.ArrayList;
  * Classe du gestionnaire de formalismes.
  * C'est ici que sont definis les formalismes.
  */
-public class FormalismManager {
+public final class FormalismManager {
 
 	/** Liste des formalismes disponibles. */
 	private ArrayList<Formalism> listOfFormalisms;
 	
 	/** L'instance du singleton : FormalismManager */
-	private static FormalismManager instance;
+	private static FormalismManager instance = null;
 	
 	/**
 	 * Constructeur de la classe FormalismsManager
@@ -32,8 +32,8 @@ public class FormalismManager {
 	}
 
 	/**
-	 * Retourne le module de communications
-	 * @return Com Le module de communications
+	 * Retourne le gestionnaire de formalismes
+	 * @return FormalismManager Une isntance du gestionnaire de formalismes
 	 */
 	public static synchronized FormalismManager getInstance() {
 		if (instance == null) { instance = new FormalismManager(); }

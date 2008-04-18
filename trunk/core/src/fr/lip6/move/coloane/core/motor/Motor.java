@@ -58,7 +58,7 @@ public final class Motor {
 	 */
 	private Motor() {
 		formalismManager = FormalismManager.getInstance();
-		sessionManager = new SessionManager();
+		sessionManager = SessionManager.getInstance();
 	}
 
 	/**
