@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.FkCommunication;
+	package fr.lip6.move.coloane.api.FkCommunication;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 public class Speaker implements ISpeaker{
 
+	/** objet de communication bas niveau */
 	private FkComLowLevel fkll;
 
 	/**
