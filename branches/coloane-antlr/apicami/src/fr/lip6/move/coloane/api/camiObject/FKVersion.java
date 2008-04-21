@@ -2,6 +2,13 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import fr.lip6.move.coloane.api.interfaces.IFKVersion;
 
+/**
+ * cette classe implemente linterface IFKVersion
+ * retourné en resultat a la méthode openconnection.
+ * @author kahoo & UU
+ *
+ */
+
 public class FKVersion implements IFKVersion {
     /** le nom du FrameKit*/
     private String FkName;
@@ -18,7 +25,7 @@ public class FKVersion implements IFKVersion {
      * @param FKMajor le numero majeur de FrameKit.
      * @param FKMinor le numero mineur de FrameKit.
      */
-	public FKVersion(String FkName,int FKMajor,int FKMinor ){
+	public FKVersion(String FkName,int FKMajor,int FKMinor){
      this.FkName = FkName;
      this.FKMajor=FKMajor;
      this.FKMinor=FKMinor;

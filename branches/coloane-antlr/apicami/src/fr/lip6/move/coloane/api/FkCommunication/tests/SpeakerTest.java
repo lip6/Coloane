@@ -1,6 +1,9 @@
-package fr.lip6.move.coloane.api.FkCommunication;
+package fr.lip6.move.coloane.api.FkCommunication.tests;
 
 import java.io.IOException;
+
+import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
+import fr.lip6.move.coloane.api.FkCommunication.Speaker;
 
 import junit.framework.TestCase;
 

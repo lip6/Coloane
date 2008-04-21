@@ -30,7 +30,7 @@ public class FkInfo implements IFKInfo{
   * @param nameService
   * @param resultatCalcule
   */
-	public FkInfo (String aboutService,String incremental,String nameService,String resultatCalcule ) {
+	public FkInfo (String nameService,String aboutService,String incremental,String resultatCalcule ) {
 		this.aboutService = aboutService;
 			this.incremental=incremental;
 			this.nameService=nameService;

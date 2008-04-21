@@ -30,7 +30,7 @@ public class Arc implements IArc{
  * le constructeur de notre classe
  */
 
-	public Arc(){
+	public Arc(String arcType,ArrayList<String> attribute,INode endingNode,int id,INode startingNode){
 
 		     this.arcType= arcType;
 		     this.attribute  = attribute;

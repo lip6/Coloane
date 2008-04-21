@@ -108,7 +108,7 @@ public class FkComLowLevel {
 	 * @param
 	 * @throws IOException
 	 */
-	boolean writeCommand(byte[] command) throws IOException{
+	public boolean writeCommand(byte[] command) throws IOException{
 		// TODO
 		// TODO logguer
 
@@ -127,7 +127,7 @@ public class FkComLowLevel {
 	 * @throws IOException
 	 */
 
-	void closeCommunication() throws IOException{
+	public void closeCommunication() throws IOException{
 
 		try {
 			/** fermer le flux de lecture de la socket */
