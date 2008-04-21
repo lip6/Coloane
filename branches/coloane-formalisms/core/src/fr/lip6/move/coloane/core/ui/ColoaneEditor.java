@@ -8,6 +8,9 @@ import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 
 import java.io.ByteArrayInputStream;
@@ -86,6 +89,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
 
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Attributes;
+
 public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
@@ -95,6 +100,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		private Thumbnail thumbnail;
 		private DisposeListener disposeListener;
 		public OutlinePage(EditPartViewer viewer) { super(viewer); }
+		
+		
+		//**********************Rajout ************************
+		
+		
+		
+		//********************** Fin    Rajout **************		
+		
 
 		/*
 		 * (non-Javadoc)
@@ -218,6 +231,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/** Le listener de focus */
 	private static TabListener listener = null;
+	
+	
+	
+	private org.xml.sax.Attributes attr;
+
+	
 
 	/** Constructeur de l'editeur */
 	public ColoaneEditor() { }
@@ -316,9 +335,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 //******************** Debut   Modification    ************************
 
-		//ModelHandler modFor = new ModelHandler();
-				
-		this.formalism = formManager.getFormalismByName("AMI-NET");
+		ModelHandler modFor = new ModelHandler();
+		
+
+		
+		this.formalism = formManager.getFormalismByName(modFor.startElement("", "model","model",attr));
 		
 //******************** Fin     Modification    ************************		
 		
