@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ImportExportCAMI Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extension.importExportCAMI;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: fr.lip6.move.coloane.extension.importExportCAMI.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views,
+ fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces
+Eclipse-LazyStart: true
+Bundle-Vendor: LIP6 / MoVe
