@@ -25,7 +25,11 @@ public class ModelWriter {
 
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
-		String schema = modelimpl.getFormalism().getSchema();
+		
+		
+		//String schema = modelimpl.getFormalism().getSchema();
+		
+		String schema = "model-coloane.xsd";
 		
 		String extension="model";
 		
@@ -37,11 +41,11 @@ public class ModelWriter {
 		
 		// Ecriture des attributs relatifs au formalisme et positions
 		line += "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/" + schema + "' formalism='" + model.getFormalism() + "' xposition='" + model.getXPosition() + "' yposition='" + model.getYPosition() + "'>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-
-		// Ecriture des attributs du modele
 		if (!(model.getListOfAttrSize() == 0)) {
 			line += translateAttributesToXML(model);
 		}
+		// Ecriture des attributs du modele
+		
 
 		// Creation des noeuds
 		line += "<nodes>\n"; //$NON-NLS-1$
@@ -215,7 +219,10 @@ public class ModelWriter {
 	public static String createDefault(String formalismName) {
 		// L'entete XML
 		String line = "<?xml version='1.0' encoding='UTF-8'?>\n"; //$NON-NLS-1$
-		String schema = Motor.getInstance().getFormalismManager().getFormalismByName(formalismName).getSchema();
+		
+		//String schema = Motor.getInstance().getFormalismManager().getFormalismByName(formalismName).getSchema();
+		
+		String schema = "model-coloane.xsd";
 		
 		String extension="model";
 		
