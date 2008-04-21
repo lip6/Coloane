@@ -14,9 +14,20 @@ public class PetriNets extends Formalism {
 
 	private static final String NAME = "AMI-Net"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
-	private static final String EXTENSION = "petri"; //$NON-NLS-1$
-	private static final String XSCHEMA = "ami-net.xsd"; //$NON-NL-1$
+	//private static final String EXTENSION = "petri"; //$NON-NLS-1$
 
+	private static final String EXTENSION = "model"; //$NON-NLS-1$
+	
+	//private static final String XSCHEMA = "ami-net.xsd"; //$NON-NL-1$
+
+	//******************** Debut Modif ****************************
+	
+	private static final String XSCHEMA = "model-coloane.xsd"; //$NON-NL-1$
+	
+	private static final String XSCHEMA_FORM = "ami-net.xsd"; //$NON-NL-1$
+
+	//******************** Fin Modif ****************************
+	
 	private static final int PLACE_WIDTH = 16;
 	private static final int PLACE_HEIGHT = 16;
 	private static final int TRANSITION_WIDTH = 24;
@@ -28,7 +39,7 @@ public class PetriNets extends Formalism {
 	 * Constructeur du formalisme
 	 */
 	public PetriNets() {
-		super(NAME, IMG, EXTENSION, XSCHEMA);
+		super(NAME, IMG, EXTENSION, XSCHEMA,XSCHEMA_FORM);
 		int i = 1;
 
 		addAttributeFormalism(new AttributeFormalism(i++, "declaration", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
