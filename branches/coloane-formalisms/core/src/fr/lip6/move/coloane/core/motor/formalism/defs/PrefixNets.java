@@ -14,8 +14,20 @@ public class PrefixNets extends Formalism {
 
 	private static final String NAME = "Branching-Process"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
-	private static final String EXTENSION = "prefix"; //$NON-NLS-1$
-	private static final String XSCHEMA = "branching-process.xsd"; //$NON-NL-1$
+	//private static final String EXTENSION = "prefix"; //$NON-NLS-1$
+	
+	private static final String EXTENSION = "model"; //$NON-NLS-1$
+	
+	//******************** Debut Modif ****************************
+	
+	//private static final String XSCHEMA = "branching-process.xsd"; //$NON-NL-1$
+	
+	private static final String XSCHEMA = "model-coloane.xsd"; //$NON-NL-1$
+	
+	private static final String XSCHEMA_FORM = "branching-process.xsd"; //$NON-NL-1$
+
+	//******************** Fin Modif ****************************
+	
 
 	/** Informations graphiques pour la place */
 	private static final int CONDITION_WIDTH = 16;
@@ -26,7 +38,7 @@ public class PrefixNets extends Formalism {
 	private static final int CUTOFF_HEIGHT = 8;
 
 	public PrefixNets() {
-		super(NAME, IMG, EXTENSION, XSCHEMA);
+		super(NAME, IMG, EXTENSION, XSCHEMA,XSCHEMA_FORM);
 
 		int i = 1;
 
