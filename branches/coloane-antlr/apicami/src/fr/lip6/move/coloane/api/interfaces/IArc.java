@@ -24,18 +24,18 @@ public interface IArc {
 
 	    /**
 		 * Retourne le noeud d'entree de l'arc.
-		 * @return INode
+		 * @return numero du INode
 		 * @see INode
 		 */
-		INode getStartingNode();
+		int getStartingNode();
 
 
 		/**
 		 * Retourne le noeud de sortie de l'arc.
-		 * @return INode
+		 * @return numero du INode
 		 * @see INode
 		 */
-		INode getEndingNode();
+		int getEndingNode();
 
 		/**
 		 * Retourne les attributs de l'arc.
