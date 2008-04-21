@@ -1,18 +1,17 @@
 grammar Cami;
 
 @header{
-//package fr.lip6.move.coloane.api.camiParser;
-
-//import fr.lip6.move.coloane.api.session.states.authentication.*;
     import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
+    import fr.lip6.move.coloane.api.interfaces.IFKVersion;
+
     import java.util.ArrayList;
 }
 
-@member{
+@members{
     ArrayList<String> listOfArgs;
 }
 
-/* Ouverture de la connexion */
+/* Ouverture de la connexion  SC */
 ack_open_communication
 	:
 	'SC(' CAMI_STRING ')'{
@@ -23,14 +22,16 @@ ack_open_communication
 	;
 	
 
+/* Ouverture de la connexion OC */
 ack_open_connection
 	:
-	'OC(' NUMBER {
-            listOfArgs.add($CAMI_STRING.text);
+	'OC(' 
+    v1=NUMBER {
+            listOfArgs.add($v1.text);
         } 
     ',' 
-    NUMBER {listOfArgs.add($CAMI_STRING.text);
-            CamiObjectBuilder.buildFkInfo(listOfArgs);
+    v2=NUMBER {listOfArgs.add($v2.text);
+            IFKVersion info = CamiObjectBuilder.buildFkVersion(listOfArgs);
         }
     ')'    
 	;
@@ -42,6 +43,13 @@ CAMI_STRING
 	NUMBER {nbToRead = Integer.parseInt($NUMBER.text);}
 	':' 
 	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text);}
+	;
+
+fragment
+FIXED_LENGTH_STRING
+	[int len]
+	:   
+	( { len > 0 }?=> .{len--;})* // Gated predicate : deactivate the '.' when len chars have been read
 	;
 
 NUMBER	: 	
