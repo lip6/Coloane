@@ -20,6 +20,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 	private final IWorkbench workbench;
 	private static int fileCount = 0;
+	private static String extensionModel ="model";
 
 	/**
 	 * Creer une nouvelle wizard page
@@ -66,8 +67,17 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 		// Recupere le nom du formalisme decide la page precedente
 		String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-		setFileName(getFileName() + "." + formManager.getFormalismByName(formalismName).getExtension()); //$NON-NLS-1$
 
+		//setFileName(getFileName() + "." + formManager.getFormalismByName(formalismName).getExtension()); //$NON-NLS-1$
+		
+// ****************************Rajout--************************
+		
+		setFileName(getFileName() + "." + extensionModel); //$NON-NLS-1$
+		
+		
+// ****************************Fin  Rajout--************************
+
+		//--------------------------------------------------
 		// Tentative de creation de fichier
 		// newFile != null si la creation reussie
 		IFile newFile = createNewFile();
