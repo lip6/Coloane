@@ -26,12 +26,30 @@ public class Arc implements IArc{
 	 /** l'inode du debut*/
 	private INode startingNode;
 
+/**
+ * le constructeur de notre classe
+ */
+
+	public Arc(){
+
+		     this.arcType= arcType;
+		     this.attribute  = attribute;
+		     this.endingNode = endingNode;
+		     this.startingNode = startingNode;
+		     this.id = id ;
+
+	}
 
 	/**
 	 * le constructeur par defaut.
 	 */
 
 	public Arc(){
+     this.arcType= null;
+     this.attribute  = new ArrayList<String>();
+     this.endingNode = null;
+     this.startingNode = null;
+     this.id = 0;
 
 	}
 
