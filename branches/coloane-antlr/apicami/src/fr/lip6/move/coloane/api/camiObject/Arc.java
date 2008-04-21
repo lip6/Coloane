@@ -18,25 +18,25 @@ public class Arc implements IArc{
 	private ArrayList<String> attribute;
 
 	 /** l'inode de la fin*/
-	private INode endingNode;
+	private int endingNode;
 
 	 /** identifiant*/
-	private int id ;
+	private int idArc ;
 
 	 /** l'inode du debut*/
-	private INode startingNode;
+	private int startingNode;
 
 /**
  * le constructeur de notre classe
  */
 
-	public Arc(String arcType,ArrayList<String> attribute,INode endingNode,int id,INode startingNode){
+	public Arc(String arcType,int id,int endingNode,int startingNode,ArrayList<String> attribute){
 
 		     this.arcType= arcType;
 		     this.attribute  = attribute;
 		     this.endingNode = endingNode;
 		     this.startingNode = startingNode;
-		     this.id = id ;
+		     this.idArc = id ;
 
 	}
 
@@ -47,9 +47,9 @@ public class Arc implements IArc{
 	public Arc(){
      this.arcType= null;
      this.attribute  = new ArrayList<String>();
-     this.endingNode = null;
-     this.startingNode = null;
-     this.id = 0;
+     this.endingNode = 0;
+     this.startingNode = 0;
+     this.idArc = 0;
 
 	}
 
@@ -71,21 +71,21 @@ public class Arc implements IArc{
 	 * le noeud de fin.
 	 */
 
-	public INode getEndingNode() {
+	public int getEndingNode() {
 		return this.endingNode;
 	}
 /**
  * lidentifiant de larc;
  */
 	public int getId() {
-		return this.id;
+		return this.idArc;
 	}
 
 
 	/**
 	 * l noeud de debut.
 	 */
-	public INode getStartingNode() {
+	public int getStartingNode() {
 		return this.startingNode;
 	}
 
