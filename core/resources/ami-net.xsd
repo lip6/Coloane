@@ -53,8 +53,8 @@
 	<!-- Definition d'un arc -->
 	<xs:complexType name="tarc">
 		<xs:all>
+			<xs:element name="pis" type="tpis" minOccurs="0"/>
 			<xs:element name="valuation" type="graph" minOccurs="0"/>
-			<xs:element name="pi" type="graph" minOccurs="0"/>
 			<xs:element name="note" type="graph" minOccurs="0"/>
 		</xs:all>
 		<xs:attribute name="id" type="xs:string" use="required"/>
@@ -74,6 +74,13 @@
 	<xs:complexType name="tarcs">
 		<xs:sequence> 
 			<xs:element name="arc" type="tarc" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Definition d'un ensemble d'arcs -->
+	<xs:complexType name="tpis">
+		<xs:sequence> 
+			<xs:element name="pi" type="graph" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 

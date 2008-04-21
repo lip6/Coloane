@@ -116,11 +116,16 @@ public final class ModelWriter {
 	private static String translateInflexToXML(IArc arc) {
 		String line = ""; //$NON-NLS-1$
 
+		line += "<pis>\n"; //$NON-NLS-1^$
+
 		// Pour chaque point d'inflexion...
 		for (int i = 0; i < arc.getListOfPI().size(); i++) {
 			IInflexPoint pi = arc.getNthPI(i);
 			line += "<pi xposition='" + pi.getXPosition() + "' yposition='" + pi.getYPosition() + "'/>\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
+
+		line += "</pis>\n"; //$NON-NLS-1^$
+
 		return line;
 	}
 
