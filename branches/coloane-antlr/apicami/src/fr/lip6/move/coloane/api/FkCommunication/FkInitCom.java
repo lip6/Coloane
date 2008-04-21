@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
@@ -23,8 +26,8 @@ public class FkInitCom {
 	 * Fabrique un objet Listner
 	 * @return retourne une interface IListener
 	 */
-	private static IListener getFkComListener(FkComLowLevel lowLevel){
-		return new Listener(lowLevel);
+	private static IListener getFkComListener(FkComLowLevel lowLevel, LinkedBlockingQueue queue){
+		return new Listener(lowLevel, queue);
 	}
 
 	/**
@@ -53,11 +56,21 @@ public class FkInitCom {
 
 		Pair<ISpeaker, IListener> pair = new Pair<ISpeaker, IListener> ();
 
-		/** Créer un speaker */
-		pair.speaker  = getFkComSpeaker(lowLevel);
+		/* Créer la file Queue */
+		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
+
+		/* créer le parser */
+		Parser parser = new Parser(fifo);
+		parser.start();
+
+		/** Créer un listener */
+		pair.listener = getFkComListener(lowLevel, fifo);
+		pair.listener.start();
+
+
 
 		/** Créer un speaker */
-		pair.listener = getFkComListener(lowLevel);
+		pair.speaker  = getFkComSpeaker(lowLevel);
 
 		return pair;
 

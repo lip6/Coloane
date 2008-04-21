@@ -17,9 +17,7 @@ public interface ISpeaker {
 	 * @param password
 	 * @throws IOException
 	 */
-
-	void startCommunication(String login ,String password) throws IOException;
-
+	public void startCommunication(String login, String password)throws IOException;
 
 	/**
 	 * demande a ISpeaker d'envoyer a FK l'ouverture de la connection.

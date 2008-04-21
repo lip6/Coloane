@@ -26,12 +26,6 @@ public class Arc implements IArc{
 	 /** l'inode du debut*/
 	private INode startingNode;
 
-/**
- * le constructeur de notre classe
- */
-
-	public Arc(){
-	}
 
 	/**
 	 * le constructeur par defaut.
