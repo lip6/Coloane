@@ -13,8 +13,15 @@ public class Formalism {
 	/** Nom de l'extension du fichier dans lequel on enregistrera le formalisme */
 	private String extension;
 	
+	/** Adresse du XSchema pour l'ecriture du modèle general */
+	private String modelXschema;
+	
+	//********************Rajout
+	
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
+	
+	//********************Fin Rajout
 
 	/** Liste des elements de base du formalisme. */
 	private ArrayList<ElementFormalism> listOfElementBase;
@@ -35,9 +42,11 @@ public class Formalism {
 	 * @param formalismImg Nom du fichier de l'image
 	 * @param formalismExtension Extension associee au formalisme
 	 */
-	public Formalism(String formalismName, String formalismImg, String formalismExtension, String formalismXschema) {
+	public Formalism(String formalismName, String formalismImg, String formalismExtension,
+						String modelXschema, String formalismXschema) {
 		this.imageName = formalismImg;
 		this.name = formalismName;
+		this.modelXschema = modelXschema;
 		this.extension = formalismExtension;
 		this.xschema = formalismXschema;
 		this.listOfElementBase = new ArrayList<ElementFormalism>();
@@ -147,7 +156,7 @@ public class Formalism {
 	}
 
 	/**
-	 * Retourne le nom de l'image associee au formalime
+	 * Retourne le nom de l'image associee au formalisme
 	 * @return String
 	 */
 	public final String getImageName() {
@@ -169,4 +178,14 @@ public class Formalism {
 	public final String getSchema() {
 		return xschema;
 	}
+	
+	//*************** rajout
+	/**
+	 * Retourne l'adresse du xschema a utliser pour la validation du modèle general
+	 * @return String
+	 */
+	public final String getModelSchema() {
+		return modelXschema;
+	}
+	
 }
