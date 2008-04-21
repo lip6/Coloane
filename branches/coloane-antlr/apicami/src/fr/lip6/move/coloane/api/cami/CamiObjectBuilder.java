@@ -43,7 +43,7 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 	/**
 	 *
 	 */
-	public IFKVersion buildFKVersion(ArrayList<String> CamiFKVersion) {
+	public static IFKVersion buildFKVersion(ArrayList<String> CamiFKVersion) {
 		String fkname = CamiFKVersion.get(0);
 		int fkmajor = Integer.parseInt(CamiFKVersion.get(1));
 		int fkminor = Integer.parseInt(CamiFKVersion.get(2));

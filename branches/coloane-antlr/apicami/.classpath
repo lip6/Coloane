@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="/users/nfs/Etu7/2760587/antlr/antlr-3.0.1/lib/antlr-runtime-3.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

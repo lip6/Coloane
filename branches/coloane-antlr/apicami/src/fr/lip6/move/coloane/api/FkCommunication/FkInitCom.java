@@ -60,7 +60,7 @@ public class FkInitCom {
 		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
 
 		/* créer le parser */
-		Parser parser = new Parser(fifo);
+		ThreadParser parser = new ThreadParser(fifo);
 		parser.start();
 
 		/** Créer un listener */

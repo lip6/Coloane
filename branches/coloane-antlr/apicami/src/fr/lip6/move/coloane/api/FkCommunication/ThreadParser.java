@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Parser extends Thread {
+public class ThreadParser extends Thread {
 
 	LinkedBlockingQueue fifo;
 
-	public Parser(LinkedBlockingQueue queue){
+	public ThreadParser(LinkedBlockingQueue queue){
 		this.fifo = queue;
 	}
 
