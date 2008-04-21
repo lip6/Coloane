@@ -32,8 +32,6 @@ public class ModelHandler extends DefaultHandler {
 
 	
 	
-	
-	
 	/**
 	 * Lecture des balises ouvrantes du modele
 	 */
@@ -57,12 +55,7 @@ public class ModelHandler extends DefaultHandler {
 
 			// Creation du modele
 			this.model.setPosition(x, y);
-			
-			
-			if (attributes.getValue("formalism").equals("AMI-NET"))
-				this.model.setFormalism("AMI-NET");
-			
-			
+						
 			this.model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
 			
 //------------------			//********** Debut Rajout **************
@@ -87,6 +80,20 @@ public class ModelHandler extends DefaultHandler {
 			this.refId = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 			this.currentObject = "node"; //$NON-NLS-1$
 
+			//************************* Debut Rajout*******************
+			
+		//	public final void trouveFormalism(String fo){
+			
+			for(int i=0;i< attributes.getLength();i++){
+				
+				if(attributes.getQName(i).equals("formalism")){
+					this.model.setFormalism(attributes.getValue("formalism"));
+				}
+				
+			}
+				
+			//************************* Fin   Rajout*******************			
+			
 			// Creation du noeud
 			INode node = new Node(attributes.getValue("nodetype"), x, y, this.refId); //$NON-NLS-1$
 
