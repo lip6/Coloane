@@ -41,14 +41,19 @@
 
 	<!-- Definition d'un arc -->
 	<!-- retire le complexType de tarcs pour simpleType    Debut -->
+	<xs:group name="pidec">
+			<xs:choice>
+				<xs:element name="pi" type="graph" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="name" type="graph" minOccurs="0"/>
+				<xs:element name="marking" type="graph" minOccurs="0"/>
+				<xs:element name="label" type="graph" minOccurs="0"/>                
+				<xs:element name="image" type="graph" minOccurs="0"/>
+				<xs:element name="num_image" type="graph" minOccurs="0"/>
+			</xs:choice>
+		</xs:group>
 	<xs:complexType name="tarc"> 
-		<xs:choice>
-			<xs:element name="name" type="graph" minOccurs="0"/>
-			<xs:element name="marking" type="graph" minOccurs="0"/>
-			<xs:element name="label" type="graph" minOccurs="0"/>                
-			<xs:element name="image" type="graph" minOccurs="0"/>
-			<xs:element name="num_image" type="graph" minOccurs="0"/>
-		</xs:choice>   
+		<xs:group ref="pidec" minOccurs="0" maxOccurs="unbounded">			
+		</xs:group> 
 		<xs:attribute name="arctype" type="xs:string" use="required"/>
 		<xs:attribute name="id" type="xs:string" use="required"/>           <!--  xs:string  -->
 		<xs:attribute name="startid" type="xs:string" use="required"/>  <!--  xs:string  -->
