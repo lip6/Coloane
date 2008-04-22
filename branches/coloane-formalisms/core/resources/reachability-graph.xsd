@@ -43,11 +43,16 @@
 	</xs:complexType>
 	
 	<!-- Definition d'un arc -->
+	<xs:group name="pidec">
+			<xs:choice>
+				<xs:element name="pi" type="graph" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="label" type="graph" minOccurs="0"/>
+				<xs:element name="value" type="graph" minOccurs="0"/>
+			</xs:choice>
+		</xs:group>
 	<xs:complexType name="tarc">
-		<xs:all>
-			<xs:element name="label" type="graph" minOccurs="0"/>
-			<xs:element name="value" type="graph" minOccurs="0"/>
-		</xs:all>
+		<xs:group ref="pidec" minOccurs="0" maxOccurs="unbounded">			
+		</xs:group>
 		<xs:attribute name="arctype" type="xs:string" use="required"/>   <!-- rajout des attributs , y'avait rien avant  Debut-->
 		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:attribute name="startid" type="xs:string" use="required"/>
