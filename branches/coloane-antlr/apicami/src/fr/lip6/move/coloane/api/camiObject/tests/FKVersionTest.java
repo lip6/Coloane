@@ -20,7 +20,7 @@ public class FKVersionTest extends TestCase {
 	     int FKMinor = 1 ;
 	     FKVersion fk = new FKVersion(FkName,FKMajor,FKMinor);
 	     this.assertEquals("FrameKit", fk.getFkName());
-	     this.assertEquals(2, fk.getFKMajor());
-	     this.assertEquals(1, fk.getFKMinor());
+	     this.assertEquals(2, fk.getFkMajor());
+	     this.assertEquals(1, fk.getFkMinor());
 	}
 }

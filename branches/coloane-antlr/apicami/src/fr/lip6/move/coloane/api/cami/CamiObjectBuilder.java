@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.api.interfaces.ICamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IFKInfo;
-import fr.lip6.move.coloane.api.interfaces.IFKVersion;
+import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
@@ -27,15 +27,15 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
  *
  */
 
-public class CamiObjectBuilder implements ICamiObjectBuilder {
+public class CamiObjectBuilder{
 
 
 
-	public IFKInfo buildFKInfo(ArrayList<String> CamiFKInfo) {
-		String aboutService = CamiFKInfo.get(0);
-		String  incremental = CamiFKInfo.get(1);
-		String nameService = CamiFKInfo.get(2);
-		String resultatCalcule = CamiFKInfo.get(3);
+	public IFKInfo buildFKInfo(ArrayList<String> camiFKInfo) {
+		String aboutService = camiFKInfo.get(0);
+		String  incremental = camiFKInfo.get(1);
+		String nameService = camiFKInfo.get(2);
+		String resultatCalcule = camiFKInfo.get(3);
         IFKInfo kfi = new FkInfo(aboutService,incremental,nameService,resultatCalcule);
 		return kfi;
 	}
@@ -43,17 +43,17 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 	/**
 	 *
 	 */
-	public static IFKVersion buildFKVersion(ArrayList<String> CamiFKVersion) {
-		String fkname = CamiFKVersion.get(0);
-		int fkmajor = Integer.parseInt(CamiFKVersion.get(1));
-		int fkminor = Integer.parseInt(CamiFKVersion.get(2));
+	public static IFkVersion buildFkVersion(ArrayList<String> camiFkVersion) {
+		String fkname = camiFkVersion.get(0);
+		int fkmajor = Integer.parseInt(camiFkVersion.get(1));
+		int fkminor = Integer.parseInt(camiFkVersion.get(2));
 
-		IFKVersion fkv = new FKVersion(fkname,fkmajor,fkminor);
+		IFkVersion fkv = new FKVersion(fkname,fkmajor,fkminor);
 		return fkv;
 	}
 
 
-	public IArc buildArc(ArrayList<String> CamiArc) {
+	public IArc buildArc(ArrayList<String> camiArc) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -67,57 +67,58 @@ public class CamiObjectBuilder implements ICamiObjectBuilder {
 		return at;
 	}
 
-	public IBox buildBox(ArrayList<String> CamiBox) {
+	public IBox buildBox(ArrayList<String> camiBox) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IDialog buildDialog(ArrayList<String> CamiDialog) {
+	public IDialog buildDialog(ArrayList<String> camiDialog) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IDomainTable buildDomainTable(ArrayList<String> CamiDomainTable) {
+	public IDomainTable buildDomainTable(ArrayList<String> camiDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IMenu buildMenu(ArrayList<String> CamiMenu) {
+	public IMenu buildMenu(ArrayList<String> camiMenu) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IModel buildModel(ArrayList<String> CamiModel) {
+	public IModel buildModel(ArrayList<String> camiModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public INode buildNode(ArrayList<String> CamiNode) {
+	public INode buildNode(ArrayList<String> camiNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IObjectAttribute buildObjectAttribute(
-			ArrayList<String> CamiObjectAttribute) {
+			ArrayList<String> camiObjectAttribute) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IObjectDomainTable buildObjectDomainTable(
-			ArrayList<String> CamiObjectDomainTable) {
+			ArrayList<String> camiObjectDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IResult buildResult(ArrayList<String> CamiResult) {
+	public IResult buildResult(ArrayList<String> camiResult) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IUpdateItem buildUpdateItem(ArrayList<String> CamiUpdateItem) {
+	public IUpdateItem buildUpdateItem(ArrayList<String> camiUpdateItem) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 

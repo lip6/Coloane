@@ -1,43 +1,77 @@
 package fr.lip6.move.coloane.api.FkCommunication;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+
+/**
+ * Cette classe lance un thread qui récupère les commandes
+ * à parser par l'intermediaire du thread Listener et delègue
+ * le parsing à un parser ANTLR
+ *
+ * @author kahoo & uu
+ *
+ */
+
 public class ThreadParser extends Thread {
 
+	/** file de lecture */
 	LinkedBlockingQueue fifo;
 
+	/** parser ANTLR */
+	CamiParser parser;
+
+	/**
+	 *
+	 * @param queue file de messages d'ou le Thread
+	 * 		  parser reçoit les InoutStream sur les
+	 * 		  commandes
+	 */
 	public ThreadParser(LinkedBlockingQueue queue){
 		this.fifo = queue;
+		this.parser = new CamiParser(null);
 	}
 
+
+	/**
+	 * Code exécuté par le thread
+	 */
 	public void run(){
-		// TODO ********************************************************
 
+		/* Boucle de récupération des InputStream sur les chaines de
+		 * commandes */
 		while(true){
-			InputStream is;
+			/* se bloquer en attente d'un ensemble de commandes */
 			try {
-				is = (InputStream)fifo.take();
-				int c;
-				String s = "";
-				while(true){
-					c = is.read();
-					if (c==-1)
-						break;
-					s += (char) c;
-				}
+				InputStream is;
+				is = (InputStream)this.fifo.take();
+				// Create an input character stream from standard in
+				ANTLRInputStream input = new ANTLRInputStream(is);
+				// Create an ExprLexer that feeds from that stream
+				CamiLexer lexer = new CamiLexer(input);
+				// Create a stream of tokens fed by the lexer
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-				System.out.println(s);
+				// réinitialiser le parser
+				parser.setTokenStream(tokens);
+
+				parser.command();
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e){
-
+			}catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}catch (RecognitionException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
-			// read jusqu'a la fin de fichier
+
 
 
 		}

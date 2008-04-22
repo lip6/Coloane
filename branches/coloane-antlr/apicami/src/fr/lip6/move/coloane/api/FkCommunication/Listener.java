@@ -59,7 +59,7 @@ public class Listener extends Thread implements IListener {
 			/** boucle de lecture des commandes */
 			while(true){
 				commandSuite = this.fkll.readCommand();
-			System.out.println("ssssssssssssssssssssss");
+
 				/* Ecrire les commandes a dans le pipe + EOF à chaque fin
 				 * de commande */
 

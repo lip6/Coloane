@@ -1,4 +1,6 @@
-// $ANTLR 3.0.1 Cami.g 2008-04-21 18:38:34
+package fr.lip6.move.coloane.api.FkCommunication;
+
+// $ANTLR 3.0.1 Cami.g 2008-04-22 13:21:21
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -15,7 +17,7 @@ public class CamiLexer extends Lexer {
     public static final int T9=9;
     public static final int Tokens=11;
     public static final int EOF=-1;
-    public CamiLexer() {;} 
+    public CamiLexer() {;}
     public CamiLexer(CharStream input) {
         super(input);
     }
@@ -28,7 +30,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:3:4: ( 'SC(' )
             // Cami.g:3:6: 'SC('
             {
-            match("SC("); 
+            match("SC(");
 
 
             }
@@ -47,7 +49,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:4:4: ( ')' )
             // Cami.g:4:6: ')'
             {
-            match(')'); 
+            match(')');
 
             }
 
@@ -65,7 +67,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:5:4: ( 'OC(' )
             // Cami.g:5:6: 'OC('
             {
-            match("OC("); 
+            match("OC(");
 
 
             }
@@ -84,7 +86,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:6:5: ( ',' )
             // Cami.g:6:7: ','
             {
-            match(','); 
+            match(',');
 
             }
 
@@ -103,16 +105,16 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:41:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:42:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:52:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:53:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start57 = getCharIndex();
-            mNUMBER(); 
+            mNUMBER();
             NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start57, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
-            match(':'); 
+            match(':');
             int fsStart68 = getCharIndex();
-            mFIXED_LENGTH_STRING(nbToRead); 
+            mFIXED_LENGTH_STRING(nbToRead);
             fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart68, getCharIndex()-1);
             setText(fs.getText());
 
@@ -128,10 +130,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:50:2: ( ({...}? => . )* )
-            // Cami.g:51:2: ({...}? => . )*
+            // Cami.g:61:2: ( ({...}? => . )* )
+            // Cami.g:62:2: ({...}? => . )*
             {
-            // Cami.g:51:2: ({...}? => . )*
+            // Cami.g:62:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -144,12 +146,12 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:51:4: {...}? => .
+            	    // Cami.g:62:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
             	    }
-            	    matchAny(); 
+            	    matchAny();
             	    len--;
 
             	    }
@@ -173,10 +175,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:54:8: ( ( '0' .. '9' )+ )
-            // Cami.g:55:2: ( '0' .. '9' )+
+            // Cami.g:65:8: ( ( '0' .. '9' )+ )
+            // Cami.g:66:2: ( '0' .. '9' )+
             {
-            // Cami.g:55:2: ( '0' .. '9' )+
+            // Cami.g:66:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -190,9 +192,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:55:2: '0' .. '9'
+            	    // Cami.g:66:2: '0' .. '9'
             	    {
-            	    matchRange('0','9'); 
+            	    matchRange('0','9');
 
             	    }
             	    break;
@@ -224,42 +226,42 @@ public class CamiLexer extends Lexer {
             case 1 :
                 // Cami.g:1:10: T7
                 {
-                mT7(); 
+                mT7();
 
                 }
                 break;
             case 2 :
                 // Cami.g:1:13: T8
                 {
-                mT8(); 
+                mT8();
 
                 }
                 break;
             case 3 :
                 // Cami.g:1:16: T9
                 {
-                mT9(); 
+                mT9();
 
                 }
                 break;
             case 4 :
                 // Cami.g:1:19: T10
                 {
-                mT10(); 
+                mT10();
 
                 }
                 break;
             case 5 :
                 // Cami.g:1:23: CAMI_STRING
                 {
-                mCAMI_STRING(); 
+                mCAMI_STRING();
 
                 }
                 break;
             case 6 :
                 // Cami.g:1:35: NUMBER
                 {
-                mNUMBER(); 
+                mNUMBER();
 
                 }
                 break;
@@ -326,6 +328,6 @@ public class CamiLexer extends Lexer {
             return "1:1: Tokens : ( T7 | T8 | T9 | T10 | CAMI_STRING | NUMBER );";
         }
     }
- 
+
 
 }

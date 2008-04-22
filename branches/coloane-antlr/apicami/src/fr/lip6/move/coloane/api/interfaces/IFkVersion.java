@@ -7,7 +7,7 @@ package fr.lip6.move.coloane.api.interfaces;
  *
  */
 
-public interface IFKVersion {
+public interface IFkVersion {
 
 
 	/**
@@ -21,14 +21,14 @@ public interface IFKVersion {
 		 * Retourne le numéro de version majeur.
 		 * @return int
 		 */
-		int getFKMajor();
+		int getFkMajor();
 
 
 		/**
 		 * Retourne le numéro de version mineur.
 		 * @return int
 		 */
-		int getFKMinor();
+		int getFkMinor();
 
 
 

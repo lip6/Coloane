@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.IFKVersion;
+import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 
 /**
  * cette classe implemente linterface IFKVersion
@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.IFKVersion;
  *
  */
 
-public class FKVersion implements IFKVersion {
+public class FKVersion implements IFkVersion {
     /** le nom du FrameKit*/
     private String FkName;
 
@@ -43,14 +43,14 @@ public class FKVersion implements IFKVersion {
 	/**
 	 * retourne le numero majeur de notre FrameKit.
 	 */
-	public int getFKMajor() {
+	public int getFkMajor() {
 		return this.FKMajor;
 	}
 
 	/**
 	 * retourne le numero mineur de notre FrameKit.
 	 */
-	public int getFKMinor() {
+	public int getFkMinor() {
 		return this.FKMinor;
 	}
 
