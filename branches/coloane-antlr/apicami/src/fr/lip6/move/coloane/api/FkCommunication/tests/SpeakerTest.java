@@ -1,9 +1,14 @@
 package fr.lip6.move.coloane.api.FkCommunication.tests;
 
 import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
+import fr.lip6.move.coloane.api.FkCommunication.Listener;
+import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.FkCommunication.Speaker;
+import fr.lip6.move.coloane.api.interfaces.IListener;
+import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 import junit.framework.TestCase;
 
@@ -36,10 +41,14 @@ public class SpeakerTest extends TestCase {
 	private final static String UIVERSION = "uiVersion";
 
 	Speaker sp;
+	Listener ls;
 
 	/** setup */
 	protected void setUp() throws Exception {
-		sp = (Speaker) (FkInitCom.initCom(this.IP_ADRESS, this.PORT)).speaker;
+		Pair<ISpeaker, IListener> p = FkInitCom.initCom(this.IP_ADRESS, this.PORT, new LinkedBlockingQueue());
+		this.sp = (Speaker) p.speaker;
+		this.ls = (Listener)p.listener;
+
 	}
 
 	/** tearDown */

@@ -13,6 +13,9 @@ import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 
 public class Api {
 
+	static String uiName = "Coloane";
+	static String uiVersion = "X.x";
+
 	public static IApiConnection getApiConnection() throws IOException{
 		return new ApiConnection();
 	}

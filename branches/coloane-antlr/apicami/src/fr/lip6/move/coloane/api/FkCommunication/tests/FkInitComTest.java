@@ -37,7 +37,7 @@ public class FkInitComTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testInitCom() throws IOException {
-		Pair<ISpeaker, IListener> pair = FkInitCom.initCom(this.IP_ADRESS, this.PORT);
+		Pair<ISpeaker, IListener> pair = FkInitCom.initCom(this.IP_ADRESS, this.PORT, null);
 		/* Tester que les listener et speaker sont bien créés */
 		this.assertNotNull(pair.speaker);
 		this.assertNotNull(pair.listener);

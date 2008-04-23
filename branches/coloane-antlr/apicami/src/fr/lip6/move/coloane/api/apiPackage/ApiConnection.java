@@ -3,11 +3,16 @@ package fr.lip6.move.coloane.api.apiPackage;
 
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
+import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.interfaces.IAPISession;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
+import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
@@ -20,6 +25,7 @@ import fr.lip6.move.coloane.api.interfaces.observers.IWarningObserver;
 
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.api.observables.ObservableFactory;
 
 public class ApiConnection implements IApiConnection {
 
@@ -45,6 +51,8 @@ public class ApiConnection implements IApiConnection {
 
 	/** Speaker */
 	private ISpeaker speaker;
+
+	private HashMap< String, Object> hashObservable;
 
 	/**  IBrutalInterruptObserver */
 	private IBrutalInterruptObserver bio;
@@ -87,6 +95,8 @@ public class ApiConnection implements IApiConnection {
 
 		// TODO
 
+		this.hashObservable = new HashMap< String, Object>();
+		this.hashObservable.put("IConnection", ObservableFactory.getNewObservable());
 	}
 
 	public boolean closeConnection() {
@@ -106,19 +116,61 @@ public class ApiConnection implements IApiConnection {
 		Pair<ISpeaker, IListener> p;
 		this.state = false; // connexion initialement non ouverte
 
+		/* Créer la file Queue entre le parser et le
+		 * thread Listener */
 
-		try { /** Ouverture de la connexion */
+		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
 
-			p = FkInitCom.initCom(this.ipServer, this.portServer);
+		/* créer le parser */
+		ThreadParser parser = new ThreadParser(fifo, this.hashObservable);
+
+		try { /** initialiser la connexion */
+
+			/* Créer le Thread Listener et le speaker */
+			p = FkInitCom.initCom(this.ipServer, this.portServer, fifo);
 			this.listener = p.getListener();
-	        this.speaker = p.getSpeaker();
-
+		    this.speaker = p.getSpeaker();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	    /* Lancer le parser */
+	    parser.start();
+
+	    /* Demander l'ouverture de la communication Commande SC et attendre
+	     * l'aquittement de FK */
+
+	    synchronized(this.hashObservable){
+	       	try {
+	       		this.speaker.startCommunication(this.login, this.password);
+	     		this.hashObservable.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	    /* Reveillé par un notify : arrivée d'un SC */
+
+	    /* Demander Ouverture d'une connexion : OC */
+
+	    synchronized(this.hashObservable){
+	       	try {
+	       		this.speaker.openConnection(Api.uiName, Api.uiVersion, this.login);
+	     		this.hashObservable.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/** set du IBrutalInterruptObserver*/
@@ -129,6 +181,8 @@ public class ApiConnection implements IApiConnection {
 
 	/** set du IConnectionObserver*/
 	public boolean setConnectionObserver(IConnectionObserver o) {
+		// TODO Voir si on laisse la hashmap ou les observers
+		((IConnectionObservable)this.hashObservable.get("IConnection")).addObserver(o);
 		this.ico = o;
 		return true;
 	}

@@ -1,11 +1,11 @@
-package fr.lip6.move.coloane.api.FkCommunication.tests;
+package fr.lip6.move.coloane.api.cami.tests;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import fr.lip6.move.coloane.api.FkCommunication.ThreadParser;
+import fr.lip6.move.coloane.api.cami.ThreadParser;
 
 import junit.framework.TestCase;
 

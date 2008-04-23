@@ -1,6 +1,6 @@
-package fr.lip6.move.coloane.api.FkCommunication;
+package fr.lip6.move.coloane.api.cami;
 
-// $ANTLR 3.0.1 Cami.g 2008-04-22 13:21:21
+// $ANTLR 3.0.1 Cami.g 2008-04-23 17:33:10
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -105,8 +105,8 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:52:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:53:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:62:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:63:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start57 = getCharIndex();
             mNUMBER();
@@ -130,10 +130,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:61:2: ( ({...}? => . )* )
-            // Cami.g:62:2: ({...}? => . )*
+            // Cami.g:71:2: ( ({...}? => . )* )
+            // Cami.g:72:2: ({...}? => . )*
             {
-            // Cami.g:62:2: ({...}? => . )*
+            // Cami.g:72:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -146,7 +146,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:62:4: {...}? => .
+            	    // Cami.g:72:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -175,10 +175,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:65:8: ( ( '0' .. '9' )+ )
-            // Cami.g:66:2: ( '0' .. '9' )+
+            // Cami.g:75:8: ( ( '0' .. '9' )+ )
+            // Cami.g:76:2: ( '0' .. '9' )+
             {
-            // Cami.g:66:2: ( '0' .. '9' )+
+            // Cami.g:76:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -192,7 +192,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:66:2: '0' .. '9'
+            	    // Cami.g:76:2: '0' .. '9'
             	    {
             	    matchRange('0','9');
 

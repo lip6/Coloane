@@ -3,9 +3,7 @@ package fr.lip6.move.coloane.api.FkCommunication;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedOutputStream;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import fr.lip6.move.coloane.api.interfaces.IListener;

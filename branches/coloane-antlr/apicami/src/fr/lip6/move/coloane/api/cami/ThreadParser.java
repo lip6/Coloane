@@ -1,7 +1,7 @@
-package fr.lip6.move.coloane.api.FkCommunication;
+package fr.lip6.move.coloane.api.cami;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Queue;
+import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -26,14 +26,18 @@ public class ThreadParser extends Thread {
 	CamiParser parser;
 
 	/**
-	 *
 	 * @param queue file de messages d'ou le Thread
 	 * 		  parser reçoit les InoutStream sur les
 	 * 		  commandes
+	 *
+	 * @param hm HashMap contenant les observables
+	 * 		  Cette HashMap sert non seulement à contenir les
+	 * 		  Observable, en plus elle est utilisée comme moniteur
+	 * 		  de synchronisation
 	 */
-	public ThreadParser(LinkedBlockingQueue queue){
+	public ThreadParser(LinkedBlockingQueue queue, HashMap<String, Object> hm){
 		this.fifo = queue;
-		this.parser = new CamiParser(null);
+		this.parser = new CamiParser(null, hm);
 	}
 
 
@@ -71,8 +75,6 @@ public class ThreadParser extends Thread {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-
-
 
 		}
 	}

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
@@ -23,8 +24,13 @@ import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 public class FkInitCom {
 
 	/**
-	 * Fabrique un objet Listner
-	 * @return retourne une interface IListener
+	 * Fabrique un objet Listner.
+	 * @param lowLevel Objet bas niveau s'occupant des lectures
+	 * 		  à partir de la socket.
+	 * @param queue file d'objets (InputStream) où le listener
+	  		  déposera pour le parser des flux sur les commandes
+	  		  arrivant de FrameKit.
+	 * @return retourne une interface IListener.
 	 */
 	private static IListener getFkComListener(FkComLowLevel lowLevel, LinkedBlockingQueue queue){
 		return new Listener(lowLevel, queue);
@@ -32,6 +38,8 @@ public class FkInitCom {
 
 	/**
 	 * Fabrique un objet Speaker
+ 	 * @param lowLevel Objet bas niveau s'occupant des lectures
+	 * 		  à partir de la socket.
 	 * @return retourne l'interface ISpeaker
 	 */
 	private static ISpeaker getFkComSpeaker(FkComLowLevel lowLevel){
@@ -48,7 +56,7 @@ public class FkInitCom {
 	 * @throws IOException
 	 */
 
-	public static Pair<ISpeaker, IListener> initCom(String ip, int port) throws IOException{
+	public static Pair<ISpeaker, IListener> initCom(String ip, int port, LinkedBlockingQueue fifo) throws IOException{
 
 		/** Créer une nouvelle connexion */
 		// pas besoin de traiter la IOException
@@ -56,12 +64,7 @@ public class FkInitCom {
 
 		Pair<ISpeaker, IListener> pair = new Pair<ISpeaker, IListener> ();
 
-		/* Créer la file Queue */
-		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
 
-		/* créer le parser */
-		ThreadParser parser = new ThreadParser(fifo);
-		parser.start();
 
 		/** Créer un listener */
 		pair.listener = getFkComListener(lowLevel, fifo);

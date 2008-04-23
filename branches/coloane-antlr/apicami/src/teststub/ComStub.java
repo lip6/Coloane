@@ -30,7 +30,7 @@ public class ComStub {
 	/**
 	 * Login
 	 */
-	final static String LOGIN = "TP1";
+	final static String LOGIN = "Administrator";
 
 	/**
 	 * Password
