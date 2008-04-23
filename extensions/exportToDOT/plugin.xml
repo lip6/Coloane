@@ -18,6 +18,9 @@
             icon="resources/blue_file.png"
             id="fr.lip6.move.coloane.wizard.export.dot"
             name="Dot File">
+		 <description>
+            Export local models to your file system using DOT syntax.
+         </description>
       </wizard>
    </extension>
 </plugin>
