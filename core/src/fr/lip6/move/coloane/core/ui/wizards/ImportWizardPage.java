@@ -55,7 +55,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	 * @param selection
 	 */
 	public ImportWizardPage(IWorkbench usedWorkbench, IStructuredSelection currentSelection, IImportFrom importInstance) {
-		super("file import", currentSelection);
+		super(Messages.ImportWizardPage_12, currentSelection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
 
@@ -90,7 +90,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		// Creation de la partie responsable du chois du formalisme
 		Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
-		formLabel.setText("Choose the formalism of the model inside your file :");
+		formLabel.setText(Messages.ImportWizardPage_3);
 		formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
 		formSelect.addListener(SWT.Modify, this);
 
@@ -134,7 +134,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		try {
 			if (importInstance == null) {
-				Coloane.getLogger().warning("Impossible de trouver l'instance de conversion");
+				Coloane.getLogger().warning(Messages.ImportWizardPage_4);
 				return false;
 			}
 
@@ -155,7 +155,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			if (pos > 0) {
 				newName = (String) newName.subSequence(0, pos);
 			}
-			newName = newName.concat("." + importFormalism.getExtension());
+			newName = newName.concat("." + importFormalism.getExtension()); //$NON-NLS-1$
 			setFileName(newName);
 
 			// Tentative de creation de fichier
@@ -205,18 +205,18 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 	@Override
 	public final boolean isPageComplete() {
-		if (fileSelect.getStringValue().equals("")) {
-			setErrorMessage("You must indicate the file you want to import...");
+		if (fileSelect.getStringValue().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_7);
 			return false;
 		}
 
-		if (formSelect.getText().equals("")) {
-			setErrorMessage("You must indicate the formalism of the imported model...");
+		if (formSelect.getText().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_9);
 			return false;
 		}
 
-		if (getFileName().equals("")) {
-			setErrorMessage("You must provide a name for your file once it has been imported...");
+		if (getFileName().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_11);
 			return false;
 		}
 

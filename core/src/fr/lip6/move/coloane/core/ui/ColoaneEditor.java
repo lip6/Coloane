@@ -486,7 +486,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	protected final PaletteRoot getPaletteRoot() {
 		// Logiquementle modele n'est jamais nul... Mais on est jamais trop prudent
 		if (model == null) {
-			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme");
+			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
 			return null;
 		}
 
@@ -495,7 +495,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		// Si la creation dela palette a echouee
 		if (paletteRoot == null) {
-			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme");
+			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
 		}
 
 		return paletteRoot;
