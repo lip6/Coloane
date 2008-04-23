@@ -151,7 +151,10 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 			// Travail sur l'extension du fichier
 			String newName = getFileName();
-			newName = (String) newName.subSequence(0, newName.lastIndexOf('.'));
+			int pos = newName.lastIndexOf('.');
+			if (pos > 0) {
+				newName = (String) newName.subSequence(0, pos);
+			}
 			newName = newName.concat("." + importFormalism.getExtension());
 			setFileName(newName);
 

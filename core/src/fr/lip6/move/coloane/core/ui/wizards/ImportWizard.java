@@ -31,6 +31,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("Toto");
 		selectFilePage = new ImportWizardPage(workbench, selection, instance);
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
