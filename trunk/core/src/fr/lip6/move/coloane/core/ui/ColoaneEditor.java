@@ -298,11 +298,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
 
-		try {
-			model = ModelLoader.loadFromXML(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// Construction d'un modele en memoire a partir de se representation en XML
+		model = ModelLoader.loadFromXML(file);
+		if (model == null) {  return; }
 
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
@@ -486,7 +484,20 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @return PaletteRoot Le pere de la palette
 	 */
 	protected final PaletteRoot getPaletteRoot() {
+		// Logiquementle modele n'est jamais nul... Mais on est jamais trop prudent
+		if (model == null) {
+			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme");
+			return null;
+		}
+
+		// Calcul et Creation de la palette adequate
 		paletteRoot = PaletteFactory.createPalette(this.model.getFormalism());
+
+		// Si la creation dela palette a echouee
+		if (paletteRoot == null) {
+			Coloane.getLogger().warning("Impossible de creer la palette d'outils associee au formalisme");
+		}
+
 		return paletteRoot;
 	}
 
