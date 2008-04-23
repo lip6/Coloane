@@ -32,13 +32,11 @@ http://www.lip6.fr/coloane
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.ibm.icu36.data.update" fragment="true"/>
       <plugin id="fr.lip6.move.coloane.apicami"/>
       <plugin id="fr.lip6.move.coloane.core"/>
       <plugin id="fr.lip6.move.coloane.core.nl1" fragment="true"/>
