@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -67,15 +68,26 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
+				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex());
+				Point p = request.getLocation();
+				getConnection().translateToRelative(p);
 				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
+				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex());
+				Point p = request.getLocation();
+				getConnection().translateToRelative(p);
 				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
+
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
+				Point p = request.getLocation();
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y);
+				getConnection().translateToRelative(p);
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y);
 				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
