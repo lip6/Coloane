@@ -93,7 +93,7 @@ public class ModelHandler extends DefaultHandler {
 			}
 
 		// Balise ATTRIBUT & PI
-		} else if (!(baliseName.equals("nodes") || baliseName.equals("arcs") || baliseName.equals("pis"))) { //$NON-NLS-1$ //$NON-NLS-2$
+		} else if (!(baliseName.equals("nodes") || baliseName.equals("arcs"))) { //$NON-NLS-1$ //$NON-NLS-2$
 
 			int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
 			int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
