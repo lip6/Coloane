@@ -55,8 +55,8 @@ public final class ModelLoader {
 		}
 
 		// Verifie la presence d'un indice sur le formalisme
-		if (globalHandler.getModel().getFormalism() == "") {
-			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName());
+		if (globalHandler.getModel().getFormalism() == "") { //$NON-NLS-1$
+			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName()); //$NON-NLS-1$
 			return null;
 		}
 

@@ -353,7 +353,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 */
 	public final void modifyInflexPoint(int index, Point p) {
 		try {
-			Coloane.getLogger().finer("Mouvement du point d'inflexion : " + index + " -> Nouvelles coordonees : " + p.x + " - " + p.y);
+			Coloane.getLogger().finer("Mouvement du point d'inflexion : " + index + " -> Nouvelles coordonees : " + p.x + " - " + p.y); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			this.genericArc.modifyPI(index, p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {

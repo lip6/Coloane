@@ -68,7 +68,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex());
+				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
@@ -76,7 +76,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			}
 
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex());
+				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
@@ -85,9 +85,9 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
 				Point p = request.getLocation();
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y);
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				getConnection().translateToRelative(p);
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y);
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}

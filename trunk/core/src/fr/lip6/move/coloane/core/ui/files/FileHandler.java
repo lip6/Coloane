@@ -20,7 +20,7 @@ public class FileHandler extends DefaultHandler {
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
 			this.model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
-			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism());
+			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism()); //$NON-NLS-1$
 		}
 	}
 
