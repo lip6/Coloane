@@ -3,4 +3,16 @@
 
 	<!-- Definition d'un modele -->
 	<xs:element name="formalism" type="xs:string" />
+
+	<!-- Definition du type d'un modele -->
+	<xs:complexType name="tmodel">
+		<xs:sequence>
+			<xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+		</xs:sequence>
+		<xs:attribute name="formalism" type="xs:string" use="required" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<!-- Definition d'un modele -->
+	<xs:element name="model" type="tmodel" />
 </xs:schema>
