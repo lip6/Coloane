@@ -26,6 +26,9 @@
             icon="resources/green_file.png"
             id="fr.lip6.move.coloane.wizard.export.pnml"
             name="Pnml File">
+		 <description>
+            Export local models to your file system using PNML syntax.
+         </description>
       </wizard>
    </extension>
       <extension
@@ -36,6 +39,9 @@
                icon="resources/green_file.png"
                id="fr.lip6.move.coloane.wizard.import.pnml"
                name="Pnml File">
+		 <description>
+            Import models written in PNML from the local file system.
+         </description>
          </wizard>
       </extension>
 

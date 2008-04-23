@@ -26,6 +26,9 @@
             icon="resources/red_file.png"
             id="fr.lip6.move.coloane.wizard.export.cami"
             name="Cami File">
+		 <description>
+            Export local models to your file system using CAMI syntax.
+         </description>
       </wizard>
    </extension>
    <extension
