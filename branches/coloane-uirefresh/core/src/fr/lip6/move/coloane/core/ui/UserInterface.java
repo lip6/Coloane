@@ -75,7 +75,7 @@ public final class UserInterface {
 	 * @param serviceName LE nom du service demande
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
-		serviceResultList.removeAll();
+//		serviceResultList.removeAll();
 		motor.askForService(rootMenuName, parentName, serviceName);
 	}
 

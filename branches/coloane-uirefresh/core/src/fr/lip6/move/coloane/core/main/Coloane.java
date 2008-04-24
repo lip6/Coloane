@@ -180,7 +180,7 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void initializeLogger() {
 		coreLog = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-		coreLog.setLevel(Level.FINEST); // On loggue tout !
+		coreLog.setLevel(Level.ALL); // On loggue tout !
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();

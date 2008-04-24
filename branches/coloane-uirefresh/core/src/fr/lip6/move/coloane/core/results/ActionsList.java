@@ -3,12 +3,11 @@ package fr.lip6.move.coloane.core.results;
 import fr.lip6.move.coloane.core.ui.panels.ResultsView;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
-public class ActionsList extends Observable implements Observer {
+public class ActionsList extends Observable {
 	private Vector<ResultsList> list;
 
 	public ActionsList() {
@@ -71,10 +70,5 @@ public class ActionsList extends Observable implements Observer {
 
 	public final void removeAll() {
 		list.removeAllElements();
-	}
-
-	public final void update(Observable o, Object arg1) {
-		this.setResultsList((ResultsList) o);
-		this.addResultsList();
 	}
 }
