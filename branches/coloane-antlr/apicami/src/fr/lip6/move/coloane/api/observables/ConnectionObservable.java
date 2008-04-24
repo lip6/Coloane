@@ -17,11 +17,22 @@ public class ConnectionObservable implements IConnectionObservable{
 	/** liste des observateurs */
 	private ArrayList<IConnectionObserver> list;
 
+	/** créer un thread ? */
+	private boolean createThread = false;
+
 	/**
 	 * Constructeur
 	 */
 	public ConnectionObservable(){
 		list = new ArrayList<IConnectionObserver>();
+	}
+
+	/**
+	 * set de la variable createThread
+	 * @param createThread notification avec ou sans création de thread
+	 */
+	public void setCreateThread(boolean createThread){
+		this.createThread = createThread;
 	}
 
 	/**
@@ -37,8 +48,38 @@ public class ConnectionObservable implements IConnectionObservable{
 	 * @param arg argument de la notification.
 	 */
 	public void notifyObservers(IFkVersion arg){
-		for(int i=0; i<this.list.size(); i++)
-			this.list.get(i).update(arg);
+
+		if(!this.createThread){ /* Option sans création de thread */
+			for(int i=0; i<this.list.size(); i++)
+				this.list.get(i).update(arg);
+		}
+		else{/* Option avec crétion de thread */
+			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
+			new Thread(thread,"threadConnection").start();
+		}
+
+	}
+
+	/**
+	 * Cette classe est utilisée pour créer un thread
+	 * lors de la notification, si cette option est avtive.
+	 *
+	 * @author kahoo & uu
+	 *
+	 */
+	private class ThreadNotifier implements Runnable{
+		private ArrayList<IConnectionObserver> listObservers;
+		private IFkVersion version;
+		public ThreadNotifier(ArrayList<IConnectionObserver> list, IFkVersion arg){
+			this.listObservers = list;
+			this.version = arg;
+		}
+
+		public void run() {
+			for(int i=0; i<this.listObservers.size(); i++)
+				this.listObservers.get(i).update(version);
+		}
+
 	}
 
 }

@@ -6,7 +6,8 @@ import java.io.IOException;
 
 import fr.lip6.move.coloane.api.apiPackage.Api;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
-import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
+import fr.lip6.move.coloane.api.interfaces.IApiSession;
+
 
 /**
  *
@@ -43,7 +44,7 @@ public class ComStub {
 	 * @throws IOException
 	 *
 	 */
-	private static void testOpenConnection() throws IOException{
+	private static IApiConnection testOpenConnection() throws IOException{
 		/** Demander un objet implémentant l'interface ApiConnection */
 		IApiConnection connection = Api.getApiConnection();
 
@@ -56,37 +57,40 @@ public class ComStub {
 		connection.setPassWord(PASSWORD);
 
 		/** configurer les objets de callback */
-		connection.setBrutalInterruptObserver(new BrutalInterruptObserver());
-		connection.setConnectionObserver(new ConnectionObserver());
-		connection.setDialogObserver(new DialogObserver());
-		connection.setServiceObserver(new ServiceObserver());
-		connection.setServiceStateObserver(new ServiceStateObserver());
-		connection.setSessionObserver(new SessionObserver());
-		connection.setTraceMessageObserver(new TraceMessageObserver());
-		connection.setWarningObserver(new WarningObserver());
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
+		connection.setConnectionObserver(new ConnectionObserver(), false);
+		connection.setDialogObserver(new DialogObserver(), false);
+		connection.setServiceObserver(new ServiceObserver(), false);
+		connection.setServiceStateObserver(new ServiceStateObserver(), false);
+		connection.setSessionObserver(new SessionObserver(), false);
+		connection.setTraceMessageObserver(new TraceMessageObserver(), false);
+		connection.setWarningObserver(new WarningObserver(), false);
 
 		/** Test ouverture connexion */
 		connection.openConnection();
+		return connection;
 
 
 	}
 
 	/**
 	 * Test l'ouverture d'une session
+	 * @throws IOException
 	 *
 	 */
-	public static void testOpenSession(){
-	// TODO
+	public static IApiSession testOpenSession(IApiConnection connection) throws IOException{
+		connection.openConnection();
+		IApiSession session = connection.getAPISession();
+		return session;
 	}
 
 	public static void main(String args[]) throws IOException{
 
 		/** Test l'ouverture de la connexion */
-		testOpenConnection();
+		IApiConnection connection = testOpenConnection();
 
 		/** Test l'ouverture d'une session */
-		testOpenSession();
-
+		IApiSession session = testOpenSession(connection);
 	}
 
 }

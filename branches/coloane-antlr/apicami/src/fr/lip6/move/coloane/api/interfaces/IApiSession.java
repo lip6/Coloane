@@ -7,7 +7,7 @@ package fr.lip6.move.coloane.api.interfaces;
  *
  */
 
-public interface IAPISession {
+public interface IApiSession {
 
 	/**
 	 * Donne le nom à la session.

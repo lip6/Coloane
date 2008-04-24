@@ -19,7 +19,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setTraceMessageObserver( ITraceMessageObserver o);
+	boolean setTraceMessageObserver( ITraceMessageObserver o, boolean createThread);
 
 
 	/**
@@ -28,7 +28,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setWarningObserver ( IWarningObserver o);
+	boolean setWarningObserver ( IWarningObserver o, boolean createThread);
 
 
 	/**
@@ -37,7 +37,7 @@ public interface IApiConnection {
 	 * @return bool
 	 */
 
-	boolean setServiceStateObserver( IServiceStateObserver o);
+	boolean setServiceStateObserver( IServiceStateObserver o, boolean createThread);
 
 
 	/**
@@ -46,7 +46,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setBrutalInterruptObserver( IBrutalInterruptObserver o);
+	boolean setBrutalInterruptObserver( IBrutalInterruptObserver o, boolean createThread);
 
 
 
@@ -56,7 +56,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setFKCloseConnectionObserver( IFKCloseConnectionObserver o);
+	boolean setFKCloseConnectionObserver( IFKCloseConnectionObserver o, boolean createThread);
 
 
 
@@ -66,7 +66,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setDialogObserver( IDialogObserver o);
+	boolean setDialogObserver( IDialogObserver o, boolean createThread);
 
 
 
@@ -76,7 +76,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setSessionObserver(ISessionObserver o);
+	boolean setSessionObserver(ISessionObserver o, boolean createThread);
 
 	/**
 	 * Donne l'observeur pour la connection.
@@ -84,7 +84,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setConnectionObserver(IConnectionObserver o);
+	boolean setConnectionObserver(IConnectionObserver o, boolean createThread);
 
 
 	/**
@@ -93,7 +93,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setServiceObserver(IServiceObserver o);
+	boolean setServiceObserver(IServiceObserver o, boolean createThread);
 
 
 	// paramètres de connexion
@@ -144,7 +144,7 @@ public interface IApiConnection {
 	 * la méthode qui retourne l'objet IAPISession.
 	 * @return IAPISession qui représente une seule session.
 	 */
-	IAPISession getAPISession();
+	IApiSession getAPISession();
 
 }
 

@@ -10,7 +10,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.interfaces.IAPISession;
+import fr.lip6.move.coloane.api.session.SessionFactory;
+import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
@@ -96,7 +97,7 @@ public class ApiConnection implements IApiConnection {
 		// TODO
 
 		this.hashObservable = new HashMap< String, Object>();
-		this.hashObservable.put("IConnection", ObservableFactory.getNewObservable());
+		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
 	}
 
 	public boolean closeConnection() {
@@ -104,11 +105,16 @@ public class ApiConnection implements IApiConnection {
 		return false;
 	}
 
-	public IAPISession getAPISession() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * retourne une IApiSession
+	 */
+	public IApiSession getAPISession() {
+		return SessionFactory.getNewApiSession();
 	}
 
+	/**
+	 * initie la connexion avec FrameKit (SC, OC)
+	 */
 	public void openConnection() {
 		// TODO Auto-generated method stub
 		// TODO Vérifier que la connexion est configuré
@@ -174,27 +180,30 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	/** set du IBrutalInterruptObserver*/
-	public boolean setBrutalInterruptObserver(IBrutalInterruptObserver o) {
+	public boolean setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
 		this.bio = o;
 		return true;
 	}
 
 	/** set du IConnectionObserver*/
-	public boolean setConnectionObserver(IConnectionObserver o) {
+	public boolean setConnectionObserver(IConnectionObserver o, boolean createThread) {
 		// TODO Voir si on laisse la hashmap ou les observers
-		((IConnectionObservable)this.hashObservable.get("IConnection")).addObserver(o);
-		this.ico = o;
+		IConnectionObservable ico1 =  (IConnectionObservable)this.hashObservable.get("IConnection");
+		ico1.addObserver(o);
+		ico1.setCreateThread(createThread);
+
+//		this.ico = o;
 		return true;
 	}
 
 	/** set du IDialogObserver*/
-	public boolean setDialogObserver(IDialogObserver o) {
+	public boolean setDialogObserver(IDialogObserver o, boolean createThread) {
 		this.ido = o;
 		return true;
 	}
 
 	/** set du IFKCloseConnectionObserver*/
-	public boolean setFKCloseConnectionObserver(IFKCloseConnectionObserver o) {
+	public boolean setFKCloseConnectionObserver(IFKCloseConnectionObserver o, boolean createThread) {
 		this.ifko = o;
 		return true;
 	}
@@ -224,31 +233,31 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	/** set du IServiceObserver */
-	public boolean setServiceObserver(IServiceObserver o) {
+	public boolean setServiceObserver(IServiceObserver o, boolean createThread) {
 		this.iso = o;
 		return true;
 	}
 
 	/** set du  IServiceStateObserver*/
-	public boolean setServiceStateObserver(IServiceStateObserver o) {
+	public boolean setServiceStateObserver(IServiceStateObserver o, boolean createThread) {
 		this.isso = o;
 		return true;
 	}
 
 	/** set du ISessionObserver */
-	public boolean setSessionObserver(ISessionObserver o) {
+	public boolean setSessionObserver(ISessionObserver o, boolean createThread) {
 		this.iseo = o;
 		return true;
 	}
 
 	/** set du ITraceMessageObserver  */
-	public boolean setTraceMessageObserver(ITraceMessageObserver o) {
+	public boolean setTraceMessageObserver(ITraceMessageObserver o, boolean createThread) {
 		this.itmo = o;
 		return true;
 	}
-
 	/** set du IWarningObserver*/
-	public boolean setWarningObserver(IWarningObserver o) {
+
+	public boolean setWarningObserver(IWarningObserver o, boolean createThread) {
 		this.iwo = o;
 		return true;
 	}

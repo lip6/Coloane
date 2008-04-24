@@ -13,7 +13,7 @@ public interface ISessionManager {
 	 * nous rend la session en cours..
 	 * @return la session en cours(APISession).
 	 */
-	IAPISession getActiveSession();
+	IApiSession getActiveSession();
 
 
 	/**

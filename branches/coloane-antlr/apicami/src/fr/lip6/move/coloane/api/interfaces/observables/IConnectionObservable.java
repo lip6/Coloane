@@ -4,6 +4,13 @@ import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 
 public interface IConnectionObservable {
+
+	/**
+	 *
+	 * @param createThread notification avec ou sans création de thread
+	 */
+	public void setCreateThread(boolean createThread);
+
 	/**
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
