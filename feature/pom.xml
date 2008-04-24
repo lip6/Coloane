@@ -76,7 +76,7 @@
 					</execution>
 					<execution>
 						<id>Build_feature</id>
-						<phase>validate</phase>        
+						<phase>package</phase>        
 						<goals>
 							<goal>exec</goal>
 						</goals>
