@@ -30,6 +30,7 @@ public class InflexDeleteCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		this.redo();
 		super.execute();
@@ -39,6 +40,7 @@ public class InflexDeleteCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		this.arc.addInflexPoint(this.position, this.index);
 	}
@@ -47,6 +49,7 @@ public class InflexDeleteCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		this.arc.removeInflexPoint(this.index);
 	}

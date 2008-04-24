@@ -136,6 +136,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 *
 	 * @param genericModel Le modele generique qui vient d'etre augemente
 	 */
+	@SuppressWarnings("null")
 	private void setProperties(IModel m) {
 
 		// Parcours de tous les attributs prevus par le formalisme

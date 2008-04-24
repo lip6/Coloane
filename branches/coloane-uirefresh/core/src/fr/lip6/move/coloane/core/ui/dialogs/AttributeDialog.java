@@ -79,6 +79,7 @@ public class AttributeDialog extends IconAndMessageDialog {
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
 	 */
+	@Override
 	public final void buttonPressed(int button) {
 		//boolean answerType = (button == IDialogConstants.OK_ID)?true:false;
 

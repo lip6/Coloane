@@ -76,6 +76,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardDataTransferPage#createOptionsGroupButtons(org.eclipse.swt.widgets.Group)
 	 */
+	@Override
 	protected final void createOptionsGroupButtons(Group optionsGroup) {
 		Font font = optionsGroup.getFont();
 		createHeader(optionsGroup, font);

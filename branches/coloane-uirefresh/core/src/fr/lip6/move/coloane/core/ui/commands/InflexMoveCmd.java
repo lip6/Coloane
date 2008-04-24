@@ -34,6 +34,7 @@ public class InflexMoveCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		super.execute();
 		this.redo();
@@ -43,6 +44,7 @@ public class InflexMoveCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		this.arc.modifyInflexPoint(this.index, this.oldPosition);
 	}
@@ -51,6 +53,7 @@ public class InflexMoveCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		this.arc.modifyInflexPoint(this.index, this.newPosition);
 	}

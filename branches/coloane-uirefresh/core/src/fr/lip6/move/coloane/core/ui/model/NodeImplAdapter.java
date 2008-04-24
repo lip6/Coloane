@@ -115,6 +115,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * Cela peut etre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
+	@SuppressWarnings("null")
 	private void setProperties(INode n) {
 
 		// Parcours de tous les attributs du formalisme

@@ -103,6 +103,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 * (non-Javadoc)
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseEntered(org.eclipse.draw2d.MouseEvent)
 			 */
+			@Override
 			public void mouseEntered(MouseEvent me) {
 				previousBackgroundColor = ((Shape) me.getSource()).getBackgroundColor();
 				((Shape) me.getSource()).setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
@@ -112,6 +113,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 * (non-Javadoc)
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseExited(org.eclipse.draw2d.MouseEvent)
 			 */
+			@Override
 			public void mouseExited(MouseEvent me) {
 				((Shape) me.getSource()).setBackgroundColor(previousBackgroundColor);
 				node.setAttributesSelected(true, false);

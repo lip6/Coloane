@@ -89,6 +89,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.ui.part.Page#init(org.eclipse.ui.part.IPageSite)
 		 */
+		@Override
 		public void init(IPageSite pageSite) {
 			super.init(pageSite);
 			ActionRegistry registry = getActionRegistry();
@@ -110,6 +111,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
+		@Override
 		public void createControl(Composite parent) {
 			pageBook = new PageBook(parent, SWT.NONE);
 			overview = new Canvas(pageBook, SWT.NONE);
@@ -121,6 +123,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.ui.part.Page#dispose()
 		 */
+		@Override
 		public void dispose() {
 			unhookOutlineViewer();
 			if (thumbnail != null) {
@@ -148,6 +151,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		 * (non-Javadoc)
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
 		 */
+		@Override
 		public Control getControl() {
 			return pageBook;
 		}
@@ -212,6 +216,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
+	@Override
 	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -291,6 +296,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * Ce fichier a bien sur ete cree par l'assistant
 	 * @param input Toutes les informations concernant le modele
 	 */
+	@Override
 	protected final void setInput(IEditorInput input) {
 		super.setInput(input);
 
@@ -318,6 +324,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	/**
 	 * Sauvegarde d'un fichier
 	 */
+	@Override
 	public final void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		// Traduction du modele au format xml
@@ -338,6 +345,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	/**
 	 * Sauvegarde du modele dans un autre fichier
 	 */
+	@Override
 	public final void doSaveAs() {
 
 		// Ouvre une boite de dialogue
@@ -354,6 +362,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			try {
 				new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() {
+					@Override
 					public void execute(final IProgressMonitor monitor) {
 						// Recuperation du modele generique
 						String xmlString = ModelWriter.translateToXML(model);
@@ -413,6 +422,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
+	@Override
 	public final boolean isSaveAsAllowed() {
 		return true;
 	}
@@ -421,6 +431,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
 	 */
+	@Override
 	public final void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 		super.commandStackChanged(event);
@@ -430,8 +441,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
 	 */
+	@Override
 	protected final PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
+			@Override
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
 				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
@@ -445,6 +458,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked") //$NON-NLS-1$
+		@Override
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
@@ -455,6 +469,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			PropertySheetPage page = new PropertySheetPage() {
 				{
 					setSorter(new PropertySheetSorter() {
+						@Override
 						public void sort(IPropertySheetEntry[] entries) {
 							// Aucun tri !
 						}
@@ -485,6 +500,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * Creation de la palette d'outils
 	 * @return PaletteRoot Le pere de la palette
 	 */
+	@Override
 	protected final PaletteRoot getPaletteRoot() {
 		paletteRoot = PaletteFactory.createPalette(this.model.getFormalism());
 		return paletteRoot;
@@ -494,6 +510,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * Retourne les preferences de la palette
 	 * @return FlyoutPreferences
 	 */
+	@Override
 	protected final FlyoutPreferences getPalettePreferences() {
 		return PaletteFactory.createPalettePreferences();
 	}

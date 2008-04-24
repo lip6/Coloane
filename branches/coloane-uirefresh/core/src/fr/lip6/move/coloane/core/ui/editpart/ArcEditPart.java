@@ -36,6 +36,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 * Dessin de l'arc
 	 * @return IFigure
 	 */
+	@Override
 	protected final IFigure createFigure() {
 		IFigure connection = new ArcFigure((IArcImpl) getModel());
 		return connection;
@@ -45,6 +46,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 * Met a jour la vue en fonction de la lecture du modele<br>
 	 * Cette methode utilise les accesseurs de la vue pour la modifier
 	 */
+	@Override
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
 		IArcImpl arcModel = (IArcImpl) getModel();
@@ -60,21 +62,25 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	}
 
 
+	@Override
 	protected final void createEditPolicies() {
 		// Selection handle edit policy.
 		// Makes the connection show a feedback, when selected by the user.
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
+			@Override
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
 				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 
+			@Override
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
 				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
+			@Override
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
 				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
@@ -107,6 +113,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 
 		// Allows the removal of the connection model element
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
+			@Override
 			protected Command getDeleteCommand(GroupRequest request) {
 				return new ArcDeleteCmd((IArcImpl) getModel());
 			}
@@ -135,6 +142,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	/**
 	 * Installation des ecouteurs de l'objet
 	 */
+	@Override
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
@@ -145,6 +153,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	/**
 	 * Mise en veille des ecouteurs de l'objet
 	 */
+	@Override
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();

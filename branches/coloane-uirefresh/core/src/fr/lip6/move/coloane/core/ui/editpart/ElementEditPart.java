@@ -48,6 +48,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Creation de la figure associee (VUE)
 	 * @return IFigure
 	 */
+	@Override
 	protected final IFigure createFigure() {
 		IFigure figure = new NodeFigure((AbstractModelElement) getModel());
 		return figure;
@@ -58,6 +59,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Mise a jour de la vue a partir des informations du modele<br>
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
+	@Override
 	protected final void refreshVisuals() {
 		INodeImpl nodeModel = (INodeImpl) getModel();
 
@@ -105,6 +107,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	/**
 	 * Regles de gestion de l'objet
 	 */
+	@Override
 	protected final void createEditPolicies() {
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
@@ -141,6 +144,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
 
 			// On autorise la suppression de l'element
+			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
 				IModelImpl parent = (IModelImpl) getHost().getParent().getModel();
 				INodeImpl child = (INodeImpl) getHost().getModel();
@@ -158,6 +162,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			 * Lorsque l'utilisateur clique sur le noeud de depart, la commande CREATE est appelee.
 			 * @see getConnectionCompleteCommand
 			 */
+			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 				INodeImpl source = (INodeImpl) getHost().getModel();
 
@@ -171,6 +176,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			 * Deuxieme etape de la creation d'un lien.<br>
 			 * Lorsque l'utilisateur clique sur le noeud d'arrivee, la commande COMPLETE est appelee.
 			 */
+			@Override
 			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 
 				// !! Recupere le noeud source depuis la premiere phase !!
@@ -181,6 +187,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 				return cmd;
 			}
 
+			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
 				IArcImpl arc = (IArcImpl) request.getConnectionEditPart().getModel();
 				INodeImpl newSource = (INodeImpl) getHost().getModel();
@@ -190,6 +197,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 				return cmd;
 			}
 
+			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
 				IArcImpl arc = (IArcImpl) request.getConnectionEditPart().getModel();
 				INodeImpl newTarget = (INodeImpl) getHost().getModel();
@@ -231,6 +239,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Retourne la liste des arcs sortant du noeud considere
 	 * @return List of IArcImpl
 	 */
+	@Override
 	protected final List<IArcImpl> getModelSourceConnections() {
 		return ((INodeImpl) getModel()).getSourceArcs();
 	}
@@ -239,6 +248,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * Retourne la liste des arcs entrants du noeud considere
 	 * @return List of IArcImpl
 	 */
+	@Override
 	protected final List<IArcImpl> getModelTargetConnections() {
 		return ((INodeImpl) getModel()).getTargetArcs();
 	}
@@ -264,6 +274,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
+	@Override
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
@@ -275,6 +286,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
+	@Override
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();

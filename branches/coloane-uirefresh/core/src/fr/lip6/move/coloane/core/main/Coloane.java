@@ -212,6 +212,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * Initialise le groupe de preferences avec des valeurs par defaut pour ce plugin
 	 * @param store Le groupe ou stocker les preferences
 	 */
+	@Override
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), ""); //$NON-NLS-1$ //$NON-NLS-2$
 

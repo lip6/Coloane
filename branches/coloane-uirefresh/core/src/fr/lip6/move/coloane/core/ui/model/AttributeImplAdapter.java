@@ -123,7 +123,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.attribute.setValue(newValue);
 		}
 
-		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit crŽer une figure
+		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit crï¿½er une figure
 		if (this.isDrawable() && oldValue.equals(this.getDefaultValue())) {
 			this.reference.getModelAdapter().annouceAttribute();
 		}

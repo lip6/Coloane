@@ -45,6 +45,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	 * Pour les attribut, on considere que la vue doit affiche un Label
 	 * @return IFigure
 	 */
+	@Override
 	protected final IFigure createFigure() {
 		Label figure = new Label();
 		figure.setOpaque(true);
@@ -116,6 +117,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	 * Mise a jour de la vue a partir des informations du modele<br>
 	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
 	 */
+	@Override
 	protected final void refreshVisuals() {
 
 		IAttributeImpl attribut = (IAttributeImpl) getModel();
@@ -177,6 +179,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	/**
 	 * Regles de gestion de l'objet
 	 */
+	@Override
 	protected final void createEditPolicies() {
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
@@ -267,6 +270,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	/**
 	 * Installation des ecouteurs de l'objet
 	 */
+	@Override
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
@@ -277,6 +281,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	/**
 	 * Mise en veille des ecouteurs de l'objet
 	 */
+	@Override
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();

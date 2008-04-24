@@ -31,6 +31,7 @@ public class EditableTextArea extends TextArea {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
 	 */
+	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
 		String[] tokens = ((Text) getTextWidget()).getText().split("(\n\r)|(\r\n)|(\n)|(\r)"); //$NON-NLS-1$
@@ -42,7 +43,9 @@ public class EditableTextArea extends TextArea {
 		return result;
 	}
 
-	/* Add a choice in a DummyTextArea is a nonsense. */
+	/**
+	 * Add a choice in a DummyTextArea is a nonsense.
+	 */
 	public final void addChoice(String choice) {
 		throw new UnsupportedOperationException();
 	}

@@ -71,6 +71,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected final void createAdvancedControls(Composite parent) {
 		super.createAdvancedControls(parent);
 
@@ -116,6 +117,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
 	 */
+	@Override
 	protected final InputStream getInitialContents() {
 		try {
 			return new FileInputStream(new File(fileSelect.getStringValue()));
@@ -187,6 +189,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
 	 */
+	@Override
 	protected final String getNewFileLabel() {
 		return "New File Name:"; //$NON-NLS-1$
 	}
@@ -194,6 +197,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
 	 */
+	@Override
 	protected final IStatus validateLinkedResource() {
 		return new Status(IStatus.OK, "fr.lip6.move.coloane.core", IStatus.OK, "", null); //$NON-NLS-1$ //$NON-NLS-2$
 	}

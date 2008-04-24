@@ -25,6 +25,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	/**
 	 * Creation des differentes regles d'edition pour le modele
 	 */
+	@Override
 	protected final void createEditPolicies() {
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
@@ -45,6 +46,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * Cette figure est invisible mais sert de conteneur a tous les autres objets.
 	 * @return IFigure
 	 */
+	@Override
 	protected final IFigure createFigure() {
 		Figure root = new FreeformLayer();
 		root.setLayoutManager(new FreeformLayout());
@@ -54,17 +56,19 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 
 	/**
 	 * Retourne la liste des enfants du modele
-	 * @return List La liste des enfants dans la représentation arborescente du modele
+	 * @return List La liste des enfants dans la reprÔøΩsentation arborescente du modele
 	 */
+	@Override
 	protected final List<IElement> getModelChildren() {
 		return ((IModelImpl) getModel()).getChildren();
 	}
 
 	/**
 	 * Re-Tracage du modele.
-	 * Ici, seule les connexions sont concernées.
-	 * Chaque objet-enfant se redessine lui-même
+	 * Ici, seule les connexions sont concernÔøΩes.
+	 * Chaque objet-enfant se redessine lui-mÔøΩme
 	 */
+	@Override
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
 	}
@@ -91,8 +95,9 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	/**
 	 * Mise en ecoute du modele.
 	 * Installation des ecouteurs sur le modele.
-	 * A partir de ce moment là, il a un lien entre la vue et le modele
+	 * A partir de ce moment lÔøΩ, il a un lien entre la vue et le modele
 	 */
+	@Override
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
@@ -104,6 +109,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * Desactive l'ecoute du modele
 	 * Le lien entre le modele et la vue est casse !
 	 */
+	@Override
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();

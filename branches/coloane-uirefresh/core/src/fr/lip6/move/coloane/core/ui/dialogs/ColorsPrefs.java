@@ -38,6 +38,7 @@ public class ColorsPrefs extends PreferencePage implements
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
 	}
 
+	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 
@@ -99,6 +100,7 @@ public class ColorsPrefs extends PreferencePage implements
 	 * Sets the contents of the nameEntry field to
 	 * be the default
 	 */
+	@Override
 	protected final void performDefaults() {
 		nodeColorEditor.loadDefault();
 		nodeColorEditor1.loadDefault();
@@ -110,6 +112,7 @@ public class ColorsPrefs extends PreferencePage implements
 	 * Method declared on IPreferencePage. Save the
 	 * author name to the preference store.
 	 */
+	@Override
 	public final boolean performOk() {
 		nodeColorEditor.store();
 		nodeColorEditor1.store();

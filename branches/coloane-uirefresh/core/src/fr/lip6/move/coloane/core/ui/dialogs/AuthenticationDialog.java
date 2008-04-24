@@ -99,11 +99,13 @@ public class AuthenticationDialog extends Dialog {
 	 * @return Composite du dialogue
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected final Control createDialogArea(Composite parent) {
 		compo = (Composite) super.createDialogArea(parent);
 
 		detailsButton = (Button) super.createButton(parent, DETAILS_ID, SHOW_DETAILS_LABEL , false);
 		detailsButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeVisibility();
 			}
@@ -160,6 +162,7 @@ public class AuthenticationDialog extends Dialog {
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 
@@ -212,6 +215,7 @@ public class AuthenticationDialog extends Dialog {
 	 * @param newShell Cette instance
 	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
 	 */
+	@Override
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(MSG_TITLE);

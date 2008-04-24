@@ -105,6 +105,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * Cela peut etre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
+	@SuppressWarnings("null")
 	private void setProperties() {
 
 		// Parcours de tous les attributs du formalisme

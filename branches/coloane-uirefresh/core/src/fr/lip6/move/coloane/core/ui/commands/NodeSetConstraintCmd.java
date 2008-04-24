@@ -36,6 +36,7 @@ public class NodeSetConstraintCmd extends Command {
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
 	 * @return true
 	 */
+	@Override
 	public final boolean canExecute() {
 		return true;
 	}
@@ -44,6 +45,7 @@ public class NodeSetConstraintCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		oldBounds = new Rectangle(node.getGraphicInfo().getLocation(), node.getGraphicInfo().getSize());
 		redo();
@@ -53,6 +55,7 @@ public class NodeSetConstraintCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		node.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
 		node.updateAttributesPosition(oldBounds.getLocation().x - newBounds.getLocation().x, oldBounds.getLocation().y - newBounds.getLocation().y);
@@ -63,6 +66,7 @@ public class NodeSetConstraintCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		node.getGraphicInfo().setLocation(oldBounds.getLocation().x, oldBounds.getLocation().y);
 	}

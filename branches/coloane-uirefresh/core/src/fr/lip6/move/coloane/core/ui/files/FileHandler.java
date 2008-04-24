@@ -15,6 +15,7 @@ public class FileHandler extends DefaultHandler {
 	/**
 	 * Lecture des balises ouvrantes du modele a la recherche de la balise <model>
 	 */
+	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 		// Recherche de la balise <model>
 		if (baliseName.equals("model")) { //$NON-NLS-1$

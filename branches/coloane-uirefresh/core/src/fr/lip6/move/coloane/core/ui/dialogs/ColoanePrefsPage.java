@@ -52,6 +52,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	/**
 	 * Creates the controls for this page
 	 */
+	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
@@ -95,6 +96,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 		comboServer.setText(Coloane.getDefault().getPreference("SERVER")); //$NON-NLS-1$
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 
@@ -167,6 +169,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 		combo.setItems(levelList);
 		combo.setText(Messages.ColoanePrefsPage_10);
 		combo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("NORMAL")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.INFO);
@@ -190,6 +193,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 * Sets the contents of the nameEntry field to
 	 * be the default
 	 */
+	@Override
 	protected final void performDefaults() {
 		Coloane.getDefault().setDefaultPreference("LOGIN"); //$NON-NLS-1$
 		Coloane.getDefault().setDefaultPreference("SERVER"); //$NON-NLS-1$
@@ -206,6 +210,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 * Method declared on IPreferencePage. Save the
 	 * author name to the preference store.
 	 */
+	@Override
 	public final boolean performOk() {
 		Coloane.getDefault().setPreference("LOGIN", loginField.getText()); //$NON-NLS-1$
 		Coloane.getDefault().setPreference("SERVER", comboServer.getText()); //$NON-NLS-1$
