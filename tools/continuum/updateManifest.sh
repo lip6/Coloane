@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #Ce script se lance dés qu'une commande maven se lance.En effet,ce script se lance car la generates-sources est
 #lancé alors que c'est le premier element du cycle de vie maven.
 #Concretement ce script,après des tests de routine (nbre arguments,manifest existant..) affiche a l'utilisateur a
