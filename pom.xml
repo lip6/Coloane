@@ -34,7 +34,7 @@
 			<id>fkordon</id>
 			<name>Fabrice Kordon</name>
 			<email>Fabrice.Kordon@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Fabrice.Kordon/</url>
+			<url>http://pagesperso-systeme.lip6.fr/Fabrice.Kordon/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -46,7 +46,7 @@
 			<id>jbvoron</id>
 			<name>Jean-Baptiste Voron</name>
 			<email>Jean-Baptiste.Voron@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Jean-Baptiste.Voron/</url>
+			<url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -59,7 +59,7 @@
 			<id>ahamez</id>
 			<name>Alexandre Hamez</name>
 			<email>Alexandre.Hamez@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Alexandre.Hamez/</url>
+			<url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -74,7 +74,7 @@
 		<contributor>
 			<name>Nicolas Gibelin</name>
 			<email>Nicolas.Gibelin@lip6.fr</email>
-			<url>http://www-src.lip6.fr/homepages/Nicolas.Gibelin/</url>
+			<url>http://pagesperso-systeme.lip6.fr/Nicolas.Gibelin/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -83,8 +83,43 @@
 			<timezone>+1</timezone>
 		</contributor>
 		<contributor>
+			<name>Clément Demoulins</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Racim Yasri</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Bassem Barbouche</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Monir Chaouki</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
 			<name>Eric Masliah</name>
-			<email>Eric.Masliah@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -94,7 +129,6 @@
 		</contributor>
 		<contributor>
 			<name>Dimitri Charles</name>
-			<email>Clarence-Dimitri.Charles@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -104,7 +138,6 @@
 		</contributor>
 		<contributor>
 			<name>David Cheng</name>
-			<email>David.Cheng@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -114,7 +147,6 @@
 		</contributor>
 		<contributor>
 			<name>Alexandre Ortiz</name>
-			<email>Alexandre.Ortiz@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -162,26 +194,7 @@
 		</dependency>
 	</dependencies>
 
-	<!-- Envoie par SCP lors du déploiement (deploy) -->
-	<distributionManagement>
-		<!-- use the following if you're not using a snapshot version. -->
-		<repository>
-			<id>Coloane-Releases</id>
-			<name>Coloane Releases</name>
-			<url>scp://coloane.lip6.fr/coloane/public/releases</url>
-		</repository>
-		<!-- use the following if you ARE using a snapshot version. -->
-		<snapshotRepository>
-			<id>Coloane-Snapshots</id>
-			<name>Coloane Snapshots</name>
-			<url>scp://coloane.lip6.fr/coloane/public/snapshots</url>
-		</snapshotRepository>
-		<site>
-			<id>Coloane-Reports</id>
-			<url>scp://coloane.lip6.fr/coloane/public/reports</url>
-		</site>
-	</distributionManagement>
-
+	<!-- Pour les rapports divers et varies -->
 	<reporting>
 		<plugins>
 			<plugin>
@@ -210,15 +223,6 @@
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<!--<directory>target/jar</directory>-->
-
-		<!-- Pour ssh et ftp -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh-external</artifactId>
-			</extension>
-		</extensions>
 
 		<!-- Configuration des plugin de Maven -->
 		<plugins>
@@ -231,37 +235,6 @@
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
-			</plugin>
-
-			<!-- Pour configurer le JAR de sortie -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<!-- Indique où se trouve notre manifest.mf -->
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
-						<!-- Rajoute Implementation-Build dans le MANIFEST -->
-						<manifest>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> 
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-						<!-- <manifestEntries> -->
-						<!-- 	<Implementation-Build>${buildNumber}</Implementation-Build> -->
-						<!-- 	<Build-Version>${project.version}.${buildNumber}</Build-Version> -->
-						<!-- </manifestEntries> -->
-					</archive>
-				</configuration>
-			</plugin>
-
-			<!-- Pour les releases -->  
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<branchName>${project.artifactId}-${project.version}</branchName>
-					<preparationGoals>clean verify</preparationGoals>
-				</configuration>	
 			</plugin>
 
 			<!-- Pour le checkstyle -->
@@ -287,7 +260,6 @@
 
 			<plugin>
 				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
-				<!-- /!\ Ne marche qu'avec un SVN en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
 				<executions>
@@ -306,6 +278,19 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>UpManifest</id>
+						<phase>package</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>updateManifest.sh</executable>
+							<arguments>
+								<argument>${buildNumber}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
 						<goals>
@@ -317,19 +302,6 @@
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/plugins</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>UpManifest</id>
-						<phase>generate-sources</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>updateManifest.sh</executable>
-							<arguments>
-								<argument>${buildNumber}</argument>
 							</arguments>
 						</configuration>
 					</execution>
