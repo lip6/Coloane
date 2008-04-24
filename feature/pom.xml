@@ -42,10 +42,10 @@
 
 			<plugin>
 				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
-				<!-- /!\ Ne marche que avec svn en anglais -->
+				
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
-				<version>0.9.4</version>
+				
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
