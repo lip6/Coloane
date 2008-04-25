@@ -24,9 +24,9 @@ public interface IBox {
 
 	 /**
 	 * Retourne les attributs du box.
-	 * @return un tableau d'attributs (String).
+	 * @return un tableau d'attributs .
 	 */
-	ArrayList<String> getAttribute();
+	ArrayList<IAttribute> getAttribute();
 
 
 }
