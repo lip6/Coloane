@@ -67,7 +67,7 @@ foreach my $plugin (@plugins) {
 	$plugin->set_att(version => $lastversion);
 }   
 
-$xml->flush();
+#$xml->flush();
 
 # Openning feature.xml for writing
 print "Writing...\n" if $debug;
