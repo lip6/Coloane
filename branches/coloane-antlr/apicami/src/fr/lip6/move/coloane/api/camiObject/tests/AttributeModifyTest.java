@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.camiObject.tests;
 
+import fr.lip6.move.coloane.api.camiObject.AttributeModify;
+import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import junit.framework.TestCase;
 
 public class AttributeModifyTest extends TestCase {
@@ -12,4 +14,11 @@ public class AttributeModifyTest extends TestCase {
 		super.tearDown();
 	}
 
+	public void testAttributeModify(){
+		String attributeType = "guard";
+		String newContent= "true";
+		int objectID = 5;
+		IAttributeModify af = new AttributeModify(attributeType, newContent,
+			objectID);
+	}
 }

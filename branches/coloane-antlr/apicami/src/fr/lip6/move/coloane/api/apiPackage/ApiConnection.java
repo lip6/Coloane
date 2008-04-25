@@ -53,6 +53,7 @@ public class ApiConnection implements IApiConnection {
 	/** Speaker */
 	private ISpeaker speaker;
 
+	/** une table de hash qui stocke les observables */
 	private HashMap< String, Object> hashObservable;
 
 	/**  IBrutalInterruptObserver */
@@ -148,15 +149,14 @@ public class ApiConnection implements IApiConnection {
 	    /* Demander l'ouverture de la communication Commande SC et attendre
 	     * l'aquittement de FK */
 
+
 	    synchronized(this.hashObservable){
 	       	try {
 	       		this.speaker.startCommunication(this.login, this.password);
 	     		this.hashObservable.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -170,10 +170,10 @@ public class ApiConnection implements IApiConnection {
 	       		this.speaker.openConnection(Api.uiName, Api.uiVersion, this.login);
 	     		this.hashObservable.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -185,14 +185,16 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	/** set du IConnectionObserver*/
+	/** set du IConnectionObserver
+	 * positionne l'observable aproprié par rapport à l'observeur dans notre hashmap,
+	 */
 	public boolean setConnectionObserver(IConnectionObserver o, boolean createThread) {
 		// TODO Voir si on laisse la hashmap ou les observers
+
 		IConnectionObservable ico1 =  (IConnectionObservable)this.hashObservable.get("IConnection");
 		ico1.addObserver(o);
 		ico1.setCreateThread(createThread);
 
-//		this.ico = o;
 		return true;
 	}
 
