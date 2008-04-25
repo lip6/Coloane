@@ -108,6 +108,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>Deploy</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>deploy.sh</executable>
+							<arguments>
+								<argument>${build.finalName}.${packaging}</argument>
+								<argument>${buildNumber}</argument>
+								<argument>/coloane/public/night-updates/features</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>Build_feature</id>
 						<phase>deploy</phase>        
 						<goals>
@@ -119,21 +134,6 @@
 								<argument>feature.xml</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/plugins</argument>
-								<argument>/coloane/public/night-updates/features</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>Deploy</id>
-						<phase>deploy</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>deploy.sh</executable>
-							<arguments>
-								<argument>${build.finalName}.${packaging}</argument>
-								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/features</argument>
 							</arguments>
 						</configuration>
