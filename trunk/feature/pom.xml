@@ -14,7 +14,7 @@
 		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
 		<url>https://coloane.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
 	</scm>
-	
+
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
@@ -56,10 +56,10 @@
 		<plugins>
 			<plugin>
 				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
-				
+
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
-				
+
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
@@ -69,6 +69,25 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin> 
+				<!-- Pour configurer le jar de sortie --> 
+				<groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> 
+				<configuration> 
+					<archive> 
+						<!-- Donne notre MANIFEST --> 
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile> 
+						<manifest> 
+							<addDefaultImplementationEntries>false</addDefaultImplementationEntries> 
+						</manifest> 
+						<!-- Rajoute Implementation-Build dans le MANIFEST --> 
+						<manifestEntries> 
+							<Implementation-Build>${buildNumber}</Implementation-Build> 
+						</manifestEntries> 
+					</archive> 
+				</configuration> 
 			</plugin>
 
 			<plugin>
