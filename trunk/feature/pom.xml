@@ -14,6 +14,21 @@
 		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</developerConnection>
 		<url>https://coloane.lip6.fr/trac/browser/trunk/${project.artifactId}</url>
 	</scm>
+	
+	<distributionManagement>
+		<!-- use the following if you're not using a snapshot version. -->
+		<repository>
+			<id>Coloane-Releases</id>
+			<name>Coloane Releases</name>
+			<url>file:///coloane/public/releases</url>
+		</repository>
+		<!-- use the following if you ARE using a snapshot version. -->
+		<snapshotRepository>
+			<id>Coloane-Snapshots</id>
+			<name>Coloane Snapshots</name>
+			<url>file:///coloane/public/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 
