@@ -1,7 +1,6 @@
 package teststub;
 
 
-
 import java.io.IOException;
 
 import fr.lip6.move.coloane.api.apiPackage.Api;
@@ -70,7 +69,6 @@ public class ComStub {
 		connection.openConnection();
 		return connection;
 
-
 	}
 
 	/**
@@ -79,8 +77,8 @@ public class ComStub {
 	 *
 	 */
 	public static IApiSession testOpenSession(IApiConnection connection) throws IOException{
-		connection.openConnection();
 		IApiSession session = connection.getAPISession();
+		session.openSession("241283", "AMI-Net", "premier.petri");
 		return session;
 	}
 
