@@ -62,7 +62,7 @@ public class ConnectionObservable implements IConnectionObservable{
 
 	/**
 	 * Cette classe est utilisée pour créer un thread
-	 * lors de la notification, si cette option est avtive.
+	 * lors de la notification, si cette option est active.
 	 *
 	 * @author kahoo & uu
 	 *

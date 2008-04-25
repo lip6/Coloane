@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.camiObject;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IArc;
+import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.INode;
 
 /**
@@ -15,7 +16,7 @@ public class Arc implements IArc{
 	private String arcType;
 
 	 /** les attributs*/
-	private ArrayList<String> attribute;
+	private ArrayList<IAttribute> attribute;
 
 	 /** l'inode de la fin*/
 	private int endingNode;
@@ -30,7 +31,7 @@ public class Arc implements IArc{
  * le constructeur de notre classe
  */
 
-	public Arc(String arcType,int id,int endingNode,int startingNode,ArrayList<String> attribute){
+	public Arc(String arcType,int id,int endingNode,int startingNode,ArrayList<IAttribute> attribute){
 
 		     this.arcType= arcType;
 		     this.attribute  = attribute;
@@ -46,7 +47,7 @@ public class Arc implements IArc{
 
 	public Arc(){
      this.arcType= null;
-     this.attribute  = new ArrayList<String>();
+     this.attribute  = new ArrayList<IAttribute>();
      this.endingNode = 0;
      this.startingNode = 0;
      this.idArc = 0;
@@ -63,7 +64,7 @@ public class Arc implements IArc{
 	/**
 	 * les attributs de notre arc.
 	 */
-	public ArrayList<String> getAttribute(){
+	public ArrayList<IAttribute> getAttribute(){
 		return this.attribute;
 	}
 

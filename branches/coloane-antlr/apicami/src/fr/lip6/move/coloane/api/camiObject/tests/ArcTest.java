@@ -2,9 +2,13 @@ package fr.lip6.move.coloane.api.camiObject.tests;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.camiObject.Arc;
-
 import junit.framework.TestCase;
+
+
+
+import fr.lip6.move.coloane.api.camiObject.Arc;
+import fr.lip6.move.coloane.api.camiObject.Attribute;
+import fr.lip6.move.coloane.api.interfaces.IAttribute;
 
 public class ArcTest extends TestCase {
 
@@ -18,7 +22,9 @@ public class ArcTest extends TestCase {
 
 	public void testArc(){
 		 String arcType= "arc";
-	     ArrayList<String> attribute  = attribute;
+
+	     ArrayList<IAttribute> attribute = new ArrayList<IAttribute>();
+	     attribute.add((IAttribute)(new Attribute()));
 	     int endingNode = 2;
 	     int startingNode = 8;
 	     int idArc = 13;

@@ -41,7 +41,7 @@ public interface IArc {
 		 * Retourne les attributs de l'arc.
 		 * @return un tableau de attributs(String).
 		 */
-		ArrayList<String> getAttribute();
+		ArrayList<IAttribute> getAttribute();
 
 	}
 
