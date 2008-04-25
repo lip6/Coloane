@@ -237,7 +237,7 @@
 			<url>file:///coloane/public/reports</url> 
 		</site> 
 	</distributionManagement>
-	
+
 	<build>
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
@@ -290,6 +290,22 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin> 
+				<groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> 
+				<configuration> 
+					<archive> 
+						<!-- Indique oÃ¹ se trouve notre manifest.mf --> 
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile> 
+						<!-- Rajoute Implementation-Build dans le MANIFEST --> 
+						<manifest> 
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+						</manifest> 
+					</archive> 
+				</configuration> 
 			</plugin>
 
 			<plugin>
