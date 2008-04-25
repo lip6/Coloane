@@ -9,7 +9,7 @@
       nl="en,fr"
       arch="ppc,x86">
 
-   <description url="https://srcdev.lip6.fr/trac/research/coloane">
+   <description url="https://coloane.lip6.fr/trac">
       Coloane is a tool designed to model complex systems using various
 formalisms. 
 More then a simple editor, Coloane gives you the ability to use
