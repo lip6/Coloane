@@ -109,7 +109,7 @@
 					</execution>
 					<execution>
 						<id>Build_feature</id>
-						<phase>compile</phase>        
+						<phase>generate-sources</phase>        
 						<goals>
 							<goal>exec</goal>
 						</goals>
