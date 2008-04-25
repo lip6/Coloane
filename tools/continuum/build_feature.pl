@@ -30,6 +30,7 @@ my $root = $xml->root;
 my $version = $root->att('version');
 my $nameid = $root->att('id');
 my $newversion = $version.".r".$build;
+print "Writing the new version : $newversion \n" if $debug;
 $root->set_att(version => $newversion); 
 
 # Find version of associated features
