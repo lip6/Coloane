@@ -27,6 +27,6 @@ public interface INode {
 	 * Retourne les attributs du noeud.
 	 * @return un tableau de attributs(String).
 	 */
-	ArrayList<String> getAttribute();
+	ArrayList<IAttribute> getAttribute();
 
 }
