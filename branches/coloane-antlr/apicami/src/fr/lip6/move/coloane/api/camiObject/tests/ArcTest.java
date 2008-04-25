@@ -29,6 +29,13 @@ public class ArcTest extends TestCase {
 	     int startingNode = 8;
 	     int idArc = 13;
       Arc arc = new Arc (arcType,idArc,endingNode,startingNode,attribute);
+
+
+      this.assertEquals(13, arc.getId());
+      this.assertEquals(8, arc.getStartingNode());
+      this.assertEquals(2, arc.getEndingNode());
+      this.assertEquals(attribute , arc.getAttribute());
+
 }
 
 }

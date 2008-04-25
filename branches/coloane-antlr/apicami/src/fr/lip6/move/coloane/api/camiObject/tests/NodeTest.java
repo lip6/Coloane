@@ -26,6 +26,6 @@ public class NodeTest extends TestCase {
 		int nodeID = 4;
 		String nodeType = "evaluation";
 
-		Node node = new Node( attribute,nodeID, nodeType);
+		INode node = new Node( attribute,nodeID, nodeType);
 	}
 }
