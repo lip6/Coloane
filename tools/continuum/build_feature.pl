@@ -29,8 +29,8 @@ $xml->parsefile($featurefile);
 my $root = $xml->root;
 my $version = $root->att('version');
 my $nameid = $root->att('id');
-my $newversion = $version.".rttttt".$build;
-print "Writing the new version : $newversion \n" if $debug;
+my $newversion = $version.".r".$build;
+print "Writing the new version : $newversion (previously $version) \n" if $debug;
 $root->set_att(version => $newversion); 
 
 # Find version of associated features
@@ -67,7 +67,7 @@ foreach my $plugin (@plugins) {
 	$plugin->set_att(version => $lastversion);
 }   
 
-#$xml->flush();
+$xml->flush();
 
 # Openning feature.xml for writing
 print "Writing...\n" if $debug;
