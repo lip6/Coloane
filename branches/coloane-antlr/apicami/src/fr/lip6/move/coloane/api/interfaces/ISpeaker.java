@@ -36,9 +36,14 @@ public interface ISpeaker {
 	/**
 	 *   demande a ISpeaker d'envoyer a FK l'ouverture d'une session.
 	 *   @param le nom de la session.
-	 *   @param le nom du formalisme.
+	 *   @param date de dernière modification du modèle.
+	 *   @param formalisme de la session
+	 *   @param	interlocuteur (outil invoqué)
+	 *   @param mode batch ou interactif
+	 * 	 @throws IOException
+	 *
  	*/
-	void openSession(String sessionName, int date, String sessionFormalism);
+	void openSession(String sessionName, String date, String sessionFormalism, String interlocutor, int mode) throws IOException;
 
 	/**
 	 * demande a ISpeaker d'envoyer a FK la fermeture d'une session.

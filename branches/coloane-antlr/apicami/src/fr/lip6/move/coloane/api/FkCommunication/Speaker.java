@@ -69,9 +69,10 @@ public class Speaker implements ISpeaker{
 	}
 
 	/**
-	 * @param uiName
-	 * @param uiVersion
-	 * @param login
+	 * @param uiName  Nom de l'interface utilisateur (client)
+	 * @param uiVersion version du client
+	 * @param login login déja passé dans la commande SC de la connexion
+	 * 		  gardé pour des raisons de compatibilité ascendante
 	 */
 	public void openConnection(String uiName, String uiVersion, String login) throws IOException {
 
@@ -83,8 +84,34 @@ public class Speaker implements ISpeaker{
 	}
 
 
-	public void openSession(String sessionName, int date, String SessionFormalism) {
-		// TODO Auto-generated method stub
+	/**
+	 *   demande a ISpeaker d'envoyer a FK l'ouverture d'une session.
+	 *   @param le nom de la session.
+	 *   @param date de dernière modification du modèle.
+	 *   @param formalisme de la session
+	 *   @param	interlocuteur (outil invoqué)
+	 *   @param mode batch ou interactif
+	 * @throws IOException
+	 *
+ 	*/
+	public void openSession(String sessionName, String date,
+			String sessionFormalism, String interlocutor, int mode) throws IOException {
+
+		/* envoi de la commande OS */
+		byte[] cmdToSend = CamiGenerator.generateCmdOS(sessionName, date, sessionFormalism);
+		this.fkll.writeCommand(cmdToSend);
+
+		/* envoi de la commande DI */
+		cmdToSend = CamiGenerator.generateCmdDI();
+		this.fkll.writeCommand(cmdToSend);
+
+		/* envoi de la commande CI */
+		cmdToSend = CamiGenerator.generateCmdCI(interlocutor, mode);
+		this.fkll.writeCommand(cmdToSend);
+
+		/* envoi de la commande FI */
+		cmdToSend = CamiGenerator.generateCmdDI();
+		this.fkll.writeCommand(cmdToSend);
 
 	}
 
@@ -112,5 +139,4 @@ public class Speaker implements ISpeaker{
 		// TODO Auto-generated method stub
 
 	}
-
 }
