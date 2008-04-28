@@ -57,10 +57,16 @@ public class CamiGenerator {
 	}
 
 
-	public static byte[] generateCmdCI(String SessionName, String mode) {
+	/**
+	 *
+	 * @param interlocutor : outil interlocuteur
+	 * @param mode : batch/interactif (0/1)
+	 * @return
+	 */
+	public static byte[] generateCmdCI(String interlocutor, int mode) {
 		// TODO Auto-generated method stub
-		String command = new String("CI(" + CamiParser.stringToCAMI(serviceName) + "," + mode + ")");
-		return null;
+		String command = new String("CI(" + interlocutor.length()+":" + interlocutor + "," + mode + ")");
+		return initCommand(command);
 	}
 
 
@@ -74,10 +80,14 @@ public class CamiGenerator {
 		return null;
 	}
 
-
-	public ArrayList<byte[]> generateCmdFI() {
+	/**
+	 *
+	 * @return
+	 */
+	public static byte[] generateCmdFI() {
 		// TODO Auto-generated method stub
-		return null;
+		String command = new String("FI()");
+		return (initCommand(command));
 	}
 
 	public ArrayList<byte[]> generateCmdFT() {
