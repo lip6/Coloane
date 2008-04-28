@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -320,14 +321,17 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		// Traduction du modele au format xml
 		String xmlString = ModelWriter.translateToXML(model);
-		// Creation de l'input stream a partir d'une chaine de caractere
-		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 
 		try {
+			// Creation de l'input stream a partir d'une chaine de caractere
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
 			// Ecriture du fichier de sauvegarder a partir du l'input stream
 			file.setContents(inputS, true, false, monitor);
+			file.setCharset("UTF-8", monitor);
 		} catch (CoreException e) {
 			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
+		} catch (UnsupportedEncodingException e) {
+			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele (charset)"); //$NON-NLS-1$
 		}
 
 		getCommandStack().markSaveLocation();
