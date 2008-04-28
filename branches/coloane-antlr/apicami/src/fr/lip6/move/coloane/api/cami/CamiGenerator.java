@@ -57,15 +57,16 @@ public class CamiGenerator {
 	}
 
 
-	public ArrayList<byte[]> generateCmdCI(String SessionName) {
+	public static byte[] generateCmdCI(String SessionName, String mode) {
 		// TODO Auto-generated method stub
+		String command = new String("CI(" + CamiParser.stringToCAMI(serviceName) + "," + mode + ")");
 		return null;
 	}
 
 
-	public ArrayList<byte[]> generateCmdDI() {
-		// TODO Auto-generated method stub
-		return null;
+	public static byte[] generateCmdDI() {
+		String command = new String("DI()");
+		return (initCommand(command));
 	}
 
 	public ArrayList<byte[]> generateCmdDT() {
@@ -106,10 +107,17 @@ public class CamiGenerator {
 	}
 
 
-	public ArrayList<byte[]> generateCmdOS(String SessionName, String date,
-			String SessionFormalism) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 *
+	 * @param sessionName : nom de la session
+	 * @param date
+	 * @param sessionFormalism : formalisme de la session
+	 * @return commande OS sous forme d'un tableau de bytes
+	 */
+	public static byte[] generateCmdOS(String sessionName, String date, String sessionFormalism) {
+
+		String command = new String("OS(" + sessionName.length() + ":" + sessionName + ","	+ date + "," + sessionFormalism.length() + ":" + sessionFormalism + ")");
+		return initCommand(command);
 	}
 
 
