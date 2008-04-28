@@ -12,4 +12,7 @@ public class SessionControllerTest extends TestCase {
 		super.tearDown();
 	}
 
+	public void testSessionController(){
+
+	}
 }

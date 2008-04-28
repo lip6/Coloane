@@ -27,6 +27,7 @@ import fr.lip6.move.coloane.api.interfaces.observers.IWarningObserver;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
+import fr.lip6.move.coloane.api.interfaces.*;
 
 public class ApiConnection implements IApiConnection {
 
@@ -83,12 +84,14 @@ public class ApiConnection implements IApiConnection {
 	/** IWarningObserver*/
 	private IWarningObserver iwo;
 
-
+    /** le sessionController*/
+	private ISessionController sessionCont;
 
 	/** Constructeur
 	 * Initialise la connexion en créant :
 	 *  - le thread listener.
 	 *  - le speaker.
+	 *  on crée aussi une instance de sessionController ( qui gére les sessions).
 	 * La connexion n'est pas ouverte ici, elle est faite sur l'appel
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
 	 * @throws IOException
@@ -99,6 +102,7 @@ public class ApiConnection implements IApiConnection {
 
 		this.hashObservable = new HashMap< String, Object>();
 		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
+		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
 	public boolean closeConnection() {
@@ -110,8 +114,8 @@ public class ApiConnection implements IApiConnection {
 	 * retourne une IApiSession
 	 */
 	public IApiSession getAPISession() {
-		return SessionFactory.getNewApiSession();
-	}
+		return SessionFactory.getNewApiSession(this.sessionCont,this.speaker);
+}
 
 	/**
 	 * initie la connexion avec FrameKit (SC, OC)
