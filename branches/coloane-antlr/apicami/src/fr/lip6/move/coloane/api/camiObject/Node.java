@@ -46,11 +46,11 @@ public class Node implements INode{
 	}
 
 	public int getId() {
-    return this.getId();
+    return this.nodeID;
 	}
 
 	public String getNodeType() {
-    return this.getNodeType();
+    return this.nodeType;
 	}
 
 }

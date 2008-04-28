@@ -26,9 +26,9 @@ public class ModelTest extends TestCase {
 
 	public void testModel(){
 
-		ArrayList<IArc> arcs = null;
-		ArrayList<IBox> boxes = null;
-		ArrayList<INode> nodes = null;
+		ArrayList<IArc> arcs = new ArrayList<IArc>();
+		ArrayList<IBox> boxes = new ArrayList<IBox>();
+		ArrayList<INode> nodes = new ArrayList<INode>();
 
 		// creation dun arc
 		 String arcType= "arc";
@@ -38,7 +38,7 @@ public class ModelTest extends TestCase {
 	     int endingNode = 2;
 	     int startingNode = 8;
 	     int idArc = 13;
-          Arc arc = new Arc (arcType,idArc,endingNode,startingNode,attribute);
+          IArc arc = new Arc (arcType,idArc,endingNode,startingNode,attribute);
           arcs.add(arc);
 
 
@@ -58,9 +58,13 @@ public class ModelTest extends TestCase {
 	   int nodeID = 4;
 	   String nodeType = "evaluation";
 
-	   Node node = new Node( attributen,nodeID, nodeType);
+	   INode node = new Node( attributen,nodeID, nodeType);
 	   nodes.add(node);
 
 	   IModel model = new Model (arcs, boxes, nodes);
+
+	   this.assertEquals(arcs, model.getArcs());
+	   this.assertEquals(boxes, model.getBoxes());
+	   this.assertEquals(nodes, model.getNodes());
 	}
 }

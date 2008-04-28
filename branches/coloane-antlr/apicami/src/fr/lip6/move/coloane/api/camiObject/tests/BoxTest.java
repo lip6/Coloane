@@ -26,5 +26,11 @@ public void testBox(){
 	String boxType = "evaluation";
 
 	IBox box = new Box(attribute,boxID,boxPage,boxType);
+
+	this.assertEquals("evaluation", box.getBoxType());
+	this.assertEquals(5, box.getBoxPage());
+	this.assertEquals(4, box.getBoxID());
+
+	this.assertEquals(attribute, box.getAttribute());
 }
 }

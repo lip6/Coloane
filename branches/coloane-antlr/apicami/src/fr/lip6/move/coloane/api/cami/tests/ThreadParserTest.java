@@ -33,7 +33,7 @@ public class ThreadParserTest extends TestCase {
 	public void testThreadParser() throws InterruptedException, IOException{
 		/* créer la file + le thread */
 		LinkedBlockingQueue fifo = new LinkedBlockingQueue();
-		ThreadParser tp = new ThreadParser(fifo);
+		ThreadParser tp = new ThreadParser(fifo,null);
 
 		/* Lancer le thread */
 		tp.start();

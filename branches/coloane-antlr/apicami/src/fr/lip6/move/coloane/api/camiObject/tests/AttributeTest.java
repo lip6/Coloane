@@ -25,6 +25,11 @@ public class AttributeTest extends TestCase {
 	    	String contenu = "1";
 	    	IAttribute a = new Attribute(type,objectId,contenu);
 
+	    	this.assertEquals("valuation", a.getType());
+	    	this.assertEquals(16, a.getObjectId());
+	    	this.assertEquals("1", a.getContains());
+
+
 	}
 
 }

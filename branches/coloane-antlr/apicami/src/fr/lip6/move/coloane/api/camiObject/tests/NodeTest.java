@@ -27,5 +27,9 @@ public class NodeTest extends TestCase {
 		String nodeType = "evaluation";
 
 		INode node = new Node( attribute,nodeID, nodeType);
+
+		this.assertEquals("evaluation", node.getNodeType());
+		this.assertEquals(4, node.getId());
+		this.assertEquals(attribute, node.getAttribute());
 	}
 }

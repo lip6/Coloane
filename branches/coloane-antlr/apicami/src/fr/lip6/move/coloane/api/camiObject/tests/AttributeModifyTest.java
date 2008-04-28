@@ -20,5 +20,9 @@ public class AttributeModifyTest extends TestCase {
 		int objectID = 5;
 		IAttributeModify af = new AttributeModify(attributeType, newContent,
 			objectID);
+
+		this.assertEquals("guard", af.getAttributeType());
+		this.assertEquals("true", af.getNewContent());
+		this.assertEquals(5, af.getObjectID());
 	}
 }
