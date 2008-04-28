@@ -213,47 +213,61 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param store Le groupe ou stocker les preferences
 	 */
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("LOGIN"), ""); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Server name, IP and port for Framekit
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("SERVER"), ""); //$NON-NLS-1$ //$NON-NLS-2$
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("IP"), ""); //$NON-NLS-1$ //$NON-NLS-2$
-		store.setDefault(Platform.getResourceBundle(getDefault().getBundle()).getString("PORT"), ""); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE"), color.getRGB()); //$NON-NLS-1$
+		PreferenceConverter.setDefault(store, "COLORNODE", color.getRGB()); //$NON-NLS-1$
 
 		//Node highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_HIGHLIGHT"), color.getRGB()); //$NON-NLS-1$
+		PreferenceConverter.setDefault(store, "COLORNODE_HIGHLIGHT", color.getRGB()); //$NON-NLS-1$
 
 		//Node mouse over
 		color = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORNODE_MOUSE"), color.getRGB()); //$NON-NLS-1$
+		PreferenceConverter.setDefault(store, "COLORNODE_MOUSE", color.getRGB()); //$NON-NLS-1$
 
 		//Arc color
 		color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC"), color.getRGB()); //$NON-NLS-1$
+		PreferenceConverter.setDefault(store, "COLORARC", color.getRGB()); //$NON-NLS-1$
 
 		//Arc highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
-		PreferenceConverter.setDefault(store,  Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString("COLORARC_HIGHLIGHT"), color.getRGB()); //$NON-NLS-1$
+		PreferenceConverter.setDefault(store, "COLORARC_HIGHLIGHT", color.getRGB()); //$NON-NLS-1$
 	}
 
-	public final void setDefaultPreference(String key) {
-		Coloane.getDefault().getPreferenceStore().setValue(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key),
-				Coloane.getDefault().getPreferenceStore().getDefaultString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key)));
+	/**
+	 * Remise a zero des preferences du plugin
+	 */
+	public final void setDefaultPreference() {
+		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN"));
+		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER"));
+		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP"));
+		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT"));
 	}
 
+	/**
+	 * Change la valeur d'un preference
+	 * @param key La clef de la propriete a changer
+	 * @param value La nouvelle valeur a attribuer
+	 */
 	public final void setPreference(String key, String value) {
-		Coloane.getDefault().getPreferenceStore().setValue(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key), value);
+		Coloane.getDefault().getPreferenceStore().setValue(key, value);
 	}
 
+	/**
+	 * Retourne la valeur d'une preference
+	 * @param key La clef de la preference
+	 * @return La valeur de la prefrence choisie
+	 */
 	public final String getPreference(String key) {
-		return Coloane.getDefault().getPreferenceStore().getString(Platform.getResourceBundle(Coloane.getDefault().getBundle()).getString(key));
+		return Coloane.getDefault().getPreferenceStore().getString(key);
 	}
-
 
 	/**
 	 * Modifie le niveau de verbosite du log du Core
