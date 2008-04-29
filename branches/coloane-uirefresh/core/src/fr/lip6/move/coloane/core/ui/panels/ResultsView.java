@@ -1,192 +1,99 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.results.ActionsList;
-import fr.lip6.move.coloane.core.results.Result;
-import fr.lip6.move.coloane.core.results.ResultsList;
+import fr.lip6.move.coloane.core.results_new.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.UserInterface;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
 /**
  * Gestion de la vue des resultats
  */
-public class ResultsView extends ViewPart implements Observer {
-
+public class ResultsView extends ViewPart {
 	private static ResultsView instance;
 
-	/** The ActionList displayed in this view. */
-	private ActionsList actionsList;
 
-	/** The current action displayed. */
-	private int currentActionDisplayed;
+	
+	/** Vue représentant l'arbre des résultats */
+	private TreeViewer viewer;
 
-	/** The widget which will display the list of actions. */
-	private List actionsWidget;
 
-	/** The widget which will display the list of results for an action. */
-	private List resultsList;
+	
+	/**
+	 * Constructeur privé, ResultView est un singleton 
+	 */
+	public ResultsView() {
+		super();
+	}
 
-	/** The widget which will display the */
-	private StyledText text;
-
-	/** Constructor for ResultsView */
-	public ResultsView() { super(); }
+	/**
+	 * @return Instance du ResultView
+	 */
+	public static ResultsView getInstance() {
+		if(instance==null)
+			instance = new ResultsView();
+		return instance;
+	}
 
 	@Override
-	public final void createPartControl(Composite parent) {
-		/* This view will be divided in three parts :
-		 * - in first we will have a list of actions' names (Syntax check, ...)
-		 * - in second we will have a list of error for a given action
-		 * - in third we will have the text correponding to the selected error
-		 */
-		actionsWidget = new List(parent, SWT.SINGLE | SWT.BORDER);
-		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+	public final void createPartControl(final Composite parent) {
+		viewer = new TreeViewer(parent);
+		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.setContentProvider(new ResultContentProvider());
 
-		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER | SWT.WRAP);
-		text.setJustify(false);
-		text.setAlignment(SWT.CENTER);
+		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
+		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		currentActionDisplayed = 0;
+		ResultTreeList results = UserInterface.getInstance().getServiceResults();
+		results.addObserver(new Observer() {
+			@Override
+			public void update(Observable o, Object arg) {
+				final int width = (Integer)arg;
+				parent.getDisplay().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						System.err.println("width "+width);
+						System.err.println("current width "+viewer.getTree().getColumnCount());
+						for(int i=viewer.getTree().getColumnCount();i<width;i++) {
+							System.err.println("Ajout d'une colonne");
+							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+							column.setLabelProvider(new ResultColumnLabelProvider(i));
+						}
 
-		if (actionsList != null) { setLists(); }
+						viewer.refresh();
+					}
+				});
+			}
+		});
+		viewer.setInput(results);
+
+		Tree tree = viewer.getTree();
+		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
+		for (int i = 0, n = tree.getColumnCount(); i < n; i++) {
+			tree.getColumn(i).setWidth(200);
+		}
+
+		tree.setHeaderVisible(false);
+		tree.setLinesVisible(false);
 
 		instance = this;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override
 	public final void setFocus() {
 		return;
-	}
-
-	/**
-	 * Adds a listener on the actions' list.
-	 */
-	private void setActionsListSelectionListener() {
-		actionsWidget.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				currentActionDisplayed = actionsWidget.getSelectionIndex();
-				ResultsList results = actionsList.getResultsList(currentActionDisplayed);
-
-				/* We zero the second list to fill it with the results of the action currently selected */
-				resultsList.removeAll();
-
-				if (results.getResultsNumber() == 0) {
-					return;
-				}
-
-				for (int i = 0; i < results.getResultsNumber(); i++) {
-					resultsList.add(results.getResult(i).getName());
-				}
-
-				/* We add the listner for the list we have created. */
-				setResultsListSelectionListener();
-
-				resultsList.select(0);
-				text.setText(results.getResult(0).getDescription());
-			}
-		});
-	}
-
-	private void setLists() {
-		actionsWidget.removeAll();
-		resultsList.removeAll();
-
-		/*
-		 * We build the first list with the actions' names.
-		 */
-		for (int i = 0; i < actionsList.getResultsListSize(); i++) {
-			actionsWidget.add(actionsList.getResultsList(i).getActionName());
-		}
-
-		/*
-		 * We build the second list with the first action's results.
-		 */
-		for (int i = 0; i < actionsList.getResultsList(0).getResultsNumber(); i++) {
-			resultsList.add(actionsList.getResultsList(0).getResult(i).getName());
-		}
-
-		text.setText(actionsList.getResultsList(0).getResult(0).getDescription());
-		setSelectionListeners();
-	}
-
-	/**
-	 * Modifies the text in the third part of this view
-	 * when an selection event is received on the
-	 * results' list.
-	 */
-	private void setResultsListSelectionListener() {
-		resultsList.addSelectionListener(new SelectionListener() {
-			private String mem = "0"; //$NON-NLS-1$
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			/**
-			 * Selection d'un item dans la liste
-			 */
-			public void widgetSelected(SelectionEvent e) {
-
-				Result r = actionsList.getResultsList(currentActionDisplayed).getResult(resultsList.getSelectionIndex());
-				text.setText(r.getDescription());
-
-
-				// Activation de l'objet designe
-				Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel().highlightNode(r.getName(), mem);
-				mem = r.getName();
-			}
-		});
-	}
-
-	/**
-	 * Adds the SelectionListeners for the actions' list
-	 * and the results' list.
-	 */
-	private void setSelectionListeners() {
-		setActionsListSelectionListener();
-		setResultsListSelectionListener();
-	}
-
-	/**
-	 * TODO : A Documenter
-	 * @param oActionsList
-	 */
-	public final void setActionsList(ActionsList oActionsList) {
-		this.actionsList = oActionsList;
-	}
-
-	/**
-	 * TODO: A documenter
-	 */
-	public final void update(Observable o, Object arg) {
-		actionsList = (ActionsList) o;
-		setLists();
-
-	}
-
-	/**
-	 * TODO : A documenter
-	 * @return
-	 */
-	public static ResultsView getInstance() {
-		return instance;
 	}
 }

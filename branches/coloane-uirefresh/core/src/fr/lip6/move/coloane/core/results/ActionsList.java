@@ -29,7 +29,7 @@ public class ActionsList extends Observable {
 
 		this.deleteObservers();
 		// resultview devient un observer de Actionslist
-		this.addObserver(resultView);
+//		this.addObserver(resultView);
 
 		setChanged();
 		notifyObservers();
