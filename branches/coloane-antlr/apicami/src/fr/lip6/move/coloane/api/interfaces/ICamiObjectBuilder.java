@@ -14,7 +14,7 @@ public interface ICamiObjectBuilder {
 	 * @param les commandes venant de FrameKit.
 	 * @return IMenu .
 	 */
-		IMenu buildMenu(ArrayList<String> CamiMenu);
+		IMenu buildMenu(ArrayList<ArrayList<String>> CamiMenu);
 
 
 		/**
