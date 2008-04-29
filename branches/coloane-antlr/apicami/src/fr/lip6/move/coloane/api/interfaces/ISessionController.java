@@ -6,6 +6,8 @@ package fr.lip6.move.coloane.api.interfaces;
  *
  */
 
+import fr.lip6.move.coloane.api.interfaces.IApiSession;
+
 public interface ISessionController {
 
 	/**
