@@ -14,62 +14,62 @@ public interface IMenu {
 	 * donne le parent de l'élèment courant.
 	 * @return IMenu (le pére).
 	 */
-	  IMenu getParent();
+	  public IMenu getParent();
 
 	  /**
 		 * Donne le nom de l'élèment.
 		 * @return string.
 		 */
-	  String getName();
+	  public String getName();
 
 	  /**
 		 * Donne le type de la question.
 		 * @return int.
 		 */
-	  int getQuestionType();
+	  public int getQuestionType();
 
 	  /**
 		 * Donne le type du choix.
 		 * @return int.
 		 */
-	  int getQuestionBehavior();
+	 public int getQuestionBehavior();
 
 	  /**
 		 * nous renseigne sur le validation.
 		 * valide par defaut.
 		 * @return bool.
 		 */
-	  boolean isValide();
+	  public boolean isValid();
 
 	  /**
 		 * nous renseigne sur le dialogue
 		 * si interdit ou permis.
 		 * @return bool.
 		 */
-	  boolean isDialogAllowed();
+	  public boolean isDialogAllowed();
 
 	  /**
 		 * arrêt possible ou pas.
 		 * @return bool.
 		 */
-	  boolean StopAuthorized();
+	  public boolean stopAuthorized();
 
 	  /**
 		 * nous renseigne sur le domaine du résultat.
 		 * @return bool.
 		 */
-	  boolean outputFormalism();
+	  public String outputFormalism();
 	  /**
 		 * Enable ou disable
 		 * @return bool.
 		 */
-	  boolean IsActiv();
+	  public boolean isActivate();
 
 	  /**
 		 * Donne les sous-menus fils de l'élèment.
 		 * @return le tableau des fils.
 		 */
-	  ArrayList<IMenu> getChildren();
+	  public ArrayList<IMenu> getChildren();
 	}
 
 
