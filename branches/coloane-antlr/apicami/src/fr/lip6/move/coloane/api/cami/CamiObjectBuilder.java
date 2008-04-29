@@ -30,6 +30,7 @@ public class CamiObjectBuilder{
 
 
 
+
 	public IFkInfo buildFKInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String  incremental = camiFKInfo.get(1);
@@ -39,9 +40,8 @@ public class CamiObjectBuilder{
 		return kfi;
 	}
 
-	/**
-	 *
-	 */
+
+
 	public static IFkVersion buildFkVersion(ArrayList<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
 		int fkmajor = Integer.parseInt(camiFkVersion.get(1));
@@ -52,12 +52,12 @@ public class CamiObjectBuilder{
 	}
 
 
-	public IArc buildArc(ArrayList<String> camiArc) {
+	public static IArc buildArc(ArrayList<String> camiArc) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IAttributeModify buildAttributeModify(
+	public static IAttributeModify buildAttributeModify(
 			ArrayList<String> CamiAttributeModify) {
 		String attributeType = CamiAttributeModify.get(1);
 		String newContent =CamiAttributeModify.get(2);
@@ -66,54 +66,71 @@ public class CamiObjectBuilder{
 		return at;
 	}
 
-	public IBox buildBox(ArrayList<String> camiBox) {
+	public static IBox buildBox(ArrayList<String> camiBox) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IDialog buildDialog(ArrayList<String> camiDialog) {
+	public static IDialog buildDialog(ArrayList<String> camiDialog) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IDomainTable buildDomainTable(ArrayList<String> camiDomainTable) {
+	public static IDomainTable buildDomainTable(ArrayList<String> camiDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IMenu buildMenu(ArrayList<String> camiMenu) {
+	public static IMenu buildMenu(ArrayList<ArrayList<String>> camiMenu) {
+
+		for(ArrayList<String> aq : camiMenu){
+			IMenu parent = null;
+			String name = aq.get(1);
+			int questionType = aq.get(2);
+			int questionBehavior = aq.get(3);
+			boolean dialogAllowed = aq.get(4);
+			boolean valid = aq.get(5);
+			boolean stopAuthorized = aq.get(6);
+			String outputFormalism = aq.get(7);
+			boolean activate = aq.get(8);
+			ArrayList<IMenu> children= new ArrayList<IMenu>();
+
+
+
+
+		}
+
+		return null;
+	}
+
+	public static IModel buildModel(ArrayList<String> camiModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IModel buildModel(ArrayList<String> camiModel) {
+	public static INode buildNode(ArrayList<String> camiNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public INode buildNode(ArrayList<String> camiNode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IObjectAttribute buildObjectAttribute(
+	public static IObjectAttribute buildObjectAttribute(
 			ArrayList<String> camiObjectAttribute) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IObjectDomainTable buildObjectDomainTable(
+	public static IObjectDomainTable buildObjectDomainTable(
 			ArrayList<String> camiObjectDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IResult buildResult(ArrayList<String> camiResult) {
+	public static IResult buildResult(ArrayList<String> camiResult) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IUpdateItem buildUpdateItem(ArrayList<String> camiUpdateItem) {
+	public static IUpdateItem buildUpdateItem(ArrayList<String> camiUpdateItem) {
 		// TODO Auto-generated method stub
 		return null;
 	}
