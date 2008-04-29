@@ -19,7 +19,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setTraceMessageObserver( ITraceMessageObserver o, boolean createThread);
+	public boolean setTraceMessageObserver( ITraceMessageObserver o, boolean createThread);
 
 
 	/**
@@ -28,7 +28,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setWarningObserver ( IWarningObserver o, boolean createThread);
+	public boolean setWarningObserver ( IWarningObserver o, boolean createThread);
 
 
 	/**
@@ -37,7 +37,7 @@ public interface IApiConnection {
 	 * @return bool
 	 */
 
-	boolean setServiceStateObserver( IServiceStateObserver o, boolean createThread);
+	public boolean setServiceStateObserver( IServiceStateObserver o, boolean createThread);
 
 
 	/**
@@ -46,7 +46,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setBrutalInterruptObserver( IBrutalInterruptObserver o, boolean createThread);
+	public boolean setBrutalInterruptObserver( IBrutalInterruptObserver o, boolean createThread);
 
 
 
@@ -56,7 +56,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setFKCloseConnectionObserver( IFKCloseConnectionObserver o, boolean createThread);
+	public boolean setFKCloseConnectionObserver( IFKCloseConnectionObserver o, boolean createThread);
 
 
 
@@ -66,7 +66,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setDialogObserver( IDialogObserver o, boolean createThread);
+	public boolean setDialogObserver( IDialogObserver o, boolean createThread);
 
 
 
@@ -76,7 +76,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setSessionObserver(ISessionObserver o, boolean createThread);
+	public boolean setSessionObserver(ISessionObserver o, boolean createThread);
 
 	/**
 	 * Donne l'observeur pour la connection.
@@ -84,7 +84,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setConnectionObserver(IConnectionObserver o, boolean createThread);
+	public boolean setConnectionObserver(IConnectionObserver o, boolean createThread);
 
 
 	/**
@@ -93,7 +93,7 @@ public interface IApiConnection {
 	 * @return bool.
 	 */
 
-	boolean setServiceObserver(IServiceObserver o, boolean createThread);
+	public boolean setServiceObserver(IServiceObserver o, boolean createThread);
 
 
 	// paramètres de connexion
@@ -102,40 +102,40 @@ public interface IApiConnection {
 	 * @param représente l'adresse ip.
 	 * @return bool.
 	 */
-	boolean setIPAdress(String ip);
+	public boolean setIPAdress(String ip);
 
 	/**
 	 * Donne le port.
 	 * @param représente le numéro de port.
 	 * @return bool.
 	 */
-	boolean setPort(int p);
+	public boolean setPort(int p);
 
 	/**
 	 * Donne le login.
 	 * @param représente le login.
 	 * @return bool.
 	 */
-	boolean setLogin(String login);
+	public boolean setLogin(String login);
 
 	/**
 	 * Donne le mot de passe.
 	 * @param représente le mot de passe.
 	 * @return bool.
 	 */
-	boolean setPassWord(String pw);
+	public boolean setPassWord(String pw);
 
 
 	/**
 	 * c'est la méthode ouvrir session.
 	 */
-	void openConnection();
+	public void openConnection();
 
 	/**
 	 * c'est la methode fermer session.
 	 * @return vraie si la methode a réussi, faux en cas d'echec.
 	 */
-	boolean closeConnection();
+	public boolean closeConnection();
 
 
 
@@ -144,7 +144,7 @@ public interface IApiConnection {
 	 * la méthode qui retourne l'objet IAPISession.
 	 * @return IAPISession qui représente une seule session.
 	 */
-	IApiSession getAPISession();
+	public IApiSession getAPISession();
 
 }
 
