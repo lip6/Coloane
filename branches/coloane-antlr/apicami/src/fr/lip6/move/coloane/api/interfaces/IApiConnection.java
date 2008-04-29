@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import teststub.TraceMessageObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.*;
-
+import fr.lip6.move.coloane.api.interfaces.*;
 
 /**
  * cette interface est fournise a Coloane pour diverses methodes comme

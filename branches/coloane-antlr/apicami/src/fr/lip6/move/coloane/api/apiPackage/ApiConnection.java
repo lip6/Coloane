@@ -11,7 +11,7 @@ import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.session.SessionFactory;
-import fr.lip6.move.coloane.api.interfaces.IApiSession;
+import fr.lip6.move.coloane.api.interfaces.*;
 import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
@@ -115,7 +115,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public IApiSession getAPISession() {
 		return SessionFactory.getNewApiSession(this.sessionCont,this.speaker);
-}
+	}	
 
 	/**
 	 * initie la connexion avec FrameKit (SC, OC)
