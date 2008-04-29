@@ -105,7 +105,7 @@ public class SessionController implements ISessionController {
 	 * @throws InterruptedException
 	 */
 	public boolean openSession(IApiSession s) throws InterruptedException{
-		if (this.activeSession.equals(null)){
+		if (this.activeSession==null){
 			this.activeSession=s;
 			return true;
 		}
