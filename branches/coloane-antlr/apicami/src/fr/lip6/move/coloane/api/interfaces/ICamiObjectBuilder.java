@@ -110,5 +110,5 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IFKInfo.
 		 */
-		IFKInfo buildFKInfo(ArrayList<String> CamiFKInfo);
+		IFkInfo buildFKInfo(ArrayList<String> CamiFKInfo);
 }
