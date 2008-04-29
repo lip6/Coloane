@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.api.interfaces.*;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
@@ -101,6 +102,8 @@ public class ApiConnection implements IApiConnection {
 
 		this.hashObservable = new HashMap< String, Object>();
 		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
+		this.hashObservable.put("ISession", ObservableFactory.getNewConnectionObservable());
+		
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
@@ -254,7 +257,7 @@ public class ApiConnection implements IApiConnection {
 
 	/** set du ISessionObserver */
 	public boolean setSessionObserver(ISessionObserver o, boolean createThread) {
-		ISessionObservable ise =  (ISessionObservable)this.hashObservable.get("IConnection");
+		ISessionObservable ise =  (ISessionObservable)this.hashObservable.get("ISession");
 		ise.addObserver(o);
 		ise.setCreateThread(createThread);
 

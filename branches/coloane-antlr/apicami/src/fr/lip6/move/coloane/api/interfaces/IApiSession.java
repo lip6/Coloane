@@ -62,5 +62,8 @@ import java.io.IOException;
 	 	         */
 	 	        public void askForService(String rootName, String serviceName, String Date);
 
+	 	       public void openSession(String sessionDate, String sessionFormalism,
+                       String sessionName) throws IOException, InterruptedException ;
+
 
 	 	}
