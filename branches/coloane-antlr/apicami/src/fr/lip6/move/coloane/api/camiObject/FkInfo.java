@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.IFKInfo;
+import fr.lip6.move.coloane.api.interfaces.IFkInfo;
 
 /**
  * cette classe implemente linterface IFKInfo
@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.IFKInfo;
  *
  */
 
-public class FkInfo implements IFKInfo{
+public class FkInfo implements IFkInfo{
 
 	 /** informations relatives au service*/
 	private String aboutService;
