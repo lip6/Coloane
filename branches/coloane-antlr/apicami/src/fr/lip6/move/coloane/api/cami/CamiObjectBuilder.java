@@ -8,10 +8,9 @@ import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
-import fr.lip6.move.coloane.api.interfaces.ICamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
-import fr.lip6.move.coloane.api.interfaces.IFKInfo;
+import fr.lip6.move.coloane.api.interfaces.IFkInfo;
 import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IModel;
@@ -31,12 +30,12 @@ public class CamiObjectBuilder{
 
 
 
-	public IFKInfo buildFKInfo(ArrayList<String> camiFKInfo) {
+	public IFkInfo buildFKInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String  incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
 		String resultatCalcule = camiFKInfo.get(3);
-        IFKInfo kfi = new FkInfo(aboutService,incremental,nameService,resultatCalcule);
+        IFkInfo kfi = new FkInfo(aboutService,incremental,nameService,resultatCalcule);
 		return kfi;
 	}
 
