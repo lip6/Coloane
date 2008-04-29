@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject.tests;
 
-import fr.lip6.move.coloane.api.camiObject.FKVersion;
+import fr.lip6.move.coloane.api.camiObject.FkVersion;
 import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import junit.framework.TestCase;
 

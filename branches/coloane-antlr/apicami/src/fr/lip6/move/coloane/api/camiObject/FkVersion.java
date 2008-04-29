@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.IFkVersion;
  *
  */
 
-public class FKVersion implements IFkVersion {
+public class FkVersion implements IFkVersion {
     /** le nom du FrameKit*/
     private String FkName;
 
@@ -25,7 +25,7 @@ public class FKVersion implements IFkVersion {
      * @param FKMajor le numero majeur de FrameKit.
      * @param FKMinor le numero mineur de FrameKit.
      */
-	public FKVersion(String FkName,int FKMajor,int FKMinor){
+	public FkVersion(String FkName,int FKMajor,int FKMinor){
      this.FkName = FkName;
      this.FKMajor=FKMajor;
      this.FKMinor=FKMinor;
@@ -34,7 +34,7 @@ public class FKVersion implements IFkVersion {
 	 /**
      * le constructeur par defaut de notre classe.
       */
-	public FKVersion(){
+	public FkVersion(){
 		 this.FkName = null;
 	     this.FKMajor=0;
 	     this.FKMinor=0;
