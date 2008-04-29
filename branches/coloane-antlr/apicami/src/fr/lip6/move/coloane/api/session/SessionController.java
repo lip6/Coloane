@@ -95,5 +95,27 @@ public class SessionController implements ISessionController {
 
 	}
 
+	/**
+	 * session demande a session controller s'il a le droit d'ouvrir une session ou pas.
+	 * si il y'a pas de session active => c bon,
+	 * sinon je demande a la session active de se suspendre , j'attend que le parser me reveille
+	 * quand il recoit la reponse du SS, puis c bon,
+	 * @param s la session qu'on veut ouvrir.
+	 * @return vraie si c'est ok, false sinon.
+	 * @throws InterruptedException
+	 */
+	public boolean openSession(IApiSession s) throws InterruptedException{
+		if (this.activeSession.equals(null)){
+			this.activeSession=s;
+			return true;
+		}
+		else {
+			this.activeSession.suspendSession();
+			this.wait();
+			this.activeSession=s;
+			return true;
+		}
+	}
+
 
 }

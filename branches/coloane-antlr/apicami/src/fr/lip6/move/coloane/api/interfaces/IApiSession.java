@@ -1,4 +1,6 @@
 package fr.lip6.move.coloane.api.interfaces;
+
+import java.io.IOException;
  	 	 	/**
  	 * cette interface est fournise a Coloane pour diverses methodes
  	 * en relation avec la session.
@@ -8,23 +10,7 @@ package fr.lip6.move.coloane.api.interfaces;
 
 	 	public interface IApiSession {
 
-	 	        /*/**
-	 	         * Donne le nom Ã  la session.
-	 	         * @param reprÃ©sente le nom a la session.
 
-	 	        void setSessionName(String name);
-
-	 	        /**
-	 	         *  Donne la date de la session.
-	 	         * @param reprÃ©sente la date de la session.
-
-	 	        void setSessionDate(String date);
-
-	 	        /**
-	 	         * Retourne le nom du formalisme de la session.
-
-	 	        void setSessionFormalism();
-	 	*/
 
  	        /**
  	         * l'apelle de la methode openSession sur la session.
@@ -33,16 +19,18 @@ package fr.lip6.move.coloane.api.interfaces;
 	 	         * @param sessionName: son nom.
 	 	         * @param interlocutor: son interlocuteur (l'outil).
 	 	         * @param mode: son mode (interactif ou batch).
+ 	         * @throws IOException
+ 	         * @throws InterruptedException
 	 	         */
 
 	 	        public void openSession(String sessionDate, String sessionFormalism,
-	 	                        String sessionName,String interlocutor,int mode);
+	 	                        String sessionName,String interlocutor,int mode) throws IOException, InterruptedException;
 
 
 	 	        /**
  	         * Appel de la methode ferme session.
 	 	         */
-	 	        void closeSession();
+	 	        public void closeSession();
 
 
 	 	        /**
@@ -50,29 +38,29 @@ package fr.lip6.move.coloane.api.interfaces;
 	 	         * @return vraie si la suspension de la session reussie, faux sinon.
 	 	         */
 
-	 	        boolean suspendSession();
+	 	        public boolean suspendSession();
 
 	 	        /**
 	 	         * Appel de la methode reprendre session.
 	 	         * @return vraie si la reprise de la session reussie, faux sinon.
 	 	         */
-	 	        boolean resumeSession();
+	 	        public boolean resumeSession();
 
 	 	        /**
 	 	         * Appel de la methode demande de service.
 	 	         * @param le nom de la racine demandÃ©.
 	 	         * @param le nom du service demandÃ©.
 	 	         */
-	 	        void askForService(String rootName, String serviceName);
+	 	        public void askForService(String rootName, String serviceName);
 
 
 	 	        /**
 	 	         * Appel de la methode demande de service.
- 	         * @param le nom de la racine demandÃ©.
+ 	             * @param le nom de la racine demandÃ©.
 	 	         * @param le nom du service demandÃ©.
 	 	         * @param la date .
 	 	         */
-	 	        void askForService(String rootName, String serviceName, String Date);
+	 	        public void askForService(String rootName, String serviceName, String Date);
 
 
 	 	}

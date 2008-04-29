@@ -53,7 +53,7 @@ public class ConnectionObservable implements IConnectionObservable{
 			for(int i=0; i<this.list.size(); i++)
 				this.list.get(i).update(arg);
 		}
-		else{/* Option avec crétion de thread */
+		else{/* Option avec création de thread */
 			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
 			new Thread(thread,"threadConnection").start();
 		}

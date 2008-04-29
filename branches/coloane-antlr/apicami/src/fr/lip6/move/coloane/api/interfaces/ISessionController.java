@@ -49,4 +49,11 @@ public interface ISessionController {
 	 */
 	public boolean resumeSession(IApiSession s);
 
+	/**
+	 * session demande a session controller s'il a le droit d'ouvrir une session ou pas.
+	 * @param s la session qu'on veut ouvrir.
+	 * @return vraie si c'est ok, false sinon.
+	 * @throws InterruptedException
+	 */
+	public boolean openSession(IApiSession s) throws InterruptedException;
 }

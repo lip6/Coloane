@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.api.session;
 
- 	import fr.lip6.move.coloane.api.interfaces.*;
-	import fr.lip6.move.coloane.api.interfaces.ISessionController;
+ 	import java.io.IOException;
+
+import fr.lip6.move.coloane.api.interfaces.*;
 
 /**
  * cette classe represente une session, elle implemente l'interface IApiSession
@@ -46,22 +47,31 @@ package fr.lip6.move.coloane.api.session;
 
  	        /**
 	         * la methode openSession Ã  invoquer sur la session.
+ 	         * @throws IOException
+ 	         * @throws InterruptedException
  	         */
  	        public void openSession(String sessionDate, String sessionFormalism,
-	                        String sessionName,String interlocutor,int mode) {
+	                        String sessionName,String interlocutor,int mode) throws IOException, InterruptedException {
  	                this.interlocutor= interlocutor;
  	                this.mode = mode;
  	                this.sessionDate = sessionDate ;
  	                this.sessionFormalism = sessionFormalism;
  	                this.sessionName = sessionName;
+             if (this.sessionCont.openSession(this) )
+           //TODO lexeption sinon ++ etat de l'automate...
+            this.speaker.openSession(this.sessionName, this.sessionDate, this.sessionFormalism, this.interlocutor, this.mode)
+;
+	        }
 
- 	                if (this.sessionCont.getActiveSession().equals(null)) {
- 	                        this.sessionCont.addSession(this);
- 	                }
 
- 	      //TODO lexeption sinon ++ etat de l'automate...
-
- 	                speaker.
+ 	        /**
+	         * la methode openSession Ã  invoquer sur la session.
+ 	         * @throws InterruptedException
+ 	         * @throws IOException
+ 	         */
+ 	        public void openSession(String sessionDate, String sessionFormalism,
+	                        String sessionName) throws IOException, InterruptedException {
+ 	        	openSession(sessionDate,sessionFormalism,sessionName,"KrameKit Environment",1);
 
 	        }
 
@@ -92,7 +102,7 @@ package fr.lip6.move.coloane.api.session;
 
 
 	 	        public boolean suspendSession() {
-	 	                // TODO Auto-generated method stub
-	 	                return false;
+	 	                speaker.suspendSession(this.sessionName);
+	 	                return true;
 	 	        }
 	 	}
