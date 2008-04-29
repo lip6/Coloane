@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IFKInfo;
+import fr.lip6.move.coloane.api.interfaces.IFkInfo;
 import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
@@ -52,7 +52,7 @@ public class SessionObservable {
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
-	public void notifyObservers(IFKInfo fkInfo, IMenu menu,IUpdateItem update){
+	public void notifyObservers(IFkInfo fkInfo, IMenu menu,IUpdateItem update){
 
 		if(!this.createThread){ /* Option sans création de thread */
 			for(int i=0; i<this.list.size(); i++)
@@ -74,11 +74,11 @@ public class SessionObservable {
 	 */
 	private class ThreadNotifier implements Runnable{
 		private ArrayList<ISessionObserver> listObservers;
-		private IFKInfo fkInfo;
+		private IFkInfo fkInfo;
 		private IMenu menu;
 		private IUpdateItem update;
 
-		public ThreadNotifier(ArrayList<ISessionObserver> list,IFKInfo fkInfo, IMenu menu,IUpdateItem update){
+		public ThreadNotifier(ArrayList<ISessionObserver> list,IFkInfo fkInfo, IMenu menu,IUpdateItem update){
 			this.listObservers = list;
 			this.fkInfo= fkInfo;
 			this.menu= menu;
