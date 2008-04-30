@@ -6,7 +6,7 @@
 	<artifactId>importexport</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Import/Export Feature</name>
+	<name>Feature - Import/Export</name>
 	<description>Set of import/export tools and wizards for Coloane</description>
 
 	<scm>
