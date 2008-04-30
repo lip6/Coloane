@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import fr.lip6.move.coloane.api.camiObject.FkVersion;
 import fr.lip6.move.coloane.api.camiObject.Menu;
+import fr.lip6.move.coloane.api.camiObject.UpdateItem;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
@@ -188,9 +189,28 @@ public class CamiObjectBuilder{
 		return null;
 	}
 
-	public static ArrayList<IUpdateItem> buildUpdateItem(ArrayList<String> camiUpdateItem) {
-
-		return null;
+	/**
+	 * nous genere les interfaces des TQ
+	 * @param camiUpdateItem
+	 * @return un tableau de TQ 7 & 8
+	 */
+	public static ArrayList<IUpdateItem> buildUpdateItem(ArrayList<ArrayList<String>> camiUpdateItem) {
+        ArrayList<IUpdateItem> tab = new  ArrayList<IUpdateItem> ();
+        for(ArrayList<String> tq : camiUpdateItem){
+        String rootName = tq.get(0);
+        String serviceName = tq.get(1);
+        int tmpState = Integer.parseInt(tq.get(2));
+        boolean state;
+        if (tmpState == 7){
+        	state = true;
+        }
+        else {
+        	state = false;
+        }
+        IUpdateItem update = new UpdateItem(rootName,serviceName,state);
+        tab.add(update);
+        }
+		return tab;
 	}
 
 
