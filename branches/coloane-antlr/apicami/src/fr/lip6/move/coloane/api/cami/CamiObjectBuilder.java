@@ -33,7 +33,7 @@ public class CamiObjectBuilder{
 
 
 
-	public IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
+	public static IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String  incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
