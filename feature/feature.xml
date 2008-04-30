@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature"
+      id="fr.lip6.move.coloane.feature.main"
       label="Coloane"
       version="0.11.0"
-      provider-name="LIP6 - MoVe"
+      provider-name="LIP6 / MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
       nl="en,fr"
@@ -16,14 +16,12 @@ Thanks to a simple UI, you can invoke a large collection of tools on your model 
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-      Copyright (c) 2006-2007 LIP6/MoVe.
+      Copyright (c) 2006-2008 LIP6/MoVe.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License
 v1.0 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
-
 Project Manager : Jean-Baptiste Voron
-
 Developers :
 - Bassem Barbouche
 - Monir Chaouki
@@ -33,7 +31,6 @@ Developers :
 - Eric Masliah
 - Alexandre Ortiz
 - Racim Yasri
-
 Many thanks for their help :
 - Leonardo Bautista Gomez - Spanish Translation
 - Alexandre Hamez - Antlr
@@ -171,14 +168,6 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in t
          download-size="36"
          install-size="36"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.lip6.move.coloane.core.nl1"
-         download-size="10"
-         install-size="10"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
    <plugin
