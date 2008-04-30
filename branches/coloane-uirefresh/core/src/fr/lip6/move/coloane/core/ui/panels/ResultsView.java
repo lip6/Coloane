@@ -67,7 +67,8 @@ public class ResultsView extends ViewPart {
 							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
 							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}
-
+						updateColumnsWidth();
+						
 						viewer.refresh();
 					}
 				});
@@ -75,18 +76,20 @@ public class ResultsView extends ViewPart {
 		});
 		viewer.setInput(results);
 
+		updateColumnsWidth();
 		Tree tree = viewer.getTree();
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
-		for (int i = 0, n = tree.getColumnCount(); i < n; i++) {
-			tree.getColumn(i).setWidth(200);
-		}
-
-		tree.setHeaderVisible(false);
-		tree.setLinesVisible(false);
 
 		instance = this;
 	}
 
+	private void updateColumnsWidth() {
+		Tree tree = viewer.getTree();
+		for (int i = 0, n = tree.getColumnCount(); i < n; i++) {
+			tree.getColumn(i).setWidth(200);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
