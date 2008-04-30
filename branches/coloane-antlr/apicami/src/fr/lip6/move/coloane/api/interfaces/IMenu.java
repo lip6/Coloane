@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.api.camiObject.Menu;
+
 
 /**
  * cette interface décrit un menu ( suite de AQ).
@@ -9,6 +11,8 @@ import java.util.ArrayList;
  *
  */
 public interface IMenu {
+
+
 
 	/**
 	 * donne le parent de l'élèment courant.
@@ -70,6 +74,11 @@ public interface IMenu {
 		 * @return le tableau des fils.
 		 */
 	  public ArrayList<IMenu> getChildren();
+
+	  public boolean addMenu(String parentName, IMenu menu);
+
+
+	  public void setParent(IMenu menu);
 	}
 
 

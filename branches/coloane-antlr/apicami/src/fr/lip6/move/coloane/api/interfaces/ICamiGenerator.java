@@ -19,7 +19,7 @@ public interface ICamiGenerator {
 	 * @param le password.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdSC(String login,String passeword);
+	public ArrayList<byte[]> generateCmdSC(String login,String passeword);
 
 	/**
 	 * nous génére la(les) commande(s) OC.
@@ -28,7 +28,7 @@ public interface ICamiGenerator {
 	 * @param le login.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdOC(String UiName, String version, String login);
+	public ArrayList<byte[]> generateCmdOC(String UiName, String version, String login);
 
 
 	//ouverture de la session
@@ -40,26 +40,26 @@ public interface ICamiGenerator {
 	 * @param le formalisme.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdOS(String SessionName,String date,String SessionFormalism);
+	public ArrayList<byte[]> generateCmdOS(String SessionName,String date,String SessionFormalism);
 
 	/**
 	 * nous génére la(les) commande(s) DI.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdDI();
+	public ArrayList<byte[]> generateCmdDI();
 
 	/**
 	 * nous génére la(les) commande(s) CI.
 	 * @param le nom de la session.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdCI(String SessionName);
+	public ArrayList<byte[]> generateCmdCI(String SessionName);
 
 	/**
 	 * nous génére la(les) commande(s) FI.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdFI();
+	public ArrayList<byte[]> generateCmdFI();
 
 
 
@@ -68,7 +68,7 @@ public interface ICamiGenerator {
 	 * nous génére la(les) commande(s) DT.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdDT();
+	public ArrayList<byte[]> generateCmdDT();
 
 	/**
 	 * nous génére la(les) commande(s) PQ.
@@ -76,51 +76,51 @@ public interface ICamiGenerator {
 	 * @param le nom du service.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdPQ(String rootName, String ServiceName);
+	public ArrayList<byte[]> generateCmdPQ(String rootName, String ServiceName);
 
 	/**
 	 * nous génére la(les) commande(s)FT .
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdFT();
+	public ArrayList<byte[]> generateCmdFT();
 
 	/**
 	 * nous génére les commandes relatives a l'envoi du dialogue.
 	 * @param le Modele.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCamiModel(IModel m);
+	public ArrayList<byte[]> generateCamiModel(IModel m);
 
 	/**
 	 * nous génére les commandes relatives a l'envoi du dialogue.
 	 * @param le dialogue.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCamiDialogue(IDialog d);
+	public ArrayList<byte[]> generateCamiDialogue(IDialog d);
 
 	/**
 	 * nous génére la(les) commande(s) SS.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdSS();
+	public ArrayList<byte[]> generateCmdSS();
 
 	/**
 	 * nous génére la(les) commande(s) RS.
 	 * @param le nom de la session.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdRS(String SessionName);
+	public ArrayList<byte[]> generateCmdRS(String SessionName);
 
 	/**
 	 * nous génére la(les) commande(s) QQ.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdQQ();
+	public ArrayList<byte[]> generateCmdQQ();
 
 	/**
 	 * nous génére la(les) commande(s) MS.
 	 * @param la date.
 	 * @return un tableau de byte.
 	 */
-	ArrayList<byte[]> generateCmdMS(String date);
+	public ArrayList<byte[]> generateCmdMS(String date);
 }

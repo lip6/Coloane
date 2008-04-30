@@ -35,7 +35,7 @@ public class Menu implements IMenu{
 	/**dialogue permis ou pas*/
 	private boolean dialogAllowed;
 
-	/** menu valide ou pas*/
+	/** menu valide ou pas set-item*/
 	private boolean valid;
 
 	/** le formalisme(le domaine resultat)*/
@@ -59,20 +59,21 @@ public class Menu implements IMenu{
 	}
 
  /**
-  * le constructeur de notre classe
-  * @param activate
-  * @param stopAuthorized
-  * @param children
-  * @param name
+  * le constructeur de notre classe.
   * @param parent
-  * @param questionBehavior
+  * @param name
   * @param questionType
-  * @param dialogAllowed
+  * @param questionBehavior
   * @param valid
+  * @param dialogAllowed
+  * @param stopAuthorized
   * @param outputFormalism
+  * @param activate
+  * @param children
   */
-	public Menu(boolean activate,boolean stopAuthorized,ArrayList<IMenu> children,String name,IMenu parent,
-			int questionBehavior,int questionType,boolean dialogAllowed,boolean valid,String outputFormalism){
+	public Menu(IMenu parent,String name,int questionType,int questionBehavior,boolean valid,
+			boolean dialogAllowed,boolean stopAuthorized,
+			String outputFormalism,boolean activate,ArrayList<IMenu> children){
 		this.activate=activate;
 		this.children=children;
 		this.dialogAllowed=dialogAllowed;
@@ -173,6 +174,33 @@ public class Menu implements IMenu{
 	public String outputFormalism() {
 
 		return this.outputFormalism;
+	}
+
+	/**
+	 * nous permet de chainer un IMenu dans ma racine
+	 */
+	public boolean addMenu(String parentName, IMenu menu) {
+    if (parentName == this.name){
+    	this.children.add(menu);
+    	menu.setParent(this);
+    	return true;
+    }
+    else {
+    	ArrayList<IMenu> tmp = this.getChildren();
+    	for(IMenu child : tmp ){
+    		if (((IMenu) child).addMenu(parentName,menu)){
+    			return true;
+    		}
+
+        }
+    	return false;
+    }
+
+
+	}
+
+	public void setParent(IMenu parent){
+		this.parent= parent;
 	}
 
 }

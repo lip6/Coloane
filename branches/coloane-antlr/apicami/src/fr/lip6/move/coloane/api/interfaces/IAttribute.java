@@ -20,13 +20,6 @@ package fr.lip6.move.coloane.api.interfaces;
 		 */
 		public int getObjectId();
 
-		/*/**
-		 * le numero de ligne ou se trouve
-		 * @return le numero de ligne
-
-		public int getLine();*/
-
-
 
       /**
       * le contenu de l'attribut.

@@ -14,21 +14,21 @@ public interface IFkVersion {
 	 * Retourne le nom de FrameKit.
 	 * @return String
 	 */
-		String getFkName();
+		public String getFkName();
 
 
 		/**
 		 * Retourne le numéro de version majeur.
 		 * @return int
 		 */
-		int getFkMajor();
+		public int getFkMajor();
 
 
 		/**
 		 * Retourne le numéro de version mineur.
 		 * @return int
 		 */
-		int getFkMinor();
+		public int getFkMinor();
 
 
 

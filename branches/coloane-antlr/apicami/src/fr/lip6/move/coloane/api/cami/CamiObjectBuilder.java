@@ -3,8 +3,10 @@ package fr.lip6.move.coloane.api.cami;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.camiObject.AttributeModify;
-import fr.lip6.move.coloane.api.camiObject.FKVersion;
+
 import fr.lip6.move.coloane.api.camiObject.FkInfo;
+import fr.lip6.move.coloane.api.camiObject.FkVersion;
+import fr.lip6.move.coloane.api.camiObject.Menu;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
@@ -47,7 +49,7 @@ public class CamiObjectBuilder{
 		int fkmajor = Integer.parseInt(camiFkVersion.get(1));
 		int fkminor = Integer.parseInt(camiFkVersion.get(2));
 
-		IFkVersion fkv = new FKVersion(fkname,fkmajor,fkminor);
+		IFkVersion fkv = new FkVersion(fkname,fkmajor,fkminor);
 		return fkv;
 	}
 
@@ -82,26 +84,81 @@ public class CamiObjectBuilder{
 	}
 
 	public static IMenu buildMenu(ArrayList<ArrayList<String>> camiMenu) {
+         IMenu root = null;
+        boolean isRoot = true;
 
 		for(ArrayList<String> aq : camiMenu){
-			//a finirrrrrr
+         if (isRoot){
+        	 String name = aq.get(0);
+        	 int questionT = Integer.parseInt(aq.get(1));
+        	 int questionB = Integer.parseInt(aq.get(2));
+        	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,null);
+        	 isRoot = false;
+         }
+           else {
 			IMenu parent = null;
-			String name = aq.get(1);
-			int questionType = aq.get(2);
-			int questionBehavior = aq.get(3);
-			boolean dialogAllowed = aq.get(4);
-			boolean valid = aq.get(5);
-			boolean stopAuthorized = aq.get(6);
-			String outputFormalism = aq.get(7);
-			boolean activate = aq.get(8);
+            String parentName = aq.get(0);
+            String name = aq.get(1);
+
+			/* le type de la question*/
+			int questionType = Integer.parseInt(aq.get(2));
+
+			/* la question precedente*/
+			int questionBehavior = Integer.parseInt(aq.get(3));
+
+			/* (1) valider (2) ne pas valider*/
+			boolean valid;
+			int tmpValid = Integer.parseInt(aq.get(4));
+			 if (tmpValid == 1){
+				  valid = true;
+			 }
+			 else {
+			      valid = false;
+			 }
+
+			 /* (1) interdit (2) permis*/
+			 boolean dialogAllowed ;
+			int tmpDialogAllowed = Integer.parseInt(aq.get(5));
+			 if (tmpDialogAllowed == 1){
+				 dialogAllowed = false;
+			 }
+			 else {
+			     dialogAllowed = true;
+			 }
+
+            /* (1) arret impossible (2) arret possible (suspendre) */
+			 boolean stopAuthorized;
+			 int tmpStopAuthorized = Integer.parseInt(aq.get(6));
+			 if (tmpStopAuthorized == 1){
+				 stopAuthorized = false;
+			 }
+			 else {
+			    stopAuthorized = true;
+			 }
+
+			 String outputFormalism = aq.get(7);
+
+			 /* (1) ENABLE (2) Disable*/
+			 boolean activate;
+			 int tmpActivate = Integer.parseInt(aq.get(8));
+			 if (tmpActivate == 1){
+				 activate = true;
+			 }
+			 else {
+			    activate = false;
+			 }
+
 			ArrayList<IMenu> children= new ArrayList<IMenu>();
 
+			IMenu menu = new Menu(parent,parentName,questionType,questionBehavior,
+					valid,dialogAllowed,stopAuthorized,outputFormalism,activate,children);
+			root.addMenu(parentName,menu);
 
+        }
 
+         }
 
-		}
-
-		return null;
+		return root;
 	}
 
 	public static IModel buildModel(ArrayList<String> camiModel) {

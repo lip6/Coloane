@@ -12,17 +12,17 @@ public interface IAttributeModify {
 	    * Retourne l'identifiant de l'attribut.
 	    * @return int.
 	    */
-	int getObjectID();
+	public int getObjectID();
 
 	 /**
 	    * Retourne le type de l'attribut.
 	    * @return String
 	    */
-	String getAttributeType();
+	public String getAttributeType();
 
 	 /**
 	    * Retourne le nouveau contenu de l'attribut.
 	    * @return String
 	    */
-	String getNewContent();
+	public String getNewContent();
 }

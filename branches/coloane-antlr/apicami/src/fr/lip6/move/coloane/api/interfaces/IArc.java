@@ -13,13 +13,13 @@ public interface IArc {
 	    * Retourne le type de l'arc.
 	    * @return String
 	    */
-	    String getArcType();
+	    public String getArcType();
 
 	    /**
 		 * Retourne l'identifiant unique de l'arc.
 		 * @return int
 		 */
-	    int getId();
+	    public int getId();
 
 
 	    /**
@@ -27,7 +27,7 @@ public interface IArc {
 		 * @return numero du INode
 		 * @see INode
 		 */
-		int getStartingNode();
+		public int getStartingNode();
 
 
 		/**
@@ -35,13 +35,13 @@ public interface IArc {
 		 * @return numero du INode
 		 * @see INode
 		 */
-		int getEndingNode();
+		public int getEndingNode();
 
 		/**
 		 * Retourne les attributs de l'arc.
 		 * @return un tableau de attributs(String).
 		 */
-		ArrayList<IAttribute> getAttribute();
+		public ArrayList<IAttribute> getAttribute();
 
 	}
 

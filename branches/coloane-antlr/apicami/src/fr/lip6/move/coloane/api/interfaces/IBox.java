@@ -8,25 +8,25 @@ public interface IBox {
 	* Retourne le type du box.
 	* @return String
 	*/
-    String getBoxType();
+    public String getBoxType();
 
     /**
 	 * Retourne l'identifiant unique du box.
 	 * @return int
 	 */
-	int getBoxID();
+	public int getBoxID();
 
 	  /**
 	 * Retourne le nombre de pages du box.
 	 * @return int
 	 */
-	int getBoxPage();
+	public int getBoxPage();
 
 	 /**
 	 * Retourne les attributs du box.
 	 * @return un tableau d'attributs .
 	 */
-	ArrayList<IAttribute> getAttribute();
+	public ArrayList<IAttribute> getAttribute();
 
 
 }

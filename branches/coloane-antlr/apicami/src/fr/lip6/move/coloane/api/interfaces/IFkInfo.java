@@ -14,21 +14,21 @@ public interface IFkInfo {
 	 * Retourne le nom du service.
 	 * @return String
 	 */
-	String getNameService();
+	public String getNameService();
 
 
 	/**
 	 * Retourne des informations relatives au service.
 	 * @return String
 	 */
-	String getAboutService();
+	public String getAboutService();
 
 
 	/**
 	 * Retourne l'incrmental.
 	 * @return String
 	 */
-	String getIncremental();
+	public String getIncremental();
 
 
 	/**

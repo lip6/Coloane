@@ -12,17 +12,17 @@ public interface IUpdateItem {
 	 * Donne le nom du root name.
 	 * @return string.
 	 */
-	String getRootName();
+	public String getRootName();
 
 	/**
 	 * Donne le nom du service.
 	 * @return string.
 	 */
-	String getServiceName();
+	public String getServiceName();
 
 	/**
 	 * Donne l'état de l'item (à activer ou pas).
 	 * @return bool.
 	 */
-	boolean getState();
+	public boolean getState();
 }
