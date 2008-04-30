@@ -43,7 +43,7 @@ public class ThreadParser extends Thread {
 	 */
 	public ThreadParser(ISessionController sessionController, LinkedBlockingQueue queue, HashMap<String, Object> hm){
 		this.fifo = queue;
-		this.parser = new CamiParser(null, hm);
+		this.parser = new CamiParser(null, sessionController, hm);
 		this.sessionCont=sessionController;
 	}
 
@@ -59,7 +59,10 @@ public class ThreadParser extends Thread {
 			/* se bloquer en attente d'un ensemble de commandes */
 			try {
 				InputStream is;
+
 				is = (InputStream)this.fifo.take();
+
+				System.out.println("lecture .......... de la file .....");
 				// Create an input character stream from standard in
 				ANTLRInputStream input = new ANTLRInputStream(is);
 				// Create an ExprLexer that feeds from that stream

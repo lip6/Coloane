@@ -59,20 +59,19 @@ public class FkComLowLevel {
 
 
 	/**
-	 * Cette méthode lit un nombre de bytes donné en paramètre
-	 * à partir de la socket. Les commandes sont visibles à un niveau
-	 * plus haut (Listener)
+	 * Cette méthode lit un ensemble de commandes (flux) à partir de la socket.
+	 * Les commandes sont visibles à un niveau plus haut (Listener)
 	 * @return une liste de commandes
 	 * @throws IOException
 	 */
-	public ArrayList<String> readCommand() throws IOException{
+	public String readCommand() throws IOException{
 
 		// TODO
 		// TODO fo pas oublier de logguer
 
 		// le tableau de commandes à retourner
 		ArrayList<String> list = new ArrayList<String>();
-		String command = "";
+		String commands = "";
 		try{
 			// Lecture des 4 premiers octets donnant la taille du message
 			int messageLength = this.socketInput.readInt();
@@ -81,24 +80,18 @@ public class FkComLowLevel {
 			for(int i=0; i<messageLength; i++){
 
 				char car = (char) this.socketInput.readByte();
-				if(car == '\n'){
-					// Nouvelle commande
-					list.add(command);
-					command = "";
-				}
-				else{
-					// Commande en cours de lecture
-					command += car;
-				}
+				commands += car;
 			}
 		} catch (IOException e) {
 			// TODO Logguer
 			throw e;
 		}
 
-		// Ajouter la dernière commande a la liste de commande
-		list.add(command);
-		return list;
+		// retourne l'ensemble de commandes
+
+		System.out.println("commande  : "  +  commands);
+
+		return commands;
 	}
 
 
@@ -114,11 +107,15 @@ public class FkComLowLevel {
 
 		try {
 			this.socketOutput.write(command, 0,command.length);
+			//TODO loguer
+			String s = new String(command, 4, command.length - 4);
+			System.out.println("ecrite : " + s);
 			return true;
 		} catch (IOException e) {
 			// TODO logguer
 			throw e;
 		}
+
 	}
 
 

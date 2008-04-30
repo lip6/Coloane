@@ -51,20 +51,19 @@ public class Listener extends Thread implements IListener {
 		/*TODO On écrit d'abord le parser */
 
 		/** ensemble de commandes reçus de Fk lors de chaque lecture */
-		ArrayList<String> commandSuite;
+		String commandSuite;
 
 		try {
 			/** boucle de lecture des commandes */
 			while(true){
 				commandSuite = this.fkll.readCommand();
 
-				/* Ecrire les commandes a dans le pipe + EOF à chaque fin
-				 * de commande */
+				/* Ecrire les commandes a dans le pipe + EOF pour commancer
+				 * à parser */
 
-				for(int i=0; i < commandSuite.size(); i++){
-					InputStream is = new ByteArrayInputStream(commandSuite.get(i).getBytes());
+				InputStream is = new ByteArrayInputStream(commandSuite.getBytes());
 					fifo.put(is);
-				}
+
 
 			}
 		}catch (IOException e) {
