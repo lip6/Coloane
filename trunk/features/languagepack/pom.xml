@@ -6,7 +6,7 @@
 	<artifactId>languagepack</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Language Pack Feature</name>
+	<name>Feature - Language Pack</name>
 	<description>Language Pack feature for Coloane</description>
 
 	<scm>
