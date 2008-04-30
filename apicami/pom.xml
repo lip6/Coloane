@@ -12,7 +12,7 @@
 	<version>0.9.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Apicami</name>
-	<description>Api (cami)</description>
+	<description>Coloane communication API. this plugin enables the communication with FrameKit platform</description>
 
 	<scm>
 		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</connection>

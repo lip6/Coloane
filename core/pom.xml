@@ -12,7 +12,7 @@
 	<version>0.11.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
-	<description>Core de Coloane</description>
+	<description>Coloane kernel plugin</description>
 
 	<scm>
 		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk/${project.artifactId}</connection>
