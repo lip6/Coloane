@@ -14,7 +14,6 @@
 		<module>interfaces</module>
 		<module>apicami</module>
 		<module>core</module>
-		<module>fragments/core-translation</module>
 	</modules>
 
 	<scm>
