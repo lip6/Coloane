@@ -13,17 +13,17 @@ public interface IModel {
 	 * Donne les noeuds de notre modéle.
 	 * @return le tableau des noeuds.
 	 */
-	ArrayList<INode> getNodes();
+	public ArrayList<INode> getNodes();
 
 	/**
 	 * Donne les box de notre modéle.
 	 * @return le tableau des box.
 	 */
-	ArrayList<IBox>   getBoxes();
+	public ArrayList<IBox> getBoxes();
 
 	/**
 	 * Donne les arcs de notre modéle.
 	 * @return le tableau des arcs.
 	 */
-	ArrayList<IArc>   getArcs();
+	public ArrayList<IArc> getArcs();
 }

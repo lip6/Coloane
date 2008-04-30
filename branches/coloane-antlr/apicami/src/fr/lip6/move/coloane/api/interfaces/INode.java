@@ -14,19 +14,19 @@ public interface INode {
 	    * Retourne le type du noeud.
 	    * @return String
 	    */
-	String getNodeType();
+	public String getNodeType();
 
 
     /**
 	 * Retourne l'identifiant unique du noeud.
 	 * @return int
 	 */
-    int getId();
+    public int getId();
 
     /**
 	 * Retourne les attributs du noeud.
 	 * @return un tableau de attributs(String).
 	 */
-	ArrayList<IAttribute> getAttribute();
+	public ArrayList<IAttribute> getAttribute();
 
 }

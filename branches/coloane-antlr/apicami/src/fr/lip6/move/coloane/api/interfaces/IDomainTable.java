@@ -14,5 +14,5 @@ public interface IDomainTable {
 	 * Donne les objets contenus dans ma table des domaines.
 	 * @return le tableau de ces objets.
 	 */
-	ArrayList<IObjectDomainTable>  getObjectsDomainTable();
+	public ArrayList<IObjectDomainTable>  getObjectsDomainTable();
 }

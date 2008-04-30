@@ -12,29 +12,29 @@ public interface IObjectAttribute {
 	    * Retourne le nom de l'attribut.
 	    * @return String
 	    */
-	String getAttributeName();
+	public String getAttributeName();
 
 	 /**
 	    * Retourne la nomination.
 	    * @return String
 	    */
-	String getNomination();
+	public String getNomination();
 
 	 /**
 	    * si unique ou pas.
 	    * @return bool.
 	    */
-	boolean isUnique();
+	public boolean isUnique();
 
 	 /**
 	    * si permanent ou pas.
 	    * @return bool.
 	    */
-	boolean isPermanent();
+	public boolean isPermanent();
 
 	 /**
 	    * Retourne la valeur pas default.
 	    * @return String
 	    */
-	String getDefaultValue();
+	public String getDefaultValue();
 }

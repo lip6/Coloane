@@ -29,7 +29,7 @@ public interface IDialog {
 	 * Chaque boite de dialogue creee par la plate-forme possede un identifiant.
 	 * @return L'identifiant
 	 */
-	int getId();
+	public int getId();
 
 
 	//saisie autorisée, interdite, abort.
@@ -38,29 +38,29 @@ public interface IDialog {
 	 * Les valeurs possibles sont presentees dans IDialogCom
 	 * @return Le type de saisie de la boite de dialogue
 	 */
-	int getInputType();
+	public int getInputType();
 
 
-	String[] getDialogButtons();
+	public String[] getDialogButtons();
 
 	/**
 	 * Indique le titre de la boite de dialogue
 	 * @return Le titre a afficher en tant que titre de la boite de dialogue
 	 */
-	String getDialogTitle();
+	public String getDialogTitle();
 
 
 	/**
 	 * Indique le message a afficher dans la boite de dialogue
 	 * @return La chaine de caractere a afficher dans la boite de dialogue
 	 */
-     String getDialogMessage();
+     public String getDialogMessage();
 
 	/**
 	 * Indique le message d'aide associe avec la boite de dialogue
 	 * @return La chaine de caracteres contenant le message d'aide
 	 */
-	String getHelp();
+	public String getHelp();
 
 
 	/**
@@ -68,19 +68,19 @@ public interface IDialog {
 	 * @return Un indicateur
 	 * @see IDialog
 	 */
-	int getMultiLine();
+	public int getMultiLine();
 
 
 	/**
 	 * nous donne les lignes de la saisie .
 	 * @return les lignes.
 	 */
-	String[] getLines();
+	public String[] getLines();
 
 	/** Action de l'utilisateur sur la fenêtre
 	/* buttonNumber : numéro du bouton appuyé
 	/* responseMultiLine : sélections de l'utilisateur.
 	*/
-	String[] setDialogResponse(int buttonNumber, int[] responseMultiLine);
+	public String[] setDialogResponse(int buttonNumber, int[] responseMultiLine);
 
 }

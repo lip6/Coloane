@@ -16,23 +16,23 @@ public interface IObjectDomainTable {
 	    * 1 : Noeud, 2 : Connecteur
 	    * @return String
 	    */
-	String getObjectClass();
+	public String getObjectClass();
 
 	 /**
 	    * Retourne l'identifiant de la table.
 	    * @return int
 	    */
-	int getId();
+	public int getId();
 
 	 /**
 	    * Retourne le type de la table.
 	    * @return String
 	    */
-	String getType();
+	public String getType();
 
 	 /**
 	    * Retourne la liste des attributs de notre table de domaine.
 	    * @return tableau des attributs(IObjectAttribute).
 	    */
-   ArrayList<IObjectAttribute> getDomainObjectAttributes();
+	public ArrayList<IObjectAttribute> getDomainObjectAttributes();
 }

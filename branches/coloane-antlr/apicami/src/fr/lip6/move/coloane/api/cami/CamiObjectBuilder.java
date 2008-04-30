@@ -33,7 +33,7 @@ public class CamiObjectBuilder{
 
 
 
-	public IFkInfo buildFKInfo(ArrayList<String> camiFKInfo) {
+	public IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String  incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
@@ -188,8 +188,8 @@ public class CamiObjectBuilder{
 		return null;
 	}
 
-	public static IUpdateItem buildUpdateItem(ArrayList<String> camiUpdateItem) {
-		// TODO Auto-generated method stub
+	public static ArrayList<IUpdateItem> buildUpdateItem(ArrayList<String> camiUpdateItem) {
+
 		return null;
 	}
 
