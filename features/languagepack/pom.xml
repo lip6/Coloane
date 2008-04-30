@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>main</artifactId>
+	<artifactId>languagepack</artifactId>
 	<packaging>jar</packaging>
-	<version>0.11.0-SNAPSHOT</version>
-	<name>Main Feature</name>
-	<description>Main feature for Coloane project. It groups following plugins : core, api, interfaces</description>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>Language Pack Feature</name>
+	<description>Language Pack feature for Coloane</description>
 
 	<scm>
 		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk/features/${project.artifactId}</connection>
@@ -31,23 +31,11 @@
 	</distributionManagement>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>fr.lip6.move.coloane</groupId>
-			<artifactId>interfaces</artifactId>
-			<version>1.0.12-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane</groupId>
-			<artifactId>apicami</artifactId>
-			<version>0.9.11-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane</groupId>
 			<artifactId>core</artifactId>
 			<version>0.11.0-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
