@@ -12,7 +12,7 @@ diagnostics::enable();
 
 use XML::Twig;
 
-my $debug = 0;
+my $debug = 1;
 
 # Fetch paramaters
 my $sitefile = shift;
@@ -24,18 +24,24 @@ $xml->parsefile($sitefile);
                 
 # Find the root and the 'feature' element
 my $root = $xml->root;
-my $feature = $root->first_child('feature');
-my $nameid = $feature->att('id');
 
-my $filedesc = $dirfeature."/last_".$nameid;
-open (DESC, "<$filedesc") or die "FAILURE !!! ($filedesc)\n";
-my $lastversion = <DESC>;
-chomp $lastversion;
-print "Last version : $lastversion\n" if $debug;
-close(DESC);
-
-$feature->set_att(url => "features/".$nameid."_".$lastversion.".jar"); 
-$feature->set_att(version => $lastversion); 
+# Find version of associated features
+my @features = $root->children('feature');
+foreach my $feature (@features) {
+	my $nameid = $feature->att('id');
+	print "Processing associated feature : $id \n" if $debug;
+	
+	# Find, open and read the associated descriptor
+	my $filedesc = $featuredir."/last_".$id;
+	open (DESC, "<$filedesc") or die "FAILURE !!! ($filedesc)\n";
+	my $lastversion = <DESC>;
+	chomp $lastversion;
+	print "Last version : $lastversion\n" if $debug;
+	close(DESC);
+	
+	$feature->set_att(url => "features/".$nameid."_".$lastversion.".jar"); 
+	$feature->set_att(version => $lastversion); 
+}
 
 # Openning feature.xml for writing
 print "Writing...\n" if $debug;
