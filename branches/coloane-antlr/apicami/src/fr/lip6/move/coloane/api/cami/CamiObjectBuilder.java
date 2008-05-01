@@ -266,13 +266,19 @@ public class CamiObjectBuilder{
         for(ArrayList<String> tq : camiUpdateItem){
         String rootName = tq.get(0);
         String serviceName = tq.get(1);
-        int tmpState = Integer.parseInt(tq.get(2));
+        String tmpState2 = tq.get(2);
         boolean state;
+        if (tmpState2 != null){
+        int tmpState = Integer.parseInt(tmpState2);
+       
         if (tmpState == 7){
         	state = true;
         }
         else {
         	state = false;
+        }
+        } else {
+        	state = true;
         }
         IUpdateItem update = new UpdateItem(rootName,serviceName,state);
         tab.add(update);
