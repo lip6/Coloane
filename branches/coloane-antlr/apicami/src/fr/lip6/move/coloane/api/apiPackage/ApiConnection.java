@@ -102,7 +102,14 @@ public class ApiConnection implements IApiConnection {
 
 		this.hashObservable = new HashMap< String, Object>();
 		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
-		this.hashObservable.put("ISession", ObservableFactory.getNewConnectionObservable());
+		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
+		this.hashObservable.put("IService", ObservableFactory.getNewServiceObservable());
+		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
+		this.hashObservable.put("IDialog", ObservableFactory.getNewDialogObservable());
+		this.hashObservable.put("FKCloseConnection", ObservableFactory.getNewFkCloseConnectionObservable());
+		this.hashObservable.put("IServicetate", ObservableFactory.getNewServiceStateObservable());
+		this.hashObservable.put("ITraceMessage", ObservableFactory.getNewTraceMessageObservable());
+		this.hashObservable.put("IWarning", ObservableFactory.getNewWarningObservable());
 		
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
