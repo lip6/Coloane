@@ -110,7 +110,7 @@ public class Speaker implements ISpeaker{
 		this.fkll.writeCommand(cmdToSend);
 
 		/* envoi de la commande FI */
-		cmdToSend = CamiGenerator.generateCmdDI();
+		cmdToSend = CamiGenerator.generateCmdFI();
 		this.fkll.writeCommand(cmdToSend);
 
 	}

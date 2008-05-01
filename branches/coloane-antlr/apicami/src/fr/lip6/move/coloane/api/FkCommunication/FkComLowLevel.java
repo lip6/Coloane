@@ -69,19 +69,28 @@ public class FkComLowLevel {
 		// TODO
 		// TODO fo pas oublier de logguer
 
+				
 		// le tableau de commandes à retourner
-		ArrayList<String> list = new ArrayList<String>();
+
 		String commands = "";
 		try{
+			//TODO enlever
+			//System.out.println("FKCOMLOWLEVEL  :  Attente commande INT");
 			// Lecture des 4 premiers octets donnant la taille du message
 			int messageLength = this.socketInput.readInt();
-
+			
+			//TODO enlever
+			//System.out.println("FKCOMLOWLEVEL  :  Attente commande COM");
 			// Lecture selon la longueur donnée
 			for(int i=0; i<messageLength; i++){
 
 				char car = (char) this.socketInput.readByte();
 				commands += car;
 			}
+			
+			//TODO enlever
+			System.out.println("FKCOMLOWLEVEL  : commande  : "  +  commands);
+			
 		} catch (IOException e) {
 			// TODO Logguer
 			throw e;
@@ -89,7 +98,6 @@ public class FkComLowLevel {
 
 		// retourne l'ensemble de commandes
 
-		System.out.println("commande  : "  +  commands);
 
 		return commands;
 	}
@@ -109,7 +117,9 @@ public class FkComLowLevel {
 			this.socketOutput.write(command, 0,command.length);
 			//TODO loguer
 			String s = new String(command, 4, command.length - 4);
-			System.out.println("ecrite : " + s);
+			
+			//TODO enlever
+			//System.out.println("ecrite : " + s);
 			return true;
 		} catch (IOException e) {
 			// TODO logguer

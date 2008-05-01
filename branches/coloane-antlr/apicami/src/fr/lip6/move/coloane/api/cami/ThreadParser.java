@@ -62,8 +62,9 @@ public class ThreadParser extends Thread {
 
 				is = (InputStream)this.fifo.take();
 
-				System.out.println("lecture .......... de la file .....");
-				// Create an input character stream from standard in
+				//TODO enlever
+				//System.out.println("lecture .......... de la file .....");
+				//Create an input character stream from standard in
 				ANTLRInputStream input = new ANTLRInputStream(is);
 				// Create an ExprLexer that feeds from that stream
 				CamiLexer lexer = new CamiLexer(input);
