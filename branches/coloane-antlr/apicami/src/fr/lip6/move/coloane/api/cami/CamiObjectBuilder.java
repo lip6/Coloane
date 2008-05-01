@@ -47,9 +47,22 @@ public class CamiObjectBuilder{
 
 	public static IFkVersion buildFkVersion(ArrayList<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
-		int fkmajor = Integer.parseInt(camiFkVersion.get(1));
-		int fkminor = Integer.parseInt(camiFkVersion.get(2));
-
+		int fkmajor;
+		String tmpfkmajor = camiFkVersion.get(1);
+		if ( tmpfkmajor != null ) { 
+		fkmajor = Integer.parseInt(tmpfkmajor);
+		} else {
+	    fkmajor = -1;
+		}
+		
+		int fkminor;
+		String tmpfkminor = camiFkVersion.get(2);
+		if ( tmpfkminor != null ) { 
+		fkminor = Integer.parseInt(tmpfkminor);
+		} else {
+		fkminor = -1;
+		}
+		
 		IFkVersion fkv = new FkVersion(fkname,fkmajor,fkminor);
 		return fkv;
 	}
@@ -91,8 +104,22 @@ public class CamiObjectBuilder{
 		for(ArrayList<String> aq : camiMenu){
          if (isRoot){
         	 String name = aq.get(0);
-        	 int questionT = Integer.parseInt(aq.get(1));
-        	 int questionB = Integer.parseInt(aq.get(2));
+        	 int questionT;
+        	 String tmpquestionT = aq.get(1);
+        	 if ( tmpquestionT == null){
+        	 questionT = Integer.parseInt(tmpquestionT);
+        	 }else {
+        		questionT = -1;  
+        	 }
+
+        	 int questionB;
+        	 String tmpquestionB = aq.get(2);
+        	 if ( tmpquestionB == null){
+        	 questionB = Integer.parseInt(tmpquestionB);
+        	 }else {
+        		questionB = -1;  
+        	 }
+        	 
         	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,null);
         	 isRoot = false;
          }
@@ -102,14 +129,31 @@ public class CamiObjectBuilder{
             String name = aq.get(1);
 
 			/* le type de la question*/
-			int questionType = Integer.parseInt(aq.get(2));
+            int questionType;
+       	 String tmpquestionType = aq.get(2);
+       	 if ( tmpquestionType == null){
+       	 questionType = Integer.parseInt(tmpquestionType);
+       	 }else {
+       		questionType = -1;  
+       	 }
+			
 
 			/* la question precedente*/
-			int questionBehavior = Integer.parseInt(aq.get(3));
+       	   int questionBehavior;
+   	       String tmpquestionBehavior = aq.get(3);
+   	       if ( tmpquestionBehavior == null){
+   	       questionBehavior = Integer.parseInt(tmpquestionBehavior);
+   	       }else {
+   		   questionBehavior = -1;  
+   	       }
+		
 
 			/* (1) valider (2) ne pas valider*/
-			boolean valid;
-			int tmpValid = Integer.parseInt(aq.get(4));
+   	       String tmpValid2 = aq.get(4);
+   	       boolean valid;
+   	       if (tmpValid2 != null ) {
+   	    	
+			int tmpValid = Integer.parseInt(tmpValid2);
 			 if (tmpValid == 1){
 				  valid = true;
 			 }
@@ -117,36 +161,59 @@ public class CamiObjectBuilder{
 			      valid = false;
 			 }
 
+   	       }else {
+   	    	   valid = false;
+   	       }
+			
+
 			 /* (1) interdit (2) permis*/
-			 boolean dialogAllowed ;
-			int tmpDialogAllowed = Integer.parseInt(aq.get(5));
+   	       String tmpDialogAllowed2 = aq.get(5);
+   	        boolean dialogAllowed ;
+			 if (tmpDialogAllowed2 != null){
+			int tmpDialogAllowed = Integer.parseInt(tmpDialogAllowed2);
 			 if (tmpDialogAllowed == 1){
 				 dialogAllowed = false;
 			 }
 			 else {
 			     dialogAllowed = true;
 			 }
+			 }else {
+				 dialogAllowed = true;
+			 }
 
             /* (1) arret impossible (2) arret possible (suspendre) */
+			 String tmpStopAuthorized2 = aq.get(6);
 			 boolean stopAuthorized;
-			 int tmpStopAuthorized = Integer.parseInt(aq.get(6));
+			 if (tmpStopAuthorized2 != null){
+			 int tmpStopAuthorized = Integer.parseInt(tmpStopAuthorized2);
 			 if (tmpStopAuthorized == 1){
 				 stopAuthorized = false;
 			 }
 			 else {
 			    stopAuthorized = true;
 			 }
+			 }
+			 else {
+				 stopAuthorized = true;
+			 }
 
 			 String outputFormalism = aq.get(7);
 
 			 /* (1) ENABLE (2) Disable*/
+			 String tmpActivate2 = aq.get(8);
 			 boolean activate;
-			 int tmpActivate = Integer.parseInt(aq.get(8));
+			 if(tmpActivate2 != null){
+			 int tmpActivate = Integer.parseInt(tmpActivate2);
+			 
 			 if (tmpActivate == 1){
 				 activate = true;
 			 }
 			 else {
 			    activate = false;
+			 }
+			 }
+			 else {
+				 activate = false;
 			 }
 
 			ArrayList<IMenu> children= new ArrayList<IMenu>();
