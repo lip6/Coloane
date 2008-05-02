@@ -29,44 +29,39 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
  *
  */
 
-public class CamiObjectBuilder{
-
-
-
+public class CamiObjectBuilder {
 
 	public static IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
-		String  incremental = camiFKInfo.get(1);
+		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
 		String resultatCalcule = camiFKInfo.get(3);
-        IFkInfo kfi = new FkInfo(aboutService,incremental,nameService,resultatCalcule);
+		IFkInfo kfi = new FkInfo(aboutService, incremental, nameService,
+				resultatCalcule);
 		return kfi;
 	}
-
-
 
 	public static IFkVersion buildFkVersion(ArrayList<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
 		int fkmajor;
 		String tmpfkmajor = camiFkVersion.get(1);
-		if ( tmpfkmajor != null ) {
-		fkmajor = Integer.parseInt(tmpfkmajor);
+		if (tmpfkmajor != null) {
+			fkmajor = Integer.parseInt(tmpfkmajor);
 		} else {
-	    fkmajor = -1;
+			fkmajor = -1;
 		}
 
 		int fkminor;
 		String tmpfkminor = camiFkVersion.get(2);
-		if ( tmpfkminor != null ) {
-		fkminor = Integer.parseInt(tmpfkminor);
+		if (tmpfkminor != null) {
+			fkminor = Integer.parseInt(tmpfkminor);
 		} else {
-		fkminor = -1;
+			fkminor = -1;
 		}
 
-		IFkVersion fkv = new FkVersion(fkname,fkmajor,fkminor);
+		IFkVersion fkv = new FkVersion(fkname, fkmajor, fkminor);
 		return fkv;
 	}
-
 
 	public static IArc buildArc(ArrayList<String> camiArc) {
 		// TODO Auto-generated method stub
@@ -76,9 +71,10 @@ public class CamiObjectBuilder{
 	public static IAttributeModify buildAttributeModify(
 			ArrayList<String> CamiAttributeModify) {
 		String attributeType = CamiAttributeModify.get(1);
-		String newContent =CamiAttributeModify.get(2);
-		int objectID=Integer.parseInt(CamiAttributeModify.get(3));
-		IAttributeModify at = new AttributeModify(attributeType,newContent,objectID);
+		String newContent = CamiAttributeModify.get(2);
+		int objectID = Integer.parseInt(CamiAttributeModify.get(3));
+		IAttributeModify at = new AttributeModify(attributeType, newContent,
+				objectID);
 		return at;
 	}
 
@@ -92,139 +88,135 @@ public class CamiObjectBuilder{
 		return null;
 	}
 
-	public static IDomainTable buildDomainTable(ArrayList<String> camiDomainTable) {
+	public static IDomainTable buildDomainTable(
+			ArrayList<String> camiDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public static IMenu buildMenu(ArrayList<ArrayList<String>> camiMenu) {
-         IMenu root = null;
-        boolean isRoot = true;
+		IMenu root = null;
+		boolean isRoot = true;
 
-		for(ArrayList<String> aq : camiMenu){
-         if (isRoot){
-        	 String name = aq.get(0);
-        	 int questionT;
-        	 String tmpquestionT = aq.get(1);
-        	 if ( tmpquestionT != null){
-        	 questionT = Integer.parseInt(tmpquestionT);
-        	 }else {
-        		questionT = -1;
-        	 }
+		for (ArrayList<String> aq : camiMenu) {
+			if (isRoot) {
+				String name = aq.get(0);
+				int questionT;
+				String tmpquestionT = aq.get(1);
+				if (tmpquestionT != null) {
+					questionT = Integer.parseInt(tmpquestionT);
+				} else {
+					questionT = -1;
+				}
 
-        	 int questionB;
-        	 String tmpquestionB = aq.get(2);
-        	 if ( tmpquestionB != null){
-        	 questionB = Integer.parseInt(tmpquestionB);
-        	 }else {
-        		questionB = -1;
-        	 }
+				int questionB;
+				String tmpquestionB = aq.get(2);
+				if (tmpquestionB != null) {
+					questionB = Integer.parseInt(tmpquestionB);
+				} else {
+					questionB = -1;
+				}
 
-        	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,new ArrayList<IMenu>());
-        	 isRoot = false;
-         }
-           else {
-			IMenu parent = null;
-            String parentName = aq.get(0);
-            String name = aq.get(1);
+				root = new Menu(null, name, questionT, questionB, false, false,
+						false, null, false, new ArrayList<IMenu>());
+				isRoot = false;
+			} else {
+				IMenu parent = null;
+				String parentName = aq.get(0);
+				String name = aq.get(1);
 
-			/* le type de la question*/
-            int questionType;
-       	 String tmpquestionType = aq.get(2);
-       	 if ( tmpquestionType != null){
-       	 questionType = Integer.parseInt(tmpquestionType);
-       	 }else {
-       		questionType = -1;
-       	 }
+				/* le type de la question*/
+				int questionType;
+				String tmpquestionType = aq.get(2);
+				if (tmpquestionType != null) {
+					questionType = Integer.parseInt(tmpquestionType);
+				} else {
+					questionType = -1;
+				}
 
+				/* la question precedente*/
+				int questionBehavior;
+				String tmpquestionBehavior = aq.get(3);
 
-			/* la question precedente*/
-       	   int questionBehavior;
-   	       String tmpquestionBehavior = aq.get(3);
-   	       if ( tmpquestionBehavior != null){
-   	       questionBehavior = Integer.parseInt(tmpquestionBehavior);
-   	       }else {
-   		   questionBehavior = -1;
-   	       }
+				if (tmpquestionBehavior != null) {
 
+					questionBehavior = Integer.parseInt(tmpquestionBehavior);
+				} else {
+					questionBehavior = -1;
+				}
 
-			/* (1) valider (2) ne pas valider*/
-   	       String tmpValid2 = aq.get(4);
-   	       boolean valid;
-   	       if (tmpValid2 != null ) {
+				/* (1) valider (2) ne pas valider*/
+				String tmpValid2 = aq.get(4);
+				boolean valid;
+				if (tmpValid2 != null) {
 
-			int tmpValid = Integer.parseInt(tmpValid2);
-			 if (tmpValid == 1){
-				  valid = true;
-			 }
-			 else {
-			      valid = false;
-			 }
+					int tmpValid = Integer.parseInt(tmpValid2);
+					if (tmpValid == 1) {
+						valid = true;
+					} else {
+						valid = false;
+					}
 
-   	       }else {
-   	    	   valid = false;
-   	       }
+				} else {
+					valid = false;
+				}
 
+				/* (1) interdit (2) permis*/
+				String tmpDialogAllowed2 = aq.get(5);
+				boolean dialogAllowed;
+				if (tmpDialogAllowed2 != null) {
+					int tmpDialogAllowed = Integer.parseInt(tmpDialogAllowed2);
+					if (tmpDialogAllowed == 1) {
+						dialogAllowed = false;
+					} else {
+						dialogAllowed = true;
+					}
+				} else {
+					dialogAllowed = true;
+				}
 
-			 /* (1) interdit (2) permis*/
-   	       String tmpDialogAllowed2 = aq.get(5);
-   	        boolean dialogAllowed ;
-			 if (tmpDialogAllowed2 != null){
-			int tmpDialogAllowed = Integer.parseInt(tmpDialogAllowed2);
-			 if (tmpDialogAllowed == 1){
-				 dialogAllowed = false;
-			 }
-			 else {
-			     dialogAllowed = true;
-			 }
-			 }else {
-				 dialogAllowed = true;
-			 }
+				/* (1) arret impossible (2) arret possible (suspendre) */
+				String tmpStopAuthorized2 = aq.get(6);
+				boolean stopAuthorized;
+				if (tmpStopAuthorized2 != null) {
+					int tmpStopAuthorized = Integer
+							.parseInt(tmpStopAuthorized2);
+					if (tmpStopAuthorized == 1) {
+						stopAuthorized = false;
+					} else {
+						stopAuthorized = true;
+					}
+				} else {
+					stopAuthorized = true;
+				}
 
-            /* (1) arret impossible (2) arret possible (suspendre) */
-			 String tmpStopAuthorized2 = aq.get(6);
-			 boolean stopAuthorized;
-			 if (tmpStopAuthorized2 != null){
-			 int tmpStopAuthorized = Integer.parseInt(tmpStopAuthorized2);
-			 if (tmpStopAuthorized == 1){
-				 stopAuthorized = false;
-			 }
-			 else {
-			    stopAuthorized = true;
-			 }
-			 }
-			 else {
-				 stopAuthorized = true;
-			 }
+				String outputFormalism = aq.get(7);
 
-			 String outputFormalism = aq.get(7);
+				/* (1) ENABLE (2) Disable*/
+				String tmpActivate2 = aq.get(8);
+				boolean activate;
+				if (tmpActivate2 != null) {
+					int tmpActivate = Integer.parseInt(tmpActivate2);
 
-			 /* (1) ENABLE (2) Disable*/
-			 String tmpActivate2 = aq.get(8);
-			 boolean activate;
-			 if(tmpActivate2 != null){
-			 int tmpActivate = Integer.parseInt(tmpActivate2);
+					if (tmpActivate == 1) {
+						activate = true;
+					} else {
+						activate = false;
+					}
+				} else {
+					activate = false;
+				}
 
-			 if (tmpActivate == 1){
-				 activate = true;
-			 }
-			 else {
-			    activate = false;
-			 }
-			 }
-			 else {
-				 activate = false;
-			 }
+				ArrayList<IMenu> children = new ArrayList<IMenu>();
 
-			ArrayList<IMenu> children= new ArrayList<IMenu>();
+				IMenu menu = new Menu(parent, name, questionType,
+						questionBehavior, valid, dialogAllowed, stopAuthorized,
+						outputFormalism, activate, children);
+				root.addMenu(parentName, menu);
 
-			IMenu menu = new Menu(parent,name,questionType,questionBehavior,
-					valid,dialogAllowed,stopAuthorized,outputFormalism,activate,children);
-			root.addMenu(parentName,menu);
+			}
 
-        }
-
-         }
+		}
 
 		return root;
 	}
@@ -261,34 +253,29 @@ public class CamiObjectBuilder{
 	 * @param camiUpdateItem
 	 * @return un tableau de TQ 7 & 8
 	 */
-	public static ArrayList<IUpdateItem> buildUpdateItem(ArrayList<ArrayList<String>> camiUpdateItem) {
-        ArrayList<IUpdateItem> tab = new  ArrayList<IUpdateItem> ();
-        for(ArrayList<String> tq : camiUpdateItem){
-        String rootName = tq.get(0);
-        String serviceName = tq.get(1);
-        String tmpState2 = tq.get(2);
-        boolean state;
-        if (tmpState2 != null){
-        int tmpState = Integer.parseInt(tmpState2);
+	public static ArrayList<IUpdateItem> buildUpdateItem(
+			ArrayList<ArrayList<String>> camiUpdateItem) {
+		ArrayList<IUpdateItem> tab = new ArrayList<IUpdateItem>();
+		for (ArrayList<String> tq : camiUpdateItem) {
+			String rootName = tq.get(0);
+			String serviceName = tq.get(1);
+			String tmpState2 = tq.get(2);
+			boolean state;
+			if (tmpState2 != null) {
+				int tmpState = Integer.parseInt(tmpState2);
 
-        if (tmpState == 7){
-        	state = true;
-        }
-        else {
-        	state = false;
-        }
-        } else {
-        	state = true;
-        }
-        IUpdateItem update = new UpdateItem(rootName,serviceName,state);
-        tab.add(update);
-        }
+				if (tmpState == 7) {
+					state = true;
+				} else {
+					state = false;
+				}
+			} else {
+				state = true;
+			}
+			IUpdateItem update = new UpdateItem(rootName, serviceName, state);
+			tab.add(update);
+		}
 		return tab;
 	}
-
-
-
-
-
 
 }
