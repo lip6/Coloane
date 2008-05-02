@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.IFkInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
+import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 
 import java.util.ArrayList;
@@ -20,13 +21,19 @@ import java.util.HashMap;
    
    ArrayList<ArrayList<String>> menuList; /* liste servant à construire les objets 
                                                Correspondant aux AQ et les TQ */
+
+   ArrayList<ArrayList<String>> updatesList; /* liste servant à construire les objets 
+                                               Correspondant aux TQ 7 et 8 */
+
    HashMap<String, Object> hashObservable; /* Table de hash des observables */
 
    ISessionController sc; /* Controleur de la session */
 
-   IFkInfo fkinfo; 
+   IFkInfo fkInfo; 
 
    IMenu menu;
+
+   ArrayList<IUpdateItem> updates;
 
   
    /* Constructeur du parser */
@@ -52,7 +59,7 @@ command
     ;
 
 
-/* ----------  Ouverture de la connexion  SC --------------- */
+/* ---------------------  Ouverture de la connexion  SC ----------------------- */
 ack_open_communication
 	:
 	'SC(' CAMI_STRING ')'{
@@ -65,7 +72,7 @@ ack_open_communication
 	;
 	
 
-/* ---------- Ouverture de la connexion OC ------------------ */
+/* ---------------------- Ouverture de la connexion OC ------------------------- */
 ack_open_connection
 	:
 	'OC(' 
@@ -83,7 +90,7 @@ ack_open_connection
     ')'    
 	;
 
-/* ----------- Ouverture de la session ------------------------ */
+/* ---------------------- Ouverture de la session ------------------------------ */
 ack_open_session
 	:
 	'OS(' CAMI_STRING')'{
@@ -102,7 +109,8 @@ ack_open_session
 
 	;
 
-/* -----------  Reception des tables  -------------------------- */
+
+/* ---------------------  Reception des tables  -------------------------------- */
 interlocutor_table
     :
     'TL()'{            
@@ -117,7 +125,7 @@ interlocutor_table
             listOfArgs.add($new_model.text);            
         }
     |'FL()'{
-            fkinfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
+            fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
 
             System.out.println("fkinfo");
             for(int i=0; i<this.listOfArgs.size(); i++){
@@ -128,28 +136,36 @@ interlocutor_table
     ;
 
 
-
-/* reception des menus */
+/* ------------------- reception des menus -----------------------------------------*/
 receving_menu
     :
 	'DQ()'{
             /* créer la menuList  */
             menuList = new ArrayList<ArrayList<String>>();
+
+            /* créer la liste des updates  */
+            updatesList = new ArrayList<ArrayList<String>>();
         }
 	menu_name
 	question_add*
 	'FQ()'{
             /* fin de la reception des menus : demander la construction du menu */            
-            //            menu = CamiObjectBuilder.buildMenu(menuList);
+            menu = CamiObjectBuilder.buildMenu(menuList);
+            System.out.println("Menu construit");
             System.out.println("FQ()");
         }
-    'VQ('CAMI_STRING')'{
+    'VQ('CAMI_STRING')'{ /* afficher les questions */
             System.out.println("VQ");
+            
+            /* construire la liste des updates */
+            updates = CamiObjectBuilder.buildUpdateItem(updatesList);
+            
+
         }
 	;
 
 
-/* reception des menus  CQ */
+/* ------------------  reception des menus  CQ ------------------------------------- */
 menu_name
 	:
 	'CQ(' name=CAMI_STRING ',' question_type=NUMBER ',' question_behavior=NUMBER ')'{
@@ -164,7 +180,7 @@ menu_name
 
             menuList.add(cq); /* ajouter a la liste des AQ */
 
-                       System.out.println("CQ");
+                        System.out.println("CQ");
                         System.out.println("name.getText() " + name.getText() );
                         System.out.println("question_type.getText() " + question_type.getText());
                         System.out.println("question_behavior.getText() " + question_behavior.getText());
@@ -172,7 +188,8 @@ menu_name
         }
 	;
 
-/* reception des menus  AQ */
+
+/* ------------------- reception des menus  AQ ---------------------------------------*/
 question_add
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
@@ -188,43 +205,46 @@ question_add
             if($question_type != null)
                 aq.add($question_type.text); /* question_type  */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String()*/);
 
             if($question_behavior != null)
                 aq.add($question_behavior.text); /* question_behavior  */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
 
             if($set_item != null)
-                aq.add($set_item.text); /* validation par defaut  */
+                aq.add(null/*$set_item.text*/); /* validation par defaut  */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
             
             if($dialog != null)
                 aq.add($dialog.text); /* dialog autorisé ?  */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
 
 
             if($stop_authorized != null)
                 aq.add($stop_authorized.text); /* on autorise l'arrêt du service ? */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
 
 
             if($output_formalism != null)
                 aq.add($output_formalism.text); /* formalisme */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
 
 
             if($active != null)
                 aq.add($active.text); /* grisé ou non ? */
             else
-                aq.add(new String(""));
+                aq.add(null/*new String("")*/);
 
 
             menuList.add(aq); /* ajouter à la liste de AQ */
+
+            
+      /* TODO : a enlever */
 
                         System.out.print("AQ(" + aq.get(0));
                         for(int i=1; i<9; i++){
@@ -236,20 +256,39 @@ question_add
 	;
 
 
+/* --------------------- reception des TQ de type 7 et 8 -------------------------------- */
 question_state /* TQ de type 7 et 8*/
 	:
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=NUMBER ',' mess=CAMI_STRING? ')'{
+            
+         
+            /*  */
+            ArrayList<String> update = new ArrayList<String>();
+           
+            update.add($service_name.text); /* nom du service */
+            update.add($question_name.text);  /* nom de la question  */
+            update.add($state.text);  /* état de la question  */
+
+            if($mess != null)
+                update.add($mess.text); /* message : optionnel */
+            else
+                update.add(new String(""));
+
+
+            updatesList.add(update);/* ajouter à la liste des updates  */
+            
             System.out.println("TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
                                         $state.text + ", " + ")");
         }
 	;
 
 
-/* fin de la transmission d'un menu QQ(3)*/
+/* ----------------------- fin de la transmission d'un menu QQ(3) --------------------------*/
 end_menu_transmission
 	:
 	'QQ(' NUMBER ')'{
             System.out.println("QQ(" + $NUMBER.text + ")");
+            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menu, updates);
         }
 	;
 
@@ -258,7 +297,7 @@ end_menu_transmission
 
 
 
-/* message special MO */
+/* ----------------------- message special MO ---------------------------------------------- */
 pecial_message
 	:	    
 	'MO(' NUMBER ',' CAMI_STRING ')'{
@@ -267,8 +306,7 @@ pecial_message
 	;
 
 
-
-
+/* ---------------------- types de base  CAMI_STRING, NUMBER --------------------------------*/
 
 /* Cami String*/
 CAMI_STRING
