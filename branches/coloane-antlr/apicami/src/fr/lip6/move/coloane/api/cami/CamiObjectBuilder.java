@@ -49,20 +49,20 @@ public class CamiObjectBuilder{
 		String fkname = camiFkVersion.get(0);
 		int fkmajor;
 		String tmpfkmajor = camiFkVersion.get(1);
-		if ( tmpfkmajor != null ) { 
+		if ( tmpfkmajor != null ) {
 		fkmajor = Integer.parseInt(tmpfkmajor);
 		} else {
 	    fkmajor = -1;
 		}
-		
+
 		int fkminor;
 		String tmpfkminor = camiFkVersion.get(2);
-		if ( tmpfkminor != null ) { 
+		if ( tmpfkminor != null ) {
 		fkminor = Integer.parseInt(tmpfkminor);
 		} else {
 		fkminor = -1;
 		}
-		
+
 		IFkVersion fkv = new FkVersion(fkname,fkmajor,fkminor);
 		return fkv;
 	}
@@ -106,20 +106,20 @@ public class CamiObjectBuilder{
         	 String name = aq.get(0);
         	 int questionT;
         	 String tmpquestionT = aq.get(1);
-        	 if ( tmpquestionT == null){
+        	 if ( tmpquestionT != null){
         	 questionT = Integer.parseInt(tmpquestionT);
         	 }else {
-        		questionT = -1;  
+        		questionT = -1;
         	 }
 
         	 int questionB;
         	 String tmpquestionB = aq.get(2);
-        	 if ( tmpquestionB == null){
+        	 if ( tmpquestionB != null){
         	 questionB = Integer.parseInt(tmpquestionB);
         	 }else {
-        		questionB = -1;  
+        		questionB = -1;
         	 }
-        	 
+
         	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,null);
         	 isRoot = false;
          }
@@ -131,28 +131,28 @@ public class CamiObjectBuilder{
 			/* le type de la question*/
             int questionType;
        	 String tmpquestionType = aq.get(2);
-       	 if ( tmpquestionType == null){
+       	 if ( tmpquestionType != null){
        	 questionType = Integer.parseInt(tmpquestionType);
        	 }else {
-       		questionType = -1;  
+       		questionType = -1;
        	 }
-			
+
 
 			/* la question precedente*/
        	   int questionBehavior;
    	       String tmpquestionBehavior = aq.get(3);
-   	       if ( tmpquestionBehavior == null){
+   	       if ( tmpquestionBehavior != null){
    	       questionBehavior = Integer.parseInt(tmpquestionBehavior);
    	       }else {
-   		   questionBehavior = -1;  
+   		   questionBehavior = -1;
    	       }
-		
+
 
 			/* (1) valider (2) ne pas valider*/
    	       String tmpValid2 = aq.get(4);
    	       boolean valid;
    	       if (tmpValid2 != null ) {
-   	    	
+
 			int tmpValid = Integer.parseInt(tmpValid2);
 			 if (tmpValid == 1){
 				  valid = true;
@@ -164,7 +164,7 @@ public class CamiObjectBuilder{
    	       }else {
    	    	   valid = false;
    	       }
-			
+
 
 			 /* (1) interdit (2) permis*/
    	       String tmpDialogAllowed2 = aq.get(5);
@@ -204,7 +204,7 @@ public class CamiObjectBuilder{
 			 boolean activate;
 			 if(tmpActivate2 != null){
 			 int tmpActivate = Integer.parseInt(tmpActivate2);
-			 
+
 			 if (tmpActivate == 1){
 				 activate = true;
 			 }
@@ -270,7 +270,7 @@ public class CamiObjectBuilder{
         boolean state;
         if (tmpState2 != null){
         int tmpState = Integer.parseInt(tmpState2);
-       
+
         if (tmpState == 7){
         	state = true;
         }
