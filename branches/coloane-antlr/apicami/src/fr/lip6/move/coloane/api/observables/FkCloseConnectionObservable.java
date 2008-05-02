@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
-public class FkCloseConnectionObservable {
+import fr.lip6.move.coloane.api.interfaces.observables.IFkCloseConnectionObservable;
+
+public class FkCloseConnectionObservable implements IFkCloseConnectionObservable{
 
 }

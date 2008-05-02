@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
-public class ServiceObservable {
+import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
+
+public class ServiceObservable implements IServiceObservable{
 
 }

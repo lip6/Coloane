@@ -120,7 +120,7 @@ public class CamiObjectBuilder{
         		questionB = -1;
         	 }
 
-        	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,null);
+        	 root  = new Menu(null,name,questionT,questionB,false,false,false,null,false,new ArrayList<IMenu>());
         	 isRoot = false;
          }
            else {
@@ -218,7 +218,7 @@ public class CamiObjectBuilder{
 
 			ArrayList<IMenu> children= new ArrayList<IMenu>();
 
-			IMenu menu = new Menu(parent,parentName,questionType,questionBehavior,
+			IMenu menu = new Menu(parent,name,questionType,questionBehavior,
 					valid,dialogAllowed,stopAuthorized,outputFormalism,activate,children);
 			root.addMenu(parentName,menu);
 

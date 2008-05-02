@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
-public class TraceMessageObservable {
+import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
+
+public class TraceMessageObservable implements ITraceMessageObservable{
 
 }
