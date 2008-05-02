@@ -31,7 +31,7 @@ public class FkComLowLevelTest extends TestCase {
 
 	FkComLowLevel fk;
 	byte[] commandToWrite;
-	ArrayList<String> commandToRead;
+	String commandToRead;
 
 	/**
 	 * 	setUp
@@ -84,7 +84,7 @@ public class FkComLowLevelTest extends TestCase {
 
 		this.assertNotNull(this.commandToRead);
 
-		System.out.println(commandToRead.get(0));
+		System.out.println(commandToRead);
 	}
 
 	/**

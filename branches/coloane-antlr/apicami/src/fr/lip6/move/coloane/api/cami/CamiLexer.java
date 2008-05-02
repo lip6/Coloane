@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.cami;
 
-// $ANTLR 3.0.1 Cami.g 2008-05-02 01:29:58
+// $ANTLR 3.0.1 Cami.g 2008-05-02 14:25:08
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -32,7 +32,7 @@ public class CamiLexer extends Lexer {
     public static final int T17=17;
     public static final int T18=18;
     public static final int T19=19;
-    public CamiLexer() {;} 
+    public CamiLexer() {;}
     public CamiLexer(CharStream input) {
         super(input);
     }
@@ -45,7 +45,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:3:4: ( 'SC(' )
             // Cami.g:3:6: 'SC('
             {
-            match("SC("); 
+            match("SC(");
 
 
             }
@@ -64,7 +64,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:4:4: ( ')' )
             // Cami.g:4:6: ')'
             {
-            match(')'); 
+            match(')');
 
             }
 
@@ -82,7 +82,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:5:5: ( 'OC(' )
             // Cami.g:5:7: 'OC('
             {
-            match("OC("); 
+            match("OC(");
 
 
             }
@@ -101,7 +101,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:6:5: ( ',' )
             // Cami.g:6:7: ','
             {
-            match(','); 
+            match(',');
 
             }
 
@@ -119,7 +119,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:7:5: ( 'OS(' )
             // Cami.g:7:7: 'OS('
             {
-            match("OS("); 
+            match("OS(");
 
 
             }
@@ -138,7 +138,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:8:5: ( 'TD()' )
             // Cami.g:8:7: 'TD()'
             {
-            match("TD()"); 
+            match("TD()");
 
 
             }
@@ -157,7 +157,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:9:5: ( 'FA()' )
             // Cami.g:9:7: 'FA()'
             {
-            match("FA()"); 
+            match("FA()");
 
 
             }
@@ -176,7 +176,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:10:5: ( 'TL()' )
             // Cami.g:10:7: 'TL()'
             {
-            match("TL()"); 
+            match("TL()");
 
 
             }
@@ -195,7 +195,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:11:5: ( 'VI(' )
             // Cami.g:11:7: 'VI('
             {
-            match("VI("); 
+            match("VI(");
 
 
             }
@@ -214,7 +214,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:12:5: ( 'FL()' )
             // Cami.g:12:7: 'FL()'
             {
-            match("FL()"); 
+            match("FL()");
 
 
             }
@@ -233,7 +233,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:13:5: ( 'DQ()' )
             // Cami.g:13:7: 'DQ()'
             {
-            match("DQ()"); 
+            match("DQ()");
 
 
             }
@@ -252,7 +252,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:14:5: ( 'FQ()' )
             // Cami.g:14:7: 'FQ()'
             {
-            match("FQ()"); 
+            match("FQ()");
 
 
             }
@@ -271,7 +271,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:15:5: ( 'VQ(' )
             // Cami.g:15:7: 'VQ('
             {
-            match("VQ("); 
+            match("VQ(");
 
 
             }
@@ -290,7 +290,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:16:5: ( 'CQ(' )
             // Cami.g:16:7: 'CQ('
             {
-            match("CQ("); 
+            match("CQ(");
 
 
             }
@@ -309,7 +309,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:17:5: ( 'AQ(' )
             // Cami.g:17:7: 'AQ('
             {
-            match("AQ("); 
+            match("AQ(");
 
 
             }
@@ -328,7 +328,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:18:5: ( 'TQ(' )
             // Cami.g:18:7: 'TQ('
             {
-            match("TQ("); 
+            match("TQ(");
 
 
             }
@@ -347,7 +347,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:19:5: ( 'QQ(' )
             // Cami.g:19:7: 'QQ('
             {
-            match("QQ("); 
+            match("QQ(");
 
 
             }
@@ -366,7 +366,7 @@ public class CamiLexer extends Lexer {
             // Cami.g:20:5: ( 'MO(' )
             // Cami.g:20:7: 'MO('
             {
-            match("MO("); 
+            match("MO(");
 
 
             }
@@ -386,16 +386,16 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:271:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:272:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:314:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:315:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start169 = getCharIndex();
-            mNUMBER(); 
+            mNUMBER();
             NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start169, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
-            match(':'); 
+            match(':');
             int fsStart180 = getCharIndex();
-            mFIXED_LENGTH_STRING(nbToRead); 
+            mFIXED_LENGTH_STRING(nbToRead);
             fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart180, getCharIndex()-1);
             setText(fs.getText());
 
@@ -411,10 +411,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:280:2: ( ({...}? => . )* )
-            // Cami.g:281:2: ({...}? => . )*
+            // Cami.g:323:2: ( ({...}? => . )* )
+            // Cami.g:324:2: ({...}? => . )*
             {
-            // Cami.g:281:2: ({...}? => . )*
+            // Cami.g:324:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -427,12 +427,12 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:281:4: {...}? => .
+            	    // Cami.g:324:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
             	    }
-            	    matchAny(); 
+            	    matchAny();
             	    len--;
 
             	    }
@@ -456,10 +456,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:284:8: ( ( '0' .. '9' )+ )
-            // Cami.g:285:2: ( '0' .. '9' )+
+            // Cami.g:327:8: ( ( '0' .. '9' )+ )
+            // Cami.g:328:2: ( '0' .. '9' )+
             {
-            // Cami.g:285:2: ( '0' .. '9' )+
+            // Cami.g:328:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -473,9 +473,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:285:2: '0' .. '9'
+            	    // Cami.g:328:2: '0' .. '9'
             	    {
-            	    matchRange('0','9'); 
+            	    matchRange('0','9');
 
             	    }
             	    break;
@@ -503,10 +503,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:290:2: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:291:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:333:2: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:334:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:291:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:334:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -520,9 +520,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:291:4: ( '\\r' )? '\\n'
+            	    // Cami.g:334:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:291:4: ( '\\r' )?
+            	    // Cami.g:334:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -531,16 +531,16 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:291:4: '\\r'
+            	            // Cami.g:334:4: '\\r'
             	            {
-            	            match('\r'); 
+            	            match('\r');
 
             	            }
             	            break;
 
             	    }
 
-            	    match('\n'); 
+            	    match('\n');
 
             	    }
             	    break;
@@ -573,147 +573,147 @@ public class CamiLexer extends Lexer {
             case 1 :
                 // Cami.g:1:10: T8
                 {
-                mT8(); 
+                mT8();
 
                 }
                 break;
             case 2 :
                 // Cami.g:1:13: T9
                 {
-                mT9(); 
+                mT9();
 
                 }
                 break;
             case 3 :
                 // Cami.g:1:16: T10
                 {
-                mT10(); 
+                mT10();
 
                 }
                 break;
             case 4 :
                 // Cami.g:1:20: T11
                 {
-                mT11(); 
+                mT11();
 
                 }
                 break;
             case 5 :
                 // Cami.g:1:24: T12
                 {
-                mT12(); 
+                mT12();
 
                 }
                 break;
             case 6 :
                 // Cami.g:1:28: T13
                 {
-                mT13(); 
+                mT13();
 
                 }
                 break;
             case 7 :
                 // Cami.g:1:32: T14
                 {
-                mT14(); 
+                mT14();
 
                 }
                 break;
             case 8 :
                 // Cami.g:1:36: T15
                 {
-                mT15(); 
+                mT15();
 
                 }
                 break;
             case 9 :
                 // Cami.g:1:40: T16
                 {
-                mT16(); 
+                mT16();
 
                 }
                 break;
             case 10 :
                 // Cami.g:1:44: T17
                 {
-                mT17(); 
+                mT17();
 
                 }
                 break;
             case 11 :
                 // Cami.g:1:48: T18
                 {
-                mT18(); 
+                mT18();
 
                 }
                 break;
             case 12 :
                 // Cami.g:1:52: T19
                 {
-                mT19(); 
+                mT19();
 
                 }
                 break;
             case 13 :
                 // Cami.g:1:56: T20
                 {
-                mT20(); 
+                mT20();
 
                 }
                 break;
             case 14 :
                 // Cami.g:1:60: T21
                 {
-                mT21(); 
+                mT21();
 
                 }
                 break;
             case 15 :
                 // Cami.g:1:64: T22
                 {
-                mT22(); 
+                mT22();
 
                 }
                 break;
             case 16 :
                 // Cami.g:1:68: T23
                 {
-                mT23(); 
+                mT23();
 
                 }
                 break;
             case 17 :
                 // Cami.g:1:72: T24
                 {
-                mT24(); 
+                mT24();
 
                 }
                 break;
             case 18 :
                 // Cami.g:1:76: T25
                 {
-                mT25(); 
+                mT25();
 
                 }
                 break;
             case 19 :
                 // Cami.g:1:80: CAMI_STRING
                 {
-                mCAMI_STRING(); 
+                mCAMI_STRING();
 
                 }
                 break;
             case 20 :
                 // Cami.g:1:92: NUMBER
                 {
-                mNUMBER(); 
+                mNUMBER();
 
                 }
                 break;
             case 21 :
                 // Cami.g:1:99: NEWLINE
                 {
-                mNEWLINE(); 
+                mNEWLINE();
 
                 }
                 break;
@@ -803,6 +803,6 @@ public class CamiLexer extends Lexer {
             return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | CAMI_STRING | NUMBER | NEWLINE );";
         }
     }
- 
+
 
 }
