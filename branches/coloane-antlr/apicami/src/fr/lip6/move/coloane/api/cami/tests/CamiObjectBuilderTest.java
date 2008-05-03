@@ -6,7 +6,11 @@ import java.util.*;
 import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 
-
+/**
+ * test unitaire de la classe CamiObjectBuilderTest
+ * @author Kahoo && uu
+ *
+ */
 public class CamiObjectBuilderTest extends TestCase{
 
 	protected void setUp() throws Exception {
