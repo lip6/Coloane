@@ -27,7 +27,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see IArcImpl
  */
 
-public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IElement {
+public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 
 	/** Noeud source repris depuis l'arc generique */
 	private INodeImpl source;
@@ -232,14 +232,12 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl, IE
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
-	public final List<IElement> getAttributes() {
-		List<IElement> list = new ArrayList<IElement>();
+	public final List<IAttributeImpl> getAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
 
 		// Ajout des attributs "personnels" du noeud
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
-		for (IAttributeImpl a : attributes) {
-			list.add((IElement) a);
-		}
+		list.addAll(attributes);
 		return list;
 	}
 

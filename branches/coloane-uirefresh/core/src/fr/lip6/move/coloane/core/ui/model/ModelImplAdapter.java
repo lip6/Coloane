@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @see fr.lip6.move.coloane.interfaces.model.Model
  */
-public class ModelImplAdapter extends AbstractModelElement implements IModelImpl, IElement {
+public class ModelImplAdapter extends AbstractModelElement implements IModelImpl {
 
 	/** Modele generique sur lequel s'applique cet adaptateur */
 	private IModel genericModel;
@@ -288,11 +288,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getAttributes()
 	 */
-	public final List<IElement> getAttributes() {
-		List<IElement> attrList = new ArrayList<IElement>();
+	public final List<IAttributeImpl> getAttributes() {
+		List<IAttributeImpl> attrList = new ArrayList<IAttributeImpl>();
 		for (IAttributeImpl att : this.getProperties().values()) {
 			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
-				attrList.add((IElement) att);
+				attrList.add(att);
 			}
 		}
 		return attrList;
@@ -364,11 +364,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		this.dirty = state;
 	}
 
-	/**
-	 * Mise en valeur de noeud
-	 *
-	 * @param highlight A mettre en valeur
-	 * @param unhighlight A remettre en position initiale
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#highlightNode(java.lang.String, java.lang.String)
 	 */
 	public final void highlightNode(String highlight, String unhighlight) {
 		String[] tohigh = highlight.split(","); //$NON-NLS-1$
@@ -390,8 +387,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
-	/**
-	 * Annule l'effet de la mise en valeur des noeuds
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#switchoffNodes()
 	 */
 	public final void switchoffNodes() {
 		for (IElement node : this.children) {

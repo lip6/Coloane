@@ -22,6 +22,8 @@ public class ResultTreeList extends Observable implements IResultTree {
 		list = new CopyOnWriteArrayList<IResultTree>();
 		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
+		
+		
 	}
 	
 	public void add(String serviceName, IResultsCom result) {

@@ -60,10 +60,7 @@ public class ResultsView extends ViewPart {
 				parent.getDisplay().syncExec(new Runnable() {
 					@Override
 					public void run() {
-						System.err.println("width "+width);
-						System.err.println("current width "+viewer.getTree().getColumnCount());
 						for(int i=viewer.getTree().getColumnCount();i<width;i++) {
-							System.err.println("Ajout d'une colonne");
 							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
 							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}

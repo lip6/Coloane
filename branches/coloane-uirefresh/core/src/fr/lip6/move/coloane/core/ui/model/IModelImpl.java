@@ -4,14 +4,12 @@ import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
-import java.util.List;
-
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
  * heriter de la classe AbstractModelElement pour avoir des fonctionalites de
  * proprietes
  */
-public interface IModelImpl {
+public interface IModelImpl extends IElement {
 
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
 	String NODE_ADDED_PROP = "Model.AddingNode"; //$NON-NLS-1$
@@ -54,18 +52,6 @@ public interface IModelImpl {
 	 * @param child L'arc adapte qu'il faut supprimer du modele generique
 	 */
 	void removeArc(IArcImpl child) throws BuildException;
-
-	/**
-	 * Retourne la liste des INodeImpl du modele
-	 * @return List
-	 */
-	List<IElement> getChildren();
-
-	/**
-	 * Retourne la liste des attributs du modele
-	 * @return Collection
-	 */
-	List<IElement> getAttributes();
 
 	/**
 	 * Retourne le modele generique

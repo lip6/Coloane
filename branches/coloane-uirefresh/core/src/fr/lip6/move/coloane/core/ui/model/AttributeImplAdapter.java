@@ -77,7 +77,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
-	public final List<IElement> getAttributes() {
+	public final List<IAttributeImpl> getAttributes() {
 		return null;
 	}
 
@@ -90,6 +90,9 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	}
 
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IAttributeImpl#getGraphicInfo()
+	 */
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return this.attGraphicInfo;
 	}
@@ -128,7 +131,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.reference.getModelAdapter().annouceAttribute();
 		}
 
-		if (this.isDrawable() && newValue.equals(this.getDefaultValue())) {
+		if (newValue != null && this.isDrawable() && newValue.equals(this.getDefaultValue())) {
 			this.reference.getModelAdapter().annouceAttribute();
 		}
 
@@ -151,6 +154,9 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		return this.multiline;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IAttributeImpl#getType()
+	 */
 	public final int getType() {
 		return this.type;
 	}

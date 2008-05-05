@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -60,7 +61,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	@Override
 	protected final List<IElement> getModelChildren() {
-		return ((IModelImpl) getModel()).getChildren();
+		return ((ModelImplAdapter) getModel()).getChildren();
 	}
 
 	/**

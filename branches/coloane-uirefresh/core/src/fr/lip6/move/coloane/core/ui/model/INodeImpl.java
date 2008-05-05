@@ -22,7 +22,7 @@ import java.util.List;
  * </p>
  */
 
-public interface INodeImpl {
+public interface INodeImpl extends IElement {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
 	String SOURCE_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
@@ -87,19 +87,6 @@ public interface INodeImpl {
 	 * @return List La liste
 	 */
 	List<IArcImpl> getTargetArcs();
-
-	/**
-	 * Recupere l'ID du noeud generique
-	 * Evite les appels direct au noeud generique
-	 * @return id L'identifiant du noeud
-	 */
-	int getId();
-
-	/**
-	 * Retourne tous les attributs de l'objet pour qu'ils soient affiches
-	 * @return La liste des attributs
-	 */
-	List<IElement> getAttributes();
 
 	/**
 	 * Associe le modele augmente au noeud
