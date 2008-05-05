@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.api.interfaces.IFkInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +20,10 @@ import java.util.HashMap;
    ArrayList<String> listOfArgs; /* liste des arguments pour la construction des 
                                     objets de notification */
    
-   ArrayList<ArrayList<String>> menuList; /* liste servant à construire les objets 
-                                               Correspondant aux AQ et les TQ */
+   ArrayList<ArrayList<String>> camiMenuList; /* liste servant à construire les objets 
+                                               Correspondant aux AQ */
 
-   ArrayList<ArrayList<String>> updatesList; /* liste servant à construire les objets 
+   ArrayList<ArrayList<String>> camiUpdatesList; /* liste servant à construire les objets 
                                                Correspondant aux TQ 7 et 8 */
 
    HashMap<String, Object> hashObservable; /* Table de hash des observables */
@@ -32,8 +33,10 @@ import java.util.HashMap;
    IFkInfo fkInfo; 
 
    IMenu menu;
+   ArrayList<IMenu> menuList;
 
    ArrayList<IUpdateItem> updates;
+   ArrayList<ArrayList<IUpdateItem>> updatesList;
 
   
    /* Constructeur du parser */
@@ -59,6 +62,7 @@ command
     ;
 
 
+
 /* ---------------------  Ouverture de la connexion  SC ----------------------- */
 ack_open_communication
 	:
@@ -71,6 +75,7 @@ ack_open_communication
         }
 	;
 	
+
 
 /* ---------------------- Ouverture de la connexion OC ------------------------- */
 ack_open_connection
@@ -90,12 +95,20 @@ ack_open_connection
     ')'    
 	;
 
+
+
 /* ---------------------- Ouverture de la session ------------------------------ */
 ack_open_session
 	:
 	'OS(' CAMI_STRING')'{
             //TODO ajouter un controle que c OS
             System.out.println("OS");
+            
+            /* on initialise ici la table des menus et des mises a jour : on ne voit pas d'autre endroit ....*/
+            menuList = new ArrayList<IMenu>();
+            updatesList = new ArrayList<ArrayList<IUpdateItem>>();
+
+
         }
 	|'TD()'{
             // Ajouter un controle qu'on doit bien recevoir TD
@@ -108,6 +121,8 @@ ack_open_session
     |interlocutor_table
 
 	;
+
+
 
 
 /* ---------------------  Reception des tables  -------------------------------- */
@@ -136,21 +151,24 @@ interlocutor_table
     ;
 
 
+
 /* ------------------- reception des menus -----------------------------------------*/
 receving_menu
     :
 	'DQ()'{
             /* créer la menuList  */
-            menuList = new ArrayList<ArrayList<String>>();
+            camiMenuList = new ArrayList<ArrayList<String>>();
 
             /* créer la liste des updates  */
-            updatesList = new ArrayList<ArrayList<String>>();
+            camiUpdatesList = new ArrayList<ArrayList<String>>();
         }
 	menu_name
 	question_add*
 	'FQ()'{
             /* fin de la reception des menus : demander la construction du menu */            
-            menu = CamiObjectBuilder.buildMenu(menuList);
+            menu = CamiObjectBuilder.buildMenu(camiMenuList);
+            menuList.add(menu);
+            
             System.out.println("Menu construit");
             System.out.println("FQ()");
         }
@@ -158,11 +176,12 @@ receving_menu
             System.out.println("VQ");
             
             /* construire la liste des updates */
-            updates = CamiObjectBuilder.buildUpdateItem(updatesList);
-            
+            updates = CamiObjectBuilder.buildUpdateItem(camiUpdatesList);
+            updatesList.add(updates);
 
         }
 	;
+
 
 
 /* ------------------  reception des menus  CQ ------------------------------------- */
@@ -178,7 +197,7 @@ menu_name
             cq.add($question_type.text); /* type de la question  */
             cq.add($question_behavior.text); /* type du choix */
 
-            menuList.add(cq); /* ajouter a la liste des AQ */
+            camiMenuList.add(cq); /* ajouter a la liste des AQ */
 
                         System.out.println("CQ");
                         System.out.println("name.getText() " + name.getText() );
@@ -241,7 +260,7 @@ question_add
                 aq.add(null/*new String("")*/);
 
 
-            menuList.add(aq); /* ajouter à la liste de AQ */
+            camiMenuList.add(aq); /* ajouter à la liste de AQ */
 
             
       /* TODO : a enlever */
@@ -258,7 +277,7 @@ question_add
 
 /* --------------------- reception des TQ de type 7 et 8 -------------------------------- */
 question_state /* TQ de type 7 et 8*/
-	:
+	:   
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=NUMBER ',' mess=CAMI_STRING? ')'{
             
          
@@ -269,18 +288,16 @@ question_state /* TQ de type 7 et 8*/
             update.add($question_name.text);  /* nom de la question  */
             update.add($state.text);  /* état de la question  */
 
-            if($mess != null)
-                update.add($mess.text); /* message : optionnel */
-            else
-                update.add(new String(""));
+            if(!$state.text.equals("7") && !$state.text.equals("8")) /* si c'est un modificateur de menu */
+                update.add($mess.text); /* message : optionnel */          
 
 
-            updatesList.add(update);/* ajouter à la liste des updates  */
+            camiUpdatesList.add(update);/* ajouter à la liste des updates  */
             
             System.out.println("TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
                                         $state.text + ", " + ")");
         }
-	;
+    ;
 
 
 /* ----------------------- fin de la transmission d'un menu QQ(3) --------------------------*/
@@ -288,9 +305,9 @@ end_menu_transmission
 	:
 	'QQ(' NUMBER ')'{
             System.out.println("QQ(" + $NUMBER.text + ")");
-            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menu, updates);
+            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updatesList);
         }
-	;
+    ;
 
 
 

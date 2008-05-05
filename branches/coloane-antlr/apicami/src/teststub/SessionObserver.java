@@ -10,13 +10,11 @@ import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 
 public class SessionObserver implements ISessionObserver {
 
-	void update(Observable obs, Object obj){
-		/** Code à exécuter lors de la réception d'un KO */
-	}
 
-
-	public void update(IFkInfo fkInfo, ArrayList<IMenu> menu, ArrayList<IUpdateItem> update) {
+	public void update(IFkInfo fkInfo, ArrayList<IMenu> menuList,
+			ArrayList<ArrayList<IUpdateItem>> updatesList) {
 		// TODO Auto-generated method stub
-
+		System.out.println("on notifie");
 	}
+
 }

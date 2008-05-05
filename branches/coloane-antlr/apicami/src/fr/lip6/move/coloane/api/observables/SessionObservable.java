@@ -53,14 +53,14 @@ public class SessionObservable implements ISessionObservable{
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
-	public void notifyObservers(IFkInfo fkInfo, ArrayList<IMenu> menu,ArrayList<IUpdateItem> update){
+	public void notifyObservers(IFkInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<ArrayList<IUpdateItem>> updatesList){
 
 		if(!this.createThread){ /* Option sans création de thread */
 			for(int i=0; i<this.list.size(); i++)
-				this.list.get(i).update(fkInfo, menu, update);
+				this.list.get(i).update(fkInfo, menuList, updatesList);
 		}
 		else{/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(this.list,fkInfo,menu,update );
+			ThreadNotifier thread = new ThreadNotifier(this.list,fkInfo,menuList,updatesList);
 			new Thread(thread,"threadSession").start();
 		}
 
@@ -76,19 +76,19 @@ public class SessionObservable implements ISessionObservable{
 	private class ThreadNotifier implements Runnable{
 		private ArrayList<ISessionObserver> listObservers;
 		private IFkInfo fkInfo;
-		private ArrayList<IMenu> menu;
-		private ArrayList<IUpdateItem> update;
+		private ArrayList<IMenu> menuList;
+		private ArrayList<ArrayList<IUpdateItem>> updatesList;
 
-		public ThreadNotifier(ArrayList<ISessionObserver> list,IFkInfo fkInfo,ArrayList<IMenu> menu,ArrayList<IUpdateItem> update ){
+		public ThreadNotifier(ArrayList<ISessionObserver> list,IFkInfo fkInfo,ArrayList<IMenu> menuList,ArrayList<ArrayList<IUpdateItem>> updatesList ){
 			this.listObservers = list;
 			this.fkInfo= fkInfo;
-			this.menu= menu;
-			this.update= update;
+			this.menuList= menuList;
+			this.updatesList= updatesList;
 		}
 
 		public void run() {
 			for(int i=0; i<this.listObservers.size(); i++)
-				this.listObservers.get(i).update(this.fkInfo,this.menu,this.update);
+				this.listObservers.get(i).update(this.fkInfo,this.menuList,this.updatesList);
 		}
 
 	}
