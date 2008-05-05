@@ -7,7 +7,12 @@ import fr.lip6.move.coloane.api.interfaces.IFkVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
+/**
+ * cette interface represente l'observeur de la session.
+ * @author kahoo && UU
+ *
+ */
 public interface ISessionObserver {
-	void update(IFkInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<ArrayList<IUpdateItem>> updatesList);
+	void update(IFkInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
 
 }

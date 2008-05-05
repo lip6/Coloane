@@ -8,11 +8,12 @@ import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 
 /**
  * Observable des évènements de la connexion
+ *
  * @author kahoo & uu
  *
  */
 
-public class ConnectionObservable implements IConnectionObservable{
+public class ConnectionObservable implements IConnectionObservable {
 
 	/** liste des observateurs */
 	private ArrayList<IConnectionObserver> list;
@@ -23,60 +24,67 @@ public class ConnectionObservable implements IConnectionObservable{
 	/**
 	 * Constructeur
 	 */
-	public ConnectionObservable(){
+	public ConnectionObservable() {
 		list = new ArrayList<IConnectionObserver>();
 	}
 
 	/**
 	 * set de la variable createThread
-	 * @param createThread notification avec ou sans création de thread
+	 *
+	 * @param createThread
+	 *            notification avec ou sans création de thread
 	 */
-	public void setCreateThread(boolean createThread){
+	public void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
 
 	/**
 	 * Ajoute un observer
-	 * @param o L'observer à ajouter
+	 *
+	 * @param o
+	 *            L'observer à ajouter
 	 */
-	public void addObserver(IConnectionObserver o){
+	public void addObserver(IConnectionObserver o) {
 		this.list.add(o);
 	}
 
 	/**
 	 * Notifier tous les observers
-	 * @param arg argument de la notification.
+	 *
+	 * @param arg
+	 *            argument de la notification.
 	 */
-	public void notifyObservers(IFkVersion arg){
+	public void notifyObservers(IFkVersion arg) {
 
-		if(!this.createThread){ /* Option sans création de thread */
-			for(int i=0; i<this.list.size(); i++)
+		if (!this.createThread) { /* Option sans création de thread */
+			for (int i = 0; i < this.list.size(); i++)
 				this.list.get(i).update(arg);
-		}
-		else{/* Option avec création de thread */
+		} else {/* Option avec création de thread */
 			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
-			new Thread(thread,"threadConnection").start();
+			new Thread(thread, "threadConnection").start();
 		}
 
 	}
 
 	/**
-	 * Cette classe est utilisée pour créer un thread
-	 * lors de la notification, si cette option est active.
+	 * Cette classe est utilisée pour créer un thread lors de la notification,
+	 * si cette option est active.
 	 *
 	 * @author kahoo & uu
 	 *
 	 */
-	private class ThreadNotifier implements Runnable{
+	private class ThreadNotifier implements Runnable {
 		private ArrayList<IConnectionObserver> listObservers;
 		private IFkVersion version;
-		public ThreadNotifier(ArrayList<IConnectionObserver> list, IFkVersion arg){
+
+		public ThreadNotifier(ArrayList<IConnectionObserver> list,
+				IFkVersion arg) {
 			this.listObservers = list;
 			this.version = arg;
 		}
 
 		public void run() {
-			for(int i=0; i<this.listObservers.size(); i++)
+			for (int i = 0; i < this.listObservers.size(); i++)
 				this.listObservers.get(i).update(version);
 		}
 
