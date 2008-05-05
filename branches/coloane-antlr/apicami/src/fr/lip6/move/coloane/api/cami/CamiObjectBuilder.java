@@ -29,6 +29,7 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
  *
  */
 
+
 public class CamiObjectBuilder {
 
 	public static IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
