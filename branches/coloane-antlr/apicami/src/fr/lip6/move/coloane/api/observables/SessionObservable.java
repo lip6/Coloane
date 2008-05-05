@@ -53,7 +53,7 @@ public class SessionObservable implements ISessionObservable{
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
-	public void notifyObservers(IFkInfo fkInfo, IMenu menu,IUpdateItem update){
+	public void notifyObservers(IFkInfo fkInfo, ArrayList<IMenu> menu,ArrayList<IUpdateItem> update){
 
 		if(!this.createThread){ /* Option sans création de thread */
 			for(int i=0; i<this.list.size(); i++)
@@ -76,10 +76,10 @@ public class SessionObservable implements ISessionObservable{
 	private class ThreadNotifier implements Runnable{
 		private ArrayList<ISessionObserver> listObservers;
 		private IFkInfo fkInfo;
-		private IMenu menu;
-		private IUpdateItem update;
+		private ArrayList<IMenu> menu;
+		private ArrayList<IUpdateItem> update;
 
-		public ThreadNotifier(ArrayList<ISessionObserver> list,IFkInfo fkInfo, IMenu menu,IUpdateItem update){
+		public ThreadNotifier(ArrayList<ISessionObserver> list,IFkInfo fkInfo,ArrayList<IMenu> menu,ArrayList<IUpdateItem> update ){
 			this.listObservers = list;
 			this.fkInfo= fkInfo;
 			this.menu= menu;
@@ -93,10 +93,6 @@ public class SessionObservable implements ISessionObservable{
 
 	}
 
-	public void notifyObservers(IFkInfo fkInfo, IMenu menu,
-			ArrayList<IUpdateItem> update) {
-		// TODO Auto-generated method stub
 
-	}
 
 }

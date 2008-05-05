@@ -1,5 +1,6 @@
 package teststub;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import fr.lip6.move.coloane.api.interfaces.IFkInfo;
@@ -14,7 +15,7 @@ public class SessionObserver implements ISessionObserver {
 	}
 
 
-	public void update(IFkInfo fkInfo, IMenu menu, IUpdateItem update) {
+	public void update(IFkInfo fkInfo, ArrayList<IMenu> menu, ArrayList<IUpdateItem> update) {
 		// TODO Auto-generated method stub
 
 	}
