@@ -1,5 +1,10 @@
 grammar Cami;
 
+@lexer::header{
+package fr.lip6.move.coloane.api.cami;
+            
+        }           
+
 @header{
 package fr.lip6.move.coloane.api.cami;
 
@@ -23,8 +28,8 @@ import java.util.HashMap;
    ArrayList<ArrayList<String>> camiMenuList; /* liste servant à construire les objets 
                                                Correspondant aux AQ */
 
-   ArrayList<ArrayList<String>> camiUpdatesList; /* liste servant à construire les objets 
-                                               Correspondant aux TQ 7 et 8 */
+   ArrayList<ArrayList<String>> camiUpdates; /* liste servant à construire les objets 
+  //                                             Correspondant aux TQ 7 et 8 */
 
    HashMap<String, Object> hashObservable; /* Table de hash des observables */
 
@@ -36,7 +41,7 @@ import java.util.HashMap;
    ArrayList<IMenu> menuList;
 
    ArrayList<IUpdateItem> updates;
-   ArrayList<ArrayList<IUpdateItem>> updatesList;
+
 
   
    /* Constructeur du parser */
@@ -59,6 +64,7 @@ command
     | ack_open_session | receving_menu
     |question_state*
     |end_menu_transmission
+    |special_message
     ;
 
 
@@ -104,18 +110,20 @@ ack_open_session
             //TODO ajouter un controle que c OS
             System.out.println("OS");
             
-            /* on initialise ici la table des menus et des mises a jour : on ne voit pas d'autre endroit ....*/
+            /* on initialise ici la table des menus : on ne voit pas d'autre endroit ....*/
             menuList = new ArrayList<IMenu>();
-            updatesList = new ArrayList<ArrayList<IUpdateItem>>();
+            /*  */
+            camiUpdates = new ArrayList<ArrayList<String>>();
+            
 
 
         }
 	|'TD()'{
             // Ajouter un controle qu'on doit bien recevoir TD
-            System.out.println("TD");
+//            System.out.println("TD");
         }
 	|'FA()'{// Ajouter un controle qu'on doit bien recevoir FA}
-            System.out.println("FA");
+//            System.out.println("FA");
         }
 
     |interlocutor_table
@@ -144,7 +152,7 @@ interlocutor_table
 
             System.out.println("fkinfo");
             for(int i=0; i<this.listOfArgs.size(); i++){
-                System.out.println(this.listOfArgs.get(i));
+//              System.out.println(this.listOfArgs.get(i));
             }
 
         }
@@ -158,9 +166,6 @@ receving_menu
 	'DQ()'{
             /* créer la menuList  */
             camiMenuList = new ArrayList<ArrayList<String>>();
-
-            /* créer la liste des updates  */
-            camiUpdatesList = new ArrayList<ArrayList<String>>();
         }
 	menu_name
 	question_add*
@@ -169,16 +174,12 @@ receving_menu
             menu = CamiObjectBuilder.buildMenu(camiMenuList);
             menuList.add(menu);
             
-            System.out.println("Menu construit");
-            System.out.println("FQ()");
+//            System.out.println("Menu construit");
+//            System.out.println("FQ()");
         }
     'VQ('CAMI_STRING')'{ /* afficher les questions */
             System.out.println("VQ");
             
-            /* construire la liste des updates */
-            updates = CamiObjectBuilder.buildUpdateItem(camiUpdatesList);
-            updatesList.add(updates);
-
         }
 	;
 
@@ -199,10 +200,10 @@ menu_name
 
             camiMenuList.add(cq); /* ajouter a la liste des AQ */
 
-                        System.out.println("CQ");
-                        System.out.println("name.getText() " + name.getText() );
-                        System.out.println("question_type.getText() " + question_type.getText());
-                        System.out.println("question_behavior.getText() " + question_behavior.getText());
+//                        System.out.println("CQ");
+//                        System.out.println("name.getText() " + name.getText() );
+//                        System.out.println("question_type.getText() " + question_type.getText());
+//                        System.out.println("question_behavior.getText() " + question_behavior.getText());
 
         }
 	;
@@ -261,15 +262,15 @@ question_add
 
 
             camiMenuList.add(aq); /* ajouter à la liste de AQ */
-
+            
             
       /* TODO : a enlever */
 
-                        System.out.print("AQ(" + aq.get(0));
+//                        System.out.print("AQ(" + aq.get(0));
                         for(int i=1; i<9; i++){
-                            System.out.print(", " + aq.get(i));
+//                            System.out.print(", " + aq.get(i));
                         }
-                        System.out.println(")");
+//                        System.out.println(")");
 
         }
 	;
@@ -291,11 +292,11 @@ question_state /* TQ de type 7 et 8*/
             if(!$state.text.equals("7") && !$state.text.equals("8")) /* si c'est un modificateur de menu */
                 update.add($mess.text); /* message : optionnel */          
 
-
-            camiUpdatesList.add(update);/* ajouter à la liste des updates  */
             
-            System.out.println("TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
-                                        $state.text + ", " + ")");
+            camiUpdates.add(update);/* ajouter à la liste des updates  */
+            
+//            System.out.println("TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
+//                                        $state.text + ", " + ")");
         }
     ;
 
@@ -304,8 +305,12 @@ question_state /* TQ de type 7 et 8*/
 end_menu_transmission
 	:
 	'QQ(' NUMBER ')'{
-            System.out.println("QQ(" + $NUMBER.text + ")");
-            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updatesList);
+            
+//            System.out.println("QQ(" + $NUMBER.text + ")");
+            
+            
+            updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
+            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
         }
     ;
 
@@ -315,7 +320,7 @@ end_menu_transmission
 
 
 /* ----------------------- message special MO ---------------------------------------------- */
-pecial_message
+special_message
 	:	    
 	'MO(' NUMBER ',' CAMI_STRING ')'{
             // verifier qu'on est dans la reception des menus ou autre

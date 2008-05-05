@@ -46,7 +46,6 @@ public class FkComLowLevel {
 			this.socket.connect(new InetSocketAddress(ip, port));
 		} catch (IOException e) {
 			// TODO log ...
-			System.out.println("mmmmmmmmmmm : " + e.getMessage());
 			throw e;
 		}
 
@@ -89,7 +88,7 @@ public class FkComLowLevel {
 			}
 
 			//TODO enlever
-			//System.out.println("FKCOMLOWLEVEL  : commande  : "  +  commands);
+			System.out.println("FKCOMLOWLEVEL  : commande  : "  +  commands);
 
 		} catch (IOException e) {
 			// TODO Logguer
