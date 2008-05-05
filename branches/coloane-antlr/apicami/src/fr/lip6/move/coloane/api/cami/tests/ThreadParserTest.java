@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  * Classe de test du thread parser
- * @author 2760587
+ * @author kahoo && UU
  *
  */
 
@@ -33,7 +33,7 @@ public class ThreadParserTest extends TestCase {
 	public void testThreadParser() throws InterruptedException, IOException{
 		/* créer la file + le thread */
 		LinkedBlockingQueue fifo = new LinkedBlockingQueue();
-		ThreadParser tp = new ThreadParser(fifo,null);
+		ThreadParser tp = new ThreadParser(null, fifo,null);
 
 		/* Lancer le thread */
 		tp.start();
