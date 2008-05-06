@@ -127,6 +127,11 @@ public class SessionController implements ISessionController {
 			this.activeSession = s;
 			return true;
 		}
+
+	}
+
+	public void notifyEndOpenSession() {
+	this.activeSession.notifyEndOpenSession();
 	}
 
 }

@@ -58,4 +58,12 @@ public interface ISessionController {
 	 * @throws InterruptedException
 	 */
 	public boolean openSession(IApiSession s) throws InterruptedException;
+
+	/**
+	 * nous signale la fin, des AQ et TQ
+	 * fait par le parseur.
+	 */
+	public void notifyEndOpenSession();
+
+
 }

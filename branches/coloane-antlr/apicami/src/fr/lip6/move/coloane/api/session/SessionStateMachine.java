@@ -19,22 +19,16 @@ public class SessionStateMachine implements ISessionStateMachine{
 	}
 
 
-	public boolean setWaitingForUpdatesState() {
+	public boolean setWaitingForUpdatesAndMenusState() {
 		if (this.state == 0){
-	this.state = WAITING_FOR_MENUS_STATE;
+	this.state = WAITING_FOR_MENUS_AND_UPDATES_STATE;
 		return true;
 		}
 		return false;
 	}
 
 
-	public boolean setWaitingForMenusState() {
-		if (this.state == 1){
-		this.state = WAITING_FOR_UPDATES_STATE;
-		return true;
-		}
-		return false;
-	}
+
 
 
 	public boolean setIdleState() {

@@ -69,7 +69,7 @@ public class ApiSession implements IApiSession {
 
 			this.speaker.openSession(this.sessionName, this.sessionDate,
 					this.sessionFormalism, this.interlocutor, this.mode);
-			if( !this.automate.setWaitingForMenusState() ){
+			if( !this.automate.setWaitingForUpdatesAndMenusState() ){
 		//		throw new InvalidStateException("impossible de passer de l'etat initialState a ");
 	}
 	}
@@ -115,6 +115,15 @@ public class ApiSession implements IApiSession {
 	public ISessionStateMachine getSessionStateMachine() {
       return this.automate;
 	}
+
+
+	public void notifyEndOpenSession() {
+     this.automate.setIdleState();
+
+	}
+
+
+
 
 
 }

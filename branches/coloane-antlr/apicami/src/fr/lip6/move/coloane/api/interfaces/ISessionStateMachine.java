@@ -13,19 +13,15 @@ public interface ISessionStateMachine {
      static final int INITIALE_STATE = 0;
 
 	/**
-	 * ca correspond a l'attente des menus,cf automates d'etat de la session.
+	 * ca correspond a l'attente des menus et updates,cf automates d'etat de la session.
 	 */
-	static final int WAITING_FOR_MENUS_STATE = 1;
+	static final int WAITING_FOR_MENUS_AND_UPDATES_STATE = 1;
 
-	/**
-	 * ca correspond a l' attente des updates.
-	 */
-	static final int  WAITING_FOR_UPDATES_STATE= 2;
 
 	/**
 	 * ca correspond a session ouverte .
 	 */
-	static final int IDLE_STATE = 3;
+	static final int IDLE_STATE = 2;
 
 	/**
 	 * nous retourne l'etat de notre session.
@@ -33,17 +29,12 @@ public interface ISessionStateMachine {
 	 */
     public int getState();
 
-    /**
-     * nous positionne l'etat WaitingForMenusState, si possible.
-     * @return boolean
-     */
-    public boolean setWaitingForMenusState();
 
     /**
-     * nous positionne l'etat WaitingForUpdatesState, si possible.
+     * nous positionne l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE, si possible.
      * @return boolean
      */
-    public boolean setWaitingForUpdatesState();
+    public boolean setWaitingForUpdatesAndMenusState();
 
     /**
      * nous positionne l'etat IdleState, si possible.
