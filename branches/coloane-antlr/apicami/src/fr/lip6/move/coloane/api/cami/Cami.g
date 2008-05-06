@@ -62,7 +62,7 @@ command
     : 
     ack_open_communication | ack_open_connection
     | ack_open_session | receving_menu
-    |question_state*
+    |update*
     |end_menu_transmission
     |special_message
     ;
@@ -79,7 +79,7 @@ ack_open_communication
                 hashObservable.notify();
             }
         }
-	;
+    ;
 	
 
 
@@ -150,7 +150,7 @@ interlocutor_table
     |'FL()'{
             fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
 
-            System.out.println("fkinfo");
+//            System.out.println("fkinfo");
             for(int i=0; i<this.listOfArgs.size(); i++){
 //              System.out.println(this.listOfArgs.get(i));
             }
@@ -172,6 +172,9 @@ receving_menu
 	'FQ()'{
             /* fin de la reception des menus : demander la construction du menu */            
             menu = CamiObjectBuilder.buildMenu(camiMenuList);
+
+            System.out.println("nombre de AQ : " + camiMenuList.size());
+
             menuList.add(menu);
             
 //            System.out.println("Menu construit");
@@ -277,25 +280,25 @@ question_add
 
 
 /* --------------------- reception des TQ de type 7 et 8 -------------------------------- */
-question_state /* TQ de type 7 et 8*/
+update /* TQ de type 7 et 8*/
 	:   
-	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=NUMBER ',' mess=CAMI_STRING? ')'{
+	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=('7'|'8') ',' mess=CAMI_STRING? ')'{
             
-         
+            
             /*  */
             ArrayList<String> update = new ArrayList<String>();
-           
+            
             update.add($service_name.text); /* nom du service */
             update.add($question_name.text);  /* nom de la question  */
             update.add($state.text);  /* état de la question  */
-
+            
             if(!$state.text.equals("7") && !$state.text.equals("8")) /* si c'est un modificateur de menu */
                 update.add($mess.text); /* message : optionnel */          
-
+            
             
             camiUpdates.add(update);/* ajouter à la liste des updates  */
             
-//            System.out.println("TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
+//            System.out.println("ANTLR : TQ(" + $service_name.text + ", " + $question_name.text + ", " + 
 //                                        $state.text + ", " + ")");
         }
     ;
@@ -311,6 +314,9 @@ end_menu_transmission
             
             updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
             ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
+
+            /* notifier le sessionController qu'on a reçu les menus et les updates */            
+            sc.notifyEndOpenSession();
         }
     ;
 
