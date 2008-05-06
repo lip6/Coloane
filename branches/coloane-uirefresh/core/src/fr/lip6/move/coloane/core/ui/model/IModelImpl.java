@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import java.util.List;
+
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
@@ -54,6 +56,18 @@ public interface IModelImpl extends IElement {
 	void removeArc(IArcImpl child) throws BuildException;
 
 	/**
+	 * Retourne le noeud correspondant à l'id passé en parametre ou null.
+	 * @param id
+	 * @return Noeud du model
+	 */
+	INodeImpl getNode(int id);
+	
+	/**
+	 * @return Liste de tous les noeuds
+	 */
+	List<INodeImpl> getNodes();
+	
+	/**
 	 * Retourne le modele generique
 	 * @return Model Le mdoele generique
 	 * @see fr.lip6.move.coloane.interfaces.model.IModel
@@ -104,7 +118,7 @@ public interface IModelImpl extends IElement {
 	 * @param idhighlight
 	 * @param unhighlight
 	 */
-	void highlightNode(String idhighlight, String unhighlight);
+	void highlightNode(int... id);
 
 	/**
 	 * Reinitialise l'aspect des noeuds

@@ -233,4 +233,9 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			firePropertyChange(AttributeImplAdapter.UNSELECT_HEAVY_PROP, null, null);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return attribute.getName()+":"+attribute.getValue();
+	}
 }

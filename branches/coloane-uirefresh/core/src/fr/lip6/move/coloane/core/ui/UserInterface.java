@@ -7,10 +7,6 @@ import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ActionsList;
-import fr.lip6.move.coloane.core.results.Result;
-import fr.lip6.move.coloane.core.results.ResultsList;
-import fr.lip6.move.coloane.core.results.reports.FactoryReport;
 import fr.lip6.move.coloane.core.results_new.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
@@ -18,11 +14,9 @@ import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
-import fr.lip6.move.coloane.core.ui.panels.ResultsView;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
-import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 import java.util.Vector;
 

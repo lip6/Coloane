@@ -31,7 +31,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	private Formalism formalism;
 
 	/** La liste de INodeImpl. */
-	private List<IElement> children = new ArrayList<IElement>();
+	private List<INodeImpl> nodes = new ArrayList<INodeImpl>();
 
 	/** Date de derniere modification */
 	private int date;
@@ -88,7 +88,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			INode currentNode = this.genericModel.getNthNode(i);
 			INodeImpl node = new NodeImplAdapter(currentNode, (ElementFormalism) this.formalism.getNodeFormalism(currentNode.getNodeType()));
 			node.setModelAdapter(this);
-			this.children.add((IElement) node);
+			this.nodes.add(node);
 		}
 
 		// Creation de tous les Arcs du modele augmente
@@ -102,7 +102,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			boolean findTarget = false;
 
 			// Parcours de la liste precedemment cree pour trouver le noeud source et cible
-			for (IElement currentNode : this.children) {
+			for (IElement currentNode : this.nodes) {
 				if ((!findSource) || (!findTarget)) {
 					INodeImpl cn = (INodeImpl) currentNode;
 
@@ -188,7 +188,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 
 			// On ajoute le noeud augmente aux fils du modele augemente
-			this.children.add((IElement) child);
+			this.nodes.add(child);
 
 			// Evenement pour demander le rafraichissement du modele
 			firePropertyChange(NODE_ADDED_PROP, null, child);
@@ -218,7 +218,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			for (IArcImpl arcOut : child.getSourceArcs()) { this.removeArc(arcOut); }
 
 			// Enleve le noeud au modele augmente
-			this.children.remove(child);
+			this.nodes.remove(child);
 
 			// Demande la mise a jour de l'affichage
 			firePropertyChange(NODE_REMOVED_PROP, null, child);
@@ -264,21 +264,20 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getChildren()
+	/**
+	 * Retourne la liste des INodeImpl du modele ainsi que tous les IAttributeImpl
+	 * du model et des noeuds.
+	 * @return List
 	 */
 	public final List<IElement> getChildren() {
-		List<IElement> listNodes = this.children;
 		List<IElement> listAttributes = new ArrayList<IElement>();
-		for (IElement elt : listNodes) {
-			// TODO : Deux appels a elt.getAttributes : Un peu fort en chocolat !
+		for (IElement elt : this.nodes) {
 			if (elt.getAttributes() != null) {
 				listAttributes.addAll(elt.getAttributes());
 			}
 		}
 		List<IElement> list = new ArrayList<IElement>();
-		list.addAll(listNodes);
+		list.addAll(this.nodes);
 		list.addAll(listAttributes);
 		list.addAll(this.getAttributes());
 		return list;
@@ -360,30 +359,21 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public final void setDirty(boolean state) {
-		if (state) { Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); } else { Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE");	} //$NON-NLS-1$ //$NON-NLS-2$
+		if (state) 
+			Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
+		else 
+			Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
 		this.dirty = state;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#highlightNode(java.lang.String, java.lang.String)
 	 */
-	public final void highlightNode(String highlight, String unhighlight) {
-		String[] tohigh = highlight.split(","); //$NON-NLS-1$
-		String[] tounhigh = unhighlight.split(","); //$NON-NLS-1$
-
-		for (IElement nodee : this.children) {
-			INodeImpl node = (INodeImpl) nodee;
-			for (String u : tounhigh) {
-				if (node.getId() == Integer.valueOf(u)) {
-					node.setSpecial(false);
-				}
-			}
-
-			for (String h : tohigh) {
-				if (node.getId() == Integer.valueOf(h)) {
-					node.setSpecial(true);
-				}
-			}
+	public final void highlightNode(int... ids) {
+		for(int id:ids) {
+			INodeImpl node = getNode(id);
+			if(node != null)
+				node.setSpecial(true);
 		}
 	}
 
@@ -391,8 +381,8 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#switchoffNodes()
 	 */
 	public final void switchoffNodes() {
-		for (IElement node : this.children) {
-			((INodeImpl) node).setSpecial(false);
+		for (INodeImpl node : this.nodes) {
+			node.setSpecial(false);
 		}
 	}
 
@@ -410,5 +400,18 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 */
 	public final int getId() {
 		return 1;
+	}
+
+	@Override
+	public List<INodeImpl> getNodes() {
+		return new ArrayList<INodeImpl>(nodes);
+	}
+
+	@Override
+	public INodeImpl getNode(int id) {
+		for(INodeImpl node:nodes)
+			if(node.getId() == id)
+				return node;
+		return null;
 	}
 }

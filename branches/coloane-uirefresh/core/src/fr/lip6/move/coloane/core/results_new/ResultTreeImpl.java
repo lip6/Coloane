@@ -14,12 +14,18 @@ public class ResultTreeImpl implements IResultTree {
 	private ArrayList<IResultTree> children;
 	
 	private ArrayList<Object> elements;
+	private int id;
 	
-	public ResultTreeImpl(String... elements) {
+	public ResultTreeImpl(int id, String... elements) {
+		this.id = id;
 		children = new ArrayList<IResultTree>();
 		this.elements = new ArrayList<Object>();
 		for(String element:elements)
 			this.elements.add(element);
+	}
+	
+	public ResultTreeImpl(String... elements) {
+		this(-1, elements);
 	}
 
 	public IResultTree getParent() {
@@ -41,5 +47,9 @@ public class ResultTreeImpl implements IResultTree {
 
 	public List<Object> getElement() {
 		return elements;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

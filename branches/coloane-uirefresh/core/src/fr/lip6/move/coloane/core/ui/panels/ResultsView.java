@@ -1,11 +1,18 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.results_new.IResultTree;
 import fr.lip6.move.coloane.core.results_new.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -21,12 +28,12 @@ public class ResultsView extends ViewPart {
 	private static ResultsView instance;
 
 
-	
+
 	/** Vue représentant l'arbre des résultats */
 	private TreeViewer viewer;
 
 
-	
+
 	/**
 	 * Constructeur privé, ResultView est un singleton 
 	 */
@@ -45,6 +52,8 @@ public class ResultsView extends ViewPart {
 
 	@Override
 	public final void createPartControl(final Composite parent) {
+		final IModelImpl model = Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel();
+
 		viewer = new TreeViewer(parent);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
@@ -52,26 +61,51 @@ public class ResultsView extends ViewPart {
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		ResultTreeList results = UserInterface.getInstance().getServiceResults();
+		final ResultTreeList results = UserInterface.getInstance().getServiceResults();
 		results.addObserver(new Observer() {
 			@Override
-			public void update(Observable o, Object arg) {
+			public void update(final Observable o, Object arg) {
 				final int width = (Integer)arg;
 				parent.getDisplay().syncExec(new Runnable() {
 					@Override
 					public void run() {
+						if(o instanceof ResultTreeList) {
+							ResultTreeList treeList = (ResultTreeList) o;
+							for(Integer id:treeList.getHighlight())
+								model.getNode(id).setSpecial(true);
+						}
+
 						for(int i=viewer.getTree().getColumnCount();i<width;i++) {
 							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
 							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}
 						updateColumnsWidth();
-						
+
 						viewer.refresh();
 					}
 				});
 			}
 		});
 		viewer.setInput(results);
+
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				IResultTree node = (IResultTree)((TreeSelection)event.getSelection()).getFirstElement();
+				for(INodeImpl nodeImpl:model.getNodes())
+					nodeImpl.setSelect(false);
+				if(node!=null) {
+					if(node.getId()!=-1) {
+						INodeImpl nodeImpl = model.getNode(node.getId());
+						if(nodeImpl!=null)
+							nodeImpl.setSelect(true);
+					}
+					else if(node.getParent()==null) {
+						for(Integer id:results.getHighlight(node))
+							model.getNode(id).setSpecial(true);
+					}
+				}
+			}
+		});
 
 		updateColumnsWidth();
 		Tree tree = viewer.getTree();
@@ -86,7 +120,7 @@ public class ResultsView extends ViewPart {
 			tree.getColumn(i).setWidth(200);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

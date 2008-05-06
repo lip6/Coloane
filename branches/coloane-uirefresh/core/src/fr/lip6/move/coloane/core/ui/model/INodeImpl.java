@@ -109,7 +109,7 @@ public interface INodeImpl extends IElement {
 	/**
 	 * Retourne la valeur de l'attribut designe par le parametre
 	 * @param attribute La chaine caracterisant l'attribut qu'on cible
-	 * @return La valeur de l'attribut designe
+	 * @return La valeur de l'attribut designe ou "" si l'attribut n'existe pas
 	 */
 	String getNodeAttributeValue(String attribute);
 

@@ -29,9 +29,9 @@ public interface IResultTree {
 	public List<Object> getElement();
 	
 	/**
-	 * @return true si ce noeud représente un objet du modèle
+	 * @return l'id associe à ce noeud
 	 */
-//	public boolean isObject();
+	public int getId();
 	
 	
 }

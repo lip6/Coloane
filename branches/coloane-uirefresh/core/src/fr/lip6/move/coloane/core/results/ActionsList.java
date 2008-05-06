@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.core.results;
 
-import fr.lip6.move.coloane.core.ui.panels.ResultsView;
-
 import java.util.Observable;
 import java.util.Vector;
 
@@ -25,14 +23,14 @@ public class ActionsList extends Observable {
 	}
 
 	public final void display(String viewId, IWorkbenchWindow mwindow) {
-		ResultsView resultView = (ResultsView) mwindow.getActivePage().findView(viewId);
-
-		this.deleteObservers();
-		// resultview devient un observer de Actionslist
+//		ResultsView resultView = (ResultsView) mwindow.getActivePage().findView(viewId);
+//
+//		this.deleteObservers();
+//		// resultview devient un observer de Actionslist
 //		this.addObserver(resultView);
-
-		setChanged();
-		notifyObservers();
+//
+//		setChanged();
+//		notifyObservers();
 	}
 
 	public final ResultsList getResultsList(int index) {

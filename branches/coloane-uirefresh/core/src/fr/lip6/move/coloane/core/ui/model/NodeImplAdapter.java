@@ -362,14 +362,12 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
 	public final String getNodeAttributeValue(String attribute) {
-		String valeur = ""; //$NON-NLS-1$
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
 			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
-				valeur = this.node.getNthAttr(i).getValue();
-				break;
+				return this.node.getNthAttr(i).getValue();
 			}
 		}
-		return valeur;
+		return ""; //$NON-NLS-1$
 	}
 
 	/*

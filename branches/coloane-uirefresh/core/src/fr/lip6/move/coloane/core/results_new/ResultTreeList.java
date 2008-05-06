@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.results_new;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -15,11 +16,13 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
  */
 public class ResultTreeList extends Observable implements IResultTree {
 	private final CopyOnWriteArrayList<IResultTree> list;
+	private final ArrayList<List<Integer>> highlight;
 	private final HashMap<String, IReport> services;
 	private final IReport generic;
 	
 	public ResultTreeList() {
 		list = new CopyOnWriteArrayList<IResultTree>();
+		highlight = new ArrayList<List<Integer>>();
 		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
 		
@@ -29,10 +32,13 @@ public class ResultTreeList extends Observable implements IResultTree {
 	public void add(String serviceName, IResultsCom result) {
 		IReport report = services.get(serviceName);
 		IResultTree newResult;
-		if(report != null)
+		if(report != null) {
 			newResult = report.build(result);
-		else
+			highlight.add(report.highlightNode(result));
+		} else {
 			newResult = generic.build(result);
+			highlight.add(generic.highlightNode(result));
+		}
 		list.add(newResult);
 		setChanged();
 		notifyObservers(getWidth(newResult));
@@ -70,5 +76,22 @@ public class ResultTreeList extends Observable implements IResultTree {
 
 	@Override
 	public void setParent(IResultTree parent) {
+	}
+
+	@Override
+	public int getId() {
+		return -1;
+	}
+
+	public List<Integer> getHighlight() {
+		return highlight.get(highlight.size()-1);
+	}
+
+	public List<Integer> getHighlight(int index) {
+		return highlight.get(index);
+	}
+	
+	public List<Integer> getHighlight(IResultTree node) {
+		return getHighlight(list.indexOf(node));
 	}
 }
