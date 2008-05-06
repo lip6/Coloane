@@ -33,6 +33,8 @@ public class ApiSession implements IApiSession {
 	/** notre speaker */
 	private ISpeaker speaker;
 
+	/** notre automate*/
+	private ISessionStateMachine automate;
 	/**
 	 * le constructeur de notre session.
 	 */
@@ -44,6 +46,8 @@ public class ApiSession implements IApiSession {
 		this.sessionName = null;
 		this.sessionCont = se;
 		this.speaker = speaker;
+		this.automate = SessionFactory.getNewSessionStateMachine();
+
 	}
 
 	/**
@@ -61,9 +65,13 @@ public class ApiSession implements IApiSession {
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
 		if (this.sessionCont.openSession(this))
-			// TODO lexeption sinon ++ etat de l'automate...
+			// TODO lexeption
+
 			this.speaker.openSession(this.sessionName, this.sessionDate,
 					this.sessionFormalism, this.interlocutor, this.mode);
+			if( !this.automate.setWaitingForMenusState() ){
+		//		throw new InvalidStateException("impossible de passer de l'etat initialState a ");
+	}
 	}
 
 	/**
@@ -102,4 +110,11 @@ public class ApiSession implements IApiSession {
 		speaker.suspendSession(this.sessionName);
 		return true;
 	}
+
+
+	public ISessionStateMachine getSessionStateMachine() {
+      return this.automate;
+	}
+
+
 }

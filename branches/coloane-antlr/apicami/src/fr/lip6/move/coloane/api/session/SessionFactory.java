@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.session;
 
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 /**
@@ -26,5 +27,10 @@ public class SessionFactory {
 	 */
 	public static ISessionController getNewSessionController() {
 		return new SessionController();
+	}
+
+	public static ISessionStateMachine getNewSessionStateMachine() {
+
+		return new SessionStateMachine();
 	}
 }

@@ -65,5 +65,5 @@ import java.io.IOException;
 	 	       public void openSession(String sessionDate, String sessionFormalism,
                        String sessionName) throws IOException, InterruptedException ;
 
-
+	 	      public ISessionStateMachine getSessionStateMachine();
 	 	}
