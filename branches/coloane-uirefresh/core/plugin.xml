@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="exports" name="Exports" schema="schema/exports.exsd"/>
    <extension-point id="imports" name="Imports" schema="schema/imports.exsd"/>
+   <extension-point id="reports" name="Reports" schema="schema/reports.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -309,5 +310,12 @@
              id="fr.lip6.move.coloane.wizard.projectWizard">
        </newWizardShortcut>
     </perspectiveExtension>
+ </extension>
+ <extension
+       point="fr.lip6.move.coloane.core.reports">
+    <report
+          class="fr.lip6.move.coloane.core.results_new.reports.SyntaxCheckerReport"
+          service_name="Petri net syntax checker">
+    </report>
  </extension>
 </plugin>

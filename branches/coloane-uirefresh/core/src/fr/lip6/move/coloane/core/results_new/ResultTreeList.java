@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.results_new.reports.GenericReport;
 import fr.lip6.move.coloane.core.results_new.reports.IReport;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -15,36 +21,64 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
  * Cette classe est thread-safe.
  */
 public class ResultTreeList extends Observable implements IResultTree {
+	/**
+	 * Attributs du point d'extension 'exports'
+	 */
+	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.reports"; //$NON-NLS-1$
+	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
+	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
+
+	
 	private final CopyOnWriteArrayList<IResultTree> list;
-	private final ArrayList<List<Integer>> highlight;
+	private final ArrayList<List<Integer>> highlights;
 	private final HashMap<String, IReport> services;
 	private final IReport generic;
 	
 	public ResultTreeList() {
 		list = new CopyOnWriteArrayList<IResultTree>();
-		highlight = new ArrayList<List<Integer>>();
+		highlights = new ArrayList<List<Integer>>();
 		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
 		
-		
+		IExtensionRegistry reg = Platform.getExtensionRegistry();
+		for(IConfigurationElement element:reg.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
+			String service = element.getAttribute(SERVICE_EXTENSION);
+			try {
+				IReport report = (IReport)element.createExecutableExtension(CLASS_EXTENSION);
+				services.put(service, report);
+				Coloane.getLogger().fine("Ajout du service de résultat : "+service);
+			} catch (CoreException e) {
+				Coloane.getLogger().warning("Problème avec l'extension : "+service);
+			}
+		}
 	}
 	
 	public void add(String serviceName, IResultsCom result) {
+		IResultTree newResult = null;
+		List<Integer> newHighlight = null;
+		
 		IReport report = services.get(serviceName);
-		IResultTree newResult;
 		if(report != null) {
 			newResult = report.build(result);
-			highlight.add(report.highlightNode(result));
-		} else {
-			newResult = generic.build(result);
-			highlight.add(generic.highlightNode(result));
+			newHighlight = report.highlightNode(result);
 		}
+
+		if(newResult == null){
+			newResult = generic.build(result);
+		}
+		
+		if(newHighlight == null)
+			newHighlight = new ArrayList<Integer>();
+		
 		list.add(newResult);
+		highlights.add(newHighlight);
 		setChanged();
 		notifyObservers(getWidth(newResult));
 	}
 	
 	private int getWidth(IResultTree node) {
+		if(node==null)
+			return -1;
 		int max = node.getElement().size();
 		for(IResultTree child:node.getChildren())
 			max = Math.max(max, getWidth(child));
@@ -84,11 +118,11 @@ public class ResultTreeList extends Observable implements IResultTree {
 	}
 
 	public List<Integer> getHighlight() {
-		return highlight.get(highlight.size()-1);
+		return highlights.get(highlights.size()-1);
 	}
 
 	public List<Integer> getHighlight(int index) {
-		return highlight.get(index);
+		return highlights.get(index);
 	}
 	
 	public List<Integer> getHighlight(IResultTree node) {
