@@ -96,6 +96,7 @@ public class CamiObjectBuilder {
 	}
 
 	public static IMenu buildMenu(ArrayList<ArrayList<String>> camiMenu) {
+
 		IMenu root = null;
 		boolean isRoot = true;
 
@@ -279,4 +280,65 @@ public class CamiObjectBuilder {
 		return tab;
 	}
 
+	public static void afficher(IMenu menu) {
+		System.out.print("******AQ(");
+		if (menu.getParent() != null) {
+			String parent = menu.getParent().getName();
+			if (parent != null) {
+				System.out.print(parent + ",");
+			} else {
+				System.out.print("null" + ",");
+			}
+		}
+		System.out.print(menu.getName() + ",");
+		if (menu.getQuestionType() != -1) {
+			System.out.print(menu.getQuestionType() + ",");
+		} else {
+			System.out.print(",");
+		}
+		if (menu.getQuestionBehavior() != -1) {
+			System.out.print(menu.getQuestionBehavior() + ",");
+		} else {
+			System.out.print(",");
+		}
+
+		boolean tmpValid = menu.isValid();
+		if (tmpValid) {
+			System.out.print("1" + ",");
+		} else {
+			System.out.print("2" + ",");
+		}
+
+		boolean tmpDialog = menu.isDialogAllowed();
+		if (tmpDialog) {
+			System.out.print("2" + ",");
+		} else {
+			System.out.print("1" + ",");
+		}
+
+		boolean tmpStop = menu.stopAuthorized();
+		if (tmpStop) {
+			System.out.print("2" + ",");
+		} else {
+			System.out.print("1" + ",");
+		}
+
+		if (menu.outputFormalism() != null) {
+			System.out.print(menu.outputFormalism() + ",");
+		} else {
+			System.out.print(",");
+		}
+		boolean tmpActive = menu.isActivate();
+		if (tmpActive) {
+			System.out.print("1");
+		} else {
+			System.out.print("2");
+		}
+
+		System.out.println(")");
+		ArrayList<IMenu> tmp = menu.getChildren();
+		for (IMenu child : tmp) {
+			afficher(child);
+		}
+	}
 }
