@@ -1,6 +1,7 @@
 	package fr.lip6.move.coloane.api.FkCommunication;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.api.cami.CamiGenerator;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
@@ -18,6 +19,7 @@ public class Speaker implements ISpeaker{
 
 	/** objet de communication bas niveau */
 	private FkComLowLevel fkll;
+	Logger logger;
 
 	/**
 	 *
@@ -27,7 +29,10 @@ public class Speaker implements ISpeaker{
 
 	public Speaker(FkComLowLevel lowLevel) {
 		this.fkll = lowLevel;
+		this.logger = Logger.getLogger("fr.lip6.move.coloane.api");
 	}
+
+
 
 
 	public void askForService(String rootName, String serviceName) {
@@ -100,6 +105,8 @@ public class Speaker implements ISpeaker{
 		/* envoi de la commande OS */
 		byte[] cmdToSend = CamiGenerator.generateCmdOS(sessionName, date, sessionFormalism);
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+
 
 		/* envoi de la commande DI */
 		cmdToSend = CamiGenerator.generateCmdDI();

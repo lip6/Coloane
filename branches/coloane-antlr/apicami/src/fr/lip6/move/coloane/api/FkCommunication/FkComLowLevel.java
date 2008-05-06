@@ -88,7 +88,7 @@ public class FkComLowLevel {
 			}
 
 			//TODO enlever
-			System.out.println("FKCOMLOWLEVEL  : commande  : "  +  commands);
+			//System.out.println("FKCOMLOWLEVEL  : commande  : "  +  commands);
 
 		} catch (IOException e) {
 			// TODO Logguer
