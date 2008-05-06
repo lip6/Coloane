@@ -20,12 +20,12 @@ public class SessionObserver implements ISessionObserver {
 		    * l'affichage des menus
 		    */
 
-		   System.out.println("test stub: affichage des menus");
+		  System.out.println("\n test stub: affichage des menus");
 		   for (IMenu menu: menuList){
 			   afficher(menu);
 		   }
 
-		   System.out.println("test stub: affichage des modificateurs de menu");
+		   System.out.println("\n test stub: affichage des modificateurs de menu");
 		   afficher(updatesList);
 
 
@@ -34,7 +34,7 @@ public class SessionObserver implements ISessionObserver {
 
 
 	private void afficher(IMenu menu) {
-		System.out.print("AQ(");
+		System.out.print("--AQ(");
 		if (menu.getParent() != null) {
 			String parent = menu.getParent().getName();
 			if (parent != null) {
@@ -102,7 +102,7 @@ public class SessionObserver implements ISessionObserver {
 	private void afficher(ArrayList<IUpdateItem> modifMenu) {
 
 		for (IUpdateItem tq : modifMenu) {
-			System.out.print("TQ(");
+			System.out.print("--TQ(");
 			System.out.print(tq.getRootName() + ",");
 			System.out.print(tq.getServiceName() + ",");
 			if (tq.getState()) {

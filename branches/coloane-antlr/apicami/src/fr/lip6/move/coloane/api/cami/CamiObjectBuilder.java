@@ -25,10 +25,10 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 /**
  * cette classe construit toutes les interfaces offertes a Coloane
+ *
  * @author kahoo && UU
  *
  */
-
 
 public class CamiObjectBuilder {
 
@@ -101,7 +101,9 @@ public class CamiObjectBuilder {
 		boolean isRoot = true;
 
 		for (ArrayList<String> aq : camiMenu) {
+
 			if (isRoot) {
+
 				String name = aq.get(0);
 				int questionT;
 				String tmpquestionT = aq.get(1);
@@ -122,12 +124,16 @@ public class CamiObjectBuilder {
 				root = new Menu(null, name, questionT, questionB, false, false,
 						false, null, false, new ArrayList<IMenu>());
 				isRoot = false;
-			} else {
+
+			}
+
+			else {
+
 				IMenu parent = null;
 				String parentName = aq.get(0);
 				String name = aq.get(1);
 
-				/* le type de la question*/
+				/* le type de la question */
 				int questionType;
 				String tmpquestionType = aq.get(2);
 				if (tmpquestionType != null) {
@@ -136,7 +142,7 @@ public class CamiObjectBuilder {
 					questionType = -1;
 				}
 
-				/* la question precedente*/
+				/* la question precedente */
 				int questionBehavior;
 				String tmpquestionBehavior = aq.get(3);
 
@@ -147,7 +153,7 @@ public class CamiObjectBuilder {
 					questionBehavior = -1;
 				}
 
-				/* (1) valider (2) ne pas valider*/
+				/* (1) valider (2) ne pas valider */
 				String tmpValid2 = aq.get(4);
 				boolean valid;
 				if (tmpValid2 != null) {
@@ -163,7 +169,7 @@ public class CamiObjectBuilder {
 					valid = false;
 				}
 
-				/* (1) interdit (2) permis*/
+				/* (1) interdit (2) permis */
 				String tmpDialogAllowed2 = aq.get(5);
 				boolean dialogAllowed;
 				if (tmpDialogAllowed2 != null) {
@@ -194,7 +200,7 @@ public class CamiObjectBuilder {
 
 				String outputFormalism = aq.get(7);
 
-				/* (1) ENABLE (2) Disable*/
+				/* (1) ENABLE (2) Disable */
 				String tmpActivate2 = aq.get(8);
 				boolean activate;
 				if (tmpActivate2 != null) {
@@ -214,6 +220,7 @@ public class CamiObjectBuilder {
 				IMenu menu = new Menu(parent, name, questionType,
 						questionBehavior, valid, dialogAllowed, stopAuthorized,
 						outputFormalism, activate, children);
+
 				root.addMenu(parentName, menu);
 
 			}
@@ -252,6 +259,7 @@ public class CamiObjectBuilder {
 
 	/**
 	 * nous genere les interfaces des TQ
+	 *
 	 * @param camiUpdateItem
 	 * @return un tableau de TQ 7 & 8
 	 */
@@ -280,65 +288,5 @@ public class CamiObjectBuilder {
 		return tab;
 	}
 
-	public static void afficher(IMenu menu) {
-		System.out.print("******AQ(");
-		if (menu.getParent() != null) {
-			String parent = menu.getParent().getName();
-			if (parent != null) {
-				System.out.print(parent + ",");
-			} else {
-				System.out.print("null" + ",");
-			}
-		}
-		System.out.print(menu.getName() + ",");
-		if (menu.getQuestionType() != -1) {
-			System.out.print(menu.getQuestionType() + ",");
-		} else {
-			System.out.print(",");
-		}
-		if (menu.getQuestionBehavior() != -1) {
-			System.out.print(menu.getQuestionBehavior() + ",");
-		} else {
-			System.out.print(",");
-		}
 
-		boolean tmpValid = menu.isValid();
-		if (tmpValid) {
-			System.out.print("1" + ",");
-		} else {
-			System.out.print("2" + ",");
-		}
-
-		boolean tmpDialog = menu.isDialogAllowed();
-		if (tmpDialog) {
-			System.out.print("2" + ",");
-		} else {
-			System.out.print("1" + ",");
-		}
-
-		boolean tmpStop = menu.stopAuthorized();
-		if (tmpStop) {
-			System.out.print("2" + ",");
-		} else {
-			System.out.print("1" + ",");
-		}
-
-		if (menu.outputFormalism() != null) {
-			System.out.print(menu.outputFormalism() + ",");
-		} else {
-			System.out.print(",");
-		}
-		boolean tmpActive = menu.isActivate();
-		if (tmpActive) {
-			System.out.print("1");
-		} else {
-			System.out.print("2");
-		}
-
-		System.out.println(")");
-		ArrayList<IMenu> tmp = menu.getChildren();
-		for (IMenu child : tmp) {
-			afficher(child);
-		}
-	}
 }
