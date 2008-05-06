@@ -16,7 +16,7 @@ public class ConnectionObserver implements IConnectionObserver {
 
 	public void update(IFkVersion arg) {
 
-		System.out.println("testStub: connection");
+		System.out.println("testStub: on a notifié la connection");
 		System.out.println(arg.getFkName());
 		System.out.println(arg.getFkMajor());
 		System.out.println(arg.getFkMinor());

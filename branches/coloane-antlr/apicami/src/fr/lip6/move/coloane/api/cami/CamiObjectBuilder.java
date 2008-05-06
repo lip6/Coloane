@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 
+import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.FkInfo;
 import fr.lip6.move.coloane.api.camiObject.FkVersion;
 import fr.lip6.move.coloane.api.camiObject.Menu;
@@ -37,8 +38,7 @@ public class CamiObjectBuilder {
 		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
 		String resultatCalcule = camiFKInfo.get(3);
-		IFkInfo kfi = new FkInfo(aboutService, incremental, nameService,
-				resultatCalcule);
+		IFkInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService,resultatCalcule);
 		return kfi;
 	}
 
@@ -60,7 +60,7 @@ public class CamiObjectBuilder {
 			fkminor = -1;
 		}
 
-		IFkVersion fkv = new FkVersion(fkname, fkmajor, fkminor);
+		IFkVersion fkv = CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
 		return fkv;
 	}
 
@@ -121,7 +121,7 @@ public class CamiObjectBuilder {
 					questionB = -1;
 				}
 
-				root = new Menu(null, name, questionT, questionB, false, false,
+				root = CamiObjectFactory.getNewMenu(null, name, questionT, questionB, false, false,
 						false, null, false, new ArrayList<IMenu>());
 				isRoot = false;
 
@@ -217,7 +217,7 @@ public class CamiObjectBuilder {
 
 				ArrayList<IMenu> children = new ArrayList<IMenu>();
 
-				IMenu menu = new Menu(parent, name, questionType,
+				IMenu menu = CamiObjectFactory.getNewMenu(parent, name, questionType,
 						questionBehavior, valid, dialogAllowed, stopAuthorized,
 						outputFormalism, activate, children);
 
@@ -282,7 +282,7 @@ public class CamiObjectBuilder {
 			} else {
 				state = true;
 			}
-			IUpdateItem update = new UpdateItem(rootName, serviceName, state);
+			IUpdateItem update = CamiObjectFactory.getNewUpdateItem(rootName, serviceName, state);
 			tab.add(update);
 		}
 		return tab;
