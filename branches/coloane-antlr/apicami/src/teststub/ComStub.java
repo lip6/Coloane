@@ -90,6 +90,7 @@ public class ComStub {
 
 		/** Test l'ouverture d'une session */
 		IApiSession session = testOpenSession(connection);
+		Api.initialize();
 	}
 
 }
