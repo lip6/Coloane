@@ -71,11 +71,9 @@ public class ResultsView extends ViewPart {
 		
 		// Ajout d'un observer sur la liste de résultat
 		results.addObserver(new Observer() {
-			@Override
 			public void update(final Observable o, Object arg) {
 				final int width = (Integer)arg;
 				parent.getDisplay().syncExec(new Runnable() {
-					@Override
 					public void run() {
 						// Mise en avant des objets
 						if(o instanceof ResultTreeList) {

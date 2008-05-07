@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 public class SyntaxCheckerReport implements IReport {
 
-	@Override
 	public IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
 		
@@ -25,7 +24,6 @@ public class SyntaxCheckerReport implements IReport {
 		return root;
 	}
 
-	@Override
 	public List<Integer> highlightNode(IResultsCom result) {
 		return new GenericReport().highlightNode(result);
 	}

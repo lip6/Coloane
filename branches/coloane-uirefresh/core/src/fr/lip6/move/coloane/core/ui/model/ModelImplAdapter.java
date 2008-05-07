@@ -402,12 +402,10 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return 1;
 	}
 
-	@Override
 	public List<INodeImpl> getNodes() {
 		return new ArrayList<INodeImpl>(nodes);
 	}
 
-	@Override
 	public INodeImpl getNode(int id) {
 		for(INodeImpl node:nodes)
 			if(node.getId() == id)

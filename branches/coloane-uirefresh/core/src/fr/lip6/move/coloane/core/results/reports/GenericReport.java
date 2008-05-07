@@ -12,7 +12,6 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 public class GenericReport implements IReport {
-	@Override
 	public IResultTree build(IResultsCom result) {
 //		printModel();
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
@@ -57,7 +56,6 @@ public class GenericReport implements IReport {
 		}
 	}
 
-	@Override
 	public List<Integer> highlightNode(IResultsCom result) {
 		List<Integer> list = new ArrayList<Integer>();
 		for(SubResultsCom sub:result.getSubResults()) {

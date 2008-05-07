@@ -86,34 +86,28 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return max;
 	}
 
-	@Override
 	public void addChild(IResultTree child) {
 		list.add(child);
 		setChanged();
 		notifyObservers(0);
 	}
 
-	@Override
 	public List<IResultTree> getChildren() {
 		return list;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List getElement() {
 		return list;
 	}
 
-	@Override
 	public IResultTree getParent() {
 		return null;
 	}
 
-	@Override
 	public void setParent(IResultTree parent) {
 	}
 
-	@Override
 	public int getId() {
 		return -1;
 	}
@@ -134,7 +128,6 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		System.err.println("Remove ResultTreeList");
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		setChanged();
 		notifyObservers(0);
