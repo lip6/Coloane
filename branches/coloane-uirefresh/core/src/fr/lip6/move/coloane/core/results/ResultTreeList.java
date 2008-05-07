@@ -132,4 +132,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		setChanged();
 		notifyObservers(0);
 	}
+
+	@Override
+	public String toString() {
+		return list.toString();
+	}
 }

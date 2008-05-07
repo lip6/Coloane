@@ -191,7 +191,7 @@ public class Coloane extends AbstractUIPlugin {
 
 			@Override
 			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] "+ record.getMessage() + " - " + record.getSourceClassName());
+				System.out.println("[" + record.getLevel() + "] "+ record.getMessage() + " - " + record.getSourceMethodName());
 			}
 		});
 		try {

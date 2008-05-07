@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 /**
@@ -14,6 +15,9 @@ public class Session {
 
 	/** Le modele associe */
 	private IModelImpl sessionModel;
+	
+	/** Le ResultTreeList associÃ© */
+	final private ResultTreeList serviceResults;
 
 	/** Nom de la session */
 	private String sessionName;
@@ -40,6 +44,7 @@ public class Session {
 		this.sessionId = cntSession++;
 		this.sessionModel = null;
 		this.sessionStatus = SessionManager.CLOSED;
+		this.serviceResults = new ResultTreeList();
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class Session {
 	}
 
 	/**
-	 * Indique le menu d'administration attache ˆ la session
+	 * Indique le menu d'administration attache ï¿½ la session
 	 * @param adminMenu La racinde du menu d'administration
 	 */
 	public final void setAdminMenu(RootMenu admin) {
@@ -142,5 +147,9 @@ public class Session {
 	 */
 	protected final void setStatus(int status) {
 		this.sessionStatus = status;
+	}
+
+	public ResultTreeList getServiceResults() {
+		return serviceResults;
 	}
 }

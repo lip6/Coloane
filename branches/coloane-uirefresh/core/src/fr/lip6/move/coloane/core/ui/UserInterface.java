@@ -41,9 +41,6 @@ public final class UserInterface {
 	/** Le module de moteur */
 	private Motor motor = null;
 
-	/** La gestion des resultats */
-	private final ResultTreeList serviceResults;
-
 	/** L'instance du singlaton : UserInterface */
 	private static UserInterface instance;
 
@@ -52,9 +49,6 @@ public final class UserInterface {
 	 */
 	private UserInterface() {
 		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-
-		// Le gestionnaire de resultats de services
-		serviceResults = new ResultTreeList();
 	}
 
 	/**
@@ -198,7 +192,7 @@ public final class UserInterface {
 	 *            L'objet contenant les resultats pour ce service
 	 */
 	public void setResults(String serviceName, IResultsCom result) {
-		serviceResults.add(serviceName, result);
+		motor.getSessionManager().getCurrentServiceResult().add(serviceName, result);
 	}
 
 	/**
@@ -327,9 +321,5 @@ public final class UserInterface {
 	 */
 	public void setMotor(Motor mot) {
 		this.motor = mot;
-	}
-
-	public ResultTreeList getServiceResults() {
-		return serviceResults;
 	}
 }

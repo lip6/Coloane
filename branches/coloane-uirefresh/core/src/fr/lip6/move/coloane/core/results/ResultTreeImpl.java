@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 
 /**
  * Arbre de résultat, à voir comme un tableau avec :<ul>
@@ -13,6 +14,8 @@ import fr.lip6.move.coloane.core.ui.UserInterface;
  * </ul>
  */
 public class ResultTreeImpl extends Observable implements IResultTree {
+	private static final SessionManager manager = Coloane.getDefault().getMotor().getSessionManager();
+	
 	private IResultTree parent;
 	private ArrayList<IResultTree> children;
 	
@@ -26,7 +29,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		for(String element:elements)
 			this.elements.add(element);
 		
-		this.addObserver(UserInterface.getInstance().getServiceResults());
+		this.addObserver(manager.getCurrentServiceResult());
 	}
 	
 	public ResultTreeImpl(String... elements) {
@@ -59,13 +62,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	public void remove() {
-//		for(IResultTree child:children)
-//			child.remove();
-		System.err.println("Remove "+elements);
 		if(parent!=null) {
 			parent.getChildren().remove(this);
 		} else {
-			UserInterface.getInstance().getServiceResults().getChildren().remove(this);
+			manager.getCurrentServiceResult().getChildren().remove(this);
 		}
 		setChanged();
 		notifyObservers();
