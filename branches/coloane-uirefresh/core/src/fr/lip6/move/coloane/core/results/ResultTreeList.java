@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -20,7 +21,7 @@ import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
  * Liste de ResultTree. Cette liste étends Observable.<br>
  * Cette classe est thread-safe.
  */
-public class ResultTreeList extends Observable implements IResultTree {
+public class ResultTreeList extends Observable implements IResultTree, Observer {
 	/**
 	 * Attributs du point d'extension 'exports'
 	 */
@@ -89,7 +90,7 @@ public class ResultTreeList extends Observable implements IResultTree {
 	public void addChild(IResultTree child) {
 		list.add(child);
 		setChanged();
-		notifyObservers();
+		notifyObservers(0);
 	}
 
 	@Override
@@ -127,5 +128,15 @@ public class ResultTreeList extends Observable implements IResultTree {
 	
 	public List<Integer> getHighlight(IResultTree node) {
 		return getHighlight(list.indexOf(node));
+	}
+
+	public void remove() {
+		System.err.println("Remove ResultTreeList");
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setChanged();
+		notifyObservers(0);
 	}
 }

@@ -10,7 +10,11 @@ import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -27,18 +31,18 @@ import org.eclipse.ui.part.ViewPart;
 public class ResultsView extends ViewPart {
 	private static ResultsView instance;
 
-
-
 	/** Vue représentant l'arbre des résultats */
 	private TreeViewer viewer;
 
-
+	/** Action pour supprimer un resultat de l'arbre */
+	private Action delete;
 
 	/**
 	 * Constructeur privé, ResultView est un singleton 
 	 */
 	public ResultsView() {
 		super();
+		createActions();
 	}
 
 	/**
@@ -76,8 +80,13 @@ public class ResultsView extends ViewPart {
 						// Mise en avant des objets
 						if(o instanceof ResultTreeList) {
 							ResultTreeList treeList = (ResultTreeList) o;
-							for(Integer id:treeList.getHighlight())
-								model.getNode(id).setSpecial(true);
+							for(Integer id:treeList.getHighlight()) {
+								try {
+									model.getNode(id).setSpecial(true);
+								} catch(NullPointerException e) {
+									System.err.println("NullPointer " + id);
+								}
+							}
 						}
 
 						// Ajout de colonnes si il faut
@@ -116,15 +125,43 @@ public class ResultsView extends ViewPart {
 						for(Integer id:results.getHighlight(node))
 							model.getNode(id).setSpecial(true);
 					}
+					
+					delete.setEnabled(true);
 				}
 			}
 		});
 
+		createToolbar();
+		
 		updateColumnsWidth();
 		Tree tree = viewer.getTree();
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		instance = this;
+	}
+
+	private void createActions() {
+		// Suppression d'un resultat
+		delete = new Action("Delete") {
+			@Override
+			public void run() {
+				IResultTree node = (IResultTree)((ITreeSelection)viewer.getSelection()).getFirstElement();
+				if(node!=null) {
+					while(node.getParent()!=null)
+						node = node.getParent();
+					node.remove();
+					this.setEnabled(false);
+				}
+			}
+		};
+		delete.setEnabled(false);
+		delete.setToolTipText("Delete result");
+		delete.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/remove.gif"));
+	}
+	
+	private void createToolbar() {
+		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(delete);
 	}
 
 	/**

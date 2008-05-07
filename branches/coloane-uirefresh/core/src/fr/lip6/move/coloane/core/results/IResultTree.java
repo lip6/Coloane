@@ -33,5 +33,8 @@ public interface IResultTree {
 	 */
 	public int getId();
 	
-	
+	/**
+	 * Supprime le noeud courrant ainsi que tous les fils associés
+	 */
+	public void remove();
 }
