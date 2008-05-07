@@ -23,6 +23,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -154,7 +156,8 @@ public class ResultsView extends ViewPart {
 		};
 		delete.setEnabled(false);
 		delete.setToolTipText("Delete result");
-		delete.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/remove.gif"));
+		ImageDescriptor cross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
+		delete.setImageDescriptor(cross);
 	}
 	
 	private void createToolbar() {
