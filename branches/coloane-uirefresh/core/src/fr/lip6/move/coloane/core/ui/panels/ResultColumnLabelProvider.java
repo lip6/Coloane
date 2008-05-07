@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.panels;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
-import fr.lip6.move.coloane.core.results_new.IResultTree;
+import fr.lip6.move.coloane.core.results.IResultTree;
 
 public class ResultColumnLabelProvider extends ColumnLabelProvider {
 	private final int column;

@@ -314,7 +314,7 @@
  <extension
        point="fr.lip6.move.coloane.core.reports">
     <report
-          class="fr.lip6.move.coloane.core.results_new.reports.SyntaxCheckerReport"
+          class="fr.lip6.move.coloane.core.results.reports.SyntaxCheckerReport"
           service_name="Petri net syntax checker">
     </report>
  </extension>

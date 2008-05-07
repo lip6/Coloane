@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results_new.ResultTreeList;
+import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;

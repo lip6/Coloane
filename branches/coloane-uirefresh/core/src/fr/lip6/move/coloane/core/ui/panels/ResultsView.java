@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.results_new.IResultTree;
-import fr.lip6.move.coloane.core.results_new.ResultTreeList;
+import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;

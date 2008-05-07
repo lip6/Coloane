@@ -1,8 +1,8 @@
-package fr.lip6.move.coloane.core.results_new.reports;
+package fr.lip6.move.coloane.core.results.reports;
 
 import java.util.List;
 
-import fr.lip6.move.coloane.core.results_new.IResultTree;
+import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
 public interface IReport {

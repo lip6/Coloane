@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.results_new;
+package fr.lip6.move.coloane.core.results;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.results_new.reports.GenericReport;
-import fr.lip6.move.coloane.core.results_new.reports.IReport;
+import fr.lip6.move.coloane.core.results.reports.GenericReport;
+import fr.lip6.move.coloane.core.results.reports.IReport;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
 /**

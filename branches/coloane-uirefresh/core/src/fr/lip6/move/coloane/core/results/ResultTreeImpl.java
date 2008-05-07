@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.results_new;
+package fr.lip6.move.coloane.core.results;
 
 import java.util.ArrayList;
 import java.util.List;
