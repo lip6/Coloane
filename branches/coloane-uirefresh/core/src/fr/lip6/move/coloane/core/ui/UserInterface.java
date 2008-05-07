@@ -42,7 +42,6 @@ public final class UserInterface {
 	private Motor motor = null;
 
 	/** La gestion des resultats */
-//	private ActionsList serviceResultList = null;
 	private final ResultTreeList serviceResults;
 
 	/** L'instance du singlaton : UserInterface */
@@ -53,9 +52,8 @@ public final class UserInterface {
 	 */
 	private UserInterface() {
 		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+
 		// Le gestionnaire de resultats de services
-//		serviceResultList = new ActionsList();
-		
 		serviceResults = new ResultTreeList();
 	}
 
@@ -83,7 +81,6 @@ public final class UserInterface {
 	 */
 	public void askForService(String rootMenuName, String parentName,
 			String serviceName) {
-		// serviceResultList.removeAll();
 		motor.askForService(rootMenuName, parentName, serviceName);
 	}
 
@@ -201,39 +198,7 @@ public final class UserInterface {
 	 *            L'objet contenant les resultats pour ce service
 	 */
 	public void setResults(String serviceName, IResultsCom result) {
-		/////////////////////////////////////////////////////////////////
-//		String ident = "";
-//		System.err.println(ident+"Service name : "+serviceName);
-//		System.err.println(ident+"Question : "+result.getQuestion());
-//		ident = "  ";
-//		for(SubResultsCom sub:result.getSubResults()) {
-//			for(String s:sub.getCmdME())
-//				System.err.println(ident+"ME : "+s);
-//			for(String s:sub.getCmdRO())
-//				System.err.println(ident+"RO : "+s);
-//			for(String s:sub.getCmdRT())
-//				System.err.println(ident+"RT : "+s);
-//			System.err.println(ident+"details : "+sub.getDetails());
-//		}
-		/////////////////////////////////////////////////////////////////
 		serviceResults.add(serviceName, result);
-		
-//		if (serviceResultList != null) {
-//			String labelService;
-//			ResultsList r = null;
-//
-//			if ((serviceName == "") || (result == null)) { //$NON-NLS-1$
-//				labelService = ColoaneMessages.UserInterface_1;
-//				r = new ResultsList(labelService);
-//				String description = ""; //$NON-NLS-1$
-//				String object = ""; //$NON-NLS-1$
-//				r.add(new Result(object, description));
-//			}
-//
-//			FactoryReport factory = new FactoryReport(result);
-//			r = (factory.createReport()).getResultList();
-//			serviceResultList.setResultsList(r);
-//		}
 	}
 
 	/**
@@ -244,16 +209,8 @@ public final class UserInterface {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-//					serviceResultList.addResultsList();
 					fenetreTravail.getActivePage().showView(
 							ColoanePerspectiveFactory.RESULTS_VIEW);
-//					serviceResultList.display(
-//							ColoanePerspectiveFactory.RESULTS_VIEW,
-//							fenetreTravail);
-//					serviceResults.deleteObservers();
-//					serviceResults.addObserver((ResultsView)fenetreTravail.getActivePage().
-//							findView(ColoanePerspectiveFactory.RESULTS_VIEW));
-//					serviceResults.notifyObservers();
 				} catch (PartInitException e) {
 					Coloane.getLogger().warning(
 							"Erreur lors de l'affichage des resultats"); //$NON-NLS-1$

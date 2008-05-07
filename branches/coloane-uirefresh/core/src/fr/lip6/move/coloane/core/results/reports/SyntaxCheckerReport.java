@@ -2,10 +2,8 @@ package fr.lip6.move.coloane.core.results.reports;
 
 import java.util.List;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
@@ -14,7 +12,6 @@ public class SyntaxCheckerReport implements IReport {
 	@Override
 	public IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
-//		IModelImpl model = Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel();
 		
 		for(SubResultsCom sub:result.getSubResults()) {
 			ResultTreeImpl node = new ResultTreeImpl(sub.getCmdRT().get(0));
