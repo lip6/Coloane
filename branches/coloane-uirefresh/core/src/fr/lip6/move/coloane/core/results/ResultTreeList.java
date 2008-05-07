@@ -73,8 +73,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		
 		list.add(newResult);
 		highlights.add(newHighlight);
-		setChanged();
-		notifyObservers(getWidth(newResult));
+		update(null, getWidth(newResult));
 	}
 	
 	private int getWidth(IResultTree node) {
@@ -88,8 +87,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	public void addChild(IResultTree child) {
 		list.add(child);
-		setChanged();
-		notifyObservers(0);
+		update(null, null);
 	}
 
 	public List<IResultTree> getChildren() {
@@ -130,11 +128,16 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	public void update(Observable o, Object arg) {
 		setChanged();
-		notifyObservers(0);
+		notifyObservers((Integer)arg);
 	}
 
 	@Override
 	public String toString() {
 		return list.toString();
+	}
+
+	public void removeAll() {
+		list.clear();
+		update(null, null);
 	}
 }

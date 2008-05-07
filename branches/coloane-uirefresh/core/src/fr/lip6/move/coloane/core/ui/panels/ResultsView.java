@@ -42,6 +42,9 @@ public class ResultsView extends ViewPart {
 	/** Action pour supprimer un resultat de l'arbre */
 	private Action delete;
 
+	/** Action pour supprimer tous les resultats de l'arbre */
+	private Action deleteAll;
+
 	/**
 	 * Constructeur privé, ResultView est un singleton 
 	 */
@@ -171,6 +174,9 @@ public class ResultsView extends ViewPart {
 	}
 
 	private void createActions() {
+		ImageDescriptor cross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
+		ImageDescriptor doubleCross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_HOVER);
+
 		// Suppression d'un resultat
 		delete = new Action("Delete") {
 			@Override
@@ -186,9 +192,18 @@ public class ResultsView extends ViewPart {
 		};
 		delete.setEnabled(false);
 		delete.setToolTipText("Delete result");
-		ImageDescriptor cross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
 		delete.setImageDescriptor(cross);
-	}
+
+		// Suppression de tous les résultats
+		deleteAll = new Action("Delete All") {
+			@Override
+			public void run() {
+				manager.getCurrentServiceResult().removeAll();
+			}
+		};
+		deleteAll.setToolTipText("Delete all results");
+		deleteAll.setImageDescriptor(cross);
+}
 
 	/**
 	 * Création de la barre d'outils des résultats
@@ -196,6 +211,7 @@ public class ResultsView extends ViewPart {
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
 		toolbarManager.add(delete);
+		toolbarManager.add(deleteAll);
 	}
 
 	/**
