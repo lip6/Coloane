@@ -1,9 +1,12 @@
 package fr.lip6.move.coloane.api.session;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
+import java.lang.IllegalStateException;
 
 /**
  * cette classe implemente l'interface ISessionController. elle gere les
@@ -84,7 +87,6 @@ public class SessionController implements ISessionController {
 	 */
 	public boolean suspendSession(IApiSession s) {
 		if (this.activeSession.equals(s)) {
-			this.activeSession = null;
 			return true;
 		}
 		return false;
@@ -116,16 +118,22 @@ public class SessionController implements ISessionController {
 	 *            la session qu'on veut ouvrir.
 	 * @return vraie si c'est ok, false sinon.
 	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	public boolean openSession(IApiSession s) throws InterruptedException {
+	public boolean openSession(IApiSession s) throws InterruptedException, IOException {
 		if (this.activeSession == null) {
 			this.activeSession = s;
 			return true;
 		} else {
+			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			this.activeSession.suspendSession();
-			this.wait();
 			this.activeSession = s;
 			return true;
+		}
+			else{
+				///lever lexception attendre la notification de endOpenSession
+				throw new IllegalStateException("une autre session est en cours d'ouverture!!!");
+			}
 		}
 
 	}
@@ -133,5 +141,15 @@ public class SessionController implements ISessionController {
 	public void notifyEndOpenSession() {
 	this.activeSession.notifyEndOpenSession();
 	}
+
+
+	public void notifyEndSuspendSession(String nameSession) {
+		if(this.activeSession.getSessionName() == nameSession){
+    this.activeSession.notifyEndSuspendSession(nameSession);
+    this.activeSession= null;
+		}
+  }
+
+
 
 }

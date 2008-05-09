@@ -36,9 +36,11 @@ import java.io.IOException;
 	 	        /**
 	 	         *  Appel de la methode suspendre session.
 	 	         * @return vraie si la suspension de la session reussie, faux sinon.
+	 	         * @throws InterruptedException
+	 	         * @throws IOException
 	 	         */
 
-	 	        public boolean suspendSession();
+	 	        public boolean suspendSession() throws InterruptedException, IOException;
 
 	 	        /**
 	 	         * Appel de la methode reprendre session.
@@ -70,6 +72,8 @@ import java.io.IOException;
 
 			   public void notifyEndOpenSession();
 
+			   public void notifyEndSuspendSession(String sessionName);
 
+			   public String getSessionName();
 
 	 	}

@@ -6,6 +6,8 @@ package fr.lip6.move.coloane.api.interfaces;
  *
  */
 
+import java.io.IOException;
+
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 
 public interface ISessionController {
@@ -56,8 +58,9 @@ public interface ISessionController {
 	 * @param s la session qu'on veut ouvrir.
 	 * @return vraie si c'est ok, false sinon.
 	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	public boolean openSession(IApiSession s) throws InterruptedException;
+	public boolean openSession(IApiSession s) throws InterruptedException, IOException;
 
 	/**
 	 * nous signale la fin, des AQ et TQ
@@ -65,5 +68,9 @@ public interface ISessionController {
 	 */
 	public void notifyEndOpenSession();
 
-
+	/**
+	 * nous signale la reception du SS
+	 * appelé par le parseur.
+	 */
+	public void notifyEndSuspendSession(String sessionName);
 }

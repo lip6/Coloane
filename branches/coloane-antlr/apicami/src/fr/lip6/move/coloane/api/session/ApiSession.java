@@ -64,6 +64,7 @@ public class ApiSession implements IApiSession {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
+
 		if (this.sessionCont.openSession(this))
 			// TODO lexeption
 
@@ -102,13 +103,19 @@ public class ApiSession implements IApiSession {
 	}
 
 	public boolean resumeSession() {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
-	public boolean suspendSession() {
-		speaker.suspendSession(this.sessionName);
+	public boolean suspendSession() throws InterruptedException, IOException {
+		if ( this.sessionCont.suspendSession(this)){
+		synchronized(this){
+			speaker.suspendSession();
+		    this.wait();
+		}
 		return true;
+		}
+		return false;
 	}
 
 
@@ -118,9 +125,28 @@ public class ApiSession implements IApiSession {
 
 
 	public void notifyEndOpenSession() {
-     this.automate.setIdleState();
+
+       this.automate.setIdleState();
+
+       System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
+	}
+
+
+	public void notifyEndSuspendSession(String nameSession) {
+		System.out.println("jai recu un notifyEndSuspendSession");
+		synchronized(this){
+        this.notify();
+		}
 
 	}
+
+
+	public String getSessionName() {
+
+		return this.sessionName;
+	}
+
+
 
 
 

@@ -32,7 +32,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 
 	public boolean setIdleState() {
-		if (this.state == 2){
+		if (this.state == 1){
 		this.state = IDLE_STATE;
 		return true;
 		}

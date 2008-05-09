@@ -77,20 +77,31 @@ public class ComStub {
 	 * @throws InterruptedException
 	 *
 	 */
-	public static IApiSession testOpenSession(IApiConnection connection) throws IOException, InterruptedException{
+	public static IApiSession testOpenSession(IApiConnection connection, String nomSession) throws IOException, InterruptedException{
 		IApiSession session = connection.getAPISession();
-		session.openSession("241283", "AMI-Net", "premier.petri");
+		session.openSession("241283", "AMI-Net", nomSession);
 		return session;
 	}
 
 	public static void main(String args[]) throws IOException, InterruptedException{
 
+		 Api.initialize();
+
 		/** Test l'ouverture de la connexion */
 		IApiConnection connection = testOpenConnection();
 
 		/** Test l'ouverture d'une session */
-		IApiSession session = testOpenSession(connection);
-		Api.initialize();
+		IApiSession session = testOpenSession(connection, "premier.petri");
+
+
+		Thread.sleep(10000);
+		System.out.println("2eme session");
+		/** Test l'ouverture d'une seconde ession */
+		IApiSession session2 = testOpenSession(connection, "second.petri");
+
+
+
+
 	}
 
 }
