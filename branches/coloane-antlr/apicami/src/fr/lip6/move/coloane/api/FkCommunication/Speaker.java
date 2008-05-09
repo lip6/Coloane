@@ -47,17 +47,32 @@ public class Speaker implements ISpeaker{
 
 	}
 
-
-	public void closeConnection() {
-		// TODO Auto-generated method stub
-
+	/**
+	 * Ferme la connexion avec FrameKit
+	 * @throws IOException
+	 */
+	public void closeConnection() throws IOException {
+		/** fabrique la commande FC */
+		byte[] cmdToSend = CamiGenerator.generateCmdFC();
+		/** envoie de la commande FC */
+		this.fkll.writeCommand(cmdToSend);
 	}
 
+	/**
+	 * Clore la session
+	 * @param continueProcessing
+	 * @throws IOException
+	 */
+	public void closeSession(boolean continueProcessing) throws IOException {
 
-	public void closeSession(String SessionName) {
-		// TODO Auto-generated method stub
 
+		/** fabrique la commande FS */
+		byte[] cmdToSend = CamiGenerator.generateCmdFS(continueProcessing);
+		/** envoie de la commande FS */
+		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
+
 
 	/** initie la connexion avec FrameKit
 	 * @param login
@@ -70,6 +85,7 @@ public class Speaker implements ISpeaker{
 		byte[] cmdToSend = CamiGenerator.generateCmdSC(login, password);
 		/** envoie de la commande SC */
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 	}
 
@@ -85,6 +101,7 @@ public class Speaker implements ISpeaker{
 		byte[] cmdToSend = CamiGenerator.generateCmdOC(uiName,uiVersion, login);
 		/** envoie de la commande SC */
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 	}
 
@@ -96,9 +113,9 @@ public class Speaker implements ISpeaker{
 	 *   @param formalisme de la session
 	 *   @param	interlocuteur (outil invoqué)
 	 *   @param mode batch ou interactif
-	 * @throws IOException
+	 *   @throws IOException
 	 *
- 	*/
+ 	 */
 	public void openSession(String sessionName, String date,
 			String sessionFormalism, String interlocutor, int mode) throws IOException {
 

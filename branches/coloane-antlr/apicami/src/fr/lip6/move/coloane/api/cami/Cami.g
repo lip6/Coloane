@@ -60,7 +60,7 @@ import java.util.HashMap;
 
 command
     : 
-    ack_open_communication | ack_open_connection
+    ack_open_communication | ack_open_connection | close_connection
     | ack_open_session | receving_menu
     |update*
     |end_menu_transmission
@@ -68,6 +68,7 @@ command
 
     |ack_suspend_current_session
     |ack_resume_suspend_current_session
+    |ack_close_current_session
     ;
 
 
@@ -105,7 +106,13 @@ ack_open_connection
 	;
 
 
-
+/* ---------------------- Fermeture de la connexion coté FrameKit -------------- */
+close_connection
+    :
+    'FC()'{
+            /* TODO ON VERRA CE QU'ON FERA ICIIIIIIIIIIIII*/
+        }
+    ;
 /* ---------------------- Ouverture de la session ------------------------------ */
 ack_open_session
 	:
@@ -117,9 +124,6 @@ ack_open_session
             menuList = new ArrayList<IMenu>();
             /*  */
             camiUpdates = new ArrayList<ArrayList<String>>();
-            
-
-
         }
 	|'TD()'{
             // Ajouter un controle qu'on doit bien recevoir TD
@@ -128,17 +132,16 @@ ack_open_session
 	|'FA()'{// Ajouter un controle qu'on doit bien recevoir FA}
 //            System.out.println("FA");
         }
-
+        
     |interlocutor_table
-
+        
 	;
-
+    
 /* ----------------------  Suspension de la session courante -------------------- */ /*8888888888888888 -TODO- 888888888888888**/
 ack_suspend_current_session 
 	:	 
-	'SS('CAMI_STRING')'
-        {/* Notifier au sessionController de l'acquittement du SS  */
-            sc.notifyEndSuspendSession($CAMI_STRING.text);
+	'SS()'{/* Notifier au sessionController de l'acquittement du SS  */
+            sc.notifyEndSuspendSession();
         }
 	;
 
@@ -147,8 +150,20 @@ ack_suspend_current_session
 /* ----------------------------  reprise d'une session -------------------------- */ /*8888888888888888 -TODO- 888888888888888**/
 ack_resume_suspend_current_session
 	:
-	'RS(' CAMI_STRING ')'
+	'RS(' CAMI_STRING ')'{
+            sc.notifyEndResumeSession($CAMI_STRING.text);
+        }
 	;
+
+
+/* ----------------------------  fermeture d'une session -------------------------- */ /*8888888888888888 -TODO- 888888888888888**/
+ack_close_current_session
+	:
+	'FS(' CAMI_STRING ')'{
+            sc.notifyEndCloseSession();
+        }
+	;
+
 
 
 

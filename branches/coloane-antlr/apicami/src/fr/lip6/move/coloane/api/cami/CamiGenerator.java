@@ -153,11 +153,20 @@ public class CamiGenerator {
 	 * @param password
 	 * @return Commande cami SC
 	 */
-
-
 	public static byte[] generateCmdSC(String login, String password) {
 
 		String command = new String("SC(" + login.length() + ":" + login + "," + password.length() + ":" + password + ")");
+		return initCommand(command);
+
+	}
+
+	/**
+	 * Construction de la commande FC
+	 * @return
+	 */
+	public static byte[] generateCmdFC() {
+
+		String command = new String("FC()");
 		return initCommand(command);
 
 	}
@@ -171,6 +180,21 @@ public class CamiGenerator {
 	 */
 	public static byte[] generateCmdSS() {
 		String command = new String("SS()");
+		return initCommand(command);
+	}
+
+	/**
+	 * Construction de la commande SS
+	 * @param continueProcessing
+	 * @return
+	 */
+	public static byte[] generateCmdFS(boolean continueProcessing) {
+		int i;
+		if(continueProcessing==true)
+			i=0;
+		else
+			i=1;
+		String command = new String("SS(" + i +")");
 		return initCommand(command);
 	}
 

@@ -30,8 +30,9 @@ public interface ISpeaker {
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK la fermeture de la connection.
+	 * @throws IOException
 	 */
-	void closeConnection();
+	void closeConnection() throws IOException;
 
 	/**
 	 *   demande a ISpeaker d'envoyer a FK l'ouverture d'une session.
@@ -48,8 +49,9 @@ public interface ISpeaker {
 	/**
 	 * demande a ISpeaker d'envoyer a FK la fermeture d'une session.
 	 *   @param le nom de la session.
+	 * @throws IOException
 	 */
-	void closeSession(String sessionName);
+	void closeSession(boolean continueProcessing) throws IOException;
 
 	/**
 	 * demande a ISpeaker d'envoyer a FK la suspension d'une session.
