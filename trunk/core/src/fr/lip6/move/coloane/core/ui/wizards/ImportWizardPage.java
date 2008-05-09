@@ -244,6 +244,10 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			return false;
 		}
 
+		if (getContainerFullPath() == null) {
+			return false;
+		}
+
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
 		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
 			setErrorMessage("A file already exists with the same name... Please choose another one");
