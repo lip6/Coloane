@@ -136,7 +136,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	private String computeModelName(String name, String formalisme) {
 		// Recupere les informations sur le formalisme choisi
 		Formalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalisme);
-		Coloane.getLogger().fine("Formalisme choisi : " + importFormalism.getName());
+		Coloane.getLogger().fine("Formalisme choisi : " + importFormalism.getName()); //$NON-NLS-1$
 
 		// Travail sur l'extension du fichier
 		int pos = name.lastIndexOf('.');
@@ -168,7 +168,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 			// Traduction du modele au format xml
 			String xmlString = ModelWriter.translateToXML(model);
-			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
 
 
 			String newName = computeModelName(getFileName(), formSelect.getText());
@@ -250,7 +250,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
 		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
-			setErrorMessage("A file already exists with the same name... Please choose another one");
+			setErrorMessage(Messages.ImportWizardPage_15);
 			return false;
 		}
 
