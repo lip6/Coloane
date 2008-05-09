@@ -72,7 +72,7 @@ import java.io.IOException;
 
 			   public void notifyEndOpenSession();
 
-			   public void notifyEndSuspendSession(String sessionName);
+			   public void notifyEndSuspendSession();
 
 			   public String getSessionName();
 

@@ -132,7 +132,7 @@ public class ApiSession implements IApiSession {
 	}
 
 
-	public void notifyEndSuspendSession(String nameSession) {
+	public void notifyEndSuspendSession() {
 		System.out.println("jai recu un notifyEndSuspendSession");
 		synchronized(this){
         this.notify();

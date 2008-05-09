@@ -143,11 +143,11 @@ public class SessionController implements ISessionController {
 	}
 
 
-	public void notifyEndSuspendSession(String nameSession) {
-		if(this.activeSession.getSessionName() == nameSession){
-    this.activeSession.notifyEndSuspendSession(nameSession);
+	public void notifyEndSuspendSession() {
+
+    this.activeSession.notifyEndSuspendSession();
     this.activeSession= null;
-		}
+
   }
 
 

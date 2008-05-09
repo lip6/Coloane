@@ -72,5 +72,5 @@ public interface ISessionController {
 	 * nous signale la reception du SS
 	 * appelé par le parseur.
 	 */
-	public void notifyEndSuspendSession(String sessionName);
+	public void notifyEndSuspendSession();
 }

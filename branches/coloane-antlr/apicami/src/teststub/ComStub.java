@@ -79,7 +79,7 @@ public class ComStub {
 	 */
 	public static IApiSession testOpenSession(IApiConnection connection, String nomSession) throws IOException, InterruptedException{
 		IApiSession session = connection.getAPISession();
-		session.openSession("241283", "AMI-Net", nomSession);
+		session.openSession("241483", "AMI-Net", nomSession);
 		return session;
 	}
 
