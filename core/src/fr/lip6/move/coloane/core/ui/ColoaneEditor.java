@@ -408,7 +408,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	@Override
 	public final void dispose() {
-		super.dispose();
+		if (this.model == null) {
+			Coloane.showErrorMsg("Cannot display the model...");
+			return;
+		} else {
+			super.dispose();
+		}
 	}
 
 	/*
