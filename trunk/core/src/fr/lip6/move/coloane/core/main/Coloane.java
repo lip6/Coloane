@@ -213,12 +213,12 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param store Le groupe ou stocker les preferences
 	 */
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
-		store.setDefault("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("LOGIN", getParam("LOGIN_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Server name, IP and port for Framekit
-		store.setDefault("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
-		store.setDefault("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
-		store.setDefault("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("SERVER", getParam("SERVER_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("IP", getParam("IP_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
+		store.setDefault("PORT", getParam("PORT_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		//Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);

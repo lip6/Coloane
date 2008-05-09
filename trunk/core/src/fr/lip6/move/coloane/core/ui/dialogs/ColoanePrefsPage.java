@@ -101,8 +101,8 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) { //$NON-NLS-1$
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
-						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
-						port = String.valueOf("7001"); //$NON-NLS-1$
+						ip = InetAddress.getByName("localhost").getHostAddress();
+						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 
 					// Dans le cas Autres...
 					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_14)) { // Autre ..
@@ -183,10 +183,10 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	public final boolean performOk() {
-		Coloane.getDefault().setPreference("LOGIN", loginField.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("SERVER", comboServer.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("IP", framekitIp.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("PORT", framekitPort.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
 		return super.performOk();
 	}
 
