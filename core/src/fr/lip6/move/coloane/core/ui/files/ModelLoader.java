@@ -18,6 +18,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
+import org.xml.sax.SAXException;
 
 public final class ModelLoader {
 
@@ -63,14 +64,25 @@ public final class ModelLoader {
 		// On determine le formalisme (objet) pour trouver le bon XSchema
 		Formalism currentFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(globalHandler.getModel().getFormalism());
 
+		// Declaration de quelques variables
+		Schema schema;
+		SAXParserFactory factory;
+
 		// Deuxieme verification pour voir si le fichier respecte le formalisme qu'il est cense utiliser
 		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/" + currentFormalism.getSchema())); //$NON-NLS-1$
-			Schema schema = schemaFactory.newSchema(schemaSource);
+			schema = schemaFactory.newSchema(schemaSource);
+		} catch (SAXException e) {
+			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation " + currentFormalism.getSchema()); //$NON-NLS-1$
+			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName() + "\nThe XML Schema has not been loaded correctly !");
+			return null;
+		}
 
+		try {
 			// Phase de validation du fichier par rapport au modele global
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(xmlFile.getContents()));
@@ -78,9 +90,10 @@ public final class ModelLoader {
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(xmlFile.getLocation().toString(), modelHandler);
 		} catch (Exception e) {
-			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
+			Coloane.getLogger().warning("Erreur lors de la lecture du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName());
+			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName() + "\nXML validation has failed. Your file is not compliant.\nPlease check your file by editing it with a text editor !");
+			return null;
 		}
 
 		// Creation du modele a partir du modele generique
