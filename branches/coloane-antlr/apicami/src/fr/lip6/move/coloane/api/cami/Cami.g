@@ -138,7 +138,7 @@ ack_suspend_current_session
 	:	 
 	'SS('CAMI_STRING')'
         {/* Notifier au sessionController de l'acquittement du SS  */
-            sc.notifyEndSuspendSession($CAMI_STRING);
+            sc.notifyEndSuspendSession($CAMI_STRING.text);
         }
 	;
 

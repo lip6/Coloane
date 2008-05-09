@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-05-09 20:04:50
+// $ANTLR 3.0.1 Cami.g 2008-05-09 20:10:23
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -459,7 +459,7 @@ public class CamiParser extends Parser {
             match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_suspend_current_session250); 
             match(input,9,FOLLOW_9_in_ack_suspend_current_session251); 
             /* Notifier au sessionController de l'acquittement du SS  */
-                        sc.notifyEndSuspendSession(CAMI_STRING2);
+                        sc.notifyEndSuspendSession(CAMI_STRING2.getText());
                     
 
             }
