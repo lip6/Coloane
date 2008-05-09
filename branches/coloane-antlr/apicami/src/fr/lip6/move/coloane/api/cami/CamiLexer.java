@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-05-09 20:10:24
+// $ANTLR 3.0.1 Cami.g 2008-05-09 20:28:17
 
 package fr.lip6.move.coloane.api.cami;
             
@@ -179,10 +179,10 @@ public class CamiLexer extends Lexer {
     public final void mT15() throws RecognitionException {
         try {
             int _type = T15;
-            // Cami.g:14:5: ( 'SS(' )
-            // Cami.g:14:7: 'SS('
+            // Cami.g:14:5: ( 'SS()' )
+            // Cami.g:14:7: 'SS()'
             {
-            match("SS("); 
+            match("SS()"); 
 
 
             }
@@ -466,8 +466,8 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:361:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:362:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:362:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:363:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start206 = getCharIndex();
             mNUMBER(); 
@@ -491,10 +491,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:370:2: ( ({...}? => . )* )
-            // Cami.g:371:2: ({...}? => . )*
+            // Cami.g:371:2: ( ({...}? => . )* )
+            // Cami.g:372:2: ({...}? => . )*
             {
-            // Cami.g:371:2: ({...}? => . )*
+            // Cami.g:372:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -507,7 +507,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:371:4: {...}? => .
+            	    // Cami.g:372:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -536,10 +536,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:374:8: ( ( '0' .. '9' )+ )
-            // Cami.g:375:2: ( '0' .. '9' )+
+            // Cami.g:375:8: ( ( '0' .. '9' )+ )
+            // Cami.g:376:2: ( '0' .. '9' )+
             {
-            // Cami.g:375:2: ( '0' .. '9' )+
+            // Cami.g:376:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -553,7 +553,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:375:2: '0' .. '9'
+            	    // Cami.g:376:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -583,10 +583,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:380:2: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:381:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:381:2: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:382:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:381:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:382:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -600,9 +600,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:381:4: ( '\\r' )? '\\n'
+            	    // Cami.g:382:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:381:4: ( '\\r' )?
+            	    // Cami.g:382:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -611,7 +611,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:381:4: '\\r'
+            	            // Cami.g:382:4: '\\r'
             	            {
             	            match('\r'); 
 
