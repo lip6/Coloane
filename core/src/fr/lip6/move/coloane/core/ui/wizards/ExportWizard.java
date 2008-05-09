@@ -94,7 +94,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 				if (exportInstance == null) { return false;	}
 				exportInstance.export(model, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
 			} catch (Exception e) {
-				e.printStackTrace();
+				return false;
 			}
 		}
 		return true;
