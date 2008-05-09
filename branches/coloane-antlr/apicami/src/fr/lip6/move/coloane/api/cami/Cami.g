@@ -136,9 +136,9 @@ ack_open_session
 /* ----------------------  Suspension de la session courante -------------------- */ /*8888888888888888 -TODO- 888888888888888**/
 ack_suspend_current_session 
 	:	 
-	'SS()'
+	'SS('CAMI_STRING')'
         {/* Notifier au sessionController de l'acquittement du SS  */
-            sc.notifyAckSuspendSession();
+            sc.notifyEndSuspendSession($CAMI_STRING);
         }
 	;
 
