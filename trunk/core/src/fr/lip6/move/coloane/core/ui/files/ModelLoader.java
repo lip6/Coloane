@@ -51,7 +51,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName());
+			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName());
 			return null;
 		}
 
@@ -78,7 +78,7 @@ public final class ModelLoader {
 		} catch (SAXException e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation " + currentFormalism.getSchema()); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName() + "\nThe XML Schema has not been loaded correctly !");
+			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName() + ColoaneMessages.ModelLoader_0);
 			return null;
 		}
 
@@ -92,7 +92,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			Coloane.getLogger().warning("Erreur lors de la lecture du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_1 + xmlFile.getName() + "\nXML validation has failed. Your file is not compliant.\nPlease check your file by editing it with a text editor !");
+			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName() + ColoaneMessages.ModelLoader_1);
 			return null;
 		}
 
@@ -106,7 +106,7 @@ public final class ModelLoader {
 			}
 		} catch (BuildException e) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_3 + e.getMessage());
+			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_3 + e.getMessage());
 		}
 		return model;
 	}

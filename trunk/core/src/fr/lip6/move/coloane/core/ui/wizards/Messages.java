@@ -21,6 +21,7 @@ public final class Messages extends NLS {
 	public static String ImportWizardPage_1;
 	public static String ImportWizardPage_11;
 	public static String ImportWizardPage_12;
+	public static String ImportWizardPage_15;
 	public static String ImportWizardPage_3;
 	public static String ImportWizardPage_4;
 	public static String ImportWizardPage_7;
