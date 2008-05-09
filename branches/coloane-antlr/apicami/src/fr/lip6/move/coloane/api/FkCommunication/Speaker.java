@@ -1,4 +1,4 @@
-	package fr.lip6.move.coloane.api.FkCommunication;
+package fr.lip6.move.coloane.api.FkCommunication;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -111,21 +111,31 @@ public class Speaker implements ISpeaker{
 		/* envoi de la commande DI */
 		cmdToSend = CamiGenerator.generateCmdDI();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/* envoi de la commande CI */
 		cmdToSend = CamiGenerator.generateCmdCI(interlocutor, mode);
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/* envoi de la commande FI */
 		cmdToSend = CamiGenerator.generateCmdFI();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 	}
 
+	/**
+	 * suspension de la session
+	 * @throws IOException
+	 *
+	 */
+	public void resumeSession(String sessionName) throws IOException {
+		/* envoi de la commande FI */
+		byte[] cmdToSend = CamiGenerator.generateCmdRS(sessionName);
+		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
-
-	public void resumeSession(String SessionName) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -142,8 +152,15 @@ public class Speaker implements ISpeaker{
 	}
 
 
-	public void suspendSession(String SessionName) {
-		// TODO Auto-generated method stub
+	/**
+	 * @throws IOException
+	 *
+	 */
 
+	public void suspendSession() throws IOException {
+		/** fabrique la commande SS */
+		byte[] cmdToSend = CamiGenerator.generateCmdSS();
+		/** envoie de la commande SS */
+		this.fkll.writeCommand(cmdToSend);
 	}
 }

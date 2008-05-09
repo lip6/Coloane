@@ -143,9 +143,9 @@ public class CamiGenerator {
 	}
 
 
-	public ArrayList<byte[]> generateCmdRS(String SessionName) {
-		// TODO Auto-generated method stub
-		return null;
+	public static byte[] generateCmdRS(String sessionName) {
+		String command = new String("RS(" + sessionName.length() + ":" + sessionName + ")");
+		return initCommand(command);
 	}
 
 	/**
@@ -163,9 +163,15 @@ public class CamiGenerator {
 	}
 
 
-	public ArrayList<byte[]> generateCmdSS() {
-		// TODO Auto-generated method stub
-		return null;
+
+	/**
+	 * Méthode s'occupant de la construction de la commande SS
+	 * @param sessionName
+	 * @return
+	 */
+	public static byte[] generateCmdSS() {
+		String command = new String("SS()");
+		return initCommand(command);
 	}
 
 }

@@ -53,15 +53,17 @@ public interface ISpeaker {
 
 	/**
 	 * demande a ISpeaker d'envoyer a FK la suspension d'une session.
-	 *   @param le nom de la session.
+	 * @param le nom de la session.
+	 * @throws IOException
 	 */
-	void suspendSession(String sessionName);
+	void suspendSession() throws IOException;
 
 	/**
 	 * demande a ISpeaker d'envoyer a FK la reprise d'une session.
 	 *   @param le nom de la session.
+	 * @throws IOException
 	 */
-	void resumeSession(String sessionName);
+	void resumeSession(String sessionName) throws IOException;
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK la demande de service.

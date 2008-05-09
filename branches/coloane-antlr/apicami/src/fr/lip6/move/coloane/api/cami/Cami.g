@@ -65,6 +65,9 @@ command
     |update*
     |end_menu_transmission
     |special_message
+
+    |ack_suspend_current_session
+    |ack_resume_suspend_current_session
     ;
 
 
@@ -130,6 +133,22 @@ ack_open_session
 
 	;
 
+/* ----------------------  Suspension de la session courante -------------------- */ /*8888888888888888 -TODO- 888888888888888**/
+ack_suspend_current_session 
+	:	 
+	'SS()'
+        {/* Notifier au sessionController de l'acquittement du SS  */
+            sc.notifyAckSuspendSession();
+        }
+	;
+
+
+
+/* ----------------------------  reprise d'une session -------------------------- */ /*8888888888888888 -TODO- 888888888888888**/
+ack_resume_suspend_current_session
+	:
+	'RS(' CAMI_STRING ')'
+	;
 
 
 
@@ -306,7 +325,7 @@ update /* TQ de type 7 et 8*/
 
 /* ----------------------- fin de la transmission d'un menu QQ(3) --------------------------*/
 end_menu_transmission
-	:
+	:       
 	'QQ(' NUMBER ')'{
             
 //            System.out.println("QQ(" + $NUMBER.text + ")");
