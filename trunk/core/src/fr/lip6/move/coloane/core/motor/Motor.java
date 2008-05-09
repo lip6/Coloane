@@ -382,7 +382,7 @@ public final class Motor {
 			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSessionStatus(name));
 			ui.redrawMenus();
 		} else {
-			Coloane.getLogger().warning("Echec lors de la reprise de session " + name); //$NON-NLS-1$
+			Coloane.getLogger().fine("Echec lors de la reprise de session " + name); //$NON-NLS-1$
 		}
 		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
 	}

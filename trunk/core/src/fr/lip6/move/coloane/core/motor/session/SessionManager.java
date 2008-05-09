@@ -164,7 +164,7 @@ public final class SessionManager {
 			this.currentSession = toResume;
 			return true;
 		} else {
-			Coloane.getLogger().warning("Session active non enregistree"); //$NON-NLS-1$
+			Coloane.getLogger().fine("Session active non enregistree"); //$NON-NLS-1$
 			return false;
 		}
 	}
