@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane.features</groupId>
 	<artifactId>importexport</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<name>Feature - Import/Export</name>
 	<description>Set of import/export tools and wizards for Coloane</description>
 
@@ -49,7 +49,7 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane</groupId>
 			<artifactId>importexportPNML</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
