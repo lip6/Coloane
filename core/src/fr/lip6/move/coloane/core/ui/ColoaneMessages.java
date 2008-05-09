@@ -8,9 +8,6 @@ public final class ColoaneMessages extends NLS {
 	public static String Editor_3;
 	public static String ExportWizard_2;
 	public static String ModifyWorkspace_0;
-	public static String PaletteFactory_4;
-	public static String PaletteFactory_5;
-	public static String PaletteFactory_6;
 	public static String UserInterface_1;
 	static {
 		// initialize resource bundle
