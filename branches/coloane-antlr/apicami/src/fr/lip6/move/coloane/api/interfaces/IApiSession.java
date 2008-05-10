@@ -45,8 +45,10 @@ import java.io.IOException;
 	 	        /**
 	 	         * Appel de la methode reprendre session.
 	 	         * @return vraie si la reprise de la session reussie, faux sinon.
+	 	         * @throws IOException
+	 	         * @throws InterruptedException
 	 	         */
-	 	        public boolean resumeSession();
+	 	        public boolean resumeSession() throws IOException, InterruptedException;
 
 	 	        /**
 	 	         * Appel de la methode demande de service.
@@ -75,5 +77,8 @@ import java.io.IOException;
 			   public void notifyEndSuspendSession();
 
 			   public String getSessionName();
+
+			   public void notifyEndResumeSession(String nameSession);
+
 
 	 	}

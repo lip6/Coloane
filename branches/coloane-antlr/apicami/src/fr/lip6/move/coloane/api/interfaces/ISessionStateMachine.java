@@ -10,7 +10,7 @@ public interface ISessionStateMachine {
 	/** l'état initial de l'automate.
 	 * qui correspond a une session créée,cf automates d'etat de la session.
 	 */
-     static final int INITIALE_STATE = 0;
+     static final int INITIAL_STATE = 0;
 
 	/**
 	 * ca correspond a l'attente des menus et updates,cf automates d'etat de la session.
@@ -22,6 +22,25 @@ public interface ISessionStateMachine {
 	 * ca correspond a session ouverte .
 	 */
 	static final int IDLE_STATE = 2;
+
+	/**
+	 * ca correspond a lattente de la suspension de la session .
+	 */
+	static final int WAITING_FOR_SUSPEND_SESSION_STATE = 3;
+
+
+	/**
+	 * ca correspond a letat de la suspension de la session .
+	 */
+	static final int SUSPEND_SESSION_STATE = 4;
+
+
+	/**
+	 * ca correspond a lattente de la reprise de la session .
+	 */
+	static final int WAITING_FOR_RESUME_SESSION_STATE = 5;
+
+
 
 	/**
 	 * nous retourne l'etat de notre session.
@@ -41,4 +60,25 @@ public interface ISessionStateMachine {
      * @return boolean
      */
     public boolean setIdleState();
+
+
+    /**
+     * nous positionne l'etat WAITING_FOR_SUSPEND_SESSION_STATE, si possible.
+     * @return boolean
+     */
+    public boolean setWaitingForSuspendSessionState();
+
+    /**
+     * nous positionne SUSPEND_SESSION_STATE, si possible.
+     * @return boolean
+     */
+    public boolean setSuspendSessionState();
+
+
+    /**
+     * nous positionne l'etat WAITING_FOR_RESUME_SESSION_STATE, si possible.
+     * @return boolean
+     */
+    public boolean setWaitingForResumeSessionState();
+
 }

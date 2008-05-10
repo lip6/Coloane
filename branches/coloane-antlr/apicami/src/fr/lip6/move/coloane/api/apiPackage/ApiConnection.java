@@ -114,9 +114,9 @@ public class ApiConnection implements IApiConnection {
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
-	public boolean closeConnection() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean closeConnection() throws IOException {
+		speaker.closeConnection();
+		return true;
 	}
 
 	/**

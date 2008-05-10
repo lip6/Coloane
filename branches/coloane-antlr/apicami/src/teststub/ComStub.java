@@ -101,6 +101,10 @@ public class ComStub {
 
 
 
+		Thread.sleep(10000);
+		System.out.println("\n\n\nreprise de la 1ére session");
+        session.resumeSession();
+
 
 	}
 

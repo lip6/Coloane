@@ -50,8 +50,10 @@ public interface ISessionController {
 	 * nous permet de reprendre la session.
 	 * @param la session a reprendre.
 	 * @return true, si la session a été reprise , false sinon.
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	public boolean resumeSession(IApiSession s);
+	public boolean resumeSession(IApiSession s) throws InterruptedException, IOException;
 
 	/**
 	 * session demande a session controller s'il a le droit d'ouvrir une session ou pas.
@@ -73,4 +75,6 @@ public interface ISessionController {
 	 * appelé par le parseur.
 	 */
 	public void notifyEndSuspendSession();
+
+	public void notifyEndResumeSession(String nameSession);
 }

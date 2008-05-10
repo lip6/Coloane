@@ -71,7 +71,7 @@ public class ApiSession implements IApiSession {
 			this.speaker.openSession(this.sessionName, this.sessionDate,
 					this.sessionFormalism, this.interlocutor, this.mode);
 			if( !this.automate.setWaitingForUpdatesAndMenusState() ){
-		//		throw new InvalidStateException("impossible de passer de l'etat initialState a ");
+		 throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
 	}
 	}
 
@@ -102,15 +102,28 @@ public class ApiSession implements IApiSession {
 
 	}
 
-	public boolean resumeSession() {
+	public boolean resumeSession() throws IOException, InterruptedException {
+        if (this.sessionCont.resumeSession(this)){
+     //  System.out.println("je  resume la session " + this.getSessionName());
+    			speaker.resumeSession(this.getSessionName());
+    			 if (!this.automate.setWaitingForResumeSessionState()){
+    				throw new IllegalStateException("je suis pas dans un etat qui me permet de reprendre mon execution");
+    			 }
 
-		return false;
-	}
+    			// System.out.println("letat de la session a resumer  " + this.automate.getState());
+    		return true;
+    		}
+    		return false;
+    	}
+
 
 	public boolean suspendSession() throws InterruptedException, IOException {
 		if ( this.sessionCont.suspendSession(this)){
 		synchronized(this){
 			speaker.suspendSession();
+			 if (!this.automate.setWaitingForSuspendSessionState()){
+				throw new IllegalStateException("je suis pas dans un etat qui me permet de me suspendre");
+			 }
 		    this.wait();
 		}
 		return true;
@@ -125,10 +138,12 @@ public class ApiSession implements IApiSession {
 
 
 	public void notifyEndOpenSession() {
+		System.out.println("jai recu un notifyEndOpenSession");
+      if (! this.automate.setIdleState()){
+    	  throw new IllegalStateException("je suis pas dans un etat qui me permette detre idle");
+      }
 
-       this.automate.setIdleState();
-
-       System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
+    //   System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
 	}
 
 
@@ -137,6 +152,9 @@ public class ApiSession implements IApiSession {
 		synchronized(this){
         this.notify();
 		}
+		if (!this.automate.setSuspendSessionState()){
+		throw new IllegalStateException("je suis pas en attente dune suspension de session");
+		}
 
 	}
 
@@ -144,6 +162,17 @@ public class ApiSession implements IApiSession {
 	public String getSessionName() {
 
 		return this.sessionName;
+	}
+
+
+	public void notifyEndResumeSession(String nameSession) {
+		System.out.println("jai recu un notifyEndResumeSession");
+		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
+		if (!this.automate.setIdleState()){
+		throw new IllegalStateException("etat pas coherent");
+		}
+
+
 	}
 
 

@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.interfaces;
 
+import java.io.IOException;
+
 import teststub.TraceMessageObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.*;
 import fr.lip6.move.coloane.api.interfaces.*;
@@ -134,8 +136,9 @@ public interface IApiConnection {
 	/**
 	 * c'est la methode fermer session.
 	 * @return vraie si la methode a réussi, faux en cas d'echec.
+	 * @throws IOException
 	 */
-	public boolean closeConnection();
+	public boolean closeConnection() throws IOException;
 
 
 

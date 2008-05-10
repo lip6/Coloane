@@ -49,8 +49,12 @@ public class SessionController implements ISessionController {
 	 * @return true si c'est fait, false sinon.
 	 */
 	public boolean addSession(IApiSession s) {
+		//System.out.println("je rajoute....." + s.getSessionName());
+
 		this.liste.add(s);
-		this.activeSession = s;
+	//	for(IApiSession session : liste ) {
+	//		System.out.println("dans la liste ya addd" +session.getSessionName());
+	//	}
 		return true;
 	}
 
@@ -62,7 +66,7 @@ public class SessionController implements ISessionController {
 	 * @return true si c'est fait, false sinon.
 	 */
 	public boolean removeSession(IApiSession s) {
-		this.activeSession = null;
+
 		return (this.liste.remove(s));
 
 	}
@@ -98,13 +102,22 @@ public class SessionController implements ISessionController {
 	 * @param la
 	 *            session a reprendre.
 	 * @return true, si la session a été reprise , false sinon.
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	public boolean resumeSession(IApiSession s) {
-		if (this.activeSession.equals(null)) {
+	public boolean resumeSession(IApiSession s) throws InterruptedException, IOException {
+
+			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
+  //  System.out.println("je suspennnd " + this.activeSession.getSessionName());
+			this.activeSession.suspendSession();
 			this.activeSession = s;
+
 			return true;
 		}
-		return false;
+			else{
+
+				throw new IllegalStateException("je peux pas etre suspenduuu!!!");
+			}
 
 	}
 
@@ -121,13 +134,18 @@ public class SessionController implements ISessionController {
 	 * @throws IOException
 	 */
 	public boolean openSession(IApiSession s) throws InterruptedException, IOException {
+
+
+		//System.out.println("dans openSession........");
 		if (this.activeSession == null) {
 			this.activeSession = s;
+			addSession(s);
 			return true;
 		} else {
 			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			this.activeSession.suspendSession();
 			this.activeSession = s;
+			addSession(s);
 			return true;
 		}
 			else{
@@ -146,9 +164,28 @@ public class SessionController implements ISessionController {
 	public void notifyEndSuspendSession() {
 
     this.activeSession.notifyEndSuspendSession();
-    this.activeSession= null;
+
 
   }
+
+
+	public void notifyEndResumeSession(String nameSession) {
+	//	for(IApiSession session : liste ) {
+	//		System.out.println("dans la liste ya" +session.getSessionName());
+	//	}
+	//	System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
+    for(IApiSession session : liste ) {
+
+    	if (session.getSessionName().equals(nameSession)){
+    		session.notifyEndResumeSession(nameSession);
+    		this.activeSession = session;
+    		break;
+    	}
+
+
+    }
+   // System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
+	}
 
 
 

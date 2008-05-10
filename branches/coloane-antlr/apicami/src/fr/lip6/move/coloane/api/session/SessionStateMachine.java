@@ -12,7 +12,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 	private int state;
 
  public SessionStateMachine (){
-	 this.state= INITIALE_STATE;
+	 this.state= INITIAL_STATE;
  }
 	public int getState() {
 		return this.state;
@@ -20,7 +20,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 
 	public boolean setWaitingForUpdatesAndMenusState() {
-		if (this.state == 0){
+		if (this.state == INITIAL_STATE){
 	this.state = WAITING_FOR_MENUS_AND_UPDATES_STATE;
 		return true;
 		}
@@ -32,10 +32,39 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 
 	public boolean setIdleState() {
-		if (this.state == 1){
+		if ((this.state == WAITING_FOR_MENUS_AND_UPDATES_STATE) ||
+		   (this.state == WAITING_FOR_RESUME_SESSION_STATE)){
 		this.state = IDLE_STATE;
 		return true;
 		}
+		return false;
+	}
+
+
+	public boolean setWaitingForSuspendSessionState() {
+		if (this.state == IDLE_STATE){
+			this.state = WAITING_FOR_SUSPEND_SESSION_STATE;
+			return true;
+			}
+		return false;
+	}
+
+
+	public boolean setSuspendSessionState() {
+		if (this.state == WAITING_FOR_SUSPEND_SESSION_STATE){
+			this.state = SUSPEND_SESSION_STATE;
+			return true;
+			}
+		return false;
+	}
+
+
+
+	public boolean setWaitingForResumeSessionState() {
+		if (this.state == SUSPEND_SESSION_STATE){
+			this.state = WAITING_FOR_RESUME_SESSION_STATE;
+			return true;
+			}
 		return false;
 	}
 
