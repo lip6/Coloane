@@ -70,38 +70,34 @@ public class ResultsView extends ViewPart {
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		ResultTreeList results = manager.getCurrentServiceResult();
+		final ResultTreeList results = manager.getCurrentServiceResult();
 
 
 		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
-		// en cas modification des résultats.
+		// en cas modification des résultats : ajouts/suppressions.
 		final Observer resultObserver = new Observer() {
 			public void update(final Observable o, Object arg) {
-				final int width = (Integer)arg;
+				final Integer width = (Integer)arg;
 				parent.getDisplay().syncExec(new Runnable() {
 					public void run() {
 						IModelImpl model = manager.getCurrentSessionModel();
-						if(model==null)
-							return;
-
-						// Mise en avant des objets
-						if(o instanceof ResultTreeList) {
-							ResultTreeList treeList = (ResultTreeList) o;
-							for(Integer id:treeList.getHighlight()) {
-								try {
+						
+						if(model!=null) {
+							// Mise en avant des objets
+							if(o instanceof ResultTreeList) {
+								ResultTreeList treeList = (ResultTreeList) o;
+								for(Integer id:treeList.getHighlight()) {
 									model.getNode(id).setSpecial(true);
-								} catch(NullPointerException e) {
-									System.err.println("NullPointer " + id);
 								}
 							}
+	
+							// Ajout de colonnes si il faut
+							for(int i=viewer.getTree().getColumnCount();i<width;i++) {
+								TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+								column.setLabelProvider(new ResultColumnLabelProvider(i));
+							}
+							updateColumnsWidth();
 						}
-
-						// Ajout de colonnes si il faut
-						for(int i=viewer.getTree().getColumnCount();i<width;i++) {
-							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
-							column.setLabelProvider(new ResultColumnLabelProvider(i));
-						}
-						updateColumnsWidth();
 
 						// Rafraichissement de la vue
 						viewer.refresh();
@@ -111,10 +107,12 @@ public class ResultsView extends ViewPart {
 		};
 		
 		// Ajout d'un observer sur la liste de résultat courrante
-		if(results!=null)
+		if(results!=null) {
+			viewer.setInput(results);
 			results.addObserver(resultObserver);
+		}
 
-		// Action quand on clic dans l'arbre
+		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IModelImpl model = manager.getCurrentSessionModel();
@@ -145,17 +143,15 @@ public class ResultsView extends ViewPart {
 		});
 
 		
+		// Ajout d'un Observer sur les changements de sessions
 		manager.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
-				System.err.println("Chagement de session");
 				if(arg instanceof Session) {
 					final ResultTreeList currentResult = ((Session) arg).getServiceResults();
-					System.err.println("Session "+((Session) arg).getName());
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
-							System.err.println(currentResult);
-							currentResult.addObserver(resultObserver);
 							viewer.setInput(currentResult);
+							currentResult.addObserver(resultObserver);
 							viewer.refresh();
 						}
 					});

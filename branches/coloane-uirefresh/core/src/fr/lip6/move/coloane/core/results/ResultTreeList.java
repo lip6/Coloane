@@ -123,12 +123,17 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	}
 
 	public void remove() {
-		System.err.println("Remove ResultTreeList");
 	}
 
 	public void update(Observable o, Object arg) {
 		setChanged();
-		notifyObservers((Integer)arg);
+		Integer width;
+		if(arg!=null)
+			width = (Integer)arg;
+		else
+			width = 0;
+		
+		notifyObservers(width);
 	}
 
 	@Override
@@ -138,6 +143,6 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	public void removeAll() {
 		list.clear();
-		update(null, null);
+		update(null, 0);
 	}
 }
