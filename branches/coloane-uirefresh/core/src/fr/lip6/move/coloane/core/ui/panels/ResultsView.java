@@ -24,9 +24,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Gestion de la vue des resultats
@@ -68,52 +67,52 @@ public class ResultsView extends ViewPart {
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
 
-
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
 		ResultTreeList results = manager.getCurrentServiceResult();
 
 
-		// Ajout d'un observer sur la liste de résultat
-		if(results!=null) {
-			results.addObserver(new Observer() {
-				public void update(final Observable o, Object arg) {
-					final int width = (Integer)arg;
-					parent.getDisplay().syncExec(new Runnable() {
-						public void run() {
-							IModelImpl model = manager.getCurrentSessionModel();
-							if(model==null)
-								return;
+		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
+		// en cas modification des résultats.
+		final Observer resultObserver = new Observer() {
+			public void update(final Observable o, Object arg) {
+				final int width = (Integer)arg;
+				parent.getDisplay().syncExec(new Runnable() {
+					public void run() {
+						IModelImpl model = manager.getCurrentSessionModel();
+						if(model==null)
+							return;
 
-							// Mise en avant des objets
-							if(o instanceof ResultTreeList) {
-								ResultTreeList treeList = (ResultTreeList) o;
-								for(Integer id:treeList.getHighlight()) {
-									try {
-										model.getNode(id).setSpecial(true);
-									} catch(NullPointerException e) {
-										System.err.println("NullPointer " + id);
-									}
+						// Mise en avant des objets
+						if(o instanceof ResultTreeList) {
+							ResultTreeList treeList = (ResultTreeList) o;
+							for(Integer id:treeList.getHighlight()) {
+								try {
+									model.getNode(id).setSpecial(true);
+								} catch(NullPointerException e) {
+									System.err.println("NullPointer " + id);
 								}
 							}
-
-							// Ajout de colonnes si il faut
-							for(int i=viewer.getTree().getColumnCount();i<width;i++) {
-								TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
-								column.setLabelProvider(new ResultColumnLabelProvider(i));
-							}
-							updateColumnsWidth();
-
-							// Rafraichissement de la vue
-							viewer.refresh();
 						}
-					});
-				}
-			});
-			viewer.setInput(results);
-		}
 
+						// Ajout de colonnes si il faut
+						for(int i=viewer.getTree().getColumnCount();i<width;i++) {
+							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+							column.setLabelProvider(new ResultColumnLabelProvider(i));
+						}
+						updateColumnsWidth();
+
+						// Rafraichissement de la vue
+						viewer.refresh();
+					}
+				});
+			}
+		};
+		
+		// Ajout d'un observer sur la liste de résultat courrante
+		if(results!=null)
+			results.addObserver(resultObserver);
 
 		// Action quand on clic dans l'arbre
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -148,14 +147,14 @@ public class ResultsView extends ViewPart {
 		
 		manager.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
-				System.err.println("aaaaaaaaaaaaaaaaaaa "+arg);
+				System.err.println("Chagement de session");
 				if(arg instanceof Session) {
-					System.err.println("bbbbbbbbbbbbbbbbbbbbbb");
 					final ResultTreeList currentResult = ((Session) arg).getServiceResults();
+					System.err.println("Session "+((Session) arg).getName());
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
-							System.err.println("ccccccccccccccccccccc");
 							System.err.println(currentResult);
+							currentResult.addObserver(resultObserver);
 							viewer.setInput(currentResult);
 							viewer.refresh();
 						}
@@ -174,8 +173,8 @@ public class ResultsView extends ViewPart {
 	}
 
 	private void createActions() {
-		ImageDescriptor cross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
-		ImageDescriptor doubleCross = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_HOVER);
+		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif");
+		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif");
 
 		// Suppression d'un resultat
 		delete = new Action("Delete") {
@@ -202,7 +201,7 @@ public class ResultsView extends ViewPart {
 			}
 		};
 		deleteAll.setToolTipText("Delete all results");
-		deleteAll.setImageDescriptor(cross);
+		deleteAll.setImageDescriptor(doubleCross);
 }
 
 	/**
