@@ -14,19 +14,26 @@
 		<module>application</module>
 		<module>extensions</module>
 	</modules>
+	
+	<scm>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/sandbox/jbvoron/${project.artifactId}</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/sandbox/jbvoron/${project.artifactId}</developerConnection>
+		<url>https://coloane.lip6.fr/trac/browser/sandbox/jbvoron/${project.artifactId}</url>
+	</scm>
+	
 
 	<distributionManagement>
 		<!-- use the following if you're not using a snapshot version. -->
 		<repository>
 			<id>releases</id>
 			<name>Depot Release</name>
-			<url>file:///Users/jbvoron/Projets/maven-release/depot/releases</url>
+			<url>file:///Users/jbvoron/Projets/depot_maven/releases</url>
 		</repository>
 		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Depot Snapshot</name>
-			<url>file:///Users/jbvoron/Projets/maven-release/depot/snapshots</url>
+			<url>file:///Users/jbvoron/Projets/depot_maven/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
