@@ -21,6 +21,11 @@ my $build = shift;
 my $plugindir = shift;
 my $featuredir = shift;
 
+if (-e $featurefile) {
+	print "No feature.xml file... Continue... \n";
+	return;
+}
+
 # Prepare the XML parser
 my $xml = XML::Twig->new(); 
 $xml->parsefile($featurefile);
