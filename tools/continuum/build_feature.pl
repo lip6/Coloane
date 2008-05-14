@@ -21,7 +21,7 @@ my $build = shift;
 my $plugindir = shift;
 my $featuredir = shift;
 
-if (-e $featurefile) {
+if (!(-e $featurefile)) {
 	print "No feature.xml file... Continue... \n";
 	return;
 }
