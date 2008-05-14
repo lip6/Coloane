@@ -17,8 +17,8 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions</groupId>
-			<artifactId>extensions</artifactId>
+			<groupId>fr.lip6.move.coloane.extensions.importexport</groupId>
+			<artifactId>importExport</artifactId>
 			<type>pom</type>
 			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
