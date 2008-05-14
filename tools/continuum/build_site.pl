@@ -32,7 +32,7 @@ foreach my $feature (@features) {
 	print "Processing associated feature : $id \n" if $debug;
 	
 	# Find, open and read the associated descriptor
-	my $filedesc = $featuredir."/last_".$id;
+	my $filedesc = $dirfeature."/last_".$nameid;
 	open (DESC, "<$filedesc") or die "FAILURE !!! ($filedesc)\n";
 	my $lastversion = <DESC>;
 	chomp $lastversion;
