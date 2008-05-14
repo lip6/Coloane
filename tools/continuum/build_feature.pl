@@ -23,7 +23,7 @@ my $featuredir = shift;
 
 if (!(-e $featurefile)) {
 	print "No feature.xml file... Continue... \n";
-	return;
+	exit;
 }
 
 # Prepare the XML parser
