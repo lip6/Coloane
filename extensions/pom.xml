@@ -24,7 +24,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
-			<artifactId>application</artifactId>
+			<artifactId>core</artifactId>
 			<version>0.11.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

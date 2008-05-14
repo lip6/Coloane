@@ -14,4 +14,12 @@
 	<name>Extension - Import Export PNML</name>
 	<description>Coloane's extension that provides PNML import/export features</description>
 
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.pnml</groupId>
+			<artifactId>cpnami</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+	</dependencies>
+
 </project>
