@@ -29,7 +29,7 @@ my $root = $xml->root;
 my @features = $root->children('feature');
 foreach my $feature (@features) {
 	my $nameid = $feature->att('id');
-	print "Processing associated feature : $id \n" if $debug;
+	print "Processing associated feature : $nameid \n" if $debug;
 	
 	# Find, open and read the associated descriptor
 	my $filedesc = $dirfeature."/last_".$nameid;
