@@ -9,11 +9,11 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.extensions</groupId>
-	<artifactId>extensions</artifactId>
+	<artifactId>importExport</artifactId>
 	<packaging>pom</packaging>
 	<version>1.2.0-SNAPSHOT</version>
-	<name>Extensions</name>
-	<description>Group of extensions dedicated to Coloane</description>
+	<name>Extensions / Import Export</name>
+	<description>Group of extensions dedicated to import and export files</description>
 
 	<modules>
 		<module>exportToDOT</module>
