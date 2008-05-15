@@ -60,7 +60,7 @@ else
 	branch=`echo updates`
 fi
 
-newjar=`echo $directory/$branch/plugins`
+directory=`echo $directory/$branch/plugins`
 
 # Copie...
 cp target/$jar $directory/$newjar
