@@ -12,10 +12,11 @@
 #  -${build.finalName}.${packaging} :le nom du jar
 #  -${buildNumber} le numero attribué par le buildnumber numero de revision
 #  -/coloane/public le chemin du dossier public
+#  -plugin|feature Le type du deploiement
 
 # Controle des arguments
-if [ $# -ne 4 ]; then
-	echo "FAILURE: This script needs 4 arguments : <version of project>, <jar's final name>, <build number> and <public directory>"
+if [ $# -ne 5 ]; then
+	echo "FAILURE: This script needs 4 arguments : <version of project>, <jar's final name>, <build number> and <public directory> <plugin|feature>"
 	exit 1
 fi
 
@@ -24,6 +25,7 @@ version=$1
 jar=$2
 rev=$3
 directory=$4
+type=$5
 
 if [ ! -f target/$jar ]; then 
 	echo "FAILURE: Jar file does not exist !"
@@ -59,7 +61,7 @@ else
 	branch=`echo updates`
 fi
 
-directory=`echo $directory/$branch/plugins`
+directory=`echo $directory/$branch/$"type"s`
 
 # Copie...
 cp target/$jar $directory/$newjar
