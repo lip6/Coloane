@@ -344,6 +344,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- Ajout d'un goal pour la release -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<goals>clean deploy</tagBase>
+					<scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<!-- Ce qu'on va rajouter dans le JAR -->
