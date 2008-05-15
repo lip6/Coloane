@@ -330,6 +330,7 @@
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public</argument>
+								<argument>plugin</argument>
 							</arguments>
 						</configuration>
 					</execution>
