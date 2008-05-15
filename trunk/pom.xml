@@ -326,9 +326,10 @@
 						<configuration>
 							<executable>deploy.sh</executable>
 							<arguments>
+								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
-								<argument>/coloane/public/night-updates/plugins</argument>
+								<argument>/coloane/public</argument>
 							</arguments>
 						</configuration>
 					</execution>
