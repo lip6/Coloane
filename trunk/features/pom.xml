@@ -93,21 +93,6 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<execution>
-						<id>Deploy</id>
-						<phase>deploy</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>deploy.sh</executable>
-							<arguments>
-								<argument>${build.finalName}.${packaging}</argument>
-								<argument>${buildNumber}</argument>
-								<argument>/coloane/public/night-updates/features</argument>
-							</arguments>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 		</plugins>
