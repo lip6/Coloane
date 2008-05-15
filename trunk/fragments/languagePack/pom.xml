@@ -13,5 +13,13 @@
 	<packaging>jar</packaging>
 	<name>Fragment - Language Pack</name>
 	<description>Language pack for Coloane's kernel</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>core</artifactId>
+			<version>0.11.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 </project>

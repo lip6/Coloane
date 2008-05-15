@@ -19,14 +19,6 @@
 		<module>languagePack</module>
 	</modules>
 	
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.application</groupId>
-			<artifactId>core</artifactId>
-			<version>0.11.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	
 	<build>
 		<!-- A ajouter dans le JAR -->
 		<resources>
