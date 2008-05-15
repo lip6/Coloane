@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: fr.lip6.move.coloane.apicami
-Bundle-Version: 0.9.11
+Bundle-Version: 0.9.11.r2630
 Bundle-Name: Coloane API (cami)
 Bundle-Vendor: LIP6 / MoVe
 Provide-Package: fr.lip6.move.coloane.api.exceptions,
