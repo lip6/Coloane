@@ -5,13 +5,13 @@
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
 		<artifactId>coloane</artifactId> 
-		<version>0.11.0</version> 
+		<version>0.12.0-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>update-site</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1.0</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<name>Update Site</name>
 	<description>Eclipse Update Site or Coloane Project</description>
 
@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>languagePack</artifactId>
-			<version>0.11.0</version>
+			<version>0.12.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>importExport</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>coloaneMain</artifactId>
-			<version>0.11.0</version>
+			<version>0.12.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
