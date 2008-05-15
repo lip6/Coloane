@@ -5,17 +5,16 @@
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>coloane</artifactId>
 	<packaging>pom</packaging>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>0.10.0</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
 	<url>http://coloane.lip6.fr</url>
 
 	<modules>
-		<module>application</module>
-		<module>extensions</module>
-		<module>fragments</module>
-		<module>features</module>
-		<module>update-site</module>
+		<module>interfaces</module>
+		<module>apicami</module>
+		<module>core</module>
+		<module>fragments/core-translation</module>
 	</modules>
 
 	<scm>
@@ -35,11 +34,12 @@
 			<id>fkordon</id>
 			<name>Fabrice Kordon</name>
 			<email>Fabrice.Kordon@lip6.fr</email>
-			<url>http://pagesperso-systeme.lip6.fr/Fabrice.Kordon/</url>
+			<url>http://www-src.lip6.fr/homepages/Fabrice.Kordon/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
 				<role>team-leader</role>
+				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -47,7 +47,7 @@
 			<id>jbvoron</id>
 			<name>Jean-Baptiste Voron</name>
 			<email>Jean-Baptiste.Voron@lip6.fr</email>
-			<url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
+			<url>http://www-src.lip6.fr/homepages/Jean-Baptiste.Voron/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -60,7 +60,19 @@
 			<id>ahamez</id>
 			<name>Alexandre Hamez</name>
 			<email>Alexandre.Hamez@lip6.fr</email>
-			<url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
+			<url>http://www-src.lip6.fr/homepages/Alexandre.Hamez/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>alinard</id>
+			<name>Alban Linard</name>
+			<email>Alban.Linard@lip6.fr</email>
+			<url>http://www-src.lip6.fr/homepages/Alban.Linard/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -75,7 +87,7 @@
 		<contributor>
 			<name>Nicolas Gibelin</name>
 			<email>Nicolas.Gibelin@lip6.fr</email>
-			<url>http://pagesperso-systeme.lip6.fr/Nicolas.Gibelin/</url>
+			<url>http://www-src.lip6.fr/homepages/Nicolas.Gibelin/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -84,43 +96,8 @@
 			<timezone>+1</timezone>
 		</contributor>
 		<contributor>
-			<name>Clément Demoulins</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Racim Yasri</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Bassem Barbouche</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Monir Chaouki</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
 			<name>Eric Masliah</name>
+			<email>Eric.Masliah@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -130,6 +107,7 @@
 		</contributor>
 		<contributor>
 			<name>Dimitri Charles</name>
+			<email>Clarence-Dimitri.Charles@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -139,6 +117,7 @@
 		</contributor>
 		<contributor>
 			<name>David Cheng</name>
+			<email>David.Cheng@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -148,6 +127,7 @@
 		</contributor>
 		<contributor>
 			<name>Alexandre Ortiz</name>
+			<email>Alexandre.Ortiz@src.lip6.fr</email>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -172,6 +152,16 @@
 					<address>Jean-Baptiste.Voron@lip6.fr</address>
 				</configuration>
 			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>false</sendOnError>
+				<sendOnFailure>false</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>false</sendOnWarning>
+				<configuration>
+					<address>Fabrice.Kordon@lip6.fr</address>
+				</configuration>
+			</notifier>
 		</notifiers>
 	</ciManagement>
 
@@ -180,12 +170,31 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.3.1</version>
+			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
-	<!-- Pour les rapports divers et varies -->
+	<!-- Envoie par SCP lors du déploiement (deploy) -->
+	<distributionManagement>
+		<!-- use the following if you're not using a snapshot version. -->
+		<repository>
+			<id>Coloane-Releases</id>
+			<name>Coloane Releases</name>
+			<url>scp://coloane.lip6.fr/coloane/public/releases</url>
+		</repository>
+		<!-- use the following if you ARE using a snapshot version. -->
+		<snapshotRepository>
+			<id>Coloane-Snapshots</id>
+			<name>Coloane Snapshots</name>
+			<url>scp://coloane.lip6.fr/coloane/public/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<id>Coloane-Reports</id>
+			<url>scp://coloane.lip6.fr/coloane/public/reports</url>
+		</site>
+	</distributionManagement>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -207,33 +216,23 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 			</plugin>
-
 		</plugins>
 	</reporting>
-
-	<distributionManagement> 
-		<!-- use the following if you're not using a snapshot version. --> 
-		<repository> 
-			<id>Coloane-Releases</id> 
-			<name>Coloane Releases</name> 
-			<url>file:///coloane/public/releases</url> 
-		</repository> 
-		<!-- use the following if you ARE using a snapshot version. --> 
-		<snapshotRepository> 
-			<id>Coloane-Snapshots</id> 
-			<name>Coloane Snapshots</name> 
-			<url>file:///coloane/public/snapshots</url> 
-		</snapshotRepository> 
-		<site> 
-			<id>Coloane-Reports</id> 
-			<url>file:///coloane/public/reports</url> 
-		</site> 
-	</distributionManagement>
 
 	<build>
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
+		<!--<directory>target/jar</directory>-->
+
+		<!-- Pour ssh et ftp -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>1.0-alpha-5</version>
+			</extension>
+		</extensions>
 
 		<!-- Configuration des plugin de Maven -->
 		<plugins>
@@ -246,6 +245,50 @@
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
+			</plugin>
+
+			<!-- Pour le SVN -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<configuration>
+					<connectionType>developerConnection</connectionType>
+					<username>${server.username}</username>
+					<password>${server.password}</password>
+					<branch>${project.artifactId}-${project.version}</branch>
+					<message>[maven-scm-plugin]</message>
+				</configuration>
+			</plugin>
+
+			<!-- Pour configurer le JAR de sortie -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<!-- Indique où se trouve notre manifest.mf -->
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
+						<!-- Rajoute Implementation-Build dans le MANIFEST -->
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> 
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<!-- <manifestEntries> -->
+						<!-- 	<Implementation-Build>${buildNumber}</Implementation-Build> -->
+						<!-- 	<Build-Version>${project.version}.${buildNumber}</Build-Version> -->
+						<!-- </manifestEntries> -->
+					</archive>
+				</configuration>
+			</plugin>
+
+			<!-- Pour les releases -->  
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<branchName>${project.artifactId}-${project.version}</branchName>
+					<preparationGoals>clean verify</preparationGoals>
+				</configuration>	
 			</plugin>
 
 			<!-- Pour le checkstyle -->
@@ -271,8 +314,10 @@
 
 			<plugin>
 				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
+				<!-- /!\ Ne marche qu'avec un SVN en anglais -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
+				<version>0.9.4</version>
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
@@ -284,39 +329,27 @@
 				</executions>
 			</plugin>
 
-			<plugin> 
-				<groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-jar-plugin</artifactId> 
-				<configuration> 
-					<archive> 
-						<!-- Indique ou se trouve notre manifest.mf --> 
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile> 
-						<!-- Rajoute Implementation-Build dans le MANIFEST --> 
-						<manifest> 
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
-						</manifest> 
-					</archive> 
-				</configuration> 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>UpTools</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+						<configuration>
+							<basedir>/coloane/tools</basedir>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>UpManifest</id>
-						<phase>package</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>updateManifest.sh</executable>
-							<arguments>
-								<argument>${buildNumber}</argument>
-							</arguments>
-						</configuration>
-					</execution>
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
@@ -329,6 +362,19 @@
 								<argument>${build.finalName}.${packaging}</argument>
 								<argument>${buildNumber}</argument>
 								<argument>/coloane/public/night-updates/plugins</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>UpManifest</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>updateManifest.sh</executable>
+							<arguments>
+								<argument>${buildNumber}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -371,6 +417,18 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<!-- Le repository des plugins Eclipse -->
+		<repository>
+			<id>Eclipse1</id>
+			<name>Eclipse Repository</name>
+			<url>http://repo1.maven.org/eclipse</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -379,6 +437,7 @@
 			<name>TLC Repository</name>
 			<url>http://commons.ucalgary.ca/pub/m2</url>
 		</pluginRepository>
+
 		<pluginRepository>
 			<id>codehausSnapshots</id>
 			<name>Codehaus Snapshots</name>
