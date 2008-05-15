@@ -50,7 +50,6 @@ fi
 # On recupere la version qu'il y a dans le manifest,on aura quelque chose du genre x.x.x.rxxxx
 bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print $2}' | tr -d "\r"`
 
-# Affichage indicatif
 newjar=`echo $bundleSymbolicName\_$bundleVersion.jar`
 
 # Calcul des chemins
@@ -64,7 +63,9 @@ directory=`echo $directory/$branch/plugins`
 
 # Copie...
 cp target/$jar $directory/$newjar
+echo "Copy $jar into $directory/$newjar"
 
+echo "Writing $bundleVersion into $last_$bundleSymbolicName"
 echo $bundleVersion > last_$bundleSymbolicName
 cp last_$bundleSymbolicName $directory
 rm -f last_$bundleSymbolicName
