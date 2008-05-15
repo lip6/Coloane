@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane</groupId> 
+		<artifactId>coloane</artifactId> 
+		<version>0.11.0</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.application</groupId>
+	<artifactId>application</artifactId>
+	<packaging>pom</packaging>
+	<version>0.11.0</version>
+	<name>Application</name>
+	<description>Main Application</description>
+
+	<modules>
+		<module>interfaces</module>
+		<module>apicami</module>
+		<module>core</module>
+	</modules>
+	
+	<build>
+		<!-- A ajouter dans le JAR -->
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+</project>
