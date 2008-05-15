@@ -61,7 +61,7 @@ else
 	branch=`echo updates`
 fi
 
-directory=`echo $directory/$branch/$"type"s`
+directory=`echo $directory/$branch/"$type"s`
 
 # Copie...
 cp target/$jar $directory/$newjar
