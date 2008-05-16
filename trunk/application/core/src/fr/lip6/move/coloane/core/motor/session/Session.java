@@ -15,9 +15,9 @@ public class Session {
 
 	/** Le modele associe */
 	private IModelImpl sessionModel;
-	
+
 	/** Le ResultTreeList associé */
-	final private ResultTreeList serviceResults;
+	private ResultTreeList serviceResults;
 
 	/** Nom de la session */
 	private String sessionName;
@@ -110,7 +110,7 @@ public class Session {
 	}
 
 	/**
-	 * Indique le menu d'administration attache � la session
+	 * Indique le menu d'administration attache a la session
 	 * @param adminMenu La racinde du menu d'administration
 	 */
 	public final void setAdminMenu(RootMenu admin) {
@@ -149,7 +149,11 @@ public class Session {
 		this.sessionStatus = status;
 	}
 
-	public ResultTreeList getServiceResults() {
+	/**
+	 * Retourne la liste de resultats associee a la session
+	 * @return La liste de resultats a afficher dans la vue adequate
+	 */
+	public final ResultTreeList getServiceResults() {
 		return serviceResults;
 	}
 }

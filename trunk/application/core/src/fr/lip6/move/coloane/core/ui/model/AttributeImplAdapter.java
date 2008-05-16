@@ -235,7 +235,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	}
 
 	@Override
-	public String toString() {
-		return attribute.getName()+":"+attribute.getValue();
+	public final String toString() {
+		return attribute.getName() + ":" + attribute.getValue();
 	}
 }

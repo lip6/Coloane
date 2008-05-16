@@ -245,13 +245,15 @@ public final class SessionManager extends Observable {
 	public void setAuthenticated(boolean authStatus) {
 		this.authenticated = authStatus;
 	}
-	
+
 	/**
-	 * @return Les resultats de la session en cours
+	 * Retourne la liste des resultats pour la session en cours
+	 * @return La liste des resultats ou null si aucune session courante
 	 */
 	public ResultTreeList getCurrentServiceResult() {
-		if(currentSession!=null)
+		if (currentSession != null) {
 			return currentSession.getServiceResults();
+		}
 		return null;
 	}
 }

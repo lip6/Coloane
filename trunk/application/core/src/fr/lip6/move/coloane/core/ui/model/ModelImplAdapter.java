@@ -359,10 +359,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#setDirty(boolean)
 	 */
 	public final void setDirty(boolean state) {
-		if (state) 
+		if (state) {
 			Coloane.getLogger().fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
-		else 
+		} else {
 			Coloane.getLogger().fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+		}
 		this.dirty = state;
 	}
 
@@ -370,10 +371,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#highlightNode(java.lang.String, java.lang.String)
 	 */
 	public final void highlightNode(int... ids) {
-		for(int id:ids) {
+		for (int id : ids) {
 			INodeImpl node = getNode(id);
-			if(node != null)
+			if (node != null) {
 				node.setSpecial(true);
+			}
 		}
 	}
 
@@ -402,14 +404,23 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return 1;
 	}
 
-	public List<INodeImpl> getNodes() {
+	/**
+	 * Retourne la liste des noeuds du modele
+	 */
+	public final List<INodeImpl> getNodes() {
 		return new ArrayList<INodeImpl>(nodes);
 	}
 
-	public INodeImpl getNode(int id) {
-		for(INodeImpl node:nodes)
-			if(node.getId() == id)
+	/**
+	 * Retourne l'objet decrivant le noeud identifie par son ID
+	 * @param id L'identifiant du noeud
+	 */
+	public final INodeImpl getNode(int id) {
+		for (INodeImpl node : nodes) {
+			if (node.getId() == id) {
 				return node;
+			}
+		}
 		return null;
 	}
 }
