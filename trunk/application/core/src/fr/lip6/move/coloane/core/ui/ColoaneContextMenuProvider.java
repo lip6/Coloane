@@ -38,6 +38,7 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 	 * whose state is enabled, will appear in the context menu.
 	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
 	 */
+	@Override
 	public void buildContextMenu(final IMenuManager menu) {
 		// Add standard action groups to the menu
 		GEFActionConstants.addStandardActionGroups(menu);

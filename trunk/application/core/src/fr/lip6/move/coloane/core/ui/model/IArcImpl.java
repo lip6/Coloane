@@ -29,7 +29,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see AbstractModelElement
  *
  */
-public interface IArcImpl {
+public interface IArcImpl extends IElement {
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
@@ -61,13 +61,6 @@ public interface IArcImpl {
 	INodeImpl getTarget();
 
 	/**
-	 * Recupere l'ID du noeud generique
-	 * Evite les appels au noeud generique
-	 * @return ID
-	 */
-	int getId();
-
-	/**
 	 * Retourne l'arc generique associe a cet arc augemente
 	 * @return Arc
 	 * @see fr.lip6.move.coloane.interfaces.model.Arc
@@ -79,12 +72,6 @@ public interface IArcImpl {
 	 * @return Formalism
 	 */
 	Formalism getFormalism();
-
-	/**
-	 * Retourne la liste des attributs attaches a cet objet
-	 * @return La liste des attributs associes a cet objet
-	 */
-	List<IElement> getAttributes();
 
 	/**
 	 * Retourne le modele generique

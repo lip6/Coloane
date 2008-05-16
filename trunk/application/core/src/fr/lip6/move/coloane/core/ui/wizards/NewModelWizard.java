@@ -46,6 +46,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * Indique l'action a entreprendre lorsque le wizard est fini
 	 * @return boolean
 	 */
+	@Override
 	public final boolean performFinish() {
 		return createModel.finish();
 	}

@@ -109,6 +109,7 @@ public final class Motor {
 
 		// Definition de l'operation d'authentification
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.authentication(authInformation, monitor));
@@ -186,6 +187,7 @@ public final class Motor {
 		IRunnableContext context = workbench.getProgressService();
 
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.openSession(sessionManager.getCurrentSessionModel(), monitor));
@@ -256,7 +258,9 @@ public final class Motor {
 		IRunnableContext context = workbench.getProgressService();
 
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			@Override
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(com.closeSession(monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
@@ -311,6 +315,7 @@ public final class Motor {
 		IRunnableContext context = workbench.getProgressService();
 
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				com.askForService(rootMenuName, referenceName, serviceName, monitor);

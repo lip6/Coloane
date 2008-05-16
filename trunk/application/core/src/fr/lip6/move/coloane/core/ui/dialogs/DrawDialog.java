@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import fr.lip6.move.coloane.core.exceptions.UIException;
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 
@@ -23,7 +25,12 @@ public class DrawDialog implements Runnable {
 	 * Corps du thread
 	 */
 	public final void run() {
-		UserInterface.drawDialog(this.dialog);
+		try {
+			UserInterface.drawDialog(this.dialog);
+		} catch (UIException e) {
+			Coloane.getLogger().warning("Erreur lors de la creation de la boite de dialogue : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(e.getMessage());
+		}
 	}
 
 }

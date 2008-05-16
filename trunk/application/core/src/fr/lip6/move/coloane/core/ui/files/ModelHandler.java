@@ -31,6 +31,7 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * Lecture des balises ouvrantes du modele
 	 */
+	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 
 		logger.finest("Balise lue : " + baliseName); //$NON-NLS-1$
@@ -127,6 +128,7 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * Gestion des donnees contenues dans les balises
 	 */
+	@Override
 	public final void characters(char[] ch, int start, int length) throws SAXException {
 		// Creation de la donnees (chaine de caracteres)
 		for (int i = 0; i < length; i++) {
@@ -139,6 +141,7 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * Lecture des balises fermantes du modele
 	 */
+	@Override
 	public final void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 
 		// La donnee doit etre du texte et pas un retour chariot ou une tabulation

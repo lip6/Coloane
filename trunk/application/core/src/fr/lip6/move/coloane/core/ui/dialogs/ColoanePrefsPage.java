@@ -55,6 +55,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
@@ -95,6 +96,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		// Mise en place de la liste des serveurs recupérés
 		comboServer.setItems(serversList);
 		comboServer.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					// Dans le cas localhost
@@ -154,6 +156,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		combo.setItems(levelList);
 		combo.setText(Messages.ColoanePrefsPage_10);
 		combo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("NORMAL")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.INFO);
@@ -171,6 +174,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
+	@Override
 	protected final void performDefaults() {
 		Coloane.getDefault().setDefaultPreference();
 		loginField.setText("");   //$NON-NLS-1$
@@ -182,6 +186,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
+	@Override
 	public final boolean performOk() {
 		Coloane.getDefault().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$
 		Coloane.getDefault().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$

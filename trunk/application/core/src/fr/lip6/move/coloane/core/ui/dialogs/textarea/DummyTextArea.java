@@ -19,13 +19,16 @@ public class DummyTextArea extends TextArea {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
 	 */
+	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
 		result.add(""); //$NON-NLS-1$
 		return result;
 	}
 
-	/* Add a choice in a DummyTextArea is a nonsense. */
+	/** 
+	 * Add a choice in a DummyTextArea is a nonsense.
+	 */
 	public final void addChoice(String choice) {
 		throw new UnsupportedOperationException();
 	}

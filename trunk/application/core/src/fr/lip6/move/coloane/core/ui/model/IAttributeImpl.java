@@ -15,7 +15,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
  * </ul>
  */
 
-public interface IAttributeImpl {
+public interface IAttributeImpl extends IElement {
 
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
@@ -34,12 +34,6 @@ public interface IAttributeImpl {
 
 	/** ID pour la propriete lorsque l'attribut doit etre selectionne */
 	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
-
-	/**
-	 * Retourne l'identifiant de l'attribut
-	 * @return
-	 */
-	int getId();
 
 	/**
 	 * Retourne la chaine qui sera affichee sur la fenetre PropertiesView d'Eclipse

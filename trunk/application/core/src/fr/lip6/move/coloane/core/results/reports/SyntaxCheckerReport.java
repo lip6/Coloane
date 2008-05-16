@@ -1,50 +1,31 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.results.Result;
+import java.util.List;
+
+import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
-public class SyntaxCheckerReport extends Report {
+public class SyntaxCheckerReport implements IReport {
 
-	/**
-	 * Constructeur du rapport
-	 * @param results
-	 */
-	public SyntaxCheckerReport(IResultsCom results) {
-		super(Messages.SyntaxCheckerReport_0, results);
+	public IResultTree build(IResultsCom result) {
+		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
+		
+		for(SubResultsCom sub:result.getSubResults()) {
+			ResultTreeImpl node = new ResultTreeImpl(sub.getCmdRT().get(0));
+			for(String obj:sub.getCmdRO()) {
+				int id = Integer.valueOf(obj);
+				node.addChild(new ResultTreeImpl(id,obj));
+			}
+			root.addChild(node);
+		}
+		
+		return root;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.results.reports.Report#buildReport()
-	 */
-	@Override
-	protected final void buildReport() {
-
-		// Si il n'y a pas de resultat : Aucun probleme !
-		if (getResultsCom().getSubResults().size() == 0) {
-			getResultList().add(new Result(Messages.SyntaxCheckerReport_2, "")); //$NON-NLS-1$
-		}
-
-		// Parcours de tous les DE-FE
-		for (SubResultsCom sr : getResultsCom().getSubResults()) {
-			String description = ""; //$NON-NLS-1$
-			String label = sr.getCmdRT().get(0);
-
-			if (label.equalsIgnoreCase("List of unnamed places.")) { //$NON-NLS-1$
-				description = Messages.SyntaxCheckerReport_5;
-			} else if (label.equalsIgnoreCase("List of unnamed transitions.")) { //$NON-NLS-1$
-				description = Messages.SyntaxCheckerReport_7;
-			} else {
-				for (String desc : sr.getCmdRT()) {	description += desc; }
-			}
-
-			// Parcours de tous les objets mis en valeur
-			for (String object : sr.getCmdRO()) {
-				getResultList().add(new Result(object, description));
-			}
-		}
+	public List<Integer> highlightNode(IResultsCom result) {
+		return new GenericReport().highlightNode(result);
 	}
-
 
 }

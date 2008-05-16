@@ -1,14 +1,16 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * Gestionnaire de Sessions
  */
-public final class SessionManager {
+public final class SessionManager extends Observable {
 
 	/** Est-on authentifie sur la plate-forme ? */
 	private boolean authenticated;
@@ -124,7 +126,11 @@ public final class SessionManager {
 	 * @param s la session a positionner comme courante
 	 */
 	public void attachSession(Session s) {
-		if (this.currentSession == null) { this.currentSession = s;	}
+		if (this.currentSession == null) {
+			this.currentSession = s;
+			setChanged();
+			notifyObservers(currentSession);
+		}
 		this.listOfSessions.add(s);
 	}
 
@@ -162,6 +168,8 @@ public final class SessionManager {
 				suspendSession(currentSession.getName());
 			}
 			this.currentSession = toResume;
+			setChanged();
+			notifyObservers(currentSession);
 			return true;
 		} else {
 			Coloane.getLogger().fine("Session active non enregistree"); //$NON-NLS-1$
@@ -187,6 +195,8 @@ public final class SessionManager {
 			// La session courante devient nulle
 			if (sessionName.equals(currentSession.getName())) {
 				currentSession = null;
+				setChanged();
+				notifyObservers(null);
 			}
 			return true;
 		}
@@ -234,5 +244,14 @@ public final class SessionManager {
 	 */
 	public void setAuthenticated(boolean authStatus) {
 		this.authenticated = authStatus;
+	}
+	
+	/**
+	 * @return Les resultats de la session en cours
+	 */
+	public ResultTreeList getCurrentServiceResult() {
+		if(currentSession!=null)
+			return currentSession.getServiceResults();
+		return null;
 	}
 }

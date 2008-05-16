@@ -23,11 +23,11 @@ public class NodeCreateCmd extends Command {
 	private Rectangle bounds;
 
 	/**
-	 * Creer une commande qui ajoutera le noeud au modle
+	 * Creer une commande qui ajoutera le noeud au modï¿½le
 	 *
-	 * @param node Le nouveau noeud ˆ ajouter
-	 * @param m Le modle qui contiendra le noeud
-	 * @param bound Les limites du noeud; (la taille peut tre (-1, -1))
+	 * @param node Le nouveau noeud ï¿½ ajouter
+	 * @param m Le modï¿½le qui contiendra le noeud
+	 * @param bound Les limites du noeud; (la taille peut ï¿½tre (-1, -1))
 	 */
 	public NodeCreateCmd(INodeImpl node, IModelImpl m, Rectangle b) {
 		this.newNode = node;
@@ -41,6 +41,7 @@ public class NodeCreateCmd extends Command {
 	 * --> Toujours OK
 	 * @return true
 	 */
+	@Override
 	public final boolean canExecute() {
 		return true;
 	}
@@ -49,6 +50,7 @@ public class NodeCreateCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		this.newNode.getGraphicInfo().setLocation(bounds.getLocation().x, bounds.getLocation().y);
 		this.redo();
@@ -58,6 +60,7 @@ public class NodeCreateCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		try {
 			model.addNode(newNode);
@@ -70,6 +73,7 @@ public class NodeCreateCmd extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		try {
 			model.removeNode(newNode);

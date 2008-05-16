@@ -42,6 +42,7 @@ public class HistoryView extends ViewPart {
 	 * @param parent Interface Composite, pour la cr�ation de la visionneuse et des controls
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public final void createPartControl(Composite parent) {
 		viewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
 		// Readonly window
@@ -62,6 +63,7 @@ public class HistoryView extends ViewPart {
 	 * Donner une valeur � Focus
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
+	@Override
 	public final void setFocus() {
 		viewer.getControl().setFocus();
 
@@ -89,10 +91,12 @@ public class HistoryView extends ViewPart {
 	private void createActions() {
 		// Copy
 		copyAction = new Action() {
+			@Override
 			public void run() {
 				HistoryView.this.viewer.doOperation(ITextOperationTarget.COPY);
 			};
 
+			@Override
 			public boolean isEnabled() {
 				return HistoryView.this.viewer.canDoOperation(ITextOperationTarget.COPY);
 			}
@@ -103,6 +107,7 @@ public class HistoryView extends ViewPart {
 
 		// Select all
 		selectAllAction = new Action() {
+			@Override
 			public void run() {
 				HistoryView.this.viewer.doOperation(ITextOperationTarget.SELECT_ALL);
 			}

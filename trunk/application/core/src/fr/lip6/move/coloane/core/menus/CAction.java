@@ -10,5 +10,6 @@ public class CAction extends Action {
 		setText(text);
 	}
 
+	@Override
 	public void run() {	}
 }
