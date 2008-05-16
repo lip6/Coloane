@@ -46,7 +46,7 @@ foreach my $feature (@features) {
 	
 	# Find, open and read the associated descriptor
 	my $filedesc = $featuredir."/last_".$id;
-	open (DESC, "<$filedesc") or die "FAILURE !!! ($filedesc)\n";
+	open (DESC, "<$filedesc") or die "The feature $id has not been built \nFAILURE !!! Unable to load the descriptor file: $filedesc\nPlease be sure to have packaged the feature";
 	my $lastversion = <DESC>;
 	chomp $lastversion;
 	print "Last version : $lastversion\n" if $debug;
@@ -63,7 +63,7 @@ foreach my $plugin (@plugins) {
 	
 	# Find, open and read the associated descriptor
 	my $filedesc = $plugindir."/last_".$id;
-	open (DESC, "<$filedesc") or die "FAILURE !!! ($filedesc)\n";
+	open (DESC, "<$filedesc") or die "The plugin $id has not been built \nFAILURE !!! Unable to load the descriptor file: $filedesc\nPlease be sure to have packaged the plugin";
 	my $lastversion = <DESC>;
 	chomp $lastversion;
 	print "Last version : $lastversion\n" if $debug;
