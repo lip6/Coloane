@@ -20,6 +20,7 @@ public class UIAction extends Action {
 		this.serviceName = service;
 	}
 
+	@Override
 	public final void run() {
 		ui.askForService(rootMenuName, referenceName, serviceName);
 	}

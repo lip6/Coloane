@@ -79,6 +79,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 	 * @param parent
 	 *            La fenetre en cours de construction
 	 */
+	@Override
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
 		case IDialogCom.DLG_OK:

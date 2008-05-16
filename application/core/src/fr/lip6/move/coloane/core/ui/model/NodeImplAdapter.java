@@ -115,6 +115,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * Cela peut etre utile lorsq'un modele est lu depuis un fichier.
 	 * @param node Le noeud generique qui vient d'etre augemente
 	 */
+	@SuppressWarnings("null")
 	private void setProperties(INode n) {
 
 		// Parcours de tous les attributs du formalisme
@@ -334,14 +335,12 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
 	 */
-	public final List<IElement> getAttributes() {
-		List<IElement> list = new ArrayList<IElement>();
+	public final List<IAttributeImpl> getAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
 
 		// Ajout des attributs "personnels" du noeud
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
-		for (IAttributeImpl a : attributes) {
-			list.add((IElement) a);
-		}
+		list.addAll(attributes);
 
 		// On doit ajouter tous les attributs des arcs sourtants
 		for (IArcImpl arc : this.sourceArcs) {
@@ -363,14 +362,12 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
 	public final String getNodeAttributeValue(String attribute) {
-		String valeur = ""; //$NON-NLS-1$
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
 			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
-				valeur = this.node.getNthAttr(i).getValue();
-				break;
+				return this.node.getNthAttr(i).getValue();
 			}
 		}
-		return valeur;
+		return ""; //$NON-NLS-1$
 	}
 
 	/*

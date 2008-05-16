@@ -1,192 +1,231 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.results.ActionsList;
-import fr.lip6.move.coloane.core.results.Result;
-import fr.lip6.move.coloane.core.results.ResultsList;
+import fr.lip6.move.coloane.core.motor.session.Session;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Gestion de la vue des resultats
  */
-public class ResultsView extends ViewPart implements Observer {
-
+public class ResultsView extends ViewPart {
 	private static ResultsView instance;
+	private static final SessionManager manager = Coloane.getDefault().getMotor().getSessionManager();
 
-	/** The ActionList displayed in this view. */
-	private ActionsList actionsList;
 
-	/** The current action displayed. */
-	private int currentActionDisplayed;
+	/** Vue représentant l'arbre des résultats */
+	private TreeViewer viewer;
 
-	/** The widget which will display the list of actions. */
-	private List actionsWidget;
+	/** Action pour supprimer un resultat de l'arbre */
+	private Action delete;
 
-	/** The widget which will display the list of results for an action. */
-	private List resultsList;
+	/** Action pour supprimer tous les resultats de l'arbre */
+	private Action deleteAll;
 
-	/** The widget which will display the */
-	private StyledText text;
+	/**
+	 * Constructeur privé, ResultView est un singleton 
+	 */
+	public ResultsView() {
+		super();
+		createActions();
+	}
 
-	/** Constructor for ResultsView */
-	public ResultsView() { super(); }
+	/**
+	 * @return Instance du ResultView
+	 */
+	public static ResultsView getInstance() {
+		if(instance==null)
+			instance = new ResultsView();
+		return instance;
+	}
 
 	@Override
-	public final void createPartControl(Composite parent) {
-		/* This view will be divided in three parts :
-		 * - in first we will have a list of actions' names (Syntax check, ...)
-		 * - in second we will have a list of error for a given action
-		 * - in third we will have the text correponding to the selected error
-		 */
-		actionsWidget = new List(parent, SWT.SINGLE | SWT.BORDER);
-		resultsList = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+	public final void createPartControl(final Composite parent) {
+		viewer = new TreeViewer(parent);
+		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.setContentProvider(new ResultContentProvider());
 
-		text = new StyledText(parent, SWT.READ_ONLY | SWT.BORDER | SWT.WRAP);
-		text.setJustify(false);
-		text.setAlignment(SWT.CENTER);
+		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
+		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		currentActionDisplayed = 0;
+		final ResultTreeList results = manager.getCurrentServiceResult();
 
-		if (actionsList != null) { setLists(); }
+
+		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
+		// en cas modification des résultats : ajouts/suppressions.
+		final Observer resultObserver = new Observer() {
+			public void update(final Observable o, Object arg) {
+				final Integer width = (Integer)arg;
+				parent.getDisplay().syncExec(new Runnable() {
+					public void run() {
+						IModelImpl model = manager.getCurrentSessionModel();
+						
+						if(model!=null) {
+							// Mise en avant des objets
+							if(o instanceof ResultTreeList) {
+								ResultTreeList treeList = (ResultTreeList) o;
+								for(Integer id:treeList.getHighlight()) {
+									model.getNode(id).setSpecial(true);
+								}
+							}
+	
+							// Ajout de colonnes si il faut
+							for(int i=viewer.getTree().getColumnCount();i<width;i++) {
+								TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+								column.setLabelProvider(new ResultColumnLabelProvider(i));
+							}
+							updateColumnsWidth();
+						}
+
+						// Rafraichissement de la vue
+						viewer.refresh();
+					}
+				});
+			}
+		};
+		
+		// Ajout d'un observer sur la liste de résultat courrante
+		if(results!=null) {
+			viewer.setInput(results);
+			results.addObserver(resultObserver);
+		}
+
+		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				IModelImpl model = manager.getCurrentSessionModel();
+				if(model==null)
+					return;
+
+				IResultTree node = (IResultTree)((TreeSelection)event.getSelection()).getFirstElement();
+				for(INodeImpl nodeImpl:model.getNodes())
+					nodeImpl.setSelect(false);
+				if(node!=null) {
+
+					// Selection d'un objet du model
+					if(node.getId()!=-1) {
+						INodeImpl nodeImpl = model.getNode(node.getId());
+						if(nodeImpl!=null)
+							nodeImpl.setSelect(true);
+					}
+
+					// Mise en avant de tous les objets d'une réponse
+					else if(node.getParent()==null && manager.getCurrentServiceResult()!=null) {
+						for(Integer id:manager.getCurrentServiceResult().getHighlight(node))
+							model.getNode(id).setSpecial(true);
+					}
+
+					delete.setEnabled(true);
+				}
+			}
+		});
+
+		
+		// Ajout d'un Observer sur les changements de sessions
+		manager.addObserver(new Observer() {
+			public void update(Observable o, Object arg) {
+				if(arg instanceof Session) {
+					final ResultTreeList currentResult = ((Session) arg).getServiceResults();
+					parent.getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							viewer.setInput(currentResult);
+							currentResult.addObserver(resultObserver);
+							viewer.refresh();
+						}
+					});
+				}
+			}
+		});
+		
+		createToolbar();
+
+		updateColumnsWidth();
+		Tree tree = viewer.getTree();
+		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		instance = this;
 	}
 
+	private void createActions() {
+		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif");
+		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif");
+
+		// Suppression d'un resultat
+		delete = new Action("Delete") {
+			@Override
+			public void run() {
+				IResultTree node = (IResultTree)((ITreeSelection)viewer.getSelection()).getFirstElement();
+				if(node!=null) {
+					while(node.getParent()!=null)
+						node = node.getParent();
+					node.remove();
+					this.setEnabled(false);
+				}
+			}
+		};
+		delete.setEnabled(false);
+		delete.setToolTipText("Delete result");
+		delete.setImageDescriptor(cross);
+
+		// Suppression de tous les résultats
+		deleteAll = new Action("Delete All") {
+			@Override
+			public void run() {
+				manager.getCurrentServiceResult().removeAll();
+			}
+		};
+		deleteAll.setToolTipText("Delete all results");
+		deleteAll.setImageDescriptor(doubleCross);
+}
+
+	/**
+	 * Création de la barre d'outils des résultats
+	 */
+	private void createToolbar() {
+		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(delete);
+		toolbarManager.add(deleteAll);
+	}
+
+	/**
+	 * Règle la largeur des colonnes
+	 */
+	private void updateColumnsWidth() {
+		Tree tree = viewer.getTree();
+		for (int i = 0, n = tree.getColumnCount(); i < n; i++) {
+			tree.getColumn(i).setWidth(200);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override
 	public final void setFocus() {
 		return;
-	}
-
-	/**
-	 * Adds a listener on the actions' list.
-	 */
-	private void setActionsListSelectionListener() {
-		actionsWidget.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				currentActionDisplayed = actionsWidget.getSelectionIndex();
-				ResultsList results = actionsList.getResultsList(currentActionDisplayed);
-
-				/* We zero the second list to fill it with the results of the action currently selected */
-				resultsList.removeAll();
-
-				if (results.getResultsNumber() == 0) {
-					return;
-				}
-
-				for (int i = 0; i < results.getResultsNumber(); i++) {
-					resultsList.add(results.getResult(i).getName());
-				}
-
-				/* We add the listner for the list we have created. */
-				setResultsListSelectionListener();
-
-				resultsList.select(0);
-				text.setText(results.getResult(0).getDescription());
-			}
-		});
-	}
-
-	private void setLists() {
-		actionsWidget.removeAll();
-		resultsList.removeAll();
-
-		/*
-		 * We build the first list with the actions' names.
-		 */
-		for (int i = 0; i < actionsList.getResultsListSize(); i++) {
-			actionsWidget.add(actionsList.getResultsList(i).getActionName());
-		}
-
-		/*
-		 * We build the second list with the first action's results.
-		 */
-		for (int i = 0; i < actionsList.getResultsList(0).getResultsNumber(); i++) {
-			resultsList.add(actionsList.getResultsList(0).getResult(i).getName());
-		}
-
-		text.setText(actionsList.getResultsList(0).getResult(0).getDescription());
-		setSelectionListeners();
-	}
-
-	/**
-	 * Modifies the text in the third part of this view
-	 * when an selection event is received on the
-	 * results' list.
-	 */
-	private void setResultsListSelectionListener() {
-		resultsList.addSelectionListener(new SelectionListener() {
-			private String mem = "0"; //$NON-NLS-1$
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			/**
-			 * Selection d'un item dans la liste
-			 */
-			public void widgetSelected(SelectionEvent e) {
-
-				Result r = actionsList.getResultsList(currentActionDisplayed).getResult(resultsList.getSelectionIndex());
-				text.setText(r.getDescription());
-
-
-				// Activation de l'objet designe
-				Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel().highlightNode(r.getName(), mem);
-				mem = r.getName();
-			}
-		});
-	}
-
-	/**
-	 * Adds the SelectionListeners for the actions' list
-	 * and the results' list.
-	 */
-	private void setSelectionListeners() {
-		setActionsListSelectionListener();
-		setResultsListSelectionListener();
-	}
-
-	/**
-	 * TODO : A Documenter
-	 * @param oActionsList
-	 */
-	public final void setActionsList(ActionsList oActionsList) {
-		this.actionsList = oActionsList;
-	}
-
-	/**
-	 * TODO: A documenter
-	 */
-	public final void update(Observable o, Object arg) {
-		actionsList = (ActionsList) o;
-		setLists();
-
-	}
-
-	/**
-	 * TODO : A documenter
-	 * @return
-	 */
-	public static ResultsView getInstance() {
-		return instance;
 	}
 }

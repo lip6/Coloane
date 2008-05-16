@@ -17,7 +17,7 @@ public class AttributeSetConstraintCmd extends Command {
 	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Point oldBounds;
 
-	/** Noeud ˆ manipuler */
+	/** Noeud ï¿½ manipuler */
 	private final IAttributeImpl attribute;
 
 	/**
@@ -38,6 +38,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 * Le redimensionnement est bloque automatiquement par les EditPolicy
 	 * @return true
 	 */
+	@Override
 	public final boolean canExecute() {
 		return true;
 	}

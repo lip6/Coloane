@@ -37,6 +37,7 @@ public class ListTextArea extends TextArea {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
 	 */
+	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();
 

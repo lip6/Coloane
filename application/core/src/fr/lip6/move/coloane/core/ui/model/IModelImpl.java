@@ -1,17 +1,17 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import java.util.List;
+
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
-
-import java.util.List;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
  * heriter de la classe AbstractModelElement pour avoir des fonctionalites de
  * proprietes
  */
-public interface IModelImpl {
+public interface IModelImpl extends IElement {
 
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
 	String NODE_ADDED_PROP = "Model.AddingNode"; //$NON-NLS-1$
@@ -56,17 +56,17 @@ public interface IModelImpl {
 	void removeArc(IArcImpl child) throws BuildException;
 
 	/**
-	 * Retourne la liste des INodeImpl du modele
-	 * @return List
+	 * Retourne le noeud correspondant à l'id passé en parametre ou null.
+	 * @param id
+	 * @return Noeud du model
 	 */
-	List<IElement> getChildren();
-
+	INodeImpl getNode(int id);
+	
 	/**
-	 * Retourne la liste des attributs du modele
-	 * @return Collection
+	 * @return Liste de tous les noeuds
 	 */
-	List<IElement> getAttributes();
-
+	List<INodeImpl> getNodes();
+	
 	/**
 	 * Retourne le modele generique
 	 * @return Model Le mdoele generique
@@ -118,7 +118,7 @@ public interface IModelImpl {
 	 * @param idhighlight
 	 * @param unhighlight
 	 */
-	void highlightNode(String idhighlight, String unhighlight);
+	void highlightNode(int... id);
 
 	/**
 	 * Reinitialise l'aspect des noeuds

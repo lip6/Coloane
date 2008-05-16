@@ -24,6 +24,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
+	@Override
 	public final void addPages() {
 		addPage(projectCreationPage);
 	}

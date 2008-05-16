@@ -19,7 +19,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  * </ul>
  */
 
-public abstract class AbstractModelElement implements IPropertySource {
+public abstract class AbstractModelElement implements IPropertySource, IElement {
 
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
@@ -147,7 +147,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 
 	/**
 	 * Enlever a PropertyChangeListener de cet objet.
-	 * pas implémentée
+	 * pas implï¿½mentï¿½e
 	 * @param l une instance non-null de PropertyChangeListener
 	 */
 	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -170,7 +170,7 @@ public abstract class AbstractModelElement implements IPropertySource {
 
 	/**
 	 * Getter pour la liste des proprietes
-	 * @return Liste of descripteurs des propriétés
+	 * @return Liste of descripteurs des propriï¿½tï¿½s
 	 */
 	public final IAttributeImpl[] getPropertyList() {
 		return propsList;

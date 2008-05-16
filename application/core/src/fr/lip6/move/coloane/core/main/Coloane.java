@@ -8,7 +8,9 @@ import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Platform;
@@ -180,7 +182,18 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void initializeLogger() {
 		coreLog = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-		coreLog.setLevel(Level.FINEST); // On loggue tout !
+		coreLog.setLevel(Level.ALL); // On loggue tout !
+		coreLog.addHandler(new Handler() {
+			@Override
+			public void close() throws SecurityException {}
+			@Override
+			public void flush() {}
+
+			@Override
+			public void publish(LogRecord record) {
+				System.out.println("[" + record.getLevel() + "] "+ record.getMessage() + " - " + record.getSourceMethodName());
+			}
+		});
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();
@@ -212,6 +225,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * Initialise le groupe de preferences avec des valeurs par defaut pour ce plugin
 	 * @param store Le groupe ou stocker les preferences
 	 */
+	@Override
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault("LOGIN", getParam("LOGIN_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 

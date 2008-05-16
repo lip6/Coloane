@@ -72,6 +72,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
 	 */
+	@Override
 	public final void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
