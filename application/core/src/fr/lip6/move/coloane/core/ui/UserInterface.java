@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;
@@ -53,7 +52,6 @@ public final class UserInterface {
 
 	/**
 	 * Retourne le module moteur
-	 * 
 	 * @return Motor Le module moteur
 	 */
 	public static synchronized UserInterface getInstance() {
@@ -65,24 +63,17 @@ public final class UserInterface {
 
 	/**
 	 * Demande d'un service
-	 * 
-	 * @param rootMenuName
-	 *            Le nom du menu racine
-	 * @param parentName
-	 *            Le nom du pere de la feuille cliquee
-	 * @param serviceName
-	 *            LE nom du service demande
+	 * @param rootMenuName Le nom du menu racine
+	 * @param parentName Le nom du pere de la feuille cliquee
+	 * @param serviceName Le nom du service demande
 	 */
-	public void askForService(String rootMenuName, String parentName,
-			String serviceName) {
+	public void askForService(String rootMenuName, String parentName, String serviceName) {
 		motor.askForService(rootMenuName, parentName, serviceName);
 	}
 
 	/**
 	 * Affichage d'un message sur la vue historique
-	 * 
-	 * @param message
-	 *            a afficher
+	 * @param message a afficher
 	 */
 	public void printHistoryMessage(String message) {
 		final String msg = message;
@@ -98,9 +89,7 @@ public final class UserInterface {
 
 	/**
 	 * Afficher un menu
-	 * 
-	 * @param menu
-	 *            La racine du menu a afficher
+	 * @param menu La racine du menu a afficher
 	 */
 	public void drawMenu(RootMenu menu) {
 		// Supprime tous les menus sauf PLATFORM
@@ -119,15 +108,12 @@ public final class UserInterface {
 
 	/**
 	 * Demande la mise a jour du menu
-	 * 
-	 * @param updates
-	 *            La liste des mises a jour a faire sur les menus
+	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
 	public void updateMenu(Session concernedSession,
 			Vector<IUpdateMenuCom> updates) {
 		if (concernedSession == null) {
-			Coloane.getLogger().warning(
-					"Aucune session concernee par ces resultats"); //$NON-NLS-1$
+			Coloane.getLogger().warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
 			return;
 		}
@@ -141,13 +127,12 @@ public final class UserInterface {
 				service.setEnabled(up.getService(), up.getState());
 			}
 		}
-		GraphicalMenu gmenu = new GraphicalMenu(concernedSession
-				.getServicesMenu(), fenetreTravail, this);
+		GraphicalMenu gmenu = new GraphicalMenu(concernedSession.getServicesMenu(), fenetreTravail, this);
 		gmenu.update();
 	}
 
 	/**
-	 * 
+	 * Reaffiche les menus (clean + reconstruction)
 	 */
 	public void redrawMenus() {
 		// Supprime tous les menus sauf PLATFORM
@@ -158,16 +143,13 @@ public final class UserInterface {
 			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
 			return;
 		}
-		GraphicalMenu gmenu = new GraphicalMenu(currentSession
-				.getServicesMenu(), fenetreTravail, this);
+		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
 		gmenu.build();
 	}
 
 	/**
 	 * Demande la suppression d'un menu designee par son nom
-	 * 
-	 * @param menuName
-	 *            Le nom du menu a supprimer
+	 * @param menuName Le nom du menu a supprimer
 	 */
 	public void removeMenu(String menuName) {
 		MenuManipulation.remove(menuName);
@@ -175,9 +157,7 @@ public final class UserInterface {
 
 	/**
 	 * Desactivation du rootMenu
-	 * 
-	 * @param rootMenu
-	 *            menu Root a griser (ainsi que tous ses fils)
+	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
 	 */
 	public void changeRootMenuStatus(String rootName, boolean status) {
 		MenuManipulation.setEnabled(rootName, rootName, status);
@@ -185,11 +165,8 @@ public final class UserInterface {
 
 	/**
 	 * Affichage des resultats d'un appel de service
-	 * 
-	 * @param serviceName
-	 *            Le nom du service qui produit ses resultats
-	 * @param result
-	 *            L'objet contenant les resultats pour ce service
+	 * @param serviceName Le nom du service qui produit ses resultats
+	 * @param result L'objet contenant les resultats pour ce service
 	 */
 	public void setResults(String serviceName, IResultsCom result) {
 		motor.getSessionManager().getCurrentServiceResult().add(serviceName, result);
@@ -203,11 +180,9 @@ public final class UserInterface {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-					fenetreTravail.getActivePage().showView(
-							ColoanePerspectiveFactory.RESULTS_VIEW);
+					fenetreTravail.getActivePage().showView(ColoanePerspectiveFactory.RESULTS_VIEW);
 				} catch (PartInitException e) {
-					Coloane.getLogger().warning(
-							"Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
+					Coloane.getLogger().warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -215,11 +190,8 @@ public final class UserInterface {
 
 	/**
 	 * Affichage d'une boite de dialogue
-	 * 
-	 * @param Dialog
-	 *            L'objet contenant toutes les informations sur la boite de
-	 *            dialogue a afficher
-	 * @throws UIException 
+	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
+	 * @throws UIException
 	 */
 	public static void drawDialog(IDialogCom dialogCom) throws UIException {
 		// Factory de boite de dialogue
@@ -234,80 +206,47 @@ public final class UserInterface {
 
 	/**
 	 * Modifie l'etat d'un item du menu Platform
-	 * 
-	 * @param menuItem
-	 *            Le nom de l'item a modifier
-	 * @param newState
-	 *            Le nouvel etat pour l'item
+	 * @param menuItem Le nom de l'item a modifier
+	 * @param newState Le nouvel etat pour l'item
 	 */
 	public void platformState(boolean authentication, int session) {
-		Coloane
-				.getLogger()
-				.fine(
-						"Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		Coloane.getLogger().fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Composite parent = (Composite) Coloane.getParent();
 
 		// Prise en compte de l'authentification
 		if (!authentication) {
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(Coloane
-							.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 			return;
 		} else {
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(Coloane
-							.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay()
-					.asyncExec(
-							new UpdatePlatformMenu(Coloane
-									.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
 		}
 
 		// Prise en compte de l'etat de la session
 		switch (session) {
 		case SessionManager.CLOSED:
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 
 		case SessionManager.ERROR:
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 
 		default:
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(
-					new UpdatePlatformMenu(
-							Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
 			break;
 		}
 	}
 
 	/**
 	 * On attache le module de communication a l' l'interface utilisateur
-	 * 
-	 * @param IComUi
-	 *            L'interface
+	 * @param Le module {@link Com}
 	 */
 	public void setCom(Com c) {
 		com = c;
@@ -315,9 +254,7 @@ public final class UserInterface {
 
 	/**
 	 * On attache le module du moteur a l' l'interface utilisateur
-	 * 
-	 * @param IMotorUi
-	 *            L'interface
+	 * @param Motor Le module {@link Motor}
 	 */
 	public void setMotor(Motor mot) {
 		this.motor = mot;
