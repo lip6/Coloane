@@ -93,7 +93,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		serversList[i] = Messages.AuthenticationDialog_13;
 		serversList[i + 1] = Messages.AuthenticationDialog_14;
 
-		// Mise en place de la liste des serveurs recupŽrŽs
+		// Mise en place de la liste des serveurs recupï¿½rï¿½s
 		comboServer.setItems(serversList);
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -111,7 +111,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
 						ip = ""; //$NON-NLS-1$
-						port = ""; //$NON-NLS-1$
+						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 					} else { //$NON-NLS-1$
 						int indexServer = comboServer.indexOf(comboServer.getText());
 						ip = Coloane.getParam("IP" + (indexServer + 1)); //$NON-NLS-1$
