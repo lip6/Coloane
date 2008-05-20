@@ -20,10 +20,14 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private IResultTree parent;
 	private ArrayList<IResultTree> children;
 	private ArrayList<Object> elements;
-	private int id;
+	private final ArrayList<Integer> highlights;
 
-	public ResultTreeImpl(int id, String... elements) {
-		this.id = id;
+	public ResultTreeImpl(int toHighlight, String... elements) {
+		// Element a mettre en valeur lors de la selection de cet arbre (feuille) de resultat
+		highlights = new ArrayList<Integer>();
+		this.highlights.add(toHighlight);
+
+		// Description des enfants du sous arbre
 		children = new ArrayList<IResultTree>();
 		this.elements = new ArrayList<Object>();
 		for (String element : elements) {
@@ -36,6 +40,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		}
 	}
 
+	/**
+	 * Constructeur d'un sous-arbre de resultat sans mise en valeur particulière
+	 * @param elements
+	 */
 	public ResultTreeImpl(String... elements) {
 		this(-1, elements);
 	}
@@ -81,12 +89,23 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		return elements;
 	}
 
+
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getId()
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#setHighlighted(int[])
 	 */
-	public final int getId() {
-		return id;
+	public final void addHighlighted(int... toHighlight) {
+		for (Integer id : toHighlight) {
+			this.highlights.add(id);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#getHighlight()
+	 */
+	public final List<Integer> getHighlighted() {
+		return this.highlights;
 	}
 
 	/*

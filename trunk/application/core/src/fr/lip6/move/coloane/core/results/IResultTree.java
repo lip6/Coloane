@@ -40,9 +40,16 @@ public interface IResultTree {
 	List<Object> getElement();
 
 	/**
-	 * @return l'id associe à ce noeud
+	 * Retourne la liste des elements a mettre en valeur lors de la selection de ce resultat
+	 * @return la liste d'identifiants d'objets a mettre en valeur
 	 */
-	int getId();
+	List<Integer> getHighlighted();
+
+	/**
+	 * Ajoute un element a mettre en valeur lors de la selection du sous-resultat
+	 * @param toHighlight
+	 */
+	void addHighlighted(int... toHighlight);
 
 	/**
 	 * Supprime le noeud courrant ainsi que tous les fils associés
