@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+
 import java.util.List;
 
 /**
@@ -14,6 +17,12 @@ public interface IElement {
 	List<IAttributeImpl> getAttributes();
 
 	/**
+	 * Associe le modele a l'arc generique
+	 * @param modelAdapter
+	 */
+	void setModelAdapter(IModelImpl modelAdapter);
+
+	/**
 	 * Renvoie le modele augmente
 	 * @return Le modele augmente
 	 */
@@ -24,4 +33,36 @@ public interface IElement {
 	 * @return l'identifiant
 	 */
 	int getId();
+
+	/**
+	 * Retourne le formalisme associe a l'arc augmente
+	 * @return Formalism
+	 */
+	Formalism getFormalism();
+
+	/**
+	 * Retourne l'element de base de l'arc
+	 * @return L'element de base de l'arc
+	 */
+	ElementFormalism getElementBase();
+
+	/**
+	 * Demande la mise en valeur des attributs attaches a l'objet
+	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
+	 * @param state Selection / Deselection
+	 */
+	void setAttributesSelected(boolean light, boolean state);
+
+
+	/**
+	 * Permet de mettre en valeur l'arc
+	 * @param state : L'etat de selection
+	 */
+	void setSelect(boolean state);
+
+	/**
+	 * Permet de mettre en valeur l'arc
+	 * @param state : L'etat de selection
+	 */
+	void setSpecial(boolean state);
 }

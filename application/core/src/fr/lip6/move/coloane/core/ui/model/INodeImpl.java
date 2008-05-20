@@ -107,13 +107,6 @@ public interface INodeImpl extends IElement {
 	ElementFormalism getElementBase();
 
 	/**
-	 * Retourne la valeur de l'attribut designe par le parametre
-	 * @param attribute La chaine caracterisant l'attribut qu'on cible
-	 * @return La valeur de l'attribut designe ou "" si l'attribut n'existe pas
-	 */
-	String getNodeAttributeValue(String attribute);
-
-	/**
 	 * Retourne le noeud generique
 	 * @return Node Le noeud generique
 	 * @see fr.lip6.move.coloane.interfaces.model.INode
@@ -165,5 +158,7 @@ public interface INodeImpl extends IElement {
 	 * attaches aux arcs sortant et entrants du noeud en question
 	 */
 	void updateArcAttributesPosition();
+
+	List<IArcImpl> getAllArcs();
 
 }

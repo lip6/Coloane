@@ -56,16 +56,18 @@ public interface IModelImpl extends IElement {
 	void removeArc(IArcImpl child) throws BuildException;
 
 	/**
-	 * Retourne le noeud correspondant à l'id passé en parametre ou null.
-	 * @param id
-	 * @return Noeud du model
+	 * Retourne la liste des noeuds et arcs du modele.<br>
+	 * Il s'agit des elements qui peuvent etre mis en valeur.
+	 * @return Liste de tous les objets pouvant etre mis en valeur
 	 */
-	INodeImpl getNode(int id);
+	List<IElement> getModelObjects();
 
 	/**
-	 * @return Liste de tous les noeuds
+	 * Retourne l'objet du modele designe par son identifiant
+	 * @param id L'identifiant de l'objet a retourner
+	 * @return L'objet sous forme de IElement
 	 */
-	List<INodeImpl> getNodes();
+	IElement getModelObject(int id);
 
 	/**
 	 * Retourne le modele generique
@@ -114,13 +116,6 @@ public interface IModelImpl extends IElement {
 	void setDirty(boolean dirty);
 
 	/**
-	 * Mise en valeur d'un noeud
-	 * @param idhighlight
-	 * @param unhighlight
-	 */
-	void highlightNode(int... id);
-
-	/**
 	 * Reinitialise l'aspect des noeuds
 	 */
 	void switchoffNodes();
@@ -133,5 +128,5 @@ public interface IModelImpl extends IElement {
 	 *   <li>un rafraichissement du modele</li>
 	 * </ul>
 	 */
-	void annouceAttribute();
+	void announceAttribute();
 }

@@ -105,10 +105,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((IArcImpl) getModel()).setAttributesSelected(true);
+					((IArcImpl) getModel()).setAttributesSelected(false, true);
 					((IArcFigure) getFigure()).setSelect();
 				} else {
-					((IArcImpl) getModel()).setAttributesSelected(false);
+					((IArcImpl) getModel()).setAttributesSelected(false, false);
 					((IArcFigure) getFigure()).unsetSelect();
 				}
 			}
@@ -142,9 +142,11 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		// Propriete de modification/suppression/ajout de point d'inflexion
 		if (IArcImpl.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
-		} else if (IArcImpl.SETSELECT_PROP.equals(prop)) {
+		} else if (IArcImpl.SELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setHighlight();
-		} else if (IArcImpl.SETUNSELECT_PROP.equals(prop)) {
+		} else if (IArcImpl.SPECIAL_PROP.equals(prop)) {
+			((IArcFigure) getFigure()).setSelectSpecial();
+		} else if (IArcImpl.UNSELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).unsetSelect();
 		}
 	}

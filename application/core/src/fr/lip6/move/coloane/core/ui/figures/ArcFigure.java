@@ -74,6 +74,15 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.figures.IArcFigure#setSelectSpecial()
+	 */
+	public final void setSelectSpecial() {
+		this.setForegroundColor(ColorConstants.red);
+		this.setLineWidth(2);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
 	 */
 	public final void unsetSelect() {

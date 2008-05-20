@@ -140,6 +140,10 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IArcImpl#reconnect(fr.lip6.move.coloane.core.ui.model.INodeImpl, fr.lip6.move.coloane.core.ui.model.INodeImpl)
+	 */
 	public final void reconnect(INodeImpl newSource, INodeImpl newTarget) {
 
 		// Suppression du lien depuis les anciens noeuds
@@ -207,29 +211,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
-	 */
-	public final void setAttributesSelected(boolean state) {
-		List<IAttributeImpl> list = this.getDrawableAttributes();
-		for (IAttributeImpl att : list) {
-			att.setSelect(state);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setSelect(boolean)
-	 */
-	public final void setSelect(boolean state) {
-		if (state) {
-			firePropertyChange(IArcImpl.SETSELECT_PROP, null, null);
-		} else {
-			firePropertyChange(IArcImpl.SETUNSELECT_PROP, null, null);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
 	public final List<IAttributeImpl> getAttributes() {
@@ -239,14 +220,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
 		list.addAll(attributes);
 		return list;
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
-	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
-	public final Collection getContextMenus() {
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -404,5 +377,48 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
 
 		this.graphicInfo.updateMiddlePoint();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public final void setAttributesSelected(boolean light, boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(light, state);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setSelect(boolean)
+	 */
+	public final void setSelect(boolean state) {
+		if (state) {
+			firePropertyChange(IArcImpl.SELECT_PROP, null, null);
+		} else {
+			firePropertyChange(IArcImpl.UNSELECT_PROP, null, null);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
+	 */
+	public final void setSpecial(boolean state) {
+		if (state) {
+			firePropertyChange(IArcImpl.SPECIAL_PROP, null, null);
+		} else {
+			firePropertyChange(IArcImpl.UNSELECT_PROP, null, null);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
+	 */
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	public final Collection getContextMenus() {
+		return null;
 	}
 }
