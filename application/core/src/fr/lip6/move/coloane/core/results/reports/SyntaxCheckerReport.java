@@ -5,9 +5,8 @@ import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
-import java.util.List;
-
 public class SyntaxCheckerReport implements IReport {
+
 
 	/*
 	 * (non-Javadoc)
@@ -16,23 +15,19 @@ public class SyntaxCheckerReport implements IReport {
 	public final IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
 
+		if (result.getSubResults().size() == 0) {
+			root.addChild(new ResultTreeImpl("No problem has been outlined by the tool"));
+		}
+
 		for (SubResultsCom sub : result.getSubResults()) {
 			ResultTreeImpl node = new ResultTreeImpl(sub.getCmdRT().get(0));
 			for (String obj : sub.getCmdRO()) {
 				int id = Integer.valueOf(obj);
 				node.addChild(new ResultTreeImpl(id, obj));
+				node.addHighlighted(id);
 			}
 			root.addChild(node);
 		}
 		return root;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.reports.IReport#highlightNode(fr.lip6.move.coloane.interfaces.objects.IResultsCom)
-	 */
-	public final List<Integer> highlightNode(IResultsCom result) {
-		return new GenericReport().highlightNode(result);
-	}
-
 }

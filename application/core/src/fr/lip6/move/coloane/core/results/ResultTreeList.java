@@ -30,13 +30,13 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 
 	private final CopyOnWriteArrayList<IResultTree> list;
-	private final ArrayList<List<Integer>> highlights;
+	private final ArrayList<Integer> highlights;
 	private final HashMap<String, IReport> services;
 	private final IReport generic;
 
 	public ResultTreeList() {
 		list = new CopyOnWriteArrayList<IResultTree>();
-		highlights = new ArrayList<List<Integer>>();
+		highlights = new ArrayList<Integer>();
 		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
 
@@ -46,9 +46,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 			try {
 				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
 				services.put(service, report);
-				Coloane.getLogger().fine("Ajout du service de résultat : " + service);
+				Coloane.getLogger().fine("Ajout du service de resultat : " + service);
 			} catch (CoreException e) {
-				Coloane.getLogger().warning("Problème avec l'extension : " + service);
+				Coloane.getLogger().warning("Probleme avec l'extension : " + service);
 			}
 		}
 	}
@@ -61,24 +61,18 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 */
 	public final void add(String serviceName, IResultsCom result) {
 		IResultTree newResult = null;
-		List<Integer> newHighlight = null;
 
 		IReport report = services.get(serviceName);
 		if (report != null) {
 			newResult = report.build(result);
-			newHighlight = report.highlightNode(result);
 		}
 
+		// Si aucun report specialise n'est disponible, on utilise le GenericReport
 		if (newResult == null) {
 			newResult = generic.build(result);
 		}
 
-		if (newHighlight == null) {
-			newHighlight = new ArrayList<Integer>();
-		}
-
 		list.add(newResult);
-		highlights.add(newHighlight);
 		update(null, getWidth(newResult));
 	}
 
@@ -150,30 +144,22 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return -1;
 	}
 
-	/**
-	 *
-	 * @return Une liste d'identifiants d'elements
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#getHighlight()
 	 */
-	public final List<Integer> getHighlight() {
-		return highlights.get(highlights.size() - 1);
+	public final List<Integer> getHighlighted() {
+		return this.highlights;
 	}
 
-	/**
-	 *
-	 * @param index
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#setHighlighted(int[])
 	 */
-	public final List<Integer> getHighlight(int index) {
-		return highlights.get(index);
-	}
-
-	/**
-	 *
-	 * @param node
-	 * @return
-	 */
-	public final List<Integer> getHighlight(IResultTree node) {
-		return getHighlight(list.indexOf(node));
+	public final void addHighlighted(int... toHighlight) {
+		for (Integer id : toHighlight) {
+			this.highlights.add(id);
+		}
 	}
 
 	/*
