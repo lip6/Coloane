@@ -5,8 +5,8 @@ import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -81,24 +81,12 @@ public class ResultsView extends ViewPart {
 				final Integer width = (Integer) arg;
 				parent.getDisplay().syncExec(new Runnable() {
 					public void run() {
-						IModelImpl model = MANAGER.getCurrentSessionModel();
-
-						if (model != null) {
-							// Mise en avant des objets
-							if (o instanceof ResultTreeList) {
-								ResultTreeList treeList = (ResultTreeList) o;
-								for (Integer id : treeList.getHighlight()) {
-									model.getNode(id).setSpecial(true);
-								}
-							}
-
-							// Ajout de colonnes si il faut
-							for (int i = viewer.getTree().getColumnCount(); i < width; i++) {
-								TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
-								column.setLabelProvider(new ResultColumnLabelProvider(i));
-							}
-							updateColumnsWidth();
+						// Ajout de colonnes si il faut
+						for (int i = viewer.getTree().getColumnCount(); i < width; i++) {
+							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}
+						updateColumnsWidth();
 
 						// Rafraichissement de la vue
 						viewer.refresh();
@@ -121,26 +109,24 @@ public class ResultsView extends ViewPart {
 					return;
 				}
 
-				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
-				for (INodeImpl nodeImpl : model.getNodes()) {
-					nodeImpl.setSelect(false);
+				// Mise a zero de tous les objets (retour a leur apparence normale)
+				for (IElement elt : model.getModelObjects()) {
+					elt.setSpecial(false);
 				}
 
-				if (node != null) {
-					// Selection d'un objet du model
-					if (node.getId() != -1) {
-						INodeImpl nodeImpl = model.getNode(node.getId());
-						if (nodeImpl != null) {
-							nodeImpl.setSelect(true);
-						}
+				// Recuperation de l'arbre de sous-resultat (ou de resultat)
+				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
 
-					// Mise en avant de tous les objets d'une réponse
-					} else if (node.getParent() == null && MANAGER.getCurrentServiceResult() != null) {
-						for (Integer id : MANAGER.getCurrentServiceResult().getHighlight(node)) {
-							model.getNode(id).setSpecial(true);
+				if (node != null) {
+					// Selection des objets du modele
+					for (Integer toHighlight : node.getHighlighted()) {
+						if (toHighlight != -1) {
+							IElement elt = model.getModelObject(toHighlight);
+							if (elt != null) {
+								elt.setSpecial(true);
+							}
 						}
 					}
-
 					delete.setEnabled(true);
 				}
 			}
@@ -166,6 +152,7 @@ public class ResultsView extends ViewPart {
 
 		updateColumnsWidth();
 		Tree tree = viewer.getTree();
+		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		instance = this;
