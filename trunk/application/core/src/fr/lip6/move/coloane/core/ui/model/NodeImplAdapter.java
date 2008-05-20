@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -11,6 +12,7 @@ import fr.lip6.move.coloane.interfaces.model.Node;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import java.util.List;
 
@@ -169,6 +171,14 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getFormalism()
+	 */
+	public final Formalism getFormalism() {
+		return elementBase.getFormalism();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addInputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public final void addInputArc(IArcImpl arcAdapter) throws BuildException {
@@ -307,6 +317,17 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		return new ArrayList<IArcImpl>(targetArcs);
 	}
 
+	/**
+	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
+	 * @return La liste des arcs ttaches a ce noeud
+	 */
+	public final List<IArcImpl> getAllArcs() {
+		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
+		allArcs.addAll(this.getSourceArcs());
+		allArcs.addAll(this.getTargetArcs());
+		return new ArrayList<IArcImpl>(allArcs);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGenericNode()
@@ -355,19 +376,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 */
 	public final void setModelAdapter(IModelImpl model) {
 		this.modelAdapter = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
-	 */
-	public final String getNodeAttributeValue(String attribute) {
-		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
-			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
-				return this.node.getNthAttr(i).getValue();
-			}
-		}
-		return ""; //$NON-NLS-1$
 	}
 
 	/*

@@ -88,7 +88,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			((INodeFigure) getFigure()).setSelectSpecial();
 			return;
 		} else if (INodeImpl.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).unsetSelectSpecial();
+			((INodeFigure) getFigure()).setUnselect();
 			return;
 
 			// Propriete de selection

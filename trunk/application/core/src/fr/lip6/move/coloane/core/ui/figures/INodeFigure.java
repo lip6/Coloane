@@ -17,18 +17,13 @@ public interface INodeFigure extends IFigure {
 	void setSelectSpecial();
 
 	/**
+	 * Mise en valeur du noeud (selection d'un attribut referent)
+	 */
+	void setHighlight();
+
+	/**
 	 * Modifie la figure lorsqu'elle est deselectionee
 	 * Annulation du feedback visuel du a la selection d'un objet Noeud
 	 */
 	void setUnselect();
-
-	/**
-	 * Annulation de la mise en valeur provoquee par un retour de service
-	 */
-	void unsetSelectSpecial();
-
-	/**
-	 * Mise en valeur du noeud (selection d'un attribut referent)
-	 */
-	void setHighlight();
 }

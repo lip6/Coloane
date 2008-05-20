@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import java.util.Collection;
@@ -35,10 +33,13 @@ public interface IArcImpl extends IElement {
 	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETSELECT_PROP = "Arc.Select"; //$NON-NLS-1$
+	String SELECT_PROP = "Arc.Select"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETUNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
+	String UNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
+
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SPECIAL_PROP = "Arc.SpecialUpdate"; //$NON-NLS-1$
 
 
 	/**
@@ -68,23 +69,11 @@ public interface IArcImpl extends IElement {
 	IArc getGenericArc();
 
 	/**
-	 * Retourne le formalisme associe a l'arc augmente
-	 * @return Formalism
-	 */
-	Formalism getFormalism();
-
-	/**
 	 * Retourne le modele generique
 	 * @return IModelImpl
 	 * @see IModelImpl
 	 */
 	IModelImpl getModelAdapter();
-
-	/**
-	 * Associe le modele a l'arc generique
-	 * @param modelAdapter
-	 */
-	void setModelAdapter(IModelImpl modelAdapter);
 
 	/**
 	 * Methode d'acces a la valeur de l'arc generique
@@ -139,19 +128,6 @@ public interface IArcImpl extends IElement {
 	IArcGraphicInfo getGraphicInfo();
 
 	/**
-	 * Retourne l'element de base de l'arc
-	 * @return L'element de base de l'arc
-	 */
-	ElementFormalism getElementBase();
-
-	/**
-	 * Demande la mise en valeur des attributs attaches a l'objet
-	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
-	 * @param state Selection / Deselection
-	 */
-	void setAttributesSelected(boolean state);
-
-	/**
 	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible
 	 */
 	void updateAttributesPosition();
@@ -162,10 +138,4 @@ public interface IArcImpl extends IElement {
 	 * @param newTarget Nouvelle cible
 	 */
 	void reconnect(INodeImpl newSource, INodeImpl newTarget);
-
-	/**
-	 * Permet de mettre en valeur l'arc
-	 * @param state : L'etat de selection
-	 */
-	void setSelect(boolean state);
 }
