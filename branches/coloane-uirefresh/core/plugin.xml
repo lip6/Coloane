@@ -318,4 +318,55 @@
           service_name="Petri net syntax checker">
     </report>
  </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor
+          contributorId="fr.lip6.move.coloane.properties.contributor"
+          typeMapper="fr.lip6.move.coloane.core.ui.properties.TypeMapper">
+       <propertyCategory
+             category="element">
+       </propertyCategory>
+    </propertyContributor>
+ </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs
+          contributorId="fr.lip6.move.coloane.properties.contributor">
+       <propertyTab
+             category="element"
+             id="fr.lip6.move.coloane.core.properties.element"
+             label="Element">
+       </propertyTab>
+    </propertyTabs>
+ </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="fr.lip6.move.coloane.properties.contributor">
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.NodeSection"
+             id="fr.lip6.move.coloane.core.properties.NodeSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+            <input
+                  type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+            </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.ArcSection"
+             id="fr.lip6.move.coloane.core.properties.ArcSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.ModelSection"
+             id="fr.lip6.move.coloane.core.properties.ModelSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IModelImpl">
+          </input>
+       </propertySection>
+    </propertySections>
+ </extension>
 </plugin>

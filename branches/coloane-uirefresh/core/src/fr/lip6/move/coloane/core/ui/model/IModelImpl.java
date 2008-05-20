@@ -95,13 +95,6 @@ public interface IModelImpl extends IElement {
 	int getDate();
 
 	/**
-	 * Change la valeur de la propriete
-	 * @param id Objet dont il faut modifier la valeur
-	 * @param value Nouvelle valeur pour l'objet
-	 */
-	void setPropertyValue(Object id, Object value);
-
-	/**
 	 * Indicateur de fraicheur du modele
 	 * @return boolean
 	 */

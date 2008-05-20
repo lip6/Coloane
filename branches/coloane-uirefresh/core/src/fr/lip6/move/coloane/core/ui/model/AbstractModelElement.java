@@ -19,121 +19,122 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  * </ul>
  */
 
-public abstract class AbstractModelElement implements IPropertySource, IElement {
+public abstract class AbstractModelElement implements IElement {
 
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
-	/**
-	 * Liste des descriptions des proprietes definies dans ce projet.
-	 * Elles comprennent toutes les informations necessaires pour l'affichage et l'edition de chaque propriete.<br>
-	 * A partir de cette liste, les classes xxxFactory peuvent creer un tableau de IPropertyDescriptor correspondant.
-	 *
-	 * Cet attribut est fonction du formalisme
-	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
-	 */
-	private IAttributeImpl[] propsList;
+// FIXME : à supprimer ??? Il y a juste un getter et l'attribut n'est jamais utilisé.
+//	/**
+//	 * Liste des descriptions des proprietes definies dans ce projet.
+//	 * Elles comprennent toutes les informations necessaires pour l'affichage et l'edition de chaque propriete.<br>
+//	 * A partir de cette liste, les classes xxxFactory peuvent creer un tableau de IPropertyDescriptor correspondant.
+//	 *
+//	 * Cet attribut est fonction du formalisme
+//	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
+//	 */
+//	private IAttributeImpl[] propsList;
 
 	/**
 	 * Table des attributs en fonction de leurs identifiant
 	 * A surcharger et a implementer dans le constructeur.
 	 */
-	private Hashtable<Object, IAttributeImpl> properties = new Hashtable<Object, IAttributeImpl>();
+	private Hashtable<String, IAttributeImpl> properties = new Hashtable<String, IAttributeImpl>();
 
-	/**
-	 * @return instance de la classe //pas implementer
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
-	 */
-	public final Object getEditableValue() {
-		return this;
-	}
+//	/**
+//	 * @return instance de la classe //pas implementer
+//	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
+//	 */
+//	public final Object getEditableValue() {
+//		return this;
+//	}
 
-	/**
-	 * Indique quelles sont les proprietes qui seront affichees dans la fenetre dediee
-	 * @return IPropertyDescriptor[]
-	 */
-	public final IPropertyDescriptor[] getPropertyDescriptors() {
+//	/**
+//	 * Indique quelles sont les proprietes qui seront affichees dans la fenetre dediee
+//	 * @return IPropertyDescriptor[]
+//	 */
+//	public final IPropertyDescriptor[] getPropertyDescriptors() {
+//
+//		// Preparation de la liste des descripteurs
+//		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
+//
+//		// Recupere la table contenant toutes les proprietes (attributs) des objets
+//		for (Enumeration<IAttributeImpl> e = this.properties.elements(); e.hasMoreElements();) {
+//			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
+//
+//			// Calcul de l'indice d'insertion dans la fenetre
+//			int indice = prop.getId();
+//
+//			// Selection du descripteur selon le type d'attribut
+//			if (prop.isMultiline()) { // Multiligne
+//				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue()); //$NON-NLS-1$
+//			} else { // Normal
+//				liste[indice - 1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+//			}
+//		}
+//
+//		return liste;
+//	}
 
-		// Preparation de la liste des descripteurs
-		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
+//	/**
+//	 * Getter pour une propriete.
+//	 * Les classe filles doivent surcharge cette methode.
+//	 * Dans cette implementation par defaut elles retournent null et font rien.
+//	 *
+//	 * @param id Nom de la propriete
+//	 */
+//	public final Object getPropertyValue(Object id) {
+//		String idS = id.toString();
+//		IAttributeImpl prop = (IAttributeImpl) this.properties.get(idS);
+//
+//		// Si l'attribut a une veritable valeur
+//		if (prop.getValue() != null) {
+//
+//			// Si l'attribut est multiligne, on ne prend que la premiere ligne
+//			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) { //$NON-NLS-1$
+//				return (prop.getValue().split("\r"))[0] + " ..."; //$NON-NLS-1$ //$NON-NLS-2$
+//			// Sinon on retourne la valeur normale
+//			} else {
+//				return (String) prop.getValue();
+//			}
+//		}
+//		return new String(""); //$NON-NLS-1$
+//	}
 
-		// Recupere la table contenant toutes les proprietes (attributs) des objets
-		for (Enumeration<IAttributeImpl> e = this.properties.elements(); e.hasMoreElements();) {
-			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
+//	/**
+//	 * Setter pour la propriete.
+//	 * Les classe filles doivent surcharge cette methode.
+//	 * Dans cette implementation par default elle fait rien.
+//	 *
+//	 * @param id Nom de la propriete
+//	 * @param value Valeur de la propriete
+//	 */
+//	public final void setPropertyValue(Object id, Object newValue) {
+//		IAttributeImpl attribute = this.properties.get(id.toString());
+//
+//		// Sauvegarde de l'ancienne valeur
+//		String oldValue = attribute.getValue();
+//
+//		// Nouvelle valeur pour l'attribut
+//		attribute.setValue(oldValue, (String) newValue);
+//	}
 
-			// Calcul de l'indice d'insertion dans la fenetre
-			int indice = prop.getId();
+//	/**
+//	 * Methode qui indique si il ya eu un changement par rapport a une valeur par defaut
+//	 * Les classes filles doivent surcharger cette methode.
+//	 * Dans cette implementation par defaut elle retourne false.
+//	 *
+//	 * @param id Nom de la propriete
+//	 * @return boolean retourne false (par defaut)
+//	 */
+//	public final boolean isPropertySet(Object id) {
+//		return false;
+//	}
 
-			// Selection du descripteur selon le type d'attribut
-			if (prop.isMultiline()) { // Multiligne
-				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue()); //$NON-NLS-1$
-			} else { // Normal
-				liste[indice - 1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
-			}
-		}
-
-		return liste;
-	}
-
-	/**
-	 * Getter pour une propriete.
-	 * Les classe filles doivent surcharge cette methode.
-	 * Dans cette implementation par defaut elles retournent null et font rien.
-	 *
-	 * @param id Nom de la propriete
-	 */
-	public final Object getPropertyValue(Object id) {
-		String idS = id.toString();
-		IAttributeImpl prop = (IAttributeImpl) this.properties.get(idS);
-
-		// Si l'attribut a une veritable valeur
-		if (prop.getValue() != null) {
-
-			// Si l'attribut est multiligne, on ne prend que la premiere ligne
-			if (prop.isMultiline() && (!prop.getValue().equalsIgnoreCase(""))) { //$NON-NLS-1$
-				return (prop.getValue().split("\r"))[0] + " ..."; //$NON-NLS-1$ //$NON-NLS-2$
-			// Sinon on retourne la valeur normale
-			} else {
-				return (String) prop.getValue();
-			}
-		}
-		return new String(""); //$NON-NLS-1$
-	}
-
-	/**
-	 * Setter pour la propriete.
-	 * Les classe filles doivent surcharge cette methode.
-	 * Dans cette implementation par default elle fait rien.
-	 *
-	 * @param id Nom de la propriete
-	 * @param value Valeur de la propriete
-	 */
-	public final void setPropertyValue(Object id, Object newValue) {
-		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id.toString());
-
-		// Sauvegarde de l'ancienne valeur
-		String oldValue = attribute.getValue();
-
-		// Nouvelle valeur pour l'attribut
-		attribute.setValue(oldValue, (String) newValue);
-	}
-
-	/**
-	 * Methode qui indique si il ya eu un changement par rapport a une valeur par defaut
-	 * Les classes filles doivent surcharger cette methode.
-	 * Dans cette implementation par defaut elle retourne false.
-	 *
-	 * @param id Nom de la propriete
-	 * @return boolean retourne false (par defaut)
-	 */
-	public final boolean isPropertySet(Object id) {
-		return false;
-	}
-
-	/**
-	 * Remet l'attribut a sa valeur par defaut, ne rien faire si pas de defaut
-	 * @param id Nom de la propriete
-	 */
-	public void resetPropertyValue(Object id) { }
+//	/**
+//	 * Remet l'attribut a sa valeur par defaut, ne rien faire si pas de defaut
+//	 * @param id Nom de la propriete
+//	 */
+//	public void resetPropertyValue(Object id) { }
 
 	/**
 	 * Attache un listener (ecouteur) a l'objet
@@ -168,19 +169,20 @@ public abstract class AbstractModelElement implements IPropertySource, IElement 
 		}
 	}
 
-	/**
-	 * Getter pour la liste des proprietes
-	 * @return Liste of descripteurs des propri�t�s
-	 */
-	public final IAttributeImpl[] getPropertyList() {
-		return propsList;
-	}
+// FIXME : à supprimer ???
+//	/**
+//	 * Getter pour la liste des proprietes
+//	 * @return Liste of descripteurs des propri�t�s
+//	 */
+//	public final IAttributeImpl[] getPropertyList() {
+//		return propsList;
+//	}
 
 	/**
 	 * Table des PropertyImplAdapter de l'element du noeud
 	 * @return la table des PropertyImplAdapter de l'element du noeud
 	 */
-	protected final Hashtable<Object, IAttributeImpl> getProperties() {
+	protected final Hashtable<String, IAttributeImpl> getProperties() {
 		return properties;
 	}
 
