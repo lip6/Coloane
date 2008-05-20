@@ -110,8 +110,7 @@ public final class UserInterface {
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu(Session concernedSession,
-			Vector<IUpdateMenuCom> updates) {
+	public void updateMenu(Session concernedSession, Vector<IUpdateMenuCom> updates) {
 		if (concernedSession == null) {
 			Coloane.getLogger().warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
