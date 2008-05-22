@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.properties;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 public class NodeSection extends AbstractSection<INodeImpl> {
@@ -10,12 +9,10 @@ public class NodeSection extends AbstractSection<INodeImpl> {
 				getElement().getElementBase().getName(),
 				getElement().getElementBase().getListOfAttribute());
 
-		for (LabelText lt : getMap().get(getCurrentType())) {
-			for (IAttributeImpl attr : getElement().getAttributes()) {
-				if (lt.getLabel().equals(attr.getDisplayName())) {
-					lt.setText(attr.getValue());
-				}
-			}
-		}
+//		long t1 = System.currentTimeMillis();
+//		System.err.println((System.currentTimeMillis() - t1) / (1));
+		refreshContent();
+		redraw();
 	}
+
 }

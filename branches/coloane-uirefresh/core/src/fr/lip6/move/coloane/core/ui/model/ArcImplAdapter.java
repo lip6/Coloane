@@ -136,7 +136,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 				this.genericArc.addAttribute(attribute);
 			}
 
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 

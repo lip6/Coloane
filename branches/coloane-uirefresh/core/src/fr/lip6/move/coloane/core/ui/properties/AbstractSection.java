@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties;
 
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.core.ui.model.IElement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +12,12 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -18,7 +25,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 /**
  * @param <T> représente le type du model
  */
-public abstract class AbstractSection<T> extends AbstractPropertySection {
+public abstract class AbstractSection<T extends IElement> extends AbstractPropertySection {
 	/** Element courrant */
 	private T element;
 	/** Composite père de toutes les propriétés. */
@@ -28,6 +35,28 @@ public abstract class AbstractSection<T> extends AbstractPropertySection {
 	private HashMap<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
 	/** Nom de la propriété courrante. */
 	private String currentType;
+
+	private int height;
+
+	private ModifyListener listener = new ModifyListener() {
+		@Override
+		public void modifyText(ModifyEvent e) {
+			Text text = (Text) e.widget;
+
+			// Recherche du modifié LabelText
+			for (LabelText lt : getMap().get(getCurrentType())) {
+				if (lt.getTextWidget() == text) {
+
+					// Recherche de l'attribut modifié
+					IAttributeImpl attr = getElement().getProperties().get(lt.getId());
+					if (attr != null) {
+						attr.setValue(attr.getValue(), lt.getText());
+						break;
+					}
+				}
+			}
+		}
+	};
 
 	/*
 	 * (non-Javadoc)
@@ -41,7 +70,7 @@ public abstract class AbstractSection<T> extends AbstractPropertySection {
 		super.setInput(part, selection);
 
 		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection())
-				.getFirstElement();
+		.getFirstElement();
 		element = (T) editPart.getModel();
 	}
 
@@ -71,18 +100,34 @@ public abstract class AbstractSection<T> extends AbstractPropertySection {
 	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
 	 */
 	@Override
-	public final void createControls(final Composite parent,
+	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 		composite = getWidgetFactory().createFlatFormComposite(parent);
 	}
 
+	private ScrolledComposite sc;
 	/**
 	 * Rafraichissement de la "Section"
 	 */
 	public final void redraw() {
+//		Composite tmp = composite;
+//		for (int i = 0; i < 3 && tmp != null; i++) {
+//			tmp.layout();
+//			tmp.redraw();
+//			tmp = tmp.getParent();
+//		}
+		// Récupération du ScrolledComposite
+		if (sc == null) {
+			Composite tmp = composite;
+			while (!(tmp instanceof ScrolledComposite)) {
+				tmp = tmp.getParent();
+			}
+			sc = (ScrolledComposite) tmp;
+		}
+		sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		Composite tmp = composite;
-		for (int i = 0; i < 3 && tmp != null; i++) {
+		for (int i = 0; i < 20 && tmp != null; i++) {
 			tmp.layout();
 			tmp.redraw();
 			tmp = tmp.getParent();
@@ -107,7 +152,7 @@ public abstract class AbstractSection<T> extends AbstractPropertySection {
 	 * @param nodeType
 	 * @param attributes
 	 */
-	public final void refreshControls(String nodeType,
+	protected final void refreshControls(String nodeType,
 			List<AttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);
 
@@ -125,16 +170,44 @@ public abstract class AbstractSection<T> extends AbstractPropertySection {
 
 			for (AttributeFormalism attr : attributes) {
 				LabelText lt = factory.create(
+						attr.getOrder(),
 						attr.getName(),
 						attr.getDefaultValue(),
 						getSWTStyle(attr.isMultiLines()));
 				lt.getParent().redraw();
+				lt.getTextWidget().addModifyListener(listener);
 				list.add(lt);
 			}
 			map.put(nodeType, list);
 			redraw();
 		}
 		currentType = nodeType;
+	}
+
+	protected final void refreshContent() {
+		for (LabelText lt : getMap().get(getCurrentType())) {
+			IAttributeImpl attr = getElement().getProperties().get(lt.getId());
+			if (attr != null) {
+				String newValue = attr.getValue();
+				if (!lt.getText().equals(newValue)) {
+					lt.setText(attr.getValue());
+					// On limite l'agrandissement
+					if (lt.getText().split(Text.DELIMITER, -1).length <= LabelText.MAX_TEXT_HEIGHT) {
+						height = lt.getTextWidget().computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+						if (lt.getTextWidget().getVerticalBar() != null) {
+							lt.getTextWidget().getVerticalBar().setVisible(false);
+						}
+					} else {
+						height = LabelText.MAX_TEXT_HEIGHT * ((lt.getTextWidget().computeSize(SWT.DEFAULT, SWT.DEFAULT).y) / (lt.getText().split(Text.DELIMITER, -1).length));
+						System.err.println(height);
+						if (lt.getTextWidget().getVerticalBar() != null) {
+							lt.getTextWidget().getVerticalBar().setVisible(true);
+						}
+					}
+					((FormData) lt.getTextWidget().getLayoutData()).height = height;
+				}
+			}
+		}
 	}
 
 	public final HashMap<String, List<LabelText>> getMap() {

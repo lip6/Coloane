@@ -38,7 +38,7 @@ public abstract class AbstractModelElement implements IElement {
 	 * Table des attributs en fonction de leurs identifiant
 	 * A surcharger et a implementer dans le constructeur.
 	 */
-	private Hashtable<String, IAttributeImpl> properties = new Hashtable<String, IAttributeImpl>();
+	private Hashtable<Integer, IAttributeImpl> properties = new Hashtable<Integer, IAttributeImpl>();
 
 //	/**
 //	 * @return instance de la classe //pas implementer
@@ -178,11 +178,10 @@ public abstract class AbstractModelElement implements IElement {
 //		return propsList;
 //	}
 
-	/**
-	 * Table des PropertyImplAdapter de l'element du noeud
-	 * @return la table des PropertyImplAdapter de l'element du noeud
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getProperties()
 	 */
-	protected final Hashtable<String, IAttributeImpl> getProperties() {
+	public final Hashtable<Integer, IAttributeImpl> getProperties() {
 		return properties;
 	}
 
@@ -199,7 +198,7 @@ public abstract class AbstractModelElement implements IElement {
 	 * @param key La clef d'insertion dans la table de hachage
 	 * @param attr L'attribut a a jouter dans la table
 	 */
-	protected final void addProperty(String key, IAttributeImpl attr) {
+	protected final void addProperty(Integer key, IAttributeImpl attr) {
 		this.properties.put(key, attr);
 	}
 }

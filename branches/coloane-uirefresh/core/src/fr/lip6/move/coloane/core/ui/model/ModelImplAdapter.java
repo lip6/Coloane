@@ -169,7 +169,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 

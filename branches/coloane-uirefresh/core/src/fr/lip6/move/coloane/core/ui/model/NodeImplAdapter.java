@@ -104,7 +104,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 
 			/* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -146,7 +146,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
