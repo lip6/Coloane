@@ -21,6 +21,9 @@ public class SubResultsCom {
 	/** Liste des commandes MT (attribute_outline) */
 	private Vector<String> cmdMT;
 
+	/** Liste des commandes XA (change_attribute) */
+	private Vector<Vector<String>> cmdXA;
+
 	/** Un texte de details pour ce sous-resultat */
 	private String details;
 
@@ -33,6 +36,7 @@ public class SubResultsCom {
 		cmdRO = new Vector<String>();
 		cmdME = new Vector<String>();
 		cmdMT = new Vector<String>();
+		cmdXA = new Vector<Vector<String>>();
 	}
 
 	/**
@@ -66,6 +70,19 @@ public class SubResultsCom {
 
 	public final void addCmdMT(String mt) {
 		cmdMT.add(mt);
+	}
+
+	/**
+	 * Ajoute une cmd XA dans la liste de commandes XA
+	 * @param xa la commande a ajouter
+	 */
+
+	public final void addCmdXA(String id, String name, String value) {
+		Vector<String> details = new Vector<String>();
+		details.add(id);
+		details.add(name);
+		details.add(value);
+		cmdXA.add(details);
 	}
 
 	/**
@@ -115,6 +132,14 @@ public class SubResultsCom {
 	 */
 	public final Vector<String> getCmdME() {
 		return cmdME;
+	}
+
+	/**
+	 * Retourne la liste des commandes XA enregistrees
+	 * @return Vector de commande XA
+	 */
+	public final Vector<Vector<String>> getCmdXA() {
+		return cmdXA;
 	}
 
 	/**
