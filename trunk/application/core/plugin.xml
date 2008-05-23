@@ -317,5 +317,9 @@
           class="fr.lip6.move.coloane.core.results.reports.SyntaxCheckerReport"
           service_name="Petri net syntax checker">
     </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.LTLModCheck"
+          service_name="LTL model checking on the symbolic RG">
+    </report>
  </extension>
 </plugin>
