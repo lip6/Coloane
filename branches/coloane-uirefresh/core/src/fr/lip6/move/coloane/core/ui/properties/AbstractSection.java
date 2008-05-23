@@ -15,7 +15,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
@@ -36,21 +35,22 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 	/** Nom de la propriété courrante. */
 	private String currentType;
 
-	private int height;
-
+	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
 		@Override
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
 
-			// Recherche du modifié LabelText
+			// Recherche du LabelText modifié
 			for (LabelText lt : getMap().get(getCurrentType())) {
 				if (lt.getTextWidget() == text) {
 
 					// Recherche de l'attribut modifié
 					IAttributeImpl attr = getElement().getProperties().get(lt.getId());
-					if (attr != null) {
+					if (attr != null && !attr.getValue().equals(lt.getText())) {
+						System.err.println("avant modif");
 						attr.setValue(attr.getValue(), lt.getText());
+						System.err.println("après modif");
 						break;
 					}
 				}
@@ -69,8 +69,7 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
 
-		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection())
-		.getFirstElement();
+		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
 		element = (T) editPart.getModel();
 	}
 
@@ -111,12 +110,6 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 	 * Rafraichissement de la "Section"
 	 */
 	public final void redraw() {
-//		Composite tmp = composite;
-//		for (int i = 0; i < 3 && tmp != null; i++) {
-//			tmp.layout();
-//			tmp.redraw();
-//			tmp = tmp.getParent();
-//		}
 		// Récupération du ScrolledComposite
 		if (sc == null) {
 			Composite tmp = composite;
@@ -191,20 +184,7 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 				String newValue = attr.getValue();
 				if (!lt.getText().equals(newValue)) {
 					lt.setText(attr.getValue());
-					// On limite l'agrandissement
-					if (lt.getText().split(Text.DELIMITER, -1).length <= LabelText.MAX_TEXT_HEIGHT) {
-						height = lt.getTextWidget().computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-						if (lt.getTextWidget().getVerticalBar() != null) {
-							lt.getTextWidget().getVerticalBar().setVisible(false);
-						}
-					} else {
-						height = LabelText.MAX_TEXT_HEIGHT * ((lt.getTextWidget().computeSize(SWT.DEFAULT, SWT.DEFAULT).y) / (lt.getText().split(Text.DELIMITER, -1).length));
-						System.err.println(height);
-						if (lt.getTextWidget().getVerticalBar() != null) {
-							lt.getTextWidget().getVerticalBar().setVisible(true);
-						}
-					}
-					((FormData) lt.getTextWidget().getLayoutData()).height = height;
+					lt.redraw();
 				}
 			}
 		}

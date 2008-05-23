@@ -34,6 +34,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;

@@ -22,23 +22,12 @@ public class LabelText {
 	private ScrolledComposite sc;
 	private int id;
 
-	private ModifyListener listener = new ModifyListener() {
-		private int height;
+	private int nbDelimiters = -1;
 
+	// listener pour modifier la taille des champs de texte multiligne
+	private ModifyListener listener = new ModifyListener() {
 		@Override
 		public void modifyText(ModifyEvent e) {
-			if (text.getVerticalBar() == null) {
-				return;
-			}
-
-			// On limite l'agrandissement
-			if (text.getText().split(Text.DELIMITER, -1).length <= MAX_TEXT_HEIGHT) {
-				height = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-				text.getVerticalBar().setVisible(false);
-			} else {
-				text.getVerticalBar().setVisible(true);
-			}
-			((FormData) text.getLayoutData()).height = height;
 			redraw();
 		}
 	};
@@ -62,9 +51,9 @@ public class LabelText {
 		data.top = top;
 		data.height = 15;
 		text.setLayoutData(data);
-		text.addModifyListener(listener);
 
-		if (text.getVerticalBar() != null) {
+		if ((style & SWT.MULTI) != 0) { //text.getVerticalBar() != null) {
+			text.addModifyListener(listener);
 			text.getVerticalBar().setVisible(false);
 		}
 
@@ -80,6 +69,23 @@ public class LabelText {
 	}
 
 	public final void redraw() {
+		// En cas de texte multiligne, on limite l'agrandissement
+		int newNbDelimiters = text.getText().split(Text.DELIMITER, -1).length;
+		if (text.getVerticalBar() != null && newNbDelimiters != nbDelimiters) {
+			int idealHeight = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+			nbDelimiters = newNbDelimiters;
+
+			if (nbDelimiters <= MAX_TEXT_HEIGHT) {
+				text.getVerticalBar().setVisible(false);
+			} else {
+				text.getVerticalBar().setVisible(true);
+			}
+
+			((FormData) text.getLayoutData()).height = Math.min(
+					(idealHeight / nbDelimiters) * MAX_TEXT_HEIGHT,
+					idealHeight);
+		}
+
 		// Récupération du ScrolledComposite
 		if (sc == null) {
 			Composite tmp = parent;

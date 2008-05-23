@@ -23,6 +23,10 @@ public class NodeFigure extends Figure implements INodeFigure {
 	/** La figure en Draw2D */
 	private IFigure figure;
 
+	/** Couleurs du noeud */
+	private Color foreground = ColorConstants.black;
+	private Color background = ColorConstants.white;
+
 	/** Les considerations graphiques du noeud */
 	private INodeGraphicInfo nodeGraphInfo;
 
@@ -156,8 +160,8 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
 	 */
 	public final void setUnselect() {
-		figure.setForegroundColor(ColorConstants.black);
-		figure.setBackgroundColor(ColorConstants.white);
+		figure.setForegroundColor(foreground);
+		figure.setBackgroundColor(background);
 
 		if (nodeGraphInfo.isFilled()) {
 			figure.setBackgroundColor(ColorConstants.black);
@@ -172,5 +176,17 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void unsetSelectSpecial() {
 		this.setUnselect();
+	}
+
+	@Override
+	public final void setBackgroundColor(Color bg) {
+		super.setBackgroundColor(bg);
+		background = bg;
+	}
+
+	@Override
+	public final void setForegroundColor(Color fg) {
+		super.setForegroundColor(fg);
+		foreground = fg;
 	}
 }

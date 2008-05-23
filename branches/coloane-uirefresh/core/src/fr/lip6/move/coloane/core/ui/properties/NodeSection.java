@@ -9,8 +9,6 @@ public class NodeSection extends AbstractSection<INodeImpl> {
 				getElement().getElementBase().getName(),
 				getElement().getElementBase().getListOfAttribute());
 
-//		long t1 = System.currentTimeMillis();
-//		System.err.println((System.currentTimeMillis() - t1) / (1));
 		refreshContent();
 		redraw();
 	}

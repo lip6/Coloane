@@ -9,8 +9,11 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.swt.graphics.Color;
 
 public class ArcFigure extends PolylineConnection implements IArcFigure {
+	/** Couleurs de l'arc */
+	private Color foreground = ColorConstants.black;
 
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
@@ -59,7 +62,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		this.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+		super.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
 		this.setLineWidth(2);
 	}
 
@@ -68,7 +71,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setSelect()
 	 */
 	public final void setSelect() {
-		this.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+		super.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
 		this.setLineWidth(2);
 	}
 
@@ -77,7 +80,19 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
 	 */
 	public final void unsetSelect() {
-		this.setForegroundColor(ColorConstants.black);
+		super.setForegroundColor(foreground);
 		this.setLineWidth(1);
 	}
+
+	@Override
+	public final void setForegroundColor(Color fg) {
+//		super.setForegroundColor(fg);
+		foreground = fg;
+	}
+
+	@Override
+	public final Color getForegroundColor() {
+		return foreground;
+	}
+
 }

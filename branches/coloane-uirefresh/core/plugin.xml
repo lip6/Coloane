@@ -324,7 +324,7 @@
           contributorId="fr.lip6.move.coloane.properties.contributor"
           typeMapper="fr.lip6.move.coloane.core.ui.properties.TypeMapper">
        <propertyCategory
-             category="element">
+             category="all">
        </propertyCategory>
     </propertyContributor>
  </extension>
@@ -333,9 +333,15 @@
     <propertyTabs
           contributorId="fr.lip6.move.coloane.properties.contributor">
        <propertyTab
-             category="element"
+             category="all"
              id="fr.lip6.move.coloane.core.properties.element"
              label="Element">
+       </propertyTab>
+       <propertyTab
+             afterTab="fr.lip6.move.coloane.core.properties.element"
+             category="all"
+             id="fr.lip6.move.coloane.core.properties.graphic"
+             label="Graphic">
        </propertyTab>
     </propertyTabs>
  </extension>
@@ -365,6 +371,22 @@
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
                 type="fr.lip6.move.coloane.core.ui.model.IModelImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.NodeGraphicSection"
+             id="fr.lip6.move.coloane.core.properties.NodeGraphicSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.ArcGraphicSection"
+             id="fr.lip6.move.coloane.core.properties.ArcGraphicSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
           </input>
        </propertySection>
     </propertySections>
