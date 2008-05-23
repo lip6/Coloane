@@ -647,6 +647,19 @@ public class FKCommand {
 			return liste;
 		}
 
+		if (cmdString.equals("XA")) {
+			String entier1;
+			String s1;
+			String s2;
+			entier1 = parser.parseInt(",");
+			s1 = parser.parseString(",");
+			s2 = parser.parseString(")");
+			liste.add(entier1);
+			liste.add(s1);
+			liste.add(s2);
+			return liste;
+		}
+
 		if (cmdString.equals("FE")) {
 			String entier1;
 			entier1 = parser.parseInt(")");

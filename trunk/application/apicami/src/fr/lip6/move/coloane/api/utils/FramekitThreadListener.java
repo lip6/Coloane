@@ -360,6 +360,13 @@ public class FramekitThreadListener extends Thread {
 					continue;
 				}
 
+				// Message XA
+				// Modification d'un attribut du modele
+				if (listeArgs.firstElement().equals("XA")) {
+					subresult.addCmdXA(listeArgs.elementAt(1), listeArgs.elementAt(2), listeArgs.elementAt(3));
+					continue;
+				}
+
 				// Message FE
 				// Fin d'ensemble de resultats ou d'objets transmis
 				if (listeArgs.firstElement().equals("FE")) {
