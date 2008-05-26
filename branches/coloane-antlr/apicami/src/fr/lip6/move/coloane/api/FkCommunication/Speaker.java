@@ -46,18 +46,22 @@ public class Speaker implements ISpeaker{
 		/** fabrique la commande et envoie de la commande DT */
 		byte[] cmdToSend = CamiGenerator.generateCmdDT();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** generation et envoi de la première commande PQ */
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, menuName);
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** generation et envoi de la deuxième commande PQ */
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, serviceName);
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** generation et envoi de la deuxième commande FT */
 		cmdToSend = CamiGenerator.generateCmdFT();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 
 	}
@@ -68,6 +72,7 @@ public class Speaker implements ISpeaker{
 		/** generation de la commande MS pour envoi de la date */
 		byte[] cmdToSend = CamiGenerator.generateCmdMS(date);
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** envoi des commandes askForService sans la date */
 		askForService(rootName, menuName, serviceName);
@@ -83,6 +88,7 @@ public class Speaker implements ISpeaker{
 		byte[] cmdToSend = CamiGenerator.generateCmdFC();
 		/** envoie de la commande FC */
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 
 	/**
@@ -204,15 +210,18 @@ public class Speaker implements ISpeaker{
 		/** envoyer un DB : debut transmission du modele */
 		byte[] cmdToSend = CamiGenerator.generateCmdDB();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** envoyer le coeur du modele */
 		for(int i=0; i<camiModel.size(); i++){
 			this.fkll.writeCommand(camiModel.get(i));
+			this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, camiModel.get(i).length - 4));
 		}
 
 		/** envoyer un FB : fin de transmission du modele */
 		cmdToSend = CamiGenerator.generateCmdFB();
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 	}
 
@@ -227,5 +236,6 @@ public class Speaker implements ISpeaker{
 		byte[] cmdToSend = CamiGenerator.generateCmdSS();
 		/** envoie de la commande SS */
 		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 }
