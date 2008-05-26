@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.api.interfaces.*;
+import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
@@ -21,6 +22,7 @@ import fr.lip6.move.coloane.api.interfaces.observables.IServiceStateObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
+import fr.lip6.move.coloane.api.interfaces.observers.IAskForModelObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
@@ -92,12 +94,13 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IServiceState", ObservableFactory.getNewServiceStateObservable());
 		this.hashObservable.put("ITraceMessage", ObservableFactory.getNewTraceMessageObservable());
 		this.hashObservable.put("IWarning", ObservableFactory.getNewWarningObservable());
-
+		this.hashObservable.put("IAskForModel", ObservableFactory.getNewAskForModelObservable());
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
 	public boolean closeConnection() throws IOException {
 		speaker.closeConnection();
+
 		return true;
 	}
 
@@ -220,6 +223,17 @@ public class ApiConnection implements IApiConnection {
 		IConnectionObservable ico1 =  (IConnectionObservable)this.hashObservable.get("IConnection");
 		ico1.addObserver(o);
 		ico1.setCreateThread(createThread);
+
+		return true;
+	}
+
+	/** set du IAskForModelObserver
+	 * positionne l'observable aproprié par rapport à l'observeur dans notre hashmap,
+	 */
+	public boolean setIAskForModelObserver(IAskForModelObserver o, boolean createThread) {
+		IAskForModelObservable ico =  (IAskForModelObservable)this.hashObservable.get("IAskForModel");
+		ico.addObserver(o);
+		ico.setCreateThread(createThread);
 
 		return true;
 	}

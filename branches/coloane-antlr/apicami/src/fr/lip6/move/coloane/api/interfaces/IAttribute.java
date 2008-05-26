@@ -8,22 +8,32 @@ package fr.lip6.move.coloane.api.interfaces;
 
 	public interface IAttribute {
 
-/**
- * le type de notre attribut.
- * @return le type
- */
-		public String getType();
-
-		/**
-		 * l'identifiant de l'objet auquel il appartient
-		 * @return son numero
-		 */
-		public int getObjectId();
+		public String getName() ;
 
 
-      /**
-      * le contenu de l'attribut.
-      * @return le contenu en string.
-      */
-		public String getContains();
+
+		public void setPosition(int x, int y) ;
+
+		public int getXPosition() ;
+
+
+
+		public int getYPosition() ;
+
+
+
+		public int getRefId() ;
+
+
+
+		public void setRefId(int ref) ;
+
+
+
+		public void setValue(String attributeValue) ;
+
+
+
+		public String getValue() ;
+
 }

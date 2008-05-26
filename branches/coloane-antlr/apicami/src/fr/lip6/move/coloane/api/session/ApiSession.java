@@ -88,11 +88,22 @@ public class ApiSession implements IApiSession {
 
 	}
 
-	public void askForService(String rootName, String serviceName) {
+	public void askForService(String rootName,String menuName, String serviceName) throws IOException {
+		 if (this.sessionCont.askForService(this)){
+			 System.out.println("askk for service " + this.getSessionName());
+			   speaker.askForService(rootName, menuName, serviceName);
 
+		   if (!this.automate.setWaitingForModelState()){
+				throw new IllegalStateException("je doit attendre le modele");
+		   }
+		   }
+		   else {
+			   throw new IllegalStateException("je peux pas faire demander de service sur cette session");
+		   }
+		 System.out.println("askk for service222 " + this.getSessionName());
 	}
 
-	public void askForService(String rootName, String serviceName, String date) {
+	public void askForService(String rootName,String menuName, String serviceName, String date) {
 		// TODO Auto-generated method stub
 
 	}
@@ -194,7 +205,10 @@ public class ApiSession implements IApiSession {
 	}
 
 
+	public void sendModel(IModel model) {
 
+		speaker.sendModel(model);
+	}
 
 
 

@@ -1,10 +1,14 @@
 package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
+import fr.lip6.move.coloane.interfaces.objects.InflexPoint;
 
 /**
  *cette classe implemente linterface IArc.
@@ -12,82 +16,72 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  *
  */
 public class Arc implements IArc{
-	 /** le type de l'arc*/
-	private String arcType;
 
-	 /** les attributs*/
-	private ArrayList<IAttribute> attribute;
+	/** Type de l'arc */
+	private String type;
 
-	 /** l'inode de la fin*/
-	private int endingNode;
+	/** Identifiant de l'arc */
+	private int id;
 
-	 /** identifiant*/
-	private int idArc ;
+	/** Vecteur contenant l'ensemble des objets de type Attribut de l'arc. */
+	private Vector<IAttribute> listOfAttr;
 
-	 /** l'inode du debut*/
+
+	/** Noeud d'entree de l'arc. */
 	private int startingNode;
 
-/**
- * le constructeur de notre classe
- */
-
-	public Arc(String arcType,int id,int endingNode,int startingNode,ArrayList<IAttribute> attribute){
-
-		     this.arcType= arcType;
-		     this.attribute  = attribute;
-		     this.endingNode = endingNode;
-		     this.startingNode = startingNode;
-		     this.idArc = id ;
-
-	}
+	/** Noeud de sortie de l'arc. */
+	private int endingNode;
 
 	/**
-	 * le constructeur par defaut.
+	 * Constructeur de la classe Arc.
+	 * @param arcType Type de l'arc
+	 * @param arcId Identifant unique de l'arc
 	 */
+	public Arc(String arcType, int arcId,int i,int j,Vector<IAttribute> listOfAttr) {
+		this.type = arcType;
+		this.id = arcId;
+		this.listOfAttr = listOfAttr;
 
-	public Arc(){
-     this.arcType= null;
-     this.attribute  = new ArrayList<IAttribute>();
-     this.endingNode = 0;
-     this.startingNode = 0;
-     this.idArc = 0;
-
+		this.startingNode = i;
+		this.endingNode = j;
 	}
 
-	/**
-	 * retourne le type de larc
-	 */
-	public String getArcType() {
-		return this.arcType;
+
+	public final String getArcType() {
+		return this.type;
 	}
 
-	/**
-	 * les attributs de notre arc.
-	 */
-	public ArrayList<IAttribute> getAttribute(){
-		return this.attribute;
+
+
+
+	public final int getId() {
+		return this.id;
 	}
 
-	/**
-	 * le noeud de fin.
-	 */
 
-	public int getEndingNode() {
+
+	public final int getStartingNode() {
+		return this.startingNode;
+	}
+
+
+	public final int getEndingNode() {
 		return this.endingNode;
 	}
-/**
- * lidentifiant de larc;
- */
-	public int getId() {
-		return this.idArc;
+
+
+	public final void addAttribute(IAttribute attribute) {
+		if (!(attribute.getValue() == "")) {
+			attribute.setRefId(this.getId());
+			this.listOfAttr.addElement(attribute);
+		}
 	}
 
 
-	/**
-	 * l noeud de debut.
-	 */
-	public int getStartingNode() {
-		return this.startingNode;
+
+	public final Vector<IAttribute> getListOfAttr() {
+		return this.listOfAttr;
 	}
 
 }

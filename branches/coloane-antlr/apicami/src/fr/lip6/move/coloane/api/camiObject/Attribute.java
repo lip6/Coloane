@@ -9,61 +9,75 @@ import fr.lip6.move.coloane.api.interfaces.IAttribute;
  */
 public class Attribute implements IAttribute {
 
-    /** le type de l'attribut*/
-    private String type;
+	/** Nom de l'attribut sous forme de chaine de caracteres. */
+	private String name;
 
-    /** l'identifiant de l'objet à qui il appartient*/
-    private int objectId;
+	/** Valeur de l'attribut. Cette valeur peut etre de n'importe qu'elle type de String java. */
+	private String value;
 
-    /** le contenu de l'attribut*/
-    private String contenu;
+	/** Position absolue horizontale depuis le bord gauche de la fenetre d'affichage du modele. */
+	private int xPosition;
 
-    /**
-     * le constructeur de notre classe.
-     * @param type
-     * @param objectId
-     * @param contenu
-     */
+	/** Position absolue verticale depuis le bord haut de la fenetre d'affichage du modele. */
+	private int yPosition;
 
-    public Attribute(String type,int objectId,String contenu) {
-    	this.type= type;
-    	this.objectId = objectId;
-    	this.contenu = contenu;
-    }
+	/** Identifiant unique de l'element du modele possedant cette attribut. */
+	private int refId;
 
-    /**
-     * le constructeur par defaut
-     */
 
-    public Attribute() {
-    	this.type= null;
-    	this.objectId = -1;
-    	this.contenu = null;
-    }
 
-    /**
-     * retourne le contenu de l'attribut.
-     * @return le contenu.
-     */
-	public String getContains() {
-
-		return this.contenu;
+	/**
+	 * Constructeur de la classe Attribute.
+	 *
+	 * @param name le nom de l'attribut
+	 * @param value la valeur de l'attribut
+	 * @param refId l'id de l'objet possedant cette attribut.
+	 */
+	public Attribute(String attributeName,int attributeRefId, String attributeValue,int xPosition,int yPosition) {
+		this.name = attributeName;
+		this.value = new String(attributeValue);
+		this.refId = attributeRefId;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
 	}
 
-    /**
-     * retourne l'identifiant de l'objet auquel l'atribut appartient.
-     * @return le numero de cet objet.
-     */
-	public int getObjectId() {
-		return this.objectId;
+
+	public final String getName() {
+		return this.name;
 	}
 
-    /**
-     * retourne le type de l'attribut.
-     * @return son type.
-     */
-	public String getType() {
-		return this.type;
+
+	public final void setPosition(int x, int y) {
+		this.xPosition = x;
+		this.yPosition = y;
 	}
 
+	public final int getXPosition() {
+		return this.xPosition;
+	}
+
+
+	public final int getYPosition() {
+		return this.yPosition;
+	}
+
+
+	public final int getRefId() {
+		return this.refId;
+	}
+
+
+	public final void setRefId(int ref) {
+		this.refId = ref;
+	}
+
+
+	public final void setValue(String attributeValue) {
+		this.value = attributeValue;
+	}
+
+
+	public final String getValue() {
+		return (String) this.value;
+	}
 }

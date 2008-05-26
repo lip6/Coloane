@@ -204,6 +204,14 @@ public class SessionController implements ISessionController {
      return false;
 	}
 
+	public boolean askForService(ApiSession apiSession) {
+		 if (this.activeSession.equals(apiSession)){
+				return true;
+		     }
+		     return false;
+
+	}
+
 
 
 }

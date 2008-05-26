@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.observables;
 
+import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
@@ -15,7 +16,7 @@ public class ObservableFactory {
 	public static IConnectionObservable getNewConnectionObservable(){
 		return new ConnectionObservable();
 	}
-	
+
 	public static ISessionObservable getNewSessionObservable(){
 		return (ISessionObservable) new SessionObservable();
 	}
@@ -39,12 +40,17 @@ public class ObservableFactory {
 	public static IServiceStateObservable getNewServiceStateObservable() {
 		return (IServiceStateObservable) new ServiceStateObservable();
 	}
-	
+
 	public static ITraceMessageObservable getNewTraceMessageObservable() {
 		return (ITraceMessageObservable) new TraceMessageObservable();
 	}
-	
+
 	public static IWarningObservable getNewWarningObservable() {
 		return (IWarningObservable) new WarningObservable();
+	}
+
+	public static IAskForModelObservable getNewAskForModelObservable() {
+		return (IAskForModelObservable) new AskForModelObservable();
+
 	}
 }

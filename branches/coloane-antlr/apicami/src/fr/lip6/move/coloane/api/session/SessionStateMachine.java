@@ -87,4 +87,16 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 	}
 
+
+	public boolean setWaitingForModelState() {
+		if (this.state == IDLE_STATE){
+			this.state = WAITING_FOR_MODEL_STATE;
+			return true;
+			}
+
+
+		return false;
+	}
+
+
 }

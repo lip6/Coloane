@@ -37,6 +37,7 @@ public class ComStub {
 	 */
 	final static String PASSWORD = "123456";
 
+	final static IApiSession[] tab = new IApiSession[1];
 
 	/**
 	 * Test l'ouverture d'une connexion
@@ -64,6 +65,7 @@ public class ComStub {
 		connection.setSessionObserver(new SessionObserver(), false);
 		connection.setTraceMessageObserver(new TraceMessageObserver(), false);
 		connection.setWarningObserver(new WarningObserver(), false);
+		connection.setIAskForModelObserver(new AskForModelObserver(tab), false);
 
 		/** Test ouverture connexion */
 		connection.openConnection();
@@ -85,6 +87,7 @@ public class ComStub {
 
 	public static void main(String args[]) throws IOException, InterruptedException{
 
+
 		 Api.initialize();
 
 		/** Test l'ouverture de la connexion */
@@ -92,27 +95,34 @@ public class ComStub {
 
 		/** Test l'ouverture d'une session */
 		IApiSession session = testOpenSession(connection, "premier.petri");
-
+       tab[0] = session;
 
 		Thread.sleep(10000);
 		System.out.println("2eme session");
 		/** Test l'ouverture d'une seconde ession */
 		IApiSession session2 = testOpenSession(connection, "second.petri");
+		 tab[0] = session2;
 
 
-
-	Thread.sleep(10000);
+	    Thread.sleep(10000);
 		System.out.println("\n\n\nreprise de la 1ére session");
        session.resumeSession();
-
-
-		Thread.sleep(10000);
-       System.out.println("\n\n\nfermeture 1eme session");
-       session.closeSession();
+       tab[0] = session;
 
        Thread.sleep(10000);
-       System.out.println("\n\n\nfermeture 2eme session");
-       session2.closeSession();
+       session.askForService("AMI-NET", "Petri net syntax checker", "1");
+
+	//	Thread.sleep(10000);
+    //   System.out.println("\n\n\nfermeture 1eme session");
+    //   session.closeSession();
+    //   tab[0] = null;
+     //  Thread.sleep(10000);
+     //  System.out.println("\n\n\nfermeture 2eme session");
+     //  session2.closeSession();
+
+     //  Thread.sleep(10000);
+     //  connection.closeConnection();
+
 	}
 
 }

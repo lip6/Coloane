@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.io.IOException;
 
+import teststub.AskForModelObserver;
 import teststub.TraceMessageObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.*;
 import fr.lip6.move.coloane.api.interfaces.*;
@@ -150,6 +151,7 @@ public interface IApiConnection {
 	public IApiSession getAPISession();
 
 
+	public boolean setIAskForModelObserver(IAskForModelObserver o, boolean createThread) ;
 
 }
 

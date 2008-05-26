@@ -55,8 +55,9 @@ import java.io.IOException;
 	 	         * Appel de la methode demande de service.
 	 	         * @param le nom de la racine demandÃ©.
 	 	         * @param le nom du service demandÃ©.
+	 	         * @throws IOException
 	 	         */
-	 	        public void askForService(String rootName, String serviceName);
+	 	        public void askForService(String rootName,String menuName, String serviceName) throws IOException;
 
 
 	 	        /**
@@ -65,7 +66,7 @@ import java.io.IOException;
 	 	         * @param le nom du service demandÃ©.
 	 	         * @param la date .
 	 	         */
-	 	        public void askForService(String rootName, String serviceName, String Date);
+	 	        public void askForService(String rootName,String menuName, String serviceName, String Date);
 
 	 	       public void openSession(String sessionDate, String sessionFormalism,
                        String sessionName) throws IOException, InterruptedException ;
@@ -83,6 +84,9 @@ import java.io.IOException;
 
 
 			public void notifyEndCloseSession();
+
+
+			public void sendModel(IModel model);
 
 
 	 	}

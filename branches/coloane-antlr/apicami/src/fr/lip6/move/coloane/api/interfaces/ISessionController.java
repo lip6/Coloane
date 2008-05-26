@@ -82,4 +82,6 @@ public interface ISessionController {
 	public void notifyEndCloseSession();
 
 	public boolean closeSession(ApiSession apiSession);
+
+	public boolean askForService(ApiSession apiSession);
 }

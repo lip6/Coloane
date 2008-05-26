@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * cette interface decrit un arc.
@@ -9,39 +10,23 @@ import java.util.ArrayList;
  */
 public interface IArc {
 
-	   /**
-	    * Retourne le type de l'arc.
-	    * @return String
-	    */
-	    public String getArcType();
-
-	    /**
-		 * Retourne l'identifiant unique de l'arc.
-		 * @return int
-		 */
-	    public int getId();
+	public String getArcType() ;
 
 
-	    /**
-		 * Retourne le noeud d'entree de l'arc.
-		 * @return numero du INode
-		 * @see INode
-		 */
-		public int getStartingNode();
+	public int getId() ;
 
 
-		/**
-		 * Retourne le noeud de sortie de l'arc.
-		 * @return numero du INode
-		 * @see INode
-		 */
-		public int getEndingNode();
+	public int getStartingNode() ;
 
-		/**
-		 * Retourne les attributs de l'arc.
-		 * @return un tableau de attributs(String).
-		 */
-		public ArrayList<IAttribute> getAttribute();
+
+	public int getEndingNode() ;
+
+
+	public  void addAttribute(IAttribute attribute) ;
+
+
+	public Vector<IAttribute> getListOfAttr();
+
 
 	}
 
