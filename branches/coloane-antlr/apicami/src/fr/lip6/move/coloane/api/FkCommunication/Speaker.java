@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.api.cami.CamiGenerator;
@@ -53,6 +54,11 @@ public class Speaker implements ISpeaker{
 		/** generation et envoi de la deuxième commande PQ */
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, serviceName);
 		this.fkll.writeCommand(cmdToSend);
+
+		/** generation et envoi de la deuxième commande FT */
+		cmdToSend = CamiGenerator.generateCmdFT();
+		this.fkll.writeCommand(cmdToSend);
+
 
 	}
 
@@ -179,13 +185,34 @@ public class Speaker implements ISpeaker{
 
 
 	public void sendDialogResponse(IDialog d) {
-		// TODO Auto-generated method stub
+
 
 	}
 
+	/**
+	 * Envoi du modèle
+	 * @param m modèle à envoyer
+	 * @throws IOException
+	 */
+	public void sendModel(IModel m) throws IOException {
 
-	public void sendModel(IModel m) {
-		// TODO Auto-generated method stub
+
+		/** transformer le modèle en cami */
+		ArrayList<byte[]> camiModel;
+		camiModel =  CamiGenerator.generateCamiModel(m);
+
+		/** envoyer un DB : debut transmission du modele */
+		byte[] cmdToSend = CamiGenerator.generateCmdDB();
+		this.fkll.writeCommand(cmdToSend);
+
+		/** envoyer le coeur du modele */
+		for(int i=0; i<camiModel.size(); i++){
+			this.fkll.writeCommand(camiModel.get(i));
+		}
+
+		/** envoyer un FB : fin de transmission du modele */
+		cmdToSend = CamiGenerator.generateCmdFB();
+		this.fkll.writeCommand(cmdToSend);
 
 	}
 

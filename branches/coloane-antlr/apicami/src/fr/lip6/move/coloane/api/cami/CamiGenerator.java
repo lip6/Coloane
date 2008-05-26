@@ -2,9 +2,11 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IModel;
-
+import fr.lip6.move.coloane.api.interfaces.INode;
+import fr.lip6.move.coloane.api.interfaces.IArc;
 
 /**
  *
@@ -14,13 +16,11 @@ import fr.lip6.move.coloane.api.interfaces.IModel;
  *
  */
 
-
 public class CamiGenerator {
 
 	/**
-	 * Prepare la commande CAMI conformement aux requirements de FK
-	 * 3 premiers octects a 0
-	 * 4eme octet indiquant la longueur du message
+	 * Prepare la commande CAMI conformement aux requirements de FK 3 premiers
+	 * octects a 0 4eme octet indiquant la longueur du message
 	 *
 	 * @param command
 	 * @return
@@ -43,19 +43,88 @@ public class CamiGenerator {
 		return toSend;
 	}
 
-
-
 	public ArrayList<byte[]> generateCamiDialogue(IDialog d) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public ArrayList<byte[]> generateCamiModel(IModel m) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 *
+	 * @return Commande DB formattee
+	 */
+	public static byte[] generateCmdDB() {
+		String command = new String("DB()");
+		return (initCommand(command));
 	}
 
+	/**
+	 *
+	 * @return Commande FB formattee
+	 */
+	public static byte[] generateCmdFB() {
+		String command = new String("FB()");
+		return (initCommand(command));
+	}
+
+	/**
+	 *
+	 * @param m modele sous forme objet à traduire en Cami
+	 * @return ensemble de commandes cami decrivant un modele
+	 */
+	//TODO Noeuds : Attributs multiLines
+	//TODO Arc    : positions intermediaires
+	public static ArrayList<byte[]> generateCamiModel(IModel m) {
+		ArrayList <byte[]> camiModel = new ArrayList <byte[]>();
+
+		/** generer les noeuds cami */
+		for(int i=0; i<m.getNodes().size(); i++){
+			INode node = m.getNodes().get(i);
+			/** creer le noeud */
+			String command = new String("CN(" + node.getNodeType()
+					+ ","+ node.getId() + ")");
+			camiModel.add(initCommand(command));
+
+			/** ses positions X et Y  PO */
+			command = new String("PO(" + node.getId()
+					+ ","+ node.xPosition + "," + node.yPosition + ")");
+			camiModel.add(initCommand(command));
+
+			/** ses attributs monolignes */
+			for(int j=0; j<node.getAttribute().size(); j++){
+				IAttribute att = node.getAttribute().get(j);
+				command = new String("CT(" + att.getType()
+						+ ","+ node.getId() + "," + att.getContains()
+						+ "," + ")");
+				camiModel.add(initCommand(command));
+			}
+		}
+
+		/** generer les arcs cami   */
+
+		for(int i=0; i<m.getArcs().size(); i++){
+			IArc arc = m.getArcs().get(i);
+			/** creer le noeud */
+			String command = new String("CA(" + arc.getArcType()
+					+ ","+ arc.getId()  +  ","
+					+ ","+ arc.getStartingNode()
+					+ ","+ arc.getEndingNode()
+					+ ")");
+			camiModel.add(initCommand(command));
+
+			/** ses attributs monolignes */
+			for(int j=0; j<arc.getAttribute().size(); j++){
+				IAttribute att = arc.getAttribute().get(j);
+				command = new String("CT(" + att.getType()
+						+ ","+ arc.getId() + "," + att.getContains()
+						+ "," + ")");
+				camiModel.add(initCommand(command));
+			}
+
+		}
+
+		return camiModel;
+	}
 
 	/**
 	 *
@@ -64,11 +133,10 @@ public class CamiGenerator {
 	 * @return
 	 */
 	public static byte[] generateCmdCI(String interlocutor, int mode) {
-		// TODO Auto-generated method stub
-		String command = new String("CI(" + interlocutor.length()+":" + interlocutor + "," + mode + ")");
+		String command = new String("CI(" + interlocutor.length() + ":"
+				+ interlocutor + "," + mode + ")");
 		return initCommand(command);
 	}
-
 
 	public static byte[] generateCmdDI() {
 		String command = new String("DI()");
@@ -79,7 +147,7 @@ public class CamiGenerator {
 	 *
 	 * @return
 	 */
-	public  static byte[] generateCmdDT() {
+	public static byte[] generateCmdDT() {
 		String command = new String("DT()");
 		return initCommand(command);
 	}
@@ -93,14 +161,15 @@ public class CamiGenerator {
 		return (initCommand(command));
 	}
 
-	public ArrayList<byte[]> generateCmdFT() {
-		// TODO Auto-generated method stub
-		return null;
+	public static byte[] generateCmdFT() {
+		String command = new String("FT()");
+		return (initCommand(command));
 	}
 
 	/**
 	 *
-	 * @param date nouvelle date du modèle
+	 * @param date
+	 *            nouvelle date du modèle
 	 * @return
 	 */
 	public static byte[] generateCmdMS(String date) {
@@ -109,32 +178,41 @@ public class CamiGenerator {
 		return (initCommand(command));
 	}
 
-
 	/**
 	 *
-	 * @param UiName  : nom du client
-	 * @param version : version du client
-	 * @param login   : nom d'utilisateur
+	 * @param UiName :
+	 *            nom du client
+	 * @param version :
+	 *            version du client
+	 * @param login :
+	 *            nom d'utilisateur
 	 * @return commande SC sous forme d'un tableau de bytes
 	 */
-	public static byte[] generateCmdOC(String UiName, String version, String login) {
+	public static byte[] generateCmdOC(String UiName, String version,
+			String login) {
 
-		String command = new String("OC(" + UiName.length() + ":" + UiName + "," + version.length() + ":" + version + "," + login.length()	+ ":" + login + "," + 0 + ")");
+		String command = new String("OC(" + UiName.length() + ":" + UiName
+				+ "," + version.length() + ":" + version + "," + login.length()
+				+ ":" + login + "," + 0 + ")");
 		return (initCommand(command));
 
 	}
 
-
 	/**
 	 *
-	 * @param sessionName : nom de la session
+	 * @param sessionName :
+	 *            nom de la session
 	 * @param date
-	 * @param sessionFormalism : formalisme de la session
+	 * @param sessionFormalism :
+	 *            formalisme de la session
 	 * @return commande OS sous forme d'un tableau de bytes
 	 */
-	public static byte[] generateCmdOS(String sessionName, String date, String sessionFormalism) {
+	public static byte[] generateCmdOS(String sessionName, String date,
+			String sessionFormalism) {
 
-		String command = new String("OS(" + sessionName.length() + ":" + sessionName + ","	+ date + "," + sessionFormalism.length() + ":" + sessionFormalism + ")");
+		String command = new String("OS(" + sessionName.length() + ":"
+				+ sessionName + "," + date + "," + sessionFormalism.length()
+				+ ":" + sessionFormalism + ")");
 		return initCommand(command);
 	}
 
@@ -148,20 +226,21 @@ public class CamiGenerator {
 	 */
 	public static byte[] generateCmdPQ(String rootName, String serviceName) {
 
-		String command = new String("PQ(" + rootName.length() + ":" + rootName + ","	+  serviceName.length() + ":" + serviceName + "," + 1 +")");
+		String command = new String("PQ(" + rootName.length() + ":" + rootName
+				+ "," + serviceName.length() + ":" + serviceName + "," + 1
+				+ ")");
 		return initCommand(command);
 
 	}
-
 
 	public ArrayList<byte[]> generateCmdQQ() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	public static byte[] generateCmdRS(String sessionName) {
-		String command = new String("RS(" + sessionName.length() + ":" + sessionName + ")");
+		String command = new String("RS(" + sessionName.length() + ":"
+				+ sessionName + ")");
 		return initCommand(command);
 	}
 
@@ -172,13 +251,15 @@ public class CamiGenerator {
 	 */
 	public static byte[] generateCmdSC(String login, String password) {
 
-		String command = new String("SC(" + login.length() + ":" + login + "," + password.length() + ":" + password + ")");
+		String command = new String("SC(" + login.length() + ":" + login + ","
+				+ password.length() + ":" + password + ")");
 		return initCommand(command);
 
 	}
 
 	/**
 	 * Construction de la commande FC
+	 *
 	 * @return
 	 */
 	public static byte[] generateCmdFC() {
@@ -188,10 +269,9 @@ public class CamiGenerator {
 
 	}
 
-
-
 	/**
 	 * Méthode s'occupant de la construction de la commande SS
+	 *
 	 * @param sessionName
 	 * @return
 	 */
@@ -202,30 +282,29 @@ public class CamiGenerator {
 
 	/**
 	 * Construction de la commande FS
+	 *
 	 * @param continueProcessing
 	 * @return
 	 */
 	public static byte[] generateCmdFS(boolean continueProcessing) {
 		int i;
-		if(continueProcessing==true)
-			i=0;
+		if (continueProcessing == true)
+			i = 0;
 		else
-			i=1;
-		String command = new String("FS(" + i +")");
+			i = 1;
+		String command = new String("FS(" + i + ")");
 		return initCommand(command);
 	}
 
 	/**
-	 * *******   Commandes pour la demande de service  ********
+	 * ******* Commandes pour la demande de service ********
 	 */
-
-
 
 	/**
 	 * Construction de la commande DT
+	 *
 	 * @param
 	 * @return
 	 */
-
 
 }
