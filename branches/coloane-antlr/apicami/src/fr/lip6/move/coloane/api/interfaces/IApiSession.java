@@ -29,8 +29,9 @@ import java.io.IOException;
 
 	 	        /**
  	         * Appel de la methode ferme session.
+	 	         * @throws IOException
 	 	         */
-	 	        public void closeSession();
+	 	        public void closeSession() throws IOException;
 
 
 	 	        /**
@@ -79,6 +80,9 @@ import java.io.IOException;
 			   public String getSessionName();
 
 			   public void notifyEndResumeSession(String nameSession);
+
+
+			public void notifyEndCloseSession();
 
 
 	 	}

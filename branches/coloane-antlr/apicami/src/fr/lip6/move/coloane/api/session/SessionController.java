@@ -116,7 +116,7 @@ public class SessionController implements ISessionController {
 		}
 			else{
 
-				throw new IllegalStateException("je peux pas etre suspenduuu!!!");
+				throw new IllegalStateException("on peut pas reprendre cette session!!!");
 			}
 
 	}
@@ -169,6 +169,15 @@ public class SessionController implements ISessionController {
   }
 
 
+	public void notifyEndCloseSession() {
+
+
+
+    this.activeSession.notifyEndCloseSession();
+    this.activeSession = null;
+
+  }
+
 	public void notifyEndResumeSession(String nameSession) {
 	//	for(IApiSession session : liste ) {
 	//		System.out.println("dans la liste ya" +session.getSessionName());
@@ -185,6 +194,14 @@ public class SessionController implements ISessionController {
 
     }
    // System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
+	}
+
+
+	public boolean closeSession(ApiSession apiSession) {
+     if (this.activeSession.equals(apiSession)){
+		return true;
+     }
+     return false;
 	}
 
 

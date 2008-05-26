@@ -101,11 +101,18 @@ public class ComStub {
 
 
 
-		Thread.sleep(10000);
+	Thread.sleep(10000);
 		System.out.println("\n\n\nreprise de la 1ére session");
-        session.resumeSession();
+       session.resumeSession();
 
 
+		Thread.sleep(10000);
+       System.out.println("\n\n\nfermeture 1eme session");
+       session.closeSession();
+
+       Thread.sleep(10000);
+       System.out.println("\n\n\nfermeture 2eme session");
+       session2.closeSession();
 	}
 
 }

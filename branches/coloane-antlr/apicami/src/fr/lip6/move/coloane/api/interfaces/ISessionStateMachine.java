@@ -40,8 +40,16 @@ public interface ISessionStateMachine {
 	 */
 	static final int WAITING_FOR_RESUME_SESSION_STATE = 5;
 
+	/**
+	 * ca correspond a lattente de la reprise de la fin de la session .
+	 */
+	static final int WAITING_FOR_CLOSE_SESSION_STATE = 6;
 
 
+	/**
+	 * ca correspond a la fin de la session .
+	 */
+	static final int CLOSE_SESSION_STATE = 7;
 	/**
 	 * nous retourne l'etat de notre session.
 	 * @return int
@@ -80,5 +88,10 @@ public interface ISessionStateMachine {
      * @return boolean
      */
     public boolean setWaitingForResumeSessionState();
+
+
+	public boolean setWaitingForCloseSessionState();
+
+	public boolean CloseSessionState();
 
 }

@@ -68,4 +68,23 @@ public class SessionStateMachine implements ISessionStateMachine{
 		return false;
 	}
 
+	public boolean setWaitingForCloseSessionState() {
+
+		if (this.state == IDLE_STATE){
+			this.state = WAITING_FOR_CLOSE_SESSION_STATE;
+			return true;
+			}
+		return false;
+	}
+
+
+	public boolean CloseSessionState() {
+		if (this.state == WAITING_FOR_CLOSE_SESSION_STATE){
+			this.state = CLOSE_SESSION_STATE;
+			return true;
+			}
+		return false;
+
+	}
+
 }

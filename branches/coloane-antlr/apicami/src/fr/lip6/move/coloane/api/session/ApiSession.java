@@ -97,9 +97,17 @@ public class ApiSession implements IApiSession {
 
 	}
 
-	public void closeSession() {
-		// TODO Auto-generated method stub
+	public final void closeSession() throws IOException {
+	   if (this.sessionCont.closeSession(this)){
+		   speaker.closeSession(false);
 
+	   if (!this.automate.setWaitingForCloseSessionState()){
+			throw new IllegalStateException("je suis pas dans un etat qui me permet de me fermer");
+	   }
+	   }
+	   else {
+		   throw new IllegalStateException("je peux pas faire close session sur cette session");
+	   }
 	}
 
 	public boolean resumeSession() throws IOException, InterruptedException {
@@ -172,6 +180,16 @@ public class ApiSession implements IApiSession {
 		throw new IllegalStateException("etat pas coherent");
 		}
 
+
+	}
+
+
+	public void notifyEndCloseSession() {
+		System.out.println("jai recu un notifyEndCloseSession");
+	if(!this.automate.CloseSessionState()){
+		throw new IllegalStateException("j'était pas en attente dune fermeture de session");
+
+	}
 
 	}
 

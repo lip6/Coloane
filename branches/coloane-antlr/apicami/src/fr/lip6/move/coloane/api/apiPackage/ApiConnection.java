@@ -12,8 +12,15 @@ import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.api.interfaces.*;
+import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IFkCloseConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IServiceStateObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
@@ -57,32 +64,7 @@ public class ApiConnection implements IApiConnection {
 	/** une table de hash qui stocke les observables */
 	private HashMap< String, Object> hashObservable;
 
-	/**  IBrutalInterruptObserver */
-	private IBrutalInterruptObserver bio;
 
-	/** IConnectionObserver */
-	private IConnectionObserver ico;
-
-	/** IDialogObserver */
-	private IDialogObserver ido;
-
-	/** IFKCloseConnectionObserver*/
-	private IFKCloseConnectionObserver ifko;
-
-	/** IServiceObserver*/
-	private IServiceObserver iso;
-
-	/** IServiceStateObserver */
-	private IServiceStateObserver isso;
-
-	/** ISessionObserver  */
-	private ISessionObserver iseo;
-
-	/** ITraceMessageObserver */
-	private ITraceMessageObserver itmo;
-
-	/** IWarningObserver*/
-	private IWarningObserver iwo;
 
     /** le sessionController*/
 	private ISessionController sessionCont;
@@ -106,11 +88,11 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IService", ObservableFactory.getNewServiceObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		this.hashObservable.put("IDialog", ObservableFactory.getNewDialogObservable());
-		this.hashObservable.put("FKCloseConnection", ObservableFactory.getNewFkCloseConnectionObservable());
-		this.hashObservable.put("IServicetate", ObservableFactory.getNewServiceStateObservable());
+		this.hashObservable.put("FkCloseConnection", ObservableFactory.getNewFkCloseConnectionObservable());
+		this.hashObservable.put("IServiceState", ObservableFactory.getNewServiceStateObservable());
 		this.hashObservable.put("ITraceMessage", ObservableFactory.getNewTraceMessageObservable());
 		this.hashObservable.put("IWarning", ObservableFactory.getNewWarningObservable());
-		
+
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
@@ -124,6 +106,31 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public IApiSession getAPISession() {
 		return SessionFactory.getNewApiSession(this.sessionCont,this.speaker);
+	}
+
+
+	/** set de l'adress IP*/
+	public boolean setIPAdress(String ip) {
+		this.ipServer = ip;
+		return true;
+	}
+
+	/** set du login */
+	public boolean setLogin(String login) {
+		this.login = login;
+		return true;
+	}
+
+	/** set du password */
+	public boolean setPassWord(String pw) {
+		this.password = pw;
+		return true;
+	}
+
+	/** set du port */
+	public boolean setPort(int p) {
+		this.portServer = p;
+		return true;
 	}
 
 	/**
@@ -197,7 +204,10 @@ public class ApiConnection implements IApiConnection {
 
 	/** set du IBrutalInterruptObserver*/
 	public boolean setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
-		this.bio = o;
+		IBrutalInterruptObservable ico =  (IBrutalInterruptObservable)this.hashObservable.get("IBrutalInterrupt");
+		ico.addObserver(o);
+		ico.setCreateThread(createThread);
+
 		return true;
 	}
 
@@ -216,49 +226,40 @@ public class ApiConnection implements IApiConnection {
 
 	/** set du IDialogObserver*/
 	public boolean setDialogObserver(IDialogObserver o, boolean createThread) {
-		this.ido = o;
+
+		 IDialogObservable idl =  (IDialogObservable)this.hashObservable.get("IDialog");
+		idl.addObserver(o);
+		idl.setCreateThread(createThread);
+
 		return true;
 	}
 
 	/** set du IFKCloseConnectionObserver*/
 	public boolean setFKCloseConnectionObserver(IFKCloseConnectionObserver o, boolean createThread) {
-		this.ifko = o;
+
+		IFkCloseConnectionObservable idl =  (IFkCloseConnectionObservable)this.hashObservable.get("IFkCloseConnection");
+		idl.addObserver(o);
+		idl.setCreateThread(createThread);
+
 		return true;
 	}
 
-	/** set de l'adress IP*/
-	public boolean setIPAdress(String ip) {
-		this.ipServer = ip;
-		return true;
-	}
 
-	/** set du login */
-	public boolean setLogin(String login) {
-		this.login = login;
-		return true;
-	}
-
-	/** set du password */
-	public boolean setPassWord(String pw) {
-		this.password = pw;
-		return true;
-	}
-
-	/** set du port */
-	public boolean setPort(int p) {
-		this.portServer = p;
-		return true;
-	}
 
 	/** set du IServiceObserver */
 	public boolean setServiceObserver(IServiceObserver o, boolean createThread) {
-		this.iso = o;
+		IServiceObservable ise =  (IServiceObservable)this.hashObservable.get("IService");
+		ise.addObserver(o);
+		ise.setCreateThread(createThread);
 		return true;
 	}
 
 	/** set du  IServiceStateObserver*/
 	public boolean setServiceStateObserver(IServiceStateObserver o, boolean createThread) {
-		this.isso = o;
+		IServiceStateObservable ise =  (IServiceStateObservable)this.hashObservable.get("IServiceState");
+		ise.addObserver(o);
+		ise.setCreateThread(createThread);
+
 		return true;
 	}
 
@@ -273,13 +274,19 @@ public class ApiConnection implements IApiConnection {
 
 	/** set du ITraceMessageObserver  */
 	public boolean setTraceMessageObserver(ITraceMessageObserver o, boolean createThread) {
-		this.itmo = o;
+		ITraceMessageObservable ise =  (ITraceMessageObservable)this.hashObservable.get("ITraceMessage");
+		ise.addObserver(o);
+		ise.setCreateThread(createThread);
+
 		return true;
 	}
 	/** set du IWarningObserver*/
 
 	public boolean setWarningObserver(IWarningObserver o, boolean createThread) {
-		this.iwo = o;
+		IWarningObservable ise =  (IWarningObservable)this.hashObservable.get("IWarning");
+		ise.addObserver(o);
+		ise.setCreateThread(createThread);
+
 		return true;
 	}
 

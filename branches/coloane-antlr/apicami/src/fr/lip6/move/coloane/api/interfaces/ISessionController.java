@@ -9,6 +9,7 @@ package fr.lip6.move.coloane.api.interfaces;
 import java.io.IOException;
 
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
+import fr.lip6.move.coloane.api.session.ApiSession;
 
 public interface ISessionController {
 
@@ -77,4 +78,8 @@ public interface ISessionController {
 	public void notifyEndSuspendSession();
 
 	public void notifyEndResumeSession(String nameSession);
+
+	public void notifyEndCloseSession();
+
+	public boolean closeSession(ApiSession apiSession);
 }
