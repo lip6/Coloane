@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-05-09 21:14:36
+// $ANTLR 3.0.1 Cami.g 2008-05-26 13:21:02
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -33,26 +33,26 @@ public class CamiParser extends Parser {
         public CamiParser(TokenStream input) {
             super(input);
         }
-
+        
 
     public String[] getTokenNames() { return tokenNames; }
     public String getGrammarFileName() { return "Cami.g"; }
 
 
-       ArrayList<String> listOfArgs; /* liste des arguments pour la construction des
+       ArrayList<String> listOfArgs; /* liste des arguments pour la construction des 
                                         objets de notification */
-
-       ArrayList<ArrayList<String>> camiMenuList; /* liste servant à construire les objets
+       
+       ArrayList<ArrayList<String>> camiMenuList; /* liste servant à construire les objets 
                                                    Correspondant aux AQ */
 
-       ArrayList<ArrayList<String>> camiUpdates; /* liste servant à construire les objets
+       ArrayList<ArrayList<String>> camiUpdates; /* liste servant à construire les objets 
       //                                             Correspondant aux TQ 7 et 8 */
 
        HashMap<String, Object> hashObservable; /* Table de hash des observables */
 
        ISessionController sc; /* Controleur de la session */
 
-       IFkInfo fkInfo;
+       IFkInfo fkInfo; 
 
        IMenu menu;
        ArrayList<IMenu> menuList;
@@ -60,12 +60,12 @@ public class CamiParser extends Parser {
        ArrayList<IUpdateItem> updates;
 
 
-
+      
        /* Constructeur du parser */
-       public CamiParser(TokenStream input, ISessionController sessionController,
+       public CamiParser(TokenStream input, ISessionController sessionController, 
                                                         HashMap<String, Object> hm) {
            this(input);
-           hashObservable = hm;
+           hashObservable = hm;       
            sc = sessionController;
        }
 
@@ -304,17 +304,17 @@ public class CamiParser extends Parser {
             // Cami.g:78:2: ( 'SC(' CAMI_STRING ')' )
             // Cami.g:79:2: 'SC(' CAMI_STRING ')'
             {
-            match(input,8,FOLLOW_8_in_ack_open_communication138);
+            match(input,8,FOLLOW_8_in_ack_open_communication138); 
             CAMI_STRING1=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_open_communication140);
-            match(input,9,FOLLOW_9_in_ack_open_communication142);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_open_communication140); 
+            match(input,9,FOLLOW_9_in_ack_open_communication142); 
 
                         listOfArgs = new ArrayList<String>();
                         listOfArgs.add(CAMI_STRING1.getText());
                         synchronized(hashObservable){
                             hashObservable.notify();
                         }
-
+                    
 
             }
 
@@ -340,23 +340,23 @@ public class CamiParser extends Parser {
             // Cami.g:92:2: ( 'OC(' v1= NUMBER ',' v2= NUMBER ')' )
             // Cami.g:93:2: 'OC(' v1= NUMBER ',' v2= NUMBER ')'
             {
-            match(input,10,FOLLOW_10_in_ack_open_connection163);
+            match(input,10,FOLLOW_10_in_ack_open_connection163); 
             v1=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_ack_open_connection172);
+            match(input,NUMBER,FOLLOW_NUMBER_in_ack_open_connection172); 
 
                         listOfArgs.add(v1.getText());
-
-            match(input,11,FOLLOW_11_in_ack_open_connection181);
+                    
+            match(input,11,FOLLOW_11_in_ack_open_connection181); 
             v2=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_ack_open_connection190);
+            match(input,NUMBER,FOLLOW_NUMBER_in_ack_open_connection190); 
             listOfArgs.add(v2.getText());
                         IFkVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
                         ((IConnectionObservable)hashObservable.get("IConnection")).notifyObservers(version);
                         synchronized(hashObservable){
                             hashObservable.notify();
                         }
-
-            match(input,9,FOLLOW_9_in_ack_open_connection198);
+                    
+            match(input,9,FOLLOW_9_in_ack_open_connection198); 
 
             }
 
@@ -379,10 +379,10 @@ public class CamiParser extends Parser {
             // Cami.g:111:5: ( 'FC()' )
             // Cami.g:112:5: 'FC()'
             {
-            match(input,12,FOLLOW_12_in_close_connection223);
+            match(input,12,FOLLOW_12_in_close_connection223); 
 
                         /* TODO ON VERRA CE QU'ON FERA ICIIIIIIIIIIIII*/
-
+                    
 
             }
 
@@ -438,39 +438,39 @@ public class CamiParser extends Parser {
                 case 1 :
                     // Cami.g:119:2: 'OS(' CAMI_STRING ')'
                     {
-                    match(input,13,FOLLOW_13_in_ack_open_session240);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_open_session242);
-                    match(input,9,FOLLOW_9_in_ack_open_session243);
+                    match(input,13,FOLLOW_13_in_ack_open_session240); 
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_open_session242); 
+                    match(input,9,FOLLOW_9_in_ack_open_session243); 
 
                                 //TODO ajouter un controle que c OS
                                 System.out.println("OS");
-
+                                
                                 /* on initialise ici la table des menus : on ne voit pas d'autre endroit ....*/
                                 menuList = new ArrayList<IMenu>();
                                 /*  */
                                 camiUpdates = new ArrayList<ArrayList<String>>();
-
+                            
 
                     }
                     break;
                 case 2 :
                     // Cami.g:128:3: 'TD()'
                     {
-                    match(input,14,FOLLOW_14_in_ack_open_session248);
+                    match(input,14,FOLLOW_14_in_ack_open_session248); 
 
                                 // Ajouter un controle qu'on doit bien recevoir TD
                     //            System.out.println("TD");
-
+                            
 
                     }
                     break;
                 case 3 :
                     // Cami.g:132:3: 'FA()'
                     {
-                    match(input,15,FOLLOW_15_in_ack_open_session253);
+                    match(input,15,FOLLOW_15_in_ack_open_session253); 
                     // Ajouter un controle qu'on doit bien recevoir FA}
                     //            System.out.println("FA");
-
+                            
 
                     }
                     break;
@@ -505,10 +505,10 @@ public class CamiParser extends Parser {
             // Cami.g:142:2: ( 'SS()' )
             // Cami.g:143:2: 'SS()'
             {
-            match(input,16,FOLLOW_16_in_ack_suspend_current_session302);
+            match(input,16,FOLLOW_16_in_ack_suspend_current_session302); 
             /* Notifier au sessionController de l'acquittement du SS  */
                         sc.notifyEndSuspendSession();
-
+                    
 
             }
 
@@ -533,13 +533,13 @@ public class CamiParser extends Parser {
             // Cami.g:152:2: ( 'RS(' CAMI_STRING ')' )
             // Cami.g:153:2: 'RS(' CAMI_STRING ')'
             {
-            match(input,17,FOLLOW_17_in_ack_resume_suspend_current_session321);
+            match(input,17,FOLLOW_17_in_ack_resume_suspend_current_session321); 
             CAMI_STRING2=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_resume_suspend_current_session323);
-            match(input,9,FOLLOW_9_in_ack_resume_suspend_current_session325);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_resume_suspend_current_session323); 
+            match(input,9,FOLLOW_9_in_ack_resume_suspend_current_session325); 
 
                         sc.notifyEndResumeSession(CAMI_STRING2.getText());
-
+                    
 
             }
 
@@ -562,12 +562,12 @@ public class CamiParser extends Parser {
             // Cami.g:161:2: ( 'FS(' CAMI_STRING ')' )
             // Cami.g:162:2: 'FS(' CAMI_STRING ')'
             {
-            match(input,18,FOLLOW_18_in_ack_close_current_session343);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_close_current_session345);
-            match(input,9,FOLLOW_9_in_ack_close_current_session347);
+            match(input,18,FOLLOW_18_in_ack_close_current_session343); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_ack_close_current_session345); 
+            match(input,9,FOLLOW_9_in_ack_close_current_session347); 
 
-                        sc.notinotifyEndCloseSession();
-
+                        sc.notifyEndCloseSession();
+                    
 
             }
 
@@ -621,43 +621,43 @@ public class CamiParser extends Parser {
                 case 1 :
                     // Cami.g:173:5: 'TL()'
                     {
-                    match(input,19,FOLLOW_19_in_interlocutor_table371);
-
-
+                    match(input,19,FOLLOW_19_in_interlocutor_table371); 
+                                
+                            
 
                     }
                     break;
                 case 2 :
                     // Cami.g:175:6: 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' incremental= NUMBER ',' new_model= NUMBER ')'
                     {
-                    match(input,20,FOLLOW_20_in_interlocutor_table379);
+                    match(input,20,FOLLOW_20_in_interlocutor_table379); 
                     service_name=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_interlocutor_table383);
-                    match(input,11,FOLLOW_11_in_interlocutor_table385);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_interlocutor_table383); 
+                    match(input,11,FOLLOW_11_in_interlocutor_table385); 
                     about_service=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_interlocutor_table389);
-                    match(input,11,FOLLOW_11_in_interlocutor_table391);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_interlocutor_table389); 
+                    match(input,11,FOLLOW_11_in_interlocutor_table391); 
                     incremental=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_interlocutor_table395);
-                    match(input,11,FOLLOW_11_in_interlocutor_table412);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_interlocutor_table395); 
+                    match(input,11,FOLLOW_11_in_interlocutor_table412); 
                     new_model=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_interlocutor_table416);
-                    match(input,9,FOLLOW_9_in_interlocutor_table419);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_interlocutor_table416); 
+                    match(input,9,FOLLOW_9_in_interlocutor_table419); 
 
-
+                               
                                 listOfArgs = new ArrayList<String>();
                                 listOfArgs.add(service_name.getText());
                                 listOfArgs.add(about_service.getText());
                                 listOfArgs.add(incremental.getText());
-                                listOfArgs.add(new_model.getText());
-
+                                listOfArgs.add(new_model.getText());            
+                            
 
                     }
                     break;
                 case 3 :
                     // Cami.g:184:6: 'FL()'
                     {
-                    match(input,21,FOLLOW_21_in_interlocutor_table428);
+                    match(input,21,FOLLOW_21_in_interlocutor_table428); 
 
                                 fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
 
@@ -666,7 +666,7 @@ public class CamiParser extends Parser {
                     //              System.out.println(this.listOfArgs.get(i));
                                 }
 
-
+                            
 
                     }
                     break;
@@ -691,11 +691,11 @@ public class CamiParser extends Parser {
             // Cami.g:199:5: ( 'DQ()' menu_name ( question_add )* 'FQ()' 'VQ(' CAMI_STRING ')' )
             // Cami.g:200:2: 'DQ()' menu_name ( question_add )* 'FQ()' 'VQ(' CAMI_STRING ')'
             {
-            match(input,22,FOLLOW_22_in_receving_menu451);
+            match(input,22,FOLLOW_22_in_receving_menu451); 
 
                         /* créer la menuList  */
                         camiMenuList = new ArrayList<ArrayList<String>>();
-
+                    
             pushFollow(FOLLOW_menu_name_in_receving_menu455);
             menu_name();
             _fsp--;
@@ -728,25 +728,25 @@ public class CamiParser extends Parser {
                 }
             } while (true);
 
-            match(input,23,FOLLOW_23_in_receving_menu462);
+            match(input,23,FOLLOW_23_in_receving_menu462); 
 
-                        /* fin de la reception des menus : demander la construction du menu */
+                        /* fin de la reception des menus : demander la construction du menu */            
                         menu = CamiObjectBuilder.buildMenu(camiMenuList);
 
                         System.out.println("nombre de AQ : " + camiMenuList.size());
 
                         menuList.add(menu);
-
+                        
             //            System.out.println("Menu construit");
             //            System.out.println("FQ()");
-
-            match(input,24,FOLLOW_24_in_receving_menu469);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_receving_menu470);
-            match(input,9,FOLLOW_9_in_receving_menu471);
+                    
+            match(input,24,FOLLOW_24_in_receving_menu469); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_receving_menu470); 
+            match(input,9,FOLLOW_9_in_receving_menu471); 
              /* afficher les questions */
                         System.out.println("VQ");
-
-
+                        
+                    
 
             }
 
@@ -773,18 +773,18 @@ public class CamiParser extends Parser {
             // Cami.g:227:2: ( 'CQ(' name= CAMI_STRING ',' question_type= NUMBER ',' question_behavior= NUMBER ')' )
             // Cami.g:228:2: 'CQ(' name= CAMI_STRING ',' question_type= NUMBER ',' question_behavior= NUMBER ')'
             {
-            match(input,25,FOLLOW_25_in_menu_name488);
+            match(input,25,FOLLOW_25_in_menu_name488); 
             name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_menu_name492);
-            match(input,11,FOLLOW_11_in_menu_name494);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_menu_name492); 
+            match(input,11,FOLLOW_11_in_menu_name494); 
             question_type=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_menu_name498);
-            match(input,11,FOLLOW_11_in_menu_name500);
+            match(input,NUMBER,FOLLOW_NUMBER_in_menu_name498); 
+            match(input,11,FOLLOW_11_in_menu_name500); 
             question_behavior=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_menu_name504);
-            match(input,9,FOLLOW_9_in_menu_name506);
+            match(input,NUMBER,FOLLOW_NUMBER_in_menu_name504); 
+            match(input,9,FOLLOW_9_in_menu_name506); 
 
-
+                 
                         // TODO :  Veifier qu'on est dans la réception de menus racine !!!
 
                         /* racine des question  */
@@ -800,7 +800,7 @@ public class CamiParser extends Parser {
             //                        System.out.println("question_type.getText() " + question_type.getText());
             //                        System.out.println("question_behavior.getText() " + question_behavior.getText());
 
-
+                    
 
             }
 
@@ -833,13 +833,13 @@ public class CamiParser extends Parser {
             // Cami.g:251:2: ( 'AQ(' parent_menu= CAMI_STRING ',' entry_name= CAMI_STRING ',' (question_type= NUMBER )? ',' (question_behavior= NUMBER )? ',' (set_item= NUMBER )? ',' (dialog= NUMBER )? ',' (stop_authorized= NUMBER )? ',' (output_formalism= CAMI_STRING )? ',' (active= NUMBER )? ')' )
             // Cami.g:252:2: 'AQ(' parent_menu= CAMI_STRING ',' entry_name= CAMI_STRING ',' (question_type= NUMBER )? ',' (question_behavior= NUMBER )? ',' (set_item= NUMBER )? ',' (dialog= NUMBER )? ',' (stop_authorized= NUMBER )? ',' (output_formalism= CAMI_STRING )? ',' (active= NUMBER )? ')'
             {
-            match(input,26,FOLLOW_26_in_question_add522);
+            match(input,26,FOLLOW_26_in_question_add522); 
             parent_menu=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add526);
-            match(input,11,FOLLOW_11_in_question_add528);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add526); 
+            match(input,11,FOLLOW_11_in_question_add528); 
             entry_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add532);
-            match(input,11,FOLLOW_11_in_question_add534);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add532); 
+            match(input,11,FOLLOW_11_in_question_add534); 
             // Cami.g:253:16: (question_type= NUMBER )?
             int alt6=2;
             int LA6_0 = input.LA(1);
@@ -852,14 +852,14 @@ public class CamiParser extends Parser {
                     // Cami.g:253:16: question_type= NUMBER
                     {
                     question_type=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add541);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add541); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add544);
+            match(input,11,FOLLOW_11_in_question_add544); 
             // Cami.g:253:46: (question_behavior= NUMBER )?
             int alt7=2;
             int LA7_0 = input.LA(1);
@@ -872,14 +872,14 @@ public class CamiParser extends Parser {
                     // Cami.g:253:46: question_behavior= NUMBER
                     {
                     question_behavior=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add548);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add548); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add551);
+            match(input,11,FOLLOW_11_in_question_add551); 
             // Cami.g:254:11: (set_item= NUMBER )?
             int alt8=2;
             int LA8_0 = input.LA(1);
@@ -892,14 +892,14 @@ public class CamiParser extends Parser {
                     // Cami.g:254:11: set_item= NUMBER
                     {
                     set_item=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add558);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add558); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add561);
+            match(input,11,FOLLOW_11_in_question_add561); 
             // Cami.g:254:31: (dialog= NUMBER )?
             int alt9=2;
             int LA9_0 = input.LA(1);
@@ -912,14 +912,14 @@ public class CamiParser extends Parser {
                     // Cami.g:254:31: dialog= NUMBER
                     {
                     dialog=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add566);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add566); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add569);
+            match(input,11,FOLLOW_11_in_question_add569); 
             // Cami.g:254:59: (stop_authorized= NUMBER )?
             int alt10=2;
             int LA10_0 = input.LA(1);
@@ -932,14 +932,14 @@ public class CamiParser extends Parser {
                     // Cami.g:254:59: stop_authorized= NUMBER
                     {
                     stop_authorized=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add573);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add573); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add576);
+            match(input,11,FOLLOW_11_in_question_add576); 
             // Cami.g:255:19: (output_formalism= CAMI_STRING )?
             int alt11=2;
             int LA11_0 = input.LA(1);
@@ -952,14 +952,14 @@ public class CamiParser extends Parser {
                     // Cami.g:255:19: output_formalism= CAMI_STRING
                     {
                     output_formalism=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add583);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_add583); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_question_add586);
+            match(input,11,FOLLOW_11_in_question_add586); 
             // Cami.g:255:43: (active= NUMBER )?
             int alt12=2;
             int LA12_0 = input.LA(1);
@@ -972,21 +972,21 @@ public class CamiParser extends Parser {
                     // Cami.g:255:43: active= NUMBER
                     {
                     active=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add590);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_question_add590); 
 
                     }
                     break;
 
             }
 
-            match(input,9,FOLLOW_9_in_question_add593);
+            match(input,9,FOLLOW_9_in_question_add593); 
 
 
                         // TODO Veifier qu'on est dans la réception de menus
                         ArrayList<String> aq = new ArrayList<String>();
                         aq.add(parent_menu.getText()); /* parent  */
                         aq.add(entry_name.getText());  /* entry_name  */
-
+                        
                         if(question_type != null)
                             aq.add(question_type.getText()); /* question_type  */
                         else
@@ -1001,7 +1001,7 @@ public class CamiParser extends Parser {
                             aq.add(null/*set_item.getText()*/); /* validation par defaut  */
                         else
                             aq.add(null/*new String("")*/);
-
+                        
                         if(dialog != null)
                             aq.add(dialog.getText()); /* dialog autorisé ?  */
                         else
@@ -1027,8 +1027,8 @@ public class CamiParser extends Parser {
 
 
                         camiMenuList.add(aq); /* ajouter à la liste de AQ */
-
-
+                        
+                        
                   /* TODO : a enlever */
 
             //                        System.out.print("AQ(" + aq.get(0));
@@ -1037,7 +1037,7 @@ public class CamiParser extends Parser {
                                     }
             //                        System.out.println(")");
 
-
+                    
 
             }
 
@@ -1065,13 +1065,13 @@ public class CamiParser extends Parser {
             // Cami.g:318:2: ( 'TQ(' service_name= CAMI_STRING ',' question_name= CAMI_STRING ',' state= ( '7' | '8' ) ',' (mess= CAMI_STRING )? ')' )
             // Cami.g:319:2: 'TQ(' service_name= CAMI_STRING ',' question_name= CAMI_STRING ',' state= ( '7' | '8' ) ',' (mess= CAMI_STRING )? ')'
             {
-            match(input,27,FOLLOW_27_in_update614);
+            match(input,27,FOLLOW_27_in_update614); 
             service_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update618);
-            match(input,11,FOLLOW_11_in_update620);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update618); 
+            match(input,11,FOLLOW_11_in_update620); 
             question_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update624);
-            match(input,11,FOLLOW_11_in_update626);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update624); 
+            match(input,11,FOLLOW_11_in_update626); 
             state=(Token)input.LT(1);
             if ( (input.LA(1)>=28 && input.LA(1)<=29) ) {
                 input.consume();
@@ -1083,7 +1083,7 @@ public class CamiParser extends Parser {
                 recoverFromMismatchedSet(input,mse,FOLLOW_set_in_update630);    throw mse;
             }
 
-            match(input,11,FOLLOW_11_in_update636);
+            match(input,11,FOLLOW_11_in_update636); 
             // Cami.g:319:91: (mess= CAMI_STRING )?
             int alt13=2;
             int LA13_0 = input.LA(1);
@@ -1096,33 +1096,33 @@ public class CamiParser extends Parser {
                     // Cami.g:319:91: mess= CAMI_STRING
                     {
                     mess=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update640);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_update640); 
 
                     }
                     break;
 
             }
 
-            match(input,9,FOLLOW_9_in_update643);
+            match(input,9,FOLLOW_9_in_update643); 
 
-
-
+                        
+                        
                         /*  */
                         ArrayList<String> update = new ArrayList<String>();
-
+                        
                         update.add(service_name.getText()); /* nom du service */
                         update.add(question_name.getText());  /* nom de la question  */
                         update.add(state.getText());  /* état de la question  */
-
+                        
                         if(!state.getText().equals("7") && !state.getText().equals("8")) /* si c'est un modificateur de menu */
-                            update.add(mess.getText()); /* message : optionnel */
-
-
+                            update.add(mess.getText()); /* message : optionnel */          
+                        
+                        
                         camiUpdates.add(update);/* ajouter à la liste des updates  */
-
-            //            System.out.println("ANTLR : TQ(" + service_name.getText() + ", " + question_name.getText() + ", " +
+                        
+            //            System.out.println("ANTLR : TQ(" + service_name.getText() + ", " + question_name.getText() + ", " + 
             //                                        state.getText() + ", " + ")");
-
+                    
 
             }
 
@@ -1147,21 +1147,21 @@ public class CamiParser extends Parser {
             // Cami.g:343:2: ( 'QQ(' NUMBER ')' )
             // Cami.g:344:2: 'QQ(' NUMBER ')'
             {
-            match(input,30,FOLLOW_30_in_end_menu_transmission669);
+            match(input,30,FOLLOW_30_in_end_menu_transmission669); 
             NUMBER3=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_end_menu_transmission671);
-            match(input,9,FOLLOW_9_in_end_menu_transmission673);
+            match(input,NUMBER,FOLLOW_NUMBER_in_end_menu_transmission671); 
+            match(input,9,FOLLOW_9_in_end_menu_transmission673); 
 
-
+                        
             //            System.out.println("QQ(" + NUMBER3.getText() + ")");
-
-
+                        
+                        
                         updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
                         ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
 
-                        /* notifier le sessionController qu'on a reçu les menus et les updates */
+                        /* notifier le sessionController qu'on a reçu les menus et les updates */            
                         sc.notifyEndOpenSession();
-
+                    
 
             }
 
@@ -1184,14 +1184,14 @@ public class CamiParser extends Parser {
             // Cami.g:364:2: ( 'MO(' NUMBER ',' CAMI_STRING ')' )
             // Cami.g:365:2: 'MO(' NUMBER ',' CAMI_STRING ')'
             {
-            match(input,31,FOLLOW_31_in_special_message701);
-            match(input,NUMBER,FOLLOW_NUMBER_in_special_message703);
-            match(input,11,FOLLOW_11_in_special_message705);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_special_message707);
-            match(input,9,FOLLOW_9_in_special_message709);
+            match(input,31,FOLLOW_31_in_special_message701); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_special_message703); 
+            match(input,11,FOLLOW_11_in_special_message705); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_special_message707); 
+            match(input,9,FOLLOW_9_in_special_message709); 
 
                         // verifier qu'on est dans la reception des menus ou autre
-
+                    
 
             }
 
@@ -1207,7 +1207,7 @@ public class CamiParser extends Parser {
     // $ANTLR end special_message
 
 
-
+ 
 
     public static final BitSet FOLLOW_ack_open_communication_in_command55 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ack_open_connection_in_command59 = new BitSet(new long[]{0x0000000000000002L});
