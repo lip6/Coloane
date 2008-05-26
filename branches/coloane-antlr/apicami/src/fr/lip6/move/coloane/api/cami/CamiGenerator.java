@@ -87,14 +87,14 @@ public class CamiGenerator {
 
 			/** ses positions X et Y  PO */
 			command = new String("PO(" + node.getId()
-					+ ","+ node.xPosition + "," + node.yPosition + ")");
+					+ ","+ node.getXPosition() + "," + node.getYPosition() + ")");
 			camiModel.add(initCommand(command));
 
 			/** ses attributs monolignes */
-			for(int j=0; j<node.getAttribute().size(); j++){
-				IAttribute att = node.getAttribute().get(j);
-				command = new String("CT(" + att.getType()
-						+ ","+ node.getId() + "," + att.getContains()
+			for(int j=0; j<node.getListOfAttr().size(); j++){
+				IAttribute att = node.getListOfAttr().get(j);
+				command = new String("CT(" + att.getName()
+						+ ","+ node.getId() + "," + att.getValue()
 						+ "," + ")");
 				camiModel.add(initCommand(command));
 			}
@@ -113,10 +113,10 @@ public class CamiGenerator {
 			camiModel.add(initCommand(command));
 
 			/** ses attributs monolignes */
-			for(int j=0; j<arc.getAttribute().size(); j++){
-				IAttribute att = arc.getAttribute().get(j);
-				command = new String("CT(" + att.getType()
-						+ ","+ arc.getId() + "," + att.getContains()
+			for(int j=0; j<arc.getListOfAttr().size(); j++){
+				IAttribute att = arc.getListOfAttr().get(j);
+				command = new String("CT(" + att.getName()
+						+ ","+ arc.getId() + "," + att.getValue()
 						+ "," + ")");
 				camiModel.add(initCommand(command));
 			}
