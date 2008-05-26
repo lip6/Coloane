@@ -33,17 +33,38 @@ public class Speaker implements ISpeaker{
 	}
 
 
+	/**
+	 * @param rootName nom du service principal
+	 * @param menuName Menu de service
+	 * @param serviceName nom du service invoqué
+	 * @throws IOException
+	 */
 
+	public void askForService(String rootName, String menuName, String serviceName) throws IOException {
 
-	public void askForService(String rootName, String serviceName) {
-		// TODO Auto-generated method stub
+		/** fabrique la commande et envoie de la commande DT */
+		byte[] cmdToSend = CamiGenerator.generateCmdDT();
+		this.fkll.writeCommand(cmdToSend);
 
+		/** generation et envoi de la première commande PQ */
+		cmdToSend = CamiGenerator.generateCmdPQ(rootName, menuName);
+		this.fkll.writeCommand(cmdToSend);
+
+		/** generation et envoi de la deuxième commande PQ */
+		cmdToSend = CamiGenerator.generateCmdPQ(rootName, serviceName);
+		this.fkll.writeCommand(cmdToSend);
 
 	}
 
 
-	public void askForService(String rootName, String serviceName, String date) {
-		// TODO Auto-generated method stub
+	public void askForService(String rootName, String menuName, String serviceName, String date) throws IOException {
+
+		/** generation de la commande MS pour envoi de la date */
+		byte[] cmdToSend = CamiGenerator.generateCmdMS(date);
+		this.fkll.writeCommand(cmdToSend);
+
+		/** envoi des commandes askForService sans la date */
+		askForService(rootName, menuName, serviceName);
 
 	}
 

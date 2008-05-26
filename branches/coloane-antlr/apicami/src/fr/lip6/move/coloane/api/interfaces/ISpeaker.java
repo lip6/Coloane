@@ -71,16 +71,18 @@ public interface ISpeaker {
 	 *  demande a ISpeaker d'envoyer a FK la demande de service.
 	 *   @param le nom du chemin.
 	 *   @param le nom du service.
+	 * @throws IOException
 	 */
-	void askForService(String rootName, String serviceName);
+	void askForService(String rootName, String menuName, String serviceName) throws IOException;
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK la demande de service.
 	 *   @param le nom du chemin.
 	 *   @param le nom du service.
 	 *   @param la date.
+	 * @throws IOException
 	 */
-	void askForService(String rootName, String serviceName, String date);
+	void askForService(String rootName, String menuName, String serviceName, String date) throws IOException;
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK un model.

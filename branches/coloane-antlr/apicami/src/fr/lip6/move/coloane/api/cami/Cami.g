@@ -69,6 +69,8 @@ command
     |ack_suspend_current_session
     |ack_resume_suspend_current_session
     |ack_close_current_session
+
+    |ask_dor_model
     ;
 
 
@@ -369,6 +371,29 @@ special_message
 
 
 /* ---------------------- types de base  CAMI_STRING, NUMBER --------------------------------*/
+
+
+
+
+
+
+ask_for_a_model$
+	:                                                       
+    'DF(-2,' NUMBER ',' NUMBER ')'{
+        ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+     }
+	;
+
+
+
+
+
+
+
+
+
+
+
 
 /* Cami String*/
 CAMI_STRING
