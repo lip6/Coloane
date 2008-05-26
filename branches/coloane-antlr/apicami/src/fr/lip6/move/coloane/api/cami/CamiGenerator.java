@@ -75,9 +75,13 @@ public class CamiGenerator {
 		return (initCommand(command));
 	}
 
-	public ArrayList<byte[]> generateCmdDT() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 *
+	 * @return
+	 */
+	public  static byte[] generateCmdDT() {
+		String command = new String("DT()");
+		return initCommand(command);
 	}
 
 	/**
@@ -85,7 +89,6 @@ public class CamiGenerator {
 	 * @return
 	 */
 	public static byte[] generateCmdFI() {
-		// TODO Auto-generated method stub
 		String command = new String("FI()");
 		return (initCommand(command));
 	}
@@ -95,10 +98,15 @@ public class CamiGenerator {
 		return null;
 	}
 
-
-	public ArrayList<byte[]> generateCmdMS(String date) {
+	/**
+	 *
+	 * @param date nouvelle date du modèle
+	 * @return
+	 */
+	public static byte[] generateCmdMS(String date) {
 		// TODO Auto-generated method stub
-		return null;
+		String command = new String("MS(" + date + ")");
+		return (initCommand(command));
 	}
 
 
@@ -130,10 +138,19 @@ public class CamiGenerator {
 		return initCommand(command);
 	}
 
+	/**
+	 * Dans le protocole cami, le 3ème paramètre de la commande PQ est inconnu
+	 * Dans les traces, ce paramètre est toujours à 1
+	 *
+	 * @param rootName
+	 * @param serviceName
+	 * @return
+	 */
+	public static byte[] generateCmdPQ(String rootName, String serviceName) {
 
-	public ArrayList<byte[]> generateCmdPQ(String rootName, String ServiceName) {
-		// TODO Auto-generated method stub
-		return null;
+		String command = new String("PQ(" + rootName.length() + ":" + rootName + ","	+  serviceName.length() + ":" + serviceName + "," + 1 +")");
+		return initCommand(command);
+
 	}
 
 
@@ -184,7 +201,7 @@ public class CamiGenerator {
 	}
 
 	/**
-	 * Construction de la commande SS
+	 * Construction de la commande FS
 	 * @param continueProcessing
 	 * @return
 	 */
@@ -194,8 +211,21 @@ public class CamiGenerator {
 			i=0;
 		else
 			i=1;
-		String command = new String("SS(" + i +")");
+		String command = new String("FS(" + i +")");
 		return initCommand(command);
 	}
+
+	/**
+	 * *******   Commandes pour la demande de service  ********
+	 */
+
+
+
+	/**
+	 * Construction de la commande DT
+	 * @param
+	 * @return
+	 */
+
 
 }
