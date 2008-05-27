@@ -116,7 +116,8 @@ public class CamiGenerator {
 			/** ses attributs monolignes */
 			for(int j=0; j<arc.getListOfAttr().size(); j++){
 				IAttribute att = arc.getListOfAttr().get(j);
-				command = new String("CT(" + att.getName()
+				command = new String("CT(" + att.getName().length()
+						+ ":" + att.getName()
 						+ ","+ arc.getId() + "," + att.getValue()
 						+ "," + ")");
 				camiModel.add(initCommand(command));
