@@ -87,8 +87,9 @@ public interface ISpeaker {
 	/**
 	 *  demande a ISpeaker d'envoyer a FK un model.
 	 *   @param le model.
+	 * @throws IOException
 	 */
-	void sendModel(IModel m);
+	void sendModel(IModel m) throws IOException;
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK une boite de dialogue.

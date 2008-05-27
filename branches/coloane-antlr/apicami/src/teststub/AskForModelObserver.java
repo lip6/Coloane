@@ -1,5 +1,6 @@
 package teststub;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -25,8 +26,8 @@ public class AskForModelObserver implements IAskForModelObserver {
 		this.tab = tab;
 	}
 
-	public void update() {
-     System.out.println("la session cest " + tab[0].getSessionName() );
+	public void update() throws IOException {
+     System.out.println("la session cest-------- " + tab[0].getSessionName() );
 
      //creation des noeuds
      ArrayList<INode> nodes = new ArrayList<INode>();
@@ -129,7 +130,7 @@ public class AskForModelObserver implements IAskForModelObserver {
     arcs.add(arc5);
     IModel model = new Model(arcs,null,nodes);
 
-
+System.out.println("avant send model dans observerrr");
     tab[0].sendModel(model);
 	}
 

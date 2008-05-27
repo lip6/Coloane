@@ -93,9 +93,11 @@ public class CamiGenerator {
 			/** ses attributs monolignes */
 			for(int j=0; j<node.getListOfAttr().size(); j++){
 				IAttribute att = node.getListOfAttr().get(j);
-				command = new String("CT(" + att.getName()
-						+ ","+ node.getId() + "," + att.getValue()
-						+ "," + ")");
+				command = new String("CT(" + att.getName().length()
+						+ ":" + att.getName()
+						+ ","+ node.getId() + "," + att.getValue().length()
+						+ ":" + att.getValue()
+						 + ")");
 				camiModel.add(initCommand(command));
 			}
 		}
@@ -107,7 +109,7 @@ public class CamiGenerator {
 			/** creer le noeud */
 			String command = new String("CA(" + arc.getArcType().length()
 					+ ":"+arc.getArcType()
-					+ ","+ arc.getId()  +  ","
+					+ ","+ arc.getId()
 					+ ","+ arc.getStartingNode()
 					+ ","+ arc.getEndingNode()
 					+ ")");
@@ -118,8 +120,9 @@ public class CamiGenerator {
 				IAttribute att = arc.getListOfAttr().get(j);
 				command = new String("CT(" + att.getName().length()
 						+ ":" + att.getName()
-						+ ","+ arc.getId() + "," + att.getValue()
-						+ "," + ")");
+						+ ","+ arc.getId() + ","+ att.getValue().length()
+						+ ":" + att.getValue()
+						 + ")");
 				camiModel.add(initCommand(command));
 			}
 

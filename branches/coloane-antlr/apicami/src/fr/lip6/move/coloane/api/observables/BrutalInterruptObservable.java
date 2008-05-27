@@ -1,20 +1,81 @@
 package fr.lip6.move.coloane.api.observables;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.api.interfaces.observers.IAskForModelObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
+
 
 public class BrutalInterruptObservable implements IBrutalInterruptObservable{
 
+	/** liste des observeurs */
+	private ArrayList<IBrutalInterruptObserver> list;
 
-	public void addObserver(IBrutalInterruptObserver o) {
-		// TODO Auto-generated method stub
+	/** créer un thread ? */
+	private boolean createThread = false;
+
+	/**
+	 * Constructeur
+	 */
+	public BrutalInterruptObservable() {
+		list = new ArrayList<IBrutalInterruptObserver>();
+	}
+
+	public void addObserver (IBrutalInterruptObserver o) {
+		this.list.add(o);
+
+	}
+
+
+	public void notifyObservers(String message) throws IOException {
+		if (!this.createThread) { /* Option sans création de thread */
+			for (int i = 0; i < this.list.size(); i++)
+				this.list.get(i).update(message);
+		} else {/* Option avec création de thread */
+			ThreadNotifier thread = new ThreadNotifier();
+			new Thread(thread, "threadAskForModel").start();
+		}
 
 	}
 
 
 	public void setCreateThread(boolean createThread) {
-		// TODO Auto-generated method stub
+		this.createThread = createThread;
 
 	}
 
+
+
+
+/**
+ * Cette classe est utilisée pour créer un thread lors de la notification,
+ * si cette option est active. cette classe est interne.
+ *
+ * @author kahoo & uu
+ *
+ */
+private class ThreadNotifier implements Runnable {
+	private ArrayList<IAskForModelObserver> listObservers;
+
+
+	public ThreadNotifier() {
+		listObservers = new ArrayList<IAskForModelObserver> ();
+	}
+
+	public void run()  {
+		for (int i = 0; i < this.listObservers.size(); i++)
+			try {
+				this.listObservers.get(i).update();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+
 }
+
+}
+
+

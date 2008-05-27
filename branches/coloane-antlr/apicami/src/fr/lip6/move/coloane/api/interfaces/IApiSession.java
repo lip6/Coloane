@@ -86,7 +86,7 @@ import java.io.IOException;
 			public void notifyEndCloseSession();
 
 
-			public void sendModel(IModel model);
+			public void sendModel(IModel model) throws IOException;
 
 
 	 	}

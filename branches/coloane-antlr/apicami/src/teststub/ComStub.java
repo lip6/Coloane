@@ -94,24 +94,24 @@ public class ComStub {
 		IApiConnection connection = testOpenConnection();
 
 		/** Test l'ouverture d'une session */
-		IApiSession session = testOpenSession(connection, "premier.petri");
+		IApiSession session = testOpenSession(connection, "titi.petri");
        tab[0] = session;
 
-		Thread.sleep(10000);
-		System.out.println("2eme session");
-		/** Test l'ouverture d'une seconde ession */
-		IApiSession session2 = testOpenSession(connection, "second.petri");
-		 tab[0] = session2;
+	//	Thread.sleep(10000);
+	//	System.out.println("2eme session");
+	//	/** Test l'ouverture d'une seconde ession */
+	//	IApiSession session2 = testOpenSession(connection, "second.petri");
+	//	 tab[0] = session2;
 
 
-	    Thread.sleep(10000);
-		System.out.println("\n\n\nreprise de la 1ére session");
-       session.resumeSession();
-       tab[0] = session;
+	//    Thread.sleep(10000);
+	//	System.out.println("\n\n\nreprise de la 1ére session");
+   //    session.resumeSession();
+   //    tab[0] = session;
 
-       Thread.sleep(10000);
-       session.askForService("AMI-NET", "Petri net syntax checker", "1");
-
+     Thread.sleep(10000);
+     session.askForService("AMI-Nett", "Petri net syntax checker", "Petri net syntax checker");
+    //session.askForService("AMI-Net", "Structural properties", "P-positive invariants");
 	//	Thread.sleep(10000);
     //   System.out.println("\n\n\nfermeture 1eme session");
     //   session.closeSession();

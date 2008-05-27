@@ -5,7 +5,14 @@ import java.util.Observable;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 
 public class BrutalInterruptObserver implements IBrutalInterruptObserver {
-	void update(Observable obs, Object obj){
-		/** Code à exécuter lors de la réception d'un KO */
+
+
+	public void update(String message) {
+		System.out.println("jai recu un KO avec <"+ message +">comme message");
+
 	}
+
+
+		/** Code à exécuter lors de la réception d'un KO */
+
 }

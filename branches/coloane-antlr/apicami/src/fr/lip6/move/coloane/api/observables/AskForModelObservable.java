@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.observables;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IFkInfo;
@@ -31,7 +32,7 @@ public class AskForModelObservable implements IAskForModelObservable {
 	}
 
 
-	public void notifyObservers() {
+	public void notifyObservers() throws IOException {
 		if (!this.createThread) { /* Option sans création de thread */
 			for (int i = 0; i < this.list.size(); i++)
 				this.list.get(i).update();
@@ -66,9 +67,14 @@ private class ThreadNotifier implements Runnable {
 		listObservers = new ArrayList<IAskForModelObserver> ();
 	}
 
-	public void run() {
+	public void run()  {
 		for (int i = 0; i < this.listObservers.size(); i++)
-			this.listObservers.get(i).update();
+			try {
+				this.listObservers.get(i).update();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }

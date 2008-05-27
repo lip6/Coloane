@@ -64,7 +64,7 @@ public class ApiSession implements IApiSession {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
-
+System.out.println("session open");
 		if (this.sessionCont.openSession(this))
 			// TODO lexeption
 
@@ -90,7 +90,7 @@ public class ApiSession implements IApiSession {
 
 	public void askForService(String rootName,String menuName, String serviceName) throws IOException {
 		 if (this.sessionCont.askForService(this)){
-			 System.out.println("askk for service " + this.getSessionName());
+
 			   speaker.askForService(rootName, menuName, serviceName);
 
 		   if (!this.automate.setWaitingForModelState()){
@@ -100,7 +100,7 @@ public class ApiSession implements IApiSession {
 		   else {
 			   throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		   }
-		 System.out.println("askk for service222 " + this.getSessionName());
+		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
 	public void askForService(String rootName,String menuName, String serviceName, String date) {
@@ -205,7 +205,8 @@ public class ApiSession implements IApiSession {
 	}
 
 
-	public void sendModel(IModel model) {
+
+	public void sendModel(IModel model) throws IOException {
 
 		speaker.sendModel(model);
 	}

@@ -199,6 +199,7 @@ public class Speaker implements ISpeaker{
 	 * Envoi du modèle
 	 * @param m modèle à envoyer
 	 * @throws IOException
+	 * @throws IOException
 	 */
 	public void sendModel(IModel m) throws IOException {
 
@@ -210,18 +211,18 @@ public class Speaker implements ISpeaker{
 		/** envoyer un DB : debut transmission du modele */
 		byte[] cmdToSend = CamiGenerator.generateCmdDB();
 		this.fkll.writeCommand(cmdToSend);
-		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+	//	this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		/** envoyer le coeur du modele */
 		for(int i=0; i<camiModel.size(); i++){
 			this.fkll.writeCommand(camiModel.get(i));
-			this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, camiModel.get(i).length - 4));
+		//	this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, camiModel.get(i).length - 4));
 		}
 
 		/** envoyer un FB : fin de transmission du modele */
 		cmdToSend = CamiGenerator.generateCmdFB();
 		this.fkll.writeCommand(cmdToSend);
-		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+		//this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 	}
 
@@ -236,6 +237,6 @@ public class Speaker implements ISpeaker{
 		byte[] cmdToSend = CamiGenerator.generateCmdSS();
 		/** envoie de la commande SS */
 		this.fkll.writeCommand(cmdToSend);
-		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+		//this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 }
