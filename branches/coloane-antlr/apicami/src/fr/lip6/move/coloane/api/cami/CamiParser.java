@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-05-27 13:25:15
+// $ANTLR 3.0.1 Cami.g 2008-05-27 13:28:39
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class CamiParser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "CAMI_STRING", "NUMBER", "FIXED_LENGTH_STRING", "NEWLINE", "'SC('", "')'", "'OC('", "','", "'FC()'", "'OS('", "'TD()'", "'FA()'", "'SS()'", "'RS('", "'FS('", "'TL()'", "'VI('", "'FL()'", "'DQ()'", "'FQ()'", "'VQ('", "'CQ('", "'AQ('", "'TQ('", "'7'", "'8'", "'QQ('", "'TR('", "'WN('", "'MO('", "'KO(1,'", "'DF(-2,'", "'DR()'", "'FR('", "'ZZ('", "'1)'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "CAMI_STRING", "NUMBER", "FIXED_LENGTH_STRING", "NEWLINE", "'SC('", "')'", "'OC('", "','", "'FC()'", "'OS('", "'TD()'", "'FA()'", "'SS()'", "'RS('", "'FS('", "'TL()'", "'VI('", "'FL()'", "'DQ()'", "'FQ()'", "'VQ('", "'CQ('", "'AQ('", "'TQ('", "'7'", "'8'", "'QQ('", "'TR('", "'WN('", "'MO('", "'KO(1,'", "'DF(-2,'", "'DR()'", "'FR('"
     };
     public static final int FIXED_LENGTH_STRING=6;
     public static final int CAMI_STRING=4;
@@ -1481,39 +1481,6 @@ public class CamiParser extends Parser {
     // $ANTLR end result_reception
 
 
-    // $ANTLR start question_reply
-    // Cami.g:441:1: question_reply : 'ZZ(' service_name1= CAMI_STRING ',' question_name1= CAMI_STRING ',' '1)' ;
-    public final void question_reply() throws RecognitionException {
-        Token service_name1=null;
-        Token question_name1=null;
-
-        try {
-            // Cami.g:442:2: ( 'ZZ(' service_name1= CAMI_STRING ',' question_name1= CAMI_STRING ',' '1)' )
-            // Cami.g:443:2: 'ZZ(' service_name1= CAMI_STRING ',' question_name1= CAMI_STRING ',' '1)'
-            {
-            match(input,38,FOLLOW_38_in_question_reply939); 
-            service_name1=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_reply943); 
-            match(input,11,FOLLOW_11_in_question_reply945); 
-            question_name1=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_question_reply949); 
-            match(input,11,FOLLOW_11_in_question_reply951); 
-            match(input,39,FOLLOW_39_in_question_reply954); 
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-        }
-        return ;
-    }
-    // $ANTLR end question_reply
-
-
  
 
     public static final BitSet FOLLOW_ack_open_communication_in_command55 = new BitSet(new long[]{0x0000000000000002L});
@@ -1635,11 +1602,5 @@ public class CamiParser extends Parser {
     public static final BitSet FOLLOW_37_in_result_reception922 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_result_reception924 = new BitSet(new long[]{0x0000000000000200L});
     public static final BitSet FOLLOW_9_in_result_reception926 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_question_reply939 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_question_reply943 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_question_reply945 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_question_reply949 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_question_reply951 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_39_in_question_reply954 = new BitSet(new long[]{0x0000000000000002L});
 
 }

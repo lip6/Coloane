@@ -437,10 +437,10 @@ result_reception
             //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
         }
 	;
-
+/*
 question_reply
 	:
-	'ZZ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ','  '1)'
+	'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ','  '1)'
 	;
 /*
 question_state	 // en "general" il s'agit d'un TQ 2
