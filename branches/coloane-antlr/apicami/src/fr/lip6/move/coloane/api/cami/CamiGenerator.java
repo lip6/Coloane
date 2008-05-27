@@ -81,8 +81,8 @@ public class CamiGenerator {
 		for(int i=0; i<m.getNodes().size(); i++){
 			INode node = m.getNodes().get(i);
 			/** creer le noeud */
-			String command = new String("CN(" + node.getNodeType()
-					+ ","+ node.getId() + ")");
+			String command = new String("CN(" + node.getNodeType().length()
+					+  ":" + node.getNodeType() + ","+ node.getId() + ")");
 			camiModel.add(initCommand(command));
 
 			/** ses positions X et Y  PO */
@@ -105,7 +105,8 @@ public class CamiGenerator {
 		for(int i=0; i<m.getArcs().size(); i++){
 			IArc arc = m.getArcs().get(i);
 			/** creer le noeud */
-			String command = new String("CA(" + arc.getArcType()
+			String command = new String("CA(" + arc.getArcType().length()
+					+ ":"+arc.getArcType()
 					+ ","+ arc.getId()  +  ","
 					+ ","+ arc.getStartingNode()
 					+ ","+ arc.getEndingNode()
