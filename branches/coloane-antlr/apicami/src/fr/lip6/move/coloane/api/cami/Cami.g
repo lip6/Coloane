@@ -16,6 +16,9 @@ import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,13 +67,15 @@ command
     | ack_open_session | receving_menu
     |update*
     |end_menu_transmission
-    |special_message
 
     |ack_suspend_current_session
     |ack_resume_suspend_current_session
     |ack_close_current_session
 
-    |ask_dor_model
+    |ask_for_a_model
+    |message_to_user
+    |brutal_interrupt
+//    |result_reception
     ;
 
 
@@ -359,40 +364,157 @@ end_menu_transmission
 
 
 
+/* ------------------------- Résultats de demande de service  -------------------------------*/
 
 
-/* ----------------------- message special MO ---------------------------------------------- */
+
+
+
+
+/* ------------------------- Messages provenant de FrameKit  ----- --------------------------*/
+
+message_to_user
+	:
+	trace_message | warning_message | special_message
+	;
+
+trace_message
+	:
+	'TR(' CAMI_STRING ')'{
+      //      ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
+        }
+	;
+
+warning_message
+	:
+	'WN(' CAMI_STRING ')'{
+    //        ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
+        }
+	;
+
 special_message
-	:	    
+	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'{
-            // verifier qu'on est dans la reception des menus ou autre
+//            ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+     //TODO pour le MO
         }
 	;
 
 
-/* ---------------------- types de base  CAMI_STRING, NUMBER --------------------------------*/
+
+/* ------------------------- Message KO ---------------------------*/
+
+brutal_interrupt
+		:
+		'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'{
+//			((IBrutalInterrupt)hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
+		}
+		;
 
 
-
-
-
-
-ask_for_a_model$
+/* ---------------------------- Demande du modele  -----------------------------*/
+ask_for_a_model
 	:                                                       
     'DF(-2,' NUMBER ',' NUMBER ')'{
-        ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+        
+           ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
      }
 	;
 
 
+/* ------------------------- reception des resultats ---------------------------*/
+
+result_reception
+	:
+	'DR()'{ 
+            // initialiser la liste des updates 
+            camiUpdates = new ArrayList<ArrayList<String>>();
+        }
+
+//	question_reply
+/*    ( question_state/* | update | special_message | warning_message | result )* */
+	'FR(' NUMBER ')'{
+            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
+        }
+	;
+
+question_reply
+	:
+	'ZZ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ','  '1)'
+	;
+/*
+question_state	 // en "general" il s'agit d'un TQ 2
+	:
+	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=('2'|'3'|'4'|'5'|'6'|'9') ',' mess=CAMI_STRING? ')'{ 
+            
+            ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+            
+        }
+	;
+/*
+result	:
+	'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'
+	result_body+
+	'FE()'
+	;
+ 
+result_body
+ 	:
+ 	  result
+ 	| textual_result
+ 	| attribute_change
+ 	| object_designation
+ 	| object_outline
+ 	| attribute_outline
+ 	| object_creation
+ 	| object_deletion
+ 	;
+ 
+textual_result
+ 	:
+ 	'RT(' CAMI_STRING ')'
+ 	;
+ 
+attribute_change
+ 	:
+ 	'WE(' id=NUMBER ',' attr_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
+ 	;
+ 
+object_designation
+ 	:
+ 	'RO(' id=NUMBER ')'
+ 	;
+
+object_outline
+ 	:
+ 	'ME(' id=NUMBER ')'
+ 	;
+
+attribute_outline
+ 	    :
+ 	'MT(' id=NUMBER ',' attr_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')'
+ 	;
+
+object_creation
+ 	:
+	  'CN(' CAMI_STRING ',' NUMBER ')'
+	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
+	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
+	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+ 	;
+
+object_deletion
+	:
+ 	  'SU(' id=NUMBER ')'
+ 	| 'SI(' page_id=NUMBER ',' id=NUMBER ')'
+ 	;
 
 
 
 
 
-
-
-
+/* ---------------------- types de base  CAMI_STRING, NUMBER --------------------------------*/
 
 
 /* Cami String*/
