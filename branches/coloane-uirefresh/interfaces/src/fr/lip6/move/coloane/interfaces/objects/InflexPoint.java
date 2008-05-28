@@ -32,4 +32,9 @@ public class InflexPoint implements IInflexPoint {
 		this.xPosition = x;
 		this.yPosition = y;
 	}
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		return new InflexPoint(xPosition, yPosition);
+	}
 }

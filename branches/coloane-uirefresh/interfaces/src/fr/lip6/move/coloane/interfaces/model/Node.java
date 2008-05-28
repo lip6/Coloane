@@ -287,6 +287,17 @@ public class Node implements INode {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		Node clone = new Node(type, xPosition, yPosition);
+		clone.id = 0;
+		for (IAttribute attr : this.listOfAttr) {
+			clone.addAttribute((IAttribute) attr.clone());
+		}
+		return clone;
+	}
+
 	/****** AJOUTS POUR TESTS UNITAIRES******/
 
 	public final Vector<IArc> getListOfInputArc() {

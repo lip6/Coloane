@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 
 import java.util.Vector;
 
-public interface IModel {
+public interface IModel extends Cloneable {
 
 	int INITIAL_X = 20;
 	int INITIAL_Y = 20;
@@ -214,4 +214,6 @@ public interface IModel {
 	 * @see {@link INode}
 	 */
 	Vector<INode> getListOfNodes();
+
+	Object clone() throws CloneNotSupportedException;
 }

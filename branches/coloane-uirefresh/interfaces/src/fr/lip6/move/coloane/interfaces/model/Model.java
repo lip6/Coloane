@@ -471,4 +471,16 @@ public class Model implements IModel {
 	public final Vector<INode> getListOfNodes() {
 		return listOfNode;
 	}
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		Model clone = new Model((Translator) this.translator.clone());
+		clone.formalism = this.formalism;
+		clone.xPosition = this.xPosition;
+		clone.yPosition = this.yPosition;
+		for (IAttribute attr : this.listOfAttr) {
+			clone.addAttribute((IAttribute) attr.clone());
+		}
+		return clone;
+	}
 }

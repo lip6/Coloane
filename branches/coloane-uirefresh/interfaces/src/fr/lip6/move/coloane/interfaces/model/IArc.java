@@ -5,7 +5,7 @@ import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 
 import java.util.Vector;
 
-public interface IArc {
+public interface IArc extends Cloneable {
 
 	/**
 	 * Retourne le type de l'arc.
@@ -153,4 +153,6 @@ public interface IArc {
 	 * @return IPosition
 	 */
 	IInflexPoint getNthPI(int index);
+
+	Object clone() throws CloneNotSupportedException;
 }

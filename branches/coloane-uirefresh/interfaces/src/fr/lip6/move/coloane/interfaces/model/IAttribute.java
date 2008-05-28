@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-public interface IAttribute {
+public interface IAttribute extends Cloneable {
 
 	/**
 	 * Retourne le nom de l'attribut.
@@ -50,4 +50,6 @@ public interface IAttribute {
 	 * @return String
 	 */
 	String getValue();
+
+	Object clone() throws CloneNotSupportedException;
 }

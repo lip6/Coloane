@@ -18,6 +18,11 @@ import java.util.Vector;
 public class CamiTranslator implements Translator {
 
 	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		return new CamiTranslator();
+	}
+
+	@Override
 	public final Vector<String> translateModel(IModel model) {
 		Vector<String> toReturn = new Vector<String>();
 

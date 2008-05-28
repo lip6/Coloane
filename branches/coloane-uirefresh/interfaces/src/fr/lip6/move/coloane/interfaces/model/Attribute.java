@@ -101,4 +101,11 @@ public class Attribute implements IAttribute {
 	public final String getValue() {
 		return (String) this.value;
 	}
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		Attribute clone = new Attribute(name, value, refId);
+		clone.setPosition(xPosition, yPosition);
+		return clone;
+	}
 }

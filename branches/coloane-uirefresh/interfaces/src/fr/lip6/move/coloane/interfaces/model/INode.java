@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 
 import java.util.Vector;
 
-public interface INode {
+public interface INode extends Cloneable {
 
 	/**
 	 * Retourne l'identifiant du noeud
@@ -154,6 +154,8 @@ public interface INode {
 	 * @see IAttribute
 	 */
 	IAttribute getNthAttr(int index);
+
+	Object clone() throws CloneNotSupportedException;
 
 	/*** /!\ *** AJOUTS POUR TESTS UNITAIRES*** /!\ ***/
 	/* (non-Javadoc)

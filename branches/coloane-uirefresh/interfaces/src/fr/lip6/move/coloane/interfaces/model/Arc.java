@@ -299,4 +299,16 @@ public class Arc implements IArc {
 			return null;
 		}
 	}
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		Arc clone = new Arc(type);
+		for (IAttribute attr : this.listOfAttr) {
+			clone.addAttribute((IAttribute) attr.clone());
+		}
+		for (IInflexPoint inflex : this.listOfPI) {
+			clone.listOfPI.add((IInflexPoint) inflex.clone());
+		}
+		return clone;
+	}
 }

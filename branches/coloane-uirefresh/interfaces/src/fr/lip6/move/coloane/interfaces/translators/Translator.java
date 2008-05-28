@@ -8,7 +8,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.Vector;
 
-public interface Translator {
+public interface Translator extends Cloneable {
 
 	int MAXLENGTH = 255;
 
@@ -22,4 +22,5 @@ public interface Translator {
 
 	IModel loadModel(Vector<String> commands) throws SyntaxErrorException;
 
+	Object clone() throws CloneNotSupportedException;
 }
