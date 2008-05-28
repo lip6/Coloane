@@ -22,10 +22,19 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private ArrayList<Object> elements;
 	private final ArrayList<Integer> highlights;
 
-	public ResultTreeImpl(int toHighlight, String... elements) {
+
+	/**
+	 * Constructeur d'un sous-arbre de resultats avec une liste d'objets à mettre en valeur
+	 * @param toHighlight La liste d'objets à mettre en valeur
+	 * @param elements Les elements composant le resultat
+	 */
+	public ResultTreeImpl(List<Integer> toHighlight, String...elements) {
 		// Element a mettre en valeur lors de la selection de cet arbre (feuille) de resultat
 		highlights = new ArrayList<Integer>();
-		this.highlights.add(toHighlight);
+
+		if (toHighlight != null) {
+			this.highlights.addAll(toHighlight);
+		}
 
 		// Description des enfants du sous arbre
 		children = new ArrayList<IResultTree>();
@@ -41,11 +50,21 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/**
-	 * Constructeur d'un sous-arbre de resultat sans mise en valeur particulière
-	 * @param elements
+	 * Constructeur d'un sous-arbre de resultats avec un objet a mettre en valeur
+	 * @param toHighlight L'identifiant de l'objet a mettre en valeur
+	 * @param elements Les elements composant le resultat
+	 */
+	public ResultTreeImpl(int toHighlight, String... elements) {
+		this(null, elements);
+		this.addHighlighted(toHighlight);
+	}
+
+	/**
+	 * Constructeur d'un sous-arbre de resultats sans mise en valeur particulière
+	 * @param elements Les elements (colonnes) composant le resultat
 	 */
 	public ResultTreeImpl(String... elements) {
-		this(-1, elements);
+		this(null, elements);
 	}
 
 	/*
@@ -115,6 +134,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	public final void remove() {
 		if (parent != null) {
 			parent.getChildren().remove(this);
+			this.parent = null;
 		} else {
 			MANAGER.getCurrentServiceResult().getChildren().remove(this);
 		}
