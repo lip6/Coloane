@@ -22,7 +22,7 @@ import java.util.List;
  * </p>
  */
 
-public interface INodeImpl extends IElement {
+public interface INodeImpl extends IElement, Cloneable {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
 	String SOURCE_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
@@ -159,6 +159,16 @@ public interface INodeImpl extends IElement {
 	 */
 	void updateArcAttributesPosition();
 
+	/**
+	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
+	 * @return La liste des arcs ttaches a ce noeud
+	 */
 	List<IArcImpl> getAllArcs();
 
+	/**
+	 * Enlève tous les arcs entrants et sortants
+	 */
+	void removeAllArcs();
+
+	Object clone() throws CloneNotSupportedException;
 }

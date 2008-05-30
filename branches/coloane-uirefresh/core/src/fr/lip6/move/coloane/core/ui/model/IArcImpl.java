@@ -27,7 +27,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see AbstractModelElement
  *
  */
-public interface IArcImpl extends IElement {
+public interface IArcImpl extends IElement, Cloneable {
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
@@ -127,6 +127,8 @@ public interface IArcImpl extends IElement {
 	 */
 	IArcGraphicInfo getGraphicInfo();
 
+	void setGraphicInfo(IArcGraphicInfo graphicInfo);	
+
 	/**
 	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible
 	 */
@@ -138,4 +140,6 @@ public interface IArcImpl extends IElement {
 	 * @param newTarget Nouvelle cible
 	 */
 	void reconnect(INodeImpl newSource, INodeImpl newTarget);
+
+	Object clone() throws CloneNotSupportedException;
 }

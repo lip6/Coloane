@@ -226,7 +226,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	@Override
 	public final String toString() {
-		return attribute.getName() + ":" + attribute.getValue();
+		return attribute.getName() + " : [" + attribute.getValue() + "]";
 	}
 
 	/*
@@ -270,4 +270,23 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setModelAdapter(fr.lip6.move.coloane.core.ui.model.IModelImpl)
 	 */
 	public void setModelAdapter(IModelImpl modelAdapter) { }
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		AttributeImplAdapter clone = (AttributeImplAdapter) super.clone();
+		clone.attribute = (IAttribute) this.attribute.clone();
+		clone.defaultValue = this.defaultValue;
+		clone.drawable = this.drawable;
+		clone.id = 0;
+		clone.multiline = this.multiline;
+		clone.type = this.type;
+		clone.reference = null;
+		clone.attGraphicInfo = new AttributeGraphicInfo(clone);
+		return clone;
+	}
+
+	@Override
+	public final void setReference(IElement reference) {
+		this.reference = reference;
+	}
 }

@@ -5,13 +5,14 @@ import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
  * heriter de la classe AbstractModelElement pour avoir des fonctionalites de
  * proprietes
  */
-public interface IModelImpl extends IElement {
+public interface IModelImpl extends IElement, Cloneable {
 
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
 	String NODE_ADDED_PROP = "Model.AddingNode"; //$NON-NLS-1$
@@ -129,4 +130,20 @@ public interface IModelImpl extends IElement {
 	 * </ul>
 	 */
 	void announceAttribute();
+
+	/**
+	 * @return liste des noeuds de ce modèle
+	 */
+	List<INodeImpl> getNodes();
+
+	/**
+	 * Attention cette méthode peut être assez couteuse en fonction de la taille du modèle
+	 * @return liste des arcs de ce modèle
+	 */
+	Set<IArcImpl> getArcs();
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#clone()
+	 */
+	Object clone() throws CloneNotSupportedException;
 }

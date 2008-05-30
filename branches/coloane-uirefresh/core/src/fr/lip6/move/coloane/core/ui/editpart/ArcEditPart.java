@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
+import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 
@@ -15,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
@@ -26,6 +28,7 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.swt.SWT;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
@@ -109,15 +112,23 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 					((IArcFigure) getFigure()).setSelect();
 				} else {
 					((IArcImpl) getModel()).setAttributesSelected(false, false);
-					((IArcFigure) getFigure()).unsetSelect();
+					((IArcFigure) getFigure()).setUnselect();
 				}
 			}
 
+			// Comportement lors de la deselection de l'objet
 			@Override
-			protected void hideSelection() { }
+			protected void hideSelection() {
+				IArcFigure arcFigure = (IArcFigure) getFigure();
+				arcFigure.setUnselect();
+			}
 
+			// Comportement lors de la selection de l'objet
 			@Override
-			protected void showSelection() { }
+			protected void showSelection() {
+				IArcFigure arcFigure = (IArcFigure) getFigure();
+				arcFigure.setSelect();
+			}
 		});
 
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
@@ -147,7 +158,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		} else if (IArcImpl.SPECIAL_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setSelectSpecial();
 		} else if (IArcImpl.UNSELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).unsetSelect();
+			((IArcFigure) getFigure()).setUnselect();
 		}
 	}
 

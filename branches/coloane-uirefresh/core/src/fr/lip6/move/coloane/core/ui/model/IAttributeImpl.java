@@ -15,7 +15,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
  * </ul>
  */
 
-public interface IAttributeImpl extends IElement {
+public interface IAttributeImpl extends IElement, Cloneable {
 
 	/** ID pour la propriete lorsqu'un changement de valeur */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
@@ -128,4 +128,6 @@ public interface IAttributeImpl extends IElement {
 	 * @param state Selection / Deselection
 	 */
 	void setSelect(boolean light, boolean state);
+
+	Object clone() throws CloneNotSupportedException;
 }

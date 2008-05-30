@@ -169,4 +169,18 @@ public class Formalism {
 	public final String getSchema() {
 		return xschema;
 	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (obj instanceof Formalism) {
+			Formalism f = (Formalism) obj;
+			return getSchema().equals(f.getSchema()) && getName().equals(f.getName());
+		}
+		return false;
+	}
+
+	@Override
+	public final int hashCode() {
+		return getSchema().hashCode() + getName().hashCode();
+	}
 }

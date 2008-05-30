@@ -200,4 +200,32 @@ public abstract class AbstractModelElement implements IPropertySource, IElement 
 	protected final void addProperty(String key, IAttributeImpl attr) {
 		this.properties.put(key, attr);
 	}
+
+	@Override
+	public void setReference(IElement ref) {
+		for (IAttributeImpl attr : properties.values()) {
+			attr.setReference(ref);
+		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Properties :\n");
+		for (IAttributeImpl attr : properties.values()) {
+			sb.append(attr).append(' ');
+		}
+		return sb.toString();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		AbstractModelElement clone = (AbstractModelElement) super.clone();
+		clone.pcsDelegate = new PropertyChangeSupport(clone);
+		clone.properties = new Hashtable<Object, IAttributeImpl>();
+		for (Object key : properties.keySet()) {
+			IAttributeImpl attr = (IAttributeImpl) properties.get(key).clone();
+			clone.properties.put(key, attr);
+		}
+		return clone;
+	}
 }

@@ -317,15 +317,22 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		return new ArrayList<IArcImpl>(targetArcs);
 	}
 
-	/**
-	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
-	 * @return La liste des arcs ttaches a ce noeud
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeImpl#getAllArcs()
 	 */
 	public final List<IArcImpl> getAllArcs() {
 		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
 		allArcs.addAll(this.getSourceArcs());
 		allArcs.addAll(this.getTargetArcs());
 		return new ArrayList<IArcImpl>(allArcs);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeImpl#removeAllArcs()
+	 */
+	public final void removeAllArcs() {
+		sourceArcs.clear();
+		targetArcs.clear();
 	}
 
 	/*
@@ -385,5 +392,25 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public final Collection getContextMenus() {
 		return null;
+	}
+
+	@Override
+	public final String toString() {
+		return "Node :\n"
+					+ super.toString();
+	}
+
+	@Override
+	public final Object clone() throws CloneNotSupportedException {
+		NodeImplAdapter clone = (NodeImplAdapter) super.clone();
+		clone.node = (INode) this.node.clone();
+		clone.setReference(clone);
+		clone.elementBase = this.elementBase;
+		clone.sourceArcs = new ArrayList<IArcImpl>();
+		clone.targetArcs = new ArrayList<IArcImpl>();
+		clone.modelAdapter = null;
+		clone.graphicInfo = new NodeGraphicInfo(clone);
+		clone.graphicInfo.setLocation(this.graphicInfo.getLocation().x, this.graphicInfo.getLocation().y);
+		return clone;
 	}
 }
