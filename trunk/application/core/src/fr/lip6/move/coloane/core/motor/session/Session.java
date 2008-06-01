@@ -8,10 +8,7 @@ import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 /**
  * Definition d'une session
  */
-public class Session {
-
-	/** Compteur de sessions */
-	private static int cntSession = 1;
+public class Session implements ISession {
 
 	/** Le modele associe */
 	private IModelImpl sessionModel;
@@ -21,9 +18,6 @@ public class Session {
 
 	/** Nom de la session */
 	private String sessionName;
-
-	/** Identifiant de la session */
-	private int sessionId;
 
 	/** Arborescence du menu administration */
 	private RootMenu adminMenu;
@@ -41,117 +35,102 @@ public class Session {
 	 */
 	public Session(String name) {
 		this.sessionName = name;
-		this.sessionId = cntSession++;
 		this.sessionModel = null;
-		this.sessionStatus = SessionManager.CLOSED;
+		this.sessionStatus = ISession.CLOSED;
 		this.serviceResults = new ResultTreeList();
 	}
 
-	/**
-	 * Suspend la session
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#suspend()
 	 */
-	protected final void suspend() {
+	public final void suspend() {
 		Coloane.getLogger().finer("Suspension de la session " + sessionName); //$NON-NLS-1$
-		if (sessionStatus == SessionManager.CONNECTED) {
-			sessionStatus = SessionManager.SUSPENDED;
+		if (sessionStatus == ISession.CONNECTED) {
+			sessionStatus = ISession.SUSPENDED;
 		}
 		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	/**
-	 * Resume la session
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#resume()
 	 */
-	protected final void resume() {
+	public final void resume() {
 		Coloane.getLogger().finer("Reprise de la session " + sessionName + " (Etat actuel : " + sessionStatus + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		if (sessionStatus == SessionManager.SUSPENDED) {
-			sessionStatus = SessionManager.CONNECTED;
+		if (sessionStatus == ISession.SUSPENDED) {
+			sessionStatus = ISession.CONNECTED;
 		}
 		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	/**
-	 * Retoune le nom de la session
-	 * @return name
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getName()
 	 */
 	public final String getName() {
 		return sessionName;
 	}
 
-	/**
-	 * Retourne le numero de la session
-	 * @return int Le numero de la session
-	 */
-	protected final int getId() {
-		return this.sessionId;
-	}
-
-	/**
-	 * Retoune le modele
-	 * @return IModelImpl Le modele de la session
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getModel()
 	 */
 	public final IModelImpl getModel() {
 		return this.sessionModel;
 	}
 
-	/**
-	 * Positionne le modele
-	 * @param model nouveau modele
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setModel(fr.lip6.move.coloane.core.ui.model.IModelImpl)
 	 */
 	public final void setModel(IModelImpl model) {
 		this.sessionModel = model;
 	}
 
-	/**
-	 * Retourne le menu d'administration
-	 * @return la racine du menu d'administration
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getAdminMenu()
 	 */
 	public final RootMenu getAdminMenu() {
 		return adminMenu;
 	}
 
-	/**
-	 * Indique le menu d'administration attache a la session
-	 * @param adminMenu La racinde du menu d'administration
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setAdminMenu(fr.lip6.move.coloane.core.menus.RootMenu)
 	 */
 	public final void setAdminMenu(RootMenu admin) {
 		this.adminMenu = admin;
 	}
 
-	/**
-	 * Retourne le menu de service de la session
-	 * @return la racine du menu de services
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getServicesMenu()
 	 */
 	public final RootMenu getServicesMenu() {
 		return sessionMenu;
 	}
 
-	/**
-	 * Indique le menu de services attache a la session
-	 * @param sessionMenu la racine du menu de services
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setServicesMenu(fr.lip6.move.coloane.core.menus.RootMenu)
 	 */
 	public final void setServicesMenu(RootMenu root) {
 		this.sessionMenu = root;
 	}
 
-	/**
-	 * Retourne le status courant de la session
-	 * @return le status courant de la session
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getStatus()
 	 */
-	protected final int getStatus() {
+	public final int getStatus() {
 		return sessionStatus;
 	}
 
-	/**
-	 * Modifie le status courant de la session
-	 * @param sessionStatus Le status courant de la session
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setStatus(int)
 	 */
-	protected final void setStatus(int status) {
+	public final void setStatus(int status) {
 		this.sessionStatus = status;
 	}
 
-	/**
-	 * Retourne la liste de resultats associee a la session
-	 * @return La liste de resultats a afficher dans la vue adequate
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getServiceResults()
 	 */
 	public final ResultTreeList getServiceResults() {
 		return serviceResults;

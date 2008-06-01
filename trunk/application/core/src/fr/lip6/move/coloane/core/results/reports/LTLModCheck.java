@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -15,6 +16,7 @@ public class LTLModCheck implements IReport {
 	 */
 	public final IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
+		root.setSessionManager(SessionManager.getInstance());
 
 		// Parcours de tous les DE-FE
 		for (SubResultsCom sub : result.getSubResults()) {

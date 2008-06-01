@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
@@ -32,7 +33,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ResultsView extends ViewPart {
 	private static ResultsView instance;
-	private static final SessionManager MANAGER = Coloane.getDefault().getMotor().getSessionManager();
+	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
 
 	/** Vue représentant l'arbre des résultats */
@@ -71,7 +72,7 @@ public class ResultsView extends ViewPart {
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		final ResultTreeList results = MANAGER.getCurrentServiceResult();
+		final ResultTreeList results = MANAGER.getCurrentSession().getServiceResults();
 
 
 		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
@@ -104,7 +105,7 @@ public class ResultsView extends ViewPart {
 		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IModelImpl model = MANAGER.getCurrentSessionModel();
+				IModelImpl model = MANAGER.getCurrentSession().getModel();
 				if (model == null) {
 					return;
 				}
@@ -133,10 +134,10 @@ public class ResultsView extends ViewPart {
 		});
 
 		// Ajout d'un Observer sur les changements de sessions
-		MANAGER.addObserver(new Observer() {
+		((Observable) MANAGER).addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
 				if (arg instanceof Session) {
-					final ResultTreeList currentResult = ((Session) arg).getServiceResults();
+					final ResultTreeList currentResult = ((ISession) arg).getServiceResults();
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
 							viewer.setInput(currentResult);
@@ -184,7 +185,7 @@ public class ResultsView extends ViewPart {
 		deleteAll = new Action("Delete All") {
 			@Override
 			public void run() {
-				MANAGER.getCurrentServiceResult().removeAll();
+				MANAGER.getCurrentSession().getServiceResults().removeAll();
 			}
 		};
 		deleteAll.setToolTipText("Delete all results");

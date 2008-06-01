@@ -4,7 +4,8 @@ import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
-import fr.lip6.move.coloane.core.motor.session.Session;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
@@ -34,7 +35,7 @@ public final class Motor {
 	private static FormalismManager formalismManager;
 
 	/** Le gestionnaire de session */
-	private static SessionManager sessionManager;
+	private static ISessionManager sessionManager;
 
 	/** L'operation courante */
 	private ColoaneProgress currentProgress;
@@ -135,7 +136,7 @@ public final class Motor {
 		}
 
 		// Mise a jour des boutons et menus de connexion
-		ui.platformState(sessionManager.isAuthenticated(), SessionManager.CLOSED);
+		ui.platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
 	}
 
 	/**
@@ -152,10 +153,10 @@ public final class Motor {
 		}
 
 		Coloane.getLogger().fine("Creation de la session : " + name); //$NON-NLS-1$
+
 		// Creation d'une nouvelle session
-		Session session = new Session(name);
-		session.setModel(model); // On associe le modele a la session
-		sessionManager.attachSession(session); // On ajoute la session au moteur de sessions
+		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
+		sessionManager.getSession(name).setModel(model); // On associe le modele a la session
 
 		return true;
 	}
@@ -190,7 +191,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.openSession(sessionManager.getCurrentSessionModel(), monitor));
+				setResults(com.openSession(sessionManager.getCurrentSession().getModel(), monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
@@ -202,7 +203,7 @@ public final class Motor {
 		HistoryView.getInstance().addText(Messages.Motor_7);
 
 		// Recuperation de la session courante
-		Session current = Motor.getInstance().getSessionManager().getCurrentSession();
+		ISession current = Motor.getInstance().getSessionManager().getCurrentSession();
 		if (current != null) {
 			// Le modele existe... On peut essayer de le connecter
 			HistoryView.getInstance().addLine(current.getName());
@@ -224,8 +225,8 @@ public final class Motor {
 
 			// Si l'ouverture reussie
 			} else {
-				sessionManager.setCurrentSessionConnected();
-				ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+				sessionManager.getCurrentSession().setStatus(ISession.CONNECTED);
+				ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
 			}
 		} else {
 			Coloane.getLogger().warning("Aucun modele actif"); //$NON-NLS-1$
@@ -247,7 +248,7 @@ public final class Motor {
 		}
 
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
-		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
+		if (sessionManager.getCurrentSession().getStatus() != ISession.CONNECTED) {
 			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
 			Coloane.showWarningMsg(Messages.Motor_11);
 			return;
@@ -281,8 +282,8 @@ public final class Motor {
 
 		// Si la fermeture de session echoue
 		if (res.booleanValue()) {
-			sessionManager.setCurrentSessionDisconnected();
-			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+			sessionManager.getCurrentSession().setStatus(ISession.CLOSED);
+			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
 			ui.redrawMenus();
 		} else {
 			Coloane.getLogger().warning("La deconnexion de la session courante a echouee"); //$NON-NLS-1$
@@ -304,7 +305,7 @@ public final class Motor {
 		}
 
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
-		if (sessionManager.getCurrentSessionStatus() != SessionManager.CONNECTED) {
+		if (sessionManager.getCurrentSession().getStatus() != ISession.CONNECTED) {
 			Coloane.getLogger().warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
 			Coloane.showWarningMsg(Messages.Motor_14);
 			return;
@@ -336,7 +337,7 @@ public final class Motor {
 		}
 
 		// Au retour d'un service, le modele est toujours propre
-		sessionManager.getCurrentSessionModel().setDirty(false);
+		sessionManager.getCurrentSession().getModel().setDirty(false);
 	}
 
 
@@ -347,9 +348,14 @@ public final class Motor {
 	public void destroySession(String sessionName) {
 		if (sessionManager.destroySession(sessionName)) {
 			Coloane.getLogger().finer("OK pour la destruction de la session"); //$NON-NLS-1$
-			ui.platformState(sessionManager.isAuthenticated(), SessionManager.ERROR);
+			ui.platformState(sessionManager.isAuthenticated(), ISession.ERROR);
 			ui.redrawMenus();
-			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
+
+			if (sessionManager.getCurrentSession() != null) {
+				Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
+			} else {
+				Coloane.getLogger().fine("Pas de session courante...");
+			}
 		}
 	}
 
@@ -384,19 +390,24 @@ public final class Motor {
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
 			Coloane.getLogger().finer("OK pour la reprise de session " + name); //$NON-NLS-1$
-			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSessionStatus(name));
+			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
 			ui.redrawMenus();
 		} else {
 			Coloane.getLogger().fine("Echec lors de la reprise de session " + name); //$NON-NLS-1$
 		}
-		Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSessionName()); //$NON-NLS-1$
+
+		if (sessionManager.getCurrentSession() != null) {
+			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
+		} else {
+			Coloane.getLogger().fine("Pas de session courante");
+		}
 	}
 
 	/**
 	 * Donne la main sur le SessionManager
 	 * @return SessionManager Le gestionnaire de sessions
 	 */
-	public SessionManager getSessionManager() {
+	public ISessionManager getSessionManager() {
 		return sessionManager;
 	}
 
@@ -412,7 +423,7 @@ public final class Motor {
 	 * Retourne la session concernee par les oparations en cours
 	 * @return La session attachee a l'operation
 	 */
-	public Session getConcernedSession() {
+	public ISession getConcernedSession() {
 		if (currentProgress != null) {
 			Coloane.getLogger().finer("Recuperation de la session attachee"); //$NON-NLS-1$
 			return currentProgress.getAttachedSession();
@@ -459,6 +470,6 @@ public final class Motor {
 		sessionManager.setAuthenticated(false);
 		this.com.breakConnection();
 		ui.redrawMenus();
-		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSessionStatus());
+		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
 	}
 }
