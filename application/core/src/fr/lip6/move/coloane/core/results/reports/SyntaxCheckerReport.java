@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -14,6 +15,7 @@ public class SyntaxCheckerReport implements IReport {
 	 */
 	public final IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
+		root.setSessionManager(SessionManager.getInstance());
 
 		if (result.getSubResults().size() == 0) {
 			root.addChild(new ResultTreeImpl("No problem has been outlined by the tool"));

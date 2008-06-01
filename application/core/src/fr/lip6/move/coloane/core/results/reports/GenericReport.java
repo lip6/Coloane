@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -9,6 +10,7 @@ public class GenericReport implements IReport {
 
 	public final IResultTree build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
+		root.setSessionManager(SessionManager.getInstance());
 
 		// Un sous-arbre pour chaque sous-resultats
 		for (int i = 0; i < result.getSubResults().size(); i++) {

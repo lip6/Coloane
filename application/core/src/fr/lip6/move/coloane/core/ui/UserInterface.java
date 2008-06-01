@@ -5,8 +5,7 @@ import fr.lip6.move.coloane.core.exceptions.UIException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.session.Session;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;
@@ -95,7 +94,7 @@ public final class UserInterface {
 		// Supprime tous les menus sauf PLATFORM
 		MenuManipulation.clean();
 
-		Session currentSession = motor.getSessionManager().getCurrentSession();
+		ISession currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
 			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
@@ -110,7 +109,7 @@ public final class UserInterface {
 	 * Demande la mise a jour du menu
 	 * @param updates La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu(Session concernedSession, Vector<IUpdateMenuCom> updates) {
+	public void updateMenu(ISession concernedSession, Vector<IUpdateMenuCom> updates) {
 		if (concernedSession == null) {
 			Coloane.getLogger().warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
@@ -137,7 +136,7 @@ public final class UserInterface {
 		// Supprime tous les menus sauf PLATFORM
 		MenuManipulation.clean();
 
-		Session currentSession = motor.getSessionManager().getCurrentSession();
+		ISession currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
 			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
 			return;
@@ -168,7 +167,7 @@ public final class UserInterface {
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
 	public void setResults(String serviceName, IResultsCom result) {
-		motor.getSessionManager().getCurrentServiceResult().add(serviceName, result);
+		motor.getSessionManager().getCurrentSession().getServiceResults().add(serviceName, result);
 	}
 
 	/**
@@ -226,12 +225,12 @@ public final class UserInterface {
 
 		// Prise en compte de l'etat de la session
 		switch (session) {
-		case SessionManager.CLOSED:
+		case ISession.CLOSED:
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 
-		case SessionManager.ERROR:
+		case ISession.ERROR:
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;

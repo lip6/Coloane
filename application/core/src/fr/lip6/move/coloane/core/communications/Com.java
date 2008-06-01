@@ -124,7 +124,7 @@ public final class Com implements IComApi {
 		monitor.setTaskName("Fetching information about the model");
 
 		// Recuperation du nom de la session courante
-		String sessionName = motor.getSessionManager().getCurrentSessionName();
+		String sessionName = motor.getSessionManager().getCurrentSession().getName();
 		// Recuperation du nom du formalime de la session courante
 		String formalismName = model.getFormalism().getName();
 
@@ -291,7 +291,7 @@ public final class Com implements IComApi {
 	 */
 	public IModel sendModel() {
 		Coloane.getLogger().fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
-		return this.motor.getSessionManager().getCurrentSessionModel().getGenericModel();
+		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
 	}
 
 
@@ -320,9 +320,9 @@ public final class Com implements IComApi {
 	 * @return boolean Indicateur de fraicheur
 	 */
 	public boolean getDirtyState() {
-		boolean state = this.motor.getSessionManager().getCurrentSessionModel().isDirty();
+		boolean state = this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
 		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
-		return this.motor.getSessionManager().getCurrentSessionModel().isDirty();
+		return this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
 	}
 
 	/**
@@ -330,7 +330,7 @@ public final class Com implements IComApi {
 	 * @return int Date
 	 */
 	public int getDateModel() {
-		return this.motor.getSessionManager().getCurrentSessionModel().getDate();
+		return this.motor.getSessionManager().getCurrentSession().getModel().getDate();
 	}
 
 	/*

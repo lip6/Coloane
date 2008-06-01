@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,18 @@ import java.util.Observable;
  * </ul>
  */
 public class ResultTreeImpl extends Observable implements IResultTree {
-	private static final SessionManager MANAGER = Coloane.getDefault().getMotor().getSessionManager();
 
 	private IResultTree parent;
 	private ArrayList<IResultTree> children;
 	private ArrayList<Object> elements;
 	private final ArrayList<Integer> highlights;
+
+	/**
+	 * Le gestionnaire de session.</br>
+	 * Doit être renseigné au moins une fois auprès du père
+	 * @see #setSessionManager(ISessionManager)
+	 */
+	private ISessionManager sessionManager = null;
 
 
 	/**
@@ -43,7 +49,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 			this.elements.add(element);
 		}
 		try {
-			this.addObserver(MANAGER.getCurrentServiceResult());
+			this.sessionManager = this.getSessionManager();
+			if (this.sessionManager != null) {
+				this.addObserver(sessionManager.getCurrentSession().getServiceResults());
+			}
 		} catch (NullPointerException e) {
 			Coloane.getLogger().warning("Erreur dans l'attachement de la liste de resultats a la session");
 		}
@@ -65,6 +74,30 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	 */
 	public ResultTreeImpl(String... elements) {
 		this(null, elements);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#setSessionManager(fr.lip6.move.coloane.core.motor.session.ISessionManager)
+	 */
+	public final void setSessionManager(ISessionManager sessionManager) {
+		this.sessionManager = sessionManager;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#getSessionManager()
+	 */
+	public final ISessionManager getSessionManager() {
+		if (this.sessionManager != null) {
+			return this.sessionManager;
+		}
+		// Si le noeud est un fils... On demande au pere quel est le gestionnaire de sessions
+		if (this.parent != null) {
+			return parent.getSessionManager();
+		}
+		// Si aucun resultat : null
+		return null;
 	}
 
 	/*
@@ -136,7 +169,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 			parent.getChildren().remove(this);
 			this.parent = null;
 		} else {
-			MANAGER.getCurrentServiceResult().getChildren().remove(this);
+			this.sessionManager = this.getSessionManager();
+			if (this.sessionManager != null) {
+				this.sessionManager.getCurrentSession().getServiceResults().getChildren().remove(this);
+			}
 		}
 		setChanged();
 		notifyObservers();

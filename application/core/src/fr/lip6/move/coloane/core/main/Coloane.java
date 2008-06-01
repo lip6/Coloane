@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.main;
 
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
@@ -126,7 +126,7 @@ public class Coloane extends AbstractUIPlugin {
 	public static void notifyModelChange(IModelImpl model) {
 		if (model != null) {
 			int dateUpdate = model.modifyDate();
-			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSessionStatus() == SessionManager.CONNECTED)) {
+			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession().getStatus() == ISession.CONNECTED)) {
 				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
 			}

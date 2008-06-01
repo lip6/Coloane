@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public interface IResultTree {
 	void setParent(IResultTree parent);
 
 	/**
-	 * Retourne la liste des fils
+	 * Retourne la liste des fils du resultat
 	 * @return liste des fils
 	 */
 	List<IResultTree> getChildren();
@@ -35,7 +37,8 @@ public interface IResultTree {
 	void addChild(IResultTree child);
 
 	/**
-	 * @return liste d'objet représentant une ligne de l'arbre des résultats
+	 * Retourne la liste des colonnes associées a un resultat
+	 * @return liste d'objets représentant les colonnes d'une ligne de l'arbre des résultats
 	 */
 	List<Object> getElement();
 
@@ -46,13 +49,30 @@ public interface IResultTree {
 	List<Integer> getHighlighted();
 
 	/**
-	 * Ajoute un element a mettre en valeur lors de la selection du sous-resultat
+	 * Ajoute un ou plusieurs elements à mettre en valeur lors de la selection du sous-resultat
 	 * @param toHighlight
 	 */
 	void addHighlighted(int... toHighlight);
 
 	/**
 	 * Supprime le noeud courrant ainsi que tous les fils associés
+	 * @param sessionManager Le gestionnaire de session
+	 * @see {@link SessionManager.#getInstance()}
 	 */
 	void remove();
+
+	/**
+	 * Associe un gestionnaire de session avec le sous-arbre de resultats.<br>
+	 * Cette methode doit etre appelé sur le noeud pere. Les fils trouveront le gestionnaire par parcours d'arbre
+	 * @param sessionManager Le gestionnaire de session
+	 * @see SessionManager.#getInstance()
+	 */
+	void setSessionManager(ISessionManager sessionManager);
+
+	/**
+	 * Retourne le gestionnaire de session enregistre pour cet arbre de resultats<br>
+	 * La recherche est resursive (en partant des fils... jusqu'au pere)
+	 * @return le gestionnaire de session ou null si il est introuvable
+	 */
+	ISessionManager getSessionManager();
 }

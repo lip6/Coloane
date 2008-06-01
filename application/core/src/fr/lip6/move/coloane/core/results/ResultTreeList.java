@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.results;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
 import fr.lip6.move.coloane.core.results.reports.IReport;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -180,8 +182,23 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		} else {
 			width = 0;
 		}
-
 		notifyObservers(width);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#getSessionManager()
+	 */
+	public final ISessionManager getSessionManager() {
+		return SessionManager.getInstance();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.IResultTree#setSessionManager(fr.lip6.move.coloane.core.motor.session.ISessionManager)
+	 */
+	public final void setSessionManager(ISessionManager sessionManager) {
+		return;
 	}
 
 	@Override
@@ -190,7 +207,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	}
 
 	/**
-	 *
+	 * Supprime tous les resultats de la liste
 	 */
 	public final void removeAll() {
 		list.clear();
