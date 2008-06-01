@@ -4,26 +4,29 @@ public interface ISessionManager {
 
 	/**
 	 * Ajoute une session au manager<br>
-	 * Si aucune session est courante... Celle la devient la session courante
+	 * Si aucune session est courante... Celle la devient la session courante.</br>
+	 * Le nom de la session ne doit pas etre null ou vide
 	 * @param name Le nom de la nouvelle session
+	 * @return La nouvelle session ou NULL si le nom est incorrect ou la session si elle existe deja
 	 */
-	void newSession(String name);
+	ISession newSession(String name);
 
 	/**
-	 * Retourne la session courante
-	 * @return La session courante
+	 * Retourne la session courante ou NULL si aucune session n'est active
+	 * @return La session courante ou NULL
 	 */
 	ISession getCurrentSession();
 
 	/**
-	 * Retourne la session dont le nom est indique
+	 * Retourne la session dont le nom est indique en parametre
 	 * @param sessionName nom de la session
 	 * @return la session designe ou NULL si on ne trouve pas la session
 	 */
 	ISession getSession(String sessionName);
 
 	/**
-	 * Suspension d'une session
+	 * Suspension d'une session.</br>
+	 * Si la session suspendue est la session courante, la session courante est NULL
 	 * @param sessionName Le nom de la session
 	 * @return booleen Un indicateur de deroulement
 	 */
