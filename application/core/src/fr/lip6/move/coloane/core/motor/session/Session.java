@@ -1,14 +1,17 @@
 package fr.lip6.move.coloane.core.motor.session;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+
+import java.util.logging.Logger;
 
 /**
  * Definition d'une session
  */
 public class Session implements ISession {
+	/** Le logger pour la classe */
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core");
 
 	/** Le modele associe */
 	private IModelImpl sessionModel;
@@ -37,7 +40,9 @@ public class Session implements ISession {
 		this.sessionName = name;
 		this.sessionModel = null;
 		this.sessionStatus = ISession.CLOSED;
-		this.serviceResults = new ResultTreeList();
+		this.serviceResults = null;
+		this.adminMenu = null;
+		this.sessionMenu = null;
 	}
 
 	/*
@@ -45,11 +50,10 @@ public class Session implements ISession {
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#suspend()
 	 */
 	public final void suspend() {
-		Coloane.getLogger().finer("Suspension de la session " + sessionName); //$NON-NLS-1$
+		LOG.finer("Suspension de la session " + sessionName); //$NON-NLS-1$
 		if (sessionStatus == ISession.CONNECTED) {
 			sessionStatus = ISession.SUSPENDED;
 		}
-		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
@@ -57,11 +61,10 @@ public class Session implements ISession {
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#resume()
 	 */
 	public final void resume() {
-		Coloane.getLogger().finer("Reprise de la session " + sessionName + " (Etat actuel : " + sessionStatus + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOG.finer("Reprise de la session " + sessionName); //$NON-NLS-1$
 		if (sessionStatus == ISession.SUSPENDED) {
 			sessionStatus = ISession.CONNECTED;
 		}
-		Coloane.getLogger().finer("Etat de la session " + sessionName + " = " + sessionStatus); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/* (non-Javadoc)
@@ -133,6 +136,9 @@ public class Session implements ISession {
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getServiceResults()
 	 */
 	public final ResultTreeList getServiceResults() {
+		if (serviceResults == null) {
+			this.serviceResults = new ResultTreeList();
+		}
 		return serviceResults;
 	}
 }
