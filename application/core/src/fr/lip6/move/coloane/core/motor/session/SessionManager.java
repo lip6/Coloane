@@ -1,14 +1,15 @@
 package fr.lip6.move.coloane.core.motor.session;
 
-import fr.lip6.move.coloane.core.main.Coloane;
-
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.logging.Logger;
 
 /**
  * Gestionnaire de Sessions
  */
 public final class SessionManager extends Observable implements ISessionManager {
+	/** Le logger pour la classe */
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core");
 
 	/** Est-on authentifie sur la plate-forme ? */
 	private boolean authenticated;
@@ -50,7 +51,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 */
 	public ISession getSession(String sessionName) {
 		for (ISession session : listOfSessions) {
-			if (sessionName.equals(session.getName())) { return session; }
+			if (session.getName().equals(sessionName)) { return session; }
 		}
 		return null;
 	}
@@ -59,16 +60,30 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#newSession(java.lang.String)
 	 */
-	public void newSession(String name) {
+	public ISession newSession(String name) {
+		// Si une session homonyme existe deja... On retourne null
+		if (this.getSession(name) != null) {
+			LOG.fine("Une session homonyme (" + name + ") existe deja..."); //$NON-NLS-1$ //$NON-NLS-2$
+			return this.getSession(name);
+		}
+
+		// Le nom de la nouvelle session ne doi pas etre vide ou null
+		if ((name == null) || ("".equals(name))) {
+			return null;
+		}
+
+		// Sinon on cree la session
 		ISession newSession = new Session(name);
 		if (this.currentSession == null) {
 			this.currentSession = newSession;
+			LOG.finer("La nouvelle session " + name + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Rafraichisement des vues annexes
 			setChanged();
 			notifyObservers(currentSession);
 		}
 		this.listOfSessions.add(newSession);
+		return newSession;
 	}
 
 	/*
@@ -76,14 +91,25 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#suspendSession(java.lang.String)
 	 */
 	public boolean suspendSession(String sessionName) {
-		Coloane.getLogger().finer("Suspension d'une session : " + sessionName); //$NON-NLS-1$
+		LOG.finer("Suspension d'une session : " + sessionName); //$NON-NLS-1$
 		ISession toSuspend = getSession(sessionName);
+
+		// Si la session existe vraiment
 		if (toSuspend != null) {
-			Coloane.getLogger().finer("Session suspendue : " + toSuspend.getName()); //$NON-NLS-1$
+			LOG.finer("Session suspendue : " + toSuspend.getName()); //$NON-NLS-1$
+
+			// si la session suspendue etait la session courante...
+			if (toSuspend.equals(this.currentSession)) {
+				LOG.finer("La session courante est maintenant nulle"); //$NON-NLS-1$
+				this.currentSession = null;
+			}
+
+			// Suspension de la session
 			toSuspend.suspend();
+
 			return true;
 		} else {
-			Coloane.getLogger().finer("Session suspendue non enregistree dans le SessionManager"); //$NON-NLS-1$
+			LOG.finer("Session suspendue non enregistree dans le SessionManager"); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -93,21 +119,25 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#resumeSession(java.lang.String)
 	 */
 	public boolean resumeSession(String sessionName) {
-		Coloane.getLogger().finer("Tentative de reprise d'une session : " + sessionName); //$NON-NLS-1$
+		LOG.finer("Reprise d'une session : " + sessionName); //$NON-NLS-1$
 		ISession toResume = getSession(sessionName);
+
 		if (toResume != null) {
-			Coloane.getLogger().finer("La session est enregistree dans le SessionManager !"); //$NON-NLS-1$
-			toResume.resume();
+			LOG.finer("La session est enregistree dans le SessionManager !"); //$NON-NLS-1$
+
 			if ((currentSession != null) && (!currentSession.getName().equals(sessionName))) {
-				Coloane.getLogger().warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
+				LOG.warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
 				suspendSession(currentSession.getName());
 			}
+
 			this.currentSession = toResume;
+			toResume.resume();
+
 			setChanged();
 			notifyObservers(currentSession);
 			return true;
 		} else {
-			Coloane.getLogger().fine("Session active non enregistree dans le SessionManager"); //$NON-NLS-1$
+			LOG.fine("Session active non enregistree dans le SessionManager"); //$NON-NLS-1$
 			return false;
 		}
 	}
@@ -117,7 +147,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#destroySession(java.lang.String)
 	 */
 	public boolean destroySession(String sessionName) {
-		Coloane.getLogger().fine("Destruction de la session " + sessionName); //$NON-NLS-1$
+		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		ISession toDestroy = getSession(sessionName);
 		if (toDestroy != null) {
 			// Suppression de la liste des sessions active
@@ -143,12 +173,17 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#destroyAllSessions()
 	 */
 	public void destroyAllSessions() {
-		Coloane.getLogger().fine("Destruction de toutes les sessions"); //$NON-NLS-1$
+		LOG.fine("Destruction de toutes les sessions"); //$NON-NLS-1$
 		for (ISession session : this.listOfSessions) {
 			session.setServicesMenu(null);
 			session.setAdminMenu(null);
 			session.setStatus(ISession.CLOSED);
 		}
+		this.listOfSessions.clear();
+		this.currentSession = null;
+
+		setChanged();
+		notifyObservers(null);
 	}
 
 	/*

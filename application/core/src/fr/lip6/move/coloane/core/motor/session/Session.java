@@ -33,7 +33,9 @@ public class Session implements ISession {
 
 
 	/**
-	 * Constructeur de la classe Session
+	 * Constructeur</br>
+	 * Tous les chmpas sont initialisés.</br>
+	 * Le nom ne doit pas etre nul ou vide.
 	 * @param name Nom de la session
 	 */
 	public Session(String name) {
