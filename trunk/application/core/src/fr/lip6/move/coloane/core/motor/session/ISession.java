@@ -23,6 +23,15 @@ public interface ISession {
 	void resume();
 
 	/**
+	 * Destruction de la session :
+	 * <ul>
+	 * 	<li>Suppression des menus admin / services</li>
+	 *  <li>Etat de la session positionne a CLOSED</li>
+	 * </ul>
+	 */
+	void destroy();
+
+	/**
 	 * Retoune le nom de la session
 	 * @return name
 	 */
