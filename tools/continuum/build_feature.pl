@@ -67,6 +67,16 @@ foreach my $plugin (@plugins) {
 	my $lastversion = <DESC>;
 	chomp $lastversion;
 	print "Last version : $lastversion\n" if $debug;
+	
+	# Check whether all plugins have been released from the same revision
+	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
+		my $refbuild = $1;
+		if ($refbuid != $build) {
+			print "The plugin $id was not correctly built (build number $refbuid)... Feature construction failed !\n";
+			return 0;
+		}
+	}
+	
 	close(DESC);
 	
 	$plugin->set_att(version => $lastversion);
