@@ -158,7 +158,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 			toDestroy.setAdminMenu(null);
 
 			// La session courante devient nulle
-			if (sessionName.equals(currentSession.getName())) {
+			if ((currentSession != null) && sessionName.equals(currentSession.getName())) {
 				currentSession = null;
 				setChanged();
 				notifyObservers(null);
