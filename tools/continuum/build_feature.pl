@@ -72,7 +72,7 @@ foreach my $plugin (@plugins) {
 	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
 		my $refbuild = $1;
 		if ($refbuild != $build) {
-			print "The plugin $id was not correctly built (build number $refbuid)... Feature construction failed !\n";
+			print "The plugin $id was not correctly built (build number $refbuild)... Feature construction failed !\n";
 			return 0;
 		}
 	}
