@@ -72,8 +72,10 @@ public class ResultsView extends ViewPart {
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		final ResultTreeList results = MANAGER.getCurrentSession().getServiceResults();
-
+		ResultTreeList results = null;
+		if (MANAGER.getCurrentSession() != null) {
+			results = MANAGER.getCurrentSession().getServiceResults();
+		}
 
 		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
 		// en cas modification des résultats : ajouts/suppressions.
