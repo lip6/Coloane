@@ -99,6 +99,8 @@ public class SessionManagerTest {
 		assertNotNull(manager.getCurrentSession());
 		assertTrue(manager.destroySession(manager.getCurrentSession().getName()));
 		assertNull(manager.getCurrentSession());
+
+		assertTrue(manager.destroySession("s2"));
 	}
 
 	@Test
