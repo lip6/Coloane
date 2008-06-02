@@ -72,8 +72,8 @@ foreach my $plugin (@plugins) {
 	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
 		my $refbuild = $1;
 		if ($refbuild != $build) {
-			print "The plugin $id was not correctly built (build number $refbuild)... Feature construction failed !\n";
-			return 0;
+			print "The plugin $id was not correctly built (build number $refbuild)... Feature construction failed !\n" if $debug;
+			exit 1;
 		}
 	}
 	
@@ -99,4 +99,4 @@ print LAST "Bundle-SymbolicName: $nameid\n";
 print LAST "Bundle-Version: $version\n";
 close(LAST);
 
-1;
+0;
