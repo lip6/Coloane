@@ -69,6 +69,16 @@ public class Session implements ISession {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.session.ISession#destroy()
+	 */
+	public final void destroy() {
+		this.sessionMenu = null;
+		this.adminMenu = null;
+		this.sessionStatus = ISession.CLOSED;
+	}
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getName()
 	 */

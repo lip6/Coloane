@@ -98,7 +98,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 		if (toSuspend != null) {
 			LOG.finer("Session suspendue : " + toSuspend.getName()); //$NON-NLS-1$
 
-			// si la session suspendue etait la session courante...
+			// Si la session suspendue etait la session courante...
 			if (toSuspend.equals(this.currentSession)) {
 				LOG.finer("La session courante est maintenant nulle"); //$NON-NLS-1$
 				this.currentSession = null;
@@ -107,6 +107,8 @@ public final class SessionManager extends Observable implements ISessionManager 
 			// Suspension de la session
 			toSuspend.suspend();
 
+			setChanged();
+			notifyObservers(currentSession);
 			return true;
 		} else {
 			LOG.finer("Session suspendue non enregistree dans le SessionManager"); //$NON-NLS-1$
@@ -125,12 +127,14 @@ public final class SessionManager extends Observable implements ISessionManager 
 		if (toResume != null) {
 			LOG.finer("La session est enregistree dans le SessionManager !"); //$NON-NLS-1$
 
-			if ((currentSession != null) && (!currentSession.getName().equals(sessionName))) {
+			if ((currentSession != null) && (!toResume.equals(currentSession))) {
 				LOG.warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
-				suspendSession(currentSession.getName());
+				this.suspendSession(currentSession.getName());
 			}
 
 			this.currentSession = toResume;
+
+			// Reprise de la session
 			toResume.resume();
 
 			setChanged();
@@ -153,16 +157,13 @@ public final class SessionManager extends Observable implements ISessionManager 
 			// Suppression de la liste des sessions active
 			listOfSessions.remove(toDestroy);
 
-			// Supression des menus
-			toDestroy.setServicesMenu(null);
-			toDestroy.setAdminMenu(null);
-
 			// La session courante devient nulle
-			if ((currentSession != null) && sessionName.equals(currentSession.getName())) {
+			if (toDestroy.equals(currentSession)) {
 				currentSession = null;
-				setChanged();
-				notifyObservers(null);
 			}
+
+			setChanged();
+			notifyObservers(null);
 			return true;
 		}
 		return false;
@@ -175,9 +176,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	public void destroyAllSessions() {
 		LOG.fine("Destruction de toutes les sessions"); //$NON-NLS-1$
 		for (ISession session : this.listOfSessions) {
-			session.setServicesMenu(null);
-			session.setAdminMenu(null);
-			session.setStatus(ISession.CLOSED);
+			session.destroy();
 		}
 		this.listOfSessions.clear();
 		this.currentSession = null;
