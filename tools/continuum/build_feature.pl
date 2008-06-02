@@ -55,6 +55,9 @@ foreach my $feature (@features) {
 	$feature->set_att(version => $lastversion);
 }
 
+# Comparison variable
+my $tmpbuild = 0;
+
 # Find versions of plugins
 my @plugins = $root->children('plugin');
 foreach my $plugin (@plugins) {
@@ -71,7 +74,12 @@ foreach my $plugin (@plugins) {
 	# Check whether all plugins have been released from the same revision
 	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
 		my $refbuild = $1;
-		if ($refbuild != $build) {
+		
+		# Variable registration
+		if ($tmpbuild == 0) {
+			$tmpbuild = $refbuild;
+		# Version comparison
+		} elsif ($refbuild != $tmpbuild) {
 			print "The plugin $id was not correctly built (build number $refbuild)... Feature construction failed !\n" if $debug;
 			exit 1;
 		}
