@@ -71,7 +71,7 @@ foreach my $plugin (@plugins) {
 	# Check whether all plugins have been released from the same revision
 	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
 		my $refbuild = $1;
-		if ($refbuid != $build) {
+		if ($refbuild != $build) {
 			print "The plugin $id was not correctly built (build number $refbuid)... Feature construction failed !\n";
 			return 0;
 		}
