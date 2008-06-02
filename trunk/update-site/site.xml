@@ -13,7 +13,7 @@
       <category name="Plugins"/>
    </feature>
    
-   <category-def name="Modeling Tools" label="Modelling Tools">
+   <category-def name="Modeling Tools" label="Modeling Tools">
       <description>
          This category groups all products designed to handle models
       </description>
