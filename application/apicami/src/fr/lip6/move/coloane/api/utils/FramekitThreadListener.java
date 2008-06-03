@@ -363,6 +363,7 @@ public class FramekitThreadListener extends Thread {
 				// Message XA
 				// Modification d'un attribut du modele
 				if (listeArgs.firstElement().equals("XA")) {
+					if (subresult == null) { subresult = new SubResultsCom("");	}
 					subresult.addCmdXA(listeArgs.elementAt(1), listeArgs.elementAt(2), listeArgs.elementAt(3));
 					continue;
 				}
