@@ -17,9 +17,9 @@ import fr.lip6.move.pnml.cpnami.cami.CamiException;
 import fr.lip6.move.pnml.cpnami.cami.CamiPackage;
 import fr.lip6.move.pnml.cpnami.cami.Runner;
 
-public class ImportFromImlp implements IImportFrom {
+public class ImportFromImpl implements IImportFrom {
 
-	public ImportFromImlp() {}
+	public ImportFromImpl() {}
 
 	public IModelImpl importFrom(String filePath, String formalism) throws ColoaneException {
 		
