@@ -160,11 +160,7 @@
 			<resource>
 				<directory>.</directory>
 				<includes>
-					<include>icons/**</include>
-					<include>resources/**</include>
-					<include>build.properties</include>
 					<include>plugin.properties</include>
-					<include>plugin.xml</include>
 				</includes>
 			</resource>
 		</resources>

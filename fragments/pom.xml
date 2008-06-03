@@ -18,24 +18,4 @@
 	<modules>
 		<module>languagePack</module>
 	</modules>
-	
-	<build>
-		<!-- A ajouter dans le JAR -->
-		<resources>
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>build.properties</include>
-					<include>plugin.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-		
-	</build>
 </project>
