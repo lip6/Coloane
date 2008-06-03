@@ -17,6 +17,13 @@ public interface IElement {
 	List<IAttributeImpl> getAttributes();
 
 	/**
+	 * Retourne la valeur d'un attribut particulier ou la chaine vide si l'attribut n'existe pas
+	 * @param attributeName L'attribut donton souhaite connaitre la valeur
+	 * @return La valeur de l'attribut ou la chaine vide si l'attribut n'existe pas ou est vide
+	 */
+	String getAttributeValue(String attributeName);
+
+	/**
 	 * Associe le modele a l'arc generique
 	 * @param modelAdapter
 	 */

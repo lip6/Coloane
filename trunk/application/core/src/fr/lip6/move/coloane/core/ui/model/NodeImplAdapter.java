@@ -317,9 +317,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		return new ArrayList<IArcImpl>(targetArcs);
 	}
 
-	/**
-	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
-	 * @return La liste des arcs ttaches a ce noeud
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeImpl#getAllArcs()
 	 */
 	public final List<IArcImpl> getAllArcs() {
 		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
@@ -359,15 +359,24 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	public final List<IAttributeImpl> getAttributes() {
 		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
 
-		// Ajout des attributs "personnels" du noeud
+		// Ajout des attributs du noeud
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
 		list.addAll(attributes);
 
-		// On doit ajouter tous les attributs des arcs sourtants
-		for (IArcImpl arc : this.sourceArcs) {
-			list.addAll(arc.getAttributes());
-		}
 		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attribute) {
+		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
+			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
+				return this.node.getNthAttr(i).getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
 	}
 
 	/*

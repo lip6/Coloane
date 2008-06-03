@@ -421,4 +421,17 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final Collection getContextMenus() {
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		for (int i = 0; i < this.genericArc.getListOfAttrSize(); i++) {
+			if (this.genericArc.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
+				return this.genericArc.getNthAttr(i).getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
+	}
 }

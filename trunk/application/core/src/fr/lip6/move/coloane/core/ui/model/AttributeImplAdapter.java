@@ -270,4 +270,12 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setModelAdapter(fr.lip6.move.coloane.core.ui.model.IModelImpl)
 	 */
 	public void setModelAdapter(IModelImpl modelAdapter) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		return "";
+	}
 }
