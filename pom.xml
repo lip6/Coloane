@@ -357,25 +357,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-		<!-- Ce qu'on va rajouter dans le JAR -->
-		<resources>
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>build.properties</include>
-					<include>plugin.xml</include>
-					<include>resources/**</include>
-					<include>lib/**</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
 
 	<!-- Depots (Repositories) -->
