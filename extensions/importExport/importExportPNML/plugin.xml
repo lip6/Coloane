@@ -13,7 +13,7 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImlp"
+            class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importpnml"
             reference="fr.lip6.move.coloane.wizard.import.pnml">
       </Import>
