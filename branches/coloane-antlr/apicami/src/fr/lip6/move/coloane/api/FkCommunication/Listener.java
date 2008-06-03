@@ -46,6 +46,7 @@ public class Listener extends Thread implements IListener {
 	/**
 	 * Code exécuté par le thread Listener
 	 */
+	@SuppressWarnings("unchecked")
 	public void run(){
 
 		/*TODO On écrit d'abord le parser */
@@ -60,8 +61,9 @@ public class Listener extends Thread implements IListener {
 
 				/* Ecrire les commandes a dans le pipe + EOF pour commancer
 				 * à parser */
-
+               System.out.println("|je recois:  " + commandSuite + "|");
 				InputStream is = new ByteArrayInputStream(commandSuite.getBytes());
+				
 					fifo.put(is);
 
 

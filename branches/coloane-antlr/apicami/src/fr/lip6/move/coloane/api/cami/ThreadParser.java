@@ -61,6 +61,8 @@ public class ThreadParser extends Thread {
 				InputStream is;
 
 				is = (InputStream)this.fifo.take();
+				
+				
 
 				//TODO enlever
 				//System.out.println("lecture .......... de la file .....");

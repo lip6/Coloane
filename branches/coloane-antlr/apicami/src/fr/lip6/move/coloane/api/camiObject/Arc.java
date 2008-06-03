@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
 import fr.lip6.move.coloane.interfaces.objects.InflexPoint;
 
+
 /**
  *cette classe implemente linterface IArc.
  * @author kahoo & UU

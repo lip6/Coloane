@@ -75,7 +75,7 @@ command
     |ask_for_a_model
     |message_to_user
     |brutal_interrupt
-//    |result_reception
+    |result_reception
     ;
 
 
@@ -396,7 +396,7 @@ special_message
 	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'{
 //            ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
-     //TODO pour le MO
+ //  System.out.println("je parse le MO");
         }
 	;
 
@@ -407,7 +407,7 @@ special_message
 brutal_interrupt
 		:
 		'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'{
-//			((IBrutalInterrupt)hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
+		((IBrutalInterruptObservable)hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
 		}
 		;
 
@@ -428,21 +428,28 @@ result_reception
 	:
 	'DR()'{ 
             // initialiser la liste des updates 
-            camiUpdates = new ArrayList<ArrayList<String>>();
+        //    camiUpdates = new ArrayList<ArrayList<String>>();
+          System.out.println("je parse DR");
         }
-
-//	question_reply
-/*    ( question_state/* | update | special_message | warning_message | result )* */
+	/*question_reply
+        | question_state
+        update */
+        special_message 
+        warning_message 
+    /*     result* 
 	'FR(' NUMBER ')'{
+        System.out.println("je parse FR");
             //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
-        }
+        }*/
 	;
 /*
 question_reply
 	:
-	'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ','  '1)'
+	'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
+        System.out.println("je parse RQ"); 
+}
 	;
-/*
+
 question_state	 // en "general" il s'agit d'un TQ 2
 	:
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=('2'|'3'|'4'|'5'|'6'|'9') ',' mess=CAMI_STRING? ')'{ 
