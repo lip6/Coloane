@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -353,17 +354,30 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @return List de IElement
 	 */
 	public final List<IElement> getChildren() {
-		List<IElement> listAttributes = new ArrayList<IElement>();
+		List<IElement> listChildren = new ArrayList<IElement>();
+		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
+
+		// Ajout de tous les noeuds
+		listChildren.addAll(this.nodes);
+
+		// Ajout de tous les attributs des noeuds
 		for (IElement elt : this.nodes) {
-			if (elt.getAttributes() != null) {
-				listAttributes.addAll(elt.getAttributes());
-			}
+			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			allArcs.addAll(((INodeImpl) elt).getAllArcs());
 		}
-		List<IElement> list = new ArrayList<IElement>();
-		list.addAll(this.nodes);
-		list.addAll(listAttributes);
-		list.addAll(this.getAttributes());
-		return list;
+
+		// ATTENTION : Les arcs ne doivent pas etre ajoutes a a liste !!!
+		// Leurs attributs par contre doivent être ajoutés.
+
+		// Recensement de tous les arcs du modele et de leurs attributs
+		for (IElement elt : allArcs) {
+			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+		}
+
+		// Ajout des attributs du modele
+		listChildren.addAll(this.getAttributes());
+
+		return listChildren;
 	}
 
 	/*
@@ -448,4 +462,17 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
 	 */
 	public void setSpecial(boolean state) {	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		for (int i = 0; i < this.genericModel.getListOfAttrSize(); i++) {
+			if (this.genericModel.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
+				return this.genericModel.getNthAttr(i).getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
+	}
 }

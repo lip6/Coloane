@@ -159,6 +159,10 @@ public interface INodeImpl extends IElement {
 	 */
 	void updateArcAttributesPosition();
 
+	/**
+	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
+	 * @return La liste des arcs ttaches a ce noeud
+	 */
 	List<IArcImpl> getAllArcs();
 
 }
