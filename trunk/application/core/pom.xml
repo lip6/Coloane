@@ -153,16 +153,4 @@
   			<version>2.4.0</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<!-- A ajouter dans le JAR -->
-		<resources>
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>plugin.properties</include>
-				</includes>
-			</resource>
-		</resources>
-	</build>
 </project>

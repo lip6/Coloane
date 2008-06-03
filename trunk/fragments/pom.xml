@@ -18,4 +18,21 @@
 	<modules>
 		<module>languagePack</module>
 	</modules>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

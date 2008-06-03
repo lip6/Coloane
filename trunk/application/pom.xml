@@ -20,4 +20,26 @@
 		<module>apicami</module>
 		<module>core</module>
 	</modules>
+	
+	<build>
+		<!-- Ce qu'on va rajouter dans le JAR -->
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>plugin.xml</include>
+					<include>plugin.properties</include>
+					<include>resources/**</include>
+					<include>lib/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>
