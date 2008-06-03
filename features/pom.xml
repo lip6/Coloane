@@ -117,10 +117,15 @@
 
 		<resources>
 			<resource>
+				<directory>resources</directory>
+				<includes>
+					<include>feature.xml</include>
+				</includes>
+			</resource>
+			<resource>
 				<directory>.</directory>
 				<includes>
 					<include>build.properties</include>
-					<include>feature.xml</include>
 				</includes>
 			</resource>
 		</resources>
