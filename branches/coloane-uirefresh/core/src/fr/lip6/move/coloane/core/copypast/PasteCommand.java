@@ -1,31 +1,35 @@
 package fr.lip6.move.coloane.core.copypast;
 
-import java.util.HashMap;
-
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.ui.model.ArcGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.interfaces.model.IArc;
+
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class PasteCommand extends Command {
-	private IModelImpl modelAdapter;
-	private HashMap<INodeImpl, INodeImpl> nodes = new HashMap<INodeImpl, INodeImpl>();
-	private HashMap<IArcImpl, IArcImpl> arcs = new HashMap<IArcImpl, IArcImpl>();
+	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core");
 
-	private static SessionManager manager = Coloane.getDefault().getMotor().getSessionManager();
+	private ModelContainer modelContainer;
+	private HashMap<NodeContainer, INodeImpl> nodes = new HashMap<NodeContainer, INodeImpl>();
+	private HashMap<ArcContainer, IArcImpl> arcs = new HashMap<ArcContainer, IArcImpl>();
+
+	private IModelImpl model;
+
+	public PasteCommand(ColoaneEditor editor) {
+		model = editor.getModel();
+	}
 
 	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
-		modelAdapter = (IModelImpl) Clipboard.getDefault().getContents();
-		if (modelAdapter == null || !modelAdapter.getFormalism().equals(manager.getCurrentSessionModel().getFormalism())) {
+		modelContainer = (ModelContainer) Clipboard.getDefault().getContents();
+		if (modelContainer == null || modelContainer.isEmpty()
+				|| !modelContainer.getFormalism().equals(model.getFormalism())) {
 			return false;
 		}
 		return true;
@@ -36,43 +40,39 @@ public class PasteCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		for (IArcImpl arc : modelAdapter.getArcs()) {
-			arcs.put(arc, null);
+		log.fine("Collage de la sélection");
+		for (NodeContainer nc : modelContainer.getNodes()) {
+			INodeImpl node = nc.copy(model);
+			nodes.put(nc, node);
 		}
-		for (INodeImpl node : modelAdapter.getNodes()) {
-			nodes.put(node, null);
+		for (ArcContainer ac : modelContainer.getArcs()) {
+			INodeImpl source = nodes.get(modelContainer.getNode(ac.getIdSource()));
+			INodeImpl target = nodes.get(modelContainer.getNode(ac.getIdTarget()));
+			try {
+				if (source != null && target != null) {
+					IArcImpl arc = ac.copy(model, source, target);
+					arc.setModelAdapter(model);
+					arcs.put(ac, arc);
+				}
+			} catch (BuildException e) {
+				e.printStackTrace();
+			}
 		}
 		redo();
 	}
 
 	@Override
 	public final void redo() {
-		IModelImpl currentModel = manager.getCurrentSessionModel();
-		for (IArcImpl key : arcs.keySet()) {
+		for (INodeImpl node : nodes.values()) {
 			try {
-				INodeImpl source = nodes.get(key.getSource());
-				if (source == null) {
-					source = (INodeImpl) key.getSource().clone();
-					source.setModelAdapter(currentModel);
-					currentModel.addNode(source);
-					nodes.put(key.getSource(), source);
-				}
-				INodeImpl target = nodes.get(key.getTarget());
-				if (target == null) {
-					target = (INodeImpl) key.getTarget().clone();
-					target.setModelAdapter(currentModel);
-					currentModel.addNode(target);
-					nodes.put(key.getTarget(), target);
-				}
-//				IArcImpl arc = (IArcImpl) key.clone();
-				IArcImpl arc = new ArcImplAdapter((IArc) key.clone(), source, target, key.getElementBase());
-				arc.setModelAdapter(currentModel);
-//				arc.reconnect(source, target);
-//				arc.setGraphicInfo(new ArcGraphicInfo(arc));
-				currentModel.addArc(arc);
-
-			} catch (CloneNotSupportedException e) {
+				model.addNode(node);
+			} catch (BuildException e) {
 				e.printStackTrace();
+			}
+		}
+		for (IArcImpl arc : arcs.values()) {
+			try {
+				model.addArc(arc);
 			} catch (BuildException e) {
 				e.printStackTrace();
 			}
@@ -81,10 +81,24 @@ public class PasteCommand extends Command {
 
 	@Override
 	public final boolean canUndo() {
-		return false; //model != null;
+		return modelContainer != null;
 	}
 
 	@Override
 	public final void undo() {
+		for (IArcImpl arc : arcs.values()) {
+			try {
+				model.removeArc(arc);
+			} catch (BuildException e) {
+				e.printStackTrace();
+			}
+		}
+		for (INodeImpl node : nodes.values()) {
+			try {
+				model.removeNode(node);
+			} catch (BuildException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

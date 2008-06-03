@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.copypast;
 
 
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
+
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
@@ -9,8 +11,15 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 public class PasteAction extends SelectionAction {
+	private ColoaneEditor editor;
+
 	public PasteAction(IWorkbenchPart part) {
 		super(part);
+		if (part instanceof ColoaneEditor) {
+			editor = (ColoaneEditor) part;
+		}
+		// force calculateEnabled() to be called in every context
+		setLazyEnablementCalculation(true);
 	}
 
 	protected final void init()	{
@@ -25,7 +34,10 @@ public class PasteAction extends SelectionAction {
 	}
 
 	private Command createPasteCommand() {
-		return new PasteCommand();
+		if (editor == null) {
+			return null;
+		}
+		return new PasteCommand(editor);
 	}
 
 	@Override
@@ -36,9 +48,6 @@ public class PasteAction extends SelectionAction {
 
 	@Override
 	public final void run() {
-		Command command = createPasteCommand();
-		if (command != null && command.canExecute()) {
-			execute(command);
-		}
+		execute(createPasteCommand());
 	}
 }

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.copypast.CopyAction;
+import fr.lip6.move.coloane.core.copypast.CutAction;
 import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
@@ -548,6 +549,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		ActionRegistry registry = getActionRegistry();
 		IAction action;
+
+		action = new CutAction((IWorkbenchPart) this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
 		action = new CopyAction((IWorkbenchPart) this);
 		registry.registerAction(action);

@@ -48,6 +48,7 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.DELETE.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.PASTE.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.COPY.getId()));
+        menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.CUT.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.SELECT_ALL.getId()));
 	}
 

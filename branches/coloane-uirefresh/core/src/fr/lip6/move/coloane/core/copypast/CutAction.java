@@ -17,10 +17,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-public class CopyAction extends SelectionAction {
+public class CutAction extends SelectionAction {
 	private ColoaneEditor editor;
 
-	public CopyAction(IWorkbenchPart part) {
+	public CutAction(IWorkbenchPart part) {
 		super(part);
 		if (part instanceof ColoaneEditor) {
 			editor = (ColoaneEditor) part;
@@ -29,12 +29,22 @@ public class CopyAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
-	private Command createCopyCommand(List<Object> selectedObjects) {
+	@SuppressWarnings("unchecked")
+	@Override
+	protected final boolean calculateEnabled() {
+		Command cmd = createCutCommand(getSelectedObjects());
+		if (cmd == null) {
+			return false;
+		}
+		return cmd.canExecute();
+	}
+
+	private Command createCutCommand(List<Object> selectedObjects) {
 		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
 			return null;
 		}
 
-		CopyCommand cmd = new CopyCommand(editor);
+		CutCommand cmd = new CutCommand(editor);
 		Iterator<Object> it = selectedObjects.iterator();
 		while (it.hasNext()) {
 			Object object = it.next();
@@ -52,32 +62,21 @@ public class CopyAction extends SelectionAction {
 		return cmd;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected final boolean calculateEnabled() {
-		Command cmd = createCopyCommand(getSelectedObjects());
-		if (cmd == null) {
-			return false;
-		}
-		return cmd.canExecute();
-	}
-
 	@Override
 	protected final void init() {
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText("Copy");
-		setId(ActionFactory.COPY.getId());
-		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+		setText("Cut");
+		setId(ActionFactory.CUT.getId());
+		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+		setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
 		setEnabled(false);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void run() {
-		execute(createCopyCommand(getSelectedObjects()));
+		execute(createCutCommand(getSelectedObjects()));
 	}
-
 }
