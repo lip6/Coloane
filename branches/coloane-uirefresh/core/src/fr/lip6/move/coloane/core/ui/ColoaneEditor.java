@@ -550,14 +550,17 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		ActionRegistry registry = getActionRegistry();
 		IAction action;
 
+		// Création de l'action pour couper
 		action = new CutAction((IWorkbenchPart) this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
+		// Création de l'action pour copier
 		action = new CopyAction((IWorkbenchPart) this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
+		// Création de l'action pour coller
 		action = new PasteAction((IWorkbenchPart) this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
