@@ -29,6 +29,10 @@ public class CopyAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
+	/**
+	 * @param selectedObjects liste des objets à copier
+	 * @return commande qui va effectuer la copie
+	 */
 	private Command createCopyCommand(List<Object> selectedObjects) {
 		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
 			return null;
@@ -52,6 +56,9 @@ public class CopyAction extends SelectionAction {
 		return cmd;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected final boolean calculateEnabled() {
@@ -62,6 +69,9 @@ public class CopyAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+	 */
 	@Override
 	protected final void init() {
 		super.init();
@@ -74,6 +84,9 @@ public class CopyAction extends SelectionAction {
 		setEnabled(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void run() {

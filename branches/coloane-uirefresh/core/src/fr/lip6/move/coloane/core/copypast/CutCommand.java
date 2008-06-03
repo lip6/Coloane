@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.copypast;
 
+import fr.lip6.move.coloane.core.copypast.container.ModelContainer;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
@@ -27,6 +28,9 @@ public class CutCommand extends Command {
 		}
 	}
 
+	/**
+	 * @param node Ajout d'un noeud à couper
+	 */
 	public final void addNode(INodeImpl node) {
 		nodes.add(node);
 		arcs.addAll(node.getSourceArcs());
@@ -34,16 +38,25 @@ public class CutCommand extends Command {
 		container.addNode(node);
 	}
 
+	/**
+	 * @param arc Ajout d'un arc à couper
+	 */
 	public final void addArc(IArcImpl arc) {
 		arcs.add(arc);
 		container.addArc(arc);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
 	@Override
 	public final boolean canExecute() {
 		return !container.isEmpty();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {
@@ -55,11 +68,17 @@ public class CutCommand extends Command {
 		redo();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
 	@Override
 	public final boolean canUndo() {
 		return container != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
 	@Override
 	public final void redo() {
 		for (IArcImpl arc : arcs) {
@@ -78,6 +97,9 @@ public class CutCommand extends Command {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
 	@Override
 	public final void undo() {
 		for (INodeImpl node : nodes) {

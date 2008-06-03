@@ -22,6 +22,9 @@ public class PasteAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+	 */
 	protected final void init()	{
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
@@ -33,6 +36,9 @@ public class PasteAction extends SelectionAction {
 		setEnabled(false);
 	}
 
+	/**
+	 * @return commande pour coller
+	 */
 	private Command createPasteCommand() {
 		if (editor == null) {
 			return null;
@@ -40,12 +46,18 @@ public class PasteAction extends SelectionAction {
 		return new PasteCommand(editor);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
 	@Override
 	protected final boolean calculateEnabled() {
 		Command command = createPasteCommand();
         return command != null && command.canExecute();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	@Override
 	public final void run() {
 		execute(createPasteCommand());

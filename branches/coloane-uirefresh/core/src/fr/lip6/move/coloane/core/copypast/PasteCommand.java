@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.copypast;
 
+import fr.lip6.move.coloane.core.copypast.container.ArcContainer;
+import fr.lip6.move.coloane.core.copypast.container.ModelContainer;
+import fr.lip6.move.coloane.core.copypast.container.NodeContainer;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
@@ -25,6 +28,9 @@ public class PasteCommand extends Command {
 		model = editor.getModel();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
 	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
 		modelContainer = (ModelContainer) Clipboard.getDefault().getContents();
@@ -35,6 +41,9 @@ public class PasteCommand extends Command {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {
@@ -42,62 +51,64 @@ public class PasteCommand extends Command {
 		}
 		log.fine("Collage de la sélection");
 		for (NodeContainer nc : modelContainer.getNodes()) {
-			INodeImpl node = nc.copy(model);
-			nodes.put(nc, node);
+			nodes.put(nc, nc.copy(model));
 		}
 		for (ArcContainer ac : modelContainer.getArcs()) {
 			INodeImpl source = nodes.get(modelContainer.getNode(ac.getIdSource()));
 			INodeImpl target = nodes.get(modelContainer.getNode(ac.getIdTarget()));
-			try {
-				if (source != null && target != null) {
-					IArcImpl arc = ac.copy(model, source, target);
-					arc.setModelAdapter(model);
-					arcs.put(ac, arc);
-				}
-			} catch (BuildException e) {
-				e.printStackTrace();
+			if (source != null && target != null) {
+				arcs.put(ac, ac.copy(model, source, target));
 			}
 		}
 		redo();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
 	@Override
 	public final void redo() {
 		for (INodeImpl node : nodes.values()) {
 			try {
 				model.addNode(node);
 			} catch (BuildException e) {
-				e.printStackTrace();
+				log.warning("Impossible d'ajouter le noeud");
 			}
 		}
 		for (IArcImpl arc : arcs.values()) {
 			try {
 				model.addArc(arc);
 			} catch (BuildException e) {
-				e.printStackTrace();
+				log.warning("Impossible d'ajouter l'arc");
 			}
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
 	@Override
 	public final boolean canUndo() {
 		return modelContainer != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
 	@Override
 	public final void undo() {
 		for (IArcImpl arc : arcs.values()) {
 			try {
 				model.removeArc(arc);
 			} catch (BuildException e) {
-				e.printStackTrace();
+				log.warning("Impossible d'enlever l'arc");
 			}
 		}
 		for (INodeImpl node : nodes.values()) {
 			try {
 				model.removeNode(node);
 			} catch (BuildException e) {
-				e.printStackTrace();
+				log.warning("Impossible d'enlever le noeud");
 			}
 		}
 	}

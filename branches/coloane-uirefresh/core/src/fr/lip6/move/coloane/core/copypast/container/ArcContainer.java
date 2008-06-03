@@ -1,6 +1,5 @@
-package fr.lip6.move.coloane.core.copypast;
+package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
@@ -10,6 +9,9 @@ import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.ArrayList;
 
+/**
+ * Classe permettant la reconstruction d'un arc
+ */
 public class ArcContainer {
 	private int id;
 
@@ -18,6 +20,11 @@ public class ArcContainer {
 	private ElementFormalism elementFormalism;
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();;
 
+	/**
+	 * @param arc
+	 * @param idSource id du NodeContainer source
+	 * @param idTarget id du NodeContainer cible
+	 */
 	public ArcContainer(IArcImpl arc, int idSource, int idTarget) {
 		id = arc.getId();
 		this.idSource = idSource;
@@ -28,7 +35,13 @@ public class ArcContainer {
 		}
 	}
 
-	public final IArcImpl copy(IModelImpl model, INodeImpl source, INodeImpl target) throws BuildException {
+	/**
+	 * @param model
+	 * @param source
+	 * @param target
+	 * @return une copie de l'IArcImpl passée au constructeur
+	 */
+	public final IArcImpl copy(IModelImpl model, INodeImpl source, INodeImpl target) {
 		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, elementFormalism);
 		arcAdapter.setModelAdapter(model);
 		for (AttributContainer ac : attributs) {
@@ -37,14 +50,23 @@ public class ArcContainer {
 		return arcAdapter;
 	}
 
+	/**
+	 * @return id du NodeContainer source
+	 */
 	public final int getIdSource() {
 		return idSource;
 	}
 
+	/**
+	 * @return id du NodeContainer cible
+	 */
 	public final int getIdTarget() {
 		return idTarget;
 	}
 
+	/**
+	 * @return id de cette ArcContainer
+	 */
 	public final int getId() {
 		return id;
 	}

@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.copypast;
+package fr.lip6.move.coloane.core.copypast.container;
 
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
@@ -9,6 +9,9 @@ import fr.lip6.move.coloane.interfaces.model.Node;
 
 import java.util.ArrayList;
 
+/**
+ * Classe permettant la reconstruction d'un noeud
+ */
 public class NodeContainer {
 	private int id;
 
@@ -17,6 +20,9 @@ public class NodeContainer {
 	private int yPosition;
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
+	/**
+	 * @param node
+	 */
 	public NodeContainer(INodeImpl node) {
 		node.getId();
 		elementFormalism = node.getElementBase();
@@ -27,6 +33,10 @@ public class NodeContainer {
 		}
 	}
 
+	/**
+	 * @param modelAdapter
+	 * @return une copie du INodeImpl passée au constructeur
+	 */
 	public final INodeImpl copy(IModelImpl modelAdapter) {
 		xPosition += 10;
 		yPosition += 10;
@@ -39,6 +49,9 @@ public class NodeContainer {
 		return nodeAdapter;
 	}
 
+	/**
+	 * @return id du NodeContainer
+	 */
 	public final int getId() {
 		return id;
 	}

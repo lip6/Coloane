@@ -29,6 +29,9 @@ public class CutAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected final boolean calculateEnabled() {
@@ -39,6 +42,10 @@ public class CutAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 
+	/**
+	 * @param selectedObjects liste d'objet à couper
+	 * @return commande pour couper
+	 */
 	private Command createCutCommand(List<Object> selectedObjects) {
 		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
 			return null;
@@ -62,6 +69,9 @@ public class CutAction extends SelectionAction {
 		return cmd;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+	 */
 	@Override
 	protected final void init() {
 		super.init();
@@ -74,6 +84,9 @@ public class CutAction extends SelectionAction {
 		setEnabled(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void run() {
