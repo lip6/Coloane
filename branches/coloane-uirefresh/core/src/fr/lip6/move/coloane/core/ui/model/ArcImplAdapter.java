@@ -146,13 +146,11 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final void reconnect(INodeImpl newSource, INodeImpl newTarget) {
 
 		// Suppression du lien depuis les anciens noeuds
-		if (this.source != null && this.target != null) {
-			try {
-				this.source.removeArc(this);
-				this.target.removeArc(this);
-			} catch (ModelException e) {
-				Coloane.getLogger().warning("Impossible de supprimer les references : (" + this.source.getId() + "," + this.target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+		try {
+			this.source.removeArc(this);
+			this.target.removeArc(this);
+		} catch (ModelException e) {
+			Coloane.getLogger().warning("Impossible de supprimer les references : (" + this.source.getId() + "," + this.target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		// Nouvelles cible et source
@@ -422,39 +420,4 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final Collection getContextMenus() {
 		return null;
 	}
-
-	@Override
-	public final String toString() {
-		return "Arc :\n"
-		+ super.toString() + "\n"
-		+ "source : " + source + "\n"
-		+ "target : " + target;
-	}
-
-	@Override
-	public final Object clone() throws CloneNotSupportedException {
-		ArcImplAdapter clone = (ArcImplAdapter) super.clone();
-		clone.elementBase = this.elementBase;
-		clone.genericArc = (IArc) this.genericArc.clone();
-		clone.setReference(clone);
-		clone.source = null;
-		clone.target = null;
-		clone.modelAdapter = null;
-		clone.graphicInfo = null;
-		return clone;
-	}
-
-
-	public final void setGraphicInfo(IArcGraphicInfo graphicInfo) {
-		this.graphicInfo = graphicInfo;
-	}
-
-//	@Override
-//	public final boolean equals(Object obj) {
-//		if (!(obj instanceof ArcImplAdapter)) {
-//			return false;
-//		}
-//		ArcImplAdapter arc = (ArcImplAdapter) obj;
-//		return genericArc.getId() == arc.getGenericArc().getId();
-//	}
 }

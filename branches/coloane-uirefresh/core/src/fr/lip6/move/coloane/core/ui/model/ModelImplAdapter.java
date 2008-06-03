@@ -13,9 +13,7 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Adaptateur pour le modele generique. Permet d'implementer les interfaces
@@ -450,35 +448,4 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
 	 */
 	public void setSpecial(boolean state) {	}
-
-	@Override
-	public final Object clone() throws CloneNotSupportedException {
-		ModelImplAdapter clone = (ModelImplAdapter) super.clone();
-		clone.date = this.date;
-		clone.dirty = this.dirty;
-		clone.formalism = this.formalism;
-		clone.genericModel = (IModel) this.genericModel.clone();
-		return clone;
-	}
-
-	public final List<INodeImpl> getNodes() {
-		return nodes;
-	}
-
-	public final Set<IArcImpl> getArcs() {
-		HashSet<IArcImpl> arcs = new HashSet<IArcImpl>();
-		for (INodeImpl node : nodes) {
-			arcs.addAll(node.getSourceArcs());
-			arcs.addAll(node.getTargetArcs());
-		}
-		return arcs;
-	}
-
-	@Override
-	public final String toString() {
-		return "ModelImplAdapter :\n"
-					+ super.toString() + "\n"
-					+ getNodes() + "\n"
-					+ getArcs();
-	}
 }

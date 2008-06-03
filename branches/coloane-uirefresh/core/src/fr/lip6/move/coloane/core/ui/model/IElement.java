@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Interface definissant un element, tronc commun de tous les elements affiches sur l'editeur
  */
-public interface IElement extends Cloneable {
+public interface IElement {
 
 	/**
 	 * Recupere la liste des attributs de l'objet
@@ -21,11 +21,6 @@ public interface IElement extends Cloneable {
 	 * @param modelAdapter
 	 */
 	void setModelAdapter(IModelImpl modelAdapter);
-
-	/**
-	 * @param ref Permet de réattacher les attributs
-	 */
-	void setReference(IElement ref);
 
 	/**
 	 * Renvoie le modele augmente
@@ -70,6 +65,4 @@ public interface IElement extends Cloneable {
 	 * @param state : L'etat de selection
 	 */
 	void setSpecial(boolean state);
-
-	Object clone() throws CloneNotSupportedException;
 }
