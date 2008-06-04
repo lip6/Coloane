@@ -16,7 +16,8 @@
 	<description>Group of Coloane's dedicated extensions</description>
 
 	<modules>
-		<module>importExport</module>
+		<module>exportToDOT</module>
+		<module>importExportCAMI</module>
+		<module>importExportPNML</module>
 	</modules>
-	
 </project>
