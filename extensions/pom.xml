@@ -11,9 +11,9 @@
 	<groupId>fr.lip6.move.coloane.extensions</groupId>
 	<artifactId>extensions</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>Extensions</name>
-	<description>Group of extensions dedicated Coloane</description>
+	<description>Group of Coloane's dedicated extensions</description>
 
 	<modules>
 		<module>importExport</module>
