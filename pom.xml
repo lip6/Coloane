@@ -306,7 +306,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>UpManifest</id>
+						<id>UpdateManifest</id>
 						<phase>generate-sources</phase>        
 						<goals>
 							<goal>exec</goal>
@@ -315,6 +315,7 @@
 							<executable>updateManifest.sh</executable>
 							<arguments>
 								<argument>${buildNumber}</argument>
+								<argument>${build.finalName}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -355,6 +356,7 @@
 				<configuration>
 					<goals>clean deploy</goals>
 					<scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
+					<preparationGoals>clean</preparationGoals>
 				</configuration>
 			</plugin>
 		</plugins>

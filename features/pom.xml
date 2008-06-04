@@ -65,7 +65,17 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>Build_feature</id>
+						<id>UpdateManifest</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>BuildFeatureXML</id>
 						<phase>generate-sources</phase>        
 						<goals>
 							<goal>exec</goal>
