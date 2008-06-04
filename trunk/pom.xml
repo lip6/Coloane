@@ -294,12 +294,10 @@
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
 						</manifest> 
-						 <manifestSections>
-							<manifestSection>
-								<manifestEntries>
-									<difficulty>high</difficulty>
-									<Bundle-Version>${BuildNumber}</Bundle-Version>
-								</manifestEntries>
+						<manifestEntries>
+							<difficulty>high</difficulty>
+							<Bundle-Version>${BuildNumber}</Bundle-Version>
+						</manifestEntries>
 					</archive> 
 				</configuration> 
 			</plugin>
