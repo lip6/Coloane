@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>apicami</artifactId>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<packaging>jar</packaging>
 	<name>Application - Apicami</name>
 	<description>Coloane communication API. This plugin enables the communication with FrameKit platform</description>
