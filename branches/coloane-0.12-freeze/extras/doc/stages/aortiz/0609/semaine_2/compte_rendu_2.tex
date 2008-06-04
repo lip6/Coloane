@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[left=2cm, right=3cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{pslatex}
+
+\title{Compte-rendu semaine }
+\date{jeudi 21 septembre 2006}
+\author{Alexandre Ortiz}
+
+\begin{document}
+
+\maketitle
+
+\section{Etat des lieux}
+
+\subsection{Intégration du développement de Coloane dans Eclipse}
+La majorité des bibliothèques qui étaient fournies avec Coloane
+on été retirées et celles utilisées pour la compilation
+sont celles d'Eclipse.\\
+Il y a cependant deux exceptions, JDOM et JUnit, qui sont toujours
+distribuées sous forme d'archives jar, que ce soit pour le développeur
+pour pour l'utilisateur.
+\par
+Le cas de JDom s'explique par le fait qu'il n'y a pas de site
+d'installation/update pour cette bibliothèque (et vu que le projet
+est dans le coma depuis deux ans, ça m'étonnerait qu'il y en ait :p).\\
+Il est donc hors de question de dire à l'utilisateur : va sur le site
+à l'adresse machin puis télécharge truc.jar et copie-le
+dans le répertoire plugins de ton installation d'Eclipse.
+\par
+Pour JUnit, le problème actuel est que les tests unitaires sont
+``vus'' par Eclipse comme des classes appartement au plug-in (et
+donc à distribuer avec celui-ci).\\
+Une fois que les tests auront été remis à leur places (c'est-à-dire
+hors du plug-in proprement dit), on pourra retirer le junit.jar qui
+pollue un peu le plug-in.
+
+
+\subsection{Cas des icônes}
+Les icônes utilisées par Coloane sont situées dans le répertoire
+src/org/dqs/ui/icons.\\
+Pour des raisons de proprification du bazar, d'uniformisation et
+de cohérence avec les pratiques ``standard'' (et aussi pour le
+fichier de configuration du plug-in), il est préférable de
+mettre les icônes dans un répertoire à la racine du plug-in
+(typiquement le répertoire icons).\\
+Le problèmes est que les images de ce répertoire sont utilisées
+à deux endroits : dans le code et dans la configuration du plug-in.\\
+J'ai modifié la configuration du plug-in pour qu'elle aille chercher
+les icônes dans le répertoire icons, mais je n'ai pas touché au code.\\
+Je n'ai donc pas effacé le répertoire situé dans src/org/dqs/ui/icons.\\
+Pour la suite, deux solutions possibles :
+\begin{itemize}
+\item séparation des icônes utilisées par le code et par la configuration
+et on garde un répertoire pour chaque
+\item on migre tout dans icons
+\end{itemize}
+\par
+Perso j'aime bien la première solution.
+
+\subsection{Gestion du déploiement}
+A part le transfert des fichiers par FTP, le déploiement (qui aboutit
+à la création d'un répertoire prêt à servir de site d'update pour
+Eclipse) est entièrement géré via Eclipse.\\
+\par
+Eclipse n'est pas capable d'installer un plug-in tout bête
+(en gros un jar qui contient les .class, les icônes et les
+métadonnées utiles au plug-in) à partir d'un site d'update.\\
+La seule chose que sait installer Eclipse (à partir d'un site d'update)
+ce sont des fonctionnalités (feature).\\
+Pour comprendre la suite, il faut bien retenir que, si en Ruby tout est objet,
+en Eclipse tout est projet :p.\\
+Donc, pour inclure le plug-in dans une fonctionnalité, il faut créer un
+nouveau ``Feature Project'' (New->Project->Plug-in Project) puis référencer
+le projet de plug-in que l'on veut déployer (par l'interface de PDE
+que l'on obtient en ouvrant feature.xml, onglet ``Plug-ins'').\\
+Pour créer un site de mise à jour, il faut créer un nouveau
+``Update Site Project'' (New->Project->Plug-in Project) puis référencer
+le projet de feature que l'on veut déployer (par l'interface de PDE
+que l'on obtient en ouvrant site.xml).\\
+On arrive donc au final à la gestion de trois projets : un pour le plug-in,
+un pour la feature et pour pour le site d'update.\\
+Ces trois projets sont actuellement sous contrôle de versions.\\
+\par
+Une présentation décrivant le processus de déploiement depuis le
+checkout jusqu'à l'installation du plug-in est (si je n'ai pas oublié
+de la mettre en pièce-jointe :p) fournie (fichier
+présentation\_semaine\_2.ppt).
+
+
+\subsection{Du côté des insectes}
+Deux problèmes avec le menu ``Platform'' semblent vouloir
+s'incruster dans le paysage.\\
+Le premier, lié au déploiement, fait que ce menu n'apparaît pas toujours.\\
+Sur l'Eclipse de test sur ma machine perso, il refuse obstinément
+de se montrer alors que, sur le PC que j'utilise au LIP6, je n'ai pas
+de problème de disparition.\\
+Comme la seule différence peut venir des plug-ins installés (j'ai testé
+chez moi avec un Eclipse tout nu et au LIP6 je ne sais plus trop
+ce que j'avais installé, mais je vais refaire des tests très bientôt).\\
+Le deuxième est, je pense, lié au code (ie. je n'y toucherai pas pour
+l'instant :p) et fait que le menu ne répond pas toujours (s'il a répondu
+une fois depuis le démarrage d'Eclipse alors il répondra tout le temps
+sinon y a plus qu'à le redémarrer et prier très fort).
+
+\section{Pour la suite}
+La prochaine étape va être de tenter d'aboutir à un début
+de vague compréhension sur pourquoi ce <poli>méchant</poli>
+menu ``Platform'' apparaît un peu comme il en a envie et sur
+l'intégration dans Eclipse de la gestion des tests en tant
+que tels et non plus en tant que classes faisant partie
+du plug-in.
+
+
+\end{document}
