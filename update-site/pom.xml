@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>coloaneMain</artifactId>
-			<version>[1.3,)</version>
+			<version>[1.2,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>importExport</artifactId>
-			<version>[1.3,)</version>
+			<version>[1.2,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>languagePack</artifactId>
-			<version>[1.3,)</version>
+			<version>[1.2,)</version>
 		</dependency>
 	</dependencies>
 
