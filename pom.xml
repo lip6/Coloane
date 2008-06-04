@@ -307,7 +307,7 @@
 				<executions>
 					<execution>
 						<id>UpManifest</id>
-						<phase>package</phase>        
+						<phase>prepare-package</phase>        
 						<goals>
 							<goal>exec</goal>
 						</goals>
