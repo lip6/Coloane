@@ -289,13 +289,17 @@
 				<artifactId>maven-jar-plugin</artifactId> 
 				<configuration> 
 					<archive> 
-						<!-- Indique ou se trouve notre manifest.mf --> 
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile> 
 						<!-- Rajoute Implementation-Build dans le MANIFEST --> 
 						<manifest> 
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
 						</manifest> 
+						 <manifestSections>
+							<manifestSection>
+								<manifestEntries>
+									<difficulty>high</difficulty>
+									<Bundle-Version>${BuildNumber}</Bundle-Version>
+								</manifestEntries>
 					</archive> 
 				</configuration> 
 			</plugin>
@@ -304,7 +308,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
-					<execution>
+					<!-- <execution>
 						<id>UpManifest</id>
 						<phase>package</phase>        
 						<goals>
@@ -316,7 +320,7 @@
 								<argument>${buildNumber}</argument>
 							</arguments>
 						</configuration>
-					</execution>
+					</execution> -->
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
