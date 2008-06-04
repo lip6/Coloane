@@ -20,4 +20,33 @@
 		<module>importExportCAMI</module>
 		<module>importExportPNML</module>
 	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>core</artifactId>
+			<version>[0.11,)</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- Ce qu'on va rajouter dans le JAR -->
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>plugin.xml</include>
+					<include>resources/**</include>
+					<include>lib/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

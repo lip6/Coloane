@@ -17,19 +17,19 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions.importexport</groupId>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportCAMI</artifactId>
-			<version>[1.0,)</version>
+			<version>[0.9,)</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions.importexport</groupId>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportPNML</artifactId>
-			<version>[1.0,)</version>
+			<version>[0.9,)</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions.importexport</groupId>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>exportToDOT</artifactId>
-			<version>[1.0,)</version>
+			<version>[0.9,)</version>
 		</dependency>
 	</dependencies>
 </project>
