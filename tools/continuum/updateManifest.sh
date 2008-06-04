@@ -1,19 +1,19 @@
 #!/bin/sh
 
-#Ce script se lance dés qu'une commande maven se lance.En effet,ce script se lance car la generates-sources est
-#lancé alors que c'est le premier element du cycle de vie maven.
-#Concretement ce script,après des tests de routine (nbre arguments,manifest existant..) affiche a l'utilisateur a
-#la sortie standard le manifest puis modifie le manifest present en changeant son bundleversion.
-#a la base il est de la forme 0.x.0 et devient 0.x.x-rxxxx on rajoute le buildnumber a la fin(si j'ai bien compris #la ligne de commande perl
-
-
-#! /bin/sh
-if [ $# -ne 1 ]; then
-	echo "FAILURE: This script needs the build number"
+if [ $# -ne 2 ]; then
+	echo "FAILURE: This script needs the build number and the project name"
 	exit 1
 fi
 
 number=$1
+projectname=$2
+
+echo "Project : $projectname" | grep "SNAPSHOT"
+if [ $? -ne 0 ]; then
+	echo "This project is a release version. No MANIFEST rewriting"
+	exit 0
+fi
+
 
 if [ ! -f META-INF/MANIFEST.MF ]; then
 	echo "FAILURE: Manifest file does not exist !"
