@@ -17,13 +17,20 @@ my $debug = 1;
 
 # Fetch parameters
 my $featurefile = shift;
-my $build = shift;
-my $plugindir = shift;
+my $buildnumber = shift;
+my $buildname = shift;
 my $featuredir = shift;
 
 if (!(-e $featurefile)) {
 	print "No feature.xml file... Continue... \n";
 	exit;
+}
+
+my $release = 1;
+# Determine whether it's a release or a snapshost
+if ($buildname =~ /SNAPSHOT/) {
+	$release = 0;
+	print "Building a Snapshot Feature \n" if $debug;
 }
 
 # Prepare the XML parser
@@ -34,7 +41,10 @@ $xml->parsefile($featurefile);
 my $root = $xml->root;
 my $version = $root->att('version');
 my $nameid = $root->att('id');
-my $newversion = $version.".r".$build;
+
+my $newversion = $version;
+$newversion = $version.".r".$buildnumber if (!$release)
+
 print "Writing the new version : $newversion (previously $version) \n" if $debug;
 $root->set_att(version => $newversion); 
 
