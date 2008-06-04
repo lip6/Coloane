@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.importexport"
       label="Import Export extensions"
-      version="1.2.0"
+      version="1.3"
       provider-name="LIP6 / MoVe">
 
    <description url="http://coloane.lip6.fr">
@@ -163,21 +163,21 @@ Inc. in the United States, other countries, or both.
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extension.exportToDOT"
+         id="fr.lip6.move.coloane.extensions.exportToDOT"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.lip6.move.coloane.extension.importExportCAMI"
+         id="fr.lip6.move.coloane.extensions.importExportCAMI"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.lip6.move.coloane.extension.importExportPNML"
+         id="fr.lip6.move.coloane.extensions.importExportPNML"
          download-size="0"
          install-size="0"
          version="0.0.0"
