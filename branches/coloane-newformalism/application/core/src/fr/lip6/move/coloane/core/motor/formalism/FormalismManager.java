@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalism;
 
+import fr.lip6.move.coloane.core.motor.formalism.defs.Geograph;
 import fr.lip6.move.coloane.core.motor.formalism.defs.PetriNets;
 import fr.lip6.move.coloane.core.motor.formalism.defs.PrefixNets;
 import fr.lip6.move.coloane.core.motor.formalism.defs.ReachabilityGraph;
@@ -29,6 +30,9 @@ public final class FormalismManager {
 		listOfFormalisms.add(new PetriNets());
 		listOfFormalisms.add(new PrefixNets());
 		listOfFormalisms.add(new ReachabilityGraph());
+		// ***** Rajout *****
+		listOfFormalisms.add(new Geograph());
+		// ***** Fin  Rajout *****
 	}
 
 	/**
