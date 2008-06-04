@@ -104,7 +104,7 @@ mkdir("META-INF", 0755);
 open (LAST, ">META-INF/MANIFEST.MF") or die "FAILURE for MANIFEST !!!\n"; 
 print LAST "Manifest-Version: 1.0\n";
 print LAST "Bundle-SymbolicName: $nameid\n";
-print LAST "Bundle-Version: $version\n";
+print LAST "Bundle-Version: $newversion\n";
 close(LAST);
 
 0;

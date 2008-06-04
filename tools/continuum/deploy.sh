@@ -67,7 +67,7 @@ directory=`echo $directory/$branch/"$type"s`
 cp target/$jar $directory/$newjar
 echo "Copy $jar into $directory/$newjar"
 
-echo "Writing $bundleVersion into $last_$bundleSymbolicName"
+echo "Writing $bundleVersion into last_$bundleSymbolicName"
 echo $bundleVersion > last_$bundleSymbolicName
 cp last_$bundleSymbolicName $directory
 rm -f last_$bundleSymbolicName
