@@ -295,8 +295,7 @@
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
 						</manifest> 
 						<manifestEntries>
-							<difficulty>high</difficulty>
-							<Bundle-Version>${BuildNumber}</Bundle-Version>
+							<Bundle-Version>${project.version}-r${buildNumber}</Bundle-Version>
 						</manifestEntries>
 					</archive> 
 				</configuration> 
