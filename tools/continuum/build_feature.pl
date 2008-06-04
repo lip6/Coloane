@@ -47,7 +47,7 @@ my $version = $root->att('version');
 my $nameid = $root->att('id');
 
 my $newversion = $version;
-$newversion = $version.".r".$buildnumber if (!$release)
+$newversion = $version.".r".$buildnumber if !$release;
 
 print "Writing the new version : $newversion (previously $version) \n" if $debug;
 $root->set_att(version => $newversion); 
