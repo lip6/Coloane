@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane.fragments</groupId>
 		<artifactId>fragments</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1</version>
 	</parent>
 	
 	<artifactId>languagePack</artifactId>
-	<version>${project.parent.version}</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 	<name>Fragment - Language Pack</name>
 	<description>Language pack for Coloane's kernel</description>
