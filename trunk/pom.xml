@@ -289,13 +289,13 @@
 				<artifactId>maven-jar-plugin</artifactId> 
 				<configuration> 
 					<archive> 
-						<!-- Rajoute Implementation-Build dans le MANIFEST --> 
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>							
 						<manifest> 
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
 						</manifest> 
 						<manifestEntries>
-							<Bundle-Version>${project.version}-r${buildNumber}</Bundle-Version>
+							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
 						</manifestEntries>
 					</archive> 
 				</configuration> 
