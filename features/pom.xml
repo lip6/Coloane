@@ -85,8 +85,8 @@
 							<arguments>
 								<argument>feature.xml</argument>
 								<argument>${buildNumber}</argument>
-								<argument>/coloane/public/night-updates/plugins</argument>
-								<argument>/coloane/public/night-updates/features</argument>
+								<argument>${build.finalName}</argument>
+								<argument>/coloane/public</argument>
 							</arguments>
 						</configuration>
 					</execution>
