@@ -65,19 +65,6 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>UpManifest</id>
-						<phase>package</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>updateManifest.sh</executable>
-							<arguments>
-								<argument>${buildNumber}</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
 						<id>Build_feature</id>
 						<phase>generate-sources</phase>        
 						<goals>
