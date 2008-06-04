@@ -19,7 +19,7 @@ my $debug = 1;
 my $featurefile = shift;
 my $buildnumber = shift;
 my $buildname = shift;
-my $featuredir = shift;
+my $publicdir = shift;
 
 if (!(-e $featurefile)) {
 	print "No feature.xml file... Continue... \n";
@@ -27,9 +27,13 @@ if (!(-e $featurefile)) {
 }
 
 my $release = 1;
+my $featuredir = $publicdir."/updates/features";
+my $plugindir = $publicdir."/updates/plugins";
 # Determine whether it's a release or a snapshost
 if ($buildname =~ /SNAPSHOT/) {
 	$release = 0;
+	$featuredir = $publicdir."/night-updates/features";
+	$plugindir = $publicdir."/night-updates/plugins";
 	print "Building a Snapshot Feature \n" if $debug;
 }
 
