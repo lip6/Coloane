@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>interfaces</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<packaging>jar</packaging>
 	<name>Application - Interfaces</name>
 	<description>Interfaces and shared objects between Core and API</description>

@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane.extensions.importexport</groupId>
 		<artifactId>importExport</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>importExportPNML</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<packaging>jar</packaging>
 	<name>Extension - Import Export PNML</name>
 	<description>Coloane's extension that provides PNML import/export features</description>
