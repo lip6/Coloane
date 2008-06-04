@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -22,41 +24,99 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
- * @param <T> représente le type du model
+ * Classe abstraite qui permet d'afficher les propriétés d'un élément du model (IElement).
+ * @param <T> représente le type d'élément à afficher.
  */
-public abstract class AbstractSection<T extends IElement> extends AbstractPropertySection {
+public abstract class AbstractElementSection<T extends IElement> extends AbstractPropertySection {
 	/** Element courrant */
 	private T element;
+
 	/** Composite père de toutes les propriétés. */
 	private Composite composite;
 
 	/** Structure sauvegardant les listes de propriétés. */
 	private HashMap<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
+
 	/** Nom de la propriété courrante. */
 	private String currentType;
 
 	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
+		/**
+		 * Commande effectuant la modification d'un attribut avec gestion du "undo/redo"
+		 */
+		class ModifyCommand extends Command {
+			private Text text;
+			private IAttributeImpl attr;
+			private String oldValue;
+			private String newValue;
+
+			public ModifyCommand(Text text, IAttributeImpl attr, String oldValue, String newValue) {
+				this.text = text;
+				this.attr = attr;
+				this.oldValue = oldValue;
+				this.newValue = newValue;
+			}
+
+			@Override
+			public void execute() {
+				if (!canExecute()) {
+					return;
+				}
+				redo();
+			}
+
+			@Override
+			public void redo() {
+				if (!newValue.equals(text.getText())) {
+					text.removeModifyListener(listener);
+					text.setText(newValue);
+					text.addModifyListener(listener);
+				}
+				attr.setValue(oldValue, newValue);
+			}
+
+			@Override
+			public void undo() {
+				text.removeModifyListener(listener);
+				text.setText(oldValue);
+				text.addModifyListener(listener);
+				attr.setValue(newValue, oldValue);
+			}
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
 		@Override
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
+			IAttributeImpl attr = null;
+
+			EditPart o = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
+			CommandStack cs = o.getParent().getViewer().getEditDomain().getCommandStack();
 
 			// Recherche du LabelText modifié
 			for (LabelText lt : getMap().get(getCurrentType())) {
 				if (lt.getTextWidget() == text) {
 
 					// Recherche de l'attribut modifié
-					IAttributeImpl attr = getElement().getProperties().get(lt.getId());
+					attr = getElement().getProperties().get(lt.getId());
 					if (attr != null && !attr.getValue().equals(lt.getText())) {
-						System.err.println("avant modif");
-						attr.setValue(attr.getValue(), lt.getText());
-						System.err.println("après modif");
+						String oldValue = attr.getValue();
+						String newValue = lt.getText();
+						cs.execute(new ModifyCommand(text, attr, oldValue, newValue));
 						break;
 					}
 				}
 			}
+
 		}
 	};
+
+	/** ScrolledComposite gardé en mémoire pour le rafraichissement */
+	private ScrolledComposite sc;
+
 
 	/*
 	 * (non-Javadoc)
@@ -73,12 +133,16 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		element = (T) editPart.getModel();
 	}
 
+
+
 	/**
 	 * @return le modèle de l'élément séléctionné
 	 */
 	public final T getElement() {
 		return element;
 	}
+
+
 
 	/**
 	 * Change l'état (visible ou non) des propriétés du type nodeType
@@ -91,6 +155,8 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 			lt.setVisible(visible);
 		}
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -105,7 +171,8 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		composite = getWidgetFactory().createFlatFormComposite(parent);
 	}
 
-	private ScrolledComposite sc;
+
+
 	/**
 	 * Rafraichissement de la "Section"
 	 */
@@ -127,9 +194,11 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		}
 	}
 
+
+
 	/**
 	 * @param isMulti
-	 * @return
+	 * @return le style SWT pour un élément simple ligne ou multi ligne.
 	 */
 	private int getSWTStyle(boolean isMulti) {
 		if (isMulti) {
@@ -138,6 +207,8 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 			return SWT.SINGLE;
 		}
 	}
+
+
 
 	/**
 	 * Affichage/Création des propriétés <i>attributes</i> du type <i>nodeType</i>
@@ -177,6 +248,11 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		currentType = nodeType;
 	}
 
+
+
+	/**
+	 * Actualise la valeur des propriétés
+	 */
 	protected final void refreshContent() {
 		for (LabelText lt : getMap().get(getCurrentType())) {
 			IAttributeImpl attr = getElement().getProperties().get(lt.getId());
@@ -190,10 +266,20 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		}
 	}
 
+
+
+	/**
+	 * @return map associant le nom d'une propriété avec un LabelText
+	 */
 	public final HashMap<String, List<LabelText>> getMap() {
 		return map;
 	}
 
+
+
+	/**
+	 * @return Nom de la propriété courrante
+	 */
 	public final String getCurrentType() {
 		return currentType;
 	}

@@ -18,6 +18,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+/**
+ * Section qui permet de gérer les propriétés graphiques d'un noeud :
+ * <li>Couleur du noeud</li>
+ * <li>Couleur de l'arrière plan du noeud</li>
+ */
 public class NodeGraphicSection extends AbstractPropertySection {
 	private ColorFieldEditor fg;
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
@@ -49,6 +54,9 @@ public class NodeGraphicSection extends AbstractPropertySection {
 
 	private Object element;
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -92,6 +100,12 @@ public class NodeGraphicSection extends AbstractPropertySection {
 		label.setLayoutData(data);
 	}
 
+	/**
+	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
+	 * @param parent
+	 * @return le ColorFieldEditor, le composite peut être récupéré en faisant un
+	 * cfe.getColorSelector().getButton().getParent()
+	 */
 	private ColorFieldEditor createColorFieldEditor(Composite parent) {
 		Composite composite = getWidgetFactory().createComposite(parent);
 		composite.setLayout(new GridLayout(3, false));
@@ -99,21 +113,29 @@ public class NodeGraphicSection extends AbstractPropertySection {
 		return cfe;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 */
 	@Override
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
 		element = ((IStructuredSelection) getSelection()).getFirstElement();
 	}
 
+	/**
+	 * @return l'élément séléctionné
+	 */
 	public final Object getElement() {
 		return element;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+	 */
 	@Override
 	public final void refresh() {
 		Object editPart = getElement();
 		if (editPart instanceof AbstractGraphicalEditPart) {
-			System.err.println("refresh");
 			AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
 			fg.getColorSelector().setColorValue(eep.getFigure().getForegroundColor().getRGB());
 			bg.getColorSelector().setColorValue(eep.getFigure().getBackgroundColor().getRGB());

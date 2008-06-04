@@ -34,7 +34,6 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -71,10 +70,7 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-//import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-//import org.eclipse.ui.views.properties.PropertySheetPage;
-//import org.eclipse.ui.views.properties.PropertySheetSorter;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
@@ -94,7 +90,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.ui.part.Page#init(org.eclipse.ui.part.IPageSite)
 		 */
 		@Override
@@ -117,7 +113,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -130,7 +126,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.ui.part.Page#dispose()
 		 */
 		@Override
@@ -147,7 +143,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
 		@SuppressWarnings("unchecked")//$NON-NLS-1$
@@ -161,7 +157,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
 		 */
 		@Override
@@ -232,7 +228,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
 	@Override
@@ -253,7 +249,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	@Override
@@ -287,7 +283,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		getActionRegistry().registerAction(showGrid);
 
 		// Liste des zooms possibles 1 = 100%
-		double[] zoomLevels = new double[] { 0.25, 0.5, 0.75, 1.0, 1.5, 2.0,
+		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0,
 				2.5, 3.0, 4.0, 5.0, 10.0, 20.0 };
 		manager.setZoomLevels(zoomLevels);
 
@@ -301,7 +297,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * Retourne le modele attache a l'editeur
-	 * 
+	 *
 	 * @return IModelImpl Le modele augemente
 	 */
 	public final IModelImpl getModel() {
@@ -310,7 +306,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * Retourne le path du modele en cours d'edition
-	 * 
+	 *
 	 * @return Le chemin du modele en cours dans l'editeur
 	 */
 	public final IPath getCurrentPath() {
@@ -323,7 +319,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	/**
 	 * Determine le contenu de l'editeur. Ce contenu est lu depuis un fichier.
 	 * Ce fichier a bien sur ete cree par l'assistant
-	 * 
+	 *
 	 * @param input
 	 *            Toutes les informations concernant le modele
 	 */
@@ -436,7 +432,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -451,7 +447,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
 	 */
 	@Override
@@ -461,7 +457,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
 	@Override
@@ -471,7 +467,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
 	 */
 	@Override
@@ -482,7 +478,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
 	 */
 	@Override
@@ -501,7 +497,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked")//$NON-NLS-1$
@@ -533,7 +529,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		} else if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
 					.getRootEditPart()).getZoomManager();
-			
+
 			// Fenêtre de propriété avec onglets
 		} else if (type == IPropertySheetPage.class) {
             return new TabbedPropertySheetPage(this);
@@ -553,7 +549,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * Creation de la palette d'outils
-	 * 
+	 *
 	 * @return PaletteRoot Le pere de la palette
 	 */
 	@Override
@@ -564,7 +560,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * Retourne les preferences de la palette
-	 * 
+	 *
 	 * @return FlyoutPreferences
 	 */
 	@Override
@@ -574,7 +570,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
 	@SuppressWarnings("unchecked")//$NON-NLS-1$
@@ -616,7 +612,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		getSelectionActions().add(action.getId());
 	}
 
-	public String getContributorId() {
+	public final String getContributorId() {
 		return CONTRIBUTOR_ID;
 	}
 }

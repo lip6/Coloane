@@ -12,8 +12,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+/**
+ * Classe englobant un Label et un Text avec une gestion des Text en multi-ligne (agrandissement automatique)
+ */
 public class LabelText {
+	/** Largeur du label */
 	public static final int LABEL_WIDTH = 90;
+
+	/** Nombre de ligne à afficher pour les Text multi-lignes */
 	public static final int MAX_TEXT_HEIGHT = 4;
 
 	private Text text;
@@ -32,7 +38,7 @@ public class LabelText {
 		}
 	};
 
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style, FormAttachment top) {
+	private LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style, FormAttachment top) {
 		FormData data;
 		this.parent = parent;
 		this.id = id;
@@ -60,10 +66,27 @@ public class LabelText {
 		redraw();
 	}
 
+	/**
+	 * @param parent
+	 * @param factory
+	 * @param id
+	 * @param label
+	 * @param value
+	 * @param style
+	 */
 	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style) {
 		this(parent, factory, id, label, value, style, new FormAttachment(0, 0));
 	}
 
+	/**
+	 * @param parent
+	 * @param factory
+	 * @param id
+	 * @param label
+	 * @param value
+	 * @param style
+	 * @param top LabelText situé au dessus de ce LabelText
+	 */
 	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style, LabelText top) {
 		this(parent, factory, id, label, value, style, new FormAttachment(top.text, 0));
 	}

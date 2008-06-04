@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.core.ui.properties;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+/**
+ * Classe permettant de simplifiant la création d'un LabelText
+ */
 public class LabelTextFactory {
 	private final Composite parent;
 	private final TabbedPropertySheetWidgetFactory factory;
