@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
 /**
@@ -16,5 +16,5 @@ public interface IReport {
 	 * @param result Objet contenant les données brutes en provenance de la Com
 	 * @return Arbre des résultats
 	 */
-	IResultTree build(IResultsCom result);
+	ResultTreeImpl build(IResultsCom result);
 }

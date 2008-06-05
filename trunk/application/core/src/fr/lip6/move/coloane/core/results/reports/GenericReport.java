@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
@@ -14,7 +13,7 @@ public class GenericReport implements IReport {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.results.reports.IReport#build(fr.lip6.move.coloane.interfaces.objects.IResultsCom)
 	 */
-	public final IResultTree build(IResultsCom result) {
+	public final ResultTreeImpl build(IResultsCom result) {
 
 		// 1. Build the root of the resultat tree
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());

@@ -55,7 +55,7 @@ public interface IResultTree {
 	void addHighlighted(int... toHighlight);
 
 	/**
-	 * Supprime le noeud courrant ainsi que tous les fils associés
+	 * Supprime ce service de la liste des resultats
 	 * @param sessionManager Le gestionnaire de session
 	 * @see {@link SessionManager.#getInstance()}
 	 */

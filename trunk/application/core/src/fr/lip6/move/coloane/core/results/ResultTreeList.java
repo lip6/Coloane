@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -31,13 +31,13 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 
-	private final CopyOnWriteArrayList<IResultTree> list;
+	private final ConcurrentHashMap<String, IResultTree> map;
 	private final ArrayList<Integer> highlights;
 	private final HashMap<String, IReport> services;
 	private final IReport generic;
 
 	public ResultTreeList() {
-		list = new CopyOnWriteArrayList<IResultTree>();
+		map = new ConcurrentHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
 		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
@@ -62,7 +62,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @param result L'objet (en provenance de Com) qui contient les resultats
 	 */
 	public final void add(String serviceName, IResultsCom result) {
-		IResultTree newResult = null;
+		ResultTreeImpl newResult = null;
 
 		IReport report = services.get(serviceName);
 		if (report != null) {
@@ -74,7 +74,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 			newResult = generic.build(result);
 		}
 
-		list.add(newResult);
+		newResult.setParent(this);
+		newResult.setServiceName(serviceName);
+		map.put(serviceName, newResult);
 		update(null, getWidth(newResult));
 	}
 
@@ -102,7 +104,11 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @see fr.lip6.move.coloane.core.results.IResultTree#addChild(fr.lip6.move.coloane.core.results.IResultTree)
 	 */
 	public final void addChild(IResultTree child) {
-		list.add(child);
+		String serviceName = "";
+		if (child instanceof ResultTreeImpl) {
+			serviceName = ((ResultTreeImpl) child).getServiceName();
+		}
+		map.put(serviceName, child);
 		update(null, null);
 	}
 
@@ -111,7 +117,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @see fr.lip6.move.coloane.core.results.IResultTree#getChildren()
 	 */
 	public final List<IResultTree> getChildren() {
-		return list;
+		return new ArrayList<IResultTree>(map.values());
 	}
 
 	/*
@@ -120,7 +126,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 */
 	@SuppressWarnings("unchecked")
 	public final List getElement() {
-		return list;
+		return new ArrayList(map.values());
 	}
 
 	/*
@@ -203,14 +209,23 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	@Override
 	public final String toString() {
-		return list.toString();
+		return map.toString();
+	}
+
+	/**
+	 * Supprime le resultat serviceName
+	 * @param serviceName
+	 */
+	public final void remove(String serviceName) {
+		map.remove(serviceName);
+		update(null, 0);
 	}
 
 	/**
 	 * Supprime tous les resultats de la liste
 	 */
 	public final void removeAll() {
-		list.clear();
+		map.clear();
 		update(null, 0);
 	}
 }
