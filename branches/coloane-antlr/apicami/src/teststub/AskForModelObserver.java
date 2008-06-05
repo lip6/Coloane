@@ -99,35 +99,53 @@ public class AskForModelObserver implements IAskForModelObserver {
     //creation des arcs
     ArrayList<IArc> arcs = new ArrayList<IArc>();
     Vector<IAttribute> listOfAtt1= new Vector<IAttribute>();
-    IAttribute attribut1 =(IAttribute) new Attribute("valuation",10,"p3",0,0);
+    IAttribute attribut1 =(IAttribute) new Attribute("valuation",10,"1",0,0);
     listOfAtt1.add(attribut1);
     IArc arc1 = new Arc("arc",10,9,3,listOfAtt1);
 
     Vector<IAttribute> listOfAtt2= new Vector<IAttribute>();
-    IAttribute attribut2 =(IAttribute) new Attribute("valuation",11,"p3",0,0);
+    IAttribute attribut2 =(IAttribute) new Attribute("valuation",11,"1",0,0);
     listOfAtt2.add(attribut2);
     IArc arc2 = new Arc("arc",11,3,8,listOfAtt2);
 
     Vector<IAttribute> listOfAtt3= new Vector<IAttribute>();
-    IAttribute attribut3 =(IAttribute) new Attribute("valuation",12,"p3",0,0);
+    IAttribute attribut3 =(IAttribute) new Attribute("valuation",12,"1",0,0);
     listOfAtt3.add(attribut3);
     IArc arc3 = new Arc("arc",12,8,4,listOfAtt3);
 
     Vector<IAttribute> listOfAtt4= new Vector<IAttribute>();
-    IAttribute attribut4 =(IAttribute) new Attribute("valuation",13,"p3",0,0);
+    IAttribute attribut4 =(IAttribute) new Attribute("valuation",13,"1",0,0);
     listOfAtt4.add(attribut4);
     IArc arc4 = new Arc("arc",13,8,2,listOfAtt4);
 
     Vector<IAttribute> listOfAtt5= new Vector<IAttribute>();
-    IAttribute attribut5 =(IAttribute) new Attribute("valuation",14,"p3",0,0);
+    IAttribute attribut5 =(IAttribute) new Attribute("valuation",14,"1",0,0);
     listOfAtt5.add(attribut5);
     IArc arc5 = new Arc("arc",14,3,7,listOfAtt5);
 
+    Vector<IAttribute> listOfAtt6= new Vector<IAttribute>();
+    IAttribute attribut6 =(IAttribute) new Attribute("valuation",15,"1",0,0);
+    listOfAtt6.add(attribut6);
+    IArc arc6 = new Arc("arc",15,7,5,listOfAtt6);
+    
+    Vector<IAttribute> listOfAtt7= new Vector<IAttribute>();
+    IAttribute attribut7 =(IAttribute) new Attribute("valuation",16,"1",0,0);
+    listOfAtt7.add(attribut7);
+    IArc arc7 = new Arc("arc",16,2,6,listOfAtt7);
+    
+    Vector<IAttribute> listOfAtt8= new Vector<IAttribute>();
+    IAttribute attribut8 =(IAttribute) new Attribute("valuation",17,"1",0,0);
+    listOfAtt8.add(attribut8);
+    IArc arc8 = new Arc("arc",17,5,6,listOfAtt8);
+    
     arcs.add(arc1);
     arcs.add(arc2);
     arcs.add(arc3);
     arcs.add(arc4);
     arcs.add(arc5);
+    arcs.add(arc6);
+    arcs.add(arc7);
+    arcs.add(arc8);
     IModel model = new Model(arcs,null,nodes);
 
 System.out.println("avant send model dans observerrr");

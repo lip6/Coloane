@@ -8,4 +8,6 @@ public interface IWarningObservable {
 
 	void setCreateThread(boolean createThread);
 
+	void notifyObservers(String text);
+
 }

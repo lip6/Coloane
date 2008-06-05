@@ -8,11 +8,11 @@ public class BrutalInterruptObserver implements IBrutalInterruptObserver {
 
 
 	public void update(String message) {
-		System.out.println("jai recu un KO avec <"+ message +">comme message");
+		System.out.println("jai recu un KO avec <"+ message +"> comme message");
 
 	}
 
 
-		/** Code à exécuter lors de la réception d'un KO */
+		
 
 }

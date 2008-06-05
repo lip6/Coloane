@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-06-03 17:47:45
+// $ANTLR 3.0.1 Cami.g 2008-06-05 14:26:23
 
 package fr.lip6.move.coloane.api.cami;
             
@@ -10,41 +10,71 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CamiLexer extends Lexer {
-    public static final int T21=21;
     public static final int T14=14;
     public static final int T29=29;
-    public static final int T33=33;
-    public static final int T22=22;
-    public static final int T11=11;
     public static final int T9=9;
-    public static final int FIXED_LENGTH_STRING=6;
-    public static final int T36=36;
     public static final int NUMBER=5;
-    public static final int T12=12;
-    public static final int T28=28;
-    public static final int T23=23;
+    public static final int T36=36;
+    public static final int T58=58;
     public static final int T35=35;
-    public static final int T13=13;
-    public static final int T34=34;
+    public static final int T61=61;
+    public static final int T45=45;
     public static final int T20=20;
-    public static final int NEWLINE=7;
+    public static final int T34=34;
+    public static final int NEWLINE=6;
+    public static final int T64=64;
     public static final int CAMI_STRING=4;
-    public static final int T10=10;
     public static final int T25=25;
     public static final int T18=18;
+    public static final int T37=37;
     public static final int T26=26;
-    public static final int T15=15;
-    public static final int EOF=-1;
     public static final int T32=32;
     public static final int T17=17;
-    public static final int Tokens=37;
-    public static final int T31=31;
+    public static final int T51=51;
+    public static final int T46=46;
     public static final int T16=16;
-    public static final int T27=27;
-    public static final int T8=8;
-    public static final int T30=30;
+    public static final int T38=38;
+    public static final int T41=41;
     public static final int T24=24;
     public static final int T19=19;
+    public static final int T39=39;
+    public static final int T21=21;
+    public static final int T62=62;
+    public static final int T44=44;
+    public static final int T55=55;
+    public static final int T33=33;
+    public static final int T11=11;
+    public static final int T22=22;
+    public static final int T50=50;
+    public static final int FIXED_LENGTH_STRING=7;
+    public static final int T43=43;
+    public static final int T12=12;
+    public static final int T23=23;
+    public static final int T28=28;
+    public static final int T42=42;
+    public static final int T66=66;
+    public static final int T40=40;
+    public static final int T63=63;
+    public static final int T57=57;
+    public static final int T13=13;
+    public static final int T65=65;
+    public static final int T56=56;
+    public static final int T10=10;
+    public static final int T59=59;
+    public static final int T48=48;
+    public static final int T15=15;
+    public static final int T54=54;
+    public static final int EOF=-1;
+    public static final int T47=47;
+    public static final int Tokens=67;
+    public static final int T53=53;
+    public static final int T60=60;
+    public static final int T31=31;
+    public static final int T49=49;
+    public static final int T8=8;
+    public static final int T27=27;
+    public static final int T52=52;
+    public static final int T30=30;
     public CamiLexer() {;} 
     public CamiLexer(CharStream input) {
         super(input);
@@ -598,6 +628,576 @@ public class CamiLexer extends Lexer {
     }
     // $ANTLR end T36
 
+    // $ANTLR start T37
+    public final void mT37() throws RecognitionException {
+        try {
+            int _type = T37;
+            // Cami.g:36:5: ( '<EOF>' )
+            // Cami.g:36:7: '<EOF>'
+            {
+            match("<EOF>"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T37
+
+    // $ANTLR start T38
+    public final void mT38() throws RecognitionException {
+        try {
+            int _type = T38;
+            // Cami.g:37:5: ( 'RQ(' )
+            // Cami.g:37:7: 'RQ('
+            {
+            match("RQ("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T38
+
+    // $ANTLR start T39
+    public final void mT39() throws RecognitionException {
+        try {
+            int _type = T39;
+            // Cami.g:38:5: ( 'FR(' )
+            // Cami.g:38:7: 'FR('
+            {
+            match("FR("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T39
+
+    // $ANTLR start T40
+    public final void mT40() throws RecognitionException {
+        try {
+            int _type = T40;
+            // Cami.g:39:5: ( 'ZA(' )
+            // Cami.g:39:7: 'ZA('
+            {
+            match("ZA("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T40
+
+    // $ANTLR start T41
+    public final void mT41() throws RecognitionException {
+        try {
+            int _type = T41;
+            // Cami.g:40:5: ( 'FE()' )
+            // Cami.g:40:7: 'FE()'
+            {
+            match("FE()"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T41
+
+    // $ANTLR start T42
+    public final void mT42() throws RecognitionException {
+        try {
+            int _type = T42;
+            // Cami.g:41:5: ( 'DE(' )
+            // Cami.g:41:7: 'DE('
+            {
+            match("DE("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T42
+
+    // $ANTLR start T43
+    public final void mT43() throws RecognitionException {
+        try {
+            int _type = T43;
+            // Cami.g:42:5: ( 'DE()' )
+            // Cami.g:42:7: 'DE()'
+            {
+            match("DE()"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T43
+
+    // $ANTLR start T44
+    public final void mT44() throws RecognitionException {
+        try {
+            int _type = T44;
+            // Cami.g:43:5: ( 'RT(' )
+            // Cami.g:43:7: 'RT('
+            {
+            match("RT("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T44
+
+    // $ANTLR start T45
+    public final void mT45() throws RecognitionException {
+        try {
+            int _type = T45;
+            // Cami.g:44:5: ( 'RO(' )
+            // Cami.g:44:7: 'RO('
+            {
+            match("RO("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T45
+
+    // $ANTLR start T46
+    public final void mT46() throws RecognitionException {
+        try {
+            int _type = T46;
+            // Cami.g:45:5: ( 'ME(' )
+            // Cami.g:45:7: 'ME('
+            {
+            match("ME("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T46
+
+    // $ANTLR start T47
+    public final void mT47() throws RecognitionException {
+        try {
+            int _type = T47;
+            // Cami.g:46:5: ( 'MT(' )
+            // Cami.g:46:7: 'MT('
+            {
+            match("MT("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T47
+
+    // $ANTLR start T48
+    public final void mT48() throws RecognitionException {
+        try {
+            int _type = T48;
+            // Cami.g:47:5: ( 'CN(' )
+            // Cami.g:47:7: 'CN('
+            {
+            match("CN("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T48
+
+    // $ANTLR start T49
+    public final void mT49() throws RecognitionException {
+        try {
+            int _type = T49;
+            // Cami.g:48:5: ( 'CB(' )
+            // Cami.g:48:7: 'CB('
+            {
+            match("CB("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T49
+
+    // $ANTLR start T50
+    public final void mT50() throws RecognitionException {
+        try {
+            int _type = T50;
+            // Cami.g:49:5: ( 'CA(' )
+            // Cami.g:49:7: 'CA('
+            {
+            match("CA("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T50
+
+    // $ANTLR start T51
+    public final void mT51() throws RecognitionException {
+        try {
+            int _type = T51;
+            // Cami.g:50:5: ( 'CT(' )
+            // Cami.g:50:7: 'CT('
+            {
+            match("CT("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T51
+
+    // $ANTLR start T52
+    public final void mT52() throws RecognitionException {
+        try {
+            int _type = T52;
+            // Cami.g:51:5: ( 'CM(' )
+            // Cami.g:51:7: 'CM('
+            {
+            match("CM("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T52
+
+    // $ANTLR start T53
+    public final void mT53() throws RecognitionException {
+        try {
+            int _type = T53;
+            // Cami.g:52:5: ( 'SU(' )
+            // Cami.g:52:7: 'SU('
+            {
+            match("SU("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T53
+
+    // $ANTLR start T54
+    public final void mT54() throws RecognitionException {
+        try {
+            int _type = T54;
+            // Cami.g:53:5: ( 'SI(' )
+            // Cami.g:53:7: 'SI('
+            {
+            match("SI("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T54
+
+    // $ANTLR start T55
+    public final void mT55() throws RecognitionException {
+        try {
+            int _type = T55;
+            // Cami.g:54:5: ( 'TD(' )
+            // Cami.g:54:7: 'TD('
+            {
+            match("TD("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T55
+
+    // $ANTLR start T56
+    public final void mT56() throws RecognitionException {
+        try {
+            int _type = T56;
+            // Cami.g:55:5: ( 'OB(' )
+            // Cami.g:55:7: 'OB('
+            {
+            match("OB("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T56
+
+    // $ANTLR start T57
+    public final void mT57() throws RecognitionException {
+        try {
+            int _type = T57;
+            // Cami.g:56:5: ( 'AT(' )
+            // Cami.g:56:7: 'AT('
+            {
+            match("AT("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T57
+
+    // $ANTLR start T58
+    public final void mT58() throws RecognitionException {
+        try {
+            int _type = T58;
+            // Cami.g:57:5: ( 'DB()' )
+            // Cami.g:57:7: 'DB()'
+            {
+            match("DB()"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T58
+
+    // $ANTLR start T59
+    public final void mT59() throws RecognitionException {
+        try {
+            int _type = T59;
+            // Cami.g:58:5: ( 'FB()' )
+            // Cami.g:58:7: 'FB()'
+            {
+            match("FB()"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T59
+
+    // $ANTLR start T60
+    public final void mT60() throws RecognitionException {
+        try {
+            int _type = T60;
+            // Cami.g:59:5: ( 'PO(' )
+            // Cami.g:59:7: 'PO('
+            {
+            match("PO("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T60
+
+    // $ANTLR start T61
+    public final void mT61() throws RecognitionException {
+        try {
+            int _type = T61;
+            // Cami.g:60:5: ( 'pO(' )
+            // Cami.g:60:7: 'pO('
+            {
+            match("pO("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T61
+
+    // $ANTLR start T62
+    public final void mT62() throws RecognitionException {
+        try {
+            int _type = T62;
+            // Cami.g:61:5: ( 'DC(' )
+            // Cami.g:61:7: 'DC('
+            {
+            match("DC("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T62
+
+    // $ANTLR start T63
+    public final void mT63() throws RecognitionException {
+        try {
+            int _type = T63;
+            // Cami.g:62:5: ( 'AD(' )
+            // Cami.g:62:7: 'AD('
+            {
+            match("AD("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T63
+
+    // $ANTLR start T64
+    public final void mT64() throws RecognitionException {
+        try {
+            int _type = T64;
+            // Cami.g:63:5: ( 'DS(' )
+            // Cami.g:63:7: 'DS('
+            {
+            match("DS("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T64
+
+    // $ANTLR start T65
+    public final void mT65() throws RecognitionException {
+        try {
+            int _type = T65;
+            // Cami.g:64:5: ( 'CE(' )
+            // Cami.g:64:7: 'CE('
+            {
+            match("CE("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T65
+
+    // $ANTLR start T66
+    public final void mT66() throws RecognitionException {
+        try {
+            int _type = T66;
+            // Cami.g:65:5: ( 'FF(' )
+            // Cami.g:65:7: 'FF('
+            {
+            match("FF("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T66
+
     // $ANTLR start CAMI_STRING
     public final void mCAMI_STRING() throws RecognitionException {
         try {
@@ -606,17 +1206,17 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:530:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:531:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:670:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:671:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
-            int NUMBER1Start262 = getCharIndex();
+            int NUMBER1Start502 = getCharIndex();
             mNUMBER(); 
-            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start262, getCharIndex()-1);
+            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start502, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
             match(':'); 
-            int fsStart273 = getCharIndex();
+            int fsStart513 = getCharIndex();
             mFIXED_LENGTH_STRING(nbToRead); 
-            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart273, getCharIndex()-1);
+            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart513, getCharIndex()-1);
             setText(fs.getText());
 
             }
@@ -631,10 +1231,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:539:2: ( ({...}? => . )* )
-            // Cami.g:540:2: ({...}? => . )*
+            // Cami.g:679:2: ( ({...}? => . )* )
+            // Cami.g:680:2: ({...}? => . )*
             {
-            // Cami.g:540:2: ({...}? => . )*
+            // Cami.g:680:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -647,7 +1247,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:540:4: {...}? => .
+            	    // Cami.g:680:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -676,10 +1276,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:543:8: ( ( '0' .. '9' )+ )
-            // Cami.g:544:2: ( '0' .. '9' )+
+            // Cami.g:683:8: ( ( '0' .. '9' )+ )
+            // Cami.g:684:2: ( '0' .. '9' )+
             {
-            // Cami.g:544:2: ( '0' .. '9' )+
+            // Cami.g:684:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -693,7 +1293,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:544:2: '0' .. '9'
+            	    // Cami.g:684:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -723,10 +1323,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:549:2: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:550:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:689:2: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:690:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:550:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:690:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -740,9 +1340,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:550:4: ( '\\r' )? '\\n'
+            	    // Cami.g:690:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:550:4: ( '\\r' )?
+            	    // Cami.g:690:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -751,7 +1351,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:550:4: '\\r'
+            	            // Cami.g:690:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -786,8 +1386,8 @@ public class CamiLexer extends Lexer {
     // $ANTLR end NEWLINE
 
     public void mTokens() throws RecognitionException {
-        // Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | CAMI_STRING | NUMBER | NEWLINE )
-        int alt5=32;
+        // Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE )
+        int alt5=62;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
@@ -994,21 +1594,231 @@ public class CamiLexer extends Lexer {
                 }
                 break;
             case 30 :
-                // Cami.g:1:124: CAMI_STRING
+                // Cami.g:1:124: T37
+                {
+                mT37(); 
+
+                }
+                break;
+            case 31 :
+                // Cami.g:1:128: T38
+                {
+                mT38(); 
+
+                }
+                break;
+            case 32 :
+                // Cami.g:1:132: T39
+                {
+                mT39(); 
+
+                }
+                break;
+            case 33 :
+                // Cami.g:1:136: T40
+                {
+                mT40(); 
+
+                }
+                break;
+            case 34 :
+                // Cami.g:1:140: T41
+                {
+                mT41(); 
+
+                }
+                break;
+            case 35 :
+                // Cami.g:1:144: T42
+                {
+                mT42(); 
+
+                }
+                break;
+            case 36 :
+                // Cami.g:1:148: T43
+                {
+                mT43(); 
+
+                }
+                break;
+            case 37 :
+                // Cami.g:1:152: T44
+                {
+                mT44(); 
+
+                }
+                break;
+            case 38 :
+                // Cami.g:1:156: T45
+                {
+                mT45(); 
+
+                }
+                break;
+            case 39 :
+                // Cami.g:1:160: T46
+                {
+                mT46(); 
+
+                }
+                break;
+            case 40 :
+                // Cami.g:1:164: T47
+                {
+                mT47(); 
+
+                }
+                break;
+            case 41 :
+                // Cami.g:1:168: T48
+                {
+                mT48(); 
+
+                }
+                break;
+            case 42 :
+                // Cami.g:1:172: T49
+                {
+                mT49(); 
+
+                }
+                break;
+            case 43 :
+                // Cami.g:1:176: T50
+                {
+                mT50(); 
+
+                }
+                break;
+            case 44 :
+                // Cami.g:1:180: T51
+                {
+                mT51(); 
+
+                }
+                break;
+            case 45 :
+                // Cami.g:1:184: T52
+                {
+                mT52(); 
+
+                }
+                break;
+            case 46 :
+                // Cami.g:1:188: T53
+                {
+                mT53(); 
+
+                }
+                break;
+            case 47 :
+                // Cami.g:1:192: T54
+                {
+                mT54(); 
+
+                }
+                break;
+            case 48 :
+                // Cami.g:1:196: T55
+                {
+                mT55(); 
+
+                }
+                break;
+            case 49 :
+                // Cami.g:1:200: T56
+                {
+                mT56(); 
+
+                }
+                break;
+            case 50 :
+                // Cami.g:1:204: T57
+                {
+                mT57(); 
+
+                }
+                break;
+            case 51 :
+                // Cami.g:1:208: T58
+                {
+                mT58(); 
+
+                }
+                break;
+            case 52 :
+                // Cami.g:1:212: T59
+                {
+                mT59(); 
+
+                }
+                break;
+            case 53 :
+                // Cami.g:1:216: T60
+                {
+                mT60(); 
+
+                }
+                break;
+            case 54 :
+                // Cami.g:1:220: T61
+                {
+                mT61(); 
+
+                }
+                break;
+            case 55 :
+                // Cami.g:1:224: T62
+                {
+                mT62(); 
+
+                }
+                break;
+            case 56 :
+                // Cami.g:1:228: T63
+                {
+                mT63(); 
+
+                }
+                break;
+            case 57 :
+                // Cami.g:1:232: T64
+                {
+                mT64(); 
+
+                }
+                break;
+            case 58 :
+                // Cami.g:1:236: T65
+                {
+                mT65(); 
+
+                }
+                break;
+            case 59 :
+                // Cami.g:1:240: T66
+                {
+                mT66(); 
+
+                }
+                break;
+            case 60 :
+                // Cami.g:1:244: CAMI_STRING
                 {
                 mCAMI_STRING(); 
 
                 }
                 break;
-            case 31 :
-                // Cami.g:1:136: NUMBER
+            case 61 :
+                // Cami.g:1:256: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 32 :
-                // Cami.g:1:143: NEWLINE
+            case 62 :
+                // Cami.g:1:263: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -1022,53 +1832,55 @@ public class CamiLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\14\uffff\1\46\1\50\4\uffff\1\51\27\uffff";
+        "\14\uffff\1\103\1\105\10\uffff\1\111\63\uffff\1\115\1\117\4\uffff";
     static final String DFA5_eofS =
-        "\52\uffff";
+        "\120\uffff";
     static final String DFA5_minS =
-        "\1\12\1\103\1\uffff\1\103\1\uffff\1\101\1\104\1\uffff\1\111\1\106"+
-        "\2\uffff\2\60\4\uffff\1\60\27\uffff";
+        "\1\12\1\103\1\uffff\1\102\1\uffff\1\101\1\104\1\117\1\111\1\102"+
+        "\1\101\1\104\2\60\2\uffff\1\105\5\uffff\1\60\23\uffff\1\50\7\uffff"+
+        "\1\50\27\uffff\2\51\4\uffff";
     static final String DFA5_maxS =
-        "\1\127\1\123\1\uffff\1\123\1\uffff\1\123\1\122\1\uffff\1\121\1\122"+
-        "\2\uffff\2\72\4\uffff\1\72\27\uffff";
+        "\1\160\1\125\1\uffff\1\123\1\uffff\1\123\1\122\1\124\1\121\1\123"+
+        "\2\124\2\72\2\uffff\1\124\5\uffff\1\72\23\uffff\1\50\7\uffff\1\50"+
+        "\27\uffff\2\51\4\uffff";
     static final String DFA5_acceptS =
-        "\2\uffff\1\2\1\uffff\1\4\2\uffff\1\12\2\uffff\1\22\1\23\2\uffff"+
-        "\1\27\1\31\1\32\1\33\1\uffff\1\40\1\1\1\11\1\6\1\3\1\13\1\10\1\5"+
-        "\1\20\1\16\1\14\1\30\1\24\1\7\1\21\1\15\1\34\1\35\1\17\1\25\1\36"+
-        "\1\26\1\37";
+        "\2\uffff\1\2\1\uffff\1\4\11\uffff\1\27\1\31\1\uffff\1\33\1\36\1"+
+        "\41\1\65\1\66\1\uffff\1\76\1\56\1\1\1\57\1\11\1\61\1\3\1\6\1\10"+
+        "\1\20\1\42\1\13\1\64\1\5\1\40\1\16\1\73\1\30\1\24\1\uffff\1\14\1"+
+        "\12\1\45\1\46\1\37\1\21\1\15\1\uffff\1\71\1\67\1\34\1\63\1\17\1"+
+        "\35\1\51\1\52\1\53\1\72\1\54\1\22\1\55\1\70\1\23\1\62\1\25\1\74"+
+        "\1\26\1\32\1\50\1\47\1\75\2\uffff\1\7\1\60\1\44\1\43";
     static final String DFA5_specialS =
-        "\52\uffff}>";
+        "\120\uffff}>";
     static final String[] DFA5_transitionS = {
-            "\1\23\2\uffff\1\23\33\uffff\1\2\2\uffff\1\4\3\uffff\7\22\1\14"+
-            "\1\15\1\22\7\uffff\1\13\1\uffff\1\12\1\11\1\uffff\1\5\4\uffff"+
-            "\1\21\1\uffff\1\20\1\uffff\1\3\1\uffff\1\16\1\7\1\1\1\6\1\uffff"+
-            "\1\10\1\17",
-            "\1\24\17\uffff\1\25",
+            "\1\27\2\uffff\1\27\33\uffff\1\2\2\uffff\1\4\3\uffff\7\26\1\14"+
+            "\1\15\1\26\2\uffff\1\22\4\uffff\1\13\1\uffff\1\12\1\11\1\uffff"+
+            "\1\5\4\uffff\1\21\1\uffff\1\20\1\uffff\1\3\1\24\1\16\1\7\1\1"+
+            "\1\6\1\uffff\1\10\1\17\2\uffff\1\23\25\uffff\1\25",
+            "\1\31\5\uffff\1\32\11\uffff\1\33\1\uffff\1\30",
             "",
-            "\1\27\17\uffff\1\26",
+            "\1\34\1\35\17\uffff\1\36",
             "",
-            "\1\31\1\uffff\1\32\10\uffff\1\34\4\uffff\1\33\1\uffff\1\30",
-            "\1\40\7\uffff\1\35\4\uffff\1\37\1\36",
-            "",
-            "\1\42\7\uffff\1\41",
-            "\1\43\12\uffff\1\45\1\44",
-            "",
-            "",
-            "\12\22\1\47",
-            "\12\22\1\47",
-            "",
-            "",
-            "",
-            "",
-            "\12\22\1\47",
+            "\1\37\1\43\1\44\1\uffff\1\41\1\47\5\uffff\1\46\4\uffff\1\40"+
+            "\1\45\1\42",
+            "\1\52\7\uffff\1\53\4\uffff\1\51\1\50",
+            "\1\56\1\uffff\1\57\1\uffff\1\54\1\55",
+            "\1\61\7\uffff\1\60",
+            "\1\66\1\64\1\uffff\1\62\1\65\12\uffff\1\67\1\70\1\63",
+            "\1\73\1\72\2\uffff\1\74\7\uffff\1\77\1\71\2\uffff\1\76\2\uffff"+
+            "\1\75",
+            "\1\100\14\uffff\1\101\2\uffff\1\102",
+            "\12\26\1\104",
+            "\12\26\1\104",
             "",
             "",
+            "\1\110\11\uffff\1\106\4\uffff\1\107",
             "",
             "",
             "",
             "",
             "",
-            "",
+            "\12\26\1\104",
             "",
             "",
             "",
@@ -1080,6 +1892,48 @@ public class CamiLexer extends Lexer {
             "",
             "",
             "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\112",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\113",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\114",
+            "\1\116",
             "",
             "",
             "",
@@ -1116,7 +1970,7 @@ public class CamiLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | CAMI_STRING | NUMBER | NEWLINE );";
+            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE );";
         }
     }
  

@@ -8,4 +8,6 @@ public interface ITraceMessageObservable {
 
 	void setCreateThread(boolean createThread);
 
+	void notifyObservers(String text);
+
 }

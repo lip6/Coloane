@@ -34,7 +34,7 @@ public class BrutalInterruptObservable implements IBrutalInterruptObservable{
 			for (int i = 0; i < this.list.size(); i++)
 				this.list.get(i).update(message);
 		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier();
+			ThreadNotifier thread = new ThreadNotifier(message);
 			new Thread(thread, "threadAskForModel").start();
 		}
 
@@ -57,21 +57,17 @@ public class BrutalInterruptObservable implements IBrutalInterruptObservable{
  *
  */
 private class ThreadNotifier implements Runnable {
-	private ArrayList<IAskForModelObserver> listObservers;
+	private ArrayList<IBrutalInterruptObserver> listObservers;
+	 private String message;
 
-
-	public ThreadNotifier() {
-		listObservers = new ArrayList<IAskForModelObserver> ();
+	public ThreadNotifier(String message) {
+		this.listObservers = new ArrayList<IBrutalInterruptObserver> ();
+		this.message = message;
 	}
 
 	public void run()  {
 		for (int i = 0; i < this.listObservers.size(); i++)
-			try {
-				this.listObservers.get(i).update();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.listObservers.get(i).update(message);
 	}
 
 }

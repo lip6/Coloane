@@ -33,8 +33,38 @@ T33 : 'MO(' ;
 T34 : 'KO(1,' ;
 T35 : 'DF(-2,' ;
 T36 : 'DR()' ;
+T37 : '<EOF>' ;
+T38 : 'RQ(' ;
+T39 : 'FR(' ;
+T40 : 'ZA(' ;
+T41 : 'FE()' ;
+T42 : 'DE(' ;
+T43 : 'DE()' ;
+T44 : 'RT(' ;
+T45 : 'RO(' ;
+T46 : 'ME(' ;
+T47 : 'MT(' ;
+T48 : 'CN(' ;
+T49 : 'CB(' ;
+T50 : 'CA(' ;
+T51 : 'CT(' ;
+T52 : 'CM(' ;
+T53 : 'SU(' ;
+T54 : 'SI(' ;
+T55 : 'TD(' ;
+T56 : 'OB(' ;
+T57 : 'AT(' ;
+T58 : 'DB()' ;
+T59 : 'FB()' ;
+T60 : 'PO(' ;
+T61 : 'pO(' ;
+T62 : 'DC(' ;
+T63 : 'AD(' ;
+T64 : 'DS(' ;
+T65 : 'CE(' ;
+T66 : 'FF(' ;
 
-// $ANTLR src "Cami.g" 528
+// $ANTLR src "Cami.g" 668
 CAMI_STRING
 	@init{int nbToRead = 0;}
     	:
@@ -43,7 +73,7 @@ CAMI_STRING
 	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text);}
 	;
 
-// $ANTLR src "Cami.g" 536
+// $ANTLR src "Cami.g" 676
 fragment
 FIXED_LENGTH_STRING
 	[int len]
@@ -51,13 +81,13 @@ FIXED_LENGTH_STRING
 	( { len > 0 }?=> .{len--;})* // Gated predicate : deactivate the '.' when len chars have been read
 	;
 
-// $ANTLR src "Cami.g" 543
+// $ANTLR src "Cami.g" 683
 NUMBER	: 	
 	'0'..'9'+
 	;
 
 
-// $ANTLR src "Cami.g" 548
+// $ANTLR src "Cami.g" 688
 NEWLINE
  : 	
 	( '\r'?'\n' )+ {skip();}

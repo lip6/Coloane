@@ -4,8 +4,11 @@ import fr.lip6.move.coloane.api.interfaces.observers.*;
 
 public class TraceMessageObserver implements ITraceMessageObserver {
 
-	void update(String message){
+	public void update(String message){
 		// actions à réaliser en cas de reception d'un message de trace
+		System.out.println(" <"+ message +"> comme message de trace");
 	}
+
+	
 
 }
