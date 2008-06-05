@@ -15,6 +15,7 @@ import java.util.Observable;
  * </ul>
  */
 public class ResultTreeImpl extends Observable implements IResultTree {
+	private String serviceName;
 
 	private IResultTree parent;
 	private ArrayList<IResultTree> children;
@@ -165,16 +166,27 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	 * @see fr.lip6.move.coloane.core.results.IResultTree#remove()
 	 */
 	public final void remove() {
-		if (parent != null) {
-			parent.getChildren().remove(this);
-			this.parent = null;
-		} else {
-			this.sessionManager = this.getSessionManager();
-			if (this.sessionManager != null) {
-				this.sessionManager.getCurrentSession().getServiceResults().getChildren().remove(this);
-			}
+		this.sessionManager = this.getSessionManager();
+		if (this.sessionManager != null) {
+			this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
 		}
 		setChanged();
 		notifyObservers();
+	}
+
+	/**
+	 * Champ initialisé par le ResultTreeList après la création par la méthode build du IReport.
+	 * @return nom du service
+	 */
+	public final String getServiceName() {
+		return serviceName;
+	}
+
+	/**
+	 * Champ initialisé par le ResultTreeList après la création par la méthode build du IReport.
+	 * @param serviceName
+	 */
+	public final void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 }

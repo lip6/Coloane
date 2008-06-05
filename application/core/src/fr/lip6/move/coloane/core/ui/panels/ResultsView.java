@@ -171,9 +171,6 @@ public class ResultsView extends ViewPart {
 			public void run() {
 				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
 				if (node != null) {
-					while (node.getParent() != null) {
-						node = node.getParent();
-					}
 					node.remove();
 					this.setEnabled(false);
 				}
