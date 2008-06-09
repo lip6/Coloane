@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.languagepack"
       label="Language Pack"
-      version="1.3.0"
+      version="1.4.0"
       provider-name="LIP6 / MoVe">
 
    <description url="http://coloane.lip6.fr">

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
-Bundle-Version: 0.12.0
+Bundle-Version: 0.13.0
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
 Provide-Package: fr.lip6.move.coloane.interfaces,
