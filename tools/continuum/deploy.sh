@@ -54,7 +54,7 @@ bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print 
 
 newjar=`echo $bundleSymbolicName\_$bundleVersion.jar`
 
-# Calcul des chemins
+# Calcul des chemins en fonction SNAPSHOT / RELEASE
 if [ `echo $version | grep "SNAPSHOT"` ]; then
 	branch=`echo night-updates`
 else

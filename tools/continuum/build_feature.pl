@@ -34,7 +34,9 @@ if ($buildname =~ /SNAPSHOT/) {
 	$release = 0;
 	$featuredir = $publicdir."/night-updates/features";
 	$plugindir = $publicdir."/night-updates/plugins";
-	print "Building a Snapshot Feature \n" if $debug;
+	print "Building a Snapshot feature \n" if $debug;
+} else {
+	print "Building a release feature \n" if $debug;
 }
 
 # Prepare the XML parser
