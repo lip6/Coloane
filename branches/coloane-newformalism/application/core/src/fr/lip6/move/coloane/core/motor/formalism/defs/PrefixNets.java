@@ -2,10 +2,11 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.ConnexionRule;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Rule;
+
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
@@ -89,14 +90,14 @@ public class PrefixNets extends Formalism {
 		// Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
 
 		// Interdit condition - condition
-		addRule(new Rule(this.getNodeFormalism("condition"), this.getNodeFormalism("condition"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("condition"), this.getNodeFormalism("condition"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit event - event
-		addRule(new Rule(this.getNodeFormalism("event"), this.getNodeFormalism("event"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("event"), this.getNodeFormalism("event"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit cutoff - event
-		addRule(new Rule(this.getNodeFormalism("cutoff"), this.getNodeFormalism("event"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("cutoff"), this.getNodeFormalism("event"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit event - cutoff
-		addRule(new Rule(this.getNodeFormalism("event"), this.getNodeFormalism("cutoff"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("event"), this.getNodeFormalism("cutoff"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit cutoff - cutoff
-		addRule(new Rule(this.getNodeFormalism("cutoff"), this.getNodeFormalism("cutoff"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("cutoff"), this.getNodeFormalism("cutoff"))); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
