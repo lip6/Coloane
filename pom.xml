@@ -270,7 +270,7 @@
 			</plugin>
 
 			<plugin>
-				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
+				<!-- calcule la revision courante -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>maven-buildnumber-plugin</artifactId>
 				<executions>
@@ -289,7 +289,7 @@
 				<artifactId>maven-jar-plugin</artifactId> 
 				<configuration> 
 					<archive> 
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile>							
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
 						<manifest> 
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
@@ -305,6 +305,8 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
+					
+					<!-- modifications du manifest pour les snapshot -->
 					<execution>
 						<id>UpdateManifest</id>
 						<phase>generate-sources</phase>        
@@ -319,6 +321,8 @@
 							</arguments>
 						</configuration>
 					</execution>
+					
+					<!-- deploiement du jar au bon endroit (snapshot/release)-->
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
@@ -336,6 +340,8 @@
 							</arguments>
 						</configuration>
 					</execution>
+					
+					<!-- nettoyage du manifest (retour a la revision de base) -->
 					<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
