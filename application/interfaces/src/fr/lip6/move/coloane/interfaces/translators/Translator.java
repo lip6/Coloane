@@ -8,20 +8,18 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.Vector;
 
-public abstract class Translator {
+public interface Translator {
 
-	static final int MAXLENGTH = 255;
+	int MAXLENGTH = 255;
 
-	public Translator() { }
+	Vector<String> translateModel(IModel model);
 
-	public abstract Vector<String> translateModel(IModel model);
+	Vector<String> translateNode(INode node);
 
-	public abstract Vector<String> translateNode(INode node);
+	Vector<String> translateArc(IArc arc);
 
-	public abstract Vector<String> translateArc(IArc arc);
+	Vector<String> translateAttribute(IAttribute attribute);
 
-	public abstract Vector<String> translateAttribute(IAttribute attribute);
-
-	public abstract IModel loadModel(Vector<String> commands) throws SyntaxErrorException;
+	IModel loadModel(Vector<String> commands) throws SyntaxErrorException;
 
 }

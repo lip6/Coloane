@@ -15,7 +15,7 @@ import fr.lip6.move.coloane.interfaces.utils.CamiParser;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-public class CamiTranslator extends Translator {
+public class CamiTranslator implements Translator {
 
 	@Override
 	public final Vector<String> translateModel(IModel model) {
