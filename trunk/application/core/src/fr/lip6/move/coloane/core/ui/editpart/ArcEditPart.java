@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 
@@ -16,7 +15,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
-import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
@@ -28,7 +26,6 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.swt.SWT;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
