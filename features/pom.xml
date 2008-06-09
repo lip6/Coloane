@@ -81,7 +81,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>build_feature.pl</executable>
+							<executable>buildFeatureXML.pl</executable>
 							<arguments>
 								<argument>feature.xml</argument>
 								<argument>${buildNumber}</argument>
@@ -97,13 +97,11 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>deploy.sh</executable>
+							<executable>deployJar.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${packaging}</argument>
-								<argument>${buildNumber}</argument>
 								<argument>/coloane/public</argument>
-								<argument>feature</argument>
 							</arguments>
 						</configuration>
 					</execution>
