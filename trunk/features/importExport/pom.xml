@@ -11,7 +11,7 @@
 	<groupId>fr.lip6.move.coloane.features</groupId>
 	<artifactId>importExport</artifactId>
 	<packaging>jar</packaging>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Feature - Import/Export</name>
 	<description>Set of import/export tools and wizards for Coloane</description>
 	
@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportCAMI</artifactId>
-			<version>[0.9,)</version>
+			<version>[1.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportPNML</artifactId>
-			<version>[0.9,)</version>
+			<version>[1.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>exportToDOT</artifactId>
-			<version>[0.9,)</version>
+			<version>[1.0,)</version>
 		</dependency>
 	</dependencies>
 </project>
