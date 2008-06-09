@@ -17,7 +17,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  */
 public class LabelText {
 	/** Largeur du label */
-	public static final int LABEL_WIDTH = 90;
+	public static final int LABEL_WIDTH = 100;
 
 	/** Nombre de ligne à afficher pour les Text multi-lignes */
 	public static final int MAX_TEXT_HEIGHT = 4;

@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -31,4 +32,16 @@ public interface IElement {
 	 * @return l'identifiant
 	 */
 	int getId();
+
+	/**
+	 * Attache un listener (ecouteur) a l'objet
+	 * L'objet est donc maintenant sensible aux evenements recus
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Enleve un PropertyChangeListener de cet objet.
+	 * @param listener une instance de PropertyChangeListener
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
+
+import java.util.List;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
@@ -61,12 +61,12 @@ public interface IModelImpl extends IElement {
 	 * @return Noeud du model
 	 */
 	INodeImpl getNode(int id);
-	
+
 	/**
 	 * @return Liste de tous les noeuds
 	 */
 	List<INodeImpl> getNodes();
-	
+
 	/**
 	 * Retourne le modele generique
 	 * @return Model Le mdoele generique

@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.core.ui.properties;
+package fr.lip6.move.coloane.core.ui.properties.sections;
+
+import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.preference.ColorFieldEditor;
@@ -23,7 +25,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <li>Couleur du noeud</li>
  * <li>Couleur de l'arrière plan du noeud</li>
  */
-public class NodeGraphicSection extends AbstractPropertySection {
+public class NodeColorSection extends AbstractPropertySection {
 	private ColorFieldEditor fg;
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		@Override
@@ -75,7 +77,7 @@ public class NodeGraphicSection extends AbstractPropertySection {
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
-		CLabel label = getWidgetFactory().createCLabel(composite, "Foreground");
+		CLabel label = getWidgetFactory().createCLabel(composite, "Foreground :");
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
@@ -92,7 +94,7 @@ public class NodeGraphicSection extends AbstractPropertySection {
 		data.right = new FormAttachment(100, -5);
 		bgControl.setLayoutData(data);
 
-		label = getWidgetFactory().createCLabel(composite, "Background");
+		label = getWidgetFactory().createCLabel(composite, "Background :");
 		data = new FormData();
 		data.bottom = new FormAttachment(bgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);

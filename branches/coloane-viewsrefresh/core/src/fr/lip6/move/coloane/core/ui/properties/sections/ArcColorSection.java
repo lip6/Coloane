@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.core.ui.properties;
+package fr.lip6.move.coloane.core.ui.properties.sections;
+
+import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.preference.ColorFieldEditor;
@@ -22,7 +24,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * Section qui permet de gérer les propriétés graphiques d'un arc :
  * <li>Couleur de l'arc</li>
  */
-public class ArcGraphicSection extends AbstractPropertySection {
+public class ArcColorSection extends AbstractPropertySection {
 	private ColorFieldEditor fg;
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		@Override

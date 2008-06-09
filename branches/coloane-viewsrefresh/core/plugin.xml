@@ -350,43 +350,59 @@
     <propertySections
           contributorId="fr.lip6.move.coloane.properties.contributor">
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.NodeSection"
-             id="fr.lip6.move.coloane.core.properties.NodeSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSection"
+             id="fr.lip6.move.coloane.core.section.NodeSection"
              tab="fr.lip6.move.coloane.core.properties.element">
             <input
                   type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
             </input>
        </propertySection>
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.ArcSection"
-             id="fr.lip6.move.coloane.core.properties.ArcSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ArcSection"
+             id="fr.lip6.move.coloane.core.section.ArcSection"
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
                 type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
           </input>
        </propertySection>
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.ModelSection"
-             id="fr.lip6.move.coloane.core.properties.ModelSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ModelSection"
+             id="fr.lip6.move.coloane.core.section.ModelSection"
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
                 type="fr.lip6.move.coloane.core.ui.model.IModelImpl">
           </input>
        </propertySection>
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.NodeGraphicSection"
-             id="fr.lip6.move.coloane.core.properties.NodeGraphicSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeColorSection"
+             id="fr.lip6.move.coloane.core.section.NodeColorSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
                 type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
           </input>
        </propertySection>
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.ArcGraphicSection"
-             id="fr.lip6.move.coloane.core.properties.ArcGraphicSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ArcColorSection"
+             id="fr.lip6.move.coloane.core.section.ArcColorSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
                 type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeLocationSection"
+             id="fr.lip6.move.coloane.core.section.NodeLocationSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.NodeImplAdapter">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSizeSection"
+             id="fr.lip6.move.coloane.core.section.NodeSizeSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.NodeImplAdapter">
           </input>
        </propertySection>
     </propertySections>

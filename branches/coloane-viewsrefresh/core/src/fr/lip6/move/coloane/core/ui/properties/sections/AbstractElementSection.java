@@ -1,36 +1,29 @@
-package fr.lip6.move.coloane.core.ui.properties;
+package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.IElement;
+import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * Classe abstraite qui permet d'afficher les propriétés d'un élément du model (IElement).
  * @param <T> représente le type d'élément à afficher.
  */
-public abstract class AbstractElementSection<T extends IElement> extends AbstractPropertySection {
-	/** Element courrant */
-	private T element;
-
+public abstract class AbstractElementSection<T extends IElement> extends AbstractSection<T> {
 	/** Composite père de toutes les propriétés. */
 	private Composite composite;
 
@@ -93,9 +86,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			Text text = (Text) e.widget;
 			IAttributeImpl attr = null;
 
-			EditPart o = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
-			CommandStack cs = o.getParent().getViewer().getEditDomain().getCommandStack();
-
 			// Recherche du LabelText modifié
 			for (LabelText lt : getMap().get(getCurrentType())) {
 				if (lt.getTextWidget() == text) {
@@ -105,7 +95,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 					if (attr != null && !attr.getValue().equals(lt.getText())) {
 						String oldValue = attr.getValue();
 						String newValue = lt.getText();
-						cs.execute(new ModifyCommand(text, attr, oldValue, newValue));
+						getCommandStack().execute(new ModifyCommand(text, attr, oldValue, newValue));
 						break;
 					}
 				}
@@ -116,32 +106,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 
 	/** ScrolledComposite gardé en mémoire pour le rafraichissement */
 	private ScrolledComposite sc;
-
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart,
-	 *      org.eclipse.jface.viewers.ISelection)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public final void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-
-		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
-		element = (T) editPart.getModel();
-	}
-
-
-
-	/**
-	 * @return le modèle de l'élément séléctionné
-	 */
-	public final T getElement() {
-		return element;
-	}
-
 
 
 	/**
