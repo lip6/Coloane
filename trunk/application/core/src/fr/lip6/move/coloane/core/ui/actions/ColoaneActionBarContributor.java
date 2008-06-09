@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
@@ -28,9 +29,14 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	 */
 	@Override
 	protected final void buildActions() {
-		addRetargetAction(new UndoRetargetAction());
-		addRetargetAction(new RedoRetargetAction());
-		addRetargetAction(new DeleteRetargetAction());
+		IWorkbenchWindow iww = getPage().getWorkbenchWindow();
+
+		addRetargetAction((RetargetAction) ActionFactory.UNDO.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.REDO.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.CUT.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.COPY.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.PASTE.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.DELETE.create(iww));
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 
@@ -76,6 +82,9 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	public final void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
+		toolBarManager.add(getAction(ActionFactory.CUT.getId()));
+		toolBarManager.add(getAction(ActionFactory.COPY.getId()));
+		toolBarManager.add(getAction(ActionFactory.PASTE.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
 
 		toolBarManager.add(new Separator());

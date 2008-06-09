@@ -24,6 +24,6 @@ public interface IArcFigure extends IFigure, Connection {
 	/**
 	 * Modifie l'apparence de la figure pour un retour a la normale
 	 */
-	void unsetSelect();
+	void setUnselect();
 
 }

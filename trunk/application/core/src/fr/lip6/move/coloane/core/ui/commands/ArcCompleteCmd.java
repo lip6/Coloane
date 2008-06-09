@@ -70,14 +70,10 @@ public class ArcCompleteCmd extends Command {
 	 */
 	@Override
 	public final void execute() {
-		try {
-			// Construction de l'arc
-			arc = new ArcImplAdapter(this.source, this.target, this.formalism);
-			arc.setModelAdapter(source.getModelAdapter());
-			this.redo();
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'ajouter un arc (" + source.getId() + "," + source.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
+		// Construction de l'arc
+		arc = new ArcImplAdapter(this.source, this.target, this.formalism);
+		arc.setModelAdapter(source.getModelAdapter());
+		this.redo();
 	}
 
 	/*

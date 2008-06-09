@@ -18,6 +18,7 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.tools.MarqueeSelectionTool;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -137,7 +138,10 @@ public final class PaletteFactory {
 		palette.setDefaultEntry(tool);
 
 		// Outils de selection de plusieurs objets
-		toolGroup.add(new MarqueeToolEntry());
+		MarqueeToolEntry marquee = new MarqueeToolEntry();
+		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
+
+		toolGroup.add(marquee);
 
 		// Un separateur
 		toolGroup.add(new PaletteSeparator());

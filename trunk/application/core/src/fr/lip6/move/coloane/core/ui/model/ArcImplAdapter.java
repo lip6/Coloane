@@ -79,9 +79,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @param source Noeud source
 	 * @param target Noeud cible
 	 * @param base Element de base du formalisme
-	 * @throws BuildException
 	 */
-	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
+	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) {
 		this.elementBase = base;
 		this.source = arcSource;
 		this.target = arcTarget;
