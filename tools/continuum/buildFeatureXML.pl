@@ -130,7 +130,7 @@ close(LAST);
 print STDOUT "Writing the last_$nameid file\n" if $debug;
 
 open (UP, ">$versiondir/last_$nameid") or die "FAILURE for last_$nameid file !!!\n"; 
-print UP "$newversion";
+print UP "$newversion\n";
 close(UP);
 
 0;
