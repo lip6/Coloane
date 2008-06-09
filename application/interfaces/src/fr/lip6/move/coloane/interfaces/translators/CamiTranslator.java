@@ -17,7 +17,6 @@ import java.util.Vector;
 
 public class CamiTranslator implements Translator {
 
-	@Override
 	public final Vector<String> translateModel(IModel model) {
 		Vector<String> toReturn = new Vector<String>();
 
@@ -36,7 +35,6 @@ public class CamiTranslator implements Translator {
 		return toReturn;
 	}
 
-	@Override
 	public final Vector<String> translateArc(IArc arc) {
 		Vector<String> toReturn = new Vector<String>();
 
@@ -60,7 +58,6 @@ public class CamiTranslator implements Translator {
 		return toReturn;
 	}
 
-	@Override
 	public final Vector<String> translateAttribute(IAttribute attribute) {
 		Vector<String> toReturn = new Vector<String>();
 		String attributeValue = attribute.getValue();
@@ -142,7 +139,6 @@ public class CamiTranslator implements Translator {
 		return toReturn;
 	}
 
-	@Override
 	public final Vector<String> translateNode(INode node) {
 		Vector<String> toReturn = new Vector<String>();
 		toReturn.add(new String("CN(" + node.getNodeType().length() + ":" + node.getNodeType() + "," + node.getId() + ")"));
@@ -453,7 +449,6 @@ public class CamiTranslator implements Translator {
 
 
 
-	@Override
 	public final IModel loadModel(Vector<String> commands) throws SyntaxErrorException {
 		IModel model = new Model(this);
 
