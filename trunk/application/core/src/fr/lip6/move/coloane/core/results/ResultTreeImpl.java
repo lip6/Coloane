@@ -95,6 +95,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		}
 		// Si le noeud est un fils... On demande au pere quel est le gestionnaire de sessions
 		if (this.parent != null) {
+			this.sessionManager = parent.getSessionManager();
 			return parent.getSessionManager();
 		}
 		// Si aucun resultat : null

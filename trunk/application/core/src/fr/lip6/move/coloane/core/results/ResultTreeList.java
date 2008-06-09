@@ -33,14 +33,17 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	private final ConcurrentHashMap<String, IResultTree> map;
 	private final ArrayList<Integer> highlights;
-	private final HashMap<String, IReport> services;
+	private HashMap<String, IReport> services;
 	private final IReport generic;
 
 	public ResultTreeList() {
 		map = new ConcurrentHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
-		services = new HashMap<String, IReport>();
 		generic = new GenericReport();
+	}
+
+	private void buildServicesList() {
+		services = new HashMap<String, IReport>();
 
 		IExtensionRegistry reg = Platform.getExtensionRegistry();
 		for (IConfigurationElement element : reg.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
@@ -62,6 +65,10 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @param result L'objet (en provenance de Com) qui contient les resultats
 	 */
 	public final void add(String serviceName, IResultsCom result) {
+		if (services == null) {
+			this.buildServicesList();
+		}
+
 		ResultTreeImpl newResult = null;
 
 		IReport report = services.get(serviceName);
@@ -217,8 +224,10 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @param serviceName
 	 */
 	public final void remove(String serviceName) {
-		map.remove(serviceName);
-		update(null, 0);
+		if (serviceName != null) {
+			map.remove(serviceName);
+			update(null, 0);
+		}
 	}
 
 	/**
