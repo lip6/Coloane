@@ -2,10 +2,11 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.ConnexionRule;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Rule;
+
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
@@ -136,20 +137,20 @@ public class PetriNets extends Formalism {
 
 		// Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
 		// Interdit place - place
-		addRule(new Rule(this.getNodeFormalism("place"), this.getNodeFormalism("place"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("place"), this.getNodeFormalism("place"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit queue - queue
-		addRule(new Rule(this.getNodeFormalism("queue"), this.getNodeFormalism("queue"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("queue"), this.getNodeFormalism("queue"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition - transition
-		addRule(new Rule(this.getNodeFormalism("transition"), this.getNodeFormalism("transition"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("transition"), this.getNodeFormalism("transition"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition immediate - transition immediate
-		addRule(new Rule(this.getNodeFormalism("immediate transition"), this.getNodeFormalism("immediate transition"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("immediate transition"), this.getNodeFormalism("immediate transition"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition - transition immediate
-		addRule(new Rule(this.getNodeFormalism("transition"), this.getNodeFormalism("immediate transition"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("transition"), this.getNodeFormalism("immediate transition"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition immediate - transition
-		addRule(new Rule(this.getNodeFormalism("immediate transition"), this.getNodeFormalism("transition"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("immediate transition"), this.getNodeFormalism("transition"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition queue - place
-		addRule(new Rule(this.getNodeFormalism("queue"), this.getNodeFormalism("place"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("queue"), this.getNodeFormalism("place"))); //$NON-NLS-1$ //$NON-NLS-2$
 		// Interdit transition place - queue
-		addRule(new Rule(this.getNodeFormalism("place"), this.getNodeFormalism("queue"))); //$NON-NLS-1$ //$NON-NLS-2$
+		addRule(new ConnexionRule(this.getNodeFormalism("place"), this.getNodeFormalism("queue"))); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
