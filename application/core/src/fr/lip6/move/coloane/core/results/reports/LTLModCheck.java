@@ -5,8 +5,6 @@ import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
-import java.util.Vector;
-
 public class LTLModCheck implements IReport {
 
 	/*
