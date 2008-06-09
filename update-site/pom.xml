@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>coloaneMain</artifactId>
-			<version>[0.9,)</version>
+			<version>[0.12,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>importExport</artifactId>
-			<version>[1.2,)</version>
+			<version>[1.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>languagePack</artifactId>
-			<version>[1.2,)</version>
+			<version>[1.1,)</version>
 		</dependency>
 	</dependencies>
 
@@ -40,7 +40,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>Build_site</id>
+						<id>BuildSite</id>
 						<phase>generate-sources</phase>        
 						<goals>
 							<goal>exec</goal>
@@ -55,7 +55,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>Deploy</id>
+						<id>DeploySite</id>
 						<phase>deploy</phase>        
 						<goals>
 							<goal>exec</goal>

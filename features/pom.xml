@@ -104,8 +104,7 @@
 								<argument>/coloane/public</argument>
 							</arguments>
 						</configuration>
-					</execution>
-					
+					</execution>					
 				</executions>
 			</plugin>
 		</plugins>
