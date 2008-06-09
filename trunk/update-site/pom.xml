@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>coloaneMain</artifactId>
-			<version>[1.2,)</version>
+			<version>[0.9,)</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
@@ -46,10 +46,11 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>build_site.pl</executable>
+							<executable>buildSiteXML.pl</executable>
 							<arguments>
 								<argument>site.xml</argument>
-								<argument>/coloane/public/night-updates/features</argument>
+								<argument>${project.version}</argument>
+								<argument>/coloane/public</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -60,9 +61,10 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>deploy_site.sh</executable>
+							<executable>deployUpdateSite.sh</executable>
 							<arguments>
-								<argument>/coloane/public/night-updates</argument>
+								<argument>${project.version}</argument>
+								<argument>/coloane/public</argument>
 							</arguments>
 						</configuration>
 					</execution>
