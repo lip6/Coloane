@@ -126,4 +126,11 @@ print LAST "Bundle-SymbolicName: $nameid\n";
 print LAST "Bundle-Version: $newversion\n";
 close(LAST);
 
+# Update the feature version on last file
+print STDOUT "Writing the last_$nameid file\n" if $debug;
+
+open (UP, ">$versiondir/last_$nameid") or die "FAILURE for last_$nameid file !!!\n"; 
+print UP "$newversion";
+close(UP);
+
 0;
