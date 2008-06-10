@@ -40,16 +40,6 @@ public class ConnexionRule implements IRule{
 	public final ElementFormalism getElementOut() {
 		return elementOut;
 	}
-	
-	// ***** Rajout
-	public final int getIdIn() {
-		return 0;
-	}
-	
-	public final int getIdOut() {
-		return 0;
-	}
-	
-	// ***** Rajout Fin
+
 	
 }
