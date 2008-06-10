@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.core.motor.formalism.*;
 public interface IRule {
 	
 
+	//boolean isLinkedAllowed(ElementFormalism elemIn, ElementFormalism elemOut);
+		
 	/**
 	 * Retour de l'element en entrée
 	 */
@@ -15,18 +17,21 @@ public interface IRule {
 	 */
 	ElementFormalism getElementOut();
 
-	/**
-	 * Retoune l'dentifiant de l'element en entrée 
-	 * @return id
-	 */
-	int getIdIn();
-
-	/**
-	 * Retoune l'dentifiant de l'element en entrée 
-	 * @return id
-	 */
-	int getIdOut();
 	
+	/**
+	 * Retoune l'dentifiant de l'element en entrée 
+	 * @return id
+	 */
+	/*
+	int getIdIn();
+	 */
+	/**
+	 * Retoune l'dentifiant de l'element en entrée 
+	 * @return id
+	 */
+	/*
+	int getIdOut();
+	*/
 }
 
 
