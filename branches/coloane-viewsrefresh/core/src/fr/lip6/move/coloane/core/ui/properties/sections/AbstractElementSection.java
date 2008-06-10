@@ -1,16 +1,17 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
@@ -35,49 +36,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 
 	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
-		/**
-		 * Commande effectuant la modification d'un attribut avec gestion du "undo/redo"
-		 */
-		class ModifyCommand extends Command {
-			private Text text;
-			private IAttributeImpl attr;
-			private String oldValue;
-			private String newValue;
-
-			public ModifyCommand(Text text, IAttributeImpl attr, String oldValue, String newValue) {
-				this.text = text;
-				this.attr = attr;
-				this.oldValue = oldValue;
-				this.newValue = newValue;
-			}
-
-			@Override
-			public void execute() {
-				if (!canExecute()) {
-					return;
-				}
-				redo();
-			}
-
-			@Override
-			public void redo() {
-				if (!newValue.equals(text.getText())) {
-					text.removeModifyListener(listener);
-					text.setText(newValue);
-					text.addModifyListener(listener);
-				}
-				attr.setValue(oldValue, newValue);
-			}
-
-			@Override
-			public void undo() {
-				text.removeModifyListener(listener);
-				text.setText(oldValue);
-				text.addModifyListener(listener);
-				attr.setValue(newValue, oldValue);
-			}
-		}
-
 		/* (non-Javadoc)
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
@@ -95,12 +53,11 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 					if (attr != null && !attr.getValue().equals(lt.getText())) {
 						String oldValue = attr.getValue();
 						String newValue = lt.getText();
-						getCommandStack().execute(new ModifyCommand(text, attr, oldValue, newValue));
+						getCommandStack().execute(new ChangeAttributeCmd(attr, oldValue, newValue));
 						break;
 					}
 				}
 			}
-
 		}
 	};
 
@@ -180,8 +137,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param nodeType
 	 * @param attributes
 	 */
-	protected final void refreshControls(String nodeType,
-			List<AttributeFormalism> attributes) {
+	protected final void refreshControls(String nodeType, List<AttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);
 
 		if (currentType != null && !currentType.equals(nodeType)) {
@@ -246,5 +202,13 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 */
 	public final String getCurrentType() {
 		return currentType;
+	}
+
+
+	@Override
+	public final void propertyChange(PropertyChangeEvent evt) {
+		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
+			refreshContent();
+		}
 	}
 }

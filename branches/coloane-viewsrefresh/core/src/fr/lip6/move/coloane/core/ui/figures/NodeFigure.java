@@ -23,12 +23,10 @@ public class NodeFigure extends Figure implements INodeFigure {
 	/** La figure en Draw2D */
 	private IFigure figure;
 
-	/** Couleurs du noeud */
-	private Color foreground = ColorConstants.black;
-	private Color background = ColorConstants.white;
-
 	/** Les considerations graphiques du noeud */
 	private INodeGraphicInfo nodeGraphInfo;
+
+	private boolean isSelected;
 
 	/** L'epaisseur des lignes lors de la selection */
 	private static final int LINE_WIDTH = 3;
@@ -135,6 +133,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 		//figure.setForegroundColor(ColorConstants.blue);
 		figure.setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
 		((Shape) figure).setLineWidth(LINE_WIDTH);
+		isSelected = true;
 	}
 
 	/*
@@ -144,6 +143,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	public final void setSelectSpecial() {
 		figure.setForegroundColor(ColorConstants.red);
 		((Shape) figure).setLineWidth(LINE_WIDTH);
+		isSelected = true;
 	}
 
 	/*
@@ -152,7 +152,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void setHighlight() {
 		figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
-		//figure.setBackgroundColor(ColorConstants.darkGreen);
+		isSelected = true;
 	}
 
 	/*
@@ -160,14 +160,15 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
 	 */
 	public final void setUnselect() {
-		figure.setForegroundColor(foreground);
-		figure.setBackgroundColor(background);
+		figure.setForegroundColor(nodeGraphInfo.getForeground());
+		figure.setBackgroundColor(nodeGraphInfo.getBackground());
 
 		if (nodeGraphInfo.isFilled()) {
 			figure.setBackgroundColor(ColorConstants.black);
 		}
 
 		((Shape) figure).setLineWidth(1);
+		isSelected = false;
 	}
 
 	/*
@@ -180,13 +181,15 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 	@Override
 	public final void setBackgroundColor(Color bg) {
-		super.setBackgroundColor(bg);
-		background = bg;
+		figure.setBackgroundColor(bg);
+		nodeGraphInfo.setBackground(bg);
 	}
 
 	@Override
 	public final void setForegroundColor(Color fg) {
-		super.setForegroundColor(fg);
-		foreground = fg;
+		if (!isSelected) {
+			figure.setForegroundColor(fg);
+		}
+		nodeGraphInfo.setForeground(fg);
 	}
 }

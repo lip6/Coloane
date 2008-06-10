@@ -1,13 +1,12 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
+import fr.lip6.move.coloane.core.ui.commands.properties.ArcChangeColorCmd;
+import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
@@ -16,30 +15,25 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * Section qui permet de gérer les propriétés graphiques d'un arc :
  * <li>Couleur de l'arc</li>
  */
-public class ArcColorSection extends AbstractPropertySection {
+public class ArcColorSection extends AbstractSection<IArcImpl> {
 	private ColorFieldEditor fg;
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			Object editPart = getElement();
-			if (editPart instanceof AbstractGraphicalEditPart) {
-				AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
-				eep.getFigure().setForegroundColor(new Color(
-						fg.getColorSelector().getButton().getDisplay(),
-						fg.getColorSelector().getColorValue()));
-			}
+			getCommandStack().execute(new ArcChangeColorCmd(
+					getElement(),
+					new Color(
+							fg.getColorSelector().getButton().getDisplay(),
+							fg.getColorSelector().getColorValue())
+			));
 		}
 	};
-
-	private Object element;
 
 
 	/* (non-Javadoc)
@@ -63,7 +57,7 @@ public class ArcColorSection extends AbstractPropertySection {
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
-		CLabel label = getWidgetFactory().createCLabel(composite, "Foreground");
+		CLabel label = getWidgetFactory().createCLabel(composite, Messages.ArcColorSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
@@ -80,24 +74,8 @@ public class ArcColorSection extends AbstractPropertySection {
 	private ColorFieldEditor createColorFieldEditor(Composite parent) {
 		Composite composite = getWidgetFactory().createComposite(parent);
 		composite.setLayout(new GridLayout(3, false));
-		ColorFieldEditor cfe = new ColorFieldEditor("", "", composite);
+		ColorFieldEditor cfe = new ColorFieldEditor("", "", composite); //$NON-NLS-1$ //$NON-NLS-2$
 		return cfe;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
-	 */
-	@Override
-	public final void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		element = ((IStructuredSelection) getSelection()).getFirstElement();
-	}
-
-	/**
-	 * @return l'élément séléctionné
-	 */
-	public final Object getElement() {
-		return element;
 	}
 
 	/* (non-Javadoc)
@@ -105,10 +83,16 @@ public class ArcColorSection extends AbstractPropertySection {
 	 */
 	@Override
 	public final void refresh() {
-		Object editPart = getElement();
-		if (editPart instanceof AbstractGraphicalEditPart) {
-			AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
-			fg.getColorSelector().setColorValue(eep.getFigure().getForegroundColor().getRGB());
+		if (!isDisposed()) {
+			fg.getColorSelector().setColorValue(getElement().getGraphicInfo().getColor().getRGB());
+		}
+	}
+
+	@Override
+	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+		if (IArcImpl.COLOR_PROP.equals(prop)) {
+			refresh();
 		}
 	}
 }

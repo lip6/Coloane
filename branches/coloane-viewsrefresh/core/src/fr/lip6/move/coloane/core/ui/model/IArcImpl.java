@@ -40,12 +40,14 @@ public interface IArcImpl extends IElement {
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String SETUNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
 
+	/** ID pour le changement de couleur */
+	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
 
 	/**
 	 * Retourne l'attribut ContextMenus
 	 * @return Collection
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**

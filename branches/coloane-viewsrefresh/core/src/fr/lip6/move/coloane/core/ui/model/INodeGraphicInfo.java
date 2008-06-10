@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.model;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Interface des information graphique concernant un noeud
@@ -38,7 +39,7 @@ public interface INodeGraphicInfo {
 	void setLocation(int x, int y);
 
 	/**
-	 * Retourne les dimensions du noeud telles que prevues par le formalisme
+	 * Retourne les dimensions du noeud (prend en compte le zoom)
 	 * @return Dimension
 	 */
 	Dimension getSize();
@@ -54,4 +55,35 @@ public interface INodeGraphicInfo {
 	 * @return boolean
 	 */
 	boolean isFilled();
+
+	/**
+	 * @return couleur de fond
+	 */
+	Color getBackground();
+
+	/**
+	 * @param background
+	 */
+	void setBackground(Color background);
+
+	/**
+	 * @return couleur du noeud
+	 */
+	Color getForeground();
+
+	/**
+	 * @param foreground
+	 */
+	void setForeground(Color foreground);
+
+	/**
+	 * Permet de définir la taille du noeud
+	 * @param zoom pourcentage
+	 */
+	void setZoom(int zoom);
+
+	/**
+	 * @return pourcentage
+	 */
+	int getZoom();
 }

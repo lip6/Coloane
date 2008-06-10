@@ -1,12 +1,15 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	/** Il faut conserver le dernier middle point */
 	private Point oldMiddlePoint = null;
 
+	private Color color = ColorConstants.black;
 
 	private IArcImpl arc;
 
@@ -47,5 +50,23 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	 */
 	public final int getFigureStyle() {
 		return this.arc.getElementBase().getNumFigure();
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#getColor()
+	 */
+	@Override
+	public final Color getColor() {
+		return color;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#setColor(org.eclipse.swt.graphics.Color)
+	 */
+	@Override
+	public final void setColor(Color color) {
+		Color oldValue = this.color;
+		this.color = color;
+		((ArcImplAdapter) arc).firePropertyChange(IArcImpl.COLOR_PROP, oldValue, color);
 	}
 }

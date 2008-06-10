@@ -9,12 +9,14 @@ public class ArcSection extends AbstractElementSection<IArcImpl> {
 
 	@Override
 	public final void refresh() {
-		refreshControls(
-				getElement().getElementBase().getName(),
-				getElement().getElementBase().getListOfAttribute());
+		if (!isDisposed()) {
+			refreshControls(
+					getElement().getElementBase().getName(),
+					getElement().getElementBase().getListOfAttribute());
 
-		refreshContent();
-		redraw();
+			refreshContent();
+			redraw();
+		}
 	}
 
 }

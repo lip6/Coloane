@@ -6,12 +6,14 @@ public class ModelSection extends AbstractElementSection<IModelImpl> {
 
 	@Override
 	public final void refresh() {
-		refreshControls(
-				getElement().getFormalism().getName(),
-				getElement().getFormalism().getListOfAttribute());
+		if (!isDisposed()) {
+			refreshControls(
+					getElement().getFormalism().getName(),
+					getElement().getFormalism().getListOfAttribute());
 
-		refreshContent();
-		redraw();
+			refreshContent();
+			redraw();
+		}
 	}
 
 }

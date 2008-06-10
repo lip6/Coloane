@@ -72,7 +72,7 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		y.setMaximum(Integer.MAX_VALUE);
 		y.addModifyListener(new SpinnerModifyListener(1));
 
-		CLabel label = getWidgetFactory().createCLabel(composite, "Location :");
+		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeLocationSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(x, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
@@ -82,12 +82,10 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 
 	@Override
 	public final void refresh() {
-		Point location = getElement().getGraphicInfo().getLocation();
-		if (!x.isDisposed()) {
+		if (!isDisposed()) {
+			Point location = getElement().getGraphicInfo().getLocation();
 			x.setSelection(location.x);
 			x.layout();
-		}
-		if (!y.isDisposed()) {
 			y.setSelection(location.y);
 			y.layout();
 		}
@@ -95,6 +93,8 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 
 	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
-		refresh();
+		if (INodeImpl.LOCATION_PROP.equals(evt.getPropertyName())) {
+			refresh();
+		}
 	}
 }

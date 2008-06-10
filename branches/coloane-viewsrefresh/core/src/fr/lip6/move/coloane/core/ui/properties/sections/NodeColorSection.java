@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
+import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeBackgroundCmd;
+import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeForegroundCmd;
+import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
@@ -16,8 +16,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
@@ -25,18 +23,17 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <li>Couleur du noeud</li>
  * <li>Couleur de l'arrière plan du noeud</li>
  */
-public class NodeColorSection extends AbstractPropertySection {
+public class NodeColorSection extends AbstractSection<INodeImpl> {
 	private ColorFieldEditor fg;
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			Object editPart = getElement();
-			if (editPart instanceof AbstractGraphicalEditPart) {
-				AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
-				eep.getFigure().setForegroundColor(new Color(
-						fg.getColorSelector().getButton().getDisplay(),
-						fg.getColorSelector().getColorValue()));
-			}
+			getCommandStack().execute(new NodeChangeForegroundCmd(
+					getElement(),
+					new Color(
+							fg.getColorSelector().getButton().getDisplay(),
+							fg.getColorSelector().getColorValue())
+			));
 		}
 	};
 
@@ -44,17 +41,15 @@ public class NodeColorSection extends AbstractPropertySection {
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			Object editPart = getElement();
-			if (editPart instanceof AbstractGraphicalEditPart) {
-				AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
-				eep.getFigure().setBackgroundColor(new Color(
-						bg.getColorSelector().getButton().getDisplay(),
-						bg.getColorSelector().getColorValue()));
-			}
+			getCommandStack().execute(new NodeChangeBackgroundCmd(
+					getElement(),
+					new Color(
+							bg.getColorSelector().getButton().getDisplay(),
+							bg.getColorSelector().getColorValue())
+			));
 		}
 	};
-
-	private Object element;
+	private Composite composite;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -63,7 +58,7 @@ public class NodeColorSection extends AbstractPropertySection {
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
+		composite = getWidgetFactory().createFlatFormComposite(parent);
 
 		FormData data;
 
@@ -77,7 +72,7 @@ public class NodeColorSection extends AbstractPropertySection {
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
-		CLabel label = getWidgetFactory().createCLabel(composite, "Foreground :");
+		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeColorSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
@@ -94,7 +89,7 @@ public class NodeColorSection extends AbstractPropertySection {
 		data.right = new FormAttachment(100, -5);
 		bgControl.setLayoutData(data);
 
-		label = getWidgetFactory().createCLabel(composite, "Background :");
+		label = getWidgetFactory().createCLabel(composite, Messages.NodeColorSection_1 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(bgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
@@ -111,24 +106,8 @@ public class NodeColorSection extends AbstractPropertySection {
 	private ColorFieldEditor createColorFieldEditor(Composite parent) {
 		Composite composite = getWidgetFactory().createComposite(parent);
 		composite.setLayout(new GridLayout(3, false));
-		ColorFieldEditor cfe = new ColorFieldEditor("", "", composite);
+		ColorFieldEditor cfe = new ColorFieldEditor("", "", composite); //$NON-NLS-1$ //$NON-NLS-2$
 		return cfe;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
-	 */
-	@Override
-	public final void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		element = ((IStructuredSelection) getSelection()).getFirstElement();
-	}
-
-	/**
-	 * @return l'élément séléctionné
-	 */
-	public final Object getElement() {
-		return element;
 	}
 
 	/* (non-Javadoc)
@@ -136,11 +115,18 @@ public class NodeColorSection extends AbstractPropertySection {
 	 */
 	@Override
 	public final void refresh() {
-		Object editPart = getElement();
-		if (editPart instanceof AbstractGraphicalEditPart) {
-			AbstractGraphicalEditPart eep = (AbstractGraphicalEditPart) editPart;
-			fg.getColorSelector().setColorValue(eep.getFigure().getForegroundColor().getRGB());
-			bg.getColorSelector().setColorValue(eep.getFigure().getBackgroundColor().getRGB());
+		if (!isDisposed()) {
+			fg.getColorSelector().setColorValue(getElement().getGraphicInfo().getForeground().getRGB());
+			bg.getColorSelector().setColorValue(getElement().getGraphicInfo().getBackground().getRGB());
+		}
+	}
+
+	@Override
+	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
+		if (INodeImpl.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
+			refresh();
+		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
+			refresh();
 		}
 	}
 }

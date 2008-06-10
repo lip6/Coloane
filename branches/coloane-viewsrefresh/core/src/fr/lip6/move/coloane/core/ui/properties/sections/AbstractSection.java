@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
+import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.IElement;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.gef.EditPart;
@@ -12,8 +12,23 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 
-public class AbstractSection<T extends IElement> extends AbstractPropertySection implements PropertyChangeListener {
+public abstract class AbstractSection<T extends IElement> extends AbstractPropertySection implements PropertyChangeListener {
 	private T element;
+
+	private boolean isDisposed = false;
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
+	 */
+	@Override
+	public final void dispose() {
+		isDisposed = true;
+	}
+
+
+	public final boolean isDisposed() {
+		return isDisposed;
+	}
 
 
 	/* (non-Javadoc)
@@ -26,9 +41,15 @@ public class AbstractSection<T extends IElement> extends AbstractPropertySection
 		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
 		if (element != null) {
 			element.removePropertyChangeListener(this);
+			for (IAttributeImpl attr : element.getAttributes()) {
+				attr.removePropertyChangeListener(this);
+			}
 		}
 		element = (T) editPart.getModel();
 		element.addPropertyChangeListener(this);
+		for (IAttributeImpl attr : element.getAttributes()) {
+			attr.addPropertyChangeListener(this);
+		}
 	}
 
 
@@ -43,10 +64,5 @@ public class AbstractSection<T extends IElement> extends AbstractPropertySection
 		EditPart o = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
 		CommandStack cs = o.getParent().getViewer().getEditDomain().getCommandStack();
 		return cs;
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// Les sections qui veulent être averti des évenements doivent implementer cette méthode
 	}
 }

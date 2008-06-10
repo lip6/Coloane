@@ -36,6 +36,7 @@ import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart pour les noeuds
@@ -91,7 +92,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			((INodeFigure) getFigure()).unsetSelectSpecial();
 			return;
 
-			// Propriete de selection
+		// Propriete de selection
 		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setHighlight();
 			return;
@@ -99,6 +100,12 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
 			return;
+
+		// Propriété de changement de couleur
+		} else if (INodeImpl.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
 		}
 
 		refreshVisuals();

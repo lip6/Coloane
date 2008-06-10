@@ -12,13 +12,15 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Color;
 
 public class ArcFigure extends PolylineConnection implements IArcFigure {
-	/** Couleurs de l'arc */
-	private Color foreground = ColorConstants.black;
-
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
 
+	private final IArcGraphicInfo arcGraphInfo;
+	private boolean isSelected;
+
 	public ArcFigure(IArcImpl arc) {
+		arcGraphInfo = arc.getGraphicInfo();
+
 		PolygonDecoration decoration = null;
 
 		// Choix de la decoration de l'arc
@@ -64,6 +66,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	public final void setHighlight() {
 		super.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
 		this.setLineWidth(2);
+		isSelected = true;
 	}
 
 	/*
@@ -73,6 +76,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	public final void setSelect() {
 		super.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
 		this.setLineWidth(2);
+		isSelected = true;
 	}
 
 	/*
@@ -80,19 +84,22 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
 	 */
 	public final void unsetSelect() {
-		super.setForegroundColor(foreground);
+		super.setForegroundColor(arcGraphInfo.getColor());
 		this.setLineWidth(1);
+		isSelected = false;
 	}
 
 	@Override
 	public final void setForegroundColor(Color fg) {
-//		super.setForegroundColor(fg);
-		foreground = fg;
+		if (!isSelected) {
+			super.setForegroundColor(fg);
+		}
+		arcGraphInfo.setColor(fg);
 	}
 
 	@Override
 	public final Color getForegroundColor() {
-		return foreground;
+		return arcGraphInfo.getColor();
 	}
 
 }

@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 public class NodeGraphicInfo implements INodeGraphicInfo {
 
@@ -11,6 +13,13 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** Les coordonees */
 	private int x;
 	private int y;
+
+	/** Taille */
+	private int zoom = 100;
+
+	/** Couleurs du noeud */
+	private Color foreground = ColorConstants.black;
+	private Color background = ColorConstants.white;
 
 	/**
 	 * Constructeur
@@ -61,7 +70,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getSize()
 	 */
 	public final Dimension getSize() {
-		return new Dimension(getWidth(), getHeight());
+		return new Dimension(
+				getWidth() * (zoom / 100),
+				getHeight() * (zoom / 100)
+				);
 	}
 
 	/* (non-Javadoc)
@@ -76,5 +88,51 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 */
 	public final boolean isFilled() {
 		return this.nodeAdapter.getElementBase().getIsFilled();
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getBackground()
+	 */
+	public final Color getBackground() {
+		return background;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setBackground(org.eclipse.swt.graphics.Color)
+	 */
+	public final void setBackground(Color background) {
+		Color oldValue = this.background;
+		this.background = background;
+		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.BACKGROUND_COLOR_PROP, oldValue, background);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getForeground()
+	 */
+	public final Color getForeground() {
+		return foreground;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
+	 */
+	public final void setForeground(Color foreground) {
+		Color oldValue = this.foreground;
+		this.foreground = foreground;
+		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.FOREGROUND_COLOR_PROP, oldValue, foreground);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setZoom(int)
+	 */
+	public final void setZoom(int zoom) {
+		this.zoom = zoom;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getZoom()
+	 */
+	public final int getZoom() {
+		return zoom;
 	}
 }
