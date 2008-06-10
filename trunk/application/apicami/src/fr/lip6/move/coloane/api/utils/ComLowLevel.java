@@ -103,7 +103,7 @@ public class ComLowLevel {
 		try {
 			this.socket.connect(new InetSocketAddress(ip, port));
 		} catch (IOException e) {
-			Api.getLogger().warning("Erreur lors de la creation de la socket :");
+			Api.getLogger().warning("Erreur lors de la creation de la socket (" + ip + "," + port + "):" + e.getMessage());
 			throw e;
 		}
 
