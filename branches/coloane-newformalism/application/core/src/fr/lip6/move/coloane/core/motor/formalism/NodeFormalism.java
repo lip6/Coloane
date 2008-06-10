@@ -15,7 +15,9 @@ public class NodeFormalism extends ElementFormalism {
 	 * @param height Hauteur du dessin de l'element de base.
 	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 */
+		
 	public NodeFormalism(String name, String paletteName, Formalism formalism, int numFigure, int width, int height, boolean isFilled) {
 		super(name, paletteName, formalism, numFigure, width, height, isFilled);
 	}
+	
 }
