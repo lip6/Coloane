@@ -23,13 +23,14 @@ public class Formalism {
 	private ArrayList<AttributeFormalism> listOfAttributeFormalism;
 
 	/** Liste des regles du formalisme. */
-	private ArrayList<Rule> listOfRules;
-
+	private ArrayList<IRule> listOfRules;
+	
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String imageName;
 
+	
 	/**
-	 * Construteur de la classe Formalism (avec icone associee)
+	 * Constructeur de la classe Formalism (avec icone associee)
 	 *
 	 * @param formalismName Nom du formalisme.
 	 * @param formalismImg Nom du fichier de l'image
@@ -41,10 +42,10 @@ public class Formalism {
 		this.extension = formalismExtension;
 		this.xschema = formalismXschema;
 		this.listOfElementBase = new ArrayList<ElementFormalism>();
-		this.listOfRules = new ArrayList<Rule>();
+		this.listOfRules = new ArrayList<IRule>();
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
 	}
-
+	
 	/**
 	 * Indique si la liaison entre deux element est possible
 	 * @param elemIn  Element de base en entre de l'arc
@@ -52,14 +53,16 @@ public class Formalism {
 	 * @return boolean
 	 */
 	public final boolean isLinkAllowed(ElementFormalism elemIn, ElementFormalism elemOut) {
-		for (Rule r : listOfRules) {
+		for (IRule r : listOfRules) {
 			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
 				return false;
 			}
 		}
+		
 		return true;
 	}
 
+	
 	/**
 	 * Methode renvoyant les informations sur un noeud du formalisme.
 	 * @param formalismName du Node que l'on cherche.
@@ -115,7 +118,7 @@ public class Formalism {
 	 * Ajouter une regle
 	 * @param rule La regle a ajouter un formalisme
 	 */
-	public final void addRule(Rule rule) {
+	public final void addRule(IRule rule) {
 		if (rule == null) {
 			return;
 		}
