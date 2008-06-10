@@ -31,7 +31,6 @@ public class NodeSetConstraintCmd extends Command {
 		this.newBounds = bounds.getCopy();
 		this.newBounds.x = Math.max(this.newBounds.x, 0);
 		this.newBounds.y = Math.max(this.newBounds.y, 0);
-		System.err.println(bounds);
 	}
 
 	/**

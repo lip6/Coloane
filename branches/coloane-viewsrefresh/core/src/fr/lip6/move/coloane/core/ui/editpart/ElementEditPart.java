@@ -22,6 +22,7 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -106,6 +107,10 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
+
+		// Propriété de changement de taille
+		} else if (INodeImpl.RESIZE_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setSize((Dimension) property.getNewValue());
 		}
 
 		refreshVisuals();

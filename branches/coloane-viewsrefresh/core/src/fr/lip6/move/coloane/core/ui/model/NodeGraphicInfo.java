@@ -126,7 +126,18 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setZoom(int)
 	 */
 	public final void setZoom(int zoom) {
+		Dimension oldSize = new Dimension();
+		oldSize.height = (nodeAdapter.getElementBase().getHeight() * this.zoom) / 100;
+		oldSize.width = (nodeAdapter.getElementBase().getWidth() * this.zoom) / 100;
 		this.zoom = zoom;
+		Dimension newSize = new Dimension();
+		newSize.height = (nodeAdapter.getElementBase().getHeight() * this.zoom) / 100;
+		newSize.width = (nodeAdapter.getElementBase().getWidth() * this.zoom) / 100;
+		try {
+		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.RESIZE_PROP, oldSize, newSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)

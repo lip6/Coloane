@@ -55,7 +55,7 @@ public interface INodeImpl extends IElement {
 	String FOREGROUND_COLOR_PROP = "Node.Color.Foreground"; //$NON-NLS-1$
 
 	/** ID pour la propriété de changement de zoom */
-	String ZOOM_PROP = "Node.Zoom"; //$NON-NLS-1$
+	String RESIZE_PROP = "Node.Zoom"; //$NON-NLS-1$
 
 	/**
 	 * Ajouter un arc entrant.

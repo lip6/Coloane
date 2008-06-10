@@ -2,7 +2,9 @@ package fr.lip6.move.coloane.core.ui.commands.properties;
 
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 
-public class ChangeAttributeCmd extends AbstractPropertieCmd {
+import org.eclipse.gef.commands.Command;
+
+public class ChangeAttributeCmd extends Command {
 	private IAttributeImpl attr;
 	private String oldValue;
 	private String newValue;

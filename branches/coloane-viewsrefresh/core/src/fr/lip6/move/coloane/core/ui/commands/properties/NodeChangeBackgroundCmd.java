@@ -2,9 +2,10 @@ package fr.lip6.move.coloane.core.ui.commands.properties;
 
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
 
-public class NodeChangeBackgroundCmd extends AbstractPropertieCmd {
+public class NodeChangeBackgroundCmd extends Command {
 	private Color oldColor;
 	private Color newColor;
 	private INodeImpl node;

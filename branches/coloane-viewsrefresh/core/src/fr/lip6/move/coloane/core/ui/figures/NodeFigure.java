@@ -16,6 +16,7 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class NodeFigure extends Figure implements INodeFigure {
@@ -38,7 +39,12 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public NodeFigure(AbstractModelElement element) {
 		if (element instanceof NodeImplAdapter) {
-			createNodeFigure((INodeImpl) element);
+			INodeImpl node = (INodeImpl) element;
+
+			// Recupere les options graphiques definies pour le formalisme
+			nodeGraphInfo = node.getGraphicInfo();
+
+			createNodeFigure(node);
 		}
 	}
 
@@ -47,9 +53,6 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * @param node Le modele enrichi du noeud
 	 */
 	private void createNodeFigure(final INodeImpl node) {
-
-		// Recupere les options graphiques definies pour le formalisme
-		nodeGraphInfo = node.getGraphicInfo();
 
 		// Le cas d'un place ou d'un etat simple
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {
@@ -191,5 +194,16 @@ public class NodeFigure extends Figure implements INodeFigure {
 			figure.setForegroundColor(fg);
 		}
 		nodeGraphInfo.setForeground(fg);
+	}
+
+	@Override
+	public final void setSize(int w, int h) {
+		super.setSize(w, h);
+		figure.setSize(w, h);
+	}
+
+	@Override
+	public final Rectangle getBounds() {
+		return figure.getBounds();
 	}
 }
