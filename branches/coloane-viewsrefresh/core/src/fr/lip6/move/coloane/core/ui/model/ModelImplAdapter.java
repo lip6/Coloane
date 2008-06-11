@@ -13,7 +13,9 @@ import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Adaptateur pour le modele generique. Permet d'implementer les interfaces
@@ -332,7 +334,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		if (!dirty) {
 			setDirty(true);
 			return date;
-		// Sinon le modele etait deja sale (on a juste mis a jour la date)
+			// Sinon le modele etait deja sale (on a juste mis a jour la date)
 		} else {
 			return 0;
 		}
@@ -415,5 +417,14 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 		}
 		return null;
+	}
+
+	public final Set<IArcImpl> getArcs() {
+		HashSet<IArcImpl> arcs = new HashSet<IArcImpl>();
+		for (INodeImpl node : nodes) {
+			arcs.addAll(node.getSourceArcs());
+			arcs.addAll(node.getTargetArcs());
+		}
+		return arcs;
 	}
 }

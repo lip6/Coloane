@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
@@ -127,4 +128,10 @@ public interface IModelImpl extends IElement {
 	 * </ul>
 	 */
 	void annouceAttribute();
+
+	/**
+	 * Attention cette méthode reconstruit à chaque fois la liste des arcs.
+	 * @return la liste des arcs
+	 */
+	Set<IArcImpl> getArcs();
 }
