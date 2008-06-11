@@ -39,7 +39,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		/* (non-Javadoc)
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
-		@Override
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
 			IAttributeImpl attr = null;
@@ -64,10 +63,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/** ScrolledComposite gardé en mémoire pour le rafraichissement */
 	private ScrolledComposite sc;
 
-
 	/**
 	 * Change l'état (visible ou non) des propriétés du type nodeType
-	 *
 	 * @param visible
 	 * @param nodeType
 	 */
@@ -77,11 +74,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite,
 	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
 	 */
@@ -91,8 +85,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		super.createControls(parent, tabbedPropertySheetPage);
 		composite = getWidgetFactory().createFlatFormComposite(parent);
 	}
-
-
 
 	/**
 	 * Rafraichissement de la "Section"
@@ -115,8 +107,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 	}
 
-
-
 	/**
 	 * @param isMulti
 	 * @return le style SWT pour un élément simple ligne ou multi ligne.
@@ -128,8 +118,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			return SWT.SINGLE;
 		}
 	}
-
-
 
 	/**
 	 * Affichage/Création des propriétés <i>attributes</i> du type <i>nodeType</i>
@@ -168,8 +156,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		currentType = nodeType;
 	}
 
-
-
 	/**
 	 * Actualise la valeur des propriétés
 	 */
@@ -186,16 +172,12 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 	}
 
-
-
 	/**
 	 * @return map associant le nom d'une propriété avec un LabelText
 	 */
 	public final HashMap<String, List<LabelText>> getMap() {
 		return map;
 	}
-
-
 
 	/**
 	 * @return Nom de la propriété courrante
@@ -204,11 +186,9 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		return currentType;
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
 			refreshContent();

@@ -29,14 +29,12 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		isDisposed = true;
 	}
 
-
 	/**
 	 * @return true si la section n'est plus visible.
 	 */
 	public final boolean isDisposed() {
 		return isDisposed;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
@@ -59,14 +57,12 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		}
 	}
 
-
 	/**
 	 * @return le modèle de l'élément séléctionné
 	 */
 	public final T getElement() {
 		return element;
 	}
-
 
 	/**
 	 * @return un CommandStack permettant d'executer des Command.
