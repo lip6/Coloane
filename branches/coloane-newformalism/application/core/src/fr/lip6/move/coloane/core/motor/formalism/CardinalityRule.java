@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalism;
 
+import java.util.ArrayList;
+
 public class CardinalityRule implements IRule{
 
 	/** Element en entree de l'arc. */
@@ -10,6 +12,8 @@ public class CardinalityRule implements IRule{
 
 	private Formalism poss;
 
+	private ArrayList<ConnexionRule> listOfRules;
+	
 	/**
 	 * Constructeur
 	 * Etablit quelles sont les connexions impossibles
@@ -24,27 +28,29 @@ public class CardinalityRule implements IRule{
 	public CardinalityRule(ElementFormalism eltIn,ElementFormalism eltOut) {
 		this.elementIn = eltIn;
 		this.elementOut = eltOut;
-
+		this.listOfRules = new ArrayList<ConnexionRule>();
 	}
 	
-	public boolean isThereConnexion(ElementFormalism elemIn,ElementFormalism elemOut){
+	public boolean canConnect(ElementFormalism elemIn,ElementFormalism elemOut){
 		
-		return poss.isLinkAllowed(elemIn, elemOut);
-		
+		for (ConnexionRule r : listOfRules) {
+			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public final boolean permissionToLink(ElementFormalism elemIn, ElementFormalism elemOut){
 	
-		ElementFormalism elemOut2 = null;
-		if (this.isThereConnexion(elemIn, elemOut)){
-		
-			poss.addRule(new ConnexionRule(poss.getNodeFormalism(elemIn.toString()),poss.getNodeFormalism(elemOut2.toString())));
+		if (this.canConnect(elemIn, elemOut)){
+			//if (elemIn instanceof 
+			poss.addRuleCard(new CardinalityRule(poss.getNodeFormalism("Pays"),poss.getNodeFormalism("Continent")));
 			return false;
 		}
-		return true;
+		return false;
 	
 	}
-	
 	
 
 	// Une nouvelle regle a developper  ***** Fin
