@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -110,7 +111,13 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 
 		// Propriété de changement de taille
 		} else if (INodeImpl.RESIZE_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setSize((Dimension) property.getNewValue());
+			INodeFigure nodeFigure = (INodeFigure) getFigure();
+			Rectangle oldRect = nodeFigure.getClientArea();
+			System.out.println("newBounds=" + property.getNewValue());
+//			System.out.println("getBounds=" + nodeFigure.getBounds());
+//			System.out.println("getClientArea=" + nodeFigure.getClientArea());
+			nodeFigure.setSize((Dimension) property.getNewValue());
+			((ModelEditPart) getParent()).getFigure().repaint(oldRect);
 		}
 
 		refreshVisuals();

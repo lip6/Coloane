@@ -135,7 +135,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.reference.getModelAdapter().annouceAttribute();
 		}
 
-		firePropertyChange(AttributeImplAdapter.VALUE_PROP, null, null);
+		firePropertyChange(IAttributeImpl.VALUE_PROP, null, null);
 	}
 
 	/*
@@ -236,6 +236,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	@Override
 	public final String toString() {
-		return attribute.getName() + ":" + attribute.getValue();
+		return attribute.getName() + ":" + attribute.getValue(); //$NON-NLS-1$
 	}
 }
