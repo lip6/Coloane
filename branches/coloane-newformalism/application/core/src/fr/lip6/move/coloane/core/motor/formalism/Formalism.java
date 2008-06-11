@@ -25,6 +25,13 @@ public class Formalism {
 	/** Liste des regles du formalisme. */
 	private ArrayList<IRule> listOfRules;
 	
+	
+	//**
+	
+	private ArrayList<CardinalityRule> listOfRulesCard;
+
+	//**
+	
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String imageName;
 
@@ -43,6 +50,14 @@ public class Formalism {
 		this.xschema = formalismXschema;
 		this.listOfElementBase = new ArrayList<ElementFormalism>();
 		this.listOfRules = new ArrayList<IRule>();
+		
+		//*****
+		
+		this.listOfRulesCard = new ArrayList<CardinalityRule>();
+
+		
+		//*****
+		
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
 	}
 	
@@ -53,12 +68,17 @@ public class Formalism {
 	 * @return boolean
 	 */
 	public final boolean isLinkAllowed(ElementFormalism elemIn, ElementFormalism elemOut) {
+			
 		for (IRule r : listOfRules) {
-			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
-				return false;
-			}
+			
+				if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
+					for (CardinalityRule rr : listOfRulesCard) {	
+						if(rr.permissionToLink(elemIn, elemOut)){
+							return false;
+						}
+					}
+				}
 		}
-		
 		return true;
 	}
 
@@ -124,7 +144,12 @@ public class Formalism {
 		}
 		listOfRules.add(rule);
 	}
-
+	public final void addRuleCard(CardinalityRule rule) {
+		if (rule == null) {
+			return;
+		}
+		listOfRulesCard.add(rule);
+	}
 	/**
 	 * Retourne la liste des elements de base attache au formalisme
 	 * @return ArrayList
