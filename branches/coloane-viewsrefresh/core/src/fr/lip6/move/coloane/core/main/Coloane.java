@@ -185,13 +185,13 @@ public class Coloane extends AbstractUIPlugin {
 		coreLog.setLevel(Level.ALL); // On loggue tout !
 		coreLog.addHandler(new Handler() {
 			@Override
-			public void close() throws SecurityException {}
+			public void close() throws SecurityException { }
 			@Override
-			public void flush() {}
+			public void flush() { }
 
 			@Override
 			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] "+ record.getMessage() + " - " + record.getSourceMethodName());
+				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 			}
 		});
 		try {
