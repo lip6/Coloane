@@ -28,7 +28,6 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	private ColorFieldEditor fg;
 	/** Permet de mettre à jour le modèle du noeud */
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
-		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			getCommandStack().execute(new NodeChangeForegroundCmd(
 					getElement(),
@@ -43,7 +42,6 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	private ColorFieldEditor bg;
 	/** Permet de mettre à jour le modèle du noeud pour la couleur du fond */
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
-		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			getCommandStack().execute(new NodeChangeBackgroundCmd(
 					getElement(),
@@ -53,7 +51,6 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 			));
 		}
 	};
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -117,7 +114,6 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		return cfe;
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
@@ -129,11 +125,9 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		}
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		if (INodeImpl.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
 			refresh();

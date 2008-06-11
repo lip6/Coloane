@@ -27,7 +27,6 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 
 	/** Permet de mettre à jour le modèle d'arc */
 	private IPropertyChangeListener listener = new IPropertyChangeListener() {
-		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			getCommandStack().execute(new ArcChangeColorCmd(
 					getElement(),
@@ -37,7 +36,6 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 			));
 		}
 	};
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -69,7 +67,6 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 		label.setLayoutData(data);
 	}
 
-
 	/**
 	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
 	 * @param parent
@@ -83,7 +80,6 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 		return cfe;
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
@@ -94,11 +90,9 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 		}
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 		if (IArcImpl.COLOR_PROP.equals(prop)) {

@@ -31,14 +31,12 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 
 	/** Permet de mettre à jour le modèle du noeud */
 	private ModifyListener listener = new ModifyListener() {
-		@Override
 		public void modifyText(ModifyEvent e) {
 			if (size.getSelection() != getElement().getGraphicInfo().getZoom()) {
 				getCommandStack().execute(new NodeChangeSizeCmd(getElement(), size.getSelection()));
 			}
 		}
 	};
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -70,7 +68,6 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		label.setLayoutData(data);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
@@ -82,11 +79,9 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		}
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INodeImpl.RESIZE_PROP.equals(evt.getPropertyName())) {
 			refresh();

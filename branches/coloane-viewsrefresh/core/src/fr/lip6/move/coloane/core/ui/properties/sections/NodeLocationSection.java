@@ -24,9 +24,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * Section qui permet de gérer la position d'un noeud.
  */
 public class NodeLocationSection extends AbstractSection<INodeImpl> implements PropertyChangeListener {
-	/**
-	 * Widgets qui permettent de modifier les coordonnées du noeud.
-	 */
+	/** Widgets qui permettent de modifier les coordonnées du noeud. */
 	private Spinner x, y;
 
 	/**
@@ -44,7 +42,6 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		/* (non-Javadoc)
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
-		@Override
 		public final void modifyText(ModifyEvent e) {
 			Spinner spinner = (Spinner) e.widget;
 			INodeGraphicInfo graphicInfo = getElement().getGraphicInfo();
@@ -102,7 +99,6 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		label.setLayoutData(data);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
@@ -117,11 +113,9 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		}
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INodeImpl.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refresh();
