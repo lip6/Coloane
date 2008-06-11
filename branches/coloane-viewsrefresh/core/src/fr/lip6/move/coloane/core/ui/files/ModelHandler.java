@@ -18,7 +18,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-
+/**
+ * Classe destinee a la lecture d'un fichier XML. La lecture du fichier permet la construction d'un modele
+ * @author jbvoron
+ *
+ */
 public class ModelHandler extends DefaultHandler {
 
 	private IModel model = new Model(new CamiTranslator());

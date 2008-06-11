@@ -32,7 +32,6 @@ public class LabelText {
 
 	// listener pour modifier la taille des champs de texte multiligne
 	private ModifyListener listener = new ModifyListener() {
-		@Override
 		public void modifyText(ModifyEvent e) {
 			redraw();
 		}

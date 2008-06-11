@@ -55,7 +55,6 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#getColor()
 	 */
-	@Override
 	public final Color getColor() {
 		return color;
 	}
@@ -63,7 +62,6 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#setColor(org.eclipse.swt.graphics.Color)
 	 */
-	@Override
 	public final void setColor(Color color) {
 		Color oldValue = this.color;
 		this.color = color;

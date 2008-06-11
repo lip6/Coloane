@@ -24,7 +24,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see INodeImpl
  */
 
-public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, IElement {
+public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 	/** Le noeud generique */
 	private INode node;
