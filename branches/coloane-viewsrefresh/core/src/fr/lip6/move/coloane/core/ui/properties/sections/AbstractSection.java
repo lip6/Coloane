@@ -12,10 +12,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 
+/**
+ * Section de base adaptée à un objet du model.
+ * @param <T>
+ */
 public abstract class AbstractSection<T extends IElement> extends AbstractPropertySection implements PropertyChangeListener {
 	private T element;
-
 	private boolean isDisposed = false;
+
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
@@ -26,6 +30,9 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 	}
 
 
+	/**
+	 * @return true si la section n'est plus visible.
+	 */
 	public final boolean isDisposed() {
 		return isDisposed;
 	}
@@ -60,6 +67,10 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 		return element;
 	}
 
+
+	/**
+	 * @return un CommandStack permettant d'executer des Command.
+	 */
 	public final CommandStack getCommandStack() {
 		EditPart o = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
 		CommandStack cs = o.getParent().getViewer().getEditDomain().getCommandStack();

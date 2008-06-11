@@ -24,7 +24,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <li>Couleur de l'arrière plan du noeud</li>
  */
 public class NodeColorSection extends AbstractSection<INodeImpl> {
+	/** Editeur de couleur pour la couleur du noeud */
 	private ColorFieldEditor fg;
+	/** Permet de mettre à jour le modèle du noeud */
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
@@ -37,7 +39,9 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		}
 	};
 
+	/** Editeur de couleur pour la couleur de fond du noeud */
 	private ColorFieldEditor bg;
+	/** Permet de mettre à jour le modèle du noeud pour la couleur du fond */
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
@@ -49,7 +53,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 			));
 		}
 	};
-	private Composite composite;
+
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -58,11 +62,11 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-		composite = getWidgetFactory().createFlatFormComposite(parent);
+		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
 
 		FormData data;
 
-		// Foreground
+		// Editeur pour la couleur du noeud
 		fg = createColorFieldEditor(composite);
 		fg.setPropertyChangeListener(fgListener);
 		Control fgControl = fg.getColorSelector().getButton().getParent();
@@ -72,6 +76,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
+		// Etiquette : "Foreground"
 		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeColorSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
@@ -79,7 +84,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
 		label.setLayoutData(data);
 
-		// Background
+		// Editeur pour la couleur du fond du noeud
 		bg = createColorFieldEditor(composite);
 		bg.setPropertyChangeListener(bgListener);
 		Control bgControl = bg.getColorSelector().getButton().getParent();
@@ -89,6 +94,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		data.right = new FormAttachment(100, -5);
 		bgControl.setLayoutData(data);
 
+		// Etiquette : "Background"
 		label = getWidgetFactory().createCLabel(composite, Messages.NodeColorSection_1 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(bgControl, 0, SWT.BOTTOM);
@@ -96,6 +102,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
+
 
 	/**
 	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
@@ -110,6 +117,7 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		return cfe;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
@@ -121,6 +129,10 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		if (INodeImpl.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {

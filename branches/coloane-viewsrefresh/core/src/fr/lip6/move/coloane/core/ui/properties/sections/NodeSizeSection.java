@@ -16,11 +16,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+/**
+ * Section qui permet de modifier la taille d'un noeud.
+ * La taille d'un noeud est exprimé en pourcentage de la taille d'origine spécifié
+ * dans le formalisme.
+ */
 public class NodeSizeSection extends AbstractSection<INodeImpl> {
 	private static final int INCREMENT_VALUE = 10;
+	private static final int MAX_VALUE = 400;
+	private static final int MIN_VALUE = 80;
 
+	/** Widget qui permet de modifier la taille d'un noeud */
 	private Spinner size;
 
+	/** Permet de mettre à jour le modèle du noeud */
 	private ModifyListener listener = new ModifyListener() {
 		@Override
 		public void modifyText(ModifyEvent e) {
@@ -30,6 +39,10 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		}
 	};
 
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -37,16 +50,18 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;
 
+		// Widget pour modifier la taille du noeud
 		size = new Spinner(composite, SWT.BORDER);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
 		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH + 7);
 		size.setLayoutData(data);
-		size.setMinimum(80);
-		size.setMaximum(400);
+		size.setMinimum(MIN_VALUE);
+		size.setMaximum(MAX_VALUE);
 		size.setIncrement(INCREMENT_VALUE);
 		size.addModifyListener(listener);
 
+		// Etiquette
 		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeSizeSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(size, 0, SWT.BOTTOM);
@@ -55,6 +70,10 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		label.setLayoutData(data);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+	 */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
@@ -63,6 +82,10 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INodeImpl.RESIZE_PROP.equals(evt.getPropertyName())) {

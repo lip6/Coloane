@@ -20,15 +20,30 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+/**
+ * Section qui permet de gérer la position d'un noeud.
+ */
 public class NodeLocationSection extends AbstractSection<INodeImpl> implements PropertyChangeListener {
+	/**
+	 * Widgets qui permettent de modifier les coordonnées du noeud.
+	 */
 	private Spinner x, y;
 
+	/**
+	 * Permet de mettre à jour le modèle du noeud.
+	 */
 	class SpinnerModifyListener implements ModifyListener {
 		private int i;
+		/**
+		 * @param i 0 pour modifier x, 1 pour modifier y.
+		 */
 		public SpinnerModifyListener(int i) {
-			this.i = i;
+			this.i = i % 2; // pour être sur qu'on a 0 ou 1.
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
 		@Override
 		public final void modifyText(ModifyEvent e) {
 			Spinner spinner = (Spinner) e.widget;
@@ -36,8 +51,8 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 			int[] location = new int[2];
 			location[0] = graphicInfo.getLocation().x;
 			location[1] = graphicInfo.getLocation().y;
-			if (spinner.getSelection() != location[i % 2]) {
-				location[i % 2] = spinner.getSelection();
+			if (spinner.getSelection() != location[i]) {
+				location[i] = spinner.getSelection();
 				getCommandStack().execute(new NodeSetConstraintCmd(
 						getElement(),
 						new Rectangle(new Point(location[0], location[1]), getElement().getGraphicInfo().getSize()))
@@ -46,6 +61,10 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -54,6 +73,7 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;
 
+		// Widget pour modifier la coordonnée x
 		x = new Spinner(composite, SWT.BORDER);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
@@ -63,6 +83,7 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		x.setMaximum(Integer.MAX_VALUE);
 		x.addModifyListener(new SpinnerModifyListener(0));
 
+		// Widget pour modifier la coordonnée y
 		y = new Spinner(composite, SWT.BORDER);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
@@ -72,6 +93,7 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		y.setMaximum(Integer.MAX_VALUE);
 		y.addModifyListener(new SpinnerModifyListener(1));
 
+		// Etiquette
 		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeLocationSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(x, 0, SWT.BOTTOM);
@@ -80,6 +102,10 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		label.setLayoutData(data);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+	 */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
@@ -91,6 +117,10 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INodeImpl.LOCATION_PROP.equals(evt.getPropertyName())) {

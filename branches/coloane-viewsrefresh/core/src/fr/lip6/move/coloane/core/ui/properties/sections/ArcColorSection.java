@@ -22,15 +22,18 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <li>Couleur de l'arc</li>
  */
 public class ArcColorSection extends AbstractSection<IArcImpl> {
-	private ColorFieldEditor fg;
-	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
+	/** Editeur de couleur */
+	private ColorFieldEditor color;
+
+	/** Permet de mettre à jour le modèle d'arc */
+	private IPropertyChangeListener listener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			getCommandStack().execute(new ArcChangeColorCmd(
 					getElement(),
 					new Color(
-							fg.getColorSelector().getButton().getDisplay(),
-							fg.getColorSelector().getColorValue())
+							color.getColorSelector().getButton().getDisplay(),
+							color.getColorSelector().getColorValue())
 			));
 		}
 	};
@@ -47,16 +50,17 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 
 		FormData data;
 
-		// Foreground
-		fg = createColorFieldEditor(composite);
-		fg.setPropertyChangeListener(fgListener);
-		Control fgControl = fg.getColorSelector().getButton().getParent();
+		// Editeur de couleur
+		color = createColorFieldEditor(composite);
+		color.setPropertyChangeListener(listener);
+		Control fgControl = color.getColorSelector().getButton().getParent();
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
 		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH);
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
+		// Etiquette
 		CLabel label = getWidgetFactory().createCLabel(composite, Messages.ArcColorSection_0 + " :"); //$NON-NLS-1$
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
@@ -64,6 +68,7 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
+
 
 	/**
 	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
@@ -78,16 +83,21 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 		return cfe;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
 	 */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			fg.getColorSelector().setColorValue(getElement().getGraphicInfo().getColor().getRGB());
+			color.getColorSelector().setColorValue(getElement().getGraphicInfo().getColor().getRGB());
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();

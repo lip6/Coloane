@@ -205,6 +205,9 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
