@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>exportToDOT</module>
+		<module>exportToPGF</module>
 		<module>importExportCAMI</module>
 		<module>importExportPNML</module>
 	</modules>
