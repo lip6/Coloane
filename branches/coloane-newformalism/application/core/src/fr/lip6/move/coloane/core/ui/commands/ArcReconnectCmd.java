@@ -76,11 +76,11 @@ public class ArcReconnectCmd extends Command {
 
 		Formalism form = this.arc.getFormalism();
 
-		if ((this.newSource != null) && !form.isLinkAllowed(newSource.getElementBase(), oldTarget.getElementBase())) {
+		if ((this.newSource != null) && !form.isLinkAllowed(newSource, oldTarget)) {
 			return false;
 		}
 
-		if ((this.newTarget != null) && !form.isLinkAllowed(oldSource.getElementBase(), newTarget.getElementBase())) {
+		if ((this.newTarget != null) && !form.isLinkAllowed(oldSource, newTarget)) {
 			return false;
 		}
 
