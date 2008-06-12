@@ -76,6 +76,19 @@
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%AUTHENTICATION_TIP">
          </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.ExportImageAction"
+               icon="resources/icons/exportimage.gif"
+               id="fr.lip6.move.coloane.core.exportimage"
+               label="ExportImage"
+               toolbarPath="org.eclipse.ui.workbench.file/print.ext"
+               tooltip="Export your model to image file">
+            <enablement>
+               <objectClass
+                     name="fr.lip6.move.coloane.core.ui.editpart.ModelEditPart">
+               </objectClass>
+            </enablement>
+         </action>
       </actionSet>
    </extension>
     <extension
