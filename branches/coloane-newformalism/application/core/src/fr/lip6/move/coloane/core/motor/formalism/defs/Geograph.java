@@ -2,12 +2,11 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ConnexionRule;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.IRule;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
-
+import fr.lip6.move.coloane.core.motor.formalism.permissionRule.CardinalityRule;
+import fr.lip6.move.coloane.core.motor.formalism.permissionRule.ConnexionRule;
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
@@ -98,16 +97,20 @@ public class Geograph extends Formalism {
 
 
 		// Ajout des regles gerant le formalisme, ces regles definissent ce qu'on ne peut pas faire.
-		// Interdit place - place
+		// Interdit Continent - Continent
 		addRule(new ConnexionRule(this.getNodeFormalism("Continent"), this.getNodeFormalism("Continent"))); //$NON-NLS-1$ //$NON-NLS-2$
 	
-		// Interdit queue - queue
+		// Interdit Pays - Pays
 		addRule(new ConnexionRule(this.getNodeFormalism("Pays"), this.getNodeFormalism("Pays"))); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		
 		// essai avec nouvelle règle 
 		
 		addRule(new ConnexionRule(this.getNodeFormalism("Continent"),this.getNodeFormalism("Pays"))); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		// Regle de Cardinalité
+		
+		addRule(new CardinalityRule(this.getNodeFormalism("Pays"),3,this.getNodeFormalism("Continent"))); //$NON-NLS-1$ //$NON-NLS-2$
 		
 	}
 }
