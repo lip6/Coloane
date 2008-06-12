@@ -23,7 +23,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
-            icon="resources/green_file.png"
+            icon="resources/pnmlfile.png"
             id="fr.lip6.move.coloane.wizard.export.pnml"
             name="Pnml File">
 		 <description>
@@ -36,7 +36,7 @@
          <wizard
                category="fr.lip6.move.coloane.wizard.import.coloane"
                class="fr.lip6.move.coloane.core.ui.wizards.ImportWizard"
-               icon="resources/green_file.png"
+               icon="resources/pnmlfile.png"
                id="fr.lip6.move.coloane.wizard.import.pnml"
                name="Pnml File">
 		 <description>
