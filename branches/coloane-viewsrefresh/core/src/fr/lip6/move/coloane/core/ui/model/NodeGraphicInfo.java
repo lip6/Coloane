@@ -15,7 +15,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int y;
 
 	/** Taille */
-	private int zoom = 100;
+	private int scale = 100;
 
 	/** Couleurs du noeud */
 	private Color foreground = ColorConstants.black;
@@ -71,8 +71,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 */
 	public final Dimension getSize() {
 		return new Dimension(
-				getWidth() * (zoom / 100),
-				getHeight() * (zoom / 100)
+				getWidth() * (scale / 100),
+				getHeight() * (scale / 100)
 				);
 	}
 
@@ -125,14 +125,14 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setZoom(int)
 	 */
-	public final void setZoom(int zoom) {
+	public final void setScale(int zoom) {
 		Dimension oldSize = new Dimension();
-		oldSize.height = (nodeAdapter.getElementBase().getHeight() * this.zoom) / 100;
-		oldSize.width = (nodeAdapter.getElementBase().getWidth() * this.zoom) / 100;
-		this.zoom = zoom;
+		oldSize.height = (nodeAdapter.getElementBase().getHeight() * this.scale) / 100;
+		oldSize.width = (nodeAdapter.getElementBase().getWidth() * this.scale) / 100;
+		this.scale = zoom;
 		Dimension newSize = new Dimension();
-		newSize.height = (nodeAdapter.getElementBase().getHeight() * this.zoom) / 100;
-		newSize.width = (nodeAdapter.getElementBase().getWidth() * this.zoom) / 100;
+		newSize.height = (nodeAdapter.getElementBase().getHeight() * this.scale) / 100;
+		newSize.width = (nodeAdapter.getElementBase().getWidth() * this.scale) / 100;
 		try {
 		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.RESIZE_PROP, oldSize, newSize);
 		} catch (Exception e) {
@@ -143,7 +143,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getZoom()
 	 */
-	public final int getZoom() {
-		return zoom;
+	public final int getScale() {
+		return scale;
 	}
 }

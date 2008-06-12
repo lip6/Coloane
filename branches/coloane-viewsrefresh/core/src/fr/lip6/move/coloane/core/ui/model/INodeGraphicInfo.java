@@ -80,10 +80,10 @@ public interface INodeGraphicInfo {
 	 * Permet de définir la taille du noeud
 	 * @param zoom pourcentage
 	 */
-	void setZoom(int zoom);
+	void setScale(int zoom);
 
 	/**
 	 * @return pourcentage
 	 */
-	int getZoom();
+	int getScale();
 }

@@ -50,9 +50,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 					// Recherche de l'attribut modifié
 					attr = getElement().getProperties().get(lt.getId());
 					if (attr != null && !attr.getValue().equals(lt.getText())) {
-						String oldValue = attr.getValue();
 						String newValue = lt.getText();
-						getCommandStack().execute(new ChangeAttributeCmd(attr, oldValue, newValue));
+						getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
 						break;
 					}
 				}

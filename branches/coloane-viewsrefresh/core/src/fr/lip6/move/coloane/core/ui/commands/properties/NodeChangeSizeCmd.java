@@ -4,31 +4,47 @@ import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import org.eclipse.gef.commands.Command;
 
+/**
+ * Commande pour modifier la taille d'un noeud
+ */
 public class NodeChangeSizeCmd extends Command {
 
 	private INodeImpl node;
-	private int newValue;
-	private int oldValue;
+	private int newScale;
+	private int oldScale;
 
-	public NodeChangeSizeCmd(INodeImpl node, int newValue) {
+	/**
+	 * @param node Noeud à modifier
+	 * @param scale Nouvelle taille exprimée en pourcentage de la taille d'origine
+	 */
+	public NodeChangeSizeCmd(INodeImpl node, int scale) {
 		this.node = node;
-		this.newValue = newValue;
+		this.newScale = scale;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
 	@Override
 	public final void execute() {
-		oldValue = node.getGraphicInfo().getZoom();
+		oldScale = node.getGraphicInfo().getScale();
 		redo();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
 	@Override
 	public final void redo() {
-		node.getGraphicInfo().setZoom(newValue);
+		node.getGraphicInfo().setScale(newScale);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
 	@Override
 	public final void undo() {
-		node.getGraphicInfo().setZoom(oldValue);
+		node.getGraphicInfo().setScale(oldScale);
 	}
 
 }

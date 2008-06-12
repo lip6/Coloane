@@ -32,7 +32,7 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 	/** Permet de mettre à jour le modèle du noeud */
 	private ModifyListener listener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
-			if (size.getSelection() != getElement().getGraphicInfo().getZoom()) {
+			if (size.getSelection() != getElement().getGraphicInfo().getScale()) {
 				getCommandStack().execute(new NodeChangeSizeCmd(getElement(), size.getSelection()));
 			}
 		}
@@ -74,7 +74,7 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			size.setSelection(getElement().getGraphicInfo().getZoom());
+			size.setSelection(getElement().getGraphicInfo().getScale());
 			size.layout();
 		}
 	}

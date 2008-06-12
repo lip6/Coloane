@@ -75,7 +75,7 @@ public final class ModelWriter {
 			line += " id='" + node.getId() + "'";									//$NON-NLS-1$ //$NON-NLS-2$
 			line += " xposition='" + node.getGraphicInfo().getLocation().x + "'";	//$NON-NLS-1$ //$NON-NLS-2$
 			line +=	" yposition='" + node.getGraphicInfo().getLocation().x + "'";	//$NON-NLS-1$ //$NON-NLS-2$
-			line += " scale='" + node.getGraphicInfo().getZoom() + "'";		//$NON-NLS-1$ //$NON-NLS-2$
+			line += " scale='" + node.getGraphicInfo().getScale() + "'";		//$NON-NLS-1$ //$NON-NLS-2$
 			line += " foregroundcolor='" + color2String(node.getGraphicInfo().getForeground()) + "'";		//$NON-NLS-1$ //$NON-NLS-2$
 			line += " backgroundcolor='" + color2String(node.getGraphicInfo().getBackground()) + "'>\n";	//$NON-NLS-1$ //$NON-NLS-2$
 
