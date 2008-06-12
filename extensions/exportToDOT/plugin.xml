@@ -15,7 +15,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
-            icon="resources/blue_file.png"
+            icon="resources/dotfile.png"
             id="fr.lip6.move.coloane.wizard.export.dot"
             name="Dot File">
 		 <description>
