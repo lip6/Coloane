@@ -31,5 +31,10 @@
 			<artifactId>exportToDOT</artifactId>
 			<version>[1.0,)</version>
 		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
+			<artifactId>exportToPGF</artifactId>
+			<version>[1.0,)</version>
+		</dependency>
 	</dependencies>
 </project>
