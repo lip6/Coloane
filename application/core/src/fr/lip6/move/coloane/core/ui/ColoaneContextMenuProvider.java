@@ -11,7 +11,6 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * Provides context menu actions for the ShapesEditor.
- * @author Elias Volanakis
  */
 class ColoaneContextMenuProvider extends ContextMenuProvider {
 
@@ -19,8 +18,7 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 	private ActionRegistry actionRegistry;
 
 	/**
-	 * Instantiate a new menu context provider for the specified EditPartViewer
-	 * and ActionRegistry.
+	 * Instantiate a new menu context provider for the specified EditPartViewer and ActionRegistry.
 	 * @param viewer	the editor's graphical viewer
 	 * @param registry	the editor's action registry
 	 * @throws IllegalArgumentException if registry is <tt>null</tt>.
@@ -46,6 +44,7 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO, getAction(ActionFactory.UNDO.getId())); // action to add
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO, getAction(ActionFactory.REDO.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.DELETE.getId()));
+
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.PASTE.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.COPY.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.CUT.getId()));

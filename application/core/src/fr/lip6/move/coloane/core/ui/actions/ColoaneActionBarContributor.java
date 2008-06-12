@@ -77,6 +77,8 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	 */
 	@Override
 	public final void contributeToToolBar(IToolBarManager toolBarManager) {
+		super.contributeToToolBar(toolBarManager);
+
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.CUT.getId()));
