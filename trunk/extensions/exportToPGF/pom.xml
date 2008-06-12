@@ -8,7 +8,7 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	
-	<artifactId>exportToDOT</artifactId>
+	<artifactId>exportToPGF</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Extension - Export PGF</name>
