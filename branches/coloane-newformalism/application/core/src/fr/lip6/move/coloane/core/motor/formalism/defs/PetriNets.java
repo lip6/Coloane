@@ -2,10 +2,10 @@ package fr.lip6.move.coloane.core.motor.formalism.defs;
 
 import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ConnexionRule;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.permissionRule.ConnexionRule;
 
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
