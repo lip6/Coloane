@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.motor.formalism;
 
 import java.util.ArrayList;
+import fr.lip6.move.coloane.core.motor.formalism.permissionRule.IRule;
+import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 /**
  * Definition d'un formalisme
@@ -24,14 +26,7 @@ public class Formalism {
 
 	/** Liste des regles du formalisme. */
 	private ArrayList<IRule> listOfRules;
-	
-	
-	//**
-	
-	private ArrayList<CardinalityRule> listOfRulesCard;
 
-	//**
-	
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String imageName;
 
@@ -50,36 +45,22 @@ public class Formalism {
 		this.xschema = formalismXschema;
 		this.listOfElementBase = new ArrayList<ElementFormalism>();
 		this.listOfRules = new ArrayList<IRule>();
-		
-		//*****
-		
-		this.listOfRulesCard = new ArrayList<CardinalityRule>();
-
-		
-		//*****
-		
 		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
 	}
 	
 	/**
-	 * Indique si la liaison entre deux element est possible
-	 * @param elemIn  Element de base en entre de l'arc
+	 * Indique si la liaison entre deux elements est possible
+	 * @param elemIn  Element de base en entree de l'arc
 	 * @param elemOut Element de base en sortie de l'arc
 	 * @return boolean
 	 */
-	public final boolean isLinkAllowed(ElementFormalism elemIn, ElementFormalism elemOut) {
-			
-		for (IRule r : listOfRules) {
-			
-				if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
-					for (CardinalityRule rr : listOfRulesCard) {	
-						if(rr.permissionToLink(elemIn, elemOut)){
-							return false;
-						}
-					}
-				}
+	public final boolean isLinkAllowed(INodeImpl eltIn, INodeImpl eltOut) {
+		for (IRule r : listOfRules) {			
+			if (!r.canConnect(eltIn,eltOut)) {
+				return false;
+			}
 		}
-		return true;
+		return true;		
 	}
 
 	
@@ -144,12 +125,7 @@ public class Formalism {
 		}
 		listOfRules.add(rule);
 	}
-	public final void addRuleCard(CardinalityRule rule) {
-		if (rule == null) {
-			return;
-		}
-		listOfRulesCard.add(rule);
-	}
+	
 	/**
 	 * Retourne la liste des elements de base attache au formalisme
 	 * @return ArrayList
