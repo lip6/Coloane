@@ -119,7 +119,13 @@ public interface IArcImpl extends IElement {
 	 * @param p Le point contenant les coordonnees
 	 * @param index L'index d'insertion dans la liste
 	 */
-	void addInflexPoint(Point p , int index);
+	void addInflexPoint(Point p, int index);
+
+	/**
+	 * Ajoute un point d'inflexion a la liste deja existante
+	 * @param p Le point contenant les coordonnees
+	 */
+	void addInflexPoint(Point p);
 
 	/**
 	 * Suppression d'un point d'inflexion de la liste de l'arc

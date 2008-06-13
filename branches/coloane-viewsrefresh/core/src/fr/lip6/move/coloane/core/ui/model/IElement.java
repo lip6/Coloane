@@ -44,4 +44,14 @@ public interface IElement {
 	 * @param listener une instance de PropertyChangeListener
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Setter pour la propriete.
+	 * Les classe filles doivent surcharge cette methode.
+	 * Dans cette implementation par default elle fait rien.
+	 *
+	 * @param id Nom de la propriete
+	 * @param value Valeur de la propriete
+	 */
+	void setPropertyValue(Object id, Object newValue);
 }

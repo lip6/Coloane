@@ -76,4 +76,17 @@ public abstract class AbstractModelElement implements IElement {
 	protected final void addProperty(Integer key, IAttributeImpl attr) {
 		this.properties.put(key, attr);
 	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setPropertyValue(java.lang.Object, java.lang.Object)
+	 */
+	public final void setPropertyValue(Object id, Object newValue) {
+		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id.toString());
+
+		// Sauvegarde de l'ancienne valeur
+		String oldValue = attribute.getValue();
+
+		// Nouvelle valeur pour l'attribut
+		attribute.setValue(oldValue, (String) newValue);
+	}
 }

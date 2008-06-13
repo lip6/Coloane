@@ -82,6 +82,14 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @throws BuildException
 	 */
 	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
+		if (arcSource == null) {
+			throw new BuildException("Problème avec arcSource"); //$NON-NLS-1$
+		} else if (arcTarget == null) {
+			throw new BuildException("Problème avec arcTarget"); //$NON-NLS-1$
+		} else if (base == null) {
+			throw new BuildException("Problème avec le formalisme"); //$NON-NLS-1$
+		}
+
 		this.elementBase = base;
 		this.source = arcSource;
 		this.target = arcTarget;
@@ -327,6 +335,19 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final void addInflexPoint(Point p, int index) {
 		try {
 			this.genericArc.addPI(p.x, p.y, index);
+			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
+		} catch (ModelException e) {
+			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
+	 */
+	public final void addInflexPoint(Point p) {
+		try {
+			this.genericArc.addPI(p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
 			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$

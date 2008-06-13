@@ -50,20 +50,18 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP, null, new Point(x, y));
 	}
 
-	/**
-	 * Retourne la largeur du noeud telle que prevue par le formalisme
-	 * @return int La largeur
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getWidth()
 	 */
-	private int getWidth() {
-		return this.nodeAdapter.getElementBase().getWidth();
+	public final int getWidth() {
+		return (this.nodeAdapter.getElementBase().getWidth() * scale) / 100;
 	}
 
-	/**
-	 * Retourne la hauteur du noeud telle que prevue par le formalisme
-	 * @return int La hauteur
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getHeight()
 	 */
-	private int getHeight() {
-		return this.nodeAdapter.getElementBase().getHeight();
+	public final int getHeight() {
+		return (this.nodeAdapter.getElementBase().getHeight() * scale) / 100;
 	}
 
 	/* (non-Javadoc)
@@ -71,8 +69,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 */
 	public final Dimension getSize() {
 		return new Dimension(
-				getWidth() * (scale / 100),
-				getHeight() * (scale / 100)
+				getWidth(),
+				getHeight()
 				);
 	}
 
@@ -125,11 +123,11 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setZoom(int)
 	 */
-	public final void setScale(int zoom) {
+	public final void setScale(int scale) {
 		Dimension oldSize = new Dimension();
 		oldSize.height = (nodeAdapter.getElementBase().getHeight() * this.scale) / 100;
 		oldSize.width = (nodeAdapter.getElementBase().getWidth() * this.scale) / 100;
-		this.scale = zoom;
+		this.scale = scale;
 		Dimension newSize = new Dimension();
 		newSize.height = (nodeAdapter.getElementBase().getHeight() * this.scale) / 100;
 		newSize.width = (nodeAdapter.getElementBase().getWidth() * this.scale) / 100;

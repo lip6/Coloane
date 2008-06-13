@@ -58,7 +58,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
-			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
+			figure.setSize(nodeGraphInfo.getSize());
 
 			if (nodeGraphInfo.isFilled()) {
 				figure.setBackgroundColor(ColorConstants.black);
@@ -69,12 +69,12 @@ public class NodeFigure extends Figure implements INodeFigure {
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
 			figure = new Ellipse();
 			figure.setForegroundColor(ColorConstants.black);
-			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
+			figure.setSize(nodeGraphInfo.getSize());
 
 			// Le cercle interieur
 			IFigure figure2 = new Ellipse();
 			figure2.setForegroundColor(ColorConstants.black);
-			figure2.setSize(node.getElementBase().getWidth() - INodeGraphicInfo.DIFF_CIRCLE, node.getElementBase().getHeight() - INodeGraphicInfo.DIFF_CIRCLE);
+			figure2.setSize(nodeGraphInfo.getWidth() - INodeGraphicInfo.DIFF_CIRCLE, nodeGraphInfo.getHeight() - INodeGraphicInfo.DIFF_CIRCLE);
 			figure2.setLocation(new Point(2, 2));
 			figure.add(figure2);
 			add(figure);
@@ -82,14 +82,14 @@ public class NodeFigure extends Figure implements INodeFigure {
 		// Le cas d'une queue
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
 			figure = new RoundedRectangle();
-			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
+			figure.setSize(nodeGraphInfo.getSize());
 			figure.setForegroundColor(ColorConstants.black);
 			add(figure);
 
 		// Le reste des cas (transition)
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_RECT) {
 			figure = new RectangleFigure();
-			figure.setSize(node.getElementBase().getWidth(), node.getElementBase().getHeight());
+			figure.setSize(nodeGraphInfo.getSize());
 			figure.setForegroundColor(ColorConstants.black);
 
 			if (nodeGraphInfo.isFilled()) {

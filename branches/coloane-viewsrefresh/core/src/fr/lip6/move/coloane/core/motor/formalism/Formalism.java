@@ -169,4 +169,12 @@ public class Formalism {
 	public final String getSchema() {
 		return xschema;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public final String toString() {
+		return getName();
+	}
 }

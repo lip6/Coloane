@@ -39,6 +39,18 @@ public interface INodeGraphicInfo {
 	void setLocation(int x, int y);
 
 	/**
+	 * Retourne la largeur du noeud
+	 * @return int La largeur
+	 */
+	int getWidth();
+
+	/**
+	 * Retourne la hauteur du noeud
+	 * @return int La hauteur
+	 */
+	int getHeight();
+
+	/**
 	 * Retourne les dimensions du noeud (prend en compte le zoom)
 	 * @return Dimension
 	 */

@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
@@ -21,7 +24,7 @@ public class FileHandler extends DefaultHandler {
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
 			this.model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
-			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism());
+			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism()); //$NON-NLS-1$
 		}
 	}
 
@@ -29,8 +32,9 @@ public class FileHandler extends DefaultHandler {
 	/**
 	 * Retourne le modele cree par le parcours du fichier xml
 	 * @return Le squelette du modele generique
+	 * @throws BuildException
 	 */
-	public final IModel getModel() {
-		return model;
+	public final IModelImpl getModel() throws BuildException {
+		return new ModelImplAdapter(model);
 	}
 }

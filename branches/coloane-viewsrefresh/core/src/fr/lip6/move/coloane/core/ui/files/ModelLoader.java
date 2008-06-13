@@ -1,12 +1,10 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.core.ui.ColoaneMessages;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
@@ -54,13 +52,13 @@ public final class ModelLoader {
 		}
 
 		// Verifie la presence d'un indice sur le formalisme
-		if (globalHandler.getModel().getFormalism() == "") {
-			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName());
+		if (globalHandler.getModel().getGenericModel().getFormalism() == "") { //$NON-NLS-1$
+			Coloane.getLogger().fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName()); //$NON-NLS-1$
 			return null;
 		}
 
 		// On determine le formalisme (objet) pour trouver le bon XSchema
-		Formalism currentFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(globalHandler.getModel().getFormalism());
+		Formalism currentFormalism = globalHandler.getModel().getFormalism();
 
 		// Deuxieme verification pour voir si le fichier respecte le formalisme qu'il est cense utiliser
 		try {
@@ -83,16 +81,11 @@ public final class ModelLoader {
 		}
 
 		// Creation du modele a partir du modele generique
-		try {
-			model = new ModelImplAdapter(modelHandler.getModel());
+		model = modelHandler.getModel();
 
-			// Creation d'une session pour ce modele
-			if (!Motor.getInstance().createSession(model, xmlFile.getName())) {
-				Coloane.getLogger().warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
-			}
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.Editor_3 + e.getMessage());
+		// Creation d'une session pour ce modele
+		if (model != null && !Motor.getInstance().createSession(model, xmlFile.getName())) {
+			Coloane.getLogger().warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
 		}
 		return model;
 	}
