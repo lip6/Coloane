@@ -6,8 +6,7 @@
       provider-name="LIP6 / MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
-      nl="en,fr"
-      arch="ppc,x86">
+      arch="ppc,x86,x86_64">
 
    <description url="http://coloane.lip6.fr/">
       Coloane is a tool designed to model complex systems using various formalisms. 
