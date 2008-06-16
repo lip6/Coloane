@@ -29,12 +29,14 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	/** Permet de mettre à jour le modèle du noeud */
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
-			getCommandStack().execute(new NodeChangeForegroundCmd(
-					getElement(),
-					new Color(
-							fg.getColorSelector().getButton().getDisplay(),
-							fg.getColorSelector().getColorValue())
-			));
+			if (!fg.getColorSelector().getColorValue().equals(getElement().getGraphicInfo().getForeground().getRGB())) {
+				getCommandStack().execute(new NodeChangeForegroundCmd(
+						getElement(),
+						new Color(
+								fg.getColorSelector().getButton().getDisplay(),
+								fg.getColorSelector().getColorValue())
+				));
+			}
 		}
 	};
 
@@ -43,12 +45,14 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	/** Permet de mettre à jour le modèle du noeud pour la couleur du fond */
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
-			getCommandStack().execute(new NodeChangeBackgroundCmd(
-					getElement(),
-					new Color(
-							bg.getColorSelector().getButton().getDisplay(),
-							bg.getColorSelector().getColorValue())
-			));
+			if (!bg.getColorSelector().getColorValue().equals(getElement().getGraphicInfo().getBackground().getRGB())) {
+				getCommandStack().execute(new NodeChangeBackgroundCmd(
+						getElement(),
+						new Color(
+								bg.getColorSelector().getButton().getDisplay(),
+								bg.getColorSelector().getColorValue())
+				));
+			}
 		}
 	};
 
@@ -122,6 +126,11 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 		if (!isDisposed()) {
 			fg.getColorSelector().setColorValue(getElement().getGraphicInfo().getForeground().getRGB());
 			bg.getColorSelector().setColorValue(getElement().getGraphicInfo().getBackground().getRGB());
+			if (getElement().getGraphicInfo().isFilled()) {
+				bg.setEnabled(false, bg.getColorSelector().getButton().getParent());
+			} else {
+				bg.setEnabled(true, bg.getColorSelector().getButton().getParent());
+			}
 		}
 	}
 

@@ -27,6 +27,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 */
 	public NodeGraphicInfo(INodeImpl node) {
 		this.nodeAdapter = node;
+		if (isFilled()) {
+			background = ColorConstants.black;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -71,7 +74,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return new Dimension(
 				getWidth(),
 				getHeight()
-				);
+		);
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +104,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	public final void setBackground(Color background) {
 		Color oldValue = this.background;
 		this.background = background;
-		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.BACKGROUND_COLOR_PROP, oldValue, background);
+		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.BACKGROUND_COLOR_PROP, oldValue, this.background);
 	}
 
 	/* (non-Javadoc)
@@ -132,7 +135,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		newSize.height = (nodeAdapter.getElementBase().getHeight() * this.scale) / 100;
 		newSize.width = (nodeAdapter.getElementBase().getWidth() * this.scale) / 100;
 		try {
-		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.RESIZE_PROP, oldSize, newSize);
+			((NodeImplAdapter) this.nodeAdapter).firePropertyChange(INodeImpl.RESIZE_PROP, oldSize, newSize);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

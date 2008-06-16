@@ -15,6 +15,7 @@ import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -57,23 +58,23 @@ public class NodeFigure extends Figure implements INodeFigure {
 		// Le cas d'un place ou d'un etat simple
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {
 			figure = new Ellipse();
-			figure.setForegroundColor(ColorConstants.black);
 			figure.setSize(nodeGraphInfo.getSize());
+			figure.setForegroundColor(nodeGraphInfo.getForeground());
+			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 
-			if (nodeGraphInfo.isFilled()) {
-				figure.setBackgroundColor(ColorConstants.black);
-			}
 			add(figure);
 
 		// Le cas d'un etat initial
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
 			figure = new Ellipse();
-			figure.setForegroundColor(ColorConstants.black);
 			figure.setSize(nodeGraphInfo.getSize());
+			figure.setForegroundColor(nodeGraphInfo.getForeground());
+			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 
 			// Le cercle interieur
 			IFigure figure2 = new Ellipse();
-			figure2.setForegroundColor(ColorConstants.black);
+			figure2.setForegroundColor(nodeGraphInfo.getForeground());
+			figure2.setBackgroundColor(nodeGraphInfo.getBackground());
 			figure2.setSize(nodeGraphInfo.getWidth() - INodeGraphicInfo.DIFF_CIRCLE, nodeGraphInfo.getHeight() - INodeGraphicInfo.DIFF_CIRCLE);
 			figure2.setLocation(new Point(2, 2));
 			figure.add(figure2);
@@ -83,18 +84,17 @@ public class NodeFigure extends Figure implements INodeFigure {
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
 			figure = new RoundedRectangle();
 			figure.setSize(nodeGraphInfo.getSize());
-			figure.setForegroundColor(ColorConstants.black);
+			figure.setForegroundColor(nodeGraphInfo.getForeground());
+			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 			add(figure);
 
 		// Le reste des cas (transition)
 		} else if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_RECT) {
 			figure = new RectangleFigure();
 			figure.setSize(nodeGraphInfo.getSize());
-			figure.setForegroundColor(ColorConstants.black);
+			figure.setForegroundColor(nodeGraphInfo.getForeground());
+			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 
-			if (nodeGraphInfo.isFilled()) {
-				figure.setBackgroundColor(ColorConstants.black);
-			}
 			add(figure);
 		}
 
@@ -164,10 +164,10 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 */
 	public final void setUnselect() {
 		figure.setForegroundColor(nodeGraphInfo.getForeground());
-		figure.setBackgroundColor(nodeGraphInfo.getBackground());
-
 		if (nodeGraphInfo.isFilled()) {
 			figure.setBackgroundColor(ColorConstants.black);
+		} else {
+			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 		}
 
 		((Shape) figure).setLineWidth(1);
@@ -198,8 +198,15 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 	@Override
 	public final void setSize(int w, int h) {
+		int dw = w - figure.getSize().width;
+		int dh = h - figure.getSize().height;
 		super.setSize(w, h);
 		figure.setSize(w, h);
+		for (Object o : figure.getChildren()) {
+			Figure child = (Figure) o;
+			Dimension dim = child.getSize();
+			child.setSize(dim.width + dw, dim.height + dh);
+		}
 	}
 
 	@Override
