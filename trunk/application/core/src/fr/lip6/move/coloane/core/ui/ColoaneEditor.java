@@ -250,7 +250,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer, getActionRegistry());
 
 		getSite().setSelectionProvider(viewer);
-		getSite().registerContextMenu(cmProvider, viewer);
+
+		// add default menu items (such "run as", "debug as" ...)
+		// getSite().registerContextMenu(cmProvider, viewer);
 
 		viewer.setContextMenu(cmProvider);
 
