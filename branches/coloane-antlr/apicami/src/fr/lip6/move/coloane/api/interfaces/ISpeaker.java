@@ -97,4 +97,6 @@ public interface ISpeaker {
 	 */
 	void sendDialogResponse(IDialog d);
 
+	public void invalidModel() throws IOException;
+
 }

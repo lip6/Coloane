@@ -58,10 +58,11 @@ public class ThreadParser extends Thread {
 		while(true){
 			/* se bloquer en attente d'un ensemble de commandes */
 			try {
+			
 				InputStream is;
-
-				is = (InputStream)this.fifo.take();
 				
+				is = (InputStream)this.fifo.take();
+			
 				
 
 				//TODO enlever

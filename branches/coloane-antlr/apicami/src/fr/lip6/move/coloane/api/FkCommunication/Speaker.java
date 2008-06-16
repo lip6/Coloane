@@ -240,4 +240,15 @@ public class Speaker implements ISpeaker{
 		this.fkll.writeCommand(cmdToSend);
 		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
-}
+
+
+	public void invalidModel() throws IOException {
+		
+		/** fabrique la commande SS */
+		byte[] cmdToSend = CamiGenerator.generateCmdQQ();
+		/** envoie de la commande SS */
+		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+	}
+	
+		}

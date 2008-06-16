@@ -209,7 +209,15 @@ System.out.println("session open");
 	public void sendModel(IModel model) throws IOException {
 
 		speaker.sendModel(model);
+		
 	}
+
+	public void invalidModel() throws IOException {
+	     speaker.invalidModel();
+		
+	}
+	
+	
 
 
 

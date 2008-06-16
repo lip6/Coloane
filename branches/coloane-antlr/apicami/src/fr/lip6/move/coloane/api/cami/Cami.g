@@ -226,9 +226,9 @@ receving_menu
             menuList.add(menu);
             
 //            System.out.println("Menu construit");
-//            System.out.println("FQ()");
+//            System.out.println("FQ");
         }
-    'VQ('CAMI_STRING')'{ /* afficher les questions */
+       'VQ('CAMI_STRING')'{ /* afficher les questions */
             System.out.println("je parse le VQ");
             
         }
@@ -429,6 +429,30 @@ ask_for_a_model
      }
 	;
 
+/* ------------------------- reception des resultats ---------------------------
+
+result_reception
+       :
+        'DR()'{ 
+            // initialiser la liste des updates 
+        //    camiUpdates = new ArrayList<ArrayList<String>>();
+          System.out.println("je parse DR");
+        } 
+       
+      'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
+        System.out.println("je parse RQ"); 
+        } 
+       'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9') ',' mess2=CAMI_STRING? ')'{ 
+            
+          //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+          System.out.println("je parse TQ2");
+          }
+       'FR(' NUMBER ')'{
+         System.out.println("je parse FR");
+            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
+        }
+;
+
 
 /* ------------------------- reception des resultats ---------------------------*/
 
@@ -440,43 +464,51 @@ result_reception
         //    camiUpdates = new ArrayList<ArrayList<String>>();
           System.out.println("je parse DR");
         }
-       |'<EOF>'*
-       |'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
+       'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
         System.out.println("je parse RQ"); 
         } 
-        |'<EOF>'*
-        'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
+        resultat*
+       
+     /*   'FR(' NUMBER ')'{
+         System.out.println("je parse FR");
+            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
+        }*/
+;
+
+
+
+
+
+resultat
+   :
+         message_utils*
+        |domaine_table
+        |dialogue
+        |modele
+        |result*
+       
+;
+message_utils
+          :
+          trace_message2 
+          | warning_message2 
+          | special_message2
+          | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+          System.out.println("je parse ZA");
+          }
+          |'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
             
           //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
           System.out.println("je parse TQ2");
           }
-        |result*
-        |message_utils*
-        |domaine_table*
-        |dialogue*
-        |modele*
-        |'FR(' NUMBER ')'{
-         System.out.println("je parse FR");
-            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
-        }
-;
-
-message_utils
-          :
-	  trace_message2 
-          | warning_message2 
-          | special_message2
-          |NEWLINE
-          | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-          System.out.println("je parse ZA");
-          }
+         
 ;
 
 trace_message2
 	:
 	'TR(' CAMI_STRING ')'{
           ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
- System.out.println("je parse le TR");
+        System.out.println("je parse le TR");
         }
 	;
 
@@ -495,23 +527,34 @@ special_message2
       System.out.println("je parse le MO");
         }
 	;
-result	:
-	 result_body+
-        '<EOF>'*
-	|'FE()'{
+
+
+result
+   :
+	
+       'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
+         System.out.println("je parse DE"); 
+         }
+        result_body+
+	'FE()'{
          System.out.println("je parse FE"); 
          }
-        |'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
+;
+
+debut
+  :
+        'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
          System.out.println("je parse DE"); 
          }
         |'DE()'{
          System.out.println("je parse DE sans parametre"); 
          }
-	;
+;
 
 result_body
  	:
          textual_result
+        |result
  	| object_designation
  	| object_outline
  	| attribute_outline
@@ -583,25 +626,31 @@ domaine_table
        
            System.out.println("je parse le TD dans table domaine");
         }
-        |'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-    
-           System.out.println("je parse le OB dans table domaine");
-        }
-        |'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-         
-           System.out.println("je parse le AT dans table domaine");
-        }
-       |'FA()'{
+        milieu*
+       'FA()'{
           
            System.out.println("je parse le FA dans table domaine");
         }
 ;
+
+milieu
+:
+ 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+    
+           System.out.println("je parse le OB dans table domaine");
+        }
+       | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+         
+           System.out.println("je parse le AT dans table domaine");
+}
+;
+
 modele
     :
       'DB()'{
          System.out.println("je parse BD"); 
        }
-       modele*
+       modele2*
        'FB()'{
          System.out.println("je parse FB"); 
        }
@@ -635,8 +684,7 @@ modele2
 dialogue
      :
     dialog2+
-    '<EOF>'*
-    |'DC('{
+    |'DC()'{
         System.out.println("je parse DC");
     }
     |'AD('NUMBER ')'{
@@ -652,7 +700,7 @@ dialog2
      | 'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' default_value=CAMI_STRING? ')'{
        System.out.println("je parse CE"); 
          }
-      |NEWLINE
+
        |'FF('{ 
      System.out.println("je parse FF");
      }
@@ -688,3 +736,10 @@ NEWLINE
  : 	
 	( '\r'?'\n' )+ {skip();}
 	;
+
+EOF     :
+	        {
+         System.out.println("je parse EOOOFFFFF"); 
+skip();}
+	        ;
+

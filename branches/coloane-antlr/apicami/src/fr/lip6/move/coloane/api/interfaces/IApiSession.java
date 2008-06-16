@@ -87,6 +87,8 @@ import java.io.IOException;
 
 
 			public void sendModel(IModel model) throws IOException;
+			
+			public void invalidModel() throws IOException;
 
 
 	 	}

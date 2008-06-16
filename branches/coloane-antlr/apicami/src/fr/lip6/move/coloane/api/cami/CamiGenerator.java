@@ -238,9 +238,9 @@ public class CamiGenerator {
 
 	}
 
-	public ArrayList<byte[]> generateCmdQQ() {
-		// TODO Auto-generated method stub
-		return null;
+	public static byte[] generateCmdQQ() {
+		String command = new String("QQ()");
+		return initCommand(command);
 	}
 
 	public static byte[] generateCmdRS(String sessionName) {

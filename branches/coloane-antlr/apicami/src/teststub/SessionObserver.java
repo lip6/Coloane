@@ -20,13 +20,13 @@ public class SessionObserver implements ISessionObserver {
 		    * l'affichage des menus
 		    */
 
-		  System.out.println("\n test stub: affichage des menus");
-		   for (IMenu menu: menuList){
-			   afficher(menu);
-		   }
+		//  System.out.println("\n test stub: affichage des menus");
+		//   for (IMenu menu: menuList){
+		//	   afficher(menu);
+		  // }
 
-		   System.out.println("\n test stub: affichage des modificateurs de menu");
-		   afficher(updatesList);
+	//	   System.out.println("\n test stub: affichage des modificateurs de menu");
+	//	   afficher(updatesList);
 
 
 
