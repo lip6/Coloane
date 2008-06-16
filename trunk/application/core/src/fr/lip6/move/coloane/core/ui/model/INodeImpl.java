@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface pour les noeuds du modele.<br>
@@ -163,6 +164,6 @@ public interface INodeImpl extends IElement {
 	 * Retourne tous les arcs entrants/sortants du noeud sans doublons
 	 * @return La liste des arcs ttaches a ce noeud
 	 */
-	List<IArcImpl> getAllArcs();
+	Set<IArcImpl> getAllArcs();
 
 }

@@ -332,6 +332,14 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
 	}
 
+	public final void modifyInflexPoints(int dx, int dy) {
+		for (int index = 0; index < this.getInflexPoints().size(); index++) {
+			Point oldLocation = this.getInflexPoint(index);
+			Point newLocation = new Point(oldLocation.x + dx, oldLocation.y + dy);
+			this.modifyInflexPoint(index, newLocation);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getInflexPoint(int)
