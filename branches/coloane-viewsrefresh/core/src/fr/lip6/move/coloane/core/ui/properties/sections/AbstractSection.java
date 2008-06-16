@@ -44,16 +44,24 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
 		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
-		if (element != null) {
-			element.removePropertyChangeListener(this);
-			for (IAttributeImpl attr : element.getAttributes()) {
-				attr.removePropertyChangeListener(this);
+		T oldElement = element;
+		element = (T) editPart.getModel();
+
+		if (oldElement != null) {
+			oldElement.removePropertyChangeListener(this);
+			if (oldElement.getAttributes() != null) {
+				for (IAttributeImpl attr : oldElement.getAttributes()) {
+					attr.removePropertyChangeListener(this);
+				}
 			}
 		}
-		element = (T) editPart.getModel();
-		element.addPropertyChangeListener(this);
-		for (IAttributeImpl attr : element.getAttributes()) {
-			attr.addPropertyChangeListener(this);
+		if (element != null) {
+			element.addPropertyChangeListener(this);
+			if (element.getAttributes() != null) {
+				for (IAttributeImpl attr : element.getAttributes()) {
+					attr.addPropertyChangeListener(this);
+				}
+			}
 		}
 	}
 

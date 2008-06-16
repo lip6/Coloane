@@ -30,9 +30,9 @@ public final class ModelWriter {
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append("xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema); //$NON-NLS-1$
-		line.append("' formalism='").append(model.getFormalism()); //$NON-NLS-1$
-		line.append("' xposition='0' yposition='0'>\n"); //$NON-NLS-1$
+		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" formalism='").append(model.getFormalism()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 
 		// Ecriture des attributs du modele
 		if (model.getAttributes().size() > 0) {
@@ -149,8 +149,8 @@ public final class ModelWriter {
 		// Pour chaque point d'inflexion...
 		for (Bendpoint inflex : arc.getInflexPoints()) {
 			sb.append("<pi"); //$NON-NLS-1$
-			sb.append("xposition='").append(inflex.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append("yposition='").append(inflex.getLocation().y).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" xposition='").append(inflex.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" yposition='").append(inflex.getLocation().y).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return sb.toString();
 	}
@@ -209,9 +209,9 @@ public final class ModelWriter {
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append("xsi:noNamespaceSchemaLocation='").append(schema); //$NON-NLS-1$
-		line.append("' formalism='").append(formalismName); //$NON-NLS-1$
-		line.append("' xposition='0' yposition='0'>\n"); //$NON-NLS-1$
+		line.append(" xsi:noNamespaceSchemaLocation='").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" formalism='").append(formalismName).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 
 		// Creation des noeuds
 		line.append("<nodes>\n"); //$NON-NLS-1$

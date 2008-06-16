@@ -69,7 +69,7 @@ public class ModelHandler extends DefaultHandler {
 
 		// Balise ATTRIBUT
 		} else if (!("nodes".equals(baliseName) || "arcs".equals(baliseName))) { //$NON-NLS-1$ //$NON-NLS-2$
-			startAttribute(baliseName, attributes);
+			startAttribute(baliseName.replaceAll("authors", "author(s)"), attributes);  //$NON-NLS-1$//$NON-NLS-2$
 		}
 	}
 

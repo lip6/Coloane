@@ -13,7 +13,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
- * Classe englobant un Label et un Text avec une gestion des Text en multi-ligne (agrandissement automatique)
+ * Classe englobant un Label et un Text avec une gestion des Text en multi-ligne
+ * (agrandissement automatique).<br>
+ * Pour rafraichir un LabelText, il y a la méthode redraw().
  */
 public class LabelText {
 	/** Largeur du label */

@@ -394,7 +394,7 @@
              id="fr.lip6.move.coloane.core.section.NodeLocationSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.NodeImplAdapter">
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
           </input>
        </propertySection>
        <propertySection
@@ -402,7 +402,15 @@
              id="fr.lip6.move.coloane.core.section.NodeSizeSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.NodeImplAdapter">
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.AttributeSection"
+             id="fr.lip6.move.coloane.core.section.AttributeSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IAttributeImpl">
           </input>
        </propertySection>
     </propertySections>

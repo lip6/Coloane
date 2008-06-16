@@ -189,7 +189,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
+		if (!isDisposed() && IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
 			refreshContent();
 		}
 	}
