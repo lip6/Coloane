@@ -35,10 +35,13 @@ public interface IArcImpl extends IElement {
 	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETSELECT_PROP = "Arc.Select"; //$NON-NLS-1$
+	String SELECT_PROP = "Arc.Select"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SETUNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
+	String UNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
+
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SPECIAL_PROP = "Arc.SpecialUpdate"; //$NON-NLS-1$
 
 	/** ID pour le changement de couleur */
 	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
@@ -141,6 +144,13 @@ public interface IArcImpl extends IElement {
 	void modifyInflexPoint(int index, Point p);
 
 	/**
+	 * Deplacement de tous les points d'inflexions
+	 * @param dx
+	 * @param dy
+	 */
+	void modifyInflexPoints(int dx, int dy);
+
+	/**
 	 * Retourne les informations graphiques liees a l'arc (notamment le point milieu)
 	 * @return IGraphicInfo
 	 */
@@ -157,7 +167,7 @@ public interface IArcImpl extends IElement {
 	 * @param light Epaisseur de la mise en valeur (survol = light, selection = heavy)
 	 * @param state Selection / Deselection
 	 */
-	void setAttributesSelected(boolean state);
+	void setAttributesSelected(boolean light, boolean state);
 
 	/**
 	 * Mettre a jour la position des attributs de l'arc en fonction de la position des noeuds source et cible

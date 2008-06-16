@@ -83,7 +83,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
 	 */
-	public final void unsetSelect() {
+	public final void setUnselect() {
 		super.setForegroundColor(arcGraphInfo.getColor());
 		this.setLineWidth(1);
 		isSelected = false;

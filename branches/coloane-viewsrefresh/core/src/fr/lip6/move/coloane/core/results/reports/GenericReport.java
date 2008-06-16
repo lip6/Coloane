@@ -1,69 +1,64 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 public class GenericReport implements IReport {
-	public IResultTree build(IResultsCom result) {
-//		printModel();
-		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
-		IModelImpl model = Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel();
 
-		// Un sous-arbre pour chaque sous-resultats
-		for(int i=0;i<result.getSubResults().size();i++) {
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.results.reports.IReport#build(fr.lip6.move.coloane.interfaces.objects.IResultsCom)
+	 */
+	public final ResultTreeImpl build(IResultsCom result) {
+
+		// 1. Build the root of the resultat tree
+		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
+
+		// 2. Attach the session Manager to the root
+		root.setSessionManager(SessionManager.getInstance());
+
+		// For each subgroup of results
+		for (int i = 0; i < result.getSubResults().size(); i++) {
 			SubResultsCom sub = result.getSubResults().get(i);
 
+			// Create a node result
 			ResultTreeImpl node;
-			if(sub.getCmdRT().size()==1)
-				node = new ResultTreeImpl("Ensemble "+(i+1), sub.getDetails(), sub.getCmdRT().get(0));
-			else
-				node = new ResultTreeImpl("Ensemble "+(i+1), sub.getDetails());
-
-			for(String s:sub.getCmdRO()) {
-				int id = Integer.valueOf(s);
-				String name = s;
-				INodeImpl nodeImpl = model.getNode(id);
-				if(nodeImpl != null) {
-					String attribut = nodeImpl.getNodeAttributeValue("name");
-					if(!attribut.equals(""))
-						name = attribut;
+			if (sub.getCmdRT().size() == 1) {
+				if (!("".equals(sub.getDetails()))) {
+					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getDetails(), sub.getCmdRT().get(0));
+				} else {
+					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getCmdRT().get(0));
 				}
-				node.addChild(new ResultTreeImpl(id,"Object",name));
+			} else {
+				node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getDetails());
 			}
-			if(sub.getCmdRT().size()>1) {
-				for(String s:sub.getCmdRT())
-					node.addChild(new ResultTreeImpl("Text",s));
+
+			for (String s : sub.getCmdRO()) {
+				int id = Integer.valueOf(s);
+
+				String name = String.valueOf(id);
+				IElement element = root.getSessionManager().getCurrentSession().getModel().getModelObject(id);
+				if ((element != null) && (element instanceof INodeImpl)) {
+					String value = element.getAttributeValue("name");
+					if (!("".equals(value))) {
+						name = value;
+					}
+				}
+				node.addChild(new ResultTreeImpl(id, "Object", name));
+				node.addHighlighted(id);
+			}
+
+			if (sub.getCmdRT().size() > 1) {
+				for (String s : sub.getCmdRT()) {
+					node.addChild(new ResultTreeImpl("Text", s));
+				}
 			}
 			root.addChild(node);
 		}
 		return root;
-	}
-
-	@SuppressWarnings("unused")
-	private static void printModel() {
-		IModelImpl model = Coloane.getDefault().getMotor().getSessionManager().getCurrentSessionModel();
-		System.err.println("Affichage du model");
-		for(INodeImpl node:model.getNodes()) {
-			System.err.println(node.getId()+" "+node.getAttributes());
-		}
-	}
-
-	public List<Integer> highlightNode(IResultsCom result) {
-		List<Integer> list = new ArrayList<Integer>();
-		for(SubResultsCom sub:result.getSubResults()) {
-			for(String me:sub.getCmdME()) {
-				Integer id = new Integer(me);
-				list.add(id);
-			}
-		}
-		return list;
 	}
 }

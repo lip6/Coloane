@@ -39,7 +39,7 @@
          </menu>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.DisconnectModelAction"
-               icon="resources/icons/disconnect.gif"
+               icon="resources/icons/disconnect.png"
                id="disconnect"
                label="%DISCONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -49,7 +49,7 @@
          </action>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.ConnectModelAction"
-               icon="resources/icons/connect.gif"
+               icon="resources/icons/connect.png"
                id="connect"
                label="%CONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
@@ -59,7 +59,7 @@
          </action>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.BreakConnectionAction"
-               icon="resources/icons/force_deco.gif"
+               icon="resources/icons/unauthenticate.png"
                id="breakconnection"
                label="%BREAK_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
@@ -68,13 +68,26 @@
          </action>
          <action
                class="fr.lip6.move.coloane.core.ui.actions.AuthenticationAction"
-               icon="resources/icons/auth.gif"
+               icon="resources/icons/authenticate.png"
                id="authentication"
                label="%AUTHENTICATION_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%AUTHENTICATION_TIP">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.ExportImageAction"
+               icon="resources/icons/picture_save.png"
+               id="fr.lip6.move.coloane.core.exportimage"
+               label="ExportImage"
+               toolbarPath="org.eclipse.ui.workbench.file/print.ext"
+               tooltip="Export your model to image file">
+            <enablement>
+               <objectClass
+                     name="fr.lip6.move.coloane.core.ui.editpart.ModelEditPart">
+               </objectClass>
+            </enablement>
          </action>
       </actionSet>
    </extension>
@@ -89,21 +102,21 @@
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.core.ui.panels.HistoryView"
-             icon="resources/icons/histo_pane.gif"
+             icon="resources/icons/historic_view.gif"
              id="fr.lip6.move.coloane.views.HistoricView"
              name="%HISTORIC_VIEW"/>
        <view
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="fr.lip6.move.coloane.core.ui.panels.ResultsView"
-             icon="resources/icons/results.gif"
+             icon="resources/icons/results_view.gif"
              id="fr.lip6.move.coloane.views.ResultsView"
              name="%RESULTS_VIEW"/>
        <view
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
              class="org.eclipse.ui.navigator.CommonNavigator"
-             icon="resources/icons/hierarchy_co.gif"
+             icon="resources/icons/models_navigator.gif"
              id="fr.lip6.move.coloane.views.NavigatorView"
              name="%NAVIGATOR_VIEW">
        </view>
@@ -239,7 +252,7 @@
     <navigatorContent
           activeByDefault="true"
           contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
-          icon="resources/icons/all_sc_obj.gif"
+          icon="resources/icons/model_contents.gif"
           id="fr.lip6.move.coloane.core.modelcontents"
           labelProvider="fr.lip6.move.coloane.core.ui.views.LabelProvider"
           name="Model Contents"

@@ -206,7 +206,7 @@ public class ModelHandler extends DefaultHandler {
 		int endid = Integer.parseInt(attributes.getValue("endid")); //$NON-NLS-1$
 
 		// Creation de l'arc
-		try {
+//		try {
 			IArcImpl arcAdapter = new ArcImplAdapter(
 					modelAdapter.getNode(startid),
 					modelAdapter.getNode(endid),
@@ -222,9 +222,9 @@ public class ModelHandler extends DefaultHandler {
 			}
 
 			stack.push(arcAdapter);
-		} catch (BuildException e) {
-			logger.warning("Impossible de créer l'arc : " + e.getMessage()); //$NON-NLS-1$
-		}
+//		} catch (BuildException e) {
+//			logger.warning("Impossible de créer l'arc : " + e.getMessage()); //$NON-NLS-1$
+//		}
 	}
 
 	/**

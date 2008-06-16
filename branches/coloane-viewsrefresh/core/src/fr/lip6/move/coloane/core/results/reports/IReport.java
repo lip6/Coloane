@@ -1,23 +1,20 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import java.util.List;
-
-import fr.lip6.move.coloane.core.results.IResultTree;
+import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
+/**
+ * Cette interface doit être implémentée par les classes qui gèrent
+ * des résultats de services en provenance de FrameKit. Une seule méthode
+ * doit être définie : {@link #build(IResultsCom)}
+ *
+ * @author Clement Demoulins
+ */
 public interface IReport {
 	/**
-	 * Construction de l'arbre des résultats qui seront afficher dans la fenetre
-	 * "résultats"
-	 * @param result Objet contenant les données bruts
+	 * Construction de l'arbre des résultats qui seront affiches dans la fenetre "resultats"
+	 * @param result Objet contenant les données brutes en provenance de la Com
 	 * @return Arbre des résultats
 	 */
-	public IResultTree build(IResultsCom result);
-	
-	/**
-	 * Construction d'une liste de noeud à mettre en valeur
-	 * @param result Objet contenant les données bruts
-	 * @return Liste des id des noeuds à mettre en valeur
-	 */
-	public List<Integer> highlightNode(IResultsCom result);
+	ResultTreeImpl build(IResultsCom result);
 }

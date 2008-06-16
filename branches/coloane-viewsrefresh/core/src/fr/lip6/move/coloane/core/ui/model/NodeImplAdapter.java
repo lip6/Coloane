@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -11,8 +12,9 @@ import fr.lip6.move.coloane.interfaces.model.Node;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -169,6 +171,14 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getFormalism()
+	 */
+	public final Formalism getFormalism() {
+		return elementBase.getFormalism();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addInputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
 	public final void addInputArc(IArcImpl arcAdapter) throws BuildException {
@@ -309,6 +319,17 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 	/*
 	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.INodeImpl#getAllArcs()
+	 */
+	public final Set<IArcImpl> getAllArcs() {
+		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
+		allArcs.addAll(this.getSourceArcs());
+		allArcs.addAll(this.getTargetArcs());
+		return allArcs;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getGenericNode()
 	 */
 	public final INode getGenericNode() {
@@ -338,14 +359,10 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	public final List<IAttributeImpl> getAttributes() {
 		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
 
-		// Ajout des attributs "personnels" du noeud
+		// Ajout des attributs du noeud
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
 		list.addAll(attributes);
 
-		// On doit ajouter tous les attributs des arcs sourtants
-		for (IArcImpl arc : this.sourceArcs) {
-			list.addAll(arc.getAttributes());
-		}
 		return list;
 	}
 
@@ -361,7 +378,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
-	public final String getNodeAttributeValue(String attribute) {
+	public final String getAttributeValue(String attribute) {
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
 			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
 				return this.node.getNthAttr(i).getValue();

@@ -108,13 +108,6 @@ public interface IModelImpl extends IElement {
 	void setDirty(boolean dirty);
 
 	/**
-	 * Mise en valeur d'un noeud
-	 * @param idhighlight
-	 * @param unhighlight
-	 */
-	void highlightNode(int... id);
-
-	/**
 	 * Reinitialise l'aspect des noeuds
 	 */
 	void switchoffNodes();
@@ -127,11 +120,24 @@ public interface IModelImpl extends IElement {
 	 *   <li>un rafraichissement du modele</li>
 	 * </ul>
 	 */
-	void annouceAttribute();
+	void announceAttribute();
 
 	/**
 	 * Attention cette méthode reconstruit à chaque fois la liste des arcs.
 	 * @return la liste des arcs
 	 */
 	Set<IArcImpl> getArcs();
+
+	/**
+	 * TODO
+	 * @return
+	 */
+	List<IElement> getModelObjects();
+
+	/**
+	 * TODO
+	 * @param id
+	 * @return
+	 */
+	IElement getModelObject(int id);
 }

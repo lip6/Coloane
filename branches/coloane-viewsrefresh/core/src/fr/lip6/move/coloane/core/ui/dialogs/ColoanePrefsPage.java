@@ -195,10 +195,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 */
 	@Override
 	protected final void performDefaults() {
-		Coloane.getDefault().setDefaultPreference("LOGIN"); //$NON-NLS-1$
-		Coloane.getDefault().setDefaultPreference("SERVER"); //$NON-NLS-1$
-		Coloane.getDefault().setDefaultPreference("IP"); //$NON-NLS-1$
-		Coloane.getDefault().setDefaultPreference("PORT"); //$NON-NLS-1$
+		Coloane.getDefault().setDefaultPreference();
 
 		loginField.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
 		framekitIp.setText(Coloane.getDefault().getPreference("IP")); //$NON-NLS-1$

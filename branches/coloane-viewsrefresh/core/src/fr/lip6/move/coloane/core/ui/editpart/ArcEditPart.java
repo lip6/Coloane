@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -72,17 +73,27 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
 			@Override
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
+				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				Point p = request.getLocation();
+				getConnection().translateToRelative(p);
 				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 
 			@Override
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
+				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				Point p = request.getLocation();
+				getConnection().translateToRelative(p);
 				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 			@Override
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
+				Point p = request.getLocation();
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
+				getConnection().translateToRelative(p);
+				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
@@ -95,19 +106,27 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((IArcImpl) getModel()).setAttributesSelected(true);
+					((IArcImpl) getModel()).setAttributesSelected(false, true);
 					((IArcFigure) getFigure()).setSelect();
 				} else {
-					((IArcImpl) getModel()).setAttributesSelected(false);
-					((IArcFigure) getFigure()).unsetSelect();
+					((IArcImpl) getModel()).setAttributesSelected(false, false);
+					((IArcFigure) getFigure()).setUnselect();
 				}
 			}
 
+			// Comportement lors de la deselection de l'objet
 			@Override
-			protected void hideSelection() { }
+			protected void hideSelection() {
+				IArcFigure arcFigure = (IArcFigure) getFigure();
+				arcFigure.setUnselect();
+			}
 
+			// Comportement lors de la selection de l'objet
 			@Override
-			protected void showSelection() { }
+			protected void showSelection() {
+				IArcFigure arcFigure = (IArcFigure) getFigure();
+				arcFigure.setSelect();
+			}
 		});
 
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
@@ -132,10 +151,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		// Propriete de modification/suppression/ajout de point d'inflexion
 		if (IArcImpl.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
-		} else if (IArcImpl.SETSELECT_PROP.equals(prop)) {
+		} else if (IArcImpl.SELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setHighlight();
-		} else if (IArcImpl.SETUNSELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).unsetSelect();
+		} else if (IArcImpl.UNSELECT_PROP.equals(prop)) {
+			((IArcFigure) getFigure()).setUnselect();
 		} else if (IArcImpl.COLOR_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		}

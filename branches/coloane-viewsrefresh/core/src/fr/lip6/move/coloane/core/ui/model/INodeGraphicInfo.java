@@ -98,4 +98,9 @@ public interface INodeGraphicInfo {
 	 * @return pourcentage
 	 */
 	int getScale();
+
+	/**
+	 * @return heure du dernier deplacement
+	 */
+	long getLastMove();
 }

@@ -79,17 +79,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @param source Noeud source
 	 * @param target Noeud cible
 	 * @param base Element de base du formalisme
-	 * @throws BuildException
 	 */
-	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
-		if (arcSource == null) {
-			throw new BuildException("Problème avec arcSource"); //$NON-NLS-1$
-		} else if (arcTarget == null) {
-			throw new BuildException("Problème avec arcTarget"); //$NON-NLS-1$
-		} else if (base == null) {
-			throw new BuildException("Problème avec le formalisme"); //$NON-NLS-1$
-		}
-
+	public ArcImplAdapter(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) {
 		this.elementBase = base;
 		this.source = arcSource;
 		this.target = arcTarget;
@@ -148,6 +139,10 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IArcImpl#reconnect(fr.lip6.move.coloane.core.ui.model.INodeImpl, fr.lip6.move.coloane.core.ui.model.INodeImpl)
+	 */
 	public final void reconnect(INodeImpl newSource, INodeImpl newTarget) {
 
 		// Suppression du lien depuis les anciens noeuds
@@ -215,29 +210,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
-	 */
-	public final void setAttributesSelected(boolean state) {
-		List<IAttributeImpl> list = this.getDrawableAttributes();
-		for (IAttributeImpl att : list) {
-			att.setSelect(state);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setSelect(boolean)
-	 */
-	public final void setSelect(boolean state) {
-		if (state) {
-			firePropertyChange(IArcImpl.SETSELECT_PROP, null, null);
-		} else {
-			firePropertyChange(IArcImpl.SETUNSELECT_PROP, null, null);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
 	 */
 	public final List<IAttributeImpl> getAttributes() {
@@ -247,14 +219,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
 		list.addAll(attributes);
 		return list;
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
-	 */
-	@SuppressWarnings("unchecked")
-	public final Collection getContextMenus() {
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -373,10 +337,19 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 */
 	public final void modifyInflexPoint(int index, Point p) {
 		try {
+			Coloane.getLogger().finer("Mouvement du point d'inflexion : " + index + " -> Nouvelles coordonees : " + p.x + " - " + p.y); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			this.genericArc.modifyPI(index, p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
 			Coloane.getLogger().warning("Impossible de modifier le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$
+		}
+	}
+
+	public final void modifyInflexPoints(int dx, int dy) {
+		for (int index = 0; index < this.getInflexPoints().size(); index++) {
+			Point oldLocation = this.getInflexPoint(index);
+			Point newLocation = new Point(oldLocation.x + dx, oldLocation.y + dy);
+			this.modifyInflexPoint(index, newLocation);
 		}
 	}
 
@@ -424,5 +397,61 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		}
 
 		this.graphicInfo.updateMiddlePoint();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setAttributesSelected(boolean, boolean)
+	 */
+	public final void setAttributesSelected(boolean light, boolean state) {
+		List<IAttributeImpl> list = this.getDrawableAttributes();
+		for (IAttributeImpl att : list) {
+			att.setSelect(light, state);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#setSelect(boolean)
+	 */
+	public final void setSelect(boolean state) {
+		if (state) {
+			firePropertyChange(IArcImpl.SELECT_PROP, null, null);
+		} else {
+			firePropertyChange(IArcImpl.UNSELECT_PROP, null, null);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
+	 */
+	public final void setSpecial(boolean state) {
+		if (state) {
+			firePropertyChange(IArcImpl.SPECIAL_PROP, null, null);
+		} else {
+			firePropertyChange(IArcImpl.UNSELECT_PROP, null, null);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
+	 */
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	public final Collection getContextMenus() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		for (int i = 0; i < this.genericArc.getListOfAttrSize(); i++) {
+			if (this.genericArc.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
+				return this.genericArc.getNthAttr(i).getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
 	}
 }

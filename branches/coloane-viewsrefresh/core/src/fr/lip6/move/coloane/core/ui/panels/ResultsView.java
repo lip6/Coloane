@@ -1,12 +1,13 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -32,7 +33,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ResultsView extends ViewPart {
 	private static ResultsView instance;
-	private static final SessionManager manager = Coloane.getDefault().getMotor().getSessionManager();
+	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
 
 	/** Vue représentant l'arbre des résultats */
@@ -45,7 +46,7 @@ public class ResultsView extends ViewPart {
 	private Action deleteAll;
 
 	/**
-	 * Constructeur privé, ResultView est un singleton 
+	 * Constructeur privé, ResultView est un singleton
 	 */
 	public ResultsView() {
 		super();
@@ -56,8 +57,9 @@ public class ResultsView extends ViewPart {
 	 * @return Instance du ResultView
 	 */
 	public static ResultsView getInstance() {
-		if(instance==null)
+		if (instance == null) {
 			instance = new ResultsView();
+		}
 		return instance;
 	}
 
@@ -70,34 +72,24 @@ public class ResultsView extends ViewPart {
 		// Ajout d'une seul colonne si il en faut plus elles seront ajoutées dynamiquements
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
 
-		final ResultTreeList results = manager.getCurrentServiceResult();
-
+		ResultTreeList results = null;
+		if (MANAGER.getCurrentSession() != null) {
+			results = MANAGER.getCurrentSession().getServiceResults();
+		}
 
 		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
 		// en cas modification des résultats : ajouts/suppressions.
 		final Observer resultObserver = new Observer() {
 			public void update(final Observable o, Object arg) {
-				final Integer width = (Integer)arg;
+				final Integer width = (Integer) arg;
 				parent.getDisplay().syncExec(new Runnable() {
 					public void run() {
-						IModelImpl model = manager.getCurrentSessionModel();
-						
-						if(model!=null) {
-							// Mise en avant des objets
-							if(o instanceof ResultTreeList) {
-								ResultTreeList treeList = (ResultTreeList) o;
-								for(Integer id:treeList.getHighlight()) {
-									model.getNode(id).setSpecial(true);
-								}
-							}
-	
-							// Ajout de colonnes si il faut
-							for(int i=viewer.getTree().getColumnCount();i<width;i++) {
-								TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
-								column.setLabelProvider(new ResultColumnLabelProvider(i));
-							}
-							updateColumnsWidth();
+						// Ajout de colonnes si il faut
+						for (int i = viewer.getTree().getColumnCount(); i < width; i++) {
+							TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.LEFT);
+							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}
+						updateColumnsWidth();
 
 						// Rafraichissement de la vue
 						viewer.refresh();
@@ -105,9 +97,9 @@ public class ResultsView extends ViewPart {
 				});
 			}
 		};
-		
+
 		// Ajout d'un observer sur la liste de résultat courrante
-		if(results!=null) {
+		if (results != null) {
 			viewer.setInput(results);
 			results.addObserver(resultObserver);
 		}
@@ -115,39 +107,39 @@ public class ResultsView extends ViewPart {
 		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IModelImpl model = manager.getCurrentSessionModel();
-				if(model==null)
+				IModelImpl model = MANAGER.getCurrentSession().getModel();
+				if (model == null) {
 					return;
+				}
 
-				IResultTree node = (IResultTree)((TreeSelection)event.getSelection()).getFirstElement();
-				for(INodeImpl nodeImpl:model.getNodes())
-					nodeImpl.setSelect(false);
-				if(node!=null) {
+				// Mise a zero de tous les objets (retour a leur apparence normale)
+				for (IElement elt : model.getModelObjects()) {
+					elt.setSpecial(false);
+				}
 
-					// Selection d'un objet du model
-					if(node.getId()!=-1) {
-						INodeImpl nodeImpl = model.getNode(node.getId());
-						if(nodeImpl!=null)
-							nodeImpl.setSelect(true);
+				// Recuperation de l'arbre de sous-resultat (ou de resultat)
+				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
+
+				if (node != null) {
+					// Selection des objets du modele
+					for (Integer toHighlight : node.getHighlighted()) {
+						if (toHighlight != -1) {
+							IElement elt = model.getModelObject(toHighlight);
+							if (elt != null) {
+								elt.setSpecial(true);
+							}
+						}
 					}
-
-					// Mise en avant de tous les objets d'une réponse
-					else if(node.getParent()==null && manager.getCurrentServiceResult()!=null) {
-						for(Integer id:manager.getCurrentServiceResult().getHighlight(node))
-							model.getNode(id).setSpecial(true);
-					}
-
 					delete.setEnabled(true);
 				}
 			}
 		});
 
-		
 		// Ajout d'un Observer sur les changements de sessions
-		manager.addObserver(new Observer() {
+		((Observable) MANAGER).addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
-				if(arg instanceof Session) {
-					final ResultTreeList currentResult = ((Session) arg).getServiceResults();
+				if (arg instanceof Session) {
+					final ResultTreeList currentResult = ((ISession) arg).getServiceResults();
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
 							viewer.setInput(currentResult);
@@ -158,11 +150,12 @@ public class ResultsView extends ViewPart {
 				}
 			}
 		});
-		
+
 		createToolbar();
 
 		updateColumnsWidth();
 		Tree tree = viewer.getTree();
+		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		instance = this;
@@ -176,10 +169,8 @@ public class ResultsView extends ViewPart {
 		delete = new Action("Delete") {
 			@Override
 			public void run() {
-				IResultTree node = (IResultTree)((ITreeSelection)viewer.getSelection()).getFirstElement();
-				if(node!=null) {
-					while(node.getParent()!=null)
-						node = node.getParent();
+				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
+				if (node != null) {
 					node.remove();
 					this.setEnabled(false);
 				}
@@ -193,7 +184,7 @@ public class ResultsView extends ViewPart {
 		deleteAll = new Action("Delete All") {
 			@Override
 			public void run() {
-				manager.getCurrentServiceResult().removeAll();
+				MANAGER.getCurrentSession().getServiceResults().removeAll();
 			}
 		};
 		deleteAll.setToolTipText("Delete all results");
@@ -221,7 +212,6 @@ public class ResultsView extends ViewPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override

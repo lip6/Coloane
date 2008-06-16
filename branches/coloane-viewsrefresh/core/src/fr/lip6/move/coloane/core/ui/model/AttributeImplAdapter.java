@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import java.util.List;
@@ -126,13 +128,13 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.attribute.setValue(newValue);
 		}
 
-		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit cr�er une figure
+		// Si l'attribut est affichable ET que son ancienne valeur etait null ... On doit creer une figure
 		if (this.isDrawable() && oldValue.equals(this.getDefaultValue())) {
-			this.reference.getModelAdapter().annouceAttribute();
+			this.reference.getModelAdapter().announceAttribute();
 		}
 
 		if (newValue != null && this.isDrawable() && newValue.equals(this.getDefaultValue())) {
-			this.reference.getModelAdapter().annouceAttribute();
+			this.reference.getModelAdapter().announceAttribute();
 		}
 
 		firePropertyChange(IAttributeImpl.VALUE_PROP, null, null);
@@ -224,14 +226,52 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IAttributeImpl#setSelect(boolean)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
+	 */
+	public void setSpecial(boolean state) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSelect(boolean)
 	 */
 	public final void setSelect(boolean state) {
-		if (state) {
-			firePropertyChange(AttributeImplAdapter.SELECT_HEAVY_PROP, null, null);
-		} else {
-			firePropertyChange(AttributeImplAdapter.UNSELECT_HEAVY_PROP, null, null);
-		}
+		this.setSelect(false, state);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getElementBase()
+	 */
+	public final ElementFormalism getElementBase() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getFormalism()
+	 */
+	public final Formalism getFormalism() {
+		return reference.getFormalism();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean light, boolean state) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setModelAdapter(fr.lip6.move.coloane.core.ui.model.IModelImpl)
+	 */
+	public void setModelAdapter(IModelImpl modelAdapter) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		return "";
 	}
 
 	@Override

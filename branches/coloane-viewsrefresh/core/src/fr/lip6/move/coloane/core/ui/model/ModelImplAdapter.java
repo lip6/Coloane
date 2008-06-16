@@ -133,12 +133,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	/**
 	 * Affectation des attributs corrects (ceux contenu dans le modele
 	 * generique) Creation des attribut generiques manquants et attributs
-	 * adaptes correspondants Cela peut �tre utile lorsq'un modele est lu depuis
+	 * adaptes correspondants Cela peut etre utile lorsq'un modele est lu depuis
 	 * un fichier.
 	 *
 	 * @param genericModel Le modele generique qui vient d'etre augemente
 	 */
-	@SuppressWarnings("null")
 	private void setProperties(IModel m) {
 
 		// Parcours de tous les attributs prevus par le formalisme
@@ -266,25 +265,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		}
 	}
 
-	/**
-	 * Retourne la liste des INodeImpl du modele ainsi que tous les IAttributeImpl
-	 * du model et des noeuds.
-	 * @return List
-	 */
-	public final List<IElement> getChildren() {
-		List<IElement> listAttributes = new ArrayList<IElement>();
-		for (IElement elt : this.nodes) {
-			if (elt.getAttributes() != null) {
-				listAttributes.addAll(elt.getAttributes());
-			}
-		}
-		List<IElement> list = new ArrayList<IElement>();
-		list.addAll(this.nodes);
-		list.addAll(listAttributes);
-		list.addAll(this.getAttributes());
-		return list;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getAttributes()
@@ -303,7 +283,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#annouceAttribute()
 	 */
-	public final void annouceAttribute() {
+	public final void announceAttribute() {
 		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, null);
 	}
 
@@ -334,7 +314,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		if (!dirty) {
 			setDirty(true);
 			return date;
-			// Sinon le modele etait deja sale (on a juste mis a jour la date)
+		// Sinon le modele etait deja sale (on a juste mis a jour la date)
 		} else {
 			return 0;
 		}
@@ -369,16 +349,62 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		this.dirty = state;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#highlightNode(java.lang.String, java.lang.String)
+	/**
+	 * Retourne la liste des INodeImpl du modele ainsi que tous les IAttributeImpl du modele et des noeuds.<br>
+	 * Cette liste est particulièrement destinee a GEF pour la construction des EditParts
+	 * @return List de IElement
 	 */
-	public final void highlightNode(int... ids) {
-		for (int id : ids) {
-			INodeImpl node = getNode(id);
-			if (node != null) {
-				node.setSpecial(true);
+	public final List<IElement> getChildren() {
+		List<IElement> listChildren = new ArrayList<IElement>();
+		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
+
+		// Ajout de tous les noeuds
+		listChildren.addAll(this.nodes);
+
+		// Ajout de tous les attributs des noeuds
+		for (IElement elt : this.nodes) {
+			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			allArcs.addAll(((INodeImpl) elt).getAllArcs());
+		}
+
+		// ATTENTION : Les arcs ne doivent pas etre ajoutes a a liste !!!
+		// Leurs attributs par contre doivent être ajoutés.
+
+		// Recensement de tous les arcs du modele et de leurs attributs
+		for (IElement elt : allArcs) {
+			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+		}
+
+		// Ajout des attributs du modele
+		listChildren.addAll(this.getAttributes());
+
+		return listChildren;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#getModelObjects()
+	 */
+	public final List<IElement> getModelObjects() {
+		ArrayList<IElement> objectList = new ArrayList<IElement>();
+		objectList.addAll(nodes);
+		for (INodeImpl node : this.nodes) {
+			objectList.addAll(node.getAllArcs());
+		}
+		return objectList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IModelImpl#getModelObject(int)
+	 */
+	public final IElement getModelObject(int id) {
+		for (IElement elt : this.getModelObjects()) {
+			if (elt.getId() == id) {
+				return elt;
 			}
 		}
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -410,6 +436,32 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return new ArrayList<INodeImpl>(nodes);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getElementBase()
+	 */
+	public final ElementFormalism getElementBase() {
+		return null;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setAttributesSelected(boolean, boolean)
+	 */
+	public void setAttributesSelected(boolean light, boolean state) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setModelAdapter(fr.lip6.move.coloane.core.ui.model.IModelImpl)
+	 */
+	public void setModelAdapter(IModelImpl modelAdapter) { }
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSelect(boolean)
+	 */
+	public void setSelect(boolean state) {	}
 	public final INodeImpl getNode(int id) {
 		for (INodeImpl node : nodes) {
 			if (node.getId() == id) {
@@ -426,5 +478,24 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			arcs.addAll(node.getTargetArcs());
 		}
 		return arcs;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
+	 */
+	public void setSpecial(boolean state) {	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attributeName) {
+		for (int i = 0; i < this.genericModel.getListOfAttrSize(); i++) {
+			if (this.genericModel.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
+				return this.genericModel.getNthAttr(i).getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
 	}
 }
