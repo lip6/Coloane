@@ -54,4 +54,9 @@ public interface INodeGraphicInfo {
 	 * @return boolean
 	 */
 	boolean isFilled();
+
+	/**
+	 * @return heure du dernier deplacement
+	 */
+	long getLastMove();
 }

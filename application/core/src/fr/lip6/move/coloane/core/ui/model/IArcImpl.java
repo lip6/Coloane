@@ -122,6 +122,13 @@ public interface IArcImpl extends IElement {
 	void modifyInflexPoint(int index, Point p);
 
 	/**
+	 * Deplacement de tous les points d'inflexions
+	 * @param dx
+	 * @param dy
+	 */
+	void modifyInflexPoints(int dx, int dy);
+
+	/**
 	 * Retourne les informations graphiques liees a l'arc (notamment le point milieu)
 	 * @return IGraphicInfo
 	 */

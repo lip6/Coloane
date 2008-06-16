@@ -13,8 +13,8 @@ import fr.lip6.move.coloane.interfaces.model.Node;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -321,11 +321,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeImpl#getAllArcs()
 	 */
-	public final List<IArcImpl> getAllArcs() {
+	public final Set<IArcImpl> getAllArcs() {
 		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
 		allArcs.addAll(this.getSourceArcs());
 		allArcs.addAll(this.getTargetArcs());
-		return new ArrayList<IArcImpl>(allArcs);
+		return allArcs;
 	}
 
 	/*
