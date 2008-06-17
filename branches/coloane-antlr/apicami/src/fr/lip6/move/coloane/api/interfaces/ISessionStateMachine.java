@@ -51,16 +51,23 @@ public interface ISessionStateMachine {
 	 */
 	static final int CLOSE_SESSION_STATE = 7;
 
+	 /**
+	  * c'est letat ou jatten soit un DR ou un DF de FK
+	  */
+	static final int WAITING_FOR_RESPONSE_STATE =8 ;
+	
 	/**
 	 * ca correspond a lattente de la reprise de la fin de la session .
 	 */
-	static final int WAITING_FOR_MODEL_STATE = 8;
+	static final int WAITING_FOR_MODEL_STATE = 9;
 
 
-	/**
-	 * ca correspond a la fin de la session .
-	 */
-	static final int WAITING_FOR_RESULT_SESSION_STATE =9 ;
+	
+	static final int WAITING_FOR_RESULT_STATE =10 ;
+	
+	static final int WAITING_FOR_UPDATES_STATE =11 ;
+	
+	static final int MODELE_SALE_STATE =12 ;
 	/**
 	 * nous retourne l'etat de notre session.
 	 * @return int
@@ -107,5 +114,14 @@ public interface ISessionStateMachine {
 
 
 	public boolean setWaitingForModelState();
+
+
+	public boolean setWaitingForResultState();
+
+
+	public boolean setWaitingForResponseState();
+
+
+	public boolean setWaitingForUpdatesState();
 
 }

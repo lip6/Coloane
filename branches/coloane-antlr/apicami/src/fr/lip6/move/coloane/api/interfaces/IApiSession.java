@@ -65,8 +65,9 @@ import java.io.IOException;
  	             * @param le nom de la racine demandÃ©.
 	 	         * @param le nom du service demandÃ©.
 	 	         * @param la date .
+	 	         * @throws IOException 
 	 	         */
-	 	        public void askForService(String rootName,String menuName, String serviceName, String Date);
+	 	        public void askForService(String rootName,String menuName, String serviceName, String Date) throws IOException;
 
 	 	       public void openSession(String sessionDate, String sessionFormalism,
                        String sessionName) throws IOException, InterruptedException ;
@@ -89,6 +90,15 @@ import java.io.IOException;
 			public void sendModel(IModel model) throws IOException;
 			
 			public void invalidModel() throws IOException;
+
+
+			public void notifyWaitingForModel();
+
+
+			public void notifyWaitingForResult();
+
+
+			public void notifyEndResult();
 
 
 	 	}

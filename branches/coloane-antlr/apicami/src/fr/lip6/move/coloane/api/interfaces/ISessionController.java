@@ -84,4 +84,10 @@ public interface ISessionController {
 	public boolean closeSession(ApiSession apiSession);
 
 	public boolean askForService(ApiSession apiSession);
+
+	public void notifyWaitingForResult();
+
+	public void notifyWaitingForModel();
+
+	public void notifyEndResult();
 }

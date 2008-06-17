@@ -212,6 +212,20 @@ public class SessionController implements ISessionController {
 
 	}
 
+	public void notifyWaitingForModel() {
+	this.activeSession.notifyWaitingForModel();
+		
+	}
+
+	public void notifyWaitingForResult() {
+		this.activeSession.notifyWaitingForResult();
+		}
+
+	public void notifyEndResult() {
+		this.activeSession.notifyEndResult();
+		
+	}
+
 
 
 }

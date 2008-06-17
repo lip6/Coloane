@@ -68,7 +68,7 @@ command
     ack_open_communication | ack_open_connection | close_connection
     | ack_open_session | receving_menu
     |update*
-    |end_menu_transmission
+    |end_menu_transmission*
 
     |ack_suspend_current_session
     |ack_resume_suspend_current_session
@@ -355,14 +355,19 @@ end_menu_transmission
 	:       
 	'QQ(' NUMBER ')'{
             
-//            System.out.println("QQ(" + $NUMBER.text + ")");
-            
-            
+          System.out.println("QQ((((" + $NUMBER.text + ")");
+         //     if($NUMBER.text == "3"){
+             sc.notifyEndOpenSession();
             updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
             ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
 
             /* notifier le sessionController qu'on a reçu les menus et les updates */            
-            sc.notifyEndOpenSession();
+           
+
+//}
+//else {
+
+ //}
         }
     ;
 
@@ -425,37 +430,15 @@ ask_for_a_model
 	:                                                       
     'DF(-2,' NUMBER ',' NUMBER ')'{
          System.out.println("je parse le DF");
-      //  ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
-     }
+          sc.notifyWaitingForModel();
+       ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+           }
 	;
+
+
 
 /* ------------------------- reception des resultats ---------------------------
 
-result_reception
-       :
-        'DR()'{ 
-            // initialiser la liste des updates 
-        //    camiUpdates = new ArrayList<ArrayList<String>>();
-          System.out.println("je parse DR");
-        } 
-       
-      'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
-        System.out.println("je parse RQ"); 
-        } 
-       'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9') ',' mess2=CAMI_STRING? ')'{ 
-            
-          //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
-          System.out.println("je parse TQ2");
-          }
-       'FR(' NUMBER ')'{
-         System.out.println("je parse FR");
-            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
-        }
-;
-
-
-/* ------------------------- reception des resultats ---------------------------*/
-
 
 result_reception
        :
@@ -464,15 +447,14 @@ result_reception
         //    camiUpdates = new ArrayList<ArrayList<String>>();
           System.out.println("je parse DR");
         }
-       'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
+       |'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
         System.out.println("je parse RQ"); 
         } 
-        resultat*
-       
-     /*   'FR(' NUMBER ')'{
+       |resultat*
+       |'FR(' NUMBER ')'{
          System.out.println("je parse FR");
             //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
-        }*/
+        }
 ;
 
 
@@ -496,7 +478,7 @@ message_utils
           | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
           System.out.println("je parse ZA");
           }
-          |'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
+          |'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9') ',' mess2=CAMI_STRING? ')'{ 
             
           //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
           System.out.println("je parse TQ2");
@@ -536,7 +518,7 @@ result
          System.out.println("je parse DE"); 
          }
         result_body+
-	'FE()'{
+	|'FE()'{
          System.out.println("je parse FE"); 
          }
 ;
@@ -705,7 +687,237 @@ dialog2
      System.out.println("je parse FF");
      }
 
+;*******/
+
+
+result_reception
+       :
+        'DR()'{ 
+            // initialiser la liste des updates 
+        //    camiUpdates = new ArrayList<ArrayList<String>>();
+          System.out.println("je parse DR");
+           sc.notifyWaitingForResult();
+        }
+       |'<EOF>'*
+       |'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
+        System.out.println("je parse RQ"); 
+        } 
+        |'<EOF>'*
+        'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
+            
+          //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+          System.out.println("je parse TQ2");
+          }
+        |result*
+        |message_utils*
+        |domaine_table*
+        |dialogue*
+        |modele*
+        |'FR(' NUMBER ')'{
+         System.out.println("je parse FR");
+          sc.notifyEndResult();
+            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
+        }
 ;
+
+message_utils
+          :
+	  trace_message2 
+          | warning_message2 
+          | special_message2
+          |NEWLINE
+          | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+          System.out.println("je parse ZA");
+          }
+;
+
+trace_message2
+	:
+	'TR(' CAMI_STRING ')'{
+          ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
+ System.out.println("je parse le TR");
+        }
+	;
+
+warning_message2
+	:
+	'WN(' CAMI_STRING ')'{
+         ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
+ System.out.println("je parse le WN");
+        }
+	;
+
+special_message2
+	:	
+	'MO(' NUMBER ',' CAMI_STRING ')'{
+          ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+      System.out.println("je parse le MO");
+        }
+	;
+result	:
+	 result_body+
+        '<EOF>'*
+	|'FE()'{
+         System.out.println("je parse FE"); 
+         }
+        |'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
+         System.out.println("je parse DE"); 
+         }
+        |'DE()'{
+         System.out.println("je parse DE sans parametre"); 
+         }
+	;
+
+result_body
+ 	:
+         textual_result
+ 	| object_designation
+ 	| object_outline
+ 	| attribute_outline
+ 	| object_creation
+ 	| object_deletion
+ 	;
+ 
+textual_result
+ 	:
+ 	'RT(' CAMI_STRING ')'{
+        System.out.println("je parse RT"); 
+         }
+ 	;
+
+object_designation
+ 	:
+ 	'RO(' id=NUMBER ')'{
+       System.out.println("je parse RO"); 
+         }
+ 	;
+
+object_outline
+ 	:
+ 	'ME(' id=NUMBER ')'{
+ System.out.println("je parse ME"); 
+         }
+ 	;
+
+attribute_outline
+ 	    :
+ 	'MT(' id=NUMBER ',' attr_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')'{
+     System.out.println("je parse MT"); 
+         }
+ 	;
+
+object_creation
+ 	:
+	  'CN(' CAMI_STRING ',' NUMBER ')'{
+         System.out.println("je parse CN"); 
+         }
+	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'{
+        System.out.println("je parse CB"); 
+         }
+	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+        System.out.println("je parse CA"); 
+         }
+	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'{ 
+        System.out.println("je parse CT"); 
+         }
+	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+       System.out.println("je parse CM"); 
+         }
+ 	;
+
+object_deletion
+	:
+ 	  'SU(' id=NUMBER ')'{
+         System.out.println("je parse SU"); 
+         }
+ 	| 'SI(' page_id=NUMBER ',' id=NUMBER ')'{
+        System.out.println("je parse SI"); 
+         }
+ 	;
+
+
+domaine_table
+      :
+      'TD(' CAMI_STRING ')'{
+       
+           System.out.println("je parse le TD dans table domaine");
+        }
+        |'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+    
+           System.out.println("je parse le OB dans table domaine");
+        }
+        |'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+         
+           System.out.println("je parse le AT dans table domaine");
+        }
+       |'FA()'{
+          
+           System.out.println("je parse le FA dans table domaine");
+        }
+;
+modele
+    :
+      'DB()'{
+         System.out.println("je parse BD"); 
+       }
+       modele*
+       'FB()'{
+         System.out.println("je parse FB"); 
+       }
+;
+
+modele2
+    :
+      'CN(' CAMI_STRING ',' NUMBER ')'{
+         System.out.println("je parse CN"); 
+         }
+	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'{
+        System.out.println("je parse CB"); 
+         }
+	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+        System.out.println("je parse CA"); 
+         }
+	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'{ 
+        System.out.println("je parse CT"); 
+         }
+	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
+       System.out.println("je parse CM"); 
+         }
+        |'PO('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+         System.out.println("je parse PO");
+        }
+        |'pO('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+         System.out.println("je parse pO");
+        }
+;
+
+dialogue
+     :
+    dialog2+
+    '<EOF>'*
+    |'DC('{
+        System.out.println("je parse DC");
+    }
+    |'AD('NUMBER ')'{
+         System.out.println("je parse AD");
+        }
+;
+
+dialog2
+    : 
+    'DS('NUMBER ',' CAMI_STRING ')'{
+       System.out.println("je parse DS"); 
+         }
+     | 'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' default_value=CAMI_STRING? ')'{
+       System.out.println("je parse CE"); 
+         }
+      |NEWLINE
+       |'FF('{ 
+     System.out.println("je parse FF");
+     }
+
+;
+
 
 
 /* ---------------------- types de base  CAMI_STRING, NUMBER --------------------------------*/

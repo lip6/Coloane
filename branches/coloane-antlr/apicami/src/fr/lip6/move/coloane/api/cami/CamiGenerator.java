@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
+import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
 import fr.lip6.move.coloane.api.interfaces.IArc;
@@ -113,6 +114,7 @@ public class CamiGenerator {
 					+ ","+ arc.getStartingNode()
 					+ ","+ arc.getEndingNode()
 					+ ")");
+			
 			camiModel.add(initCommand(command));
 
 			/** ses attributs monolignes */
@@ -125,6 +127,19 @@ public class CamiGenerator {
 						 + ")");
 				camiModel.add(initCommand(command));
 			}
+
+			
+			/** ses point intermediaires*/
+		
+			for(int j=0; j<arc.getListOfPI().size(); j++){
+				IInflexPoint att = (IInflexPoint) arc.getListOfPI().get(j);
+				command = new String("PI(-1," + arc.getId()
+						+ "," + att.getXPosition()
+						+ ","+ att.getYPosition()
+						 + ",-1)");
+				camiModel.add(initCommand(command));
+			}
+			
 
 		}
 

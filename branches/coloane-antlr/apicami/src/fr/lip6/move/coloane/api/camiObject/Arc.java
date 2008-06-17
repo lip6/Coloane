@@ -7,8 +7,8 @@ import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.INode;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
-import fr.lip6.move.coloane.interfaces.objects.InflexPoint;
+import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
+import fr.lip6.move.coloane.api.camiObject.InflexPoint;
 
 
 /**
@@ -27,7 +27,9 @@ public class Arc implements IArc{
 	/** Vecteur contenant l'ensemble des objets de type Attribut de l'arc. */
 	private Vector<IAttribute> listOfAttr;
 
-
+	/** Vecteur contenant l'ensemble des points intermediaire de type Position. */
+	private Vector<IInflexPoint> listOfPI;
+	
 	/** Noeud d'entree de l'arc. */
 	private int startingNode;
 
@@ -39,14 +41,15 @@ public class Arc implements IArc{
 	 * @param arcType Type de l'arc
 	 * @param arcId Identifant unique de l'arc
 	 */
-	public Arc(String arcType, int arcId,int i,int j,Vector<IAttribute> listOfAttr) {
+	public Arc(String arcType, int arcId,int i,int j,Vector<IAttribute> listOfAttr,Vector<IInflexPoint> listOfPI7) {
 		this.type = arcType;
 		this.id = arcId;
 		this.listOfAttr = listOfAttr;
-
+        this.listOfPI = listOfPI7;
 		this.startingNode = i;
 		this.endingNode = j;
 	}
+
 
 
 	public final String getArcType() {
@@ -85,4 +88,20 @@ public class Arc implements IArc{
 		return this.listOfAttr;
 	}
 
+	  public final Vector<IInflexPoint> getListOfPI() {
+	 	   return this.listOfPI;
+    }
+	  
+	  public final void addPI(IInflexPoint p)  {
+		   	
+		  	       listOfPI.add( p);
+		       }
+	  public final void addPI(IInflexPoint p,int index)  {
+		   	
+ 	       listOfPI.add(index, p);
+      }
+
+
+
+	
 }

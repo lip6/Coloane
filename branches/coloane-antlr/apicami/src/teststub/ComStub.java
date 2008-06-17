@@ -91,7 +91,7 @@
  	                /** Test l'ouverture de la connexion */
  	                IApiConnection connection = testOpenConnection();
                     /** Test l'ouverture d'une session */
-	                IApiSession session = testOpenSession(connection, "Mysession7.petri");
+	                IApiSession session = testOpenSession(connection, "Mysession9.petri");
  	                tab[0] = session;
  	
  	            //  Thread.sleep(10000);
@@ -108,9 +108,9 @@
  	
  	     Thread.sleep(10000);
  	  //  session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program");
- 	//  session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing");
- 	   session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker");
- //session.askForService("AMI-Net", "Structural properties", "P-positive invariants");
+ 	 session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing");
+ 	//   session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker");
+   // session.askForService("AMI-Net", "Structural properties", "P-positive invariants");
  	    
  	       //      Thread.sleep(10000);
  	    //   System.out.println("\n\n\nfermeture 1eme session");
@@ -123,7 +123,7 @@
  	     //  Thread.sleep(10000);
  	     //  connection.closeConnection();
  	
- 	     Thread.sleep(10000);
+ 	    Thread.sleep(10000);
 	     session.invalidModel();
 	
  	   

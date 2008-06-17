@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
  */
 public class SessionStateMachine implements ISessionStateMachine{
 
+	
 	private int state;
 
  public SessionStateMachine (){
@@ -33,7 +34,8 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 	public boolean setIdleState() {
 		if ((this.state == WAITING_FOR_MENUS_AND_UPDATES_STATE) ||
-		   (this.state == WAITING_FOR_RESUME_SESSION_STATE)){
+		   (this.state == WAITING_FOR_RESUME_SESSION_STATE)  ||
+	     (this.state == WAITING_FOR_RESULT_STATE)){
 		this.state = IDLE_STATE;
 		return true;
 		}
@@ -70,7 +72,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 	public boolean setWaitingForCloseSessionState() {
 
-		if (this.state == IDLE_STATE){
+		if ((this.state == IDLE_STATE) || (this.state== MODELE_SALE_STATE )){
 			this.state = WAITING_FOR_CLOSE_SESSION_STATE;
 			return true;
 			}
@@ -89,7 +91,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 
 	public boolean setWaitingForModelState() {
-		if (this.state == IDLE_STATE){
+		if (this.state == WAITING_FOR_RESPONSE_STATE){
 			this.state = WAITING_FOR_MODEL_STATE;
 			return true;
 			}
@@ -97,6 +99,35 @@ public class SessionStateMachine implements ISessionStateMachine{
 
 		return false;
 	}
+	public boolean setWaitingForResultState() {
+		if ((this.state == WAITING_FOR_MODEL_STATE) || (this.state == WAITING_FOR_RESPONSE_STATE)){
+			this.state = WAITING_FOR_RESULT_STATE;
+			return true;
+			}
 
+
+		return false;
+	}
+	public boolean setWaitingForResponseState() {
+
+		if (this.state == IDLE_STATE){
+			this.state = WAITING_FOR_RESPONSE_STATE;
+			return true;
+			}
+
+
+		return false;
+	}
+	public boolean setWaitingForUpdatesState() {
+
+		if (this.state == IDLE_STATE){
+			this.state = WAITING_FOR_UPDATES_STATE;
+			return true;
+			}
+
+
+		return false;
+	}
+	
 
 }

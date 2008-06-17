@@ -92,9 +92,9 @@ System.out.println("session open");
 		 if (this.sessionCont.askForService(this)){
 
 			   speaker.askForService(rootName, menuName, serviceName);
-
-		   if (!this.automate.setWaitingForModelState()){
-				throw new IllegalStateException("je doit attendre le modele");
+          System.out.println(this.automate.getState());
+		   if (!this.automate.setWaitingForResponseState()){
+				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 		   }
 		   }
 		   else {
@@ -103,10 +103,21 @@ System.out.println("session open");
 		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
-	public void askForService(String rootName,String menuName, String serviceName, String date) {
-		// TODO Auto-generated method stub
+	public void askForService(String rootName,String menuName, String serviceName, String date) throws IOException {
+		 if (this.sessionCont.askForService(this)){
 
+			   speaker.askForService(rootName, menuName, serviceName,date);
+
+		   if (!this.automate.setWaitingForResponseState()){
+				throw new IllegalStateException("je doit attendre qque chose de chez FK");
+		   }
+		   }
+		   else {
+			   throw new IllegalStateException("je peux pas faire demander de service sur cette session");
+		   }
+		
 	}
+	
 
 	public final void closeSession() throws IOException {
 	   if (this.sessionCont.closeSession(this)){
@@ -198,7 +209,7 @@ System.out.println("session open");
 	public void notifyEndCloseSession() {
 		System.out.println("jai recu un notifyEndCloseSession");
 	if(!this.automate.CloseSessionState()){
-		throw new IllegalStateException("j'était pas en attente dune fermeture de session");
+		throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
 
 	}
 
@@ -208,18 +219,42 @@ System.out.println("session open");
 
 	public void sendModel(IModel model) throws IOException {
 
+	
+	//	if (!this.automate.setWaitingForResultState()){
+	//		throw new IllegalStateException("j'etais pas en attente de resultat");
+	//	}
 		speaker.sendModel(model);
-		
-	}
+}
 
 	public void invalidModel() throws IOException {
-	     speaker.invalidModel();
+		 if(!this.automate.setWaitingForUpdatesState()){
+			 throw new IllegalStateException("je peux pas me mettre dans cette etat"); 
+		 }
+		 else{
+			 speaker.invalidModel();
+		 }
 		
+	}
+
+	public void notifyWaitingForModel() {
+		if(!this.automate.setWaitingForModelState())
+	throw new IllegalStateException("j'etais pas en attente de model");
+		
+	}
+
+	public void notifyWaitingForResult() {
+		System.out.println(automate.getState());
+		if(!this.automate.setWaitingForResultState())
+	 throw new IllegalStateException("j'etais pas en attente de reponse");
+	}
+
+	public void notifyEndResult() {
+	 
+		if(!this.automate.setIdleState()){
+			 throw new IllegalStateException("je peux pas me mettre dans cet etat");
+			}
 	}
 	
 	
-
-
-
 
 }
