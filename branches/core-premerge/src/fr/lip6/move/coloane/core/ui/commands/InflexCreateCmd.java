@@ -28,6 +28,8 @@ public class InflexCreateCmd extends Command {
 	public InflexCreateCmd(IArcImpl arcModel, Point p, int i) {
 		this.arc = arcModel;
 		this.position = p;
+		this.position.x = Math.max(this.position.x, 0);
+		this.position.y = Math.max(this.position.y, 0);
 		this.index = i;
 	}
 

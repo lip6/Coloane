@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Definition du type d'un attribut graphique -->
@@ -6,7 +6,7 @@
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute name="xposition" type="xs:string"/>
-				<xs:attribute name ="yposition" type="xs:string"/>        
+				<xs:attribute name="yposition" type="xs:string"/>
 			</xs:extension>
 		</xs:simpleContent>      
 	</xs:complexType>
@@ -48,6 +48,9 @@
 		<xs:attribute name="nodetype" type="xs:string" use="required" />
 		<xs:attribute name="xposition" type="xs:string" />
 		<xs:attribute name="yposition" type="xs:string" /> 
+		<xs:attribute name="scale" type="xs:string"/>        
+		<xs:attribute name="foreground" type="xs:string"/>
+		<xs:attribute name="background" type="xs:string"/>
 	</xs:complexType>
 
 	<!-- Definition d'un arc -->
@@ -65,23 +68,24 @@
 		<xs:attribute name="arctype" type="xs:string" use="required"/>
 		<xs:attribute name="startid" type="xs:string" use="required"/>
 		<xs:attribute name="endid" type="xs:string" use="required"/>
+		<xs:attribute name="color" type="xs:string"/>
 	</xs:complexType>
 
 	<!-- Definition d'un ensemble de noeuds -->
 	<xs:complexType name="tnodes">
 		<xs:sequence> 
-			<xs:element name="node" type="tnode" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="node" type="tnode"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Definition d'un ensemble d'arcs -->
 	<xs:complexType name="tarcs">
 		<xs:sequence> 
-			<xs:element name="arc" type="tarc" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="arc" type="tarc"/>
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- Definition d'un ensemble d'arcs -->
+	<!-- Definition d'un ensemble de points d'inflexion -->
 	<xs:complexType name="tpis">
 		<xs:sequence> 
 			<xs:element name="pi" type="graph" minOccurs="0" maxOccurs="unbounded"/>
@@ -89,17 +93,17 @@
 	</xs:complexType>
 
 	<!-- Definition d'un noeud -->
-	<xs:element name="node" type="tnode" />
+	<xs:element name="node" type="tnode"/>
 
 	<!-- Definition d'un arc -->
-	<xs:element name="arc" type="tarc" />
+	<xs:element name="arc" type="tarc"/>
 
 	<!-- Definition des groupes de noeuds-->
-	<xs:element name="nodes" type="tnodes" />
+	<xs:element name="nodes" type="tnodes"/>
 
 	<!-- Definition d'un groupe d'arcs -->
-	<xs:element name="arcs" type="tarc" />
+	<xs:element name="arcs" type="tarc"/>
 
 	<!-- Definition d'un modele -->
-	<xs:element name="model" type="tmodel" />
+	<xs:element name="model" type="tmodel"/>
 </xs:schema>

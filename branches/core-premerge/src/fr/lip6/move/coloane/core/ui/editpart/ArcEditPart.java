@@ -26,6 +26,7 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
@@ -156,6 +157,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			((IArcFigure) getFigure()).setSelectSpecial();
 		} else if (IArcImpl.UNSELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setUnselect();
+		} else if (IArcImpl.COLOR_PROP.equals(prop)) {
+			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		}
 	}
 

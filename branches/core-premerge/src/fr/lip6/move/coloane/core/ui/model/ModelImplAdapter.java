@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Adaptateur pour le modele generique. Permet d'implementer les interfaces
@@ -51,7 +52,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @param genericModel Le modele existant
 	 * @param formalism Le formalisme du modele
 	 */
-	public ModelImplAdapter(IModel model) throws BuildException {
+	public ModelImplAdapter(IModel model) {
 		super();
 		this.date = (int) System.currentTimeMillis();
 
@@ -60,16 +61,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		if (this.formalism == null) {
 			Coloane.getLogger().warning("Erreur lors de la construction du modele : Aucun formalisme associe"); //$NON-NLS-1$
-			throw new BuildException(Messages.ModelImplAdapter_9);
 		}
 
-		/* Creation de tous les adapteurs */
-		try {
-			this.setModelAdapters();
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Erreur lors de la construction du modele"); //$NON-NLS-1$
-			throw e;
-		}
+		this.setModelAdapters();
 
 		/* Ajout de tous les attributs deja indiques dans le modele */
 		/* Ainsi que tous les attributs qui sont decrits dans le formalisme */
@@ -81,8 +75,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * methode sert a creer la premier coherence entre le modele generique et le
 	 * modele augmente Les noeuds du cote generique existent deja... Il faut
 	 * donc creer les noeuds du cote augemente
+	 * TODO: Verifier l'utilite de ce bout de code
 	 */
-	private void setModelAdapters() throws BuildException {
+	private void setModelAdapters() {
 
 		// Creation de tous les Node du modele augmente
 		for (int i = 0; i < this.genericModel.getListOfNodeSize(); i++) {
@@ -118,13 +113,12 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 
 			// Un arc a forcement une source et une destination... sinon probleme
+			// TODO: Verifier l'utilite de ce bout de code
 			if ((target != null) && (source != null)) {
 				// Creation de l'Arc adapter (Arc dans le modele augmente)
 				IArcImpl arc = new ArcImplAdapter(currentArc, source, target, this.formalism.getArcFormalism(currentArc.getArcType()));
 				arc.setModelAdapter(this);
 				this.addArc(arc);
-			} else {
-				throw new BuildException(Messages.ModelImplAdapter_1);
 			}
 		}
 	}
@@ -169,7 +163,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -231,12 +225,12 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#addArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public final void addArc(IArcImpl child) throws BuildException {
+	public final void addArc(IArcImpl child) {
 		try {
 			// Ajout de l'arc au modele generique
 			this.genericModel.addArc(child.getGenericArc());
 		} catch (ModelException e) {
-			throw new BuildException(Messages.ModelImplAdapter_6 + child.getId());
+			//TODO : Trouver quelque chose !!
 		}
 
 		// Connexion
@@ -313,7 +307,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		if (!dirty) {
 			setDirty(true);
 			return date;
-		// Sinon le modele etait deja sale (on a juste mis a jour la date)
+			// Sinon le modele etait deja sale (on a juste mis a jour la date)
 		} else {
 			return 0;
 		}
@@ -362,7 +356,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		// Ajout de tous les attributs des noeuds
 		for (IElement elt : this.nodes) {
-			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			if (elt.getAttributes() != null) { 
+				listChildren.addAll(elt.getAttributes()); 
+			}
 			allArcs.addAll(((INodeImpl) elt).getAllArcs());
 		}
 
@@ -371,7 +367,9 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		// Recensement de tous les arcs du modele et de leurs attributs
 		for (IElement elt : allArcs) {
-			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			if (elt.getAttributes() != null) { 
+				listChildren.addAll(elt.getAttributes());
+			}
 		}
 
 		// Ajout des attributs du modele
@@ -474,5 +472,18 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 		}
 		return ""; //$NON-NLS-1$
+	}
+
+	public final Set<IArcImpl> getArcs() {
+		HashSet<IArcImpl> arcs = new HashSet<IArcImpl>();
+		for (INodeImpl node : nodes) {
+			arcs.addAll(node.getSourceArcs());
+			arcs.addAll(node.getTargetArcs());
+		}
+		return arcs;
+	}
+
+	public List<INodeImpl> getNodes() {
+		return this.nodes;
 	}
 }

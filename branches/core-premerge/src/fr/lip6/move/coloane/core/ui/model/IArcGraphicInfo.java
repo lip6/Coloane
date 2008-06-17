@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Interface pour l'information graphique d'un noeud
@@ -39,4 +40,14 @@ public interface IArcGraphicInfo {
 	 * @return int
 	 */
 	int getFigureStyle();
+
+	/**
+	 * @return couleur de l'arc
+	 */
+	Color getColor();
+
+	/**
+	 * @param color couleur de l'arc
+	 */
+	void setColor(Color color);
 }

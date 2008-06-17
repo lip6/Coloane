@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
@@ -97,13 +98,6 @@ public interface IModelImpl extends IElement {
 	int getDate();
 
 	/**
-	 * Change la valeur de la propriete
-	 * @param id Objet dont il faut modifier la valeur
-	 * @param value Nouvelle valeur pour l'objet
-	 */
-	void setPropertyValue(Object id, Object value);
-
-	/**
 	 * Indicateur de fraicheur du modele
 	 * @return boolean
 	 */
@@ -129,4 +123,16 @@ public interface IModelImpl extends IElement {
 	 * </ul>
 	 */
 	void announceAttribute();
+
+	/**
+	 * Attention cette méthode reconstruit à chaque fois la liste des arcs.
+	 * @return la liste des arcs
+	 */
+	Set<IArcImpl> getArcs();
+
+	/**
+	 * Retourne les noeuds du modele
+	 * @return Les noeuds du modele
+	 */
+	List<INodeImpl> getNodes();
 }
