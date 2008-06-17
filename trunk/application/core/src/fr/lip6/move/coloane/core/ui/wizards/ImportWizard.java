@@ -29,8 +29,9 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("Toto");
+		setWindowTitle(Messages.ImportWizard_0);
 		selectFilePage = new ImportWizardPage(workbench, selection, instance);
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	@Override
 	public final boolean canFinish() {
 		if (this.idWizard == null) {
-			selectFilePage.setErrorMessage("The extension you are using to import your files is broken. Please contact the dev team");
+			selectFilePage.setErrorMessage(Messages.ImportWizard_1);
 			return false;
 		}
 		return super.canFinish();
@@ -54,8 +55,8 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 			selectFilePage.finish();
 			return true;
 		} catch (ColoaneException e) {
-			Coloane.getLogger().warning("Echec de l'import : " + e.getMessage());
-			Coloane.showErrorMsg("An error has occured. Your file has not been imported.");
+			Coloane.getLogger().warning("Echec de l'import : " + e.getMessage()); //$NON-NLS-1$
+			Coloane.showErrorMsg(Messages.ImportWizard_3);
 			return false;
 		}
 	}
@@ -80,7 +81,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 		this.instance = (IImportFrom) ImportFromExtension.createConvertInstance(this.idWizard);
 
 		if (this.instance == null) {
-			Coloane.getLogger().warning("Erreur lors de la creation de l'instance de conversion");
+			Coloane.getLogger().warning("Erreur lors de la creation de l'instance de conversion"); //$NON-NLS-1$
 		}
 	}
 }

@@ -190,7 +190,7 @@ public class Coloane extends AbstractUIPlugin {
 			public void flush() { }
 			@Override
 			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				System.out.println("[" + record.getLevel() + "] " + record.getMessage());
 			}
 		});
 		try {

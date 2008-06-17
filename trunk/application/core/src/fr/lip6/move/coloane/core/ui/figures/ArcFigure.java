@@ -9,18 +9,13 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.swt.graphics.Color;
 
 public class ArcFigure extends PolylineConnection implements IArcFigure {
+
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
 
-	private final IArcGraphicInfo arcGraphInfo;
-	private boolean isSelected;
-
 	public ArcFigure(IArcImpl arc) {
-		arcGraphInfo = arc.getGraphicInfo();
-
 		PolygonDecoration decoration = null;
 
 		// Choix de la decoration de l'arc
@@ -64,9 +59,8 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setHighlight()
 	 */
 	public final void setHighlight() {
-		super.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
 		this.setLineWidth(2);
-		isSelected = true;
 	}
 
 	/*
@@ -74,9 +68,17 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#setSelect()
 	 */
 	public final void setSelect() {
-		super.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+		this.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
 		this.setLineWidth(2);
-		isSelected = true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.figures.IArcFigure#setSelectSpecial()
+	 */
+	public final void setSelectSpecial() {
+		this.setForegroundColor(ColorConstants.red);
+		this.setLineWidth(2);
 	}
 
 	/*
@@ -84,22 +86,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	 * @see fr.lip6.move.coloane.ui.figures.IArcFigure#unsetSelect()
 	 */
 	public final void setUnselect() {
-		super.setForegroundColor(arcGraphInfo.getColor());
+		this.setForegroundColor(ColorConstants.black);
 		this.setLineWidth(1);
-		isSelected = false;
 	}
-
-	@Override
-	public final void setForegroundColor(Color fg) {
-		if (!isSelected) {
-			super.setForegroundColor(fg);
-		}
-		arcGraphInfo.setColor(fg);
-	}
-
-	@Override
-	public final Color getForegroundColor() {
-		return arcGraphInfo.getColor();
-	}
-
 }

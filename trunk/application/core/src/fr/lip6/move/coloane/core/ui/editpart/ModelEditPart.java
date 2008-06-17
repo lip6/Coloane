@@ -117,7 +117,6 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	@Override
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
-		getFigure().repaint();
 	}
 
 

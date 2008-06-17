@@ -17,8 +17,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class ColorsPrefs extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private ColorFieldEditor nodeColorEditor;
 	private ColorFieldEditor nodeColorEditor1;
@@ -27,70 +26,64 @@ public class ColorsPrefs extends PreferencePage implements
 	private ColorFieldEditor arcColorEditor;
 	private ColorFieldEditor arcColorEditor1;
 
-	private static final String COLORNODE = "colorNode"; //$NON-NLS-1$
-	private static final String COLORNODE_HIGHLIGHT = "colorNode_Highlight"; //$NON-NLS-1$
-	private static final String COLORNODE_MOUSE = "colorNode_Mouse"; //$NON-NLS-1$
-
-	private static final String COLORARC = "colorArc"; //$NON-NLS-1$
-	private static final String COLORARC_HIGHLIGHT = "colorArc_Highlight"; //$NON-NLS-1$
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setLayout(new GridLayout(2, false));
 
-		// Create a data that takes up the extra space in the dialog .
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.grabExcessHorizontalSpace = true;
-		composite.setLayoutData(data);
-
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.horizontalSpan = 2;
 		GridLayout layout = new GridLayout();
-		composite.setLayout(layout);
+		layout.numColumns = 2;
 
-		Composite colorComposite = new Composite(composite, SWT.NONE);
-
-		colorComposite.setLayout(new GridLayout());
-
-		colorComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		//NODE
-		Group node = new Group(colorComposite, SWT.NONE);
+		//NODE GROUP
+		Group node = new Group(composite, SWT.NONE);
 		node.setText(Messages.ColorsPrefs_5);
-		node.setLayoutData(data);
+		node.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		node.setLayout(layout);
+
 
 		//Node color
-		nodeColorEditor = new ColorFieldEditor(COLORNODE, Messages.ColorsPrefs_6, node);
+		nodeColorEditor = new ColorFieldEditor("COLORNODE", Messages.ColorsPrefs_6, node); //$NON-NLS-1$
 		nodeColorEditor.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor.load();
 
 		//Node highlight color
-		nodeColorEditor1 = new ColorFieldEditor(COLORNODE_HIGHLIGHT, Messages.ColorsPrefs_7, node);
+		nodeColorEditor1 = new ColorFieldEditor("COLORNODE_HIGHLIGHT", Messages.ColorsPrefs_7, node); //$NON-NLS-1$
 		nodeColorEditor1.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor1.load();
 
 		//Node mouseover color
-		nodeColorEditor2 = new ColorFieldEditor(COLORNODE_MOUSE, Messages.ColorsPrefs_8, node);
+		nodeColorEditor2 = new ColorFieldEditor("COLORNODE_MOUSE", Messages.ColorsPrefs_8, node); //$NON-NLS-1$
 		nodeColorEditor2.setPreferenceStore(getPreferenceStore());
 		nodeColorEditor2.load();
 
-		//ARC
-		Group arc = new Group(colorComposite, SWT.NONE);
+		//ARC GROUP
+		Group arc = new Group(composite, SWT.NONE);
 		arc.setText(Messages.ColorsPrefs_9);
 		arc.setLayoutData(data);
 
 		//Node color
-		arcColorEditor = new ColorFieldEditor(COLORARC, Messages.ColorsPrefs_10, arc);
+		arcColorEditor = new ColorFieldEditor("COLORARC", Messages.ColorsPrefs_10, arc); //$NON-NLS-1$
 		arcColorEditor.setPreferenceStore(getPreferenceStore());
 		arcColorEditor.load();
 
 		//Node highlight color
-		arcColorEditor1 = new ColorFieldEditor(COLORARC_HIGHLIGHT, Messages.ColorsPrefs_11, arc);
+		arcColorEditor1 = new ColorFieldEditor("COLORARC_HIGHLIGHT", Messages.ColorsPrefs_11, arc); //$NON-NLS-1$
 		arcColorEditor1.setPreferenceStore(getPreferenceStore());
 		arcColorEditor1.load();
-
 
 		return composite;
 	}
@@ -121,8 +114,6 @@ public class ColorsPrefs extends PreferencePage implements
 		arcColorEditor1.store();
 		return super.performOk();
 	}
-
-	//TODO performApply effectue un performOK, rajouter un redraw a preformOK
 
 	/**
 	 * Return a new Color based on preference string "r,g,b"

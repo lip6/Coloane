@@ -14,8 +14,18 @@ public final class Messages extends NLS {
 	public static String ExportWizardPage_6;
 	public static String ExportWizardPage_7;
 	public static String ExportWizardPage_9;
+	public static String ImportWizard_0;
+	public static String ImportWizard_1;
+	public static String ImportWizard_3;
 	public static String ImportWizardPage_0;
 	public static String ImportWizardPage_1;
+	public static String ImportWizardPage_11;
+	public static String ImportWizardPage_12;
+	public static String ImportWizardPage_15;
+	public static String ImportWizardPage_3;
+	public static String ImportWizardPage_4;
+	public static String ImportWizardPage_7;
+	public static String ImportWizardPage_9;
 	public static String ModelCreationPage_0;
 	public static String ModelCreationPage_1;
 	public static String ModelCreationPage_3;

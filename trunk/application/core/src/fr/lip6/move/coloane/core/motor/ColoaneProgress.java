@@ -11,7 +11,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 /**
  * Objet permettant la creation d'une barre de progression.<br>
  * Toutes les operations avec la plateforme doivent etre supervisee par un tel objet.<br>
- * Cet objet permet aussi de verouiller l'arrière plan.
+ * Cet objet permet aussi de verouiller l'arriere plan.
  */
 
 public abstract class ColoaneProgress implements IRunnableWithProgress {
@@ -83,7 +83,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	}
 
 	/**
-	 * Retourne la session attachée a l'action
+	 * Retourne la session attachÔøΩe a l'action
 	 * @return La session
 	 */
 	public final ISession getAttachedSession() {

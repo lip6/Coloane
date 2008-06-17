@@ -43,7 +43,10 @@ public final class PaletteFactory {
 	 * @return une nouvelle PaletteRoot
 	 */
 	public static PaletteRoot createPalette(Formalism formalism) {
-		if (formalism == null) { Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); } //$NON-NLS-1$
+		if (formalism == null) {
+			Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); //$NON-NLS-1$
+			return null;
+		}
 
 		PaletteRoot palette = new PaletteRoot();
 		palette.add(createToolsGroup(palette));

@@ -6,7 +6,8 @@
          <meta.schema plugin="fr.lip6.move.coloane.core" id="reports" name="Reports"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         By using this extension point, you are able to contribute to existing reports. 
+This way, you can reprensent resulting data (provided by FrameKit) the way you want to.
       </documentation>
    </annotation>
 
