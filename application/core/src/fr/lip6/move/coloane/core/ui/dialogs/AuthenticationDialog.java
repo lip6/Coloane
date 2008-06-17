@@ -126,8 +126,8 @@ public class AuthenticationDialog extends Dialog {
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
-		if (Coloane.getDefault().getPreference("LOGIN_DEFAULT") != "") { //$NON-NLS-1$ //$NON-NLS-2$
-			login.setText(Coloane.getDefault().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
+		if (Coloane.getDefault().getPreference("LOGIN") != "") { //$NON-NLS-1$ //$NON-NLS-2$
+			login.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
 		}
 
 		// PASSWORD
@@ -155,10 +155,10 @@ public class AuthenticationDialog extends Dialog {
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		comboServer.setItems(serversList);
 
-		if (!(Coloane.getDefault().getPreference("SERVER_DEFAULT").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
-			comboServer.setText(Coloane.getDefault().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
-			ip = Coloane.getDefault().getPreference("IP_DEFAULT"); //$NON-NLS-1$
-			port = Coloane.getDefault().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
+		if (!(Coloane.getDefault().getPreference("SERVER").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+			comboServer.setText(Coloane.getDefault().getPreference("SERVER")); //$NON-NLS-1$
+			ip = Coloane.getDefault().getPreference("IP"); //$NON-NLS-1$
+			port = Coloane.getDefault().getPreference("PORT"); //$NON-NLS-1$
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
@@ -182,8 +182,8 @@ public class AuthenticationDialog extends Dialog {
 						}
 
 					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
-						ip = InetAddress.getByName("localhost").getHostAddress();
-						port = String.valueOf("7001"); //$NON-NLS-1$
+						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
+						port = String.valueOf(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
 
 						if (!visibility) {
 							setFrameKitIp(ip);

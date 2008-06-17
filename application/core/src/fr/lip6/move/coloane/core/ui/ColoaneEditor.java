@@ -53,7 +53,7 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
+//import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -74,12 +74,12 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetSorter;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
+public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
+		ITabbedPropertySheetPageContributor {
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
@@ -201,6 +201,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
+	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor"; //$NON-NLS-1$
+
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
 
@@ -311,7 +313,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		setPartName(file.getName());
 
 		// Construction d'un modele en memoire a partir de se representation en XML
-		model = ModelLoader.loadFromXML(file);
+		try {
+			model = ModelLoader.loadFromXML(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (model == null) {  return; }
 
 		// Mise en place de l'editeur
@@ -470,31 +476,37 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked") //$NON-NLS-1$
-		@Override
+	@Override
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
 
-		// On redefinit la fenetre de propriete
-		} else if (type == IPropertySheetPage.class) {
-			PropertySheetPage page = new PropertySheetPage() {
-				{
-					setSorter(new PropertySheetSorter() {
-						@Override
-						public void sort(IPropertySheetEntry[] entries) {
-							// Aucun tri !
-						}
-					});
-
-				}
-			};
-			page.setRootEntry(new UndoablePropertySheetEntry(getCommandStack()));
-			return page;
+//			// On redefinit la fenetre de propriete
+//		} else if (type == IPropertySheetPage.class) {
+//			PropertySheetPage page = new PropertySheetPage() {
+//				{
+//					setSorter(new PropertySheetSorter() {
+//						@Override
+//						public void sort(IPropertySheetEntry[] entries) {
+//							// Aucun tri !
+//						}
+//					});
+//
+//				}
+//			};
+//			page
+//					.setRootEntry(new UndoablePropertySheetEntry(
+//							getCommandStack()));
+//			return page;
 
 		// On definit le manager de Zoom
 		} else if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
+
+			// Fenêtre de propriété avec onglets
+		} else if (type == IPropertySheetPage.class) {
+            return new TabbedPropertySheetPage(this);
 		}
 
 		// Dans tous les autres cas
@@ -590,5 +602,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
+	}
+
+	public final String getContributorId() {
+		return CONTRIBUTOR_ID;
 	}
 }

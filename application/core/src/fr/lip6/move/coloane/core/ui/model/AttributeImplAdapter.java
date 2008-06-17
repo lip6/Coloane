@@ -137,7 +137,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.reference.getModelAdapter().announceAttribute();
 		}
 
-		firePropertyChange(AttributeImplAdapter.VALUE_PROP, null, null);
+		firePropertyChange(IAttributeImpl.VALUE_PROP, null, null);
 	}
 
 	/*
@@ -224,11 +224,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 		}
 	}
 
-	@Override
-	public final String toString() {
-		return attribute.getName() + ":" + attribute.getValue();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
@@ -277,5 +272,10 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 */
 	public final String getAttributeValue(String attributeName) {
 		return "";
+	}
+
+	@Override
+	public final String toString() {
+		return attribute.getName() + ":" + attribute.getValue(); //$NON-NLS-1$
 	}
 }

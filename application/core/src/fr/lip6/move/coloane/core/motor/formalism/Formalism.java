@@ -170,17 +170,11 @@ public class Formalism {
 		return xschema;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public final boolean equals(Object obj) {
-		if (obj instanceof Formalism) {
-			Formalism f = (Formalism) obj;
-			return getSchema().equals(f.getSchema()) && getName().equals(f.getName());
-		}
-		return false;
-	}
-
-	@Override
-	public final int hashCode() {
-		return getSchema().hashCode() + getName().hashCode();
+	public final String toString() {
+		return getName();
 	}
 }

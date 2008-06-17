@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface generale du modele La classe qui implemente cette interface doit
@@ -56,18 +57,16 @@ public interface IModelImpl extends IElement {
 	void removeArc(IArcImpl child) throws BuildException;
 
 	/**
-	 * Retourne la liste des noeuds et arcs du modele.<br>
-	 * Il s'agit des elements qui peuvent etre mis en valeur.
-	 * @return Liste de tous les objets pouvant etre mis en valeur
+	 * Retourne le noeud correspondant à l'id passé en parametre ou null.
+	 * @param id
+	 * @return Noeud du model
 	 */
-	List<IElement> getModelObjects();
+	INodeImpl getNode(int id);
 
 	/**
-	 * Retourne l'objet du modele designe par son identifiant
-	 * @param id L'identifiant de l'objet a retourner
-	 * @return L'objet sous forme de IElement
+	 * @return Liste de tous les noeuds
 	 */
-	IElement getModelObject(int id);
+	List<INodeImpl> getNodes();
 
 	/**
 	 * Retourne le modele generique
@@ -97,13 +96,6 @@ public interface IModelImpl extends IElement {
 	int getDate();
 
 	/**
-	 * Change la valeur de la propriete
-	 * @param id Objet dont il faut modifier la valeur
-	 * @param value Nouvelle valeur pour l'objet
-	 */
-	void setPropertyValue(Object id, Object value);
-
-	/**
 	 * Indicateur de fraicheur du modele
 	 * @return boolean
 	 */
@@ -129,4 +121,23 @@ public interface IModelImpl extends IElement {
 	 * </ul>
 	 */
 	void announceAttribute();
+
+	/**
+	 * Attention cette méthode reconstruit à chaque fois la liste des arcs.
+	 * @return la liste des arcs
+	 */
+	Set<IArcImpl> getArcs();
+
+	/**
+	 * TODO
+	 * @return
+	 */
+	List<IElement> getModelObjects();
+
+	/**
+	 * TODO
+	 * @param id
+	 * @return
+	 */
+	IElement getModelObject(int id);
 }

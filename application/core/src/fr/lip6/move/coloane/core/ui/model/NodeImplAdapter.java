@@ -26,7 +26,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see INodeImpl
  */
 
-public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, IElement {
+public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 	/** Le noeud generique */
 	private INode node;
@@ -106,7 +106,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 
 			/* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -368,7 +368,15 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setModelAdapter(fr.lip6.move.coloane.ui.model.IModelImpl)
+	 */
+	public final void setModelAdapter(IModelImpl model) {
+		this.modelAdapter = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getNodeAttributeValue(java.lang.String)
 	 */
 	public final String getAttributeValue(String attribute) {
 		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
@@ -381,17 +389,9 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setModelAdapter(fr.lip6.move.coloane.ui.model.IModelImpl)
-	 */
-	public final void setModelAdapter(IModelImpl model) {
-		this.modelAdapter = model;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	public final Collection getContextMenus() {
 		return null;
 	}

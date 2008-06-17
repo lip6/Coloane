@@ -49,6 +49,15 @@ public interface INodeImpl extends IElement {
 	/** ID pour la propriete lorsque le noeud est deselectionne */
 	String UNSPECIAL_PROP = "Node.UnSpecialUpdate"; //$NON-NLS-1$
 
+	/** ID pour la propriété lorque la couleur d'un noeud change */
+	String BACKGROUND_COLOR_PROP = "Node.Color.Background"; //$NON-NLS-1$
+
+	/** ID pour la propriété lorque la couleur d'un noeud change */
+	String FOREGROUND_COLOR_PROP = "Node.Color.Foreground"; //$NON-NLS-1$
+
+	/** ID pour la propriété de changement de zoom */
+	String RESIZE_PROP = "Node.Zoom"; //$NON-NLS-1$
+
 	/**
 	 * Ajouter un arc entrant.
 	 * L'arc doit etre rajoute dans la liste des arcs entrants du noeud adapte
@@ -125,7 +134,7 @@ public interface INodeImpl extends IElement {
 	 * Retourner le menu contextuel associe au noeud
 	 * @return Collection
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**

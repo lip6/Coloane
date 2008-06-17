@@ -43,7 +43,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		 * La redefinition de la methode interne supprime toute trace de cadre de selection.
 		 */
 		return new NonResizableEditPolicy() {
-			@SuppressWarnings("unchecked") //NON-NLS-1 //$NON-NLS-1$
+			@SuppressWarnings("unchecked")
 			@Override
 			protected List createSelectionHandles() {
 				return new ArrayList(); // Doit retourner une arraylist vide et non null
