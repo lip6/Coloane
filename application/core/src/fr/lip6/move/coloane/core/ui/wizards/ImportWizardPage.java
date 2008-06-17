@@ -12,9 +12,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -55,7 +58,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	 * @param selection
 	 */
 	public ImportWizardPage(IWorkbench usedWorkbench, IStructuredSelection currentSelection, IImportFrom importInstance) {
-		super("file import", currentSelection);
+		super(Messages.ImportWizardPage_12, currentSelection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
 
@@ -91,7 +94,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		// Creation de la partie responsable du chois du formalisme
 		Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
-		formLabel.setText("Choose the formalism of the model inside your file :");
+		formLabel.setText(Messages.ImportWizardPage_3);
 		formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
 		formSelect.addListener(SWT.Modify, this);
 
@@ -127,6 +130,27 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	}
 
 	/**
+	 * Calcule le nom du fichier lorsqu'il sera importe dans le workspace
+	 * @param name Le nom du fichier initial
+	 * @param formalisme Le formalisme du fichier (precise par l'utilisateur)
+	 * @return Le nouveau nom du fichier (avec son extension)
+	 */
+	private String computeModelName(String name, String formalisme) {
+		// Recupere les informations sur le formalisme choisi
+		Formalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalisme);
+		Coloane.getLogger().fine("Formalisme choisi : " + importFormalism.getName()); //$NON-NLS-1$
+
+		// Travail sur l'extension du fichier
+		int pos = name.lastIndexOf('.');
+		if (pos > 0) {
+			name = (String) name.subSequence(0, pos);
+		}
+		name = name.concat("." + importFormalism.getExtension()); //$NON-NLS-1$
+		Coloane.getLogger().fine("Nouveau nom de fichier pour le modele : " + name); //$NON-NLS-1$
+		return name;
+	}
+
+	/**
 	 * Methode invoquee lorsque le bouton finish est pressee
 	 * @return true si ok
 	 * @see NewModelWizard#performFinish()
@@ -136,7 +160,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		try {
 			if (importInstance == null) {
-				Coloane.getLogger().warning("Impossible de trouver l'instance de conversion");
+				Coloane.getLogger().warning(Messages.ImportWizardPage_4);
 				return false;
 			}
 
@@ -146,19 +170,16 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 			// Traduction du modele au format xml
 			String xmlString = ModelWriter.translateToXML(model);
-			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
 
-			// Recupere les informations sur le formalisme choisi
-			Formalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formSelect.getText());
 
-			// Travail sur l'extension du fichier
-			String newName = getFileName();
-			newName = (String) newName.subSequence(0, newName.lastIndexOf('.'));
-			newName = newName.concat("." + importFormalism.getExtension());
+			String newName = computeModelName(getFileName(), formSelect.getText());
 			setFileName(newName);
 
 			// Tentative de creation de fichier
 			newFile = createNewFile();
+
+			Coloane.getLogger().fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
 
 			// Verification que tout est OK
 			if (newFile == null) {
@@ -168,7 +189,12 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			newFile.setContents(inputS, true, false, null);
 
 		} catch (CoreException e) {
+			Coloane.getLogger().warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
 			e.printStackTrace();
+			return false;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			Coloane.getLogger().warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
 			return false;
 		}
 
@@ -206,18 +232,29 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 	@Override
 	public final boolean isPageComplete() {
-		if (fileSelect.getStringValue().equals("")) {
-			setErrorMessage("You must indicate the file you want to import...");
+		if (fileSelect.getStringValue().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_7);
 			return false;
 		}
 
-		if (formSelect.getText().equals("")) {
-			setErrorMessage("You must indicate the formalism of the imported model...");
+		if (formSelect.getText().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_9);
 			return false;
 		}
 
-		if (getFileName().equals("")) {
-			setErrorMessage("You must provide a name for your file once it has been imported...");
+
+		if (getFileName().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.ImportWizardPage_11);
+			return false;
+		}
+
+		if (getContainerFullPath() == null) {
+			return false;
+		}
+
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
+		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
+			setErrorMessage(Messages.ImportWizardPage_15);
 			return false;
 		}
 

@@ -26,8 +26,6 @@ public class InflexMoveCmd extends Command {
 		this.arc = arcModel;
 		this.index = i;
 		this.newPosition = p;
-		this.newPosition.x = Math.max(this.newPosition.x, 0);
-		this.newPosition.y = Math.max(this.newPosition.y, 0);
 		this.oldPosition = this.arc.getInflexPoint(this.index);
 
 	}

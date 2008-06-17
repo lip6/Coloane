@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-//import fr.lip6.move.coloane.api.main.Api;
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.IOException;
@@ -25,8 +24,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class ColoanePrefsPage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private Combo combo = null;
 	private Combo comboServer = null;
@@ -45,12 +43,17 @@ public class ColoanePrefsPage extends PreferencePage implements
 	private Text loginField;
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
 	}
 
-	/**
-	 * Creates the controls for this page
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected final Control createContents(Composite parent) {
@@ -62,21 +65,20 @@ public class ColoanePrefsPage extends PreferencePage implements
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 
-		// Connection group
+		// Groupe authentification
 		connection = new Group(composite, SWT.NONE);
-		connection.setText(Messages.AuthenticationDialog_0);
+		connection.setText(Messages.ColoanePrefsPage_4);
 		connection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		connection.setLayout(layout);
 
-		// Set login field from the preference store
+		// Choix du login par defaut
 		new Label(connection, SWT.NULL).setText(Messages.AuthenticationDialog_8);
 		loginField = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		loginField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		loginField.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
 		loginField.setTextLimit(TXT_LIMIT);
 
+		// Combo List pour le choix du serveur
 		new Label(connection, SWT.NULL).setText(Messages.AuthenticationDialog_10);
-
 		comboServer = new Combo(connection, SWT.NULL);
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -91,41 +93,31 @@ public class ColoanePrefsPage extends PreferencePage implements
 		serversList[i] = Messages.AuthenticationDialog_13;
 		serversList[i + 1] = Messages.AuthenticationDialog_14;
 
-		// Set the server list
+		// Mise en place de la liste des serveurs recup�r�s
 		comboServer.setItems(serversList);
-		comboServer.setText(Coloane.getDefault().getPreference("SERVER")); //$NON-NLS-1$
-
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-
-					int i = 0;
-					while (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))	&& !comboServer.getText().equals(Coloane.getParam("NAME" + (i + 1)))) { //$NON-NLS-1$ //$NON-NLS-2$
-						i++;
-					}
-
-					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) { //$NON-NLS-1$
-
-						ip = Coloane.getParam("IP" + (i + 1)); //$NON-NLS-1$
-						port = Coloane.getParam("PORT" + (i + 1)); //$NON-NLS-1$
-
+					// Dans le cas localhost
+					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) { //$NON-NLS-1$
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
-					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) { //$NON-NLS-1$
+						ip = InetAddress.getByName("localhost").getHostAddress();
+						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 
-						ip = InetAddress.getByName(Messages.AuthenticationDialog_21).getHostAddress();
-						port = String.valueOf(Coloane.getParam("PORT_DEFAUT")); //$NON-NLS-1$
-
-						framekitIp.setEnabled(false);
-						framekitPort.setEnabled(false);
-					} else { // Autre ..
-
+					// Dans le cas Autres...
+					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_14)) { // Autre ..
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
-
 						ip = ""; //$NON-NLS-1$
-						port = ""; //$NON-NLS-1$
+						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
+					} else { //$NON-NLS-1$
+						int indexServer = comboServer.indexOf(comboServer.getText());
+						ip = Coloane.getParam("IP" + (indexServer + 1)); //$NON-NLS-1$
+						port = Coloane.getParam("PORT" + (indexServer + 1)); //$NON-NLS-1$
+						framekitIp.setEnabled(false);
+						framekitPort.setEnabled(false);
 					}
 					framekitIp.setText(ip);
 					framekitPort.setText(port);
@@ -135,28 +127,23 @@ public class ColoanePrefsPage extends PreferencePage implements
 			}
 		});
 
-		// Framekit IP/Port details
+		// Details des parametres serveur
 		framekitIpLabel = new Label(connection, SWT.NULL);
 		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
-
 		framekitIp = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		framekitIp.setText(Coloane.getDefault().getPreference("IP")); //$NON-NLS-1$
 		framekitIp.setTextLimit(TXT_LIMIT);
 
 		framekitPortLabel = new Label(connection, SWT.NULL);
 		framekitPortLabel.setText(Messages.AuthenticationDialog_27);
-
 		framekitPort = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		framekitPort.setText(Coloane.getDefault().getPreference("PORT")); //$NON-NLS-1$
 		framekitPort.setTextLimit(TXT_LIMIT);
 
 		// Enable Ip/Port fields if "Other..." is selected
 		enableFields();
 
-		// Dimitri
+		// Groupe pour le log
 		Group p = new Group(composite, SWT.NONE);
 		p.setText(Messages.ColoanePrefsPage_5);
 		p.setLayoutData(data);
@@ -173,46 +160,38 @@ public class ColoanePrefsPage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent e) {
 				if (combo.getText().equals("NORMAL")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.INFO);
-					//Api.setVerbosity(Level.INFO);
 				} else if (combo.getText().equals("BETA")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.FINE);
-					//Api.setVerbosity(Level.FINE);
 				} else if (combo.getText().equals("DEBUG")) { //$NON-NLS-1$
-					Coloane.setVerbosity(Level.FINEST);
-					//Api.setVerbosity(Level.FINEST);
+					Coloane.setVerbosity(Level.ALL);
 				}
 			}
 		});
-
 		return composite;
 	}
 
-
-	/**
-	 * Performs special processing when this page's Restore Defaults button has been pressed.
-	 * Sets the contents of the nameEntry field to
-	 * be the default
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
 	@Override
 	protected final void performDefaults() {
 		Coloane.getDefault().setDefaultPreference();
-
-		loginField.setText(Coloane.getDefault().getPreference("LOGIN")); //$NON-NLS-1$
-		framekitIp.setText(Coloane.getDefault().getPreference("IP")); //$NON-NLS-1$
-		framekitPort.setText(Coloane.getDefault().getPreference("PORT")); //$NON-NLS-1$
+		loginField.setText("");   //$NON-NLS-1$
+		framekitIp.setText("");   //$NON-NLS-1$
+		framekitPort.setText(""); //$NON-NLS-1$
 	}
 
-
-	/**
-	 * Method declared on IPreferencePage. Save the
-	 * author name to the preference store.
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override
 	public final boolean performOk() {
-		Coloane.getDefault().setPreference("LOGIN", loginField.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("SERVER", comboServer.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("IP", framekitIp.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("PORT", framekitPort.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
+		Coloane.getDefault().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
 		return super.performOk();
 	}
 
@@ -220,7 +199,7 @@ public class ColoanePrefsPage extends PreferencePage implements
 	 * Enable or Disable IP/Port fields in preference page
 	 */
 	public final void enableFields() {
-//		 Enable Ip/Port fields if "Other..." is selected
+		// Enable Ip/Port fields if "Other..." is selected
 		if (Coloane.getDefault().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) { //$NON-NLS-1$
 			framekitIp.setEnabled(true);
 			framekitPort.setEnabled(true);

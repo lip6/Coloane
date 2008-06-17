@@ -15,7 +15,6 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Adaptateur pour le modele generique. Permet d'implementer les interfaces
@@ -170,7 +169,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(attributeAdapter.getId(), attributeAdapter);
+			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
 		}
 	}
 
@@ -432,10 +431,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return 1;
 	}
 
-	public final List<INodeImpl> getNodes() {
-		return new ArrayList<INodeImpl>(nodes);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getElementBase()
@@ -443,7 +438,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	public final ElementFormalism getElementBase() {
 		return null;
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -462,23 +456,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSelect(boolean)
 	 */
 	public void setSelect(boolean state) {	}
-	public final INodeImpl getNode(int id) {
-		for (INodeImpl node : nodes) {
-			if (node.getId() == id) {
-				return node;
-			}
-		}
-		return null;
-	}
-
-	public final Set<IArcImpl> getArcs() {
-		HashSet<IArcImpl> arcs = new HashSet<IArcImpl>();
-		for (INodeImpl node : nodes) {
-			arcs.addAll(node.getSourceArcs());
-			arcs.addAll(node.getTargetArcs());
-		}
-		return arcs;
-	}
 
 	/*
 	 * (non-Javadoc)

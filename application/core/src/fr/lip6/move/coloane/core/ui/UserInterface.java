@@ -6,9 +6,6 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.Session;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;
@@ -54,7 +51,6 @@ public final class UserInterface {
 
 	/**
 	 * Retourne le module moteur
-	 * 
 	 * @return Motor Le module moteur
 	 */
 	public static synchronized UserInterface getInstance() {

@@ -155,7 +155,6 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 */
 	protected final void setDestinationValue(String value) {
 		destinationNameField.setText(value);
-		notify();
 	}
 
 	/**

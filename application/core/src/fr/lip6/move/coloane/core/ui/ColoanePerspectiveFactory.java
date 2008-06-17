@@ -27,7 +27,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 	public static final String PROJECT_WIZARD = "fr.lip6.move.coloane.wizard.projectWizard"; //$NON-NLS-1$
 	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard"; //$NON-NLS-1$
 
-	public static final String MODEL_NAVIGATOR = "fr.lip6.move.coloane.views.NavigatorView"; // $NON-NLS-1$
+	public static final String MODEL_NAVIGATOR = "fr.lip6.move.coloane.views.NavigatorView"; //$NON-NLS-1$
 
 	/**
 	 * Creation du plan de travail
