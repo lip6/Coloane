@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://ws.wrapper.move.lip6.fr" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax24="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax21="http://exceptions.wrapper.move.lip6.fr/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws.wrapper.move.lip6.fr">
+    <wsdl:types>
+        <xs:schema xmlns:ax22="http://ws.wrapper.move.lip6.fr" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://ws.wrapper.move.lip6.fr"/>
+            <xs:complexType name="GException">
+                <xs:complexContent>
+                    <xs:extension base="ax22:Exception">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="error" type="xs:int"/>
+                            <xs:element minOccurs="0" name="level" type="xs:int"/>
+                            <xs:element minOccurs="0" name="mess" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:complexType name="Authentification">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="ackOC" nillable="true" type="ax24:AckOC"/>
+                    <xs:element minOccurs="0" name="ackSC" nillable="true" type="ax24:AckSC"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="id" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="oC" nillable="true" type="ax24:AckOC"/>
+                    <xs:element minOccurs="0" name="sC" nillable="true" type="ax24:AckSC"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AckOC">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="major" type="xs:int"/>
+                    <xs:element minOccurs="0" name="minor" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AckSC">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="hostInformation" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Unauthentification">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="id" nillable="true" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax25="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax23="http://exceptions.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.wrapper.move.lip6.fr">
+            <xs:import namespace="http://exceptions.wrapper.move.lip6.fr/xsd"/>
+            <xs:import namespace="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="GException">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="GException" nillable="true" type="ax21:GException"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="connect">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="mdp" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="connectResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:Authentification"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="disconnect">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="disconnectResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:Unauthentification"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="main">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="args" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="mainRequest">
+        <wsdl:part name="parameters" element="ns:main"/>
+    </wsdl:message>
+    <wsdl:message name="disconnectRequest">
+        <wsdl:part name="parameters" element="ns:disconnect"/>
+    </wsdl:message>
+    <wsdl:message name="disconnectResponse">
+        <wsdl:part name="parameters" element="ns:disconnectResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GException">
+        <wsdl:part name="parameters" element="ns:GException"/>
+    </wsdl:message>
+    <wsdl:message name="connectRequest">
+        <wsdl:part name="parameters" element="ns:connect"/>
+    </wsdl:message>
+    <wsdl:message name="connectResponse">
+        <wsdl:part name="parameters" element="ns:connectResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="WrapperPortType">
+        <wsdl:operation name="main">
+            <wsdl:input message="ns:mainRequest" wsaw:Action="urn:main"/>
+        </wsdl:operation>
+        <wsdl:operation name="disconnect">
+            <wsdl:input message="ns:disconnectRequest" wsaw:Action="urn:disconnect"/>
+            <wsdl:output message="ns:disconnectResponse" wsaw:Action="urn:disconnectResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:disconnectGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="connect">
+            <wsdl:input message="ns:connectRequest" wsaw:Action="urn:connect"/>
+            <wsdl:output message="ns:connectResponse" wsaw:Action="urn:connectResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:connectGException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WrapperSoap11Binding" type="ns:WrapperPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="main">
+            <soap:operation soapAction="urn:main" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="disconnect">
+            <soap:operation soapAction="urn:disconnect" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="connect">
+            <soap:operation soapAction="urn:connect" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="WrapperSoap12Binding" type="ns:WrapperPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="main">
+            <soap12:operation soapAction="urn:main" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="disconnect">
+            <soap12:operation soapAction="urn:disconnect" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="connect">
+            <soap12:operation soapAction="urn:connect" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="WrapperHttpBinding" type="ns:WrapperPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="main">
+            <http:operation location="Wrapper/main"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="main"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="disconnect">
+            <http:operation location="Wrapper/disconnect"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="disconnect"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="disconnect"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="connect">
+            <http:operation location="Wrapper/connect"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="connect"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="connect"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="Wrapper">
+        <wsdl:port name="WrapperHttpSoap11Endpoint" binding="ns:WrapperSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/Wrapper"/>
+        </wsdl:port>
+        <wsdl:port name="WrapperHttpSoap12Endpoint" binding="ns:WrapperSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/Wrapper"/>
+        </wsdl:port>
+        <wsdl:port name="WrapperHttpEndpoint" binding="ns:WrapperHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/Wrapper"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
