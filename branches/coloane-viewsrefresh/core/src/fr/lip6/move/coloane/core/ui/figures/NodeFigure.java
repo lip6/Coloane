@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
+import java.util.List;
+
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
@@ -9,6 +11,7 @@ import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
@@ -18,6 +21,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 public class NodeFigure extends Figure implements INodeFigure {
@@ -69,7 +73,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 			figure = new Ellipse();
 			figure.setSize(nodeGraphInfo.getSize());
 			figure.setForegroundColor(nodeGraphInfo.getForeground());
-			figure.setBackgroundColor(nodeGraphInfo.getBackground());
+//			figure.setBackgroundColor(nodeGraphInfo.getBackground());
 
 			// Le cercle interieur
 			IFigure figure2 = new Ellipse();
@@ -108,19 +112,29 @@ public class NodeFigure extends Figure implements INodeFigure {
 			 * (non-Javadoc)
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseEntered(org.eclipse.draw2d.MouseEvent)
 			 */
+			@SuppressWarnings("unchecked")
 			@Override
 			public void mouseEntered(MouseEvent me) {
-				previousBackgroundColor = ((Shape) me.getSource()).getBackgroundColor();
-				((Shape) me.getSource()).setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				IFigure currentFigure = (Shape) me.getSource();
+				previousBackgroundColor = currentFigure.getBackgroundColor();
+				currentFigure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				for (IFigure child : (List<IFigure>) currentFigure.getChildren()) {
+					child.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				}
 				node.setAttributesSelected(true, true);
 			}
 			/*
 			 * (non-Javadoc)
 			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseExited(org.eclipse.draw2d.MouseEvent)
 			 */
+			@SuppressWarnings("unchecked")
 			@Override
 			public void mouseExited(MouseEvent me) {
-				((Shape) me.getSource()).setBackgroundColor(previousBackgroundColor);
+				IFigure currentFigure = (Shape) me.getSource();
+				currentFigure.setBackgroundColor(previousBackgroundColor);
+				for (IFigure child : (List<IFigure>) currentFigure.getChildren()) {
+					child.setBackgroundColor(previousBackgroundColor);
+				}
 				node.setAttributesSelected(true, false);
 			}
 		};
@@ -184,7 +198,13 @@ public class NodeFigure extends Figure implements INodeFigure {
 
 	@Override
 	public final void setBackgroundColor(Color bg) {
-		figure.setBackgroundColor(bg);
+		if (figure.getChildren().isEmpty()) {
+			figure.setBackgroundColor(bg);
+		}
+		for (Object obj : figure.getChildren()) {
+			IFigure child = (IFigure) obj;
+			child.setBackgroundColor(bg);
+		}
 		nodeGraphInfo.setBackground(bg);
 	}
 
@@ -212,5 +232,11 @@ public class NodeFigure extends Figure implements INodeFigure {
 	@Override
 	public final Rectangle getBounds() {
 		return figure.getBounds();
+	}
+
+	@Override
+	public final void paint(Graphics graphics) {
+		graphics.setAntialias(SWT.ON);
+		super.paint(graphics);
 	}
 }
