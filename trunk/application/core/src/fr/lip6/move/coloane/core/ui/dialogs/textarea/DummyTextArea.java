@@ -26,7 +26,7 @@ public class DummyTextArea extends TextArea {
 		return result;
 	}
 
-	/**
+	/** 
 	 * Add a choice in a DummyTextArea is a nonsense.
 	 */
 	public final void addChoice(String choice) {

@@ -6,7 +6,7 @@
          <meta.schema plugin="fr.lip6.move.coloane.core" id="imports" name="Imports"/>
       </appInfo>
       <documentation>
-         This extension point allows new import feature contributions.
+         [Enter description of this extension point.]
       </documentation>
    </annotation>
 
@@ -76,7 +76,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         0.11.1
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
@@ -85,7 +85,7 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         
+         [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
@@ -94,7 +94,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         
+         [Enter API information here.]
       </documentation>
    </annotation>
 
@@ -103,7 +103,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         
+         [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 

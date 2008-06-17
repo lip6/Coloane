@@ -22,6 +22,7 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -36,6 +37,7 @@ import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart pour les noeuds
@@ -88,10 +90,10 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			((INodeFigure) getFigure()).setSelectSpecial();
 			return;
 		} else if (INodeImpl.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setUnselect();
+			((INodeFigure) getFigure()).unsetSelectSpecial();
 			return;
 
-			// Propriete de selection
+		// Propriete de selection
 		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setHighlight();
 			return;
@@ -99,6 +101,19 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
 			return;
+
+		// Propriété de changement de couleur
+		} else if (INodeImpl.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
+
+		// Propriété de changement de taille
+		} else if (INodeImpl.RESIZE_PROP.equalsIgnoreCase(prop)) {
+			INodeFigure nodeFigure = (INodeFigure) getFigure();
+			Rectangle oldRect = nodeFigure.getClientArea();
+			nodeFigure.setSize((Dimension) property.getNewValue());
+			((ModelEditPart) getParent()).getFigure().repaint(oldRect);
 		}
 
 		refreshVisuals();

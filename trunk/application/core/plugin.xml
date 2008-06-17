@@ -192,7 +192,7 @@
                 class="fr.lip6.move.coloane.core.ui.dialogs.ColoanePrefsPage">
         </page>
         <page id="org.eclipse.ui.articles.BadWordsColorPreference"
-                name="%PREF_COLORS"
+                name="Colors"
                 class="fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs"
                 category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
         </page>
@@ -330,9 +330,102 @@
           class="fr.lip6.move.coloane.core.results.reports.SyntaxCheckerReport"
           service_name="Petri net syntax checker">
     </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.LTLModCheck"
-          service_name="LTL model checking on the symbolic RG">
-    </report>
+ </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor
+          contributorId="fr.lip6.move.coloane.properties.contributor"
+          typeMapper="fr.lip6.move.coloane.core.ui.properties.TypeMapper">
+       <propertyCategory
+             category="all">
+       </propertyCategory>
+    </propertyContributor>
+ </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs
+          contributorId="fr.lip6.move.coloane.properties.contributor">
+       <propertyTab
+             category="all"
+             id="fr.lip6.move.coloane.core.properties.element"
+             label="Element">
+       </propertyTab>
+       <propertyTab
+             afterTab="fr.lip6.move.coloane.core.properties.element"
+             category="all"
+             id="fr.lip6.move.coloane.core.properties.graphic"
+             label="Graphic">
+       </propertyTab>
+    </propertyTabs>
+ </extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="fr.lip6.move.coloane.properties.contributor">
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSection"
+             id="fr.lip6.move.coloane.core.section.NodeSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+            <input
+                  type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+            </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ArcSection"
+             id="fr.lip6.move.coloane.core.section.ArcSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ModelSection"
+             id="fr.lip6.move.coloane.core.section.ModelSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IModelImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeColorSection"
+             id="fr.lip6.move.coloane.core.section.NodeColorSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.ArcColorSection"
+             id="fr.lip6.move.coloane.core.section.ArcColorSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeLocationSection"
+             id="fr.lip6.move.coloane.core.section.NodeLocationSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSizeSection"
+             id="fr.lip6.move.coloane.core.section.NodeSizeSection"
+             tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.AttributeSection"
+             id="fr.lip6.move.coloane.core.section.AttributeSection"
+             tab="fr.lip6.move.coloane.core.properties.element">
+          <input
+                type="fr.lip6.move.coloane.core.ui.model.IAttributeImpl">
+          </input>
+       </propertySection>
+    </propertySections>
  </extension>
 </plugin>

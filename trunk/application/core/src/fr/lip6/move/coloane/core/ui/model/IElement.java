@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 
+import java.beans.PropertyChangeListener;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -72,4 +74,8 @@ public interface IElement {
 	 * @param state : L'etat de selection
 	 */
 	void setSpecial(boolean state);
+
+	Hashtable<Integer, IAttributeImpl> getProperties();
+	void addPropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

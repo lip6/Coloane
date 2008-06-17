@@ -135,7 +135,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 				this.genericArc.addAttribute(attribute);
 			}
 
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -299,6 +299,19 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final void addInflexPoint(Point p, int index) {
 		try {
 			this.genericArc.addPI(p.x, p.y, index);
+			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
+		} catch (ModelException e) {
+			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
+	 */
+	public final void addInflexPoint(Point p) {
+		try {
+			this.genericArc.addPI(p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
 			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$

@@ -44,7 +44,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		String[] natures = basicDescription.getNatureIds();
 		String[] newNatures = new String[natures.length + 1];
 		System.arraycopy(natures, 0, newNatures, 0, natures.length);
-		newNatures[natures.length] = "fr.lip6.move.coloane.core.modelingproject"; //$NON-NLS-1$
+		newNatures[natures.length] = "fr.lip6.move.coloane.core.modelingproject";
 		basicDescription.setNatureIds(newNatures);
 
 		IPath platformPath = Platform.getLocation();

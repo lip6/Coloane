@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.main.Coloane;
-
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
@@ -13,7 +11,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
@@ -37,9 +34,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 
-		RetargetAction grid = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX);
-		grid.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/grid.png"));
-		addRetargetAction(grid);
+		addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX));
 
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.CENTER));

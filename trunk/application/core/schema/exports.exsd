@@ -6,7 +6,7 @@
          <meta.schema plugin="fr.lip6.move.coloane.core" id="exports" name="Exports"/>
       </appInfo>
       <documentation>
-         This extension point allows new export feature contributions.
+         Extension point to add export processes
       </documentation>
    </annotation>
 
@@ -83,7 +83,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         0.11.1
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
@@ -92,7 +92,7 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         
+         [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
@@ -101,7 +101,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         
+         [Enter API information here.]
       </documentation>
    </annotation>
 
@@ -110,7 +110,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         
+         [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
