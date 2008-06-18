@@ -30,5 +30,12 @@ public interface IAnswerOpenSession {
 	 * Recupere si le resultat est deja calculer
 	 * @return 1 si resultat deja calcules, 2 si non calcules
 	 */
-	public String getResultatCalcule();
+	public int getResultatCalcule();
+	
+	/**
+	 * Recupere le menu des services disponible
+	 * @return le menu des services disponible
+	 */
+	public IMenu getMenu();
+	
 }
