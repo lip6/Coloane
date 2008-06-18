@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
 
@@ -79,4 +79,26 @@ public interface IElement {
 	 * @param state : L'etat de selection
 	 */
 	void setSpecial(boolean state);
+
+	/**
+	 * Attache un listener (ecouteur) a l'objet
+	 * L'objet est donc maintenant sensible aux evenements recus
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Enleve un PropertyChangeListener de cet objet.
+	 * @param listener une instance de PropertyChangeListener
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Setter pour la propriete.
+	 * Les classe filles doivent surcharge cette methode.
+	 * Dans cette implementation par default elle fait rien.
+	 *
+	 * @param id Nom de la propriete
+	 * @param value Valeur de la propriete
+	 */
+	void setPropertyValue(Object id, Object newValue);
 }

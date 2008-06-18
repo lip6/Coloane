@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
@@ -26,7 +25,7 @@ import org.eclipse.draw2d.geometry.Point;
  * @see INodeImpl
  */
 
-public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, IElement {
+public class NodeImplAdapter extends AbstractModelElement implements INodeImpl {
 
 	/** Le noeud generique */
 	private INode node;
@@ -106,7 +105,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			IAttributeImpl attributeAdapter = new AttributeImplAdapter(attribute, attributeFormalism, this);
 
 			/* Ajout de cet attribut dans la liste des propriete pour la vue GEF */
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -148,7 +147,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 			}
 
 			// Augmente la liste des proprietes pour le modele (fenetre properties de la vue)
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -181,13 +180,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addInputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public final void addInputArc(IArcImpl arcAdapter) throws BuildException {
+	public final void addInputArc(IArcImpl arcAdapter) {
 		if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getTarget() == this)) {
 			this.targetArcs.add(arcAdapter);
 			this.node.addInputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.TARGET_ARCS_PROP, null, arcAdapter);
-		} else {
-			throw new BuildException(Messages.NodeImplAdapter_0 + node.getId());
 		}
 	}
 
@@ -195,13 +192,11 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#addOutputArc(fr.lip6.move.coloane.ui.model.IArcImpl)
 	 */
-	public final void addOutputArc(IArcImpl arcAdapter) throws BuildException {
+	public final void addOutputArc(IArcImpl arcAdapter) {
 		if ((arcAdapter.getGenericArc() != null) && (arcAdapter.getSource() == this)) {
 			this.sourceArcs.add(arcAdapter);
 			this.node.addOutputArc(arcAdapter.getGenericArc());
 			firePropertyChange(NodeImplAdapter.SOURCE_ARCS_PROP, null, arcAdapter);
-		} else {
-			throw new BuildException(Messages.NodeImplAdapter_1 + node.getId());
 		}
 	}
 

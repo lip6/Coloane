@@ -56,6 +56,9 @@ public final class UserInterface {
 	public static synchronized UserInterface getInstance() {
 		if (instance == null) {
 			instance = new UserInterface();
+			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 		}
 		return instance;
 	}

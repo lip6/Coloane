@@ -53,7 +53,7 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
+//import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -74,12 +74,12 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetSorter;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
+public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
+		ITabbedPropertySheetPageContributor {
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
@@ -87,10 +87,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		private Canvas overview;
 		private Thumbnail thumbnail;
 		private DisposeListener disposeListener;
-		public OutlinePage(EditPartViewer viewer) { super(viewer); }
+
+		public OutlinePage(EditPartViewer viewer) {
+			super(viewer);
+		}
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.ui.part.Page#init(org.eclipse.ui.part.IPageSite)
 		 */
 		@Override
@@ -113,6 +117,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -125,6 +130,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.ui.part.Page#dispose()
 		 */
 		@Override
@@ -141,18 +147,21 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
-		@SuppressWarnings("unchecked") //$NON-NLS-1$
+		@SuppressWarnings("unchecked")//$NON-NLS-1$
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
-				return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+				return getGraphicalViewer().getProperty(
+						ZoomManager.class.toString());
 			}
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
 		 */
 		@Override
@@ -167,7 +176,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 				ScalableFreeformRootEditPart root = (ScalableFreeformRootEditPart) rep;
 				thumbnail = new ScrollableThumbnail((Viewport) root.getFigure());
 				thumbnail.setBorder(new MarginBorder(3));
-				thumbnail.setSource(root.getLayer(LayerConstants.PRINTABLE_LAYERS));
+				thumbnail.setSource(root
+						.getLayer(LayerConstants.PRINTABLE_LAYERS));
 				lws.setContents(thumbnail);
 				disposeListener = new DisposeListener() {
 					public void widgetDisposed(DisposeEvent e) {
@@ -195,11 +205,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		protected void unhookOutlineViewer() {
 			getSelectionSynchronizer().removeViewer(getViewer());
-			if (disposeListener != null && getEditor() != null && !getEditor().isDisposed()) {
+			if (disposeListener != null && getEditor() != null
+					&& !getEditor().isDisposed()) {
 				getEditor().removeDisposeListener(disposeListener);
 			}
 		}
 	}
+
+	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor";
 
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
@@ -214,10 +227,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	private static TabListener listener = null;
 
 	/** Constructeur de l'editeur */
-	public ColoaneEditor() { }
+	public ColoaneEditor() {
+	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
 	@Override
@@ -232,6 +247,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	@Override
@@ -247,7 +263,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setRootEditPart(rootEditPart);
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 
-		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer, getActionRegistry());
+		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer,
+				getActionRegistry());
 
 		getSite().setSelectionProvider(viewer);
 
@@ -266,7 +283,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		getActionRegistry().registerAction(showGrid);
 
 		// Liste des zooms possibles 1 = 100%
-		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0};
+		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0,
+				2.5, 3.0, 4.0, 5.0, 10.0, 20.0 };
 		manager.setZoomLevels(zoomLevels);
 
 		// On ajoute certains zooms predefinis
@@ -279,6 +297,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Retourne le modele attache a l'editeur
+	 *
 	 * @return IModelImpl Le modele augemente
 	 */
 	public final IModelImpl getModel() {
@@ -287,6 +306,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Retourne le path du modele en cours d'edition
+	 *
 	 * @return Le chemin du modele en cours dans l'editeur
 	 */
 	public final IPath getCurrentPath() {
@@ -297,10 +317,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	/**
-	 * Determine le contenu de l'editeur.
-	 * Ce contenu est lu depuis un fichier.
+	 * Determine le contenu de l'editeur. Ce contenu est lu depuis un fichier.
 	 * Ce fichier a bien sur ete cree par l'assistant
-	 * @param input Toutes les informations concernant le modele
+	 *
+	 * @param input
+	 *            Toutes les informations concernant le modele
 	 */
 	@Override
 	protected final void setInput(IEditorInput input) {
@@ -315,7 +336,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		if (model == null) {  return; }
 
 		// Mise en place de l'editeur
-		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
+		// On est oblige d'attendre le formalisme pour creer le domaine
+		// d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
 		setEditDomain(new DefaultEditDomain(this));
 
@@ -341,7 +363,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			file.setContents(inputS, true, false, monitor);
 			file.setCharset("UTF-8", monitor);
 		} catch (CoreException e) {
-			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
+			Coloane.getLogger().warning(
+					"Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			Coloane.getLogger().warning("Erreur lors de la sauvegarde du modele (charset)"); //$NON-NLS-1$
 		}
@@ -366,31 +389,37 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 		if (path != null) {
 			// try to save the editor's contents under a different file name
-			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			final IFile file = ResourcesPlugin.getWorkspace().getRoot()
+					.getFile(path);
 			try {
-				new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() {
-					@Override
-					public void execute(final IProgressMonitor monitor) {
-						// Recuperation du modele generique
-						String xmlString = ModelWriter.translateToXML(model);
-						InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
-						try {
-							// Si le fichier existe alors on l'ecrase sinon on en cree un nouveau
-							if (file.exists()) {
-								file.setContents(inputS, true, false, monitor);
-							} else {
-								file.create(inputS, true, monitor);
+				new ProgressMonitorDialog(shell).run(false, false,
+						new WorkspaceModifyOperation() {
+							@Override
+							public void execute(final IProgressMonitor monitor) {
+								// Recuperation du modele generique
+								String xmlString = ModelWriter
+										.translateToXML(model);
+								InputStream inputS = new ByteArrayInputStream(
+										xmlString.getBytes());
+								try {
+									// Si le fichier existe alors on l'ecrase
+									// sinon on en cree un nouveau
+									if (file.exists()) {
+										file.setContents(inputS, true, false,
+												monitor);
+									} else {
+										file.create(inputS, true, monitor);
+									}
+								} catch (CoreException ce) {
+									ce.printStackTrace();
+								}
 							}
-						} catch (CoreException ce) {
-							ce.printStackTrace();
-						}
-					}
-				});
+						});
 
 				// Suppression de ces lignes pour corriger le bug du saveAS
 				// On installe le nouveau contenu dans l'editeur
-				//setInput(new FileEditorInput(file));
-				//getCommandStack().markSaveLocation();
+				// setInput(new FileEditorInput(file));
+				// getCommandStack().markSaveLocation();
 				firePropertyChange(PROP_TITLE);
 
 			} catch (InterruptedException ie) {
@@ -404,6 +433,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -418,6 +448,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
 	 */
 	@Override
@@ -432,6 +463,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
 	@Override
@@ -441,6 +473,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
 	 */
 	@Override
@@ -451,6 +484,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
 	 */
 	@Override
@@ -459,7 +493,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 			@Override
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
-				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+				viewer
+						.addDragSourceListener(new TemplateTransferDragSourceListener(
+								viewer));
 				viewer.addPaletteListener(new PaletteToolListener());
 			}
 		};
@@ -467,35 +503,44 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
-		@Override
+	@SuppressWarnings("unchecked")//$NON-NLS-1$
+	@Override
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 			outlinePage = new OutlinePage(getGraphicalViewer());
 			return outlinePage;
 
-		// On redefinit la fenetre de propriete
-		} else if (type == IPropertySheetPage.class) {
-			PropertySheetPage page = new PropertySheetPage() {
-				{
-					setSorter(new PropertySheetSorter() {
-						@Override
-						public void sort(IPropertySheetEntry[] entries) {
-							// Aucun tri !
-						}
-					});
+//			// On redefinit la fenetre de propriete
+//		} else if (type == IPropertySheetPage.class) {
+//			PropertySheetPage page = new PropertySheetPage() {
+//				{
+//					setSorter(new PropertySheetSorter() {
+//						@Override
+//						public void sort(IPropertySheetEntry[] entries) {
+//							// Aucun tri !
+//						}
+//					});
+//
+//				}
+//			};
+//			page
+//					.setRootEntry(new UndoablePropertySheetEntry(
+//							getCommandStack()));
+//			return page;
 
-				}
-			};
-			page.setRootEntry(new UndoablePropertySheetEntry(getCommandStack()));
-			return page;
-
-		// On definit le manager de Zoom
+			// On definit le manager de Zoom
 		} else if (type == ZoomManager.class) {
-			return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
+			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
+					.getRootEditPart()).getZoomManager();
+
+			// Fenêtre de propriété avec onglets
+		} else if (type == IPropertySheetPage.class) {
+            return new TabbedPropertySheetPage(this);
 		}
+
 
 		// Dans tous les autres cas
 		return super.getAdapter(type);
@@ -510,6 +555,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Creation de la palette d'outils
+	 *
 	 * @return PaletteRoot Le pere de la palette
 	 */
 	@Override
@@ -533,6 +579,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Retourne les preferences de la palette
+	 *
 	 * @return FlyoutPreferences
 	 */
 	@Override
@@ -542,9 +589,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")//$NON-NLS-1$
 	@Override
 	protected final void createActions() {
 		super.createActions();
@@ -590,5 +638,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette {
 		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
+	}
+
+	public final String getContributorId() {
+		return CONTRIBUTOR_ID;
 	}
 }

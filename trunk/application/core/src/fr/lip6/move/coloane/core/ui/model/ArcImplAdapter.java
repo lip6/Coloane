@@ -56,7 +56,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	 * @param base Element de base du formalisme
 	 * @throws BuildException
 	 */
-	public ArcImplAdapter(IArc arc, INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) throws BuildException {
+	public ArcImplAdapter(IArc arc, INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism base) {
 		this.elementBase = base;
 		this.genericArc = arc;
 		this.source = arcSource;
@@ -135,7 +135,7 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 				this.genericArc.addAttribute(attribute);
 			}
 
-			this.addProperty(String.valueOf(attributeAdapter.getId()), attributeAdapter);
+			this.addProperty(attributeAdapter.getId(), attributeAdapter);
 		}
 	}
 
@@ -157,13 +157,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		this.source = newSource;
 		this.target = newTarget;
 
-		// Creation des liens
-		try {
-			this.target.addInputArc(this);
-			this.source.addOutputArc(this);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de creer les references : (" + this.source.getId() + "," + this.target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
+		this.target.addInputArc(this);
+		this.source.addOutputArc(this);
 
 		// On indique a l'arc generique quels sont ces sources et cibles
 		this.genericArc.setStartingNode(source.getGenericNode());
@@ -272,6 +267,19 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	public final void addInflexPoint(Point p, int index) {
 		try {
 			this.genericArc.addPI(p.x, p.y, index);
+			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
+		} catch (ModelException e) {
+			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
+	 */
+	public final void addInflexPoint(Point p) {
+		try {
+			this.genericArc.addPI(p.x, p.y);
 			firePropertyChange(ArcImplAdapter.INFLEXPOINT_PROP, null, this);
 		} catch (ModelException e) {
 			Coloane.getLogger().warning("Impossible d'ajouter le point d'inflexion sur : " + this.genericArc.getId()); //$NON-NLS-1$
