@@ -34,4 +34,10 @@ public interface IAttributeGraphicInfo {
 	 * @param y Les ordonees
 	 */
 	void setLocation(int x, int y);
+	
+	/**
+	 * Change l'emplacement de l'attribut
+	 * @param location nouvelles coordonnées
+	 */
+	void setLocation(Point location);
 }

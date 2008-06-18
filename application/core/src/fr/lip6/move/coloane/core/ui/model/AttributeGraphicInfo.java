@@ -41,5 +41,9 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		// Lever un evenement
 		((AttributeImplAdapter) this.attribute).firePropertyChange(AttributeImplAdapter.LOCATION_PROP, null, new Point(this.x, this.y));
 	}
+
+	public void setLocation(Point location) {
+		setLocation(location.x, location.y);
+	}
 }
 

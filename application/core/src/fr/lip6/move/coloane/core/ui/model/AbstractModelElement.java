@@ -64,16 +64,24 @@ public abstract class AbstractModelElement implements IElement {
 	public final Collection<IAttributeImpl> getAttributes() {
 		return this.properties.values();
 	}
+	
+	public final IAttributeImpl getAttribute(String attribute) {
+		for (IAttributeImpl attr : properties.values()) {
+			if (attr.getDisplayName().equalsIgnoreCase(attribute)) {
+				return attr;
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
 	 */
 	public final String getAttributeValue(String attribute) {
-		for (IAttributeImpl attr : properties.values()) {
-			if (attr.getDisplayName().equalsIgnoreCase(attribute)) {
-				return attr.getValue();
-			}
+		IAttributeImpl attr = getAttribute(attribute);
+		if (attr != null) {
+			return attr.getValue();
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -112,7 +120,7 @@ public abstract class AbstractModelElement implements IElement {
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setPropertyValue(java.lang.Object, java.lang.Object)
 	 */
 	public final void setPropertyValue(Object id, Object newValue) {
-		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id.toString());
+		IAttributeImpl attribute = (IAttributeImpl) this.properties.get(id);
 
 		// Sauvegarde de l'ancienne valeur
 		String oldValue = attribute.getValue();

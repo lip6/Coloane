@@ -62,6 +62,5 @@ public class PasteAction extends SelectionAction {
 	public final void run() {
 		PasteCommand command = createPasteCommand();
 		execute(command);
-		System.err.println(getSelection());
 	}
 }
