@@ -39,6 +39,12 @@ public interface INodeGraphicInfo {
 	void setLocation(int x, int y);
 
 	/**
+	 * Change l'emplacement d'un noeud
+	 * @param location coordonnées
+	 */
+	void setLocation(Point location);
+
+	/**
 	 * Retourne la largeur du noeud
 	 * @return int La largeur
 	 */
@@ -97,7 +103,7 @@ public interface INodeGraphicInfo {
 	 * Permet de définir la taille du noeud
 	 * @param zoom pourcentage
 	 */
-	void setScale(int zoom);
+	void setScale(int scale);
 
 	/**
 	 * @return pourcentage

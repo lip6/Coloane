@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Classe permettant la reconstruction d'un arc
@@ -21,7 +22,10 @@ public class ArcContainer {
 	private int idSource;
 	private int idTarget;
 	private ElementFormalism elementFormalism;
+
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
+
+	private Color color;
 	private ArrayList<Point> pis = new ArrayList<Point>();
 
 	/**
@@ -33,10 +37,15 @@ public class ArcContainer {
 		id = arc.getId();
 		this.idSource = idSource;
 		this.idTarget = idTarget;
+		color = arc.getGraphicInfo().getColor();
 		elementFormalism = arc.getElementBase();
+
+		// sauvegarde des points d'inflexion
 		for (Bendpoint bp : arc.getInflexPoints()) {
 			pis.add(bp.getLocation());
 		}
+		
+		// sauvegarde des attributs
 		for (IAttributeImpl attr : arc.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
 		}
@@ -54,14 +63,21 @@ public class ArcContainer {
 			p.x += 10;
 			p.y += 10;
 		}
+		// Décalage des attributs
+		for (AttributContainer ac : attributs) {
+			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
+		}
 
 		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, elementFormalism);
 		arcAdapter.setModelAdapter(model);
+		arcAdapter.getGraphicInfo().setColor(color);
 		for (AttributContainer ac : attributs) {
 			arcAdapter.setPropertyValue(ac.getId(), ac.getValue());
+			arcAdapter.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
 		}
-		for (Point p : pis) {
-			arcAdapter.addInflexPoint(p, pis.indexOf(p));
+		for (int index = 0; index < pis.size(); index++) {
+			Point p = pis.get(index);
+			arcAdapter.addInflexPoint(p, index);
 		}
 		return arcAdapter;
 	}
