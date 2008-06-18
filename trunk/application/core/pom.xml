@@ -138,6 +138,11 @@
 			<version>[3.2,)</version>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.ui.views.properties</groupId>
+			<artifactId>tabbed</artifactId>
+			<version>[3.2,)</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.ui</groupId>
 			<artifactId>workbench</artifactId>
 			<version>[3.2,)</version>
