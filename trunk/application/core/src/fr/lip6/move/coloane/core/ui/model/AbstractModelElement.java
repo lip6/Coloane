@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -45,22 +44,20 @@ public abstract class AbstractModelElement implements IPropertySource, IElement 
 	 * @return IPropertyDescriptor[]
 	 */
 	public final IPropertyDescriptor[] getPropertyDescriptors() {
-
 		// Preparation de la liste des descripteurs
 		IPropertyDescriptor[] liste = new IPropertyDescriptor[this.properties.size()];
 
 		// Recupere la table contenant toutes les proprietes (attributs) des objets
-		for (Enumeration<IAttributeImpl> e = this.properties.elements(); e.hasMoreElements();) {
-			IAttributeImpl prop = (IAttributeImpl) e.nextElement();
+		for (IAttributeImpl attr : this.properties.values()) {
 
 			// Calcul de l'indice d'insertion dans la fenetre
-			int indice = prop.getId();
+			int indice = attr.getId();
 
 			// Selection du descripteur selon le type d'attribut
-			if (prop.isMultiline()) { // Multiligne
-				liste[indice - 1] = new AttributePropertyDescriptor(prop.getId(), prop.getDisplayName(), "", prop.getValue()); //$NON-NLS-1$
+			if (attr.isMultiline()) { // Multiligne
+				liste[indice - 1] = new AttributePropertyDescriptor(attr.getId(), attr.getDisplayName(), "", attr.getValue()); //$NON-NLS-1$
 			} else { // Normal
-				liste[indice - 1] = new TextPropertyDescriptor(prop.getId(), prop.getDisplayName());
+				liste[indice - 1] = new TextPropertyDescriptor(attr.getId(), attr.getDisplayName());
 			}
 		}
 
