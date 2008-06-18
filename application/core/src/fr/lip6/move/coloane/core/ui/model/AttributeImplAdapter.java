@@ -127,7 +127,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 			this.reference.getModelAdapter().announceAttribute();
 		}
 
-		firePropertyChange(AttributeImplAdapter.VALUE_PROP, null, null);
+		firePropertyChange(IAttributeImpl.VALUE_PROP, null, null);
 	}
 
 	/*

@@ -41,6 +41,8 @@ public interface IArcImpl extends IElement {
 	/** ID pour la propriete lorsque le noeud est selectionne */
 	String SPECIAL_PROP = "Arc.SpecialUpdate"; //$NON-NLS-1$
 
+	/** ID pour le changement de couleur */
+	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
 
 	/**
 	 * Retourne l'attribut ContextMenus
@@ -106,7 +108,13 @@ public interface IArcImpl extends IElement {
 	 * @param p Le point contenant les coordonnees
 	 * @param index L'index d'insertion dans la liste
 	 */
-	void addInflexPoint(Point p , int index);
+	void addInflexPoint(Point p, int index);
+
+	/**
+	 * Ajoute un point d'inflexion a la liste deja existante
+	 * @param p Le point contenant les coordonnees
+	 */
+	void addInflexPoint(Point p);
 
 	/**
 	 * Suppression d'un point d'inflexion de la liste de l'arc

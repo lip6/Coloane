@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.motor;
 
 import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.ISession;
@@ -371,13 +370,7 @@ public final class Motor {
 
 		// Construit le modele en memoire a partir du modele generique recu
 		IModelImpl modelImpl;
-		try {
-			modelImpl = new ModelImplAdapter(model);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Erreur lors de la construction du modele : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.Motor_2 + e.getMessage());
-			return;
-		}
+		modelImpl = new ModelImplAdapter(model);
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
 		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
 	}
