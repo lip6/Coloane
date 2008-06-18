@@ -9,6 +9,9 @@ import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.ArrayList;
 
+import org.eclipse.draw2d.Bendpoint;
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * Classe permettant la reconstruction d'un arc
  */
@@ -18,7 +21,8 @@ public class ArcContainer {
 	private int idSource;
 	private int idTarget;
 	private ElementFormalism elementFormalism;
-	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();;
+	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
+	private ArrayList<Point> pis = new ArrayList<Point>();
 
 	/**
 	 * @param arc
@@ -30,6 +34,9 @@ public class ArcContainer {
 		this.idSource = idSource;
 		this.idTarget = idTarget;
 		elementFormalism = arc.getElementBase();
+		for (Bendpoint bp : arc.getInflexPoints()) {
+			pis.add(bp.getLocation());
+		}
 		for (IAttributeImpl attr : arc.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
 		}
@@ -42,10 +49,19 @@ public class ArcContainer {
 	 * @return une copie de l'IArcImpl passée au constructeur
 	 */
 	public final IArcImpl copy(IModelImpl model, INodeImpl source, INodeImpl target) {
+		// Décalage des points d'inflexion
+		for (Point p : pis) {
+			p.x += 10;
+			p.y += 10;
+		}
+
 		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, elementFormalism);
 		arcAdapter.setModelAdapter(model);
 		for (AttributContainer ac : attributs) {
 			arcAdapter.setPropertyValue(ac.getId(), ac.getValue());
+		}
+		for (Point p : pis) {
+			arcAdapter.addInflexPoint(p, pis.indexOf(p));
 		}
 		return arcAdapter;
 	}

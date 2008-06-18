@@ -38,8 +38,10 @@ public class NodeContainer {
 	 * @return une copie du INodeImpl passée au constructeur
 	 */
 	public final INodeImpl copy(IModelImpl modelAdapter) {
+		// Décalage de la copie
 		xPosition += 10;
 		yPosition += 10;
+
 		Node node = new Node(elementFormalism.getName(), xPosition, yPosition);
 		NodeImplAdapter nodeAdapter = new NodeImplAdapter(node, elementFormalism);
 		nodeAdapter.setModelAdapter(modelAdapter);
