@@ -50,6 +50,8 @@ public class ModelHandler extends DefaultHandler {
 	 */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
+		data = "";
+		
 		// Balise MODEL
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
 			startModel(attributes);
@@ -74,10 +76,11 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * Gestion des donnees contenues dans les balises
+	 * TODO : Utiliser un string builder ?
 	 */
 	@Override
 	public final void characters(char[] ch, int start, int length) throws SAXException {
-		data = this.deformat(new String(ch, start, length));
+		data += this.deformat(new String(ch, start, length));
 	}
 
 
