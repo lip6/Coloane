@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.apiws.interfaces.objects;
+package fr.lip6.move.coloane.apiws.interfaces.evenements;
+
+import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
 
 public interface IAnswerOpenSession {
 	

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAnswerCloseConnection;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerCloseConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ICloseConnectionObserver;
 
 public interface ICloseConnectionObservable {

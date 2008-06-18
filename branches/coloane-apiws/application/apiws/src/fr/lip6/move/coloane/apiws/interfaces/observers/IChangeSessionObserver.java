@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.observers;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAnswerChangeSession;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerChangeSession;
+
 
 public interface IChangeSessionObserver {
 

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IReceptErrorMessage;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IReceptErrorMessage;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IErrorMessagerObserver;
 
 public interface IErrorMessageObservable {

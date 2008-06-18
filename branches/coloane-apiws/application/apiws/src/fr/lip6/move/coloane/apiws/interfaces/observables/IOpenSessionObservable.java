@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAnswerOpenSession;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerOpenSession;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
 
 public interface IOpenSessionObservable {

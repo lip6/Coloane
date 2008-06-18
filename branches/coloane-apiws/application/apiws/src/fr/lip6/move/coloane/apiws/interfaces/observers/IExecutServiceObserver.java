@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.observers;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAnswerExecutService;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerExecutService;
+
 
 public interface IExecutServiceObserver {
 

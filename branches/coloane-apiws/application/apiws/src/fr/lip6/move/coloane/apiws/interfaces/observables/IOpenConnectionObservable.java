@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAnswerOpenConnection;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerOpenConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenConnectionObserver;
 
 public interface IOpenConnectionObservable {

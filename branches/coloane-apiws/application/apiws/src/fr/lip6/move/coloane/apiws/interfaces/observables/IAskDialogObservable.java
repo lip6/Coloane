@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.IAskDialog;
+import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 
 public interface IAskDialogObservable {
