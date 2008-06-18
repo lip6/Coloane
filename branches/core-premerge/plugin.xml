@@ -43,6 +43,7 @@
                id="disconnect"
                label="%DISCONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
+               state="false"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%DISCONNECT_TIP">
@@ -53,6 +54,7 @@
                id="connect"
                label="%CONNECT_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group2"
+               state="false"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%CONNECT_TIP">
@@ -63,6 +65,7 @@
                id="breakconnection"
                label="%BREAK_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
+               state="false"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons">
          </action>
@@ -72,6 +75,7 @@
                id="authentication"
                label="%AUTHENTICATION_ITEM"
                menubarPath="coloaneServicesMenu/plateformMenu/group1"
+               state="true"
                style="push"
                toolbarPath="coloaneServicesToolbarButtons"
                tooltip="%AUTHENTICATION_TIP">
