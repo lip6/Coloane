@@ -266,20 +266,6 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#getAttributes()
-	 */
-	public final List<IAttributeImpl> getAttributes() {
-		List<IAttributeImpl> attrList = new ArrayList<IAttributeImpl>();
-		for (IAttributeImpl att : this.getProperties().values()) {
-			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
-				attrList.add(att);
-			}
-		}
-		return attrList;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IModelImpl#annouceAttribute()
 	 */
 	public final void announceAttribute() {
@@ -357,12 +343,13 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		List<IElement> listChildren = new ArrayList<IElement>();
 		HashSet<IArcImpl> allArcs = new HashSet<IArcImpl>();
 
-		// Ajout de tous les noeuds
-		listChildren.addAll(this.nodes);
-
-		// Ajout de tous les attributs des noeuds
 		for (IElement elt : this.nodes) {
-			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			// Ajout de tous les noeuds
+			listChildren.add(elt);
+
+			// Ajout de tous les attributs des noeuds
+			listChildren.addAll(elt.getDrawableAttributes());
+
 			allArcs.addAll(((INodeImpl) elt).getAllArcs());
 		}
 
@@ -371,11 +358,11 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 
 		// Recensement de tous les arcs du modele et de leurs attributs
 		for (IElement elt : allArcs) {
-			if (elt.getAttributes() != null) { listChildren.addAll(elt.getAttributes()); }
+			listChildren.addAll(elt.getDrawableAttributes());
 		}
 
 		// Ajout des attributs du modele
-		listChildren.addAll(this.getAttributes());
+		listChildren.addAll(this.getDrawableAttributes());
 
 		return listChildren;
 	}
@@ -462,17 +449,4 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setSpecial(boolean)
 	 */
 	public void setSpecial(boolean state) {	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
-	 */
-	public final String getAttributeValue(String attributeName) {
-		for (int i = 0; i < this.genericModel.getListOfAttrSize(); i++) {
-			if (this.genericModel.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
-				return this.genericModel.getNthAttr(i).getValue();
-			}
-		}
-		return ""; //$NON-NLS-1$
-	}
 }

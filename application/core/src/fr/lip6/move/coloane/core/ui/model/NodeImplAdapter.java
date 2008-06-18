@@ -223,20 +223,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 		}
 	}
 
-	/**
-	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
-	 * @return Le liste des attributs
-	 */
-	private List<IAttributeImpl> getDrawableAttributes() {
-		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-		for (IAttributeImpl att : this.getProperties().values()) {
-			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
-				list.add(att);
-			}
-		}
-		return list;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setAttributesSelected(boolean, boolean)
@@ -354,33 +340,6 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getAttributes()
-	 */
-	public final List<IAttributeImpl> getAttributes() {
-		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-
-		// Ajout des attributs du noeud
-		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
-		list.addAll(attributes);
-
-		return list;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
-	 */
-	public final String getAttributeValue(String attribute) {
-		for (int i = 0; i < this.node.getListOfAttrSize(); i++) {
-			if (this.node.getNthAttr(i).getName().equalsIgnoreCase(attribute)) {
-				return this.node.getNthAttr(i).getValue();
-			}
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#setModelAdapter(fr.lip6.move.coloane.ui.model.IModelImpl)
 	 */
 	public final void setModelAdapter(IModelImpl model) {
@@ -391,7 +350,7 @@ public class NodeImplAdapter extends AbstractModelElement implements INodeImpl, 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#getContextMenus()
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	public final Collection getContextMenus() {
 		return null;
 	}

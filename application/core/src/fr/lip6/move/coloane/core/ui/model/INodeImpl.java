@@ -125,7 +125,7 @@ public interface INodeImpl extends IElement {
 	 * Retourner le menu contextuel associe au noeud
 	 * @return Collection
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**

@@ -76,7 +76,7 @@ public class CopyAction extends SelectionAction {
 	protected final void init() {
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText("Copy");
+		setText(Messages.CopyAction_1);
 		setId(ActionFactory.COPY.getId());
 		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));

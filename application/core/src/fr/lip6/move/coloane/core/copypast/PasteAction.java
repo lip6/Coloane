@@ -28,7 +28,7 @@ public class PasteAction extends SelectionAction {
 	protected final void init()	{
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText("Paste");
+		setText(Messages.PasteAction_0);
 		setId(ActionFactory.PASTE.getId());
 		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
@@ -39,7 +39,7 @@ public class PasteAction extends SelectionAction {
 	/**
 	 * @return commande pour coller
 	 */
-	private Command createPasteCommand() {
+	private PasteCommand createPasteCommand() {
 		if (editor == null) {
 			return null;
 		}
@@ -60,6 +60,8 @@ public class PasteAction extends SelectionAction {
 	 */
 	@Override
 	public final void run() {
-		execute(createPasteCommand());
+		PasteCommand command = createPasteCommand();
+		execute(command);
+		System.err.println(getSelection());
 	}
 }

@@ -5,8 +5,6 @@ import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
-import java.util.List;
-
 /**
  * C'est ici que le veritable attribut est cree.<br>
  * Cet attribut est l'attribut generique plus quelques proprietes (IAttribute)<br>
@@ -73,14 +71,6 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 */
 	public final int getId() {
 		return this.id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
-	 */
-	public final List<IAttributeImpl> getAttributes() {
-		return null;
 	}
 
 	/*
@@ -226,7 +216,7 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 
 	@Override
 	public final String toString() {
-		return attribute.getName() + ":" + attribute.getValue();
+		return attribute.getName() + ":" + attribute.getValue(); //$NON-NLS-1$
 	}
 
 	/*
@@ -270,12 +260,4 @@ public class AttributeImplAdapter extends AbstractModelElement implements IAttri
 	 * @see fr.lip6.move.coloane.core.ui.model.IElement#setModelAdapter(fr.lip6.move.coloane.core.ui.model.IModelImpl)
 	 */
 	public void setModelAdapter(IModelImpl modelAdapter) { }
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
-	 */
-	public final String getAttributeValue(String attributeName) {
-		return "";
-	}
 }

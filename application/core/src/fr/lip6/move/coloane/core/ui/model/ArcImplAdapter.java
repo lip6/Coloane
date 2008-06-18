@@ -194,33 +194,6 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 		return elementBase;
 	}
 
-	/**
-	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
-	 * @return Le liste des attributs
-	 */
-	private List<IAttributeImpl> getDrawableAttributes() {
-		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-		for (IAttributeImpl att : this.getProperties().values()) {
-			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
-				list.add(att);
-			}
-		}
-		return list;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IElement#getAttributes()
-	 */
-	public final List<IAttributeImpl> getAttributes() {
-		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
-
-		// Ajout des attributs "personnels" du noeud
-		List<IAttributeImpl> attributes  = this.getDrawableAttributes();
-		list.addAll(attributes);
-		return list;
-	}
-
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getSource()
 	 */
@@ -424,21 +397,8 @@ public class ArcImplAdapter extends AbstractModelElement implements IArcImpl {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.IArcImpl#getContextMenus()
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	public final Collection getContextMenus() {
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
-	 */
-	public final String getAttributeValue(String attributeName) {
-		for (int i = 0; i < this.genericArc.getListOfAttrSize(); i++) {
-			if (this.genericArc.getNthAttr(i).getName().equalsIgnoreCase(attributeName)) {
-				return this.genericArc.getNthAttr(i).getValue();
-			}
-		}
-		return ""; //$NON-NLS-1$
 	}
 }

@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class CopyCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core");
+	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ModelContainer container;
 
@@ -59,7 +59,7 @@ public class CopyCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Copie de la sélection");
+		log.fine("Copie de la sélection"); //$NON-NLS-1$
 		Clipboard.getDefault().setContents(container);
 	}
 

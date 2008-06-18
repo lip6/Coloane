@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class CutCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core");
+	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ColoaneEditor editor;
 	private ModelContainer container;
@@ -63,7 +63,7 @@ public class CutCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Coupage de la sélection");
+		log.fine("Coupage de la sélection"); //$NON-NLS-1$
 		Clipboard.getDefault().setContents(container);
 
 		redo();
