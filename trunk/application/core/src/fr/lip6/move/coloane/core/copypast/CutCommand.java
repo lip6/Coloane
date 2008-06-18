@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
@@ -19,7 +20,7 @@ public class CutCommand extends Command {
 	private ModelContainer container;
 
 	private ArrayList<INodeImpl> nodes = new ArrayList<INodeImpl>();
-	private ArrayList<IArcImpl> arcs = new ArrayList<IArcImpl>();
+	private HashSet<IArcImpl> arcs = new HashSet<IArcImpl>();
 
 	public CutCommand(ColoaneEditor editor) {
 		this.editor = editor;
