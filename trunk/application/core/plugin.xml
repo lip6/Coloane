@@ -258,44 +258,17 @@
           name="Model Contents"
           priority="normal">
        <triggerPoints>
-          <and>
-             <instanceof
-                   value="org.eclipse.core.resources.IResource">
-             </instanceof>
-             <or>
-                <test
-                      forcePluginActivation="true"
-                      property="org.eclipse.core.resources.extension"
-                      value="petri">
-                </test>
-                <test
-                      forcePluginActivation="true"
-                      property="org.eclipse.core.resources.extension"
-                      value="rg">
-                </test>
-             </or>
-          </and>
        </triggerPoints>
     </navigatorContent>
     <commonWizard
           type="new"
           wizardId="fr.lip6.move.coloane.wizard.modelWizard">
-       <enablement>
-          <adapt
-                type="org.eclipse.core.resources.IProject">
-             <test
-                   property="org.eclipse.core.resources.projectNature"
-                   value="fr.lip6.move.coloane.core.modelingproject">
-             </test>
-          </adapt></enablement>
+       <enablement></enablement>
     </commonWizard>
     <commonWizard
           type="new"
           wizardId="fr.lip6.move.coloane.wizard.projectWizard">
-       <enablement>
-          <count
-                value="*">
-          </count></enablement>
+       <enablement></enablement>
     </commonWizard>
  </extension>
  <extension
