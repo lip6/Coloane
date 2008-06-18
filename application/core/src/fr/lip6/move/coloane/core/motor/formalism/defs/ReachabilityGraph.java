@@ -40,6 +40,7 @@ public class ReachabilityGraph extends Formalism {
 
 		// Creation ajout des differents elements de base d'un graphe d'accessibilite :
 		// etat initial, etat final, etat, event (arc)
+		i = 1;
 
 		// L'etat initial:
 		ElementFormalism elt = new NodeFormalism("initial_state", Messages.ReachabilityGraph_0, this, INodeGraphicInfo.FIG_DBLCIRCLE, INITIAL_WIDTH, INITIAL_HEIGHT, false); //$NON-NLS-1$
