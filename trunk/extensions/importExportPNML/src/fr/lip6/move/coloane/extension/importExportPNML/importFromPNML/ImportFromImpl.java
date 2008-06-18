@@ -56,13 +56,7 @@ public class ImportFromImpl implements IImportFrom {
 		// Cette etape est importante, si on souhaite ajouter de nouveaux noeuds et arcs au modele
 		genericModel.setMaxId(genericModel.getMaxId());
 		
-		try{
-			return new ModelImplAdapter(genericModel);
-		} catch (BuildException e){
-			e.printStackTrace();
-			Coloane.getLogger().warning("Erreur lors de la construction du modele");
-			return null;
-		}
+		return new ModelImplAdapter(genericModel);
 		
 	}
 
