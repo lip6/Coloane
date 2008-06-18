@@ -76,7 +76,7 @@ public class CutAction extends SelectionAction {
 	protected final void init() {
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setText("Cut");
+		setText(Messages.CutAction_1);
 		setId(ActionFactory.CUT.getId());
 		setHoverImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));

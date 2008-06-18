@@ -16,7 +16,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class PasteCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core");
+	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ModelContainer modelContainer;
 	private HashMap<NodeContainer, INodeImpl> nodes = new HashMap<NodeContainer, INodeImpl>();
@@ -49,7 +49,7 @@ public class PasteCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Collage de la sélection");
+		log.fine("Collage de la sélection"); //$NON-NLS-1$
 		for (NodeContainer nc : modelContainer.getNodes()) {
 			nodes.put(nc, nc.copy(model));
 		}
@@ -72,14 +72,14 @@ public class PasteCommand extends Command {
 			try {
 				model.addNode(node);
 			} catch (BuildException e) {
-				log.warning("Impossible d'ajouter le noeud");
+				log.warning("Impossible d'ajouter le noeud"); //$NON-NLS-1$
 			}
 		}
 		for (IArcImpl arc : arcs.values()) {
 			try {
 				model.addArc(arc);
 			} catch (BuildException e) {
-				log.warning("Impossible d'ajouter l'arc");
+				log.warning("Impossible d'ajouter l'arc"); //$NON-NLS-1$
 			}
 		}
 	}
@@ -101,14 +101,14 @@ public class PasteCommand extends Command {
 			try {
 				model.removeArc(arc);
 			} catch (BuildException e) {
-				log.warning("Impossible d'enlever l'arc");
+				log.warning("Impossible d'enlever l'arc"); //$NON-NLS-1$
 			}
 		}
 		for (INodeImpl node : nodes.values()) {
 			try {
 				model.removeNode(node);
 			} catch (BuildException e) {
-				log.warning("Impossible d'enlever le noeud");
+				log.warning("Impossible d'enlever le noeud"); //$NON-NLS-1$
 			}
 		}
 	}

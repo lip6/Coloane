@@ -3,8 +3,11 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.ui.AttributePropertyDescriptor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -22,16 +25,6 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 public abstract class AbstractModelElement implements IPropertySource, IElement {
 
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
-
-	/**
-	 * Liste des descriptions des proprietes definies dans ce projet.
-	 * Elles comprennent toutes les informations necessaires pour l'affichage et l'edition de chaque propriete.<br>
-	 * A partir de cette liste, les classes xxxFactory peuvent creer un tableau de IPropertyDescriptor correspondant.
-	 *
-	 * Cet attribut est fonction du formalisme
-	 * @see org.eclipse.ui.views.properties.IPropertyDescriptor
-	 */
-	private IAttributeImpl[] propsList;
 
 	/**
 	 * Table des attributs en fonction de leurs identifiant
@@ -168,19 +161,44 @@ public abstract class AbstractModelElement implements IPropertySource, IElement 
 		}
 	}
 
-	/**
-	 * Getter pour la liste des proprietes
-	 * @return Liste of descripteurs des propri�t�s
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributes()
 	 */
-	public final IAttributeImpl[] getPropertyList() {
-		return propsList;
+	public final Collection<IAttributeImpl> getAttributes() {
+		return this.properties.values();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getAttributeValue(java.lang.String)
+	 */
+	public final String getAttributeValue(String attribute) {
+		for (IAttributeImpl attr : properties.values()) {
+			if (attr.getDisplayName().equalsIgnoreCase(attribute)) {
+				return attr.getValue();
+			}
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.IElement#getDrawableAttributes()
+	 */
+	public final List<IAttributeImpl> getDrawableAttributes() {
+		List<IAttributeImpl> list = new ArrayList<IAttributeImpl>();
+		for (IAttributeImpl att : this.properties.values()) {
+			if (!(att.getValue().equals(att.getDefaultValue())) && att.isDrawable()) {
+				list.add(att);
+			}
+		}
+		return list;
 	}
 
 	/**
 	 * Table des PropertyImplAdapter de l'element du noeud
 	 * @return la table des PropertyImplAdapter de l'element du noeud
 	 */
-	protected final Hashtable<Object, IAttributeImpl> getProperties() {
+	protected final Hashtable<Object, IAttributeImpl> getProperties2() {
 		return properties;
 	}
 

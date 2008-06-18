@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public interface IElement {
 	 * Recupere la liste des attributs de l'objet
 	 * @return La liste des element contenu dans l'objet
 	 */
-	List<IAttributeImpl> getAttributes();
+	Collection<IAttributeImpl> getAttributes();
 
 	/**
 	 * Retourne la valeur d'un attribut particulier ou la chaine vide si l'attribut n'existe pas
@@ -22,6 +23,12 @@ public interface IElement {
 	 * @return La valeur de l'attribut ou la chaine vide si l'attribut n'existe pas ou est vide
 	 */
 	String getAttributeValue(String attributeName);
+
+	/**
+	 * Retourne la liste des attributs qui peuvent etre affiches sur l'editeur
+	 * @return Le liste des attributs
+	 */
+	List<IAttributeImpl> getDrawableAttributes();
 
 	/**
 	 * Associe le modele a l'arc generique

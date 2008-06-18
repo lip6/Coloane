@@ -46,7 +46,7 @@ public interface IArcImpl extends IElement {
 	 * Retourne l'attribut ContextMenus
 	 * @return Collection
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	Collection getContextMenus();
 
 	/**
