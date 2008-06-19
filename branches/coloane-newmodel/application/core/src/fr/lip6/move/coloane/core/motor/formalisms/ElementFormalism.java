@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.motor.formalism;
+package fr.lip6.move.coloane.core.motor.formalisms;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class ElementFormalism {
 
 	/**
 	 * Numero indiquant quel dessin faire.
-	 * Tous les types de dessins sont dŽfinis dans INodeGraphicInfo et IArcGraphicInfo
+	 * Tous les types de dessins sont dï¿½finis dans INodeGraphicInfo et IArcGraphicInfo
 	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo
 	 */

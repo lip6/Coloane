@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.motor.formalism.defs;
+package fr.lip6.move.coloane.core.motor.formalism.definitions;
 
 import org.eclipse.osgi.util.NLS;
 

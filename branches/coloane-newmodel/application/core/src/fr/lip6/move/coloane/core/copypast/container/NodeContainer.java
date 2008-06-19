@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;

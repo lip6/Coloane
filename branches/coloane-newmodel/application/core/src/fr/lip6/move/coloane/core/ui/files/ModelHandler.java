@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
 import fr.lip6.move.coloane.core.ui.model.IArcImpl;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.AttributeFormalism;
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.model.IElement;

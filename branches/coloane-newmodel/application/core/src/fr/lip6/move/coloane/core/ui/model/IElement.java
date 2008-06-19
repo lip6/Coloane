@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;

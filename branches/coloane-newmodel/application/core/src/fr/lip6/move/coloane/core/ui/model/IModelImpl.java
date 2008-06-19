@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public interface IModelImpl extends IElement {
 	/**
 	 * Retourne le formalisme associe au modele
 	 * @return Formalism
-	 * @see fr.lip6.move.coloane.core.motor.formalism.Formalism
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.Formalism
 	 */
 	Formalism getFormalism();
 

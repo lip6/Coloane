@@ -1,11 +1,11 @@
-package fr.lip6.move.coloane.core.motor.formalism.defs;
+package fr.lip6.move.coloane.core.motor.formalism.definitions;
 
-import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Rule;
+import fr.lip6.move.coloane.core.motor.formalisms.ArcFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.NodeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Rule;
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
@@ -40,7 +40,7 @@ public class PetriNets extends Formalism {
 		addAttributeFormalism(new AttributeFormalism(i++, "code", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
 		addAttributeFormalism(new AttributeFormalism(i++, "note", false, true)); //$NON-NLS-1$
 
-		/* Creation ajout des differents elements de base d'un Reseau de Petri :
+		/* Creation ajout des différents elements de base d'un Réseau de Petri :
 		 * <ul>
 		 *   <li>Place</li>
 		 *   <li>Transition</li>

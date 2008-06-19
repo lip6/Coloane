@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.motor.formalism;
+package fr.lip6.move.coloane.core.motor.formalisms;
 
 import java.util.ArrayList;
 

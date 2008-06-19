@@ -1,8 +1,8 @@
-package fr.lip6.move.coloane.core.motor.formalism;
+package fr.lip6.move.coloane.core.motor.formalisms;
 
-import fr.lip6.move.coloane.core.motor.formalism.defs.PetriNets;
-import fr.lip6.move.coloane.core.motor.formalism.defs.PrefixNets;
-import fr.lip6.move.coloane.core.motor.formalism.defs.ReachabilityGraph;
+import fr.lip6.move.coloane.core.motor.formalism.definitions.PetriNets;
+import fr.lip6.move.coloane.core.motor.formalism.definitions.PrefixNets;
+import fr.lip6.move.coloane.core.motor.formalism.definitions.ReachabilityGraph;
 
 import java.util.ArrayList;
 

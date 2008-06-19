@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.ArcFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.NodeFormalism;
 import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;

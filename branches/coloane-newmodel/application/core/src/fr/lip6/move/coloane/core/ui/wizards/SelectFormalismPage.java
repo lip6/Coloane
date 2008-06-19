@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 
 import java.util.ArrayList;
 
