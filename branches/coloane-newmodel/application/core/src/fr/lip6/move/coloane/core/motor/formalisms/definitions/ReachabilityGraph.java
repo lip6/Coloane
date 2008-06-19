@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.motor.formalism.definitions;
+package fr.lip6.move.coloane.core.motor.formalisms.definitions;
 
 import fr.lip6.move.coloane.core.motor.formalisms.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.AttributeFormalism;
