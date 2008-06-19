@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.motor.formalisms;
+package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 
@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
  * Cette classe represente les caracteristiques d'un attribut.<br>
  * Un attribut est une caracteristique d'un element de Base.
  */
-public class AttributeFormalism {
+public class Attribute {
 	/** Nom de l'attribut. */
 	private String name;
 
@@ -35,7 +35,7 @@ public class AttributeFormalism {
 	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
 	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
 	 */
-	public AttributeFormalism(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
+	public Attribute(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
 		this.name = attributeName;
 		this.isDrawable = attributeIsDrawable;
 		this.isMultiLines = attributeIsMultiLines;
@@ -50,7 +50,7 @@ public class AttributeFormalism {
 	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
 	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
 	 */
-	public AttributeFormalism(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
+	public Attribute(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
 		this.name = attributeName;
 		this.isDrawable = attributeIsDrawable;
 		this.isMultiLines = attributeIsMultiLines;
@@ -66,7 +66,7 @@ public class AttributeFormalism {
 	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
 	 * @param attributeDefaultValue La valeur par defaut de l'attribut.
 	 */
-	public AttributeFormalism(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
+	public Attribute(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
 		this.name         = attributeName;
 		this.isDrawable   = attributeIsDrawable;
 		this.isMultiLines = attributeIsMultiLines;
@@ -84,7 +84,7 @@ public class AttributeFormalism {
 	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
 	 * @param attributeDefaultValue La valeur par defaut de l'attribut.
 	 */
-	public AttributeFormalism(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
+	public Attribute(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
 		this.name = attributeName;
 		this.isDrawable = attributeIsDrawable;
 		this.isMultiLines = attributeIsMultiLines;

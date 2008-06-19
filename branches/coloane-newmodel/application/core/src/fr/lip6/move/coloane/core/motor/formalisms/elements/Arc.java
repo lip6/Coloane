@@ -1,9 +1,11 @@
-package fr.lip6.move.coloane.core.motor.formalisms;
+package fr.lip6.move.coloane.core.motor.formalisms.elements;
+
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 
 /**
  * Formalisme associe a un arc
  */
-public class ArcFormalism extends ElementFormalism {
+public class Arc extends ElementFormalism {
 	/** Constante representant le dessin d'une fleche au bout de l'arc. */
 	public static final int NOTHING = 0;
 
@@ -24,7 +26,7 @@ public class ArcFormalism extends ElementFormalism {
 	 * @param formalism Le formalism attache a l'arc
 	 * @param numFigure Indication sur la forme du dessin de l'element
 	 */
-	public ArcFormalism(String name, String paletteName, Formalism formalism, int numFigure) {
+	public Arc(String name, String paletteName, Formalism formalism, int numFigure) {
 		super(name, paletteName, formalism, numFigure, -1, -1, false);
 	}
 }

@@ -1,6 +1,8 @@
-package fr.lip6.move.coloane.core.motor.formalisms;
+package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import java.util.ArrayList;
+
+import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 
 /**
  * Cette classe represente un element du base du formalisme.<br>
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  * </ul>
  */
 
-public class ElementFormalism {
+public class FormalismElement {
 	/** Nom associe a l'element de base. */
 	private String name;
 
@@ -59,7 +61,7 @@ public class ElementFormalism {
 	 * @param elementHeight Hauteur du dessin de l'element de base.
 	 * @param elementIsFilled Flag indiquant si la figure sera remplie.
 	 */
-	public ElementFormalism(String elementName, String elementPaletteName, Formalism elementFormalism, int elementNumFigure, int elementWidth, int elementHeight, boolean elementIsFilled) {
+	public FormalismElement(String elementName, String elementPaletteName, Formalism elementFormalism, int elementNumFigure, int elementWidth, int elementHeight, boolean elementIsFilled) {
 		this.name = elementName;
 		this.paletteName = elementPaletteName;
 		this.formalism = elementFormalism;

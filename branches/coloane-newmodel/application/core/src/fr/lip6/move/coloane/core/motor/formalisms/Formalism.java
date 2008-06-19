@@ -2,6 +2,11 @@ package fr.lip6.move.coloane.core.motor.formalisms;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ArcFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
+
 /**
  * Definition d'un formalisme
  */
@@ -17,16 +22,13 @@ public class Formalism {
 	private String xschema;
 
 	/** Liste des elements de base du formalisme. */
-	private ArrayList<ElementFormalism> listOfElementBase;
-
-	/** Liste des attributs propres a un formalisme. */
-	private ArrayList<AttributeFormalism> listOfAttributeFormalism;
+	private ArrayList<ElementFormalism> listOfElements;
 
 	/** Liste des regles du formalisme. */
-	private ArrayList<Rule> listOfRules;
+	private ArrayList<Rule> listOfConstraints;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
-	private String imageName;
+	private String image;
 
 	/**
 	 * Construteur de la classe Formalism (avec icone associee)
@@ -35,14 +37,14 @@ public class Formalism {
 	 * @param formalismImg Nom du fichier de l'image
 	 * @param formalismExtension Extension associee au formalisme
 	 */
-	public Formalism(String formalismName, String formalismImg, String formalismExtension, String formalismXschema) {
-		this.imageName = formalismImg;
-		this.name = formalismName;
-		this.extension = formalismExtension;
-		this.xschema = formalismXschema;
-		this.listOfElementBase = new ArrayList<ElementFormalism>();
-		this.listOfRules = new ArrayList<Rule>();
-		this.listOfAttributeFormalism = new ArrayList<AttributeFormalism>();
+	public Formalism(String name, String image, String extension, String xshema) {
+		this.name = name;
+		this.extension = extension;
+		this.image = image;
+		this.xschema = xshema;
+		
+		this.listOfElements = new ArrayList<FormalismElement>();
+		this.listOfConstraints = new ArrayList<FormalismConstraints>();
 	}
 
 	/**

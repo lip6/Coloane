@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.motor.formalisms.definitions;
 
-import fr.lip6.move.coloane.core.motor.formalisms.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.motor.formalisms.NodeFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.Rule;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ArcFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
 import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
