@@ -84,7 +84,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setCloseConnection(ICloseConnectionObserver o,boolean createThread);
+	public boolean setCloseConnectionObserver(ICloseConnectionObserver o,boolean createThread);
 	
 	/**
 	 * Ajouter un observateur pour les evenements de demande de boite de dialogue
@@ -108,7 +108,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setWarningMessage(IWarningMessageObserver o,boolean createThread);
+	public boolean setWarningMessageObserver(IWarningMessageObserver o,boolean createThread);
 	
 	/**
 	 * Ajouter un observateur pour les evenements de reception de message d'erreur
