@@ -32,7 +32,7 @@ public interface ISessionStateMachine {
 	 * Etat attend resultat-reponse
 	 * Cela correspond a l'attente des resultat
 	 */
-	static final int WAITING_FOR_RESULT_SESSION_STATE = 4;
+	static final int WAITING_FOR_RESULT_STATE = 4;
 	
 	
 	/**
@@ -80,7 +80,7 @@ public interface ISessionStateMachine {
      * Aller a l'etat WAITING_FOR_RESULT_SESSION_STATE, si possible
      * @return true, si possible d'aller vers WAITING_FOR_RESULT_SESSION_STATE, false sinon
      */
-    public boolean goToWaitingForResumeSessionState();
+    public boolean goToWaitingForResultState();
     
     /**
      * Aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE, si possible
