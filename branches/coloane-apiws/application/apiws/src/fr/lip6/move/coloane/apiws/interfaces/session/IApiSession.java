@@ -7,18 +7,18 @@ public interface IApiSession {
 	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
-	 * @param sessionFormalism son formalisme.
-	 * @param sessionName son nom.
-	 * @param interlocutor son interlocuteur (l'outil).
-	 * @param mode: son mode (interactif ou batch).
+	 * @param sessionFormalism formalisme de la session.
+	 * @param sessionName nom de la session.
+	 * @param interlocutor l'interlocuteur (l'outil).
+	 * @param mode le mode (interactif ou batch).
 	 */
 	public void openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode);
 	
 	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
-	 * @param sessionFormalism son formalisme.
-	 * @param sessionName son nom.
+	 * @param sessionFormalism formalisme de la session.
+	 * @param sessionName nom de la session.
 	 */
 	public void openSession(String sessionDate, String sessionFormalism,String sessionName);
 
@@ -42,31 +42,35 @@ public interface IApiSession {
 
 	/**
 	 * Demander un service sur la session courrante
-	 * Le model sera toujours envoyer au wrapper pour tous service
 	 * @param rootName 
 	 * @param menuName
 	 * @param serviceName
-	 * @param model
 	 */
-	public void askForService(String rootName,String menuName, String serviceName,IModel model);
+	public void askForService(String rootName,String menuName, String serviceName);
 
 
 	/**
 	 * Demander un service sur la session courrante
-	 * Le model sera toujours envoyer au wrapper pour tous service
 	 * @param rootName
 	 * @param menuName
 	 * @param serviceName
 	 * @param date
-	 * @param model
 	 */
-	public void askForService(String rootName,String menuName, String serviceName, String date,IModel model);
+	public void askForService(String rootName,String menuName, String serviceName, String date);
 
 	
-	/*
-	Inutile d'avoir cette fonction: le model sera envoyer par a chaque demande de service
+	/**
+	 * 
+	 * @param model
+	 */
 	public void sendModel(IModel model);
-	*/
+	
+	
+	/**
+	 * 
+	 */
+	public void invalidModel();
+	
 	
 	/**
 	 * Recupere l'automate de la session courrante
@@ -110,12 +114,6 @@ public interface IApiSession {
 	 */
 	public ISessionController getSessionController();
 	
-	
-	/**
-	 * 
-	 */
-	public void invalidModel();
-	
 	/**
 	 * 
 	 */
@@ -131,6 +129,25 @@ public interface IApiSession {
 	 * @param nameSession
 	 */
 	public void notifyEndResumeSession(String nameSession);
+	
+	
+	/**
+	 * 
+	 */
+	public void notifyWaitingForModel();
+
+	
+	/**
+	 * 
+	 */
+	public void notifyWaitingForResult();
+	
+	
+	/**
+	 * 
+	 */
+	public void notifyEndResult();
+	
 
 	/**
 	 * 

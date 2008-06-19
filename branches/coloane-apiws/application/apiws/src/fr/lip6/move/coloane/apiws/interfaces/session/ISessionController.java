@@ -83,6 +83,22 @@ public interface ISessionController {
 	/**
 	 * 
 	 */
+	public void notifyWaitingForModel();
+
+
+	/**
+	 * 
+	 */
+	public void notifyWaitingForResult();
+	
+	/**
+	 * 
+	 */
+	public void notifyEndResult();
+
+	/**
+	 * 
+	 */
 	public void notifyEndCloseSession();
 
 	

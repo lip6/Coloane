@@ -36,6 +36,12 @@ public interface ISessionStateMachine {
 	
 	
 	/**
+	 * Etat attend resultat-fermeture
+	 */
+	static final int WAITING_FOR_CLOSE_SESSION_STATE = 5;
+	
+	
+	/**
 	 * Etat session fermer
 	 * Cela correspond a la fin de la session
 	 */
@@ -76,6 +82,11 @@ public interface ISessionStateMachine {
      */
     public boolean goToWaitingForResumeSessionState();
     
+    /**
+     * Aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE, si possible
+     * @return true, si possible d'aller vers WAITING_FOR_CLOSE_SESSION_STATE, false sinon
+     */
+    public boolean goToWaitingForCloseSessionState();
     
     /**
      * Aller a l'etat CLOSE_SESSION_STATE, si possible
