@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Coloane Core Language Pack
-Bundle-SymbolicName: fr.lip6.move.coloane.core.nl1
-Bundle-Version: 0.11.0
-Bundle-Vendor: LIP6/MoVe (Team)
-Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.10"
