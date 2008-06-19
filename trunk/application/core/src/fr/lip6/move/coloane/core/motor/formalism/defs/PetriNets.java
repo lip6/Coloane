@@ -17,12 +17,12 @@ public class PetriNets extends Formalism {
 	private static final String EXTENSION = "petri"; //$NON-NLS-1$
 	private static final String XSCHEMA = "ami-net.xsd"; //$NON-NLS-1$
 
-	private static final int PLACE_WIDTH = 16;
-	private static final int PLACE_HEIGHT = 16;
-	private static final int TRANSITION_WIDTH = 24;
-	private static final int TRANSITION_HEIGHT = 8;
-	private static final int QUEUE_WIDTH = 16;
-	private static final int QUEUE_HEIGHT = 8;
+	private static final int PLACE_WIDTH = 15;
+	private static final int PLACE_HEIGHT = 15;
+	private static final int TRANSITION_WIDTH = 23;
+	private static final int TRANSITION_HEIGHT = 7;
+	private static final int QUEUE_WIDTH = 15;
+	private static final int QUEUE_HEIGHT = 7;
 
 	/**
 	 * Constructeur du formalisme

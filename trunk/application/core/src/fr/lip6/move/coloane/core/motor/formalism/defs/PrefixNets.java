@@ -18,12 +18,12 @@ public class PrefixNets extends Formalism {
 	private static final String XSCHEMA = "branching-process.xsd"; //$NON-NLS-1$
 
 	/** Informations graphiques pour la place */
-	private static final int CONDITION_WIDTH = 16;
-	private static final int CONDITION_HEIGHT = 16;
-	private static final int EVENT_WIDTH = 24;
-	private static final int EVENT_HEIGHT = 8;
-	private static final int CUTOFF_WIDTH = 16;
-	private static final int CUTOFF_HEIGHT = 8;
+	private static final int CONDITION_WIDTH = 15;
+	private static final int CONDITION_HEIGHT = 15;
+	private static final int EVENT_WIDTH = 23;
+	private static final int EVENT_HEIGHT = 7;
+	private static final int CUTOFF_WIDTH = 15;
+	private static final int CUTOFF_HEIGHT = 7;
 
 	public PrefixNets() {
 		super(NAME, IMG, EXTENSION, XSCHEMA);

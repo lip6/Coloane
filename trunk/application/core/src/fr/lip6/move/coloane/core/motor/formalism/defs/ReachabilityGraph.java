@@ -17,12 +17,12 @@ public class ReachabilityGraph extends Formalism {
 	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NLS-1$
 
 
-	private static final int INITIAL_WIDTH = 16;
-	private static final int INITIAL_HEIGHT = 16;
-	private static final int TERMINAL_WIDTH = 16;
-	private static final int TERMINAL_HEIGHT = 16;
-	private static final int STATE_WIDTH = 16;
-	private static final int STATE_HEIGHT = 16;
+	private static final int INITIAL_WIDTH = 15;
+	private static final int INITIAL_HEIGHT = 15;
+	private static final int TERMINAL_WIDTH = 15;
+	private static final int TERMINAL_HEIGHT = 15;
+	private static final int STATE_WIDTH = 15;
+	private static final int STATE_HEIGHT = 15;
 
 	public ReachabilityGraph() {
 		super(NAME, IMG, EXTENSION, XSCHEMA);
