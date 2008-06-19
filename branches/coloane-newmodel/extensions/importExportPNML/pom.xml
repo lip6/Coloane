@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>fr.lip6.move.coloane.extensions</groupId>
+		<artifactId>extensions</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>importExportPNML</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Extension - Import Export PNML</name>
+	<description>Coloane's extension that provides PNML import/export features</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.pnml</groupId>
+			<artifactId>cpnami</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+	</dependencies>
+
+</project>
