@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://ws.wrapper.move.lip6.fr" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax24="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax21="http://exceptions.wrapper.move.lip6.fr/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws.wrapper.move.lip6.fr">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://ws.wrapper.move.lip6.fr" xmlns:ax27="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax26="http://traceMessage.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax24="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax21="http://exceptions.wrapper.move.lip6.fr/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ax212="http://question.input.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax213="http://input.camixml.wrapper.move.lip6.fr/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ax210="http://fkhight.wrapper.move.lip6.fr/xsd" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax211="http://menu.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws.wrapper.move.lip6.fr">
     <wsdl:types>
         <xs:schema xmlns:ax22="http://ws.wrapper.move.lip6.fr" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.wrapper.move.lip6.fr/xsd">
             <xs:import namespace="http://ws.wrapper.move.lip6.fr"/>
@@ -16,12 +16,122 @@
                 </xs:complexContent>
             </xs:complexType>
         </xs:schema>
+        <xs:schema xmlns:ax215="http://question.input.camixml.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://menu.output.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://question.input.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:complexType name="MMenu">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="roots" nillable="true" type="ax211:RootMenu"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="RootMenu">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="root" nillable="true" type="ax211:SubMenu"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Question">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="cardinality" type="xs:int"/>
+                    <xs:element minOccurs="0" name="domain" nillable="true" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="helps" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="interaction" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="stop" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="validation" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="visibility" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SubMenu">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="option" nillable="true" type="ax211:Option"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="serviceWithOneText" nillable="true" type="ax211:ServiceWithOneText"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="serviceWithTexts" nillable="true" type="ax211:ServiceWithTexts"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="services" nillable="true" type="ax211:Service"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="servicesWithObjects" nillable="true" type="ax211:ServiceWithObjects"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="servicesWithOneObject" nillable="true" type="ax211:ServiceWithOneObject"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="subMenus" nillable="true" type="ax211:SubMenu"/>
+                            <xs:element minOccurs="0" name="visibility" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Option">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ServiceWithOneText">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="qT" nillable="true" type="ax212:QT"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ServiceWithTexts">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="qT" nillable="true" type="ax212:QT"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Service">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ServiceWithObjects">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="qO" nillable="true" type="ax212:QO"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ServiceWithOneObject">
+                <xs:complexContent>
+                    <xs:extension base="ax211:Question">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="qO" nillable="true" type="ax212:QO"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax214="http://input.camixml.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://question.input.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://input.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:complexType name="QT">
+                <xs:complexContent>
+                    <xs:extension base="ax213:CamiBuilder">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="QO">
+                <xs:complexContent>
+                    <xs:extension base="ax213:CamiBuilder">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
         <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd">
             <xs:complexType name="Authentification">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="ackOC" nillable="true" type="ax24:AckOC"/>
                     <xs:element minOccurs="0" name="ackSC" nillable="true" type="ax24:AckSC"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="id" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="login" nillable="true" type="xs:string"/>
                     <xs:element minOccurs="0" name="oC" nillable="true" type="ax24:AckOC"/>
                     <xs:element minOccurs="0" name="sC" nillable="true" type="ax24:AckSC"/>
                 </xs:sequence>
@@ -43,9 +153,22 @@
                 </xs:sequence>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax25="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax23="http://exceptions.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.wrapper.move.lip6.fr">
+        <xs:schema xmlns:ax216="http://menu.output.camixml.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fkhight.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://menu.output.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:complexType name="Session">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="formalism" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="menu" nillable="true" type="ax216:MMenu"/>
+                    <xs:element minOccurs="0" name="sessionId" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax29="http://traceMessage.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax25="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd" xmlns:ax23="http://exceptions.wrapper.move.lip6.fr/xsd" xmlns:ax217="http://fkhight.wrapper.move.lip6.fr/xsd" xmlns:ax218="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.wrapper.move.lip6.fr">
             <xs:import namespace="http://exceptions.wrapper.move.lip6.fr/xsd"/>
             <xs:import namespace="http://connexionHandler.output.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:import namespace="http://traceMessage.output.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:import namespace="http://fkhight.wrapper.move.lip6.fr/xsd"/>
+            <xs:import namespace="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="Exception">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
@@ -76,8 +199,7 @@
             <xs:element name="disconnect">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
-                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="id" nillable="true" type="ax24:Authentification"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -85,6 +207,189 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element minOccurs="0" name="return" nillable="true" type="ax24:Unauthentification"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wdisconnect">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wdisconnectResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:Unauthentification"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ping">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="auth" nillable="true" type="ax24:Authentification"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="pingResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax26:AsyncMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wping">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wpingResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax26:AsyncMessage"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="changeSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ax24:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="changeSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="closeSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ax24:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="closeSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ax24:Authentification"/>
+                        <xs:element minOccurs="0" name="nameFormalism" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wchangeSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wchangeSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wcloseSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wcloseSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wcreateSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="nameFormalism" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wcreateSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax210:Session"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="answerDb">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="auth" nillable="true" type="ax24:Authentification"/>
+                        <xs:element minOccurs="0" name="dialog" nillable="true" type="ax218:DialogBox"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="answerDbResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="disconnectAllUser">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="admin" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="mdp" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="disconnectAllUserResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wanswerDb">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="authId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="dialog" nillable="true" type="ax218:DialogBox"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="wanswerDbResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -96,9 +401,97 @@
                 </xs:complexType>
             </xs:element>
         </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:complexType name="DialogBox">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="answer" nillable="true" type="ax27:DBAnswer"/>
+                    <xs:element minOccurs="0" name="defaultValue" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="help" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="id" type="xs:int"/>
+                    <xs:element minOccurs="0" name="inputType" type="xs:int"/>
+                    <xs:element minOccurs="0" name="line" nillable="true" type="xs:anyType"/>
+                    <xs:element minOccurs="0" name="lineType" type="xs:int"/>
+                    <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="sent" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="show" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="title" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="type" type="xs:int"/>
+                    <xs:element minOccurs="0" name="typeButton" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="DBAnswer">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="buttonAnswer" type="xs:int"/>
+                    <xs:element minOccurs="0" name="id" type="xs:int"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="lines" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="modified" type="xs:boolean"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="objects" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="value" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://input.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:complexType name="CamiBuilder">
+                <xs:sequence/>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax28="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://traceMessage.output.camixml.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://dialog.output.camixml.wrapper.move.lip6.fr/xsd"/>
+            <xs:complexType name="AsyncMessage">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="dbs" nillable="true" type="ax28:DialogBox"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="traces" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
     </wsdl:types>
+    <wsdl:message name="wanswerDbRequest">
+        <wsdl:part name="parameters" element="ns:wanswerDb"/>
+    </wsdl:message>
+    <wsdl:message name="wanswerDbResponse">
+        <wsdl:part name="parameters" element="ns:wanswerDbResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GException">
+        <wsdl:part name="parameters" element="ns:GException"/>
+    </wsdl:message>
+    <wsdl:message name="wcloseSessionRequest">
+        <wsdl:part name="parameters" element="ns:wcloseSession"/>
+    </wsdl:message>
+    <wsdl:message name="wcloseSessionResponse">
+        <wsdl:part name="parameters" element="ns:wcloseSessionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="answerDbRequest">
+        <wsdl:part name="parameters" element="ns:answerDb"/>
+    </wsdl:message>
+    <wsdl:message name="answerDbResponse">
+        <wsdl:part name="parameters" element="ns:answerDbResponse"/>
+    </wsdl:message>
+    <wsdl:message name="wchangeSessionRequest">
+        <wsdl:part name="parameters" element="ns:wchangeSession"/>
+    </wsdl:message>
+    <wsdl:message name="wchangeSessionResponse">
+        <wsdl:part name="parameters" element="ns:wchangeSessionResponse"/>
+    </wsdl:message>
     <wsdl:message name="mainRequest">
         <wsdl:part name="parameters" element="ns:main"/>
+    </wsdl:message>
+    <wsdl:message name="createSessionRequest">
+        <wsdl:part name="parameters" element="ns:createSession"/>
+    </wsdl:message>
+    <wsdl:message name="createSessionResponse">
+        <wsdl:part name="parameters" element="ns:createSessionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="pingRequest">
+        <wsdl:part name="parameters" element="ns:ping"/>
+    </wsdl:message>
+    <wsdl:message name="pingResponse">
+        <wsdl:part name="parameters" element="ns:pingResponse"/>
+    </wsdl:message>
+    <wsdl:message name="disconnectAllUserRequest">
+        <wsdl:part name="parameters" element="ns:disconnectAllUser"/>
+    </wsdl:message>
+    <wsdl:message name="disconnectAllUserResponse">
+        <wsdl:part name="parameters" element="ns:disconnectAllUserResponse"/>
     </wsdl:message>
     <wsdl:message name="disconnectRequest">
         <wsdl:part name="parameters" element="ns:disconnect"/>
@@ -106,8 +499,35 @@
     <wsdl:message name="disconnectResponse">
         <wsdl:part name="parameters" element="ns:disconnectResponse"/>
     </wsdl:message>
-    <wsdl:message name="GException">
-        <wsdl:part name="parameters" element="ns:GException"/>
+    <wsdl:message name="closeSessionRequest">
+        <wsdl:part name="parameters" element="ns:closeSession"/>
+    </wsdl:message>
+    <wsdl:message name="closeSessionResponse">
+        <wsdl:part name="parameters" element="ns:closeSessionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="wdisconnectRequest">
+        <wsdl:part name="parameters" element="ns:wdisconnect"/>
+    </wsdl:message>
+    <wsdl:message name="wdisconnectResponse">
+        <wsdl:part name="parameters" element="ns:wdisconnectResponse"/>
+    </wsdl:message>
+    <wsdl:message name="changeSessionRequest">
+        <wsdl:part name="parameters" element="ns:changeSession"/>
+    </wsdl:message>
+    <wsdl:message name="changeSessionResponse">
+        <wsdl:part name="parameters" element="ns:changeSessionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="wpingRequest">
+        <wsdl:part name="parameters" element="ns:wping"/>
+    </wsdl:message>
+    <wsdl:message name="wpingResponse">
+        <wsdl:part name="parameters" element="ns:wpingResponse"/>
+    </wsdl:message>
+    <wsdl:message name="wcreateSessionRequest">
+        <wsdl:part name="parameters" element="ns:wcreateSession"/>
+    </wsdl:message>
+    <wsdl:message name="wcreateSessionResponse">
+        <wsdl:part name="parameters" element="ns:wcreateSessionResponse"/>
     </wsdl:message>
     <wsdl:message name="connectRequest">
         <wsdl:part name="parameters" element="ns:connect"/>
@@ -116,13 +536,72 @@
         <wsdl:part name="parameters" element="ns:connectResponse"/>
     </wsdl:message>
     <wsdl:portType name="WrapperPortType">
+        <wsdl:operation name="wanswerDb">
+            <wsdl:input message="ns:wanswerDbRequest" wsaw:Action="urn:wanswerDb"/>
+            <wsdl:output message="ns:wanswerDbResponse" wsaw:Action="urn:wanswerDbResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wanswerDbGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="wcloseSession">
+            <wsdl:input message="ns:wcloseSessionRequest" wsaw:Action="urn:wcloseSession"/>
+            <wsdl:output message="ns:wcloseSessionResponse" wsaw:Action="urn:wcloseSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wcloseSessionGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="answerDb">
+            <wsdl:input message="ns:answerDbRequest" wsaw:Action="urn:answerDb"/>
+            <wsdl:output message="ns:answerDbResponse" wsaw:Action="urn:answerDbResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:answerDbGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="wchangeSession">
+            <wsdl:input message="ns:wchangeSessionRequest" wsaw:Action="urn:wchangeSession"/>
+            <wsdl:output message="ns:wchangeSessionResponse" wsaw:Action="urn:wchangeSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wchangeSessionGException"/>
+        </wsdl:operation>
         <wsdl:operation name="main">
             <wsdl:input message="ns:mainRequest" wsaw:Action="urn:main"/>
+        </wsdl:operation>
+        <wsdl:operation name="createSession">
+            <wsdl:input message="ns:createSessionRequest" wsaw:Action="urn:createSession"/>
+            <wsdl:output message="ns:createSessionResponse" wsaw:Action="urn:createSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:createSessionGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="ping">
+            <wsdl:input message="ns:pingRequest" wsaw:Action="urn:ping"/>
+            <wsdl:output message="ns:pingResponse" wsaw:Action="urn:pingResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:pingGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="disconnectAllUser">
+            <wsdl:input message="ns:disconnectAllUserRequest" wsaw:Action="urn:disconnectAllUser"/>
+            <wsdl:output message="ns:disconnectAllUserResponse" wsaw:Action="urn:disconnectAllUserResponse"/>
         </wsdl:operation>
         <wsdl:operation name="disconnect">
             <wsdl:input message="ns:disconnectRequest" wsaw:Action="urn:disconnect"/>
             <wsdl:output message="ns:disconnectResponse" wsaw:Action="urn:disconnectResponse"/>
             <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:disconnectGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="closeSession">
+            <wsdl:input message="ns:closeSessionRequest" wsaw:Action="urn:closeSession"/>
+            <wsdl:output message="ns:closeSessionResponse" wsaw:Action="urn:closeSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:closeSessionGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="wdisconnect">
+            <wsdl:input message="ns:wdisconnectRequest" wsaw:Action="urn:wdisconnect"/>
+            <wsdl:output message="ns:wdisconnectResponse" wsaw:Action="urn:wdisconnectResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wdisconnectGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="changeSession">
+            <wsdl:input message="ns:changeSessionRequest" wsaw:Action="urn:changeSession"/>
+            <wsdl:output message="ns:changeSessionResponse" wsaw:Action="urn:changeSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:changeSessionGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="wping">
+            <wsdl:input message="ns:wpingRequest" wsaw:Action="urn:wping"/>
+            <wsdl:output message="ns:wpingResponse" wsaw:Action="urn:wpingResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wpingGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="wcreateSession">
+            <wsdl:input message="ns:wcreateSessionRequest" wsaw:Action="urn:wcreateSession"/>
+            <wsdl:output message="ns:wcreateSessionResponse" wsaw:Action="urn:wcreateSessionResponse"/>
+            <wsdl:fault message="ns:GException" name="GException" wsaw:Action="urn:wcreateSessionGException"/>
         </wsdl:operation>
         <wsdl:operation name="connect">
             <wsdl:input message="ns:connectRequest" wsaw:Action="urn:connect"/>
@@ -132,14 +611,155 @@
     </wsdl:portType>
     <wsdl:binding name="WrapperSoap11Binding" type="ns:WrapperPortType">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="wanswerDb">
+            <soap:operation soapAction="urn:wanswerDb" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wcloseSession">
+            <soap:operation soapAction="urn:wcloseSession" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wchangeSession">
+            <soap:operation soapAction="urn:wchangeSession" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="answerDb">
+            <soap:operation soapAction="urn:answerDb" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="main">
             <soap:operation soapAction="urn:main" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
         </wsdl:operation>
+        <wsdl:operation name="createSession">
+            <soap:operation soapAction="urn:createSession" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ping">
+            <soap:operation soapAction="urn:ping" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="disconnect">
             <soap:operation soapAction="urn:disconnect" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="disconnectAllUser">
+            <soap:operation soapAction="urn:disconnectAllUser" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="closeSession">
+            <soap:operation soapAction="urn:closeSession" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wdisconnect">
+            <soap:operation soapAction="urn:wdisconnect" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wping">
+            <soap:operation soapAction="urn:wping" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="changeSession">
+            <soap:operation soapAction="urn:changeSession" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wcreateSession">
+            <soap:operation soapAction="urn:wcreateSession" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -165,14 +785,155 @@
     </wsdl:binding>
     <wsdl:binding name="WrapperSoap12Binding" type="ns:WrapperPortType">
         <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="wanswerDb">
+            <soap12:operation soapAction="urn:wanswerDb" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wcloseSession">
+            <soap12:operation soapAction="urn:wcloseSession" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wchangeSession">
+            <soap12:operation soapAction="urn:wchangeSession" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="answerDb">
+            <soap12:operation soapAction="urn:answerDb" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="main">
             <soap12:operation soapAction="urn:main" style="document"/>
             <wsdl:input>
                 <soap12:body use="literal"/>
             </wsdl:input>
         </wsdl:operation>
+        <wsdl:operation name="createSession">
+            <soap12:operation soapAction="urn:createSession" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ping">
+            <soap12:operation soapAction="urn:ping" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="disconnect">
             <soap12:operation soapAction="urn:disconnect" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="disconnectAllUser">
+            <soap12:operation soapAction="urn:disconnectAllUser" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="closeSession">
+            <soap12:operation soapAction="urn:closeSession" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wdisconnect">
+            <soap12:operation soapAction="urn:wdisconnect" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wping">
+            <soap12:operation soapAction="urn:wping" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="changeSession">
+            <soap12:operation soapAction="urn:changeSession" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="wcreateSession">
+            <soap12:operation soapAction="urn:wcreateSession" style="document"/>
             <wsdl:input>
                 <soap12:body use="literal"/>
             </wsdl:input>
@@ -198,11 +959,65 @@
     </wsdl:binding>
     <wsdl:binding name="WrapperHttpBinding" type="ns:WrapperPortType">
         <http:binding verb="POST"/>
+        <wsdl:operation name="wanswerDb">
+            <http:operation location="Wrapper/wanswerDb"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wanswerDb"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wanswerDb"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="wcloseSession">
+            <http:operation location="Wrapper/wcloseSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wcloseSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wcloseSession"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="wchangeSession">
+            <http:operation location="Wrapper/wchangeSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wchangeSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wchangeSession"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="answerDb">
+            <http:operation location="Wrapper/answerDb"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="answerDb"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="answerDb"/>
+            </wsdl:output>
+        </wsdl:operation>
         <wsdl:operation name="main">
             <http:operation location="Wrapper/main"/>
             <wsdl:input>
                 <mime:content type="text/xml" part="main"/>
             </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="createSession">
+            <http:operation location="Wrapper/createSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="createSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="createSession"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ping">
+            <http:operation location="Wrapper/ping"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="ping"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="ping"/>
+            </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="disconnect">
             <http:operation location="Wrapper/disconnect"/>
@@ -211,6 +1026,60 @@
             </wsdl:input>
             <wsdl:output>
                 <mime:content type="text/xml" part="disconnect"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="disconnectAllUser">
+            <http:operation location="Wrapper/disconnectAllUser"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="disconnectAllUser"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="disconnectAllUser"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="closeSession">
+            <http:operation location="Wrapper/closeSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="closeSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="closeSession"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="wdisconnect">
+            <http:operation location="Wrapper/wdisconnect"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wdisconnect"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wdisconnect"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="wping">
+            <http:operation location="Wrapper/wping"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wping"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wping"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="changeSession">
+            <http:operation location="Wrapper/changeSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="changeSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="changeSession"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="wcreateSession">
+            <http:operation location="Wrapper/wcreateSession"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="wcreateSession"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="wcreateSession"/>
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="connect">

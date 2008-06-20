@@ -7,7 +7,7 @@
 package fr.lip6.move.wrapper.ws;
 
 public class GExceptionException0 extends java.lang.Exception {
-    private fr.lip6.move.wrapper.ws.WrapperStub.GException0 faultMessage;
+    private fr.lip6.move.wrapper.ws.WrapperStub.GException1 faultMessage;
 
     public GExceptionException0() {
         super("GExceptionException0");
@@ -22,11 +22,11 @@ public class GExceptionException0 extends java.lang.Exception {
     }
 
     public void setFaultMessage(
-        fr.lip6.move.wrapper.ws.WrapperStub.GException0 msg) {
+        fr.lip6.move.wrapper.ws.WrapperStub.GException1 msg) {
         faultMessage = msg;
     }
 
-    public fr.lip6.move.wrapper.ws.WrapperStub.GException0 getFaultMessage() {
+    public fr.lip6.move.wrapper.ws.WrapperStub.GException1 getFaultMessage() {
         return faultMessage;
     }
 }
