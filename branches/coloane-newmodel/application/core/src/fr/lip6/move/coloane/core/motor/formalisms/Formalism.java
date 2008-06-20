@@ -1,14 +1,16 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.AttributeFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Graph;
 
 /**
- * Definition d'un formalisme
+ * Definition d'un formalisme.<br>
+ * L'instanciation d'un tel formalisme provoque systématiquement la création d'un objet {@link Graph}.<br>
+ * Sans aucune autre précision, les éléments de formalisme créés par la suite seront associé à cet objet {@link Graph}.
  */
 public class Formalism {
 
@@ -21,41 +23,50 @@ public class Formalism {
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
 
-	/** Liste des elements de base du formalisme. */
-	private ArrayList<ElementFormalism> listOfElements;
+	/** Liste des élément de base du formalisme. */
+	private List<FormalismElement> elements;
 
 	/** Liste des regles du formalisme. */
-	private ArrayList<Rule> listOfConstraints;
+	private List<IConstraint> constraints;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String image;
+	
+	/** Graphe principal du formalisme */
+	private FormalismElement master;
 
 	/**
-	 * Construteur de la classe Formalism (avec icone associee)
+	 * Création d'un formalisme
 	 *
-	 * @param formalismName Nom du formalisme.
-	 * @param formalismImg Nom du fichier de l'image
-	 * @param formalismExtension Extension associee au formalisme
+	 * @param name Nom du formalisme.
+	 * @param extension Extension associée au formalisme
+	 * @param xshema Le XSchema nécessaire à la lecture des instances de ce formalisme
+	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	public Formalism(String name, String image, String extension, String xshema) {
+	public Formalism(String name, String extension, String xshema, String image) {
 		this.name = name;
 		this.extension = extension;
 		this.image = image;
 		this.xschema = xshema;
 		
-		this.listOfElements = new ArrayList<FormalismElement>();
-		this.listOfConstraints = new ArrayList<FormalismConstraints>();
+		this.elements = new ArrayList<FormalismElement>();
+		this.constraints = new ArrayList<IConstraint>();
+		
+		// Creation et Ajout du graphe principal lié à l'instance du formalisme
+		this.master = new Graph(name);
+		this.elements.add(master);
 	}
 
 	/**
-	 * Indique si la liaison entre deux element est possible
-	 * @param elemIn  Element de base en entre de l'arc
-	 * @param elemOut Element de base en sortie de l'arc
-	 * @return boolean
+	 * Indique si la liaison entre deux élément est possible
+	 * @param source Element source de l'arc
+	 * @param target Element cible de l'arc
+	 * @return <code>true</code> si la liaison est possible
 	 */
-	public final boolean isLinkAllowed(ElementFormalism elemIn, ElementFormalism elemOut) {
-		for (Rule r : listOfRules) {
-			if (r.getElementIn().equals(elemIn) && r.getElementOut().equals(elemOut)) {
+	public final boolean isLinkAllowed(FormalismElement source, FormalismElement target) {
+		// Parcours de toutes les contraintes définies dans le formalisme
+		for (IConstraint constraint : constraints) {
+			if (!constraint.isSatisfied(source,target)) {
 				return false;
 			}
 		}
@@ -63,113 +74,65 @@ public class Formalism {
 	}
 
 	/**
-	 * Methode renvoyant les informations sur un noeud du formalisme.
-	 * @param formalismName du Node que l'on cherche.
-	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
+	 * Ajout d'un element de base au formalisme
+	 * @param element {@link FormalismElement} de base a ajouter.
 	 */
-	public final NodeFormalism getNodeFormalism(String typeElt) {
-		for (ElementFormalism elt : listOfElementBase) {
-			if (typeElt.equals(elt.getName())) {
-				return (NodeFormalism) elt;
-			}
-		}
-		return null;
+	public final void addElement(FormalismElement element) {
+		if (element == null) { return; }
+		this.elements.add(element);
 	}
 
 	/**
-	 * Methode renvoyant les informations sur un arc du formalisme
-	 * @param name du Node que l'on cherche.
-	 * @return Le NodeFormalism ayant comme nom celui donne en entree.
+	 * Ajouter une contrainte au formalisme
+	 * @param constraint La contrainte à ajouter au formalisme
+	 * @see {@link IConstraint}
 	 */
-	public final ElementFormalism getArcFormalism(String typeElt) {
-		for (ElementFormalism elt : listOfElementBase) {
-			if (typeElt.equals(elt.getName())) {
-				return (ArcFormalism) elt;
-			}
-		}
-		return null;
-	}
-
-
-	/**
-	 * Ajout d'un element de base a l'interieur du formalisme.
-	 * @param baseElement Element de base a ajouter.
-	 */
-	public final void addElementBase(ElementFormalism baseElement) {
-		if (baseElement == null) {
-			return;
-		}
-		listOfElementBase.add(baseElement);
+	public final void addConstraint(IConstraint constraint) {
+		if (constraint == null) { return; }
+		this.constraints.add(constraint);
 	}
 
 	/**
-	 * Ajoute une attribut (AttributeFormalism) a l'element de base.
-	 * @param attFormalism attribut a ajouter
+	 * Retourne la liste des éléments attachés au formalisme
+	 * @return Une liste d'éléments {@FormalismElement}
 	 */
-	public final void addAttributeFormalism(AttributeFormalism attFormalism) {
-		if (attFormalism == null) {
-			return;
-		}
-		listOfAttributeFormalism.add(attFormalism);
+	public final List<FormalismElement> getListOfElementBase() {
+		return this.elements;
 	}
 
 	/**
-	 * Ajouter une regle
-	 * @param rule La regle a ajouter un formalisme
-	 */
-	public final void addRule(Rule rule) {
-		if (rule == null) {
-			return;
-		}
-		listOfRules.add(rule);
-	}
-
-	/**
-	 * Retourne la liste des elements de base attache au formalisme
-	 * @return ArrayList
-	 */
-	public final ArrayList<ElementFormalism> getListOfElementBase() {
-		return listOfElementBase;
-	}
-
-	/**
-	 * Retourne le nom du formalisme
-	 * @return String
+	 * @return Le nom du formalisme
 	 */
 	public final String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
-	 * Retourne la liste des atttributs du formalisme.
-	 * @return ArrayList
-	 */
-	public final ArrayList<AttributeFormalism> getListOfAttribute() {
-		return listOfAttributeFormalism;
-	}
-
-	/**
-	 * Retourne le nom de l'image associee au formalime
-	 * @return String
+	 * @return L'image associée à toutes les instances de ce formalisme
 	 */
 	public final String getImageName() {
-		return imageName;
+		return this.image;
 	}
 
 	/**
-	 * Retourne la chaine de caracteres a utiliser pour l'extension du fichier
-	 * @return String
+	 * @return La chaine de caractères à utiliser pour l'extension du fichier
 	 */
 	public final String getExtension() {
-		return extension;
+		return this.extension;
 	}
 
 	/**
-	 * Retourne l'adresse du xschema a utliser pour la validation
-	 * @return String
+	 * @return L'adresse du xschema a utliser pour la validation
 	 */
 	public final String getSchema() {
-		return xschema;
+		return this.xschema;
+	}
+	
+	/**
+	 * @return Le graphe principal du formalisme
+	 */
+	public final FormalismElement getMasterGraph() {
+		return this.master;
 	}
 
 	/* (non-Javadoc)
