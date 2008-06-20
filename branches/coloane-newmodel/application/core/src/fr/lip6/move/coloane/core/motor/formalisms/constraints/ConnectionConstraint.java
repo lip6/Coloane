@@ -24,6 +24,14 @@ public class ConnectionConstraint implements IConstraint {
 		this.source = source;
 		this.target = target;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
+	 */
+	public boolean isSatisfied(FormalismElement source, FormalismElement target) {
+		return (!(this.source.equals(source)) || !(this.target.equals(target)));
+	}
 
 	/**
 	 * Retourne l'element en entree de l'arc.

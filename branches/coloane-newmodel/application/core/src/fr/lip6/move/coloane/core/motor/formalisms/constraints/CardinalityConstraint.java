@@ -34,6 +34,16 @@ public class CardinalityConstraint implements IConstraint {
 		this.maxIn = maxIn;
 		this.maxOut = maxOut;
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
+	 */
+	public boolean isSatisfied(FormalismElement source, FormalismElement target) {
+		// TODO: A définir !
+		return true;
+	}
 
 	/**
 	 * Retourne l'élement concerné
