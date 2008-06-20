@@ -99,7 +99,7 @@ public interface ISessionController {
 	/**
 	 * 
 	 */
-	public void notifyEndCloseSession();
+	public void notifyEndCloseSession(IApiSession s);
 
 	
 }
