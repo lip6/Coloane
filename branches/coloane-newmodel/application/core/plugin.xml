@@ -4,6 +4,7 @@
    <extension-point id="exports" name="Exports" schema="schema/exports.exsd"/>
    <extension-point id="imports" name="Imports" schema="schema/imports.exsd"/>
    <extension-point id="reports" name="Reports" schema="schema/reports.exsd"/>
+   <extension-point id="formalisms" name="Formalisms" schema="schema/formalisms.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -408,5 +409,133 @@
           </input>
        </propertySection>
     </propertySections>
+ </extension>
+ <extension
+       point="fr.lip6.move.coloane.core.formalisms">
+    <Formalism
+          extension="petri"
+          id="PetriNets"
+          image="resources/icons/cube-blue.png"
+          name="PetriNets"
+          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.PetriNets"
+          xschema="resources/ami-net.xsd">
+       <XmlDescription>
+          <Graph
+                name="AMI-Net">
+             <Node
+                   container="false"
+                   name="place">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="declaration">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="author(s)">
+                </Attribute>
+                <Attribute
+                      default="0,0"
+                      drawable="true"
+                      multiline="false"
+                      name="version">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="project">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="title">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="false"
+                      name="date">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="code">
+                </Attribute>
+                <Attribute
+                      default="Designed with Coloane"
+                      drawable="false"
+                      multiline="true"
+                      name="note">
+                </Attribute>
+             </Node>
+             <Node
+                   container="false"
+                   name="transition">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Node>
+             <Arc
+                   name="arc">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Arc>
+             <Arc
+                   name="inhibitor arc">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Arc>
+          </Graph>
+       </XmlDescription>
+    </Formalism>
+    <Formalism
+          id="ReachabilityGraph"
+          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.ReachabilityGraph">
+       <XmlDescription>
+          <Graph
+                name="ReachabilityGraph">
+             <Node
+                   container="false"
+                   name="initial state">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Node>
+             <Node
+                   container="true"
+                   name="terminal state">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Node>
+             <Node
+                   container="false"
+                   name="state">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Node>
+             <Arc
+                   name="event">
+                <GraphicInfo
+                      drawable="true"
+                      palettable="true">
+                </GraphicInfo>
+             </Arc>
+          </Graph>
+       </XmlDescription>
+    </Formalism>
  </extension>
 </plugin>
