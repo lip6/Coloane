@@ -1,32 +1,21 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-
 /**
- * Formalisme associe a un arc
+ * Description d'un arc dans un formalisme.<br>
+ * Plusieurs types d'arcs peuvent exister dans un formalisme.<br>
+ * Par exemple, dans le formalisme des réseaux de Petri on retrouve :
+ * <ul>
+ * 	<li>Les arcs simples</li>
+ * 	<li>Les arcs inhibiteurs</li>
+ * </ul>
  */
-public class Arc extends ElementFormalism {
-	/** Constante representant le dessin d'une fleche au bout de l'arc. */
-	public static final int NOTHING = 0;
-
-	/** Constante representant le dessin d'une fleche au bout de l'arc. */
-	public static final int ARROW = 1;
-
-	/** Constante representant le dessin d'une fleche au bout de l'arc. */
-	public static final int SQUARE = 2;
-
-	/** Constante representant le dessin d'une fleche au bout de l'arc. */
-	public static final int CIRCLE = 3;
+public class Arc extends FormalismElement {
 
 	/**
 	 * Constructeur
-	 *
-	 * @param name Nom de l'element de base.
-	 * @param paletteName Nom de l'element de base affiche dans la palette
-	 * @param formalism Le formalism attache a l'arc
-	 * @param numFigure Indication sur la forme du dessin de l'element
+	 * @param name Nom de l'arc dans le formalisme
 	 */
-	public Arc(String name, String paletteName, Formalism formalism, int numFigure) {
-		super(name, paletteName, formalism, numFigure, -1, -1, false);
+	public Arc(String name) {
+		super(name);
 	}
 }

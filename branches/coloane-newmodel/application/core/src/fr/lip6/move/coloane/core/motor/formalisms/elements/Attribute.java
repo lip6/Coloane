@@ -1,120 +1,71 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
-
 /**
- * Cette classe represente les caracteristiques d'un attribut.<br>
- * Un attribut est une caracteristique d'un element de Base.
+ * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
+ * Un attribut est une caractéristique d'un élément de base.<br>
+ * Chaque élément du formalisme maintient une liste de ses attributs.
  */
 public class Attribute {
 	/** Nom de l'attribut. */
 	private String name;
 
 	/** Attribut est-il multilignes. */
-	private boolean isMultiLines;
+	private boolean multiline;
 
 	/** L'attribut est-il affichable. */
-	private boolean isDrawable;
+	private boolean drawable;
 
-	/** Valeur par defaut de l'attribut. */
+	/** Valeur par défaut de l'attribut. */
 	private String defaultValue = null;
 
 	/** Ordre d'affichage dans la fenetre des proprietes */
 	private int order;
 
 	/**
-	 * Type d'affichage
-	 * @see fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo
+	 * Construit un nouvel attribut
+	 * @param order L'ordre d'affichage dans la fenêtre de propiétés
+	 * @param name Le nom de l'attribut.
+	 * @param drawable L'information est elle affichable a l'ecran ?
+	 * @param multiline L'attribut est il multi-lignes ?
 	 */
-	private int type = IAttributeGraphicInfo.NOR;
-
-	/**
-	 * Constructeur
-	 * @param attributeOrder L'ordre d'affichage dans la fenetre de proprietes
-	 * @param attributeName Le nom de l'attribut.
-	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
-	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
-	 */
-	public Attribute(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
-		this.name = attributeName;
-		this.isDrawable = attributeIsDrawable;
-		this.isMultiLines = attributeIsMultiLines;
-		this.order = attributeOrder;
-	}
-
-	/**
-	 * Constructeur (avec indication d'affichage)
-	 * @param attributeOrder L'ordre d'affichage dans la fenetre de proprietes
-	 * @param attributeName Le nom de l'attribut.
-	 * @param attributeType Le type d'affichage
-	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
-	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
-	 */
-	public Attribute(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines) {
-		this.name = attributeName;
-		this.isDrawable = attributeIsDrawable;
-		this.isMultiLines = attributeIsMultiLines;
-		this.order = attributeOrder;
-		this.type = attributeType;
+	public Attribute(int order, String name, boolean drawable, boolean multiline) {
+		this.name = name;
+		this.drawable = drawable;
+		this.multiline = multiline;
+		this.order = order;
 	}
 
 	/**
 	 * Construit un nouvel attribut (avec une valeur par defaut)
-	 * @param attributeOrder L'ordre d'affichage dans la fenetre des proprietes
-	 * @param attributeName Le nom de l'attribut.
-	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
-	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
-	 * @param attributeDefaultValue La valeur par defaut de l'attribut.
+	 * @param order L'ordre d'affichage dans la fenetre des proprietes
+	 * @param name Le nom de l'attribut.
+	 * @param drawable L'information est elle affichable a l'ecran ?
+	 * @param multiline L'attribut est il multi-lignes ?
+	 * @param defaultValue La valeur par defaut de l'attribut.
 	 */
-	public Attribute(int attributeOrder, String attributeName, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
-		this.name         = attributeName;
-		this.isDrawable   = attributeIsDrawable;
-		this.isMultiLines = attributeIsMultiLines;
-		this.defaultValue = attributeDefaultValue;
-		this.order = attributeOrder;
+	public Attribute(int order, String name, boolean drawable, boolean multiline, String defaultValue) {
+		this(order,name,drawable,multiline);
+		this.defaultValue = defaultValue;
 	}
 
 
 	/**
-	 * Construit un nouvel attribut (avec une valeur par defaut)
-	 * @param attributeOrder L'ordre d'affichage dans la fenetre de proprietes
-	 * @param attributeName Le nom de l'attribut.
-	 * @param attributeType Le type d'affichage
-	 * @param attributeIsDrawable L'information est elle affichable a l'ecran.
-	 * @param attributeIsMultiLines L'attribut est il multi-lignes.
-	 * @param attributeDefaultValue La valeur par defaut de l'attribut.
-	 */
-	public Attribute(int attributeOrder, String attributeName, int attributeType, boolean attributeIsDrawable, boolean attributeIsMultiLines, String attributeDefaultValue) {
-		this.name = attributeName;
-		this.isDrawable = attributeIsDrawable;
-		this.isMultiLines = attributeIsMultiLines;
-		this.defaultValue = attributeDefaultValue;
-		this.order = attributeOrder;
-		this.type = attributeType;
-	}
-
-
-	/**
-	 * Retourne le nom de l'attribut.
-	 * @return String
+	 * @return Le nom de l'attribut
 	 */
 	public final String getName() { return this.name; }
 
 	/**
-	 * Retourne le booleen indiquant si l'attribut est affichable.
-	 * @return boolean
+	 * @return L'indicateur qui permet de savoir si un attribut est affichable dans l'éditeur grapique
 	 */
-	public final boolean isDrawable() { return isDrawable; }
+	public final boolean isDrawable() { return drawable; }
 
 	/**
-	 * Retourne le booleen indiquant si l'attribut est multilignes.
-	 * @return boolean
+	 * @return L'indicateur qui permet de savoir si un attribut peut être réparti sur plusieurs lignes
 	 */
-	public final boolean isMultiLines() { return isMultiLines; }
+	public final boolean isMultiLine() { return multiline; }
 
 	/**
-	 * Retourne la valeur par defaut de l'attribut
-	 * @return String
+	 * @return La valeur par défaut de l'attribut
 	 */
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }
@@ -122,14 +73,7 @@ public class Attribute {
 	}
 
 	/**
-	 * Retourne le numero d'index pour l'affichage
-	 * @return le numero (int) d'affichage
+	 * @return L'index d'affichage à l'intérieur de la fenêtre de propriété
 	 */
 	public final int getOrder() { return this.order; }
-
-	/**
-	 * Retourne le type d'affichage
-	 * @return l'indicateur du type d'affichage
-	 */
-	public final int getType() { return this.type; }
 }

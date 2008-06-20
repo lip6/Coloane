@@ -1,23 +1,36 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-
 /**
- * Formalisme d'un Noeud
+ * Description d'un noeud dans un formalisme.<br>
+ * Plusieurs types de noeuds peuvent exister dans un formalisme.<br>
+ * Par exemple, dans le formalisme des réseaux de Petri on retrouve :
+ * <ul>
+ * 	<li>Les places</li>
+ * 	<li>Les transitions</li>
+ * </ul>
+ * 
+ * Dans certains cas, les noeuds peuvent contenir un ensemble de noeuds, arcs, attributs etc...<br>
+ * Cette capacité permet de définir des formalismes où la hiérarchie est possible.</br>
+ * Cette définition définit un attribut {@link #container} qui permet de préciser cette compétence.
  */
-public class Node extends ElementFormalism {
+public class Node extends FormalismElement {
+	
+	/** Le noeud peut-il contenir un modèle ? @see {@link Graph} */
+	private boolean container = false;
 
 	/**
 	 * Constructeur
 	 * @param name Nom de l'element de base.
-	 * @param paletteName Nom de l'element de base affiche dans la palette.
-	 * @param formalism Le formalisme associe au noeud
-	 * @param numFigure	Indication sur la forme du dessin de l'element
-	 * @param width	Largeur du dessin de l'element de base.
-	 * @param height Hauteur du dessin de l'element de base.
-	 * @param isFilled Flag indiquant si la figure sera remplie.
 	 */
-	public Node(String name, String paletteName, Formalism formalism, int numFigure, int width, int height, boolean isFilled) {
-		super(name, paletteName, formalism, numFigure, width, height, isFilled);
+	public Node(String name) {
+		super(name);
 	}
+
+	/**
+	 * @return Un indicateur qui permet de savoir si le noeud peut contenir un modèle
+	 */
+	public boolean isContainer() {
+		return container;
+	}
+
 }
