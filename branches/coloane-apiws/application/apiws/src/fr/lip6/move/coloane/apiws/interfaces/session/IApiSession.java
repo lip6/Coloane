@@ -109,6 +109,12 @@ public interface IApiSession {
 	public int getMode();
 	
 	/**
+	 * Recupere l'identifiant de la session courrante
+	 * @return l'identifiant de la session courrante
+	 */
+	public String getIdSession();
+	
+	/**
 	 * Recupere le gestionnaire de session
 	 * @return le gestionnaire de session
 	 */
