@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.copypast.CopyAction;
 import fr.lip6.move.coloane.core.copypast.CutAction;
 import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
@@ -36,6 +37,8 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
@@ -53,7 +56,6 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-//import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -150,7 +152,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		 *
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
-		@SuppressWarnings("unchecked")//$NON-NLS-1$
+		@SuppressWarnings("unchecked")
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(
@@ -212,7 +214,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		}
 	}
 
-	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor";
+	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor"; //$NON-NLS-1$
 
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
@@ -293,6 +295,15 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
 		zoomContributions.add(ZoomManager.FIT_WIDTH);
 		manager.setZoomLevelContributions(zoomContributions);
+		
+		// On ajoute des raccourcis clavier
+		KeyHandler keyHandler = new KeyHandler();
+		System.err.println(getActionRegistry().getAction(NodeMoveAction.UP));
+		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_UP, 0), getActionRegistry().getAction(NodeMoveAction.UP));
+		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_DOWN, 0), getActionRegistry().getAction(NodeMoveAction.DOWN));
+		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_LEFT, 0), getActionRegistry().getAction(NodeMoveAction.LEFT));
+		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_RIGHT, 0), getActionRegistry().getAction(NodeMoveAction.RIGHT));
+		viewer.setKeyHandler(keyHandler);
 	}
 
 	/**
@@ -358,10 +369,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		try {
 			// Creation de l'input stream a partir d'une chaine de caractere
-			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
 			// Ecriture du fichier de sauvegarder a partir du l'input stream
 			file.setContents(inputS, true, false, monitor);
-			file.setCharset("UTF-8", monitor);
+			file.setCharset("UTF-8", monitor); //$NON-NLS-1$
 		} catch (CoreException e) {
 			Coloane.getLogger().warning(
 					"Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
@@ -454,7 +465,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	@Override
 	public final void dispose() {
 		if (this.model == null) {
-			Coloane.showErrorMsg("Cannot display the model...");
+			Coloane.showErrorMsg(Messages.ColoaneEditor_1);
 			return;
 		} else {
 			super.dispose();
@@ -506,7 +517,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked")//$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	@Override
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
@@ -592,7 +603,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
-	@SuppressWarnings("unchecked")//$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	@Override
 	protected final void createActions() {
 		super.createActions();
@@ -612,6 +623,20 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		// Création de l'action pour coller
 		action = new PasteAction((IWorkbenchPart) this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
+		// Création des action pour le déplacement
+		action = new NodeMoveAction((IWorkbenchPart) this, NodeMoveAction.UP);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		action = new NodeMoveAction((IWorkbenchPart) this, NodeMoveAction.DOWN);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		action = new NodeMoveAction((IWorkbenchPart) this, NodeMoveAction.LEFT);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+		action = new NodeMoveAction((IWorkbenchPart) this, NodeMoveAction.RIGHT);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
