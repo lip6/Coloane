@@ -25,22 +25,29 @@ public class ReachabilityGraph extends Formalism {
 		this.getMasterGraph().addAttribute(new Attribute("type", true, true)); //$NON-NLS-1$
 		this.getMasterGraph().addAttribute(new Attribute("project", true, false)); //$NON-NLS-1$
 
-		// L'etat initial:
-		FormalismElement init = new Node("initial state"); //$NON-NLS-1$
-		init.addAttribute(new Attribute("name", true, false)); //$NON-NLS-1$
-		init.addAttribute(new Attribute("value", true, true)); //$NON-NLS-1$
-		init.addAttribute(new Attribute("initial", true, true)); //$NON-NLS-1$
-		init.addAttribute(new Attribute("deadlock", false, true)); //$NON-NLS-1$
-		addElement(init);
-
-		// L'etat terminal:
-		FormalismElement terminal = new Node("terminal state"); //$NON-NLS-1$
-		terminal.addAttribute(new Attribute("name", true, false)); //$NON-NLS-1$
-		terminal.addAttribute(new Attribute("value", true, true)); //$NON-NLS-1$
-		terminal.addAttribute(new Attribute("initial", true, true)); //$NON-NLS-1$
-		terminal.addAttribute(new Attribute("deadlock", false, true)); //$NON-NLS-1$
-		addElement(terminal);
-
+		defineInit();
+		defineTerminal();
+		defineState();
+		defineEvent();
+		
+		// Pas de rules : toute association autorisee
+	}
+	
+	/**
+	 * Définition d'un event
+	 */
+	private void defineEvent() {
+		// L'event (arc):
+		FormalismElement event = new Arc("event"); //$NON-NLS-1$
+		event.addAttribute(new Attribute("label", true, false)); //$NON-NLS-1$
+		event.addAttribute(new Attribute("value", false, true)); //$NON-NLS-1$
+		addElement(event);
+	}
+	
+	/**
+	 * Définition d'un state (état)
+	 */
+	private void defineState() {
 		// L'etat:
 		FormalismElement state = new Node("state"); //$NON-NLS-1$
 		state.addAttribute(new Attribute("name", true, false)); //$NON-NLS-1$
@@ -48,13 +55,31 @@ public class ReachabilityGraph extends Formalism {
 		state.addAttribute(new Attribute("initial", true, true)); //$NON-NLS-1$
 		state.addAttribute(new Attribute("deadlock", false, true)); //$NON-NLS-1$
 		addElement(state);
-
-		// L'event (arc):
-		FormalismElement event = new Arc("event"); //$NON-NLS-1$
-		event.addAttribute(new Attribute("label", true, false)); //$NON-NLS-1$
-		event.addAttribute(new Attribute("value", false, true)); //$NON-NLS-1$
-		addElement(event);
-
-		// Pas de rules : toute association autorisee
+	}
+	
+	/**
+	 * Définition d'un noeud terminal
+	 */
+	private void defineTerminal() {
+		// L'etat terminal:
+		FormalismElement terminal = new Node("terminal state"); //$NON-NLS-1$
+		terminal.addAttribute(new Attribute("name", true, false)); //$NON-NLS-1$
+		terminal.addAttribute(new Attribute("value", true, true)); //$NON-NLS-1$
+		terminal.addAttribute(new Attribute("initial", true, true)); //$NON-NLS-1$
+		terminal.addAttribute(new Attribute("deadlock", false, true)); //$NON-NLS-1$
+		addElement(terminal);
+	}
+	
+	/**
+	 * Définition d'un noeud initial
+	 */
+	private void defineInit() {
+		// L'etat initial:
+		FormalismElement init = new Node("initial state"); //$NON-NLS-1$
+		init.addAttribute(new Attribute("name", true, false)); //$NON-NLS-1$
+		init.addAttribute(new Attribute("value", true, true)); //$NON-NLS-1$
+		init.addAttribute(new Attribute("initial", true, true)); //$NON-NLS-1$
+		init.addAttribute(new Attribute("deadlock", false, true)); //$NON-NLS-1$
+		addElement(init);
 	}
 }
