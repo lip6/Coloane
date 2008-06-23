@@ -18,6 +18,9 @@ public final class Messages extends NLS {
 	public static String ReachabilityGraph_1;
 	public static String ReachabilityGraph_2;
 	public static String ReachabilityGraph_3;
+	public static String Geo_1;
+	public static String Geo_2;
+	public static String Geo_3;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
