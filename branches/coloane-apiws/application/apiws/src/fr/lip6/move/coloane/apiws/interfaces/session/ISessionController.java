@@ -65,20 +65,36 @@ public interface ISessionController {
 	public boolean askForService(IApiSession s);
 
 	/**
-	 * 
+	 * Notifier l'ouverture d'une session
+	 * @param opened la session ouvert
 	 */
-	public void notifyEndOpenSession();
+	public void notifyEndOpenSession(IApiSession opened);
 
 	/**
-	 * 
+	 * Notifier la suspention d'une session
+	 * @param suspended la session suspendue
 	 */
-	public void notifyEndSuspendSession();
+	public void notifyEndSuspendSession(IApiSession suspended);
 
 	/**
-	 * 
-	 * @param nameSession
+	 * Notifier la restauration d'une session
+	 * @param resumed la session restaurer
 	 */
-	public void notifyEndResumeSession(String nameSession);
+	public void notifyEndResumeSession(IApiSession resumed);
+	
+	/**
+	 * Notifier le changement de session
+	 * @param suspended la session qui sera suspendue
+	 * @param reloaded la session qui sera restaurer
+	 */
+	public void notifyEndChangeSession(IApiSession suspended, IApiSession reloaded);
+
+	/**
+	 * Notifier la fermeture d'une session
+	 * @param closed la session fermer
+	 * @param resumed la session qui sera charger
+	 */
+	public void notifyEndCloseSession(IApiSession closed,IApiSession resumed);
 
 	/**
 	 * 
@@ -95,11 +111,6 @@ public interface ISessionController {
 	 * 
 	 */
 	public void notifyEndResult();
-
-	/**
-	 * 
-	 */
-	public void notifyEndCloseSession(IApiSession s);
 
 	
 }

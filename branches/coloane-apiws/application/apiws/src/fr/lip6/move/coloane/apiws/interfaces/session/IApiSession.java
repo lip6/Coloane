@@ -23,22 +23,16 @@ public interface IApiSession {
 	public void openSession(String sessionDate, String sessionFormalism,String sessionName);
 
 	/**
-	 * Suspendre la session courrante
-	 * @return vraie si la suspension de la session reussie, faux sinon.
+	 * Changer de session
+	 * @param s la session a charger
 	 */
-	public boolean suspendSession();
+	public void changeSession(IApiSession s);
 
-	/**
-	 * Reprendre la session courrante.
-	 * @return vraie si la reprise de la session reussie, faux sinon.
-	 */
-	public boolean resumeSession();
 
 	/**
 	 * Fermer la session courrante.
 	 */
 	public void closeSession();
-
 
 	/**
 	 * Demander un service sur la session courrante
@@ -121,20 +115,31 @@ public interface IApiSession {
 	public ISessionController getSessionController();
 	
 	/**
-	 * 
+	 * Notifier l'ouverture d'une session
 	 */
 	public void notifyEndOpenSession();
 
 	/**
-	 * 
+	 * Notifier la suspension d'une session
 	 */
 	public void notifyEndSuspendSession();
 	
 	/**
-	 * 
-	 * @param nameSession
+	 * Notifier la restauration d'une session
 	 */
-	public void notifyEndResumeSession(String nameSession);
+	public void notifyEndResumeSession();
+	
+	
+	/**
+	 * Notifier le changement de session
+	 */
+	public void notifyEndChangeSession();
+	
+
+	/**
+	 * Notifier la fermeture d'une session
+	 */
+	public void notifyEndCloseSession();
 	
 	
 	/**
@@ -153,11 +158,5 @@ public interface IApiSession {
 	 * 
 	 */
 	public void notifyEndResult();
-	
-
-	/**
-	 * 
-	 */
-	public void notifyEndCloseSession();
 
 }
