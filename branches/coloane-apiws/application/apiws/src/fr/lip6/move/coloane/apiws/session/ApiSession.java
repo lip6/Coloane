@@ -2,9 +2,11 @@ package fr.lip6.move.coloane.apiws.session;
 
 import java.util.HashMap;
 
+import fr.lip6.move.coloane.apiws.evenements.AnswerChangeSession;
 import fr.lip6.move.coloane.apiws.evenements.AnswerCloseSession;
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenSession;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IChangeSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenSessionObservable;
@@ -28,6 +30,12 @@ public class ApiSession implements IApiSession{
 	
 	private String idSession;
 	
+	private Session sessionOpened;
+	
+	private Session sessionClosed;
+	
+	private Session sessionChanged;
+	
 	private ISessionController sessionController;
 	
 	private ISpeaker speaker;
@@ -44,10 +52,19 @@ public class ApiSession implements IApiSession{
 		this.interlocutor = null;
 		this.mode = -1;
 		this.idSession = null;
+		this.sessionOpened = null;
+		this.sessionClosed = null;
+		this.sessionChanged = null;
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
 		this.listObservables = listObservables;
+	}
+	
+	private ApiSession(Session s){
+		/**
+		 * A COMPLETER
+		 */
 	}
 
 	public String getInterlocutor() {
@@ -91,24 +108,14 @@ public class ApiSession implements IApiSession{
 		this.mode = mode;
 		
 		if (sessionController.openSession(this)){
-			
-			
-			// La session change d'etat : Attend une reponse du wrapper pour l'ouverture de session
 			if (!automate.goToWaitingForUpdatesAndMenusState()){
-				//throw new IllegalStateException();
+				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
 			
-			// Ouverture d'une session -> Reception de la reponse 
-			Session sessionOpened = speaker.openSession(sessionFormalism);
-
-			idSession = sessionOpened.getSessionId();
+			this.sessionOpened = speaker.openSession(sessionFormalism);
+			this.idSession = sessionOpened.getSessionId();
 			
-			// Reception de la reponse -> Notification de l'evenement : ouverture se session
-			AnswerOpenSession answerOpenSession = new AnswerOpenSession(/* sessionOpened */);
-			((IOpenSessionObservable) listObservables.get(IObservables.OPEN_SESSION)).notifyObservers(answerOpenSession);
-			
-			sessionController.notifyEndOpenSession();
-			
+			sessionController.notifyEndOpenSession(this);
 		}
 		else {
 			// throw new Exception();
@@ -121,45 +128,74 @@ public class ApiSession implements IApiSession{
 		
 	}
 
-	public boolean suspendSession() {
-		return sessionController.suspendSession(this);
-	}
-
-
-	public boolean resumeSession() {
-		return sessionController.resumeSession(this);
-	}
-
 	public void closeSession() {
 		if (sessionController.closeSession(this)){
-			
 			if (!automate.goToWaitingForCloseSessionState()){
-				// throw new IllegalStateException();
+				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 			
-			// Fermeture d'une session -> Reception de la reponse 
-			Session sessionClosed = speaker.closeSession(idSession);
-
-			// Reception de la reponse -> Notification de l'evenement : ouverture se session
-			AnswerCloseSession answerCloseSession = new AnswerCloseSession();
-			((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
+			this.sessionClosed = speaker.closeSession(idSession);
 			
-			sessionController.notifyEndCloseSession(this);
+			sessionController.notifyEndCloseSession(this,new ApiSession(sessionClosed));
 			
 		}
 		else{
 			// throw new Exception();
 		}
-		
+	}
+	
+	public void changeSession(IApiSession s){
+		if (sessionController.suspendSession(this) && sessionController.resumeSession(s)){
+
+			this.sessionChanged = speaker.changeSession(s.getIdSession());
+
+			sessionController.notifyEndChangeSession(this, new ApiSession(sessionChanged));
+
+		}
+	}
+	
+	public void notifyEndOpenSession() {
+		if (!automate.goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+		AnswerOpenSession answerOpenSession = new AnswerOpenSession(sessionOpened);
+		((IOpenSessionObservable) listObservables.get(IObservables.OPEN_SESSION)).notifyObservers(answerOpenSession);
 	}
 
-	public void invalidModel() {
-		// TODO Auto-generated method stub
-		
+	public void notifyEndSuspendSession() {
+		if (!automate.goToSuspendSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
+		}
 	}
+
+	public void notifyEndResumeSession() {
+		if (!automate.goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+	}
+	
+
+	public void notifyEndCloseSession() {
+		if (!automate.goToCloseSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
+		}
+		AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionClosed);
+		((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
+	}
+	
+	public void notifyEndChangeSession() {
+		if (!automate.goToSuspendSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
+		}
+		AnswerChangeSession answerChangeSession = new AnswerChangeSession(sessionChanged);
+		((IChangeSessionObservable) listObservables.get(IObservables.CHANGE_SESSION)).notifyObservers(answerChangeSession);
+	}
+
+	
 
 
 	
+
 	public void askForService(String rootName, String menuName, String serviceName) {
 		// TODO Auto-generated method stub
 		
@@ -171,38 +207,17 @@ public class ApiSession implements IApiSession{
 		
 	}
 	
+	public void invalidModel() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public void sendModel(IModel model) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void notifyEndOpenSession() {
-		// La session change d'etat : attend menu -> repos
-		if (!automate.goToIdleState()){
-			//throw new IllegalStateException();
-		}
-	}
 	
-
-	public void notifyEndCloseSession() {
-		// La session change d'etat : attend fermeture -> fermeture
-		if (!automate.goToCloseSessionState()){
-			//throw new IllegalStateException();
-		}
-	}
-
 	public void notifyEndResult() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyEndResumeSession(String nameSession) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyEndSuspendSession() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -216,6 +231,5 @@ public class ApiSession implements IApiSession{
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

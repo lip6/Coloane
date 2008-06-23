@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
@@ -27,7 +27,7 @@ public class SessionController implements ISessionController{
 	/**
 	 * Represent l'ensemle des sessions
 	 */
-	private ArrayList<IApiSession> listSessions;
+	private Hashtable<String, IApiSession> listSessions;
 	
 	
 	/**
@@ -35,7 +35,7 @@ public class SessionController implements ISessionController{
 	 */
 	public SessionController(){
 		this.activeSession = null;
-		this.listSessions = new ArrayList<IApiSession>();
+		this.listSessions = new Hashtable<String, IApiSession>();
 	}
 	
 	/**
@@ -57,7 +57,11 @@ public class SessionController implements ISessionController{
 	 * Ajoute une session a la liste des session ouvert
 	 */
 	public boolean addSession(IApiSession s) {
-		return listSessions.add(s);
+		/**
+		 *ATTENTION C'EST MAL FAIT: VOIR SI IL Y A UNE AUTRE SOLUTION POUR LA VALEUR DE RETOUR
+		 */
+		listSessions.put(s.getIdSession(),s);
+		return listSessions.containsKey(s.getIdSession());
 	}
 	
 	/**
@@ -65,45 +69,22 @@ public class SessionController implements ISessionController{
 	 */
 	public boolean removeSession(IApiSession s) {
 		/**
-		 * Verifier si la session supprimer n'est pas active : si active ????
+		 *ATTENTION C'EST MAL FAIT: VOIR SI IL Y A UNE AUTRE SOLUTION POUR LA VALEUR DE RETOUR
 		 */
-		return listSessions.remove(s);
+		listSessions.remove(s.getIdSession());
+		return !listSessions.containsKey(s.getIdSession());
 	}
 
 	/**
 	 * Verifie si on peut ouvrir une session
 	 */
-	public boolean openSession(IApiSession s) {
-		if (listSessions.size() <= MAX_SESSION){
-			if (activeSession == null){
-				this.activeSession = s;
-				this.addSession(s);
-				return true;
-			}
-			else{
-				/**
-				 * Ajouter plus tard la verification suivante :
-				 * Que faire si on ouvre une session deja ouvert ??? 
-				 */
-				if (activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
-					if (activeSession.suspendSession()){
-						this.activeSession = s;
-						this.addSession(s);
-						return true;
-					}
-					else{
-						return false;
-					}
-				}
-				else{
-					return false;
-				}
-
-			}
+	public boolean openSession(IApiSession s){
+		if (listSessions.size() <= MAX_SESSION && !listSessions.containsKey(s.getIdSession())){
+			return  this.suspendSession(activeSession);
 		}
 		else{
 			return false;
-		}
+		}	
 	}
 
 	/**
@@ -121,13 +102,7 @@ public class SessionController implements ISessionController{
 	 */
 	public boolean resumeSession(IApiSession s) {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE){
-			if (activeSession.suspendSession()){
-				this.activeSession = s;
-				return true;
-			}
-			else{
-				return false;
-			}
+			return this.suspendSession(activeSession);
 		}
 		return false;
 	}
@@ -152,28 +127,46 @@ public class SessionController implements ISessionController{
 		return false;
 	}
 
-	public void notifyEndOpenSession() {
-		activeSession.notifyEndOpenSession();	
+	public void notifyEndOpenSession(IApiSession opened) {
+		if (activeSession != null){
+			activeSession.notifyEndSuspendSession();
+		}
+		this.activeSession = opened;
+		this.addSession(opened);
+		activeSession.notifyEndOpenSession();
 	}
 
-	public void notifyEndCloseSession(IApiSession s) {
-		
-		/**
-		 * A COMPLETER
-		 */
+	public void notifyEndCloseSession(IApiSession closed,IApiSession resumed) {
+		if (closed.getIdSession() == resumed.getIdSession()){
+			this.activeSession = null;
+			this.removeSession(closed);
+			closed.notifyEndCloseSession();
+		}
+		else {
+			this.activeSession = listSessions.get(resumed.getIdSession());
+			this.activeSession.notifyEndResumeSession();
+			this.removeSession(closed);
+			closed.notifyEndCloseSession();
+		}
 	}
+	public void notifyEndResumeSession(IApiSession resumed) {
+		activeSession = listSessions.get(resumed.getIdSession());
+		activeSession.notifyEndResumeSession();
+	}
+
+	public void notifyEndSuspendSession(IApiSession suspended ) {
+		suspended.notifyEndSuspendSession();
+	}
+
+	public void notifyEndChangeSession(IApiSession suspended, IApiSession reloaded){
+		activeSession = listSessions.get(reloaded.getIdSession());
+		activeSession.notifyEndResumeSession();
+		suspended.notifyEndChangeSession();
+	}
+	
+
 
 	public void notifyEndResult() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyEndResumeSession(String nameSession) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyEndSuspendSession() {
 		// TODO Auto-generated method stub
 		
 	}
