@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
 
 /**
  * Manage the attributes of an IElement.

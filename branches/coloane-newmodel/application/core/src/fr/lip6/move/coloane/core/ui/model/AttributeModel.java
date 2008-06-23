@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.model;
 
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+
 public class AttributeModel implements IAttribute {
 	private final String name;
 	private String value;

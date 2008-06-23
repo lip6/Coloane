@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.ArrayList;
 import java.util.Collections;

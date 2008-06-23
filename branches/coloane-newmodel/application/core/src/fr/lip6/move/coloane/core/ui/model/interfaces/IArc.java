@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.core.ui.model.interfaces;
 
 public interface IArc extends IElement {
 	INode getSource();

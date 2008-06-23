@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 public class ArcModel extends AbstractElement implements IArc {
 	private int id;
