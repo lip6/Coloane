@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.core.ui.model.old;
 
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
@@ -50,7 +50,7 @@ public interface IAttributeImpl extends IElement {
 	/**
 	 * Retourne le type d'affichage a considerer pour cet attrribut
 	 * @return int Indicateur d'affichage
-	 * @see fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo
+	 * @see fr.lip6.move.coloane.core.ui.model.old.IAttributeGraphicInfo
 	 */
 	int getType();
 

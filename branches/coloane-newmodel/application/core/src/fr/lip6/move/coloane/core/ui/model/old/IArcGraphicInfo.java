@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.core.ui.model.old;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;

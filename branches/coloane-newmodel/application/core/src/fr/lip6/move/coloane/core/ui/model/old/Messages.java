@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.core.ui.model.old;
 
 import org.eclipse.osgi.util.NLS;
 

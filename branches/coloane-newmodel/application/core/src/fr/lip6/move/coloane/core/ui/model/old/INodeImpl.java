@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.core.ui.model.old;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
@@ -64,7 +64,7 @@ public interface INodeImpl extends IElement {
 	 * L'arc doit etre ajout dans la liste des arcs entrants du noeud generique
 	 * @param arc L'arc a ajouter
 	 * @throws BuildException
-	 * @see fr.lip6.move.coloane.core.ui.model.IArcImpl
+	 * @see fr.lip6.move.coloane.core.ui.model.old.IArcImpl
 	 */
 	void addInputArc(IArcImpl arc);
 
@@ -73,7 +73,7 @@ public interface INodeImpl extends IElement {
 	 * L'arc doit etre rajoute dans la liste des arcs sortants du noeud adapte
 	 * L'arc doit etre ajout dans la liste des arcs sortants du noeud generique
 	 * @param arc L'arc a ajouter
-	 * @see fr.lip6.move.coloane.core.ui.model.IArcImpl
+	 * @see fr.lip6.move.coloane.core.ui.model.old.IArcImpl
 	 * @throws BuildException
 	 */
 	void addOutputArc(IArcImpl arc);
@@ -82,7 +82,7 @@ public interface INodeImpl extends IElement {
 	 * Suppression d'un arc entrant ou sortant du noeud
 	 * Cette methode est appelee par l'arc adapte lors de sa deconnexion
 	 * @param arc L'arc a supprimer
-	 * @see fr.lip6.move.coloane.core.ui.model.IArcImpl
+	 * @see fr.lip6.move.coloane.core.ui.model.old.IArcImpl
 	 */
 	void removeArc(IArcImpl arc) throws ModelException;
 
