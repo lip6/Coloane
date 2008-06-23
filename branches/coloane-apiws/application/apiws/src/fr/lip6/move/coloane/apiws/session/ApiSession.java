@@ -14,6 +14,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
+import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession{
@@ -100,7 +101,7 @@ public class ApiSession implements IApiSession{
 	}
 
 
-	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode){
+	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws CException{
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
@@ -123,12 +124,12 @@ public class ApiSession implements IApiSession{
 		
 	}
 
-	public void openSession(String sessionDate, String sessionFormalism, String sessionName) {
+	public void openSession(String sessionDate, String sessionFormalism, String sessionName) throws CException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void closeSession() {
+	public void closeSession()  throws CException{
 		if (sessionController.closeSession(this)){
 			if (!automate.goToWaitingForCloseSessionState()){
 				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
@@ -144,7 +145,7 @@ public class ApiSession implements IApiSession{
 		}
 	}
 	
-	public void changeSession(IApiSession s){
+	public void changeSession(IApiSession s) throws CException{
 		if (sessionController.suspendSession(this) && sessionController.resumeSession(s)){
 
 			this.sessionChanged = speaker.changeSession(s.getIdSession());
