@@ -19,7 +19,7 @@ public interface ISpeaker {
 	/**
 	 * Demander un changement de session au wrapper
 	 */
-	public Session changeSession(String nameSession);
+	public Session changeSession(String idSession);
 	
 	/**
 	 * Demander une fermeture de session au wrapper
