@@ -33,11 +33,13 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo#setLocation(int, int)
 	 */
 	public final void setLocation(int xPosition, int yPosition) {
+		Point oldValue = new Point(this.x, this.y);
 		this.x = xPosition;
 		this.y = yPosition;
+		Point newValue = new Point(this.x, this.y);
 
 		// Lever un evenement
-		((AttributeImplAdapter) this.attribute).firePropertyChange(AttributeImplAdapter.LOCATION_PROP, null, new Point(this.x, this.y));
+		((AttributeModel) this.attribute).firePropertyChange(IAttribute.LOCATION_PROP, oldValue, newValue);
 	}
 
 	public void setLocation(Point location) {

@@ -15,12 +15,7 @@ import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
  * Manage the attributes of an IElement.
  * @see IElement
  */
-public abstract class AbstractElement implements IElement {
-	/**
-	 * Manage properties change listeners.
-	 */
-	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
-	
+public abstract class AbstractElement extends AbstractPropertyChange implements IElement {
 	/**
 	 * Map of attributes, the keys are the names of the attributes.
 	 */
@@ -55,25 +50,5 @@ public abstract class AbstractElement implements IElement {
 	 */
 	public void putAttribute(String name, IAttribute attribute) {
 		attributes.put(name, attribute);
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#addPropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
-	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-		pcsDelegate.addPropertyChangeListener(listener);
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#removePropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
-	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-		pcsDelegate.removePropertyChangeListener(listener);
-	}
-
-	protected final void firePropertyChange(String property, Object oldValue, Object newValue) {
-		if (pcsDelegate.hasListeners(property)) {
-			pcsDelegate.firePropertyChange(property, oldValue, newValue);
-		}
 	}
 }
