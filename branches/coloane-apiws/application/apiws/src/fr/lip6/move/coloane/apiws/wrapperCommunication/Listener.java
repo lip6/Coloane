@@ -17,23 +17,28 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.Ping;
 import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
-public class Listener implements IListener {
+public class Listener extends Thread implements IListener{
 
 	private Authentification auth = null;
 	
 	private WrapperStub stub = null;
+	
+	private boolean stopThread = false;
 	
 	private HashMap<Integer, Object> listObservable= null;
 	
 	public Listener(Authentification auth, WrapperStub stub, HashMap<Integer, Object> listObservables){
 		this.auth = auth;
 		this.stub = stub;
+		this.stopThread = false;
 		this.listObservable = new HashMap<Integer, Object>();
 	}
 	
-	public void ping() throws CException{
-		// TODO Auto-generated method stub
-		while (true){ 
+	public void run() {
+		
+		boolean stop = false;
+		
+		while (!stop){ 
 			AsyncMessage message = null;        
 
 			try {
@@ -44,11 +49,12 @@ public class Listener implements IListener {
 				PingResponse res=stub.ping(req);
 				message=res.get_return();
 			}catch (RemoteException e) {
-				CException ee = new CException();
-				ee.initialize(e.getMessage());
 				// TODO Auto-generated catch block
-				throw ee;
+				e.printStackTrace();
 			} catch (GExceptionException0 e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -63,7 +69,15 @@ public class Listener implements IListener {
 				((IAskDialogObservable ) listObservable.get(IObservables.ASK_DIALOG)).notifyObservers(dialog);
 			}
 			
+			synchronized(this) {
+                stop = this.stopThread;
+			}
+			
 		}
+	}
+	
+	public synchronized void stopper() {
+        this.stopThread = true;
 	}
 
 }
