@@ -128,7 +128,7 @@ public interface IApiConnection {
 	 * Ferme une connexion avec le wrapper
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean CloseConnection();
+	public boolean closeConnection();
 	
 	/**
 	 * Creer une session
