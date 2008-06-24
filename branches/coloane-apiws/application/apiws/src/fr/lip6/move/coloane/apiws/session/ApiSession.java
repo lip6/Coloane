@@ -62,10 +62,13 @@ public class ApiSession implements IApiSession{
 		this.listObservables = listObservables;
 	}
 	
+	/**
+	 * Ce constructeur peut etre supprimer plus tard puisque on utilse que l'idSession dans notifyEndClosed et notifyEndChanged
+	 * Pour cela il suffit au lieu de passer en parammetre un IAiSession de passer une String qui reperesent l'idsession a notifyEndClosed et notifyEndChanged
+	 * @param s
+	 */
 	private ApiSession(Session s){
-		/**
-		 * A COMPLETER
-		 */
+		this.idSession = s.getSessionId();
 	}
 
 	public String getInterlocutor() {
