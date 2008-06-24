@@ -10,13 +10,14 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 /**
  * Modèle d'un graphe avec des méthodes permettant de gérer (création/suppression)
  * de noeuds et d'arcs.
  */
-public class GraphModel extends AbstractElement {
+public class GraphModel extends AbstractElement implements IGraph {
 	/** 
 	 * Logger 'fr.lip6.move.coloane.core'.
 	 */
@@ -35,6 +36,12 @@ public class GraphModel extends AbstractElement {
 	
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 0;
+
+	/** Date de derniere modification */
+	private int date;
+
+	/** Etat du modele par rapport a FK (true -> pas a jour) */
+	private boolean dirty = false;
 
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
@@ -79,6 +86,7 @@ public class GraphModel extends AbstractElement {
 	public final void deleteNode(INode node) {
 		NodeModel nodeModel = (NodeModel) node;
 		nodeModel.delete();
+		nodes.remove(node.getId());
 	}
 
 	/**
@@ -112,10 +120,20 @@ public class GraphModel extends AbstractElement {
 		return arc;
 	}
 	
+	/**
+	 * Suppression d'un arc
+	 * @param arc
+	 */
 	public final void deleteArc(IArc arc) {
-		
+		((NodeModel) arc.getSource()).removeSourceArc(arc);
+		((NodeModel) arc.getTarget()).removeTargetArc(arc);
+		arcs.remove(arc.getId());
 	}
 	
+	/**
+	 * Suppression d'un arc
+	 * @param id identifiant de l'arc à supprimer
+	 */
 	public final void deleteArc(int id) {
 		IArc arc = arcs.get(id);
 		if (arc != null) {
@@ -123,7 +141,47 @@ public class GraphModel extends AbstractElement {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getId()
+	 */
 	public final int getId() {
 		return id;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getFormalism()
+	 */
+	public Formalism getFormalism() {
+		return formalism;
+	}
+
+	public final int modifyDate() {
+		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
+		date = (int) System.currentTimeMillis();
+		// Si le modele n'etait pas marque comme sale, on le marque
+		if (!dirty) {
+			setDirty(true);
+			return date;
+		// Sinon le modele etait deja sale (on a juste mis a jour la date)
+		} else {
+			return 0;
+		}
+	}
+
+	public final int getDate() {
+		return date;
+	}
+
+	public final boolean isDirty() {
+		return dirty;
+	}
+
+	public final void setDirty(boolean state) {
+		if (state) {
+			LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
+		} else {
+			LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+		}
+		this.dirty = state;
 	}
 }

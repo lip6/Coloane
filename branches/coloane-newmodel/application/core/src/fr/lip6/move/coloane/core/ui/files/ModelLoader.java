@@ -57,13 +57,13 @@ public final class ModelLoader {
 		}
 
 		// Verifie la presence d'un indice sur le formalisme
-		if (globalHandler.getModel().getGenericModel().getFormalism() == "") { //$NON-NLS-1$
+		if (globalHandler.getGraph().getGenericModel().getFormalism() == "") { //$NON-NLS-1$
 			LOGGER.fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName()); //$NON-NLS-1$
 			return null;
 		}
 
 		// On determine le formalisme (objet) pour trouver le bon XSchema
-		Formalism currentFormalism = globalHandler.getModel().getFormalism();
+		Formalism currentFormalism = globalHandler.getGraph().getFormalism();
 
 		// Declaration de quelques variables
 		Schema schema;
@@ -100,7 +100,7 @@ public final class ModelLoader {
 		}
 
 		// Creation du modele a partir du modele generique
-		model = modelHandler.getModel();
+		model = modelHandler.getGraph();
 
 		// Creation d'une session pour ce modele
 		if (model != null && !Motor.getInstance().createSession(model, xmlFile.getName())) {

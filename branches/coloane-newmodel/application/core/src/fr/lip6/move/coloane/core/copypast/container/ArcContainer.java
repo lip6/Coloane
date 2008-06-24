@@ -1,11 +1,8 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 
 import java.util.ArrayList;
 
@@ -21,7 +18,7 @@ public class ArcContainer {
 
 	private int idSource;
 	private int idTarget;
-	private ElementFormalism elementFormalism;
+	private Arc arcFormalism;
 
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
@@ -33,12 +30,12 @@ public class ArcContainer {
 	 * @param idSource id du NodeContainer source
 	 * @param idTarget id du NodeContainer cible
 	 */
-	public ArcContainer(IArcImpl arc, int idSource, int idTarget) {
+	public ArcContainer(IArc arc, int idSource, int idTarget) {
 		id = arc.getId();
 		this.idSource = idSource;
 		this.idTarget = idTarget;
 		color = arc.getGraphicInfo().getColor();
-		elementFormalism = arc.getElementBase();
+		arcFormalism = arc.getArcFormalism();
 
 		// sauvegarde des points d'inflexion
 		for (Bendpoint bp : arc.getInflexPoints()) {
@@ -46,7 +43,7 @@ public class ArcContainer {
 		}
 		
 		// sauvegarde des attributs
-		for (IAttributeImpl attr : arc.getAttributes()) {
+		for (IAttribute attr : arc.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
 		}
 	}
@@ -68,7 +65,7 @@ public class ArcContainer {
 			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
 		}
 
-		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, elementFormalism);
+		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, arcFormalism);
 		arcAdapter.setModelAdapter(model);
 		arcAdapter.getGraphicInfo().setColor(color);
 		for (AttributContainer ac : attributs) {

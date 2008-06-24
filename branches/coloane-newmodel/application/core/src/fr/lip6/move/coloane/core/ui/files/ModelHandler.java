@@ -307,7 +307,7 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * Retourne le modele cree par le parcours du fichier xml
 	 */
-	public final IModelImpl getModel() {
+	public final IModelImpl getGraph() {
 		return modelAdapter;
 	}
 }

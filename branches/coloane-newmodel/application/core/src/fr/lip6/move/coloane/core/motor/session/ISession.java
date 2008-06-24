@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 public interface ISession {
 
@@ -41,13 +41,13 @@ public interface ISession {
 	 * Retoune le modele
 	 * @return IModelImpl Le modele de la session
 	 */
-	IModelImpl getModel();
+	IGraph getGraph();
 
 	/**
 	 * Positionne le modele
 	 * @param model nouveau modele
 	 */
-	void setModel(IModelImpl model);
+	void setModel(IGraph graph);
 
 	/**
 	 * Retourne le menu d'administration

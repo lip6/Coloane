@@ -239,7 +239,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setContents(getModel()); // Mise en place du contenu dans l'editeur
+		viewer.setContents(getGraph()); // Mise en place du contenu dans l'editeur
 
 		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
 		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
@@ -300,7 +300,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 	 *
 	 * @return IModelImpl Le modele augemente
 	 */
-	public final IModelImpl getModel() {
+	public final IModelImpl getGraph() {
 		return model;
 	}
 
@@ -343,7 +343,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		// Si la fenetre d'apercu existe... On affiche la miniature
 		if (outlinePage != null) {
-			outlinePage.setContents(getModel());
+			outlinePage.setContents(getGraph());
 		}
 	}
 

@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.DrawDialog;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
@@ -109,27 +109,27 @@ public final class Com implements IComApi {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#openSession(fr.lip6.move.coloane.core.ui.model.IModelImpl, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public boolean openSession(IModelImpl model, IProgressMonitor monitor) {
-		Coloane.getLogger().fine("Connexion d'un modele"); //$NON-NLS-1$
+	public boolean openSession(IGraph graph, IProgressMonitor monitor) {
+		Coloane.getLogger().fine("Connexion d'un graphe"); //$NON-NLS-1$
 
-		monitor.beginTask("Connecting current model...", 3);
+		monitor.beginTask("Connecting current graph...", 3);
 
 		// Si le modele est nul on ne peut rien faire
-		if (model == null) {
-			Coloane.getLogger().warning("Aucun modele a connecter"); //$NON-NLS-1$
+		if (graph == null) {
+			Coloane.getLogger().warning("Aucun graphe a connecter"); //$NON-NLS-1$
 			return false;
 		}
 
 		monitor.worked(1);
-		monitor.setTaskName("Fetching information about the model");
+		monitor.setTaskName("Fetching information about the graph");
 
 		// Recuperation du nom de la session courante
 		String sessionName = motor.getSessionManager().getCurrentSession().getName();
 		// Recuperation du nom du formalime de la session courante
-		String formalismName = model.getFormalism().getName();
+		String formalismName = graph.getFormalism().getName();
 
 		// Demande de l'ouverture de session a l'API
-		boolean retour = api.openSession(sessionName, model.getDate(), formalismName);
+		boolean retour = api.openSession(sessionName, graph.getDate(), formalismName);
 
 		monitor.worked(1);
 		monitor.setTaskName("Receiving available services");
@@ -138,7 +138,7 @@ public final class Com implements IComApi {
 		if (retour) { Coloane.getLogger().fine("Connexion reussie !"); } else { Coloane.getLogger().warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Au commencement, un modele est toujours propre
-		model.setDirty(false);
+		graph.setDirty(false);
 
 		return retour;
 	}
@@ -289,9 +289,9 @@ public final class Com implements IComApi {
 	 * @return IModel Le modele en cours
 	 * @see IModel
 	 */
-	public IModel sendModel() {
+	public IGraph sendModel() {
 		Coloane.getLogger().fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
-		return this.motor.getSessionManager().getCurrentSession().getModel().getGenericModel();
+		return this.motor.getSessionManager().getCurrentSession().getGraph();
 	}
 
 
@@ -320,9 +320,9 @@ public final class Com implements IComApi {
 	 * @return boolean Indicateur de fraicheur
 	 */
 	public boolean getDirtyState() {
-		boolean state = this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
+		boolean state = this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
 		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
-		return this.motor.getSessionManager().getCurrentSession().getModel().isDirty();
+		return this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
 	}
 
 	/**
@@ -330,7 +330,7 @@ public final class Com implements IComApi {
 	 * @return int Date
 	 */
 	public int getDateModel() {
-		return this.motor.getSessionManager().getCurrentSession().getModel().getDate();
+		return this.motor.getSessionManager().getCurrentSession().getGraph().getDate();
 	}
 
 	/*

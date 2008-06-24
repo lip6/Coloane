@@ -34,7 +34,7 @@ public class FileHandler extends DefaultHandler {
 	 * @return Le squelette du modele generique
 	 * @throws BuildException
 	 */
-	public final IModelImpl getModel() {
+	public final IModelImpl getGraph() {
 		return new ModelImplAdapter(model);
 	}
 }

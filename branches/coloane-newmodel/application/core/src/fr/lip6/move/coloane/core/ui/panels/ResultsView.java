@@ -107,7 +107,7 @@ public class ResultsView extends ViewPart {
 		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IModelImpl model = MANAGER.getCurrentSession().getModel();
+				IModelImpl model = MANAGER.getCurrentSession().getGraph();
 				if (model == null) {
 					return;
 				}

@@ -25,7 +25,7 @@ public class PasteCommand extends Command {
 	private IModelImpl model;
 
 	public PasteCommand(ColoaneEditor editor) {
-		model = editor.getModel();
+		model = editor.getGraph();
 	}
 
 	/* (non-Javadoc)

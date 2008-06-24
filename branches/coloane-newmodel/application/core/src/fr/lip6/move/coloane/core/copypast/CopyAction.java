@@ -1,10 +1,8 @@
 package fr.lip6.move.coloane.core.copypast;
 
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.Iterator;
 import java.util.List;
@@ -44,11 +42,11 @@ public class CopyAction extends SelectionAction {
 			Object object = it.next();
 			if (object instanceof EditPart) {
 				Object model = ((EditPart) object).getModel();
-				if (model instanceof NodeImplAdapter) {
-					INodeImpl node = (INodeImpl) model;
+				if (model instanceof INode) {
+					INode node = (INode) model;
 					cmd.addNode(node);
-				} else if (model instanceof ArcImplAdapter) {
-					IArcImpl arc = (IArcImpl) model;
+				} else if (model instanceof IArc) {
+					IArc arc = (IArc) model;
 					cmd.addArc(arc);
 				}
 			}

@@ -190,7 +190,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.openSession(sessionManager.getCurrentSession().getModel(), monitor));
+				setResults(com.openSession(sessionManager.getCurrentSession().getGraph(), monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
@@ -336,7 +336,7 @@ public final class Motor {
 		}
 
 		// Au retour d'un service, le modele est toujours propre
-		sessionManager.getCurrentSession().getModel().setDirty(false);
+		sessionManager.getCurrentSession().getGraph().setDirty(false);
 	}
 
 

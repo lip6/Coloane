@@ -41,7 +41,7 @@ public class GenericReport implements IReport {
 				int id = Integer.valueOf(s);
 
 				String name = String.valueOf(id);
-				IElement element = root.getSessionManager().getCurrentSession().getModel().getModelObject(id);
+				IElement element = root.getSessionManager().getCurrentSession().getGraph().getModelObject(id);
 				if ((element != null) && (element instanceof INodeImpl)) {
 					String value = element.getAttributeValue("name");
 					if (!("".equals(value))) {

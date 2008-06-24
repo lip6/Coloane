@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.copypast.container;
 
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 
 /**
  * Classe permettant la reconstruction d'un attribut
@@ -16,9 +16,8 @@ public class AttributContainer {
 	/**
 	 * @param attr
 	 */
-	public AttributContainer(IAttributeImpl attr) {
-		id = attr.getId();
-		name = attr.getDisplayName();
+	public AttributContainer(IAttribute attr) {
+		name = attr.getName();
 		value = attr.getValue();
 		location = attr.getGraphicInfo().getLocation();
 	}

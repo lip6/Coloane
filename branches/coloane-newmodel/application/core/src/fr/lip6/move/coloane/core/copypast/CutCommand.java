@@ -24,8 +24,8 @@ public class CutCommand extends Command {
 
 	public CutCommand(ColoaneEditor editor) {
 		this.editor = editor;
-		if (editor.getModel() != null) {
-			container = new ModelContainer(editor.getModel().getFormalism());
+		if (editor.getGraph() != null) {
+			container = new ModelContainer(editor.getGraph().getFormalism());
 		}
 	}
 
@@ -84,14 +84,14 @@ public class CutCommand extends Command {
 	public final void redo() {
 		for (IArcImpl arc : arcs) {
 			try {
-				editor.getModel().removeArc(arc);
+				editor.getGraph().removeArc(arc);
 			} catch (BuildException e) {
 				log.warning(e.getMessage());
 			}
 		}
 		for (INodeImpl node : nodes) {
 			try {
-				editor.getModel().removeNode(node);
+				editor.getGraph().removeNode(node);
 			} catch (BuildException e) {
 				log.warning(e.getMessage());
 			}
@@ -105,14 +105,14 @@ public class CutCommand extends Command {
 	public final void undo() {
 		for (INodeImpl node : nodes) {
 			try {
-				editor.getModel().addNode(node);
+				editor.getGraph().addNode(node);
 			} catch (BuildException e) {
 				log.warning(e.getMessage());
 			}
 		}
 		for (IArcImpl arc : arcs) {
 			try {
-				editor.getModel().addArc(arc);
+				editor.getGraph().addArc(arc);
 			} catch (BuildException e) {
 				log.warning(e.getMessage());
 			}
