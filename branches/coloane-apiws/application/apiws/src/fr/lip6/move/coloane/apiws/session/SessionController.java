@@ -129,6 +129,11 @@ public class SessionController implements ISessionController{
 
 	public void notifyEndOpenSession(IApiSession opened) {
 		if (activeSession != null){
+			/**
+			 * if (!suspend(activeSession)){
+			 *     throw new Exception();
+			 * }
+			 */
 			activeSession.notifyEndSuspendSession();
 		}
 		this.activeSession = opened;
