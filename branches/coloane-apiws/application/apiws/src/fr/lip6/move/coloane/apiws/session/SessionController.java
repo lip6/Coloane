@@ -102,7 +102,7 @@ public class SessionController implements ISessionController{
 	 */
 	public boolean resumeSession(IApiSession s) {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE){
-			return this.suspendSession(activeSession);
+			return true;
 		}
 		return false;
 	}
@@ -129,11 +129,6 @@ public class SessionController implements ISessionController{
 
 	public void notifyEndOpenSession(IApiSession opened) {
 		if (activeSession != null){
-			/**
-			 * if (!suspend(activeSession)){
-			 *     throw new Exception();
-			 * }
-			 */
 			activeSession.notifyEndSuspendSession();
 		}
 		this.activeSession = opened;
