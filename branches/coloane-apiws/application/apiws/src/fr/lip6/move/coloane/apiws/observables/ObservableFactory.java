@@ -38,7 +38,7 @@ public class ObservableFactory {
 		return (TraceMessageObservable) new TraceMessageObservable();
 	}
 
-	public static WarningMessageObservable getNeWarningMessageObservable(){
+	public static WarningMessageObservable getNewWarningMessageObservable(){
 		return (WarningMessageObservable) new WarningMessageObservable();
 	}
 	
