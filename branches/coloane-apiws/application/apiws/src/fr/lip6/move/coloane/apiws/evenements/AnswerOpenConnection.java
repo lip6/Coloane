@@ -5,23 +5,26 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
 public class AnswerOpenConnection implements IAnswerOpenConnection {
 	
+	private String fkVersion;
+	private int major;
+	private int minor;
+	
 	public AnswerOpenConnection(Authentification a){
-		
+		this.fkVersion = a.getAckSC().getHostInformation();
+		this.major = a.getAckOC().getMajor();
+		this.minor = a.getAckOC().getMinor();
 	}
 
 	public int getFkMajor() {
-		// TODO Auto-generated method stub
-		return 0;
+		return major;
 	}
 
 	public int getFkMinor() {
-		// TODO Auto-generated method stub
-		return 0;
+		return minor;
 	}
 
 	public String getFkVersion() {
-		// TODO Auto-generated method stub
-		return null;
+		return fkVersion;
 	}
 
 }
