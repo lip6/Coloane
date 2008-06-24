@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
+import fr.lip6.move.wrapper.ws.CException;
 
 public interface IApiConnection {
 
@@ -18,25 +19,25 @@ public interface IApiConnection {
 	 * Initialiser l'adresse IP du serveur
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setIpServer();
+	public boolean setIpServer(String ipServer);
 
 	/**
 	 * Initialiser le port du serveur
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setPortServer();
+	public boolean setPortServer(int portServer);
 
 	/**
 	 * Initialiser le login
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setLogin();
+	public boolean setLogin(String login);
 
 	/**
 	 * Initialiser le password
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setPassword();
+	public boolean setPassword(String password);
 	
 	/**
 	 * Ajouter un observateur pour les evenements d'ouverture de connexion
@@ -122,13 +123,13 @@ public interface IApiConnection {
 	 * Ouvre une connexion avec le wrapper
 	 * @return true, si l'ouverture a reussie, false sinon
 	 */
-	public boolean openConnection();
+	public boolean openConnection() throws CException;
 	
 	/**
 	 * Ferme une connexion avec le wrapper
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean closeConnection();
+	public boolean closeConnection() throws CException;
 	
 	/**
 	 * Creer une session
