@@ -6,13 +6,18 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 public class AnswerOpenConnection implements IAnswerOpenConnection {
 	
 	private String fkVersion;
+	
 	private int major;
+	
 	private int minor;
+	
+	private int[] id;
 	
 	public AnswerOpenConnection(Authentification a){
 		this.fkVersion = a.getAckSC().getHostInformation();
 		this.major = a.getAckOC().getMajor();
 		this.minor = a.getAckOC().getMinor();
+		this.id = a.getId();
 	}
 
 	public int getFkMajor() {
@@ -25,6 +30,10 @@ public class AnswerOpenConnection implements IAnswerOpenConnection {
 
 	public String getFkVersion() {
 		return fkVersion;
+	}
+	
+	public int[] getId(){
+		return id;
 	}
 
 }

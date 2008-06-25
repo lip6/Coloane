@@ -19,4 +19,10 @@ public interface IAnswerOpenConnection {
 	 * @return le numero de version mineur
 	 */
 	public int getFkMinor();
+
+	/**
+	 * Recupere les identifiants de la connection
+	 * @return les identifiants de la connection
+	 */
+	public int[] getId();
 }

@@ -1,8 +1,22 @@
 package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
+import java.util.ArrayList;
+
 import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
 
 public interface IAnswerOpenSession {
+	
+	/**
+	 * Recupere le formalism de la session
+	 * @return le formalism de la session
+	 */
+	public String getFormalism();
+	
+	/**
+	 * Recupere l'identifiant de la session
+	 * @return l'identifiant de la session
+	 */
+	public String getIdSession();
 	
 	/**
 	 * Recupere le nom de la session
@@ -35,9 +49,9 @@ public interface IAnswerOpenSession {
 	public int getResultatCalcule();
 	
 	/**
-	 * Recupere le menu des services disponible
-	 * @return le menu des services disponible
+	 * Recupere les menus des services disponible pour la session
+	 * @return les menus des services disponible pour la session
 	 */
-	public IMenu getMenu();
+	public ArrayList<IMenu> getMenus();
 	
 }
