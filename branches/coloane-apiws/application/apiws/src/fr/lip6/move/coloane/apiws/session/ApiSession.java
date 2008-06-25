@@ -147,6 +147,9 @@ public class ApiSession implements IApiSession{
 			sessionController.notifyEndChangeSession(this,sessionChanged.getSessionId());
 
 		}
+		else{
+			// throw new Exception();
+		}
 	}
 	
 	public void notifyEndOpenSession() {
