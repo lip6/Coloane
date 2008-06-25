@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.actions;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -52,17 +53,28 @@ public class NodeMoveAction extends SelectionAction {
 
 	@Override
 	protected boolean calculateEnabled() {
-		return !getSelectedObjects().isEmpty() && getSelectedObjects().get(0) instanceof ElementEditPart;
+		for (Object obj : getSelectedObjects()) {
+			if (obj instanceof ElementEditPart) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public void run() {
-		INodeImpl node = (INodeImpl) ((EditPart) getSelectedObjects().get(0)).getModel();
-		INodeGraphicInfo graphicInfo = node.getGraphicInfo();
-		execute(new NodeSetConstraintCmd(node, new Rectangle(
-				graphicInfo.getLocation().x + dx,
-				graphicInfo.getLocation().y + dy,
-				graphicInfo.getWidth(),
-				graphicInfo.getHeight())));
+		CompoundCommand cc = new CompoundCommand();
+		for (Object obj : getSelectedObjects()) {
+			if (obj instanceof ElementEditPart) {
+				INodeImpl node = (INodeImpl) ((EditPart) obj).getModel();
+				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
+				cc.add(new NodeSetConstraintCmd(node, new Rectangle(
+						graphicInfo.getLocation().x + dx,
+						graphicInfo.getLocation().y + dy,
+						graphicInfo.getWidth(),
+						graphicInfo.getHeight())));
+			}
+		}
+		execute(cc);
 	}
 }
