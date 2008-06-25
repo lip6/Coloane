@@ -115,6 +115,8 @@ public class ApiConnection implements IApiConnection {
 		AnswerOpenConnection answerOpenConnection = new AnswerOpenConnection(auth);
 		((IOpenConnectionObservable) listObservables.get(IObservables.OPEN_CONNECTION)).notifyObservers(answerOpenConnection);
 
+		connectionOpened = true;
+		
 		return true;
 	}
 
@@ -125,6 +127,8 @@ public class ApiConnection implements IApiConnection {
 		
 		speaker.closeConnection();
 		listener.stopper();
+		
+		connectionOpened = false;
 		
 		return true;
 	}
