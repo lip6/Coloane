@@ -87,14 +87,14 @@ public interface ISessionController {
 	 * @param suspended la session qui sera suspendue
 	 * @param reloaded la session qui sera restaurer
 	 */
-	public void notifyEndChangeSession(IApiSession suspended, IApiSession reloaded);
+	public void notifyEndChangeSession(IApiSession suspended, String idSessionReloaded);
 
 	/**
 	 * Notifier la fermeture d'une session
 	 * @param closed la session fermer
 	 * @param resumed la session qui sera charger
 	 */
-	public void notifyEndCloseSession(IApiSession closed,IApiSession resumed);
+	public void notifyEndCloseSession(IApiSession closed,String idSessionResumed);
 
 	/**
 	 * 

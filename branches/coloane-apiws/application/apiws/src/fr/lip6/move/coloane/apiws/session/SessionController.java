@@ -91,6 +91,9 @@ public class SessionController implements ISessionController{
 	 * Verifie si on peut suspendre une session
 	 */
 	public boolean suspendSession(IApiSession s) {
+		if (s ==null){
+			return true;
+		}
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			return true;
 		}
@@ -136,14 +139,14 @@ public class SessionController implements ISessionController{
 		activeSession.notifyEndOpenSession();
 	}
 
-	public void notifyEndCloseSession(IApiSession closed,IApiSession resumed) {
-		if (closed.getIdSession() == resumed.getIdSession()){
+	public void notifyEndCloseSession(IApiSession closed,String idSessionResumed) {
+		if (closed.getIdSession() == idSessionResumed){
 			this.activeSession = null;
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
 		}
 		else {
-			this.activeSession = listSessions.get(resumed.getIdSession());
+			this.activeSession = listSessions.get(idSessionResumed);
 			this.activeSession.notifyEndResumeSession();
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
@@ -158,8 +161,8 @@ public class SessionController implements ISessionController{
 		suspended.notifyEndSuspendSession();
 	}
 
-	public void notifyEndChangeSession(IApiSession suspended, IApiSession reloaded){
-		activeSession = listSessions.get(reloaded.getIdSession());
+	public void notifyEndChangeSession(IApiSession suspended, String idSessionReloaded){
+		activeSession = listSessions.get(idSessionReloaded);
 		activeSession.notifyEndResumeSession();
 		suspended.notifyEndChangeSession();
 	}

@@ -61,15 +61,6 @@ public class ApiSession implements IApiSession{
 		this.automate = SessionFactory.getNewSessionStateMachine();
 		this.listObservables = listObservables;
 	}
-	
-	/**
-	 * Ce constructeur peut etre supprimer plus tard puisque on utilse que l'idSession dans notifyEndClosed et notifyEndChanged
-	 * Pour cela il suffit au lieu de passer en parammetre un IAiSession de passer une String qui reperesent l'idsession a notifyEndClosed et notifyEndChanged
-	 * @param s
-	 */
-	private ApiSession(Session s){
-		this.idSession = s.getSessionId();
-	}
 
 	public String getInterlocutor() {
 		return interlocutor;
@@ -140,7 +131,7 @@ public class ApiSession implements IApiSession{
 			
 			this.sessionClosed = speaker.closeSession(idSession);
 			
-			sessionController.notifyEndCloseSession(this,new ApiSession(sessionClosed));
+			sessionController.notifyEndCloseSession(this,sessionClosed.getSessionId());
 			
 		}
 		else{
@@ -153,7 +144,7 @@ public class ApiSession implements IApiSession{
 
 			this.sessionChanged = speaker.changeSession(s.getIdSession());
 
-			sessionController.notifyEndChangeSession(this, new ApiSession(sessionChanged));
+			sessionController.notifyEndChangeSession(this,sessionChanged.getSessionId());
 
 		}
 	}
