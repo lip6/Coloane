@@ -139,14 +139,14 @@ public class SessionController implements ISessionController{
 		activeSession.notifyEndOpenSession();
 	}
 
-	public void notifyEndCloseSession(IApiSession closed,String idSessionResumed) {
-		if (closed.getIdSession() == idSessionResumed){
+	public void notifyEndCloseSession(IApiSession closed,String idSessionToResumed) {
+		if (closed.getIdSession() == idSessionToResumed){
 			this.activeSession = null;
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
 		}
 		else {
-			this.activeSession = listSessions.get(idSessionResumed);
+			this.activeSession = listSessions.get(idSessionToResumed);
 			this.activeSession.notifyEndResumeSession();
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
@@ -161,8 +161,8 @@ public class SessionController implements ISessionController{
 		suspended.notifyEndSuspendSession();
 	}
 
-	public void notifyEndChangeSession(IApiSession suspended, String idSessionReloaded){
-		activeSession = listSessions.get(idSessionReloaded);
+	public void notifyEndChangeSession(IApiSession suspended, String idSessionToReloaded){
+		activeSession = listSessions.get(idSessionToReloaded);
 		activeSession.notifyEndResumeSession();
 		suspended.notifyEndChangeSession();
 	}

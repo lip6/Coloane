@@ -33,9 +33,9 @@ public class ApiSession implements IApiSession{
 	
 	private Session sessionOpened;
 	
-	private Session sessionClosed;
+	private Session sessionToResumeAfterClose;
 	
-	private Session sessionChanged;
+	private Session sessionToResumeAfterChange;
 	
 	private ISessionController sessionController;
 	
@@ -54,8 +54,8 @@ public class ApiSession implements IApiSession{
 		this.mode = -1;
 		this.idSession = null;
 		this.sessionOpened = null;
-		this.sessionClosed = null;
-		this.sessionChanged = null;
+		this.sessionToResumeAfterClose = null;
+		this.sessionToResumeAfterChange = null;
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
@@ -129,9 +129,9 @@ public class ApiSession implements IApiSession{
 				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 			
-			this.sessionClosed = speaker.closeSession(idSession);
+			this.sessionToResumeAfterClose = speaker.closeSession(idSession);
 			
-			sessionController.notifyEndCloseSession(this,sessionClosed.getSessionId());
+			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose.getSessionId());
 			
 		}
 		else{
@@ -142,9 +142,9 @@ public class ApiSession implements IApiSession{
 	public void changeSession(IApiSession s) throws CException{
 		if (sessionController.suspendSession(this) && sessionController.resumeSession(s)){
 
-			this.sessionChanged = speaker.changeSession(s.getIdSession());
+			this.sessionToResumeAfterChange = speaker.changeSession(s.getIdSession());
 
-			sessionController.notifyEndChangeSession(this,sessionChanged.getSessionId());
+			sessionController.notifyEndChangeSession(this,sessionToResumeAfterChange.getSessionId());
 
 		}
 		else{
@@ -177,7 +177,7 @@ public class ApiSession implements IApiSession{
 		if (!automate.goToCloseSessionState()){
 			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
-		AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionClosed);
+		AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionToResumeAfterClose);
 		((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
 	}
 	
@@ -185,7 +185,7 @@ public class ApiSession implements IApiSession{
 		if (!automate.goToSuspendSessionState()){
 			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
 		}
-		AnswerChangeSession answerChangeSession = new AnswerChangeSession(sessionChanged);
+		AnswerChangeSession answerChangeSession = new AnswerChangeSession(sessionToResumeAfterChange);
 		((IChangeSessionObservable) listObservables.get(IObservables.CHANGE_SESSION)).notifyObservers(answerChangeSession);
 	}
 
