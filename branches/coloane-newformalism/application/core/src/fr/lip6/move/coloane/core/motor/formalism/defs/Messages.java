@@ -21,6 +21,9 @@ public final class Messages extends NLS {
 	public static String Geo_1;
 	public static String Geo_2;
 	public static String Geo_3;
+	public static String Binary_Root;
+	public static String Binary_Node;
+	public static String Binary_Leaf;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
