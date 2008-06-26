@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
@@ -44,6 +45,11 @@ public interface ISpeaker {
 	 * Demander une fermeture de connexion
 	 */
 	public Unauthentification closeConnection() throws CException;
+	
+	/**
+	 * Enovyer la reponse a une boite de dialogue au wrapper
+	 */
+	public String answerToDialogBox(DialogBox answer) throws CException;
 	
 	/**
 	 * Demander l'execution d'un service au wrapper

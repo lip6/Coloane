@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession{
@@ -192,7 +193,10 @@ public class ApiSession implements IApiSession{
 	
 
 
-	
+	public void answerToDialogBox(DialogBox answer) throws CException{
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void askForService(String rootName, String menuName, String serviceName) {
 		// TODO Auto-generated method stub

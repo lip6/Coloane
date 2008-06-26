@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
 import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 public interface IApiSession {
 
@@ -29,6 +30,12 @@ public interface IApiSession {
 	 */
 	public void changeSession(IApiSession s) throws CException;
 
+	/**
+	 * Envoyer la reponse d'une boite de dialogue
+	 * @param answer la boite de dialogue a envoyer
+	 * @return ?????????????????????????????????????????????
+	 */
+	public void answerToDialogBox(DialogBox answer) throws CException;
 
 	/**
 	 * Fermer la session courrante.
