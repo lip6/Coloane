@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.session;
 
+import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
+
 public interface ISessionController {
 
 	/**
@@ -34,35 +36,35 @@ public interface ISessionController {
 	 * @param s la session qu'on veut ouvrir.
 	 * @return true si on peut ouvrir une session, false sinon.
 	 */
-	public boolean openSession(IApiSession s);
+	public boolean openSession(IApiSession s) throws ApiSessionException;
 
 	/**
 	 * Verifie si on peut suspendre la session.
 	 * @param la session à suspendre.
 	 * @return true, si on peut suspendre la session, false sinon.
 	 */
-	public boolean suspendSession(IApiSession s);
+	public boolean suspendSession(IApiSession s) throws ApiSessionException;
 
 	/**
 	 * Verifie si on peut reprendre la session.
 	 * @param s la session a reprendre.
 	 * @return true, si on peut reprendre la session, false sinon.
 	 */
-	public boolean resumeSession(IApiSession s);
+	public boolean resumeSession(IApiSession s) throws ApiSessionException;
 	
 	/**
 	 * Verifie si on peut fermer la session
 	 * @param s la session a fermer
 	 * @return true, si on peut fermer la session, false sinon
 	 */
-	public boolean closeSession(IApiSession s);
+	public boolean closeSession(IApiSession s) throws ApiSessionException;
 
 	/**
 	 * Verifie si on peut demander un service sur la session
 	 * @param s la session sur qui on demande un service
 	 * @return true, si on peut demander un service sur la session, false sinon
 	 */
-	public boolean askForService(IApiSession s);
+	public boolean askForService(IApiSession s) throws ApiSessionException;
 
 	/**
 	 * Notifier l'ouverture d'une session

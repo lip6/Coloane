@@ -2,21 +2,12 @@ package fr.lip6.move.coloane.apiws.session;
 
 import java.util.Hashtable;
 
+import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 
 public class SessionController implements ISessionController{
-	
-	/**
-	 * ATTENTION
-	 * 
-	 * Determine le nombre maximum de session
-	 * Il Faudra le supprimer plus tard et utiliser la valeur fournie par le wapper
-	 * 
-	 * ATTENTION
-	 */
-	private  int MAX_SESSION = 5;
 	
 	/**
 	 * Represent la session active
@@ -77,57 +68,66 @@ public class SessionController implements ISessionController{
 
 	/**
 	 * Verifie si on peut ouvrir une session
+	 * @throws ApiSessionException 
 	 */
-	public boolean openSession(IApiSession s){
-		if (listSessions.size() <= MAX_SESSION && !listSessions.containsKey(s.getIdSession())){
-			return  this.suspendSession(activeSession);
+	public boolean openSession(IApiSession s) throws ApiSessionException{
+		if (!listSessions.containsKey(s.getIdSession())){
+			try{
+				return  this.suspendSession(activeSession);
+			}catch (ApiSessionException e){
+				throw new ApiSessionException("Impossible d'ouvrire une session -> "+e.getMessage());
+			}
 		}
 		else{
-			return false;
+			throw new ApiSessionException("Impossible d'ouvrire une session car une session avec le meme identifiant existe deja "+s.getIdSession());
 		}	
 	}
 
 	/**
 	 * Verifie si on peut suspendre une session
+	 * @throws ApiSessionException 
 	 */
-	public boolean suspendSession(IApiSession s) {
+	public boolean suspendSession(IApiSession s) throws ApiSessionException {
 		if (s ==null){
 			return true;
 		}
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			return true;
 		}
-		return false;
+		throw new ApiSessionException("Impossible de suspendre la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 
 	/**
 	 * Verifie si on peut restaurer une session
+	 * @throws ApiSessionException 
 	 */
-	public boolean resumeSession(IApiSession s) {
+	public boolean resumeSession(IApiSession s) throws ApiSessionException {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE){
 			return true;
 		}
-		return false;
+		throw new ApiSessionException("Impossible de reprondre la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 
 	/**
 	 * Verifie  si on peut fermer une session
+	 * @throws ApiSessionException 
 	 */
-	public boolean closeSession(IApiSession s) {
+	public boolean closeSession(IApiSession s) throws ApiSessionException {
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			return true;
 		}
-		return false;
+		throw new ApiSessionException("Impossible de fermer la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 	
 	/**
 	 * Verifie si on peut demander un service a la session
+	 * @throws ApiSessionException 
 	 */
-	public boolean askForService(IApiSession s) {
+	public boolean askForService(IApiSession s) throws ApiSessionException {
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			return true;
 		}
-		return false;
+		throw new ApiSessionException("Impossible de demander un service sur la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 
 	public void notifyEndOpenSession(IApiSession opened) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import fr.lip6.move.coloane.apiws.evenements.AnswerChangeSession;
 import fr.lip6.move.coloane.apiws.evenements.AnswerCloseSession;
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenSession;
+import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IChangeSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ICloseSessionObservable;
@@ -96,7 +97,7 @@ public class ApiSession implements IApiSession{
 	}
 
 
-	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws CException{
+	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws CException, ApiSessionException{
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
@@ -113,18 +114,15 @@ public class ApiSession implements IApiSession{
 			
 			sessionController.notifyEndOpenSession(this);
 		}
-		else {
-			// throw new Exception();
-		}
 		
 	}
 
-	public void openSession(String sessionDate, String sessionFormalism, String sessionName) throws CException {
+	public void openSession(String sessionDate, String sessionFormalism, String sessionName) throws CException , ApiSessionException{
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void closeSession()  throws CException{
+	public void closeSession()  throws CException, ApiSessionException{
 		if (sessionController.closeSession(this)){
 			if (!automate.goToWaitingForCloseSessionState()){
 				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
@@ -135,21 +133,15 @@ public class ApiSession implements IApiSession{
 			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose.getSessionId());
 			
 		}
-		else{
-			// throw new Exception();
-		}
 	}
 	
-	public void changeSession(IApiSession s) throws CException{
+	public void changeSession(IApiSession s) throws CException, ApiSessionException{
 		if (sessionController.suspendSession(this) && sessionController.resumeSession(s)){
 
 			this.sessionToResumeAfterChange = speaker.changeSession(s.getIdSession());
 
 			sessionController.notifyEndChangeSession(this,sessionToResumeAfterChange.getSessionId());
 
-		}
-		else{
-			// throw new Exception();
 		}
 	}
 	
