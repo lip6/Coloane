@@ -16,7 +16,6 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.wrapper.ws.CException;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession{
@@ -113,13 +112,14 @@ public class ApiSession implements IApiSession{
 			this.idSession = sessionOpened.getSessionId();
 			
 			sessionController.notifyEndOpenSession(this);
+			
 		}
 		
 	}
 
 	public void openSession(String sessionDate, String sessionFormalism, String sessionName) throws CException , ApiSessionException{
 		// TODO Auto-generated method stub
-		
+		openSession( sessionDate,  sessionFormalism, sessionName,"FrameKit Environment", 1);
 	}
 
 	public void closeSession()  throws CException, ApiSessionException{
