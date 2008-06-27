@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
-public interface IAskDialog {
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
+public interface IAskDialog {
+	public DialogBox getDialog();
 }
