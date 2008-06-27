@@ -182,14 +182,6 @@ public class ApiSession implements IApiSession{
 		((IChangeSessionObservable) listObservables.get(IObservables.CHANGE_SESSION)).notifyObservers(answerChangeSession);
 	}
 
-	
-
-
-	public void answerToDialogBox(DialogBox answer) throws CException{
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void askForService(String rootName, String menuName, String serviceName) {
 		// TODO Auto-generated method stub
 		

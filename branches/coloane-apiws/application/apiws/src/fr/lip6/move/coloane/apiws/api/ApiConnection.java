@@ -36,6 +36,7 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 public class ApiConnection implements IApiConnection {
 	
@@ -120,7 +121,11 @@ public class ApiConnection implements IApiConnection {
 		
 		return true;
 	}
-
+	
+	public void answerToDialogBox(DialogBox answer) throws CException{
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public boolean closeConnection() throws CException, ApiConnectionException {
 		if (!connectionOpened)

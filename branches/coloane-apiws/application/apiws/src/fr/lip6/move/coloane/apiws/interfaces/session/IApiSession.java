@@ -32,13 +32,6 @@ public interface IApiSession {
 	public void changeSession(IApiSession s) throws CException, ApiSessionException;
 
 	/**
-	 * Envoyer la reponse d'une boite de dialogue
-	 * @param answer la boite de dialogue a envoyer
-	 * @return ?????????????????????????????????????????????
-	 */
-	public void answerToDialogBox(DialogBox answer) throws CException;
-
-	/**
 	 * Fermer la session courrante.
 	 */
 	public void closeSession() throws CException, ApiSessionException;

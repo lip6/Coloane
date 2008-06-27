@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 public interface IApiConnection {
 
@@ -125,6 +126,13 @@ public interface IApiConnection {
 	 * @return true, si l'ouverture a reussie, false sinon
 	 */
 	public boolean openConnection() throws CException, ApiConnectionException;
+	
+	/**
+	 * Envoyer la reponse d'une boite de dialogue
+	 * @param answer la boite de dialogue a envoyer
+	 * @return ?????????????????????????????????????????????
+	 */
+	public void answerToDialogBox(DialogBox answer) throws CException;
 	
 	/**
 	 * Ferme une connexion avec le wrapper
