@@ -12,8 +12,11 @@ import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.GExceptionException0;
 import fr.lip6.move.wrapper.ws.WrapperStub;
+import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDb;
+import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse;
 import fr.lip6.move.wrapper.ws.WrapperStub.AsyncMessage;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Ping;
 import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
@@ -79,5 +82,31 @@ public class Listener extends Thread implements IListener{
 	public synchronized void stopper() {
         this.stopThread = true;
 	}
+
+	
+	public String answerToDialogBox(DialogBox answer) throws CException{
+        String toReturn = null;        
+        
+        try {
+            if(stub==null)
+                throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+            AnswerDb req = new AnswerDb();
+            req.setAuth(auth);
+            req.setDialog(answer);
+            AnswerDbResponse res=stub.answerDb(req);
+            toReturn=res.get_return();
+        }catch (RemoteException e) {
+            CException ee = new CException();
+            ee.initialize(e.getMessage());
+            // TODO Auto-generated catch block
+            throw ee;
+        } catch (GExceptionException0 e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+        return toReturn;    
+	}
+
 
 }
