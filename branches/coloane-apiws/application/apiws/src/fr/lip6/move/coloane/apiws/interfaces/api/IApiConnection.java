@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.api;
 
+import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IChangeSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ICloseConnectionObserver;
@@ -123,18 +124,18 @@ public interface IApiConnection {
 	 * Ouvre une connexion avec le wrapper
 	 * @return true, si l'ouverture a reussie, false sinon
 	 */
-	public boolean openConnection() throws CException;
+	public boolean openConnection() throws CException, ApiConnectionException;
 	
 	/**
 	 * Ferme une connexion avec le wrapper
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean closeConnection() throws CException;
+	public boolean closeConnection() throws CException, ApiConnectionException;
 	
 	/**
 	 * Creer une session
 	 * @return une session
 	 */
-	public IApiSession getApiSession();
+	public IApiSession getApiSession() throws ApiConnectionException;
 	
 }

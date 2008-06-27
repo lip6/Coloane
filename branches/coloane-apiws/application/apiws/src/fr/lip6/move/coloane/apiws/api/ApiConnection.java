@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apiws.api;
 import java.util.HashMap;
 
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenConnection;
+import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
 import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IChangeSessionObservable;
@@ -95,16 +96,16 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 	
-	public IApiSession getApiSession() {
+	public IApiSession getApiSession() throws ApiConnectionException {
 		if (!connectionOpened){
-			//throw Exception
+			throw new ApiConnectionException("Aucune connexion n'est ouverte");
 		}
 		return SessionFactory.getNewApiSession(sessionController, speaker, listObservables);
 	}
 
-	public boolean openConnection() throws CException {
+	public boolean openConnection() throws CException, ApiConnectionException {
 		if (connectionOpened)
-			return false;
+			throw new ApiConnectionException("Une connexion est deja ouverte");
 		
 		this.speaker = new Speaker();
 		Authentification auth = speaker.openConnection(login, password);
@@ -121,9 +122,9 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	
-	public boolean closeConnection() throws CException {
+	public boolean closeConnection() throws CException, ApiConnectionException {
 		if (!connectionOpened)
-			return false;
+			throw new ApiConnectionException("Aucune connexion n'est ouverte");
 		
 		speaker.closeConnection();
 		listener.stopper();
