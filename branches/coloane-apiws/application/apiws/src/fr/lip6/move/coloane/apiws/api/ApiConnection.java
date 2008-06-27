@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.api;
 
 import java.util.HashMap;
 
+import fr.lip6.move.coloane.apiws.evenements.AnswerCloseConnection;
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenConnection;
 import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
@@ -40,6 +41,7 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
+import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 public class ApiConnection implements IApiConnection {
 	
@@ -139,8 +141,11 @@ public class ApiConnection implements IApiConnection {
 		if (!connectionOpened)
 			throw new ApiConnectionException("Aucune connexion n'est ouverte");
 		
-		speaker.closeConnection();
-		listener.stopper();
+		Unauthentification unauth = speaker.closeConnection();
+		((Thread)listener).stop();
+		
+		AnswerCloseConnection anseAnswerCloseConnection = new AnswerCloseConnection(unauth);
+		((ICloseConnectionObservable) listObservables.get(IObservables.CLOSE_CONNECTION)).notifyObservers(anseAnswerCloseConnection);
 		
 		connectionOpened = false;
 		
