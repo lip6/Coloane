@@ -10,7 +10,7 @@ public class Api implements IApi{
 	private static final String uiVersion ="0.0.1-alpha";
 	
 
-	public IApiConnection getApiConnection() {
+	public static IApiConnection getApiConnection() {
 		return new ApiConnection();
 	}
 
