@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apiws.api;
 import java.util.HashMap;
 
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenConnection;
+import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
 import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
@@ -126,7 +127,11 @@ public class ApiConnection implements IApiConnection {
 	}
 	
 	public void answerToDialogBox(DialogBox answer) throws CException{
-		// TODO Auto-generated method stub
+		
+		String reponseDialog = listener.answerToDialogBox(answer);
+		
+		AnswerSendDialog answerSendDialog = new AnswerSendDialog(reponseDialog);
+		((ISendDialogObservable) listObservables.get(IObservables.SEND_DIALOG)).notifyObservers(answerSendDialog);
 		
 	}
 	
