@@ -42,4 +42,8 @@ public class ObservableFactory {
 		return (WarningMessageObservable) new WarningMessageObservable();
 	}
 	
+	public static SendDialogObservable getNewSendDialogObservable(){
+		return (SendDialogObservable) new SendDialogObservable();
+	}
+	
 }
