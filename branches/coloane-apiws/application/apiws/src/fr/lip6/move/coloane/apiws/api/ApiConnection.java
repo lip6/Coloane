@@ -14,6 +14,7 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IExecutServiceObservabl
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenConnectionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenSessionObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IWarningMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
@@ -24,6 +25,7 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.IErrorMessagerObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IExecutServiceObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenConnectionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
+import fr.lip6.move.coloane.apiws.interfaces.observers.ISendDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
@@ -72,6 +74,7 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.OPEN_SESSION, ObservableFactory.getNewOpenSessionObservable());
 		this.listObservables.put(IObservables.TRACE_MESSAGE, ObservableFactory.getNewTraceMessageObservable());
 		this.listObservables.put(IObservables.WARNING_MESSAGE, ObservableFactory.getNewWarningMessageObservable());
+		this.listObservables.put(IObservables.SEND_DIALOG, ObservableFactory.getNewSendDialogObservable());
 		
 		this.sessionController = SessionFactory.getNewSessionController();
 		
@@ -208,6 +211,13 @@ public class ApiConnection implements IApiConnection {
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 		return true;
-	}	
+	}
+	
+	public boolean setSendDialogObserver(ISendDialogObserver o,boolean createThread){
+		ISendDialogObservable obs = (ISendDialogObservable) listObservables.get(IObservables.SEND_DIALOG);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		return true;
+	}
 
 }
