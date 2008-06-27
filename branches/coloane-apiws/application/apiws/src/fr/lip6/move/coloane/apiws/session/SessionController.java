@@ -71,16 +71,11 @@ public class SessionController implements ISessionController{
 	 * @throws ApiSessionException 
 	 */
 	public boolean openSession(IApiSession s) throws ApiSessionException{
-		if (!listSessions.containsKey(s.getIdSession())){
-			try{
-				return  this.suspendSession(activeSession);
-			}catch (ApiSessionException e){
-				throw new ApiSessionException("Impossible d'ouvrire une session -> "+e.getMessage());
-			}
+		try{
+			return  this.suspendSession(activeSession);
+		}catch (ApiSessionException e){
+			throw new ApiSessionException("Impossible d'ouvrire une session -> "+e.getMessage());
 		}
-		else{
-			throw new ApiSessionException("Impossible d'ouvrire une session car une session avec le meme identifiant existe deja "+s.getIdSession());
-		}	
 	}
 
 	/**
@@ -140,13 +135,14 @@ public class SessionController implements ISessionController{
 	}
 
 	public void notifyEndCloseSession(IApiSession closed,String idSessionToResumed) {
-		if (closed.getIdSession() == idSessionToResumed){
+		if (idSessionToResumed.equals(closed.getIdSession())){
 			this.activeSession = null;
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
 		}
 		else {
 			this.activeSession = listSessions.get(idSessionToResumed);
+			System.out.println(activeSession.getSessionStateMachine().getState());
 			this.activeSession.notifyEndResumeSession();
 			this.removeSession(closed);
 			closed.notifyEndCloseSession();
