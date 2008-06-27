@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerSendDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
-import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ISendDialogObserver;
 
 public class SendDialogObservable implements ISendDialogObservable {

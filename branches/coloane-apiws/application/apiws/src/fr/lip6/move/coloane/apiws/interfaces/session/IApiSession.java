@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
 import fr.lip6.move.wrapper.ws.CException;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 public interface IApiSession {
 
