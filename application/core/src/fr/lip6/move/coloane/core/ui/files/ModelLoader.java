@@ -47,16 +47,11 @@ public final class ModelLoader {
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(xmlFile.getContents()));
 
-			LOGGER.finest("Emplacement du fichier XML a parser : " + xmlFile.getLocation().toString()); //$NON-NLS-1$
-			LOGGER.finest("URI du fichier XML a parser : " + xmlFile.getLocationURI().toString()); //$NON-NLS-1$
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(xmlFile.getLocationURI().toString(), globalHandler);
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			LOGGER.finest("StackTrace : "); //$NON-NLS-1$
-			e.printStackTrace();
-			LOGGER.throwing("ModelLoader", "loadFromXML", e); //$NON-NLS-1$ //$NON-NLS-2$
 			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName());
 			return null;
 		}
