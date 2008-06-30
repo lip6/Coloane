@@ -422,14 +422,7 @@
        <XmlDescription>
           <Graph
                 name="AMI-Net">
-             <Node
-                   container="false"
-                   name="place">
-                <GraphicInfo
-                      drawable="true"
-                      palettable="true">
-                </GraphicInfo>
-                <Attribute
+             <Attribute
                       drawable="true"
                       multiline="true"
                       name="declaration">
@@ -471,35 +464,73 @@
                       multiline="true"
                       name="note">
                 </Attribute>
+             <Node
+                   container="true"
+                   name="place">
+                <GraphicInfo
+                      description="Create a place"
+                      drawable="true"
+                      icon16px="resources/formalisms/place16.png"
+                      icon24px="resources/formalisms/place24.png"
+                      palettable="true"
+                      paletteName="Place">
+                </GraphicInfo>
+                <Attribute
+                      default="0"
+                      drawable="true"
+                      multiline="true"
+                      name="marking">
+                </Attribute>
              </Node>
              <Node
                    container="false"
                    name="transition">
                 <GraphicInfo
+                      description="Create a transition"
                       drawable="true"
-                      palettable="true">
+                      icon16px="resources/formalisms/transition16.png"
+                      icon24px="resources/formalisms/transition24.png"
+                      palettable="true"
+                      paletteName="Transition">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="name">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="guard">
+                </Attribute>
              </Node>
              <Arc
                    name="arc">
                 <GraphicInfo
+                      description="Create an arc"
                       drawable="true"
-                      palettable="true">
+                      icon16px="resources/formalisms/arc16.png"
+                      icon24px="resources/formalisms/arc24.png"
+                      palettable="true"
+                      paletteName="Arc">
                 </GraphicInfo>
-             </Arc>
-             <Arc
-                   name="inhibitor arc">
-                <GraphicInfo
+                <Attribute
+                      default="1"
                       drawable="true"
-                      palettable="true">
-                </GraphicInfo>
+                      multiline="true"
+                      name="valuation">
+                </Attribute>
              </Arc>
           </Graph>
        </XmlDescription>
     </Formalism>
     <Formalism
+          extension=".rg"
           id="ReachabilityGraph"
-          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.ReachabilityGraph">
+          image="resources/icons/cube-green.png"
+          name="Reachability Graph"
+          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.ReachabilityGraph"
+          xschema="resources/reachability-graph.xsd">
        <XmlDescription>
           <Graph
                 name="ReachabilityGraph">
