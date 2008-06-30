@@ -28,7 +28,7 @@
 			<plugin>
 				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>maven-buildnumber-plugin</artifactId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
 
 				<executions>
 					<execution>
