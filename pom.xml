@@ -399,11 +399,6 @@
 
 	<pluginRepositories>
 		<pluginRepository>
-			<id>tlc</id>
-			<name>TLC Repository</name>
-			<url>http://commons.ucalgary.ca/pub/m2</url>
-		</pluginRepository>
-		<pluginRepository>
 			<id>codehausSnapshots</id>
 			<name>Codehaus Snapshots</name>
 			<url>http://snapshots.repository.codehaus.org/</url>      
