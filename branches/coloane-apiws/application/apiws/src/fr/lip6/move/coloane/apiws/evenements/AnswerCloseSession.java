@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerCloseSession;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class AnswerCloseSession implements IAnswerCloseSession{
@@ -19,6 +20,14 @@ public class AnswerCloseSession implements IAnswerCloseSession{
 		this.idSession = s.getSessionId();
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
 		this.menus = new ArrayList<IMenu>();
+	}
+	
+	public AnswerCloseSession(IApiSession s){
+		this.formalism = s.getSessionFormalism();
+		this.idSession = s.getIdSession();
+		// TODO Voir avec J-B et Silien comment recuperer ces elements.
+		this.menus = new ArrayList<IMenu>();
+		
 	}
 
 	public String getFormalism() {
