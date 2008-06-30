@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import fr.lip6.move.coloane.apiws.evenements.AnswerCloseConnection;
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenConnection;
-import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
 import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
@@ -40,7 +39,6 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 public class ApiConnection implements IApiConnection {
@@ -126,15 +124,6 @@ public class ApiConnection implements IApiConnection {
 		connectionOpened = true;
 		
 		return true;
-	}
-	
-	public void answerToDialogBox(DialogBox answer) throws CException{
-		
-		String reponseDialog = listener.answerToDialogBox(answer);
-		
-		AnswerSendDialog answerSendDialog = new AnswerSendDialog(reponseDialog);
-		((ISendDialogObservable) listObservables.get(IObservables.SEND_DIALOG)).notifyObservers(answerSendDialog);
-		
 	}
 	
 	public boolean closeConnection() throws CException, ApiConnectionException {
