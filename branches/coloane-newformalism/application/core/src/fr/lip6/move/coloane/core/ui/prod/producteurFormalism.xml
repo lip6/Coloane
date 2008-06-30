@@ -1,0 +1,33 @@
+<formalism>		<!--On Souhaite ici créer un nouveau Formalism-->
+
+<nomFormalism>nom_Formalism</nomFormalism>
+
+<presentationFormalism>monGraphique_Formalism</presentationFormalism>
+
+<extensionFormalism>mon</extensionFormalism>
+
+<figure_width>30</figure_width>
+
+<figure_height>15</figure_height>
+
+<constructeur> </constructeur>
+
+<node>
+	<nomNode>mon_Noeud_1</nomNode>
+	<messageNode>Binary_Node</messageNode>	<!--Vous devez ecrire avec un format precis-->
+	<choixFigureNode>FIG_CIRCLE</choixFigureNode>	<!--Vous devez ecrire avec un format precis-->
+	
+</node>
+<node>
+	<nomNode>mon_Noeud_2</nomNode>
+	<messageNode>Binary_Node</messageNode>	<!--Vous devez ecrire avec un format precis-->
+	<choixFigureNode>FIG_CIRCLE</choixFigureNode>	<!--Vous devez ecrire avec un format precis-->
+	
+</node>
+<arc>
+	<nomArc>mon_Arc</nomArc>	
+	<messageArc>PetriNets_22</messageArc>	<!--Vous devez ecrire avec un format precis-->
+	<choixFigureArc>FIG_ARC_SIMPLE</choixFigureArc> <!--Vous devez ecrire avec un format precis-->
+	
+</arc>
+</formalism>
