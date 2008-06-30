@@ -30,7 +30,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 	}
 
 	public boolean goToIdleState() {
-		if (state == WAITING_FOR_MENUS_AND_UPDATES_STATE || state == WAITING_FOR_RESULT_STATE){
+		if (state == WAITING_FOR_MENUS_AND_UPDATES_STATE || state == WAITING_FOR_RESULT_STATE || state == SUSPEND_SESSION_STATE){
 			state = IDLE_STATE;
 			return true;
 		}
@@ -46,7 +46,7 @@ public class SessionStateMachine implements ISessionStateMachine{
 	}
 
 	public boolean goToWaitingForCloseSessionState() {
-		if (state == IDLE_STATE){
+		if (state == IDLE_STATE || state == SUSPEND_SESSION_STATE){
 			state = WAITING_FOR_CLOSE_SESSION_STATE;
 			return true;
 		}

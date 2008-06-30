@@ -86,7 +86,7 @@ public class SessionController implements ISessionController{
 		if (s ==null){
 			return true;
 		}
-		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
+		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
 			return true;
 		}
 		throw new ApiSessionException("Impossible de suspendre la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
@@ -108,7 +108,7 @@ public class SessionController implements ISessionController{
 	 * @throws ApiSessionException 
 	 */
 	public boolean closeSession(IApiSession s) throws ApiSessionException {
-		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
+		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE || s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE){
 			return true;
 		}
 		throw new ApiSessionException("Impossible de fermer la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
@@ -137,17 +137,15 @@ public class SessionController implements ISessionController{
 	public void notifyEndCloseSession(IApiSession closed,String idSessionToResumed) {
 		if (idSessionToResumed.equals(closed.getIdSession())){
 			this.activeSession = null;
-			this.removeSession(closed);
-			closed.notifyEndCloseSession();
 		}
-		else {
+		else if (closed.getIdSession().equals(activeSession.getIdSession())){
 			this.activeSession = listSessions.get(idSessionToResumed);
-			System.out.println(activeSession.getSessionStateMachine().getState());
-			this.activeSession.notifyEndResumeSession();
-			this.removeSession(closed);
-			closed.notifyEndCloseSession();
+			this.activeSession.notifyEndResumeSession();			
 		}
+		this.removeSession(closed);
+		closed.notifyEndCloseSession();
 	}
+	
 	public void notifyEndResumeSession(IApiSession resumed) {
 		activeSession = listSessions.get(resumed.getIdSession());
 		activeSession.notifyEndResumeSession();

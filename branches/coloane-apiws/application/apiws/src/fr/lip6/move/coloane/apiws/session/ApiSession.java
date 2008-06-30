@@ -170,8 +170,12 @@ public class ApiSession implements IApiSession{
 		if (!automate.goToCloseSessionState()){
 			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
-		AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionToResumeAfterClose);
+		
+		AnswerCloseSession answerCloseSession = new AnswerCloseSession(this);
 		((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
+		
+		//AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionToResumeAfterClose);
+		//((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
 	}
 	
 	public void notifyEndChangeSession() {
