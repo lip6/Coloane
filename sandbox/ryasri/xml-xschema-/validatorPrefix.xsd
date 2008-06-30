@@ -26,13 +26,13 @@
 
 	<!-- Definition d'un noeud -->
 	<xs:complexType name="tnode">
-		<xs:all>   						<!--  enlève le choici par all Debut-->
+		<xs:all>   						<!-- remplace le choice par all Debut-->
 			<xs:element name="name" type="graph" minOccurs="0"/>
 			<xs:element name="marking" type="graph" minOccurs="0"/>
 			<xs:element name="label" type="graph" minOccurs="0"/>                
 			<xs:element name="image" type="graph" minOccurs="0"/>
-			<xs:element name="num_image" type="graph" minOccurs="0"/>
-		</xs:all>						<!--  enlève le choici par all Fin-->
+			<xs:element name="num_image" type="graph" minOccurs="0"/> <!--pour : Cutoff-->
+		</xs:all>						<!-- remplace le choice par all Fin-->
 		<xs:attribute name="nodetype" type="xs:string" use="required"/>
 		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:attribute name="xposition" type="xs:string"/>
