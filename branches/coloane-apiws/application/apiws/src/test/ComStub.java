@@ -25,7 +25,7 @@ public class ComStub {
 		
 		connection.setOpenConnectionObserver(new OpenConnectionObserver(), false);
 		connection.setOpenSessionObsever(new OpenSessionObserver(), false);
-		connection.setAskDialogObserver(new AskDialogObserver(connection), false);
+		connection.setAskDialogObserver(new AskDialogObserver(), false);
 		connection.setSendDialogObserver(new SendDialogObserver(), false);
 		connection.setTraceMessageObserver(new TraceMessageObserver(), false);
 		connection.setCloseSessionObserver(new CloseSessionObserver(), false);

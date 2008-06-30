@@ -1,20 +1,15 @@
 package test;
 
-import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
+import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 public class AskDialogObserver implements IAskDialogObserver {
-
-	private IApiConnection connection;
 	
-	public AskDialogObserver(IApiConnection connection){
-		this.connection = connection;
-	}
 	public String printDB(DialogBox box){
 		String res="";
 		res+="DIALOG BOX\n";
@@ -146,13 +141,14 @@ public class AskDialogObserver implements IAskDialogObserver {
 	}
 
 	
-	public void update(IAskDialog d) {
-		System.out.println("-------------------DIALOG-------------------");
-		printDB(d.getDialog());
-		System.out.println("--------------------------------------------");
-		System.out.println("");
+	public void update(IAskDialog d,IListener asynchronousSpeaker) {
 		try {
-			connection.answerToDialogBox(d.getDialog());
+			for (DialogBox dialog : d.getDialogs()){
+				System.out.println("-------------------DIALOG-------------------");
+				printDB(dialog);
+				asynchronousSpeaker.answerToDialogBox(dialog);
+				System.out.println("--------------------------------------------");
+			}
 		} catch (CException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
