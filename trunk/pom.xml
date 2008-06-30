@@ -399,21 +399,32 @@
 
 	<pluginRepositories>
 		<pluginRepository>
-			<id>codehausSnapshots</id>
+			<id>codehaus</id>
+			<name>Codehaus Releases</name>
+			<url>http://repository.codehaus.org/</url>      
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<layout>default</layout>
+		</pluginRepository>
+		<pluginRepository>
+			<id>codehaus-snap</id>
 			<name>Codehaus Snapshots</name>
 			<url>http://snapshots.repository.codehaus.org/</url>      
 			<releases>
 				<enabled>false</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
 			<layout>default</layout>
 		</pluginRepository>
-
 	</pluginRepositories>
 </project>
