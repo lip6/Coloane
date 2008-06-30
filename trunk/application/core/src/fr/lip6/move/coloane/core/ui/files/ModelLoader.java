@@ -95,7 +95,7 @@ public final class ModelLoader {
 
 			SAXParser saxParser = factory.newSAXParser();
 			long debut = System.currentTimeMillis();
-			saxParser.parse(xmlFile.getLocation().toString(), modelHandler);
+			saxParser.parse(xmlFile.getLocationURI().toString(), modelHandler);
 			LOGGER.info("Temps de chargement : " + (System.currentTimeMillis() - debut) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors de la lecture du fichier " + xmlFile.getName()); //$NON-NLS-1$
