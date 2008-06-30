@@ -48,12 +48,31 @@ public class ComStub {
 		session1.openSession("27-06-2008", "AM-Net", "maseesion1");
 		System.out.println("");
 
+		
+		
+		/////////
+		IApiSession session2 = connection.getApiSession();
+		System.out.println("2-b Ouverture session");
+		Thread.sleep(1*1000);
+		session2.openSession("27-06-2008", "AM-Net", "maseesion2");
+		System.out.println("");
+		/////////
+		
+		
 		/**
 		 * Fermeture d'une session
 		 */
+		
+		/////////
 		System.out.println("3-a Fermeture session");
 		Thread.sleep(1*1000);
 		session1.closeSession();
+		System.out.println("");
+		/////////
+		
+		System.out.println("3-b Fermeture session");
+		Thread.sleep(1*1000);
+		session2.closeSession();
 		System.out.println("");
 
 		/**
