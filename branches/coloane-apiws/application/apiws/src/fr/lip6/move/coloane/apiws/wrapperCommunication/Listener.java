@@ -3,10 +3,12 @@ package fr.lip6.move.coloane.apiws.wrapperCommunication;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.evenements.AskDialog;
 import fr.lip6.move.coloane.apiws.evenements.ReceptTraceMessage;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
+import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.wrapper.ws.CException;
@@ -78,7 +80,7 @@ public class Listener extends Thread implements IListener{
 
 			if (message.getDbs() != null){
 				AskDialog dialog = new AskDialog(message);
-				((IAskDialogObservable ) listObservable.get(IObservables.ASK_DIALOG)).notifyObservers(dialog);
+				((IAskDialogObservable ) listObservable.get(IObservables.ASK_DIALOG)).notifyObservers(dialog,this);
 			}
 
 			synchronized(this) {
@@ -104,6 +106,10 @@ public class Listener extends Thread implements IListener{
 			req.setDialog(answer);
 			AnswerDbResponse res=stub.answerDb(req);
 			toReturn=res.get_return();
+			
+			AnswerSendDialog answerSendDialog = new AnswerSendDialog(toReturn); 
+			((ISendDialogObservable) listObservable.get(IObservables.SEND_DIALOG)).notifyObservers(answerSendDialog); 
+			
 		}catch (RemoteException e) {
 			CException ee = new CException();
 			ee.initialize(e.getMessage());

@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.interfaces.observables;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
+import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 
 public interface IAskDialogObservable {
 	
@@ -20,7 +21,7 @@ public interface IAskDialogObservable {
 	/**
 	 * Notifier tous les observateurs de l'evenement : reception d'une boite de dialogue
 	 */
-	public void notifyObservers(IAskDialog e);
+	public void notifyObservers(IAskDialog e, IListener asynchronousSpeaker);
 	
 	/**
 	 * Definir s'il faut creer un thread pour la notification

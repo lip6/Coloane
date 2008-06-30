@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
+import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 
 public class AskDialogObservable implements IAskDialogObservable{
 
@@ -39,10 +40,10 @@ public class AskDialogObservable implements IAskDialogObservable{
 		listObservers.add(o);
 	}
 
-	public void notifyObservers(IAskDialog e) {
+	public void notifyObservers(IAskDialog e, IListener asynchronousSpeaker) {
 		if (!createThread){
 			for(IAskDialogObserver o: listObservers){
-				o.update(e);
+				o.update(e, asynchronousSpeaker);
 			}
 		}
 		else{
