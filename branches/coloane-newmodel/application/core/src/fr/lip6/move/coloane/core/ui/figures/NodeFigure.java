@@ -1,12 +1,11 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
-import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.core.ui.model.AbstractElement;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
+
+import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
@@ -42,9 +41,9 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * Toute modification graphique concernant le noeud augmente passe par cet objet.
 	 * @param element
 	 */
-	public NodeFigure(AbstractModelElement element) {
-		if (element instanceof NodeImplAdapter) {
-			INodeImpl node = (INodeImpl) element;
+	public NodeFigure(AbstractElement element) {
+		if (element instanceof INode) {
+			INode node = (INode) element;
 
 			// Recupere les options graphiques definies pour le formalisme
 			nodeGraphInfo = node.getGraphicInfo();
@@ -57,7 +56,7 @@ public class NodeFigure extends Figure implements INodeFigure {
 	 * Creation de la figure associee a un noeud
 	 * @param node Le modele enrichi du noeud
 	 */
-	private void createNodeFigure(final INodeImpl node) {
+	private void createNodeFigure(final INode node) {
 
 		// Le cas d'un place ou d'un etat simple
 		if (nodeGraphInfo.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE) {

@@ -9,10 +9,20 @@ public interface IElement extends IAbstractPropertyChange {
 	int getId();
 
 	/**
+	 * @return parent of this IElement.
+	 */
+	IElement getParent();
+
+	/**
 	 * @param name name of the attribute.
 	 * @return the IAttribute named attribute or null.
 	 */
 	IAttribute getAttribute(String name);
+
+	/**
+	 * @return Collection of drawable attribut.
+	 */
+	Collection<IAttribute> getDrawableAttributes();
 
 	/**
 	 * @return Collection of all IAttribute.

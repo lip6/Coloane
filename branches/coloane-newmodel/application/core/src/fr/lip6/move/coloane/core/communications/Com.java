@@ -11,7 +11,6 @@ import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.model.IModel;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
@@ -19,11 +18,13 @@ import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
 import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 
 public final class Com implements IComApi {
+	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Une poignee sur l'API de communication avec la plateforme */
 	private IApi api = null;
@@ -87,7 +88,7 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#authentication(fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public boolean authentication(AuthenticationInformation authInformation, IProgressMonitor monitor) {
-		Coloane.getLogger().fine("Demande d'authentification"); //$NON-NLS-1$
+		logger.fine("Demande d'authentification"); //$NON-NLS-1$
 
 		monitor.beginTask("Connecting...", 2);
 
@@ -98,7 +99,7 @@ public final class Com implements IComApi {
 		monitor.setTaskName("Logging...");
 
 		// Log du resultat
-		if (retour) { Coloane.getLogger().fine("Authentification OK"); } else { Coloane.getLogger().warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
+		if (retour) { logger.fine("Authentification OK"); } else { logger.warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
 
 		monitor.worked(1);
 		monitor.done(); // Pas d'asynchronisme... L'authentification est terminee
@@ -110,13 +111,13 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#openSession(fr.lip6.move.coloane.core.ui.model.IModelImpl, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public boolean openSession(IGraph graph, IProgressMonitor monitor) {
-		Coloane.getLogger().fine("Connexion d'un graphe"); //$NON-NLS-1$
+		logger.fine("Connexion d'un graphe"); //$NON-NLS-1$
 
 		monitor.beginTask("Connecting current graph...", 3);
 
 		// Si le modele est nul on ne peut rien faire
 		if (graph == null) {
-			Coloane.getLogger().warning("Aucun graphe a connecter"); //$NON-NLS-1$
+			logger.warning("Aucun graphe a connecter"); //$NON-NLS-1$
 			return false;
 		}
 
@@ -135,7 +136,7 @@ public final class Com implements IComApi {
 		monitor.setTaskName("Receiving available services");
 
 		// Log du resultat
-		if (retour) { Coloane.getLogger().fine("Connexion reussie !"); } else { Coloane.getLogger().warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
+		if (retour) { logger.fine("Connexion reussie !"); } else { logger.warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Au commencement, un modele est toujours propre
 		graph.setDirty(false);
@@ -165,7 +166,7 @@ public final class Com implements IComApi {
 	 * Cette deconnexion est provoquee par un KO ou un FC
 	 */
 	public void closeAllSessions() {
-		Coloane.getLogger().fine("Framekit demande la deconnexion de tous les modeles");
+		logger.fine("Framekit demande la deconnexion de tous les modeles");
 		motor.getSessionManager().destroyAllSessions();
 	}
 
@@ -181,7 +182,7 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#askForService(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void askForService(String rootMenuName, String referenceName, String serviceName, IProgressMonitor monitor) {
-		Coloane.getLogger().fine("Demande de service : " + serviceName); //$NON-NLS-1$
+		logger.fine("Demande de service : " + serviceName); //$NON-NLS-1$
 
 		// Requete a l'API
 		monitor.beginTask("Asking the platform...", IProgressMonitor.UNKNOWN);
@@ -201,7 +202,7 @@ public final class Com implements IComApi {
 	 * @param message Message a afficher dans la console
 	 */
 	public void printHistoryMessage(String message) {
-		Coloane.getLogger().finest("Affichage dans l'historique : " + message); //$NON-NLS-1$
+		logger.finest("Affichage dans l'historique : " + message); //$NON-NLS-1$
 		this.ui.printHistoryMessage(message);
 	}
 
@@ -210,7 +211,7 @@ public final class Com implements IComApi {
 	 * @param menu La racine du menu a afficher
 	 */
 	public void drawMenu(IRootMenuCom rootMenuCom) {
-		Coloane.getLogger().fine("Affichage des menus"); //$NON-NLS-1$
+		logger.fine("Affichage des menus"); //$NON-NLS-1$
 
 		try {
 			// Transformation des menus
@@ -224,7 +225,7 @@ public final class Com implements IComApi {
 				public void run() { ui.drawMenu(root); }
 			});
 		} catch (Exception e) {
-			Coloane.getLogger().warning("Unable to build the model"); //$NON-NLS-1$
+			logger.warning("Unable to build the model"); //$NON-NLS-1$
 		}
 
 	}
@@ -234,7 +235,7 @@ public final class Com implements IComApi {
 	 * @param updates La racine du menu a afficher
 	 */
 	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
-		Coloane.getLogger().fine("Mise a jour des menus"); //$NON-NLS-1$
+		logger.fine("Mise a jour des menus"); //$NON-NLS-1$
 		this.updates = updatesMenu;
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
@@ -266,7 +267,7 @@ public final class Com implements IComApi {
 	 * @param result L'objet contenant tous les resultats
 	 */
 	public void setResults(String serviceName, IResultsCom resultsCom) {
-		Coloane.getLogger().fine("Preparation des resultats pour le service : " + serviceName); //$NON-NLS-1$
+		logger.fine("Preparation des resultats pour le service : " + serviceName); //$NON-NLS-1$
 		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
 			this.ui.setResults(serviceName, resultsCom);
 		} else {
@@ -280,7 +281,7 @@ public final class Com implements IComApi {
 	 * Cette methode doit etre appelee apres la methode setResults
 	 */
 	public void printResults() {
-		Coloane.getLogger().fine("Affichage des resultats"); //$NON-NLS-1$
+		logger.fine("Affichage des resultats"); //$NON-NLS-1$
 		this.ui.printResults();
 	}
 
@@ -290,7 +291,7 @@ public final class Com implements IComApi {
 	 * @see IModel
 	 */
 	public IGraph sendModel() {
-		Coloane.getLogger().fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
+		logger.fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
 		return this.motor.getSessionManager().getCurrentSession().getGraph();
 	}
 
@@ -300,9 +301,9 @@ public final class Com implements IComApi {
 	 * En general, l'API est responsable de cet appel !
 	 * @param Le modele construit par l'api de communication
 	 */
-	public void setNewModel(IModel model) {
-		Coloane.getLogger().fine("Reception d'un nouveau modele"); //$NON-NLS-1$
-		this.motor.setNewModel(model);
+	public void setNewModel(IGraph graph) {
+		logger.fine("Reception d'un nouveau modele"); //$NON-NLS-1$
+		this.motor.setNewModel(graph);
 	}
 
 
@@ -311,7 +312,7 @@ public final class Com implements IComApi {
 	 * @param dateUpdate La date de derniere mise a jour du modele
 	 */
 	public void toUpdate(int dateUpdate) {
-		Coloane.getLogger().fine("Le modele doit etre mis a jour du cote de la plateforme"); //$NON-NLS-1$
+		logger.fine("Le modele doit etre mis a jour du cote de la plateforme"); //$NON-NLS-1$
 		this.api.changeModeleDate(dateUpdate);
 	}
 
@@ -321,7 +322,7 @@ public final class Com implements IComApi {
 	 */
 	public boolean getDirtyState() {
 		boolean state = this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
-		if (state) { Coloane.getLogger().fine("Le modele est actuellement SALE"); } else { Coloane.getLogger().fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
+		if (state) { logger.fine("Le modele est actuellement SALE"); } else { logger.fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
 		return this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
 	}
 
@@ -338,7 +339,7 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndOpenSession()
 	 */
 	public void setEndOpenSession() {
-		Coloane.getLogger().finer("Fin de la demande d'ouverture de session (connexion)");
+		logger.finer("Fin de la demande d'ouverture de session (connexion)");
 		motor.endService();
 	}
 
@@ -347,7 +348,7 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndCloseSession()
 	 */
 	public void setEndCloseSession() {
-		Coloane.getLogger().finer("Fin de la demande de fermeture de session (deconnexion)");
+		logger.finer("Fin de la demande de fermeture de session (deconnexion)");
 		motor.endService();
 	}
 
@@ -356,7 +357,7 @@ public final class Com implements IComApi {
 	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndService()
 	 */
 	public void setEndService() {
-		Coloane.getLogger().finer("Fin du service recu et transmis par l'API");
+		logger.finer("Fin du service recu et transmis par l'API");
 		motor.endService();
 	}
 }

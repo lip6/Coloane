@@ -2,11 +2,11 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
 
@@ -17,16 +17,16 @@ import org.eclipse.gef.commands.Command;
 public class ArcCompleteCmd extends Command {
 
 	/** Noeud source */
-	private final INodeImpl source;
+	private final INode source;
 
 	/** Noeud cible */
-	private final INodeImpl target;
+	private final INode target;
 
 	/** Element de base du formalisme (arc) */
-	private final ElementFormalism formalism;
+	private final Arc arcFormalism;
 
 	/** L'arc */
-	private IArcImpl arc;
+	private IArc arc;
 
 	/**
 	 * Connexion de l'arc
@@ -34,10 +34,10 @@ public class ArcCompleteCmd extends Command {
 	 * @param target noeud cible
 	 * @param base elementBase
 	 */
-	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism arcFormalism) {
+	public ArcCompleteCmd(INode arcSource, INode arcTarget, Arc arcFormalism) {
 		this.source = arcSource;
 		this.target = arcTarget;
-		this.formalism = arcFormalism;
+		this.arcFormalism = arcFormalism;
 	}
 
 	/*
@@ -47,15 +47,13 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final boolean canExecute() {
 
-		Formalism form = formalism.getFormalism();
-
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!form.isLinkAllowed(source.getElementBase(), target.getElementBase())) {
+		if (!arcFormalism.isLinkAllowed(source.getNodeFormalism(), target.getNodeFormalism())) {
 			return false;
 		}
 
 		// Evite les doublons en renvoyant faux si le lien existe deja
-		for (IArcImpl a : source.getSourceArcs()) {
+		for (IArc a : source.getSourceArcs()) {
 			if (a.getTarget().equals(target)) {
 				return false;
 			}

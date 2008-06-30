@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.model.interfaces;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+
+import java.util.List;
 
 public interface INode extends IElement {
 
@@ -30,10 +30,10 @@ public interface INode extends IElement {
 	/** ID pour la propriete lorsque le noeud est deselectionne */
 	String UNSPECIAL_PROP = "Node.UnSpecialUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriété lorque la couleur d'un noeud change */
+	/** ID pour la propriété lorsque la couleur d'un noeud change */
 	String BACKGROUND_COLOR_PROP = "Node.Color.Background"; //$NON-NLS-1$
 
-	/** ID pour la propriété lorque la couleur d'un noeud change */
+	/** ID pour la propriété lorsque la couleur d'un noeud change */
 	String FOREGROUND_COLOR_PROP = "Node.Color.Foreground"; //$NON-NLS-1$
 
 	/** ID pour la propriété de changement de zoom */

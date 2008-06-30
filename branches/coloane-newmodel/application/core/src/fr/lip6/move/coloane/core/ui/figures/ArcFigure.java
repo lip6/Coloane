@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
-import fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArcGraphicInfo;
 
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
@@ -18,7 +18,7 @@ public class ArcFigure extends PolylineConnection implements IArcFigure {
 	private final IArcGraphicInfo arcGraphInfo;
 	private boolean isSelected;
 
-	public ArcFigure(IArcImpl arc) {
+	public ArcFigure(IArc arc) {
 		arcGraphInfo = arc.getGraphicInfo();
 
 		PolygonDecoration decoration = null;

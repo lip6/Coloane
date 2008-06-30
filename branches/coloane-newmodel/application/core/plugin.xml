@@ -90,7 +90,7 @@
                tooltip="Export your model to image file">
             <enablement>
                <objectClass
-                     name="fr.lip6.move.coloane.core.ui.editpart.ModelEditPart">
+                     name="fr.lip6.move.coloane.core.ui.editpart.GraphEditPart">
                </objectClass>
             </enablement>
          </action>

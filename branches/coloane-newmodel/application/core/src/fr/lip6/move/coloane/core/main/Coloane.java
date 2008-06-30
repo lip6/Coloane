@@ -4,7 +4,8 @@ import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.ui.UserInterface;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
@@ -123,11 +124,16 @@ public class Coloane extends AbstractUIPlugin {
 
 	/**
 	 * Notifier le changement du modele de la session courrante
-	 * @param model Le modele manipule par l'UI
+	 * @param element un element du graph
 	 */
-	public static void notifyModelChange(IModelImpl model) {
-		if (model != null) {
-			int dateUpdate = model.modifyDate();
+	public static void notifyModelChange(IElement element) {
+		IElement tmp = element;
+		while (tmp.getParent() != null) {
+			tmp = tmp.getParent();
+		}
+		IGraph graph = (IGraph) tmp;
+		if (graph != null) {
+			int dateUpdate = graph.modifyDate();
 			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession().getStatus() == ISession.CONNECTED)) {
 				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
@@ -259,10 +265,10 @@ public class Coloane extends AbstractUIPlugin {
 	 * Remise a zero des preferences du plugin
 	 */
 	public final void setDefaultPreference() {
-		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN"));
-		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER"));
-		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP"));
-		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT"));
+		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

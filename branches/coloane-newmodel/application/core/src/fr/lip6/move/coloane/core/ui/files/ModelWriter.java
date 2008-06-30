@@ -1,11 +1,10 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IElement;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.swt.graphics.Color;
@@ -22,31 +21,29 @@ public final class ModelWriter {
 	 * @param model Le model sous forme d'objet JAVA
 	 * @return String
 	 */
-	public static String translateToXML(IModelImpl model) {
+	public static String translateToXML(IGraph graph) {
 
 		// L'entete XML
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-		String schema = model.getFormalism().getSchema();
+		String schema = graph.getFormalism().getSchema();
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
 		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" formalism='").append(model.getFormalism()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" formalism='").append(graph.getFormalism()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 
 		// Ecriture des attributs du modele
-		if (model.getAttributes().size() > 0) {
-			line.append(translateAttributesToXML(model));
-		}
+		line.append(translateAttributesToXML(graph));
 
 		// Creation des noeuds
 		line.append("<nodes>\n"); //$NON-NLS-1$
-		line.append(translateNodesToXML(model));
+		line.append(translateNodesToXML(graph));
 		line.append("</nodes>\n"); //$NON-NLS-1$
 
 		// Creation des arcs
 		line.append("<arcs>\n"); //$NON-NLS-1$
-		line.append(translateArcsToXML(model));
+		line.append(translateArcsToXML(graph));
 		line.append("</arcs>\n"); //$NON-NLS-1$
 
 		line.append("</model>"); //$NON-NLS-1$
@@ -79,14 +76,14 @@ public final class ModelWriter {
 	 * @param model Le modele
 	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
 	 */
-	private static String translateNodesToXML(IModelImpl model) {
+	private static String translateNodesToXML(IGraph graph) {
 		StringBuilder sb = new StringBuilder();
 
 		// Pour chaque noeud...
-		for (INodeImpl node : model.getNodes()) {
+		for (INode node : graph.getNodes()) {
 
 			// Debut du noeud
-			sb.append("<node nodetype='").append(node.getGenericNode().getNodeType()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append("<node nodetype='").append(node.getNodeFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" id='").append(node.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" xposition='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" yposition='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -95,9 +92,7 @@ public final class ModelWriter {
 			sb.append(" background='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Ecriture des attributs de chaque noeud
-			if (node.getAttributes().size() > 0) {
-				sb.append(translateAttributesToXML(node));
-			}
+			sb.append(translateAttributesToXML(node));
 
 			// Fin du noeud
 			sb.append("</node>\n"); //$NON-NLS-1$
@@ -110,14 +105,14 @@ public final class ModelWriter {
 	 * @param model Le modele en objet JAVA contenant des arcs
 	 * @return Une chaine de caracteres decrivant en XML les arcs du modele
 	 */
-	private static String translateArcsToXML(IModelImpl model) {
+	private static String translateArcsToXML(IGraph graph) {
 		StringBuilder sb = new StringBuilder();
 
 		// Pour chaque arc...
-		for (IArcImpl arc : model.getArcs()) {
+		for (IArc arc : graph.getArcs()) {
 
 			// Debut de l'arc
-			sb.append("<arc arctype='").append(arc.getGenericArc().getArcType()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append("<arc arctype='").append(arc.getArcFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" id='").append(arc.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" startid='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" endid='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -125,9 +120,7 @@ public final class ModelWriter {
 			sb.append(">\n"); //$NON-NLS-1$
 
 			// Ecriture des PI
-			if (arc.getInflexPoints().size() > 0) {
-				sb.append(translateInflexToXML(arc));
-			}
+			sb.append(translateInflexToXML(arc));
 
 			// Ecriture des attributs de chaque arc
 			sb.append(translateAttributesToXML(arc));
@@ -143,7 +136,7 @@ public final class ModelWriter {
 	 * @param arc L'arc en objet JAVA contenant des points d'inflexion
 	 * @return Une chaine de caracteres decrivant en XML les points d'inflexion des arcs du modele
 	 */
-	private static String translateInflexToXML(IArcImpl arc) {
+	private static String translateInflexToXML(IArc arc) {
 		StringBuilder sb = new StringBuilder();
 
 		// Pour chaque point d'inflexion...
@@ -160,20 +153,20 @@ public final class ModelWriter {
 	 * @param model Le modele en objet JAVA contenant des attributs d'objet
 	 * @return Une chaine de caracteres decrivant en XML les attributs du modele
 	 */
-	private static String translateAttributesToXML(IElement elt) {
+	private static String translateAttributesToXML(fr.lip6.move.coloane.core.ui.model.interfaces.IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
 		// Pour chaque attribut...
-		for (IAttributeImpl att : elt.getAttributes()) {
+		for (IAttribute att : elt.getAttributes()) {
 
 			// On ne traite pas le cas des attributs qui sont vides
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
 				String balise;
 				// Traitement special pour l'attribut AUTHOR
-				if (att.getDisplayName().equals("author(s)")) { //$NON-NLS-1$
+				if (att.getName().equals("author(s)")) { //$NON-NLS-1$
 					balise = "authors"; //$NON-NLS-1$
 				} else {
-					balise = att.getDisplayName();
+					balise = att.getName();
 				}
 				sb.append("<").append(balise); //$NON-NLS-1$
 				sb.append(" xposition='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$

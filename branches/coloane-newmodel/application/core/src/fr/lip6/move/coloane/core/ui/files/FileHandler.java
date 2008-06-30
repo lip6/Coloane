@@ -1,19 +1,15 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
+import fr.lip6.move.coloane.core.ui.model.GraphModel;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class FileHandler extends DefaultHandler {
-	private IModel model = new Model(new CamiTranslator());
+	private IGraph graph;
 
 	/**
 	 * Lecture des balises ouvrantes du modele a la recherche de la balise <model>
@@ -23,8 +19,8 @@ public class FileHandler extends DefaultHandler {
 		// Recherche de la balise <model>
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
-			this.model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
-			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + this.model.getFormalism()); //$NON-NLS-1$
+			graph = new GraphModel(attributes.getValue("formalism")); //$NON-NLS-1$
+			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + graph.getFormalism().getName()); //$NON-NLS-1$
 		}
 	}
 
@@ -34,7 +30,7 @@ public class FileHandler extends DefaultHandler {
 	 * @return Le squelette du modele generique
 	 * @throws BuildException
 	 */
-	public final IModelImpl getGraph() {
-		return new ModelImplAdapter(model);
+	public final IGraph getGraph() {
+		return graph;
 	}
 }

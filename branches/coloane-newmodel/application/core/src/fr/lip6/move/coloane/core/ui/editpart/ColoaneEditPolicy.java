@@ -3,10 +3,10 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.ui.commands.AttributeSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.core.ui.model.NodeModel;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +60,12 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		Object childClass = request.getNewObjectType();
 
 		// Si l'objet a ajouter est un noeud... OK
-		if (childClass == NodeImplAdapter.class) {
-			INodeImpl newNode = (INodeImpl) request.getNewObject();
-			IModelImpl model = (IModelImpl) getHost().getModel();
+		if (childClass == NodeModel.class) {
+			INode newNode = (INode) request.getNewObject();
+			IGraph graph = (IGraph) getHost().getModel();
 
 			// On applique la commande de creation du noeud
-			return new NodeCreateCmd(newNode, model, (Rectangle) getConstraintFor(request));
+			return new NodeCreateCmd(newNode, graph, (Rectangle) getConstraintFor(request));
 		}
 
 		// Sinon... On ne permet pas l'ajout !
@@ -83,13 +83,13 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	protected final Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 
 		// Dans le cas d'un noeud
-		if (child instanceof ElementEditPart && constraint instanceof Rectangle) {
-			return new NodeSetConstraintCmd((INodeImpl) child.getModel(), (Rectangle) constraint);
+		if (child instanceof NodeEditPart && constraint instanceof Rectangle) {
+			return new NodeSetConstraintCmd((INode) child.getModel(), (Rectangle) constraint);
 		}
 
 		// Dans le cas d'un attribut
 		if (child instanceof AttributeEditPart) {
-			return new AttributeSetConstraintCmd((IAttributeImpl) child.getModel(), (Rectangle) constraint);
+			return new AttributeSetConstraintCmd((IAttribute) child.getModel(), (Rectangle) constraint);
 		}
 
 		// Dans tous les autres cas, on forwarde au pere

@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
 
@@ -17,8 +18,8 @@ public class NodeModel extends AbstractElement implements INode {
 	private ArrayList<IArc> sourceArcs = new ArrayList<IArc>();
 	private ArrayList<IArc> targetArcs = new ArrayList<IArc>();
 
-	NodeModel(Node nodeFormalism, int id) {
-		super(nodeFormalism.getAttributes());
+	NodeModel(IElement parent, Node nodeFormalism, int id) {
+		super(parent, nodeFormalism.getAttributes());
 		this.id = id;
 		this.nodeFormalism = nodeFormalism;
 	}
@@ -41,7 +42,7 @@ public class NodeModel extends AbstractElement implements INode {
 	public final int getId() {
 		return id;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getNodeFormalism()
 	 */
@@ -52,7 +53,7 @@ public class NodeModel extends AbstractElement implements INode {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getGraphicInfo()
 	 */
-	public INodeGraphicInfo getGraphicInfo() {
+	public final INodeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 

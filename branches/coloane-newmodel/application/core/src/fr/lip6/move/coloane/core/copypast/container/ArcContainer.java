@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class ArcContainer {
 
 	private int idSource;
 	private int idTarget;
-	private Arc arcFormalism;
+	private String arcFormalismName;
 
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
@@ -35,13 +36,13 @@ public class ArcContainer {
 		this.idSource = idSource;
 		this.idTarget = idTarget;
 		color = arc.getGraphicInfo().getColor();
-		arcFormalism = arc.getArcFormalism();
+		arcFormalismName = arc.getArcFormalism().getName();
 
 		// sauvegarde des points d'inflexion
 		for (Bendpoint bp : arc.getInflexPoints()) {
 			pis.add(bp.getLocation());
 		}
-		
+
 		// sauvegarde des attributs
 		for (IAttribute attr : arc.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
@@ -54,7 +55,7 @@ public class ArcContainer {
 	 * @param target
 	 * @return une copie de l'IArcImpl passée au constructeur
 	 */
-	public final IArcImpl copy(IModelImpl model, INodeImpl source, INodeImpl target) {
+	public final IArc copy(IGraph graph, INode source, INode target) {
 		// Décalage des points d'inflexion
 		for (Point p : pis) {
 			p.x += 10;
@@ -65,18 +66,17 @@ public class ArcContainer {
 			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
 		}
 
-		ArcImplAdapter arcAdapter = new ArcImplAdapter(source, target, arcFormalism);
-		arcAdapter.setModelAdapter(model);
-		arcAdapter.getGraphicInfo().setColor(color);
+		IArc arc = graph.createArc(arcFormalismName, source, target);
+		arc.getGraphicInfo().setColor(color);
 		for (AttributContainer ac : attributs) {
-			arcAdapter.setPropertyValue(ac.getId(), ac.getValue());
-			arcAdapter.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
+			arc.getAttribute(ac.getName()).setValue(ac.getValue());
+			arc.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
 		}
 		for (int index = 0; index < pis.size(); index++) {
 			Point p = pis.get(index);
-			arcAdapter.addInflexPoint(p, index);
+			arc.addInflexPoint(p, index);
 		}
-		return arcAdapter;
+		return arc;
 	}
 
 	/**

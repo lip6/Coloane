@@ -9,10 +9,8 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
-import fr.lip6.move.coloane.interfaces.model.IModel;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -144,7 +142,7 @@ public final class Motor {
 	 * @param name Le nom de la session
 	 * @return boolean Resultat de l'operation
 	 */
-	public boolean createSession(IModelImpl model, String name) {
+	public boolean createSession(IGraph graph, String name) {
 		// On doit controller si une session ne se nomme deja pas pareil
 		if (sessionManager.getSession(name) != null) {
 			Coloane.getLogger().warning("Une session homonyme existe deja"); //$NON-NLS-1$
@@ -155,7 +153,7 @@ public final class Motor {
 
 		// Creation d'une nouvelle session
 		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
-		sessionManager.getSession(name).setModel(model); // On associe le modele a la session
+		sessionManager.getSession(name).setModel(graph); // On associe le modele a la session
 
 		return true;
 	}
@@ -353,7 +351,7 @@ public final class Motor {
 			if (sessionManager.getCurrentSession() != null) {
 				Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
 			} else {
-				Coloane.getLogger().fine("Pas de session courante...");
+				Coloane.getLogger().fine("Pas de session courante..."); //$NON-NLS-1$
 			}
 		}
 	}
@@ -362,17 +360,14 @@ public final class Motor {
 	 * Creation d'un nouveau modele et affichage dans l'editeur
 	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
 	 * Cette action est particulierement utile lors de la generation d'un modele par FK
-	 * TODO: Rendre cette methode generique
+	 * TODO : Rendre cette methode generique
 	 * @param model le model brut
 	 */
-	public void setNewModel(IModel model) {
+	public void setNewModel(IGraph graph) {
 		Coloane.getLogger().fine("Sauvegarde du modele en provenance de la plateforme"); //$NON-NLS-1$
 
-		// Construit le modele en memoire a partir du modele generique recu
-		IModelImpl modelImpl;
-		modelImpl = new ModelImplAdapter(model);
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
-		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
+		Display.getDefault().asyncExec(new SaveReceivedModel(graph, window));
 	}
 
 	/**
@@ -392,7 +387,7 @@ public final class Motor {
 		if (sessionManager.getCurrentSession() != null) {
 			Coloane.getLogger().finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
 		} else {
-			Coloane.getLogger().fine("Pas de session courante");
+			Coloane.getLogger().fine("Pas de session courante"); //$NON-NLS-1$
 		}
 	}
 

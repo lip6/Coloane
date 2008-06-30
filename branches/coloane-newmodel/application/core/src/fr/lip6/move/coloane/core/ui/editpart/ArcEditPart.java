@@ -7,13 +7,14 @@ import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.core.ui.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -40,7 +41,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 */
 	@Override
 	protected final IFigure createFigure() {
-		IFigure connection = new ArcFigure((IArcImpl) getModel());
+		IFigure connection = new ArcFigure((IArc) getModel());
 		return connection;
 	}
 
@@ -51,16 +52,16 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	@Override
 	protected final void refreshVisuals() {
 		super.refreshVisuals();
-		IArcImpl arcModel = (IArcImpl) getModel();
+		IArc arcModel = (IArc) getModel();
 
 		IArcFigure connection = (IArcFigure) getFigure();
 		connection.getConnectionRouter();
 
-		List<Bendpoint> modelConstraint = ((IArcImpl) getModel()).getInflexPoints();
+		List<AbsoluteBendpoint> modelConstraint = arcModel.getInflexPoints();
 		getConnectionFigure().setRoutingConstraint(modelConstraint);
 
 		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(arcModel.getModelAdapter());
+		Coloane.notifyModelChange(arcModel);
 	}
 
 
@@ -76,7 +77,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
-				InflexCreateCmd com = new InflexCreateCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				InflexCreateCmd com = new InflexCreateCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 
@@ -85,7 +86,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
-				InflexDeleteCmd com = new InflexDeleteCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 			@Override
@@ -94,7 +95,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				getConnection().translateToRelative(p);
 				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
-				InflexMoveCmd com = new InflexMoveCmd((IArcImpl) getModel(), request.getLocation(), request.getIndex());
+				InflexMoveCmd com = new InflexMoveCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 		});
@@ -106,10 +107,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((IArcImpl) getModel()).setAttributesSelected(false, true);
+					((IArc) getModel()).setAttributesSelected(false, true);
 					((IArcFigure) getFigure()).setSelect();
 				} else {
-					((IArcImpl) getModel()).setAttributesSelected(false, false);
+					((IArc) getModel()).setAttributesSelected(false, false);
 					((IArcFigure) getFigure()).setUnselect();
 				}
 			}
@@ -135,7 +136,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
 			@Override
 			protected Command getDeleteCommand(GroupRequest request) {
-				return new ArcDeleteCmd((IArcImpl) getModel());
+				return new ArcDeleteCmd((IArc) getModel());
 			}
 		});
 	}
@@ -149,15 +150,15 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		String prop = property.getPropertyName();
 
 		// Propriete de modification/suppression/ajout de point d'inflexion
-		if (IArcImpl.INFLEXPOINT_PROP.equals(prop)) {
+		if (IArc.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
-		} else if (IArcImpl.SELECT_PROP.equals(prop)) {
+		} else if (IArc.SELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setHighlight();
-		} else if (IArcImpl.SPECIAL_PROP.equals(prop)) {
+		} else if (IArc.SPECIAL_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setSelectSpecial();
-		} else if (IArcImpl.UNSELECT_PROP.equals(prop)) {
+		} else if (IArc.UNSELECT_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setUnselect();
-		} else if (IArcImpl.COLOR_PROP.equals(prop)) {
+		} else if (IArc.COLOR_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		}
 	}
@@ -170,7 +171,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
-			((AbstractModelElement) getModel()).addPropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
 		}
 	}
 
@@ -181,7 +182,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
-			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
 	}
 }

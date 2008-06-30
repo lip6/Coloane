@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.copypast;
 
-import fr.lip6.move.coloane.core.copypast.container.ModelContainer;
+import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
@@ -13,10 +13,10 @@ import org.eclipse.gef.ui.actions.Clipboard;
 public class CopyCommand extends Command {
 	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private ModelContainer container;
+	private GraphContainer container;
 
 	public CopyCommand(ColoaneEditor editor) {
-		container = new ModelContainer(editor.getGraph().getFormalism());
+		container = new GraphContainer(editor.getGraph().getFormalism());
 	}
 
 	/**

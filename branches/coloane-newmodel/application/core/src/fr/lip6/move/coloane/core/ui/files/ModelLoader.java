@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.ui.ColoaneMessages;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import java.util.logging.Logger;
 
@@ -25,8 +25,8 @@ public final class ModelLoader {
 
 	private ModelLoader() {	}
 
-	public static IModelImpl loadFromXML(IFile xmlFile) {
-		IModelImpl model = null;
+	public static IGraph loadFromXML(IFile xmlFile) {
+		IGraph graph = null;
 
 		// Creation de deux handler.
 		// Le premier permet de checker si le fichier est valide pour Coloane
@@ -57,7 +57,7 @@ public final class ModelLoader {
 		}
 
 		// Verifie la presence d'un indice sur le formalisme
-		if (globalHandler.getGraph().getGenericModel().getFormalism() == "") { //$NON-NLS-1$
+		if (globalHandler.getGraph().getFormalism() == null) {
 			LOGGER.fine("Aucun formalisme trouve dans le fichier " + xmlFile.getName()); //$NON-NLS-1$
 			return null;
 		}
@@ -100,12 +100,12 @@ public final class ModelLoader {
 		}
 
 		// Creation du modele a partir du modele generique
-		model = modelHandler.getGraph();
+		graph = modelHandler.getGraph();
 
 		// Creation d'une session pour ce modele
-		if (model != null && !Motor.getInstance().createSession(model, xmlFile.getName())) {
+		if (graph != null && !Motor.getInstance().createSession(graph, xmlFile.getName())) {
 			LOGGER.warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
 		}
-		return model;
+		return graph;
 	}
 }

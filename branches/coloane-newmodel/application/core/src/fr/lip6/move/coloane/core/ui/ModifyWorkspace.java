@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import org.eclipse.ui.ide.IDE;
 public class ModifyWorkspace extends WorkspaceModifyOperation {
 
 	private IFile file;
-	private IModelImpl model;
+	private IGraph graph;
 	private IWorkbenchWindow window;
 
 	/**
@@ -33,9 +33,9 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	 * @param file Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
 	 * @param model Le modele a sauvegarder (modele generique)
 	 */
-	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IModelImpl m) {
+	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IGraph graph) {
 		this.file = f;
-		this.model = m;
+		this.graph = graph;
 		this.window = w;
 	}
 
@@ -47,7 +47,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
 		// Traduction du modele au format xml
-		String xmlString = ModelWriter.translateToXML(model);
+		String xmlString = ModelWriter.translateToXML(graph);
 
 		// Creation de l'input stream a partir d'une chaine de caractere
 		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());

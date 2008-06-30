@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 /**
  * Classe conteneur de NodeContainer et d'ArcContainer
  */
-public class ModelContainer {
+public class GraphContainer {
 	private final Formalism formalism;
 
 	private final HashMap<Integer, NodeContainer> nodes = new HashMap<Integer, NodeContainer>();
@@ -20,14 +20,14 @@ public class ModelContainer {
 	/**
 	 * @param formalism fomrmalisme du model
 	 */
-	public ModelContainer(Formalism formalism) {
+	public GraphContainer(Formalism formalism) {
 		this.formalism = formalism;
 	}
 
 	/**
 	 * @param node
 	 */
-	public final void addNode(INodeImpl node) {
+	public final void addNode(INode node) {
 		nodes.put(node.getId(), new NodeContainer(node));
 	}
 
@@ -49,7 +49,7 @@ public class ModelContainer {
 	/**
 	 * @param arc
 	 */
-	public final void addArc(IArcImpl arc) {
+	public final void addArc(IArc arc) {
 		arcs.add(new ArcContainer(arc, arc.getSource().getId(), arc.getTarget().getId()));
 	}
 

@@ -36,7 +36,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#updateMiddlePoint()
 	 */
 	public final void updateMiddlePoint() {
-		this.oldMiddlePoint = this.findMiddlePoint();
+		this.oldMiddlePoint = findMiddlePoint();
 	}
 
 	/*

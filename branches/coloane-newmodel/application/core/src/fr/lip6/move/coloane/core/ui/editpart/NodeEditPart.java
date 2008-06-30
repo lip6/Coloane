@@ -1,18 +1,12 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.NodeFigure;
-import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -27,7 +21,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -42,7 +35,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * EditPart pour les noeuds
  */
-public class ElementEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
+public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, org.eclipse.gef.NodeEditPart {
 
 	private ConnectionAnchor anchor = null;
 
@@ -113,7 +106,7 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 			INodeFigure nodeFigure = (INodeFigure) getFigure();
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
-			((ModelEditPart) getParent()).getFigure().repaint(oldRect);
+			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
 		}
 
 		refreshVisuals();
@@ -124,7 +117,6 @@ public class ElementEditPart extends AbstractGraphicalEditPart implements Proper
 	 */
 	@Override
 	protected final void createEditPolicies() {
-
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
 

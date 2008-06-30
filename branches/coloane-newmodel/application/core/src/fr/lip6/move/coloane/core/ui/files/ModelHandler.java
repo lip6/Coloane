@@ -1,23 +1,14 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IElement;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.model.Node;
-import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
+import fr.lip6.move.coloane.core.ui.model.GraphModel;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -35,14 +26,13 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ModelHandler extends DefaultHandler {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private Stack<IElement> stack = new Stack<IElement>();
-	private List<Runnable> tasks = new LinkedList<Runnable>();
+	private Stack<Object> stack = new Stack<Object>();
+	private Map<Integer, Integer> nodesId = new HashMap<Integer, Integer>();
 
-	private Formalism formalisme;
-	private IModelImpl modelAdapter;
+	private IGraph graph;
 
 	// Donnees contenues dans les balises
-	private String data = ""; //$NON-NLS-1$
+	private StringBuilder data;
 
 
 	/**
@@ -50,8 +40,8 @@ public class ModelHandler extends DefaultHandler {
 	 */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
-		data = "";
-		
+		data = new StringBuilder();
+
 		// Balise MODEL
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
 			startModel(attributes);
@@ -80,7 +70,7 @@ public class ModelHandler extends DefaultHandler {
 	 */
 	@Override
 	public final void characters(char[] ch, int start, int length) throws SAXException {
-		data += this.deformat(new String(ch, start, length));
+		data.append(this.deformat(new String(ch, start, length)));
 	}
 
 
@@ -118,42 +108,40 @@ public class ModelHandler extends DefaultHandler {
 	 * @param attributes
 	 */
 	private void startModel(Attributes attributes) {
-		IModel model = new Model(new CamiTranslator());
-
 		// Recuperation des positions
-		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
-		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
+//		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
+//		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
 
-		// Parametrage du modele bas niveau
-		model.setPosition(x, y);
-		model.setFormalism(attributes.getValue("formalism")); //$NON-NLS-1$
+		// Récupération du nom du formalisme
+		String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
 
-		IModelImpl modelAdapter = new ModelImplAdapter(model);
-		this.formalisme = modelAdapter.getFormalism();
-		stack.push(modelAdapter);
+		// Création du graph
+		IGraph graph = new GraphModel(formalismName);
+
+		stack.push(graph);
 	}
 
 	/**
 	 * @param attributes
 	 */
 	private void startNode(Attributes attributes) {
-		IModelImpl modelAdapter = (IModelImpl) stack.peek();
+		IGraph graph = (IGraph) stack.peek();
 
-		// Recuperation des positions et de l'identifiant
+		// Recuperation des infos concernant le noeud.
 		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
 		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-		String nodeType = attributes.getValue("nodetype"); //$NON-NLS-1$
+		String nodeFormalismName = attributes.getValue("nodetype"); //$NON-NLS-1$
 		int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 
 		// Creation du noeud
-		INode node = new Node(nodeType, x, y, id);
-		INodeImpl nodeAdapter = new NodeImplAdapter(node, this.formalisme.getNodeFormalism(nodeType));
-		nodeAdapter.setModelAdapter(modelAdapter);
+		INode node = graph.createNode(nodeFormalismName);
+		nodesId.put(id, node.getId());
+		node.getGraphicInfo().setLocation(x, y);
 
 		// Taille du noeud
 		try {
 			int scale = Integer.parseInt(attributes.getValue("scale")); //$NON-NLS-1$
-			nodeAdapter.getGraphicInfo().setScale(scale);
+			node.getGraphicInfo().setScale(scale);
 		} catch (NumberFormatException e) {
 			logger.fine("attribut scale absent ou incorrecte"); //$NON-NLS-1$
 		}
@@ -161,7 +149,7 @@ public class ModelHandler extends DefaultHandler {
 		// Couleur du noeud
 		try {
 			Color foreground = parseColor(attributes.getValue("foreground")); //$NON-NLS-1$
-			nodeAdapter.getGraphicInfo().setForeground(foreground);
+			node.getGraphicInfo().setForeground(foreground);
 		} catch (NumberFormatException e) {
 			logger.fine("attribut foreground absent ou incorrecte"); //$NON-NLS-1$
 		}
@@ -169,11 +157,11 @@ public class ModelHandler extends DefaultHandler {
 		// Couleur de fond du noeud
 		try {
 			Color background = parseColor(attributes.getValue("background")); //$NON-NLS-1$
-			nodeAdapter.getGraphicInfo().setBackground(background);
+			node.getGraphicInfo().setBackground(background);
 		} catch (NumberFormatException e) {
 			logger.fine("attribut background absent ou incorrecte"); //$NON-NLS-1$
 		}
-		stack.push(nodeAdapter);
+		stack.push(node);
 	}
 
 	/**
@@ -197,27 +185,26 @@ public class ModelHandler extends DefaultHandler {
 	 * @param attributes
 	 */
 	private void startArc(Attributes attributes) {
-		IModelImpl modelAdapter = (IModelImpl) stack.peek();
+		IGraph graph = (IGraph) stack.peek();
 
-		// Recuperation de l'identifiant de ses noeuds
+		// Recuperation des infos concernant l'arc
 		int startid = Integer.parseInt(attributes.getValue("startid")); //$NON-NLS-1$
 		int endid = Integer.parseInt(attributes.getValue("endid")); //$NON-NLS-1$
+		String arcFormalismName = attributes.getValue("arctype"); //$NON-NLS-1$
 
 		// Creation de l'arc
-		IArcImpl arcAdapter = new ArcImplAdapter(
-				(INodeImpl) modelAdapter.getModelObject(startid),
-				(INodeImpl) modelAdapter.getModelObject(endid),
-				modelAdapter.getFormalism().getArcFormalism(attributes.getValue("arctype"))); //$NON-NLS-1$
-		arcAdapter.setModelAdapter(modelAdapter);
+		IArc arc = graph.createArc(arcFormalismName,
+				graph.getNode(nodesId.get(startid)),
+				graph.getNode(nodesId.get(endid)));
 
 		// Couleur de l'arc
 		try {
 			Color color = parseColor(attributes.getValue("color")); //$NON-NLS-1$
-			arcAdapter.getGraphicInfo().setColor(color);
+			arc.getGraphicInfo().setColor(color);
 		} catch (NumberFormatException e) {
 			logger.fine("attribut color absent ou incorrecte"); //$NON-NLS-1$
 		}
-		stack.push(arcAdapter);
+		stack.push(arc);
 	}
 
 	/**
@@ -225,62 +212,43 @@ public class ModelHandler extends DefaultHandler {
 	 * @param attributes
 	 */
 	private void startInflexPoint(Attributes attributes) {
-		IArcImpl arcAdapter = (IArcImpl) stack.peek();
+		IArc arc = (IArc) stack.peek();
 		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
 		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-		arcAdapter.addInflexPoint(new Point(x, y));
+		arc.addInflexPoint(new Point(x, y));
 	}
 
 	/**
 	 * La pile doit contenir l'IElement sur lequel doit être placé cet attribut
+	 * @param name nom de l'attribut
 	 * @param attributes
 	 */
 	private void startAttribute(String name, Attributes attributes) {
-		IElement element = stack.peek();
-		for (IAttributeImpl attr : element.getAttributes()) {
-			if (attr.getDisplayName().equals(name)) {
-				int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
-				int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-				attr.getGraphicInfo().setLocation(x, y);
-				stack.push(attr);
-				return;
-			}
-		}
+		IElement element = (IElement) stack.peek();
+		IAttribute attribute = element.getAttribute(name);
+		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
+		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
+		attribute.getGraphicInfo().setLocation(x, y);
+
+		stack.push(attribute);
 	}
 
 	private void endModel() {
-		this.modelAdapter = (IModelImpl) stack.pop();
-		for (Runnable task : tasks) {
-			task.run();
-		}
+		this.graph = (IGraph) stack.pop();
 	}
 
 	/**
-	 * La pile doit contenir le noeud ajouté par startNode et le model.<br>
 	 * Le noeud est dépilé.
 	 */
 	private void endNode() {
-		INodeImpl nodeAdapter = (INodeImpl) stack.pop();
-		IModelImpl modelAdapter = (IModelImpl) stack.peek();
-		try {
-			modelAdapter.addNode(nodeAdapter);
-		} catch (BuildException e) {
-			logger.warning("Impossible d'ajouter le noeud : " + e.getMessage()); //$NON-NLS-1$
-		}
+		/*INode node = (INode)*/ stack.pop();
 	}
 
 	/**
-	 * La pile doit contenir l'arc ajouté par startArc et le model.<br>
 	 * L'arc est dépilé.
 	 */
 	private void endArc() {
-		IArcImpl arcAdapter = (IArcImpl) stack.pop();
-		IModelImpl modelAdapter = (IModelImpl) stack.peek();
-		try {
-			modelAdapter.addArc(arcAdapter);
-		} catch (BuildException e) {
-			logger.warning("Impossible d'ajouter l'arc : " + e.getMessage()); //$NON-NLS-1$
-		}
+		/*IArc arc = (IArc)*/ stack.pop();
 	}
 
 	/**
@@ -291,23 +259,18 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * La pile doit contenir un IElement sur lequel doit être ajouté l'attribut.<br>
-	 * L'attribut est dépilé.
+	 * L'attribut est dépilé et on défini ça valeur.
 	 */
 	private void endAttribute() {
-		final IAttributeImpl attributeAdapter = (IAttributeImpl) stack.pop();
-		final String value = data;
-		tasks.add(new Runnable() {
-			public void run() {
-				attributeAdapter.setValue(attributeAdapter.getDefaultValue(), value);
-			}
-		});
+		IAttribute attribute = (IAttribute) stack.pop();
+		String value = data.toString();
+		attribute.setValue(value);
 	}
 
 	/**
 	 * Retourne le modele cree par le parcours du fichier xml
 	 */
-	public final IModelImpl getGraph() {
-		return modelAdapter;
+	public final IGraph getGraph() {
+		return graph;
 	}
 }

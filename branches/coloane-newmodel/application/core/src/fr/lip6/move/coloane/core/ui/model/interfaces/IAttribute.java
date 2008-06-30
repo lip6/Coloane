@@ -42,4 +42,25 @@ public interface IAttribute {
 	 */
 	IAttributeGraphicInfo getGraphicInfo();
 
+	/**
+	 * @return L'élément associé à cet attribut.
+	 */
+	IElement getReference();
+
+	/**
+	 * Retourne le type d'affichage a considerer pour cet attribut
+	 * @return int Indicateur d'affichage
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttributeGraphicInfo
+	 */
+	int getType();
+
+	/**
+	 * @return True si l'attribut doit être dessiné.
+	 */
+	boolean isDrawable();
+
+	/**
+	 * @return True si l'attribut est multi-ligne.
+	 */
+	boolean isMultiLine();
 }

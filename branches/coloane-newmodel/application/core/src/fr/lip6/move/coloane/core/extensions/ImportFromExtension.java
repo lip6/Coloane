@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 public final class ImportFromExtension {
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core");
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Attributs du point d'extension
@@ -28,11 +28,11 @@ public final class ImportFromExtension {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 
-		LOG.finest("Parcours des contributions :");
+		LOG.finest("Parcours des contributions :"); //$NON-NLS-1$
 		for (int i = 0; i < contributions.length; i++) {
-			LOG.finest(i + " -> " + contributions[i].getAttribute(WIZREF_EXTENSION) + " " + contributions[i].getAttribute(CLASS_EXTENSION));
+			LOG.finest(i + " -> " + contributions[i].getAttribute(WIZREF_EXTENSION) + " " + contributions[i].getAttribute(CLASS_EXTENSION)); //$NON-NLS-1$ //$NON-NLS-2$
 			if (contributions[i].getAttribute(WIZREF_EXTENSION).equals(ref)) {
-				LOG.finest("... Extension decouverte !");
+				LOG.finest("... Extension decouverte !"); //$NON-NLS-1$
 				convertContribution = contributions[i];
 				break;
 			}
@@ -40,11 +40,11 @@ public final class ImportFromExtension {
 
 		IImportFrom convertInstance = null;
 		if (convertContribution != null) {
-			LOG.finest("Instantiation de l'extension (classe : " + convertContribution.getAttribute(CLASS_EXTENSION));
+			LOG.finest("Instantiation de l'extension (classe : " + convertContribution.getAttribute(CLASS_EXTENSION)); //$NON-NLS-1$
 			convertInstance = (IImportFrom) convertContribution.createExecutableExtension(CLASS_EXTENSION);
 		}
 
-		LOG.finest("Retour de l'instance de conversion");
+		LOG.finest("Retour de l'instance de conversion"); //$NON-NLS-1$
 		return convertInstance;
 	}
 }

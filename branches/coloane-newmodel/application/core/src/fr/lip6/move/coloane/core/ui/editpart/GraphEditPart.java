@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.core.ui.model.IElement;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
+import fr.lip6.move.coloane.core.ui.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,7 +30,7 @@ import org.eclipse.swt.SWT;
 /**
  * EditPart pour le modele global
  */
-public class ModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
+public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -105,8 +103,13 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 * @return List La liste des enfants dans la repr�sentation arborescente du modele
 	 */
 	@Override
-	protected final List<IElement> getModelChildren() {
-		return ((ModelImplAdapter) getModel()).getChildren();
+	protected final List<Object> getModelChildren() {
+		IGraph graph = (IGraph) getModel();
+		ArrayList<Object> children = new ArrayList<Object>();
+		children.addAll(graph.getDrawableAttributes());
+
+		children.addAll(graph.getNodes());
+		return children;
 	}
 
 	/**
@@ -129,12 +132,12 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		String prop = event.getPropertyName();
 
 		// Ajout/Suppression d'un noeud
-		if (IModelImpl.NODE_ADDED_PROP.equals(prop) || IModelImpl.NODE_REMOVED_PROP.equals(prop)) {
+		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
 		}
 
 		// Ajout d'un attribut
-		if (IModelImpl.ATTRIBUTE_ADDED_PROP.equals(prop)) {
+		if (IGraph.ATTRIBUTE_ADDED_PROP.equals(prop)) {
 			refreshChildren();
 		}
 	}
@@ -148,7 +151,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
-			((AbstractModelElement) getModel()).addPropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
 		}
 	}
 
@@ -160,7 +163,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
-			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
 	}
 }
