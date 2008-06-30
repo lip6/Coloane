@@ -209,7 +209,7 @@ public final class ModelWriter {
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append(" xsi:noNamespaceSchemaLocation='").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" formalism='").append(formalismName).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 

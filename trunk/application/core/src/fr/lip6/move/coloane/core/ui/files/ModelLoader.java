@@ -52,6 +52,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.finest("StackTrace : " + e.getStackTrace()); //$NON-NLS-1$
 			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName());
 			return null;
 		}
