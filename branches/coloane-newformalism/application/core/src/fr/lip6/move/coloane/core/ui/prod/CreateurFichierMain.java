@@ -9,7 +9,7 @@ public final class CreateurFichierMain {
 
 		String xmlFile= "./src/fr/lip6/move/coloane/core/ui/prod/producteurFormalism.xml";
 		
-		ProdForm newF = new ProdForm();
+		producteurHandler newF = new producteurHandler();
 		
 		SAXParserFactory factory;
 
