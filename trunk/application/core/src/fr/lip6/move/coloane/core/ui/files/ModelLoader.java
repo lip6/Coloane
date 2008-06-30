@@ -47,8 +47,10 @@ public final class ModelLoader {
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(xmlFile.getContents()));
 
+			LOGGER.finest("Emplacement du fichier XML a parser : " + xmlFile.getLocation().toString()); //$NON-NLS-1$
+			LOGGER.finest("URI du fichier XML a parser : " + xmlFile.getLocationURI().toString()); //$NON-NLS-1$
 			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(xmlFile.getLocation().toString(), globalHandler);
+			saxParser.parse(xmlFile.getLocationURI().toString(), globalHandler);
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
