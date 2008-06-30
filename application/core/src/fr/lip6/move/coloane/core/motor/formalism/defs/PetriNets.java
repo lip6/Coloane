@@ -13,7 +13,7 @@ import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
 public class PetriNets extends Formalism {
 
 	private static final String NAME = "AMI-Net"; //$NON-NLS-1$
-	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
+	private static final String IMG = "/resources/icons/cube-blue.png"; //$NON-NLS-1$
 	private static final String EXTENSION = "petri"; //$NON-NLS-1$
 	private static final String XSCHEMA = "ami-net.xsd"; //$NON-NLS-1$
 

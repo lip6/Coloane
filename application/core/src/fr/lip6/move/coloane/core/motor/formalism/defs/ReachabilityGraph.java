@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
 public class ReachabilityGraph extends Formalism {
 
 	private static final String NAME = "ReachabilityGraph"; //$NON-NLS-1$
-	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
+	private static final String IMG = "/resources/icons/cube-grenn.png"; //$NON-NLS-1$
 	private static final String EXTENSION = "rg"; //$NON-NLS-1$
 	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NLS-1$
 

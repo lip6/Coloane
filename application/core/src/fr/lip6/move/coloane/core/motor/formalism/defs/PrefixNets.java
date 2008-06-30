@@ -13,7 +13,7 @@ import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
 public class PrefixNets extends Formalism {
 
 	private static final String NAME = "Branching-Process"; //$NON-NLS-1$
-	private static final String IMG = "/resources/icons/instance.gif"; //$NON-NLS-1$
+	private static final String IMG = "/resources/icons/cube-red.png"; //$NON-NLS-1$
 	private static final String EXTENSION = "prefix"; //$NON-NLS-1$
 	private static final String XSCHEMA = "branching-process.xsd"; //$NON-NLS-1$
 
