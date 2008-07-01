@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.wizards;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -67,13 +67,13 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.removeAll();
 
 		// Recupere la liste des formalismes
-		ArrayList<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
+		List<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
 
 		for (Formalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 			// Determine l'icone associe a l'item dans la table
-			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); //$NON-NLS-1$
+			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
 		}
 
 		GridLayout gridLayout = new GridLayout();

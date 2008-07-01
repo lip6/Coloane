@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
-import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import java.beans.PropertyChangeEvent;
@@ -23,7 +23,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 /**
  * Section qui permet de gérer la position d'un noeud.
  */
-public class NodeLocationSection extends AbstractSection<INodeImpl> implements PropertyChangeListener {
+public class NodeLocationSection extends AbstractSection<INode> implements PropertyChangeListener {
 	/** Widgets qui permettent de modifier les coordonnées du noeud. */
 	private Spinner x, y;
 
@@ -117,7 +117,7 @@ public class NodeLocationSection extends AbstractSection<INodeImpl> implements P
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (INodeImpl.LOCATION_PROP.equals(evt.getPropertyName())) {
+		if (INode.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeSizeCmd;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import java.beans.PropertyChangeEvent;
@@ -21,7 +21,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * La taille d'un noeud est exprimé en pourcentage de la taille d'origine spécifié
  * dans le formalisme.
  */
-public class NodeSizeSection extends AbstractSection<INodeImpl> {
+public class NodeSizeSection extends AbstractSection<INode> {
 	private static final int INCREMENT_VALUE = 10;
 	private static final int MAX_VALUE = 400;
 	private static final int MIN_VALUE = 80;
@@ -83,7 +83,7 @@ public class NodeSizeSection extends AbstractSection<INodeImpl> {
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (INodeImpl.RESIZE_PROP.equals(evt.getPropertyName())) {
+		if (INode.RESIZE_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}

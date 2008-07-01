@@ -5,7 +5,7 @@ import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.ColoaneMessages;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import java.io.File;
 
@@ -84,7 +84,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			IFile file = (IFile) res;
 
 			try {
-				IModelImpl model = ModelLoader.loadFromXML(file);
+				IGraph graph = ModelLoader.loadFromXML(file);
 				IExportTo exportInstance = ExportToExtension.createConvertInstance(this.idWizard);
 
 				// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle
@@ -92,7 +92,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 				String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
 
 				if (exportInstance == null) { return false;	}
-				exportInstance.export(model, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
+				exportInstance.export(graph, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
 			} catch (Exception e) {
 				return false;
 			}

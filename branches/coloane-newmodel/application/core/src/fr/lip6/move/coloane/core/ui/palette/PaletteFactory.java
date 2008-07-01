@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.motor.formalisms.NodeFormalism;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -70,19 +70,20 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry component; // Un element de la palette
 
 		// Parcours de la liste des elements de base associe au formalisme
-		for (final ElementFormalism element : formalism.getListOfElementBase()) {
+		for (FormalismElement element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
-			if (element instanceof NodeFormalism) {
+			if (element instanceof Node) {
+				final Node node = (Node) element;
 				component = new CombinedTemplateCreationEntry(
-						element.getPaletteName(), 	// Nom de l'objet
-						element.getPaletteName(), 	// Description de l'objet
+						node.getPaletteName(), 	// Nom de l'objet
+						node.getPaletteName(), 	// Description de l'objet
 						new CreationFactory() { 	// Object Template
-							public Object getNewObject() { return new NodeImplAdapter(element);	}
-							public Object getObjectType() {	return NodeImplAdapter.class; }
+							public Object getNewObject() { return node;	}
+							public Object getObjectType() {	return INode.class; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, node.getAddrIcone16()),
+						ImageDescriptor.createFromFile(Coloane.class, node.getAddrIcone24()));
 
 				componentsNodeDrawer.add(component);
 			}
@@ -105,19 +106,20 @@ public final class PaletteFactory {
 		ConnectionCreationToolEntry component; /* Un element de la palette */
 
 		// Parcours de la liste des elements de base
-		for (final ElementFormalism element : formalism.getListOfElementBase()) {
+		for (FormalismElement element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un arc
-			if (element instanceof ArcFormalism) {
+			if (element instanceof Arc) {
+				final Arc arc = (Arc) element;
 				component = new ConnectionCreationToolEntry(
-						element.getPaletteName(), // Nom de l'arc
-						element.getPaletteName(), // Description de l'arc
+						arc.getPaletteName(), // Nom de l'arc
+						arc.getPaletteName(), // Description de l'arc
 						new CreationFactory() {
 							public Object getNewObject() { return null; }
-							public Object getObjectType() { return element; }
+							public Object getObjectType() { return arc; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, arc.getAddrIcone16()),
+						ImageDescriptor.createFromFile(Coloane.class, arc.getAddrIcone24()));
 				componentsArcDrawer.add(component);
 			}
 		}

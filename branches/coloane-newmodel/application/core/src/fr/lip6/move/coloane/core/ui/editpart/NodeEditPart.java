@@ -1,12 +1,19 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.NodeFigure;
+import fr.lip6.move.coloane.core.ui.model.AbstractElement;
+import fr.lip6.move.coloane.core.ui.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,7 +52,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 */
 	@Override
 	protected final IFigure createFigure() {
-		IFigure figure = new NodeFigure((AbstractModelElement) getModel());
+		IFigure figure = new NodeFigure((AbstractElement) getModel());
 		return figure;
 	}
 
@@ -56,13 +63,13 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 */
 	@Override
 	protected final void refreshVisuals() {
-		INodeImpl nodeModel = (INodeImpl) getModel();
+		INode nodeModel = (INode) getModel();
 
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(), nodeModel.getGraphicInfo().getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 
 		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(nodeModel.getModelAdapter());
+		Coloane.notifyModelChange(nodeModel);
 	}
 
 	/**
@@ -73,36 +80,36 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 		String prop = property.getPropertyName();
 
 		// Propriete de connexion
-		if (INodeImpl.SOURCE_ARCS_PROP.equals(prop)) {
+		if (INode.SOURCE_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
-		} else if (INodeImpl.TARGET_ARCS_PROP.equals(prop)) {
+		} else if (INode.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
 
 		// Propriete de selection speciale
-		} else if (INodeImpl.SPECIAL_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.SPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setSelectSpecial();
 			return;
-		} else if (INodeImpl.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
 			return;
 
 		// Propriete de selection
-		} else if (INodeImpl.SELECT_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.SELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setHighlight();
 			return;
 			//((INodeImpl) getModel()).setAttributesSelected(false, true);
-		} else if (INodeImpl.UNSELECT_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.UNSELECT_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setUnselect();
 			return;
 
 		// Propriété de changement de couleur
-		} else if (INodeImpl.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
-		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
 
 		// Propriété de changement de taille
-		} else if (INodeImpl.RESIZE_PROP.equalsIgnoreCase(prop)) {
+		} else if (INode.RESIZE_PROP.equalsIgnoreCase(prop)) {
 			INodeFigure nodeFigure = (INodeFigure) getFigure();
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
@@ -137,12 +144,11 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 			// Comportement lorsque l'objet est selectionne
 			@Override
 			protected void setSelectedState(int state) {
-				// TODO Auto-generated method stub
 				super.setSelectedState(state);
 				if (state != 0) {
-					((INodeImpl) getModel()).setAttributesSelected(false, true);
+					((INode) getModel()).setAttributesSelected(false, true);
 				} else {
-					((INodeImpl) getModel()).setAttributesSelected(false, false);
+					((INode) getModel()).setAttributesSelected(false, false);
 				}
 			}
 		});
@@ -153,8 +159,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 			// On autorise la suppression de l'element
 			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
-				IModelImpl parent = (IModelImpl) getHost().getParent().getModel();
-				INodeImpl child = (INodeImpl) getHost().getModel();
+				IGraph parent = (IGraph) getHost().getParent().getModel();
+				INode child = (INode) getHost().getModel();
 				Command cmd =  new NodeDeleteCmd(parent, child);
 				return cmd;
 			}
@@ -171,10 +177,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 			 */
 			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-				INodeImpl source = (INodeImpl) getHost().getModel();
+				INode source = (INode) getHost().getModel();
 
 				// Demande la creation d'un arc (1ere etape)
-				ArcCreateCmd cmd = new ArcCreateCmd(source, (ElementFormalism) request.getNewObjectType());
+				ArcCreateCmd cmd = new ArcCreateCmd(source, (Arc) request.getNewObjectType());
 				request.setStartCommand(cmd);
 				return cmd;
 			}
@@ -190,14 +196,14 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 				ArcCreateCmd createCmd = (ArcCreateCmd) request.getStartCommand();
 
 				// Autorise la connexion d'un arc
-				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(), (INodeImpl) getHost().getModel(), createCmd.getElementBase());
+				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(), (INode) getHost().getModel(), createCmd.getElementBase());
 				return cmd;
 			}
 
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
-				IArcImpl arc = (IArcImpl) request.getConnectionEditPart().getModel();
-				INodeImpl newSource = (INodeImpl) getHost().getModel();
+				IArc arc = (IArc) request.getConnectionEditPart().getModel();
+				INode newSource = (INode) getHost().getModel();
 				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
 				cmd.setNewSource(newSource);
 
@@ -206,8 +212,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
-				IArcImpl arc = (IArcImpl) request.getConnectionEditPart().getModel();
-				INodeImpl newTarget = (INodeImpl) getHost().getModel();
+				IArc arc = (IArc) request.getConnectionEditPart().getModel();
+				INode newTarget = (INode) getHost().getModel();
 				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
 				cmd.setNewTarget(newTarget);
 
@@ -226,8 +232,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 
 		// Il n'y a creation que la premiere fois
 		if (anchor == null) {
-			if (getModel() instanceof INodeImpl) {
-				INodeGraphicInfo nodeGraph = ((INodeImpl) getModel()).getGraphicInfo();
+			if (getModel() instanceof INode) {
+				INodeGraphicInfo nodeGraph = ((INode) getModel()).getGraphicInfo();
 
 				// Si le noeud est un cercle ou un double cercle
 				if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
@@ -247,8 +253,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 * @return List of IArcImpl
 	 */
 	@Override
-	protected final List<IArcImpl> getModelSourceConnections() {
-		return ((INodeImpl) getModel()).getSourceArcs();
+	protected final List<IArc> getModelSourceConnections() {
+		return ((INode) getModel()).getSourceArcs();
 	}
 
 	/**
@@ -256,8 +262,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 * @return List of IArcImpl
 	 */
 	@Override
-	protected final List<IArcImpl> getModelTargetConnections() {
-		return ((INodeImpl) getModel()).getTargetArcs();
+	protected final List<IArc> getModelTargetConnections() {
+		return ((INode) getModel()).getTargetArcs();
 	}
 
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
@@ -285,7 +291,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
-			((AbstractModelElement) getModel()).addPropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
 		}
 	}
 
@@ -297,7 +303,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
-			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
 	}
 

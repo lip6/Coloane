@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class InflexDeleteCmd extends Command {
 
-	private IArcImpl arc;
+	private IArc arc;
 	private Point position;
 	private int index;
 
@@ -20,7 +20,7 @@ public class InflexDeleteCmd extends Command {
 	 * @param p La position
 	 * @param i L'index
 	 */
-	public InflexDeleteCmd(IArcImpl arcModel, Point p, int i) {
+	public InflexDeleteCmd(IArc arcModel, Point p, int i) {
 		this.arc = arcModel;
 		this.position = p;
 		this.index = i;

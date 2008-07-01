@@ -6,8 +6,8 @@ import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.core.ui.model.IElement;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -107,13 +107,16 @@ public class ResultsView extends ViewPart {
 		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IModelImpl model = MANAGER.getCurrentSession().getGraph();
-				if (model == null) {
+				IGraph graph = MANAGER.getCurrentSession().getGraph();
+				if (graph == null) {
 					return;
 				}
 
 				// Mise a zero de tous les objets (retour a leur apparence normale)
-				for (IElement elt : model.getModelObjects()) {
+				for (IElement elt : graph.getNodes()) {
+					elt.setSpecial(false);
+				}
+				for (IElement elt : graph.getArcs()) {
 					elt.setSpecial(false);
 				}
 
@@ -124,7 +127,10 @@ public class ResultsView extends ViewPart {
 					// Selection des objets du modele
 					for (Integer toHighlight : node.getHighlighted()) {
 						if (toHighlight != -1) {
-							IElement elt = model.getModelObject(toHighlight);
+							IElement elt = graph.getNode(toHighlight);
+							if (elt == null) {
+								elt = graph.getArc(toHighlight);
+							}
 							if (elt != null) {
 								elt.setSpecial(true);
 							}
@@ -162,11 +168,11 @@ public class ResultsView extends ViewPart {
 	}
 
 	private void createActions() {
-		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif");
-		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif");
+		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Suppression d'un resultat
-		delete = new Action("Delete") {
+		delete = new Action(Messages.ResultsView_4) {
 			@Override
 			public void run() {
 				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
@@ -177,17 +183,17 @@ public class ResultsView extends ViewPart {
 			}
 		};
 		delete.setEnabled(false);
-		delete.setToolTipText("Delete result");
+		delete.setToolTipText(Messages.ResultsView_5);
 		delete.setImageDescriptor(cross);
 
 		// Suppression de tous les résultats
-		deleteAll = new Action("Delete All") {
+		deleteAll = new Action(Messages.ResultsView_6) {
 			@Override
 			public void run() {
 				MANAGER.getCurrentSession().getServiceResults().removeAll();
 			}
 		};
-		deleteAll.setToolTipText("Delete all results");
+		deleteAll.setToolTipText(Messages.ResultsView_7);
 		deleteAll.setImageDescriptor(doubleCross);
 }
 

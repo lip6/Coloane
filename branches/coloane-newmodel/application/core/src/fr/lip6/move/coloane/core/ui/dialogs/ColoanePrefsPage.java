@@ -100,10 +100,10 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					// Dans le cas localhost
-					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) { //$NON-NLS-1$
+					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) {
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
-						ip = InetAddress.getByName("localhost").getHostAddress();
+						ip = InetAddress.getByName("localhost").getHostAddress(); //$NON-NLS-1$
 						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 
 					// Dans le cas Autres...
@@ -112,7 +112,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 						framekitPort.setEnabled(true);
 						ip = ""; //$NON-NLS-1$
 						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
-					} else { //$NON-NLS-1$
+					} else {
 						int indexServer = comboServer.indexOf(comboServer.getText());
 						ip = Coloane.getParam("IP" + (indexServer + 1)); //$NON-NLS-1$
 						port = Coloane.getParam("PORT" + (indexServer + 1)); //$NON-NLS-1$

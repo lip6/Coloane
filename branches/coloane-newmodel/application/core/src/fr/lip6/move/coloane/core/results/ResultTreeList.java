@@ -51,9 +51,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 			try {
 				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
 				services.put(service, report);
-				Coloane.getLogger().fine("Ajout du service de resultat : " + service);
+				Coloane.getLogger().fine("Ajout du service de resultat : " + service); //$NON-NLS-1$
 			} catch (CoreException e) {
-				Coloane.getLogger().warning("Probleme avec l'extension : " + service);
+				Coloane.getLogger().warning("Probleme avec l'extension : " + service); //$NON-NLS-1$
 			}
 		}
 	}
@@ -111,7 +111,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @see fr.lip6.move.coloane.core.results.IResultTree#addChild(fr.lip6.move.coloane.core.results.IResultTree)
 	 */
 	public final void addChild(IResultTree child) {
-		String serviceName = "";
+		String serviceName = ""; //$NON-NLS-1$
 		if (child instanceof ResultTreeImpl) {
 			serviceName = ((ResultTreeImpl) child).getServiceName();
 		}

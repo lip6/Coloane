@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -16,14 +16,14 @@ public class NodeSetConstraintCmd extends Command {
 	private Rectangle oldBounds;
 
 	/** Noeud a manipuler */
-	private final INodeImpl node;
+	private final INode node;
 
 	/**
 	 * Constructeur
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public NodeSetConstraintCmd(INodeImpl n, Rectangle bounds) {
+	public NodeSetConstraintCmd(INode n, Rectangle bounds) {
 		if (n == null || bounds == null) {
 			throw new IllegalArgumentException();
 		}

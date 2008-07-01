@@ -234,9 +234,9 @@ public final class Com implements IComApi {
 	 * Affichage des menus construit a partir des commandes CAMI
 	 * @param updates La racine du menu a afficher
 	 */
-	public void updateMenu(Vector<IUpdateMenuCom> updatesMenu) {
+	public void updateMenu(final Vector<IUpdateMenuCom> updates) {
 		logger.fine("Mise a jour des menus"); //$NON-NLS-1$
-		this.updates = updatesMenu;
+		this.updates = updates;
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				ui.updateMenu(motor.getConcernedSession(), updates);
@@ -290,7 +290,7 @@ public final class Com implements IComApi {
 	 * @return IModel Le modele en cours
 	 * @see IModel
 	 */
-	public IGraph sendModel() {
+	public IGraph sendGraph() {
 		logger.fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
 		return this.motor.getSessionManager().getCurrentSession().getGraph();
 	}
@@ -301,7 +301,7 @@ public final class Com implements IComApi {
 	 * En general, l'API est responsable de cet appel !
 	 * @param Le modele construit par l'api de communication
 	 */
-	public void setNewModel(IGraph graph) {
+	public void setNewGraph(IGraph graph) {
 		logger.fine("Reception d'un nouveau modele"); //$NON-NLS-1$
 		this.motor.setNewModel(graph);
 	}

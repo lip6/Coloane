@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ArcChangeColorCmd;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import org.eclipse.jface.preference.ColorFieldEditor;
@@ -21,7 +21,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * Section qui permet de gérer les propriétés graphiques d'un arc :
  * <li>Couleur de l'arc</li>
  */
-public class ArcColorSection extends AbstractSection<IArcImpl> {
+public class ArcColorSection extends AbstractSection<IArc> {
 	/** Editeur de couleur */
 	private ColorFieldEditor color;
 
@@ -95,7 +95,7 @@ public class ArcColorSection extends AbstractSection<IArcImpl> {
 	 */
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		if (IArcImpl.COLOR_PROP.equals(prop)) {
+		if (IArc.COLOR_PROP.equals(prop)) {
 			refresh();
 		}
 	}

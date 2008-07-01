@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands.properties;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 
 import org.eclipse.gef.commands.Command;
 
@@ -8,7 +8,7 @@ import org.eclipse.gef.commands.Command;
  * Commande pour changer la valeur d'un attribut.
  */
 public class ChangeAttributeCmd extends Command {
-	private IAttributeImpl attr;
+	private IAttribute attr;
 	private String oldValue;
 	private String newValue;
 
@@ -16,7 +16,7 @@ public class ChangeAttributeCmd extends Command {
 	 * @param attr Attribut à modifier
 	 * @param newValue Nouvelle valeur
 	 */
-	public ChangeAttributeCmd(IAttributeImpl attr, String newValue) {
+	public ChangeAttributeCmd(IAttribute attr, String newValue) {
 		this.attr = attr;
 		this.newValue = newValue;
 	}
@@ -38,7 +38,7 @@ public class ChangeAttributeCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		attr.setValue(oldValue, newValue);
+		attr.setValue(newValue);
 	}
 
 	/* (non-Javadoc)
@@ -46,7 +46,7 @@ public class ChangeAttributeCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		attr.setValue(newValue, oldValue);
+		attr.setValue(oldValue);
 	}
 
 }

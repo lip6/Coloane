@@ -55,7 +55,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 				this.addObserver(sessionManager.getCurrentSession().getServiceResults());
 			}
 		} catch (NullPointerException e) {
-			Coloane.getLogger().warning("Erreur dans l'attachement de la liste de resultats a la session");
+			Coloane.getLogger().warning("Erreur dans l'attachement de la liste de resultats a la session"); //$NON-NLS-1$
 		}
 	}
 

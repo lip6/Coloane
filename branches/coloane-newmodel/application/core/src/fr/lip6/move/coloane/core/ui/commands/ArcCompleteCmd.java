@@ -1,11 +1,8 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
@@ -15,6 +12,9 @@ import org.eclipse.gef.commands.Command;
  * Cette commande est creee lors du second clic (donc sur l'element d'arrivee).
  */
 public class ArcCompleteCmd extends Command {
+
+	/** Graphe */
+	private IGraph graph;
 
 	/** Noeud source */
 	private final INode source;
@@ -35,6 +35,7 @@ public class ArcCompleteCmd extends Command {
 	 * @param base elementBase
 	 */
 	public ArcCompleteCmd(INode arcSource, INode arcTarget, Arc arcFormalism) {
+		this.graph = (IGraph) arcSource.getParent();
 		this.source = arcSource;
 		this.target = arcTarget;
 		this.arcFormalism = arcFormalism;
@@ -69,9 +70,7 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final void execute() {
 		// Construction de l'arc
-		arc = new ArcImplAdapter(this.source, this.target, this.formalism);
-		arc.setModelAdapter(source.getModelAdapter());
-		this.redo();
+		arc = graph.createArc(arcFormalism.getName(), source, target);
 	}
 
 	/*
@@ -80,11 +79,7 @@ public class ArcCompleteCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		try {
-			source.getModelAdapter().addArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.addArc(arc);
 	}
 
 	/*
@@ -93,10 +88,6 @@ public class ArcCompleteCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		try {
-			source.getModelAdapter().removeArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.deleteArc(arc);
 	}
 }

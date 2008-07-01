@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands.properties;
 
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
@@ -11,13 +11,13 @@ import org.eclipse.swt.graphics.Color;
 public class NodeChangeBackgroundCmd extends Command {
 	private Color oldColor;
 	private Color newColor;
-	private INodeImpl node;
+	private INode node;
 
 	/**
 	 * @param node Noeud à modifier
 	 * @param color Nouvelle couleur
 	 */
-	public NodeChangeBackgroundCmd(INodeImpl node, Color color) {
+	public NodeChangeBackgroundCmd(INode node, Color color) {
 		this.node = node;
 		this.newColor = color;
 	}

@@ -185,6 +185,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 		} else if (!formalism.isLinkAllowed(arc.getSource().getNodeFormalism(), arc.getTarget().getNodeFormalism())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
+			((NodeModel) arc.getSource()).addSourceArc(arc);
+			((NodeModel) arc.getTarget()).addTargetArc(arc);
 			arcs.put(arc.getId(), arc);
 		}
 	}

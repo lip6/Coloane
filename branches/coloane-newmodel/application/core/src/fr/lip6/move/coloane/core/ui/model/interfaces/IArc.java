@@ -87,4 +87,17 @@ public interface IArc extends IElement {
 	 * @return Une liste nom modifiable de tous les points d'inflexions.
 	 */
 	List<AbsoluteBendpoint> getInflexPoints();
+
+	/**
+	 * Reconnecte cet arc à deux nouveaux noeuds.
+	 * @param newSource
+	 * @param newTarget
+	 */
+	void reconnect(INode newSource, INode newTarget);
+
+	/**
+	 * Mettre a jour la position des attributs de l'arc en fonction de la
+	 * position des noeuds source et cible.
+	 */
+	void updateAttributesPosition();
 }

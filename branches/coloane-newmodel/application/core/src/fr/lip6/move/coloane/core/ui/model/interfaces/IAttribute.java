@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.model.interfaces;
 
-public interface IAttribute {
+public interface IAttribute extends IAbstractPropertyChange {
 
 	/** ID de la propriété lors d'un changement de valeur */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$

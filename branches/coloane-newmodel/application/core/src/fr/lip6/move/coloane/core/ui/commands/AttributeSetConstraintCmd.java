@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -17,15 +17,15 @@ public class AttributeSetConstraintCmd extends Command {
 	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Point oldBounds;
 
-	/** Noeud � manipuler */
-	private final IAttributeImpl attribute;
+	/** Noeud à manipuler */
+	private final IAttribute attribute;
 
 	/**
 	 * Constructeur
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public AttributeSetConstraintCmd(IAttributeImpl a, Rectangle newB) {
+	public AttributeSetConstraintCmd(IAttribute a, Rectangle newB) {
 		if (a == null || newB == null) {
 			throw new IllegalArgumentException();
 		}

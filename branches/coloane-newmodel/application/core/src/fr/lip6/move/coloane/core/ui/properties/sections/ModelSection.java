@@ -1,18 +1,18 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 /**
  * Section qui affiche les attributs du model.
  */
-public class ModelSection extends AbstractElementSection<IModelImpl> {
+public class ModelSection extends AbstractElementSection<IGraph> {
 
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
 			refreshControls(
-					getElement().getFormalism().getName(),
-					getElement().getFormalism().getListOfAttribute());
+					getElement().getFormalism().getMasterGraph().getName(),
+					getElement().getFormalism().getMasterGraph().getAttributes());
 
 			refreshContent();
 			redraw();

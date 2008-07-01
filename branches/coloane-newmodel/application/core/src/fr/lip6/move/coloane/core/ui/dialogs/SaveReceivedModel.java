@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.dialogs;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.ModifyWorkspace;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -23,15 +23,15 @@ import org.eclipse.ui.IWorkbenchWindow;
  */
 public class SaveReceivedModel implements Runnable {
 
-	private IModelImpl model;
+	private IGraph graph;
 	private IWorkbenchWindow window;
 
 	/**
 	 * Constructeur
-	 * @param model Le modele a sauvegarder
+	 * @param graph Le modele a sauvegarder
 	 */
-	public SaveReceivedModel(IModelImpl m, IWorkbenchWindow w) {
-		this.model = m;
+	public SaveReceivedModel(IGraph graph, IWorkbenchWindow w) {
+		this.graph = graph;
 		this.window = w;
 	}
 
@@ -52,7 +52,7 @@ public class SaveReceivedModel implements Runnable {
 
 			// Manipulation du path (pour ajout de l'extension du nouveu formalisme)
 			path = path.removeFileExtension();
-			path = path.addFileExtension(model.getFormalism().getExtension());
+			path = path.addFileExtension(graph.getFormalism().getExtension());
 
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
@@ -93,7 +93,7 @@ public class SaveReceivedModel implements Runnable {
 
 			try {
 				// Sauvegarde effective et affichage dans un nouvel onglet
-				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.model));
+				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.graph));
 			} catch (Exception e) {
 				Coloane.showErrorMsg(e.getMessage());
 				e.printStackTrace();

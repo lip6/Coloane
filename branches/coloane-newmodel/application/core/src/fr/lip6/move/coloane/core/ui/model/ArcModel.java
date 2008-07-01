@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.model;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArcGraphicInfo;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
@@ -33,57 +34,126 @@ public class ArcModel extends AbstractElement implements IArc {
 		((NodeModel) target).addTargetArc(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getId()
+	 */
 	public final int getId() {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getSource()
+	 */
 	public final INode getSource() {
 		return source;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getTarget()
+	 */
 	public final INode getTarget() {
 		return target;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getArcFormalism()
+	 */
 	public final Arc getArcFormalism() {
 		return arcFormalism;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getGraphicInfo()
+	 */
 	public final IArcGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
+	 */
 	public final void addInflexPoint(Point p, int index) {
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#addInflexPoint(org.eclipse.draw2d.geometry.Point)
+	 */
 	public final void addInflexPoint(Point p) {
 		inflexPoints.add(new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#removeInflexPoint(int)
+	 */
 	public final void removeInflexPoint(int index) {
 		inflexPoints.remove(index);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#modifyInflexPoint(int, org.eclipse.draw2d.geometry.Point)
+	 */
 	public final void modifyInflexPoint(int index, Point p) {
 		inflexPoints.get(index).setLocation(p);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#modifyInflexPoints(int, int)
+	 */
 	public final void modifyInflexPoints(int dx, int dy) {
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
 			inflexPoint.translate(dx, dy);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getInflexPoint(int)
+	 */
 	public final AbsoluteBendpoint getInflexPoint(int index) {
 		return inflexPoints.get(index);
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getInflexPoints()
+	 */
 	public final List<AbsoluteBendpoint> getInflexPoints() {
 		return Collections.unmodifiableList(inflexPoints);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#reconnect(fr.lip6.move.coloane.core.ui.model.interfaces.INode, fr.lip6.move.coloane.core.ui.model.interfaces.INode)
+	 */
+	public final void reconnect(INode newSource, INode newTarget) {
+		((NodeModel) source).removeSourceArc(this);
+		((NodeModel) target).removeTargetArc(this);
+
+		this.source = newSource;
+		((NodeModel) source).addSourceArc(this);
+		this.target = newTarget;
+		((NodeModel) target).addTargetArc(this);
+	}
+
+	public final void updateAttributesPosition() {
+		// Calcul du nouveau point milieu
+		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
+
+		// Position actuelle
+		Point oldMiddlePoint = this.graphicInfo.getMiddlePoint();
+
+		// Calcul du decalage
+		int deltaX = newMiddlePoint.x - oldMiddlePoint.x;
+		int deltaY = newMiddlePoint.y - oldMiddlePoint.y;
+
+		// Mise a jour des coordonnees des attributs
+		for (IAttribute attr : this.getDrawableAttributes()) {
+			Point attrLocation = attr.getGraphicInfo().getLocation();
+			attr.getGraphicInfo().setLocation(attrLocation.x + deltaX, attrLocation.y + deltaY);
+		}
+
+		this.graphicInfo.updateMiddlePoint();
 	}
 }

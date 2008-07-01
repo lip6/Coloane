@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
@@ -13,37 +12,37 @@ import org.eclipse.gef.commands.Command;
  */
 public class NodeCreateCmd extends Command {
 
-	/** Nouveau noeud a creer */
-	private INodeImpl newNode;
+	/** Nouveau noeud */
+	private INode node;
 
-	/** Model */
-	private final IModelImpl model;
+	/** Graphe */
+	private final IGraph graph;
 
 	/** Limite */
-	private Rectangle bounds;
+	private Point location;
+
+	/** Nom du formalisme pour ce noeud. */
+	private String nodeFormalismName;
 
 	/**
-	 * Creer une commande qui ajoutera le noeud au mod�le
+	 * Creer une commande qui ajoutera le noeud au graphe
 	 *
-	 * @param node Le nouveau noeud � ajouter
-	 * @param m Le mod�le qui contiendra le noeud
-	 * @param bound Les limites du noeud; (la taille peut �tre (-1, -1))
+	 * @param node Le nouveau noeud à ajouter
+	 * @param m Le modèle qui contiendra le noeud
+	 * @param bound Les limites du noeud; (la taille peut être (-1, -1))
 	 */
-	public NodeCreateCmd(INodeImpl node, IModelImpl m, Rectangle b) {
-		this.newNode = node;
-		this.model = m;
-		this.newNode.setModelAdapter(model);
-		this.bounds = b;
+	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle b) {
+		this.graph = graph;
+		this.nodeFormalismName = nodeFormalismName;
+		this.location = b.getLocation();
 	}
 
-	/**
-	 * Savoir si on peux executer la commande ?
-	 * --> Toujours OK
-	 * @return true
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	@Override
 	public final boolean canExecute() {
-		return true;
+		return graph != null;
 	}
 
 	/*
@@ -52,8 +51,8 @@ public class NodeCreateCmd extends Command {
 	 */
 	@Override
 	public final void execute() {
-		this.newNode.getGraphicInfo().setLocation(bounds.getLocation().x, bounds.getLocation().y);
-		this.redo();
+		node = graph.createNode(nodeFormalismName);
+		node.getGraphicInfo().setLocation(location);
 	}
 
 	/*
@@ -62,11 +61,7 @@ public class NodeCreateCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		try {
-			model.addNode(newNode);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de creer un noeud : " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.addNode(node);
 	}
 
 	/*
@@ -75,10 +70,6 @@ public class NodeCreateCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		try {
-			model.removeNode(newNode);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'annuler la creation du noeud : " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.deleteNode(node);
 	}
 }

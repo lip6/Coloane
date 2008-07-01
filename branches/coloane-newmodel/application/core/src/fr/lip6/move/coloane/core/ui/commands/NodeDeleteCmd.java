@@ -1,10 +1,8 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import java.util.List;
 
@@ -16,24 +14,24 @@ import org.eclipse.gef.commands.Command;
 public class NodeDeleteCmd extends Command {
 
 	/** Noeud a retirer */
-	private final INodeImpl node;
+	private final INode node;
 
-	/** Modele contenant le noeud */
-	private final IModelImpl model;
+	/** Graphe contenant le noeud */
+	private final IGraph graph;
 
 	/** Garder une copie des connexions sortantes du noeud */
-	private List<IArcImpl> sourceConnections = null;
+	private List<IArc> sourceConnections = null;
 
 	/** Garder une copie des connexions entrantes vers le noeud */
-	private List<IArcImpl> targetConnections = null;
+	private List<IArc> targetConnections = null;
 
 	/**
 	 * Constructeur
-	 * @param model Modele augmente
-	 * @param node Noeud augemente a supprimer
+	 * @param graph
+	 * @param node
 	 */
-	public NodeDeleteCmd(IModelImpl m, INodeImpl n) {
-		this.model = m;
+	public NodeDeleteCmd(IGraph graph, INode n) {
+		this.graph = graph;
 		this.node = n;
 	}
 
@@ -55,11 +53,7 @@ public class NodeDeleteCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		try {
-			model.removeNode(node);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de supprimer le noeud : " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.deleteNode(node);
 	}
 
 	/*
@@ -68,20 +62,16 @@ public class NodeDeleteCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		try {
-			model.addNode(node);
+		graph.addNode(node);
 
-			// Ajout des arcs entrants
-			for (IArcImpl arcIn : targetConnections) {
-				model.addArc(arcIn);
-			}
+		// Ajout des arcs entrants
+		for (IArc arcIn : targetConnections) {
+			graph.addArc(arcIn);
+		}
 
-			// Ajout des arcs sortants
-			for (IArcImpl arcOut : sourceConnections) {
-				model.addArc(arcOut);
-			}
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'annuler la suppression du noeud : " + e.getMessage()); //$NON-NLS-1$
+		// Ajout des arcs sortants
+		for (IArc arcOut : sourceConnections) {
+			graph.addArc(arcOut);
 		}
 	}
 }

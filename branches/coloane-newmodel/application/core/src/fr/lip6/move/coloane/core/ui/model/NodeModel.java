@@ -2,13 +2,17 @@ package fr.lip6.move.coloane.core.ui.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.eclipse.draw2d.geometry.Point;
 
 public class NodeModel extends AbstractElement implements INode {
 	private int id;
@@ -34,6 +38,8 @@ public class NodeModel extends AbstractElement implements INode {
 		for (IArc arc : targetArcs) {
 			((NodeModel) arc.getSource()).removeSourceArc(arc);
 		}
+		sourceArcs.clear();
+		targetArcs.clear();
 	}
 
 	/* (non-Javadoc)
@@ -101,5 +107,32 @@ public class NodeModel extends AbstractElement implements INode {
 	 */
 	public final List<IArc> getTargetArcs() {
 		return Collections.unmodifiableList(targetArcs);
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#updateAttributesPosition(int, int)
+	 */
+	public final void updateAttributesPosition(int deltaX, int deltaY) {
+		Collection<IAttribute> collection = this.getDrawableAttributes();
+		for (IAttribute att : collection) {
+			Point loc = att.getGraphicInfo().getLocation();
+			att.getGraphicInfo().setLocation(loc.x + deltaX, loc.y + deltaY);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateArcAttributesPosition()
+	 */
+	public final void updateArcAttributesPosition() {
+		// Parcours des arcs sortants
+		for (IArc arc : this.sourceArcs) {
+			arc.updateAttributesPosition();
+		}
+
+		// Parcours des arcs entrants
+		for (IArc arc : this.targetArcs) {
+			arc.updateAttributesPosition();
+		}
 	}
 }

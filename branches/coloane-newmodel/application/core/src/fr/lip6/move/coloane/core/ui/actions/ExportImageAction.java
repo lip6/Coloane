@@ -60,7 +60,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 		Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
 
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-		dialog.setText("Export your model to image file");
+		dialog.setText(Messages.ExportImageAction_0);
 		dialog.setFilterExtensions(getImageFilterExtensions());
 		dialog.setFilterNames(getFilterNames());
 		String filePath = dialog.open();
@@ -70,8 +70,8 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 			if (!file.exists()) {
 				save(filePath, SWT.IMAGE_JPEG);
 			} else {
-				String message = "Message 1\n\n" + filePath + "\n\n Message2";
-				if (MessageDialog.openQuestion(shell, "Existe", message)) {
+				String message = Messages.ExportImageAction_1 + filePath + Messages.ExportImageAction_2;
+				if (MessageDialog.openQuestion(shell, Messages.ExportImageAction_3, message)) {
 					save(filePath, SWT.IMAGE_JPEG);
 				} else {
 					run();
@@ -149,7 +149,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	 * @return Les filtres d'extensions
 	 */
 	protected final String[] getImageFilterExtensions() {
-		return new String[] {"*.bmp", "*.jpg", "*.gif", "*.png"};
+		return new String[] {"*.bmp", "*.jpg", "*.gif", "*.png"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	 * @return Les noms de filtres
 	 */
 	protected final String[] getFilterNames() {
-		return new String[] {"BMP (*.bmp)", "JPEG (*.jpg)", "GIF (*.gif)", "PNG (*.png)" };
+		return new String[] {"BMP (*.bmp)", "JPEG (*.jpg)", "GIF (*.gif)", Messages.ExportImageAction_11 }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/*

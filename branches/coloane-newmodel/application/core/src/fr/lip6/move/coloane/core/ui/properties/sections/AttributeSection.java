@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 
 import java.beans.PropertyChangeEvent;
@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-public class AttributeSection extends AbstractSection<IAttributeImpl> {
+public class AttributeSection extends AbstractSection<IAttribute> {
 
 	private LabelText lt;
 
@@ -35,7 +35,6 @@ public class AttributeSection extends AbstractSection<IAttributeImpl> {
 		lt = new LabelText(
 				composite,
 				getWidgetFactory(),
-				0,
 				Messages.AttributeSection_0,
 				"", //$NON-NLS-1$
 				SWT.MULTI);
@@ -51,7 +50,7 @@ public class AttributeSection extends AbstractSection<IAttributeImpl> {
 	}
 
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
+		if (IAttribute.VALUE_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}

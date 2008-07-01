@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.model;
 
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 import fr.lip6.move.coloane.core.ui.model.interfaces.IAttributeGraphicInfo;
+
+import org.eclipse.draw2d.geometry.Point;
 
 public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
@@ -42,7 +42,10 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		((AttributeModel) this.attribute).firePropertyChange(IAttribute.LOCATION_PROP, oldValue, newValue);
 	}
 
-	public void setLocation(Point location) {
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttributeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
+	 */
+	public final void setLocation(Point location) {
 		setLocation(location.x, location.y);
 	}
 }

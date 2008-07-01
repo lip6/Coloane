@@ -46,6 +46,7 @@ public interface IGraph extends IElement {
 	Collection<INode> getNodes();
 
 	/**
+	 * Ajoute un noeud à ce graphe.
 	 * @param arc
 	 */
 	void addNode(INode node);

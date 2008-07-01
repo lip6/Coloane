@@ -8,7 +8,7 @@ public abstract class AbstractPropertyChange {
 	 * Manage properties change listeners.
 	 */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#addPropertyChangeListener(java.beans.PropertyChangeListener)
 	 */

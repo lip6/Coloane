@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
 
@@ -14,25 +15,25 @@ import org.eclipse.gef.commands.Command;
 public class ArcReconnectCmd extends Command {
 
 	/** L'arc augmente qu'on manipule */
-	private IArcImpl arc;
+	private IArc arc;
 
 	/** Noeud source */
-	private INodeImpl newSource;
+	private INode newSource;
 
 	/** Noeud cible */
-	private INodeImpl newTarget;
+	private INode newTarget;
 
 	/** Ancien noeud source */
-	private final INodeImpl oldSource;
+	private final INode oldSource;
 
 	/** Ancien noeud cible */
-	private final INodeImpl oldTarget;
+	private final INode oldTarget;
 
 	/**
 	 * Reconnecter
 	 * @param connection arc
 	 */
-	public ArcReconnectCmd(IArcImpl a) {
+	public ArcReconnectCmd(IArc a) {
 		this.arc = a;
 		this.oldSource = a.getSource();
 		this.oldTarget = a.getTarget();
@@ -42,7 +43,7 @@ public class ArcReconnectCmd extends Command {
 	 * Indique la nouvelle source de l'arc
 	 * @param connectionSource
 	 */
-	public final void setNewSource(INodeImpl connectionSource) {
+	public final void setNewSource(INode connectionSource) {
 		newSource = connectionSource;
 		newTarget = null;
 	}
@@ -51,7 +52,7 @@ public class ArcReconnectCmd extends Command {
 	 * Indique la nouvelle cible de l'arc
 	 * @param connectionTarget
 	 */
-	public final void setNewTarget(INodeImpl connectionTarget) {
+	public final void setNewTarget(INode connectionTarget) {
 		newSource = null;
 		newTarget = connectionTarget;
 	}
@@ -74,13 +75,13 @@ public class ArcReconnectCmd extends Command {
 			return false;
 		}
 
-		Formalism form = this.arc.getFormalism();
+		Arc arcFormalism = this.arc.getArcFormalism();
 
-		if ((this.newSource != null) && !form.isLinkAllowed(newSource.getElementBase(), oldTarget.getElementBase())) {
+		if ((this.newSource != null) && !arcFormalism.isLinkAllowed(newSource.getNodeFormalism(), oldTarget.getNodeFormalism())) {
 			return false;
 		}
 
-		if ((this.newTarget != null) && !form.isLinkAllowed(oldSource.getElementBase(), newTarget.getElementBase())) {
+		if ((this.newTarget != null) && !arcFormalism.isLinkAllowed(oldSource.getNodeFormalism(), newTarget.getNodeFormalism())) {
 			return false;
 		}
 
@@ -98,7 +99,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArcImpl existingConnection : this.newSource.getSourceArcs()) {
+		for (IArc existingConnection : this.newSource.getSourceArcs()) {
 			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}
@@ -117,7 +118,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArcImpl existingConnection : newTarget.getTargetArcs()) {
+		for (IArc existingConnection : newTarget.getTargetArcs()) {
 			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
 				return false;
 			}
@@ -140,8 +141,8 @@ public class ArcReconnectCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		INodeImpl sourceToConnect = newSource;
-		INodeImpl targetToConnect = newTarget;
+		INode sourceToConnect = newSource;
+		INode targetToConnect = newTarget;
 
 		// Si la source ne change pas...
 		if (newSource == null) {
