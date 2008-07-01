@@ -30,6 +30,8 @@ public class ComStub {
 		connection.setTraceMessageObserver(new TraceMessageObserver(), false);
 		connection.setCloseSessionObserver(new CloseSessionObserver(), false);
 		connection.setCloseConnectionObserver(new CloseConnectionObserver(), false);
+		connection.setSuspendSessionObserver(new SuspendSessionObserver(), false);
+		connection.setResumeSessionObserver(new ResumeSessionObserver(), false);
 		
 		/**
 		 * Ouveture d'une connection
@@ -45,7 +47,7 @@ public class ComStub {
 		IApiSession session1 = connection.getApiSession();
 		System.out.println("2-a Ouverture session");
 		Thread.sleep(1*1000);
-		session1.openSession("27-06-2008", "AM-Net", "maseesion1");
+		session1.openSession("27-06-2008", "AMI-Net", "maseesion1");
 		System.out.println("");
 
 		
@@ -54,15 +56,30 @@ public class ComStub {
 		IApiSession session2 = connection.getApiSession();
 		System.out.println("2-b Ouverture session");
 		Thread.sleep(1*1000);
-		session2.openSession("27-06-2008", "AM-Net", "maseesion2");
+		session2.openSession("27-06-2008", "AMI-Net", "maseesion2");
 		System.out.println("");
 		/////////
 		
 		
 		/**
+		 * Changement de session
+		 */
+		System.out.println("session2 -> session1");
+		session2.changeSession(session1);
+		System.out.println("session1 -> session2");
+		session1.changeSession(session2);
+		
+		/**
 		 * Fermeture d'une session
 		 */
 		
+		
+		System.out.println("3-b Fermeture session");
+		Thread.sleep(1*1000);
+		session2.closeSession();
+		System.out.println("");
+
+
 		/////////
 		System.out.println("3-a Fermeture session");
 		Thread.sleep(1*1000);
@@ -70,11 +87,6 @@ public class ComStub {
 		System.out.println("");
 		/////////
 		
-		System.out.println("3-b Fermeture session");
-		Thread.sleep(1*1000);
-		session2.closeSession();
-		System.out.println("");
-
 		/**
 		 * Fermeture de la connection
 		 */
