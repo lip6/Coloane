@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerChangeSession;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class AnswerChangeSession implements IAnswerChangeSession {
@@ -17,6 +18,13 @@ public class AnswerChangeSession implements IAnswerChangeSession {
 	public AnswerChangeSession(Session s){
 		this.formalism = s.getFormalism();
 		this.idSession = s.getSessionId();
+		// TODO Voir avec J-B et Silien comment recuperer ces elements.
+		this.menus = new ArrayList<IMenu>();		
+	}
+	
+	public AnswerChangeSession(IApiSession s){
+		this.formalism = s.getSessionFormalism();
+		this.idSession = s.getIdSession();
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
 		this.menus = new ArrayList<IMenu>();		
 	}

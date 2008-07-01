@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerOpenSession;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class AnswerOpenSession implements IAnswerOpenSession{
@@ -27,6 +28,19 @@ public class AnswerOpenSession implements IAnswerOpenSession{
 	public AnswerOpenSession(Session s){
 		this.formalism = s.getFormalism();
 		this.idSession = s.getSessionId();
+		// TODO Voir avec J-B et Silien comment recuperer ces elements.
+		this.aboutService = null;
+		this.incremental = null;
+		this.nameService = null;
+		this.resultatCalcule = 0;
+		this.sessionName = null;
+		this.menus = new ArrayList<IMenu>();
+		
+	}
+	
+	public AnswerOpenSession(IApiSession s){
+		this.formalism = s.getSessionFormalism();
+		this.idSession = s.getIdSession();
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
 		this.aboutService = null;
 		this.incremental = null;
