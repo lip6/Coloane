@@ -1,16 +1,7 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import java.util.HashMap;
-
-import fr.lip6.move.coloane.apiws.evenements.AnswerChangeSession;
-import fr.lip6.move.coloane.apiws.evenements.AnswerCloseSession;
-import fr.lip6.move.coloane.apiws.evenements.AnswerOpenSession;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
-import fr.lip6.move.coloane.apiws.interfaces.observables.IChangeSessionObservable;
-import fr.lip6.move.coloane.apiws.interfaces.observables.ICloseSessionObservable;
-import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
-import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
@@ -44,10 +35,8 @@ public class ApiSession implements IApiSession{
 	
 	private ISessionStateMachine automate;
 	
-	private HashMap<Integer, Object> listObservables;
 	
-	
-	public ApiSession(ISessionController sessionController,ISpeaker speaker, HashMap<Integer, Object> listObservables){
+	public ApiSession(ISessionController sessionController,ISpeaker speaker){
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
@@ -60,7 +49,6 @@ public class ApiSession implements IApiSession{
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
-		this.listObservables = listObservables;
 	}
 
 	public String getInterlocutor() {
@@ -94,8 +82,12 @@ public class ApiSession implements IApiSession{
 	public ISessionStateMachine getSessionStateMachine() {
 		return automate;
 	}
-
-
+	
+	public void updateSession(Session s){
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws CException, ApiSessionException{
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
@@ -130,7 +122,7 @@ public class ApiSession implements IApiSession{
 			
 			this.sessionToResumeAfterClose = speaker.closeSession(idSession);
 			
-			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose.getSessionId());
+			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose);
 			
 		}
 	}
@@ -140,52 +132,11 @@ public class ApiSession implements IApiSession{
 
 			this.sessionToResumeAfterChange = speaker.changeSession(s.getIdSession());
 
-			sessionController.notifyEndChangeSession(this,sessionToResumeAfterChange.getSessionId());
+			sessionController.notifyEndChangeSession(this,sessionToResumeAfterChange);
 
 		}
 	}
 	
-	public void notifyEndOpenSession() {
-		if (!automate.goToIdleState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
-		}
-		AnswerOpenSession answerOpenSession = new AnswerOpenSession(sessionOpened);
-		((IOpenSessionObservable) listObservables.get(IObservables.OPEN_SESSION)).notifyObservers(answerOpenSession);
-	}
-
-	public void notifyEndSuspendSession() {
-		if (!automate.goToSuspendSessionState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
-		}
-	}
-
-	public void notifyEndResumeSession() {
-		if (!automate.goToIdleState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
-		}
-	}
-	
-
-	public void notifyEndCloseSession() {
-		if (!automate.goToCloseSessionState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
-		}
-		
-		AnswerCloseSession answerCloseSession = new AnswerCloseSession(this);
-		((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
-		
-		//AnswerCloseSession answerCloseSession = new AnswerCloseSession(sessionToResumeAfterClose);
-		//((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
-	}
-	
-	public void notifyEndChangeSession() {
-		if (!automate.goToSuspendSessionState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
-		}
-		AnswerChangeSession answerChangeSession = new AnswerChangeSession(sessionToResumeAfterChange);
-		((IChangeSessionObservable) listObservables.get(IObservables.CHANGE_SESSION)).notifyObservers(answerChangeSession);
-	}
-
 	public void askForService(String rootName, String menuName, String serviceName) {
 		// TODO Auto-generated method stub
 		
@@ -203,21 +154,6 @@ public class ApiSession implements IApiSession{
 	}
 	
 	public void sendModel(IModel model) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void notifyEndResult() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyWaitingForModel() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void notifyWaitingForResult() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
 import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public interface IApiSession {
 
@@ -116,48 +117,9 @@ public interface IApiSession {
 	public ISessionController getSessionController();
 	
 	/**
-	 * Notifier l'ouverture d'une session
-	 */
-	public void notifyEndOpenSession();
-
-	/**
-	 * Notifier la suspension d'une session
-	 */
-	public void notifyEndSuspendSession();
-	
-	/**
-	 * Notifier la restauration d'une session
-	 */
-	public void notifyEndResumeSession();
-	
-	
-	/**
-	 * Notifier le changement de session
-	 */
-	public void notifyEndChangeSession();
-	
-
-	/**
-	 * Notifier la fermeture d'une session
-	 */
-	public void notifyEndCloseSession();
-	
-	
-	/**
 	 * 
+	 * @param s
 	 */
-	public void notifyWaitingForModel();
-
+	public void updateSession(Session s);
 	
-	/**
-	 * 
-	 */
-	public void notifyWaitingForResult();
-	
-	
-	/**
-	 * 
-	 */
-	public void notifyEndResult();
-
 }

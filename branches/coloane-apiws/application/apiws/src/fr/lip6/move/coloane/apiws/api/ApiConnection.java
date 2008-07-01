@@ -84,7 +84,7 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.SUSPEND_SESSION, ObservableFactory.getNewSuspendSessionObservable());
 		this.listObservables.put(IObservables.RESUME_SESSION, ObservableFactory.getNewResumeSessionObservable());
 		
-		this.sessionController = SessionFactory.getNewSessionController();
+		this.sessionController = SessionFactory.getNewSessionController(listObservables);
 		
 	}
 	
@@ -112,7 +112,7 @@ public class ApiConnection implements IApiConnection {
 		if (!connectionOpened){
 			throw new ApiConnectionException("Aucune connexion n'est ouverte");
 		}
-		return SessionFactory.getNewApiSession(sessionController, speaker, listObservables);
+		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}
 
 	public boolean openConnection() throws CException, ApiConnectionException {

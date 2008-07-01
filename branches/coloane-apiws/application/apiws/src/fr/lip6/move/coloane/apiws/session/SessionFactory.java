@@ -9,12 +9,12 @@ import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 
 public class SessionFactory {
 	
-	public static IApiSession getNewApiSession(ISessionController sessionController, ISpeaker speaker, HashMap<Integer, Object> listObservables){
-		return (IApiSession) new ApiSession(sessionController,speaker,listObservables);
+	public static IApiSession getNewApiSession(ISessionController sessionController, ISpeaker speaker){
+		return (IApiSession) new ApiSession(sessionController,speaker);
 	}
 	
-	public static ISessionController getNewSessionController(){
-		return (ISessionController) new SessionController();
+	public static ISessionController getNewSessionController( HashMap<Integer, Object> listObservables){
+		return (ISessionController) new SessionController(listObservables);
 	}
 	
 	public static ISessionStateMachine getNewSessionStateMachine(){

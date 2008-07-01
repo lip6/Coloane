@@ -1,11 +1,22 @@
 package fr.lip6.move.coloane.apiws.session;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
+import fr.lip6.move.coloane.apiws.evenements.AnswerCloseSession;
+import fr.lip6.move.coloane.apiws.evenements.AnswerOpenSession;
+import fr.lip6.move.coloane.apiws.evenements.AnswerResumeSession;
+import fr.lip6.move.coloane.apiws.evenements.AnswerSuspendSession;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
+import fr.lip6.move.coloane.apiws.interfaces.observables.ICloseSessionObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenSessionObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IResumeSessionObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.ISuspendSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
+import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class SessionController implements ISessionController{
 	
@@ -20,13 +31,18 @@ public class SessionController implements ISessionController{
 	 */
 	private Hashtable<String, IApiSession> listSessions;
 	
+	/**
+	 * Represent la liste des observables
+	 */
+	private HashMap<Integer, Object> listObservables;
 	
 	/**
 	 * Constructeur du controller de sessions
 	 */
-	public SessionController(){
+	public SessionController(HashMap<Integer, Object> listObservables){
 		this.activeSession = null;
 		this.listSessions = new Hashtable<String, IApiSession>();
+		this.listObservables = listObservables;
 	}
 	
 	/**
@@ -41,7 +57,7 @@ public class SessionController implements ISessionController{
 	 * Determine si la session est active, ou pas
 	 */
 	public boolean isActivateSession(IApiSession s) {
-		return activeSession.equals(s);
+		return activeSession.getIdSession().equals(s.getIdSession());
 	}
 	
 	/**
@@ -127,38 +143,71 @@ public class SessionController implements ISessionController{
 
 	public void notifyEndOpenSession(IApiSession opened) {
 		if (activeSession != null){
-			activeSession.notifyEndSuspendSession();
+			notifyEndSuspendSession(activeSession);
 		}
 		this.activeSession = opened;
 		this.addSession(opened);
-		activeSession.notifyEndOpenSession();
+		
+		if (!activeSession.getSessionStateMachine().goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+		AnswerOpenSession answerOpenSession = new AnswerOpenSession(opened);
+		((IOpenSessionObservable) listObservables.get(IObservables.OPEN_SESSION)).notifyObservers(answerOpenSession);
+	
 	}
 
-	public void notifyEndCloseSession(IApiSession closed,String idSessionToResumed) {
-		if (idSessionToResumed.equals(closed.getIdSession())){
-			this.activeSession = null;
-		}
-		else if (closed.getIdSession().equals(activeSession.getIdSession())){
-			this.activeSession = listSessions.get(idSessionToResumed);
-			this.activeSession.notifyEndResumeSession();			
+	public void notifyEndCloseSession(IApiSession closed,Session sessionToResumed) {
+		
+		if (!closed.getSessionStateMachine().goToCloseSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
 		this.removeSession(closed);
-		closed.notifyEndCloseSession();
+		AnswerCloseSession answerCloseSession = new AnswerCloseSession(closed);
+		((ICloseSessionObservable) listObservables.get(IObservables.CLOSE_SESSION)).notifyObservers(answerCloseSession);
+	
+		// Si il n'y a plus de session en cours
+		if (sessionToResumed.getSessionId().equals(closed.getIdSession())){
+			this.activeSession = null;
+			return;
+		}
+		// Si on ferme la session en cours
+		if (isActivateSession(closed)){
+			listSessions.get(sessionToResumed.getSessionId()).updateSession(sessionToResumed);
+			notifyEndResumeSession(listSessions.get(sessionToResumed.getSessionId()));
+			return;
+		}
+
+		
 	}
 	
 	public void notifyEndResumeSession(IApiSession resumed) {
+		
 		activeSession = listSessions.get(resumed.getIdSession());
-		activeSession.notifyEndResumeSession();
+		
+		if (!activeSession.getSessionStateMachine().goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+		
+		AnswerResumeSession answerResumeSession = new AnswerResumeSession(resumed);
+		((IResumeSessionObservable) listObservables.get(IObservables.RESUME_SESSION)).notifyObservers(answerResumeSession);
+		
 	}
 
 	public void notifyEndSuspendSession(IApiSession suspended ) {
-		suspended.notifyEndSuspendSession();
+		if (!suspended.getSessionStateMachine().goToSuspendSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
+		}
+		
+		AnswerSuspendSession answerSuspendSession = new AnswerSuspendSession(suspended);
+		((ISuspendSessionObservable) listObservables.get(IObservables.SUSPEND_SESSION)).notifyObservers(answerSuspendSession);
+		
 	}
 
-	public void notifyEndChangeSession(IApiSession suspended, String idSessionToReloaded){
-		activeSession = listSessions.get(idSessionToReloaded);
-		activeSession.notifyEndResumeSession();
-		suspended.notifyEndChangeSession();
+	public void notifyEndChangeSession(IApiSession suspended, Session sessionToResumed){
+		notifyEndSuspendSession(suspended);
+		listSessions.get(sessionToResumed.getSessionId()).updateSession(sessionToResumed);
+		notifyEndResumeSession(listSessions.get(sessionToResumed.getSessionId()));
+		
 	}
 	
 
