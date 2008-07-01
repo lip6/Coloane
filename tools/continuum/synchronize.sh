@@ -9,5 +9,5 @@
 source=$1
 dest=$2
 
-rsync -avz -r -C -S -e ssh $1 \
+rsync -avz -r -C -S -e ssh $1/* \
 continuum@coloane.lip6.fr:$2> $1/reports/synchro.log"`date | tr " :" -`".log
