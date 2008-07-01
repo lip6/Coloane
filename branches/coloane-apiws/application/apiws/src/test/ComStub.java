@@ -3,9 +3,9 @@ package test;
 import fr.lip6.move.coloane.apiws.api.Api;
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
-import fr.lip6.move.wrapper.ws.CException;
 
 public class ComStub {
 	
@@ -13,7 +13,7 @@ public class ComStub {
 	
 	final static String MDP ="mdp";
 	
-	public static void main(String args[]) throws CException, ApiConnectionException, ApiSessionException, InterruptedException{
+	public static void main(String args[]) throws WrapperException, ApiConnectionException, ApiSessionException, InterruptedException{
 		
 		/**
 		 * Initialisation de la connection
@@ -64,15 +64,14 @@ public class ComStub {
 		/**
 		 * Changement de session
 		 */
-		System.out.println("session2 -> session1");
+		System.out.println("session2 -> session2");
 		session2.changeSession(session1);
-		System.out.println("session1 -> session2");
-		session1.changeSession(session2);
+		//System.out.println("session1 -> session2");
+		//session1.changeSession(session2);
 		
 		/**
 		 * Fermeture d'une session
 		 */
-		
 		
 		System.out.println("3-b Fermeture session");
 		Thread.sleep(1*1000);

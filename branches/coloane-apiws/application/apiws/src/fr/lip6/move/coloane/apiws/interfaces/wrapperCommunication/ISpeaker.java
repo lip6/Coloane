@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication;
 
-import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
@@ -23,27 +23,27 @@ public interface ISpeaker {
 	/**
 	 * Demander une ouverture de connexion au wrapper
 	 */
-	public Authentification openConnection(String login, String pass) throws CException;
+	public Authentification openConnection(String login, String pass) throws WrapperException;
 	
 	/**
 	 * Demander une ouverture de session au wrapper
 	 */
-	public Session openSession(String nameFormalism) throws CException;
+	public Session openSession(String nameFormalism) throws WrapperException;
 	
 	/**
 	 * Demander un changement de session au wrapper
 	 */
-	public Session changeSession(String idSession) throws CException;
+	public Session changeSession(String idSession) throws WrapperException;
 	
 	/**
 	 * Demander une fermeture de session au wrapper
 	 */
-	public Session closeSession(String idSession) throws CException;
+	public Session closeSession(String idSession) throws WrapperException;
 	
 	/**
 	 * Demander une fermeture de connexion
 	 */
-	public Unauthentification closeConnection() throws CException;
+	public Unauthentification closeConnection() throws WrapperException;
 	
 	/**
 	 * Demander l'execution d'un service au wrapper

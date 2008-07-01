@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication;
 
-import fr.lip6.move.wrapper.ws.CException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 public interface IListener {
@@ -18,6 +18,6 @@ public interface IListener {
 	/**
 	 * Enovyer la reponse a une boite de dialogue au wrapper
 	 */
-	public String answerToDialogBox(DialogBox answer) throws CException;
+	public String answerToDialogBox(DialogBox answer) throws WrapperException;
 	
 }

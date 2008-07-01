@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.apiws.interfaces.session;
 
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
-import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public interface IApiSession {
@@ -15,7 +15,7 @@ public interface IApiSession {
 	 * @param interlocutor l'interlocuteur (l'outil).
 	 * @param mode le mode (interactif ou batch).
 	 */
-	public void openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws CException, ApiSessionException;
+	public void openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws WrapperException, ApiSessionException;
 	
 	/**
 	 * Ouvre une session
@@ -23,18 +23,18 @@ public interface IApiSession {
 	 * @param sessionFormalism formalisme de la session.
 	 * @param sessionName nom de la session.
 	 */
-	public void openSession(String sessionDate, String sessionFormalism,String sessionName) throws CException, ApiSessionException;
+	public void openSession(String sessionDate, String sessionFormalism,String sessionName) throws WrapperException, ApiSessionException;
 
 	/**
 	 * Changer de session
 	 * @param s la session a charger
 	 */
-	public void changeSession(IApiSession s) throws CException, ApiSessionException;
+	public void changeSession(IApiSession s) throws WrapperException, ApiSessionException;
 
 	/**
 	 * Fermer la session courrante.
 	 */
-	public void closeSession() throws CException, ApiSessionException;
+	public void closeSession() throws WrapperException, ApiSessionException;
 
 	/**
 	 * Demander un service sur la session courrante

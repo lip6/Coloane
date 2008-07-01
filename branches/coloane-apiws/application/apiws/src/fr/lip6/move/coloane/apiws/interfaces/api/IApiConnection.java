@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.api;
 
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IChangeSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ICloseConnectionObserver;
@@ -15,7 +16,6 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.ISuspendSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
-import fr.lip6.move.wrapper.ws.CException;
 
 public interface IApiConnection {
 
@@ -152,13 +152,13 @@ public interface IApiConnection {
 	 * Ouvre une connexion avec le wrapper
 	 * @return true, si l'ouverture a reussie, false sinon
 	 */
-	public boolean openConnection() throws CException, ApiConnectionException;
+	public boolean openConnection() throws WrapperException, ApiConnectionException;
 	
 	/**
 	 * Ferme une connexion avec le wrapper
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean closeConnection() throws CException, ApiConnectionException;
+	public boolean closeConnection() throws WrapperException, ApiConnectionException;
 	
 	/**
 	 * Creer une session

@@ -1,9 +1,9 @@
 package test;
 
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
-import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
@@ -149,7 +149,7 @@ public class AskDialogObserver implements IAskDialogObserver {
 				asynchronousSpeaker.answerToDialogBox(dialog);
 				System.out.println("--------------------------------------------");
 			}
-		} catch (CException e) {
+		} catch (WrapperException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

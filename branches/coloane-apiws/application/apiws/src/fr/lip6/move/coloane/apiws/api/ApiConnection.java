@@ -5,6 +5,7 @@ import java.util.HashMap;
 import fr.lip6.move.coloane.apiws.evenements.AnswerCloseConnection;
 import fr.lip6.move.coloane.apiws.evenements.AnswerOpenConnection;
 import fr.lip6.move.coloane.apiws.exceptions.ApiConnectionException;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IChangeSessionObservable;
@@ -42,7 +43,6 @@ import fr.lip6.move.coloane.apiws.observables.SuspendSessionObservable;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
-import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
@@ -115,7 +115,7 @@ public class ApiConnection implements IApiConnection {
 		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}
 
-	public boolean openConnection() throws CException, ApiConnectionException {
+	public boolean openConnection() throws WrapperException, ApiConnectionException {
 		if (connectionOpened)
 			throw new ApiConnectionException("Une connexion est deja ouverte");
 		
@@ -133,7 +133,7 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 	
-	public boolean closeConnection() throws CException, ApiConnectionException {
+	public boolean closeConnection() throws WrapperException, ApiConnectionException {
 		if (!connectionOpened)
 			throw new ApiConnectionException("Aucune connexion n'est ouverte");
 		

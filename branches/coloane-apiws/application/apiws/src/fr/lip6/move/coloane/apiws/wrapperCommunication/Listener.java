@@ -6,12 +6,12 @@ import java.util.HashMap;
 import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.evenements.AskDialog;
 import fr.lip6.move.coloane.apiws.evenements.ReceptTraceMessage;
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
-import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.GExceptionException0;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDb;
@@ -57,7 +57,7 @@ public class Listener extends Thread implements IListener{
 
 			try {
 				if(stub==null)
-					throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+					throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
 				Ping req = new Ping();
 				req.setAuth(auth);
 				PingResponse res=stub.ping(req);
@@ -68,7 +68,7 @@ public class Listener extends Thread implements IListener{
 			} catch (GExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (CException e) {
+			} catch (WrapperException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -95,12 +95,12 @@ public class Listener extends Thread implements IListener{
 	}
 
 
-	public String answerToDialogBox(DialogBox answer) throws CException{
+	public String answerToDialogBox(DialogBox answer) throws WrapperException{
 		String toReturn = null;        
 
 		try {
 			if(stub==null)
-				throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+				throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
 			AnswerDb req = new AnswerDb();
 			req.setAuth(auth);
 			req.setDialog(answer);
@@ -111,7 +111,7 @@ public class Listener extends Thread implements IListener{
 			((ISendDialogObservable) listObservable.get(IObservables.SEND_DIALOG)).notifyObservers(answerSendDialog); 
 			
 		}catch (RemoteException e) {
-			CException ee = new CException();
+			WrapperException ee = new WrapperException();
 			ee.initialize(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;

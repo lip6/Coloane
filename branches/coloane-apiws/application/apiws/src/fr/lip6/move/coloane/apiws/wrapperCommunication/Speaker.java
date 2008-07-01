@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 
 import org.apache.axis2.AxisFault;
 
+import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
-import fr.lip6.move.wrapper.ws.CException;
 import fr.lip6.move.wrapper.ws.GExceptionException0;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
@@ -45,17 +45,17 @@ public class Speaker implements ISpeaker {
 		return stub;
 	}
 
-	public Authentification openConnection(String login, String pass) throws CException {
+	public Authentification openConnection(String login, String pass) throws WrapperException {
 		try {
 			if (stub == null)
-				throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+				throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
 			Connect req = new Connect();
 			req.setLogin(login);
 			req.setMdp(pass);
 			ConnectResponse res = stub.connect(req);
 			auth = res.get_return();
 		} catch (RemoteException e) {
-			CException ee = new CException();
+			WrapperException ee = new WrapperException();
 			ee.initialize(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
@@ -66,19 +66,19 @@ public class Speaker implements ISpeaker {
 		return auth;
 	}
 
-	public Session openSession(String nameFormalism) throws CException  {
+	public Session openSession(String nameFormalism) throws WrapperException  {
 		Session session = null;
 		
 		try {
             if(stub==null)
-                throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+                throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
             CreateSession req = new CreateSession();
             req.setNameFormalism(nameFormalism);
             req.setUid(auth);
             CreateSessionResponse res=stub.createSession(req);
             session=res.get_return();
         }catch (RemoteException e) {
-            CException ee = new CException();
+            WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
@@ -90,19 +90,19 @@ public class Speaker implements ISpeaker {
 		return session;
 	}
 
-	public Session changeSession(String idSession) throws CException{
+	public Session changeSession(String idSession) throws WrapperException{
 		Session session=null;        
 
 		try {
 			if(stub==null)
-				throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+				throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
 			ChangeSession req = new ChangeSession();
 			req.setUid(auth);
 			req.setIdSession(idSession);
 			ChangeSessionResponse res=stub.changeSession(req);
 			session=res.get_return();
 		}catch (RemoteException e) {
-			CException ee = new CException();
+			WrapperException ee = new WrapperException();
 			ee.initialize(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
@@ -114,19 +114,19 @@ public class Speaker implements ISpeaker {
 		return session;
 	}
 	
-	public Session closeSession(String idSession) throws CException{
+	public Session closeSession(String idSession) throws WrapperException{
 		Session session=null;        
         
         try {
             if(stub==null)
-                throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+                throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
             CloseSession req = new CloseSession();
             req.setUid(auth);
             req.setIdSession(idSession);
             CloseSessionResponse res=stub.closeSession(req);
             session=res.get_return();
         }catch (RemoteException e) {
-            CException ee = new CException();
+            WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
@@ -138,18 +138,18 @@ public class Speaker implements ISpeaker {
         return session;    
 	}
 
-	public Unauthentification closeConnection() throws CException{
+	public Unauthentification closeConnection() throws WrapperException{
 		Unauthentification unauth = null;
 		
 		try {
 			if(stub==null)
-                throw new CException("Error of communcation : Stub is null",CException.COMM_ERROR);
+                throw new WrapperException("Error of communcation : Stub is null",WrapperException.COMM_ERROR);
             Disconnect req = new Disconnect();
             req.setId(auth);
             DisconnectResponse res=stub.disconnect(req);
             unauth=res.get_return();
 		}catch (RemoteException e) {
-            CException ee = new CException();
+            WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
