@@ -50,7 +50,7 @@
 							<arguments>
 								<argument>site.xml</argument>
 								<argument>${project.version}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -64,7 +64,7 @@
 							<executable>deployUpdateSite.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
 					</execution>

@@ -86,13 +86,13 @@
 								<argument>feature.xml</argument>
 								<argument>${buildNumber}</argument>
 								<argument>${build.finalName}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
 					</execution>
 					<execution>
 						<id>Deploy</id>
-						<phase>deploy</phase>        
+						<phase>deploy</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -101,10 +101,10 @@
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${packaging}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
-					</execution>					
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
