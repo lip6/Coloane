@@ -216,17 +216,17 @@
 		<repository> 
 			<id>Coloane-Releases</id> 
 			<name>Coloane Releases</name> 
-			<url>scp://continuum@coloane.lip6.fr/coloane/public/releases</url> 
+			<url>file:///data/coloane_deposit/releases</url> 
 		</repository> 
 		<!-- use the following if you ARE using a snapshot version. --> 
 		<snapshotRepository> 
 			<id>Coloane-Snapshots</id> 
 			<name>Coloane Snapshots</name> 
-			<url>scp://continuum@coloane.lip6.fr/coloane/public/snapshots</url> 
+			<url>file:///data/coloane_deposit/snapshots</url> 
 		</snapshotRepository> 
 		<site> 
 			<id>Coloane-Reports</id> 
-			<url>scp://continuum@coloane.lip6.fr/coloane/public/reports</url> 
+			<url>file:///data/coloane_deposit/reports</url> 
 		</site> 
 	</distributionManagement>
 
