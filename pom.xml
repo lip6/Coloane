@@ -333,7 +333,7 @@
 							<executable>computeVersion.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -350,7 +350,7 @@
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${project.packaging}</argument>
-								<argument>/coloane/public</argument>
+								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
 					</execution>
