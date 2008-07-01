@@ -15,7 +15,9 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IExecutServiceObservabl
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenConnectionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IOpenSessionObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IResumeSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.ISuspendSessionObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IWarningMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
@@ -26,7 +28,9 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.IErrorMessagerObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IExecutServiceObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenConnectionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
+import fr.lip6.move.coloane.apiws.interfaces.observers.IResumeSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ISendDialogObserver;
+import fr.lip6.move.coloane.apiws.interfaces.observers.ISuspendSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
@@ -34,6 +38,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.observables.ObservableFactory;
+import fr.lip6.move.coloane.apiws.observables.SuspendSessionObservable;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
@@ -76,6 +81,8 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.TRACE_MESSAGE, ObservableFactory.getNewTraceMessageObservable());
 		this.listObservables.put(IObservables.WARNING_MESSAGE, ObservableFactory.getNewWarningMessageObservable());
 		this.listObservables.put(IObservables.SEND_DIALOG, ObservableFactory.getNewSendDialogObservable());
+		this.listObservables.put(IObservables.SUSPEND_SESSION, ObservableFactory.getNewSuspendSessionObservable());
+		this.listObservables.put(IObservables.RESUME_SESSION, ObservableFactory.getNewResumeSessionObservable());
 		
 		this.sessionController = SessionFactory.getNewSessionController();
 		
@@ -214,6 +221,20 @@ public class ApiConnection implements IApiConnection {
 	
 	public boolean setSendDialogObserver(ISendDialogObserver o,boolean createThread){
 		ISendDialogObservable obs = (ISendDialogObservable) listObservables.get(IObservables.SEND_DIALOG);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		return true;
+	}
+	
+	public boolean setSuspendSessionObserver(ISuspendSessionObserver o,boolean createThread){
+		ISuspendSessionObservable obs = (SuspendSessionObservable) listObservables.get(IObservables.SUSPEND_SESSION);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		return true;
+	}
+	
+	public boolean setResumeSessionObserver(IResumeSessionObserver o,boolean createThread){
+		IResumeSessionObservable obs = (IResumeSessionObservable) listObservables.get(IObservables.RESUME_SESSION);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 		return true;

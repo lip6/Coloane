@@ -9,7 +9,9 @@ import fr.lip6.move.coloane.apiws.interfaces.observers.IErrorMessagerObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IExecutServiceObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenConnectionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
+import fr.lip6.move.coloane.apiws.interfaces.observers.IResumeSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ISendDialogObserver;
+import fr.lip6.move.coloane.apiws.interfaces.observers.ISuspendSessionObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.ITraceMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IWarningMessageObserver;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
@@ -128,6 +130,22 @@ public interface IApiConnection {
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
 	public boolean setSendDialogObserver(ISendDialogObserver o,boolean createThread);
+
+	/**
+	 * 
+	 * @param o
+	 * @param createThread
+	 * @return
+	 */
+	public boolean setSuspendSessionObserver(ISuspendSessionObserver o,boolean createThread);
+
+	/**
+	 * 
+	 * @param o
+	 * @param createThread
+	 * @return
+	 */
+	public boolean setResumeSessionObserver(IResumeSessionObserver o,boolean createThread);
 	
 	
 	/**

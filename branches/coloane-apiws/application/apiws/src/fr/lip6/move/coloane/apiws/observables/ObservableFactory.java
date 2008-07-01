@@ -46,4 +46,12 @@ public class ObservableFactory {
 		return (SendDialogObservable) new SendDialogObservable();
 	}
 	
+	public static SuspendSessionObservable getNewSuspendSessionObservable(){
+		return (SuspendSessionObservable) new SuspendSessionObservable();
+	}
+	
+	public static ResumeSessionObservable getNewResumeSessionObservable(){
+		return (ResumeSessionObservable) new ResumeSessionObservable();
+	}
+	
 }

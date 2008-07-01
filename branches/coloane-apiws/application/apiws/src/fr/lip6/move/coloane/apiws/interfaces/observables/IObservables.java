@@ -17,4 +17,6 @@ public interface IObservables {
 	final static Integer TRACE_MESSAGE = 8;
 	final static Integer WARNING_MESSAGE = 9;
 	final static Integer SEND_DIALOG = 10;
+	final static Integer SUSPEND_SESSION = 11;
+	final static Integer RESUME_SESSION = 12;
 }
