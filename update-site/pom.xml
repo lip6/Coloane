@@ -68,6 +68,20 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>SynchronizeDeposits</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>synchronize.sh</executable>
+							<arguments>
+								<argument>/data/coloane_deposit</argument>
+								<argument>/coloane/public</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
