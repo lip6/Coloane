@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -40,7 +40,7 @@ public interface ICoreArc extends ICoreElement, IArc {
 	/**
 	 * @return le FormalismElement décrivant cet arc.
 	 */
-	Arc getArcFormalism();
+	IArcFormalism getArcFormalism();
 
 	/**
 	 * @return les informations graphique liée à cet arc.

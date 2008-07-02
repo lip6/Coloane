@@ -9,6 +9,6 @@ package fr.lip6.move.coloane.interfaces.formalism;
  * 	<li>Les arcs inhibiteurs</li>
  * </ul>
  */
-public interface IArcFormalism {
+public interface IArcFormalism extends IElementFormalism {
 
 }

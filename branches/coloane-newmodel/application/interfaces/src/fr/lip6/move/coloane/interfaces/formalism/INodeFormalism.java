@@ -13,7 +13,7 @@ package fr.lip6.move.coloane.interfaces.formalism;
  * Cette capacité permet de définir des formalismes où la hiérarchie est possible.</br>
  * Cette définition définit un attribut {@link #container} qui permet de préciser cette compétence.
  */
-public interface INodeFormalism {
+public interface INodeFormalism extends IElementFormalism {
 
 	/**
 	 * @return Un indicateur qui permet de savoir si le noeud peut contenir un modèle

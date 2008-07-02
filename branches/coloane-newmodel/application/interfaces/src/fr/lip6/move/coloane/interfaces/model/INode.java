@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface INode extends IElement {
 	/**
 	 * @return le FormalismElement décrivant ce noeud.
 	 */
-	Node getNodeFormalism();
+	INodeFormalism getNodeFormalism();
 
 	/**
 	 * @return les informations graphiques liées a l'arc.

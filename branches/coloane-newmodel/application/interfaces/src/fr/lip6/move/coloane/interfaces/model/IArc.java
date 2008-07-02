@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public interface IArc extends IElement {
 	/**
 	 * @return le FormalismElement décrivant cet arc.
 	 */
-	Arc getArcFormalism();
+	IArcFormalism getArcFormalism();
 
 	/**
 	 * @return les informations graphique liée à cet arc.

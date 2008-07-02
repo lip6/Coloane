@@ -5,6 +5,6 @@ package fr.lip6.move.coloane.interfaces.formalism;
  * Chaque instance de formalisme contient forcément au moins un élément de ce type.<br>
  * Dans le cas de la hiérachie, ce conteneur peut être contenu dans un noeud de plus haut niveau.
  */
-public interface IGraphFormalism {
+public interface IGraphFormalism extends IElementFormalism {
 
 }

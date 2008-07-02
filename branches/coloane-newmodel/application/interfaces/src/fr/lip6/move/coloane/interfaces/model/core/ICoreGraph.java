@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -22,14 +23,15 @@ public interface ICoreGraph extends ICoreElement, IGraph {
 	 * Création d'un noeud attaché à ce graphe.
 	 * @param nodeFormalismName type du noeud à créer.
 	 * @return le noeud créé.
+	 * @throws ModelException si le nom du formalisme n'est pas correcte
 	 */
-	INode createNode(String nodeFormalismName);
+	INode createNode(String nodeFormalismName) throws ModelException;
 
 	/**
 	 * Suppression d'un noeud
 	 * @param node
 	 */
-	void deleteNode(ICoreNode node);
+	void deleteNode(INode node);
 
 	/**
 	 * Suppression d'un noeud
@@ -60,8 +62,10 @@ public interface ICoreGraph extends ICoreElement, IGraph {
 	 * @param source
 	 * @param target
 	 * @return l'arc créé.
+	 * @throws ModelException si un des parametres n'est pas correcte, par exemple
+	 * le formalisme n'existe.
 	 */
-	IArc createArc(String arcFormalismName, INode source, INode target);
+	IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException;
 
 	/**
 	 * Suppression d'un arc
@@ -95,7 +99,7 @@ public interface ICoreGraph extends ICoreElement, IGraph {
 	/**
 	 * @return le formalisme associé à ce graphe.
 	 */
-	Formalism getFormalism();
+	IFormalism getFormalism();
 
 	/**
 	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
