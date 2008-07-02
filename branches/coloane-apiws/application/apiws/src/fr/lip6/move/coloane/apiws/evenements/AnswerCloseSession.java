@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.apiws.evenements;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerCloseSession;
-import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
+import fr.lip6.move.coloane.apiws.objects.menu.MMenuImpl;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class AnswerCloseSession implements IAnswerCloseSession{
@@ -13,20 +12,19 @@ public class AnswerCloseSession implements IAnswerCloseSession{
 	
 	private String idSession;
 	
-	private ArrayList<IMenu> menus;
+	private IMMenu menus;
 	
 	public AnswerCloseSession(Session s){
 		this.formalism = s.getFormalism();
 		this.idSession = s.getSessionId();
-		// TODO Voir avec J-B et Silien comment recuperer ces elements.
-		this.menus = new ArrayList<IMenu>();
+		this.menus = new MMenuImpl(s.getMenu());
 	}
 	
 	public AnswerCloseSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
-		// TODO Voir avec J-B et Silien comment recuperer ces elements.
-		this.menus = new ArrayList<IMenu>();
+		// TODO A completer
+		this.menus = null;
 		
 	}
 
@@ -38,7 +36,7 @@ public class AnswerCloseSession implements IAnswerCloseSession{
 		return idSession;
 	}
 
-	public ArrayList<IMenu> getMenus() {
+	public IMMenu getMenus() {
 		return menus;
 	}
 }

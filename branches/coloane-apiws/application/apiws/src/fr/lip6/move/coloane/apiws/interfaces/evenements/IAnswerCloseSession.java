@@ -1,8 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 
 public interface IAnswerCloseSession {
 	
@@ -22,5 +20,5 @@ public interface IAnswerCloseSession {
 	 * Recupere les menus des services disponible pour la prochaine session
 	 * @return les menus des services disponible pour la prochaine session
 	 */
-	public ArrayList<IMenu> getMenus();
+	public IMMenu getMenus();
 }

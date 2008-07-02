@@ -1,8 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.apiws.interfaces.objects.IMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 
 public interface IAnswerResumeSession {
 	
@@ -10,5 +8,5 @@ public interface IAnswerResumeSession {
 
 	public String getIdSession();
 
-	public ArrayList<IMenu> getMenus();
+	public IMMenu getMenus();
 }
