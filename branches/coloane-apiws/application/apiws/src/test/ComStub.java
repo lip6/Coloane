@@ -64,7 +64,7 @@ public class ComStub {
 		/**
 		 * Changement de session
 		 */
-		System.out.println("session2 -> session2");
+		System.out.println("session2 -> session1");
 		session2.changeSession(session1);
 		//System.out.println("session1 -> session2");
 		//session1.changeSession(session2);

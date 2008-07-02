@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
+import fr.lip6.move.coloane.apiws.interfaces.objects.dialog.IDialogBox;
 
 public interface IAskDialog {
-	public ArrayList<DialogBox> getDialogs();
+	public ArrayList<IDialogBox> getDialogs();
 }

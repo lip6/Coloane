@@ -2,15 +2,15 @@ package test;
 
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAskDialog;
+import fr.lip6.move.coloane.apiws.interfaces.objects.dialog.IDialogBox;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IAskDialogObserver;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 public class AskDialogObserver implements IAskDialogObserver {
 	
-	public String printDB(DialogBox box){
+	public String printDB(IDialogBox box){
 		String res="";
 		res+="DIALOG BOX\n";
 		res+="\t- ID \t\t= "+box.getId()+"\n";
@@ -143,9 +143,9 @@ public class AskDialogObserver implements IAskDialogObserver {
 	
 	public void update(IAskDialog d,IListener asynchronousSpeaker) {
 		try {
-			for (DialogBox dialog : d.getDialogs()){
+			for (IDialogBox dialog : d.getDialogs()){
 				System.out.println("-------------------DIALOG-------------------");
-				printDB(dialog);
+				System.out.println(printDB(dialog));
 				asynchronousSpeaker.answerToDialogBox(dialog);
 				System.out.println("--------------------------------------------");
 			}

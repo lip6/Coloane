@@ -7,11 +7,13 @@ import fr.lip6.move.coloane.apiws.evenements.AnswerSendDialog;
 import fr.lip6.move.coloane.apiws.evenements.AskDialog;
 import fr.lip6.move.coloane.apiws.evenements.ReceptTraceMessage;
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
+import fr.lip6.move.coloane.apiws.interfaces.objects.dialog.IDialogBox;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IAskDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ISendDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
+import fr.lip6.move.coloane.apiws.objects.dialog.DialogBoxImpl;
 import fr.lip6.move.wrapper.ws.GExceptionException0;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDb;
@@ -95,8 +97,10 @@ public class Listener extends Thread implements IListener{
 	}
 
 
-	public String answerToDialogBox(DialogBox answer) throws WrapperException{
-		String toReturn = null;        
+	public String answerToDialogBox(IDialogBox dialog) throws WrapperException{
+		String toReturn = null;
+		
+		DialogBox answer = ((DialogBoxImpl) dialog).createDBForWrapper();
 
 		try {
 			if(stub==null)
