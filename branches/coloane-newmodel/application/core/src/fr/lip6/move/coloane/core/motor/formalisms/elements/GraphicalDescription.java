@@ -169,8 +169,8 @@ public class GraphicalDescription implements IGraphicalDescription {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getHeight()
 	 */
-	public String getHeight() {
-		return height;
+	public Integer getHeight() {
+		return Integer.valueOf(height);
 	}
 
 
@@ -186,8 +186,8 @@ public class GraphicalDescription implements IGraphicalDescription {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getWidth()
 	 */
-	public String getWidth() {
-		return width;
+	public Integer getWidth() {
+		return Integer.valueOf(width);
 	}
 
 

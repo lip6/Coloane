@@ -48,11 +48,11 @@ public interface IGraphicalDescription {
 	/**
 	 * @return La hauteur par défaut de la figure
 	 */
-	public abstract String getHeight();
+	public abstract Integer getHeight();
 
 	/**
 	 * @return La largeur par défaut de la figure
 	 */
-	public abstract String getWidth();
+	public abstract Integer getWidth();
 
 }
