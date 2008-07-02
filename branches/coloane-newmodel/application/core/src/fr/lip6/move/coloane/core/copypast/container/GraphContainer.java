@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -12,7 +12,7 @@ import java.util.HashSet;
  * Classe conteneur de NodeContainer et d'ArcContainer
  */
 public class GraphContainer {
-	private final Formalism formalism;
+	private final IFormalism formalism;
 
 	private final HashMap<Integer, NodeContainer> nodes = new HashMap<Integer, NodeContainer>();
 	private final HashSet<ArcContainer> arcs = new HashSet<ArcContainer>();
@@ -20,7 +20,7 @@ public class GraphContainer {
 	/**
 	 * @param formalism fomrmalisme du model
 	 */
-	public GraphContainer(Formalism formalism) {
+	public GraphContainer(IFormalism formalism) {
 		this.formalism = formalism;
 	}
 
@@ -70,7 +70,7 @@ public class GraphContainer {
 	/**
 	 * @return
 	 */
-	public final Formalism getFormalism() {
+	public final IFormalism getFormalism() {
 		return formalism;
 	}
 }

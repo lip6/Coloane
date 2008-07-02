@@ -1,11 +1,12 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.impl.GraphModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,11 +49,21 @@ public class ModelHandler extends DefaultHandler {
 
 		// Balise NODE
 		} else if ("node".equals(baliseName)) { //$NON-NLS-1$
-			startNode(attributes);
+			try {
+				startNode(attributes);
+			} catch (ModelException e) {
+				logger.warning(e.getMessage());
+				throw new IllegalArgumentException(e);
+			}
 
 		// Balise ARC
 		} else if ("arc".equals(baliseName)) { //$NON-NLS-1$
-			startArc(attributes);
+			try {
+				startArc(attributes);
+			} catch (ModelException e) {
+				logger.warning(e.getMessage());
+				throw new IllegalArgumentException(e);
+			}
 
 		// Balise PI
 		} else if ("pi".equals(baliseName)) {  //$NON-NLS-1$
@@ -66,7 +77,6 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * Gestion des donnees contenues dans les balises
-	 * TODO : Utiliser un string builder ?
 	 */
 	@Override
 	public final void characters(char[] ch, int start, int length) throws SAXException {
@@ -123,8 +133,9 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * @param attributes
+	 * @throws ModelException Si la création du noeud pose problème.
 	 */
-	private void startNode(Attributes attributes) {
+	private void startNode(Attributes attributes) throws ModelException {
 		IGraph graph = (IGraph) stack.peek();
 
 		// Recuperation des infos concernant le noeud.
@@ -183,8 +194,9 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * La pile doit contenir un IModelImpl
 	 * @param attributes
+	 * @throws ModelException Si la création de l'arc pose problème.
 	 */
-	private void startArc(Attributes attributes) {
+	private void startArc(Attributes attributes) throws ModelException {
 		IGraph graph = (IGraph) stack.peek();
 
 		// Recuperation des infos concernant l'arc

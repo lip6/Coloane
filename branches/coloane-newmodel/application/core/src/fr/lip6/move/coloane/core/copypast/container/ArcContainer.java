@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -54,8 +55,9 @@ public class ArcContainer {
 	 * @param source
 	 * @param target
 	 * @return une copie de l'IArcImpl passée au constructeur
+	 * @throws ModelException Si la création de l'arc c'est mal passé.
 	 */
-	public final IArc copy(IGraph graph, INode source, INode target) {
+	public final IArc copy(IGraph graph, INode source, INode target) throws ModelException {
 		// Décalage des points d'inflexion
 		for (Point p : pis) {
 			p.x += 10;

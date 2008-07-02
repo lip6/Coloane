@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.ui.ColoaneMessages;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.logging.Logger;
@@ -63,7 +63,7 @@ public final class ModelLoader {
 		}
 
 		// On determine le formalisme (objet) pour trouver le bon XSchema
-		Formalism currentFormalism = globalHandler.getGraph().getFormalism();
+		IFormalism currentFormalism = globalHandler.getGraph().getFormalism();
 
 		// Declaration de quelques variables
 		Schema schema;

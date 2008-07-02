@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 import fr.lip6.move.coloane.core.ui.commands.AttributeSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -62,7 +62,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		// Si l'objet a ajouter est un noeud... OK
 		if (childClass == INode.class) {
 			IGraph graph = (IGraph) getHost().getModel();
-			Node nodeFormalism = (Node) request.getNewObject();
+			INodeFormalism nodeFormalism = (INodeFormalism) request.getNewObject();
 
 			// On applique la commande de creation du noeud
 			return new NodeCreateCmd(graph, nodeFormalism.getName(), (Rectangle) getConstraintFor(request));

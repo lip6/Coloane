@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
@@ -124,7 +124,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param nodeType
 	 * @param attributes
 	 */
-	protected final void refreshControls(String nodeType, List<Attribute> attributes) {
+	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);
 
 		if (currentType != null && !currentType.equals(nodeType)) {
@@ -139,7 +139,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			list = new ArrayList<LabelText>();
 			LabelTextFactory factory = new LabelTextFactory(composite, getWidgetFactory());
 
-			for (Attribute attr : attributes) {
+			for (IAttributeFormalism attr : attributes) {
 				LabelText lt = factory.create(
 						attr.getName(),
 						attr.getDefaultValue(),

@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.copypast.container.ArcContainer;
 import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.copypast.container.NodeContainer;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -15,7 +16,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class PasteCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private GraphContainer graphContainer;
 	private HashMap<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
@@ -48,15 +49,25 @@ public class PasteCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Collage de la sélection"); //$NON-NLS-1$
+		logger.fine("Collage de la sélection"); //$NON-NLS-1$
 		for (NodeContainer nc : graphContainer.getNodes()) {
-			nodes.put(nc, nc.copy(graph));
+			try {
+				nodes.put(nc, nc.copy(graph));
+			} catch (ModelException e) {
+				logger.warning(e.getMessage());
+				e.printStackTrace();
+			}
 		}
 		for (ArcContainer ac : graphContainer.getArcs()) {
 			INode source = nodes.get(graphContainer.getNode(ac.getIdSource()));
 			INode target = nodes.get(graphContainer.getNode(ac.getIdTarget()));
 			if (source != null && target != null) {
-				arcs.put(ac, ac.copy(graph, source, target));
+				try {
+					arcs.put(ac, ac.copy(graph, source, target));
+				} catch (ModelException e) {
+					logger.warning(e.getMessage());
+					e.printStackTrace();
+				}
 			}
 		}
 	}

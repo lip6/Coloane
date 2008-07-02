@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
@@ -8,7 +9,6 @@ import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.impl.AbstractPropertyChange;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
@@ -42,7 +42,7 @@ public final class PaletteFactory {
 	 * @param formalism : un formalisme
 	 * @return une nouvelle PaletteRoot
 	 */
-	public static PaletteRoot createPalette(Formalism formalism) {
+	public static PaletteRoot createPalette(IFormalism formalism) {
 		if (formalism == null) {
 			Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); //$NON-NLS-1$
 			return null;
@@ -61,7 +61,7 @@ public final class PaletteFactory {
 	 * @param form : formalisme selectionne
 	 * @return : paletteContainer
 	 */
-	private static PaletteContainer createShapesNodeDrawer(Formalism formalism) {
+	private static PaletteContainer createShapesNodeDrawer(IFormalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
 		PaletteDrawer componentsNodeDrawer = new PaletteDrawer(Messages.PaletteFactory_4);
@@ -70,20 +70,20 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry component; // Un element de la palette
 
 		// Parcours de la liste des elements de base associe au formalisme
-		for (FormalismElement element : formalism.getListOfElementBase()) {
+		for (IElementFormalism element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
-			if (element instanceof Node) {
-				final Node node = (Node) element;
+			if (element instanceof INodeFormalism) {
+				final INodeFormalism node = (INodeFormalism) element;
 				component = new CombinedTemplateCreationEntry(
-						node.getPaletteName(), 	// Nom de l'objet
-						node.getPaletteName(), 	// Description de l'objet
+						node.getGraphicalDescription().getPaletteName(), 	// Nom de l'objet
+						node.getGraphicalDescription().getPaletteName(), 	// Description de l'objet
 						new CreationFactory() { 	// Object Template
 							public Object getNewObject() { return node;	}
 							public Object getObjectType() {	return INode.class; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, node.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, node.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, node.getGraphicalDescription().getIcon16px()),
+						ImageDescriptor.createFromFile(Coloane.class, node.getGraphicalDescription().getIcon24px()));
 
 				componentsNodeDrawer.add(component);
 			}
@@ -97,7 +97,7 @@ public final class PaletteFactory {
 	 * @param formalism : Le formalisme du modele en cours d'edition
 	 * @return PaletteContainer
 	 */
-	private static PaletteContainer createShapesArcDrawer(Formalism formalism) {
+	private static PaletteContainer createShapesArcDrawer(IFormalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
 		PaletteDrawer componentsArcDrawer = new PaletteDrawer(Messages.PaletteFactory_5);
@@ -106,20 +106,20 @@ public final class PaletteFactory {
 		ConnectionCreationToolEntry component; /* Un element de la palette */
 
 		// Parcours de la liste des elements de base
-		for (FormalismElement element : formalism.getListOfElementBase()) {
+		for (IElementFormalism element : formalism.getListOfElementBase()) {
 
 			// Si l'element parcouru est un arc
-			if (element instanceof Arc) {
-				final Arc arc = (Arc) element;
+			if (element instanceof IArcFormalism) {
+				final IArcFormalism arc = (IArcFormalism) element;
 				component = new ConnectionCreationToolEntry(
-						arc.getPaletteName(), // Nom de l'arc
-						arc.getPaletteName(), // Description de l'arc
+						arc.getGraphicalDescription().getPaletteName(), // Nom de l'arc
+						arc.getGraphicalDescription().getPaletteName(), // Description de l'arc
 						new CreationFactory() {
 							public Object getNewObject() { return null; }
 							public Object getObjectType() { return arc; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, arc.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, arc.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon16px()),
+						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon24px()));
 				componentsArcDrawer.add(component);
 			}
 		}

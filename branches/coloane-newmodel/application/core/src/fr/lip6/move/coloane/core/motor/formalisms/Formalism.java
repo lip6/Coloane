@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Definition d'un formalisme.<br>
@@ -33,7 +33,7 @@ public class Formalism implements IFormalism {
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String image;
-	
+
 	/** Graphe principal du formalisme */
 	private ElementFormalism master;
 
@@ -50,10 +50,10 @@ public class Formalism implements IFormalism {
 		this.extension = extension;
 		this.image = image;
 		this.xschema = xshema;
-		
+
 		this.elements = new ArrayList<IElementFormalism>();
 		this.constraints = new ArrayList<IConstraint>();
-		
+
 		// Creation et Ajout du graphe principal lié à l'instance du formalisme
 		this.master = new GraphFormalism(name,this);
 		this.elements.add(master);
@@ -65,7 +65,7 @@ public class Formalism implements IFormalism {
 	public final boolean isLinkAllowed(IElementFormalism source, IElementFormalism target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
 		for (IConstraint constraint : constraints) {
-			if (!constraint.isSatisfied(source,target)) {
+			if (!constraint.isSatisfied(source, target)) {
 				return false;
 			}
 		}
@@ -98,6 +98,15 @@ public class Formalism implements IFormalism {
 		return this.elements;
 	}
 
+	public final IElementFormalism getFormalismElement(String name) {
+		for (IElementFormalism elementFormalism : elements) {
+			if (elementFormalism.getName().equals(name)) {
+				return elementFormalism;
+			}
+		}
+		return null;
+	}
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getName()
 	 */
@@ -125,7 +134,7 @@ public class Formalism implements IFormalism {
 	public final String getSchema() {
 		return this.xschema;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
 	 */

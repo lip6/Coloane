@@ -1,8 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
@@ -75,13 +74,13 @@ public class ArcReconnectCmd extends Command {
 			return false;
 		}
 
-		Arc arcFormalism = this.arc.getArcFormalism();
+		IArcFormalism arcFormalism = this.arc.getArcFormalism();
 
-		if ((this.newSource != null) && !arcFormalism.isLinkAllowed(newSource.getNodeFormalism(), oldTarget.getNodeFormalism())) {
+		if ((this.newSource != null) && !arcFormalism.getFormalism().isLinkAllowed(newSource.getNodeFormalism(), oldTarget.getNodeFormalism())) {
 			return false;
 		}
 
-		if ((this.newTarget != null) && !arcFormalism.isLinkAllowed(oldSource.getNodeFormalism(), newTarget.getNodeFormalism())) {
+		if ((this.newTarget != null) && !arcFormalism.getFormalism().isLinkAllowed(oldSource.getNodeFormalism(), newTarget.getNodeFormalism())) {
 			return false;
 		}
 

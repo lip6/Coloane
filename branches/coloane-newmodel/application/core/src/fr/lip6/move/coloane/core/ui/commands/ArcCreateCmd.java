@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
@@ -16,7 +16,7 @@ public class ArcCreateCmd extends Command {
 	private final INode source;
 
 	/** L'element de base (indication sur le formalisme de l'arc) */
-	private final Arc arcFormalism;
+	private final IArcFormalism arcFormalism;
 
 
 	/**
@@ -25,7 +25,7 @@ public class ArcCreateCmd extends Command {
 	 * @param source Le noeud source de l'arc
 	 * @param base Le formalisme de base pour la creation de l'arc
 	 */
-	public ArcCreateCmd(INode arcSource, Arc arcFormalism) {
+	public ArcCreateCmd(INode arcSource, IArcFormalism arcFormalism) {
 		this.source = arcSource;
 		this.arcFormalism = arcFormalism;
 	}
@@ -51,7 +51,7 @@ public class ArcCreateCmd extends Command {
 	 * Getter du formalisme de l'arc
 	 * @return elementBase
 	 */
-	public final Arc getElementBase() {
+	public final IArcFormalism getArcFormalism() {
 		return arcFormalism;
 	}
 }

@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -11,6 +14,7 @@ import org.eclipse.gef.commands.Command;
  * Commande pour ajouter un nouveau noeud
  */
 public class NodeCreateCmd extends Command {
+	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Nouveau noeud */
 	private INode node;
@@ -51,7 +55,12 @@ public class NodeCreateCmd extends Command {
 	 */
 	@Override
 	public final void execute() {
-		node = graph.createNode(nodeFormalismName);
+		try {
+			node = graph.createNode(nodeFormalismName);
+		} catch (ModelException e) {
+			logger.warning(e.toString());
+			e.printStackTrace();
+		}
 		node.getGraphicInfo().setLocation(location);
 	}
 

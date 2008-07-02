@@ -1,19 +1,19 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.core.model.AbstractElement;
+import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.NodeFigure;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.impl.AbstractElement;
-import fr.lip6.move.coloane.interfaces.model.impl.AbstractPropertyChange;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -180,7 +180,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 				INode source = (INode) getHost().getModel();
 
 				// Demande la creation d'un arc (1ere etape)
-				ArcCreateCmd cmd = new ArcCreateCmd(source, (Arc) request.getNewObjectType());
+				ArcCreateCmd cmd = new ArcCreateCmd(source, (IArcFormalism) request.getNewObjectType());
 				request.setStartCommand(cmd);
 				return cmd;
 			}
@@ -196,7 +196,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 				ArcCreateCmd createCmd = (ArcCreateCmd) request.getStartCommand();
 
 				// Autorise la connexion d'un arc
-				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(), (INode) getHost().getModel(), createCmd.getElementBase());
+				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(), (INode) getHost().getModel(), createCmd.getArcFormalism());
 				return cmd;
 			}
 

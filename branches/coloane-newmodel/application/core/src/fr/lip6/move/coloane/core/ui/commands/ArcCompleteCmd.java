@@ -1,9 +1,12 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 
@@ -12,6 +15,7 @@ import org.eclipse.gef.commands.Command;
  * Cette commande est creee lors du second clic (donc sur l'element d'arrivee).
  */
 public class ArcCompleteCmd extends Command {
+	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Graphe */
 	private IGraph graph;
@@ -23,7 +27,7 @@ public class ArcCompleteCmd extends Command {
 	private final INode target;
 
 	/** Element de base du formalisme (arc) */
-	private final Arc arcFormalism;
+	private final IArcFormalism arcFormalism;
 
 	/** L'arc */
 	private IArc arc;
@@ -34,7 +38,7 @@ public class ArcCompleteCmd extends Command {
 	 * @param target noeud cible
 	 * @param base elementBase
 	 */
-	public ArcCompleteCmd(INode arcSource, INode arcTarget, Arc arcFormalism) {
+	public ArcCompleteCmd(INode arcSource, INode arcTarget, IArcFormalism arcFormalism) {
 		this.graph = (IGraph) arcSource.getParent();
 		this.source = arcSource;
 		this.target = arcTarget;
@@ -49,7 +53,7 @@ public class ArcCompleteCmd extends Command {
 	public final boolean canExecute() {
 
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!arcFormalism.isLinkAllowed(source.getNodeFormalism(), target.getNodeFormalism())) {
+		if (!arcFormalism.getFormalism().isLinkAllowed(source.getNodeFormalism(), target.getNodeFormalism())) {
 			return false;
 		}
 
@@ -70,7 +74,12 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final void execute() {
 		// Construction de l'arc
-		arc = graph.createArc(arcFormalism.getName(), source, target);
+		try {
+			arc = graph.createArc(arcFormalism.getName(), source, target);
+		} catch (ModelException e) {
+			logger.warning(e.toString());
+			e.printStackTrace();
+		}
 	}
 
 	/*

@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
@@ -137,7 +138,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	 */
 	private String computeModelName(String name, String formalisme) {
 		// Recupere les informations sur le formalisme choisi
-		Formalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalisme);
+		IFormalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalisme);
 		Coloane.getLogger().fine("Formalisme choisi : " + importFormalism.getName()); //$NON-NLS-1$
 
 		// Travail sur l'extension du fichier
