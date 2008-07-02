@@ -10,7 +10,7 @@ import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.lang.reflect.InvocationTargetException;
 

@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.Arc;
-import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.Node;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.impl.Arc;
+import fr.lip6.move.coloane.interfaces.model.impl.Attribute;
+import fr.lip6.move.coloane.interfaces.model.impl.Node;
 
 import java.util.Vector;
 
@@ -51,7 +51,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#Arc(String, int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#Arc(String, int)}
 	 */
 	public final void testConcreteArcStringInt() {
 		assertTrue(aLong.getId() == IDARC);
@@ -59,7 +59,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#Arc(String)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#Arc(String)}
 	 */
 	public final void testConcreteArcString() {
 		assertTrue(aShort.getArcType().equals(TYPEARC));
@@ -67,7 +67,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getArcType()
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#getArcType()
 	 */
 	public final void testGetArcType() {
 		assertTrue(aLong.getArcType().equals(TYPEARC));
@@ -75,7 +75,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getId()}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#getId()}
 	 */
 	public final void testGetId() {
 		assertTrue(aLong.getId() == IDARC);
@@ -83,7 +83,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setId(int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#setId(int)}
 	 */
 	public final void testSetId() {
 		aShort.setId(IDARC);
@@ -97,7 +97,7 @@ public class ArcTest extends TestCase {
 	static final String TYPEEND = "End";
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setStartingNode(ICoreNode)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#setStartingNode(ICoreNode)}
 	 */
 	public final void testSetStartingNode() {
 		ICoreNode node = new Node(TYPEBEGIN);
@@ -106,7 +106,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setEndingNode(ICoreNode)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#setEndingNode(ICoreNode)}
 	 */
 	public final void testSetEndingNode() {
 		ICoreNode node = new Node(TYPEEND);
@@ -115,7 +115,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getStartingNode()}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#getStartingNode()}
 	 */
 	public final void testGetStartingNode() {
 		assertTrue(a.getStartingNode() == null);
@@ -125,7 +125,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getEndingNode()}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#getEndingNode()}
 	 */
 	public final void testGetEndingNode() {
 		assertTrue(a.getEndingNode() == null);
@@ -141,7 +141,7 @@ public class ArcTest extends TestCase {
 	static final int ATTREFID = 0;
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#addAttribute(ICoreAttribute)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#addAttribute(ICoreAttribute)}
 	 */
 	public final void testAddAttribute() {
 		ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
@@ -152,7 +152,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removeAttribute(ICoreAttribute)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#removeAttribute(ICoreAttribute)}
 	 */
 	public final void testRemoveAttributeIAttribute() {
 		ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
@@ -171,7 +171,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removeAttribute(int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#removeAttribute(int)}
 	 */
 	public final void testRemoveAttributeInt() {
 	ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
@@ -188,7 +188,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getListOfAttr()}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#getListOfAttr()}
 	 */
 	public final void testGetListOfAttr() {
 		Vector<ICoreAttribute> via;
@@ -210,7 +210,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#addPI(int, int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#addPI(int, int)}
 	 */
 	public final void testAddPIIntInt() {
 		try {
@@ -231,7 +231,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#addPI(int, int, int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#addPI(int, int, int)}
 	 */
 	public final void testAddPIIntIntInt() {
 		try {
@@ -252,7 +252,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removePI(int, int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#removePI(int, int)}
 	 */
 	public final void testRemovePIIntInt() {
 		try {
@@ -279,7 +279,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removePI(int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#removePI(int)}
 	 */
 	public final void testRemovePIInt() {
 		try {
@@ -307,7 +307,7 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#modifyPI(int, int, int)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Arc#modifyPI(int, int, int)}
 	 */
 	public final void testModifyPI() {
 		try {

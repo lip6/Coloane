@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 public interface IExportTo {
 	/**

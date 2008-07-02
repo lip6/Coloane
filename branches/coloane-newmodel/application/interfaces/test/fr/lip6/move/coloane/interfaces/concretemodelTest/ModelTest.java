@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.Arc;
-import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.model.Node;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.impl.Arc;
+import fr.lip6.move.coloane.interfaces.model.impl.Attribute;
+import fr.lip6.move.coloane.interfaces.model.impl.Model;
+import fr.lip6.move.coloane.interfaces.model.impl.Node;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import junit.framework.TestCase;
@@ -58,7 +58,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getANode(int)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#getANode(int)}.
 	 */
 	public final void testGetANode() {
 		ICoreNode node = new Node(TYPENODE);
@@ -72,7 +72,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getAnArc(int)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#getAnArc(int)}.
 	 */
 
 	static final String TYPEBEGIN = "begin";
@@ -100,7 +100,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addAttribute(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreAttribute)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#addAttribute(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreAttribute)}.
 	 */
 	public final void testAddAttribute() {
 		ICoreAttribute at0 = new Attribute("Attribut", "concret", 0);
@@ -113,7 +113,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeNode(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreNode)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#removeNode(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreNode)}.
 	 */
 	public final void testRemoveNode() {
 		ICoreNode node = new Node(TYPENODE);
@@ -129,7 +129,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#removeArc(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreArc)}.
 	 */
 	public final void testRemoveArc() {
 		ICoreArc arc = new Arc(TYPEARC);
@@ -151,7 +151,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthAttr(int)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#getNthAttr(int)}.
 	 */
 	public final void testGetNthAttr() {
 		ICoreAttribute at0 = new Attribute("Attribut", "concret", 0);
@@ -167,7 +167,7 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthArc(int)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.impl.Model#getNthArc(int)}.
 	 */
 	public final void testGetNthArc() {
 		ICoreArc arc1 = new Arc(TYPEARC);

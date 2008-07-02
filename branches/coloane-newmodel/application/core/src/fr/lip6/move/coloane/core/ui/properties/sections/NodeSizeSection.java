@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeSizeCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 

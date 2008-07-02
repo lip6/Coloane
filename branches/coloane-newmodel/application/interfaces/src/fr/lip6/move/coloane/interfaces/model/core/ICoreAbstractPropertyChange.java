@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IAbstractPropertyChange;
 
 import java.beans.PropertyChangeListener;
 

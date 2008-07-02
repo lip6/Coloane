@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
-import fr.lip6.move.coloane.interfaces.model.Attribute;
+import fr.lip6.move.coloane.interfaces.model.impl.Attribute;
 import junit.framework.TestCase;
 
 /**
@@ -56,7 +56,7 @@ public class AttributeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#setPosition(int, int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Attribute#setPosition(int, int)}.
 	 */
 	public final void testSetPosition() {
 		assertTrue(ca.getXPosition() == 0);
@@ -67,7 +67,7 @@ public class AttributeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#setRefId(int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Attribute#setRefId(int)}.
 	 */
 	public final void testSetRefId() {
 		assertTrue(ca.getRefId() == 0);
@@ -77,7 +77,7 @@ public class AttributeTest extends TestCase {
 
 	static final String ATTVALUE2 = "Bye";
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Attribute#setValue(java.lang.String)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Attribute#setValue(java.lang.String)}.
 	 */
 	public final void testSetValue() {
 		assertTrue(ca.getValue().equals(ATTVALUE));

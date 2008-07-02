@@ -1,7 +1,7 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.model.impl;
 
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreArcGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;

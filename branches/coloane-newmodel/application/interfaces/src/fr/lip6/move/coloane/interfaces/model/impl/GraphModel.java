@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.model.impl;
 
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
@@ -6,9 +6,9 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreGraph;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.Collection;
 import java.util.HashMap;

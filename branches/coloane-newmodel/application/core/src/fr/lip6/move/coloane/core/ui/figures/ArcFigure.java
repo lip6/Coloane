@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArcGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;

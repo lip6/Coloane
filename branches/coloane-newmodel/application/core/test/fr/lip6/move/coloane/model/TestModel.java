@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.model;
 
-import fr.lip6.move.coloane.interfaces.model.Arc;
-import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.Model;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.impl.Arc;
+import fr.lip6.move.coloane.interfaces.model.impl.Attribute;
+import fr.lip6.move.coloane.interfaces.model.impl.IModel;
+import fr.lip6.move.coloane.interfaces.model.impl.Model;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import java.util.Vector;

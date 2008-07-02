@@ -8,12 +8,12 @@ import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.NodeFigure;
-import fr.lip6.move.coloane.interfaces.model.AbstractElement;
-import fr.lip6.move.coloane.interfaces.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.impl.AbstractElement;
+import fr.lip6.move.coloane.interfaces.model.impl.AbstractPropertyChange;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -5,8 +5,8 @@ import fr.lip6.move.coloane.api.exceptions.UnexpectedCamiCommand;
 import fr.lip6.move.coloane.api.main.Api;
 
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.model.IModel;
-import fr.lip6.move.coloane.interfaces.model.Model;
+import fr.lip6.move.coloane.interfaces.model.impl.IModel;
+import fr.lip6.move.coloane.interfaces.model.impl.Model;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;

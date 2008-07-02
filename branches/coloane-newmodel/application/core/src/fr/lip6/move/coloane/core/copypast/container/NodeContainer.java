@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
 

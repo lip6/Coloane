@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.interfaces.model.GraphModel;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.impl.GraphModel;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Section qui affiche les attributs du noeud.

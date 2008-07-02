@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.interfaces.concretemodelTest;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.Arc;
-import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.Node;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.impl.Arc;
+import fr.lip6.move.coloane.interfaces.model.impl.Attribute;
+import fr.lip6.move.coloane.interfaces.model.impl.Node;
 
 import junit.framework.TestCase;
 
@@ -71,7 +71,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#getId()}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#getId()}.
 	 */
 	public final void testGetId() {
 		assertTrue(node.getId() == 0);
@@ -80,7 +80,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#setId(int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#setId(int)}.
 	 */
 	public final void testSetId() {
 		assertTrue(node.getId() == 0);
@@ -89,7 +89,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#setPosition(int, int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#setPosition(int, int)}.
 	 */
 	public final void testSetPosition() {
 		assertTrue(nodeXY.getXPosition() == 0);
@@ -102,7 +102,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#getXPosition()}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#getXPosition()}.
 	 */
 	public final void testGetXPosition() {
 		assertTrue(node.getXPosition() == 0);
@@ -111,7 +111,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#getYPosition()}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#getYPosition()}.
 	 */
 	public final void testGetYPosition() {
 		assertTrue(node.getYPosition() == 0);
@@ -120,7 +120,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#addInputArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#addInputArc(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreArc)}.
 	 */
 	public final void testAddInputArc() {
 		ICoreArc arc1 = new Arc("arc");
@@ -132,7 +132,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeInputArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeInputArc(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreArc)}.
 	 */
 	public final void testRemoveInputArcIArc() {
 		ICoreArc arc1 = new Arc("arc");
@@ -151,7 +151,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeInputArc(int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeInputArc(int)}.
 	 */
 	public final void testRemoveInputArcInt() {
 		ICoreArc arc1 = new Arc("arc");
@@ -179,7 +179,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#addOutputArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#addOutputArc(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreArc)}.
 	 */
 	public final void testAddOutputArc() {
 		ICoreArc arc1 = new Arc("arc");
@@ -190,7 +190,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeOutputArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeOutputArc(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreArc)}.
 	 */
 	public final void testRemoveOutputArcIArc() {
 		ICoreArc arc1 = new Arc("arc");
@@ -207,7 +207,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeOutputArc(int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeOutputArc(int)}.
 	 */
 	public final void testRemoveOutputArcInt() {
 		ICoreArc arc1 = new Arc("arc");
@@ -236,7 +236,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#addAttribute(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreAttribute)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#addAttribute(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreAttribute)}.
 	 */
 	public final void testAddAttribute() {
 		ICoreAttribute att = new Attribute("attribut", "toto", 0);
@@ -245,7 +245,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeAttribute(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreAttribute)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeAttribute(fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreAttribute)}.
 	 */
 	public final void testRemoveAttributeIAttribute() {
 		ICoreAttribute a0 = new Attribute("attribut", "1", 1);
@@ -265,7 +265,7 @@ public class NodeTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Node#removeAttribute(int)}.
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.impl.Node#removeAttribute(int)}.
 	 */
 	public final void testRemoveAttributeInt() {
 		ICoreAttribute a0 = new Attribute("attribut", "1", 1);

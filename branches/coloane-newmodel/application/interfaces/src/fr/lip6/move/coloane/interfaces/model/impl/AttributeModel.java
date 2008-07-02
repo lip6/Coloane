@@ -1,10 +1,10 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.model.impl;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttributeGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
 
 public class AttributeModel extends AbstractPropertyChange implements ICoreAttribute {
 	private IElement reference;

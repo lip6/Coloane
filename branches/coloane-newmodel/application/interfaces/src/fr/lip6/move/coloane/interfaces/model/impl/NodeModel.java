@@ -1,11 +1,11 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.model.impl;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreNode;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;

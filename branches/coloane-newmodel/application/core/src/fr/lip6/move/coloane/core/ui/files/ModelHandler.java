@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.interfaces.model.GraphModel;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.impl.GraphModel;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model;
 
 import java.util.Collection;
 

@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.swt.graphics.Color;
@@ -153,7 +153,7 @@ public final class ModelWriter {
 	 * @param model Le modele en objet JAVA contenant des attributs d'objet
 	 * @return Une chaine de caracteres decrivant en XML les attributs du modele
 	 */
-	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.interfaces.IElement elt) {
+	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
 		// Pour chaque attribut...

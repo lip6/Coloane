@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.model;
+package fr.lip6.move.coloane.interfaces.model.impl;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

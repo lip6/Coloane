@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Interface des information graphique concernant un noeud
- * @see fr.lip6.move.coloane.interfaces.model.interfaces.NodeGraphicInfo
+ * @see fr.lip6.move.coloane.interfaces.model.impl.interfaces.NodeGraphicInfo
  */
 
 public interface ICoreNodeGraphicInfo extends INodeGraphicInfo {

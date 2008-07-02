@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model;
 
 public interface IAttribute extends IAbstractPropertyChange {
 
@@ -50,7 +50,7 @@ public interface IAttribute extends IAbstractPropertyChange {
 	/**
 	 * Retourne le type d'affichage a considerer pour cet attribut
 	 * @return int Indicateur d'affichage
-	 * @see fr.lip6.move.coloane.interfaces.model.interfaces.IAttributeGraphicInfo
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo
 	 */
 	int getType();
 

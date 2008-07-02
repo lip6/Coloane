@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Point;
 

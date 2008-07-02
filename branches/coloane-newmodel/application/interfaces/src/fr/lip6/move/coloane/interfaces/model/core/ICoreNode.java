@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
-import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.util.List;
 

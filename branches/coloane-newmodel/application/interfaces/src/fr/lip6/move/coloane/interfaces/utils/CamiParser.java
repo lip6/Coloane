@@ -31,7 +31,7 @@ public class CamiParser {
 	 */
 	public final String parseInt(String token) throws SyntaxErrorException {
 		try {
-			String res = "";
+			String res = ""; //$NON-NLS-1$
 			int cpt = 0;
 
 			if (!(this.message.subSequence(cpt, cpt + 1)).equals(token)) {
@@ -44,7 +44,7 @@ public class CamiParser {
 				return res;
 			} else {
 				this.message = this.message.substring(1);
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		} catch (Exception e) {
 			throw new SyntaxErrorException();
@@ -63,7 +63,7 @@ public class CamiParser {
 			if (!(this.message.subSequence(0, 1)).equals(token)) {
 
 				// Recupere la taille indiquee par la commande CAMI
-				String tailleChaine = st.nextToken(":");
+				String tailleChaine = st.nextToken(":"); //$NON-NLS-1$
 				int taille = Integer.parseInt(tailleChaine);
 
 				// Recupere le texte ecrit apres la taille (et les :) jusqu'au bout
@@ -73,10 +73,10 @@ public class CamiParser {
 				return res;
 			} else {
 				this.message = this.message.substring(1);
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		} catch (Exception e) {
-			throw new SyntaxErrorException("Erreur de parse : " + token);
+			throw new SyntaxErrorException("Erreur de parse : " + token); //$NON-NLS-1$
 		}
 	}
 
@@ -88,11 +88,11 @@ public class CamiParser {
 	 */
 	public static String stringToCAMI(String s) {
 
-		if (!s.equals("") || s == null) {
-			String cami = "" + s.length() + ":" + s;
+		if (!s.equals("") || s == null) { //$NON-NLS-1$
+			String cami = "" + s.length() + ":" + s; //$NON-NLS-1$ //$NON-NLS-2$
 			return cami;
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 }

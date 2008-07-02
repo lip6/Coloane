@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttributeGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 public interface ICoreAttribute extends ICoreAbstractPropertyChange, IAttribute {
 
@@ -54,7 +54,7 @@ public interface ICoreAttribute extends ICoreAbstractPropertyChange, IAttribute 
 	/**
 	 * Retourne le type d'affichage a considerer pour cet attribut
 	 * @return int Indicateur d'affichage
-	 * @see fr.lip6.move.coloane.interfaces.model.interfaces.ICoreAttributeGraphicInfo
+	 * @see fr.lip6.move.coloane.interfaces.model.impl.interfaces.ICoreAttributeGraphicInfo
 	 */
 	int getType();
 

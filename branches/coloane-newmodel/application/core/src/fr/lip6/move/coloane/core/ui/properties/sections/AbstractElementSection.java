@@ -4,8 +4,8 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
