@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Graph;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 
 /**
  * Definition d'un formalisme.<br>
- * L'instanciation d'un tel formalisme provoque systématiquement la création d'un objet {@link Graph}.<br>
- * Sans aucune autre précision, les éléments de formalisme créés par la suite seront associé à cet objet {@link Graph}.
+ * L'instanciation d'un tel formalisme provoque systématiquement la création d'un objet {@link GraphFormalism}.<br>
+ * Sans aucune autre précision, les éléments de formalisme créés par la suite seront associé à cet objet {@link GraphFormalism}.
  */
 public class Formalism {
 
@@ -24,7 +24,7 @@ public class Formalism {
 	private String xschema;
 
 	/** Liste des élément de base du formalisme. */
-	private List<FormalismElement> elements;
+	private List<ElementFormalism> elements;
 
 	/** Liste des regles du formalisme. */
 	private List<IConstraint> constraints;
@@ -33,7 +33,7 @@ public class Formalism {
 	private String image;
 	
 	/** Graphe principal du formalisme */
-	private FormalismElement master;
+	private ElementFormalism master;
 
 	/**
 	 * Création d'un formalisme
@@ -49,11 +49,11 @@ public class Formalism {
 		this.image = image;
 		this.xschema = xshema;
 		
-		this.elements = new ArrayList<FormalismElement>();
+		this.elements = new ArrayList<ElementFormalism>();
 		this.constraints = new ArrayList<IConstraint>();
 		
 		// Creation et Ajout du graphe principal lié à l'instance du formalisme
-		this.master = new Graph(name);
+		this.master = new GraphFormalism(name);
 		this.elements.add(master);
 	}
 
@@ -63,7 +63,7 @@ public class Formalism {
 	 * @param target Element cible de l'arc
 	 * @return <code>true</code> si la liaison est possible
 	 */
-	public final boolean isLinkAllowed(FormalismElement source, FormalismElement target) {
+	public final boolean isLinkAllowed(ElementFormalism source, ElementFormalism target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
 		for (IConstraint constraint : constraints) {
 			if (!constraint.isSatisfied(source,target)) {
@@ -75,9 +75,9 @@ public class Formalism {
 
 	/**
 	 * Ajout d'un element de base au formalisme
-	 * @param element {@link FormalismElement} de base a ajouter.
+	 * @param element {@link ElementFormalism} de base a ajouter.
 	 */
-	public final void addElement(FormalismElement element) {
+	public final void addElement(ElementFormalism element) {
 		if (element == null) { return; }
 		this.elements.add(element);
 	}
@@ -96,7 +96,7 @@ public class Formalism {
 	 * Retourne la liste des éléments attachés au formalisme
 	 * @return Une liste d'éléments {@FormalismElement}
 	 */
-	public final List<FormalismElement> getListOfElementBase() {
+	public final List<ElementFormalism> getListOfElementBase() {
 		return this.elements;
 	}
 
@@ -131,7 +131,7 @@ public class Formalism {
 	/**
 	 * @return Le graphe principal du formalisme
 	 */
-	public final FormalismElement getMasterGraph() {
+	public final ElementFormalism getMasterGraph() {
 		return this.master;
 	}
 

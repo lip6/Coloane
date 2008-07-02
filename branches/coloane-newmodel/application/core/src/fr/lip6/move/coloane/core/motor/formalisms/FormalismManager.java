@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Graph;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ArcFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.AttributeFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +60,14 @@ public final class FormalismManager {
 		// Ajout des definitions de graphes
 		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		for (IConfigurationElement graph : graphes) {
-			Graph g = new Graph(graph.getAttribute("name")); //$NON-NLS-1$
+			GraphFormalism g = new GraphFormalism(graph.getAttribute("name")); //$NON-NLS-1$
 			this.buildAttributes(g, graph);
 			form.addElement(g);
 			
 			// Ajout des definitions des noeuds
 			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 			for (IConfigurationElement node : nodes) {
-				Node n = new Node(node.getAttribute("name")); //$NON-NLS-1$
+				NodeFormalism n = new NodeFormalism(node.getAttribute("name")); //$NON-NLS-1$
 				this.buildAttributes(n, node);
 				this.buildGraphicalDescription(n, node);
 				g.addElement(n);
@@ -76,7 +76,7 @@ public final class FormalismManager {
 			// Ajout des definitions des arcs
 			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 			for (IConfigurationElement arc : arcs) {
-				Arc a = new Arc(arc.getAttribute("name")); //$NON-NLS-1$
+				ArcFormalism a = new ArcFormalism(arc.getAttribute("name")); //$NON-NLS-1$
 				this.buildAttributes(a, arc);
 				this.buildGraphicalDescription(a, arc);
 				g.addElement(a);
@@ -89,11 +89,11 @@ public final class FormalismManager {
 	 * @param element L'élément de formalisme qui est entrain d'être construit
 	 * @param current L'élément de description entrain d'être lu
 	 */
-	private void buildAttributes(FormalismElement element, IConfigurationElement current) {
+	private void buildAttributes(ElementFormalism element, IConfigurationElement current) {
 		// Ajout des definitions des attributs
 		IConfigurationElement[] attributes = current.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
-			Attribute a = new Attribute(attribute.getAttribute("name"), getBool(attribute.getAttribute("multiline")), getBool(attribute.getAttribute("drawable")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), getBool(attribute.getAttribute("multiline")), getBool(attribute.getAttribute("drawable")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			
 			// Prise en compte de la valeur par defaut de l'attribut
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
@@ -103,7 +103,7 @@ public final class FormalismManager {
 		}
 	}
 	
-	private void buildGraphicalDescription(FormalismElement element, IConfigurationElement current) {
+	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement current) {
 		// Ajout des considérations graphiques
 		IConfigurationElement[] graphicInfoTable = current.getChildren("GraphicInfo"); //$NON-NLS-1$
 		IConfigurationElement graphicInfo = graphicInfoTable[0];

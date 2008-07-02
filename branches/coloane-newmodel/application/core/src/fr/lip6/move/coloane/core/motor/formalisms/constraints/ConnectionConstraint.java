@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 
 /**
  * Definition d'une contrainte pour la connexion de 2 éléments de formalisme<br>
@@ -9,10 +9,10 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 public class ConnectionConstraint implements IConstraint {
 
 	/** Element en entree de l'arc. */
-	private FormalismElement source;
+	private ElementFormalism source;
 
 	/** Element en sortie de l'arc. */
-	private FormalismElement target;
+	private ElementFormalism target;
 
 	/**
 	 * Constructeur
@@ -20,7 +20,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * @param in élément source de l'arc
 	 * @param out élément cible de l'arc
 	 */
-	public ConnectionConstraint(FormalismElement source, FormalismElement target) {
+	public ConnectionConstraint(ElementFormalism source, ElementFormalism target) {
 		this.source = source;
 		this.target = target;
 	}
@@ -29,23 +29,23 @@ public class ConnectionConstraint implements IConstraint {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
-	public boolean isSatisfied(FormalismElement source, FormalismElement target) {
+	public boolean isSatisfied(ElementFormalism source, ElementFormalism target) {
 		return (!(this.source.equals(source)) || !(this.target.equals(target)));
 	}
 
 	/**
 	 * Retourne l'element en entree de l'arc.
-	 * @return {@link FormalismElement}
+	 * @return {@link ElementFormalism}
 	 */
-	public final FormalismElement getSource() {
+	public final ElementFormalism getSource() {
 		return this.source;
 	}
 
 	/**
 	 * Retourne l'element en sortie de l'arc.
-	 * @return {@link FormalismElement}
+	 * @return {@link ElementFormalism}
 	 */
-	public final FormalismElement getTarget() {
+	public final ElementFormalism getTarget() {
 		return this.target;
 	}
 }

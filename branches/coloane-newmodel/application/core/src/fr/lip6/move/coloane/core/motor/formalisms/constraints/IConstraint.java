@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 
 /**
  * Interface définissant le principe de contrainte.<br>
  * Une contrainte est attachée à un formalisme. Elle concerne 1 ou plusieurs élément de ce formalisme.<br>
- * Chaque contrainte doit définir une méthode {@link #isSatisfied(FormalismElement, FormalismElement)}
+ * Chaque contrainte doit définir une méthode {@link #isSatisfied(ElementFormalism, ElementFormalism)}
  * qui retourne <code>true</code> si la contrainte est vérifiée (satisfaire) ou <code>false</code> dans le
  * cas inverse.
  * 
@@ -14,6 +14,6 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
  */
 public interface IConstraint {
 	
-	boolean isSatisfied(FormalismElement source, FormalismElement target); 
+	boolean isSatisfied(ElementFormalism source, ElementFormalism target); 
 
 }

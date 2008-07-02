@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 
 /**
  * Definition d'une contrainte sur le nombre de connexion sur un élement de formalisme<br>
@@ -13,7 +13,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 public class CardinalityConstraint implements IConstraint {
 
 	/** Elément sur lequel s'applique la contrainte */
-	private FormalismElement element;
+	private ElementFormalism element;
 
 	/** Le nombre maximum d'arcs en entrée (arcs cibles) */
 	private int maxIn;
@@ -29,7 +29,7 @@ public class CardinalityConstraint implements IConstraint {
 	 * @param maxIn Nombre maximum d'arcs en entrée (arcs cibles)
 	 * @param maxOut Nombre maximum d'arcs en sortie (arcs sources)
 	 */
-	public CardinalityConstraint(FormalismElement element, int maxIn, int maxOut) {
+	public CardinalityConstraint(ElementFormalism element, int maxIn, int maxOut) {
 		this.element = element;
 		this.maxIn = maxIn;
 		this.maxOut = maxOut;
@@ -40,16 +40,16 @@ public class CardinalityConstraint implements IConstraint {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
-	public boolean isSatisfied(FormalismElement source, FormalismElement target) {
+	public boolean isSatisfied(ElementFormalism source, ElementFormalism target) {
 		// TODO: A définir !
 		return true;
 	}
 
 	/**
 	 * Retourne l'élement concerné
-	 * @return {@link FormalismElement}
+	 * @return {@link ElementFormalism}
 	 */
-	public FormalismElement getElement() {
+	public ElementFormalism getElement() {
 		return element;
 	}
 
