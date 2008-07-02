@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 /**
  * Description d'un arc dans un formalisme.<br>
@@ -16,8 +17,9 @@ public class ArcFormalism extends ElementFormalism implements IArcFormalism {
 	/**
 	 * Constructeur
 	 * @param name Nom de l'arc dans le formalisme
+	 * @param formalism Le formalisme qui définit cet arc
 	 */
-	public ArcFormalism(String name) {
-		super(name);
+	public ArcFormalism(String name, IFormalism formalism) {
+		super(name, formalism);
 	}
 }

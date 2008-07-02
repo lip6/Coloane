@@ -10,5 +10,5 @@ package fr.lip6.move.coloane.interfaces.formalism;
  * </ul>
  */
 public interface IArcFormalism extends IElementFormalism {
-	IFormalism getFormalism();
+
 }

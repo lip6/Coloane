@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 /**
@@ -23,9 +24,10 @@ public class NodeFormalism extends ElementFormalism implements INodeFormalism {
 	/**
 	 * Constructeur
 	 * @param name Nom de l'element de base.
+	 * @param formalism Le formalisme qui définit ce noeud
 	 */
-	public NodeFormalism(String name) {
-		super(name);
+	public NodeFormalism(String name, IFormalism formalism) {
+		super(name, formalism);
 	}
 
 	/* (non-Javadoc)

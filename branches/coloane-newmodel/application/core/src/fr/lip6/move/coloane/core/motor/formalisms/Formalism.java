@@ -55,7 +55,7 @@ public class Formalism implements IFormalism {
 		this.constraints = new ArrayList<IConstraint>();
 		
 		// Creation et Ajout du graphe principal lié à l'instance du formalisme
-		this.master = new GraphFormalism(name);
+		this.master = new GraphFormalism(name,this);
 		this.elements.add(master);
 	}
 

@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 
 /**
@@ -17,9 +18,10 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	/**
 	 * Constructeur
 	 * @param name Le nom du graphe
+	 * @param formalism Le formalisme qui définit ce graphe
 	 */
-	public GraphFormalism(String name) {
-		super(name);
+	public GraphFormalism(String name, IFormalism formalism) {
+		super(name, formalism);
 	}
 	
 	/**

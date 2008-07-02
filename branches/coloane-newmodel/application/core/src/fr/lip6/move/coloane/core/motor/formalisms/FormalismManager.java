@@ -71,7 +71,7 @@ public final class FormalismManager {
 		// Ajout des definitions de graphes
 		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		for (IConfigurationElement graph : graphes) {
-			GraphFormalism g = new GraphFormalism(graph.getAttribute("name")); //$NON-NLS-1$
+			GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
 			LOGGER.finer("Construction de l'element graphe : " + name); //$NON-NLS-1$
 			this.buildAttributes(g, graph);
 			form.addElement(g);
@@ -79,7 +79,7 @@ public final class FormalismManager {
 			// Ajout des definitions des noeuds
 			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 			for (IConfigurationElement node : nodes) {
-				NodeFormalism n = new NodeFormalism(node.getAttribute("name")); //$NON-NLS-1$
+				NodeFormalism n = new NodeFormalism(node.getAttribute("name"),form); //$NON-NLS-1$
 				LOGGER.finer("Construction de l'element node : " + name); //$NON-NLS-1$
 				this.buildAttributes(n, node);
 				this.buildGraphicalDescription(n, node);
@@ -89,7 +89,7 @@ public final class FormalismManager {
 			// Ajout des definitions des arcs
 			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 			for (IConfigurationElement arc : arcs) {
-				ArcFormalism a = new ArcFormalism(arc.getAttribute("name")); //$NON-NLS-1$
+				ArcFormalism a = new ArcFormalism(arc.getAttribute("name"),form); //$NON-NLS-1$
 				LOGGER.finer("Construction de l'element arc : " + name); //$NON-NLS-1$
 				this.buildAttributes(a, arc);
 				this.buildGraphicalDescription(a, arc);

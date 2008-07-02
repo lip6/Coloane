@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 /**
@@ -20,6 +21,9 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 public class ElementFormalism implements IElementFormalism {
 	/** Nom associe a l'element de base. */
 	private String name;
+	
+	/** Formalisme qui decrit un tel élément */
+	private IFormalism formalism;
 
 	/** Tableau des differents attributs de l'element de base. */
 	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>(0);
@@ -31,8 +35,9 @@ public class ElementFormalism implements IElementFormalism {
 	 * Constructeur
 	 * @param name Nom de l'élément de base.
 	 */
-	public ElementFormalism(String name) {
+	public ElementFormalism(String name, IFormalism formalism) {
 		this.name = name;
+		this.formalism = formalism;
 	}
 
 	/**
@@ -66,5 +71,13 @@ public class ElementFormalism implements IElementFormalism {
 	 */
 	public void setGraphicalDescription(IGraphicalDescription graphicalDescription) {
 		this.graphicalDescription = graphicalDescription;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IElementFormalism#getFormalism()
+	 */
+	public IFormalism getFormalism() {
+		return this.formalism;
 	}
 }
