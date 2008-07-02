@@ -3,8 +3,9 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IGraphicalDescription;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 /**
  * Cette classe représente un élément du base du formalisme.<br>
@@ -21,7 +22,7 @@ public class ElementFormalism implements IElementFormalism {
 	private String name;
 
 	/** Tableau des differents attributs de l'element de base. */
-	private List<AttributeFormalism> attributes = new ArrayList<AttributeFormalism>(0);
+	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>(0);
 	
 	/** Description graphique de l'élément de formalisme */
 	private IGraphicalDescription graphicalDescription;
@@ -50,7 +51,7 @@ public class ElementFormalism implements IElementFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getAttributes()
 	 */
-	public final List<AttributeFormalism> getAttributes() { return this.attributes; }
+	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getGraphicalDescription()

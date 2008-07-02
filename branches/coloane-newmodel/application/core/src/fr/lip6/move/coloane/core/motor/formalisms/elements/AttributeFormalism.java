@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
 /**
  * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>

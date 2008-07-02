@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 
 /**
  * Cette classe décrit un conteneur de noeuds, d'arcs et d'attributs d'un formalisme.<br>

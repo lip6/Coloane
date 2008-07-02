@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IGraphicalDescription;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 /**
  * Cette classe regroupe toutes les informations grapgique relative à un élément de formalisme

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 /**
  * Description d'un noeud dans un formalisme.<br>

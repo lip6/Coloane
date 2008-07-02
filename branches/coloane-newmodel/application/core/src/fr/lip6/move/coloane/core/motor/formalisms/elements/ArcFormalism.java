@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
 /**
  * Description d'un arc dans un formalisme.<br>
