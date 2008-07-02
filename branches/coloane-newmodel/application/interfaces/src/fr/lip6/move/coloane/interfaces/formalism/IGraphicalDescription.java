@@ -8,51 +8,50 @@ public interface IGraphicalDescription {
 	/**
 	 * @return Le nom qui doit être affiché dans la palette pour cet élément de formalisme
 	 */
-	public abstract String getPaletteName();
+	String getPaletteName();
 
 	/**
 	 * @return La description de l'élément de formalisme
 	 */
-	public abstract String getDescription();
+	String getDescription();
 
 	/**
-	 * @return Est-ce que l'élément de formalisme doit être affiché dans la palette ? 
+	 * @return Est-ce que l'élément de formalisme doit être affiché dans la palette ?
 	 */
-	public abstract boolean isPalettable();
+	boolean isPalettable();
 
 	/**
 	 * @return Est-ce que l'élément de formalisme doit être visible sur le modèle
 	 */
-	public abstract boolean isDrawable();
+	boolean isDrawable();
 
 	/**
 	 * @return La figure associée à l'élément de formalisme
 	 */
-	public abstract String getAssociatedFigure();
+	String getAssociatedFigure();
 
 	/**
 	 * @return L'icône (16 pixels) associée à l'élément de formalisme
 	 */
-	public abstract String getIcon16px();
+	String getIcon16px();
 
 	/**
 	 * @return L'icône (24 pixels) associée à l'élément de formalisme
 	 */
-	public abstract String getIcon24px();
+	String getIcon24px();
 
 	/**
 	 * @return L'indicateur de remplissage de ma figure
 	 */
-	public abstract boolean isFilled();
+	boolean isFilled();
 
 	/**
 	 * @return La hauteur par défaut de la figure
 	 */
-	public abstract Integer getHeight();
+	Integer getHeight();
 
 	/**
 	 * @return La largeur par défaut de la figure
 	 */
-	public abstract Integer getWidth();
-
+	Integer getWidth();
 }

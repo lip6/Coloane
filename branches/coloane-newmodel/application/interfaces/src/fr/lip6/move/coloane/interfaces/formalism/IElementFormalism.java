@@ -16,15 +16,15 @@ public interface IElementFormalism {
 	/**
 	 * @return Le nom de l'élément de base
 	 */
-	public abstract String getName();
+	String getName();
 
 	/**
 	 * @return Retourne la liste des {@link AttributeFormalism} d'un élément.
 	 */
-	public abstract List<IAttributeFormalism> getAttributes();
+	List<IAttributeFormalism> getAttributes();
 
 	/**
 	 * @return La description graphique de l'élément
 	 */
-	public abstract IGraphicalDescription getGraphicalDescription();
+	IGraphicalDescription getGraphicalDescription();
 }
