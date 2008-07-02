@@ -114,6 +114,25 @@ public final class FormalismManager {
 				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
 				LOGGER.finer("Ajout de la valeur par default " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
+			
+			// Prise en compte de la valeur par defaut de l'attribut
+			if (attribute.getAttribute("bold") != null) { //$NON-NLS-1$
+				a.setBold(this.getBool(attribute.getAttribute("bold"))); //$NON-NLS-1$
+				LOGGER.finer("Ajout de l'indicateur de gras pour l'attribut : " + a.getName()); //$NON-NLS-1$
+			}
+			
+			// Prise en compte de la valeur par defaut de l'attribut
+			if (attribute.getAttribute("italic") != null) { //$NON-NLS-1$
+				a.setItalic(this.getBool(attribute.getAttribute("italic"))); //$NON-NLS-1$
+				LOGGER.finer("Ajout de l'indicateur d'italique pour l'attribut : " + a.getName()); //$NON-NLS-1$
+			}
+
+			// Prise en compte de la valeur par defaut de l'attribut
+			if (attribute.getAttribute("size") != null) { //$NON-NLS-1$
+				a.setSize(attribute.getAttribute("size")); //$NON-NLS-1$
+				LOGGER.finer("Ajout de l'indicateur de taille de police pour l'attribut : " + a.getName()); //$NON-NLS-1$
+			}
+
 			element.addAttribute(a);
 		}
 	}
