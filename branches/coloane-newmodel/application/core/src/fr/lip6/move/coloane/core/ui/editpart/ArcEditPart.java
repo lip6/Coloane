@@ -7,8 +7,8 @@ import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

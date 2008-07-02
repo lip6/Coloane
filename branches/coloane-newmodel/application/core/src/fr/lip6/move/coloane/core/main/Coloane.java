@@ -4,8 +4,8 @@ import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.ui.UserInterface;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 

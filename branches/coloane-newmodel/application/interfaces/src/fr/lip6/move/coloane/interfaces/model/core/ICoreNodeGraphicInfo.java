@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.core.ui.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model.core;
+
+import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -6,10 +8,10 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Interface des information graphique concernant un noeud
- * @see fr.lip6.move.coloane.core.ui.model.NodeGraphicInfo
+ * @see fr.lip6.move.coloane.interfaces.model.interfaces.NodeGraphicInfo
  */
 
-public interface INodeGraphicInfo {
+public interface ICoreNodeGraphicInfo extends INodeGraphicInfo {
 
 	// Style de sa figure
 	 /** ID pour un cercle */

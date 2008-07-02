@@ -3,9 +3,9 @@ package fr.lip6.move.coloane.interfaces.concretemodelTest;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Arc;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.Node;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.Vector;
 
@@ -97,19 +97,19 @@ public class ArcTest extends TestCase {
 	static final String TYPEEND = "End";
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setStartingNode(INode)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setStartingNode(ICoreNode)}
 	 */
 	public final void testSetStartingNode() {
-		INode node = new Node(TYPEBEGIN);
+		ICoreNode node = new Node(TYPEBEGIN);
 		a.setStartingNode(node);
 		assertTrue(a.getStartingNode().equals(node));
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setEndingNode(INode)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#setEndingNode(ICoreNode)}
 	 */
 	public final void testSetEndingNode() {
-		INode node = new Node(TYPEEND);
+		ICoreNode node = new Node(TYPEEND);
 		a.setEndingNode(node);
 		assertTrue(a.getEndingNode().equals(node));
 	}
@@ -119,7 +119,7 @@ public class ArcTest extends TestCase {
 	 */
 	public final void testGetStartingNode() {
 		assertTrue(a.getStartingNode() == null);
-		INode node = new Node(TYPEBEGIN);
+		ICoreNode node = new Node(TYPEBEGIN);
 		a.setStartingNode(node);
 		assertTrue(a.getStartingNode().equals(node));
 	}
@@ -129,7 +129,7 @@ public class ArcTest extends TestCase {
 	 */
 	public final void testGetEndingNode() {
 		assertTrue(a.getEndingNode() == null);
-		INode node = new Node(TYPEEND);
+		ICoreNode node = new Node(TYPEEND);
 		a.setEndingNode(node);
 		assertTrue(a.getEndingNode().equals(node));
 	}
@@ -141,10 +141,10 @@ public class ArcTest extends TestCase {
 	static final int ATTREFID = 0;
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#addAttribute(IAttribute)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#addAttribute(ICoreAttribute)}
 	 */
 	public final void testAddAttribute() {
-		IAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
+		ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
 		a.addAttribute(attribute);
 		assertTrue(a.getListOfAttrSize() == 1);
 		assertTrue(a.getNthAttr(0).equals(attribute));
@@ -152,11 +152,11 @@ public class ArcTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removeAttribute(IAttribute)}
+	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removeAttribute(ICoreAttribute)}
 	 */
 	public final void testRemoveAttributeIAttribute() {
-		IAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
-		IAttribute attribute2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
+		ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
+		ICoreAttribute attribute2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
 		a.addAttribute(attribute2);
 		a.addAttribute(attribute);
 		assertTrue(a.getListOfAttrSize() == 2);
@@ -174,8 +174,8 @@ public class ArcTest extends TestCase {
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#removeAttribute(int)}
 	 */
 	public final void testRemoveAttributeInt() {
-	IAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
-		IAttribute attribute2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
+	ICoreAttribute attribute = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
+		ICoreAttribute attribute2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
 		a.addAttribute(attribute2);
 		a.addAttribute(attribute);
 		try {
@@ -191,10 +191,10 @@ public class ArcTest extends TestCase {
 	 * Test method for {@link fr.lip6.move.coloane.interfaces.model.Arc#getListOfAttr()}
 	 */
 	public final void testGetListOfAttr() {
-		Vector<IAttribute> via;
-		IAttribute at1 = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
-		IAttribute at2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
-		IAttribute at3 = new Attribute(ATTNAME, ATTVALUE3, ATTREFID);
+		Vector<ICoreAttribute> via;
+		ICoreAttribute at1 = new Attribute(ATTNAME, ATTVALUE, ATTREFID);
+		ICoreAttribute at2 = new Attribute(ATTNAME, ATTVALUE2, ATTREFID);
+		ICoreAttribute at3 = new Attribute(ATTNAME, ATTVALUE3, ATTREFID);
 
 		a.addAttribute(at1);
 		a.addAttribute(at2);

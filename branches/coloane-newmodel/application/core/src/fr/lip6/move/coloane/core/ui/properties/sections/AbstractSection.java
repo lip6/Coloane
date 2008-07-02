@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAbstractPropertyChange;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
 
 import java.beans.PropertyChangeListener;
 

@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.Collection;
 import java.util.HashMap;

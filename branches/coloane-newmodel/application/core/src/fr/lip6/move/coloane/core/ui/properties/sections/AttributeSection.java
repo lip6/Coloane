@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
 
 import java.beans.PropertyChangeEvent;
 

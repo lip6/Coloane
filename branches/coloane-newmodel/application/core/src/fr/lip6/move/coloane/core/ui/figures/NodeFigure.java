@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
-import fr.lip6.move.coloane.core.ui.model.AbstractElement;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.AbstractElement;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.List;
 

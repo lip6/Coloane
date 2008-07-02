@@ -1,13 +1,13 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.interfaces.model;
+
+import fr.lip6.move.coloane.interfaces.model.core.ICoreArcGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArcGraphicInfo;
-
-public class ArcGraphicInfo implements IArcGraphicInfo {
+public class ArcGraphicInfo implements ICoreArcGraphicInfo {
 
 	/** Il faut conserver le dernier middle point */
 	private Point oldMiddlePoint = null;

@@ -36,9 +36,9 @@ public class SyntaxErrorException extends Exception {
 	 */
 	public final String toString() {
 		if (msg != null) {
-			return new String("Syntax Error Exception : " + msg);
+			return new String("Syntax Error Exception : " + msg); //$NON-NLS-1$
 		} else {
-			return "Syntax Error";
+			return "Syntax Error"; //$NON-NLS-1$
 		}
 	}
 }

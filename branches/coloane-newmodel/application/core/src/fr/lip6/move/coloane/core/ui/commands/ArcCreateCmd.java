@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
 

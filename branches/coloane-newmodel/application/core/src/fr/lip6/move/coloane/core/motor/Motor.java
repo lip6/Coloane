@@ -9,8 +9,8 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
 
 import java.lang.reflect.InvocationTargetException;
 

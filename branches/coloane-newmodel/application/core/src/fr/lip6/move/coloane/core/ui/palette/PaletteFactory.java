@@ -5,7 +5,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;

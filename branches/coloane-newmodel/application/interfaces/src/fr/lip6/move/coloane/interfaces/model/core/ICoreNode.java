@@ -1,10 +1,13 @@
-package fr.lip6.move.coloane.core.ui.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model.core;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
 
 import java.util.List;
 
-public interface INode extends IElement {
+public interface ICoreNode extends ICoreElement, INode {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
 	String SOURCE_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$

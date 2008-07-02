@@ -1,15 +1,15 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.interfaces.model;
+
+import fr.lip6.move.coloane.interfaces.model.core.ICoreNodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
-
-public class NodeGraphicInfo implements INodeGraphicInfo {
+public class NodeGraphicInfo implements ICoreNodeGraphicInfo {
 
 	/** Le noeud enrichi */
 	private final NodeModel node;

@@ -1,8 +1,9 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.core.ICoreElement;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,9 +13,9 @@ import java.util.Map;
 
 /**
  * Manage the attributes of an IElement.
- * @see IElement
+ * @see ICoreElement
  */
-public abstract class AbstractElement extends AbstractPropertyChange implements IElement {
+public abstract class AbstractElement extends AbstractPropertyChange implements ICoreElement {
 	/**
 	 * Map of attributes, the key is the name of the attributes.
 	 */

@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeBackgroundCmd;
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeForegroundCmd;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;

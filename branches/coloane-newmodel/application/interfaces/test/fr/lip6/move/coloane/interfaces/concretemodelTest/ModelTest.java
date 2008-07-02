@@ -3,11 +3,11 @@ package fr.lip6.move.coloane.interfaces.concretemodelTest;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.Arc;
 import fr.lip6.move.coloane.interfaces.model.Attribute;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.Model;
 import fr.lip6.move.coloane.interfaces.model.Node;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 import fr.lip6.move.coloane.interfaces.translators.CamiTranslator;
 
 import junit.framework.TestCase;
@@ -61,7 +61,7 @@ public class ModelTest extends TestCase {
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getANode(int)}.
 	 */
 	public final void testGetANode() {
-		INode node = new Node(TYPENODE);
+		ICoreNode node = new Node(TYPENODE);
 		try {
 			cm.addNode(node);
 			assertTrue(cm.getANode(node.getId()).equals(node));
@@ -79,9 +79,9 @@ public class ModelTest extends TestCase {
 	static final String TYPEEND = "end";
 
 	public final void testGetAnArc() {
-		IArc arc = new Arc(TYPEARC);
-		INode begin = new Node(TYPEBEGIN);
-		INode end = new Node(TYPEEND);
+		ICoreArc arc = new Arc(TYPEARC);
+		ICoreNode begin = new Node(TYPEBEGIN);
+		ICoreNode end = new Node(TYPEEND);
 
 		try {
 			cm.addNode(begin);
@@ -100,11 +100,11 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addAttribute(fr.lip6.move.coloane.interfaces.model.IAttribute)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.Model#addAttribute(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreAttribute)}.
 	 */
 	public final void testAddAttribute() {
-		IAttribute at0 = new Attribute("Attribut", "concret", 0);
-		IAttribute at1 = new Attribute("Attribut", "concret", 0);
+		ICoreAttribute at0 = new Attribute("Attribut", "concret", 0);
+		ICoreAttribute at1 = new Attribute("Attribut", "concret", 0);
 		cm.addAttribute(at1);
 		assertTrue(cm.getListOfAttrSize() == 1);
 		cm.addAttribute(at0);
@@ -113,10 +113,10 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeNode(fr.lip6.move.coloane.interfaces.model.INode)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeNode(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreNode)}.
 	 */
 	public final void testRemoveNode() {
-		INode node = new Node(TYPENODE);
+		ICoreNode node = new Node(TYPENODE);
 		try {
 			cm.addNode(node);
 			assertTrue(cm.getListOfNodeSize() == 1);
@@ -129,12 +129,12 @@ public class ModelTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeArc(fr.lip6.move.coloane.interfaces.model.IArc)}.
+	 * {@link fr.lip6.move.coloane.interfaces.model.Model#removeArc(fr.lip6.move.coloane.interfaces.model.interfaces.ICoreArc)}.
 	 */
 	public final void testRemoveArc() {
-		IArc arc = new Arc(TYPEARC);
-		INode begin = new Node(TYPEBEGIN);
-		INode end = new Node(TYPEEND);
+		ICoreArc arc = new Arc(TYPEARC);
+		ICoreNode begin = new Node(TYPEBEGIN);
+		ICoreNode end = new Node(TYPEEND);
 		try {
 			cm.addNode(begin);
 			cm.addNode(end);
@@ -154,9 +154,9 @@ public class ModelTest extends TestCase {
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthAttr(int)}.
 	 */
 	public final void testGetNthAttr() {
-		IAttribute at0 = new Attribute("Attribut", "concret", 0);
-		IAttribute at1 = new Attribute("Attribut", "concret", 1);
-		IAttribute at2 = new Attribute("Attribut", "concret", 2);
+		ICoreAttribute at0 = new Attribute("Attribut", "concret", 0);
+		ICoreAttribute at1 = new Attribute("Attribut", "concret", 1);
+		ICoreAttribute at2 = new Attribute("Attribut", "concret", 2);
 
 		cm.addAttribute(at0);
 		cm.addAttribute(at1);
@@ -170,10 +170,10 @@ public class ModelTest extends TestCase {
 	 * {@link fr.lip6.move.coloane.interfaces.model.Model#getNthArc(int)}.
 	 */
 	public final void testGetNthArc() {
-		IArc arc1 = new Arc(TYPEARC);
-		IArc arc2 = new Arc(TYPEARC);
-		INode begin = new Node(TYPEBEGIN);
-		INode end = new Node(TYPEEND);
+		ICoreArc arc1 = new Arc(TYPEARC);
+		ICoreArc arc2 = new Arc(TYPEARC);
+		ICoreNode begin = new Node(TYPEBEGIN);
+		ICoreNode end = new Node(TYPEEND);
 		try {
 			arc1.setStartingNode(begin);
 			arc1.setEndingNode(end);

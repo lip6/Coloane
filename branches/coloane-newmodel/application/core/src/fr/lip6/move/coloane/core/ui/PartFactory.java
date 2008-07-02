@@ -5,10 +5,10 @@ import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.GraphEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;

@@ -1,14 +1,14 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.core.ICoreGraph;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Modèle d'un graphe avec des méthodes permettant de gérer (création/suppression)
  * de noeuds et d'arcs.
  */
-public class GraphModel extends AbstractElement implements IGraph {
+public class GraphModel extends AbstractElement implements ICoreGraph {
 	/**
 	 * Logger 'fr.lip6.move.coloane.core'.
 	 */
@@ -71,7 +71,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	public final INode createNode(String nodeFormalismName) {
 		FormalismElement formalismElement = formalism.getFormalismElement(nodeFormalismName);
 		if (!(formalismElement instanceof Node)) {
-			throw new BuildException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
+			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
 		INode node = new NodeModel(this, (Node) formalismElement, getNewId());
 		nodes.put(node.getId(), node);
@@ -129,12 +129,12 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) {
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
-			throw new BuildException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
+			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
 
 		FormalismElement formalismElement = formalism.getFormalismElement(arcFormalismName);
 		if (!(formalismElement instanceof Arc)) {
-			throw new BuildException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
+			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
 		IArc arc = new ArcModel(this, (Arc) formalismElement, getNewId(), source, target);
 		return arc;

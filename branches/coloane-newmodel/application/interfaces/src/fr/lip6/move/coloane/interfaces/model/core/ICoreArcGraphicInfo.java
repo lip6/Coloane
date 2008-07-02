@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.core.ui.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model.core;
+
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArcGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
@@ -8,7 +10,7 @@ import org.eclipse.swt.graphics.Color;
  * @see IARC
  */
 
-public interface IArcGraphicInfo {
+public interface ICoreArcGraphicInfo extends IArcGraphicInfo {
 
 	// Style de l'arc
 	/** ID pour fleche normale */

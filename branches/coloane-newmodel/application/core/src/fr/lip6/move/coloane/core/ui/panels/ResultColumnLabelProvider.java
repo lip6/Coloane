@@ -17,7 +17,7 @@ public class ResultColumnLabelProvider extends ColumnLabelProvider {
 		if (node.getElement().size() > column) {
 			return (String) node.getElement().get(column);
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 

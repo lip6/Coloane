@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands.properties;
 
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;

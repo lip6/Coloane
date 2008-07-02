@@ -4,9 +4,9 @@ import fr.lip6.move.coloane.core.copypast.container.ArcContainer;
 import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.copypast.container.NodeContainer;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IGraph;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IGraph;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INode;
 
 import java.util.HashMap;
 import java.util.logging.Logger;

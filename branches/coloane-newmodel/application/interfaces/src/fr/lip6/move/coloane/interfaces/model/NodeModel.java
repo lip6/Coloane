@@ -1,11 +1,11 @@
-package fr.lip6.move.coloane.core.ui.model;
+package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute;
-import fr.lip6.move.coloane.core.ui.model.interfaces.IElement;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INode;
-import fr.lip6.move.coloane.core.ui.model.interfaces.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.core.ICoreNode;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IElement;
+import fr.lip6.move.coloane.interfaces.model.interfaces.INodeGraphicInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 
-public class NodeModel extends AbstractElement implements INode {
+public class NodeModel extends AbstractElement implements ICoreNode {
 	private int id;
 	private Node nodeFormalism;
 	private INodeGraphicInfo graphicInfo = new NodeGraphicInfo(this);

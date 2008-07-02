@@ -1,8 +1,10 @@
-package fr.lip6.move.coloane.core.ui.model.interfaces;
+package fr.lip6.move.coloane.interfaces.model.core;
+
+import fr.lip6.move.coloane.interfaces.model.interfaces.IAbstractPropertyChange;
 
 import java.beans.PropertyChangeListener;
 
-public interface IAbstractPropertyChange {
+public interface ICoreAbstractPropertyChange extends IAbstractPropertyChange {
 	/**
 	 * Attach a listener to this element.
 	 * @param listener

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.ui.model.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.model.interfaces.IArc;
 
 /**
  * Section qui affiche les attributs d'un arc.
