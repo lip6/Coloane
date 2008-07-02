@@ -31,9 +31,12 @@ public abstract class QuestionImpl implements IQuestion {
         this.stop=question.getStop();
         this.domain=question.getDomain();
         this.visibility=question.getVisibility();
+        
         this.helps = new ArrayList<String>();
-        for (int i=0; i<question.getHelps().length;i++){
-            this.helps.add(question.getHelps()[i]);
+        if (question.getHelps() != null){
+        	for (int i=0; i<question.getHelps().length;i++){
+        		this.helps.add(question.getHelps()[i]);
+        	}
         }
     }
 
