@@ -65,4 +65,12 @@ public class Attribute {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
 	}
+	
+	/**
+	 * Positionne la valeur par defaut de l'attribut
+	 * @param defaultValue La valeur par défaut de l'attribut
+	 */
+	public final void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 }

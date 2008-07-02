@@ -19,6 +19,9 @@ public class FormalismElement {
 
 	/** Tableau des differents attributs de l'element de base. */
 	private List<Attribute> attributes = new ArrayList<Attribute>(0);
+	
+	/** Description graphique de l'élément de formalisme */
+	private GraphicalDescription graphicalDescription;
 
 	/**
 	 * Constructeur
@@ -45,4 +48,19 @@ public class FormalismElement {
 	 * @return Retourne la liste des {@link Attribute} d'un élément.
 	 */
 	public final List<Attribute> getAttributes() { return this.attributes; }
+
+	/**
+	 * @return La description graphique de l'élément
+	 */
+	public GraphicalDescription getGraphicalDescription() {
+		return graphicalDescription;
+	}
+
+	/**
+	 * Ajoute la description graphique à la définition de l'élément de formalisme
+	 * @param graphicalDescription La description graphique
+	 */
+	public void setGraphicalDescription(GraphicalDescription graphicalDescription) {
+		this.graphicalDescription = graphicalDescription;
+	}
 }
