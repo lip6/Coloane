@@ -6,7 +6,7 @@ import java.util.List;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 
 /**
  * Definition d'un formalisme.<br>

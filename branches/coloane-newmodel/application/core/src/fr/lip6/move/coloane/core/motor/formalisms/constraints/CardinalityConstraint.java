@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 
 /**
  * Definition d'une contrainte sur le nombre de connexion sur un élement de formalisme<br>
