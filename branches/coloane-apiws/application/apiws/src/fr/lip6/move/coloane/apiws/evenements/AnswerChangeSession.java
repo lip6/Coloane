@@ -23,8 +23,7 @@ public class AnswerChangeSession implements IAnswerChangeSession {
 	public AnswerChangeSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
-		// TODO A completer
-		this.menus = null;
+		this.menus = s.getMenus();
 	}
 
 	public String getFormalism() {

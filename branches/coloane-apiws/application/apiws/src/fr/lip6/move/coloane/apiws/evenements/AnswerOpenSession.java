@@ -40,13 +40,13 @@ public class AnswerOpenSession implements IAnswerOpenSession{
 	public AnswerOpenSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
+		this.menus = s.getMenus();
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
 		this.aboutService = null;
 		this.incremental = null;
 		this.nameService = null;
 		this.resultatCalcule = 0;
 		this.sessionName = null;
-		this.menus = null;
 		
 	}
 	

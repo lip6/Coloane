@@ -23,8 +23,7 @@ public class AnswerCloseSession implements IAnswerCloseSession{
 	public AnswerCloseSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
-		// TODO A completer
-		this.menus = null;
+		this.menus = s.getMenus();
 		
 	}
 

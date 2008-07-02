@@ -23,8 +23,7 @@ public class AnswerSuspendSession implements IAnswerSuspendSession{
 	public AnswerSuspendSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
-		// TODO A comlpeter 
-		this.menus = null;
+		this.menus = s.getMenus();
 
 	}
 

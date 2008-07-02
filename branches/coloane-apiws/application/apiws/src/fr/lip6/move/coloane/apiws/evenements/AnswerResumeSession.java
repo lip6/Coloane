@@ -23,8 +23,7 @@ public class AnswerResumeSession implements IAnswerResumeSession {
 	public AnswerResumeSession(IApiSession s){
 		this.formalism = s.getSessionFormalism();
 		this.idSession = s.getIdSession();
-		// TODO A completer
-		this.menus = null;
+		this.menus = s.getMenus();
 		
 	}
 
