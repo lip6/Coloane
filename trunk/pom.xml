@@ -68,6 +68,33 @@
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<name>Clément Demoulins</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<name>Monir Chaouki</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<name>Kahina Bouarab</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 
 	<!-- Les contributeurs : Anciens développeurs -->
@@ -84,15 +111,6 @@
 			<timezone>+1</timezone>
 		</contributor>
 		<contributor>
-			<name>Clément Demoulins</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
 			<name>Racim Yasri</name>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
@@ -103,15 +121,6 @@
 		</contributor>
 		<contributor>
 			<name>Bassem Barbouche</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer (internship)</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Monir Chaouki</name>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -160,7 +169,7 @@
 	<!-- Pour les notifications -->
 	<ciManagement>
 		<system>continuum</system>
-		<url>http://coloane.lip6.fr:8080/continuum</url>
+		<url>http://izanami.rsr.lip6.fr:8080/continuum</url>
 		<notifiers>
 			<notifier>
 				<type>mail</type>
@@ -322,22 +331,6 @@
 						</configuration>
 					</execution>
 					
-					<!-- enregistrement des versions des plugins -->
-					<execution>
-						<id>ComputeVersion</id>
-						<phase>generate-sources</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>computeVersion.sh</executable>
-							<arguments>
-								<argument>${project.version}</argument>
-								<argument>/data/coloane_deposit</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					
 					<!-- deploiement du jar au bon endroit (snapshot/release)-->
 					<execution>
 						<id>Deploy</id>
@@ -350,6 +343,22 @@
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${project.packaging}</argument>
+								<argument>/data/coloane_deposit</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					
+					<!-- enregistrement des versions des plugins -->
+					<execution>
+						<id>ComputeVersion</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>computeVersion.sh</executable>
+							<arguments>
+								<argument>${project.version}</argument>
 								<argument>/data/coloane_deposit</argument>
 							</arguments>
 						</configuration>
