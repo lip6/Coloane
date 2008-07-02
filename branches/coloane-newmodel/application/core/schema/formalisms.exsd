@@ -121,6 +121,7 @@
       <complexType>
          <sequence>
             <element ref="Graph"/>
+            <element ref="Constraint" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
       </complexType>
    </element>
@@ -304,6 +305,43 @@
             </annotation>
          </attribute>
          <attribute name="width" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Constraint">
+      <complexType>
+         <sequence>
+            <element ref="ConstraintParameter" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="ConstraintParameter">
+      <complexType>
+         <attribute name="value" type="string" use="required">
             <annotation>
                <documentation>
                   

@@ -441,22 +441,12 @@
                 <Attribute
                       drawable="true"
                       multiline="true"
-                      name="project">
-                </Attribute>
-                <Attribute
-                      drawable="true"
-                      multiline="true"
                       name="title">
                 </Attribute>
                 <Attribute
                       drawable="true"
                       multiline="false"
                       name="date">
-                </Attribute>
-                <Attribute
-                      drawable="true"
-                      multiline="true"
-                      name="code">
                 </Attribute>
                 <Attribute
                       default="Designed with Coloane"
@@ -576,6 +566,26 @@
                 </Attribute>
              </Arc>
           </Graph>
+          <Constraint
+                name="PlacePlace"
+                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
+             <ConstraintParameter
+                   value="place">
+             </ConstraintParameter>
+             <ConstraintParameter
+                   value="place">
+             </ConstraintParameter>
+          </Constraint>
+          <Constraint
+                name="TransitionTransition"
+                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+             <ConstraintParameter
+                   value="transition">
+             </ConstraintParameter>
+             <ConstraintParameter
+                   value="transition">
+             </ConstraintParameter>
+          </Constraint>
        </XmlDescription>
     </Formalism>
     <Formalism
