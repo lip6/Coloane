@@ -63,9 +63,10 @@ public final class FormalismManager {
 		
 		// Creation et ajout du formalisme a la liste du manager
 		Formalism form = new Formalism(name,extension, xschema, image);
-		this.formalisms.add(form);
 		
 		IConfigurationElement[] XMLDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
+		
+		try {
 		
 		// Ajout des definitions de graphes
 		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
@@ -95,6 +96,14 @@ public final class FormalismManager {
 				g.addElement(a);
 			}			
 		}
+		
+		} catch (NumberFormatException badNumber) {
+			LOGGER.warning("Erreur dans le formalisme ! Une valeur incorrecte a ete detectee : " + badNumber.getMessage()); //$NON-NLS-1$
+			return;
+		}
+		
+		// Ajout du formalisme construit à la liste des formalismes
+		this.formalisms.add(form);
 	}
 	
 	/**
