@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,8 +187,8 @@ public final class FormalismManager {
 	 * @param name Le nom du formalism qu'on cherche
 	 * @return Le formalisme attendu ou <code>null</code> sinon
 	 */
-	public Formalism getFormalismByName(String name) {
-		for (Formalism form : formalisms) {
+	public IFormalism getFormalismByName(String name) {
+		for (IFormalism form : formalisms) {
 			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;
 			}

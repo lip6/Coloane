@@ -7,13 +7,14 @@ import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 /**
  * Definition d'un formalisme.<br>
  * L'instanciation d'un tel formalisme provoque systématiquement la création d'un objet {@link GraphFormalism}.<br>
  * Sans aucune autre précision, les éléments de formalisme créés par la suite seront associé à cet objet {@link GraphFormalism}.
  */
-public class Formalism {
+public class Formalism implements IFormalism {
 
 	/** Nom du formalisme. */
 	private String name;
@@ -25,7 +26,7 @@ public class Formalism {
 	private String xschema;
 
 	/** Liste des élément de base du formalisme. */
-	private List<ElementFormalism> elements;
+	private List<IElementFormalism> elements;
 
 	/** Liste des regles du formalisme. */
 	private List<IConstraint> constraints;
@@ -50,7 +51,7 @@ public class Formalism {
 		this.image = image;
 		this.xschema = xshema;
 		
-		this.elements = new ArrayList<ElementFormalism>();
+		this.elements = new ArrayList<IElementFormalism>();
 		this.constraints = new ArrayList<IConstraint>();
 		
 		// Creation et Ajout du graphe principal lié à l'instance du formalisme
@@ -58,11 +59,8 @@ public class Formalism {
 		this.elements.add(master);
 	}
 
-	/**
-	 * Indique si la liaison entre deux élément est possible
-	 * @param source Element source de l'arc
-	 * @param target Element cible de l'arc
-	 * @return <code>true</code> si la liaison est possible
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#isLinkAllowed(fr.lip6.move.coloane.interfaces.formalism.IElementFormalism, fr.lip6.move.coloane.interfaces.formalism.IElementFormalism)
 	 */
 	public final boolean isLinkAllowed(IElementFormalism source, IElementFormalism target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
@@ -93,44 +91,43 @@ public class Formalism {
 		this.constraints.add(constraint);
 	}
 
-	/**
-	 * Retourne la liste des éléments attachés au formalisme
-	 * @return Une liste d'éléments {@FormalismElement}
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getListOfElementBase()
 	 */
-	public final List<ElementFormalism> getListOfElementBase() {
+	public final List<IElementFormalism> getListOfElementBase() {
 		return this.elements;
 	}
 
-	/**
-	 * @return Le nom du formalisme
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getName()
 	 */
 	public final String getName() {
 		return this.name;
 	}
 
-	/**
-	 * @return L'image associée à toutes les instances de ce formalisme
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getImageName()
 	 */
 	public final String getImageName() {
 		return this.image;
 	}
 
-	/**
-	 * @return La chaine de caractères à utiliser pour l'extension du fichier
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getExtension()
 	 */
 	public final String getExtension() {
 		return this.extension;
 	}
 
-	/**
-	 * @return L'adresse du xschema a utliser pour la validation
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getSchema()
 	 */
 	public final String getSchema() {
 		return this.xschema;
 	}
 	
-	/**
-	 * @return Le graphe principal du formalisme
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
 	 */
 	public final IElementFormalism getMasterGraph() {
 		return this.master;
@@ -138,6 +135,9 @@ public class Formalism {
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
+	 */
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#toString()
 	 */
 	@Override
 	public final String toString() {
