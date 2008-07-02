@@ -9,13 +9,13 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
  * 	<li>Les arcs inhibiteurs</li>
  * </ul>
  */
-public class Arc extends FormalismElement {
+public class ArcFormalism extends ElementFormalism {
 
 	/**
 	 * Constructeur
 	 * @param name Nom de l'arc dans le formalisme
 	 */
-	public Arc(String name) {
+	public ArcFormalism(String name) {
 		super(name);
 	}
 }

@@ -8,23 +8,23 @@ import java.util.List;
  * Chaque instance de formalisme contient forcément au moins un élément de ce type.<br>
  * Dans le cas de la hiérachie, ce conteneur peut être contenu dans un noeud de plus haut niveau.
  */
-public class Graph extends FormalismElement {
+public class GraphFormalism extends ElementFormalism {
 	
-	private List<FormalismElement> children = new ArrayList<FormalismElement>();
+	private List<ElementFormalism> children = new ArrayList<ElementFormalism>();
 
 	/**
 	 * Constructeur
 	 * @param name Le nom du graphe
 	 */
-	public Graph(String name) {
+	public GraphFormalism(String name) {
 		super(name);
 	}
 	
 	/**
 	 * Ajout d'un element de base a la definition d'un graphe. Notion de hierarchie
-	 * @param element {@link FormalismElement} de base a ajouter aux enfants possibles du graphe.
+	 * @param element {@link ElementFormalism} de base a ajouter aux enfants possibles du graphe.
 	 */
-	public final void addElement(FormalismElement element) {
+	public final void addElement(ElementFormalism element) {
 		if (element == null) { return; }
 		this.children.add(element);
 	}

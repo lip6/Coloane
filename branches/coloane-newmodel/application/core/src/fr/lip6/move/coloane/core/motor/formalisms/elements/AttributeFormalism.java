@@ -5,7 +5,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
  * Un attribut est une caractéristique d'un élément de base.<br>
  * Chaque élément du formalisme maintient une liste de ses attributs.
  */
-public class Attribute {
+public class AttributeFormalism {
 	/** Nom de l'attribut. */
 	private String name;
 
@@ -24,7 +24,7 @@ public class Attribute {
 	 * @param drawable L'information est elle affichable a l'ecran ?
 	 * @param multiline L'attribut est il multi-lignes ?
 	 */
-	public Attribute(String name, boolean drawable, boolean multiline) {
+	public AttributeFormalism(String name, boolean drawable, boolean multiline) {
 		this.name = name;
 		this.drawable = drawable;
 		this.multiline = multiline;
@@ -37,7 +37,7 @@ public class Attribute {
 	 * @param multiline L'attribut est il multi-lignes ?
 	 * @param defaultValue La valeur par defaut de l'attribut.
 	 */
-	public Attribute(String name, boolean drawable, boolean multiline, String defaultValue) {
+	public AttributeFormalism(String name, boolean drawable, boolean multiline, String defaultValue) {
 		this(name,drawable,multiline);
 		this.defaultValue = defaultValue;
 	}

@@ -13,16 +13,16 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
  * Cette capacité permet de définir des formalismes où la hiérarchie est possible.</br>
  * Cette définition définit un attribut {@link #container} qui permet de préciser cette compétence.
  */
-public class Node extends FormalismElement {
+public class NodeFormalism extends ElementFormalism {
 	
-	/** Le noeud peut-il contenir un modèle ? @see {@link Graph} */
+	/** Le noeud peut-il contenir un modèle ? @see {@link GraphFormalism} */
 	private boolean container = false;
 
 	/**
 	 * Constructeur
 	 * @param name Nom de l'element de base.
 	 */
-	public Node(String name) {
+	public NodeFormalism(String name) {
 		super(name);
 	}
 

@@ -13,12 +13,12 @@ import java.util.List;
  * </ul>
  */
 
-public class FormalismElement {
+public class ElementFormalism {
 	/** Nom associe a l'element de base. */
 	private String name;
 
 	/** Tableau des differents attributs de l'element de base. */
-	private List<Attribute> attributes = new ArrayList<Attribute>(0);
+	private List<AttributeFormalism> attributes = new ArrayList<AttributeFormalism>(0);
 	
 	/** Description graphique de l'élément de formalisme */
 	private GraphicalDescription graphicalDescription;
@@ -27,15 +27,15 @@ public class FormalismElement {
 	 * Constructeur
 	 * @param name Nom de l'élément de base.
 	 */
-	public FormalismElement(String name) {
+	public ElementFormalism(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * Ajoute un attribut à l'element de base
-	 * @param attribute {@link Attribute} à ajouter à la liste des attributs
+	 * @param attribute {@link AttributeFormalism} à ajouter à la liste des attributs
 	 */
-	public final void addAttribute(Attribute attribute) { 
+	public final void addAttribute(AttributeFormalism attribute) { 
 		this.attributes.add(attribute); 
 	}
 
@@ -45,9 +45,9 @@ public class FormalismElement {
 	public final String getName() {	return name; }
 
 	/**
-	 * @return Retourne la liste des {@link Attribute} d'un élément.
+	 * @return Retourne la liste des {@link AttributeFormalism} d'un élément.
 	 */
-	public final List<Attribute> getAttributes() { return this.attributes; }
+	public final List<AttributeFormalism> getAttributes() { return this.attributes; }
 
 	/**
 	 * @return La description graphique de l'élément
