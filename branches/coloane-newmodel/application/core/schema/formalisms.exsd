@@ -188,7 +188,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="default" type="string" use="required">
+         <attribute name="default" type="string">
             <annotation>
                <documentation>
                   
@@ -273,6 +273,20 @@
                <appInfo>
                   <meta.attribute kind="resource"/>
                </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="height" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="width" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
