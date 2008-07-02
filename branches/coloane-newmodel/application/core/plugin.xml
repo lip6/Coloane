@@ -476,6 +476,16 @@
                       paletteName="Place">
                 </GraphicInfo>
                 <Attribute
+                      drawable="true"
+                      multiline="false"
+                      name="name">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="domain">
+                </Attribute>
+                <Attribute
                       default="0"
                       drawable="true"
                       multiline="true"
@@ -495,13 +505,40 @@
                 </GraphicInfo>
                 <Attribute
                       drawable="true"
-                      multiline="true"
+                      multiline="false"
                       name="name">
                 </Attribute>
                 <Attribute
                       drawable="true"
                       multiline="true"
                       name="guard">
+                </Attribute>
+             </Node>
+             <Node
+                   container="false"
+                   name="queue">
+                <GraphicInfo
+                      description="Create a queue"
+                      drawable="true"
+                      icon16px="resources/formalisms/queue16.png"
+                      icon24px="resources/formalisms/queue24.png"
+                      palettable="true"
+                      paletteName="Queue">
+                </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="false"
+                      name="name">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="domain">
+                </Attribute>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="marking">
                 </Attribute>
              </Node>
              <Arc
@@ -513,6 +550,23 @@
                       icon24px="resources/formalisms/arc24.png"
                       palettable="true"
                       paletteName="Arc">
+                </GraphicInfo>
+                <Attribute
+                      default="1"
+                      drawable="true"
+                      multiline="true"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+             <Arc
+                   name="inhibitor">
+                <GraphicInfo
+                      description="Create an inhibitor arc between a place and a transition"
+                      drawable="true"
+                      icon16px="resources/formalisms/arcinhibiteur16.png"
+                      icon24px="resources/formalisms/arcinhibiteur24.png"
+                      palettable="true"
+                      paletteName="Inhibitor Arc">
                 </GraphicInfo>
                 <Attribute
                       default="1"
