@@ -19,6 +19,15 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Valeur par défaut de l'attribut. */
 	private String defaultValue = null;
+	
+	/** Style d'affichage : Gras ? */
+	private boolean bold = false;
+	
+	/** Style d'affichage : Italique ? */
+	private boolean italic = false;
+	
+	/** Style d'affichage : Taille de la police ? */
+	private String size;
 
 	/**
 	 * Construit un nouvel attribut
@@ -74,5 +83,53 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 */
 	public final void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isBold()
+	 */
+	public boolean isBold() {
+		return bold;
+	}
+
+	/**
+	 * Indique si l'attribut doit être affiché en gras
+	 * @param bold <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
+	 */
+	public void setBold(boolean bold) {
+		this.bold = bold;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isItalic()
+	 */
+	public boolean isItalic() {
+		return italic;
+	}
+
+	/**
+	 * Indique si l'attribut doit être affiché en italique
+	 * @param bold <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
+	 */
+	public void setItalic(boolean italic) {
+		this.italic = italic;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#getSize()
+	 */
+	public Integer getSize() {
+		return Integer.valueOf(size);
+	}
+
+	/**
+	 * Indique la taille de la police utilisée pour afficher l'attribut
+	 * @param size La taille souhaitée de la police
+	 */
+	public void setSize(String size) {
+		this.size = size;
 	}
 }

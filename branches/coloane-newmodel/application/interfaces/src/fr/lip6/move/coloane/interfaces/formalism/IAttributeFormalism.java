@@ -26,4 +26,19 @@ public interface IAttributeFormalism {
 	 * @return La valeur par défaut de l'attribut
 	 */
 	public abstract String getDefaultValue();
+
+	/**
+	 * @return <code>true</code> si l'attribut doit etre affiché en gras. <code>false</code> sinon.
+	 */
+	public boolean isBold();
+	
+	/**
+	 * @return <code>true</code> si l'attribut doit etre affiché en gras. <code>false</code> sinon.
+	 */
+	public boolean isItalic();
+	
+	/**
+	 * @return la taille de la police utilisée pour l'affichage de l'attribut
+	 */
+	public Integer getSize();
 }
