@@ -3,10 +3,12 @@ package fr.lip6.move.coloane.apiws.session;
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
+import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
+import fr.lip6.move.coloane.apiws.objects.menu.MMenuImpl;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession{
@@ -35,6 +37,8 @@ public class ApiSession implements IApiSession{
 	
 	private ISessionStateMachine automate;
 	
+	private IMMenu menus;
+	
 	
 	public ApiSession(ISessionController sessionController,ISpeaker speaker){
 		this.sessionDate = null;
@@ -49,6 +53,7 @@ public class ApiSession implements IApiSession{
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
+		this.menus = null;
 	}
 
 	public String getInterlocutor() {
@@ -83,9 +88,13 @@ public class ApiSession implements IApiSession{
 		return automate;
 	}
 	
+	public IMMenu getMenus(){
+		return menus;
+	}
+	
 	public void updateSession(Session s){
 		// TODO Auto-generated method stub
-		
+		this.menus = new MMenuImpl(s.getMenu());
 	}
 	
 	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws WrapperException, ApiSessionException{
@@ -102,6 +111,7 @@ public class ApiSession implements IApiSession{
 			
 			this.sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
+			this.menus = new MMenuImpl(sessionOpened.getMenu());
 			
 			sessionController.notifyEndOpenSession(this);
 			
