@@ -56,7 +56,7 @@ public class ComStub {
 		IApiSession session2 = connection.getApiSession();
 		System.out.println("2-b Ouverture session");
 		Thread.sleep(1*1000);
-		session2.openSession("27-06-2008", "AMI-Net", "maseesion2");
+		session2.openSession("27-06-2008", "AM-Net", "maseesion2");
 		System.out.println("");
 		/////////
 		
