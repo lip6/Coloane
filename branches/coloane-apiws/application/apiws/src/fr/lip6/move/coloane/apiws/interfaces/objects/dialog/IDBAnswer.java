@@ -22,9 +22,9 @@ public interface IDBAnswer {
 	
 	public ArrayList<String> getLines();
 	
-	public void setLines(ArrayList<String> linesArray);
+	public void setLines(ArrayList<String> lines);
 	
-	public int[] getObjects();
+	public ArrayList<Integer> getObjects();
 	
-	public void setObjects(int objectsArray[]);
+	public void setObjects(ArrayList<Integer> objects);
 }
