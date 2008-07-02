@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
 
 /**
  * Definition d'une contrainte pour la connexion de 2 éléments de formalisme<br>
@@ -9,10 +10,10 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 public class ConnectionConstraint implements IConstraint {
 
 	/** Element en entree de l'arc. */
-	private ElementFormalism source;
+	private IElementFormalism source;
 
 	/** Element en sortie de l'arc. */
-	private ElementFormalism target;
+	private IElementFormalism target;
 
 	/**
 	 * Constructeur
@@ -20,7 +21,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * @param in élément source de l'arc
 	 * @param out élément cible de l'arc
 	 */
-	public ConnectionConstraint(ElementFormalism source, ElementFormalism target) {
+	public ConnectionConstraint(IElementFormalism source, IElementFormalism target) {
 		this.source = source;
 		this.target = target;
 	}
@@ -29,7 +30,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
-	public boolean isSatisfied(ElementFormalism source, ElementFormalism target) {
+	public boolean isSatisfied(IElementFormalism source, IElementFormalism target) {
 		return (!(this.source.equals(source)) || !(this.target.equals(target)));
 	}
 
@@ -37,7 +38,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * Retourne l'element en entree de l'arc.
 	 * @return {@link ElementFormalism}
 	 */
-	public final ElementFormalism getSource() {
+	public final IElementFormalism getSource() {
 		return this.source;
 	}
 
@@ -45,7 +46,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * Retourne l'element en sortie de l'arc.
 	 * @return {@link ElementFormalism}
 	 */
-	public final ElementFormalism getTarget() {
+	public final IElementFormalism getTarget() {
 		return this.target;
 	}
 }

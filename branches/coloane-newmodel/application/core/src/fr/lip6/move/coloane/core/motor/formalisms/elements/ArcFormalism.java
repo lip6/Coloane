@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IArcFormalism;
+
 /**
  * Description d'un arc dans un formalisme.<br>
  * Plusieurs types d'arcs peuvent exister dans un formalisme.<br>
@@ -9,7 +11,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
  * 	<li>Les arcs inhibiteurs</li>
  * </ul>
  */
-public class ArcFormalism extends ElementFormalism {
+public class ArcFormalism extends ElementFormalism implements IArcFormalism {
 
 	/**
 	 * Constructeur

@@ -1,11 +1,13 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IAttributeFormalism;
+
 /**
  * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
  * Un attribut est une caractéristique d'un élément de base.<br>
  * Chaque élément du formalisme maintient une liste de ses attributs.
  */
-public class AttributeFormalism {
+public class AttributeFormalism implements IAttributeFormalism {
 	/** Nom de l'attribut. */
 	private String name;
 
@@ -43,23 +45,23 @@ public class AttributeFormalism {
 	}
 
 
-	/**
-	 * @return Le nom de l'attribut
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#getName()
 	 */
 	public final String getName() { return this.name; }
 
-	/**
-	 * @return L'indicateur qui permet de savoir si un attribut est affichable dans l'éditeur grapique
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#isDrawable()
 	 */
 	public final boolean isDrawable() { return drawable; }
 
-	/**
-	 * @return L'indicateur qui permet de savoir si un attribut peut être réparti sur plusieurs lignes
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#isMultiLine()
 	 */
 	public final boolean isMultiLine() { return multiline; }
 
-	/**
-	 * @return La valeur par défaut de l'attribut
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#getDefaultValue()
 	 */
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }

@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
 
 /**
  * Definition d'une contrainte sur le nombre d'élément qui peuvent être contenu<br>
@@ -11,7 +12,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 public class CapacityConstraint implements IConstraint {
 
 	/** Elément sur lequel s'applique la contrainte */
-	private ElementFormalism element;
+	private IElementFormalism element;
 
 	/** Le nombre maximum d'objets contenu dans le graphe fils du noeud */
 	private int max;
@@ -23,7 +24,7 @@ public class CapacityConstraint implements IConstraint {
 	 * @param max Nombre maximum d'élément pouvant être contenu dans le graphe fils du noeud
 	 * @see {@link GraphFormalism}
 	 */
-	public CapacityConstraint(ElementFormalism element, int max) {
+	public CapacityConstraint(IElementFormalism element, int max) {
 		this.element = element;
 		this.max = max;
 	}
@@ -33,7 +34,7 @@ public class CapacityConstraint implements IConstraint {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
-	public boolean isSatisfied(ElementFormalism source, ElementFormalism target) {
+	public boolean isSatisfied(IElementFormalism source, IElementFormalism target) {
 		// TODO: A définir !
 		return true;
 	}
@@ -42,7 +43,7 @@ public class CapacityConstraint implements IConstraint {
 	 * Retourne l'élement concerné
 	 * @return {@link ElementFormalism}
 	 */
-	public ElementFormalism getElement() {
+	public IElementFormalism getElement() {
 		return element;
 	}
 

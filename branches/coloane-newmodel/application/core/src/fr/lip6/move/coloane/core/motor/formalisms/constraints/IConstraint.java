@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
 
 /**
  * Interface définissant le principe de contrainte.<br>
@@ -14,6 +15,6 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
  */
 public interface IConstraint {
 	
-	boolean isSatisfied(ElementFormalism source, ElementFormalism target); 
+	boolean isSatisfied(IElementFormalism source, IElementFormalism target); 
 
 }

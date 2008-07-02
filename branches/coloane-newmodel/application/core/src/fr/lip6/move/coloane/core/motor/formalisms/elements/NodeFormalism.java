@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.INodeFormalism;
+
 /**
  * Description d'un noeud dans un formalisme.<br>
  * Plusieurs types de noeuds peuvent exister dans un formalisme.<br>
@@ -13,7 +15,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
  * Cette capacité permet de définir des formalismes où la hiérarchie est possible.</br>
  * Cette définition définit un attribut {@link #container} qui permet de préciser cette compétence.
  */
-public class NodeFormalism extends ElementFormalism {
+public class NodeFormalism extends ElementFormalism implements INodeFormalism {
 	
 	/** Le noeud peut-il contenir un modèle ? @see {@link GraphFormalism} */
 	private boolean container = false;
@@ -26,8 +28,8 @@ public class NodeFormalism extends ElementFormalism {
 		super(name);
 	}
 
-	/**
-	 * @return Un indicateur qui permet de savoir si le noeud peut contenir un modèle
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.INodeFormalism#isContainer()
 	 */
 	public boolean isContainer() {
 		return container;

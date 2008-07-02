@@ -6,6 +6,7 @@ import java.util.List;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
 
 /**
  * Definition d'un formalisme.<br>
@@ -63,7 +64,7 @@ public class Formalism {
 	 * @param target Element cible de l'arc
 	 * @return <code>true</code> si la liaison est possible
 	 */
-	public final boolean isLinkAllowed(ElementFormalism source, ElementFormalism target) {
+	public final boolean isLinkAllowed(IElementFormalism source, IElementFormalism target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
 		for (IConstraint constraint : constraints) {
 			if (!constraint.isSatisfied(source,target)) {
@@ -131,7 +132,7 @@ public class Formalism {
 	/**
 	 * @return Le graphe principal du formalisme
 	 */
-	public final ElementFormalism getMasterGraph() {
+	public final IElementFormalism getMasterGraph() {
 		return this.master;
 	}
 

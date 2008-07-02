@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IElementFormalism;
+import fr.lip6.move.coloane.core.motor.formalisms.interfaces.IGraphicalDescription;
+
 /**
  * Cette classe représente un élément du base du formalisme.<br>
  * Un element de base est le composant d'un formalisme.<br>
@@ -13,7 +16,7 @@ import java.util.List;
  * </ul>
  */
 
-public class ElementFormalism {
+public class ElementFormalism implements IElementFormalism {
 	/** Nom associe a l'element de base. */
 	private String name;
 
@@ -21,7 +24,7 @@ public class ElementFormalism {
 	private List<AttributeFormalism> attributes = new ArrayList<AttributeFormalism>(0);
 	
 	/** Description graphique de l'élément de formalisme */
-	private GraphicalDescription graphicalDescription;
+	private IGraphicalDescription graphicalDescription;
 
 	/**
 	 * Constructeur
@@ -39,20 +42,20 @@ public class ElementFormalism {
 		this.attributes.add(attribute); 
 	}
 
-	/**
-	 * @return Le nom de l'élément de base
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getName()
 	 */
 	public final String getName() {	return name; }
 
-	/**
-	 * @return Retourne la liste des {@link AttributeFormalism} d'un élément.
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getAttributes()
 	 */
 	public final List<AttributeFormalism> getAttributes() { return this.attributes; }
 
-	/**
-	 * @return La description graphique de l'élément
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getGraphicalDescription()
 	 */
-	public GraphicalDescription getGraphicalDescription() {
+	public IGraphicalDescription getGraphicalDescription() {
 		return graphicalDescription;
 	}
 
@@ -60,7 +63,7 @@ public class ElementFormalism {
 	 * Ajoute la description graphique à la définition de l'élément de formalisme
 	 * @param graphicalDescription La description graphique
 	 */
-	public void setGraphicalDescription(GraphicalDescription graphicalDescription) {
+	public void setGraphicalDescription(IGraphicalDescription graphicalDescription) {
 		this.graphicalDescription = graphicalDescription;
 	}
 }
