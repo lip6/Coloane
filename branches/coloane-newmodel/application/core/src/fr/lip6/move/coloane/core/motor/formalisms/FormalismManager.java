@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.NodeFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -19,6 +20,10 @@ import org.eclipse.core.runtime.Platform;
  */
 public final class FormalismManager {
 
+	/** Une instance du logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/** Le nom du point d'extension qui contient les definitions de formalismes */
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
 
 	/** Liste des formalismes disponibles. */
@@ -51,6 +56,10 @@ public final class FormalismManager {
 		extension = description.getAttribute("extension"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
 		
+		LOGGER.fine("Construction du formalisme " + name); //$NON-NLS-1$
+		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finer("Extension : " + extension + " - XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		
 		// Creation et ajout du formalisme a la liste du manager
 		Formalism form = new Formalism(name,extension, xschema, image);
 		this.formalisms.add(form);
@@ -61,6 +70,7 @@ public final class FormalismManager {
 		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		for (IConfigurationElement graph : graphes) {
 			GraphFormalism g = new GraphFormalism(graph.getAttribute("name")); //$NON-NLS-1$
+			LOGGER.finer("Construction de l'element graphe : " + name); //$NON-NLS-1$
 			this.buildAttributes(g, graph);
 			form.addElement(g);
 			
@@ -68,6 +78,7 @@ public final class FormalismManager {
 			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 			for (IConfigurationElement node : nodes) {
 				NodeFormalism n = new NodeFormalism(node.getAttribute("name")); //$NON-NLS-1$
+				LOGGER.finer("Construction de l'element node : " + name); //$NON-NLS-1$
 				this.buildAttributes(n, node);
 				this.buildGraphicalDescription(n, node);
 				g.addElement(n);
@@ -77,6 +88,7 @@ public final class FormalismManager {
 			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 			for (IConfigurationElement arc : arcs) {
 				ArcFormalism a = new ArcFormalism(arc.getAttribute("name")); //$NON-NLS-1$
+				LOGGER.finer("Construction de l'element arc : " + name); //$NON-NLS-1$
 				this.buildAttributes(a, arc);
 				this.buildGraphicalDescription(a, arc);
 				g.addElement(a);
@@ -94,10 +106,12 @@ public final class FormalismManager {
 		IConfigurationElement[] attributes = current.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
 			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), getBool(attribute.getAttribute("multiline")), getBool(attribute.getAttribute("drawable")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			// Prise en compte de la valeur par defaut de l'attribut
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
 				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
+				LOGGER.finer("Ajout de la valeur par default " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			element.addAttribute(a);
 		}
@@ -110,40 +124,49 @@ public final class FormalismManager {
 		
 		// Construction de base
 		GraphicalDescription gd = new GraphicalDescription(getBool(graphicInfo.getAttribute("palettable")), getBool(graphicInfo.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finer("Construction de la description graphique pour l'element : " + element.getName()); //$NON-NLS-1$
+
 			
 		// Prise en compte du nom de palette associé à l'élément de formalisme
 		if (graphicInfo.getAttribute("paletteName") != null) { //$NON-NLS-1$
 			gd.setPaletteName(graphicInfo.getAttribute("paletteName")); //$NON-NLS-1$
+			LOGGER.finest("Ajout du nom de palette pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de la description de l'élément de formalisme
 		if (graphicInfo.getAttribute("description") != null) { //$NON-NLS-1$
 			gd.setDescription(graphicInfo.getAttribute("description")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de la description pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de la hauteur de l'élément de formalisme
 		if (graphicInfo.getAttribute("height") != null) { //$NON-NLS-1$
 			gd.setHeight(graphicInfo.getAttribute("height")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de la hauteur pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de la largeur de l'élément de formalisme
 		if (graphicInfo.getAttribute("width") != null) { //$NON-NLS-1$
 			gd.setHeight(graphicInfo.getAttribute("width")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de la largeur pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de l'icone 16px de l'élément de formalisme
 		if (graphicInfo.getAttribute("icon16px") != null) { //$NON-NLS-1$
 			gd.setIcon16px(graphicInfo.getAttribute("icon16px")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de l'icone 16px pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de l'icone 24px de l'élément de formalisme
 		if (graphicInfo.getAttribute("icon24px") != null) { //$NON-NLS-1$
 			gd.setIcon24px(graphicInfo.getAttribute("icon24px")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de l'icone 24px pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
 		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
 			gd.setAssociatedFigure(graphicInfo.getAttribute("associatedFigure")); //$NON-NLS-1$
+			LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 		
 		element.setGraphicalDescription(gd);
