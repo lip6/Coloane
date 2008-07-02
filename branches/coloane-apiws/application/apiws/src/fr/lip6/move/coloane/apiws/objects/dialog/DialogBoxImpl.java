@@ -103,5 +103,25 @@ public class DialogBoxImpl implements IDialogBox{
 	public boolean isSent() {
 		return sent;
 	}
+	
+	public DialogBox createDBForWrapper(){
+		DialogBox dialog = new DialogBox();
+		
+		dialog.setAnswer(((DBAnswerImpl)this.answer).createDBAnswerForWrapper());
+		dialog.setDefaultValue(this.defaultValue);
+		dialog.setHelp(this.help);
+		dialog.setId(this.id);
+		dialog.setInputType(this.inputType);
+		dialog.setLineType(this.lineType);
+		dialog.setMessage(this.message);
+		dialog.setSent(this.sent);
+		dialog.setShow(this.show);
+		dialog.setTitle(this.title);
+		dialog.setType(this.type);
+		dialog.setTypeButton(this.typeButton);
+		//dialog.setLine(this.line);
+		
+		return dialog;
+	}
 
 }

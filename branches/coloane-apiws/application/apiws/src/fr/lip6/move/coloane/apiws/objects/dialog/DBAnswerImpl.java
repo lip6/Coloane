@@ -103,5 +103,28 @@ public class DBAnswerImpl implements IDBAnswer {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public DBAnswer createDBAnswerForWrapper(){
+		DBAnswer answer = new DBAnswer();
+		
+		answer.setButtonAnswer(this.buttonAnswer);
+		answer.setId(this.id);
+		answer.setModified(this.modified);
+		answer.setValue(this.value);
+		
+		String [] linesArray = new String[lines.size()];
+        int cpt1=0;
+        for(String line :lines)
+            linesArray[cpt1++]=line;
+		answer.setLines(linesArray);
+		
+		int [] objectsArray = new int[objects.size()];
+        int cpt2=0;
+        for(Integer line :objects)
+            objectsArray[cpt2++]=line.intValue();
+		answer.setObjects(objectsArray);
+		
+		return answer;
+	}
 
 }
