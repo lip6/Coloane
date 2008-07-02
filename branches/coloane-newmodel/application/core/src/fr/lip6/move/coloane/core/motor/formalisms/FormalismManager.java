@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.Arc;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Attribute;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Graph;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.Node;
 
 import java.util.ArrayList;
@@ -60,14 +61,15 @@ public final class FormalismManager {
 		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		for (IConfigurationElement graph : graphes) {
 			Graph g = new Graph(graph.getAttribute("name")); //$NON-NLS-1$
-			this.getAttributes(g, graph);
+			this.buildAttributes(g, graph);
 			form.addElement(g);
 			
 			// Ajout des definitions des noeuds
 			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 			for (IConfigurationElement node : nodes) {
 				Node n = new Node(node.getAttribute("name")); //$NON-NLS-1$
-				this.getAttributes(n, node);
+				this.buildAttributes(n, node);
+				this.buildGraphicalDescription(n, node);
 				g.addElement(n);
 			}
 			
@@ -75,7 +77,8 @@ public final class FormalismManager {
 			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 			for (IConfigurationElement arc : arcs) {
 				Arc a = new Arc(arc.getAttribute("name")); //$NON-NLS-1$
-				this.getAttributes(a, arc);
+				this.buildAttributes(a, arc);
+				this.buildGraphicalDescription(a, arc);
 				g.addElement(a);
 			}			
 		}
@@ -86,13 +89,64 @@ public final class FormalismManager {
 	 * @param element L'élément de formalisme qui est entrain d'être construit
 	 * @param current L'élément de description entrain d'être lu
 	 */
-	private void getAttributes(FormalismElement element, IConfigurationElement current) {
+	private void buildAttributes(FormalismElement element, IConfigurationElement current) {
 		// Ajout des definitions des attributs
 		IConfigurationElement[] attributes = current.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
 			Attribute a = new Attribute(attribute.getAttribute("name"), getBool(attribute.getAttribute("multiline")), getBool(attribute.getAttribute("drawable")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			
+			// Prise en compte de la valeur par defaut de l'attribut
+			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
+				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
+			}
 			element.addAttribute(a);
 		}
+	}
+	
+	private void buildGraphicalDescription(FormalismElement element, IConfigurationElement current) {
+		// Ajout des considérations graphiques
+		IConfigurationElement[] graphicInfoTable = current.getChildren("GraphicInfo"); //$NON-NLS-1$
+		IConfigurationElement graphicInfo = graphicInfoTable[0];
+		
+		// Construction de base
+		GraphicalDescription gd = new GraphicalDescription(getBool(graphicInfo.getAttribute("palettable")), getBool(graphicInfo.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
+			
+		// Prise en compte du nom de palette associé à l'élément de formalisme
+		if (graphicInfo.getAttribute("paletteName") != null) { //$NON-NLS-1$
+			gd.setPaletteName(graphicInfo.getAttribute("paletteName")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de la description de l'élément de formalisme
+		if (graphicInfo.getAttribute("description") != null) { //$NON-NLS-1$
+			gd.setDescription(graphicInfo.getAttribute("description")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de la hauteur de l'élément de formalisme
+		if (graphicInfo.getAttribute("height") != null) { //$NON-NLS-1$
+			gd.setHeight(graphicInfo.getAttribute("height")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de la largeur de l'élément de formalisme
+		if (graphicInfo.getAttribute("width") != null) { //$NON-NLS-1$
+			gd.setHeight(graphicInfo.getAttribute("width")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de l'icone 16px de l'élément de formalisme
+		if (graphicInfo.getAttribute("icon16px") != null) { //$NON-NLS-1$
+			gd.setIcon16px(graphicInfo.getAttribute("icon16px")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de l'icone 24px de l'élément de formalisme
+		if (graphicInfo.getAttribute("icon24px") != null) { //$NON-NLS-1$
+			gd.setIcon24px(graphicInfo.getAttribute("icon24px")); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
+		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
+			gd.setAssociatedFigure(graphicInfo.getAttribute("associatedFigure")); //$NON-NLS-1$
+		}
+		
+		element.setGraphicalDescription(gd);
 	}
 
 	/**
