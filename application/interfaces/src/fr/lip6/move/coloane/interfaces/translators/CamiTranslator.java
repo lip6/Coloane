@@ -456,6 +456,10 @@ public class CamiTranslator implements Translator {
 		CamiParser parser;
 
 		for (String line : commands) {
+			if (line.length() <= 3) {
+				continue;
+			}
+
 			tokenizer = new StringTokenizer(line);
 			parser = new CamiParser(line);
 
