@@ -10,8 +10,7 @@ public interface IFormalism {
 	 * @param target Element cible de l'arc
 	 * @return <code>true</code> si la liaison est possible
 	 */
-	public abstract boolean isLinkAllowed(IElementFormalism source,
-			IElementFormalism target);
+	public abstract boolean isLinkAllowed(IElementFormalism source, IElementFormalism target);
 
 	/**
 	 * Retourne la liste des éléments attachés au formalisme
