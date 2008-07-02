@@ -143,4 +143,13 @@ public class Formalism implements IFormalism {
 	public final String toString() {
 		return getName();
 	}
+
+	public IElementFormalism getElementFormalism(String name) {
+		for (IElementFormalism element : this.elements) {
+			if (element.getName().equals(name)) {
+				return element;
+			}
+		}
+		return null;
+	}
 }

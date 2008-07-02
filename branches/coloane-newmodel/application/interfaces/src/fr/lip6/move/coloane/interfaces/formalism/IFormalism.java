@@ -19,10 +19,11 @@ public interface IFormalism {
 	List<IElementFormalism> getListOfElementBase();
 
 	/**
-	 * @param name
-	 * @return L'IElementFormalism associé à ce nom ou null.
+	 * Retourne l'élément de formalisme correspondant au nom passé en paramètre
+	 * @param name le nom de l'élément de formalisme souhaité
+	 * @return L'IElementFormalism associé à ce nom ou <code>null</code>.
 	 */
-	IElementFormalism getFormalismElement(String name);
+	IElementFormalism getElementFormalism(String name);
 
 	/**
 	 * @return Le nom du formalisme
