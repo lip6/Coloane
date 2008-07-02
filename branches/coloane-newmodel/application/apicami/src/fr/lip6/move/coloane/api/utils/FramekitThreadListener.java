@@ -5,8 +5,7 @@ import fr.lip6.move.coloane.api.exceptions.UnexpectedCamiCommand;
 import fr.lip6.move.coloane.api.main.Api;
 
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.model.impl.IModel;
-import fr.lip6.move.coloane.interfaces.model.impl.Model;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
@@ -293,10 +292,10 @@ public class FramekitThreadListener extends Thread {
 
 					// Gestion du modele recu pendant les resultats
 					if (model != null) {
-						IModel builtModel;
+						IGraph builtGraph;
 						try {
-							builtModel = new Model(model, new CamiTranslator());
-							builtModel.setFormalism("AMI-NET");
+							builtGraph = new Model(model, new CamiTranslator());
+							builtGraph.setFormalism("AMI-NET");
 						} catch (SyntaxErrorException e) {
 							Api.getLogger().warning("Echec de la construction du modele recu : " + e.getMessage());
 							return;
@@ -304,7 +303,7 @@ public class FramekitThreadListener extends Thread {
 							model = null;
 						}
 
-						this.api.setNewModel(builtModel);
+						this.api.setNewModel(builtGraph);
 
 						continue;
 					}
@@ -426,7 +425,7 @@ public class FramekitThreadListener extends Thread {
 
 					if (model == null) {
 						model = new Vector<String>();
-						model = this.api.getModel().translate();
+						model = this.api.getGraph().translate();
 					}
 
 					model.add(cmd);
@@ -435,17 +434,17 @@ public class FramekitThreadListener extends Thread {
 				// Message FB
 				// Fin de la transmission d'un modele
 				if (listeArgs.firstElement().equals("FB")) {
-					IModel builtModel;
+					IGraph builtGraph;
 					try {
-						builtModel = new Model(model, new CamiTranslator());
-						builtModel.setFormalism("ReachabilityGraph");
+						builtGraph = new Model(model, new CamiTranslator());
+						builtGraph.setFormalism("ReachabilityGraph");
 					} catch (SyntaxErrorException e) {
 						e.printStackTrace();
 						return;
 					} finally {
 						model = null;
 					}
-					this.api.setNewModel(builtModel);
+					this.api.setNewModel(builtGraph);
 
 					continue;
 				}
