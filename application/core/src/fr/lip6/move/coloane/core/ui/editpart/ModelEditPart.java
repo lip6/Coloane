@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
@@ -14,8 +15,10 @@ import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -28,6 +31,7 @@ import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * EditPart pour le modele global
@@ -93,7 +97,12 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 	 */
 	@Override
 	protected final IFigure createFigure() {
-		Figure root = new FreeformLayer();
+		Figure root = new FreeformLayer() {
+				@Override
+				protected void paintFigure(Graphics graphics) {
+					graphics.drawImage(new Image(Coloane.getParent().getDisplay(),Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")), new Point(10, 10)); //$NON-NLS-1$
+				}		
+		};
 		root.setLayoutManager(new FreeformLayout());
 		root.setBorder(new MarginBorder(5));
 		((ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER)).setAntialias(SWT.ON);
