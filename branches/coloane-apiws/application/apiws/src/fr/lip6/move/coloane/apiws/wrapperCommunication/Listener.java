@@ -64,6 +64,17 @@ public class Listener extends Thread implements IListener{
 				req.setAuth(auth);
 				PingResponse res=stub.ping(req);
 				message=res.get_return();
+				
+				if (message.getTraces() != null){
+					ReceptTraceMessage traceMessage = new ReceptTraceMessage(message);
+					((ITraceMessageObservable) listObservable.get(IObservables.TRACE_MESSAGE)).notifyObservers(traceMessage);
+				}
+
+				if (message.getDbs() != null){
+					AskDialog dialog = new AskDialog(message);
+					((IAskDialogObservable ) listObservable.get(IObservables.ASK_DIALOG)).notifyObservers(dialog,this);
+				}
+				
 			}catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,16 +84,6 @@ public class Listener extends Thread implements IListener{
 			} catch (WrapperException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-
-			if (message.getTraces() != null){
-				ReceptTraceMessage traceMessage = new ReceptTraceMessage(message);
-				((ITraceMessageObservable) listObservable.get(IObservables.TRACE_MESSAGE)).notifyObservers(traceMessage);
-			}
-
-			if (message.getDbs() != null){
-				AskDialog dialog = new AskDialog(message);
-				((IAskDialogObservable ) listObservable.get(IObservables.ASK_DIALOG)).notifyObservers(dialog,this);
 			}
 
 			synchronized(this) {
