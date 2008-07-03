@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
+import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
+import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ArcFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.AttributeFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
@@ -65,40 +68,60 @@ public final class FormalismManager {
 		Formalism form = new Formalism(name,extension, xschema, image);
 		
 		IConfigurationElement[] XMLDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
-		
+
 		try {
-		
-		// Ajout des definitions de graphes
-		IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
-		for (IConfigurationElement graph : graphes) {
-			GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
-			LOGGER.finer("Construction de l'element graphe : " + name); //$NON-NLS-1$
-			this.buildAttributes(g, graph);
-			form.addElement(g);
-			
-			// Ajout des definitions des noeuds
-			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
-			for (IConfigurationElement node : nodes) {
-				NodeFormalism n = new NodeFormalism(node.getAttribute("name"),form); //$NON-NLS-1$
-				LOGGER.finer("Construction de l'element node : " + name); //$NON-NLS-1$
-				this.buildAttributes(n, node);
-				this.buildGraphicalDescription(n, node);
-				g.addElement(n);
+
+			// Ajout des definitions de graphes
+			IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
+			for (IConfigurationElement graph : graphes) {
+				GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
+				LOGGER.finer("Construction de l'element graphe : " + name); //$NON-NLS-1$
+				this.buildAttributes(g, graph);
+				form.addElement(g);
+
+				// Ajout des definitions des noeuds
+				IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
+				for (IConfigurationElement node : nodes) {
+					NodeFormalism n = new NodeFormalism(node.getAttribute("name"),form); //$NON-NLS-1$
+					LOGGER.finer("Construction de l'element node : " + name); //$NON-NLS-1$
+					this.buildAttributes(n, node);
+					this.buildGraphicalDescription(n, node);
+					g.addElement(n);
+				}
+
+				// Ajout des definitions des arcs
+				IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
+				for (IConfigurationElement arc : arcs) {
+					ArcFormalism a = new ArcFormalism(arc.getAttribute("name"),form); //$NON-NLS-1$
+					LOGGER.finer("Construction de l'element arc : " + name); //$NON-NLS-1$
+					this.buildAttributes(a, arc);
+					this.buildGraphicalDescription(a, arc);
+					g.addElement(a);
+				}			
 			}
-			
-			// Ajout des definitions des arcs
-			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
-			for (IConfigurationElement arc : arcs) {
-				ArcFormalism a = new ArcFormalism(arc.getAttribute("name"),form); //$NON-NLS-1$
-				LOGGER.finer("Construction de l'element arc : " + name); //$NON-NLS-1$
-				this.buildAttributes(a, arc);
-				this.buildGraphicalDescription(a, arc);
-				g.addElement(a);
-			}			
-		}
-		
+
 		} catch (NumberFormatException badNumber) {
 			LOGGER.warning("Erreur dans le formalisme ! Une valeur incorrecte a ete detectee : " + badNumber.getMessage()); //$NON-NLS-1$
+			return;
+		}
+		
+		// Prise en comptes des contraintes.
+		// Attention, les contraintes peuvent être de 2 types : Lien ou Noeud, il faut donc les ajouter en tenant compte de leur type
+		try {
+			IConfigurationElement[] constraints = XMLDescription[0].getChildren("Constraint"); //$NON-NLS-1$
+			for (IConfigurationElement constraint : constraints) {
+				
+				// Dans le cas de contrainte de lien
+				if (this.getBool(constraint.getAttribute("link"))) {
+					form.addConstraintLink((IConstraintLink) constraint.createExecutableExtension("type")); //$NON-NLS-1$
+				// Dans le cas de contrainte de noeud
+				} else {
+					form.addConstraintNode((IConstraintNode) constraint.createExecutableExtension("type")); //$NON-NLS-1$
+				}
+			}
+		} catch (CoreException core) {
+			LOGGER.warning("Erreur dans le formalisme ! Une contrainte a mal ete definie: " + core.getMessage()); //$NON-NLS-1$
+			core.printStackTrace();
 			return;
 		}
 		

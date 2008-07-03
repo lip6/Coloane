@@ -1,20 +1,21 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
-
 /**
- * Interface définissant le principe de contrainte.<br>
- * Une contrainte est attachée à un formalisme. Elle concerne 1 ou plusieurs élément de ce formalisme.<br>
- * Chaque contrainte doit définir une méthode {@link #isSatisfied(ElementFormalism, ElementFormalism)}
- * qui retourne <code>true</code> si la contrainte est vérifiée (satisfaire) ou <code>false</code> dans le
- * cas inverse.
+ * Une contrainte est attachée à un formalisme. <br>
+ * Elle concerne 1 ou plusieurs élément de ce formalisme.<br>
  * 
- * @author Jean-Baptiste Voron
- *
+ * Elle peut être de type : <b>lien</b> ou <b>noeud</b>.
+ * Elle implémente donc :
+ * <ul>
+ * 	<li>{@link IConstraintLink}</li>
+ * 	<li>{@link IConstraintNode}</li>
+ * </ul>
  */
 public interface IConstraint {
 	
-	boolean isSatisfied(IElementFormalism source, IElementFormalism target); 
-
+	/**
+	 * @return Le nom de la contrainte (pour être affichée)
+	 */
+	public String getName();
+	
 }

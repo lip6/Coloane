@@ -1,10 +1,13 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
+import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
+import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +31,11 @@ public class Formalism implements IFormalism {
 	/** Liste des élément de base du formalisme. */
 	private List<IElementFormalism> elements;
 
-	/** Liste des regles du formalisme. */
-	private List<IConstraint> constraints;
+	/** Liste des regles du formalisme concernant les liens entre objets. */
+	private List<IConstraintLink> linkconstraints;
+	
+	/** Liste des regles du formalisme concernant les actions sur les noeuds. */
+	private List<IConstraintNode> nodeconstraints;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String image;
@@ -52,7 +58,8 @@ public class Formalism implements IFormalism {
 		this.xschema = xshema;
 
 		this.elements = new ArrayList<IElementFormalism>();
-		this.constraints = new ArrayList<IConstraint>();
+		this.linkconstraints = new ArrayList<IConstraintLink>();
+		this.nodeconstraints = new ArrayList<IConstraintNode>();
 
 		// Creation et Ajout du graphe principal lié à l'instance du formalisme
 		this.master = new GraphFormalism(name,this);
@@ -62,10 +69,24 @@ public class Formalism implements IFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#isLinkAllowed(fr.lip6.move.coloane.interfaces.formalism.IElementFormalism, fr.lip6.move.coloane.interfaces.formalism.IElementFormalism)
 	 */
-	public final boolean isLinkAllowed(IElementFormalism source, IElementFormalism target) {
+	public final boolean isLinkAllowed(INode source, INode target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
-		for (IConstraint constraint : constraints) {
+		for (IConstraintLink constraint : linkconstraints) {
 			if (!constraint.isSatisfied(source, target)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#isActionAllowed(fr.lip6.move.coloane.interfaces.model.INode)
+	 */
+	public final boolean isActionAllowed(INode node) {
+		// Parcours de toutes les contraintes définies dans le formalisme
+		for (IConstraintNode constraint : nodeconstraints) {
+			if (!constraint.isSatisfied(node)) {
 				return false;
 			}
 		}
@@ -82,13 +103,25 @@ public class Formalism implements IFormalism {
 	}
 
 	/**
-	 * Ajouter une contrainte au formalisme
-	 * @param constraint La contrainte à ajouter au formalisme
+	 * Ajouter une contrainte de lien au formalisme
+	 * @param constraint La contrainte de lien à ajouter au formalisme
+	 * @see {@link IConstraintLink}
 	 * @see {@link IConstraint}
 	 */
-	public final void addConstraint(IConstraint constraint) {
+	public final void addConstraintLink(IConstraintLink constraint) {
 		if (constraint == null) { return; }
-		this.constraints.add(constraint);
+		this.linkconstraints.add(constraint);
+	}
+	
+	/**
+	 * Ajouter une contrainte de noeud au formalisme
+	 * @param constraint La contrainte de noeud à ajouter au formalisme
+	 * @see {@link IConstraintNode}
+	 * @see {@link IConstraint}
+	 */
+	public final void addConstraintNode(IConstraintNode constraint) {
+		if (constraint == null) { return; }
+		this.nodeconstraints.add(constraint);
 	}
 
 	/* (non-Javadoc)
@@ -153,6 +186,10 @@ public class Formalism implements IFormalism {
 		return getName();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#getElementFormalism(java.lang.String)
+	 */
 	public IElementFormalism getElementFormalism(String name) {
 		for (IElementFormalism element : this.elements) {
 			if (element.getName().equals(name)) {

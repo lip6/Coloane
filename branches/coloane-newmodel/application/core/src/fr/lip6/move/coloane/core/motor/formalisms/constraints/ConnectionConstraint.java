@@ -1,19 +1,29 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExecutableExtension;
+
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Definition d'une contrainte pour la connexion de 2 éléments de formalisme<br>
  * Cette contrainte <b>interdit</b> la connexion entre l'élément <code>source</code> et l'élément <code>target</code>
  */
-public class ConnectionConstraint implements IConstraint {
+public class ConnectionConstraint implements IConstraint, IConstraintLink, IExecutableExtension {
 
 	/** Element en entree de l'arc. */
-	private IElementFormalism source;
+	private String source;
 
 	/** Element en sortie de l'arc. */
-	private IElementFormalism target;
+	private String target;
+
+	/**
+	 * Constructeur utilisé par le <i>formalisme builder</i>
+	 * @see {@link FormalismManager}
+	 */
+	public ConnectionConstraint() {	}
 
 	/**
 	 * Constructeur
@@ -21,7 +31,7 @@ public class ConnectionConstraint implements IConstraint {
 	 * @param in élément source de l'arc
 	 * @param out élément cible de l'arc
 	 */
-	public ConnectionConstraint(IElementFormalism source, IElementFormalism target) {
+	public ConnectionConstraint(String source, String target) {
 		this.source = source;
 		this.target = target;
 	}
@@ -30,23 +40,24 @@ public class ConnectionConstraint implements IConstraint {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
-	public boolean isSatisfied(IElementFormalism source, IElementFormalism target) {
-		return (!(this.source.equals(source)) || !(this.target.equals(target)));
+	public boolean isSatisfied(INode source, INode target) {
+		return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
 	}
 
-	/**
-	 * Retourne l'element en entree de l'arc.
-	 * @return {@link ElementFormalism}
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
-	public final IElementFormalism getSource() {
-		return this.source;
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+		if ((config.getAttribute("source") == null) || (config.getAttribute("target") == null)) {  //$NON-NLS-1$//$NON-NLS-2$
+			throw new CoreException(null);
+		}
+		
+		this.source = config.getAttribute("source"); //$NON-NLS-1$
+		this.target = config.getAttribute("target"); //$NON-NLS-1$
 	}
 
-	/**
-	 * Retourne l'element en sortie de l'arc.
-	 * @return {@link ElementFormalism}
-	 */
-	public final IElementFormalism getTarget() {
-		return this.target;
+	public String getName() {
+		return "Connection constraint";
 	}
 }
