@@ -254,7 +254,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 */
 	@Override
 	protected final List<IArc> getModelSourceConnections() {
-		return ((INode) getModel()).getSourceArcs();
+		return ((INode) getModel()).getOutcomingArcs();
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 */
 	@Override
 	protected final List<IArc> getModelTargetConnections() {
-		return ((INode) getModel()).getTargetArcs();
+		return ((INode) getModel()).getIncomingArcs();
 	}
 
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
