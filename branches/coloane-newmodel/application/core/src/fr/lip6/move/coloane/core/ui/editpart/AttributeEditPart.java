@@ -123,21 +123,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		Label attributeFigure = (Label) getFigure();
 
 		// Affichage du texte dans le Label
-		Font f;
-		switch (attribut.getType()) {
-			case IAttributeGraphicInfo.L1:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_L1, SWT.BOLD);
-				break;
-			case IAttributeGraphicInfo.L2:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_L2, SWT.ITALIC);
-				break;
-			case IAttributeGraphicInfo.NOR:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_NOR, SWT.NORMAL);
-				break;
-			default:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_DEF, SWT.NORMAL);
-				break;
-		}
+		int type = SWT.NORMAL;
+		if (attribut.isBold()) { type = type & SWT.BOLD; }
+		if (attribut.isItalic()) { type = type & SWT.ITALIC; }
+		Font f = new Font(null, "arial", attribut.getSize(), type);
 
 		attributeFigure.setText(attribut.getValue());
 		attributeFigure.setFont(f);
