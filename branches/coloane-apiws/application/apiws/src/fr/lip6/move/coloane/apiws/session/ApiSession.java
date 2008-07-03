@@ -25,12 +25,6 @@ public class ApiSession implements IApiSession{
 	
 	private String idSession;
 	
-	private Session sessionOpened;
-	
-	private Session sessionToResumeAfterClose;
-	
-	private Session sessionToResumeAfterChange;
-	
 	private ISessionController sessionController;
 	
 	private ISpeaker speaker;
@@ -47,9 +41,6 @@ public class ApiSession implements IApiSession{
 		this.interlocutor = null;
 		this.mode = -1;
 		this.idSession = null;
-		this.sessionOpened = null;
-		this.sessionToResumeAfterClose = null;
-		this.sessionToResumeAfterChange = null;
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
@@ -109,7 +100,7 @@ public class ApiSession implements IApiSession{
 				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
 			
-			this.sessionOpened = speaker.openSession(sessionFormalism);
+			Session sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
 			this.menus = new MMenuImpl(sessionOpened.getMenu());
 			
@@ -130,7 +121,7 @@ public class ApiSession implements IApiSession{
 				throw new IllegalStateException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 			
-			this.sessionToResumeAfterClose = speaker.closeSession(idSession);
+			Session sessionToResumeAfterClose = speaker.closeSession(idSession);
 			
 			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose);
 			
@@ -140,7 +131,7 @@ public class ApiSession implements IApiSession{
 	public void changeSession(IApiSession s) throws WrapperException, ApiSessionException{
 		if (sessionController.suspendSession(this) && sessionController.resumeSession(s)){
 
-			this.sessionToResumeAfterChange = speaker.changeSession(s.getIdSession());
+			Session sessionToResumeAfterChange = speaker.changeSession(s.getIdSession());
 
 			sessionController.notifyEndChangeSession(this,sessionToResumeAfterChange);
 
