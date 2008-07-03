@@ -54,18 +54,19 @@ public final class FormalismManager {
 	 * @param description
 	 */
 	private void buildFormalism (IConfigurationElement description) {
-		String name, xschema, extension, image;
+		String name, parent, xschema, extension, image;
 		name = description.getAttribute("name");  //$NON-NLS-1$
+		parent = description.getAttribute("parent");  //$NON-NLS-1$
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
 		extension = description.getAttribute("extension"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
 		
-		LOGGER.fine("Construction du formalisme " + name); //$NON-NLS-1$
+		LOGGER.fine("Construction du formalisme " + name + "(parent : " + parent + ")"); //$NON-NLS-1$
 		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
 		LOGGER.finer("Extension : " + extension + " - XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 		// Creation et ajout du formalisme a la liste du manager
-		Formalism form = new Formalism(name,extension, xschema, image);
+		Formalism form = new Formalism(name, parent, extension, xschema, image);
 		
 		IConfigurationElement[] XMLDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 
@@ -75,7 +76,7 @@ public final class FormalismManager {
 			IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
 			for (IConfigurationElement graph : graphes) {
 				GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
-				LOGGER.finer("Construction de l'element graphe : " + name); //$NON-NLS-1$
+				LOGGER.finer("Construction de l'element graphe : " + g.getName()); //$NON-NLS-1$
 				this.buildAttributes(g, graph);
 				form.addElement(g);
 
@@ -83,7 +84,7 @@ public final class FormalismManager {
 				IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 				for (IConfigurationElement node : nodes) {
 					NodeFormalism n = new NodeFormalism(node.getAttribute("name"),form); //$NON-NLS-1$
-					LOGGER.finer("Construction de l'element node : " + name); //$NON-NLS-1$
+					LOGGER.finer("Construction de l'element node : " + n.getName()); //$NON-NLS-1$
 					this.buildAttributes(n, node);
 					this.buildGraphicalDescription(n, node);
 					g.addElement(n);
@@ -93,7 +94,7 @@ public final class FormalismManager {
 				IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 				for (IConfigurationElement arc : arcs) {
 					ArcFormalism a = new ArcFormalism(arc.getAttribute("name"),form); //$NON-NLS-1$
-					LOGGER.finer("Construction de l'element arc : " + name); //$NON-NLS-1$
+					LOGGER.finer("Construction de l'element arc : " + a.getName()); //$NON-NLS-1$
 					this.buildAttributes(a, arc);
 					this.buildGraphicalDescription(a, arc);
 					g.addElement(a);

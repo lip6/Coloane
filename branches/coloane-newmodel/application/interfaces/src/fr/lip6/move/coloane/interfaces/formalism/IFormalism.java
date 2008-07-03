@@ -38,6 +38,11 @@ public interface IFormalism {
 	 * @return Le nom du formalisme
 	 */
 	String getName();
+	
+	/**
+	 * @return Le nom du parent du formalisme (identifiant historique)
+	 */
+	String getParent();
 
 	/**
 	 * @return L'image associée à toutes les instances de ce formalisme
