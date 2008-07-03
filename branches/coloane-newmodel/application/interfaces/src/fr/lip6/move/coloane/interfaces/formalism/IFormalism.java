@@ -2,15 +2,24 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 import java.util.List;
 
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 public interface IFormalism {
 
 	/**
 	 * Indique si la liaison entre deux élément est possible
-	 * @param source Element source de l'arc
-	 * @param target Element cible de l'arc
+	 * @param source Element (modele) source de l'arc
+	 * @param target Element (modele) cible de l'arc
 	 * @return <code>true</code> si la liaison est possible
 	 */
-	boolean isLinkAllowed(IElementFormalism source, IElementFormalism target);
+	boolean isLinkAllowed(INode source, INode target);
+	
+	/**
+	 * Indique si l'action sur un noeud du modele est envisageable
+	 * @param node Element (modele) sur lequel l'action est entreprise
+	 * @return <code>true</code> si la liaison est possible
+	 */
+	boolean isActionAllowed(INode node);
 
 	/**
 	 * Retourne la liste des éléments attachés au formalisme

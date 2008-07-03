@@ -53,13 +53,13 @@ public interface INode extends IElement {
 	 * Permet de parcourir la liste des arcs sortants de ce noeud.
 	 * @return une liste <b>non modifiable</b>
 	 */
-	List<IArc> getSourceArcs();
+	List<IArc> getOutcomingArcs();
 
 	/**
 	 * Permet de parcourir la liste des arcs entrants de ce noeud.
 	 * @return une liste <b>non modifiable</b>
 	 */
-	List<IArc> getTargetArcs();
+	List<IArc> getIncomingArcs();
 
 	/**
 	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
