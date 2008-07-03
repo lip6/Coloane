@@ -4,9 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
@@ -17,10 +17,16 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 public class CapacityConstraint implements IConstraint, IConstraintNode, IExecutableExtension {
 
 	/** Elément sur lequel s'applique la contrainte */
-	private IElementFormalism element;
+	private String element;
 
 	/** Le nombre maximum d'objets contenu dans le graphe fils du noeud */
 	private int max;
+	
+	/**
+	 * Constructeur utilisé par le <i>formalisme builder</i>
+	 * @see {@link FormalismManager}
+	 */
+	public CapacityConstraint() { }
 	
 	/**
 	 * Constructeur<br>
@@ -29,11 +35,10 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 * @param max Nombre maximum d'élément pouvant être contenu dans le graphe fils du noeud
 	 * @see {@link GraphFormalism}
 	 */
-	public CapacityConstraint(IElementFormalism element, int max) {
+	public CapacityConstraint(String element, int max) {
 		this.element = element;
 		this.max = max;
 	}
-	
 	
 	/*
 	 * (non-Javadoc)
@@ -41,21 +46,6 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 */
 	public boolean isSatisfied(INode node) {
 		return true;
-	}
-
-	/**
-	 * Retourne l'élement concerné
-	 * @return {@link ElementFormalism}
-	 */
-	public IElementFormalism getElement() {
-		return element;
-	}
-
-	/**
-	 * @return Retourne le nombre maximum d'objets du {@link GraphFormalism} fils du noeud
-	 */
-	public int getMax() {
-		return this.max;
 	}
 
 	/*
@@ -71,7 +61,17 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		// TODO Auto-generated method stub
+		if ((config.getAttribute("element") == null)) { //$NON-NLS-1$
+			Coloane.getLogger().warning("L'element sur lequel port la contrainte a ete omis..."); //$NON-NLS-1$
+			throw new CoreException(null);
+		}
 		
+		if ((config.getAttribute("max") == null)) {  //$NON-NLS-1$//$NON-NLS-2$
+			Coloane.getLogger().warning("La cardinalité in et/ou out n'a pas ete precisee..."); //$NON-NLS-1$
+			throw new CoreException(null);
+		}
+		
+		this.element = config.getAttribute("element"); //$NON-NLS-1$
+		this.max = Integer.valueOf(config.getAttribute("maxIn")); //$NON-NLS-1$
 	}
 }
