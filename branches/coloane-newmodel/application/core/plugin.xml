@@ -411,6 +411,8 @@
     </propertySections>
  </extension>
  <extension
+       id="fr.lip6.move.coloane.core.formalisms"
+       name="Formalisms Definition"
        point="fr.lip6.move.coloane.core.formalisms">
     <Formalism
           extension="petri"
@@ -567,24 +569,30 @@
              </Arc>
           </Graph>
           <Constraint
+                link="true"
                 name="PlacePlace"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
-             <ConstraintParameter
+                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+             <parameter
+                   name="source"
                    value="place">
-             </ConstraintParameter>
-             <ConstraintParameter
+             </parameter>
+             <parameter
+                   name="target"
                    value="place">
-             </ConstraintParameter>
+             </parameter>
           </Constraint>
           <Constraint
+                link="true"
                 name="TransitionTransition"
                 type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
-             <ConstraintParameter
+             <parameter
+                   name="source"
                    value="transition">
-             </ConstraintParameter>
-             <ConstraintParameter
+             </parameter>
+             <parameter
+                   name="target"
                    value="transition">
-             </ConstraintParameter>
+             </parameter>
           </Constraint>
        </XmlDescription>
     </Formalism>

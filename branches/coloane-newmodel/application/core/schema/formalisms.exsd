@@ -317,7 +317,7 @@
    <element name="Constraint">
       <complexType>
          <sequence>
-            <element ref="ConstraintParameter" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="parameter" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="type" type="string" use="required">
             <annotation>
@@ -336,11 +336,25 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="link" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
-   <element name="ConstraintParameter">
+   <element name="parameter">
       <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="value" type="string" use="required">
             <annotation>
                <documentation>
