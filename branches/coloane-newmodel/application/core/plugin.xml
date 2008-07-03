@@ -349,7 +349,7 @@
              id="fr.lip6.move.coloane.core.section.NodeSection"
              tab="fr.lip6.move.coloane.core.properties.element">
             <input
-                  type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+                  type="fr.lip6.move.coloane.interfaces.model.INode">
             </input>
        </propertySection>
        <propertySection
@@ -357,7 +357,7 @@
              id="fr.lip6.move.coloane.core.section.ArcSection"
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+                type="fr.lip6.move.coloane.interfaces.model.IArc">
           </input>
        </propertySection>
        <propertySection
@@ -365,7 +365,7 @@
              id="fr.lip6.move.coloane.core.section.ModelSection"
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.IModelImpl">
+                type="fr.lip6.move.coloane.interfaces.model.IGraph">
           </input>
        </propertySection>
        <propertySection
@@ -373,7 +373,7 @@
              id="fr.lip6.move.coloane.core.section.NodeColorSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+                type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
        </propertySection>
        <propertySection
@@ -381,7 +381,7 @@
              id="fr.lip6.move.coloane.core.section.ArcColorSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.IArcImpl">
+                type="fr.lip6.move.coloane.interfaces.model.IArc">
           </input>
        </propertySection>
        <propertySection
@@ -389,7 +389,7 @@
              id="fr.lip6.move.coloane.core.section.NodeLocationSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+                type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
        </propertySection>
        <propertySection
@@ -397,7 +397,7 @@
              id="fr.lip6.move.coloane.core.section.NodeSizeSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.INodeImpl">
+                type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
        </propertySection>
        <propertySection
@@ -405,7 +405,7 @@
              id="fr.lip6.move.coloane.core.section.AttributeSection"
              tab="fr.lip6.move.coloane.core.properties.element">
           <input
-                type="fr.lip6.move.coloane.core.ui.model.IAttributeImpl">
+                type="fr.lip6.move.coloane.interfaces.model.IAttribute">
           </input>
        </propertySection>
     </propertySections>
@@ -419,7 +419,6 @@
           id="PetriNets"
           image="resources/icons/cube-blue.png"
           name="PetriNets"
-          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.PetriNets"
           xschema="resources/ami-net.xsd">
        <XmlDescription>
           <Graph
@@ -601,7 +600,6 @@
           id="ReachabilityGraph"
           image="resources/icons/cube-green.png"
           name="Reachability Graph"
-          structural="fr.lip6.move.coloane.core.motor.formalisms.definitions.ReachabilityGraph"
           xschema="resources/reachability-graph.xsd">
        <XmlDescription>
           <Graph
