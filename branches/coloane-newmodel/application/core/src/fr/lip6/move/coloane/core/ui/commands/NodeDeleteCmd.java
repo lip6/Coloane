@@ -20,10 +20,10 @@ public class NodeDeleteCmd extends Command {
 	private final IGraph graph;
 
 	/** Garder une copie des connexions sortantes du noeud */
-	private List<IArc> sourceConnections = null;
+	private List<IArc> outArcs = null;
 
 	/** Garder une copie des connexions entrantes vers le noeud */
-	private List<IArc> targetConnections = null;
+	private List<IArc> inArcs = null;
 
 	/**
 	 * Constructeur
@@ -42,8 +42,8 @@ public class NodeDeleteCmd extends Command {
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
-		sourceConnections = node.getSourceArcs();
-		targetConnections = node.getTargetArcs();
+		outArcs = node.getOutcomingArcs();
+		inArcs = node.getIncomingArcs();
 		this.redo(); // Execute
 	}
 
@@ -65,13 +65,13 @@ public class NodeDeleteCmd extends Command {
 		graph.addNode(node);
 
 		// Ajout des arcs entrants
-		for (IArc arcIn : targetConnections) {
-			graph.addArc(arcIn);
+		for (IArc arc : inArcs) {
+			graph.addArc(arc);
 		}
 
 		// Ajout des arcs sortants
-		for (IArc arcOut : sourceConnections) {
-			graph.addArc(arcOut);
+		for (IArc arc : outArcs) {
+			graph.addArc(arc);
 		}
 	}
 }
