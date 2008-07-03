@@ -62,6 +62,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="parent" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="image" type="string">
             <annotation>
                <documentation>
@@ -273,7 +280,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.ui.figures.IElementFigure"/>
                </appInfo>
             </annotation>
          </attribute>
