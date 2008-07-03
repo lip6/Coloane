@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -38,7 +41,7 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink#isSatisfied(fr.lip6.move.coloane.interfaces.model.INode, fr.lip6.move.coloane.interfaces.model.INode)
 	 */
 	public boolean isSatisfied(INode source, INode target) {
 		return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
@@ -49,12 +52,25 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		if ((config.getAttribute("source") == null) || (config.getAttribute("target") == null)) {  //$NON-NLS-1$//$NON-NLS-2$
+		Map<String, String> myParams = new HashMap<String, String>();
+		
+		// Recupération des paramètres de la contrainte
+		IConfigurationElement[] parameters = config.getChildren("parameter");
+		
+		// Remplissage de la hasmap de paramètres
+		for (IConfigurationElement param : parameters) {
+			if ((param.getAttribute("name") != null) && (param.getAttribute("value") != null)) {
+				myParams.put(param.getAttribute("name"), param.getAttribute("value"));
+			}
+		}
+		
+		// Vérification de la présence des paramètres obligatoires
+		if (!myParams.containsKey("source") || !myParams.containsKey("target")) {  //$NON-NLS-1$//$NON-NLS-2$
 			throw new CoreException(null);
 		}
 		
-		this.source = config.getAttribute("source"); //$NON-NLS-1$
-		this.target = config.getAttribute("target"); //$NON-NLS-1$
+		this.source = myParams.get("source"); //$NON-NLS-1$
+		this.target = myParams.get("target"); //$NON-NLS-1$
 	}
 
 	public String getName() {

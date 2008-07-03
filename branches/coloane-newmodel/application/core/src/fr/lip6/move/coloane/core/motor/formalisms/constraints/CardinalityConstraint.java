@@ -1,10 +1,13 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -17,6 +20,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
  * </ul>
  */
 public class CardinalityConstraint implements IConstraint, IExecutableExtension {
+	
+	/** Une instance du logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Elément sur lequel s'applique la contrainte */
 	private String element;
@@ -89,19 +95,32 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 	}
 
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		if ((config.getAttribute("element") == null)) { //$NON-NLS-1$
-			Coloane.getLogger().warning("L'element sur lequel port la contrainte a ete omis..."); //$NON-NLS-1$
+		Map<String, String> myParams = new HashMap<String, String>();
+		
+		// Recupération des paramètres de la contrainte
+		IConfigurationElement[] parameters = config.getChildren("parameter");
+		
+		// Remplissage de la hasmap de paramètres
+		for (IConfigurationElement param : parameters) {
+			if ((param.getAttribute("name") != null) && (param.getAttribute("value") != null)) {
+				myParams.put(param.getAttribute("name"), param.getAttribute("value"));
+			}
+		}
+		
+		// Vérification de la présence des paramètres obligatoires
+		if (!myParams.containsKey("element")) {  //$NON-NLS-1$//$NON-NLS-2$
+			LOGGER.warning("L'element sur lequel port la contrainte a ete omis..."); //$NON-NLS-1$
 			throw new CoreException(null);
 		}
 		
-		if ((config.getAttribute("maxIn") == null) || (config.getAttribute("maxOut") == null)) {  //$NON-NLS-1$//$NON-NLS-2$
-			Coloane.getLogger().warning("La cardinalité in et/ou out n'a pas ete precisee..."); //$NON-NLS-1$
+		if (!myParams.containsKey("maxIn") || !myParams.containsKey("maxOut")) {  //$NON-NLS-1$//$NON-NLS-2$
+			LOGGER.warning("L'element sur lequel port la contrainte a ete omis..."); //$NON-NLS-1$
 			throw new CoreException(null);
 		}
-		
-		this.element = config.getAttribute("element"); //$NON-NLS-1$
-		this.maxIn = Integer.valueOf(config.getAttribute("maxIn")); //$NON-NLS-1$
-		this.maxOut = Integer.valueOf(config.getAttribute("maxOut")); //$NON-NLS-1$		
+				
+		this.element = myParams.get("element"); //$NON-NLS-1$
+		this.maxIn = Integer.valueOf(myParams.get("maxIn")); //$NON-NLS-1$
+		this.maxOut = Integer.valueOf(myParams.get("maxOut")); //$NON-NLS-1$		
 	}
 
 	/*
