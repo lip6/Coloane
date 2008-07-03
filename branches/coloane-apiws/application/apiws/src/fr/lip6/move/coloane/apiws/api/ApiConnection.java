@@ -136,9 +136,9 @@ public class ApiConnection implements IApiConnection {
 	public boolean closeConnection() throws WrapperException, ApiConnectionException {
 		if (!connectionOpened)
 			throw new ApiConnectionException("Aucune connexion n'est ouverte");
-		
-		Unauthentification unauth = speaker.closeConnection();
+
 		((Thread)listener).stop();
+		Unauthentification unauth = speaker.closeConnection();
 		
 		AnswerCloseConnection anseAnswerCloseConnection = new AnswerCloseConnection(unauth);
 		((ICloseConnectionObservable) listObservables.get(IObservables.CLOSE_CONNECTION)).notifyObservers(anseAnswerCloseConnection);
