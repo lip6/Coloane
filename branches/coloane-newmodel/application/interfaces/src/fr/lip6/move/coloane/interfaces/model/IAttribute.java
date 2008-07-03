@@ -48,11 +48,19 @@ public interface IAttribute extends IAbstractPropertyChange {
 	IElement getReference();
 
 	/**
-	 * Retourne le type d'affichage a considerer pour cet attribut
-	 * @return int Indicateur d'affichage
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo
+	 * @return La taille de police à utiliser pour l'affichage de l'attribut
 	 */
-	int getType();
+	int getSize();
+	
+	/**
+	 * @return <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
+	 */
+	boolean isBold();
+	
+	/**
+	 * @return <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
+	 */
+	boolean isItalic();
 
 	/**
 	 * @return True si l'attribut doit être dessiné.
