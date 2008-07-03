@@ -14,14 +14,30 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * Description d'un noeud du modele
+ */
 public class NodeModel extends AbstractElement implements ICoreNode {
+
+	/** Identifiant du noeud */
 	private int id;
+	
+	/** Formalisme associé au noeud */
 	private INodeFormalism nodeFormalism;
+	
+	/** Information graphique associé au noeud */
 	private INodeGraphicInfo graphicInfo = new NodeGraphicInfo(this);
 
-	private ArrayList<IArc> sourceArcs = new ArrayList<IArc>();
-	private ArrayList<IArc> targetArcs = new ArrayList<IArc>();
+	
+	private ArrayList<IArc> outcomingArcs = new ArrayList<IArc>();
+	private ArrayList<IArc> incomingArcs = new ArrayList<IArc>();
 
+	/**
+	 * Constructeur d'un noeud de modèle
+	 * @param parent Le parent du noeud
+	 * @param nodeFormalism Le formalisme associé au noeud
+	 * @param id L'identifiant du noeud dans le modèle
+	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(parent, nodeFormalism.getAttributes());
 		this.id = id;
@@ -29,17 +45,17 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 	}
 
 	/**
-	 * Supprime les arcs attachés.
+	 * Supprime les arcs attachés au noeud
 	 */
 	final void delete() {
-		for (IArc arc : sourceArcs) {
-			((NodeModel) arc.getTarget()).removeTargetArc(arc);
+		for (IArc arc : outcomingArcs) {
+			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 		}
-		for (IArc arc : targetArcs) {
-			((NodeModel) arc.getSource()).removeSourceArc(arc);
+		for (IArc arc : incomingArcs) {
+			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 		}
-		sourceArcs.clear();
-		targetArcs.clear();
+		outcomingArcs.clear();
+		incomingArcs.clear();
 	}
 
 	/* (non-Javadoc)
@@ -65,48 +81,48 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 
 	/**
 	 * Ajoute un arc à la liste des arcs sortants.
-	 * @param sourceArc
+	 * @param outArc L'arc sortant à ajouter à la liste
 	 */
-	final void addSourceArc(IArc sourceArc) {
-		sourceArcs.add(sourceArc);
+	final void addOutcomingArc(IArc outArc) {
+		outcomingArcs.add(outArc);
 	}
 
 	/**
 	 * Ajoute un arc à la liste des arcs entrants.
-	 * @param targetArc
+	 * @param inArc L'arc à ajouter à la liste
 	 */
-	final void addTargetArc(IArc targetArc) {
-		targetArcs.add(targetArc);
+	final void addIncomingArc(IArc inArc) {
+		incomingArcs.add(inArc);
 	}
 
 	/**
 	 * Enlève un arc à la liste des arcs sortants.
-	 * @param sourceArc
+	 * @param outArc L'arc sortant à supprimer de la liste
 	 */
-	final void removeSourceArc(IArc sourceArc) {
-		sourceArcs.remove(sourceArc);
+	final void removeOutcomingArc(IArc outArc) {
+		outcomingArcs.remove(outArc);
 	}
 
 	/**
 	 * Enlève un arc à la liste des arcs entrants.
-	 * @param targetArc
+	 * @param inArc L'arc entrant à supprimer de la liste
 	 */
-	final void removeTargetArc(IArc targetArc) {
-		targetArcs.remove(targetArc);
+	final void removeIncomingArc(IArc inArc) {
+		incomingArcs.remove(inArc);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getSourceArcs()
 	 */
-	public final List<IArc> getSourceArcs() {
-		return Collections.unmodifiableList(sourceArcs);
+	public final List<IArc> getOutcomingArcs() {
+		return Collections.unmodifiableList(outcomingArcs);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getTargetArcs()
 	 */
-	public final List<IArc> getTargetArcs() {
-		return Collections.unmodifiableList(targetArcs);
+	public final List<IArc> getIncomingArcs() {
+		return Collections.unmodifiableList(incomingArcs);
 	}
 
 	/* (non-Javadoc)
@@ -126,12 +142,12 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 	 */
 	public final void updateArcAttributesPosition() {
 		// Parcours des arcs sortants
-		for (IArc arc : this.sourceArcs) {
+		for (IArc arc : this.outcomingArcs) {
 			arc.updateAttributesPosition();
 		}
 
 		// Parcours des arcs entrants
-		for (IArc arc : this.targetArcs) {
+		for (IArc arc : this.incomingArcs) {
 			arc.updateAttributesPosition();
 		}
 	}

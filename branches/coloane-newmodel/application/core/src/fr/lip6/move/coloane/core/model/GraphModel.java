@@ -69,7 +69,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#createNode(java.lang.String)
 	 */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
-		IElementFormalism elementFormalism = formalism.getFormalismElement(nodeFormalismName);
+		IElementFormalism elementFormalism = formalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
@@ -132,7 +132,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
 
-		IElementFormalism elementFormalism = formalism.getFormalismElement(arcFormalismName);
+		IElementFormalism elementFormalism = formalism.getElementFormalism(arcFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
@@ -145,8 +145,8 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	 */
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
-			((NodeModel) arc.getSource()).removeSourceArc(arc);
-			((NodeModel) arc.getTarget()).removeTargetArc(arc);
+			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
+			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 		}
 	}
 
@@ -182,11 +182,11 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 			LOGGER.warning("Cet arc existe déjà."); //$NON-NLS-1$
 		} else if (!nodes.containsKey(arc.getSource().getId()) || !nodes.containsKey(arc.getTarget().getId())) {
 			LOGGER.warning("La source et/ou la cible de cet arc n'existe pas."); //$NON-NLS-1$
-		} else if (!formalism.isLinkAllowed(arc.getSource().getNodeFormalism(), arc.getTarget().getNodeFormalism())) {
+		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
-			((NodeModel) arc.getSource()).addSourceArc(arc);
-			((NodeModel) arc.getTarget()).addTargetArc(arc);
+			((NodeModel) arc.getSource()).addOutcomingArc(arc);
+			((NodeModel) arc.getTarget()).addIncomingArc(arc);
 			arcs.put(arc.getId(), arc);
 		}
 	}

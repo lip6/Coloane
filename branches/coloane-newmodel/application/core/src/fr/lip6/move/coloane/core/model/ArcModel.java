@@ -30,9 +30,9 @@ public class ArcModel extends AbstractElement implements ICoreArc {
 		this.id = id;
 		this.arcFormalism = arcFormalism;
 		this.source = source;
-		((NodeModel) source).addSourceArc(this);
+		((NodeModel) source).addOutcomingArc(this);
 		this.target = target;
-		((NodeModel) target).addTargetArc(this);
+		((NodeModel) target).addIncomingArc(this);
 	}
 
 	/* (non-Javadoc)
@@ -129,13 +129,13 @@ public class ArcModel extends AbstractElement implements ICoreArc {
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#reconnect(fr.lip6.move.coloane.core.ui.model.interfaces.INode, fr.lip6.move.coloane.core.ui.model.interfaces.INode)
 	 */
 	public final void reconnect(INode newSource, INode newTarget) {
-		((NodeModel) source).removeSourceArc(this);
-		((NodeModel) target).removeTargetArc(this);
+		((NodeModel) source).removeOutcomingArc(this);
+		((NodeModel) target).removeIncomingArc(this);
 
 		this.source = newSource;
-		((NodeModel) source).addSourceArc(this);
+		((NodeModel) source).addOutcomingArc(this);
 		this.target = newTarget;
-		((NodeModel) target).addTargetArc(this);
+		((NodeModel) target).addIncomingArc(this);
 	}
 
 	public final void updateAttributesPosition() {

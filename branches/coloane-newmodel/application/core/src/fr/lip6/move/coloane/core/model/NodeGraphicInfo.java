@@ -59,12 +59,12 @@ public class NodeGraphicInfo implements ICoreNodeGraphicInfo {
 
 		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
-		for (IArc arc : node.getSourceArcs()) {
+		for (IArc arc : node.getOutcomingArcs()) {
 			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
 			}
 		}
-		for (IArc arc : node.getTargetArcs()) {
+		for (IArc arc : node.getIncomingArcs()) {
 			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
 			}
@@ -109,14 +109,14 @@ public class NodeGraphicInfo implements ICoreNodeGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getFigureStyle()
 	 */
 	public final int getFigureStyle() {
-		return this.node.getNodeFormalism().getGraphicalDescription().getNumFigure();
+		return this.node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
 	 */
 	public final boolean isFilled() {
-		return this.node.getNodeFormalism().getGraphicalDescription().getIsFilled();
+		return this.node.getNodeFormalism().getGraphicalDescription().isFilled();
 	}
 
 	/* (non-Javadoc)

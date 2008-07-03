@@ -62,8 +62,24 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#getType()
 	 */
-	public final int getType() {
-		return attributFormalism.getType();
+	public final int getSize() {
+		return attributFormalism.getSize();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.core.ICoreAttribute#isBold()
+	 */
+	public final boolean isBold() {
+		return attributFormalism.isBold();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.core.ICoreAttribute#isItalic()
+	 */
+	public final boolean isItalic() {
+		return attributFormalism.isItalic();
 	}
 
 	/* (non-Javadoc)

@@ -52,7 +52,7 @@ public class ArcGraphicInfo implements ICoreArcGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#getFigureStyle()
 	 */
 	public final int getFigureStyle() {
-		return this.arc.getArcFormalism().getNumFigure();
+		return this.arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
 	}
 
 	/* (non-Javadoc)
