@@ -11,11 +11,13 @@ import java.util.logging.Logger;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Deuxieme etape de la creation d'un lien entre deux noeuds !<br>
- * Cette commande est creee lors du second clic (donc sur l'element d'arrivee).
+ * Deuxieme étape de la création d'un lien entre deux noeuds !<br>
+ * Cette commande est créée lors du second clic (donc sur l'element d'arrivee).
+ * @see ArcCreateCmd
  */
 public class ArcCompleteCmd extends Command {
-	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	/** Le logger */
+	private final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Graphe */
 	private IGraph graph;
@@ -34,9 +36,9 @@ public class ArcCompleteCmd extends Command {
 
 	/**
 	 * Connexion de l'arc
-	 * @param source noeud source
-	 * @param target noeud cible
-	 * @param base elementBase
+	 * @param arcSource Noeud source de l'arc
+	 * @param arcTarget Noeud cible de l'arc
+	 * @param arcFormalism Le formalisme de l'arc
 	 */
 	public ArcCompleteCmd(INode arcSource, INode arcTarget, IArcFormalism arcFormalism) {
 		this.graph = (IGraph) arcSource.getParent();
@@ -53,12 +55,12 @@ public class ArcCompleteCmd extends Command {
 	public final boolean canExecute() {
 
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!arcFormalism.getFormalism().isLinkAllowed(source.getNodeFormalism(), target.getNodeFormalism())) {
+		if (!arcFormalism.getFormalism().isLinkAllowed(source, target)) {
 			return false;
 		}
 
 		// Evite les doublons en renvoyant faux si le lien existe deja
-		for (IArc a : source.getSourceArcs()) {
+		for (IArc a : source.getOutcomingArcs()) {
 			if (a.getTarget().equals(target)) {
 				return false;
 			}
@@ -77,7 +79,7 @@ public class ArcCompleteCmd extends Command {
 		try {
 			arc = graph.createArc(arcFormalism.getName(), source, target);
 		} catch (ModelException e) {
-			logger.warning(e.toString());
+			LOGGER.warning("Impossible de construire l'arc: " + e.toString());
 			e.printStackTrace();
 		}
 	}

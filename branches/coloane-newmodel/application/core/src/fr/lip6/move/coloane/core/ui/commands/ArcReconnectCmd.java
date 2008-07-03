@@ -1,19 +1,18 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande permettant la de-re connexion d'un arc.<br>
- * Le but de cette commande est de permettre de changer la source ou la cible d'un arc
- * sans pour autant le detruire.
+ * Commande permettant la re-connexion d'un arc.<br>
+ * Le but de cette commande est de permettre de changer la source ou la cible d'un arc sans pour autant le detruire.
  */
 public class ArcReconnectCmd extends Command {
 
-	/** L'arc augmente qu'on manipule */
+	/** L'arc qu'on manipule */
 	private IArc arc;
 
 	/** Noeud source */
@@ -29,8 +28,8 @@ public class ArcReconnectCmd extends Command {
 	private final INode oldTarget;
 
 	/**
-	 * Reconnecter
-	 * @param connection arc
+	 * Constructeur de la commande
+	 * @param a L'arc concerné par la reconnexion
 	 */
 	public ArcReconnectCmd(IArc a) {
 		this.arc = a;
@@ -40,7 +39,7 @@ public class ArcReconnectCmd extends Command {
 
 	/**
 	 * Indique la nouvelle source de l'arc
-	 * @param connectionSource
+	 * @param connectionSource Le nouveau noeud source
 	 */
 	public final void setNewSource(INode connectionSource) {
 		newSource = connectionSource;
@@ -49,7 +48,7 @@ public class ArcReconnectCmd extends Command {
 
 	/**
 	 * Indique la nouvelle cible de l'arc
-	 * @param connectionTarget
+	 * @param connectionTarget Le nouveau noeud cible
 	 */
 	public final void setNewTarget(INode connectionTarget) {
 		newSource = null;
@@ -74,18 +73,20 @@ public class ArcReconnectCmd extends Command {
 			return false;
 		}
 
-		IArcFormalism arcFormalism = this.arc.getArcFormalism();
+		// Recuperation du formalisme
+		IFormalism formalism = this.arc.getArcFormalism().getFormalism();
 
-		if ((this.newSource != null) && !arcFormalism.getFormalism().isLinkAllowed(newSource.getNodeFormalism(), oldTarget.getNodeFormalism())) {
+		// Est-ce que la connexion est autorisée ?
+		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget)) {
 			return false;
 		}
-
-		if ((this.newTarget != null) && !arcFormalism.getFormalism().isLinkAllowed(oldSource.getNodeFormalism(), newTarget.getNodeFormalism())) {
+		
+		// Est-ce que la connexion est autorisée ?
+		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget)) {
 			return false;
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArc existingConnection : this.newSource.getSourceArcs()) {
+		for (IArc existingConnection : this.newSource.getOutcomingArcs()) {
 			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}
@@ -117,7 +118,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArc existingConnection : newTarget.getTargetArcs()) {
+		for (IArc existingConnection : newTarget.getIncomingArcs()) {
 			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
 				return false;
 			}
