@@ -1,0 +1,62 @@
+package fr.lip6.move.coloane.core.ui.commands;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import fr.lip6.move.coloane.core.model.ILocatedElement;
+import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
+import org.eclipse.gef.commands.Command;
+
+/**
+ * Suppression d'un guide associée à une règle
+ */
+public class DeleteGuideCommand extends Command {
+	
+	/** La règle à laquelle est attaché le guide */
+	private EditorRuler ruler;
+	
+	/** Le guide concerné */
+	private EditorGuide guide;
+	
+	/** Sauvegarde des éléments de modèle attaché au guide... en cas d'annulation */
+	private Map<ILocatedElement, Integer> oldElements;
+
+	/**
+	 * Constructeur
+	 * @param guide Le guide à supprimer
+	 * @param ruler La règle à laquelle est attachée le guide
+	 */
+	public DeleteGuideCommand(EditorGuide guide, EditorRuler ruler) {
+		super("Delete the selected guide");
+		this.guide = guide;
+		this.ruler = ruler;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	public void execute() {
+		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
+		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
+		while (iter.hasNext()) {
+			guide.detachElement(iter.next());
+		}
+		ruler.removeGuide(guide);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	public void undo() {
+		ruler.addGuide(guide);
+		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
+		while (iter.hasNext()) {
+			ILocatedElement locatedElement = iter.next();
+			guide.attachElement(locatedElement, ((Integer) oldElements.get(locatedElement)).intValue());
+		}
+	}
+}
