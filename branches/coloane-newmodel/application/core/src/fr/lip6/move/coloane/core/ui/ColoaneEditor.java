@@ -54,6 +54,8 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.gef.ui.rulers.RulerComposite;
 //import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -222,6 +224,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 	/** La palette */
 	private PaletteRoot paletteRoot;
+	private RulerComposite rulerComposite;
 
 	/** Le listener de focus */
 	private static TabListener listener = null;
@@ -255,8 +258,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		ArrayList<String> zoomContributions;
 
 		super.configureGraphicalViewer();
+		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
 
-		GraphicalViewer viewer = getGraphicalViewer();
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
 
 		viewer.setEditPartFactory(new PartFactory());
@@ -489,6 +492,16 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 				viewer.addPaletteListener(new PaletteToolListener());
 			}
 		};
+	}
+	
+	protected void createGraphicalViewer(Composite parent) {
+		rulerComposite = new RulerComposite(parent, SWT.NONE);
+		super.createGraphicalViewer(rulerComposite);
+		rulerComposite.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
+	}
+	
+	protected Control getGraphicalControl() {
+		return rulerComposite;
 	}
 
 	/*
