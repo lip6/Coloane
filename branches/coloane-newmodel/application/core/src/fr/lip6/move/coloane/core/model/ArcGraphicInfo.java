@@ -47,14 +47,6 @@ public class ArcGraphicInfo implements ICoreArcGraphicInfo {
 		return this.oldMiddlePoint;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#getFigureStyle()
-	 */
-	public final int getFigureStyle() {
-		return this.arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
-	}
-
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#getColor()
 	 */

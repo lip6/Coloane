@@ -68,7 +68,7 @@ public interface ICoreNodeGraphicInfo extends INodeGraphicInfo {
 	 * Retourne le style de dessin de la figure tel que prevu par le formalisme
 	 * @return int
 	 */
-	int getFigureStyle();
+	String getFigureStyle();
 
 	/**
 	 * Retourne un booleen indiquant si la figure est remplie ou non.

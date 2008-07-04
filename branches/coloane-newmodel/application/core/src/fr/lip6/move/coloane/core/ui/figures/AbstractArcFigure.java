@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
-import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
-import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -12,9 +9,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-public class AbstractElementFigure extends Figure implements IFigure {
-	private boolean isSelected;
-	private INodeGraphicInfo graphicInfo;
+import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
+
+public abstract class AbstractArcFigure {
 
 	/*
 	 * (non-Javadoc)
@@ -54,6 +51,10 @@ public class AbstractElementFigure extends Figure implements IFigure {
 		isSelected = true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.ui.views.INodeFigure#setUnselect()
+	 */
 	public final void setUnselect() {
 		for (Object obj : getChildren()) {
 			IFigure figure = (IFigure) obj;
@@ -107,5 +108,4 @@ public class AbstractElementFigure extends Figure implements IFigure {
 		graphics.setAntialias(SWT.ON);
 		super.paint(graphics);
 	}
-
 }

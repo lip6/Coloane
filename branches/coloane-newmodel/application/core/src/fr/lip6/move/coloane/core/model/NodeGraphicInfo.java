@@ -108,7 +108,7 @@ public class NodeGraphicInfo implements ICoreNodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getFigureStyle()
 	 */
-	public final int getFigureStyle() {
+	public final String getFigureStyle() {
 		return this.node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
 	}
 

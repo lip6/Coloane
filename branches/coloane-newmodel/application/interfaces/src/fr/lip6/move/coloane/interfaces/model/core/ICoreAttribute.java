@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.core;
 
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -52,27 +53,7 @@ public interface ICoreAttribute extends ICoreAbstractPropertyChange, IAttribute 
 	IElement getReference();
 
 	/**
-	 * @return La taille de police à utiliser pour l'affichage de l'attribut
+	 * @return L'ElementFormalism associé.
 	 */
-	int getSize();
-	
-	/**
-	 * @return <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
-	 */
-	boolean isBold();
-	
-	/**
-	 * @return <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
-	 */
-	boolean isItalic();
-
-	/**
-	 * @return True si l'attribut doit être dessiné.
-	 */
-	boolean isDrawable();
-
-	/**
-	 * @return True si l'attribut est multi-ligne.
-	 */
-	boolean isMultiLine();
+	IAttributeFormalism getAttributeFormalism();
 }

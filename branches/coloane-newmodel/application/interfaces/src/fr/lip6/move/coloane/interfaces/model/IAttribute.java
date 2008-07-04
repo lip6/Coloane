@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+
 public interface IAttribute extends IAbstractPropertyChange {
 
 	/** ID de la propriété lors d'un changement de valeur */
@@ -48,27 +50,7 @@ public interface IAttribute extends IAbstractPropertyChange {
 	IElement getReference();
 
 	/**
-	 * @return La taille de police à utiliser pour l'affichage de l'attribut
+	 * @return L'ElementFormalism associé.
 	 */
-	int getSize();
-	
-	/**
-	 * @return <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
-	 */
-	boolean isBold();
-	
-	/**
-	 * @return <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
-	 */
-	boolean isItalic();
-
-	/**
-	 * @return True si l'attribut doit être dessiné.
-	 */
-	boolean isDrawable();
-
-	/**
-	 * @return True si l'attribut est multi-ligne.
-	 */
-	boolean isMultiLine();
+	IAttributeFormalism getAttributeFormalism();
 }

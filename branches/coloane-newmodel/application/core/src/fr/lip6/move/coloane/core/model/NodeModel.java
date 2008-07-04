@@ -21,14 +21,14 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 
 	/** Identifiant du noeud */
 	private int id;
-	
+
 	/** Formalisme associé au noeud */
 	private INodeFormalism nodeFormalism;
-	
+
 	/** Information graphique associé au noeud */
 	private INodeGraphicInfo graphicInfo = new NodeGraphicInfo(this);
 
-	
+
 	private ArrayList<IArc> outcomingArcs = new ArrayList<IArc>();
 	private ArrayList<IArc> incomingArcs = new ArrayList<IArc>();
 

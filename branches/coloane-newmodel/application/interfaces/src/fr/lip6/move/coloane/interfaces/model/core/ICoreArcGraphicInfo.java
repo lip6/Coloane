@@ -38,12 +38,6 @@ public interface ICoreArcGraphicInfo extends IArcGraphicInfo {
 	Point getMiddlePoint();
 
 	/**
-	 * Retourne le style de dessin de la figure tel que prevu par le formalisme
-	 * @return int
-	 */
-	int getFigureStyle();
-
-	/**
 	 * @return couleur de l'arc
 	 */
 	Color getColor();

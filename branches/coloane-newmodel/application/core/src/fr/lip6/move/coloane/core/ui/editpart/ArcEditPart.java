@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import java.beans.PropertyChangeEvent;
@@ -15,7 +14,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
-import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
