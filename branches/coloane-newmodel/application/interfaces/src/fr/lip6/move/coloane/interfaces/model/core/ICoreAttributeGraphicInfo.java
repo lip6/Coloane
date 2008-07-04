@@ -2,9 +2,7 @@ package fr.lip6.move.coloane.interfaces.model.core;
 
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
-import org.eclipse.draw2d.geometry.Point;
-
-public interface ICoreAttributeGraphicInfo extends IAttributeGraphicInfo {
+public interface ICoreAttributeGraphicInfo extends IAttributeGraphicInfo, ICoreLocationInfo {
 
 	/** Niveau 1 */
 	int L1 = 1;
@@ -23,23 +21,4 @@ public interface ICoreAttributeGraphicInfo extends IAttributeGraphicInfo {
 
 	/** Police **/
 	String FONT = "arial"; //$NON-NLS-1$
-
-	/**
-	 * Retourne l'emplacement actuel de l'attribut
-	 * @return Point
-	 */
-	Point getLocation();
-
-	/**
-	 * Change l'emplacement de l'attribut
-	 * @param x Les abcisses
-	 * @param y Les ordonees
-	 */
-	void setLocation(int x, int y);
-
-	/**
-	 * Change l'emplacement de l'attribut
-	 * @param location nouvelles coordonnées
-	 */
-	void setLocation(Point location);
 }

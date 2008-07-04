@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.interfaces.model.core;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -11,7 +10,7 @@ import org.eclipse.swt.graphics.Color;
  * @see fr.lip6.move.coloane.interfaces.model.impl.interfaces.NodeGraphicInfo
  */
 
-public interface ICoreNodeGraphicInfo extends INodeGraphicInfo {
+public interface ICoreNodeGraphicInfo extends INodeGraphicInfo, ICoreLocationInfo {
 
 	// Style de sa figure
 	 /** ID pour un cercle */
@@ -26,25 +25,6 @@ public interface ICoreNodeGraphicInfo extends INodeGraphicInfo {
 
 	/** ID pour une queue (ellipse applatie)*/
 	int FIG_QUEUE = 3;
-
-	/**
-	 * Retourne l'emplacement actuel du noeud
-	 * @return Point
-	 */
-	Point getLocation();
-
-	/**
-	 * Change l'emplacement d'un noeud
-	 * @param x Les abcisses
-	 * @param y Les ordonees
-	 */
-	void setLocation(int x, int y);
-
-	/**
-	 * Change l'emplacement d'un noeud
-	 * @param location coordonnées
-	 */
-	void setLocation(Point location);
 
 	/**
 	 * Retourne la largeur du noeud

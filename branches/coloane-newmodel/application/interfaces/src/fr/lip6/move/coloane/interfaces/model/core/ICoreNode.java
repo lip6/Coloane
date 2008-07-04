@@ -7,6 +7,9 @@ import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.util.List;
 
+/**
+ * Définition d'un noeud en tenant compte des préoccupation de l'éditeur
+ */
 public interface ICoreNode extends ICoreElement, INode {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
