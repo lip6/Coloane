@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreNode;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'un noeud du modele
  */
-public class NodeModel extends AbstractElement implements ICoreNode {
+public class NodeModel extends AbstractElement implements ICoreNode, ILocatedElement {
 
 	/** Identifiant du noeud */
 	private int id;
@@ -77,6 +79,14 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 	 */
 	public final INodeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
+	 */
+	public ICoreLocationInfo getLocationInfo() {
+		return (ICoreLocationInfo) this.getGraphicInfo();
 	}
 
 	/**
@@ -150,5 +160,41 @@ public class NodeModel extends AbstractElement implements ICoreNode {
 		for (IArc arc : this.incomingArcs) {
 			arc.updateAttributesPosition();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
+	 */
+	public EditorGuide getHorizontalGuide() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
+	 */
+	public EditorGuide getVerticalGuide() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
+	 */
+	public void setHorizontalGuide(EditorGuide guide) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
+	 */
+	public void setVerticalGuide(EditorGuide guide) {
+		// TODO Auto-generated method stub
+		
 	}
 }
