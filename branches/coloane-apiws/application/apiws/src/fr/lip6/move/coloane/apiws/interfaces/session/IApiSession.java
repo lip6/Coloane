@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 
 import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
-import fr.lip6.move.coloane.apiws.interfaces.objects.IModel;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public interface IApiSession {
