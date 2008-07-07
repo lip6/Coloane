@@ -1,13 +1,13 @@
-package fr.lip6.move.coloane.apiws.objects.menu;
+package fr.lip6.move.coloane.apiws.objects.service;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IQuestion;
+import fr.lip6.move.coloane.apiws.interfaces.objects.service.IQuestion;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
-public abstract class QuestionImpl implements IQuestion {
+public class QuestionImpl implements IQuestion {
 	
-    private String name;
+	private String name;
     
     private int cardinality;
     
