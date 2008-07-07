@@ -15,52 +15,69 @@ import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 public class ServicesAvailableImpl implements IServicesAvailable {
-	
+
 	private Hashtable<String, IQuestion> services;
-	
+
 	private Hashtable<String, IQuestion> options;
-	
-	
+
+
 	public ServicesAvailableImpl(MMenu m){
-		for (int i=0; i<m.getRoots().length;i++){
-			addQuestion(m.getRoots()[i].getRoot());
-		}
+		this.services = new Hashtable<String, IQuestion>();
+		this.options = new Hashtable<String, IQuestion>();
+		if (m.getRoots() != null)
+			for (int i=0; i<m.getRoots().length;i++){
+				addQuestion(m.getRoots()[i].getRoot());
+			}
 	}
 
 	public Hashtable<String, IQuestion> getServices() {
 		return services;
 	}
-	
+
 	public Hashtable<String, IQuestion> getOptions() {
 		return options;
 	}
-	
+
 	private void addQuestion(Question q){
 		if (q instanceof SubMenu){
 			SubMenu sub = (SubMenu) q;
+
+			if (sub.getOption() != null){
+				for (int i=0;i<sub.getOption().length;i++)
+					addQuestion(sub.getOption()[i]);
+			}
 			
-			for (int i=0;i<sub.getOption().length;i++)
-				addQuestion(sub.getOption()[i]);
-			
-			for (int i=0;i<sub.getServices().length;i++)
-				addQuestion(sub.getServices()[i]);
-			
-			for (int i=0;i<sub.getServicesWithObjects().length;i++)
-				addQuestion(sub.getServicesWithObjects()[i]);
-			
-			for (int i=0;i<sub.getServicesWithOneObject().length;i++)
-				addQuestion(sub.getServicesWithOneObject()[i]);
-			
-			for (int i=0;i<sub.getServiceWithOneText().length;i++)
-				addQuestion(sub.getServiceWithOneText()[i]);
-			
-			for (int i=0;i<sub.getServiceWithTexts().length;i++)
-				addQuestion(sub.getServiceWithTexts()[i]);
-			
-			for (int i=0;i<sub.getSubMenus().length;i++)
-				addQuestion(sub.getSubMenus()[i]);
+			if (sub.getServices() != null){
+				for (int i=0;i<sub.getServices().length;i++)
+					addQuestion(sub.getServices()[i]);
+			}
+
+			if (sub.getServicesWithObjects() != null){
+				for (int i=0;i<sub.getServicesWithObjects().length;i++)
+					addQuestion(sub.getServicesWithObjects()[i]);
+			}
+
+			if (sub.getServicesWithOneObject() != null){
+				for (int i=0;i<sub.getServicesWithOneObject().length;i++)
+					addQuestion(sub.getServicesWithOneObject()[i]);
+			}
+
+			if (sub.getServiceWithOneText() != null){
+				for (int i=0;i<sub.getServiceWithOneText().length;i++)
+					addQuestion(sub.getServiceWithOneText()[i]);
+			}
+
+			if (sub.getServiceWithTexts() != null){
+				for (int i=0;i<sub.getServiceWithTexts().length;i++)
+					addQuestion(sub.getServiceWithTexts()[i]);
+			}
+
+			if (sub.getSubMenus() != null){
+				for (int i=0;i<sub.getSubMenus().length;i++)
+					addQuestion(sub.getSubMenus()[i]);
+			}
 		}
-		
+
 		if (q instanceof Option){
 			options.put(q.getName(), new OptionImpl(q));
 		}
