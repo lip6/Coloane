@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.evenements;
 
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.service.IServicesAvailable;
 
 public interface IAnswerCloseSession {
 	
@@ -21,4 +22,11 @@ public interface IAnswerCloseSession {
 	 * @return les menus des services disponible pour la prochaine session
 	 */
 	public IMMenu getMenus();
+
+	
+	/**
+	 * Recupere les services disponible pour la session
+	 * @return les services disponible pour la session
+	 */
+	public IServicesAvailable getServicesAvailable();
 }

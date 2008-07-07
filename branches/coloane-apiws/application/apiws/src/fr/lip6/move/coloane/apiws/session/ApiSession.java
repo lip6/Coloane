@@ -4,11 +4,13 @@ import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 import fr.lip6.move.coloane.apiws.interfaces.objects.model.IModel;
+import fr.lip6.move.coloane.apiws.interfaces.objects.service.IServicesAvailable;
 import fr.lip6.move.coloane.apiws.interfaces.session.IApiSession;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.menu.MMenuImpl;
+import fr.lip6.move.coloane.apiws.objects.service.ServicesAvailableImpl;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession{
@@ -32,6 +34,8 @@ public class ApiSession implements IApiSession{
 	private ISessionStateMachine automate;
 	
 	private IMMenu menus;
+	
+	private IServicesAvailable services;
 	
 	
 	public ApiSession(ISessionController sessionController,ISpeaker speaker){
@@ -82,10 +86,15 @@ public class ApiSession implements IApiSession{
 	public IMMenu getMenus(){
 		return menus;
 	}
+
+	public IServicesAvailable getServicesAvailable(){
+		return services;
+	}
 	
 	public void updateSession(Session s){
 		// TODO Auto-generated method stub
 		this.menus = new MMenuImpl(s.getMenu());
+		this.services = new ServicesAvailableImpl(s.getMenu());
 	}
 	
 	public void openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws WrapperException, ApiSessionException{
@@ -103,7 +112,7 @@ public class ApiSession implements IApiSession{
 			Session sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
 			this.menus = new MMenuImpl(sessionOpened.getMenu());
-			
+			this.services = new ServicesAvailableImpl(sessionOpened.getMenu());
 			sessionController.notifyEndOpenSession(this);
 			
 		}

@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.apiws.exceptions.ApiSessionException;
 import fr.lip6.move.coloane.apiws.exceptions.WrapperException;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IMMenu;
 import fr.lip6.move.coloane.apiws.interfaces.objects.model.IModel;
+import fr.lip6.move.coloane.apiws.interfaces.objects.service.IServicesAvailable;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public interface IApiSession {
@@ -122,11 +123,16 @@ public interface IApiSession {
 	 * @return les menus de la session
 	 */
 	public IMMenu getMenus();
+
+	/**
+	 * Recupere les services disponible pour la session
+	 * @return les services disponible pour la session
+	 */
+	public IServicesAvailable getServicesAvailable();
 	
 	/**
 	 * Met a jours la session
 	 * @param s la session qui contient les nouvelles informations
 	 */
 	public void updateSession(Session s);
-	
 }
