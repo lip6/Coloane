@@ -55,6 +55,7 @@ public class Speaker implements ISpeaker {
 			ConnectResponse res = stub.connect(req);
 			auth = res.get_return();
 		} catch (RemoteException e) {
+            e.printStackTrace();
 			WrapperException ee = new WrapperException();
 			ee.initialize(e.getMessage());
 			// TODO Auto-generated catch block
@@ -78,6 +79,7 @@ public class Speaker implements ISpeaker {
             CreateSessionResponse res=stub.createSession(req);
             session=res.get_return();
         }catch (RemoteException e) {
+            e.printStackTrace();
             WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
@@ -102,6 +104,7 @@ public class Speaker implements ISpeaker {
 			ChangeSessionResponse res=stub.changeSession(req);
 			session=res.get_return();
 		}catch (RemoteException e) {
+            e.printStackTrace();
 			WrapperException ee = new WrapperException();
 			ee.initialize(e.getMessage());
 			// TODO Auto-generated catch block
@@ -126,6 +129,7 @@ public class Speaker implements ISpeaker {
             CloseSessionResponse res=stub.closeSession(req);
             session=res.get_return();
         }catch (RemoteException e) {
+            e.printStackTrace();
             WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
@@ -149,6 +153,7 @@ public class Speaker implements ISpeaker {
             DisconnectResponse res=stub.disconnect(req);
             unauth=res.get_return();
 		}catch (RemoteException e) {
+            e.printStackTrace();
             WrapperException ee = new WrapperException();
             ee.initialize(e.getMessage());
             // TODO Auto-generated catch block
