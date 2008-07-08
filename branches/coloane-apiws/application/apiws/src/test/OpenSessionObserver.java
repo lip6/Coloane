@@ -2,7 +2,7 @@ package test;
 
 import fr.lip6.move.coloane.apiws.interfaces.evenements.IAnswerOpenSession;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IItemMenu;
-import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IOptionMenu;
+import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IOptionItem;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.IRootMenu;
 import fr.lip6.move.coloane.apiws.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.apiws.interfaces.observers.IOpenSessionObserver;
@@ -19,13 +19,13 @@ public class OpenSessionObserver implements IOpenSessionObserver {
 	
 	public void printMenu(ISubMenu sm,String dec){
 		System.out.println(dec+"["+(sm.isVisibility()?"+":"-")+"SUB  ] "+sm.getName()+" : validation="+sm.isValidation());
-		if (sm.getItems()!=null){
-			for (IItemMenu smenu : sm.getItems()){
+		if (sm.getServiceSimpleItems()!=null){
+			for (IItemMenu smenu : sm.getServiceSimpleItems()){
 				System.out.println(dec+"   ["+(sm.isVisibility()?"+":"-")+"Items]"+smenu.getName()+" : validation="+sm.isValidation());
 			}
 		}
-		if (sm.getOption()!=null){
-			for (IOptionMenu smenu : sm.getOption()){
+		if (sm.getOptions()!=null){
+			for (IOptionItem smenu : sm.getOptions()){
 				System.out.println(dec+"   ["+(sm.isVisibility()?"+":"-")+"OP   ] "+smenu.getName()+" : validation="+sm.isValidation());
 			}
 		}
