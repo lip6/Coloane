@@ -38,7 +38,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomOutRetargetAction());
 
 		RetargetAction grid = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX);
-		grid.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/grid.png"));
+		grid.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/grid.png")); //$NON-NLS-1$
 		addRetargetAction(grid);
 
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));

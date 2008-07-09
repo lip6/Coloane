@@ -149,7 +149,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	 * @return Les filtres d'extensions
 	 */
 	protected final String[] getImageFilterExtensions() {
-		return new String[] {"*.bmp", "*.jpg", "*.gif", "*.png"};
+		return new String[] {"*.bmp", "*.jpg", "*.gif", "*.png"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	 * @return Les noms de filtres
 	 */
 	protected final String[] getFilterNames() {
-		return new String[] {"BMP (*.bmp)", "JPEG (*.jpg)", "GIF (*.gif)", "PNG (*.png)" };
+		return new String[] {"BMP (*.bmp)", "JPEG (*.jpg)", "GIF (*.gif)", "PNG (*.png)" };  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/*

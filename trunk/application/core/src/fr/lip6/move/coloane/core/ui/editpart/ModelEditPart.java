@@ -100,8 +100,8 @@ public class ModelEditPart extends AbstractGraphicalEditPart implements Property
 		Figure root = new FreeformLayer() {
 				@Override
 				protected void paintFigure(Graphics graphics) {
-					graphics.drawImage(new Image(Coloane.getParent().getDisplay(),Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")), new Point(10, 10)); //$NON-NLS-1$
-				}		
+					graphics.drawImage(new Image(Coloane.getParent().getDisplay(), Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")), new Point(10, 10)); //$NON-NLS-1$
+				}
 		};
 		root.setLayoutManager(new FreeformLayout());
 		root.setBorder(new MarginBorder(5));
