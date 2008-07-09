@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  */
 public final class SessionManager extends Observable implements ISessionManager {
 	/** Le logger pour la classe */
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core");
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Est-on authentifie sur la plate-forme ? */
 	private boolean authenticated;
@@ -68,7 +68,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 		}
 
 		// Le nom de la nouvelle session ne doi pas etre vide ou null
-		if ((name == null) || ("".equals(name))) {
+		if ((name == null) || ("".equals(name))) { //$NON-NLS-1$
 			return null;
 		}
 

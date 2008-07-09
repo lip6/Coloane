@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class Session implements ISession {
 	/** Le logger pour la classe */
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core");
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Le modele associe */
 	private IModelImpl sessionModel;
