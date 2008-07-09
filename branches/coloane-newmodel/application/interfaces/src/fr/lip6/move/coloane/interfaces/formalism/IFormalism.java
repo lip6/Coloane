@@ -47,7 +47,7 @@ public interface IFormalism {
 	/**
 	 * @return Le graphe principal du formalisme
 	 */
-	IElementFormalism getMasterGraph();
+	IGraphFormalism getMasterGraph();
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
