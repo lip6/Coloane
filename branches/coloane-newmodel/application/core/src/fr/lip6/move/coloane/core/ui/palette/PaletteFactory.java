@@ -70,7 +70,7 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry component; // Un element de la palette
 
 		// Parcours de la liste des elements de base associe au formalisme
-		for (IElementFormalism element : formalism.getListOfFormalismElement()) {
+		for (IElementFormalism element : formalism.getMasterGraph().getAllElementFormalism()) {
 
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
 			if (element instanceof INodeFormalism) {
@@ -106,7 +106,7 @@ public final class PaletteFactory {
 		ConnectionCreationToolEntry component; /* Un element de la palette */
 
 		// Parcours de la liste des elements de base
-		for (IElementFormalism element : formalism.getListOfFormalismElement()) {
+		for (IElementFormalism element : formalism.getMasterGraph().getAllElementFormalism()) {
 
 			// Si l'element parcouru est un arc
 			if (element instanceof IArcFormalism) {
