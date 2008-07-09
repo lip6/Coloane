@@ -23,7 +23,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	private String associatedFigure;
 	
 	/** Est-ce que l'élément graphique est plein ? */
-	private boolean filled;
+	private boolean filled = false;
 	
 	/** Icone (16pixels) associée à l'élément de formalisme */
 	private String icon16px;
@@ -32,10 +32,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 	private String icon24px;
 	
 	/** Hauteur de l'élément graphique */
-	private String height;
+	private int height = 15;
 	
 	/** Largeur de l'élément graphique */
-	private String width;
+	private int width = 15;
 	
 	
 	/**
@@ -170,7 +170,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getHeight()
 	 */
 	public Integer getHeight() {
-		return Integer.valueOf(height);
+		return this.height;
 	}
 
 
@@ -179,7 +179,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @param height la hauteur de l'objet graphique
 	 */
 	public void setHeight(String height) {
-		this.height = height;
+		this.height = Integer.valueOf(height);
 	}
 
 
@@ -187,7 +187,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getWidth()
 	 */
 	public Integer getWidth() {
-		return Integer.valueOf(width);
+		return this.width;
 	}
 
 
@@ -196,6 +196,6 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @param width la largeur de l'objet graphique
 	 */
 	public void setWidth(String width) {
-		this.width = width;
+		this.width = Integer.valueOf(width);
 	}
 }

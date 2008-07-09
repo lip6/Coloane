@@ -193,6 +193,12 @@ public final class FormalismManager {
 		}
 		
 		// Prise en compte de la hauteur de l'élément de formalisme
+		if (graphicInfo.getAttribute("fill") != null) { //$NON-NLS-1$
+			gd.setFilled(getBool(graphicInfo.getAttribute("fill"))); //$NON-NLS-1$
+			LOGGER.finest("Ajout de l'indicateur de remplissage pour l'element : " + element.getName()); //$NON-NLS-1$
+		}
+		
+		// Prise en compte de la hauteur de l'élément de formalisme
 		if (graphicInfo.getAttribute("height") != null) { //$NON-NLS-1$
 			gd.setHeight(graphicInfo.getAttribute("height")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la hauteur pour l'element : " + element.getName()); //$NON-NLS-1$
