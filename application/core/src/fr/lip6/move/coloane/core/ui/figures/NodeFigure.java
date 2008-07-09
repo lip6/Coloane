@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
 import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+
+import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;

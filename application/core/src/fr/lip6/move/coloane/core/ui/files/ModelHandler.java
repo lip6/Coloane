@@ -51,7 +51,7 @@ public class ModelHandler extends DefaultHandler {
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 		data = ""; //$NON-NLS-1$
-		
+
 		// Balise MODEL
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
 			startModel(attributes);

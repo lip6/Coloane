@@ -1,16 +1,21 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
+import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.core.ui.editpart.ElementEditPart;
+import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
+import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
-import fr.lip6.move.coloane.core.ui.editpart.ElementEditPart;
-import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-
+/**
+ * TODO : A documenter
+ * @author jbvoron
+ *
+ */
 public class NodeMoveAction extends SelectionAction {
 	/** Déplacement vers le haut */
 	public static final String UP = "move.up"; //$NON-NLS-1$
@@ -23,7 +28,7 @@ public class NodeMoveAction extends SelectionAction {
 
 	/** Déplacement vers la droite */
 	public static final String RIGHT = "move.right"; //$NON-NLS-1$
-	
+
 	private int dx = 0;
 	private int dy = 0;
 
@@ -46,13 +51,13 @@ public class NodeMoveAction extends SelectionAction {
 	}
 
 	@Override
-	protected void init() {
+	protected final void init() {
 		super.init();
 		setEnabled(false);
 	}
 
 	@Override
-	protected boolean calculateEnabled() {
+	protected final boolean calculateEnabled() {
 		for (Object obj : getSelectedObjects()) {
 			if (obj instanceof ElementEditPart) {
 				return true;
@@ -62,7 +67,7 @@ public class NodeMoveAction extends SelectionAction {
 	}
 
 	@Override
-	public void run() {
+	public final void run() {
 		CompoundCommand cc = new CompoundCommand();
 		for (Object obj : getSelectedObjects()) {
 			if (obj instanceof ElementEditPart) {

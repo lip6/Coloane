@@ -182,7 +182,7 @@ public class AuthenticationDialog extends Dialog {
 						}
 
 					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
-						ip = InetAddress.getByName("localhost").getHostAddress();
+						ip = InetAddress.getByName("localhost").getHostAddress(); //$NON-NLS-1$
 						port = String.valueOf("7001"); //$NON-NLS-1$
 
 						if (!visibility) {

@@ -295,7 +295,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
 		zoomContributions.add(ZoomManager.FIT_WIDTH);
 		manager.setZoomLevelContributions(zoomContributions);
-		
+
 		// On ajoute des raccourcis clavier
 		KeyHandler keyHandler = new KeyHandler();
 		System.err.println(getActionRegistry().getAction(NodeMoveAction.UP));
@@ -625,7 +625,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements
 		action = new PasteAction((IWorkbenchPart) this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
+
 		// Création des action pour le déplacement
 		action = new NodeMoveAction((IWorkbenchPart) this, NodeMoveAction.UP);
 		registry.registerAction(action);

@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
