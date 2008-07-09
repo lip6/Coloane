@@ -139,7 +139,7 @@ public final class FormalismManager {
 		// Ajout des definitions des attributs
 		IConfigurationElement[] attributes = current.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
-			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), getBool(attribute.getAttribute("multiline")), getBool(attribute.getAttribute("drawable")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), getBool(attribute.getAttribute("drawable")), getBool(attribute.getAttribute("multiline")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			// Prise en compte de la valeur par defaut de l'attribut
