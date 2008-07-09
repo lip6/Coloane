@@ -259,10 +259,10 @@ public class Coloane extends AbstractUIPlugin {
 	 * Remise a zero des preferences du plugin
 	 */
 	public final void setDefaultPreference() {
-		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN"));
-		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER"));
-		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP"));
-		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT"));
+		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
+		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

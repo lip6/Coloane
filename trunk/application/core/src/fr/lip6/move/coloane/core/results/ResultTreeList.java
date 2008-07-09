@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.results;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -24,6 +24,9 @@ import org.eclipse.core.runtime.Platform;
  * Cette classe est thread-safe.
  */
 public class ResultTreeList extends Observable implements IResultTree, Observer {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	/**
 	 * Attributs du point d'extension 'exports'
 	 */
@@ -51,9 +54,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 			try {
 				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
 				services.put(service, report);
-				Coloane.getLogger().fine("Ajout du service de resultat : " + service);
+				LOGGER.fine("Ajout du service de resultat : " + service); //$NON-NLS-1$
 			} catch (CoreException e) {
-				Coloane.getLogger().warning("Probleme avec l'extension : " + service);
+				LOGGER.warning("Probleme avec l'extension : " + service); //$NON-NLS-1$
 			}
 		}
 	}
@@ -111,7 +114,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @see fr.lip6.move.coloane.core.results.IResultTree#addChild(fr.lip6.move.coloane.core.results.IResultTree)
 	 */
 	public final void addChild(IResultTree child) {
-		String serviceName = "";
+		String serviceName = ""; //$NON-NLS-1$
 		if (child instanceof ResultTreeImpl) {
 			serviceName = ((ResultTreeImpl) child).getServiceName();
 		}

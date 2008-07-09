@@ -20,7 +20,7 @@ public class LTLModCheck implements IReport {
 			ResultTreeImpl node = new ResultTreeImpl(sub.getDetails());
 			int i = 0;
 			for (String desc : sub.getCmdRT()) {
-				node.addChild(new ResultTreeImpl(desc + " " + i));
+				node.addChild(new ResultTreeImpl(desc + " " + i)); //$NON-NLS-1$
 			}
 //			for (Vector<String> toHighlight : sub.getCmdXA()) {
 //				node.addChild(new ResultTreeImpl(Integer.parseInt(toHighlight.get(0)), toHighlight.get(1) + ":" + toHighlight.get(2)));

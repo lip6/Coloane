@@ -28,7 +28,7 @@ public class GenericReport implements IReport {
 			// Create a node result
 			ResultTreeImpl node;
 			if (sub.getCmdRT().size() == 1) {
-				if (!("".equals(sub.getDetails()))) {
+				if (!("".equals(sub.getDetails()))) { //$NON-NLS-1$
 					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getDetails(), sub.getCmdRT().get(0));
 				} else {
 					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getCmdRT().get(0));
@@ -44,7 +44,7 @@ public class GenericReport implements IReport {
 				IElement element = root.getSessionManager().getCurrentSession().getModel().getModelObject(id);
 				if ((element != null) && (element instanceof INodeImpl)) {
 					String value = element.getAttributeValue("name");
-					if (!("".equals(value))) {
+					if (!("".equals(value))) { //$NON-NLS-1$
 						name = value;
 					}
 				}

@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.results;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Logger;
 
 /**
  * Arbre de résultat, à voir comme un tableau avec :
@@ -15,6 +15,9 @@ import java.util.Observable;
  * </ul>
  */
 public class ResultTreeImpl extends Observable implements IResultTree {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private String serviceName;
 
 	private IResultTree parent;
@@ -55,7 +58,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 				this.addObserver(sessionManager.getCurrentSession().getServiceResults());
 			}
 		} catch (NullPointerException e) {
-			Coloane.getLogger().warning("Erreur dans l'attachement de la liste de resultats a la session");
+			LOGGER.warning("Erreur dans l'attachement de la liste de resultats a la session"); //$NON-NLS-1$
 		}
 	}
 
