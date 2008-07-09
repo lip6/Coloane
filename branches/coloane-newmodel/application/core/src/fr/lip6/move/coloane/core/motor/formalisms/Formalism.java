@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -150,7 +149,7 @@ public class Formalism implements IFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
 	 */
-	public final IElementFormalism getMasterGraph() {
+	public final IGraphFormalism getMasterGraph() {
 		return this.master;
 	}
 	
