@@ -457,6 +457,7 @@
                 <GraphicInfo
                       description="Create a place"
                       drawable="true"
+                      fill="false"
                       height="15"
                       icon16px="resources/formalisms/place16.png"
                       icon24px="resources/formalisms/place24.png"
