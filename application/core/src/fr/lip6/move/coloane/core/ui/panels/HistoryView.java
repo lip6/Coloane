@@ -39,12 +39,13 @@ public class HistoryView extends ViewPart {
 
 	/**
 	 * Cette methode permet de creer la visionneuse et de l'initaliser
-	 * @param parent Interface Composite, pour la cr�ation de la visionneuse et des controls
+	 * @param parent Interface Composite, pour la création de la visionneuse et des controls
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	public final void createPartControl(Composite parent) {
 		viewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
+
 		// Readonly window
 		viewer.setEditable(false);
 		document = new Document();
@@ -60,7 +61,7 @@ public class HistoryView extends ViewPart {
 	}
 
 	/**
-	 * Donner une valeur � Focus
+	 * Donner une valeur au Focus
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override

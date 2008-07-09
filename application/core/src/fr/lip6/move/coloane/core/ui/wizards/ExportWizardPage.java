@@ -135,7 +135,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	 * Retourne les ressources selectionnees dans la fenetre
 	 * @return Une liste de ressources
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	public final List<IResource> getSelectedRessource() {
 		List<IResource> selectedResources = getWhiteCheckedResources();
 		return selectedResources;
