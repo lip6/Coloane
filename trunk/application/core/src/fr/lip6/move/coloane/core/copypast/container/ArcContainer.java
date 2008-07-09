@@ -40,12 +40,12 @@ public class ArcContainer {
 		color = arc.getGraphicInfo().getColor();
 		elementFormalism = arc.getElementBase();
 
-		// sauvegarde des points d'inflexion
+		// Sauvegarde des points d'inflexion
 		for (Bendpoint bp : arc.getInflexPoints()) {
 			pis.add(bp.getLocation());
 		}
-		
-		// sauvegarde des attributs
+
+		// Sauvegarde des attributs
 		for (IAttributeImpl attr : arc.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
 		}
