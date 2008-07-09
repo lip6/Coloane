@@ -78,7 +78,7 @@ public final class FormalismManager {
 				GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
 				LOGGER.finer("Construction de l'element graphe : " + g.getName()); //$NON-NLS-1$
 				this.buildAttributes(g, graph);
-				form.addElement(g);
+				form.setMasterGraph(g);
 
 				// Ajout des definitions des noeuds
 				IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$

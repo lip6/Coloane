@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.core.motor.formalisms;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -11,9 +10,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Definition d'un formalisme.<br>
@@ -34,20 +31,17 @@ public class Formalism implements IFormalism {
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
 
-	/** Liste des élément de base du formalisme. */
-	private List<IElementFormalism> elements;
-
 	/** Liste des regles du formalisme concernant les liens entre objets. */
 	private List<IConstraintLink> linkconstraints;
 	
 	/** Liste des regles du formalisme concernant les actions sur les noeuds. */
 	private List<IConstraintNode> nodeconstraints;
+	
+	/** Le graphe défnini par le formalisme */
+	private IGraphFormalism master = null;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String image;
-
-	/** Graphe principal du formalisme */
-	private ElementFormalism master = null;
 
 	/**
 	 * Création d'un formalisme
@@ -64,7 +58,6 @@ public class Formalism implements IFormalism {
 		this.image = image;
 		this.xschema = xshema;
 
-		this.elements = new ArrayList<IElementFormalism>();
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
 	}
@@ -97,15 +90,6 @@ public class Formalism implements IFormalism {
 	}
 
 	/**
-	 * Ajout d'un element de base au formalisme
-	 * @param element {@link ElementFormalism} de base a ajouter.
-	 */
-	public final void addElement(ElementFormalism element) {
-		if (element == null) { return; }
-		this.elements.add(element);
-	}
-
-	/**
 	 * Ajouter une contrainte de lien au formalisme
 	 * @param constraint La contrainte de lien à ajouter au formalisme
 	 * @see {@link IConstraintLink}
@@ -125,29 +109,6 @@ public class Formalism implements IFormalism {
 	public final void addConstraintNode(IConstraintNode constraint) {
 		if (constraint == null) { return; }
 		this.nodeconstraints.add(constraint);
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getListOfElementBase()
-	 */
-	public final List<IElementFormalism> getListOfFormalismElement() {
-		Set<IElementFormalism> toReturn = new HashSet<IElementFormalism>();
-		toReturn.addAll(this.elements);
-		for (IElementFormalism element : this.elements) {
-			IGraphFormalism graph = (IGraphFormalism) element;
-			toReturn.addAll(graph.getChildren());
-		}
-		return new ArrayList<IElementFormalism>(toReturn);
-	}
-
-	
-	public final IElementFormalism getFormalismElement(String name) {
-		for (IElementFormalism elementFormalism : elements) {
-			if (elementFormalism.getName().equals(name)) {
-				return elementFormalism;
-			}
-		}
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -190,39 +151,22 @@ public class Formalism implements IFormalism {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
 	 */
 	public final IElementFormalism getMasterGraph() {
-		if (this.master == null) {
-			// Parcours des éléments du formalisme à la recherche du premier GraphFormalism
-			for (IElementFormalism elementFormalism : elements) {
-				if (elementFormalism instanceof GraphFormalism) {
-					// Creation et Ajout du graphe principal lié à l'instance du formalisme
-					this.master = (ElementFormalism) elementFormalism;
-				}
-			}
-		}
 		return this.master;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	
+	/**
+	 * Indique quel est le graph principal du formalisme (point d'entrée)
+	 * @param master Le graphe principal du formalisme
 	 */
+	public void setMasterGraph(IGraphFormalism master) {
+		this.master = master;		
+	}
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#toString()
 	 */
 	@Override
 	public final String toString() {
 		return getName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#getElementFormalism(java.lang.String)
-	 */
-	public IElementFormalism getElementFormalism(String name) {
-		for (IElementFormalism element : this.elements) {
-			if (element.getName().equals(name)) {
-				return element;
-			}
-		}
-		return null;
 	}
 }

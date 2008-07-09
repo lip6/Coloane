@@ -36,9 +36,22 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getChildren()
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getAllElementFormalism()
 	 */
-	public List<IElementFormalism> getChildren() {
+	public List<IElementFormalism> getAllElementFormalism() {
 		return this.children;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getElementFormalism(java.lang.String)
+	 */
+	public IElementFormalism getElementFormalism(String name) {
+		for (IElementFormalism element : this.children) {
+			if (name.equals(element.getName())) {
+				return element;
+			}
+		}
+		return null;
 	}
 }
