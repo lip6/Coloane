@@ -81,12 +81,12 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	public final INodeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
-	public ICoreLocationInfo getLocationInfo() {
+	public final ICoreLocationInfo getLocationInfo() {
 		return (ICoreLocationInfo) this.getGraphicInfo();
 	}
 
@@ -167,7 +167,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
 	 */
-	public EditorGuide getHorizontalGuide() {
+	public final EditorGuide getHorizontalGuide() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -176,7 +176,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
 	 */
-	public EditorGuide getVerticalGuide() {
+	public final EditorGuide getVerticalGuide() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -187,7 +187,6 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	public void setHorizontalGuide(EditorGuide guide) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/*
@@ -196,6 +195,5 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	public void setVerticalGuide(EditorGuide guide) {
 		// TODO Auto-generated method stub
-		
 	}
 }

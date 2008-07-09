@@ -73,7 +73,7 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
 	 */
-	public EditorGuide getHorizontalGuide() {
+	public final EditorGuide getHorizontalGuide() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -82,7 +82,7 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
-	public ICoreLocationInfo getLocationInfo() {
+	public final ICoreLocationInfo getLocationInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -91,7 +91,7 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
 	 */
-	public EditorGuide getVerticalGuide() {
+	public final EditorGuide getVerticalGuide() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,7 +102,6 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 */
 	public void setHorizontalGuide(EditorGuide guide) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/*
@@ -111,6 +110,5 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 */
 	public void setVerticalGuide(EditorGuide guide) {
 		// TODO Auto-generated method stub
-		
 	}
 }

@@ -12,29 +12,29 @@ import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
  * </ul>
  */
 public interface ILocatedElement {
-	
+
 	/**
 	 * @return Les informations concernant le positionnement de l'objet
 	 * @see ICoreLocationInfo
 	 */
 	ICoreLocationInfo getLocationInfo();
-	
+
 	/**
 	 * @return le guide horizontal associé à l'objet
 	 */
 	EditorGuide getHorizontalGuide();
-	
+
 	/**
 	 * @return le guide vertical associé à l'objet
 	 */
 	EditorGuide getVerticalGuide();
-	
+
 	/**
 	 * Positionne un nouveau guide horizontal sur l'objet
 	 * @param guide
 	 */
 	void setHorizontalGuide(EditorGuide guide);
-	
+
 	/**
 	 * Positionne un nouveau guide vertical sur l'objet
 	 * @param guide
