@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 
@@ -13,7 +14,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
  */
 public class GraphFormalism extends ElementFormalism implements IGraphFormalism {
 	
-	private List<ElementFormalism> children = new ArrayList<ElementFormalism>();
+	private List<IElementFormalism> children = new ArrayList<IElementFormalism>();
 
 	/**
 	 * Constructeur
@@ -31,5 +32,13 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	public final void addElement(ElementFormalism element) {
 		if (element == null) { return; }
 		this.children.add(element);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getChildren()
+	 */
+	public List<IElementFormalism> getChildren() {
+		return this.children;
 	}
 }

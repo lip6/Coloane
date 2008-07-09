@@ -74,7 +74,7 @@ public final class ModelLoader {
 			factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/" + currentFormalism.getSchema())); //$NON-NLS-1$
+			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/" + currentFormalism.getSchema())); //$NON-NLS-1$
 			schema = schemaFactory.newSchema(schemaSource);
 		} catch (SAXException e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation " + currentFormalism.getSchema()); //$NON-NLS-1$

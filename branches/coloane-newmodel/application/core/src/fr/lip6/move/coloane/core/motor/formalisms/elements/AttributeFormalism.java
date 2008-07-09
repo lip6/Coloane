@@ -122,6 +122,10 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#getSize()
 	 */
 	public Integer getSize() {
+		// TODO: Sortir la valeur dans un préférence : Taille par défaut des attributs
+		if (size == null) {
+			return 10;
+		}
 		return Integer.valueOf(size);
 	}
 

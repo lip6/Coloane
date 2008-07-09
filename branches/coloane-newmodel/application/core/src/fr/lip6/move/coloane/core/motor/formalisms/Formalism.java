@@ -7,10 +7,13 @@ import fr.lip6.move.coloane.core.motor.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Definition d'un formalisme.<br>
@@ -44,7 +47,7 @@ public class Formalism implements IFormalism {
 	private String image;
 
 	/** Graphe principal du formalisme */
-	private ElementFormalism master;
+	private ElementFormalism master = null;
 
 	/**
 	 * Création d'un formalisme
@@ -64,10 +67,6 @@ public class Formalism implements IFormalism {
 		this.elements = new ArrayList<IElementFormalism>();
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
-
-		// Creation et Ajout du graphe principal lié à l'instance du formalisme
-		this.master = new GraphFormalism(name,this);
-		this.elements.add(master);
 	}
 
 	/* (non-Javadoc)
@@ -131,10 +130,17 @@ public class Formalism implements IFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getListOfElementBase()
 	 */
-	public final List<IElementFormalism> getListOfElementBase() {
-		return this.elements;
+	public final List<IElementFormalism> getListOfFormalismElement() {
+		Set<IElementFormalism> toReturn = new HashSet<IElementFormalism>();
+		toReturn.addAll(this.elements);
+		for (IElementFormalism element : this.elements) {
+			IGraphFormalism graph = (IGraphFormalism) element;
+			toReturn.addAll(graph.getChildren());
+		}
+		return new ArrayList<IElementFormalism>(toReturn);
 	}
 
+	
 	public final IElementFormalism getFormalismElement(String name) {
 		for (IElementFormalism elementFormalism : elements) {
 			if (elementFormalism.getName().equals(name)) {
@@ -184,6 +190,15 @@ public class Formalism implements IFormalism {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
 	 */
 	public final IElementFormalism getMasterGraph() {
+		if (this.master == null) {
+			// Parcours des éléments du formalisme à la recherche du premier GraphFormalism
+			for (IElementFormalism elementFormalism : elements) {
+				if (elementFormalism instanceof GraphFormalism) {
+					// Creation et Ajout du graphe principal lié à l'instance du formalisme
+					this.master = (ElementFormalism) elementFormalism;
+				}
+			}
+		}
 		return this.master;
 	}
 

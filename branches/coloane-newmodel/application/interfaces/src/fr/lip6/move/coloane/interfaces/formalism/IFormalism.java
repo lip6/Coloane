@@ -25,7 +25,7 @@ public interface IFormalism {
 	 * Retourne la liste des éléments attachés au formalisme
 	 * @return Une liste d'éléments {@FormalismElement}
 	 */
-	List<IElementFormalism> getListOfElementBase();
+	List<IElementFormalism> getListOfFormalismElement();
 
 	/**
 	 * Retourne l'élément de formalisme correspondant au nom passé en paramètre
