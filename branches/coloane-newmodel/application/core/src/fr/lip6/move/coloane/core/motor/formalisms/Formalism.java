@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
-import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -20,7 +18,7 @@ public class Formalism implements IFormalism {
 
 	/** Nom du formalisme. */
 	private String name;
-	
+
 	/** Parent du formalisme (identifiant historique). */
 	private String parent;
 
@@ -32,10 +30,10 @@ public class Formalism implements IFormalism {
 
 	/** Liste des regles du formalisme concernant les liens entre objets. */
 	private List<IConstraintLink> linkconstraints;
-	
+
 	/** Liste des regles du formalisme concernant les actions sur les noeuds. */
 	private List<IConstraintNode> nodeconstraints;
-	
+
 	/** Le graphe défnini par le formalisme */
 	private IGraphFormalism master = null;
 
@@ -73,7 +71,7 @@ public class Formalism implements IFormalism {
 		}
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#isActionAllowed(fr.lip6.move.coloane.interfaces.model.INode)
@@ -98,7 +96,7 @@ public class Formalism implements IFormalism {
 		if (constraint == null) { return; }
 		this.linkconstraints.add(constraint);
 	}
-	
+
 	/**
 	 * Ajouter une contrainte de noeud au formalisme
 	 * @param constraint La contrainte de noeud à ajouter au formalisme
@@ -116,7 +114,7 @@ public class Formalism implements IFormalism {
 	public final String getName() {
 		return this.name;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#getParent()
@@ -152,13 +150,13 @@ public class Formalism implements IFormalism {
 	public final IGraphFormalism getMasterGraph() {
 		return this.master;
 	}
-	
+
 	/**
-	 * Indique quel est le graph principal du formalisme (point d'entrée)
+	 * Indique quel est le graphe principal du formalisme (point d'entrée)
 	 * @param master Le graphe principal du formalisme
 	 */
-	public void setMasterGraph(IGraphFormalism master) {
-		this.master = master;		
+	public final void setMasterGraph(IGraphFormalism master) {
+		this.master = master;
 	}
 
 	/* (non-Javadoc)

@@ -11,13 +11,13 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
  * 	<li>Les places</li>
  * 	<li>Les transitions</li>
  * </ul>
- * 
+ *
  * Dans certains cas, les noeuds peuvent contenir un ensemble de noeuds, arcs, attributs etc...<br>
  * Cette capacité permet de définir des formalismes où la hiérarchie est possible.</br>
  * Cette définition définit un attribut {@link #container} qui permet de préciser cette compétence.
  */
 public class NodeFormalism extends ElementFormalism implements INodeFormalism {
-	
+
 	/** Le noeud peut-il contenir un modèle ? @see {@link GraphFormalism} */
 	private boolean container = false;
 
@@ -33,7 +33,7 @@ public class NodeFormalism extends ElementFormalism implements INodeFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.INodeFormalism#isContainer()
 	 */
-	public boolean isContainer() {
+	public final boolean isContainer() {
 		return container;
 	}
 

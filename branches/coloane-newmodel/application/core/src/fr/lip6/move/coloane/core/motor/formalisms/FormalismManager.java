@@ -48,34 +48,34 @@ public final class FormalismManager {
 			buildFormalism(formalisms[i]);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param description
 	 */
-	private void buildFormalism (IConfigurationElement description) {
+	private void buildFormalism(IConfigurationElement description) {
 		String name, parent, xschema, extension, image;
 		name = description.getAttribute("name");  //$NON-NLS-1$
 		parent = description.getAttribute("parent");  //$NON-NLS-1$
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
 		extension = description.getAttribute("extension"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
-		
+
 		LOGGER.fine("Construction du formalisme " + name + "(parent : " + parent + ")"); //$NON-NLS-1$
 		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
 		LOGGER.finer("Extension : " + extension + " - XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		
+
 		// Creation et ajout du formalisme a la liste du manager
 		Formalism form = new Formalism(name, parent, extension, xschema, image);
-		
-		IConfigurationElement[] XMLDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
+
+		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 
 		try {
 
 			// Ajout des definitions de graphes
-			IConfigurationElement[] graphes = XMLDescription[0].getChildren("Graph"); //$NON-NLS-1$
+			IConfigurationElement[] graphes = xmlDescription[0].getChildren("Graph"); //$NON-NLS-1$
 			for (IConfigurationElement graph : graphes) {
-				GraphFormalism g = new GraphFormalism(graph.getAttribute("name"),form); //$NON-NLS-1$
+				GraphFormalism g = new GraphFormalism(graph.getAttribute("name"), form); //$NON-NLS-1$
 				LOGGER.finer("Construction de l'element graphe : " + g.getName()); //$NON-NLS-1$
 				this.buildAttributes(g, graph);
 				form.setMasterGraph(g);
@@ -83,7 +83,7 @@ public final class FormalismManager {
 				// Ajout des definitions des noeuds
 				IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 				for (IConfigurationElement node : nodes) {
-					NodeFormalism n = new NodeFormalism(node.getAttribute("name"),form); //$NON-NLS-1$
+					NodeFormalism n = new NodeFormalism(node.getAttribute("name"), form); //$NON-NLS-1$
 					LOGGER.finer("Construction de l'element node : " + n.getName()); //$NON-NLS-1$
 					this.buildAttributes(n, node);
 					this.buildGraphicalDescription(n, node);
@@ -93,25 +93,25 @@ public final class FormalismManager {
 				// Ajout des definitions des arcs
 				IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 				for (IConfigurationElement arc : arcs) {
-					ArcFormalism a = new ArcFormalism(arc.getAttribute("name"),form); //$NON-NLS-1$
+					ArcFormalism a = new ArcFormalism(arc.getAttribute("name"), form); //$NON-NLS-1$
 					LOGGER.finer("Construction de l'element arc : " + a.getName()); //$NON-NLS-1$
 					this.buildAttributes(a, arc);
 					this.buildGraphicalDescription(a, arc);
 					g.addElement(a);
-				}			
+				}
 			}
 
 		} catch (NumberFormatException badNumber) {
 			LOGGER.warning("Erreur dans le formalisme ! Une valeur incorrecte a ete detectee : " + badNumber.getMessage()); //$NON-NLS-1$
 			return;
 		}
-		
+
 		// Prise en comptes des contraintes.
 		// Attention, les contraintes peuvent être de 2 types : Lien ou Noeud, il faut donc les ajouter en tenant compte de leur type
 		try {
-			IConfigurationElement[] constraints = XMLDescription[0].getChildren("Constraint"); //$NON-NLS-1$
+			IConfigurationElement[] constraints = xmlDescription[0].getChildren("Constraint"); //$NON-NLS-1$
 			for (IConfigurationElement constraint : constraints) {
-				
+
 				// Dans le cas de contrainte de lien
 				if (this.getBool(constraint.getAttribute("link"))) {
 					form.addConstraintLink((IConstraintLink) constraint.createExecutableExtension("type")); //$NON-NLS-1$
@@ -125,11 +125,11 @@ public final class FormalismManager {
 			core.printStackTrace();
 			return;
 		}
-		
+
 		// Ajout du formalisme construit à la liste des formalismes
 		this.formalisms.add(form);
 	}
-	
+
 	/**
 	 * Extrait les attributs des elements de la description et les ajoute à l'élément de formalisme
 	 * @param element L'élément de formalisme qui est entrain d'être construit
@@ -141,19 +141,19 @@ public final class FormalismManager {
 		for (IConfigurationElement attribute : attributes) {
 			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), getBool(attribute.getAttribute("drawable")), getBool(attribute.getAttribute("multiline")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-			
+
 			// Prise en compte de la valeur par defaut de l'attribut
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
 				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
 				LOGGER.finer("Ajout de la valeur par default " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			
+
 			// Prise en compte de la valeur par defaut de l'attribut
 			if (attribute.getAttribute("bold") != null) { //$NON-NLS-1$
 				a.setBold(this.getBool(attribute.getAttribute("bold"))); //$NON-NLS-1$
 				LOGGER.finer("Ajout de l'indicateur de gras pour l'attribut : " + a.getName()); //$NON-NLS-1$
 			}
-			
+
 			// Prise en compte de la valeur par defaut de l'attribut
 			if (attribute.getAttribute("italic") != null) { //$NON-NLS-1$
 				a.setItalic(this.getBool(attribute.getAttribute("italic"))); //$NON-NLS-1$
@@ -169,65 +169,64 @@ public final class FormalismManager {
 			element.addAttribute(a);
 		}
 	}
-	
+
 	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement current) {
 		// Ajout des considérations graphiques
 		IConfigurationElement[] graphicInfoTable = current.getChildren("GraphicInfo"); //$NON-NLS-1$
 		IConfigurationElement graphicInfo = graphicInfoTable[0];
-		
+
 		// Construction de base
 		GraphicalDescription gd = new GraphicalDescription(getBool(graphicInfo.getAttribute("palettable")), getBool(graphicInfo.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
 		LOGGER.finer("Construction de la description graphique pour l'element : " + element.getName()); //$NON-NLS-1$
 
-			
 		// Prise en compte du nom de palette associé à l'élément de formalisme
 		if (graphicInfo.getAttribute("paletteName") != null) { //$NON-NLS-1$
 			gd.setPaletteName(graphicInfo.getAttribute("paletteName")); //$NON-NLS-1$
 			LOGGER.finest("Ajout du nom de palette pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de la description de l'élément de formalisme
 		if (graphicInfo.getAttribute("description") != null) { //$NON-NLS-1$
 			gd.setDescription(graphicInfo.getAttribute("description")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la description pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de la hauteur de l'élément de formalisme
 		if (graphicInfo.getAttribute("fill") != null) { //$NON-NLS-1$
 			gd.setFilled(getBool(graphicInfo.getAttribute("fill"))); //$NON-NLS-1$
 			LOGGER.finest("Ajout de l'indicateur de remplissage pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de la hauteur de l'élément de formalisme
 		if (graphicInfo.getAttribute("height") != null) { //$NON-NLS-1$
 			gd.setHeight(graphicInfo.getAttribute("height")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la hauteur pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de la largeur de l'élément de formalisme
 		if (graphicInfo.getAttribute("width") != null) { //$NON-NLS-1$
 			gd.setHeight(graphicInfo.getAttribute("width")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la largeur pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de l'icone 16px de l'élément de formalisme
 		if (graphicInfo.getAttribute("icon16px") != null) { //$NON-NLS-1$
 			gd.setIcon16px(graphicInfo.getAttribute("icon16px")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de l'icone 16px pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de l'icone 24px de l'élément de formalisme
 		if (graphicInfo.getAttribute("icon24px") != null) { //$NON-NLS-1$
 			gd.setIcon24px(graphicInfo.getAttribute("icon24px")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de l'icone 24px pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
 		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
 			gd.setAssociatedFigure(graphicInfo.getAttribute("associatedFigure")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
-		
+
 		element.setGraphicalDescription(gd);
 	}
 
@@ -260,13 +259,13 @@ public final class FormalismManager {
 	public List<Formalism> getListOfFormalisms() {
 		return formalisms;
 	}
-	
+
 	/**
 	 * Convertit la chaine de caractères true en boolean <code>true</code> et inversement pour false
 	 * @param value true or false
 	 * @return <code>true</code> ou <code>false</code>
 	 */
-	private boolean getBool (String value) {
+	private boolean getBool(String value) {
 		return "true".equalsIgnoreCase(value); //$NON-NLS-1$
 	}
 }

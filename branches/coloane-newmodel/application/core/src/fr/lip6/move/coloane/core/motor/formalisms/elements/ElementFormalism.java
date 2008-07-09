@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe représente un élément du base du formalisme.<br>
@@ -21,13 +21,13 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 public class ElementFormalism implements IElementFormalism {
 	/** Nom associe a l'element de base. */
 	private String name;
-	
+
 	/** Formalisme qui decrit un tel élément */
 	private IFormalism formalism;
 
 	/** Tableau des differents attributs de l'element de base. */
 	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>(0);
-	
+
 	/** Description graphique de l'élément de formalisme */
 	private IGraphicalDescription graphicalDescription;
 
@@ -44,8 +44,8 @@ public class ElementFormalism implements IElementFormalism {
 	 * Ajoute un attribut à l'element de base
 	 * @param attribute {@link AttributeFormalism} à ajouter à la liste des attributs
 	 */
-	public final void addAttribute(AttributeFormalism attribute) { 
-		this.attributes.add(attribute); 
+	public final void addAttribute(AttributeFormalism attribute) {
+		this.attributes.add(attribute);
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +61,7 @@ public class ElementFormalism implements IElementFormalism {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getGraphicalDescription()
 	 */
-	public IGraphicalDescription getGraphicalDescription() {
+	public final IGraphicalDescription getGraphicalDescription() {
 		return graphicalDescription;
 	}
 
@@ -69,7 +69,7 @@ public class ElementFormalism implements IElementFormalism {
 	 * Ajoute la description graphique à la définition de l'élément de formalisme
 	 * @param graphicalDescription La description graphique
 	 */
-	public void setGraphicalDescription(IGraphicalDescription graphicalDescription) {
+	public final void setGraphicalDescription(IGraphicalDescription graphicalDescription) {
 		this.graphicalDescription = graphicalDescription;
 	}
 
@@ -77,7 +77,7 @@ public class ElementFormalism implements IElementFormalism {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IElementFormalism#getFormalism()
 	 */
-	public IFormalism getFormalism() {
+	public final IFormalism getFormalism() {
 		return this.formalism;
 	}
 }

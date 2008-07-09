@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe décrit un conteneur de noeuds, d'arcs et d'attributs d'un formalisme.<br>
@@ -13,7 +13,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
  * Dans le cas de la hiérachie, ce conteneur peut être contenu dans un noeud de plus haut niveau.
  */
 public class GraphFormalism extends ElementFormalism implements IGraphFormalism {
-	
+
+	/** Liste des éléments de formalisme défini dans ce graphe */
 	private List<IElementFormalism> children = new ArrayList<IElementFormalism>();
 
 	/**
@@ -24,7 +25,7 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	public GraphFormalism(String name, IFormalism formalism) {
 		super(name, formalism);
 	}
-	
+
 	/**
 	 * Ajout d'un element de base a la definition d'un graphe. Notion de hierarchie
 	 * @param element {@link ElementFormalism} de base a ajouter aux enfants possibles du graphe.
@@ -33,12 +34,12 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 		if (element == null) { return; }
 		this.children.add(element);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getAllElementFormalism()
 	 */
-	public List<IElementFormalism> getAllElementFormalism() {
+	public final List<IElementFormalism> getAllElementFormalism() {
 		return this.children;
 	}
 
@@ -46,7 +47,7 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism#getElementFormalism(java.lang.String)
 	 */
-	public IElementFormalism getElementFormalism(String name) {
+	public final IElementFormalism getElementFormalism(String name) {
 		for (IElementFormalism element : this.children) {
 			if (name.equals(element.getName())) {
 				return element;

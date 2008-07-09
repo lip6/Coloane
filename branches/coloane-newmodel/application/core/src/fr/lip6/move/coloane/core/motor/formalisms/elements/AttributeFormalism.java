@@ -19,13 +19,13 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Valeur par défaut de l'attribut. */
 	private String defaultValue = null;
-	
+
 	/** Style d'affichage : Gras ? */
 	private boolean bold = false;
-	
+
 	/** Style d'affichage : Italique ? */
 	private boolean italic = false;
-	
+
 	/** Style d'affichage : Taille de la police ? */
 	private int size = 10;
 
@@ -49,7 +49,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param defaultValue La valeur par defaut de l'attribut.
 	 */
 	public AttributeFormalism(String name, boolean drawable, boolean multiline, String defaultValue) {
-		this(name,drawable,multiline);
+		this(name, drawable, multiline);
 		this.defaultValue = defaultValue;
 	}
 
@@ -76,7 +76,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Positionne la valeur par defaut de l'attribut
 	 * @param defaultValue La valeur par défaut de l'attribut
@@ -89,7 +89,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isBold()
 	 */
-	public boolean isBold() {
+	public final boolean isBold() {
 		return bold;
 	}
 
@@ -97,7 +97,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * Indique si l'attribut doit être affiché en gras
 	 * @param bold <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
 	 */
-	public void setBold(boolean bold) {
+	public final void setBold(boolean bold) {
 		this.bold = bold;
 	}
 
@@ -105,7 +105,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isItalic()
 	 */
-	public boolean isItalic() {
+	public final boolean isItalic() {
 		return italic;
 	}
 
@@ -113,7 +113,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * Indique si l'attribut doit être affiché en italique
 	 * @param bold <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
 	 */
-	public void setItalic(boolean italic) {
+	public final void setItalic(boolean italic) {
 		this.italic = italic;
 	}
 
@@ -121,7 +121,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#getSize()
 	 */
-	public Integer getSize() {
+	public final Integer getSize() {
 		// TODO: Sortir la valeur dans un préférence : Taille par défaut des attributs
 		return this.size;
 	}
@@ -130,7 +130,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * Indique la taille de la police utilisée pour afficher l'attribut
 	 * @param size La taille souhaitée de la police
 	 */
-	public void setSize(String size) {
+	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
 	}
 }

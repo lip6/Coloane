@@ -1,14 +1,13 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
-
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
-import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Definition d'une contrainte pour la connexion de 2 éléments de formalisme<br>
@@ -38,12 +37,12 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 		this.source = source;
 		this.target = target;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink#isSatisfied(fr.lip6.move.coloane.interfaces.model.INode, fr.lip6.move.coloane.interfaces.model.INode)
 	 */
-	public boolean isSatisfied(INode source, INode target) {
+	public final boolean isSatisfied(INode source, INode target) {
 		return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
 	}
 
@@ -51,29 +50,33 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		Map<String, String> myParams = new HashMap<String, String>();
-		
+
 		// Recupération des paramètres de la contrainte
 		IConfigurationElement[] parameters = config.getChildren("parameter");
-		
+
 		// Remplissage de la hasmap de paramètres
 		for (IConfigurationElement param : parameters) {
 			if ((param.getAttribute("name") != null) && (param.getAttribute("value") != null)) {
 				myParams.put(param.getAttribute("name"), param.getAttribute("value"));
 			}
 		}
-		
+
 		// Vérification de la présence des paramètres obligatoires
 		if (!myParams.containsKey("source") || !myParams.containsKey("target")) {  //$NON-NLS-1$//$NON-NLS-2$
 			throw new CoreException(null);
 		}
-		
+
 		this.source = myParams.get("source"); //$NON-NLS-1$
 		this.target = myParams.get("target"); //$NON-NLS-1$
 	}
 
-	public String getName() {
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
+	 */
+	public final String getName() {
 		return "Connection constraint";
 	}
 }

@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
  * Chaque contrainte de lien doit définir une méthode {@link #isSatisfied(INode, INode)}
  * qui retourne <code>true</code> si la contrainte est vérifiée (satisfaite) ou <code>false</code> dans le
  * cas inverse.
- * 
+ *
  * @author Jean-Baptiste Voron
  *
  */
@@ -19,6 +19,6 @@ public interface IConstraintLink {
 	 * @param target Le noeud <b>cible</b> de l'arc a tester
 	 * @return <code>true</code> si la connexion est possible. <code>false</code> sinon.
 	 */
-	boolean isSatisfied(INode source, INode target); 
+	boolean isSatisfied(INode source, INode target);
 
 }
