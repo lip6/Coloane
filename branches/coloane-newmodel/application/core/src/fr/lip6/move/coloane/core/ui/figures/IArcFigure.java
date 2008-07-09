@@ -1,15 +1,11 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.swt.graphics.Color;
 
-public interface IElementFigure extends IFigure {
+public interface IArcFigure extends IFigure, Connection {
 	/** L'epaisseur des lignes lors de la selection */
 	int LINE_WIDTH = 3;
-
-	/** Couleur du fond des noeud plein */
-	Color FILLED_BACKGROUND_COLOR = ColorConstants.black;
 
 	/**
 	 * Modifie la figure lorsqu'elle est selectionee

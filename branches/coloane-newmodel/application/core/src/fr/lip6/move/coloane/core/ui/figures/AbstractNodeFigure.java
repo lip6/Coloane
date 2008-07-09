@@ -3,50 +3,63 @@ package fr.lip6.move.coloane.core.ui.figures;
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Shape;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-public abstract class AbstractNodeFigure extends Figure implements IElementFigure {
+public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
+
+	private INodeGraphicInfo graphicInfo;
+	private boolean isSelected;
+
 	public AbstractNodeFigure(INodeGraphicInfo graphicInfo) {
 		this.graphicInfo = graphicInfo;
-		createFigure(graphicInfo);
-
-		// Ecoute des evenements ENTER et EXIT de la souris
-		MouseMotionListener listener = new MouseMotionListener.Stub() {
-
-			/** Sauvegarde de la couleur de fond */
-			private Color previousBackgroundColor;
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseEntered(org.eclipse.draw2d.MouseEvent)
-			 */
-			@Override
-			public void mouseEntered(MouseEvent me) {
-				IFigure currentFigure = (IFigure) me.getSource();
-				previousBackgroundColor = currentFigure.getBackgroundColor();
-				currentFigure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
-			}
-			/*
-			 * (non-Javadoc)
-			 * @see org.eclipse.draw2d.MouseMotionListener$Stub#mouseExited(org.eclipse.draw2d.MouseEvent)
-			 */
-			@Override
-			public void mouseExited(MouseEvent me) {
-				IFigure currentFigure = (IFigure) me.getSource();
-				currentFigure.setBackgroundColor(previousBackgroundColor);
-			}
-		};
-
-		addMouseMotionListener(listener);
 	}
 
-	/**
-	 * Méthode qui créer et initialise la figure.
-	 * @param graphicInfo
-	 */
-	protected abstract void createFigure(INodeGraphicInfo graphicInfo);
+	protected final INodeGraphicInfo getGraphicInfo() {
+		return graphicInfo;
+	}
+
+	public final void setHighlight() {
+		isSelected = true;
+		super.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+	}
+
+	public final void setSelect() {
+		isSelected = true;
+		super.setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
+		setLineWidth(LINE_WIDTH);
+	}
+
+	public final void setSelectSpecial() {
+		isSelected = true;
+		super.setForegroundColor(ColorConstants.red);
+		setLineWidth(LINE_WIDTH);
+	}
+
+	public final void setUnselect() {
+		if (!isSelected) {
+			return;
+		}
+		isSelected = false;
+		super.setForegroundColor(graphicInfo.getForeground());
+		super.setBackgroundColor(graphicInfo.getBackground());
+		setLineWidth(1);
+	}
+
+	@Override
+	public final void paintFigure(Graphics graphics) {
+		graphics.setAntialias(SWT.ON);
+		super.paintFigure(graphics);
+	}
+
+	@Override
+	public final void setForegroundColor(Color fg) {
+		if (!isSelected) {
+			super.setForegroundColor(fg);
+		}
+	}
+
 }

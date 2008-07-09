@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
-import fr.lip6.move.coloane.core.ui.figures.ArcFigure;
+import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import java.beans.PropertyChangeEvent;
@@ -14,8 +14,11 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -31,7 +34,7 @@ import org.eclipse.swt.graphics.Color;
  * EditPart pour les arcs (CONTROLEUR)
  */
 
-public class ArcEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
+public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 
 	/**
 	 * Dessin de l'arc
@@ -39,8 +42,9 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 	 */
 	@Override
 	protected final IFigure createFigure() {
-		IFigure connection = new ArcFigure((IArc) getModel());
-		return connection;
+//		IFigure connection = new ArcFigure((IArc) getModel());
+//		return connection;
+		return new PolylineConnection();
 	}
 
 	/**
@@ -52,7 +56,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		super.refreshVisuals();
 		IArc arcModel = (IArc) getModel();
 
-		IArcFigure connection = (IArcFigure) getFigure();
+		Connection connection = (Connection) getFigure();
 		connection.getConnectionRouter();
 
 		List<AbsoluteBendpoint> modelConstraint = arcModel.getInflexPoints();
@@ -105,25 +109,24 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((IArc) getModel()).setAttributesSelected(false, true);
-					((IArcFigure) getFigure()).setSelect();
+					((INodeFigure) getFigure()).setSelect();
 				} else {
-					((IArc) getModel()).setAttributesSelected(false, false);
-					((IArcFigure) getFigure()).setUnselect();
+					((INodeFigure) getFigure()).setUnselect();
 				}
+				fireSelectionChanged();
 			}
 
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				IArcFigure arcFigure = (IArcFigure) getFigure();
+				INodeFigure arcFigure = (INodeFigure) getFigure();
 				arcFigure.setUnselect();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				IArcFigure arcFigure = (IArcFigure) getFigure();
+				INodeFigure arcFigure = (INodeFigure) getFigure();
 				arcFigure.setSelect();
 			}
 		});
@@ -151,13 +154,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		if (IArc.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
 		} else if (IArc.SELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setHighlight();
+			((INodeFigure) getFigure()).setHighlight();
 		} else if (IArc.SPECIAL_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setSelectSpecial();
+			((INodeFigure) getFigure()).setSelectSpecial();
 		} else if (IArc.UNSELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setUnselect();
+			((INodeFigure) getFigure()).setUnselect();
 		} else if (IArc.COLOR_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		}
 	}
 
@@ -181,6 +184,34 @@ public class ArcEditPart extends AbstractConnectionEditPart implements PropertyC
 		if (isActive()) {
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
+		}
+	}
+
+	public final void childAdded(EditPart child, int index) { }
+
+	public final void partActivated(EditPart editpart) { }
+
+	public final void partDeactivated(EditPart editpart) { }
+
+	public final void removingChild(EditPart child, int index) { }
+
+	public final void selectedStateChanged(EditPart editpart) {
+		switch(editpart.getSelected()) {
+		case EditPart.SELECTED:
+		case EditPart.SELECTED_PRIMARY:
+			break;
+		case EditPart.SELECTED_NONE:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
+			break;
+		case ISelectionEditPartListener.SPECIAL:
+			break;
+		case ISelectionEditPartListener.SPECIAL_NONE:
+			break;
+		default:
+			break;
 		}
 	}
 }

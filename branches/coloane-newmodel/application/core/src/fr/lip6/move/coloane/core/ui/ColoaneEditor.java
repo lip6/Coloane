@@ -493,14 +493,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			}
 		};
 	}
-	
-	protected void createGraphicalViewer(Composite parent) {
+
+	protected final void createGraphicalViewer(Composite parent) {
 		rulerComposite = new RulerComposite(parent, SWT.NONE);
 		super.createGraphicalViewer(rulerComposite);
 		rulerComposite.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
 	}
-	
-	protected Control getGraphicalControl() {
+
+	protected final Control getGraphicalControl() {
 		return rulerComposite;
 	}
 

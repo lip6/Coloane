@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.Observable;
@@ -18,7 +17,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -112,32 +110,32 @@ public class ResultsView extends ViewPart {
 					return;
 				}
 
-				// Mise a zero de tous les objets (retour a leur apparence normale)
-				for (IElement elt : graph.getNodes()) {
-					elt.setSpecial(false);
-				}
-				for (IElement elt : graph.getArcs()) {
-					elt.setSpecial(false);
-				}
-
-				// Recuperation de l'arbre de sous-resultat (ou de resultat)
-				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
-
-				if (node != null) {
-					// Selection des objets du modele
-					for (Integer toHighlight : node.getHighlighted()) {
-						if (toHighlight != -1) {
-							IElement elt = graph.getNode(toHighlight);
-							if (elt == null) {
-								elt = graph.getArc(toHighlight);
-							}
-							if (elt != null) {
-								elt.setSpecial(true);
-							}
-						}
-					}
-					delete.setEnabled(true);
-				}
+//				// Mise a zero de tous les objets (retour a leur apparence normale)
+//				for (IElement elt : graph.getNodes()) {
+//					elt.setSpecial(false);
+//				}
+//				for (IElement elt : graph.getArcs()) {
+//					elt.setSpecial(false);
+//				}
+//
+//				// Recuperation de l'arbre de sous-resultat (ou de resultat)
+//				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
+//
+//				if (node != null) {
+//					// Selection des objets du modele
+//					for (Integer toHighlight : node.getHighlighted()) {
+//						if (toHighlight != -1) {
+//							IElement elt = graph.getNode(toHighlight);
+//							if (elt == null) {
+//								elt = graph.getArc(toHighlight);
+//							}
+//							if (elt != null) {
+//								elt.setSpecial(true);
+//							}
+//						}
+//					}
+//				}
+				delete.setEnabled(true);
 			}
 		});
 

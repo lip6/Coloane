@@ -1,31 +1,28 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.model.AbstractElement;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
-import fr.lip6.move.coloane.core.ui.figures.NodeFigure;
+import fr.lip6.move.coloane.core.ui.figures.nodes.Circle;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -42,9 +39,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * EditPart pour les noeuds
  */
-public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, org.eclipse.gef.NodeEditPart {
-
-	private ConnectionAnchor anchor = null;
+public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener, org.eclipse.gef.NodeEditPart {
 
 	/**
 	 * Creation de la figure associee (VUE)
@@ -52,8 +47,9 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 */
 	@Override
 	protected final IFigure createFigure() {
-		IFigure figure = new NodeFigure((AbstractElement) getModel());
-		return figure;
+		INode node = (INode) getModel();
+//		return node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
+		return new Circle(node.getGraphicInfo());
 	}
 
 
@@ -85,23 +81,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 		} else if (INode.TARGET_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
 
-		// Propriete de selection speciale
-		} else if (INode.SPECIAL_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setSelectSpecial();
-			return;
-		} else if (INode.UNSPECIAL_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setUnselect();
-			return;
-
-		// Propriete de selection
-		} else if (INode.SELECT_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setHighlight();
-			return;
-			//((INodeImpl) getModel()).setAttributesSelected(false, true);
-		} else if (INode.UNSELECT_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setUnselect();
-			return;
-
 		// Propriété de changement de couleur
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
@@ -130,26 +109,25 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				INodeFigure nodeFigure = (INodeFigure) getFigure();
-				nodeFigure.setUnselect();
+				if (getSelected() == SELECTED_NONE) {
+					INodeFigure nodeFigure = (INodeFigure) getFigure();
+					nodeFigure.setUnselect();
+				}
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				INodeFigure nodeFigure = (INodeFigure) getFigure();
-				nodeFigure.setSelect();
+				if (getSelected() == SELECTED || getSelected() == SELECTED_PRIMARY) {
+					INodeFigure nodeFigure = (INodeFigure) getFigure();
+					nodeFigure.setSelect();
+				}
 			}
 
 			// Comportement lorsque l'objet est selectionne
 			@Override
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
-				if (state != 0) {
-					((INode) getModel()).setAttributesSelected(false, true);
-				} else {
-					((INode) getModel()).setAttributesSelected(false, false);
-				}
 			}
 		});
 
@@ -229,23 +207,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 	 * @return ConnectionAnchor
 	 */
 	protected final ConnectionAnchor getConnectionAnchor() {
-
-		// Il n'y a creation que la premiere fois
-		if (anchor == null) {
-			if (getModel() instanceof INode) {
-				INodeGraphicInfo nodeGraph = ((INode) getModel()).getGraphicInfo();
-
-				// Si le noeud est un cercle ou un double cercle
-				if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_CIRCLE || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_DBLCIRCLE) {
-					anchor = new EllipseAnchor((INodeFigure) getFigure());
-
-					// Si le noeud est un rectangle
-				} else if (nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_RECT || nodeGraph.getFigureStyle() == INodeGraphicInfo.FIG_QUEUE) {
-					anchor = new ChopboxAnchor((INodeFigure) getFigure());
-				}
-			}
-		}
-		return anchor;
+		return ((INodeFigure) getFigure()).getConnectionAnchor();
 	}
 
 	/**
@@ -307,4 +269,31 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements PropertyC
 		}
 	}
 
+	public final void childAdded(EditPart child, int index) { }
+
+	public final void partActivated(EditPart editpart) { }
+
+	public final void partDeactivated(EditPart editpart) { }
+
+	public final void removingChild(EditPart child, int index) { }
+
+	public final void selectedStateChanged(EditPart editpart) {
+		switch(editpart.getSelected()) {
+		case EditPart.SELECTED:
+		case EditPart.SELECTED_PRIMARY:
+			break;
+		case EditPart.SELECTED_NONE:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
+			break;
+		case ISelectionEditPartListener.SPECIAL:
+			break;
+		case ISelectionEditPartListener.SPECIAL_NONE:
+			break;
+		default:
+			break;
+		}
+	}
 }

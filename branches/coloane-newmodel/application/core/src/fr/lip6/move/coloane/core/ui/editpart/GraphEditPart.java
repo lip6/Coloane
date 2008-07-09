@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,6 +18,7 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.gef.CompoundSnapToHelper;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToGeometry;
@@ -30,7 +34,7 @@ import org.eclipse.swt.SWT;
 /**
  * EditPart pour le modele global
  */
-public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
+public class GraphEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -99,8 +103,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 	}
 
 	/**
-	 * Retourne la liste des enfants du modele
-	 * @return List La liste des enfants dans la repr�sentation arborescente du modele
+	 * Retourne la liste des enfants du modèle : les attributs du graphe, les noeuds
+	 * et les attributs des noeuds.
+	 * @return List La liste des enfants dans la représentation graphique, les attributs
+	 * des noeuds ne sont pas des fils des noeuds par exemple.
 	 */
 	@Override
 	protected final List<Object> getModelChildren() {
@@ -109,17 +115,20 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 		children.addAll(graph.getDrawableAttributes());
 
 		children.addAll(graph.getNodes());
+		for (INode node : graph.getNodes()) {
+			children.addAll(node.getDrawableAttributes());
+		}
+
 		return children;
 	}
 
 	/**
 	 * Re-Tracage du modele.
-	 * Ici, seule les connexions sont concern�es.
-	 * Chaque objet-enfant se redessine lui-m�me
+	 * Ici, seule les connexions sont concernées.
+	 * Chaque objet-enfant se redessine lui-même
 	 */
 	@Override
 	protected final void refreshVisuals() {
-		super.refreshVisuals();
 		getFigure().repaint();
 	}
 
@@ -145,7 +154,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 	/**
 	 * Mise en ecoute du modele.
 	 * Installation des ecouteurs sur le modele.
-	 * A partir de ce moment l�, il a un lien entre la vue et le modele
+	 * A partir de ce moment là, il a un lien entre la vue et le modele
 	 */
 	@Override
 	public final void activate() {
@@ -164,6 +173,76 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 		if (isActive()) {
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
+		}
+	}
+
+	/**
+	 * @param editPart GraphEditPart, NodeEditPart ou ArcEditPart.
+	 * @return La liste des AttributeEditPart d'un EditPart.
+	 */
+	public final List<AttributeEditPart> getAttributeEditParts(EditPart editPart) {
+		List<AttributeEditPart> list = new ArrayList<AttributeEditPart>();
+
+		if (!(editPart instanceof GraphEditPart || editPart instanceof NodeEditPart || editPart instanceof ArcEditPart)) {
+			return list;
+		}
+
+		for (Object obj : getChildren()) {
+			if (obj instanceof AttributeEditPart) {
+				AttributeEditPart child = (AttributeEditPart) obj;
+				IElement model = (IElement) editPart;
+				for (IAttribute attributeModel : model.getDrawableAttributes()) {
+					if (attributeModel.equals(child.getModel())) {
+						list.add(child);
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * @param attributeEditPart
+	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
+	 */
+	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
+		for (Object obj : getChildren()) {
+			if (obj instanceof GraphEditPart || obj instanceof NodeEditPart || obj instanceof ArcEditPart) {
+				EditPart parent = (EditPart) obj;
+				IAttribute attributeModel = (IAttribute) attributeEditPart.getModel();
+				if (parent.getModel().equals(attributeModel.getReference())) {
+					return parent;
+				}
+			}
+		}
+		return null;
+	}
+
+	public final void childAdded(EditPart child, int index) { }
+
+	public final void partActivated(EditPart editpart) { }
+
+	public final void partDeactivated(EditPart editpart) { }
+
+	public final void removingChild(EditPart child, int index) { }
+
+	public final void selectedStateChanged(EditPart editpart) {
+		switch(editpart.getSelected()) {
+		case EditPart.SELECTED:
+		case EditPart.SELECTED_PRIMARY:
+			break;
+		case EditPart.SELECTED_NONE:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT:
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
+			break;
+		case ISelectionEditPartListener.SPECIAL:
+			break;
+		case ISelectionEditPartListener.SPECIAL_NONE:
+			break;
+		default:
+			break;
 		}
 	}
 }
