@@ -37,12 +37,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
 
-	private final EditPartListener listener = new EditPartListener.Stub() {
-		@Override
-		public void selectedStateChanged(EditPart part) {
-		}
-	};
-
 	/**
 	 * Creation de la figure associee<br>
 	 * Pour les attribut, on considere que la vue doit affiche un Label
@@ -170,7 +164,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 						((Label) getFigure()).setForegroundColor(ColorConstants.black);
 					}
 				}
-				fireSelectionChanged();
+//				fireSelectionChanged();
 			}
 
 			@Override
@@ -258,7 +252,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			super.deactivate();
 			if (getParent() instanceof GraphEditPart) {
 				GraphEditPart graphEditPart = (GraphEditPart) getParent();
-				graphEditPart.getParentAttributeEditPart(this).removeEditPartListener(listener);
+				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
+				if (parent != null) {
+					removeEditPartListener((ISelectionEditPartListener) parent);
+					parent.removeEditPartListener(this);
+				}
 			}
 		}
 	}

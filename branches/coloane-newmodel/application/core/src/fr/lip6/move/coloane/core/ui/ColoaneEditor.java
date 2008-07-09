@@ -334,7 +334,13 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Construction d'un modele en memoire a partir de se representation en XML
 		graph = ModelLoader.loadFromXML(file);
-		if (graph == null) {  return; }
+		if (graph == null) {
+			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
+			setEditDomain(new DefaultEditDomain(this));
+			getSite().getPage().closeEditor(this, false);
+//			dispose();
+			return;
+		}
 
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine
@@ -448,12 +454,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 */
 	@Override
 	public final void dispose() {
-		if (graph == null) {
-			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
-			return;
-		} else {
-			super.dispose();
-		}
+		super.dispose();
 	}
 
 	/*
