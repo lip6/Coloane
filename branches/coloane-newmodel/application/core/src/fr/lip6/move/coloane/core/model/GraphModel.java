@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -28,8 +29,11 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	/** Identifiant unique */
 	private int id;
 
-	/** Formalisme de ce graphe */
+	/** Formalisme */
 	private IFormalism formalism;
+
+	/** Formalisme de ce graphe */
+	private IGraphFormalism graphFormalism;
 
 	/** Liste des noeuds rangé par id */
 	private HashMap<Integer, INode>	nodes = new HashMap<Integer, INode>();
@@ -46,6 +50,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	/** Etat du modele par rapport a FK (true -> pas a jour) */
 	private boolean dirty = false;
 
+
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
 	 * @param formalismName
@@ -53,6 +58,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	public GraphModel(String formalismName) {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
 		formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+		graphFormalism = formalism.getMasterGraph();
 		id = getNewId();
 
 		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
@@ -69,7 +75,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#createNode(java.lang.String)
 	 */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
-		IElementFormalism elementFormalism = formalism.getElementFormalism(nodeFormalismName);
+		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
@@ -132,7 +138,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
 
-		IElementFormalism elementFormalism = formalism.getElementFormalism(arcFormalismName);
+		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(arcFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
