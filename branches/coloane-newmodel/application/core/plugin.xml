@@ -476,7 +476,7 @@
                       bold="false"
                       default="0"
                       drawable="true"
-                      italic="false"
+                      italic="true"
                       multiline="true"
                       name="marking">
                 </Attribute>
@@ -487,15 +487,18 @@
                 <GraphicInfo
                       description="Create a transition"
                       drawable="true"
+                      fill="false"
+                      height="25"
                       icon16px="resources/formalisms/transition16.png"
                       icon24px="resources/formalisms/transition24.png"
                       palettable="true"
-                      paletteName="Transition">
+                      paletteName="Transition"
+                      width="9">
                 </GraphicInfo>
                 <Attribute
                       bold="true"
                       drawable="true"
-                      italic="true"
+                      italic="false"
                       multiline="false"
                       name="name">
                 </Attribute>
