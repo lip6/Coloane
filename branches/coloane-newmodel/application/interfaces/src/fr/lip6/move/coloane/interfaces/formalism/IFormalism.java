@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.interfaces.formalism;
 
-import java.util.List;
-
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 public interface IFormalism {
@@ -20,19 +18,6 @@ public interface IFormalism {
 	 * @return <code>true</code> si la liaison est possible
 	 */
 	boolean isActionAllowed(INode node);
-
-	/**
-	 * Retourne la liste des éléments attachés au formalisme
-	 * @return Une liste d'éléments {@FormalismElement}
-	 */
-	List<IElementFormalism> getListOfFormalismElement();
-
-	/**
-	 * Retourne l'élément de formalisme correspondant au nom passé en paramètre
-	 * @param name le nom de l'élément de formalisme souhaité
-	 * @return L'IElementFormalism associé à ce nom ou <code>null</code>.
-	 */
-	IElementFormalism getElementFormalism(String name);
 
 	/**
 	 * @return Le nom du formalisme
@@ -63,7 +48,7 @@ public interface IFormalism {
 	 * @return Le graphe principal du formalisme
 	 */
 	IElementFormalism getMasterGraph();
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

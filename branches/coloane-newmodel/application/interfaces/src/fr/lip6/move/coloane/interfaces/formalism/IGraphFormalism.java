@@ -12,6 +12,12 @@ public interface IGraphFormalism extends IElementFormalism {
 	/**
 	 * @return la liste de tous les éléments fils de ce graphe
 	 */
-	List<IElementFormalism> getChildren();
+	List<IElementFormalism> getAllElementFormalism();
+	
+	/**
+	 * @return l'élément de formalisme désigné par son nom
+	 * @param name Le nom de l'élément de formalisme désiré
+	 */
+	IElementFormalism getElementFormalism(String name);
 
 }
