@@ -27,7 +27,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	private boolean italic = false;
 	
 	/** Style d'affichage : Taille de la police ? */
-	private String size;
+	private int size = 10;
 
 	/**
 	 * Construit un nouvel attribut
@@ -123,10 +123,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 */
 	public Integer getSize() {
 		// TODO: Sortir la valeur dans un préférence : Taille par défaut des attributs
-		if (size == null) {
-			return 10;
-		}
-		return Integer.valueOf(size);
+		return this.size;
 	}
 
 	/**
@@ -134,6 +131,6 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param size La taille souhaitée de la police
 	 */
 	public void setSize(String size) {
-		this.size = size;
+		this.size = Integer.valueOf(size);
 	}
 }
