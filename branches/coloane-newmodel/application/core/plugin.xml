@@ -134,7 +134,7 @@
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="petri"
+             extensions="petri, ptn, cpn"
              icon="resources/icons/cube-blue.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME"/>
