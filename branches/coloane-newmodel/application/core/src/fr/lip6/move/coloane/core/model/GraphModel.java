@@ -142,8 +142,16 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
-		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
-		return arc;
+		try {
+			IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
+			arcs.put(arc.getId(), arc);
+
+			LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
+			return arc;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -221,7 +229,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 		if (!dirty) {
 			setDirty(true);
 			return date;
-		// Sinon le modele etait deja sale (on a juste mis a jour la date)
+			// Sinon le modele etait deja sale (on a juste mis a jour la date)
 		} else {
 			return 0;
 		}

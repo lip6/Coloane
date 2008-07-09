@@ -18,8 +18,8 @@ import org.eclipse.draw2d.geometry.Point;
 public class ArcModel extends AbstractElement implements ICoreArc {
 	private int id;
 
-	private IArcFormalism arcFormalism;
-	private IArcGraphicInfo graphicInfo = new ArcGraphicInfo(this);
+	private final IArcFormalism arcFormalism;
+	private final IArcGraphicInfo graphicInfo;
 
 	private INode source;
 	private INode target;
@@ -33,6 +33,7 @@ public class ArcModel extends AbstractElement implements ICoreArc {
 		((NodeModel) source).addOutcomingArc(this);
 		this.target = target;
 		((NodeModel) target).addIncomingArc(this);
+		this.graphicInfo = new ArcGraphicInfo(this);
 	}
 
 	/* (non-Javadoc)

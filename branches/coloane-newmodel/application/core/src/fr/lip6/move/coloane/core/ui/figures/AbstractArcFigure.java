@@ -1,20 +1,44 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
+import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Shape;
-import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.BendpointConnectionRouter;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.swt.graphics.Color;
 
-public abstract class AbstractArcFigure extends Shape implements IArcFigure {
+public abstract class AbstractArcFigure extends PolylineConnection implements IArcFigure {
 
 	private IArcGraphicInfo graphicInfo;
 	private boolean isSelected;
 
 	public AbstractArcFigure(IArcGraphicInfo graphicInfo) {
 		this.graphicInfo = graphicInfo;
+
+		// La liste des points d'inflexion de l'arc
+		this.setConnectionRouter(new BendpointConnectionRouter());
+
+		// Epaisseur de la ligne
+		setLineWidth(1);
+	}
+
+	public final void setHighlight() {
+		super.setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+		this.setLineWidth(2);
+		isSelected = true;
+	}
+
+	public final void setSelect() {
+		super.setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+		this.setLineWidth(2);
+		isSelected = true;
+	}
+
+	public final void setSelectSpecial() {
+		this.setForegroundColor(ColorConstants.red);
+		this.setLineWidth(2);
+		isSelected = true;
 	}
 
 	public final void setUnselect() {
@@ -30,18 +54,6 @@ public abstract class AbstractArcFigure extends Shape implements IArcFigure {
 	public final void setForegroundColor(Color fg) {
 		if (!isSelected) {
 			super.setForegroundColor(fg);
-		}
-	}
-
-	@Override
-	public final void setSize(int w, int h) {
-		int dw = w - getSize().width;
-		int dh = h - getSize().height;
-		super.setSize(w, h);
-		for (Object o : getChildren()) {
-			Figure child = (Figure) o;
-			Dimension dim = child.getSize();
-			child.setSize(dim.width + dw, dim.height + dh);
 		}
 	}
 }

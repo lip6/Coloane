@@ -6,7 +6,8 @@ import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
-import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
+import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
+import fr.lip6.move.coloane.core.ui.figures.arcs.Simple;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import java.beans.PropertyChangeEvent;
@@ -42,9 +43,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 */
 	@Override
 	protected final IFigure createFigure() {
+		IArc arc = (IArc) getModel();
 //		IFigure connection = new ArcFigure((IArc) getModel());
 //		return connection;
-		return new PolylineConnection();
+		return new Simple(arc.getGraphicInfo());
 	}
 
 	/**
@@ -109,24 +111,24 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((INodeFigure) getFigure()).setSelect();
+					((IArcFigure) getFigure()).setSelect();
 				} else {
-					((INodeFigure) getFigure()).setUnselect();
+					((IArcFigure) getFigure()).setUnselect();
 				}
-				fireSelectionChanged();
+//				fireSelectionChanged();
 			}
 
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				INodeFigure arcFigure = (INodeFigure) getFigure();
+				IArcFigure arcFigure = (IArcFigure) getFigure();
 				arcFigure.setUnselect();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				INodeFigure arcFigure = (INodeFigure) getFigure();
+				IArcFigure arcFigure = (IArcFigure) getFigure();
 				arcFigure.setSelect();
 			}
 		});
@@ -154,13 +156,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		if (IArc.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
 		} else if (IArc.SELECT_PROP.equals(prop)) {
-			((INodeFigure) getFigure()).setHighlight();
+			((IArcFigure) getFigure()).setHighlight();
 		} else if (IArc.SPECIAL_PROP.equals(prop)) {
-			((INodeFigure) getFigure()).setSelectSpecial();
+			((IArcFigure) getFigure()).setSelectSpecial();
 		} else if (IArc.UNSELECT_PROP.equals(prop)) {
-			((INodeFigure) getFigure()).setUnselect();
+			((IArcFigure) getFigure()).setUnselect();
 		} else if (IArc.COLOR_PROP.equals(prop)) {
-			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 		}
 	}
 

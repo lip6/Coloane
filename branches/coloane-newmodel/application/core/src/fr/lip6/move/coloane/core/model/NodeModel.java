@@ -25,10 +25,10 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	private int id;
 
 	/** Formalisme associé au noeud */
-	private INodeFormalism nodeFormalism;
+	private final INodeFormalism nodeFormalism;
 
 	/** Information graphique associé au noeud */
-	private INodeGraphicInfo graphicInfo = new NodeGraphicInfo(this);
+	private final INodeGraphicInfo graphicInfo;
 
 
 	private ArrayList<IArc> outcomingArcs = new ArrayList<IArc>();
@@ -44,6 +44,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 		super(parent, nodeFormalism.getAttributes());
 		this.id = id;
 		this.nodeFormalism = nodeFormalism;
+		this.graphicInfo = new NodeGraphicInfo(this);
 	}
 
 	/**
