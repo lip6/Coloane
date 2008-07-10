@@ -15,14 +15,15 @@ public class EditorRuler implements Serializable {
 	public static final String PROPERTY_UNIT = "units changed"; //$NON-NLS-1$
 
 	static final long serialVersionUID = 1L;
-	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	
+
+	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+
 	/** L'unité utilisée pour la règle */
 	private int unit;
-	
+
 	/** Indicateur de configuration : <code>true</code> pour une règle horizontale */
 	private boolean horizontal;
-	
+
 	/** Liste des guides associé à cette règle */
 	private List<EditorGuide> guides = new ArrayList<EditorGuide>();
 
@@ -50,7 +51,7 @@ public class EditorRuler implements Serializable {
 	 * @param guide Le guide à ajouter
 	 * @see EditorGuide
 	 */
-	public void addGuide(EditorGuide guide) {
+	public final void addGuide(EditorGuide guide) {
 		if (!guides.contains(guide)) {
 			guide.setHorizontal(!isHorizontal());
 			guides.add(guide);
@@ -58,33 +59,33 @@ public class EditorRuler implements Serializable {
 		}
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
+	public final void addPropertyChangeListener(PropertyChangeListener listener) {
 		listeners.addPropertyChangeListener(listener);
 	}
 
 	// the returned list should not be modified
-	public List<EditorGuide> getGuides() {
+	public final List<EditorGuide> getGuides() {
 		return guides;
 	}
 
 	/**
 	 * @return L'unité utilisée
 	 */
-	public int getUnit() {
+	public final int getUnit() {
 		return unit;
 	}
 
 	/**
 	 * @return <code>true</code> si la regle est cachée
 	 */
-	public boolean isHidden() {
+	public final boolean isHidden() {
 		return false;
 	}
 
 	/**
 	 * @return <code>true</code> si la règle est horizontale
 	 */
-	public boolean isHorizontal() {
+	public final boolean isHorizontal() {
 		return horizontal;
 	}
 
@@ -92,13 +93,13 @@ public class EditorRuler implements Serializable {
 	 * Supprimer le guide désigné
 	 * @param guide Le guide à supprimer
 	 */
-	public void removeGuide(EditorGuide guide) {
+	public final void removeGuide(EditorGuide guide) {
 		if (guides.remove(guide)) {
 			listeners.firePropertyChange(PROPERTY_CHILDREN, null, guide);
 		}
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
+	public final void removePropertyChangeListener(PropertyChangeListener listener) {
 		listeners.removePropertyChangeListener(listener);
 	}
 
@@ -112,7 +113,7 @@ public class EditorRuler implements Serializable {
 	 * Change l'unite de la regle
 	 * @param newUnit La nouvelle unite a considérer
 	 */
-	public void setUnit(int newUnit) {
+	public final void setUnit(int newUnit) {
 		if (unit != newUnit) {
 			int oldUnit = unit;
 			unit = newUnit;

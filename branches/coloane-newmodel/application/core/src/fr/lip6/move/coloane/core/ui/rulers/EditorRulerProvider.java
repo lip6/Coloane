@@ -1,5 +1,9 @@
 package fr.lip6.move.coloane.core.ui.rulers;
 
+import fr.lip6.move.coloane.core.ui.commands.CreateGuideCommand;
+import fr.lip6.move.coloane.core.ui.commands.DeleteGuideCommand;
+import fr.lip6.move.coloane.core.ui.commands.MoveGuideCommand;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -8,10 +12,6 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.rulers.RulerChangeListener;
 import org.eclipse.gef.rulers.RulerProvider;
-
-import fr.lip6.move.coloane.core.ui.commands.CreateGuideCommand;
-import fr.lip6.move.coloane.core.ui.commands.DeleteGuideCommand;
-import fr.lip6.move.coloane.core.ui.commands.MoveGuideCommand;
 
 public class EditorRulerProvider extends RulerProvider {
 
@@ -65,7 +65,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * @see org.eclipse.gef.rulers.RulerProvider#getAttachedModelObjects(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public List getAttachedModelObjects(Object guide) {
+	public final List getAttachedModelObjects(Object guide) {
 		return new ArrayList(((EditorGuide) guide).getModelObjects());
 	}
 
@@ -73,7 +73,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
-	public Command getCreateGuideCommand(int position) {
+	public final Command getCreateGuideCommand(int position) {
 		return new CreateGuideCommand(ruler, position);
 	}
 
@@ -81,7 +81,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getDeleteGuideCommand(java.lang.Object)
 	 */
-	public Command getDeleteGuideCommand(Object guide) {
+	public final Command getDeleteGuideCommand(Object guide) {
 		return new DeleteGuideCommand((EditorGuide) guide, ruler);
 	}
 
@@ -89,7 +89,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getMoveGuideCommand(java.lang.Object, int)
 	 */
-	public Command getMoveGuideCommand(Object guide, int pDelta) {
+	public final Command getMoveGuideCommand(Object guide, int pDelta) {
 		return new MoveGuideCommand((EditorGuide) guide, pDelta);
 	}
 
@@ -97,7 +97,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
 	 */
-	public int[] getGuidePositions() {
+	public final int[] getGuidePositions() {
 		List<EditorGuide> guides = getGuides();
 		int[] result = new int[guides.size()];
 		for (int i = 0; i < guides.size(); i++) {
@@ -110,7 +110,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getRuler()
 	 */
-	public Object getRuler() {
+	public final Object getRuler() {
 		return ruler;
 	}
 
@@ -118,7 +118,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
 	 */
-	public int getUnit() {
+	public final int getUnit() {
 		return ruler.getUnit();
 	}
 
@@ -126,7 +126,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#setUnit(int)
 	 */
-	public void setUnit(int newUnit) {
+	public final void setUnit(int newUnit) {
 		ruler.setUnit(newUnit);
 	}
 
@@ -134,7 +134,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
 	 */
-	public int getGuidePosition(Object guide) {
+	public final int getGuidePosition(Object guide) {
 		return ((EditorGuide) guide).getPosition();
 	}
 
@@ -142,7 +142,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
 	 */
-	public List<EditorGuide> getGuides() {
+	public final List<EditorGuide> getGuides() {
 		return ruler.getGuides();
 	}
 }
