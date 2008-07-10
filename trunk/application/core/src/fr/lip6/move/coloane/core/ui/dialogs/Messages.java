@@ -10,7 +10,6 @@ public final class Messages extends NLS {
 	public static String AuthenticationDialog_13;
 	public static String AuthenticationDialog_14;
 	public static String AuthenticationDialog_2;
-	public static String AuthenticationDialog_21;
 	public static String AuthenticationDialog_26;
 	public static String AuthenticationDialog_27;
 	public static String AuthenticationDialog_3;
