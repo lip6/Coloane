@@ -22,7 +22,7 @@
          point="org.eclipse.ui.exportWizards">
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
-            class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
             icon="resources/pnmlfile.png"
             id="fr.lip6.move.coloane.wizard.export.pnml"
             name="Pnml File">
@@ -35,7 +35,7 @@
             point="org.eclipse.ui.importWizards">
          <wizard
                category="fr.lip6.move.coloane.wizard.import.coloane"
-               class="fr.lip6.move.coloane.core.ui.wizards.ImportWizard"
+               class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
                icon="resources/pnmlfile.png"
                id="fr.lip6.move.coloane.wizard.import.pnml"
                name="Pnml File">

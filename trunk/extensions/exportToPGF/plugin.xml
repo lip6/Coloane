@@ -14,7 +14,7 @@
          point="org.eclipse.ui.exportWizards">
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
-            class="fr.lip6.move.coloane.core.ui.wizards.ExportWizard"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
             icon="resources/scriptLaTeX.png"
             id="fr.lip6.move.coloane.wizard.export.pgf"
             name="PGF File (TeX)">
