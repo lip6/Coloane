@@ -132,7 +132,7 @@ public class NodeGraphicInfo implements ICoreNodeGraphicInfo {
 	public final void setBackground(Color background) {
 		Color oldValue = this.background;
 		this.background = background;
-		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, this.background);
+		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
 	}
 
 	/* (non-Javadoc)

@@ -12,10 +12,13 @@ import org.eclipse.swt.graphics.Color;
 public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 
 	private INodeGraphicInfo graphicInfo;
-	private boolean isSelected;
+	private boolean isSelected = false;
 
 	public AbstractNodeFigure(INodeGraphicInfo graphicInfo) {
 		this.graphicInfo = graphicInfo;
+		setSize(graphicInfo.getSize());
+		setForegroundColor(graphicInfo.getForeground());
+		setBackgroundColor(graphicInfo.getBackground());
 	}
 
 	protected final INodeGraphicInfo getGraphicInfo() {

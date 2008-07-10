@@ -11,10 +11,12 @@ import org.eclipse.swt.graphics.Color;
 public abstract class AbstractArcFigure extends PolylineConnection implements IArcFigure {
 
 	private IArcGraphicInfo graphicInfo;
-	private boolean isSelected;
+	private boolean isSelected = false;
 
 	public AbstractArcFigure(IArcGraphicInfo graphicInfo) {
 		this.graphicInfo = graphicInfo;
+
+		setForegroundColor(graphicInfo.getColor());
 
 		// La liste des points d'inflexion de l'arc
 		this.setConnectionRouter(new BendpointConnectionRouter());
