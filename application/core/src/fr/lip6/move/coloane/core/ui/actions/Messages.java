@@ -7,6 +7,7 @@ public final class Messages extends NLS {
 	public static String AuthenticationAction_0;
 	public static String AuthenticationAction_1;
 	public static String ColoaneActionBarContributor_0;
+	public static String ExportImageAction_0;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
