@@ -231,6 +231,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 			this.genericModel.addArc(child.getGenericArc());
 		} catch (ModelException e) {
 			//TODO : Trouver quelque chose !!
+			return;
 		}
 
 		// Connexion
@@ -453,7 +454,7 @@ public class ModelImplAdapter extends AbstractModelElement implements IModelImpl
 		return arcs;
 	}
 
-	public List<INodeImpl> getNodes() {
+	public final List<INodeImpl> getNodes() {
 		return this.nodes;
 	}
 }

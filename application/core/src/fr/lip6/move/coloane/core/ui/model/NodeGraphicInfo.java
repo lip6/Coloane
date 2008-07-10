@@ -70,7 +70,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		// Lever un evenement
 		((NodeImplAdapter) this.nodeAdapter).firePropertyChange(NodeImplAdapter.LOCATION_PROP, null, new Point(x, y));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
 	 */
