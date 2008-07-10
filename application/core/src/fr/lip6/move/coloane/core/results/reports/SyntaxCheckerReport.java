@@ -17,7 +17,7 @@ public class SyntaxCheckerReport implements IReport {
 		root.setSessionManager(SessionManager.getInstance());
 
 		if (result.getSubResults().size() == 0) {
-			root.addChild(new ResultTreeImpl("No problem has been outlined by the tool"));
+			root.addChild(new ResultTreeImpl(Messages.SyntaxCheckerReport_0));
 		}
 
 		for (SubResultsCom sub : result.getSubResults()) {
