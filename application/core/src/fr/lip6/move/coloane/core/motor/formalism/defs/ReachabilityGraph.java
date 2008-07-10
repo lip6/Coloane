@@ -13,7 +13,6 @@ public class ReachabilityGraph extends Formalism {
 
 	private static final String NAME = "ReachabilityGraph"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/cube-green.png"; //$NON-NLS-1$
-	private static final String EXTENSION = "rg"; //$NON-NLS-1$
 	private static final String XSCHEMA = "reachability-graph.xsd"; //$NON-NLS-1$
 
 
@@ -25,7 +24,7 @@ public class ReachabilityGraph extends Formalism {
 	private static final int STATE_HEIGHT = 15;
 
 	public ReachabilityGraph() {
-		super(NAME, IMG, EXTENSION, XSCHEMA);
+		super(NAME, IMG, XSCHEMA);
 
 		int i = 1;
 
