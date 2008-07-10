@@ -9,7 +9,7 @@ import org.eclipse.swt.graphics.Color;
  * @see fr.lip6.move.coloane.interfaces.model.impl.interfaces.NodeGraphicInfo
  */
 
-public interface INodeGraphicInfo {
+public interface INodeGraphicInfo extends ILocationInfo {
 
 	// Style de sa figure
 	 /** ID pour un cercle */

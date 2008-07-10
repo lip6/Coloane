@@ -5,10 +5,9 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +19,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'un noeud du modele
  */
-public class NodeModel extends AbstractElement implements ICoreNode, ILocatedElement {
+public class NodeModel extends AbstractElement implements INode, ILocatedElement {
 
 	/** Identifiant du noeud */
 	private int id;
@@ -87,8 +86,8 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
-	public final ICoreLocationInfo getLocationInfo() {
-		return (ICoreLocationInfo) this.getGraphicInfo();
+	public final ILocationInfo getLocationInfo() {
+		return (ILocationInfo) this.getGraphicInfo();
 	}
 
 	/**

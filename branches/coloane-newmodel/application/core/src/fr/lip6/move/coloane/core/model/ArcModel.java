@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreArc;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,7 @@ import java.util.List;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
-public class ArcModel extends AbstractElement implements ICoreArc {
+public class ArcModel extends AbstractElement implements IArc {
 	private int id;
 
 	private final IArcFormalism arcFormalism;

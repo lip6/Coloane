@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,7 +16,7 @@ import java.util.Map;
  * Manage the attributes of an IElement.
  * @see ICoreElement
  */
-public abstract class AbstractElement extends AbstractPropertyChange implements ICoreElement, PropertyChangeListener {
+public abstract class AbstractElement extends AbstractPropertyChange implements IElement, PropertyChangeListener {
 	/**
 	 * Map of attributes, the key is the name of the attributes.
 	 */
@@ -85,7 +84,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 
 			if (oldValue.equals(attr.getAttributeFormalism().getDefaultValue())
 					|| newValue.equals(attr.getAttributeFormalism().getDefaultValue())) {
-				firePropertyChange(ICoreElement.ATTRIBUTE_CHANGE, null, attr);
+				firePropertyChange(IElement.ATTRIBUTE_CHANGE, null, attr);
 			}
 		}
 	}

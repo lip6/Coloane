@@ -5,10 +5,9 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreAttribute;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
-public class AttributeModel extends AbstractPropertyChange implements ICoreAttribute, ILocatedElement {
+public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
 	private IElement reference;
 	private IAttributeFormalism attributFormalism;
 
@@ -84,7 +83,7 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
-	public final ICoreLocationInfo getLocationInfo() {
+	public final ILocationInfo getLocationInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,8 +8,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreGraph;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * Modèle d'un graphe avec des méthodes permettant de gérer (création/suppression)
  * de noeuds et d'arcs.
  */
-public class GraphModel extends AbstractElement implements ICoreGraph {
+public class GraphModel extends AbstractElement implements IGraph {
 	/**
 	 * Logger 'fr.lip6.move.coloane.core'.
 	 */

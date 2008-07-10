@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import org.eclipse.draw2d.geometry.Point;
 
-public interface IAttributeGraphicInfo {
+public interface IAttributeGraphicInfo extends ILocationInfo {
 
 	/** Niveau 1 */
 	int L1 = 1;

@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Point;
 
-public class AttributeGraphicInfo implements ICoreAttributeGraphicInfo {
+public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** Le noeud enrichi */
 	private final IAttribute attribute;

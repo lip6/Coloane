@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
-import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 /**
  * Interface définissant des objets positionnables sur l'éditeur.</br>
@@ -15,9 +15,9 @@ public interface ILocatedElement {
 
 	/**
 	 * @return Les informations concernant le positionnement de l'objet
-	 * @see ICoreLocationInfo
+	 * @see ILocationInfo
 	 */
-	ICoreLocationInfo getLocationInfo();
+	ILocationInfo getLocationInfo();
 
 	/**
 	 * @return le guide horizontal associé à l'objet

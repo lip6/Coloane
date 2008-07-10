@@ -1,11 +1,11 @@
-package fr.lip6.move.coloane.interfaces.model.core;
+package fr.lip6.move.coloane.interfaces.model;
 
 import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Interface définissant les méthodes que doivent implémenter les objets postionnables sur un éditeur
  */
-public interface ICoreLocationInfo {
+public interface ILocationInfo {
 	
 	/**
 	 * Retourne l'emplacement actuel du noeud
