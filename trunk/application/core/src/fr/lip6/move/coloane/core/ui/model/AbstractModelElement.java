@@ -64,7 +64,7 @@ public abstract class AbstractModelElement implements IElement {
 	public final Collection<IAttributeImpl> getAttributes() {
 		return this.properties.values();
 	}
-	
+
 	public final IAttributeImpl getAttribute(String attribute) {
 		for (IAttributeImpl attr : properties.values()) {
 			if (attr.getDisplayName().equalsIgnoreCase(attribute)) {
