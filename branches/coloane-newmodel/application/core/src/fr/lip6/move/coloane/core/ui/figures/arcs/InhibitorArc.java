@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.figures.arcs;
 
 import fr.lip6.move.coloane.core.ui.figures.AbstractArcFigure;
-import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
@@ -12,9 +11,7 @@ public class InhibitorArc extends AbstractArcFigure {
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
 
-	public InhibitorArc(IArcGraphicInfo graphicInfo) {
-		super(graphicInfo);
-
+	public InhibitorArc() {
 		PolygonDecoration decoration = new PolygonDecoration();
 
 		PointList decorationPointList = new PointList();

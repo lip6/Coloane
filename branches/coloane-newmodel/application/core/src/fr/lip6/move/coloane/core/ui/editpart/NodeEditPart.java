@@ -6,8 +6,9 @@ import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
+import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
-import fr.lip6.move.coloane.core.ui.figures.nodes.Circle;
+import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -19,6 +20,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -47,6 +49,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	private boolean isSelected = false;
 	private ConnectionAnchor connectionAnchor;
 
 	/**
@@ -56,8 +59,17 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	@Override
 	protected final IFigure createFigure() {
 		INode node = (INode) getModel();
-//		return node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
-		return new Circle(node.getGraphicInfo());
+		INodeFigure nodeFigure = (INodeFigure) node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
+		if (nodeFigure == null) {
+			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
+			nodeFigure = new RectangleNode();
+		}
+		System.err.println("**** " + nodeFigure + " - " + node.getGraphicInfo().getSize());
+		System.err.println(node.getNodeFormalism().getGraphicalDescription());
+		nodeFigure.setSize(node.getGraphicInfo().getSize());
+		nodeFigure.setForegroundColor(node.getGraphicInfo().getForeground());
+		nodeFigure.setBackgroundColor(node.getGraphicInfo().getBackground());
+		return nodeFigure;
 	}
 
 
@@ -124,8 +136,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			@Override
 			protected void hideSelection() {
 				if (getSelected() == SELECTED_NONE) {
-					INodeFigure nodeFigure = (INodeFigure) getFigure();
-					nodeFigure.setUnselect();
+					setUnselect();
 				}
 			}
 
@@ -133,8 +144,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			@Override
 			protected void showSelection() {
 				if (getSelected() == SELECTED || getSelected() == SELECTED_PRIMARY) {
-					INodeFigure nodeFigure = (INodeFigure) getFigure();
-					nodeFigure.setSelect();
+					setSelect();
 				}
 			}
 
@@ -284,6 +294,48 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
+	}
+
+	/**
+	 * Mise en valeur du noeud (selection d'un attribut referent)
+	 */
+	public final void setHighlight() {
+		isSelected = true;
+		getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est selectionee
+	 * On definit ici le feedback visuel lors de la selection d'un objet Noeud
+	 */
+	public final void setSelect() {
+		isSelected = true;
+		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
+		((INodeFigure) getFigure()).setLineWidth(2);
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est mise en valeur par des retours de services
+	 * On definit ici le feedback visuel lors de la selection d'un resultat qui met en valeur le noeud
+	 */
+	public final void setSelectSpecial() {
+		isSelected = true;
+		getFigure().setForegroundColor(ColorConstants.red);
+		((INodeFigure) getFigure()).setLineWidth(2);
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est deselectionee
+	 * Annulation du feedback visuel du a la selection d'un objet Noeud
+	 */
+	public final void setUnselect() {
+		if (!isSelected) {
+			return;
+		}
+		isSelected = false;
+		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
+		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
+		((INodeFigure) getFigure()).setLineWidth(1);
 	}
 
 	public final void childAdded(EditPart child, int index) { }

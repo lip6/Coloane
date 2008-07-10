@@ -6,8 +6,8 @@ import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
+import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc;
 import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -15,11 +15,12 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -38,6 +39,12 @@ import org.eclipse.swt.graphics.Color;
  */
 
 public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+	/**
+	 * Logger 'fr.lip6.move.coloane.core'.
+	 */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	private boolean isSelected = false;
 
 	/**
 	 * Dessin de l'arc
@@ -46,12 +53,12 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	@Override
 	protected final IFigure createFigure() {
 		IArc arc = (IArc) getModel();
-//		IFigure connection = new ArcFigure((IArc) getModel());
-//		return connection;
-		IFigure arcFigure = arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
+		IArcFigure arcFigure = (IArcFigure) arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
 		if (arcFigure == null) {
-			arcFigure = new SimpleArc(arc.getGraphicInfo());
+			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
+			arcFigure = new SimpleArc();
 		}
+		arcFigure.setForegroundColor(arc.getGraphicInfo().getColor());
 		return arcFigure;
 	}
 
@@ -117,9 +124,9 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
 				if (state != 0) {
-					((IArcFigure) getFigure()).setSelect();
+					setSelect();
 				} else {
-					((IArcFigure) getFigure()).setUnselect();
+					setUnselect();
 				}
 //				fireSelectionChanged();
 			}
@@ -127,15 +134,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				IArcFigure arcFigure = (IArcFigure) getFigure();
-				arcFigure.setUnselect();
+				setUnselect();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				IArcFigure arcFigure = (IArcFigure) getFigure();
-				arcFigure.setSelect();
+				setSelect();
 			}
 		});
 
@@ -162,12 +167,12 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		if (IArc.INFLEXPOINT_PROP.equals(prop)) {
 			refreshVisuals();
 		} else if (IArc.SELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setHighlight();
+			setHighlight();
 		} else if (IArc.SPECIAL_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setSelectSpecial();
+			setSelectSpecial();
 		} else if (IArc.UNSELECT_PROP.equals(prop)) {
-			((IArcFigure) getFigure()).setUnselect();
-		} else if (IArc.COLOR_PROP.equals(prop)) {
+			setUnselect();
+		} else if (IArc.COLOR_PROP.equals(prop) && !isSelected) {
 			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 
 		// Propriété de demande de création/suppression d'un AttributEditPart
@@ -197,6 +202,48 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
+	}
+
+	/**
+	 * Mise en valeur du noeud (selection d'un attribut referent)
+	 */
+	public final void setHighlight() {
+		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+		((IArcFigure) getFigure()).setLineWidth(2);
+		isSelected = true;
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est selectionee
+	 * On definit ici le feedback visuel lors de la selection d'un objet Noeud
+	 */
+	public final void setSelect() {
+		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+		((IArcFigure) getFigure()).setLineWidth(2);
+		isSelected = true;
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est mise en valeur par des retours de services
+	 * On definit ici le feedback visuel lors de la selection d'un resultat qui met en valeur le noeud
+	 */
+	public final void setSelectSpecial() {
+		getFigure().setForegroundColor(ColorConstants.red);
+		((IArcFigure) getFigure()).setLineWidth(2);
+		isSelected = true;
+	}
+
+	/**
+	 * Modifie la figure lorsqu'elle est deselectionee
+	 * Annulation du feedback visuel du a la selection d'un objet Noeud
+	 */
+	public final void setUnselect() {
+		if (!isSelected) {
+			return;
+		}
+		isSelected = false;
+		getFigure().setForegroundColor(((IArc) getModel()).getGraphicInfo().getColor());
+		((IArcFigure) getFigure()).setLineWidth(1);
 	}
 
 	public final void childAdded(EditPart child, int index) { }

@@ -1,18 +1,13 @@
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
 import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
-import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-public class Circle extends AbstractNodeFigure {
-
-	public Circle(INodeGraphicInfo graphicInfo) {
-		super(graphicInfo);
-	}
+public class EllipseNode extends AbstractNodeFigure {
 
 	@Override
 	protected final void fillShape(Graphics graphics) {

@@ -206,7 +206,7 @@ public final class FormalismManager {
 
 		// Prise en compte de la largeur de l'élément de formalisme
 		if (graphicInfo.getAttribute("width") != null) { //$NON-NLS-1$
-			gd.setHeight(graphicInfo.getAttribute("width")); //$NON-NLS-1$
+			gd.setWidth(graphicInfo.getAttribute("width")); //$NON-NLS-1$
 			LOGGER.finest("Ajout de la largeur pour l'element : " + element.getName()); //$NON-NLS-1$
 		}
 
@@ -225,8 +225,8 @@ public final class FormalismManager {
 		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
 		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
 			try {
-				IFigure associatedFigure = (IFigure) graphicInfo.createExecutableExtension("associatedFigure");
-				gd.setAssociatedFigure(associatedFigure); //$NON-NLS-1$
+				Object associatedFigure = graphicInfo.createExecutableExtension("associatedFigure");
+				gd.setAssociatedFigure(associatedFigure.getClass()); //$NON-NLS-1$
 				LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
 			} catch (CoreException e) {
 				LOGGER.finest("Echec lors de l'association de la figure a l'element : " + element.getName()); //$NON-NLS-1$

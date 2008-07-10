@@ -455,6 +455,7 @@
                    container="false"
                    name="place">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create a place"
                       drawable="true"
                       fill="false"
@@ -485,6 +486,7 @@
                    container="false"
                    name="transition">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
                       description="Create a transition"
                       drawable="true"
                       fill="false"
@@ -506,6 +508,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
                       description="Create an arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc16.png"
