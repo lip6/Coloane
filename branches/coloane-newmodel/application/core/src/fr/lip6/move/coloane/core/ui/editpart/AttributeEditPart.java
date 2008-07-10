@@ -301,7 +301,12 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
+		// Modification d'un attribut.
 		if (IAttribute.VALUE_PROP.equals(prop)) {
+			refreshVisuals();
+
+		// Deplacement d'un attribut.
+		} else if (IAttribute.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
 	}
