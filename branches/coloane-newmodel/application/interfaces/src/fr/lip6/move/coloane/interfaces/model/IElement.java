@@ -4,6 +4,11 @@ import java.util.Collection;
 
 public interface IElement extends IAbstractPropertyChange {
 	/**
+	 * Id de la propriété quand l'attribut devient DefaultValue ou était DefaultValue.
+	 */
+	String ATTRIBUTE_CHANGE = "AttributChange"; //$NON-NLS-1$
+
+	/**
 	 * @return unique id.
 	 */
 	int getId();

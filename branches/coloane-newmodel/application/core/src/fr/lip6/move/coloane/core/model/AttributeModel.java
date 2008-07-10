@@ -44,7 +44,9 @@ public class AttributeModel extends AbstractPropertyChange implements ICoreAttri
 	public final void setValue(String value) {
 		String oldValue = this.value;
 		this.value = value;
-		firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
+		if (!oldValue.equals(value)) {
+			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
+		}
 	}
 
 	/* (non-Javadoc)

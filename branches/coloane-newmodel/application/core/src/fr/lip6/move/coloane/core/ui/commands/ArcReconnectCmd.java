@@ -80,7 +80,7 @@ public class ArcReconnectCmd extends Command {
 		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget)) {
 			return false;
 		}
-		
+
 		// Est-ce que la connexion est autorisée ?
 		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget)) {
 			return false;

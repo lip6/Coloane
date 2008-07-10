@@ -80,7 +80,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
 		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, getNewId());
-		nodes.put(node.getId(), node);
+		addNode(node);
 
 		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		return node;
@@ -92,6 +92,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
 			((NodeModel) node).delete();
+			firePropertyChange(NODE_REMOVED_PROP, null, node);
 		}
 	}
 
@@ -127,6 +128,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
 			nodes.put(node.getId(), node);
+			firePropertyChange(NODE_ADDED_PROP, null, node);
 		}
 	}
 
@@ -134,6 +136,7 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#createArc(java.lang.String, fr.lip6.move.coloane.core.ui.model.interfaces.INode, fr.lip6.move.coloane.core.ui.model.interfaces.INode)
 	 */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
+		try {
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
@@ -142,12 +145,11 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
-		try {
-			IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
-			arcs.put(arc.getId(), arc);
+		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
+		addArc(arc);
 
-			LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
-			return arc;
+		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
+		return arc;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -199,9 +201,9 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
+			arcs.put(arc.getId(), arc);
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
-			arcs.put(arc.getId(), arc);
 		}
 	}
 

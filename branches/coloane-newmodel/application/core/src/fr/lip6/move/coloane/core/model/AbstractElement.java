@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreElement;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +17,7 @@ import java.util.Map;
  * Manage the attributes of an IElement.
  * @see ICoreElement
  */
-public abstract class AbstractElement extends AbstractPropertyChange implements ICoreElement {
+public abstract class AbstractElement extends AbstractPropertyChange implements ICoreElement, PropertyChangeListener {
 	/**
 	 * Map of attributes, the key is the name of the attributes.
 	 */
@@ -27,9 +29,9 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		this.parent = parent;
 		if (attributes != null) {
 			for (IAttributeFormalism attr : attributes) {
-				this.attributes.put(
-						attr.getName(),
-						new AttributeModel(this, attr));
+				IAttribute attributeModel = new AttributeModel(this, attr);
+				attributeModel.addPropertyChangeListener(this);
+				this.attributes.put(attr.getName(), attributeModel);
 			}
 		}
 	}
@@ -54,7 +56,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	public final Collection<IAttribute> getDrawableAttributes() {
 		ArrayList<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
-			if (attr.getAttributeFormalism().isDrawable()) {
+			if (attr.getAttributeFormalism().isDrawable() && !attr.getValue().equals(attr.getAttributeFormalism().getDefaultValue())) {
 				drawables.add(attr);
 			}
 		}
@@ -73,5 +75,18 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	 */
 	public final IElement getParent() {
 		return parent;
+	}
+
+	public final void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {
+			IAttribute attr = (IAttribute) evt.getSource();
+			String oldValue = (String) evt.getOldValue();
+			String newValue = (String) evt.getNewValue();
+
+			if (oldValue.equals(attr.getAttributeFormalism().getDefaultValue())
+					|| newValue.equals(attr.getAttributeFormalism().getDefaultValue())) {
+				firePropertyChange(ICoreElement.ATTRIBUTE_CHANGE, null, attr);
+			}
+		}
 	}
 }

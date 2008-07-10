@@ -10,12 +10,14 @@ import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.Circle;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -40,6 +42,12 @@ import org.eclipse.swt.graphics.Color;
  * EditPart pour les noeuds
  */
 public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener, org.eclipse.gef.NodeEditPart {
+	/**
+	 * Logger 'fr.lip6.move.coloane.core'.
+	 */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	private ConnectionAnchor connectionAnchor;
 
 	/**
 	 * Creation de la figure associee (VUE)
@@ -76,10 +84,12 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		String prop = property.getPropertyName();
 
 		// Propriete de connexion
-		if (INode.SOURCE_ARCS_PROP.equals(prop)) {
-			refreshSourceConnections();
-		} else if (INode.TARGET_ARCS_PROP.equals(prop)) {
+		if (INode.INCOMING_ARCS_PROP.equals(prop)) {
+			LOGGER.finest("Mise à jour des arcs entrants."); //$NON-NLS-1$
 			refreshTargetConnections();
+		} else if (INode.OUTCOMING_ARCS_PROP.equals(prop)) {
+			LOGGER.finest("Mise à jour des arcs sortants."); //$NON-NLS-1$
+			refreshSourceConnections();
 
 		// Propriété de changement de couleur
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
@@ -93,6 +103,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
+
+		// Propriété de changement d'un attribut
+		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
+			getParent().refresh();
 		}
 
 		refreshVisuals();
@@ -207,7 +221,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @return ConnectionAnchor
 	 */
 	protected final ConnectionAnchor getConnectionAnchor() {
-		return ((INodeFigure) getFigure()).getConnectionAnchor();
+		if (connectionAnchor == null) {
+			connectionAnchor = ((INodeFigure) getFigure()).getConnectionAnchor();
+		}
+		return connectionAnchor;
 	}
 
 	/**

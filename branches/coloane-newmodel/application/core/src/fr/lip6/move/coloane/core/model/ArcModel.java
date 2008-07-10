@@ -30,10 +30,11 @@ public class ArcModel extends AbstractElement implements ICoreArc {
 		this.id = id;
 		this.arcFormalism = arcFormalism;
 		this.source = source;
-		((NodeModel) source).addOutcomingArc(this);
 		this.target = target;
-		((NodeModel) target).addIncomingArc(this);
 		this.graphicInfo = new ArcGraphicInfo(this);
+
+//		((NodeModel) source).addOutcomingArc(this);
+//		((NodeModel) target).addIncomingArc(this);
 	}
 
 	/* (non-Javadoc)

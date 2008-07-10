@@ -7,8 +7,10 @@ import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.arcs.Simple;
+import fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc;
+import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -46,7 +48,11 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		IArc arc = (IArc) getModel();
 //		IFigure connection = new ArcFigure((IArc) getModel());
 //		return connection;
-		return new Simple(arc.getGraphicInfo());
+		IFigure arcFigure = arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
+		if (arcFigure == null) {
+			arcFigure = new SimpleArc(arc.getGraphicInfo());
+		}
+		return arcFigure;
 	}
 
 	/**
@@ -163,6 +169,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			((IArcFigure) getFigure()).setUnselect();
 		} else if (IArc.COLOR_PROP.equals(prop)) {
 			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+
+		// Propriété de demande de création/suppression d'un AttributEditPart
+		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
+			getParent().getParent().refresh(); // demande de refresh sur le GraphEditPart
 		}
 	}
 

@@ -17,7 +17,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class ArcCompleteCmd extends Command {
 	/** Le logger */
-	private final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Graphe */
 	private IGraph graph;
@@ -59,13 +59,6 @@ public class ArcCompleteCmd extends Command {
 			return false;
 		}
 
-		// Evite les doublons en renvoyant faux si le lien existe deja
-		for (IArc a : source.getOutcomingArcs()) {
-			if (a.getTarget().equals(target)) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 
@@ -79,7 +72,7 @@ public class ArcCompleteCmd extends Command {
 		try {
 			arc = graph.createArc(arcFormalism.getName(), source, target);
 		} catch (ModelException e) {
-			LOGGER.warning("Impossible de construire l'arc: " + e.toString());
+			LOGGER.warning("Impossible de construire l'arc: " + e.toString()); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 	}

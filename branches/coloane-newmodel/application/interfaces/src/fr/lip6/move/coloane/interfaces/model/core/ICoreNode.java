@@ -13,10 +13,10 @@ import java.util.List;
 public interface ICoreNode extends ICoreElement, INode {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */
-	String SOURCE_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
+	String OUTCOMING_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
-	String TARGET_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
+	String INCOMING_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
 
 	/** ID pour la propriete lorsqu'un changement de la position */
 	String LOCATION_PROP = "Node.Location"; //$NON-NLS-1$

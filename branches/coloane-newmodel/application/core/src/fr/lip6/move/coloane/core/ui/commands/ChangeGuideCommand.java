@@ -11,14 +11,14 @@ import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 public class ChangeGuideCommand extends Command {
 	/** L'élément concerné */
 	private ILocatedElement locatedElement;
-	
+
 	/** Ancien et nouveau guide */
 	private EditorGuide oldGuide, newGuide;
-	
+
 	/** Ancien et nouvel alignement */
 	private int oldAlign, newAlign;
-	
-	/** Configration du guide qui doit être changé : <code>true</code> pour un guide horizontal */ 
+
+	/** Configration du guide qui doit être changé : <code>true</code> pour un guide horizontal */
 	private boolean horizontal;
 
 	/**
@@ -38,14 +38,16 @@ public class ChangeGuideCommand extends Command {
 	 * @param newGuide Le nouveau guide
 	 * @param newAlignment Le nouvel alignement à prendre en compte
 	 */
-	protected void changeGuide(EditorGuide oldGuide, EditorGuide newGuide, int newAlignment) {
-		if (oldGuide != null && oldGuide != newGuide)
+	protected final void changeGuide(EditorGuide oldGuide, EditorGuide newGuide, int newAlignment) {
+		if (oldGuide != null && oldGuide != newGuide) {
 			oldGuide.detachElement(locatedElement);
+		}
 
 		// You need to re-attach the part even if the oldGuide and the newGuide
 		// are the same because the alignment could have changed
-		if (newGuide != null)
+		if (newGuide != null) {
 			newGuide.attachElement(locatedElement, newAlignment);
+		}
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class ChangeGuideCommand extends Command {
 	 * @param guide Le nouveau guide
 	 * @param alignment Le nouvel alignement à prendre en compte
 	 */
-	public void setNewGuide(EditorGuide guide, int alignment) {
+	public final void setNewGuide(EditorGuide guide, int alignment) {
 		newGuide = guide;
 		newAlign = alignment;
 	}
@@ -62,7 +64,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute() {
+	public final void execute() {
 		// Cache the old values
 		oldGuide = horizontal ? locatedElement.getHorizontalGuide() : locatedElement.getVerticalGuide();
 		if (oldGuide != null) {
@@ -75,7 +77,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
-	public void redo() {
+	public final void redo() {
 		changeGuide(oldGuide, newGuide, newAlign);
 	}
 
@@ -83,7 +85,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
-	public void undo() {
+	public final void undo() {
 		changeGuide(newGuide, oldGuide, oldAlign);
 	}
 }

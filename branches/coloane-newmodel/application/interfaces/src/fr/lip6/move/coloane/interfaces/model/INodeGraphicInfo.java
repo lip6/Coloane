@@ -63,12 +63,6 @@ public interface INodeGraphicInfo {
 	Dimension getSize();
 
 	/**
-	 * Retourne le style de dessin de la figure tel que prevu par le formalisme
-	 * @return int
-	 */
-	String getFigureStyle();
-
-	/**
 	 * Retourne un booleen indiquant si la figure est remplie ou non.
 	 * @return boolean
 	 */

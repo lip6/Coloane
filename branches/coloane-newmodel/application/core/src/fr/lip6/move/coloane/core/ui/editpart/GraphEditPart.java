@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -119,6 +120,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 			children.addAll(node.getDrawableAttributes());
 		}
 
+		for (IArc arc : graph.getArcs()) {
+			children.addAll(arc.getDrawableAttributes());
+		}
+
 		return children;
 	}
 
@@ -143,12 +148,12 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		// Ajout/Suppression d'un noeud
 		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
-		}
 
-		// Ajout d'un attribut
-		if (IGraph.ATTRIBUTE_ADDED_PROP.equals(prop)) {
+		// Ajout/Suppression d'un attribut
+		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
 			refreshChildren();
 		}
+
 	}
 
 	/**

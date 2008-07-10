@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreLocationInfo;
 import fr.lip6.move.coloane.interfaces.model.core.ICoreNode;
@@ -96,6 +97,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	final void addOutcomingArc(IArc outArc) {
 		outcomingArcs.add(outArc);
+		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
 	}
 
 	/**
@@ -104,6 +106,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	final void addIncomingArc(IArc inArc) {
 		incomingArcs.add(inArc);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
 
 	/**
@@ -112,6 +115,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	final void removeOutcomingArc(IArc outArc) {
 		outcomingArcs.remove(outArc);
+		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
 	}
 
 	/**
@@ -120,6 +124,7 @@ public class NodeModel extends AbstractElement implements ICoreNode, ILocatedEle
 	 */
 	final void removeIncomingArc(IArc inArc) {
 		incomingArcs.remove(inArc);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
 
 	/* (non-Javadoc)

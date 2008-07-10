@@ -1,6 +1,10 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -32,7 +36,7 @@ import org.eclipse.swt.graphics.Font;
 /**
  * Cet EditPart est responsable de la gestion des attributs.
  */
-public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, org.eclipse.gef.NodeEditPart {
+public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, org.eclipse.gef.NodeEditPart, PropertyChangeListener {
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
@@ -232,6 +236,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
+			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
 			if (getParent() instanceof GraphEditPart) {
 				GraphEditPart graphEditPart = (GraphEditPart) getParent();
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
@@ -290,6 +295,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			break;
 		default:
 			break;
+		}
+	}
+
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (IAttribute.VALUE_PROP.equals(prop)) {
+			refreshVisuals();
 		}
 	}
 }
