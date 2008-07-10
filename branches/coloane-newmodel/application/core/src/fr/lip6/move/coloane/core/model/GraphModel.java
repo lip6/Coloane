@@ -91,6 +91,12 @@ public class GraphModel extends AbstractElement implements ICoreGraph {
 	 */
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
+			for (IArc arc : node.getOutcomingArcs()) {
+				arcs.remove(arc.getId());
+			}
+			for (IArc arc : node.getIncomingArcs()) {
+				arcs.remove(arc.getId());
+			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
 		}

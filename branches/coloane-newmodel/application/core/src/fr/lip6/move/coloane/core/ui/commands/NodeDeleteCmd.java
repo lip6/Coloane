@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -42,8 +43,8 @@ public class NodeDeleteCmd extends Command {
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
-		outArcs = node.getOutcomingArcs();
-		inArcs = node.getIncomingArcs();
+		outArcs = new ArrayList<IArc>(node.getOutcomingArcs());
+		inArcs = new ArrayList<IArc>(node.getIncomingArcs());
 		this.redo(); // Execute
 	}
 
