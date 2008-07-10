@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.wizards;
+package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
 import java.io.File;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -21,16 +20,15 @@ import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 
 public class ExportWizardPage extends WizardExportResourcesPage {
 	private Button destinationBrowseButton;
-	private Button headerCheckbox;
 	private Text destinationNameField;
 
 	/**
 	 * Constructeur de la page de l'assistant
-	 * @param pageName
-	 * @param selection
+	 * @param pageName Le nom de la page de l'assistant
+	 * @param selection La sélection courante
 	 */
 	protected ExportWizardPage(String pageName, IStructuredSelection selection) {
-		super("FileSystemExportPage", null); //$NON-NLS-1$
+		super("FileSystemExportPage", selection); //$NON-NLS-1$
 		setTitle(Messages.ExportWizardPage_1);
 		setDescription(Messages.ExportWizardPage_2);
 	}
@@ -68,29 +66,6 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		destinationBrowseButton.setText(Messages.ExportWizardPage_4);
 		destinationBrowseButton.addListener(SWT.Selection, this);
 		setButtonLayoutData(destinationBrowseButton);
-
-		new Label(parent, SWT.NONE); // vertical spacer;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardDataTransferPage#createOptionsGroupButtons(org.eclipse.swt.widgets.Group)
-	 */
-	@Override
-	protected final void createOptionsGroupButtons(Group optionsGroup) {
-		Font font = optionsGroup.getFont();
-		createHeader(optionsGroup, font);
-	}
-
-	/**
-	 * Creation d'une checkbox dans la zone d'option pour ajouter un header aux fichier exportes
-	 * @param optionsGroup Le groupe d'elements graphiques nomme "options"
-	 * @param font La police utilisee dans ce group d'elements
-	 */
-	protected final void createHeader(Group optionsGroup, Font font) {
-		headerCheckbox = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-		headerCheckbox.setText(Messages.ExportWizardPage_5);
-		headerCheckbox.setFont(font);
 
 	}
 
@@ -179,7 +154,6 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		}
 		return true;
 	}
-
 
 	/**
 	 * Verification que la destination est un repertoire et existe

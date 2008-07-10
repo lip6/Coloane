@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.wizards;
+package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalism.Formalism;
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
 /**
- * Premiere page de l'assistant qui propose une liste de formalismes *
+ * Première étape de l'assistant : Chois du formalisme pour le nouveau modèle
  */
 public class SelectFormalismPage extends WizardPage {
 
@@ -26,10 +26,10 @@ public class SelectFormalismPage extends WizardPage {
 	private Label label = null;
 	private Table tableFormalism = null;
 
-	private static final int GRID_HEIGHT = 50;
+	private static final int GRID_HEIGHT = 20;
 
 	/**
-	 * Constructeur de la classe
+	 * Constructeur
 	 */
 	public SelectFormalismPage() {
 		super("newmodel"); //$NON-NLS-1$
@@ -37,9 +37,9 @@ public class SelectFormalismPage extends WizardPage {
 		setDescription(Messages.SelectFormalismPage_1);
 	}
 
-	/**
-	 * Construit la page en lui ajoutant des controles
-	 * @param parent parent
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public final void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -73,7 +73,7 @@ public class SelectFormalismPage extends WizardPage {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 			// Determine l'icone associe a l'item dans la table
-			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); //$NON-NLS-1$
+			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
 		}
 
 		GridLayout gridLayout = new GridLayout();
@@ -83,19 +83,18 @@ public class SelectFormalismPage extends WizardPage {
 		setControl(composite);
 	}
 
-	/**
-	 * Indique si on peut passer a la page suivante
-	 * La condition est simple : Un formalisme doit etre selectionne
-	 * @return booleen
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
 	 */
 	@Override
 	public final boolean canFlipToNextPage() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);
 	}
 
-	/**
-	 * Debloque un verrou sur le bouton finish quand la condition est verifiee
-	 * @return booleen
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
 	 */
 	@Override
 	public final boolean isPageComplete() {

@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.wizards;
+package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 
@@ -9,11 +9,16 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 /**
- * Creation d'un nouveau fichier modele
+ * Assistant pour la création d'un nouveau modèle.<br>
+ * Cet assistant comporte 2 étapes :
+ * <ul>
+ * 	<li>Sélection du formalisme pour le nouveau modèle</li>
+ * 	<li>Choix du nom de fichier et du projet de rattachement</li>
+ * </ul>
  */
 public class NewModelWizard extends Wizard implements INewWizard {
 
-	/** Formalism */
+	/** Formalisme */
 	private String formalismName;
 
 	/** Les pages de l'assistant */
@@ -21,8 +26,9 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	private ModelCreationPage createModel;
 
 
-	/**
-	 * Ajouter les pages de l'assistant
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
 	public final void addPages() {
@@ -42,9 +48,9 @@ public class NewModelWizard extends Wizard implements INewWizard {
 		createModel = new ModelCreationPage(workbench, selection);
 	}
 
-	/**
-	 * Indique l'action a entreprendre lorsque le wizard est fini
-	 * @return boolean
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	@Override
 	public final boolean performFinish() {

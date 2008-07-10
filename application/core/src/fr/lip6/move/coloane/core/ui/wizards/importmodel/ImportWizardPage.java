@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.wizards;
+package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
@@ -14,10 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -39,6 +38,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
 public class ImportWizardPage extends WizardNewFileCreationPage {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Le composant de choix de fichier */
 	private FileFieldEditor fileSelect;
@@ -53,19 +54,25 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	private IImportFrom importInstance;
 
 	/**
-	 * Constructeur : Nouvelle page du wizard d'importation de modeles
-	 * @param workbench
-	 * @param selection
+	 * Constructeur de la page d'assistant
+	 * @param workbench Le workbench courant
+	 * @param selection La selection courante
+	 * @param importInstance L'instance de l'extension d'importation
 	 */
 	public ImportWizardPage(IWorkbench usedWorkbench, IStructuredSelection currentSelection, IImportFrom importInstance) {
 		super(Messages.ImportWizardPage_12, currentSelection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
+		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
 		this.workbench = usedWorkbench;
 		this.importInstance = importInstance;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public final void createControl(Composite parent) {
 		super.createControl(parent);
@@ -92,7 +99,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		fileSelectionArea.setLayout(fileSelectionLayout);
 		formalismSelectionArea.setLayout(fileSelectionLayout);
 
-		// Creation de la partie responsable du chois du formalisme
+		// Creation de la partie responsable du choix du formalisme
 		Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
 		formLabel.setText(Messages.ImportWizardPage_3);
 		formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
@@ -109,7 +116,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		fileSelect.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				IPath path = new Path(ImportWizardPage.this.fileSelect.getStringValue());
-				setFileName(path.lastSegment());
+				setFileName(path.removeFileExtension().lastSegment());
 			}
 		});
 		fileSelect.setFileExtensions(extensions);
@@ -130,27 +137,6 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Calcule le nom du fichier lorsqu'il sera importe dans le workspace
-	 * @param name Le nom du fichier initial
-	 * @param formalisme Le formalisme du fichier (precise par l'utilisateur)
-	 * @return Le nouveau nom du fichier (avec son extension)
-	 */
-	private String computeModelName(String name, String formalisme) {
-		// Recupere les informations sur le formalisme choisi
-		Formalism importFormalism = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalisme);
-		Coloane.getLogger().fine("Formalisme choisi : " + importFormalism.getName()); //$NON-NLS-1$
-
-		// Travail sur l'extension du fichier
-		int pos = name.lastIndexOf('.');
-		if (pos > 0) {
-			name = (String) name.subSequence(0, pos);
-		}
-		name = name.concat("." + importFormalism.getExtension()); //$NON-NLS-1$
-		Coloane.getLogger().fine("Nouveau nom de fichier pour le modele : " + name); //$NON-NLS-1$
-		return name;
-	}
-
-	/**
 	 * Methode invoquee lorsque le bouton finish est pressee
 	 * @return true si ok
 	 * @see NewModelWizard#performFinish()
@@ -160,7 +146,6 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		try {
 			if (importInstance == null) {
-				Coloane.getLogger().warning(Messages.ImportWizardPage_4);
 				return false;
 			}
 
@@ -172,29 +157,24 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			String xmlString = ModelWriter.translateToXML(model);
 			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
 
-
-			String newName = computeModelName(getFileName(), formSelect.getText());
-			setFileName(newName);
-
 			// Tentative de creation de fichier
 			newFile = createNewFile();
-
-			Coloane.getLogger().fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
+			LOGGER.fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
 
 			// Verification que tout est OK
 			if (newFile == null) {
-				setErrorMessage(Messages.ModelCreationPage_3);
+				setErrorMessage(Messages.ImportWizardPage_14);
 				return false;
 			}
 			newFile.setContents(inputS, true, false, null);
 
 		} catch (CoreException e) {
-			Coloane.getLogger().warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
+			LOGGER.warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
 			e.printStackTrace();
 			return false;
 		} catch (UnsupportedEncodingException e) {
+			LOGGER.warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
 			e.printStackTrace();
-			Coloane.getLogger().warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
 			return false;
 		}
 
@@ -204,7 +184,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			try {
 				IDE.openEditor(page, newFile, true);
 			} catch (CoreException ce) {
-				Coloane.getLogger().warning(ce.getMessage());
+				LOGGER.warning(ce.getMessage());
 				Coloane.showErrorMsg(ce.getMessage());
 				return false;
 			}
@@ -249,14 +229,15 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		}
 
 		if (getContainerFullPath() == null) {
+			setErrorMessage(Messages.ImportWizardPage_13);
 			return false;
 		}
 
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
-		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
-			setErrorMessage(Messages.ImportWizardPage_15);
-			return false;
-		}
+//		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
+//		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
+//			setErrorMessage(Messages.ImportWizardPage_15);
+//			return false;
+//		}
 
 		return super.isPageComplete();
 	}
