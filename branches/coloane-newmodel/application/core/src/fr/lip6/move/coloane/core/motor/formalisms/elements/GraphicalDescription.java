@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
+import org.eclipse.draw2d.IFigure;
+
 /**
  * Cette classe regroupe toutes les informations grapgique relative à un élément de formalisme
  */
@@ -20,7 +22,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	private boolean drawable;
 
 	/** Figure (JAVA) associée à l'élément de formalisme */
-	private String associatedFigure;
+	private IFigure associatedFigure;
 
 	/** Est-ce que l'élément graphique est plein ? */
 	private boolean filled = false;
@@ -101,7 +103,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getAssociatedFigure()
 	 */
-	public final String getAssociatedFigure() {
+	public final IFigure getAssociatedFigure() {
 		return associatedFigure;
 	}
 
@@ -110,7 +112,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * Positionne lea figure associée à l'élément de formalisme
 	 * @param associatedFigure Nom de la classe figure associée à l'élément de formalisme
 	 */
-	public final void setAssociatedFigure(String associatedFigure) {
+	public final void setAssociatedFigure(IFigure associatedFigure) {
 		this.associatedFigure = associatedFigure;
 	}
 

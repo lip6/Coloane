@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.IFigure;
 
 /**
  * Classe du gestionnaire de formalismes.
@@ -223,8 +224,13 @@ public final class FormalismManager {
 
 		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
 		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
-			gd.setAssociatedFigure(graphicInfo.getAttribute("associatedFigure")); //$NON-NLS-1$
-			LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
+			try {
+				IFigure associatedFigure = (IFigure) graphicInfo.createExecutableExtension("associatedFigure");
+				gd.setAssociatedFigure(associatedFigure); //$NON-NLS-1$
+				LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
+			} catch (CoreException e) {
+				LOGGER.finest("Echec lors de l'association de la figure a l'element : " + element.getName()); //$NON-NLS-1$
+			}
 		}
 
 		element.setGraphicalDescription(gd);
