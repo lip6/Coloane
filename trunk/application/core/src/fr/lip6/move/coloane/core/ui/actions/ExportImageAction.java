@@ -15,7 +15,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -60,7 +59,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 		Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
 
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-		dialog.setText("Export your model to image file");
+		dialog.setText(Messages.ExportImageAction_0);
 		dialog.setFilterExtensions(getImageFilterExtensions());
 		dialog.setFilterNames(getFilterNames());
 		String filePath = dialog.open();
@@ -69,13 +68,6 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 			File file = new File(filePath);
 			if (!file.exists()) {
 				save(filePath, SWT.IMAGE_JPEG);
-			} else {
-				String message = "Message 1\n\n" + filePath + "\n\n Message2";
-				if (MessageDialog.openQuestion(shell, "Existe", message)) {
-					save(filePath, SWT.IMAGE_JPEG);
-				} else {
-					run();
-				}
 			}
 		}
 	}
