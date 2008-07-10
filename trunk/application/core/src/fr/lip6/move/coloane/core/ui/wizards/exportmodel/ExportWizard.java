@@ -1,13 +1,12 @@
-package fr.lip6.move.coloane.core.ui.wizards;
+package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.ColoaneMessages;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.model.IModelImpl;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -25,6 +24,8 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
  * @author Jean-Baptiste Voron
  */
 public class ExportWizard extends FileSystemExportWizard implements IExecutableExtension {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Le format d'export */
 	private String idWizard = null;
@@ -50,10 +51,8 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	public final boolean canFinish() {
 		if ((this.idWizard != null) && (!page.getSelectedDirectory().equals("")) && (page.getSelectedRessource().size() > 0)) { //$NON-NLS-1$
 			return super.canFinish();
-		} else {
-			page.setErrorMessage(ColoaneMessages.ExportWizard_2);
-			return false;
 		}
+		return false;
 	}
 
 	/*
@@ -78,7 +77,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 		// Parcours de toutes les ressources selectionnees
 		for (IResource res : page.getSelectedRessource()) {
-			Coloane.getLogger().finer("Fichier a exporter : " + res.getName() + " vers " + page.getSelectedDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.finer("Fichier a exporter : " + res.getName() + " vers " + page.getSelectedDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Cast de la ressource en IFile pour recuperer le contenu
 			IFile file = (IFile) res;
@@ -105,7 +104,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 * @param exportFormat Le format a utiliser pour l'export
 	 */
 	protected final void setExportFormat(String idWizard) {
-		Coloane.getLogger().finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
+		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
 		this.idWizard = idWizard;
 	}
 
