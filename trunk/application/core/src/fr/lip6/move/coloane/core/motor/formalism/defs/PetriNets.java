@@ -14,7 +14,6 @@ public class PetriNets extends Formalism {
 
 	private static final String NAME = "AMI-Net"; //$NON-NLS-1$
 	private static final String IMG = "/resources/icons/cube-blue.png"; //$NON-NLS-1$
-	private static final String EXTENSION = "petri"; //$NON-NLS-1$
 	private static final String XSCHEMA = "ami-net.xsd"; //$NON-NLS-1$
 
 	private static final int PLACE_WIDTH = 15;
@@ -28,7 +27,7 @@ public class PetriNets extends Formalism {
 	 * Constructeur du formalisme
 	 */
 	public PetriNets() {
-		super(NAME, IMG, EXTENSION, XSCHEMA);
+		super(NAME, IMG, XSCHEMA);
 		int i = 1;
 
 		addAttributeFormalism(new AttributeFormalism(i++, "declaration", IAttributeGraphicInfo.NOR, true, true)); //$NON-NLS-1$
