@@ -15,8 +15,6 @@ public final class Messages extends NLS {
 	public static String ModelCreationPage_8;
 	public static String ModelCreationPage_9;
 	public static String NewModelWizard_0;
-	public static String NewProjectWizard_0;
-	public static String NewProjectWizard_1;
 	public static String SelectFormalismPage_0;
 	public static String SelectFormalismPage_1;
 	public static String SelectFormalismPage_2;
