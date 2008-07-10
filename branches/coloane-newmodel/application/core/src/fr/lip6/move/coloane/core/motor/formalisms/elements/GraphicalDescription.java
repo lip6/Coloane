@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
+
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 import org.eclipse.draw2d.IFigure;
@@ -8,6 +11,10 @@ import org.eclipse.draw2d.IFigure;
  * Cette classe regroupe toutes les informations grapgique relative à un élément de formalisme
  */
 public class GraphicalDescription implements IGraphicalDescription {
+	/**
+	 * Logger 'fr.lip6.move.coloane.core'.
+	 */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Le nom de l'élément de formalisme qui sera affiché sur la palette */
 	private String paletteName;
@@ -22,7 +29,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	private boolean drawable;
 
 	/** Figure (JAVA) associée à l'élément de formalisme */
-	private IFigure associatedFigure;
+	private Class< ? > associatedFigureClass;
 
 	/** Est-ce que l'élément graphique est plein ? */
 	private boolean filled = false;
@@ -104,16 +111,20 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getAssociatedFigure()
 	 */
 	public final IFigure getAssociatedFigure() {
-		return associatedFigure;
+		try {
+			return (IFigure) associatedFigureClass.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 
 	/**
 	 * Positionne lea figure associée à l'élément de formalisme
-	 * @param associatedFigure Nom de la classe figure associée à l'élément de formalisme
+	 * @param c Nom de la classe figure associée à l'élément de formalisme
 	 */
-	public final void setAssociatedFigure(IFigure associatedFigure) {
-		this.associatedFigure = associatedFigure;
+	public final void setAssociatedFigure(Class< ? > c) {
+		this.associatedFigureClass = c;
 	}
 
 
