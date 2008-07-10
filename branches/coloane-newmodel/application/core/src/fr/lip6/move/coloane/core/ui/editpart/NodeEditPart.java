@@ -311,7 +311,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final void setSelect() {
 		isSelected = true;
 		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
-		((INodeFigure) getFigure()).setLineWidth(2);
+		((INodeFigure) getFigure()).setLineWidth(3);
 	}
 
 	/**
@@ -321,7 +321,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final void setSelectSpecial() {
 		isSelected = true;
 		getFigure().setForegroundColor(ColorConstants.red);
-		((INodeFigure) getFigure()).setLineWidth(2);
+		((INodeFigure) getFigure()).setLineWidth(3);
 	}
 
 	/**
