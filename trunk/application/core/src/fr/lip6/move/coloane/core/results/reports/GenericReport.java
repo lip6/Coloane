@@ -29,12 +29,12 @@ public class GenericReport implements IReport {
 			ResultTreeImpl node;
 			if (sub.getCmdRT().size() == 1) {
 				if (!("".equals(sub.getDetails()))) { //$NON-NLS-1$
-					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getDetails(), sub.getCmdRT().get(0));
+					node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1), sub.getDetails(), sub.getCmdRT().get(0));
 				} else {
-					node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getCmdRT().get(0));
+					node = new ResultTreeImpl(Messages.GenericReport_1 + (i + 1), sub.getCmdRT().get(0));
 				}
 			} else {
-				node = new ResultTreeImpl("Ensemble " + (i + 1), sub.getDetails());
+				node = new ResultTreeImpl(Messages.GenericReport_2 + (i + 1), sub.getDetails());
 			}
 
 			for (String s : sub.getCmdRO()) {
@@ -43,18 +43,18 @@ public class GenericReport implements IReport {
 				String name = String.valueOf(id);
 				IElement element = root.getSessionManager().getCurrentSession().getModel().getModelObject(id);
 				if ((element != null) && (element instanceof INodeImpl)) {
-					String value = element.getAttributeValue("name");
+					String value = element.getAttributeValue(Messages.GenericReport_3);
 					if (!("".equals(value))) { //$NON-NLS-1$
 						name = value;
 					}
 				}
-				node.addChild(new ResultTreeImpl(id, "Object", name));
+				node.addChild(new ResultTreeImpl(id, Messages.GenericReport_4, name));
 				node.addHighlighted(id);
 			}
 
 			if (sub.getCmdRT().size() > 1) {
 				for (String s : sub.getCmdRT()) {
-					node.addChild(new ResultTreeImpl("Text", s));
+					node.addChild(new ResultTreeImpl(Messages.GenericReport_5, s));
 				}
 			}
 			root.addChild(node);
