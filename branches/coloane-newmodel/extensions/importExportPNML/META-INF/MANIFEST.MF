@@ -13,7 +13,7 @@ Eclipse-LazyStart: true
 Bundle-ClassPath: .,
  lib/fr.lip6.move.pnml.framework.3rdpartimports_2.0.0.jar,
  lib/fr.lip6.move.pnml.framework.apigen_2.0.0.jar,
- lib/fr.lip6.move.pnml.framework.core_2.0.1.jar,
- lib/fr.lip6.move.pnml.framework.ptnet_2.0.1.jar,
- lib/fr.lip6.move.pnml.framework.utils_2.0.0.jar
+ lib/fr.lip6.move.pnml.framework.core_2.0.2.jar,
+ lib/fr.lip6.move.pnml.framework.ptnet_2.0.2.jar,
+ lib/fr.lip6.move.pnml.framework.utils_2.0.1.jar
 Bundle-Vendor: LIP6 / MoVe
