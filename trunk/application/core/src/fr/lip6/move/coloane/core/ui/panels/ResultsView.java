@@ -166,7 +166,7 @@ public class ResultsView extends ViewPart {
 		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Suppression d'un resultat
-		delete = new Action("Delete") {
+		delete = new Action(Messages.ResultsView_0) {
 			@Override
 			public void run() {
 				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
@@ -177,17 +177,17 @@ public class ResultsView extends ViewPart {
 			}
 		};
 		delete.setEnabled(false);
-		delete.setToolTipText("Delete result");
+		delete.setToolTipText(Messages.ResultsView_1);
 		delete.setImageDescriptor(cross);
 
 		// Suppression de tous les résultats
-		deleteAll = new Action("Delete All") {
+		deleteAll = new Action(Messages.ResultsView_2) {
 			@Override
 			public void run() {
 				MANAGER.getCurrentSession().getServiceResults().removeAll();
 			}
 		};
-		deleteAll.setToolTipText("Delete all results");
+		deleteAll.setToolTipText(Messages.ResultsView_3);
 		deleteAll.setImageDescriptor(doubleCross);
 }
 
