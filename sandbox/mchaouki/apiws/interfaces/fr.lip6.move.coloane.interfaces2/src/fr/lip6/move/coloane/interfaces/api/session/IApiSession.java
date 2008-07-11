@@ -84,7 +84,7 @@ public interface IApiSession {
 	 * @param options 
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options);
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model);
 
 	/**
 	 * Demande un service sur la session courrante
@@ -95,7 +95,7 @@ public interface IApiSession {
 	 * @param date
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options, String date);
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date);
 
 	/**
 	 * 
