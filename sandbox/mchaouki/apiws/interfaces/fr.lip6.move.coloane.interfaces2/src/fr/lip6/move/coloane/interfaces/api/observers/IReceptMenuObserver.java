@@ -1,16 +1,12 @@
 package fr.lip6.move.coloane.interfaces.api.observers;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.interfaces.api.objects.menu.IMenu;
-import fr.lip6.move.coloane.interfaces.api.objects.menu.IUpdateMenu;
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 
 public interface IReceptMenuObserver {
 	
 	/**
 	 * Met a jour l'observateur d'evenement : reception de menus
-	 * @param menus la liste des menus recus
-	 * @param updateMenus la liste des modifications sur les menus 
+	 * @param e l'objet qui represent les menus ou les modifications a appliquer sur les menus
 	 */
-	public void update(ArrayList<IMenu> menus, ArrayList<IUpdateMenu> updateMenus);
+	public void update(IReceptMenu e);
 }

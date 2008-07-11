@@ -19,6 +19,7 @@ public interface IReceptResultObservable {
 	
 	/**
 	 * Notifie tous les observateurs de l'evenement : reception d'un resultat
+	 * @param e l'objet qui represent les resultats
 	 */
 	public void notifyObservers(IReceptResult e);
 	

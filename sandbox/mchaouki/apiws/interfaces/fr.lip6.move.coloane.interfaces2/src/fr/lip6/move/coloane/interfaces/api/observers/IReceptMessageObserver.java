@@ -6,7 +6,7 @@ public interface IReceptMessageObserver {
 	
 	/**
 	 * Met a jour l'observateur d'evenement : reception d'un message
-	 * @param e le message recu
+	 * @param e l'objet qui represent un message
 	 */
 	public void update(IReceptMessage e);
 

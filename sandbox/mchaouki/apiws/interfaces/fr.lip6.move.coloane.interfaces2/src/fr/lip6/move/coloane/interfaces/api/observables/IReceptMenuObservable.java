@@ -1,9 +1,6 @@
 package fr.lip6.move.coloane.interfaces.api.observables;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.interfaces.api.objects.menu.IMenu;
-import fr.lip6.move.coloane.interfaces.api.objects.menu.IUpdateMenu;
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 
 public interface IReceptMenuObservable {
@@ -21,8 +18,9 @@ public interface IReceptMenuObservable {
 	
 	/**
 	 * Notifie tous les observateurs de l'evenement : reception d'un menu
+	 * @param e l'objet qui represent les menus ou les modifications a appliquer sur les menus
 	 */
-	public void notifyObservers(ArrayList<IMenu> menus, ArrayList<IUpdateMenu> updateMenus);
+	public void notifyObservers(IReceptMenu e);
 	
 	/**
 	 * Defini s'il faut creer un thread pour la notification

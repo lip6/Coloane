@@ -19,6 +19,7 @@ public interface IReceptMessageObservable {
 	
 	/**
 	 * Notifie tous les observateurs de l'evenement : reception d'un message
+	 * @param e l'objet qui represent un message
 	 */
 	public void notifyObservers(IReceptMessage e);
 	
