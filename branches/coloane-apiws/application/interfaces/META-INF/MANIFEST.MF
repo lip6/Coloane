@@ -3,3 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Interfaces Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
 Bundle-Version: 1.0.0
+Export-Package: fr.lip6.move.coloane.interfaces.api.connection,
+ fr.lip6.move.coloane.interfaces.api.evenements,
+ fr.lip6.move.coloane.interfaces.api.exceptions,
+ fr.lip6.move.coloane.interfaces.api.observables,
+ fr.lip6.move.coloane.interfaces.api.observers,
+ fr.lip6.move.coloane.interfaces.api.session,
+ fr.lip6.move.coloane.interfaces.objects.dialog,
+ fr.lip6.move.coloane.interfaces.objects.menu,
+ fr.lip6.move.coloane.interfaces.objects.model,
+ fr.lip6.move.coloane.interfaces.objects.result
