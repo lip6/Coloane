@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
-import fr.lip6.move.coloane.core.ui.figures.nodes.RotatableNode;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -61,7 +60,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final IFigure createFigure() {
 		INode node = (INode) getModel();
 		INodeFigure nodeFigure = (INodeFigure) node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
-		nodeFigure = new RotatableNode();
 		if (nodeFigure == null) {
 			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
 			nodeFigure = new RectangleNode();

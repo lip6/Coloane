@@ -490,12 +490,12 @@
                       description="Create a transition"
                       drawable="true"
                       fill="false"
-                      height="25"
+                      height="7"
                       icon16px="resources/formalisms/transition16.png"
                       icon24px="resources/formalisms/transition24.png"
                       palettable="true"
                       paletteName="Transition"
-                      width="9">
+                      width="23">
                 </GraphicInfo>
                 <Attribute
                       bold="true"
