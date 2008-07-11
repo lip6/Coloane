@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Interfaces Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
+Bundle-Version: 1.0.0
