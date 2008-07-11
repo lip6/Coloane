@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.interfaces.api.session;
 
+import java.util.ArrayList;
+
+import fr.lip6.move.coloane.interfaces.api.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.api.objects.model.IModel;
 
 public interface IApiSession {
@@ -78,20 +81,21 @@ public interface IApiSession {
 	 * @param rootName 
 	 * @param menuName
 	 * @param serviceName
+	 * @param options 
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName);
-
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options);
 
 	/**
 	 * Demande un service sur la session courrante
 	 * @param rootName
 	 * @param menuName
 	 * @param serviceName
+	 * @param options 
 	 * @param date
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, String date);
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options, String date);
 
 	/**
 	 * 
