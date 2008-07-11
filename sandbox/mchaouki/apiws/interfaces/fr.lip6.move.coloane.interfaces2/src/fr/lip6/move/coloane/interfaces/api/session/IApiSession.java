@@ -84,6 +84,7 @@ public interface IApiSession {
 	 * @param menuName
 	 * @param serviceName
 	 * @param options 
+	 * @param model
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
 	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model) throws ApiException;
@@ -94,6 +95,7 @@ public interface IApiSession {
 	 * @param menuName
 	 * @param serviceName
 	 * @param options 
+	 * @param model
 	 * @param date
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
