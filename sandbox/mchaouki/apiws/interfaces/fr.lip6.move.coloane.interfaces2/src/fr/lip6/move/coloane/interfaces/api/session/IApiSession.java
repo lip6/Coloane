@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.session;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.api.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.api.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.api.objects.model.IModel;
 
@@ -97,6 +98,13 @@ public interface IApiSession {
 	 */
 	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date);
 
+	/**
+	 * Envoie la boite de dialog reponse
+	 * @param dialogAnswer la boite de dialogue reponse
+	 * @return true, si l'envoie a reussie, false sinon
+	 */
+	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer);
+	
 	/**
 	 * 
 	 * @param model
