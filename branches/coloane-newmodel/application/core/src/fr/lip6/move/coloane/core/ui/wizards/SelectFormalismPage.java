@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.wizards;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.Formalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class SelectFormalismPage extends WizardPage {
 		// Recupere la liste des formalismes
 		List<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
 
-		for (Formalism formalism : listOfFormalisms) {
+		for (IFormalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 			// Determine l'icone associe a l'item dans la table

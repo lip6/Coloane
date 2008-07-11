@@ -101,7 +101,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		// On recupere la liste des formalismes
 		List<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
-		for (Formalism formalism : listOfFormalisms) {
+		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}
 

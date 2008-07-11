@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Logger;
-
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 import org.eclipse.draw2d.IFigure;
@@ -11,11 +8,6 @@ import org.eclipse.draw2d.IFigure;
  * Cette classe regroupe toutes les informations grapgique relative à un élément de formalisme
  */
 public class GraphicalDescription implements IGraphicalDescription {
-	/**
-	 * Logger 'fr.lip6.move.coloane.core'.
-	 */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	/** Le nom de l'élément de formalisme qui sera affiché sur la palette */
 	private String paletteName;
 

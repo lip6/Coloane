@@ -9,6 +9,8 @@ import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
 import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
@@ -39,6 +41,8 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -46,6 +50,8 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
+import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
+import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
@@ -56,7 +62,6 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
-//import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -219,7 +224,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
 
-	/** Le graph */
+	/** Le graphe */
 	private IGraph graph;
 
 	/** La palette */
@@ -250,7 +255,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	@Override
@@ -266,14 +270,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		viewer.setRootEditPart(rootEditPart);
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 
-		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer,
-				getActionRegistry());
+		ContextMenuProvider cmProvider = new ColoaneContextMenuProvider(viewer, getActionRegistry());
 
 		getSite().setSelectionProvider(viewer);
 
 		// add default menu items (such "run as", "debug as" ...)
 		// getSite().registerContextMenu(cmProvider, viewer);
-
 		viewer.setContextMenu(cmProvider);
 
 		// Zoom
@@ -284,6 +286,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		// Grille
 		IAction showGrid = new ToggleGridAction(getGraphicalViewer());
 		getActionRegistry().registerAction(showGrid);
+
+		// Regles
+		IAction showRulers = new ToggleRulerVisibilityAction(getGraphicalViewer());
+		getActionRegistry().registerAction(showRulers);
+
+		// SnapToGeometry
+		IAction snapAction = new ToggleSnapToGeometryAction(getGraphicalViewer());
+		getActionRegistry().registerAction(snapAction);
 
 		// Liste des zooms possibles 1 = 100%
 		double[] zoomLevels = new double[] {0.25, 0.5, 0.75, 1.0, 1.5, 2.0,
@@ -296,6 +306,30 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		zoomContributions.add(ZoomManager.FIT_HEIGHT);
 		zoomContributions.add(ZoomManager.FIT_WIDTH);
 		manager.setZoomLevelContributions(zoomContributions);
+
+		// Quelques propriétés
+		EditorRuler ruler = new EditorRuler(false);
+		EditorRulerProvider provider = null;
+		if (ruler != null) {
+			provider = new EditorRulerProvider(ruler);
+		}
+		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_VERTICAL_RULER, provider);
+
+		ruler = new EditorRuler(true);
+		provider = null;
+		if (ruler != null) {
+			provider = new EditorRulerProvider(ruler);
+		}
+		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
+
+		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_RULER_VISIBILITY, false);
+
+		// Snap to Geometry property
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, false);
+
+		// Grid properties
+		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, false);
+		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,  false);
 	}
 
 	/**

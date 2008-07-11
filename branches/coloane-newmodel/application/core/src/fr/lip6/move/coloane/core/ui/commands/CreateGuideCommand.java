@@ -5,15 +5,15 @@ import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Une commande dédiée a la creation d'un guide 
+ * Une commande dédiée a la creation d'un guide
  */
 public class CreateGuideCommand extends Command {
 	/** Le guide concerné */
 	private EditorGuide guide;
-	
+
 	/** La règle à laquelle est attachée le guide */
 	private EditorRuler ruler;
-	
+
 	/** La position du guide */
 	private int position;
 
@@ -32,7 +32,7 @@ public class CreateGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute() {
+	public final void execute() {
 		if (guide == null) {
 			guide = new EditorGuide(!ruler.isHorizontal());
 		}
@@ -44,7 +44,7 @@ public class CreateGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
-	public void undo() {
+	public final void undo() {
 		ruler.removeGuide(guide);
 	}
 }

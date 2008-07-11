@@ -14,6 +14,9 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	private final String name;
 	private String value;
 
+	private EditorGuide horizontalGuide;
+	private EditorGuide verticalGuide;
+
 	private IAttributeGraphicInfo graphicInfo = new AttributeGraphicInfo(this);
 
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
@@ -75,8 +78,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
 	 */
 	public final EditorGuide getHorizontalGuide() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.horizontalGuide;
 	}
 
 	/*
@@ -84,8 +86,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
 	public final ILocationInfo getLocationInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.graphicInfo;
 	}
 
 	/*
@@ -93,23 +94,22 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
 	 */
 	public final EditorGuide getVerticalGuide() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.verticalGuide;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
 	 */
-	public void setHorizontalGuide(EditorGuide guide) {
-		// TODO Auto-generated method stub
+	public final void setHorizontalGuide(EditorGuide guide) {
+		this.horizontalGuide = guide;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
 	 */
-	public void setVerticalGuide(EditorGuide guide) {
-		// TODO Auto-generated method stub
+	public final void setVerticalGuide(EditorGuide guide) {
+		this.verticalGuide = guide;
 	}
 }

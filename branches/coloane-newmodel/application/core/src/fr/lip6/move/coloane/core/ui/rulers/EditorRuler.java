@@ -2,19 +2,16 @@ package fr.lip6.move.coloane.core.ui.rulers;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.rulers.RulerProvider;
 
-public class EditorRuler implements Serializable {
+public class EditorRuler {
 
 	/** Des propriétés nécessaire pour avertir les objets de changements */
 	public static final String PROPERTY_CHILDREN = "children changed"; //$NON-NLS-1$
 	public static final String PROPERTY_UNIT = "units changed"; //$NON-NLS-1$
-
-	static final long serialVersionUID = 1L;
 
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 

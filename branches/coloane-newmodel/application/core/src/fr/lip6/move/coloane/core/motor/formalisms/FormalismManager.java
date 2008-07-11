@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.IFigure;
 
 /**
  * Classe du gestionnaire de formalismes.

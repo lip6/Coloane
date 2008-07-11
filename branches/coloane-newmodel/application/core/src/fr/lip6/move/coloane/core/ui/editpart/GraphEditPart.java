@@ -18,6 +18,7 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -45,12 +46,14 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
+
 
 		// Interdiction de suppression de l'objet modele
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 
 		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy((XYLayout) getContentPane().getLayoutManager()));
 
 		// Impossible de selectionenr le modele
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);

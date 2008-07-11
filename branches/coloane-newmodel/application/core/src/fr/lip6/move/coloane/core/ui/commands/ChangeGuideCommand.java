@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import org.eclipse.gef.commands.Command;
-
 import fr.lip6.move.coloane.core.model.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+
+import org.eclipse.gef.commands.Command;
 
 /**
  * Commande dédiée au changement de guide pour un élément
@@ -66,10 +66,9 @@ public class ChangeGuideCommand extends Command {
 	 */
 	public final void execute() {
 		// Cache the old values
-		oldGuide = horizontal ? locatedElement.getHorizontalGuide() : locatedElement.getVerticalGuide();
-		if (oldGuide != null) {
-			oldAlign = oldGuide.getAlignment(locatedElement);
-		}
+		oldGuide = locatedElement.getVerticalGuide();
+		if (horizontal) { oldGuide = locatedElement.getHorizontalGuide(); }
+		if (oldGuide != null) {	oldAlign = oldGuide.getAlignment(locatedElement); }
 		redo();
 	}
 

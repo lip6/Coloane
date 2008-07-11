@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -10,6 +7,9 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -20,7 +20,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;

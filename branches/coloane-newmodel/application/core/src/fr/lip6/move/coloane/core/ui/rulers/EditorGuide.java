@@ -4,19 +4,16 @@ import fr.lip6.move.coloane.core.model.ILocatedElement;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-public class EditorGuide implements Serializable {
+public class EditorGuide {
 	/** Property used to notify listeners when the parts attached to a guide are changed */
 	public static final String PROPERTY_CHILDREN = "elements changed"; //$NON-NLS-1$
 
 	/** Property used to notify listeners when the guide is re-positioned */
 	public static final String PROPERTY_POSITION = "position changed"; //$NON-NLS-1$
-
-	static final long serialVersionUID = 1L;
 
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 

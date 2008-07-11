@@ -30,6 +30,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Information graphique associé au noeud */
 	private final INodeGraphicInfo graphicInfo;
 
+	private EditorGuide horizontalGuide;
+	private EditorGuide verticalGuide;
 
 	private ArrayList<IArc> outcomingArcs = new ArrayList<IArc>();
 	private ArrayList<IArc> incomingArcs = new ArrayList<IArc>();
@@ -87,7 +89,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
 	 */
 	public final ILocationInfo getLocationInfo() {
-		return (ILocationInfo) this.getGraphicInfo();
+		return this.getGraphicInfo();
 	}
 
 	/**
@@ -172,8 +174,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
 	 */
 	public final EditorGuide getHorizontalGuide() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.horizontalGuide;
 	}
 
 	/*
@@ -181,23 +182,22 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
 	 */
 	public final EditorGuide getVerticalGuide() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.verticalGuide;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
 	 */
-	public void setHorizontalGuide(EditorGuide guide) {
-		// TODO Auto-generated method stub
+	public final void setHorizontalGuide(EditorGuide guide) {
+		this.horizontalGuide = guide;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
 	 */
-	public void setVerticalGuide(EditorGuide guide) {
-		// TODO Auto-generated method stub
+	public final void setVerticalGuide(EditorGuide guide) {
+		this.verticalGuide = guide;
 	}
 }
