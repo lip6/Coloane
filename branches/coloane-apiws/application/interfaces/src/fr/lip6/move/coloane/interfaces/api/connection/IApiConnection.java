@@ -75,12 +75,12 @@ public interface IApiConnection {
 	 * Ferme une connexion
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean closeConnection() throws ApiException;;
+	public boolean closeConnection() throws ApiException;
 	
 	/**
 	 * Creer une session
 	 * @return une session
 	 */
-	public IApiSession getApiSession();
+	public IApiSession getApiSession() throws ApiException;
 	
 }
