@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -185,36 +186,21 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * @param editPart GraphEditPart, NodeEditPart ou ArcEditPart.
-	 * @return La liste des AttributeEditPart d'un EditPart.
-	 */
-	public final List<AttributeEditPart> getAttributeEditParts(EditPart editPart) {
-		List<AttributeEditPart> list = new ArrayList<AttributeEditPart>();
-
-		if (!(editPart instanceof GraphEditPart || editPart instanceof NodeEditPart || editPart instanceof ArcEditPart)) {
-			return list;
-		}
-
-		for (Object obj : getChildren()) {
-			if (obj instanceof AttributeEditPart) {
-				AttributeEditPart child = (AttributeEditPart) obj;
-				IElement model = (IElement) editPart;
-				for (IAttribute attributeModel : model.getDrawableAttributes()) {
-					if (attributeModel.equals(child.getModel())) {
-						list.add(child);
-					}
-				}
-			}
-		}
-		return list;
-	}
-
-	/**
 	 * @param attributeEditPart
 	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
 	 */
 	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
+		HashSet<Object> editParts = new HashSet<Object>();
+		editParts.add(this);
+		editParts.addAll((List< ? >) getChildren());
 		for (Object obj : getChildren()) {
+			if (obj instanceof NodeEditPart) {
+				NodeEditPart nodeEditPart = (NodeEditPart) obj;
+				editParts.addAll((List< ? >) nodeEditPart.getSourceConnections());
+				editParts.addAll((List< ? >) nodeEditPart.getTargetConnections());
+			}
+		}
+		for (Object obj : editParts) {
 			if (obj instanceof GraphEditPart || obj instanceof NodeEditPart || obj instanceof ArcEditPart) {
 				EditPart parent = (EditPart) obj;
 				IAttribute attributeModel = (IAttribute) attributeEditPart.getModel();

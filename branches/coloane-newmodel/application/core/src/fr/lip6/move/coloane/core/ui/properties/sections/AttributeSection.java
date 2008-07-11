@@ -20,8 +20,12 @@ public class AttributeSection extends AbstractSection<IAttribute> {
 	private ModifyListener listener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
 			Text widget = (Text) e.widget;
+			try {
 			if (!isDisposed() && !widget.getText().equals(getElement().getValue())) {
 				getCommandStack().execute(new ChangeAttributeCmd(getElement(), lt.getText()));
+			}
+			} catch (Exception ee) {
+				ee.printStackTrace();
 			}
 		}
 	};

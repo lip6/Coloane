@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
@@ -365,7 +364,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
-			setSelectSpecial();
+			setHighlight();
 			break;
 		case ISelectionEditPartListener.HIGHLIGHT:
 			break;

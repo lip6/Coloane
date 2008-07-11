@@ -1,10 +1,8 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -150,21 +148,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			@Override
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
-				IElement ref = ((IAttribute) getModel()).getReference();
-				if (ref instanceof INode) {
-					if (state > 0) {
-						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-					} else {
-						((Label) getFigure()).setForegroundColor(ColorConstants.black);
-					}
-				} else if (ref instanceof IArc) {
-					if (state > 0) {
-						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-					} else {
-						((Label) getFigure()).setForegroundColor(ColorConstants.black);
-					}
+				if (state == SELECTED || state == SELECTED_PRIMARY) {
+					((Label) getFigure()).setForegroundColor(ColorConstants.blue);
+				} else {
+					((Label) getFigure()).setForegroundColor(ColorConstants.black);
 				}
-//				fireSelectionChanged();
 			}
 
 			@Override
@@ -251,10 +239,12 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
+			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 			if (getParent() instanceof GraphEditPart) {
 				GraphEditPart graphEditPart = (GraphEditPart) getParent();
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
 				if (parent != null) {
+					setSelected(EditPart.SELECTED_NONE);
 					removeEditPartListener((ISelectionEditPartListener) parent);
 					parent.removeEditPartListener(this);
 				}

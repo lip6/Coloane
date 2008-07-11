@@ -174,7 +174,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		// Propriété de demande de création/suppression d'un AttributEditPart
 		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getParent().getParent().refresh(); // demande de refresh sur le GraphEditPart
+			getSource().getParent().refresh(); // demande de refresh sur le GraphEditPart
 		}
 	}
 
@@ -255,16 +255,16 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
-			break;
-		case EditPart.SELECTED_NONE:
+			setHighlight();
 			break;
 		case ISelectionEditPartListener.HIGHLIGHT:
 			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			break;
 		case ISelectionEditPartListener.SPECIAL:
 			break;
+		case EditPart.SELECTED_NONE:
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
 		case ISelectionEditPartListener.SPECIAL_NONE:
+			setUnselect();
 			break;
 		default:
 			break;
