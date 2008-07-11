@@ -42,14 +42,12 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.SnapToGeometry;
-import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
-import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
@@ -283,10 +281,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		getActionRegistry().registerAction(new ZoomInAction(manager));
 		getActionRegistry().registerAction(new ZoomOutAction(manager));
 
-		// Grille
-		IAction showGrid = new ToggleGridAction(getGraphicalViewer());
-		getActionRegistry().registerAction(showGrid);
-
 		// Regles
 		IAction showRulers = new ToggleRulerVisibilityAction(getGraphicalViewer());
 		getActionRegistry().registerAction(showRulers);
@@ -310,26 +304,16 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		// Quelques propriétés
 		EditorRuler ruler = new EditorRuler(false);
 		EditorRulerProvider provider = null;
-		if (ruler != null) {
-			provider = new EditorRulerProvider(ruler);
-		}
+		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
 		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_VERTICAL_RULER, provider);
 
 		ruler = new EditorRuler(true);
 		provider = null;
-		if (ruler != null) {
-			provider = new EditorRulerProvider(ruler);
-		}
+		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
+
 		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
-
-		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_RULER_VISIBILITY, false);
-
-		// Snap to Geometry property
-		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, false);
-
-		// Grid properties
-		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, false);
-		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,  false);
+		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_RULER_VISIBILITY, true);
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 	}
 
 	/**
