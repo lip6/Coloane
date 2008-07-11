@@ -40,6 +40,15 @@ public interface IApiSession {
 	public int getMode();
 	
 	/**
+	 * Recupere l'identifiant d'une session.
+	 * Cette methode est utiliser par l'apiws, pour identifier une session 
+	 * car le nom d'un session n'est pas forcement unique chez le wrapper.
+	 * Dans le cas de l'api-antlr idSession peut-etre considerer comme egale a nameSession.
+	 * @return l'identifiant d'une session.
+	 */
+	public String getIdSession();
+	
+	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
 	 * @param sessionFormalism formalisme de la session.
