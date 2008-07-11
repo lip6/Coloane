@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -99,6 +100,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
+
+			// Il faut avertir FrameKit
+			Coloane.notifyModelChange(this);
 		}
 	}
 
@@ -135,6 +139,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 		} else {
 			nodes.put(node.getId(), node);
 			firePropertyChange(NODE_ADDED_PROP, null, node);
+
+			// Il faut avertir FrameKit
+			Coloane.notifyModelChange(this);
 		}
 	}
 
@@ -169,6 +176,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 		if (arcs.remove(arc.getId()) != null) {
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
+
+			// Il faut avertir FrameKit
+			Coloane.notifyModelChange(this);
 		}
 	}
 
@@ -211,6 +221,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
 		}
+
+		// Il faut avertir FrameKit
+		Coloane.notifyModelChange(this);
 	}
 
 	/* (non-Javadoc)

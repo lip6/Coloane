@@ -76,9 +76,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		List<AbsoluteBendpoint> modelConstraint = arcModel.getInflexPoints();
 		getConnectionFigure().setRoutingConstraint(modelConstraint);
-
-		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(arcModel);
 	}
 
 

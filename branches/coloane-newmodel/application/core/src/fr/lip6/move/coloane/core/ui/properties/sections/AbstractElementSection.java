@@ -47,13 +47,12 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 				if (lt.getTextWidget() == text) {
 
 					// Recherche de l'attribut modifié
-					for (IAttribute attr : getElement().getAttributes()) {
-						if (attr.getName().equals(lt.getLabel())) {
-							String newValue = lt.getText();
-							getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
-							break;
-						}
+					IAttribute attr = getElement().getAttribute(lt.getLabel());
+					String newValue = lt.getText();
+					if (!attr.getValue().equals(newValue)) {
+						getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
 					}
+					break;
 				}
 			}
 		}

@@ -134,7 +134,8 @@ public class Coloane extends AbstractUIPlugin {
 		IGraph graph = (IGraph) tmp;
 		if (graph != null) {
 			int dateUpdate = graph.modifyDate();
-			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession().getStatus() == ISession.CONNECTED)) {
+			ISession currentSession = getDefault().getMotor().getSessionManager().getCurrentSession();
+			if (dateUpdate != 0 && currentSession != null && currentSession.getStatus() == ISession.CONNECTED) {
 				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
 			}

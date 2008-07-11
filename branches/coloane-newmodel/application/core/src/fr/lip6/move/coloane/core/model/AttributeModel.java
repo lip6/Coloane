@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -48,6 +49,9 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		this.value = value;
 		if (!oldValue.equals(value)) {
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
+
+			// Il faut avertir FrameKit
+			Coloane.notifyModelChange(reference);
 		}
 	}
 

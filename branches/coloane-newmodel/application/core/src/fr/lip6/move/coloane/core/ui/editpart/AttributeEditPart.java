@@ -135,9 +135,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// On doit creer l'espace pour l'attribut
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(attribut.getReference());
 	}
 
 	/**

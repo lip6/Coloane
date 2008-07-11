@@ -23,6 +23,8 @@ import java.util.logging.Logger;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
@@ -81,9 +83,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(), nodeModel.getGraphicInfo().getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(nodeModel);
 	}
 
 	/**
@@ -218,6 +217,24 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				cmd.setNewTarget(newTarget);
 
 				return cmd;
+			}
+		});
+
+		getFigure().addMouseMotionListener(new MouseMotionListener.Stub() {
+			private Color previous;
+			@Override
+			public void mouseEntered(MouseEvent me) {
+				IFigure figure = (IFigure) me.getSource();
+				previous = figure.getBackgroundColor();
+				figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				setSelected(ISelectionEditPartListener.HIGHLIGHT);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent me) {
+				IFigure figure = (IFigure) me.getSource();
+				figure.setBackgroundColor(previous);
+				setSelected(ISelectionEditPartListener.HIGHLIGHT_NONE);
 			}
 		});
 	}
