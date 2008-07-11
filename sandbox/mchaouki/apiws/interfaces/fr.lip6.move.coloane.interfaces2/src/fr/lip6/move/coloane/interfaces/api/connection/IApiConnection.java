@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.api.connection;
 
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
@@ -68,13 +69,13 @@ public interface IApiConnection {
 	 * Ouvre une connexion
 	 * @return true, si l'ouverture a reussie, false sinon
 	 */
-	public boolean openConnection();
+	public boolean openConnection() throws ApiException;
 	
 	/**
 	 * Ferme une connexion
 	 * @return true, si la fermeture a reussie, false sinon
 	 */
-	public boolean closeConnection();
+	public boolean closeConnection() throws ApiException;;
 	
 	/**
 	 * Creer une session

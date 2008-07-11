@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.session;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.api.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.api.objects.model.IModel;
@@ -47,7 +48,7 @@ public interface IApiSession {
 	 * @param mode le mode (interactif ou batch).
 	 * @return true, si la session est bien ouvert, false sinon
 	 */
-	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode);
+	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws ApiException;
 	
 	/**
 	 * Ouvre une session
@@ -56,26 +57,26 @@ public interface IApiSession {
 	 * @param sessionName nom de la session.
 	 * @return true, si la session est bien ouvert, false sinon
 	 */
-	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName);
+	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName) throws ApiException;
 
 	/**
 	 * Suspend la session courrante
 	 * @return true, si la session est bien suspendu, false sinon
 	 */
-	public boolean suspendSession();
+	public boolean suspendSession() throws ApiException;
 	
 	/**
 	 * Restaure la session passer en parametre
 	 * @param sessionName la session a restaurer
 	 * @return true, si la session est bien restaure, false sinon
 	 */
-	public boolean resumeSession(String sessionName);
+	public boolean resumeSession(String sessionName) throws ApiException;
 
 	/**
 	 * Ferme la session courrante.
 	 * @return true, si la session est bien fermee, false sinon
 	 */
-	public boolean closeSession();
+	public boolean closeSession() throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
@@ -85,7 +86,7 @@ public interface IApiSession {
 	 * @param options 
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model);
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model) throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
@@ -96,23 +97,23 @@ public interface IApiSession {
 	 * @param date
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date);
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialog reponse
 	 * @param dialogAnswer la boite de dialogue reponse
 	 * @return true, si l'envoie a reussie, false sinon
 	 */
-	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer);
+	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException;
 	
 	/**
 	 * 
 	 * @param model
 	 */
-	public void sendModel(IModel model);
+	public void sendModel(IModel model) throws ApiException;
 	
 	/**
 	 * 
 	 */
-	public void invalidModel();
+	public void invalidModel() throws ApiException;
 }
