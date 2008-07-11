@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
+import fr.lip6.move.coloane.core.ui.figures.nodes.RotatableNode;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -60,12 +61,11 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final IFigure createFigure() {
 		INode node = (INode) getModel();
 		INodeFigure nodeFigure = (INodeFigure) node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
+		nodeFigure = new RotatableNode();
 		if (nodeFigure == null) {
 			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
 			nodeFigure = new RectangleNode();
 		}
-		System.err.println("**** " + nodeFigure + " - " + node.getGraphicInfo().getSize());
-		System.err.println(node.getNodeFormalism().getGraphicalDescription());
 		nodeFigure.setSize(node.getGraphicInfo().getSize());
 		nodeFigure.setForegroundColor(node.getGraphicInfo().getForeground());
 		nodeFigure.setBackgroundColor(node.getGraphicInfo().getBackground());
@@ -350,16 +350,16 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
-			break;
-		case EditPart.SELECTED_NONE:
+			setSelectSpecial();
 			break;
 		case ISelectionEditPartListener.HIGHLIGHT:
 			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			break;
 		case ISelectionEditPartListener.SPECIAL:
 			break;
+		case EditPart.SELECTED_NONE:
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
 		case ISelectionEditPartListener.SPECIAL_NONE:
+			setUnselect();
 			break;
 		default:
 			break;

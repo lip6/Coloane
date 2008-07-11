@@ -32,6 +32,7 @@ public class InhibitorArc extends AbstractArcFigure {
 		decoration.setFill(true);
 		decoration.setBackgroundColor(ColorConstants.white);
 		decoration.setScale(SCALE1, SCALE2);
+		decoration.translate(-4, 0);
 
 		setTargetDecoration(decoration);
 	}
