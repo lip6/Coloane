@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 
 import java.util.Iterator;
@@ -35,14 +35,14 @@ public class MoveGuideCommand extends Command {
 		guide.setPosition(guide.getPosition() + delta);
 		Iterator<ILocatedElement> iter = guide.getModelObjects().iterator();
 		while (iter.hasNext()) {
-			ILocatedElement locatedElement = iter.next();
-			Point location = locatedElement.getLocationInfo().getLocation().getCopy();
+			ILocatedElement modelElement = iter.next();
+			Point location = modelElement.getLocationInfo().getLocation().getCopy();
 			if (guide.isHorizontal()) {
 				location.y += delta;
 			} else {
 				location.x += delta;
 			}
-			locatedElement.getLocationInfo().setLocation(location);
+			modelElement.getLocationInfo().setLocation(location);
 		}
 	}
 
@@ -54,14 +54,14 @@ public class MoveGuideCommand extends Command {
 		guide.setPosition(guide.getPosition() - delta);
 		Iterator<ILocatedElement> iter = guide.getModelObjects().iterator();
 		while (iter.hasNext()) {
-			ILocatedElement locatedElement = iter.next();
-			Point location = locatedElement.getLocationInfo().getLocation().getCopy();
+			ILocatedElement modelElement = iter.next();
+			Point location = modelElement.getLocationInfo().getLocation().getCopy();
 			if (guide.isHorizontal()) {
 				location.y -= delta;
 			} else {
 				location.x -= delta;
 			}
-			locatedElement.getLocationInfo().setLocation(location);
+			modelElement.getLocationInfo().setLocation(location);
 		}
 	}
 }

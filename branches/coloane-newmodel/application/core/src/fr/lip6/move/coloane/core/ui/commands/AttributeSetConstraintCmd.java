@@ -59,7 +59,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		attribute.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
+		attribute.getGraphicInfo().setLocation(newBounds.getLocation());
 	}
 
 	/*
@@ -68,7 +68,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		attribute.getGraphicInfo().setLocation(oldBounds.x, oldBounds.y);
+		attribute.getGraphicInfo().setLocation(oldBounds);
 	}
 
 }
