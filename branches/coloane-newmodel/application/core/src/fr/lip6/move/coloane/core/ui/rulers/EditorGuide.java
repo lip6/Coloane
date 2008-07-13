@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.rulers;
 
-import fr.lip6.move.coloane.core.model.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

@@ -30,7 +30,7 @@ public class EditorRuler {
 	 */
 	public EditorRuler(boolean isHorizontal) {
 		// Utilisation des pixels par défaut
-		this(isHorizontal, RulerProvider.UNIT_PIXELS);
+		this(isHorizontal, RulerProvider.UNIT_CENTIMETERS);
 	}
 
 	/**
