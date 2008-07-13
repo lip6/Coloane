@@ -11,7 +11,7 @@ public interface IFormalism {
 	 * @return <code>true</code> si la liaison est possible
 	 */
 	boolean isLinkAllowed(INode source, INode target);
-	
+
 	/**
 	 * Indique si l'action sur un noeud du modele est envisageable
 	 * @param node Element (modele) sur lequel l'action est entreprise
@@ -23,7 +23,7 @@ public interface IFormalism {
 	 * @return Le nom du formalisme
 	 */
 	String getName();
-	
+
 	/**
 	 * @return Le nom du parent du formalisme (identifiant historique)
 	 */
@@ -48,7 +48,7 @@ public interface IFormalism {
 	 * @return Le graphe principal du formalisme
 	 */
 	IGraphFormalism getMasterGraph();
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

@@ -27,7 +27,7 @@ public interface IElementFormalism {
 	 * @return La description graphique de l'élément
 	 */
 	IGraphicalDescription getGraphicalDescription();
-	
+
 	/**
 	 * @return le formalisme qui definit cet élément de formalisme
 	 */
