@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.StickyNote;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -18,6 +19,7 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.tools.MarqueeSelectionTool;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -144,6 +146,15 @@ public final class PaletteFactory {
 		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
 
 		toolGroup.add(marquee);
+
+		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
+				"Sticky",
+				"StickyNote",
+				new SimpleFactory(StickyNote.class),
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
+			);
+		toolGroup.add(combined);
 
 		// Un separateur
 		toolGroup.add(new PaletteSeparator());
