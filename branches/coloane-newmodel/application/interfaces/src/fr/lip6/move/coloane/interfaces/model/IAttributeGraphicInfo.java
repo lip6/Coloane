@@ -1,43 +1,27 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 public interface IAttributeGraphicInfo extends ILocationInfo {
 
-	/** Niveau 1 */
-	int L1 = 1;
-	int SIZE_L1 = 11;
-
-	/** Niveau 2 **/
-	int L2 = 2;
-	int SIZE_L2 = 10;
-
-	/** Affichage normal **/
-	int NOR = 3;
-	int SIZE_NOR = 9;
-
-	/** Par defaut **/
-	int SIZE_DEF = 9;
-
-	/** Police **/
-	String FONT = "arial"; //$NON-NLS-1$
+	/**
+	 * @return couleur de fond
+	 */
+	Color getBackground();
 
 	/**
-	 * Retourne l'emplacement actuel de l'attribut
-	 * @return Point
+	 * @param background
 	 */
-	Point getLocation();
+	void setBackground(Color background);
 
 	/**
-	 * Change l'emplacement de l'attribut
-	 * @param x Les abcisses
-	 * @param y Les ordonees
+	 * @return couleur du noeud
 	 */
-	void setLocation(int x, int y);
+	Color getForeground();
 
 	/**
-	 * Change l'emplacement de l'attribut
-	 * @param location nouvelles coordonnées
+	 * @param foreground
 	 */
-	void setLocation(Point location);
+	void setForeground(Color foreground);
+
 }
