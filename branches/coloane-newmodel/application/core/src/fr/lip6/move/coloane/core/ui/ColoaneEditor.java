@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.copypast.CopyAction;
 import fr.lip6.move.coloane.core.copypast.CutAction;
 import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
@@ -46,6 +47,7 @@ import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
@@ -301,19 +303,36 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		zoomContributions.add(ZoomManager.FIT_WIDTH);
 		manager.setZoomLevelContributions(zoomContributions);
 
-		// Quelques propriétés
-		EditorRuler ruler = new EditorRuler(false);
-		EditorRulerProvider provider = null;
-		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
-		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_VERTICAL_RULER, provider);
+		this.loadProperties();
+	}
 
-		ruler = new EditorRuler(true);
+	/**
+	 * Chargement des propriétés de l'éditeur (pour ce graphe)
+	 */
+	protected final void loadProperties() {
+		// Propriétés pour la règle verticale
+		EditorRuler ruler = ((GraphModel) getGraph()).getEditorProperties().getRuler(PositionConstants.WEST);
+		RulerProvider provider = null;
+		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, provider);
+
+		// Propriétés pour la règle horizontale
+		ruler = ((GraphModel) getGraph()).getEditorProperties().getRuler(PositionConstants.NORTH);
 		provider = null;
-		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
+		if (ruler != null) { provider = new EditorRulerProvider(ruler); }
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
 
-		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
-		getGraphicalViewer().setProperty(EditorRulerProvider.PROPERTY_RULER_VISIBILITY, true);
-		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
+		// Les autres propriétés
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY,  new Boolean(((GraphModel) getGraph()).getEditorProperties().getRulersVisibility()));
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,  new Boolean(((GraphModel) getGraph()).getEditorProperties().getSnapState()));
+	}
+
+	/**
+	 * Sauvegarde des propriétés de l'éditeur (pour ce graphe)
+	 */
+	protected final void saveProperties() {
+		((GraphModel) getGraph()).getEditorProperties().setRulersVisibility(((Boolean) getGraphicalViewer().getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY)).booleanValue());
+		((GraphModel) getGraph()).getEditorProperties().setSnapState(((Boolean) getGraphicalViewer().getProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED)).booleanValue());
 	}
 
 	/**
@@ -325,7 +344,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 	/**
 	 * Retourne le path du modele en cours d'edition
-	 *
 	 * @return Le chemin du modele en cours dans l'editeur
 	 */
 	public final IPath getCurrentPath() {
@@ -338,9 +356,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/**
 	 * Determine le contenu de l'editeur. Ce contenu est lu depuis un fichier.
 	 * Ce fichier a bien sur ete cree par l'assistant
-	 *
-	 * @param input
-	 *            Toutes les informations concernant le modele
+	 * @param input Toutes les informations concernant le modele
 	 */
 	@Override
 	protected final void setInput(IEditorInput input) {
@@ -356,13 +372,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
 			setEditDomain(new DefaultEditDomain(this));
 			getSite().getPage().closeEditor(this, false);
-//			dispose();
 			return;
 		}
 
 		// Mise en place de l'editeur
-		// On est oblige d'attendre le formalisme pour creer le domaine
-		// d'edition
+		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
 		setEditDomain(new DefaultEditDomain(this));
 
@@ -377,6 +391,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 */
 	@Override
 	public final void doSave(IProgressMonitor monitor) {
+		// Sauvegarde des propriétés de l'éditeur
+		this.saveProperties();
+
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		// Traduction du modele au format xml
 		String xmlString = ModelWriter.translateToXML(graph);
@@ -401,6 +418,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 */
 	@Override
 	public final void doSaveAs() {
+		// Sauvegarde des propriétés de l'éditeur
+		this.saveProperties();
 
 		// Ouvre une boite de dialogue
 		Shell shell = getSite().getWorkbenchWindow().getShell();
