@@ -147,7 +147,7 @@ public class ModelHandler extends DefaultHandler {
 		// Creation du noeud
 		INode node = graph.createNode(nodeFormalismName);
 		nodesId.put(id, node.getId());
-		node.getGraphicInfo().setLocation(x, y);
+		node.getGraphicInfo().setLocation(new Point(x, y));
 
 		// Taille du noeud
 		try {
@@ -240,7 +240,7 @@ public class ModelHandler extends DefaultHandler {
 		IAttribute attribute = element.getAttribute(name);
 		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
 		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-		attribute.getGraphicInfo().setLocation(x, y);
+		attribute.getGraphicInfo().setLocation(new Point(x, y));
 
 		stack.push(attribute);
 	}

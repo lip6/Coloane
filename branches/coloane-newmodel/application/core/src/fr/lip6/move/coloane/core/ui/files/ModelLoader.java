@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.ui.ColoaneMessages;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -52,7 +51,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors du chargement du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName());
+			Coloane.showErrorMsg("..." + xmlFile.getName());
 			return null;
 		}
 
@@ -79,7 +78,7 @@ public final class ModelLoader {
 		} catch (SAXException e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation " + currentFormalism.getSchema()); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName() + ColoaneMessages.ModelLoader_0);
+			Coloane.showErrorMsg("..." + xmlFile.getName() + "...");
 			return null;
 		}
 
@@ -95,7 +94,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors de la lecture du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(ColoaneMessages.ModelLoader_2 + xmlFile.getName() + ColoaneMessages.ModelLoader_1);
+			Coloane.showErrorMsg("..." + xmlFile.getName() + "...");
 			return null;
 		}
 
