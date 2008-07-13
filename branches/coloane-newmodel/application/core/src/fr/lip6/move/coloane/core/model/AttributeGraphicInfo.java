@@ -4,7 +4,9 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
@@ -30,13 +32,15 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		return new Point(this.x, this.y);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo#setLocation(int, int)
+	/**
+	 * Change la position de l'attribut
+	 * @param x La position sur l'axe des abcisses
+	 * @param y La position sur l'axe des ordonnées
 	 */
-	public final void setLocation(int xPosition, int yPosition) {
+	private void setLocation(int x, int y) {
 		Point oldValue = new Point(this.x, this.y);
-		this.x = xPosition;
-		this.y = yPosition;
+		this.x = x;
+		this.y = y;
 		Point newValue = new Point(this.x, this.y);
 
 		// Lever un evenement
@@ -51,6 +55,68 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	 */
 	public final void setLocation(Point location) {
 		setLocation(location.x, location.y);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#getBackground()
+	 */
+	public final Color getBackground() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#getForeground()
+	 */
+	public final Color getForeground() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#setBackground(org.eclipse.swt.graphics.Color)
+	 */
+	public final void setBackground(Color background) {
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
+	 */
+	public final void setForeground(Color foreground) {
+		return;
+	}
+
+	/**
+	 * @return La largeur du noeud en tenant compte du zoom
+	 */
+	private int getHeight() {
+		return -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#getSize()
+	 */
+	public final Dimension getSize() {
+		return new Dimension(getWidth(), getHeight());
+	}
+
+	/**
+	 * @return La largeur du noeud en tenant compte du zoom
+	 */
+	private int getWidth() {
+		return -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
+	 */
+	public final void setSize(Dimension newDimension) {
+		return;
 	}
 }
 

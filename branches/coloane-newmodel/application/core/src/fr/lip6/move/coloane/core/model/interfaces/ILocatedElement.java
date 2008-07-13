@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.model;
+package fr.lip6.move.coloane.core.model.interfaces;
 
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
@@ -10,12 +10,13 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
  * 	<li>Une manière de récupérer les informations de positionnement</li>
  * 	<li>La gestion des guides verticaux et horizontaux</li>
  * </ul>
+ * @see {@link NodeModel}, {@link AttributeModel}
  */
 public interface ILocatedElement {
 
 	/**
-	 * @return Les informations concernant le positionnement de l'objet
-	 * @see ILocationInfo
+	 * Retourne les informations sur la position de l'objet
+	 * @return
 	 */
 	ILocationInfo getLocationInfo();
 
@@ -25,7 +26,7 @@ public interface ILocatedElement {
 	EditorGuide getHorizontalGuide();
 
 	/**
-	 * @return le guide vertical associé à l'objet
+	 * @return le guide vertical associÃ© Ã  l'objet
 	 */
 	EditorGuide getVerticalGuide();
 

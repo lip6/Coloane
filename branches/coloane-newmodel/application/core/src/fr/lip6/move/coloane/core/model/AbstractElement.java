@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;

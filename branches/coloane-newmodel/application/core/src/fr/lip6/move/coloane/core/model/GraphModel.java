@@ -21,11 +21,8 @@ import java.util.logging.Logger;
  * de noeuds et d'arcs.
  */
 public class GraphModel extends AbstractElement implements IGraph {
-	/**
-	 * Logger 'fr.lip6.move.coloane.core'.
-	 */
+	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 
 	/** Identifiant unique */
 	private int id;
@@ -42,6 +39,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Liste des arcs rangé par id */
 	private HashMap<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
+	/** Liste des stickyNote rangées par id */
+	private HashMap<Integer, StickyNote> sticky = new HashMap<Integer, StickyNote>();
+
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 0;
 
@@ -51,6 +51,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Etat du modele par rapport a FK (true -> pas a jour) */
 	private boolean dirty = false;
 
+	/** Ensemble des propriétés de l'éditeur auquel est attaché ce graphe */
+	private GraphEditorProperties editorProperties = null;
+
 
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
@@ -58,11 +61,14 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public GraphModel(String formalismName) {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
-		formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
-		graphFormalism = formalism.getMasterGraph();
-		id = getNewId();
+		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+		this.graphFormalism = formalism.getMasterGraph();
+		this.id = getNewId();
 
 		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
+
+		// Creation des propriétés de l'éditeur
+		this.editorProperties = new GraphEditorProperties();
 	}
 
 	/**
@@ -130,6 +136,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return nodes.values();
 	}
 
+	public final Collection<StickyNote> getStickys() {
+		return sticky.values();
+	}
+
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#addNode(fr.lip6.move.coloane.core.ui.model.interfaces.INode)
 	 */
@@ -143,6 +153,29 @@ public class GraphModel extends AbstractElement implements IGraph {
 			// Il faut avertir FrameKit
 			Coloane.notifyModelChange(this);
 		}
+	}
+
+
+	public final StickyNote createSticky() {
+		StickyNote note = new StickyNote(this, getNewId());
+		addSticky(note);
+		firePropertyChange(NODE_ADDED_PROP, null, note);
+
+		LOGGER.fine("Création d'une nouvelle note"); //$NON-NLS-1$
+		return note;
+	}
+
+	public final void addSticky(StickyNote sticky) {
+		if (nodes.containsKey(sticky.getId())) {
+			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
+		} else {
+			this.sticky.put(sticky.getId(), sticky);
+			firePropertyChange(NODE_ADDED_PROP, null, sticky);
+		}
+	}
+
+	public final void deleteSticky(StickyNote note) {
+		this.sticky.remove(note.getId());
 	}
 
 	/* (non-Javadoc)
@@ -280,5 +313,12 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
 		}
 		this.dirty = state;
+	}
+
+	/**
+	 * @return Les propriétés de l'éditeur auquel est attaché ce graphe
+	 */
+	public final GraphEditorProperties getEditorProperties() {
+		return editorProperties;
 	}
 }

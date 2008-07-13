@@ -33,8 +33,8 @@ public class ArcModel extends AbstractElement implements IArc {
 		this.target = target;
 		this.graphicInfo = new ArcGraphicInfo(this);
 
-//		((NodeModel) source).addOutcomingArc(this);
-//		((NodeModel) target).addIncomingArc(this);
+		// ((NodeModel) source).addOutcomingArc(this);
+		// ((NodeModel) target).addIncomingArc(this);
 	}
 
 	/* (non-Javadoc)
@@ -143,6 +143,10 @@ public class ArcModel extends AbstractElement implements IArc {
 		Coloane.notifyModelChange(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IArc#updateAttributesPosition()
+	 */
 	public final void updateAttributesPosition() {
 		// Calcul du nouveau point milieu
 		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
@@ -157,7 +161,7 @@ public class ArcModel extends AbstractElement implements IArc {
 		// Mise a jour des coordonnees des attributs
 		for (IAttribute attr : this.getDrawableAttributes()) {
 			Point attrLocation = attr.getGraphicInfo().getLocation();
-			attr.getGraphicInfo().setLocation(attrLocation.x + deltaX, attrLocation.y + deltaY);
+			attr.getGraphicInfo().setLocation(new Point(attrLocation.x + deltaX, attrLocation.y + deltaY));
 		}
 
 		this.graphicInfo.updateMiddlePoint();

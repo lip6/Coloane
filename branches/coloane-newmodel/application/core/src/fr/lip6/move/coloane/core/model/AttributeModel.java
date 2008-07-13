@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -49,9 +49,6 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		this.value = value;
 		if (!oldValue.equals(value)) {
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
-
-			// Il faut avertir FrameKit
-			Coloane.notifyModelChange(reference);
 		}
 	}
 
@@ -87,14 +84,6 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 
 	/*
 	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
-	 */
-	public final ILocationInfo getLocationInfo() {
-		return this.graphicInfo;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
 	 */
 	public final EditorGuide getVerticalGuide() {
@@ -115,5 +104,13 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 */
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getLocationInfo()
+	 */
+	public final ILocationInfo getLocationInfo() {
+		return this.graphicInfo;
 	}
 }

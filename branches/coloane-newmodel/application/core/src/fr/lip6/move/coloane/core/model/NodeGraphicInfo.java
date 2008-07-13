@@ -46,10 +46,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return new Point(this.x, this.y);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#setLocation(int, int)
+	/**
+	 * Positionne le noeud en tenant compte des points d'inflexion
+	 * @param xPos
+	 * @param yPos
 	 */
-	public final void setLocation(int xPos, int yPos) {
+	private void setLocation(int xPos, int yPos) {
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
 		this.x = xPos;
@@ -85,10 +87,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		setLocation(location.x, location.y);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getWidth()
+	/**
+	 * @return La largeur du noeud en tenant compte du zoom
 	 */
-	public final int getWidth() {
+	private int getWidth() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getWidth() * scale) / 100;
 	}
 
@@ -99,14 +101,11 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getSize()
+	/**
+	 * @return La hauteur du noeud en tenant compte du zoom
 	 */
 	public final Dimension getSize() {
-		return new Dimension(
-				getWidth(),
-				getHeight()
-		);
+		return new Dimension(getWidth(), getHeight());
 	}
 
 	/* (non-Javadoc)
@@ -146,8 +145,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return foreground;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
 	 */
 	public final void setForeground(Color foreground) {
 		Color oldValue = this.foreground;
@@ -155,8 +155,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		node.firePropertyChange(INode.FOREGROUND_COLOR_PROP, oldValue, foreground);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setZoom(int)
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setScale(int)
 	 */
 	public final void setScale(int scale) {
 		Dimension oldSize = new Dimension();
@@ -170,10 +171,19 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getZoom()
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#getScale()
 	 */
 	public final int getScale() {
 		return scale;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
+	 */
+	public final void setSize(Dimension newDimension) {
+		return;
 	}
 }

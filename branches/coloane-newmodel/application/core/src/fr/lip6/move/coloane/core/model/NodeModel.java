@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -149,7 +150,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		Collection<IAttribute> collection = this.getDrawableAttributes();
 		for (IAttribute att : collection) {
 			Point loc = att.getGraphicInfo().getLocation();
-			att.getGraphicInfo().setLocation(loc.x + deltaX, loc.y + deltaY);
+			att.getGraphicInfo().setLocation(new Point(loc.x + deltaX, loc.y + deltaY));
 		}
 	}
 
