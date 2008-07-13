@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -46,9 +48,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	protected final void createEditPolicies() {
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
-
 
 		// Interdiction de suppression de l'objet modele
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
@@ -56,7 +55,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy((XYLayout) getContentPane().getLayoutManager()));
 
-		// Impossible de selectionenr le modele
+		// Impossible de sélectionner le modele
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
@@ -126,6 +125,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 
 		for (IArc arc : graph.getArcs()) {
 			children.addAll(arc.getDrawableAttributes());
+		}
+
+		for (IStickyNote sticky : ((GraphModel) graph).getStickys()) {
+			children.add(sticky);
 		}
 
 		return children;

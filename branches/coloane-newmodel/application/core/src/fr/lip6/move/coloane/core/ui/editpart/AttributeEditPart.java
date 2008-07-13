@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.editpart;
+ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -102,7 +102,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 
 		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributePosition.x, attributePosition.y);
+		attribut.getGraphicInfo().setLocation(attributePosition);
 
 		// Positionnement graphique
 		figure.setLocation(attributePosition);

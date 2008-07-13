@@ -1,10 +1,14 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.model.ILocatedElement;
+import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.commands.AttributeSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.ChangeGuideCommand;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteCreateCommand;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -22,6 +26,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
+import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
@@ -55,17 +60,19 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected final EditPolicy createChildEditPolicy(EditPart child) {
 
-		/**
+		// Dans le cas des notes on ne touche a rien
+		if (child instanceof StickyEditPart) {
+			return new ResizableEditPolicy();
+		}
+
+		/*
 		 * Cette politique interdit aux enfants d'etre redimensionnes<br>
-		 * La redefinition de la methode interne supprime toute trace de cadre
-		 * de selection.
+		 * La redefinition de la methode interne supprime toute trace de cadre de selection.
 		 */
 		return new NonResizableEditPolicy() {
-			@SuppressWarnings("unchecked")
 			@Override
 			protected List createSelectionHandles() {
-				return new ArrayList(); // Doit retourner une arraylist vide et
-										// non null
+				return new ArrayList(); // Doit retourner une arraylist vide et non null
 			}
 		};
 	}
@@ -85,6 +92,14 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 			// On applique la commande de creation du noeud
 			return new NodeCreateCmd(graph, nodeFormalism.getName(), (Rectangle) getConstraintFor(request));
+		}
+
+		// Si l'objet a ajouter est une note... OK
+		if (childClass == StickyNote.class) {
+			IGraph graph = (IGraph) getHost().getModel();
+
+			// On applique la commande de creation du noeud
+			return new StickyNoteCreateCommand(graph, (Rectangle) getConstraintFor(request));
 		}
 
 		// Sinon... On ne permet pas l'ajout !
@@ -111,6 +126,11 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		// Dans le cas d'un attribut
 		if (child instanceof AttributeEditPart) {
 			result = new AttributeSetConstraintCmd((IAttribute) child.getModel(), (Rectangle) constraint);
+		}
+
+		// Dans le cas d'une note
+		if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
+			result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), (Rectangle) constraint);
 		}
 
 		if (request.getType().equals(REQ_MOVE_CHILDREN) || request.getType().equals(REQ_ALIGN_CHILDREN)) {
