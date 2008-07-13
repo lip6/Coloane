@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -60,7 +59,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 				file.setContents(inputS, true, false, monitor);
 			}
 		} catch (CoreException e) {
-			Coloane.getLogger().warning(ColoaneMessages.ModifyWorkspace_0);
+				// TODO : Faire quelque chose
 		}
 
 		// Affichage du nouveau modele dans un nouvel onglet
