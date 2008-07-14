@@ -84,16 +84,6 @@
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="xschema" type="string" use="required">
-            <annotation>
-               <documentation>
-                  A XSchema that describes the model&apos;s format
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="resource"/>
-               </appInfo>
-            </annotation>
-         </attribute>
          <attribute name="extension" type="string" use="required">
             <annotation>
                <documentation>

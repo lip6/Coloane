@@ -419,8 +419,7 @@
           id="PT-Net"
           image="resources/icons/cube-blue.png"
           name="Place/Transition Net"
-          parent="AMI-Net"
-          xschema="resources/ami-net.xsd">
+          parent="AMI-Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -559,8 +558,7 @@
           id="CPN"
           image="resources/icons/cube-blue.png"
           name="Colored Petri Net"
-          parent="AMI-Net"
-          xschema="resources/ami-net.xsd">
+          parent="AMI-Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -741,8 +739,7 @@
           id="Reachability Graph"
           image="resources/icons/cube-green.png"
           name="Reachability Graph"
-          parent="ReachabilityGraph"
-          xschema="resources/reachability-graph.xsd">
+          parent="ReachabilityGraph">
        <XmlDescription>
           <Graph
                 name="ReachabilityGraph">
