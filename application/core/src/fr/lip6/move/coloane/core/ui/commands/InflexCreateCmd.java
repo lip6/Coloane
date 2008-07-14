@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.Command;
 public class InflexCreateCmd extends Command {
 
 	/** Arc concerne par le point d'inflexion */
-	private IArcImpl arc;
+	private IArc arc;
 
 	/** La position du point d'inflexion */
 	private Point position;
@@ -25,7 +25,7 @@ public class InflexCreateCmd extends Command {
 	 * @param p La position
 	 * @param i L'index
 	 */
-	public InflexCreateCmd(IArcImpl arcModel, Point p, int i) {
+	public InflexCreateCmd(IArc arcModel, Point p, int i) {
 		this.arc = arcModel;
 		this.position = p;
 		this.position.x = Math.max(this.position.x, 0);

@@ -1,13 +1,10 @@
  package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.AbstractModelElement;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IAttributeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IElement;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -20,9 +17,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -36,10 +33,11 @@ import org.eclipse.swt.graphics.Font;
 /**
  * Cet EditPart est responsable de la gestion des attributs.
  */
-public class AttributeEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
+public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, org.eclipse.gef.NodeEditPart, PropertyChangeListener {
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
+
 	/**
 	 * Creation de la figure associee<br>
 	 * Pour les attribut, on considere que la vue doit affiche un Label
@@ -52,11 +50,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 
 
 		// Localisation
-		IAttributeImpl attribut = (IAttributeImpl) getModel();
+		IAttribute attribut = (IAttribute) getModel();
 
 		// Si le referent est un noeud, on agit sur la position de l'attribut
 		Point attributePosition;
-		if (attribut.getReference() instanceof INodeImpl) {
+		if (attribut.getReference() instanceof INode) {
 
 			// Deux possibilites :
 			// Pas d'information de positionnement -> on utilise les indication du noeud
@@ -64,34 +62,34 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 
 			// Cas 1
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
-				Point refLocation = ((INodeImpl) attribut.getReference()).getGraphicInfo().getLocation();
+				Point refLocation = ((INode) attribut.getReference()).getGraphicInfo().getLocation();
 				attributePosition = new Point(refLocation.x + GAP, refLocation.y - GAP);
 
-			// Cas 2
+				// Cas 2
 			} else {
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-		// Si le referent est un arc
-		} else if (attribut.getReference() instanceof IArcImpl) {
+			// Si le referent est un arc
+		} else if (attribut.getReference() instanceof IArc) {
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
-				attributePosition = ((IArcImpl) attribut.getReference()).getGraphicInfo().findMiddlePoint();
-			// Cas 2
+				attributePosition = ((IArc) attribut.getReference()).getGraphicInfo().findMiddlePoint();
+				// Cas 2
 			} else {
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-		// Si le referent est le modele lui-meme
-		} else if (attribut.getReference() instanceof IModelImpl) {
+			// Si le referent est le modele lui-meme
+		} else if (attribut.getReference() instanceof IGraph) {
 			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 
-		// Dans tous les autres cas... On reset
+			// Dans tous les autres cas... On reset
 		} else {
 			attributePosition = new Point(0, 0);
 		}
 
 		// Recupere la figure du modele
-		ModelEditPart modelEditPart = (ModelEditPart) getParent();
+		GraphEditPart modelEditPart = (GraphEditPart) getParent();
 
 		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
 
@@ -104,7 +102,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		}
 
 		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributePosition.x, attributePosition.y);
+		attribut.getGraphicInfo().setLocation(attributePosition);
 
 		// Positionnement graphique
 		figure.setLocation(attributePosition);
@@ -120,25 +118,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	@Override
 	protected final void refreshVisuals() {
 
-		IAttributeImpl attribut = (IAttributeImpl) getModel();
+		IAttribute attribut = (IAttribute) getModel();
 		Label attributeFigure = (Label) getFigure();
 
 		// Affichage du texte dans le Label
-		Font f;
-		switch (attribut.getType()) {
-			case IAttributeGraphicInfo.L1:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_L1, SWT.BOLD);
-				break;
-			case IAttributeGraphicInfo.L2:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_L2, SWT.ITALIC);
-				break;
-			case IAttributeGraphicInfo.NOR:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_NOR, SWT.NORMAL);
-				break;
-			default:
-				f = new Font(null, IAttributeGraphicInfo.FONT, IAttributeGraphicInfo.SIZE_DEF, SWT.NORMAL);
-				break;
-		}
+		int type = SWT.NORMAL;
+		if (attribut.getAttributeFormalism().isBold()) { type = type & SWT.BOLD; }
+		if (attribut.getAttributeFormalism().isItalic()) { type = type & SWT.ITALIC; }
+		Font f = new Font(null, "arial", attribut.getAttributeFormalism().getSize(), type); //$NON-NLS-1$
 
 		attributeFigure.setText(attribut.getValue());
 		attributeFigure.setFont(f);
@@ -146,35 +133,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 		// On doit creer l'espace pour l'attribut
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-
-		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(((IElement) attribut).getModelAdapter());
 	}
-
-	/**
-	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
-	 * @param property L'evenement qui a ete leve
-	 */
-	public final void propertyChange(PropertyChangeEvent property) {
-		String prop = property.getPropertyName();
-
-		if (IAttributeImpl.SELECT_LIGHT_PROP.equals(prop)) {
-			((Label) getFigure()).setBackgroundColor(ColorConstants.lightGray);
-			return;
-		} else if (IAttributeImpl.SELECT_HEAVY_PROP.equals(prop)) {
-			((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-			return;
-		} else if (IAttributeImpl.UNSELECT_LIGHT_PROP.equals(prop)) {
-			((Label) getFigure()).setBackgroundColor(ColorConstants.white);
-			return;
-		} else if (IAttributeImpl.UNSELECT_HEAVY_PROP.equals(prop)) {
-			((Label) getFigure()).setForegroundColor(ColorConstants.black);
-			return;
-		}
-
-		refreshVisuals();
-	}
-
 
 	/**
 	 * Regles de gestion de l'objet
@@ -189,23 +148,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 			@Override
 			protected void setSelectedState(int state) {
 				super.setSelectedState(state);
-				IElement ref = ((IAttributeImpl) getModel()).getReference();
-				if (ref instanceof INodeImpl) {
-					if (state > 0) {
-						((INodeImpl) ref).setSelect(true);
-						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-					} else {
-						((INodeImpl) ref).setSelect(false);
-						((Label) getFigure()).setForegroundColor(ColorConstants.black);
-					}
-				} else if (ref instanceof IArcImpl) {
-					if (state > 0) {
-						((IArcImpl) ref).setSelect(true);
-						((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-					} else {
-						((IArcImpl) ref).setSelect(false);
-						((Label) getFigure()).setForegroundColor(ColorConstants.black);
-					}
+				if (state == SELECTED || state == SELECTED_PRIMARY) {
+					((Label) getFigure()).setForegroundColor(ColorConstants.blue);
+				} else {
+					((Label) getFigure()).setForegroundColor(ColorConstants.black);
 				}
 			}
 
@@ -274,7 +220,15 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	public final void activate() {
 		if (!isActive()) {
 			super.activate();
-			((AbstractModelElement) getModel()).addPropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
+			if (getParent() instanceof GraphEditPart) {
+				GraphEditPart graphEditPart = (GraphEditPart) getParent();
+				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
+				if (parent != null) {
+					addEditPartListener((ISelectionEditPartListener) parent);
+					parent.addEditPartListener(this);
+				}
+			}
 		}
 	}
 
@@ -285,8 +239,61 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements Prop
 	public final void deactivate() {
 		if (isActive()) {
 			super.deactivate();
-			((AbstractModelElement) getModel()).removePropertyChangeListener(this);
+			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
+			if (getParent() instanceof GraphEditPart) {
+				GraphEditPart graphEditPart = (GraphEditPart) getParent();
+				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
+				if (parent != null) {
+					setSelected(EditPart.SELECTED_NONE);
+					removeEditPartListener((ISelectionEditPartListener) parent);
+					parent.removeEditPartListener(this);
+				}
+			}
 		}
 	}
 
+	public final void childAdded(EditPart child, int index) { }
+
+	public final void partActivated(EditPart editpart) { }
+
+	public final void partDeactivated(EditPart editpart) { }
+
+	public final void removingChild(EditPart child, int index) { }
+
+	public final void selectedStateChanged(EditPart editpart) {
+		switch(editpart.getSelected()) {
+		case EditPart.SELECTED:
+		case EditPart.SELECTED_PRIMARY:
+			getFigure().setForegroundColor(ColorConstants.blue);
+			break;
+		case EditPart.SELECTED_NONE:
+			getFigure().setForegroundColor(ColorConstants.black);
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT:
+			getFigure().setBackgroundColor(ColorConstants.lightGray);
+			break;
+		case ISelectionEditPartListener.HIGHLIGHT_NONE:
+			getFigure().setBackgroundColor(ColorConstants.white);
+			break;
+		case ISelectionEditPartListener.SPECIAL:
+			break;
+		case ISelectionEditPartListener.SPECIAL_NONE:
+			break;
+		default:
+			break;
+		}
+	}
+
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		// Modification d'un attribut.
+		if (IAttribute.VALUE_PROP.equals(prop)) {
+			refreshVisuals();
+
+		// Deplacement d'un attribut.
+		} else if (IAttribute.LOCATION_PROP.equals(prop)) {
+			refreshVisuals();
+		}
+	}
 }

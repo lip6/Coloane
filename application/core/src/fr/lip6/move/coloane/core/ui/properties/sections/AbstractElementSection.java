@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.motor.formalism.AttributeFormalism;
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IElement;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -47,13 +47,12 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 				if (lt.getTextWidget() == text) {
 
 					// Recherche de l'attribut modifié
-					for (IAttributeImpl attr : getElement().getAttributes()) {
-						if (attr.getDisplayName().equals(lt.getLabel())) {
-							String newValue = lt.getText();
-							getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
-							break;
-						}
+					IAttribute attr = getElement().getAttribute(lt.getLabel());
+					String newValue = lt.getText();
+					if (!attr.getValue().equals(newValue)) {
+						getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
 					}
+					break;
 				}
 			}
 		}
@@ -124,7 +123,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param nodeType
 	 * @param attributes
 	 */
-	protected final void refreshControls(String nodeType, List<AttributeFormalism> attributes) {
+	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);
 
 		if (currentType != null && !currentType.equals(nodeType)) {
@@ -139,12 +138,11 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			list = new ArrayList<LabelText>();
 			LabelTextFactory factory = new LabelTextFactory(composite, getWidgetFactory());
 
-			for (AttributeFormalism attr : attributes) {
+			for (IAttributeFormalism attr : attributes) {
 				LabelText lt = factory.create(
-						attr.getOrder(),
 						attr.getName(),
 						attr.getDefaultValue(),
-						getSWTStyle(attr.isMultiLines()));
+						getSWTStyle(attr.isMultiLine()));
 				lt.getParent().redraw();
 				lt.getTextWidget().addModifyListener(listener);
 				list.add(lt);
@@ -160,7 +158,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 */
 	protected final void refreshContent() {
 		for (LabelText lt : getMap().get(getCurrentType())) {
-			String newValue = getElement().getAttributeValue(lt.getLabel());
+			String newValue = getElement().getAttribute(lt.getLabel()).getValue();
 			if (!lt.getText().equals(newValue)) {
 				lt.setText(newValue);
 				lt.redraw();
@@ -186,7 +184,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (!isDisposed() && IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
+		if (!isDisposed() && IAttribute.VALUE_PROP.equals(evt.getPropertyName())) {
 			refreshContent();
 		}
 	}

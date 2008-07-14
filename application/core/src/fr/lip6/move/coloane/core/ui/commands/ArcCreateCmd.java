@@ -1,33 +1,32 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
 
 /**
  * Premiere etape de la creation d'un lien entre deux noeuds !<br>
- * Cette commande est creee lors du premier clic sur l'element de depart.<br>
+ * Cette commande est créée lors du premier clic sur le noeud de depart.<br>
  * Elle sert a stocker des informations sur le noeud de depart.<br>
+ * @see ArcCompleteCmd
  */
 public class ArcCreateCmd extends Command {
-
 	/** Le noeud source */
-	private final INodeImpl source;
+	private final INode source;
 
-	/** L'element de base (indication sur le formalisme de l'arc) */
-	private final ElementFormalism formalism;
+	/** Le formalisme de l'arc */
+	private final IArcFormalism arcFormalism;
 
 
 	/**
-	 * Creation d'un arc entre deux element
-	 *
-	 * @param source Le noeud source de l'arc
-	 * @param base Le formalisme de base pour la creation de l'arc
+	 * Création d'un arc entre deux element
+	 * @param arcSource Le noeud source de l'arc
+	 * @param arcFormalism Le formalisme de l'arc créé
 	 */
-	public ArcCreateCmd(INodeImpl arcSource, ElementFormalism arcFormalism) {
+	public ArcCreateCmd(INode arcSource, IArcFormalism arcFormalism) {
 		this.source = arcSource;
-		this.formalism = arcFormalism;
+		this.arcFormalism = arcFormalism;
 	}
 
 	/*
@@ -40,18 +39,16 @@ public class ArcCreateCmd extends Command {
 	}
 
 	/**
-	 * Getter de l'element source de l'arc
-	 * @return source
+	 * @return Le noeud source de l'arc
 	 */
-	public final INodeImpl getSource() {
+	public final INode getSource() {
 		return source;
 	}
 
 	/**
-	 * Getter du formalisme de l'arc
-	 * @return elementBase
+	 * @return Le formalisme de l'arc créé
 	 */
-	public final ElementFormalism getElementBase() {
-		return formalism;
+	public final IArcFormalism getArcFormalism() {
+		return arcFormalism;
 	}
 }

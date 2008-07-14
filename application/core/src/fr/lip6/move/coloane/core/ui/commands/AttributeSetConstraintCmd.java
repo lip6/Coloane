@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -17,15 +17,15 @@ public class AttributeSetConstraintCmd extends Command {
 	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Point oldBounds;
 
-	/** Noeud � manipuler */
-	private final IAttributeImpl attribute;
+	/** Noeud à manipuler */
+	private final IAttribute attribute;
 
 	/**
 	 * Constructeur
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public AttributeSetConstraintCmd(IAttributeImpl a, Rectangle newB) {
+	public AttributeSetConstraintCmd(IAttribute a, Rectangle newB) {
 		if (a == null || newB == null) {
 			throw new IllegalArgumentException();
 		}
@@ -59,7 +59,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		attribute.getGraphicInfo().setLocation(newBounds.getLocation().x, newBounds.getLocation().y);
+		attribute.getGraphicInfo().setLocation(newBounds.getLocation());
 	}
 
 	/*
@@ -68,7 +68,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		attribute.getGraphicInfo().setLocation(oldBounds.x, oldBounds.y);
+		attribute.getGraphicInfo().setLocation(oldBounds);
 	}
 
 }

@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.logging.Logger;
 
@@ -13,8 +13,8 @@ public class Session implements ISession {
 	/** Le logger pour la classe */
 	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Le modele associe */
-	private IModelImpl sessionModel;
+	/** Le graph associe */
+	private IGraph sessionGraph;
 
 	/** Le ResultTreeList associé */
 	private ResultTreeList serviceResults;
@@ -40,7 +40,7 @@ public class Session implements ISession {
 	 */
 	public Session(String name) {
 		this.sessionName = name;
-		this.sessionModel = null;
+		this.sessionGraph = null;
 		this.sessionStatus = ISession.CLOSED;
 		this.serviceResults = null;
 		this.adminMenu = null;
@@ -89,15 +89,15 @@ public class Session implements ISession {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getModel()
 	 */
-	public final IModelImpl getModel() {
-		return this.sessionModel;
+	public final IGraph getGraph() {
+		return this.sessionGraph;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setModel(fr.lip6.move.coloane.core.ui.model.IModelImpl)
 	 */
-	public final void setModel(IModelImpl model) {
-		this.sessionModel = model;
+	public final void setModel(IGraph model) {
+		this.sessionGraph = model;
 	}
 
 	/* (non-Javadoc)

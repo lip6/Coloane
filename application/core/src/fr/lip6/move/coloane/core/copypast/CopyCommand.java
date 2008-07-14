@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.copypast;
 
-import fr.lip6.move.coloane.core.copypast.container.ModelContainer;
+import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.logging.Logger;
 
@@ -13,17 +13,17 @@ import org.eclipse.gef.ui.actions.Clipboard;
 public class CopyCommand extends Command {
 	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private ModelContainer container;
+	private GraphContainer container;
 
 	public CopyCommand(ColoaneEditor editor) {
-		container = new ModelContainer(editor.getModel().getFormalism());
+		container = new GraphContainer(editor.getGraph().getFormalism());
 	}
 
 	/**
 	 * Ajout d'un noeud à copier
 	 * @param node
 	 */
-	public final void addNode(INodeImpl node) {
+	public final void addNode(INode node) {
 		container.addNode(node);
 	}
 
@@ -31,7 +31,7 @@ public class CopyCommand extends Command {
 	 * Ajout d'un arc à copier
 	 * @param arc
 	 */
-	public final void addArc(IArcImpl arc) {
+	public final void addArc(IArc arc) {
 		container.addArc(arc);
 	}
 

@@ -4,7 +4,8 @@ import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.ui.UserInterface;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
@@ -123,12 +124,18 @@ public class Coloane extends AbstractUIPlugin {
 
 	/**
 	 * Notifier le changement du modele de la session courrante
-	 * @param model Le modele manipule par l'UI
+	 * @param element un element du graph
 	 */
-	public static void notifyModelChange(IModelImpl model) {
-		if (model != null) {
-			int dateUpdate = model.modifyDate();
-			if ((dateUpdate != 0) && (getDefault().getMotor().getSessionManager().getCurrentSession().getStatus() == ISession.CONNECTED)) {
+	public static void notifyModelChange(IElement element) {
+		IElement tmp = element;
+		while (tmp.getParent() != null) {
+			tmp = tmp.getParent();
+		}
+		IGraph graph = (IGraph) tmp;
+		if (graph != null) {
+			int dateUpdate = graph.modifyDate();
+			ISession currentSession = getDefault().getMotor().getSessionManager().getCurrentSession();
+			if (dateUpdate != 0 && currentSession != null && currentSession.getStatus() == ISession.CONNECTED) {
 				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
 				plugin.com.toUpdate(dateUpdate);
 			}
@@ -191,7 +198,7 @@ public class Coloane extends AbstractUIPlugin {
 
 			@Override
 			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceClassName() + "." + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 			}
 		});
 		try {

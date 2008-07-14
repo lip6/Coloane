@@ -1,11 +1,12 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.ArcFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.motor.formalism.NodeFormalism;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
+import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -18,6 +19,7 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.tools.MarqueeSelectionTool;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -42,7 +44,7 @@ public final class PaletteFactory {
 	 * @param formalism : un formalisme
 	 * @return une nouvelle PaletteRoot
 	 */
-	public static PaletteRoot createPalette(Formalism formalism) {
+	public static PaletteRoot createPalette(IFormalism formalism) {
 		if (formalism == null) {
 			Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); //$NON-NLS-1$
 			return null;
@@ -61,7 +63,7 @@ public final class PaletteFactory {
 	 * @param form : formalisme selectionne
 	 * @return : paletteContainer
 	 */
-	private static PaletteContainer createShapesNodeDrawer(Formalism formalism) {
+	private static PaletteContainer createShapesNodeDrawer(IFormalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
 		PaletteDrawer componentsNodeDrawer = new PaletteDrawer(Messages.PaletteFactory_4);
@@ -70,19 +72,20 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry component; // Un element de la palette
 
 		// Parcours de la liste des elements de base associe au formalisme
-		for (final ElementFormalism element : formalism.getListOfElementBase()) {
+		for (IElementFormalism element : formalism.getMasterGraph().getAllElementFormalism()) {
 
 			// Si l'element parcouru est un noeur, on l'insere dans la palette
-			if (element instanceof NodeFormalism) {
+			if (element instanceof INodeFormalism) {
+				final INodeFormalism node = (INodeFormalism) element;
 				component = new CombinedTemplateCreationEntry(
-						element.getPaletteName(), 	// Nom de l'objet
-						element.getPaletteName(), 	// Description de l'objet
+						node.getGraphicalDescription().getPaletteName(), 	// Nom de l'objet
+						node.getGraphicalDescription().getPaletteName(), 	// Description de l'objet
 						new CreationFactory() { 	// Object Template
-							public Object getNewObject() { return new NodeImplAdapter(element);	}
-							public Object getObjectType() {	return NodeImplAdapter.class; }
+							public Object getNewObject() { return node;	}
+							public Object getObjectType() {	return INode.class; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, node.getGraphicalDescription().getIcon16px()),
+						ImageDescriptor.createFromFile(Coloane.class, node.getGraphicalDescription().getIcon24px()));
 
 				componentsNodeDrawer.add(component);
 			}
@@ -96,7 +99,7 @@ public final class PaletteFactory {
 	 * @param formalism : Le formalisme du modele en cours d'edition
 	 * @return PaletteContainer
 	 */
-	private static PaletteContainer createShapesArcDrawer(Formalism formalism) {
+	private static PaletteContainer createShapesArcDrawer(IFormalism formalism) {
 
 		// Nouveau groupe d'outils de dessin
 		PaletteDrawer componentsArcDrawer = new PaletteDrawer(Messages.PaletteFactory_5);
@@ -105,19 +108,20 @@ public final class PaletteFactory {
 		ConnectionCreationToolEntry component; /* Un element de la palette */
 
 		// Parcours de la liste des elements de base
-		for (final ElementFormalism element : formalism.getListOfElementBase()) {
+		for (IElementFormalism element : formalism.getMasterGraph().getAllElementFormalism()) {
 
 			// Si l'element parcouru est un arc
-			if (element instanceof ArcFormalism) {
+			if (element instanceof IArcFormalism) {
+				final IArcFormalism arc = (IArcFormalism) element;
 				component = new ConnectionCreationToolEntry(
-						element.getPaletteName(), // Nom de l'arc
-						element.getPaletteName(), // Description de l'arc
+						arc.getGraphicalDescription().getPaletteName(), // Nom de l'arc
+						arc.getGraphicalDescription().getPaletteName(), // Description de l'arc
 						new CreationFactory() {
 							public Object getNewObject() { return null; }
-							public Object getObjectType() { return element; }
+							public Object getObjectType() { return arc; }
 						},
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone16()),
-						ImageDescriptor.createFromFile(Coloane.class, element.getAddrIcone24()));
+						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon16px()),
+						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon24px()));
 				componentsArcDrawer.add(component);
 			}
 		}
@@ -142,6 +146,15 @@ public final class PaletteFactory {
 		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
 
 		toolGroup.add(marquee);
+
+		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
+				"Sticky",
+				"StickyNote",
+				new SimpleFactory(StickyNote.class),
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
+			);
+		toolGroup.add(combined);
 
 		// Un separateur
 		toolGroup.add(new PaletteSeparator());

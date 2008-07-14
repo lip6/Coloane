@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.core.copypast;
 
 import fr.lip6.move.coloane.core.copypast.container.ArcContainer;
-import fr.lip6.move.coloane.core.copypast.container.ModelContainer;
+import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.copypast.container.NodeContainer;
-import fr.lip6.move.coloane.core.exceptions.BuildException;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -16,16 +16,16 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 public class PasteCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private ModelContainer modelContainer;
-	private HashMap<NodeContainer, INodeImpl> nodes = new HashMap<NodeContainer, INodeImpl>();
-	private HashMap<ArcContainer, IArcImpl> arcs = new HashMap<ArcContainer, IArcImpl>();
+	private GraphContainer graphContainer;
+	private HashMap<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
+	private HashMap<ArcContainer, IArc> arcs = new HashMap<ArcContainer, IArc>();
 
-	private IModelImpl model;
+	private IGraph graph;
 
 	public PasteCommand(ColoaneEditor editor) {
-		model = editor.getModel();
+		graph = editor.getGraph();
 	}
 
 	/* (non-Javadoc)
@@ -33,9 +33,9 @@ public class PasteCommand extends Command {
 	 */
 	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
-		modelContainer = (ModelContainer) Clipboard.getDefault().getContents();
-		if (modelContainer == null || modelContainer.isEmpty()
-				|| !modelContainer.getFormalism().equals(model.getFormalism())) {
+		graphContainer = (GraphContainer) Clipboard.getDefault().getContents();
+		if (graphContainer == null || graphContainer.isEmpty()
+				|| !graphContainer.getFormalism().equals(graph.getFormalism())) {
 			return false;
 		}
 		return true;
@@ -49,18 +49,27 @@ public class PasteCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Collage de la sélection"); //$NON-NLS-1$
-		for (NodeContainer nc : modelContainer.getNodes()) {
-			nodes.put(nc, nc.copy(model));
-		}
-		for (ArcContainer ac : modelContainer.getArcs()) {
-			INodeImpl source = nodes.get(modelContainer.getNode(ac.getIdSource()));
-			INodeImpl target = nodes.get(modelContainer.getNode(ac.getIdTarget()));
-			if (source != null && target != null) {
-				arcs.put(ac, ac.copy(model, source, target));
+		logger.fine("Collage de la sélection"); //$NON-NLS-1$
+		for (NodeContainer nc : graphContainer.getNodes()) {
+			try {
+				nodes.put(nc, nc.copy(graph));
+			} catch (ModelException e) {
+				logger.warning(e.getMessage());
+				e.printStackTrace();
 			}
 		}
-		redo();
+		for (ArcContainer ac : graphContainer.getArcs()) {
+			INode source = nodes.get(graphContainer.getNode(ac.getIdSource()));
+			INode target = nodes.get(graphContainer.getNode(ac.getIdTarget()));
+			if (source != null && target != null) {
+				try {
+					arcs.put(ac, ac.copy(graph, source, target));
+				} catch (ModelException e) {
+					logger.warning(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -68,19 +77,11 @@ public class PasteCommand extends Command {
 	 */
 	@Override
 	public final void redo() {
-		for (INodeImpl node : nodes.values()) {
-			try {
-				model.addNode(node);
-			} catch (BuildException e) {
-				log.warning("Impossible d'ajouter le noeud"); //$NON-NLS-1$
-			}
+		for (INode node : nodes.values()) {
+			graph.addNode(node);
 		}
-		for (IArcImpl arc : arcs.values()) {
-			try {
-				model.addArc(arc);
-			} catch (BuildException e) {
-				log.warning("Impossible d'ajouter l'arc"); //$NON-NLS-1$
-			}
+		for (IArc arc : arcs.values()) {
+			graph.addArc(arc);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class PasteCommand extends Command {
 	 */
 	@Override
 	public final boolean canUndo() {
-		return modelContainer != null;
+		return graphContainer != null;
 	}
 
 	/* (non-Javadoc)
@@ -97,19 +98,11 @@ public class PasteCommand extends Command {
 	 */
 	@Override
 	public final void undo() {
-		for (IArcImpl arc : arcs.values()) {
-			try {
-				model.removeArc(arc);
-			} catch (BuildException e) {
-				log.warning("Impossible d'enlever l'arc"); //$NON-NLS-1$
-			}
+		for (IArc arc : arcs.values()) {
+			graph.deleteArc(arc);
 		}
-		for (INodeImpl node : nodes.values()) {
-			try {
-				model.removeNode(node);
-			} catch (BuildException e) {
-				log.warning("Impossible d'enlever le noeud"); //$NON-NLS-1$
-			}
+		for (INode node : nodes.values()) {
+			graph.deleteNode(node);
 		}
 	}
 }

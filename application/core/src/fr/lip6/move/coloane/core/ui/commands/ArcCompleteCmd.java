@@ -1,43 +1,50 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.ui.model.ArcImplAdapter;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Deuxieme etape de la creation d'un lien entre deux noeuds !<br>
- * Cette commande est creee lors du second clic (donc sur l'element d'arrivee).
+ * Deuxieme étape de la création d'un lien entre deux noeuds !<br>
+ * Cette commande est créée lors du second clic (donc sur l'element d'arrivee).
+ * @see ArcCreateCmd
  */
 public class ArcCompleteCmd extends Command {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/** Graphe */
+	private IGraph graph;
 
 	/** Noeud source */
-	private final INodeImpl source;
+	private final INode source;
 
 	/** Noeud cible */
-	private final INodeImpl target;
+	private final INode target;
 
 	/** Element de base du formalisme (arc) */
-	private final ElementFormalism formalism;
+	private final IArcFormalism arcFormalism;
 
 	/** L'arc */
-	private IArcImpl arc;
+	private IArc arc;
 
 	/**
 	 * Connexion de l'arc
-	 * @param source noeud source
-	 * @param target noeud cible
-	 * @param base elementBase
+	 * @param arcSource Noeud source de l'arc
+	 * @param arcTarget Noeud cible de l'arc
+	 * @param arcFormalism Le formalisme de l'arc
 	 */
-	public ArcCompleteCmd(INodeImpl arcSource, INodeImpl arcTarget, ElementFormalism arcFormalism) {
+	public ArcCompleteCmd(INode arcSource, INode arcTarget, IArcFormalism arcFormalism) {
+		this.graph = (IGraph) arcSource.getParent();
 		this.source = arcSource;
 		this.target = arcTarget;
-		this.formalism = arcFormalism;
+		this.arcFormalism = arcFormalism;
 	}
 
 	/*
@@ -47,18 +54,9 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final boolean canExecute() {
 
-		Formalism form = formalism.getFormalism();
-
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!form.isLinkAllowed(source.getElementBase(), target.getElementBase())) {
+		if (!arcFormalism.getFormalism().isLinkAllowed(source, target)) {
 			return false;
-		}
-
-		// Evite les doublons en renvoyant faux si le lien existe deja
-		for (IArcImpl a : source.getSourceArcs()) {
-			if (a.getTarget().equals(target)) {
-				return false;
-			}
 		}
 
 		return true;
@@ -71,9 +69,12 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final void execute() {
 		// Construction de l'arc
-		arc = new ArcImplAdapter(this.source, this.target, this.formalism);
-		arc.setModelAdapter(source.getModelAdapter());
-		this.redo();
+		try {
+			arc = graph.createArc(arcFormalism.getName(), source, target);
+		} catch (ModelException e) {
+			LOGGER.warning("Impossible de construire l'arc: " + e.toString()); //$NON-NLS-1$
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -82,11 +83,7 @@ public class ArcCompleteCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		try {
-			source.getModelAdapter().addArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'ajouter l'arc au modele " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.addArc(arc);
 	}
 
 	/*
@@ -95,10 +92,6 @@ public class ArcCompleteCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		try {
-			source.getModelAdapter().removeArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.deleteArc(arc);
 	}
 }

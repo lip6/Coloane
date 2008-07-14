@@ -1,38 +1,37 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande permettant la de-re connexion d'un arc.<br>
- * Le but de cette commande est de permettre de changer la source ou la cible d'un arc
- * sans pour autant le detruire.
+ * Commande permettant la re-connexion d'un arc.<br>
+ * Le but de cette commande est de permettre de changer la source ou la cible d'un arc sans pour autant le detruire.
  */
 public class ArcReconnectCmd extends Command {
 
-	/** L'arc augmente qu'on manipule */
-	private IArcImpl arc;
+	/** L'arc qu'on manipule */
+	private IArc arc;
 
 	/** Noeud source */
-	private INodeImpl newSource;
+	private INode newSource;
 
 	/** Noeud cible */
-	private INodeImpl newTarget;
+	private INode newTarget;
 
 	/** Ancien noeud source */
-	private final INodeImpl oldSource;
+	private final INode oldSource;
 
 	/** Ancien noeud cible */
-	private final INodeImpl oldTarget;
+	private final INode oldTarget;
 
 	/**
-	 * Reconnecter
-	 * @param connection arc
+	 * Constructeur de la commande
+	 * @param a L'arc concerné par la reconnexion
 	 */
-	public ArcReconnectCmd(IArcImpl a) {
+	public ArcReconnectCmd(IArc a) {
 		this.arc = a;
 		this.oldSource = a.getSource();
 		this.oldTarget = a.getTarget();
@@ -40,18 +39,18 @@ public class ArcReconnectCmd extends Command {
 
 	/**
 	 * Indique la nouvelle source de l'arc
-	 * @param connectionSource
+	 * @param connectionSource Le nouveau noeud source
 	 */
-	public final void setNewSource(INodeImpl connectionSource) {
+	public final void setNewSource(INode connectionSource) {
 		newSource = connectionSource;
 		newTarget = null;
 	}
 
 	/**
 	 * Indique la nouvelle cible de l'arc
-	 * @param connectionTarget
+	 * @param connectionTarget Le nouveau noeud cible
 	 */
-	public final void setNewTarget(INodeImpl connectionTarget) {
+	public final void setNewTarget(INode connectionTarget) {
 		newSource = null;
 		newTarget = connectionTarget;
 	}
@@ -74,18 +73,20 @@ public class ArcReconnectCmd extends Command {
 			return false;
 		}
 
-		Formalism form = this.arc.getFormalism();
+		// Recuperation du formalisme
+		IFormalism formalism = this.arc.getArcFormalism().getFormalism();
 
-		if ((this.newSource != null) && !form.isLinkAllowed(newSource.getElementBase(), oldTarget.getElementBase())) {
+		// Est-ce que la connexion est autorisée ?
+		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget)) {
 			return false;
 		}
 
-		if ((this.newTarget != null) && !form.isLinkAllowed(oldSource.getElementBase(), newTarget.getElementBase())) {
+		// Est-ce que la connexion est autorisée ?
+		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget)) {
 			return false;
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArcImpl existingConnection : this.newSource.getSourceArcs()) {
+		for (IArc existingConnection : this.newSource.getOutcomingArcs()) {
 			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}
@@ -117,7 +118,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArcImpl existingConnection : newTarget.getTargetArcs()) {
+		for (IArc existingConnection : newTarget.getIncomingArcs()) {
 			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
 				return false;
 			}
@@ -140,8 +141,8 @@ public class ArcReconnectCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		INodeImpl sourceToConnect = newSource;
-		INodeImpl targetToConnect = newTarget;
+		INode sourceToConnect = newSource;
+		INode targetToConnect = newTarget;
 
 		// Si la source ne change pas...
 		if (newSource == null) {

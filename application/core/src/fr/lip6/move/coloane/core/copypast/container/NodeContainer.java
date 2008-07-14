@@ -1,11 +1,9 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
-import fr.lip6.move.coloane.core.motor.formalism.ElementFormalism;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
-import fr.lip6.move.coloane.core.ui.model.NodeImplAdapter;
-import fr.lip6.move.coloane.interfaces.model.Node;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,7 @@ import org.eclipse.swt.graphics.Color;
 public class NodeContainer {
 	private int id;
 
-	private ElementFormalism elementFormalism;
+	private String nodeFormalismName;
 
 	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
@@ -30,14 +28,14 @@ public class NodeContainer {
 	/**
 	 * @param node
 	 */
-	public NodeContainer(INodeImpl node) {
+	public NodeContainer(INode node) {
 		node.getId();
-		elementFormalism = node.getElementBase();
+		nodeFormalismName = node.getNodeFormalism().getName();
 		location = node.getGraphicInfo().getLocation();
 		foreground = node.getGraphicInfo().getForeground();
 		background = node.getGraphicInfo().getBackground();
 		scale = node.getGraphicInfo().getScale();
-		for (IAttributeImpl attr : node.getAttributes()) {
+		for (IAttribute attr : node.getAttributes()) {
 			attributs.add(new AttributContainer(attr));
 		}
 	}
@@ -45,8 +43,9 @@ public class NodeContainer {
 	/**
 	 * @param modelAdapter
 	 * @return une copie du INodeImpl passée au constructeur
+	 * @throws ModelException Si la création du noeud c'est mal passé.
 	 */
-	public final INodeImpl copy(IModelImpl modelAdapter) {
+	public final INode copy(IGraph graph) throws ModelException {
 		// Décalage de la copie
 		location.x += 10;
 		location.y += 10;
@@ -55,18 +54,16 @@ public class NodeContainer {
 			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
 		}
 
-		Node node = new Node(elementFormalism.getName());
-		NodeImplAdapter nodeAdapter = new NodeImplAdapter(node, elementFormalism);
-		nodeAdapter.setModelAdapter(modelAdapter);
-		nodeAdapter.getGraphicInfo().setLocation(location);
-		nodeAdapter.getGraphicInfo().setForeground(foreground);
-		nodeAdapter.getGraphicInfo().setBackground(background);
-		nodeAdapter.getGraphicInfo().setScale(scale);
+		INode node = graph.createNode(nodeFormalismName);
+		node.getGraphicInfo().setLocation(location);
+		node.getGraphicInfo().setForeground(foreground);
+		node.getGraphicInfo().setBackground(background);
+		node.getGraphicInfo().setScale(scale);
 		for (AttributContainer ac : attributs) {
-			nodeAdapter.setPropertyValue(ac.getId(), ac.getValue());
-			nodeAdapter.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
+			node.getAttribute(ac.getName()).setValue(ac.getValue());
+			node.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
 		}
-		return nodeAdapter;
+		return node;
 	}
 
 	/**

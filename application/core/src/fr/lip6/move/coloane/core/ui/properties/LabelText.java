@@ -28,7 +28,6 @@ public class LabelText {
 	private CLabel label;
 	private Composite parent;
 	private ScrolledComposite sc;
-	private int id;
 
 	private int nbDelimiters = -1;
 
@@ -39,10 +38,9 @@ public class LabelText {
 		}
 	};
 
-	private LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style, FormAttachment top) {
+	private LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, FormAttachment top) {
 		FormData data;
 		this.parent = parent;
-		this.id = id;
 
 		this.label = factory.createCLabel(parent, label);
 		data = new FormData();
@@ -75,8 +73,8 @@ public class LabelText {
 	 * @param value
 	 * @param style
 	 */
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style) {
-		this(parent, factory, id, label, value, style, new FormAttachment(0, 0));
+	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style) {
+		this(parent, factory, label, value, style, new FormAttachment(0, 0));
 	}
 
 	/**
@@ -88,8 +86,8 @@ public class LabelText {
 	 * @param style
 	 * @param top LabelText situé au dessus de ce LabelText
 	 */
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, int id, String label, String value, int style, LabelText top) {
-		this(parent, factory, id, label, value, style, new FormAttachment(top.text, 0));
+	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, LabelText top) {
+		this(parent, factory, label, value, style, new FormAttachment(top.text, 0));
 	}
 
 	public final void redraw() {
@@ -157,9 +155,5 @@ public class LabelText {
 
 	public final Text getTextWidget() {
 		return text;
-	}
-
-	public final int getId() {
-		return id;
 	}
 }

@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import java.beans.PropertyChangeEvent;
 
@@ -13,15 +13,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-public class AttributeSection extends AbstractSection<IAttributeImpl> {
+public class AttributeSection extends AbstractSection<IAttribute> {
 
 	private LabelText lt;
 
 	private ModifyListener listener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
 			Text widget = (Text) e.widget;
+			try {
 			if (!isDisposed() && !widget.getText().equals(getElement().getValue())) {
 				getCommandStack().execute(new ChangeAttributeCmd(getElement(), lt.getText()));
+			}
+			} catch (Exception ee) {
+				ee.printStackTrace();
 			}
 		}
 	};
@@ -35,7 +39,6 @@ public class AttributeSection extends AbstractSection<IAttributeImpl> {
 		lt = new LabelText(
 				composite,
 				getWidgetFactory(),
-				0,
 				Messages.AttributeSection_0,
 				"", //$NON-NLS-1$
 				SWT.MULTI);
@@ -51,7 +54,7 @@ public class AttributeSection extends AbstractSection<IAttributeImpl> {
 	}
 
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (IAttributeImpl.VALUE_PROP.equals(evt.getPropertyName())) {
+		if (IAttribute.VALUE_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}
