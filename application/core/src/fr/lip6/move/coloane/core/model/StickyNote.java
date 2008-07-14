@@ -28,7 +28,7 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 	private EditorGuide verticalGuide;
 
 	/** Le texte par défaut de la note */
-	private String text = "Sticky";
+	private String text = "Sticky"; //$NON-NLS-1$
 
 	/** L'identifiant de la note parmi les noeuds du graphe */
 	private int id;
@@ -63,7 +63,7 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 		this.text = newText;
 
 		// Evenement
-		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text); //$NON-NLS-2$//$NON-NLS-1$
+		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text);
 	}
 
 	/*
