@@ -121,7 +121,7 @@ public final class ModelWriter {
 			sb.append(" height='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Ecriture de la valeur de la note
-			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");
+			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");  //$NON-NLS-1$//$NON-NLS-2$
 
 			// Fin de la note
 			sb.append("</sticky>\n"); //$NON-NLS-1$
@@ -185,7 +185,7 @@ public final class ModelWriter {
 	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("<attributes>\n");
+		sb.append("<attributes>\n"); //$NON-NLS-1$
 
 		// Pour chaque attribut...
 		for (IAttribute att : elt.getAttributes()) {
@@ -199,7 +199,7 @@ public final class ModelWriter {
 				} else {
 					balise = att.getName();
 				}
-				sb.append("<attribute name='").append(balise).append("'");
+				sb.append("<attribute name='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$
 				sb.append(" xposition='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(" yposition='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(">"); //$NON-NLS-1$
@@ -210,7 +210,7 @@ public final class ModelWriter {
 			}
 		}
 
-		sb.append("</attributes>\n");
+		sb.append("</attributes>\n"); //$NON-NLS-1$
 
 		return sb.toString();
 	}
