@@ -13,6 +13,10 @@ package fr.lip6.move.coloane.core.motor.formalisms.constraints;
  */
 public interface IConstraint {
 
+	String PARAMETER_ID = "parameter"; //$NON-NLS-1$
+	String PARAMETER_NAME = "name"; //$NON-NLS-1$
+	String PARAMETER_VALUE = "value"; //$NON-NLS-1$
+
 	/**
 	 * @return Le nom de la contrainte (pour être affichée)
 	 */
