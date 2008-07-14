@@ -295,6 +295,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		if (!isActive()) {
 			super.activate();
 			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
+			addEditPartListener((ISelectionEditPartListener) this);
 		}
 	}
 
@@ -361,6 +362,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final void removingChild(EditPart child, int index) { }
 
 	public final void selectedStateChanged(EditPart editpart) {
+		System.out.println("mayou");
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
