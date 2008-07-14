@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -67,9 +67,9 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.removeAll();
 
 		// Recupere la liste des formalismes
-		ArrayList<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
+		List<IFormalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
 
-		for (Formalism formalism : listOfFormalisms) {
+		for (IFormalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
 			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
 			// Determine l'icone associe a l'item dans la table
