@@ -22,35 +22,35 @@ public class ColoaneLogFormatter extends Formatter {
 	@Override
 	public final String format(LogRecord record) {
 		Calendar c = Calendar.getInstance();
-		String name = "";
+		String name = ""; //$NON-NLS-1$
 
-		if (record.getLoggerName().equals("fr.lip6.move.coloane.core")) {
-			name = "Core";
-		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.api")) {
-			name = "Api";
+		if (record.getLoggerName().equals("fr.lip6.move.coloane.core")) { //$NON-NLS-1$
+			name = "Core"; //$NON-NLS-1$
+		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.api")) { //$NON-NLS-1$
+			name = "Api"; //$NON-NLS-1$
 		}
 
 		StringBuffer l = new StringBuffer();
 
-		l.append(c.get(Calendar.DAY_OF_MONTH) + "/");
-		l.append(c.get(Calendar.MONTH) + "/");
-		l.append(c.get(Calendar.YEAR) + " ");
+		l.append(c.get(Calendar.DAY_OF_MONTH) + "/"); //$NON-NLS-1$
+		l.append(c.get(Calendar.MONTH) + "/"); //$NON-NLS-1$
+		l.append(c.get(Calendar.YEAR) + " "); //$NON-NLS-1$
 
-		l.append(c.get(Calendar.HOUR) + ":");
-		l.append(c.get(Calendar.MINUTE) + ":");
-		l.append(c.get(Calendar.SECOND) + " ");
+		l.append(c.get(Calendar.HOUR) + ":"); //$NON-NLS-1$
+		l.append(c.get(Calendar.MINUTE) + ":"); //$NON-NLS-1$
+		l.append(c.get(Calendar.SECOND) + " "); //$NON-NLS-1$
 
-		l.append("(" + name + ") ");
-		l.append(" [" + record.getLevel() + "] ");
-		l.append(record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".") + 1) + " -> ");
+		l.append("(" + name + ") "); //$NON-NLS-1$ //$NON-NLS-2$
+		l.append(" [" + record.getLevel() + "] "); //$NON-NLS-1$ //$NON-NLS-2$
+		l.append(record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".") + 1) + " -> "); //$NON-NLS-1$ //$NON-NLS-2$
 		l.append(record.getMessage());
-		l.append("\n");
+		l.append("\n"); //$NON-NLS-1$
 
 		return l.toString();
 	}
 
 	@Override
 	public final String getHead(Handler h) {
-		return "-------- COLOANE (" + version + ") --------\n\n";
+		return "-------- COLOANE (" + version + ") --------\n\n"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.interfaces;
 
-import fr.lip6.move.coloane.interfaces.model.IModel;
-
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
@@ -48,7 +47,7 @@ public interface IComApi {
 	 * @return L'interface sur le modele en cours d'edition
 	 * @see IModel
 	 */
-	IModel sendModel();
+	IGraph sendGraph();
 
 	/**
 	 * Indique l'etat de fraicheur du modele
@@ -68,7 +67,7 @@ public interface IComApi {
 	 * @param model Le nouveau modele a construire
 	 * @see IModel
 	 */
-	void setNewModel(IModel model);
+	void setNewGraph(IGraph graph);
 
 	/**
 	 * Affichage des resultats suite a un appel de service

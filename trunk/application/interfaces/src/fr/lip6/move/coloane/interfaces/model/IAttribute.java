@@ -1,53 +1,56 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-public interface IAttribute {
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+
+public interface IAttribute extends IAbstractPropertyChange {
+
+	/** ID de la propriété lors d'un changement de valeur */
+	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
+
+	/** ID de la propriété lors d'un changement de la position */
+	String LOCATION_PROP = "Attribute.Location"; //$NON-NLS-1$
+
+	/** ID de la propriété lorsque l'attribut doit être sélectionne */
+	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$
+
+	/** ID de la propriété lorsque l'attribut doit être sélectionne */
+	String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate"; //$NON-NLS-1$
+
+	/** ID de la propriété lorsque l'attribut doit être désélectionne */
+	String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate"; //$NON-NLS-1$
+
+	/** ID de la propriété lorsque l'attribut doit être désélectionne */
+	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
 
 	/**
-	 * Retourne le nom de l'attribut.
-	 * @return String
+	 * @return La valeur de cette attribut.
 	 */
-	String getName();
+	String getValue();
 
 	/**
-	 * Cette methode permet de fixer les coordonnees spatiales de l'attribut
-	 * @param x est la valeur de la coordonee x
-	 * @param y est la valeur de la coordonee y
-	 */
-	void setPosition(int x, int y);
-
-	/**
-	 * Retourne l'abscisse de l'attribut.
-	 * @return int
-	 */
-	int getXPosition();
-
-	/**
-	 * Retourne l'ordonnee de l'attribut.
-	 * @return la coordonnee y de l'attribut
-	 */
-	int getYPosition();
-
-	/**
-	 * Retourne l'identifiant du noeud parent de cet attribut
-	 * @return int
-	 */
-	int getRefId();
-
-	/**
-	 * Change la valeur du noeud referent.
-	 * @param ref Le nouveau noeud referent
-	 */
-	void setRefId(int ref);
-
-	/**
-	 * Cette methode modifie la valeur de la premiere ligne de l'attribut.
-	 * @param value Valeur de l'attribut
+	 * @param value nouvelle valeur pour cette attribut.
 	 */
 	void setValue(String value);
 
 	/**
-	 * Retourne la valeur de la premiere ligne de l'attribut.
-	 * @return String
+	 * @return Le nom de cette attribut.
 	 */
-	String getValue();
+	String getName();
+
+	/**
+	 * Retourne l'objet contenant les informations graphiques concernant cet attribut
+	 * @return IAttributeGraphicInfo
+	 * @see IAttributeGraphicInfo
+	 */
+	IAttributeGraphicInfo getGraphicInfo();
+
+	/**
+	 * @return L'élément associé à cet attribut.
+	 */
+	IElement getReference();
+
+	/**
+	 * @return L'ElementFormalism associé.
+	 */
+	IAttributeFormalism getAttributeFormalism();
 }

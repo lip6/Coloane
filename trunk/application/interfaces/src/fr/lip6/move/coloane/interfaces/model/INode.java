@@ -1,169 +1,76 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
-import java.util.Vector;
+import java.util.List;
 
-public interface INode {
+public interface INode extends IElement {
 
-	/**
-	 * Retourne l'identifiant du noeud
-	 * @return int
-	 */
-	int getId();
+	/** ID pour la propriete lors d'un changement des arcs sortants */
+	String OUTCOMING_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
 
-	/**
-	 * Indique l'identifiant du noeud
-	 * @param id L'identifiant a affecter au noeud
-	 */
-	void setId(int id);
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String INCOMING_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
 
-	/**
-	 * Retourne le type du noeud
-	 * @return String
-	 */
-	String getNodeType();
+	/** ID pour la propriete lorsqu'un changement de la position */
+	String LOCATION_PROP = "Node.Location"; //$NON-NLS-1$
 
-	/**
-	 * This method sets the x and y position of the node
-	 *
-	 * @param x	Position x
-	 * @param y Position y
-	 *
-	 */
-	void setPosition(int x, int y);
+	/** ID pour la propriete lorsqu'un changement de la valeur */
+	String VALUE_PROP = "Node.ValueUpdate"; //$NON-NLS-1$
 
-	/**
-	 * Retourne la position x du noeud
-	 * @return int
-	 */
-	int getXPosition();
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SELECT_PROP = "Node.SelectUpdate"; //$NON-NLS-1$
 
-	/**
-	 * Retourne la position y noeud
-	 * @return int
-	 */
-	int getYPosition();
+	/** ID pour la propriete lorsque le noeud est deselectionne */
+	String UNSELECT_PROP = "Node.UnSelectUpdate"; //$NON-NLS-1$
+
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SPECIAL_PROP = "Node.SpecialUpdate"; //$NON-NLS-1$
+
+	/** ID pour la propriete lorsque le noeud est deselectionne */
+	String UNSPECIAL_PROP = "Node.UnSpecialUpdate"; //$NON-NLS-1$
+
+	/** ID pour la propriété lorsque la couleur d'un noeud change */
+	String BACKGROUND_COLOR_PROP = "Node.Color.Background"; //$NON-NLS-1$
+
+	/** ID pour la propriété lorsque la couleur d'un noeud change */
+	String FOREGROUND_COLOR_PROP = "Node.Color.Foreground"; //$NON-NLS-1$
+
+	/** ID pour la propriété de changement de zoom */
+	String RESIZE_PROP = "Node.Zoom"; //$NON-NLS-1$
 
 	/**
-	 * Ajout d'un arc entrant
-	 * @param arc Arc a ajouter
-	 * @see IArc
+	 * @return le FormalismElement décrivant ce noeud.
 	 */
-	void addInputArc(IArc arc);
+	INodeFormalism getNodeFormalism();
 
 	/**
-	 * Supprime un arc entrant
-	 * @param arc Arc a supprimer
-	 * @see IArc
+	 * @return les informations graphiques liées a l'arc.
 	 */
-	void removeInputArc(IArc arc) throws ModelException;
+	INodeGraphicInfo getGraphicInfo();
 
 	/**
-	 * Supprime un arc entrant
-	 * @param index	Index de l'arc a supprimer
-	 * @see IArc
+	 * Permet de parcourir la liste des arcs sortants de ce noeud.
+	 * @return une liste <b>non modifiable</b>
 	 */
-	void removeInputArc(int index) throws ModelException;
+	List<IArc> getOutcomingArcs();
 
 	/**
-	 * Retourne le nombre d'arc entrants
-	 * @return int
+	 * Permet de parcourir la liste des arcs entrants de ce noeud.
+	 * @return une liste <b>non modifiable</b>
 	 */
-	int getListOfInputArcSize();
+	List<IArc> getIncomingArcs();
 
 	/**
-	 * Retourne l'arc designe par son index dans la liste des arcs entrants
-	 * @param index Index de l'arc entrant a supprimer
-	 * @return IArc
+	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
+	 * @param deltaX Deplacement horizontal
+	 * @param deltaY Deplacement vertical
 	 */
-	IArc getNthInputArc(int index);
+	void updateAttributesPosition(int deltaX, int deltaY);
 
 	/**
-	 * Ajoute un arc sortant
-	 * @param arc Arc a ajouter
-	 * @see IArc
+	 * Lors du deplacement d'un noeud, il est necessaire de faire suivre les attributs
+	 * attaches aux arcs sortant et entrants du noeud en question
 	 */
-	void addOutputArc(IArc arc);
-
-	/**
-	 * Supprime un arc sortant
-	 * @param arc Arc a supprimer
-	 * @see IArc
-	 */
-	void removeOutputArc(IArc arc) throws ModelException;
-
-	/**
-	 * Supprime un arc sortant
-	 * @param index Index de l'arc a supprimer
-	 * @see IArc
-	 */
-	void removeOutputArc(int index) throws ModelException;
-
-	/**
-	 * Retourne le nombre d'arcs sortants
-	 * @return int
-	 */
-	int getListOfOutputArcSize();
-
-	/**
-	 * Retourne l'arc designe par son idex dans la liste des arcs sortants
-	 * @param index Index de l'arc dans la liste
-	 * @return IArc L'arc designe
-	 * @see IArc
-	 */
-	IArc getNthOutputArc(int index);
-
-	/**
-	 * Ajoute un attribut au noeud
-	 * @param attribute Attribut a ajouter
-	 * @see IAttribute
-	 */
-	void addAttribute(IAttribute attribute);
-
-	/**
-	 * Suppression d'un attribut
-	 * @param attribute	Attribut
-	 * @see IAttribute
-	 */
-	void removeAttribute(IAttribute attribute) throws ModelException;
-
-	/**
-	 * Suppression d'un attribut en fonction de son index dans la liste des attributs
-	 * @param index Index de l'attribut dans la liste
-	 */
-	void removeAttribute(int index) throws ModelException;
-
-	/**
-	 * Retourne le nombre d'attributs du noeud
-	 * @return int
-	 */
-	int getListOfAttrSize();
-
-	/**
-	 * Retourne la liste des attributs du noeud
-	 * @return La liste des attributs du noeud
-	 * @see IAttribute
-	 */
-	Vector<IAttribute> getListOfAttr();
-
-	/**
-	 * Retourne le nieme attribut de la liste
-	 * @param index Index de l'attribut
-	 * @return IAttribute
-	 * @see IAttribute
-	 */
-	IAttribute getNthAttr(int index);
-
-	/*** /!\ *** AJOUTS POUR TESTS UNITAIRES*** /!\ ***/
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfInputArc()
-	 */
-	Vector<IArc> getListOfInputArc();
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INode#getListOfOuputArc()
-	 */
-	Vector<IArc> getListOfOutputArc();
-	/*** FIN DES AJOUTS ***/
+	void updateArcAttributesPosition();
 }
