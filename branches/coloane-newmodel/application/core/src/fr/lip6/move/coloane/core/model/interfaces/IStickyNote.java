@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
-public interface IStickyNote extends ILocationInfo {
+public interface IStickyNote extends ILocationInfo, IElement {
 
 	/** ID pour la propriete lorsqu'un changement de la position */
 	String LOCATION_PROP = "Sticky.Location"; //$NON-NLS-1$

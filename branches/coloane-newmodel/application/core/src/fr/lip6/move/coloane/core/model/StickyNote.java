@@ -79,7 +79,7 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getLocationInfo()
 	 */
 	public final ILocationInfo getLocationInfo() {
-		return null;
+		return this;
 	}
 
 	/*

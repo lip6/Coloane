@@ -2,10 +2,10 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.StickyNote;
-import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,21 +21,18 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-
 public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
 	protected final void createEditPolicies() {
-	//	installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
 
 			// On autorise la suppression de l'element
 			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
 				IGraph parent = (IGraph) getHost().getParent().getModel();
-				INode child = (INode) getHost().getModel();
-				Command cmd =  new NodeDeleteCmd(parent, child);
+				IStickyNote child = (IStickyNote) getHost().getModel();
+				Command cmd =  new StickyNoteDeleteCmd(parent, child);
 				return cmd;
 			}
 

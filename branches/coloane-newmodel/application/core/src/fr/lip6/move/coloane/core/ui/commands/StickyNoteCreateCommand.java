@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.GraphModel;
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -15,7 +15,7 @@ import org.eclipse.gef.commands.Command;
 public class StickyNoteCreateCommand extends Command {
 
 	/** Nouveau noeud */
-	private StickyNote note;
+	private IStickyNote note;
 
 	/** Graphe */
 	private final GraphModel graph;
@@ -50,7 +50,7 @@ public class StickyNoteCreateCommand extends Command {
 	 */
 	@Override
 	public final void execute() {
-		note = graph.createSticky();
+		note = graph.createStickyNote();
 		note.setLocation(location);
 		note.setSize(this.dimension);
 	}

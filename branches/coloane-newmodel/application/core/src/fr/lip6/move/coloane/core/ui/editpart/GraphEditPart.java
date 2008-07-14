@@ -127,7 +127,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 			children.addAll(arc.getDrawableAttributes());
 		}
 
-		for (IStickyNote sticky : ((GraphModel) graph).getStickys()) {
+		for (IStickyNote sticky : ((GraphModel) graph).getStickyNotes()) {
 			children.add(sticky);
 		}
 
@@ -153,7 +153,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		String prop = event.getPropertyName();
 
 		// Ajout/Suppression d'un noeud
-		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)) {
+		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
 
 		// Ajout/Suppression d'un attribut

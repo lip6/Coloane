@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -40,7 +41,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private HashMap<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
 	/** Liste des stickyNote rangées par id */
-	private HashMap<Integer, StickyNote> sticky = new HashMap<Integer, StickyNote>();
+	private HashMap<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 0;
@@ -136,7 +137,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return nodes.values();
 	}
 
-	public final Collection<StickyNote> getStickys() {
+	/**
+	 * @return La liste des toutes les notes du graphe
+	 */
+	public final Collection<IStickyNote> getStickyNotes() {
 		return sticky.values();
 	}
 
@@ -156,8 +160,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 	}
 
 
-	public final StickyNote createSticky() {
-		StickyNote note = new StickyNote(this, getNewId());
+	public final IStickyNote createStickyNote() {
+		IStickyNote note = new StickyNote(this, getNewId());
 		addSticky(note);
 		firePropertyChange(NODE_ADDED_PROP, null, note);
 
@@ -165,7 +169,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return note;
 	}
 
-	public final void addSticky(StickyNote sticky) {
+	public final void addSticky(IStickyNote sticky) {
 		if (nodes.containsKey(sticky.getId())) {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
@@ -174,8 +178,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	public final void deleteSticky(StickyNote note) {
+	public final void deleteSticky(IStickyNote note) {
 		this.sticky.remove(note.getId());
+		firePropertyChange(STICKY_REMOVED_PROP, null, note);
 	}
 
 	/* (non-Javadoc)
