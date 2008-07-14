@@ -1,8 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.exceptions.BuildException;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.gef.commands.Command;
 
@@ -10,15 +9,18 @@ import org.eclipse.gef.commands.Command;
  * Commande de suppression d'un arc
  */
 public class ArcDeleteCmd extends Command {
+	/** Graphe contenant l'arc à supprimer */
+	private IGraph graph;
 
 	/** L'arc adapte */
-	private final IArcImpl arc;
+	private final IArc arc;
 
 	/**
 	 * Effacer un arc
 	 * @param toDelete arc a effacer
 	 */
-	public ArcDeleteCmd(IArcImpl toDelete) {
+	public ArcDeleteCmd(IArc toDelete) {
+		this.graph = (IGraph) toDelete.getParent();
 		this.arc = toDelete;
 	}
 
@@ -37,11 +39,7 @@ public class ArcDeleteCmd extends Command {
 	 */
 	@Override
 	public final void redo() {
-		try {
-			arc.getModelAdapter().removeArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible de supprimer l'arc du modele " + e.getMessage()); //$NON-NLS-1$
-		}
+		graph.deleteArc(arc);
 	}
 
 	/*
@@ -50,11 +48,6 @@ public class ArcDeleteCmd extends Command {
 	 */
 	@Override
 	public final void undo() {
-		try {
-			arc.getModelAdapter().addArc(arc);
-		} catch (BuildException e) {
-			Coloane.getLogger().warning("Impossible d'annuler la suppression de l'arc un arc (" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		graph.addArc(arc);
 	}
-
 }

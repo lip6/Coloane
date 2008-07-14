@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeBackgroundCmd;
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeForegroundCmd;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -23,7 +23,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <li>Couleur du noeud</li>
  * <li>Couleur de l'arrière plan du noeud</li>
  */
-public class NodeColorSection extends AbstractSection<INodeImpl> {
+public class NodeColorSection extends AbstractSection<INode> {
 	/** Editeur de couleur pour la couleur du noeud */
 	private ColorFieldEditor fg;
 	/** Permet de mettre à jour le modèle du noeud */
@@ -138,9 +138,9 @@ public class NodeColorSection extends AbstractSection<INodeImpl> {
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
-		if (INodeImpl.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
+		if (INode.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
 			refresh();
-		} else if (INodeImpl.BACKGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
+		} else if (INode.BACKGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}

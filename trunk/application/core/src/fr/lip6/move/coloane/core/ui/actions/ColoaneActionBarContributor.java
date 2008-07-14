@@ -37,9 +37,13 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 
-		RetargetAction grid = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX);
-		grid.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/grid.png")); //$NON-NLS-1$
-		addRetargetAction(grid);
+		RetargetAction snap = new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, "Automatic Alignment", IAction.AS_CHECK_BOX);
+		snap.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/snap.png")); //$NON-NLS-1$
+		addRetargetAction(snap);
+
+		RetargetAction rules = new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, "Rules", IAction.AS_CHECK_BOX);
+		rules.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/rules.png")); //$NON-NLS-1$
+		addRetargetAction(rules);
 
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.CENTER));
@@ -87,21 +91,12 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
 
 		toolBarManager.add(new Separator());
+		toolBarManager.add(getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
+		toolBarManager.add(getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+
+		toolBarManager.add(new Separator());
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
-
-		toolBarManager.add(new Separator());
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_TOP));
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_MIDDLE));
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_BOTTOM));
-
-		toolBarManager.add(new Separator());
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_LEFT));
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_CENTER));
-		toolBarManager.add(getAction(GEFActionConstants.ALIGN_RIGHT));
-
-		toolBarManager.add(new Separator());
-		toolBarManager.add(getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
 	}
 }

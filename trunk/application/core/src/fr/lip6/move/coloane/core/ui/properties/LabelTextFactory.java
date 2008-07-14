@@ -17,13 +17,12 @@ public class LabelTextFactory {
 		this.factory = factory;
 	}
 
-	public final LabelText create(int id, String label, String value, int style) {
+	public final LabelText create(String label, String value, int style) {
 		LabelText lt;
 		if (last == null) {
 			lt = new LabelText(
 					parent,
 					factory,
-					id,
 					label,
 					value,
 					style);
@@ -31,7 +30,6 @@ public class LabelTextFactory {
 			lt = new LabelText(
 					parent,
 					factory,
-					id,
 					label,
 					value,
 					style,

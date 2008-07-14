@@ -1,14 +1,16 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.StickyNote;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
-import fr.lip6.move.coloane.core.ui.editpart.ElementEditPart;
-import fr.lip6.move.coloane.core.ui.editpart.ModelEditPart;
-import fr.lip6.move.coloane.core.ui.model.IArcImpl;
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.editpart.GraphEditPart;
+import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
+import fr.lip6.move.coloane.core.ui.editpart.StickyEditPart;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -46,14 +48,16 @@ public class PartFactory implements EditPartFactory {
 	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
-		if (modelElement instanceof INodeImpl) {
-			return new ElementEditPart();
-		} else if (modelElement instanceof IArcImpl) {
+		if (modelElement instanceof INode) {
+			return new NodeEditPart();
+		} else if (modelElement instanceof IArc) {
 			return new ArcEditPart();
-		} else if (modelElement instanceof IModelImpl) {
-			return new ModelEditPart();
-		} else if (modelElement instanceof IAttributeImpl) {
+		} else if (modelElement instanceof IGraph) {
+			return new GraphEditPart();
+		} else if (modelElement instanceof IAttribute) {
 			return new AttributeEditPart();
+		} else if (modelElement instanceof StickyNote) {
+			return new StickyEditPart();
 		}
 
 		return null;

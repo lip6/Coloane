@@ -52,7 +52,7 @@ public class SessionTest {
 
 	@Test
 	public final void testGetModel() {
-		assertNull(session1.getModel());
+		assertNull(session1.getGraph());
 	}
 
 	@Test

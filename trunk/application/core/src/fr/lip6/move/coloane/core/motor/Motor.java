@@ -2,17 +2,15 @@ package fr.lip6.move.coloane.core.motor;
 
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.FormalismManager;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
-import fr.lip6.move.coloane.core.ui.model.ModelImplAdapter;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
@@ -147,7 +145,7 @@ public final class Motor {
 	 * @param name Le nom de la session
 	 * @return boolean Resultat de l'operation
 	 */
-	public boolean createSession(IModelImpl model, String name) {
+	public boolean createSession(IGraph graph, String name) {
 		// On doit controller si une session ne se nomme deja pas pareil
 		if (sessionManager.getSession(name) != null) {
 			LOGGER.warning("Une session homonyme existe deja"); //$NON-NLS-1$
@@ -158,7 +156,7 @@ public final class Motor {
 
 		// Creation d'une nouvelle session
 		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
-		sessionManager.getSession(name).setModel(model); // On associe le modele a la session
+		sessionManager.getSession(name).setModel(graph); // On associe le modele a la session
 
 		return true;
 	}
@@ -193,7 +191,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.openSession(sessionManager.getCurrentSession().getModel(), monitor));
+				setResults(com.openSession(sessionManager.getCurrentSession().getGraph(), monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
@@ -339,7 +337,7 @@ public final class Motor {
 		}
 
 		// Au retour d'un service, le modele est toujours propre
-		sessionManager.getCurrentSession().getModel().setDirty(false);
+		sessionManager.getCurrentSession().getGraph().setDirty(false);
 	}
 
 
@@ -365,17 +363,14 @@ public final class Motor {
 	 * Creation d'un nouveau modele et affichage dans l'editeur
 	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
 	 * Cette action est particulierement utile lors de la generation d'un modele par FK
-	 * TODO: Rendre cette methode generique
+	 * TODO : Rendre cette methode generique
 	 * @param model le model brut
 	 */
-	public void setNewModel(IModel model) {
+	public void setNewModel(IGraph graph) {
 		LOGGER.fine("Sauvegarde du modele en provenance de la plateforme"); //$NON-NLS-1$
 
-		// Construit le modele en memoire a partir du modele generique recu
-		IModelImpl modelImpl;
-		modelImpl = new ModelImplAdapter(model);
 		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
-		Display.getDefault().asyncExec(new SaveReceivedModel(modelImpl, window));
+		Display.getDefault().asyncExec(new SaveReceivedModel(graph, window));
 	}
 
 	/**

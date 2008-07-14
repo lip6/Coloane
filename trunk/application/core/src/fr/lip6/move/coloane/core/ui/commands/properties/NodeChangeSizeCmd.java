@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands.properties;
 
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.Command;
 
@@ -9,7 +9,7 @@ import org.eclipse.gef.commands.Command;
  */
 public class NodeChangeSizeCmd extends Command {
 
-	private INodeImpl node;
+	private INode node;
 	private int newScale;
 	private int oldScale;
 
@@ -17,7 +17,7 @@ public class NodeChangeSizeCmd extends Command {
 	 * @param node Noeud à modifier
 	 * @param scale Nouvelle taille exprimée en pourcentage de la taille d'origine
 	 */
-	public NodeChangeSizeCmd(INodeImpl node, int scale) {
+	public NodeChangeSizeCmd(INode node, int scale) {
 		this.node = node;
 		this.newScale = scale;
 	}

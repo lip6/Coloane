@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.ui.model.IAttributeImpl;
-import fr.lip6.move.coloane.core.ui.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IAbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeListener;
 
@@ -16,7 +17,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
  * Section de base adaptée à un objet du model.
  * @param <T>
  */
-public abstract class AbstractSection<T extends IElement> extends AbstractPropertySection implements PropertyChangeListener {
+public abstract class AbstractSection<T extends IAbstractPropertyChange> extends AbstractPropertySection implements PropertyChangeListener {
 	private T element;
 	private boolean isDisposed = false;
 
@@ -49,17 +50,23 @@ public abstract class AbstractSection<T extends IElement> extends AbstractProper
 
 		if (oldElement != null) {
 			oldElement.removePropertyChangeListener(this);
-			if (oldElement.getAttributes() != null) {
-				for (IAttributeImpl attr : oldElement.getAttributes()) {
-					attr.removePropertyChangeListener(this);
+			if (oldElement instanceof IElement) {
+				IElement tmp = (IElement) oldElement;
+				if (tmp.getAttributes() != null) {
+					for (IAttribute attr : tmp.getAttributes()) {
+						attr.removePropertyChangeListener(this);
+					}
 				}
 			}
 		}
 		if (element != null) {
 			element.addPropertyChangeListener(this);
-			if (element.getAttributes() != null) {
-				for (IAttributeImpl attr : element.getAttributes()) {
-					attr.addPropertyChangeListener(this);
+			if (element instanceof IElement) {
+				IElement tmp = (IElement) element;
+				if (tmp.getAttributes() != null) {
+					for (IAttribute attr : tmp.getAttributes()) {
+						attr.removePropertyChangeListener(this);
+					}
 				}
 			}
 		}
