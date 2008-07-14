@@ -110,7 +110,7 @@ public class FramekitThreadSpeaker extends Thread {
 	public final void sendModel() {
 		FKCommand cmd = new FKCommand();
 
-		Vector<String> modelCami = this.api.getModel().translate();
+		Vector<String> modelCami = this.api.getGraph().translate();
 
 		try {
 			byte[] commande = cmd.createCmdSimple("DB");
