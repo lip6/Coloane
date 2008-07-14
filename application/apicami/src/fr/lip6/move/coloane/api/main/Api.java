@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.interfaces.IApi;
 import fr.lip6.move.coloane.interfaces.IComApi;
 import fr.lip6.move.coloane.interfaces.IDialogResult;
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
@@ -556,13 +556,13 @@ public final class Api implements IApi {
 	 * Transmet un nouveau modele a creer<br>
 	 * Dans certains cas, la plate-forme renvoie des modeles a afficher dans l'IHM.<br>
 	 * La construction se fait donc du cote API et l'affichage du cote Coloane
-	 * @param model Modele a creer du cote Coloane
+	 * @param graph Modele a creer du cote Coloane
 	 * @see IModel
 	 */
-	public void setNewModel(IModel model) {
-		if (model == null) { return; }
+	public void setNewModel(IGraph graph) {
+		if (graph == null) { return; }
 		apiLog.finer("Transmission d'un nouveau modele");
-		this.com.setNewModel(model);
+		this.com.setNewGraph(graph);
 	}
 
 	/**
@@ -584,9 +584,9 @@ public final class Api implements IApi {
 	 * @return le modele courant
 	 * @see IModel
 	 */
-	public IModel getModel() {
+	public IGraph getGraph() {
 		apiLog.finer("Recuperation du modele edite par Coloane");
-		return this.com.sendModel();
+		return this.com.sendGraph();
 	}
 
 	/**
