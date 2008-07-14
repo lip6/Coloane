@@ -3,9 +3,10 @@ package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalism.Formalism;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -13,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
@@ -106,8 +107,8 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		formSelect.addListener(SWT.Modify, this);
 
 		// On recupere la liste des formalismes
-		ArrayList<Formalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
-		for (Formalism formalism : listOfFormalisms) {
+		List<IFormalism> listOfFormalisms = FormalismManager.getInstance().getListOfFormalisms();
+		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}
 
@@ -151,7 +152,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 			// Importe le modele, via l'instance precedement creee
 			String path = fileSelect.getStringValue();
-			IModelImpl model = importInstance.importFrom(path, this.formSelect.getText());
+			IGraph model = importInstance.importFrom(path, this.formSelect.getText());
 
 			// Traduction du modele au format xml
 			String xmlString = ModelWriter.translateToXML(model);

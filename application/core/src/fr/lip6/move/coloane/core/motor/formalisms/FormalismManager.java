@@ -31,7 +31,7 @@ public final class FormalismManager {
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
 
 	/** Liste des formalismes disponibles. */
-	private List<Formalism> formalisms = new ArrayList<Formalism>();
+	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
 
 	/** L'instance du singleton : FormalismManager */
 	private static FormalismManager instance = null;
@@ -261,7 +261,7 @@ public final class FormalismManager {
 	/**
 	 * @return La liste des formalismes disponibles
 	 */
-	public List<Formalism> getListOfFormalisms() {
+	public List<IFormalism> getListOfFormalisms() {
 		return formalisms;
 	}
 
