@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.copypast.CutAction;
 import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
@@ -502,7 +503,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 */
 	@Override
 	public final void dispose() {
-		if (this.model == null) {
+		if (this.graph == null) {
 			Coloane.showErrorMsg(Messages.ColoaneEditor_1);
 			return;
 		} else {
