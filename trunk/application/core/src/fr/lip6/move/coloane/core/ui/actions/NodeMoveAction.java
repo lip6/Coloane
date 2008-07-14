@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
-import fr.lip6.move.coloane.core.ui.editpart.ElementEditPart;
-import fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo;
-import fr.lip6.move.coloane.core.ui.model.INodeImpl;
+import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -59,7 +59,7 @@ public class NodeMoveAction extends SelectionAction {
 	@Override
 	protected final boolean calculateEnabled() {
 		for (Object obj : getSelectedObjects()) {
-			if (obj instanceof ElementEditPart) {
+			if (obj instanceof NodeEditPart) {
 				return true;
 			}
 		}
@@ -70,14 +70,14 @@ public class NodeMoveAction extends SelectionAction {
 	public final void run() {
 		CompoundCommand cc = new CompoundCommand();
 		for (Object obj : getSelectedObjects()) {
-			if (obj instanceof ElementEditPart) {
-				INodeImpl node = (INodeImpl) ((EditPart) obj).getModel();
-				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
+			if (obj instanceof NodeEditPart) {
+				INode node = (INode) ((EditPart) obj).getModel();
+				ILocationInfo graphicInfo = node.getGraphicInfo();
 				cc.add(new NodeSetConstraintCmd(node, new Rectangle(
 						graphicInfo.getLocation().x + dx,
 						graphicInfo.getLocation().y + dy,
-						graphicInfo.getWidth(),
-						graphicInfo.getHeight())));
+						graphicInfo.getSize().width,
+						graphicInfo.getSize().height)));
 			}
 		}
 		execute(cc);
