@@ -40,7 +40,6 @@ public final class ModelLoader {
 		} catch (SAXException e) {
 			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
 			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg("..." + xmlFile.getName() + "...");
 			return null;
 		}
 
@@ -56,7 +55,7 @@ public final class ModelLoader {
 		} catch (Exception e) {
 			LOGGER.warning("Erreur lors de la lecture du fichier " + xmlFile.getName()); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg("..." + xmlFile.getName() + "...");
+			Coloane.showErrorMsg(Messages.ModelLoader_0 + xmlFile.getName());
 			return null;
 		}
 
