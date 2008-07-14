@@ -19,7 +19,7 @@ public class ModelException extends Exception {
 
 	/** Constructeur */
 	public ModelException() {
-		this.msg = "Unknown Model Error";
+		this.msg = "Unknown Model Error"; //$NON-NLS-1$
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class ModelException extends Exception {
 	 * @param message Information sur l'exception
 	 */
 	public ModelException(final String message) {
-		this.msg = "Model Error : " + message;
+		this.msg = "Model Error : " + message; //$NON-NLS-1$
 	}
 
 	/**

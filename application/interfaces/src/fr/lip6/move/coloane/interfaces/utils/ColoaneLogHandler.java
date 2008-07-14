@@ -12,7 +12,7 @@ public final class ColoaneLogHandler extends FileHandler {
 	private static ColoaneLogHandler instance = null;
 
 	private ColoaneLogHandler() throws IOException, SecurityException {
-		super("%t/coloane.log", true);
+		super("%t/coloane.log", true); //$NON-NLS-1$
 	}
 
 	public static ColoaneLogHandler getInstance() throws IOException, SecurityException {

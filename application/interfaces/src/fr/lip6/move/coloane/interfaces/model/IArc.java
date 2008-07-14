@@ -1,156 +1,103 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.objects.IInflexPoint;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
-import java.util.Vector;
+import java.util.List;
 
-public interface IArc {
+import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.geometry.Point;
 
-	/**
-	 * Retourne le type de l'arc.
-	 * @return String
-	 */
-	String getArcType();
+public interface IArc extends IElement {
 
-	/**
-	 * Indique le type de l'arc
-	 * @param arcType Le type de l'arc
-	 */
-	void setArcType(String arcType);
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
 
-	/**
-	 * Retourne l'identifiant unique de l'arc.
-	 * @return int
-	 */
-	int getId();
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String SELECT_PROP = "Arc.Select"; //$NON-NLS-1$
 
-	/**
-	 * Indique l'identifiant unique de l'arc.
-	 * @param id L'identifiant a affecter a l'arc
-	 */
-	void setId(int id);
+	/** ID pour la propriete lors d'un changement des arcs entants */
+	String UNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
 
+	/** ID pour la propriete lorsque le noeud est selectionne */
+	String SPECIAL_PROP = "Arc.SpecialUpdate"; //$NON-NLS-1$
+
+	/** ID pour le changement de couleur */
+	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
 
 	/**
-	 * Permet de fixer le noeud d'entree de l'arc.
-	 * @param node Noeud d'entree
-	 * @see INode
+	 * @return source de l'arc.
 	 */
-	void setStartingNode(INode node);
+	INode getSource();
 
 	/**
-	 * Permet de fixer le noeud de sortie de l'arc.
-	 * @param node Noeud de sortie
-	 * @see INode
+	 * @return cible de l'arc.
 	 */
-	void setEndingNode(INode node);
+	INode getTarget();
 
 	/**
-	 * Retourne le noeud d'entree de l'arc.
-	 * @return INode
-	 * @see INode
+	 * @return le FormalismElement décrivant cet arc.
 	 */
-	INode getStartingNode();
+	IArcFormalism getArcFormalism();
 
 	/**
-	 * Retourne le noeud de sortie de l'arc.
-	 * @return INode
-	 * @see INode
+	 * @return les informations graphique liée à cet arc.
 	 */
-	INode getEndingNode();
+	IArcGraphicInfo getGraphicInfo();
 
 	/**
-	 * Ajout d'un attribut a l'arc
-	 * @param attribute Attribut a ajouter
-	 * @see IAttribute
+	 * Ajoute un point d'inflexion à l'index spécifié.
+	 * @param p coordonnées du point d'inflexion.
+	 * @param index index du point d'inflexion.
 	 */
-	void addAttribute(IAttribute attribute);
+	void addInflexPoint(Point p, int index);
 
 	/**
-	 * Supprime un attribut
-	 * @param attribute Attribut a supprimer
-	 * @see IAttribute
+	 * Ajoute un point d'inflexion.
+	 * @param p coordonnées du point d'inflexion.
 	 */
-	void removeAttribute(IAttribute attribute) throws ModelException;
+	void addInflexPoint(Point p);
 
 	/**
-	 * Spprime l'attribut en fonction de son index.
-	 * @param index Index de l'attribut a supprimer
-	 * @see IAttribute
+	 * Suppression du point d'inflexion situé à l'index spécifié.
+	 * @param index index du point d'inflexion.
 	 */
-	void removeAttribute(int index) throws ModelException;
+	void removeInflexPoint(int index);
 
 	/**
-	 * Cette methode retourne le nombre d'attributs de l'arc.
-	 * @return int
+	 * Modification des coordonnées d'un point d'inflexion.
+	 * @param index index du point d'inflexion.
+	 * @param p nouvelles coordonnées.
 	 */
-	int getListOfAttrSize();
+	void modifyInflexPoint(int index, Point p);
 
 	/**
-	 * Retourne le vecteur contenant les attributs de l'arc.
-	 * @return Vector La liste des attributs de l'arc
-	 * @see IAttribute
+	 * Déplace tous les points d'inflexions.
+	 * @param dx
+	 * @param dy
 	 */
-	Vector<IAttribute> getListOfAttr();
+	void modifyInflexPoints(int dx, int dy);
 
 	/**
-	 * Retourne le nieme attribut de l'arc
-	 * @param index Index de l'attribut recherche
-	 * @return IAttribute
+	 * @param index
+	 * @return Le point d'inflexion situé à l'index spécifié.
 	 */
-	IAttribute getNthAttr(int index);
+	AbsoluteBendpoint getInflexPoint(int index);
 
 	/**
-	 * Retourne le vecteur de position des points intermediaires
-	 * @return Vector La liste des positions
+	 * @return Une liste nom modifiable de tous les points d'inflexions.
 	 */
-	Vector<IInflexPoint> getListOfPI();
+	List<AbsoluteBendpoint> getInflexPoints();
 
 	/**
-	 * Ajout d'un point intermediaire a l'arc
-	 * @param x,y Position (x,y) a ajouter
-	 * @see InflexPoint
+	 * Reconnecte cet arc à deux nouveaux noeuds.
+	 * @param newSource
+	 * @param newTarget
 	 */
-	void addPI(int x, int y) throws ModelException;
+	void reconnect(INode newSource, INode newTarget);
 
 	/**
-	 * Ajout d'un point intermediaire a l'arc en precisant sa position dans la liste des points
-	 * @param x,y Position (x,y) a ajouter
-	 * @param index Position dans la liste des points d'inflexion
-	 * @see InflexPoint
+	 * Mettre a jour la position des attributs de l'arc en fonction de la
+	 * position des noeuds source et cible.
 	 */
-	void addPI(int x, int y, int index) throws ModelException;
-
-
-	/**
-	 * Supprime le point d'inflexion repere par les coordonnees (x,y)
-	 * @param x,y Position(x,y) a supprimer
-	 * @see InflexPoint
-	 */
-	void removePI(int x, int y) throws ModelException;
-
-	/**
-	 * Supprime le point d'inflexion donne par son indice dans la liste
-	 * @param index L'indice du point d'inflexion a supprimer
-	 * @throws ModelException
-	 * @see InflexPoint
-	 */
-	void removePI(int index) throws ModelException;
-
-	/**
-	 * Modifie les coordonnees d'un point d'inflexion deja existant
-	 * @param index L'indice du point d'inflexion dans la liste
-	 * @param newX Nouvelle abscisse
-	 * @param newY Nouvelle ordonnee
-	 * @see InflexPoint
-	 */
-	void modifyPI(int index, int newX, int newY) throws ModelException;
-
-	/**
-	 * Retourne la nieme position intermediaire de l'arc
-	 * @param index Index de la position recherche
-	 * @return IPosition
-	 */
-	IInflexPoint getNthPI(int index);
+	void updateAttributesPosition();
 }

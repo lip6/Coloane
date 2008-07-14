@@ -47,7 +47,7 @@ public final class DialogCom implements IDialogCom {
 	private int multiLine;
 
 	/** Valeur par defaut */
-	private String defaut = "";
+	private String defaut = ""; //$NON-NLS-1$
 
 	/**
 	 * Constructeur
