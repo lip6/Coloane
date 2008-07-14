@@ -148,8 +148,8 @@ public final class PaletteFactory {
 		toolGroup.add(marquee);
 
 		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
-				"Sticky",
-				"StickyNote",
+				Messages.PaletteFactory_3,
+				Messages.PaletteFactory_2,
 				new SimpleFactory(StickyNote.class),
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
