@@ -124,7 +124,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getIcon16px()
 	 */
 	public final String getIcon16px() {
-		return "/" + icon16px;
+		return "/" + icon16px; //$NON-NLS-1$
 	}
 
 
@@ -141,7 +141,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getIcon24px()
 	 */
 	public final String getIcon24px() {
-		return "/" + icon24px;
+		return "/" + icon24px; //$NON-NLS-1$
 	}
 
 
