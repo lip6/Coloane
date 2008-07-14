@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -269,6 +270,19 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final int getId() {
 		return id;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IGraph#getObject(int)
+	 */
+	public final IElement getObject(int id) {
+		IElement obj = this.getNode(id);
+		if (obj != null) {
+			return this.getNode(id);
+		} else {
+			return this.getArc(id);
+		}
 	}
 
 	/* (non-Javadoc)

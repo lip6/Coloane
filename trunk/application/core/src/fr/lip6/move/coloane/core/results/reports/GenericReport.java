@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.results.reports;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
@@ -41,9 +41,9 @@ public class GenericReport implements IReport {
 				int id = Integer.valueOf(s);
 
 				String name = String.valueOf(id);
-				IElement element = root.getSessionManager().getCurrentSession().getModel().getModelObject(id);
-				if ((element != null) && (element instanceof INodeImpl)) {
-					String value = element.getAttributeValue(Messages.GenericReport_3);
+				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
+				if ((element != null) && (element instanceof INode)) {
+					String value = element.getAttribute(Messages.GenericReport_3).getValue();
 					if (!("".equals(value))) { //$NON-NLS-1$
 						name = value;
 					}

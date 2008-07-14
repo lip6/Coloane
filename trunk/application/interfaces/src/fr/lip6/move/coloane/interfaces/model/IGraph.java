@@ -95,6 +95,13 @@ public interface IGraph extends IElement {
 	 * @param arc
 	 */
 	void addArc(IArc arc);
+	
+	/**
+	 * Récupérer un objet du graphe grâce à son identifiant
+	 * @param id L'identifiant de l'objet recherché
+	 * @return L'objet comme un {@link IElement}
+	 */
+	IElement getObject(int id);
 
 	/**
 	 * @return le formalisme associé à ce graphe.
