@@ -97,7 +97,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getHeight()
 	 */
-	public final int getHeight() {
+	private int getHeight() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}
 
