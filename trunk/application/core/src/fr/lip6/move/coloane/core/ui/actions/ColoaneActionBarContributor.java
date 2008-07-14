@@ -37,11 +37,11 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 
-		RetargetAction snap = new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, "Automatic Alignment", IAction.AS_CHECK_BOX);
+		RetargetAction snap = new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, Messages.ColoaneActionBarContributor_0, IAction.AS_CHECK_BOX);
 		snap.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/snap.png")); //$NON-NLS-1$
 		addRetargetAction(snap);
 
-		RetargetAction rules = new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, "Rules", IAction.AS_CHECK_BOX);
+		RetargetAction rules = new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, Messages.ColoaneActionBarContributor_1, IAction.AS_CHECK_BOX);
 		rules.setImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/rules.png")); //$NON-NLS-1$
 		addRetargetAction(rules);
 
