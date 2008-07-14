@@ -54,12 +54,12 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 		Map<String, String> myParams = new HashMap<String, String>();
 
 		// Recupération des paramètres de la contrainte
-		IConfigurationElement[] parameters = config.getChildren("parameter");
+		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
 
 		// Remplissage de la hasmap de paramètres
 		for (IConfigurationElement param : parameters) {
-			if ((param.getAttribute("name") != null) && (param.getAttribute("value") != null)) {
-				myParams.put(param.getAttribute("name"), param.getAttribute("value"));
+			if ((param.getAttribute(PARAMETER_NAME) != null) && (param.getAttribute(PARAMETER_VALUE) != null)) {
+				myParams.put(param.getAttribute(PARAMETER_NAME), param.getAttribute(PARAMETER_VALUE));
 			}
 		}
 
