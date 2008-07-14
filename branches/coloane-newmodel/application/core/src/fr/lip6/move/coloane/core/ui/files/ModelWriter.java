@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -35,6 +37,11 @@ public final class ModelWriter {
 
 		// Ecriture des attributs du modele
 		line.append(translateAttributesToXML(graph));
+
+		// Création des noeuds
+		line.append("<stickys>\n"); //$NON-NLS-1$
+		line.append(translateStickyNotesToXML(graph));
+		line.append("</stickys>\n"); //$NON-NLS-1$
 
 		// Creation des noeuds
 		line.append("<nodes>\n"); //$NON-NLS-1$
@@ -100,6 +107,28 @@ public final class ModelWriter {
 		return sb.toString();
 	}
 
+	private static String translateStickyNotesToXML(IGraph graph) {
+		StringBuilder sb = new StringBuilder();
+
+		// Pour chaque note...
+		for (IStickyNote note : ((GraphModel) graph).getStickyNotes()) {
+
+			// Début de la note
+			sb.append("<sticky id='").append(note.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" xposition='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" yposition='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" width='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" height='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+
+			// Ecriture de la valeur de la note
+			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");
+
+			// Fin de la note
+			sb.append("</sticky>\n"); //$NON-NLS-1$
+		}
+		return sb.toString();
+	}
+
 	/**
 	 * Traduction des arcs du modele en format XML
 	 * @param model Le modele en objet JAVA contenant des arcs
@@ -156,6 +185,8 @@ public final class ModelWriter {
 	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
+		sb.append("<attributes>\n");
+
 		// Pour chaque attribut...
 		for (IAttribute att : elt.getAttributes()) {
 
@@ -168,16 +199,19 @@ public final class ModelWriter {
 				} else {
 					balise = att.getName();
 				}
-				sb.append("<").append(balise); //$NON-NLS-1$
+				sb.append("<attribute name='").append(balise).append("'");
 				sb.append(" xposition='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(" yposition='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(">"); //$NON-NLS-1$
 
 				sb.append(format(att.getValue()));
 
-				sb.append("</").append(balise).append(">\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append("</attribute>\n"); //$NON-NLS-1$
 			}
 		}
+
+		sb.append("</attributes>\n");
+
 		return sb.toString();
 	}
 
@@ -204,7 +238,7 @@ public final class ModelWriter {
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
 		line.append(" xsi:noNamespaceSchemaLocation='").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" formalism='").append(formalismName).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
+		line.append(">\n"); //$NON-NLS-1$
 
 		// Creation des noeuds
 		line.append("<nodes>\n"); //$NON-NLS-1$

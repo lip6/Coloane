@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.xml.sax.Attributes;
@@ -65,13 +67,17 @@ public class ModelHandler extends DefaultHandler {
 				throw new IllegalArgumentException(e);
 			}
 
+		// Balise NOTE
+		} else if ("sticky".equals(baliseName)) { //$NON-NLS-1$
+			startStickyNote(attributes);
+
 		// Balise PI
 		} else if ("pi".equals(baliseName)) {  //$NON-NLS-1$
 			startInflexPoint(attributes);
 
 		// Balise ATTRIBUT
-		} else if (!("nodes".equals(baliseName) || "arcs".equals(baliseName))) { //$NON-NLS-1$ //$NON-NLS-2$
-			startAttribute(baliseName.replaceAll("authors", "author(s)"), attributes);  //$NON-NLS-1$//$NON-NLS-2$
+		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$
+			startAttribute(attributes.getValue("name"), attributes);  //$NON-NLS-1$//$NON-NLS-2$
 		}
 	}
 
@@ -93,11 +99,13 @@ public class ModelHandler extends DefaultHandler {
 			endModel();
 		} else if ("node".equals(baliseName)) { //$NON-NLS-1$
 			endNode();
+		} else if ("sticky".equals(baliseName)) { //$NON-NLS-1$
+			endStickyNote();
 		} else if ("arc".equals(baliseName)) { //$NON-NLS-1$
 			endArc();
 		} else if ("pi".equals(baliseName)) { //$NON-NLS-1$
 			endInflexPoint();
-		} else if (!("nodes".equals(baliseName) || "arcs".equals(baliseName))) { //$NON-NLS-1$ //$NON-NLS-2$
+		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$ //$NON-NLS-2$
 			endAttribute();
 		}
 	}
@@ -118,10 +126,6 @@ public class ModelHandler extends DefaultHandler {
 	 * @param attributes
 	 */
 	private void startModel(Attributes attributes) {
-		// Recuperation des positions
-//		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
-//		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-
 		// Récupération du nom du formalisme
 		String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
 
@@ -132,7 +136,8 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * @param attributes
+	 * Analye d'un noeud du graphe
+	 * @param attributes Les attributs attachée à la balise
 	 * @throws ModelException Si la création du noeud pose problème.
 	 */
 	private void startNode(Attributes attributes) throws ModelException {
@@ -176,8 +181,29 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
+	 * Analye d'une note associée au graphe
+	 * @param attributes Les attributs attachée à la balise
+	 */
+	private void startStickyNote(Attributes attributes) {
+		GraphModel graph = (GraphModel) stack.peek();
+
+		// Recuperation des infos concernant le noeud.
+		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
+		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
+		int width = Integer.parseInt(attributes.getValue("width")); //$NON-NLS-1$
+		int height = Integer.parseInt(attributes.getValue("height")); //$NON-NLS-1$
+
+		// Creation de la note
+		IStickyNote note = graph.createStickyNote();
+		note.setLocation(new Point(x, y));
+		note.setSize(new Dimension(width, height));
+		stack.push(note);
+	}
+
+	/**
+	 * Transforme une chaine de caractères en couleur
 	 * @param value couleur à parser
-	 * @return objet couleur correspondant
+	 * @return objet couleur correspondante
 	 * @throws NumberFormatException si la chaine n'est pas correctement formaté
 	 */
 	private Color parseColor(String value) {
@@ -192,7 +218,7 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * La pile doit contenir un IModelImpl
+	 * Analyse d'un arc du graphe<br>
 	 * @param attributes
 	 * @throws ModelException Si la création de l'arc pose problème.
 	 */
@@ -271,7 +297,16 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * L'attribut est dépilé et on défini ça valeur.
+	 * La note est dépilée et on défini sa valeur.
+	 */
+	private void endStickyNote() {
+		IStickyNote note = (IStickyNote) stack.pop();
+		String value = data.toString();
+		note.setLabelContents(value);
+	}
+
+	/**
+	 * L'attribut est dépilé et on défini sa valeur.
 	 */
 	private void endAttribute() {
 		IAttribute attribute = (IAttribute) stack.pop();
