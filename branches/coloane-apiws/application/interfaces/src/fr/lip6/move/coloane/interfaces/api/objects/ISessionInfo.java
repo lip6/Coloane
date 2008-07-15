@@ -29,5 +29,5 @@ public interface ISessionInfo {
 	 *  (2) non
 	 * @return String
 	 */
-	public String getResultatCalcule();
+	public int getResultatCalcule();
 }
