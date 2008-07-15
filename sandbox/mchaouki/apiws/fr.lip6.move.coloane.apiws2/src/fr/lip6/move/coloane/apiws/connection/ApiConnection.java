@@ -14,11 +14,15 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptErrorObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptErrorObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
@@ -99,6 +103,20 @@ public class ApiConnection implements IApiConnection {
 
 	public boolean setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
 		IReceptResultObservable obs = (IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		return true;
+	}
+	
+	public boolean setReceptErrorObserver(IReceptErrorObserver o,boolean createThread){
+		IReceptErrorObservable obs = (IReceptErrorObservable) listObservables.get(IObservables.RECEPT_ERROR);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		return true;
+	}
+	
+	public boolean setDisconnectObserver(IDisconnectObserver o,boolean createThread){
+		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 		return true;

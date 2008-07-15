@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.observables;
 
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptErrorObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
@@ -21,5 +22,9 @@ public class ObservableFactory {
 	
 	public static IReceptResultObservable getNewReceptResultObservable(){
 		return (IReceptResultObservable) new ReceptResultObservable();
+	}
+	
+	public static IReceptErrorObservable getNewReceptErrorObservable(){
+		return (IReceptErrorObservable) new ReceptErrorObservable();
 	}
 }
