@@ -8,6 +8,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.logging.Logger;
+
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -37,6 +39,9 @@ public final class PaletteFactory {
 	/** Preference ID used to persist the flyout palette's state. */
 	private static final String PALETTE_STATE = "PaletteFactory.State"; //$NON-NLS-1$
 
+	/**Le logger du core */
+	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	protected PaletteFactory() { }
 
 	/**
@@ -46,7 +51,7 @@ public final class PaletteFactory {
 	 */
 	public static PaletteRoot createPalette(IFormalism formalism) {
 		if (formalism == null) {
-			Coloane.getLogger().warning("Impossible de creer la palette d'outils : Formalism nul"); //$NON-NLS-1$
+			LOGGER.warning("Impossible de creer la palette d'outils : Formalism nul"); //$NON-NLS-1$
 			return null;
 		}
 
@@ -54,6 +59,7 @@ public final class PaletteFactory {
 		palette.add(createToolsGroup(palette));
 		palette.add(createShapesArcDrawer(formalism));
 		palette.add(createShapesNodeDrawer(formalism));
+		palette.add(createOthersDrawer());
 
 		return palette;
 	}
@@ -79,7 +85,7 @@ public final class PaletteFactory {
 				final INodeFormalism node = (INodeFormalism) element;
 				component = new CombinedTemplateCreationEntry(
 						node.getGraphicalDescription().getPaletteName(), 	// Nom de l'objet
-						node.getGraphicalDescription().getPaletteName(), 	// Description de l'objet
+						node.getGraphicalDescription().getDescription(), 	// Description de l'objet
 						new CreationFactory() { 	// Object Template
 							public Object getNewObject() { return node;	}
 							public Object getObjectType() {	return INode.class; }
@@ -115,7 +121,7 @@ public final class PaletteFactory {
 				final IArcFormalism arc = (IArcFormalism) element;
 				component = new ConnectionCreationToolEntry(
 						arc.getGraphicalDescription().getPaletteName(), // Nom de l'arc
-						arc.getGraphicalDescription().getPaletteName(), // Description de l'arc
+						arc.getGraphicalDescription().getDescription(), // Description de l'arc
 						new CreationFactory() {
 							public Object getNewObject() { return null; }
 							public Object getObjectType() { return arc; }
@@ -126,6 +132,27 @@ public final class PaletteFactory {
 			}
 		}
 		return componentsArcDrawer;
+	}
+
+	/**
+	 * Creation du groupe des outils divers de la palette
+	 * @return PaletteContainer
+	 */
+	private static PaletteContainer createOthersDrawer() {
+
+		// Nouveau groupe d'outils de dessin
+		PaletteDrawer componentsOthersDrawer = new PaletteDrawer(Messages.PaletteFactory_1);
+
+		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
+				Messages.PaletteFactory_3,
+				Messages.PaletteFactory_2,
+				new SimpleFactory(StickyNote.class),
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
+			);
+		componentsOthersDrawer.add(combined);
+
+		return componentsOthersDrawer;
 	}
 
 	/**
@@ -144,17 +171,9 @@ public final class PaletteFactory {
 		// Outils de selection de plusieurs objets
 		MarqueeToolEntry marquee = new MarqueeToolEntry();
 		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
+		marquee.setDescription(Messages.PaletteFactory_0);
 
 		toolGroup.add(marquee);
-
-		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
-				Messages.PaletteFactory_3,
-				Messages.PaletteFactory_2,
-				new SimpleFactory(StickyNote.class),
-				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
-				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
-			);
-		toolGroup.add(combined);
 
 		// Un separateur
 		toolGroup.add(new PaletteSeparator());
