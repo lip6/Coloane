@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0
 Export-Package: fr.lip6.move.coloane.interfaces.api.connection,
  fr.lip6.move.coloane.interfaces.api.evenements,
  fr.lip6.move.coloane.interfaces.api.exceptions,
+ fr.lip6.move.coloane.interfaces.api.objects,
  fr.lip6.move.coloane.interfaces.api.observables,
  fr.lip6.move.coloane.interfaces.api.observers,
  fr.lip6.move.coloane.interfaces.api.session,
