@@ -443,8 +443,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/place16.png"
-                      icon24px="resources/formalisms/place24.png"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -474,8 +474,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/transition16.png"
-                      icon24px="resources/formalisms/transition24.png"
+                      icon16px="resources/formalisms/transition_16.png"
+                      icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="23">
@@ -494,8 +494,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/arc16.png"
-                      icon24px="resources/formalisms/arc24.png"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -584,8 +584,8 @@
                 <GraphicInfo
                       description="Create a place"
                       drawable="true"
-                      icon16px="resources/formalisms/place16.png"
-                      icon24px="resources/formalisms/place24.png"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
                       palettable="true"
                       paletteName="Place">
                 </GraphicInfo>
@@ -612,8 +612,8 @@
                 <GraphicInfo
                       description="Create a transition"
                       drawable="true"
-                      icon16px="resources/formalisms/transition16.png"
-                      icon24px="resources/formalisms/transition24.png"
+                      icon16px="resources/formalisms/transition_16.png"
+                      icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
                       paletteName="Transition">
                 </GraphicInfo>
@@ -634,8 +634,8 @@
                 <GraphicInfo
                       description="Create a queue"
                       drawable="true"
-                      icon16px="resources/formalisms/queue16.png"
-                      icon24px="resources/formalisms/queue24.png"
+                      icon16px="resources/formalisms/queue_16.png"
+                      icon24px="resources/formalisms/queue_24.png"
                       palettable="true"
                       paletteName="Queue">
                 </GraphicInfo>
@@ -660,8 +660,8 @@
                 <GraphicInfo
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/arc16.png"
-                      icon24px="resources/formalisms/arc24.png"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -677,8 +677,8 @@
                 <GraphicInfo
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
-                      icon16px="resources/formalisms/arcinhibiteur16.png"
-                      icon24px="resources/formalisms/arcinhibiteur24.png"
+                      icon16px="resources/formalisms/inhibitor_16.png"
+                      icon24px="resources/formalisms/inhibitor_24.png"
                       palettable="true"
                       paletteName="Inhibitor Arc">
                 </GraphicInfo>
@@ -731,31 +731,59 @@
                    container="false"
                    name="initial state">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Create an initial state"
                       drawable="true"
-                      palettable="true">
+                      height="15"
+                      icon16px="resources/formalisms/initial_16.png"
+                      icon24px="resources/formalisms/initial_24.png"
+                      palettable="true"
+                      paletteName="Initial State"
+                      width="15">
                 </GraphicInfo>
              </Node>
              <Node
                    container="true"
                    name="terminal state">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Create a terminal state"
                       drawable="true"
-                      palettable="true">
+                      fill="true"
+                      height="15"
+                      icon16px="resources/formalisms/terminal_16.png"
+                      icon24px="resources/formalisms/terminal_24.png"
+                      palettable="true"
+                      paletteName="Terminal State"
+                      width="15">
                 </GraphicInfo>
              </Node>
              <Node
                    container="false"
                    name="state">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Create a state"
                       drawable="true"
-                      palettable="true">
+                      fill="false"
+                      height="15"
+                      icon16px="resources/formalisms/state_16.png"
+                      icon24px="resources/formalisms/state_24.png"
+                      palettable="true"
+                      paletteName="State"
+                      width="15">
                 </GraphicInfo>
              </Node>
              <Arc
                    name="event">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      description="Create an event"
                       drawable="true"
-                      palettable="true">
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
+                      palettable="true"
+                      paletteName="Event">
                 </GraphicInfo>
              </Arc>
           </Graph>
