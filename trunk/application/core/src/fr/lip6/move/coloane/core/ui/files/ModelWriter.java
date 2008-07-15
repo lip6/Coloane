@@ -27,11 +27,10 @@ public final class ModelWriter {
 
 		// L'entete XML
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-		String schema = graph.getFormalism().getSchema();
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
 		line.append(" formalism='").append(graph.getFormalism()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 

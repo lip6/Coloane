@@ -45,7 +45,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private HashMap<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
-	private int idCounter = 0;
+	private int idCounter = 2;
 
 	/** Date de derniere modification */
 	private int date;
@@ -65,7 +65,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
-		this.id = getNewId();
+		this.id = 1;
 
 		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
 
