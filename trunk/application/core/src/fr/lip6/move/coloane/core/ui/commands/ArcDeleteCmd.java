@@ -20,6 +20,7 @@ public class ArcDeleteCmd extends Command {
 	 * @param toDelete arc a effacer
 	 */
 	public ArcDeleteCmd(IArc toDelete) {
+		super(Messages.ArcDeleteCmd_0);
 		this.graph = (IGraph) toDelete.getParent();
 		this.arc = toDelete;
 	}

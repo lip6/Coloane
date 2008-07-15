@@ -30,7 +30,7 @@ public class DeleteGuideCommand extends Command {
 	 * @param ruler La règle à laquelle est attachée le guide
 	 */
 	public DeleteGuideCommand(EditorGuide guide, EditorRuler ruler) {
-		super("Delete the selected guide");
+		super(Messages.DeleteGuideCommand_0);
 		this.guide = guide;
 		this.ruler = ruler;
 	}

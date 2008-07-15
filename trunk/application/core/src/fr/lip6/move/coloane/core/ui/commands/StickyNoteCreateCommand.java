@@ -10,7 +10,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande pour ajouter un nouveau noeud
+ * Commande pour ajouter une nouvelle note
  */
 public class StickyNoteCreateCommand extends Command {
 
@@ -24,13 +24,13 @@ public class StickyNoteCreateCommand extends Command {
 	private Dimension dimension;
 
 	/**
-	 * Creer une commande qui ajoutera le noeud au graphe
+	 * Creer une commande qui ajoutera la note au graphe
 	 *
 	 * @param note Le nouveau noeud à ajouter
-	 * @param m Le modèle qui contiendra le noeud
-	 * @param bound Les limites du noeud; (la taille peut être (-1, -1))
+	 * @param b Les limites du noeud; (la taille peut être (-1, -1))
 	 */
 	public StickyNoteCreateCommand(IGraph graph, Rectangle b) {
+		super(Messages.StickyNoteCreateCommand_0);
 		this.graph = (GraphModel) graph;
 		this.location = b.getLocation();
 		this.dimension = b.getSize();

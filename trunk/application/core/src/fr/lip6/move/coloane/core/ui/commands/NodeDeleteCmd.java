@@ -32,6 +32,7 @@ public class NodeDeleteCmd extends Command {
 	 * @param node
 	 */
 	public NodeDeleteCmd(IGraph graph, INode n) {
+		super(Messages.NodeDeleteCmd_0);
 		this.graph = graph;
 		this.node = n;
 	}
