@@ -401,7 +401,7 @@
     <Formalism
           extension="ptn"
           id="PT-Net"
-          image="resources/icons/cube-blue.png"
+          image="resources/icons/model_resource.png"
           name="Place/Transition Net"
           parent="AMI-Net">
        <XmlDescription>
@@ -540,7 +540,7 @@
     <Formalism
           extension="cpn"
           id="CPN"
-          image="resources/icons/cube-blue.png"
+          image="resources/icons/model_resource.png"
           name="Colored Petri Net"
           parent="AMI-Net">
        <XmlDescription>
@@ -721,7 +721,7 @@
     <Formalism
           extension="rg"
           id="Reachability Graph"
-          image="resources/icons/cube-green.png"
+          image="resources/icons/model_resource.png"
           name="Reachability Graph"
           parent="ReachabilityGraph">
        <XmlDescription>
