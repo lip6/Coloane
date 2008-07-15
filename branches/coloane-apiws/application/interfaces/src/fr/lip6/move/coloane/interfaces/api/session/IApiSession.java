@@ -75,11 +75,10 @@ public interface IApiSession {
 	public boolean suspendSession() throws ApiException;
 	
 	/**
-	 * Restaure la session passer en parametre
-	 * @param sessionName la session a restaurer
+	 * Restaure la session courrante
 	 * @return true, si la session est bien restaure, false sinon
 	 */
-	public boolean resumeSession(String sessionName) throws ApiException;
+	public boolean resumeSession() throws ApiException;
 
 	/**
 	 * Ferme la session courrante.
