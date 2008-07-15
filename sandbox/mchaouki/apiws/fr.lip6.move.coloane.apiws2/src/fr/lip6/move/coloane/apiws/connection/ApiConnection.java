@@ -56,6 +56,9 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_MENU, ObservableFactory.getNewReceptMenuObservable());
 		this.listObservables.put(IObservables.RECEPT_MESSAGE, ObservableFactory.getNewReceptMessageObservable());
 		this.listObservables.put(IObservables.RECEPT_RESULT, ObservableFactory.getNewReceptResultObservable());
+		this.listObservables.put(IObservables.RECEPT_ERROR, ObservableFactory.getNewReceptErrorObservable());
+		this.listObservables.put(IObservables.DISCONNECT,ObservableFactory.getNewDisconnectObservable());
+		
 		
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
 	}
