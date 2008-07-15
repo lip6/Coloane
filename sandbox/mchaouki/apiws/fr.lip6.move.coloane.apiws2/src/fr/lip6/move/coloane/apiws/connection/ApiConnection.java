@@ -6,12 +6,14 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
+import fr.lip6.move.coloane.apiws.objects.api.ConnectionInfo;
 import fr.lip6.move.coloane.apiws.observables.ObservableFactory;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
@@ -21,6 +23,7 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
 public class ApiConnection implements IApiConnection {
 	
@@ -101,19 +104,19 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	public boolean openConnection() throws ApiException {
+	public IConnectionInfo openConnection() throws ApiException {
 		if (connectionOpened)
 			throw new ApiException("Une connexion est deja ouverte");
 		
 		this.speaker = new Speaker();
-		speaker.openConnection(login, password);
+		Authentification auth = speaker.openConnection(login, password);
 
 		this.listener = new Listener(speaker.getAuthentification(),speaker.getStub(),listObservables);
 		listener.start();
 
 		connectionOpened = true;
 		
-		return true;
+		return new ConnectionInfo(auth);
 	}
 	
 	public boolean closeConnection() throws ApiException {

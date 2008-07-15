@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
+import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
@@ -75,31 +77,32 @@ public class ApiSession implements IApiSession {
 		return automate;
 	}
 
-	public boolean openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
 		this.interlocutor = interlocutor;
 		this.mode = mode;
 		
+		Session sessionOpened = null;
+		
 		if (sessionController.openSession(this)){
 			if (!automate.goToWaitingForUpdatesAndMenusState()){
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
 			
-			Session sessionOpened = speaker.openSession(sessionFormalism);
+			sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
 			
 			sessionController.notifyEndOpenSession(this);
 			
 		}
-		return true;
+		return new SessionInfo(sessionOpened);
 	}
 
-	public boolean openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException {
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException {
 		// TODO Auto-generated method stub
-		openSession( sessionDate,  sessionFormalism, sessionName,"FrameKit Environment", 1);
-		return true;
+		return openSession( sessionDate,  sessionFormalism, sessionName,"FrameKit Environment", 1);
 	}
 
 	public boolean suspendSession() throws ApiException {
@@ -107,7 +110,7 @@ public class ApiSession implements IApiSession {
 		return false;
 	}
 
-	public boolean resumeSession(String sessionName) throws ApiException {
+	public boolean resumeSession() throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
