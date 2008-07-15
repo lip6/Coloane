@@ -24,6 +24,7 @@ public class NodeSetConstraintCmd extends Command {
 	 * @param newBounds Nouvelles limites
 	 */
 	public NodeSetConstraintCmd(INode n, Rectangle bounds) {
+		super(Messages.NodeSetConstraintCmd_0);
 		if (n == null || bounds == null) {
 			throw new IllegalArgumentException();
 		}

@@ -26,6 +26,7 @@ public class InflexCreateCmd extends Command {
 	 * @param i L'index
 	 */
 	public InflexCreateCmd(IArc arcModel, Point p, int i) {
+		super(Messages.InflexCreateCmd_0);
 		this.arc = arcModel;
 		this.position = p;
 		this.position.x = Math.max(this.position.x, 0);

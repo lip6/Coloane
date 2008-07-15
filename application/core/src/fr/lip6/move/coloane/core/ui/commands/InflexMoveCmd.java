@@ -23,6 +23,7 @@ public class InflexMoveCmd extends Command {
 	 * @param i L'index
 	 */
 	public InflexMoveCmd(IArc arcModel, Point p, int i) {
+		super(Messages.InflexMoveCmd_0);
 		this.arc = arcModel;
 		this.index = i;
 		this.newPosition = p;

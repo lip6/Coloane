@@ -21,6 +21,7 @@ public class InflexDeleteCmd extends Command {
 	 * @param i L'index
 	 */
 	public InflexDeleteCmd(IArc arcModel, Point p, int i) {
+		super(Messages.InflexDeleteCmd_0);
 		this.arc = arcModel;
 		this.position = p;
 		this.index = i;

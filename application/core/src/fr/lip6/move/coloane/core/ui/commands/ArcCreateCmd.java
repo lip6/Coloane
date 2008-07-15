@@ -25,6 +25,7 @@ public class ArcCreateCmd extends Command {
 	 * @param arcFormalism Le formalisme de l'arc créé
 	 */
 	public ArcCreateCmd(INode arcSource, IArcFormalism arcFormalism) {
+		super(Messages.ArcCreateCmd_0);
 		this.source = arcSource;
 		this.arcFormalism = arcFormalism;
 	}

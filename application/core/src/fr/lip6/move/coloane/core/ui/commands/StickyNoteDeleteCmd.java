@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande de suppression d'un noeud du modele
+ * Commande de suppression d'une note du modele
  */
 public class StickyNoteDeleteCmd extends Command {
 
@@ -23,6 +23,7 @@ public class StickyNoteDeleteCmd extends Command {
 	 * @param stickyNote La note concernée par la suppression
 	 */
 	public StickyNoteDeleteCmd(IGraph graph, IStickyNote n) {
+		super(Messages.StickyNoteDeleteCmd_0);
 		this.graph = (GraphModel) graph;
 		this.stickyNote = n;
 	}
