@@ -78,26 +78,26 @@ public interface ISessionController {
 	 * Notifier l'ouverture d'une session
 	 * @param opened la session ouvert
 	 */
-	public void notifyEndOpenSession(IApiSession opened, MMenu menu);
+	public void notifyEndOpenSession(IApiSession opened, MMenu menu) throws ApiException;
 
 	/**
 	 * Notifier la suspention d'une session
 	 * @param suspended la session suspendue
 	 */
-	public void notifyEndSuspendSession(IApiSession suspended);
+	public void notifyEndSuspendSession(IApiSession suspended) throws ApiException;
 
 	/**
 	 * Notifier la restauration d'une session
 	 * @param resumed la session restaurer
 	 */
-	public void notifyEndResumeSession(IApiSession resumed);
+	public void notifyEndResumeSession(IApiSession resumed) throws ApiException;
 
 	/**
 	 * Notifier la fermeture d'une session
 	 * @param closed la session fermer
 	 * @param resumed la session qui sera restaure
 	 */
-	public void notifyEndCloseSession(IApiSession closed);
+	public void notifyEndCloseSession(IApiSession closed) throws ApiException;
 
 	/**
 	 * 

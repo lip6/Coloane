@@ -52,6 +52,7 @@ public class ApiConnection implements IApiConnection {
 	public ApiConnection(){
 		this.connectionOpened = false;
 		
+		this.listObservables = new HashMap<Integer, Object>();
 		this.listObservables.put(IObservables.RECEPT_DIALOG, ObservableFactory.getNewReceptDialogObservable());
 		this.listObservables.put(IObservables.RECEPT_MENU, ObservableFactory.getNewReceptMenuObservable());
 		this.listObservables.put(IObservables.RECEPT_MESSAGE, ObservableFactory.getNewReceptMessageObservable());

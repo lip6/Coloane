@@ -106,7 +106,7 @@ public class SessionController implements ISessionController {
 		throw new ApiException("Impossible de demander un service sur la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 
-	public void notifyEndOpenSession(IApiSession opened,MMenu menu) {
+	public void notifyEndOpenSession(IApiSession opened,MMenu menu) throws ApiException {
 		if (activeSession != null){
 			notifyEndSuspendSession(activeSession);
 		}
@@ -114,30 +114,34 @@ public class SessionController implements ISessionController {
 		this.addSession(opened);
 		
 		if (!((ApiSession)activeSession).getSessionStateMachine().goToIdleState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
 		
 		ReceptMenu m = new ReceptMenu(menu);
 		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(m);
 	}
 
-	public void notifyEndSuspendSession(IApiSession suspended) {
+	public void notifyEndSuspendSession(IApiSession suspended) throws ApiException  {
 		if (!((ApiSession)suspended).getSessionStateMachine().goToSuspendSessionState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
+			throw new ApiException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
 		}
 		activeSession = null;
 	}
 
-	public void notifyEndResumeSession(IApiSession resumed) {		
-		if (!((ApiSession)activeSession).getSessionStateMachine().goToIdleState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+	public void notifyEndResumeSession(IApiSession resumed) throws ApiException  {
+
+		if (activeSession != null){
+			activeSession.suspendSession();
 		}
 		activeSession = listSessions.get(resumed.getIdSession());
+		if (!((ApiSession)activeSession).getSessionStateMachine().goToIdleState()){
+			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
 	}
 
-	public void notifyEndCloseSession(IApiSession closed) {
+	public void notifyEndCloseSession(IApiSession closed) throws ApiException  {
 		if (!((ApiSession) closed).getSessionStateMachine().goToCloseSessionState()){
-			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
+			throw new ApiException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
 		this.removeSession(closed);
 		this.activeSession = null;

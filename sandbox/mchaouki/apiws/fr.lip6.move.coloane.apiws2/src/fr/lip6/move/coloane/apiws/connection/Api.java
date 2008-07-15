@@ -18,8 +18,7 @@ public class Api implements IApi  {
 	}
 	
 	public IApiConnection getApiConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ApiConnection();
 	}
 
 }
