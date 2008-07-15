@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -7,10 +9,6 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
-
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
-import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Definition d'une contrainte sur le nombre d'élément qui peuvent être contenu<br>
@@ -51,7 +49,7 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
 	 */
 	public final boolean isSatisfied(INode node) {
-		return true;
+		return (node.getNodeFormalism().getName().equals(element));
 	}
 
 	/*
@@ -59,7 +57,7 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
 	 */
 	public final String getName() {
-		return "Capacity constraint";
+		return Messages.CapacityConstraint_0;
 	}
 
 	/*

@@ -77,6 +77,6 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
 	 */
 	public final String getName() {
-		return "Connection constraint";
+		return Messages.ConnectionConstraint_0;
 	}
 }

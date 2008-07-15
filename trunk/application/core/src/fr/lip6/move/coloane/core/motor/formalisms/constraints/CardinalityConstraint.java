@@ -129,6 +129,6 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
 	 */
 	public final String getName() {
-		return "Cardinality constraint";
+		return Messages.CardinalityConstraint_0;
 	}
 }
