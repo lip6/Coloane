@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.interfaces.api.session;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
@@ -55,18 +56,18 @@ public interface IApiSession {
 	 * @param sessionName nom de la session.
 	 * @param interlocutor l'interlocuteur (l'outil).
 	 * @param mode le mode (interactif ou batch).
-	 * @return true, si la session est bien ouvert, false sinon
+	 * @return les informations sur la session ouverte
 	 */
-	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws ApiException;
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws ApiException;
 	
 	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
 	 * @param sessionFormalism formalisme de la session.
 	 * @param sessionName nom de la session.
-	 * @return true, si la session est bien ouvert, false sinon
+	 * @return les informations sur la session ouverte
 	 */
-	public boolean openSession(String sessionDate, String sessionFormalism,String sessionName) throws ApiException;
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism,String sessionName) throws ApiException;
 
 	/**
 	 * Suspend la session courrante
