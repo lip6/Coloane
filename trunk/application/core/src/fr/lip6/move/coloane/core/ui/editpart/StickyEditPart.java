@@ -39,6 +39,10 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		});
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	protected final IFigure createFigure() {
 		StickyNoteFigure label = new StickyNoteFigure();
 		label.setSize(getStickyNote().getSize());

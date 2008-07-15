@@ -21,6 +21,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
@@ -140,6 +141,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void createEditPolicies() {
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new AttributeDirectEditPolicy());
+
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
@@ -284,6 +287,24 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
+	private void performDirectEdit() {
+		new AttributeEditManager(this, new AttributeCellEditorLocator((Label) getFigure())).show();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	public final void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+			performDirectEdit();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 

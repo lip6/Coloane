@@ -1,34 +1,34 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import org.eclipse.gef.commands.Command;
 
 /**
  * Commande d'édition d'une note sur l'éditeur
  */
-public class StickyNoteEditCommand extends Command {
+public class AttributeEditCommand extends Command {
 
 	/** Sauvegarde des ancinnes valeurs */
-	private String newName;
+	private String newValue;
 
 	/** La nouvelle valeur */
-	private String oldName;
+	private String oldValue;
 
 	/** La note considérée */
-	private IStickyNote label;
+	private IAttribute attribute;
 
 	/**
 	 * Constructeur de la commande
-	 * @param note La note qui doit être éditée
+	 * @param attribute La note qui doit être éditée
 	 * @param value La nouvelle valeur de la note
 	 */
-	public StickyNoteEditCommand(IStickyNote note, String value) {
+	public AttributeEditCommand(IAttribute attribute, String value) {
 		super(Messages.StickyNoteEditCommand_0);
-		label = note;
-		newName = ""; //$NON-NLS-1$
+		this.attribute = attribute;
+		newValue = ""; //$NON-NLS-1$
 		if (value != null) {
-			newName = value;
+			newValue = value;
 		}
 	}
 
@@ -37,8 +37,8 @@ public class StickyNoteEditCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public final void execute() {
-		oldName = label.getLabelContents();
-		label.setLabelContents(newName);
+		oldValue = attribute.getValue();
+		attribute.setValue(newValue);
 	}
 
 	/*
@@ -46,6 +46,6 @@ public class StickyNoteEditCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public final void undo() {
-		label.setLabelContents(oldName);
+		attribute.setValue(oldValue);
 	}
 }
