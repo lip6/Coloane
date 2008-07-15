@@ -30,24 +30,24 @@ public class ResultTreeImplTest {
 
 	@Before
 	public final void setUp() throws Exception {
-		root = new ResultTreeImpl("t1_elt1", "t1_elt2", "t1_elt3");
+		root = new ResultTreeImpl("t1_elt1", "t1_elt2", "t1_elt3"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		root.setSessionManager(manager);
 
-		final ISession tempo = new Session("temporaire");
+		final ISession tempo = new Session("temporaire"); //$NON-NLS-1$
 
 		context.checking(new Expectations() { {
 			allowing(manager).getCurrentSession();
 			will(returnValue(tempo));
 		} });
 
-		tree2 = new ResultTreeImpl(2, "t2_elt1", "t2_elt2", "t2_elt3");
+		tree2 = new ResultTreeImpl(2, "t2_elt1", "t2_elt2", "t2_elt3"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		List<Integer> tmpList = new ArrayList<Integer>();
 		tmpList.add(Integer.valueOf(3));
 		tmpList.add(Integer.valueOf(5));
 		tmpList.add(Integer.valueOf(7));
-		tree3 = new ResultTreeImpl(tmpList, "t3_elt1", "t3_elt2", "t3_elt3");
-		tree4 = new ResultTreeImpl("t4_elt1");
+		tree3 = new ResultTreeImpl(tmpList, "t3_elt1", "t3_elt2", "t3_elt3"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		tree4 = new ResultTreeImpl("t4_elt1"); //$NON-NLS-1$
 		tree5 = new ResultTreeImpl();
 	}
 
@@ -102,10 +102,10 @@ public class ResultTreeImplTest {
 
 	@Test
 	public final void testGetElement() {
-		assertTrue(root.getElement().get(0).equals("t1_elt1"));
-		assertTrue(root.getElement().get(1).equals("t1_elt2"));
-		assertTrue(root.getElement().get(2).equals("t1_elt3"));
-		assertTrue(tree4.getElement().get(0).equals("t4_elt1"));
+		assertTrue(root.getElement().get(0).equals("t1_elt1")); //$NON-NLS-1$
+		assertTrue(root.getElement().get(1).equals("t1_elt2")); //$NON-NLS-1$
+		assertTrue(root.getElement().get(2).equals("t1_elt3")); //$NON-NLS-1$
+		assertTrue(tree4.getElement().get(0).equals("t4_elt1")); //$NON-NLS-1$
 		assertTrue(tree5.getElement().size() == 0);
 	}
 
