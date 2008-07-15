@@ -35,7 +35,6 @@ public class ApiSession implements IApiSession {
 	private String idSession;
 	
 	public ApiSession(ISessionController sessionController, ISpeaker speaker){
-		// TODO Completer le constructeur de ApiSession
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
@@ -94,7 +93,7 @@ public class ApiSession implements IApiSession {
 			sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
 			
-			sessionController.notifyEndOpenSession(this);
+			sessionController.notifyEndOpenSession(this,sessionOpened.getMenu());
 			
 		}
 		return new SessionInfo(sessionOpened);
@@ -106,13 +105,18 @@ public class ApiSession implements IApiSession {
 	}
 
 	public boolean suspendSession() throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
+		if (sessionController.suspendSession(this)){
+			sessionController.notifyEndSuspendSession(this);
+		}
+		return true;
 	}
 
 	public boolean resumeSession() throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
+		if (sessionController.resumeSession(this)){
+			speaker.changeSession(this.getIdSession());
+			sessionController.notifyEndResumeSession(this);
+		}
+		return true;
 	}
 
 	public boolean closeSession() throws ApiException {
@@ -121,8 +125,8 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 
-			Session sessionToResumeAfterClose = speaker.closeSession(idSession);
-			sessionController.notifyEndCloseSession(this,sessionToResumeAfterClose);
+			speaker.closeSession(idSession);
+			sessionController.notifyEndCloseSession(this);
 
 		}
 		return true;

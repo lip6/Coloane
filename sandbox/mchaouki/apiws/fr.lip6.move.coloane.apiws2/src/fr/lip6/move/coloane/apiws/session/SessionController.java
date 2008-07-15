@@ -3,11 +3,14 @@ package fr.lip6.move.coloane.apiws.session;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import fr.lip6.move.coloane.apiws.evenements.ReceptMenu;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.wrapper.ws.WrapperStub.Session;
+import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 
 public class SessionController implements ISessionController {
 	
@@ -29,15 +32,14 @@ public class SessionController implements ISessionController {
 	
 	/**
 	 * Represent la correspondance entre le nom d'une session et son identifiant
+	 * private Hashtable<String, String> correspondenceNameToIdSession;
 	 */
-	private Hashtable<String, String> correspondenceNameToIdSession;
 	
 	public SessionController(HashMap<Integer, Object> listObservables){
 		this.activeSession = null;
 		this.listSessions = new Hashtable<String, IApiSession>();
 		this.listObservables = listObservables;
 		
-		this.correspondenceNameToIdSession = new Hashtable<String, String>();
 	}
 
 	public IApiSession getActiveSession() {
@@ -55,7 +57,7 @@ public class SessionController implements ISessionController {
 
 	public boolean removeSession(IApiSession s) {
 		listSessions.remove(s.getIdSession());
-		return false;
+		return true;
 	}
 
 	public boolean openSession(IApiSession s) throws ApiException {
@@ -104,34 +106,44 @@ public class SessionController implements ISessionController {
 		throw new ApiException("Impossible de demander un service sur la session: idSession="+s.getIdSession()+" etat="+s.getSessionStateMachine().getState()+" activeSession="+isActivateSession(s));
 	}
 
-	public void notifyEndOpenSession(IApiSession opened) {
-		// TODO Auto-generated method stub
+	public void notifyEndOpenSession(IApiSession opened,MMenu menu) {
+		if (activeSession != null){
+			notifyEndSuspendSession(activeSession);
+		}
+		this.activeSession = opened;
+		this.addSession(opened);
 		
-	}
-
-	public void notifyEndResult() {
-		// TODO Auto-generated method stub
+		if (!((ApiSession)activeSession).getSessionStateMachine().goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
 		
+		ReceptMenu m = new ReceptMenu(menu);
+		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(m);
 	}
 
 	public void notifyEndSuspendSession(IApiSession suspended) {
-		// TODO Auto-generated method stub
-		
+		if (!((ApiSession)suspended).getSessionStateMachine().goToSuspendSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
+		}
+		activeSession = null;
 	}
 
-	public void notifyEndResumeSession(IApiSession resumed) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void notifyEndChangeSession(IApiSession suspended,
-			Session sessionToResumed) {
-		// TODO Auto-generated method stub
-		
+	public void notifyEndResumeSession(IApiSession resumed) {		
+		if (!((ApiSession)activeSession).getSessionStateMachine().goToIdleState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+		activeSession = listSessions.get(resumed.getIdSession());
 	}
 
-	public void notifyEndCloseSession(IApiSession closed,
-			Session sessionToResumed) {
+	public void notifyEndCloseSession(IApiSession closed) {
+		if (!((ApiSession) closed).getSessionStateMachine().goToCloseSessionState()){
+			throw new IllegalStateException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
+		}
+		this.removeSession(closed);
+		this.activeSession = null;
+	}
+
+	public void notifyEndResult() {
 		// TODO Auto-generated method stub
 		
 	}

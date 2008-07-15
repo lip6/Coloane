@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.wrapper.ws.WrapperStub.Session;
+import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 
 public interface ISessionController {
 
@@ -78,7 +78,7 @@ public interface ISessionController {
 	 * Notifier l'ouverture d'une session
 	 * @param opened la session ouvert
 	 */
-	public void notifyEndOpenSession(IApiSession opened);
+	public void notifyEndOpenSession(IApiSession opened, MMenu menu);
 
 	/**
 	 * Notifier la suspention d'une session
@@ -91,20 +91,13 @@ public interface ISessionController {
 	 * @param resumed la session restaurer
 	 */
 	public void notifyEndResumeSession(IApiSession resumed);
-	
-	/**
-	 * Notifier le changement de session
-	 * @param suspended la session qui sera suspendue
-	 * @param reloaded la session qui sera recharge
-	 */
-	public void notifyEndChangeSession(IApiSession suspended, Session sessionToResumed);
 
 	/**
 	 * Notifier la fermeture d'une session
 	 * @param closed la session fermer
 	 * @param resumed la session qui sera restaure
 	 */
-	public void notifyEndCloseSession(IApiSession closed,Session sessionToResumed);
+	public void notifyEndCloseSession(IApiSession closed);
 
 	/**
 	 * 
