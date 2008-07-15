@@ -191,13 +191,7 @@ public final class ModelWriter {
 
 			// On ne traite pas le cas des attributs qui sont vides
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
-				String balise;
-				// Traitement special pour l'attribut AUTHOR
-				if (att.getName().equals("author(s)")) { //$NON-NLS-1$
-					balise = "authors"; //$NON-NLS-1$
-				} else {
-					balise = att.getName();
-				}
+				String balise = att.getName();
 				sb.append("<attribute name='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$
 				sb.append(" xposition='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(" yposition='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -220,6 +214,7 @@ public final class ModelWriter {
 	 * @return Le texte transforme et protege
 	 */
 	private static String format(String txt) {
+		txt = txt.replaceAll("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;
