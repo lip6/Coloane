@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
@@ -44,6 +46,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	private static final ConnectionRouter CONNECTION_ROUTER = new BendpointConnectionRouter();
+
 	private boolean isSelected = false;
 
 	/**
@@ -59,6 +63,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			arcFigure = new SimpleArc();
 		}
 		arcFigure.setForegroundColor(arc.getGraphicInfo().getColor());
+		arcFigure.setConnectionRouter(CONNECTION_ROUTER);
 		return arcFigure;
 	}
 
