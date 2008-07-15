@@ -226,14 +226,18 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				IFigure figure = (IFigure) me.getSource();
 				previous = figure.getBackgroundColor();
 				figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT);
+				setSelected(previousState);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent me) {
 				IFigure figure = (IFigure) me.getSource();
 				figure.setBackgroundColor(previous);
+				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT_NONE);
+				setSelected(previousState);
 			}
 		});
 	}
