@@ -66,7 +66,7 @@ public class Listener extends Thread implements IListener {
 				if (message.getTraces() != null){
 					for (int i=0;i<message.getTraces().length;i++){
 						// TODO Passer en parametre plus tard le type du message
-						ReceptMessage m = new ReceptMessage(0/* message.getType()*/,message.getTraces()[i]);
+						ReceptMessage m = new ReceptMessage(0/* message.getType()*/,message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 					}
 				}

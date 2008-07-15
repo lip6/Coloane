@@ -39,36 +39,6 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for wanswerDb method
-     * override this method for handling normal response from wanswerDb operation
-     */
-    public void receiveResultwanswerDb(
-        fr.lip6.move.wrapper.ws.WrapperStub.WanswerDbResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from wanswerDb operation
-     */
-    public void receiveErrorwanswerDb(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for wcloseSession method
-     * override this method for handling normal response from wcloseSession operation
-     */
-    public void receiveResultwcloseSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.WcloseSessionResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from wcloseSession operation
-     */
-    public void receiveErrorwcloseSession(java.lang.Exception e) {
-    }
-
-    /**
      * auto generated Axis2 call back method for answerDb method
      * override this method for handling normal response from answerDb operation
      */
@@ -81,83 +51,6 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling error response from answerDb operation
      */
     public void receiveErroranswerDb(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for wchangeSession method
-     * override this method for handling normal response from wchangeSession operation
-     */
-    public void receiveResultwchangeSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.WchangeSessionResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from wchangeSession operation
-     */
-    public void receiveErrorwchangeSession(java.lang.Exception e) {
-    }
-
-    // No methods generated for meps other than in-out
-
-    /**
-     * auto generated Axis2 call back method for createSession method
-     * override this method for handling normal response from createSession operation
-     */
-    public void receiveResultcreateSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from createSession operation
-     */
-    public void receiveErrorcreateSession(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for ping method
-     * override this method for handling normal response from ping operation
-     */
-    public void receiveResultping(
-        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from ping operation
-     */
-    public void receiveErrorping(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for disconnectAllUser method
-     * override this method for handling normal response from disconnectAllUser operation
-     */
-    public void receiveResultdisconnectAllUser(
-        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectAllUserResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from disconnectAllUser operation
-     */
-    public void receiveErrordisconnectAllUser(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for disconnect method
-     * override this method for handling normal response from disconnect operation
-     */
-    public void receiveResultdisconnect(
-        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from disconnect operation
-     */
-    public void receiveErrordisconnect(java.lang.Exception e) {
     }
 
     /**
@@ -176,19 +69,21 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for wdisconnect method
-     * override this method for handling normal response from wdisconnect operation
+     * auto generated Axis2 call back method for createSession method
+     * override this method for handling normal response from createSession operation
      */
-    public void receiveResultwdisconnect(
-        fr.lip6.move.wrapper.ws.WrapperStub.WdisconnectResponse result) {
+    public void receiveResultcreateSession(
+        fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse result) {
     }
 
     /**
      * auto generated Axis2 Error handler
-     * override this method for handling error response from wdisconnect operation
+     * override this method for handling error response from createSession operation
      */
-    public void receiveErrorwdisconnect(java.lang.Exception e) {
+    public void receiveErrorcreateSession(java.lang.Exception e) {
     }
+
+    // No methods generated for meps other than in-out
 
     /**
      * auto generated Axis2 call back method for changeSession method
@@ -206,33 +101,63 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for wping method
-     * override this method for handling normal response from wping operation
+     * auto generated Axis2 call back method for disconnectAllUser method
+     * override this method for handling normal response from disconnectAllUser operation
      */
-    public void receiveResultwping(
-        fr.lip6.move.wrapper.ws.WrapperStub.WpingResponse result) {
+    public void receiveResultdisconnectAllUser(
+        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectAllUserResponse result) {
     }
 
     /**
      * auto generated Axis2 Error handler
-     * override this method for handling error response from wping operation
+     * override this method for handling error response from disconnectAllUser operation
      */
-    public void receiveErrorwping(java.lang.Exception e) {
+    public void receiveErrordisconnectAllUser(java.lang.Exception e) {
     }
 
     /**
-     * auto generated Axis2 call back method for wcreateSession method
-     * override this method for handling normal response from wcreateSession operation
+     * auto generated Axis2 call back method for ping method
+     * override this method for handling normal response from ping operation
      */
-    public void receiveResultwcreateSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.WcreateSessionResponse result) {
+    public void receiveResultping(
+        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
     }
 
     /**
      * auto generated Axis2 Error handler
-     * override this method for handling error response from wcreateSession operation
+     * override this method for handling error response from ping operation
      */
-    public void receiveErrorwcreateSession(java.lang.Exception e) {
+    public void receiveErrorping(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for executeService method
+     * override this method for handling normal response from executeService operation
+     */
+    public void receiveResultexecuteService(
+        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from executeService operation
+     */
+    public void receiveErrorexecuteService(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for disconnect method
+     * override this method for handling normal response from disconnect operation
+     */
+    public void receiveResultdisconnect(
+        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from disconnect operation
+     */
+    public void receiveErrordisconnect(java.lang.Exception e) {
     }
 
     /**
