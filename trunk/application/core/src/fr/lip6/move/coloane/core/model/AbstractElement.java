@@ -55,7 +55,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	public final Collection<IAttribute> getDrawableAttributes() {
 		ArrayList<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
-			if (attr.getAttributeFormalism().isDrawable() && !attr.getValue().equals(attr.getAttributeFormalism().getDefaultValue())) {
+			if (attr.getAttributeFormalism().isDrawable()) {
 				drawables.add(attr);
 			}
 		}

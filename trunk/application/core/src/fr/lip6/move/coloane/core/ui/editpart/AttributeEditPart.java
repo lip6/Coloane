@@ -46,6 +46,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Localisation
 		IAttribute attribut = (IAttribute) getModel();
 
+		// On cache la figure si l'attribut est à la valeur par défaut
+		if (attribut.getAttributeFormalism().getDefaultValue().equals(attribut.getValue())) {
+			figure.setVisible(false);
+		}
+
 		// Si le referent est un noeud, on agit sur la position de l'attribut
 		Point attributePosition;
 		if (attribut.getReference() instanceof INode) {
@@ -259,6 +264,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		// Modification d'un attribut.
 		if (IAttribute.VALUE_PROP.equals(prop)) {
+			IAttribute model = (IAttribute) getModel();
+			String oldValue = (String) evt.getOldValue();
+			String newValue = (String) evt.getNewValue();
+			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				getFigure().setVisible(true);
+			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				getFigure().setVisible(false);
+			}
 			refreshVisuals();
 
 		// Deplacement d'un attribut.

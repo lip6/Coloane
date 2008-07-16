@@ -308,7 +308,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// On ajoute des raccourcis clavier
 		KeyHandler keyHandler = new KeyHandler();
-		System.err.println(getActionRegistry().getAction(NodeMoveAction.UP));
 		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_UP, 0), getActionRegistry().getAction(NodeMoveAction.UP));
 		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_DOWN, 0), getActionRegistry().getAction(NodeMoveAction.DOWN));
 		keyHandler.put(KeyStroke.getPressed(SWT.ARROW_LEFT, 0), getActionRegistry().getAction(NodeMoveAction.LEFT));
