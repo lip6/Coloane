@@ -87,7 +87,7 @@ public interface ISessionController {
 
 	public void notifyWaitingForResult();
 
-	public void notifyWaitingForModel();
+	public void notifyWaitingForModel() throws IOException;
 
 	public void notifyEndResult();
 }

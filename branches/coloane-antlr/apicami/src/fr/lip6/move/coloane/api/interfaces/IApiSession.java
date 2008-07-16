@@ -57,7 +57,7 @@ import java.io.IOException;
 	 	         * @param le nom du service demandÃ©.
 	 	         * @throws IOException
 	 	         */
-	 	        public void askForService(String rootName,String menuName, String serviceName) throws IOException;
+	 	        public void askForService(String rootName,String menuName, String serviceName,IModel model) throws IOException;
 
 
 	 	        /**
@@ -67,7 +67,7 @@ import java.io.IOException;
 	 	         * @param la date .
 	 	         * @throws IOException 
 	 	         */
-	 	        public void askForService(String rootName,String menuName, String serviceName, String Date) throws IOException;
+	 	        public void askForService(String rootName,String menuName, String serviceName, String Date,IModel model) throws IOException;
 
 	 	       public void openSession(String sessionDate, String sessionFormalism,
                        String sessionName) throws IOException, InterruptedException ;
@@ -86,19 +86,19 @@ import java.io.IOException;
 
 			public void notifyEndCloseSession();
 
-
-			public void sendModel(IModel model) throws IOException;
 			
 			public void invalidModel() throws IOException;
 
 
-			public void notifyWaitingForModel();
+			 void notifyWaitingForModel() throws IOException;
 
 
-			public void notifyWaitingForResult();
+			 void notifyWaitingForResult();
 
 
-			public void notifyEndResult();
+			 void notifyEndResult();
+			 
+			 public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException;
 
 
 	 	}

@@ -10,15 +10,18 @@ package fr.lip6.move.coloane.api.cami;
 
 import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
+import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
+import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 
 import java.util.ArrayList;
@@ -39,14 +42,16 @@ import java.util.HashMap;
 
    ISessionController sc; /* Controleur de la session */
 
-   IFkInfo fkInfo; 
-
+   ISessionInfo fkInfo; 
+   IDialog dialog;
+   
+   ArrayList<String> camiDialog; /* represente une boite de dialogue */
    IMenu menu;
    ArrayList<IMenu> menuList;
 
    ArrayList<IUpdateItem> updates;
 
-
+   HashMap<Integer,IDialog> dialogs ;
   
    /* Constructeur du parser */
    public CamiParser(TokenStream input, ISessionController sessionController, 
@@ -54,6 +59,7 @@ import java.util.HashMap;
        this(input);
        hashObservable = hm;       
        sc = sessionController;
+       dialogs = new HashMap<Integer,IDialog>();
    }
 } /* fin du header */
 
@@ -106,7 +112,7 @@ ack_open_connection
         } 
     ',' 
     v2=NUMBER {listOfArgs.add($v2.text);
-            IFkVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
+            IConnectionVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
             ((IConnectionObservable)hashObservable.get("IConnection")).notifyObservers(version);
             synchronized(hashObservable){
                 hashObservable.notify();
@@ -120,7 +126,7 @@ ack_open_connection
 close_connection
     :
     'FC()'{
-            /* TODO ON VERRA CE QU'ON FERA ICIIIIIIIIIIIII*/
+             ((ICloseConnectionObservable)hashObservable.get("ICloseConnection")).notifyObservers();  
         }
     ;
 /* ---------------------- Ouverture de la session ------------------------------ */
@@ -171,6 +177,7 @@ ack_close_current_session
 	:
 	'FS(' CAMI_STRING ')'{
             sc.notifyEndCloseSession();
+             ((ICloseSessionObservable)hashObservable.get("ICloseSession")).notifyObservers($CAMI_STRING.text);  
         }
 	;
 
@@ -283,7 +290,7 @@ question_add
                 aq.add(null/*new String("")*/);
 
             if($set_item != null)
-                aq.add(null/*$set_item.text*/); /* validation par defaut  */
+                aq.add($set_item.text); /* validation par defaut  */
             else
                 aq.add(null/*new String("")*/);
             
@@ -345,7 +352,7 @@ update /* TQ de type 7 et 8*/
             
             camiUpdates.add(update);/* ajouter à la liste des updates  */
             
-            System.out.println("je parse le TQ");
+            System.out.println("je parse le TQ 7 ou 8");
         }
     ;
 
@@ -356,25 +363,24 @@ end_menu_transmission
 	'QQ(' NUMBER ')'{
             
           System.out.println("QQ((((" + $NUMBER.text + ")");
-         //     if($NUMBER.text == "3"){
+            if($NUMBER.text.equals("3")){
              sc.notifyEndOpenSession();
             updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
             ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
+              camiUpdates = null;
+             camiUpdates = new ArrayList<ArrayList<String>>();
 
-            /* notifier le sessionController qu'on a reçu les menus et les updates */            
-           
+            }
+         else {
+          System.out.println("je parse eeeeeeeeQQ2");
+     updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
+     ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(null, null, updates);
 
-//}
-//else {
-
- //}
+}
+                  
         }
     ;
 
-
-
-
-/* ------------------------- Résultats de demande de service  -------------------------------*/
 
 
 
@@ -431,263 +437,12 @@ ask_for_a_model
     'DF(-2,' NUMBER ',' NUMBER ')'{
          System.out.println("je parse le DF");
           sc.notifyWaitingForModel();
-       ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+   //    ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
            }
 	;
 
 
-
-/* ------------------------- reception des resultats ---------------------------
-
-
-result_reception
-       :
-        'DR()'{ 
-            // initialiser la liste des updates 
-        //    camiUpdates = new ArrayList<ArrayList<String>>();
-          System.out.println("je parse DR");
-        }
-       |'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
-        System.out.println("je parse RQ"); 
-        } 
-       |resultat*
-       |'FR(' NUMBER ')'{
-         System.out.println("je parse FR");
-            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
-        }
-;
-
-
-
-
-
-resultat
-   :
-         message_utils*
-        |domaine_table
-        |dialogue
-        |modele
-        |result*
-       
-;
-message_utils
-          :
-          trace_message2 
-          | warning_message2 
-          | special_message2
-          | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-          System.out.println("je parse ZA");
-          }
-          |'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9') ',' mess2=CAMI_STRING? ')'{ 
-            
-          //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
-          System.out.println("je parse TQ2");
-          }
-         
-;
-
-trace_message2
-	:
-	'TR(' CAMI_STRING ')'{
-          ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
-        System.out.println("je parse le TR");
-        }
-	;
-
-warning_message2
-	:
-	'WN(' CAMI_STRING ')'{
-         ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
- System.out.println("je parse le WN");
-        }
-	;
-
-special_message2
-	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'{
-          ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
-      System.out.println("je parse le MO");
-        }
-	;
-
-
-result
-   :
-	
-       'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
-         System.out.println("je parse DE"); 
-         }
-        result_body+
-	|'FE()'{
-         System.out.println("je parse FE"); 
-         }
-;
-
-debut
-  :
-        'DE(' ensemble_name=CAMI_STRING ',' ensemble_type=NUMBER ')'{
-         System.out.println("je parse DE"); 
-         }
-        |'DE()'{
-         System.out.println("je parse DE sans parametre"); 
-         }
-;
-
-result_body
- 	:
-         textual_result
-        |result
- 	| object_designation
- 	| object_outline
- 	| attribute_outline
- 	| object_creation
- 	| object_deletion
- 	;
- 
-textual_result
- 	:
- 	'RT(' CAMI_STRING ')'{
-        System.out.println("je parse RT"); 
-         }
- 	;
-
-object_designation
- 	:
- 	'RO(' id=NUMBER ')'{
-       System.out.println("je parse RO"); 
-         }
- 	;
-
-object_outline
- 	:
- 	'ME(' id=NUMBER ')'{
- System.out.println("je parse ME"); 
-         }
- 	;
-
-attribute_outline
- 	    :
- 	'MT(' id=NUMBER ',' attr_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')'{
-     System.out.println("je parse MT"); 
-         }
- 	;
-
-object_creation
- 	:
-	  'CN(' CAMI_STRING ',' NUMBER ')'{
-         System.out.println("je parse CN"); 
-         }
-	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'{
-        System.out.println("je parse CB"); 
-         }
-	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-        System.out.println("je parse CA"); 
-         }
-	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'{ 
-        System.out.println("je parse CT"); 
-         }
-	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-       System.out.println("je parse CM"); 
-         }
- 	;
-
-object_deletion
-	:
- 	  'SU(' id=NUMBER ')'{
-         System.out.println("je parse SU"); 
-         }
- 	| 'SI(' page_id=NUMBER ',' id=NUMBER ')'{
-        System.out.println("je parse SI"); 
-         }
- 	;
-
-
-domaine_table
-      :
-      'TD(' CAMI_STRING ')'{
-       
-           System.out.println("je parse le TD dans table domaine");
-        }
-        milieu*
-       'FA()'{
-          
-           System.out.println("je parse le FA dans table domaine");
-        }
-;
-
-milieu
-:
- 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-    
-           System.out.println("je parse le OB dans table domaine");
-        }
-       | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-         
-           System.out.println("je parse le AT dans table domaine");
-}
-;
-
-modele
-    :
-      'DB()'{
-         System.out.println("je parse BD"); 
-       }
-       modele2*
-       'FB()'{
-         System.out.println("je parse FB"); 
-       }
-;
-
-modele2
-    :
-      'CN(' CAMI_STRING ',' NUMBER ')'{
-         System.out.println("je parse CN"); 
-         }
-	| 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'{
-        System.out.println("je parse CB"); 
-         }
-	| 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-        System.out.println("je parse CA"); 
-         }
-	| 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'{ 
-        System.out.println("je parse CT"); 
-         }
-	| 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'{
-       System.out.println("je parse CM"); 
-         }
-        |'PO('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-         System.out.println("je parse PO");
-        }
-        |'pO('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-         System.out.println("je parse pO");
-        }
-;
-
-dialogue
-     :
-    dialog2+
-    |'DC()'{
-        System.out.println("je parse DC");
-    }
-    |'AD('NUMBER ')'{
-         System.out.println("je parse AD");
-        }
-;
-
-dialog2
-    : 
-    'DS('NUMBER ',' CAMI_STRING ')'{
-       System.out.println("je parse DS"); 
-         }
-     | 'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' default_value=CAMI_STRING? ')'{
-       System.out.println("je parse CE"); 
-         }
-
-       |'FF('{ 
-     System.out.println("je parse FF");
-     }
-
-;*******/
+/******************resultats**************************************/
 
 
 result_reception
@@ -716,7 +471,7 @@ result_reception
         |'FR(' NUMBER ')'{
          System.out.println("je parse FR");
           sc.notifyEndResult();
-            //TODO notifier Coloane  de la fin de reception des resulstats et envoyer les resultats
+            //TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
         }
 ;
 
@@ -893,16 +648,64 @@ modele2
 
 dialogue
      :
-    dialog2+
-    '<EOF>'*
-    |'DC('{
+       'DS('dialog_id=NUMBER ',' line_number=CAMI_STRING ')'{
+        camiDialog.add($line_number.text);
+       System.out.println("je parse DS"); 
+         }
+       | 'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' help=CAMI_STRING ','             title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' default_value=CAMI_STRING? ')'{
+
+
+           camiDialog.add($dialog_id.text); 
+           camiDialog.add($dialog_type.text); 
+           camiDialog.add($buttons_type.text); 
+           camiDialog.add($window_title.text); 
+           camiDialog.add($help.text); 
+           camiDialog.add($title_or_message.text); 
+           camiDialog.add($input_type.text);
+           camiDialog.add($line_type.text);
+
+            if($default_value != null)
+                 camiDialog.add($default_value.text); 
+            else
+                 camiDialog.add(null/*new String("")*/);
+
+            System.out.println("je parse CE"); 
+         }
+       |NEWLINE
+       |'FF('{ 
+       IDialog dialog = (IDialog)CamiObjectBuilder.buildDialog(camiDialog);
+  
+       dialogs.put((Integer) dialog.getId(), dialog); 
+   
+       System.out.println("je parse FF");
+     }
+       |'DC('{
+        camiDialog = new ArrayList<String>();
         System.out.println("je parse DC");
     }
-    |'AD('NUMBER ')'{
+       |'AD('dialog_id=NUMBER ')'{
+        
+   
+       Integer i = Integer.parseInt($dialog_id.text);
+ 
+       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(i),1);
          System.out.println("je parse AD");
         }
+       |'CD('dialog_id=NUMBER ')'{
+        
+       Integer j = Integer.parseInt($dialog_id.text);
+       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(j),2);
+         System.out.println("je parse CD");
+        }
+       |'DG(' dialog_id=NUMBER ')'{
+       Integer k = Integer.parseInt($dialog_id.text);
+       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(k),3);
+      dialogs.remove( k);
+     
+         System.out.println("je parse DG");
+        }
 ;
-
+/*
 dialog2
     : 
     'DS('NUMBER ',' CAMI_STRING ')'{
@@ -916,7 +719,7 @@ dialog2
      System.out.println("je parse FF");
      }
 
-;
+;*/
 
 
 

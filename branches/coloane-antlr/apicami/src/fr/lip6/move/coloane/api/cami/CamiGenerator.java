@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
+import fr.lip6.move.coloane.api.interfaces.IDialogAnswer;
 import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
@@ -316,15 +317,59 @@ public class CamiGenerator {
 		return initCommand(command);
 	}
 
-	/**
-	 * ******* Commandes pour la demande de service ********
-	 */
+	/**********commandes pour la reponse a une boite de dialog**********/
 
-	/**
-	 * Construction de la commande DT
-	 *
-	 * @param
-	 * @return
-	 */
+	public static byte[] generateCmdDP() {
+		String command = new String("DP()");
+		return initCommand(command);
+	}
+
+	public static ArrayList<byte[]> generateCmdDialogAnswer(IDialogAnswer d) {
+		ArrayList <byte[]> camiDialog = new ArrayList <byte[]>();
+		int modify = 1;
+		if(d.hasBeenModified())
+		{
+			modify = 2;
+		}
+		
+		if(!d.isMultiLineAnswer()) {
+			if(d.getAnswer()==null){
+			
+			String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
+					                    modify +","+ ")");
+			camiDialog.add(initCommand(command));
+
+			}
+			else {
+				String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
+	                    modify +","+ d.getAnswer().get(0).length()+":" +d.getAnswer().get(0) +")");
+			camiDialog.add(initCommand(command));
+			}
+			
+		}
+		
+		else {
+			String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
+                    modify +","+ ")");
+           camiDialog.add(initCommand(command));
+           String command1 = new String("DE()");
+           camiDialog.add(initCommand(command1));
+           
+           for(int i=0; i<d.getAnswer().size(); i++){
+   			String command2 = new String("DS(" + d.getDialogId() +"," +  d.getAnswer().get(i).length() +":" + d.getAnswer().get(i) + ")");
+   			camiDialog.add(initCommand(command2));
+			}
+           
+           String command3 = new String("FE()");
+           camiDialog.add(initCommand(command3));
+		}
+		return camiDialog;
+	}
+	
+	public static byte[] generateCmdFP() {
+		String command = new String("FP()");
+		return initCommand(command);
+	}
+
 
 }

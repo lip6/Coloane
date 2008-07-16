@@ -7,26 +7,27 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import teststub.CloseSessionObserver;
+
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.api.interfaces.*;
-import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IFkCloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IServiceStateObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IAskForModelObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.ICloseConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IFKCloseConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IServiceObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IServiceStateObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
@@ -90,11 +91,12 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IService", ObservableFactory.getNewServiceObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		this.hashObservable.put("IDialog", ObservableFactory.getNewDialogObservable());
-		this.hashObservable.put("FkCloseConnection", ObservableFactory.getNewFkCloseConnectionObservable());
+		this.hashObservable.put("ICloseConnection", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("IServiceState", ObservableFactory.getNewServiceStateObservable());
 		this.hashObservable.put("ITraceMessage", ObservableFactory.getNewTraceMessageObservable());
 		this.hashObservable.put("IWarning", ObservableFactory.getNewWarningObservable());
-		this.hashObservable.put("IAskForModel", ObservableFactory.getNewAskForModelObservable());
+		
+		this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 		this.sessionCont = SessionFactory.getNewSessionController();
 	}
 
@@ -227,17 +229,7 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	/** set du IAskForModelObserver
-	 * positionne l'observable aproprié par rapport à l'observeur dans notre hashmap,
-	 */
-	public boolean setIAskForModelObserver(IAskForModelObserver o, boolean createThread) {
-		IAskForModelObservable ico =  (IAskForModelObservable)this.hashObservable.get("IAskForModel");
-		ico.addObserver(o);
-		ico.setCreateThread(createThread);
-
-		return true;
-	}
-
+	
 	/** set du IDialogObserver*/
 	public boolean setDialogObserver(IDialogObserver o, boolean createThread) {
 
@@ -249,9 +241,9 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	/** set du IFKCloseConnectionObserver*/
-	public boolean setFKCloseConnectionObserver(IFKCloseConnectionObserver o, boolean createThread) {
+	public boolean setCloseConnectionObserver(ICloseConnectionObserver o, boolean createThread) {
 
-		IFkCloseConnectionObservable idl =  (IFkCloseConnectionObservable)this.hashObservable.get("IFkCloseConnection");
+		ICloseConnectionObservable idl =  (ICloseConnectionObservable)this.hashObservable.get("ICloseConnection");
 		idl.addObserver(o);
 		idl.setCreateThread(createThread);
 
@@ -304,6 +296,15 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
+	public boolean setCloseSessionObserver(
+			CloseSessionObserver o, boolean b) {
+		ICloseSessionObservable iss =  (ICloseSessionObservable)this.hashObservable.get("ICloseSession");
+		iss.addObserver(o);
+		iss.setCreateThread(b);
 
+		return true;
+	}
+
+	
 
 }

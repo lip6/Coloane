@@ -3,7 +3,7 @@ package teststub;
 import java.util.Observable;
 
 
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 
 /**
@@ -14,7 +14,7 @@ import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 
 public class ConnectionObserver implements IConnectionObserver {
 
-	public void update(IFkVersion arg) {
+	public void update(IConnectionVersion arg) {
 
 		System.out.println("testStub: on a notifié la connection");
 		System.out.println(arg.getFkName());

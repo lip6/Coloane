@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IAskForModelObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ITraceMessageObserver;
 

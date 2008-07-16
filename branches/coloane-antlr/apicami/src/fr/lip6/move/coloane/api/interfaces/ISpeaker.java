@@ -94,8 +94,9 @@ public interface ISpeaker {
 	/**
 	 *  demande a ISpeaker d'envoyer a FK une boite de dialogue.
 	 *   @param le dialogue.
+	 * @throws IOException 
 	 */
-	void sendDialogResponse(IDialog d);
+	void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException;
 
 	public void invalidModel() throws IOException;
 

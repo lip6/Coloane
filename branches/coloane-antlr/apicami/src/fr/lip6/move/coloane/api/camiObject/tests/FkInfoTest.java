@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.api.camiObject.tests;
 
-import fr.lip6.move.coloane.api.camiObject.FkVersion;
-import fr.lip6.move.coloane.api.camiObject.FkInfo;
+import fr.lip6.move.coloane.api.camiObject.ConnectionVersion;
+import fr.lip6.move.coloane.api.camiObject.SessionInfo;
 import junit.framework.TestCase;
 
 public class FkInfoTest extends TestCase {
@@ -20,7 +20,7 @@ public class FkInfoTest extends TestCase {
 			String nameService = "FrameKit environment";
 			String resultatCalcule = "2";
 
-			FkInfo fk =	new FkInfo (nameService,aboutService,incremental,resultatCalcule );
+			SessionInfo fk =	new SessionInfo (nameService,aboutService,incremental,resultatCalcule );
 	     this.assertEquals("FrameKit environment, by F.Kordon, LIP6", fk.getAboutService());
 	     this.assertEquals("3", fk.getIncremental());
 	     this.assertEquals("FrameKit environment", fk.getNameService());

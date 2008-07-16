@@ -35,6 +35,9 @@ public class ApiSession implements IApiSession {
 
 	/** notre automate*/
 	private ISessionStateMachine automate;
+	
+	/** notre modele*/
+	private IModel model;
 	/**
 	 * le constructeur de notre session.
 	 */
@@ -44,6 +47,7 @@ public class ApiSession implements IApiSession {
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
+		this.model=null;
 		this.sessionCont = se;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
@@ -88,8 +92,9 @@ System.out.println("session open");
 
 	}
 
-	public void askForService(String rootName,String menuName, String serviceName) throws IOException {
-		 if (this.sessionCont.askForService(this)){
+	public void askForService(String rootName,String menuName, String serviceName,IModel model) throws IOException {
+		this.model = model;
+		if (this.sessionCont.askForService(this)){
 
 			   speaker.askForService(rootName, menuName, serviceName);
           System.out.println(this.automate.getState());
@@ -103,8 +108,9 @@ System.out.println("session open");
 		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
-	public void askForService(String rootName,String menuName, String serviceName, String date) throws IOException {
-		 if (this.sessionCont.askForService(this)){
+	public void askForService(String rootName,String menuName, String serviceName, String date,IModel model) throws IOException {
+		this.model=model; 
+		if (this.sessionCont.askForService(this)){
 
 			   speaker.askForService(rootName, menuName, serviceName,date);
 
@@ -135,11 +141,13 @@ System.out.println("session open");
 	public boolean resumeSession() throws IOException, InterruptedException {
         if (this.sessionCont.resumeSession(this)){
      //  System.out.println("je  resume la session " + this.getSessionName());
+        	synchronized(this){
     			speaker.resumeSession(this.getSessionName());
     			 if (!this.automate.setWaitingForResumeSessionState()){
     				throw new IllegalStateException("je suis pas dans un etat qui me permet de reprendre mon execution");
     			 }
-
+    			  this.wait();
+    		}
     			// System.out.println("letat de la session a resumer  " + this.automate.getState());
     		return true;
     		}
@@ -197,6 +205,9 @@ System.out.println("session open");
 
 	public void notifyEndResumeSession(String nameSession) {
 		System.out.println("jai recu un notifyEndResumeSession");
+		synchronized(this){
+	        this.notify();
+			}
 		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
 		if (!this.automate.setIdleState()){
 		throw new IllegalStateException("etat pas coherent");
@@ -217,14 +228,14 @@ System.out.println("session open");
 
 
 
-	public void sendModel(IModel model) throws IOException {
+//	public void sendModel(IModel model) throws IOException {
 
 	
 	//	if (!this.automate.setWaitingForResultState()){
 	//		throw new IllegalStateException("j'etais pas en attente de resultat");
 	//	}
-		speaker.sendModel(model);
-}
+//		speaker.sendModel(model);
+//}
 
 	public void invalidModel() throws IOException {
 		 if(!this.automate.setWaitingForUpdatesState()){
@@ -236,10 +247,12 @@ System.out.println("session open");
 		
 	}
 
-	public void notifyWaitingForModel() {
+	public void notifyWaitingForModel() throws IOException {
+		
 		if(!this.automate.setWaitingForModelState())
 	throw new IllegalStateException("j'etais pas en attente de model");
 		
+		speaker.sendModel(this.model);
 	}
 
 	public void notifyWaitingForResult() {
@@ -253,6 +266,11 @@ System.out.println("session open");
 		if(!this.automate.setIdleState()){
 			 throw new IllegalStateException("je peux pas me mettre dans cet etat");
 			}
+	}
+
+	public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException {
+		speaker.sendDialogResponse(dialogAnswer);
+		return true;
 	}
 	
 	

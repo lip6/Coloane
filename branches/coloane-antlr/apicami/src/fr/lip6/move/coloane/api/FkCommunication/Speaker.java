@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.api.cami.CamiGenerator;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
+import fr.lip6.move.coloane.api.interfaces.IDialogAnswer;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
@@ -190,10 +191,7 @@ public class Speaker implements ISpeaker{
 	}
 
 
-	public void sendDialogResponse(IDialog d) {
-
-
-	}
+	
 
 	/**
 	 * Envoi du modèle
@@ -249,6 +247,27 @@ public class Speaker implements ISpeaker{
 		/** envoie de la commande SS */
 		this.fkll.writeCommand(cmdToSend);
 		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+	}
+
+
+	public void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException {
+	     /** envoi de la commande DP */
+		byte[] cmdToSend = CamiGenerator.generateCmdDP();
+		this.fkll.writeCommand(cmdToSend);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+		
+		/***** le coeur de la reponse a la boite de dialogue*/
+        ArrayList<byte[]> camiDialog;
+        camiDialog = CamiGenerator.generateCmdDialogAnswer(dialogAnswer);
+    	for(int i=0; i<camiDialog.size(); i++){
+			this.fkll.writeCommand(camiDialog.get(i));
+			
+			this.logger.finer("[CO-->FK] : " + new String(camiDialog.get(i), 4, camiDialog.get(i).length - 4));
+		}
+    	 /** envoi de la commande DP */
+		byte[] cmdToSend2 = CamiGenerator.generateCmdFP();
+		this.fkll.writeCommand(cmdToSend2);
+		this.logger.finer("[CO-->FK] : " + new String(cmdToSend2, 4, cmdToSend2.length - 4));
 	}
 	
 		}

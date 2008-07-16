@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject.tests;
 
-import fr.lip6.move.coloane.api.camiObject.FkVersion;
+import fr.lip6.move.coloane.api.camiObject.ConnectionVersion;
 import junit.framework.TestCase;
 
 public class FkVersionTest extends TestCase {
@@ -18,7 +18,7 @@ public class FkVersionTest extends TestCase {
 		String FkName = "FrameKit";
 	     int FKMajor = 2 ;
 	     int FKMinor = 1 ;
-	     FkVersion fk = new FkVersion(FkName,FKMajor,FKMinor);
+	     ConnectionVersion fk = new ConnectionVersion(FkName,FKMajor,FKMinor);
 	     this.assertEquals("FrameKit", fk.getFkName());
 	     this.assertEquals(2, fk.getFkMajor());
 	     this.assertEquals(1, fk.getFkMinor());

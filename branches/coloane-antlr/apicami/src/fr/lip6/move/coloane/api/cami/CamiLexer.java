@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-06-17 17:12:36
+// $ANTLR 3.0.1 Cami.g 2008-07-16 15:25:55
 
 package fr.lip6.move.coloane.api.cami;
             
@@ -42,6 +42,7 @@ public class CamiLexer extends Lexer {
     public static final int T62=62;
     public static final int T44=44;
     public static final int T55=55;
+    public static final int T68=68;
     public static final int T33=33;
     public static final int T11=11;
     public static final int T22=22;
@@ -65,8 +66,9 @@ public class CamiLexer extends Lexer {
     public static final int T15=15;
     public static final int T54=54;
     public static final int EOF=-1;
+    public static final int T67=67;
     public static final int T47=47;
-    public static final int Tokens=67;
+    public static final int Tokens=69;
     public static final int T53=53;
     public static final int T60=60;
     public static final int T31=31;
@@ -1107,10 +1109,10 @@ public class CamiLexer extends Lexer {
     public final void mT62() throws RecognitionException {
         try {
             int _type = T62;
-            // Cami.g:61:5: ( 'DC(' )
-            // Cami.g:61:7: 'DC('
+            // Cami.g:61:5: ( 'DS(' )
+            // Cami.g:61:7: 'DS('
             {
-            match("DC("); 
+            match("DS("); 
 
 
             }
@@ -1126,10 +1128,10 @@ public class CamiLexer extends Lexer {
     public final void mT63() throws RecognitionException {
         try {
             int _type = T63;
-            // Cami.g:62:5: ( 'AD(' )
-            // Cami.g:62:7: 'AD('
+            // Cami.g:62:5: ( 'CE(' )
+            // Cami.g:62:7: 'CE('
             {
-            match("AD("); 
+            match("CE("); 
 
 
             }
@@ -1145,10 +1147,10 @@ public class CamiLexer extends Lexer {
     public final void mT64() throws RecognitionException {
         try {
             int _type = T64;
-            // Cami.g:63:5: ( 'DS(' )
-            // Cami.g:63:7: 'DS('
+            // Cami.g:63:5: ( 'FF(' )
+            // Cami.g:63:7: 'FF('
             {
-            match("DS("); 
+            match("FF("); 
 
 
             }
@@ -1164,10 +1166,10 @@ public class CamiLexer extends Lexer {
     public final void mT65() throws RecognitionException {
         try {
             int _type = T65;
-            // Cami.g:64:5: ( 'CE(' )
-            // Cami.g:64:7: 'CE('
+            // Cami.g:64:5: ( 'DC(' )
+            // Cami.g:64:7: 'DC('
             {
-            match("CE("); 
+            match("DC("); 
 
 
             }
@@ -1183,10 +1185,10 @@ public class CamiLexer extends Lexer {
     public final void mT66() throws RecognitionException {
         try {
             int _type = T66;
-            // Cami.g:65:5: ( 'FF(' )
-            // Cami.g:65:7: 'FF('
+            // Cami.g:65:5: ( 'AD(' )
+            // Cami.g:65:7: 'AD('
             {
-            match("FF("); 
+            match("AD("); 
 
 
             }
@@ -1198,6 +1200,44 @@ public class CamiLexer extends Lexer {
     }
     // $ANTLR end T66
 
+    // $ANTLR start T67
+    public final void mT67() throws RecognitionException {
+        try {
+            int _type = T67;
+            // Cami.g:66:5: ( 'CD(' )
+            // Cami.g:66:7: 'CD('
+            {
+            match("CD("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T67
+
+    // $ANTLR start T68
+    public final void mT68() throws RecognitionException {
+        try {
+            int _type = T68;
+            // Cami.g:67:5: ( 'DG(' )
+            // Cami.g:67:7: 'DG('
+            {
+            match("DG("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T68
+
     // $ANTLR start CAMI_STRING
     public final void mCAMI_STRING() throws RecognitionException {
         try {
@@ -1206,17 +1246,17 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:929:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:930:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:732:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:733:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
-            int NUMBER1Start502 = getCharIndex();
+            int NUMBER1Start518 = getCharIndex();
             mNUMBER(); 
-            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start502, getCharIndex()-1);
+            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start518, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
             match(':'); 
-            int fsStart513 = getCharIndex();
+            int fsStart529 = getCharIndex();
             mFIXED_LENGTH_STRING(nbToRead); 
-            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart513, getCharIndex()-1);
+            fs = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, fsStart529, getCharIndex()-1);
             setText(fs.getText());
 
             }
@@ -1231,10 +1271,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:938:2: ( ({...}? => . )* )
-            // Cami.g:939:2: ({...}? => . )*
+            // Cami.g:741:2: ( ({...}? => . )* )
+            // Cami.g:742:2: ({...}? => . )*
             {
-            // Cami.g:939:2: ({...}? => . )*
+            // Cami.g:742:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -1247,7 +1287,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:939:4: {...}? => .
+            	    // Cami.g:742:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -1276,10 +1316,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:942:8: ( ( '0' .. '9' )+ )
-            // Cami.g:943:2: ( '0' .. '9' )+
+            // Cami.g:745:8: ( ( '0' .. '9' )+ )
+            // Cami.g:746:2: ( '0' .. '9' )+
             {
-            // Cami.g:943:2: ( '0' .. '9' )+
+            // Cami.g:746:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1293,7 +1333,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:943:2: '0' .. '9'
+            	    // Cami.g:746:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1323,10 +1363,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:948:2: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:949:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:751:2: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:752:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:949:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:752:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -1340,9 +1380,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:949:4: ( '\\r' )? '\\n'
+            	    // Cami.g:752:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:949:4: ( '\\r' )?
+            	    // Cami.g:752:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -1351,7 +1391,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:949:4: '\\r'
+            	            // Cami.g:752:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1389,8 +1429,8 @@ public class CamiLexer extends Lexer {
     public final void mEOF() throws RecognitionException {
         try {
             int _type = EOF;
-            // Cami.g:952:9: ()
-            // Cami.g:953:10: 
+            // Cami.g:755:9: ()
+            // Cami.g:756:10: 
             {
 
                      System.out.println("je parse EOOOFFFFF"); 
@@ -1406,8 +1446,8 @@ public class CamiLexer extends Lexer {
     // $ANTLR end EOF
 
     public void mTokens() throws RecognitionException {
-        // Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE | EOF )
-        int alt5=63;
+        // Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | CAMI_STRING | NUMBER | NEWLINE | EOF )
+        int alt5=65;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
@@ -1824,28 +1864,42 @@ public class CamiLexer extends Lexer {
                 }
                 break;
             case 60 :
-                // Cami.g:1:244: CAMI_STRING
+                // Cami.g:1:244: T67
+                {
+                mT67(); 
+
+                }
+                break;
+            case 61 :
+                // Cami.g:1:248: T68
+                {
+                mT68(); 
+
+                }
+                break;
+            case 62 :
+                // Cami.g:1:252: CAMI_STRING
                 {
                 mCAMI_STRING(); 
 
                 }
                 break;
-            case 61 :
-                // Cami.g:1:256: NUMBER
+            case 63 :
+                // Cami.g:1:264: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 62 :
-                // Cami.g:1:263: NEWLINE
+            case 64 :
+                // Cami.g:1:271: NEWLINE
                 {
                 mNEWLINE(); 
 
                 }
                 break;
-            case 63 :
-                // Cami.g:1:271: EOF
+            case 65 :
+                // Cami.g:1:279: EOF
                 {
                 match(EOF); 
 
@@ -1859,90 +1913,56 @@ public class CamiLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\1\30\13\uffff\1\104\1\106\10\uffff\1\112\64\uffff\1\116\1\120\4"+
+        "\1\30\13\uffff\1\106\1\110\10\uffff\1\114\66\uffff\1\120\1\122\4"+
         "\uffff";
     static final String DFA5_eofS =
-        "\121\uffff";
+        "\123\uffff";
     static final String DFA5_minS =
         "\1\12\1\103\1\uffff\1\102\1\uffff\1\101\1\104\1\117\1\111\1\102"+
-        "\1\101\1\104\2\60\2\uffff\1\105\5\uffff\1\60\24\uffff\1\50\12\uffff"+
+        "\1\101\1\104\2\60\2\uffff\1\105\5\uffff\1\60\22\uffff\1\50\16\uffff"+
         "\1\50\24\uffff\2\51\4\uffff";
     static final String DFA5_maxS =
         "\1\160\1\125\1\uffff\1\123\1\uffff\1\123\1\122\1\124\1\121\1\123"+
-        "\2\124\2\72\2\uffff\1\124\5\uffff\1\72\24\uffff\1\50\12\uffff\1"+
+        "\2\124\2\72\2\uffff\1\124\5\uffff\1\72\22\uffff\1\50\16\uffff\1"+
         "\50\24\uffff\2\51\4\uffff";
     static final String DFA5_acceptS =
         "\2\uffff\1\2\1\uffff\1\4\11\uffff\1\27\1\31\1\uffff\1\33\1\36\1"+
-        "\41\1\65\1\66\1\uffff\1\76\1\77\1\56\1\11\1\57\1\1\1\3\1\61\1\6"+
-        "\1\10\1\16\1\42\1\40\1\64\1\13\1\5\1\73\1\20\1\30\1\24\1\uffff\1"+
-        "\14\1\37\1\12\1\46\1\45\1\21\1\15\1\63\1\67\1\71\1\uffff\1\17\1"+
-        "\35\1\34\1\53\1\72\1\55\1\51\1\52\1\54\1\22\1\23\1\62\1\70\1\25"+
-        "\1\74\1\26\1\50\1\47\1\32\1\75\2\uffff\1\7\1\60\1\44\1\43";
+        "\41\1\65\1\66\1\uffff\1\100\1\101\1\56\1\57\1\11\1\1\1\6\1\61\1"+
+        "\3\1\64\1\5\1\40\1\10\1\20\1\71\1\42\1\13\1\16\1\uffff\1\14\1\30"+
+        "\1\24\1\46\1\37\1\45\1\12\1\21\1\15\1\17\1\67\1\35\1\72\1\63\1\uffff"+
+        "\1\75\1\34\1\74\1\53\1\51\1\52\1\22\1\54\1\70\1\55\1\23\1\73\1\62"+
+        "\1\25\1\76\1\26\1\50\1\47\1\32\1\77\2\uffff\1\7\1\60\1\44\1\43";
     static final String DFA5_specialS =
-        "\121\uffff}>";
+        "\123\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\27\2\uffff\1\27\33\uffff\1\2\2\uffff\1\4\3\uffff\7\26\1\14"+
             "\1\15\1\26\2\uffff\1\22\4\uffff\1\13\1\uffff\1\12\1\11\1\uffff"+
             "\1\5\4\uffff\1\21\1\uffff\1\20\1\uffff\1\3\1\24\1\16\1\7\1\1"+
             "\1\6\1\uffff\1\10\1\17\2\uffff\1\23\25\uffff\1\25",
-            "\1\34\5\uffff\1\33\11\uffff\1\32\1\uffff\1\31",
+            "\1\34\5\uffff\1\32\11\uffff\1\33\1\uffff\1\31",
             "",
-            "\1\36\1\35\17\uffff\1\37",
+            "\1\36\1\37\17\uffff\1\35",
             "",
-            "\1\40\1\44\1\46\1\uffff\1\42\1\47\5\uffff\1\41\4\uffff\1\50"+
-            "\1\43\1\45",
-            "\1\53\7\uffff\1\54\4\uffff\1\52\1\51",
-            "\1\57\1\uffff\1\55\1\uffff\1\56\1\60",
+            "\1\43\1\40\1\41\1\uffff\1\46\1\45\5\uffff\1\50\4\uffff\1\44"+
+            "\1\42\1\47",
+            "\1\51\7\uffff\1\52\4\uffff\1\54\1\53",
+            "\1\55\1\uffff\1\56\1\uffff\1\60\1\57",
             "\1\62\7\uffff\1\61",
-            "\1\63\1\64\1\uffff\1\66\1\71\12\uffff\1\67\1\70\1\65",
-            "\1\72\1\76\2\uffff\1\73\7\uffff\1\74\1\75\2\uffff\1\100\2\uffff"+
-            "\1\77",
-            "\1\103\14\uffff\1\101\2\uffff\1\102",
-            "\12\26\1\105",
-            "\12\26\1\105",
+            "\1\67\1\66\1\uffff\1\70\1\72\1\71\11\uffff\1\63\1\65\1\64",
+            "\1\74\1\76\1\uffff\1\73\1\101\7\uffff\1\102\1\75\2\uffff\1\77"+
+            "\2\uffff\1\100",
+            "\1\104\14\uffff\1\103\2\uffff\1\105",
+            "\12\26\1\107",
+            "\12\26\1\107",
             "",
             "",
-            "\1\110\11\uffff\1\111\4\uffff\1\107",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\12\26\1\105",
+            "\1\112\11\uffff\1\113\4\uffff\1\111",
             "",
             "",
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\113",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\114",
-            "",
-            "",
+            "\12\26\1\107",
             "",
             "",
             "",
@@ -1962,7 +1982,43 @@ public class CamiLexer extends Lexer {
             "",
             "",
             "\1\115",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\116",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\117",
+            "\1\121",
             "",
             "",
             "",
@@ -1999,7 +2055,7 @@ public class CamiLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE | EOF );";
+            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | CAMI_STRING | NUMBER | NEWLINE | EOF );";
         }
     }
  

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
+
 
 /**
  * cette classe implemente linterface IFKInfo
@@ -9,7 +10,7 @@ import fr.lip6.move.coloane.api.interfaces.IFkInfo;
  *
  */
 
-public class FkInfo implements IFkInfo{
+public class SessionInfo implements ISessionInfo{
 
 	 /** informations relatives au service*/
 	private String aboutService;
@@ -30,7 +31,7 @@ public class FkInfo implements IFkInfo{
   * @param nameService
   * @param resultatCalcule
   */
-	public FkInfo (String nameService,String aboutService,String incremental,String resultatCalcule ) {
+	public SessionInfo (String nameService,String aboutService,String incremental,String resultatCalcule ) {
 		this.aboutService = aboutService;
 			this.incremental=incremental;
 			this.nameService=nameService;
@@ -41,7 +42,7 @@ public class FkInfo implements IFkInfo{
 	/**
 	 * constructeur par defaut.
 	 */
-	public FkInfo () {
+	public SessionInfo () {
 		this.aboutService = null;
 			this.incremental=null;
 			this.nameService=null;

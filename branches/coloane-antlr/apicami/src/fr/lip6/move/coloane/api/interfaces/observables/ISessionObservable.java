@@ -2,9 +2,10 @@ package fr.lip6.move.coloane.api.interfaces.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
@@ -33,6 +34,6 @@ public interface ISessionObservable {
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
-	public void notifyObservers(IFkInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
+	public void notifyObservers(ISessionInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
 
 }

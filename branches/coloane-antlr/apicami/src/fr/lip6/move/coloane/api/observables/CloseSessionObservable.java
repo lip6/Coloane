@@ -2,21 +2,14 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
-import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
+import fr.lip6.move.coloane.api.interfaces.observers.ICloseSessionObserver;
 
-/**
- * Observable des évènements de la connexion
- *
- * @author kahoo & uu
- *
- */
 
-public class ConnectionObservable implements IConnectionObservable {
+public class CloseSessionObservable implements ICloseSessionObservable{
 
 	/** liste des observateurs */
-	private ArrayList<IConnectionObserver> list;
+	private ArrayList<ICloseSessionObserver> list;
 
 	/** créer un thread ? */
 	private boolean createThread = false;
@@ -24,8 +17,8 @@ public class ConnectionObservable implements IConnectionObservable {
 	/**
 	 * Constructeur
 	 */
-	public ConnectionObservable() {
-		list = new ArrayList<IConnectionObserver>();
+	public CloseSessionObservable() {
+		list = new ArrayList<ICloseSessionObserver>();
 	}
 
 	/**
@@ -44,8 +37,8 @@ public class ConnectionObservable implements IConnectionObservable {
 	 * @param o
 	 *            L'observer à ajouter
 	 */
-	public void addObserver(IConnectionObserver o) {
-		this.list.add(o);
+	public void addObserver(ICloseSessionObserver o) {
+		this.list.add( o);
 	}
 
 	/**
@@ -54,14 +47,14 @@ public class ConnectionObservable implements IConnectionObservable {
 	 * @param arg
 	 *            argument de la notification.
 	 */
-	public void notifyObservers(IConnectionVersion arg) {
+	public void notifyObservers(String num) {
 
 		if (!this.createThread) { /* Option sans création de thread */
 			for (int i = 0; i < this.list.size(); i++)
-				this.list.get(i).update(arg);
+				this.list.get(i).update(num);
 		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
-			new Thread(thread, "threadConnection").start();
+			ThreadNotifier thread = new ThreadNotifier(list,num);
+			new Thread(thread, "threadCloseSession").start();
 		}
 
 	}
@@ -74,18 +67,18 @@ public class ConnectionObservable implements IConnectionObservable {
 	 *
 	 */
 	private class ThreadNotifier implements Runnable {
-		private ArrayList<IConnectionObserver> listObservers;
-		private IConnectionVersion version;
+		private ArrayList<ICloseSessionObserver> listObservers;
+		private String num;
 
-		public ThreadNotifier(ArrayList<IConnectionObserver> list,
-				IConnectionVersion arg) {
+		public ThreadNotifier(ArrayList<ICloseSessionObserver> list, String num) {
 			this.listObservers = list;
-			this.version = arg;
+			this.num = num;
+		
 		}
 
 		public void run() {
 			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update(version);
+				this.listObservers.get(i).update(num);
 		}
 
 	}

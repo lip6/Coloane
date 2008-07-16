@@ -1,10 +1,11 @@
 package fr.lip6.move.coloane.api.observables;
 
-import fr.lip6.move.coloane.api.interfaces.observables.IAskForModelObservable;
+
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IFkCloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IServiceStateObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
@@ -33,8 +34,8 @@ public class ObservableFactory {
 		return (IDialogObservable) new DialogObservable();
 	}
 
-	public static IFkCloseConnectionObservable getNewFkCloseConnectionObservable() {
-		return (IFkCloseConnectionObservable) new FkCloseConnectionObservable();
+	public static ICloseConnectionObservable getNewCloseConnectionObservable() {
+		return (ICloseConnectionObservable) new CloseConnectionObservable();
 	}
 
 	public static IServiceStateObservable getNewServiceStateObservable() {
@@ -49,8 +50,9 @@ public class ObservableFactory {
 		return (IWarningObservable) new WarningObservable();
 	}
 
-	public static IAskForModelObservable getNewAskForModelObservable() {
-		return (IAskForModelObservable) new AskForModelObservable();
+	
 
+	public static Object getNewCloseSessionObservable() {
+		return (ICloseSessionObservable) new CloseSessionObservable();
 	}
 }

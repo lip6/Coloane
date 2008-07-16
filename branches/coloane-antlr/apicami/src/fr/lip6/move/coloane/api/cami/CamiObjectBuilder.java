@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
-import fr.lip6.move.coloane.api.camiObject.FkInfo;
-import fr.lip6.move.coloane.api.camiObject.FkVersion;
+import fr.lip6.move.coloane.api.camiObject.Dialog;
+import fr.lip6.move.coloane.api.camiObject.SessionInfo;
+import fr.lip6.move.coloane.api.camiObject.ConnectionVersion;
 import fr.lip6.move.coloane.api.camiObject.Menu;
 import fr.lip6.move.coloane.api.camiObject.UpdateItem;
 import fr.lip6.move.coloane.api.interfaces.IArc;
@@ -14,8 +15,8 @@ import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
@@ -33,16 +34,16 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 public class CamiObjectBuilder {
 
-	public static IFkInfo buildFkInfo(ArrayList<String> camiFKInfo) {
+	public static ISessionInfo buildFkInfo(ArrayList<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
 		String resultatCalcule = camiFKInfo.get(3);
-		IFkInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService,resultatCalcule);
+		ISessionInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService,resultatCalcule);
 		return kfi;
 	}
 
-	public static IFkVersion buildFkVersion(ArrayList<String> camiFkVersion) {
+	public static IConnectionVersion buildFkVersion(ArrayList<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
 		int fkmajor;
 		String tmpfkmajor = camiFkVersion.get(1);
@@ -60,7 +61,7 @@ public class CamiObjectBuilder {
 			fkminor = -1;
 		}
 
-		IFkVersion fkv = CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
+		IConnectionVersion fkv = CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
 		return fkv;
 	}
 
@@ -85,8 +86,49 @@ public class CamiObjectBuilder {
 	}
 
 	public static IDialog buildDialog(ArrayList<String> camiDialog) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int id;
+		int type;
+		int buttonType;
+		String title;
+		String help;
+		String message;
+        int inputType;
+        int multiLine;
+        String defaut;
+        
+      //  System.out.println(camiDialog.get(0));
+        id = Integer.parseInt(camiDialog.get(0));
+        //System.out.println("id" + id);
+        //System.out.println(camiDialog.get(1));
+        type = Integer.parseInt(camiDialog.get(1));
+        //System.out.println("type"+type);
+        //System.out.println(camiDialog.get(2));
+        buttonType = Integer.parseInt(camiDialog.get(2));
+        //System.out.println("boutton" + buttonType);
+        //System.out.println(camiDialog.get(3));
+        title = camiDialog.get(3);
+        //System.out.println("titre"+title);
+        //System.out.println(camiDialog.get(4));
+        help = camiDialog.get(4);
+        //System.out.println("help" + help);
+        //System.out.println(camiDialog.get(5));
+        message = camiDialog.get(5);
+        //System.out.println("msg" + message);
+        //System.out.println(camiDialog.get(6));
+        inputType = Integer.parseInt(camiDialog.get(6));
+        //System.out.println("inputtype" + inputType);
+        //System.out.println(camiDialog.get(7));
+        multiLine = Integer.parseInt(camiDialog.get(7));
+       // System.out.println("multiline"+multiLine);
+        //System.out.println(camiDialog.get(8));
+        defaut= camiDialog.get(8);
+        if (defaut == null) {
+			defaut="";
+		}
+        //System.out.println("defaut"+defaut);
+        Dialog dialog = new Dialog(id,type,buttonType, title,help,message,inputType,multiLine,defaut);
+		return dialog;
 	}
 
 	public static IDomainTable buildDomainTable(

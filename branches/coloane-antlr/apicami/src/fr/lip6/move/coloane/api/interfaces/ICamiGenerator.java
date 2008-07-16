@@ -96,7 +96,7 @@ public interface ICamiGenerator {
 	 * @param le dialogue.
 	 * @return un tableau de byte.
 	 */
-	public ArrayList<byte[]> generateCamiDialogue(IDialog d);
+	public ArrayList<byte[]> generateCmdDialogAnswer(IDialogAnswer dialogAnswer) ;
 
 	/**
 	 * nous génére la(les) commande(s) SS.

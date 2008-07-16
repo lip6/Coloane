@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
@@ -23,8 +23,8 @@ public class CamiObjectFactory {
 	 * @param resultatCalcule
 	 * @return IFkInfo
 	 */
-	public static IFkInfo getNewFkInfo (String nameService,String aboutService,String incremental,String resultatCalcule){
-	 return new FkInfo(aboutService, incremental, nameService,resultatCalcule);
+	public static ISessionInfo getNewFkInfo (String nameService,String aboutService,String incremental,String resultatCalcule){
+	 return new SessionInfo(aboutService, incremental, nameService,resultatCalcule);
 }
 
 	/**
@@ -34,8 +34,8 @@ public class CamiObjectFactory {
 	 * @param fkminor
 	 * @return IFkVersion
 	 */
-	public static IFkVersion getNewFkVersion (String fkname,int fkmajor,int fkminor){
-		 return new FkVersion(fkname, fkmajor, fkminor);
+	public static IConnectionVersion getNewFkVersion (String fkname,int fkmajor,int fkminor){
+		 return new ConnectionVersion(fkname, fkmajor, fkminor);
 	}
 
 	/**

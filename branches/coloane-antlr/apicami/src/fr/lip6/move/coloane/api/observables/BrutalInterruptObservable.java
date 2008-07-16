@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IAskForModelObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 
 

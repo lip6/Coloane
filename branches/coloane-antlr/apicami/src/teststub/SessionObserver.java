@@ -3,7 +3,7 @@ package teststub;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import fr.lip6.move.coloane.api.interfaces.IFkInfo;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
@@ -11,11 +11,13 @@ import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 public class SessionObserver implements ISessionObserver {
 
 
-	public void update(IFkInfo fkInfo, ArrayList<IMenu> menuList,
+	public void update(ISessionInfo fkInfo, ArrayList<IMenu> menuList,
 			ArrayList<IUpdateItem> updatesList) {
-
+            if ((menuList == null) | (fkInfo == null)){
+            System.out.println("test stub: on a notifié les modificateurs apré QQ");
+            }else {
 		   System.out.println("test stub: on a notifié l'ouverture session");
-
+            }
 		   /*
 		    * l'affichage des menus
 		    */

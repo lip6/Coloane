@@ -212,7 +212,7 @@ public class SessionController implements ISessionController {
 
 	}
 
-	public void notifyWaitingForModel() {
+	public void notifyWaitingForModel() throws IOException {
 	this.activeSession.notifyWaitingForModel();
 		
 	}

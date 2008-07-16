@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.IFkVersion;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 
 /**
  * cette classe implemente linterface IFKVersion
@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.IFkVersion;
  *
  */
 
-public class FkVersion implements IFkVersion {
+public class ConnectionVersion implements IConnectionVersion {
     /** le nom du FrameKit*/
     private String FkName;
 
@@ -25,7 +25,7 @@ public class FkVersion implements IFkVersion {
      * @param FKMajor le numero majeur de FrameKit.
      * @param FKMinor le numero mineur de FrameKit.
      */
-	public FkVersion(String FkName,int FKMajor,int FKMinor){
+	public ConnectionVersion(String FkName,int FKMajor,int FKMinor){
      this.FkName = FkName;
      this.FKMajor=FKMajor;
      this.FKMinor=FKMinor;
@@ -34,7 +34,7 @@ public class FkVersion implements IFkVersion {
 	 /**
      * le constructeur par defaut de notre classe.
       */
-	public FkVersion(){
+	public ConnectionVersion(){
 		 this.FkName = null;
 	     this.FKMajor=0;
 	     this.FKMinor=0;
