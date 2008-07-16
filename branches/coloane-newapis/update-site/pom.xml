@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane</groupId> 
+		<artifactId>coloane</artifactId> 
+		<version>0.13.0-SNAPSHOT</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane</groupId>
+	<artifactId>update-site</artifactId>
+	<packaging>pom</packaging>
+	<version>1.2-SNAPSHOT</version>
+	<name>Update Site</name>
+	<description>Eclipse Update Site or Coloane Project</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>coloaneMain</artifactId>
+			<version>[0.12,)</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>importExport</artifactId>
+			<version>[1.0,)</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>languagePack</artifactId>
+			<version>[1.1,)</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildSite</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>buildSiteXML.pl</executable>
+							<arguments>
+								<argument>site.xml</argument>
+								<argument>${project.version}</argument>
+								<argument>/data/coloane_deposit</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>DeploySite</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>deployUpdateSite.sh</executable>
+							<arguments>
+								<argument>${project.version}</argument>
+								<argument>/data/coloane_deposit</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>SynchronizeDeposits</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>synchronize.sh</executable>
+							<arguments>
+								<argument>/data/coloane_deposit</argument>
+								<argument>/coloane/public</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
