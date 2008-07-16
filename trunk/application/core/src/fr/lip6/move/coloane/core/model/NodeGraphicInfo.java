@@ -62,15 +62,21 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
+		boolean reset = false;
 		for (IArc arc : node.getOutcomingArcs()) {
 			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
+				reset = true;
 			}
 		}
 		for (IArc arc : node.getIncomingArcs()) {
 			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
+				reset = true;
 			}
+		}
+		if (reset) {
+			lastMove = 0;
 		}
 
 		// Lever un evenement
