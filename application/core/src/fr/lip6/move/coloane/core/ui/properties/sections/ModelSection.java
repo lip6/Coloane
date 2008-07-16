@@ -11,8 +11,8 @@ public class ModelSection extends AbstractElementSection<IGraph> {
 	public final void refresh() {
 		if (!isDisposed()) {
 			refreshControls(
-					getElement().getFormalism().getMasterGraph().getName(),
-					getElement().getFormalism().getMasterGraph().getAttributes());
+					getElements().get(0).getFormalism().getMasterGraph().getName(),
+					getElements().get(0).getFormalism().getMasterGraph().getAttributes());
 
 			refreshContent();
 			redraw();
