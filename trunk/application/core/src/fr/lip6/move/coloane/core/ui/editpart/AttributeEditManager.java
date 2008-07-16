@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 import org.eclipse.draw2d.Label;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
@@ -34,14 +36,21 @@ public class AttributeEditManager  extends DirectEditManager {
 			updateScaledFont(newZoom);
 		}
 	};
+	private int style;
 
-	public AttributeEditManager(GraphicalEditPart source, CellEditorLocator locator) {
+	public AttributeEditManager(GraphicalEditPart source, IAttribute model, CellEditorLocator locator) {
 		super(source, null, locator);
+		if (model.getAttributeFormalism().isMultiLine()) {
+			this.style = SWT.MULTI;
+		} else {
+			this.style = SWT.SINGLE;
+		}
 	}
 
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
+	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {
@@ -63,8 +72,9 @@ public class AttributeEditManager  extends DirectEditManager {
 		disposeScaledFont();
 	}
 
+	@Override
 	protected final CellEditor createCellEditorOn(Composite composite) {
-		return new TextCellEditor(composite, SWT.MULTI | SWT.WRAP);
+		return new TextCellEditor(composite, style | SWT.WRAP);
 	}
 
 	private void disposeScaledFont() {
@@ -74,6 +84,7 @@ public class AttributeEditManager  extends DirectEditManager {
 		}
 	}
 
+	@Override
 	protected final void initCellEditor() {
 		// update text
 		Label attributeFigure = (Label) getEditPart().getFigure();

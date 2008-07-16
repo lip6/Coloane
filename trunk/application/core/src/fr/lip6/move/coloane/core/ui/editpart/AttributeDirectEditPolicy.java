@@ -14,6 +14,7 @@ public class AttributeDirectEditPolicy extends DirectEditPolicy {
 	/**
 	 * @see DirectEditPolicy#getDirectEditCommand(DirectEditRequest)
 	 */
+	@Override
 	protected final Command getDirectEditCommand(DirectEditRequest edit) {
 		String labelText = (String) edit.getCellEditor().getValue();
 		AttributeEditPart label = (AttributeEditPart) getHost();
@@ -24,9 +25,11 @@ public class AttributeDirectEditPolicy extends DirectEditPolicy {
 	/**
 	 * @see DirectEditPolicy#showCurrentEditValue(DirectEditRequest)
 	 */
+	@Override
 	protected final void showCurrentEditValue(DirectEditRequest request) {
 		String value = (String) request.getCellEditor().getValue();
-		((Label) getHostFigure()).setText(value);
+		Label label = (Label) getHostFigure();
+		label.setText(value);
 		//hack to prevent async layout from placing the cell editor twice.
 		getHostFigure().getUpdateManager().performUpdate();
 	}

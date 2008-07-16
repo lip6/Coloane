@@ -26,7 +26,7 @@ import org.eclipse.ui.part.CellEditorActionHandler;
 
 
 
-public class StickyEditManager  extends DirectEditManager {
+public class StickyEditManager extends DirectEditManager {
 
 	private IActionBars actionBars;
 	private CellEditorActionHandler actionHandler;
@@ -46,6 +46,7 @@ public class StickyEditManager  extends DirectEditManager {
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
+	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {
@@ -67,6 +68,7 @@ public class StickyEditManager  extends DirectEditManager {
 		disposeScaledFont();
 	}
 
+	@Override
 	protected final CellEditor createCellEditorOn(Composite composite) {
 		return new TextCellEditor(composite, SWT.MULTI | SWT.WRAP);
 	}
@@ -78,6 +80,7 @@ public class StickyEditManager  extends DirectEditManager {
 		}
 	}
 
+	@Override
 	protected final void initCellEditor() {
 		// update text
 		StickyNoteFigure stickyNote = (StickyNoteFigure) getEditPart().getFigure();
