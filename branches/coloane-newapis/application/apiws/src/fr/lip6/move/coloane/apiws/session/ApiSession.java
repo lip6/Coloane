@@ -11,6 +11,8 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
+import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
+import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 public class ApiSession implements IApiSession {
@@ -130,6 +132,30 @@ public class ApiSession implements IApiSession {
 		}
 		return true;
 	}
+
+	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
+		
+		DialogBox answer = new DialogBox();
+		answer.setAnswer(new DBAnswer());
+		
+		answer.getAnswer().setId(idDialog);
+		answer.getAnswer().setButtonAnswer(buttonAnswer);
+		answer.getAnswer().setModified(modified);
+		answer.getAnswer().setValue(value);
+		
+		if (objects != null){
+			int [] objectsArray = new int[objects.size()];
+			int cpt = 0;
+			for(Integer line :objects){
+				objectsArray[cpt++]=line.intValue();
+			}
+			answer.getAnswer().setObjects(objectsArray);
+		}
+		
+		speaker.answerToDialogBox(answer);
+		
+		return true;
+	}
 	
 	public boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model) throws ApiException {
 		// TODO Auto-generated method stub
@@ -137,11 +163,6 @@ public class ApiSession implements IApiSession {
 	}
 
 	public boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model, String date) throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}

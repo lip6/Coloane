@@ -7,18 +7,13 @@ import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
-import fr.lip6.move.coloane.apiws.objects.dialog.DialogAnswerForWrapper;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
-import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.wrapper.ws.GExceptionException0;
 import fr.lip6.move.wrapper.ws.WrapperStub;
-import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDb;
-import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse;
 import fr.lip6.move.wrapper.ws.WrapperStub.AsyncMessage;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Ping;
 import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
@@ -98,33 +93,6 @@ public class Listener extends Thread implements IListener {
 
 	public synchronized void stopper() {
 		this.stopThread = true;
-	}
-
-
-	public String answerToDialogBox(IDialogAnswer dialogAnswer) throws ApiException{
-		String toReturn = null;
-		
-		DialogBox answer = new DialogAnswerForWrapper(dialogAnswer).getDialogAnswer();
-
-		try {
-			if(stub==null)
-				throw new ApiException("Error of communcation : Stub is null");
-			AnswerDb req = new AnswerDb();
-			req.setAuth(auth);
-			req.setDialog(answer);
-			AnswerDbResponse res=stub.answerDb(req);
-			toReturn=res.get_return();
-			
-		}catch (RemoteException e) {
-			ApiException ee = new ApiException(e.getMessage());
-			// TODO Auto-generated catch block
-			throw ee;
-		} catch (GExceptionException0 e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-
-		return toReturn;    
 	}
 
 }
