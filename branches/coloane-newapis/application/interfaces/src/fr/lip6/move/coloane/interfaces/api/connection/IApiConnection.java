@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.interfaces.api.connection;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptErrorObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
@@ -66,10 +69,26 @@ public interface IApiConnection {
 	public boolean setReceptResultObserver(IReceptResultObserver o,boolean createThread);
 	
 	/**
-	 * Ouvre une connexion
-	 * @return true, si l'ouverture a reussie, false sinon
+	 * Positionne un observateur pour l'evenement : reception d'une erreur
+	 * @param o l'observateur qui sera notifier par l'evenement : reception d'une erreur
+	 * @param createThread definie s'il faut creer un thread pour la notification
+	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean openConnection() throws ApiException;
+	public boolean setReceptErrorObserver(IReceptErrorObserver o,boolean createThread);
+	
+	/**
+	 * Positionne un observateur pour l'evenement : deconnexion ordonnee
+	 * @param o l'observateur qui sera notifier par l'evenement : deconnexion ordonnee
+	 * @param createThread definie s'il faut creer un thread pour la notification
+	 * @return true, si le l'observateur a bien etait ajouter, false sinon
+	 */
+	public boolean setDisconnectObserver(IDisconnectObserver o,boolean createThread);
+	
+	/**
+	 * Ouvre une connexion
+	 * @return les informations sur la connection
+	 */
+	public IConnectionInfo openConnection() throws ApiException;
 	
 	/**
 	 * Ferme une connexion

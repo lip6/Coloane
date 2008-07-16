@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.evenements;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.interfaces.objects.menu.IMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IRootMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 public interface IReceptMenu {
@@ -11,7 +11,7 @@ public interface IReceptMenu {
 	 * Recupere les menus
 	 * @return les menus
 	 */
-	public ArrayList<IMenu> getMenus();
+	public ArrayList<IRootMenu> getMenus();
 	
 	/**
 	 * Recupere les mises a jour sur les menus
