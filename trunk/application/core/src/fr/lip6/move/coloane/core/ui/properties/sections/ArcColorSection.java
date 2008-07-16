@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.ui.commands.properties.ArcChangeColorCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -28,12 +29,16 @@ public class ArcColorSection extends AbstractSection<IArc> {
 	/** Permet de mettre à jour le modèle d'arc */
 	private IPropertyChangeListener listener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
-			getCommandStack().execute(new ArcChangeColorCmd(
-					getElement(),
-					new Color(
-							color.getColorSelector().getButton().getDisplay(),
-							color.getColorSelector().getColorValue())
-			));
+			CompoundCommand cc = new CompoundCommand();
+			for (IArc arc : getElements()) {
+				cc.add(new ArcChangeColorCmd(
+						arc,
+						new Color(
+								color.getColorSelector().getButton().getDisplay(),
+								color.getColorSelector().getColorValue())
+				));
+			}
+			getCommandStack().execute(cc);
 		}
 	};
 
@@ -86,7 +91,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			color.getColorSelector().setColorValue(getElement().getGraphicInfo().getColor().getRGB());
+			color.getColorSelector().setColorValue(getElements().get(0).getGraphicInfo().getColor().getRGB());
 		}
 	}
 

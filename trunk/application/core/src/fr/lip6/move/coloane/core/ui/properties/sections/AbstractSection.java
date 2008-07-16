@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.interfaces.model.IAbstractPropertyChange;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CommandStack;
@@ -18,7 +20,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
  * @param <T>
  */
 public abstract class AbstractSection<T extends IAbstractPropertyChange> extends AbstractPropertySection implements PropertyChangeListener {
-	private T element;
+	private ArrayList<T> elements = new ArrayList<T>();
 	private boolean isDisposed = false;
 
 
@@ -44,39 +46,26 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 	@Override
 	public final void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
-		EditPart editPart = (EditPart) ((IStructuredSelection) getSelection()).getFirstElement();
-		T oldElement = element;
-		element = (T) editPart.getModel();
 
-		if (oldElement != null) {
+		// Suppression des anciens listeners
+		for (T oldElement : elements) {
 			oldElement.removePropertyChangeListener(this);
-			if (oldElement instanceof IElement) {
-				IElement tmp = (IElement) oldElement;
-				if (tmp.getAttributes() != null) {
-					for (IAttribute attr : tmp.getAttributes()) {
-						attr.removePropertyChangeListener(this);
-					}
-				}
-			}
 		}
-		if (element != null) {
+
+		Iterator<Object> it = (Iterator<Object>) ((IStructuredSelection) getSelection()).iterator();
+		while (it.hasNext()) {
+			EditPart editPart = (EditPart) it.next();
+			T element = (T) editPart.getModel();
 			element.addPropertyChangeListener(this);
-			if (element instanceof IElement) {
-				IElement tmp = (IElement) element;
-				if (tmp.getAttributes() != null) {
-					for (IAttribute attr : tmp.getAttributes()) {
-						attr.removePropertyChangeListener(this);
-					}
-				}
-			}
+			elements.add(element);
 		}
 	}
 
 	/**
 	 * @return le modèle de l'élément séléctionné
 	 */
-	public final T getElement() {
-		return element;
+	public final List<T> getElements() {
+		return Collections.unmodifiableList(elements);
 	}
 
 	/**

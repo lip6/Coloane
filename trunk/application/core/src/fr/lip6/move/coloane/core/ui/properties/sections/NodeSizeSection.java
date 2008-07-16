@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
@@ -32,8 +33,14 @@ public class NodeSizeSection extends AbstractSection<INode> {
 	/** Permet de mettre à jour le modèle du noeud */
 	private ModifyListener listener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
-			if (size.getSelection() != getElement().getGraphicInfo().getScale()) {
-				getCommandStack().execute(new NodeChangeSizeCmd(getElement(), size.getSelection()));
+			CompoundCommand cc = new CompoundCommand();
+			for (INode node : getElements()) {
+				if (size.getSelection() != node.getGraphicInfo().getScale()) {
+					cc.add(new NodeChangeSizeCmd(node, size.getSelection()));
+				}
+			}
+			if (cc.size() > 0) {
+				getCommandStack().execute(cc);
 			}
 		}
 	};
@@ -74,7 +81,7 @@ public class NodeSizeSection extends AbstractSection<INode> {
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			size.setSelection(getElement().getGraphicInfo().getScale());
+			size.setSelection(getElements().get(0).getGraphicInfo().getScale());
 			size.layout();
 		}
 	}

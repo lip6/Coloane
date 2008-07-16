@@ -47,7 +47,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 				if (lt.getTextWidget() == text) {
 
 					// Recherche de l'attribut modifié
-					IAttribute attr = getElement().getAttribute(lt.getLabel());
+					IAttribute attr = getElements().get(0).getAttribute(lt.getLabel());
 					String newValue = lt.getText();
 					if (!attr.getValue().equals(newValue)) {
 						getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
@@ -158,7 +158,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 */
 	protected final void refreshContent() {
 		for (LabelText lt : getMap().get(getCurrentType())) {
-			String newValue = getElement().getAttribute(lt.getLabel()).getValue();
+			String newValue = getElements().get(0).getAttribute(lt.getLabel()).getValue();
 			if (!lt.getText().equals(newValue)) {
 				lt.setText(newValue);
 				lt.redraw();

@@ -10,8 +10,8 @@ public class NodeSection extends AbstractElementSection<INode> {
 	public final void refresh() {
 		if (!isDisposed()) {
 			refreshControls(
-					getElement().getNodeFormalism().getName(),
-					getElement().getNodeFormalism().getAttributes());
+					getElements().get(0).getNodeFormalism().getName(),
+					getElements().get(0).getNodeFormalism().getAttributes());
 
 			refreshContent();
 			redraw();
