@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
@@ -142,7 +141,7 @@ public class ApiSession implements IApiSession {
 		return false;
 	}
 
-	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
+	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
