@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
-import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 
@@ -111,11 +110,16 @@ public interface IApiSession {
 	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date) throws ApiException;
 
 	/**
-	 * Envoie la boite de dialog reponse
-	 * @param dialogAnswer la boite de dialogue reponse
+	 * Envoie la boite de dialogue reponse
+	 * @param idDialog l'identifiant de la boite de dialog
+	 * @param buttonAnswer le type de la reponse (OK/CANCEL)
+	 * @param modified si la boite de dialogue a subi une modification
+	 * @param value ????
+	 * @param lines ????
+	 * @param objects ???
 	 * @return true, si l'envoie a reussie, false sinon
 	 */
-	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException;
+	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException;
 	
 	/**
 	 * 
