@@ -10,31 +10,25 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
-import org.eclipse.gef.requests.CreateConnectionRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
 /**
  * Cet EditPart est responsable de la gestion des attributs.
  */
-public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, org.eclipse.gef.NodeEditPart, PropertyChangeListener {
+public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
@@ -47,8 +41,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	@Override
 	protected final IFigure createFigure() {
 		Label figure = new Label();
-		figure.setOpaque(true);
-
+		figure.setOpaque(false);
 
 		// Localisation
 		IAttribute attribut = (IAttribute) getModel();
@@ -133,7 +126,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		// On doit creer l'espace pour l'attribut
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+		if (getParent() != null) {
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+		}
 	}
 
 	/**
@@ -165,55 +160,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			protected void showSelection() { }
 		});
 
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
-
-			@Override
-			protected Command getConnectionCompleteCommand(CreateConnectionRequest arg0) { return null;	}
-
-			@Override
-			protected Command getConnectionCreateCommand(CreateConnectionRequest arg0) { return null; }
-
-			@Override
-			protected Command getReconnectSourceCommand(ReconnectRequest arg0) { return null; }
-
-			@Override
-			protected Command getReconnectTargetCommand(ReconnectRequest arg0) { return null; }
-		}
-		);
-
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public final ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public final ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		return null;
 	}
 
 	/**
@@ -288,13 +234,16 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	private void performDirectEdit() {
-		new AttributeEditManager(this, new AttributeCellEditorLocator((Label) getFigure())).show();
+		Label label = (Label) getFigure();
+		IAttribute model = (IAttribute) getModel();
+		new AttributeEditManager(this, model, new AttributeCellEditorLocator(label)).show();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
 	 */
+	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
 			performDirectEdit();

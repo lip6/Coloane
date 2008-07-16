@@ -71,8 +71,8 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		 */
 		return new NonResizableEditPolicy() {
 			@Override
-			protected List createSelectionHandles() {
-				return new ArrayList(); // Doit retourner une arraylist vide et non null
+			protected List<Object> createSelectionHandles() {
+				return new ArrayList<Object>(); // Doit retourner une arraylist vide et non null
 			}
 		};
 	}

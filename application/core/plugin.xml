@@ -384,14 +384,6 @@
                 type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
        </propertySection>
-       <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.sections.AttributeSection"
-             id="fr.lip6.move.coloane.core.section.AttributeSection"
-             tab="fr.lip6.move.coloane.core.properties.element">
-          <input
-                type="fr.lip6.move.coloane.interfaces.model.IAttribute">
-          </input>
-       </propertySection>
     </propertySections>
  </extension>
  <extension
