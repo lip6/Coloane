@@ -9,11 +9,11 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>importExport</artifactId>
+	<artifactId>modelExamples</artifactId>
 	<packaging>jar</packaging>
 	<version>1.1-SNAPSHOT</version>
-	<name>Feature - Import/Export</name>
-	<description>Set of import/export tools and wizards for Coloane</description>
+	<name>Feature - Model Examples</name>
+	<description>Set of model examples available through Coloane wizard</description>
 	
 	<dependencies>
 		<dependency>
