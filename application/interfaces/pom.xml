@@ -25,6 +25,11 @@
 			<artifactId>draw2d</artifactId>
 			<version>[3.2,)</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>swt</artifactId>
+			<version>[3.2,)</version>
+		</dependency>
 	</dependencies>
 
 </project>
