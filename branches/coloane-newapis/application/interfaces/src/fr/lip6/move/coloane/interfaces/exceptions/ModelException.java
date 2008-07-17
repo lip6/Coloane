@@ -30,6 +30,15 @@ public class ModelException extends Exception {
 		this.msg = "Model Error : " + message; //$NON-NLS-1$
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
+	@Override
+	public String getMessage() {
+		return this.msg;		
+	}
+	
 	/**
 	 * Production d'une chaine de caractere depuis l'exception
 	 * @return string Le messaeg complet d'erreur
