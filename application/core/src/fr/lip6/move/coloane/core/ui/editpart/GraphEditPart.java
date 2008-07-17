@@ -162,12 +162,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	public final void propertyChange(PropertyChangeEvent event) {
 		String prop = event.getPropertyName();
 
-		// Ajout/Suppression d'un noeud
+		// Ajout/Suppression
 		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
-			refreshChildren();
-
-		// Ajout/Suppression d'un attribut
-		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
 			refreshChildren();
 		}
 

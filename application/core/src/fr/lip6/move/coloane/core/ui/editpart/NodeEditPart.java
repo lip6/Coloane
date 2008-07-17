@@ -111,10 +111,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
-
-		// Propriété de changement d'un attribut
-		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getParent().refresh();
 		}
 
 		refreshVisuals();

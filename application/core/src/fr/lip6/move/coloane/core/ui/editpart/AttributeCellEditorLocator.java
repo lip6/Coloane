@@ -23,6 +23,7 @@ public final class AttributeCellEditorLocator implements CellEditorLocator {
 		org.eclipse.swt.graphics.Rectangle trim = text.computeTrim(0, 0, 0, 0);
 		rect.translate(trim.x, trim.y);
 		rect.width += trim.width;
+		rect.width = Math.max(rect.width, 4);
 		rect.height += trim.height;
 		text.setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
