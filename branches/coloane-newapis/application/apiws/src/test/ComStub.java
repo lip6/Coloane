@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 public class ComStub {
 	final static String LOGIN ="login";
