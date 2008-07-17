@@ -9,13 +9,8 @@
       Coloane is a tool designed to model complex systems using various formalisms. 
 More then a simple editor, Coloane gives you the ability to use the FrameKit platform.
 Thanks to a simple UI, you can invoke a large collection of tools on your model without any efforts.
-
-The import/export feature provides following new actions :
-- import from CAMI format
-- import from PNML format
-- export to CAMI format
-- export to PNML format
-- export to DOT format
+The model examples feature provides some examples of available models.
+To create a new model using an example just follow the new model wizard...
    </description>
 
    <copyright url="http://coloane.lip6.fr/">
@@ -159,7 +154,7 @@ Inc. in the United States, other countries, or both.
    </url>
 
    <requires>
-      <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
+      <import feature="fr.lip6.move.coloane.feature.main" version="0.13.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
