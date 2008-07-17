@@ -99,17 +99,17 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 		Map<String, String> myParams = new HashMap<String, String>();
 
 		// Recupération des paramètres de la contrainte
-		IConfigurationElement[] parameters = config.getChildren("parameter");
+		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
 
 		// Remplissage de la hasmap de paramètres
 		for (IConfigurationElement param : parameters) {
-			if ((param.getAttribute("name") != null) && (param.getAttribute("value") != null)) {
-				myParams.put(param.getAttribute("name"), param.getAttribute("value"));
+			if ((param.getAttribute(PARAMETER_NAME) != null) && (param.getAttribute(PARAMETER_VALUE) != null)) {
+				myParams.put(param.getAttribute(PARAMETER_NAME), param.getAttribute(PARAMETER_VALUE));
 			}
 		}
 
 		// Vérification de la présence des paramètres obligatoires
-		if (!myParams.containsKey("element")) {  //$NON-NLS-1$//$NON-NLS-2$
+		if (!myParams.containsKey("element")) {  //$NON-NLS-1$
 			LOGGER.warning("L'element sur lequel port la contrainte a ete omis..."); //$NON-NLS-1$
 			throw new CoreException(null);
 		}
@@ -129,6 +129,6 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
 	 */
 	public final String getName() {
-		return "Cardinality constraint";
+		return Messages.CardinalityConstraint_0;
 	}
 }

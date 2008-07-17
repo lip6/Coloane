@@ -10,30 +10,25 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
-import org.eclipse.gef.requests.CreateConnectionRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
 /**
  * Cet EditPart est responsable de la gestion des attributs.
  */
-public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, org.eclipse.gef.NodeEditPart, PropertyChangeListener {
+public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
@@ -48,12 +43,30 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		Label figure = new Label();
 		figure.setOpaque(true);
 
-
 		// Localisation
 		IAttribute attribut = (IAttribute) getModel();
 
-		// Si le referent est un noeud, on agit sur la position de l'attribut
+		// On cache la figure si l'attribut est à la valeur par défaut
+		if (attribut.getAttributeFormalism().getDefaultValue().equals(attribut.getValue())) {
+			figure.setVisible(false);
+		}
+
+		Point attributeLocation = calculLocation();
+
+		// Stocke les information de positionnement
+		attribut.getGraphicInfo().setLocation(attributeLocation);
+
+		// Positionnement graphique
+		figure.setLocation(attributeLocation);
+
+		return figure;
+	}
+
+	private Point calculLocation() {
+		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;
+
+		// Si le referent est un noeud, on agit sur la position de l'attribut
 		if (attribut.getReference() instanceof INode) {
 
 			// Deux possibilites :
@@ -101,15 +114,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
 
-		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributePosition);
-
-		// Positionnement graphique
-		figure.setLocation(attributePosition);
-
-		return figure;
+		System.err.println("position calculé : " + attributePosition);
+		return attributePosition;
 	}
-
 
 	/**
 	 * Mise a jour de la vue a partir des informations du modele<br>
@@ -132,7 +139,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		// On doit creer l'espace pour l'attribut
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+		if (getParent() != null) {
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
+		}
 	}
 
 	/**
@@ -140,6 +149,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void createEditPolicies() {
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new AttributeDirectEditPolicy());
+
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
@@ -162,55 +173,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			protected void showSelection() { }
 		});
 
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
-
-			@Override
-			protected Command getConnectionCompleteCommand(CreateConnectionRequest arg0) { return null;	}
-
-			@Override
-			protected Command getConnectionCreateCommand(CreateConnectionRequest arg0) { return null; }
-
-			@Override
-			protected Command getReconnectSourceCommand(ReconnectRequest arg0) { return null; }
-
-			@Override
-			protected Command getReconnectTargetCommand(ReconnectRequest arg0) { return null; }
-		}
-		);
-
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public final ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public final ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		return null;
 	}
 
 	/**
@@ -284,11 +246,41 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
+	private void performDirectEdit() {
+		Label label = (Label) getFigure();
+		IAttribute model = (IAttribute) getModel();
+		new AttributeEditManager(this, model, new AttributeCellEditorLocator(label)).show();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	@Override
+	public final void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+			performDirectEdit();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
 		// Modification d'un attribut.
 		if (IAttribute.VALUE_PROP.equals(prop)) {
+			IAttribute model = (IAttribute) getModel();
+			String oldValue = (String) evt.getOldValue();
+			String newValue = (String) evt.getNewValue();
+			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				calculLocation();
+				getFigure().setVisible(true);
+			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				getFigure().setVisible(false);
+			}
 			refreshVisuals();
 
 		// Deplacement d'un attribut.

@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -44,7 +45,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private HashMap<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
-	private int idCounter = 0;
+	private int idCounter = 2;
 
 	/** Date de derniere modification */
 	private int date;
@@ -64,7 +65,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
-		this.id = getNewId();
+		this.id = 1;
 
 		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
 
@@ -269,6 +270,19 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final int getId() {
 		return id;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.lip6.move.coloane.interfaces.model.IGraph#getObject(int)
+	 */
+	public final IElement getObject(int id) {
+		IElement obj = this.getNode(id);
+		if (obj != null) {
+			return this.getNode(id);
+		} else {
+			return this.getArc(id);
+		}
 	}
 
 	/* (non-Javadoc)

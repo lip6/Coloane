@@ -9,6 +9,7 @@ Bundle-Localization: plugin
 Export-Package: fr.lip6.move.coloane.core.exceptions,
  fr.lip6.move.coloane.core.extensions,
  fr.lip6.move.coloane.core.main,
+ fr.lip6.move.coloane.core.model,
  fr.lip6.move.coloane.core.motor.formalisms,
  fr.lip6.move.coloane.core.ui.wizards.exportmodel,
  fr.lip6.move.coloane.core.ui.wizards.importmodel

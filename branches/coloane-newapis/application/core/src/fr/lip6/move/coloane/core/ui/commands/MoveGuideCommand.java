@@ -22,7 +22,7 @@ public class MoveGuideCommand extends Command {
 	 * @param delta le déplacement appliqué au guide
 	 */
 	public MoveGuideCommand(EditorGuide guide, int delta) {
-		super("Move a guide");
+		super(Messages.MoveGuideCommand_0);
 		this.guide = guide;
 		this.delta = delta;
 	}

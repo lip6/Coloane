@@ -62,15 +62,21 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
+		boolean reset = false;
 		for (IArc arc : node.getOutcomingArcs()) {
 			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
+				reset = true;
 			}
 		}
 		for (IArc arc : node.getIncomingArcs()) {
 			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove() - lastMove) < 256) {
 				arc.modifyInflexPoints(dx, dy);
+				reset = true;
 			}
+		}
+		if (reset) {
+			lastMove = 0;
 		}
 
 		// Lever un evenement
@@ -84,7 +90,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
 	 */
 	public final void setLocation(Point location) {
+		Dimension delta = location.getDifference(getLocation());
 		setLocation(location.x, location.y);
+		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
 	/**
@@ -97,7 +105,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getHeight()
 	 */
-	public final int getHeight() {
+	private int getHeight() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}
 

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.extensions;
 
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +49,7 @@ public final class ExampleExtension {
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */
-	public static IModelImpl getModel(String name) throws CoreException {
+	public static IGraph getModel(String name) throws CoreException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {

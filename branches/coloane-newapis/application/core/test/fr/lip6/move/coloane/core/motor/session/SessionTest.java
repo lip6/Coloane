@@ -11,12 +11,12 @@ public class SessionTest {
 
 	@Before
 	public final void setUp() throws Exception {
-		session1 = new Session("session1");
-		session2 = new Session("session2");
+		session1 = new Session("session1"); //$NON-NLS-1$
+		session2 = new Session("session2"); //$NON-NLS-1$
 		session2.setStatus(ISession.CONNECTED);
-		session3 = new Session("session3");
+		session3 = new Session("session3"); //$NON-NLS-1$
 		session3.setStatus(ISession.SUSPENDED);
-		session4 = new Session("session3");
+		session4 = new Session("session3"); //$NON-NLS-1$
 		session4.setStatus(ISession.ERROR);
 	}
 
@@ -46,8 +46,8 @@ public class SessionTest {
 
 	@Test
 	public final void testGetName() {
-		assertTrue(session1.getName().equals("session1"));
-		assertTrue(session2.getName().equals("session2"));
+		assertTrue(session1.getName().equals("session1")); //$NON-NLS-1$
+		assertTrue(session2.getName().equals("session2")); //$NON-NLS-1$
 	}
 
 	@Test

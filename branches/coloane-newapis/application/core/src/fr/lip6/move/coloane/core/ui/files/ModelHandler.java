@@ -77,7 +77,7 @@ public class ModelHandler extends DefaultHandler {
 
 		// Balise ATTRIBUT
 		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$
-			startAttribute(attributes.getValue("name"), attributes);  //$NON-NLS-1$//$NON-NLS-2$
+			startAttribute(attributes.getValue("name"), attributes);  //$NON-NLS-1$
 		}
 	}
 
@@ -105,7 +105,7 @@ public class ModelHandler extends DefaultHandler {
 			endArc();
 		} else if ("pi".equals(baliseName)) { //$NON-NLS-1$
 			endInflexPoint();
-		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$ //$NON-NLS-2$
+		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$
 			endAttribute();
 		}
 	}

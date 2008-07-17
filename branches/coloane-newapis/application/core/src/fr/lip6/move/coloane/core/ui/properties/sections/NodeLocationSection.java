@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
@@ -44,16 +45,29 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		 */
 		public final void modifyText(ModifyEvent e) {
 			Spinner spinner = (Spinner) e.widget;
-			INodeGraphicInfo graphicInfo = getElement().getGraphicInfo();
+
+			// Calcul du delta qui sera appliqué à tous les élements sélectionnés
+//			Point ref = getElements().get(0).getGraphicInfo().getLocation();
 			int[] location = new int[2];
-			location[0] = graphicInfo.getLocation().x;
-			location[1] = graphicInfo.getLocation().y;
-			if (spinner.getSelection() != location[i]) {
-				location[i] = spinner.getSelection();
-				getCommandStack().execute(new NodeSetConstraintCmd(
-						getElement(),
-						new Rectangle(new Point(location[0], location[1]), getElement().getGraphicInfo().getSize()))
-				);
+//			location[0] = ref.x;
+//			location[1] = ref.y;
+//			int delta = spinner.getSelection() - location[i];
+
+			CompoundCommand cc = new CompoundCommand();
+			for (INode node : getElements()) {
+				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
+				location[0] = graphicInfo.getLocation().x;
+				location[1] = graphicInfo.getLocation().y;
+				if (spinner.getSelection() != location[i]) {
+					location[i] = spinner.getSelection();
+					cc.add(new NodeSetConstraintCmd(
+							node,
+							new Rectangle(new Point(location[0], location[1]), graphicInfo.getSize()))
+					);
+				}
+			}
+			if (cc.size() > 0) {
+				getCommandStack().execute(cc);
 			}
 		}
 	}
@@ -105,7 +119,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			Point location = getElement().getGraphicInfo().getLocation();
+			Point location = getElements().get(0).getGraphicInfo().getLocation();
 			x.setSelection(location.x);
 			x.layout();
 			y.setSelection(location.y);

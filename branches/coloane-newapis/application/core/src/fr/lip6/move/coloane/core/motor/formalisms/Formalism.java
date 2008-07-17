@@ -127,7 +127,7 @@ public class Formalism implements IFormalism {
 	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getImageName()
 	 */
 	public final String getImageName() {
-		return this.image;
+		return "/" + image; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)

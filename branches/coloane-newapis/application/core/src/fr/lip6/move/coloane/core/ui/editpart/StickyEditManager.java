@@ -11,10 +11,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.part.CellEditorActionHandler;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -22,9 +18,15 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.part.CellEditorActionHandler;
 
 
-public class StickyEditManager  extends DirectEditManager {
+
+
+public class StickyEditManager extends DirectEditManager {
 
 	private IActionBars actionBars;
 	private CellEditorActionHandler actionHandler;
@@ -44,6 +46,7 @@ public class StickyEditManager  extends DirectEditManager {
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
+	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {
@@ -65,6 +68,7 @@ public class StickyEditManager  extends DirectEditManager {
 		disposeScaledFont();
 	}
 
+	@Override
 	protected final CellEditor createCellEditorOn(Composite composite) {
 		return new TextCellEditor(composite, SWT.MULTI | SWT.WRAP);
 	}
@@ -76,7 +80,8 @@ public class StickyEditManager  extends DirectEditManager {
 		}
 	}
 
-	protected void initCellEditor() {
+	@Override
+	protected final void initCellEditor() {
 		// update text
 		StickyNoteFigure stickyNote = (StickyNoteFigure) getEditPart().getFigure();
 		getCellEditor().setValue(stickyNote.getText());
@@ -100,7 +105,7 @@ public class StickyEditManager  extends DirectEditManager {
 		actionBars.updateActionBars();
 	}
 
-	private void restoreSavedActions(IActionBars actionBars){
+	private void restoreSavedActions(IActionBars actionBars) {
 		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), copy);
 		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), paste);
 		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), delete);
@@ -123,20 +128,22 @@ public class StickyEditManager  extends DirectEditManager {
 	}
 
 	private void updateScaledFont(double zoom) {
-		if (cachedZoom == zoom)
+		if (cachedZoom == zoom) {
 			return;
+		}
 
 		Text text = (Text) getCellEditor().getControl();
 		Font font = getEditPart().getFigure().getFont();
 
 		disposeScaledFont();
 		cachedZoom = zoom;
-		if (zoom == 1.0)
+		if (zoom == 1.0) {
 			text.setFont(font);
-		else {
+		} else {
 			FontData fd = font.getFontData()[0];
-			fd.setHeight((int)(fd.getHeight() * zoom));
-			text.setFont(scaledFont = new Font(null, fd));
+			fd.setHeight((int) (fd.getHeight() * zoom));
+			scaledFont = new Font(null, fd);
+			text.setFont(scaledFont);
 		}
 	}
 }

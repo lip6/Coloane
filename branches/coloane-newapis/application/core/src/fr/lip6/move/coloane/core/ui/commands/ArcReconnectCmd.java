@@ -32,6 +32,7 @@ public class ArcReconnectCmd extends Command {
 	 * @param a L'arc concerné par la reconnexion
 	 */
 	public ArcReconnectCmd(IArc a) {
+		super(Messages.ArcReconnectCmd_0);
 		this.arc = a;
 		this.oldSource = a.getSource();
 		this.oldTarget = a.getTarget();

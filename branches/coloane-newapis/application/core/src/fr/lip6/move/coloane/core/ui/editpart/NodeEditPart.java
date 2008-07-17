@@ -111,10 +111,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
-
-		// Propriété de changement d'un attribut
-		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getParent().refresh();
 		}
 
 		refreshVisuals();
@@ -226,14 +222,18 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				IFigure figure = (IFigure) me.getSource();
 				previous = figure.getBackgroundColor();
 				figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT);
+				setSelected(previousState);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent me) {
 				IFigure figure = (IFigure) me.getSource();
 				figure.setBackgroundColor(previous);
+				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT_NONE);
+				setSelected(previousState);
 			}
 		});
 	}
@@ -295,7 +295,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		if (!isActive()) {
 			super.activate();
 			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
-			addEditPartListener((ISelectionEditPartListener) this);
 		}
 	}
 
@@ -362,7 +361,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final void removingChild(EditPart child, int index) { }
 
 	public final void selectedStateChanged(EditPart editpart) {
-		System.out.println("mayou");
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:

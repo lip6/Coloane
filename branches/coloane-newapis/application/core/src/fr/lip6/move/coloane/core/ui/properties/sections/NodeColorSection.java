@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeForegroundCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -29,13 +30,19 @@ public class NodeColorSection extends AbstractSection<INode> {
 	/** Permet de mettre à jour le modèle du noeud */
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
-			if (!fg.getColorSelector().getColorValue().equals(getElement().getGraphicInfo().getForeground().getRGB())) {
-				getCommandStack().execute(new NodeChangeForegroundCmd(
-						getElement(),
-						new Color(
-								fg.getColorSelector().getButton().getDisplay(),
-								fg.getColorSelector().getColorValue())
-				));
+			CompoundCommand cc = new CompoundCommand();
+			for (INode node : getElements()) {
+				if (!fg.getColorSelector().getColorValue().equals(node.getGraphicInfo().getForeground().getRGB())) {
+					cc.add(new NodeChangeForegroundCmd(
+							node,
+							new Color(
+									fg.getColorSelector().getButton().getDisplay(),
+									fg.getColorSelector().getColorValue())
+					));
+				}
+			}
+			if (cc.size() > 0) {
+				getCommandStack().execute(cc);
 			}
 		}
 	};
@@ -45,13 +52,19 @@ public class NodeColorSection extends AbstractSection<INode> {
 	/** Permet de mettre à jour le modèle du noeud pour la couleur du fond */
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
-			if (!bg.getColorSelector().getColorValue().equals(getElement().getGraphicInfo().getBackground().getRGB())) {
-				getCommandStack().execute(new NodeChangeBackgroundCmd(
-						getElement(),
-						new Color(
-								bg.getColorSelector().getButton().getDisplay(),
-								bg.getColorSelector().getColorValue())
-				));
+			CompoundCommand cc = new CompoundCommand();
+			for (INode node : getElements()) {
+				if (!node.getGraphicInfo().isFilled() && !bg.getColorSelector().getColorValue().equals(node.getGraphicInfo().getBackground().getRGB())) {
+					cc.add(new NodeChangeBackgroundCmd(
+							node,
+							new Color(
+									bg.getColorSelector().getButton().getDisplay(),
+									bg.getColorSelector().getColorValue())
+					));
+				}
+			}
+			if (cc.size() > 0) {
+				getCommandStack().execute(cc);
 			}
 		}
 	};
@@ -124,13 +137,17 @@ public class NodeColorSection extends AbstractSection<INode> {
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			fg.getColorSelector().setColorValue(getElement().getGraphicInfo().getForeground().getRGB());
-			bg.getColorSelector().setColorValue(getElement().getGraphicInfo().getBackground().getRGB());
-			if (getElement().getGraphicInfo().isFilled()) {
-				bg.setEnabled(false, bg.getColorSelector().getButton().getParent());
-			} else {
-				bg.setEnabled(true, bg.getColorSelector().getButton().getParent());
+			fg.getColorSelector().setColorValue(getElements().get(0).getGraphicInfo().getForeground().getRGB());
+			bg.getColorSelector().setColorValue(getElements().get(0).getGraphicInfo().getBackground().getRGB());
+
+			// à partir du moment où un noeud n'est pas plein, j'autorise l'édition
+			boolean isFilled = true;
+			for (INode node : getElements()) {
+				if (!node.getGraphicInfo().isFilled()) {
+					isFilled = false;
+				}
 			}
+			bg.setEnabled(!isFilled, bg.getColorSelector().getButton().getParent());
 		}
 	}
 

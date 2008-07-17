@@ -27,11 +27,10 @@ public final class ModelWriter {
 
 		// L'entete XML
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-		String schema = graph.getFormalism().getSchema();
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
 		line.append(" formalism='").append(graph.getFormalism()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 
@@ -121,7 +120,7 @@ public final class ModelWriter {
 			sb.append(" height='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Ecriture de la valeur de la note
-			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");
+			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");  //$NON-NLS-1$//$NON-NLS-2$
 
 			// Fin de la note
 			sb.append("</sticky>\n"); //$NON-NLS-1$
@@ -185,21 +184,15 @@ public final class ModelWriter {
 	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("<attributes>\n");
+		sb.append("<attributes>\n"); //$NON-NLS-1$
 
 		// Pour chaque attribut...
 		for (IAttribute att : elt.getAttributes()) {
 
 			// On ne traite pas le cas des attributs qui sont vides
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
-				String balise;
-				// Traitement special pour l'attribut AUTHOR
-				if (att.getName().equals("author(s)")) { //$NON-NLS-1$
-					balise = "authors"; //$NON-NLS-1$
-				} else {
-					balise = att.getName();
-				}
-				sb.append("<attribute name='").append(balise).append("'");
+				String balise = att.getName();
+				sb.append("<attribute name='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$
 				sb.append(" xposition='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(" yposition='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(">"); //$NON-NLS-1$
@@ -210,7 +203,7 @@ public final class ModelWriter {
 			}
 		}
 
-		sb.append("</attributes>\n");
+		sb.append("</attributes>\n"); //$NON-NLS-1$
 
 		return sb.toString();
 	}
@@ -221,6 +214,7 @@ public final class ModelWriter {
 	 * @return Le texte transforme et protege
 	 */
 	private static String format(String txt) {
+		txt = txt.replaceAll("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;

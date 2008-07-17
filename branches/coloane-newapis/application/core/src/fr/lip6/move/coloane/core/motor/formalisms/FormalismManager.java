@@ -31,7 +31,7 @@ public final class FormalismManager {
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
 
 	/** Liste des formalismes disponibles. */
-	private List<Formalism> formalisms = new ArrayList<Formalism>();
+	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
 
 	/** L'instance du singleton : FormalismManager */
 	private static FormalismManager instance = null;
@@ -61,7 +61,7 @@ public final class FormalismManager {
 		extension = description.getAttribute("extension"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
 
-		LOGGER.fine("Construction du formalisme " + name + "(parent : " + parent + ")"); //$NON-NLS-1$
+		LOGGER.fine("Construction du formalisme " + name + "(parent : " + parent + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
 		LOGGER.finer("Extension : " + extension + " - XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -113,7 +113,7 @@ public final class FormalismManager {
 			for (IConfigurationElement constraint : constraints) {
 
 				// Dans le cas de contrainte de lien
-				if (this.getBool(constraint.getAttribute("link"))) {
+				if (this.getBool(constraint.getAttribute("link"))) { //$NON-NLS-1$
 					form.addConstraintLink((IConstraintLink) constraint.createExecutableExtension("type")); //$NON-NLS-1$
 				// Dans le cas de contrainte de noeud
 				} else {
@@ -224,8 +224,8 @@ public final class FormalismManager {
 		// Prise en compte de la figure (JAVA) associée à l'élement de formalisme
 		if (graphicInfo.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
 			try {
-				Object associatedFigure = graphicInfo.createExecutableExtension("associatedFigure");
-				gd.setAssociatedFigure(associatedFigure.getClass()); //$NON-NLS-1$
+				Object associatedFigure = graphicInfo.createExecutableExtension("associatedFigure"); //$NON-NLS-1$
+				gd.setAssociatedFigure(associatedFigure.getClass());
 				LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
 			} catch (CoreException e) {
 				LOGGER.finest("Echec lors de l'association de la figure a l'element : " + element.getName()); //$NON-NLS-1$
@@ -261,7 +261,7 @@ public final class FormalismManager {
 	/**
 	 * @return La liste des formalismes disponibles
 	 */
-	public List<Formalism> getListOfFormalisms() {
+	public List<IFormalism> getListOfFormalisms() {
 		return formalisms;
 	}
 

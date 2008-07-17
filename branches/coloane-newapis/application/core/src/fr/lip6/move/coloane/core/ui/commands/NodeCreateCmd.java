@@ -36,6 +36,7 @@ public class NodeCreateCmd extends Command {
 	 * @param bound Les limites du noeud; (la taille peut être (-1, -1))
 	 */
 	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle b) {
+		super(Messages.NodeCreateCmd_0);
 		this.graph = graph;
 		this.nodeFormalismName = nodeFormalismName;
 		this.location = b.getLocation();

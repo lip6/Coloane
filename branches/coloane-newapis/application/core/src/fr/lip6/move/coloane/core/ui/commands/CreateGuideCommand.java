@@ -23,7 +23,7 @@ public class CreateGuideCommand extends Command {
 	 * @param position La position du guide
 	 */
 	public CreateGuideCommand(EditorRuler ruler, int position) {
-		super("Create a new guide");
+		super(Messages.CreateGuideCommand_0);
 		this.ruler = ruler;
 		this.position = position;
 	}

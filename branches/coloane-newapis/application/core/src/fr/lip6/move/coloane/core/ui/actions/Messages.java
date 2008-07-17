@@ -7,6 +7,7 @@ public final class Messages extends NLS {
 	public static String AuthenticationAction_0;
 	public static String AuthenticationAction_1;
 	public static String ColoaneActionBarContributor_0;
+	public static String ColoaneActionBarContributor_1;
 	public static String ExportImageAction_0;
 	public static String ExportImageAction_1;
 	public static String ExportImageAction_11;

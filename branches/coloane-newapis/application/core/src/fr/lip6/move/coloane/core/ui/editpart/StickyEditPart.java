@@ -23,6 +23,7 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
+	@Override
 	protected final void createEditPolicies() {
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
@@ -39,6 +40,11 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		});
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	@Override
 	protected final IFigure createFigure() {
 		StickyNoteFigure label = new StickyNoteFigure();
 		label.setSize(getStickyNote().getSize());
@@ -54,6 +60,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		new StickyEditManager(this, new StickyCellEditorLocator((StickyNoteFigure) getFigure())).show();
 	}
 
+	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
 			performDirectEdit();
@@ -69,6 +76,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		refreshVisuals();
 	}
 
+	@Override
 	protected final void refreshVisuals() {
 		((StickyNoteFigure) getFigure()).setText(getStickyNote().getLabelContents());
 

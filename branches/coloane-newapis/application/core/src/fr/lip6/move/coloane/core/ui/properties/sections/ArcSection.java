@@ -11,8 +11,8 @@ public class ArcSection extends AbstractElementSection<IArc> {
 	public final void refresh() {
 		if (!isDisposed()) {
 			refreshControls(
-					getElement().getArcFormalism().getName(),
-					getElement().getArcFormalism().getAttributes());
+					getElements().get(0).getArcFormalism().getName(),
+					getElements().get(0).getArcFormalism().getAttributes());
 
 			refreshContent();
 			redraw();

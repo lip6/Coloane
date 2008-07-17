@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.core.ui.model.IModelImpl;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -83,7 +83,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			IFile file = (IFile) res;
 
 			try {
-				IModelImpl model = ModelLoader.loadFromXML(file);
+				IGraph model = ModelLoader.loadFromXML(file);
 				IExportTo exportInstance = ExportToExtension.createConvertInstance(this.idWizard);
 
 				// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle

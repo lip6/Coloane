@@ -26,6 +26,7 @@ public class AttributeSetConstraintCmd extends Command {
 	 * @param newBounds Nouvelles limites
 	 */
 	public AttributeSetConstraintCmd(IAttribute a, Rectangle newB) {
+		super(Messages.AttributeSetConstraintCmd_0);
 		if (a == null || newB == null) {
 			throw new IllegalArgumentException();
 		}
