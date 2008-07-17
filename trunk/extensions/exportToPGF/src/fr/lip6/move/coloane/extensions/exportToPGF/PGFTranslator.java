@@ -1,228 +1,151 @@
 package fr.lip6.move.coloane.extensions.exportToPGF;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Vector;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.motor.formalism.Messages;
-import fr.lip6.move.coloane.interfaces.model.Arc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IModel;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.Node;
 
 /**
- * @author alban
- *
+ * @author Alban Linard
  */
 public class PGFTranslator {
-	// usepackage{tikz}
-	// usetikzlibrary{arrows,petri}
-	
-	private static final String styles =
-		  "[place/.style={circle,draw=black,thick,minimum size=.5cm},"
-		+ "queue/.style={circle,draw=black,thick,fill=blue!50,minimum size=.5cm},"
-		+ "transition/.style={rectangle,draw=black,thick,minimum size=.5cm},"
-		+ "immediate transition/.style={rectangle,draw=black,thick,fill=black,minimum size=.5cm},"
-		+ "arc/.style={-latex,draw=black},"
-		+" inhibitor arc/.style={-o,draw=black}"
-		+"]";
+
 	/**
 	 * Creer un tableau de string correspondant au contenu du fichier pgf, pour
 	 * le model passer en parametres.
 	 * @param model Model du fichier à exporter. 
 	 * @return Le contenu du fichier pgf correspondant au model.
 	 */
-	public final Collection<String> translateModel(IModel model) {
-		Collection<String> result = new Vector<String>();
-		result.add("\\begin{tikzpicture}" + styles);
-		result.addAll(stringOfModel(model));
-		result.addAll(stringOfNodes(model.getListOfNodes()));
-		result.addAll(stringOfArcs(model.getListOfArcs()));
-		result.add("\\end{tikzpicture}");
-		return result;
+	public final String translateModel(IGraph model) {
+		StringBuffer r = new StringBuffer();
+		
+		// Debut du document
+		r.append("\\begin{tikzpicture}\n");
+		
+		// La liste des styles :
+		r.append("[");
+		r.append("place/.style={circle,draw=black,thick,minimum size=.5cm},");
+		r.append("queue/.style={circle,draw=black,thick,fill=blue!50,minimum size=.5cm},");
+		r.append("transition/.style={rectangle,draw=black,thick,minimum size=.5cm},");
+		r.append("immediate transition/.style={rectangle,draw=black,thick,fill=black,minimum size=.5cm},");
+		r.append("arc/.style={-latex,draw=black},");
+		r.append("inhibitor arc/.style={-o,draw=black}");
+		r.append("]");
+
+		// Traduction du modèle
+		r.append(translate(model));
+		
+		// Fin du document
+		r.append("\\end{tikzpicture}\n\n");
+		
+		return r.toString();
 	}
 	
-	private final <T> String stringOfAttribute(T container, String name, String value){
-		Class<? extends PGFTranslator> handlerClass = this.getClass();
-		try {
-			Method handlerMethod = handlerClass.getMethod("stringOf" + name.toUpperCase(), container.getClass(), String.class);
-			if (value.length() == 0){
-				Method defaultHandlerMethod = handlerClass.getMethod("stringOf" + name.toUpperCase(), container.getClass());
-				return (String) defaultHandlerMethod.invoke(this, container);
-			} else {
-				return (String) handlerMethod.invoke(this, container, value);
+	
+	/**
+	 * Traduction d'un modèle RdP en PGF
+	 * @param model Le modèle à traduire
+	 * @return Une chaine de caractères contenant les commandes PGF
+	 */
+	private final String translate(IGraph model){
+		StringBuffer r = new StringBuffer();
+		r.append(translateAttributes(model));
+		
+		// Tous les noeuds du modèle doivent être traduits
+		r.append(translateNodes(model.getNodes()));
+		// Tous les arcs doivent subir le même traitement
+		r.append(translateArcs(model.getArcs()));
+		
+		return r.toString();
+	}
+	
+	/**
+	 * Traduction d'un groupe de noeuds du modèle en commandes PGF
+	 * @param nodes L'ensemble de noeuds à traduire
+	 * @return Une chaine de caractères contenant les commandes PGF
+	 */
+	private final String translateNodes(Collection<INode> nodes) {
+		StringBuffer r = new StringBuffer();
+		for (INode node : nodes) {
+			r.append("\\node[" + node.getNodeFormalism().getName() + "]");
+			r.append(" (" + node.getId() + ")");
+			r.append(" at (" + node.getGraphicInfo().getLocation().x * 0.05 + ", " + node.getGraphicInfo().getLocation().y * 0.05 + ")");
+			r.append(" ").append(this.translateAttributes(node));
+			r.append(" {};\n");
+		}
+		return r.toString();
+	}
+	
+	/**
+	 * Traduction d'un groupe d'arcs du modèle en commandes PGF
+	 * @param nodes L'ensemble des arcs à traduire
+	 * @return Une chaine de caractères contenant les commandes PGF
+	 */
+	private final String translateArcs(Collection<IArc> arcs) {
+		StringBuffer r = new StringBuffer();
+		for (IArc arc : arcs){
+			r.append("\\draw[" + arc.getArcFormalism().getName() + "]");
+			r.append(" (" + arc.getSource().getId() + ")");
+			r.append(" ").append(this.translateAttributes(arc));
+			r.append(" (" + arc.getTarget().getId() + ");\n");
+		}
+		return r.toString();
+	}
+	
+	/**
+	 * Traduction des attributs d'un élement de modèle
+	 * @param element L'élément de modèle dont les attributs doivent être traduits
+	 * @return La chaine de caractères contenant les commandes PGF
+	 */
+	private final String translateAttributes(IElement element){
+		StringBuffer r = new StringBuffer();
+		for (IAttribute attribute : element.getAttributes()){
+			r.append(translateAttribute(attribute.getName(), attribute.getValue())).append("\n");
+		}
+		return r.toString();
+	}
+	
+	
+	/**
+	 * Traduit une valeur d'attribut selon son type (name)
+	 * @param name Le type de l'attribut
+	 * @param value La valeur de l'attribut
+	 * @return La chaine de caractère correspondant à la traduction
+	 */
+	private final String translateAttribute(String name, String value) {		
+		// Dans le cas d'un attribut de nom
+		if ("name".equals(name)) {
+			return " [label=below:" + name + "]";
+		}
+		
+		// Dans le cas d'un attribut de marquage
+		// On cherche à savoir si le marquage est entier (PN) ou pas (CPN)
+		if ("marking".equals(name)) {
+			try {
+				Integer.valueOf(value);
+				return " [tokens=" + value + "]";
+			} catch (NumberFormatException e) {
+				return " [label=above:" + value + "]";
 			}
-		} catch (NoSuchMethodException e) {
-			System.err.println("PGFTranslator : no handler for attribute " + name + " of node : " + e.getMessage());
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		}
+		
+		// Dans le cas d'une guarde
+		if ("guard".equals(name)) {
+			return "[label=above:" + value + "]";
+		}
+		
+		// Dans le cas d'une valuation d'arc
+		if ("valuation".equals(name)) {
+			try {
+				if (Integer.valueOf(value).intValue() == 1){ return "--"; } 
+				else { return " to node { " + value + " }";	}
+			} catch (NumberFormatException e) {
+				return " to node { " + value + " }";
+			}
 		}
 		return "";
-	}
-	
-	private final String stringOfAttributes(INode node){
-		String result = new String();
-		for (IAttribute attribute : node.getListOfAttr()){
-			result = result + this.stringOfAttribute(node, attribute.getName(), attribute.getValue());
-		}
-		return result;
-	}
-	private final String stringOfAttributes(IArc arc){
-		String result = new String();
-		for (IAttribute attribute : arc.getListOfAttr()){
-			result = result + this.stringOfAttribute(arc, attribute.getName(), attribute.getValue());
-		}
-		return result;
-	}
-	private final String stringOfAttributes(IModel model){
-		String result = new String();
-		for (IAttribute attribute : model.getListOfAttributes()){
-			result = result + this.stringOfAttribute(model, attribute.getName(), attribute.getValue());
-		}
-		return result;
-	}
-	
-	private final Collection<String> stringOfModel(IModel model){
-		Collection<String> result = new Vector<String>();
-		result.add(this.stringOfAttributes(model));
-		return result;
-	}
-	
-	@SuppressWarnings("unused")
-	public final String stringOfNAME(Node node, String name){
-		return " [label=below:" + name + "]";
-	}
-	
-	@SuppressWarnings("unused")
-	public final String stringOfMARKING(Node node, String marking){
-		try {
-			Integer.valueOf(marking);
-			return " [tokens=" + marking + "]";
-		} catch (NumberFormatException e) {
-			return " [label=above:" + marking + "]";
-		}
-	}
-	
-	@SuppressWarnings("unused")
-	public final String stringOfGUARD(Node node, String guard){
-		return " [label=above:" + guard + "]";
-	}
-	
-
-	private final double xScale =  0.05;
-	
-	private final double yScale = -0.05;
-	
-	/**
-	 * Creer un tableau de string correspondant a la declaration des places
-	 * qui sera contenu dans le fichier pgf.
-	 * @param model Model où récuperer les places
-	 * @return La partie correspondant a la declaration des places
-	 * @throws UnknownAttributeException 
-	 */
-	private final Collection<String> stringOfNodes(Collection<INode> nodes) {
-		Collection<String> result = new Vector<String>();
-		for (INode node : nodes) {
-			result.add( "\\node[" + node.getNodeType() + "]"
-					  + " (" + node.getId() + ")"
-					  + " at (" + node.getXPosition() * xScale + ", " + node.getYPosition() * yScale + ")"
-					  + this.stringOfAttributes(node)
-					  + " {};"
-					  );
-		}
-		return result;
-	}
-	
-	@SuppressWarnings("unused")
-	public final String stringOfVALUATION(Arc arc, String valuation){
-		try {
-			int value = Integer.valueOf(valuation).intValue();
-			if (value == 1){
-				return " --";
-			} else {
-				return " to node { " + valuation + " }";
-			}
-		} catch (NumberFormatException e) {
-			return " to node { " + valuation + " }";
-		}
-	}
-	
-	@SuppressWarnings("unused")
-	public final String stringOfVALUATION(Arc arc){
-		return " -- ";
-	}
-	
-	/**
-	 * Creer un tableau de string correspondant a la declaration des arcs
-	 * qui sera contenu dans le fichier pgf.
-	 * @param model Model où récuperer les arcs
-	 * @return La partie correspondant a la declaration des arcs
-	 * @throws UnknownAttributeException 
-	 */
-	private final Collection<String> stringOfArcs(Collection<IArc> arcs) {
-		Collection<String> result = new Vector<String>();
-		for (IArc arc : arcs){
-			result.add( "\\draw[" + arc.getArcType() + "]"
-					  + " (" + arc.getStartingNode().getId() + ")"
-					  + this.stringOfAttributes(arc)
-					  + " (" + arc.getEndingNode().getId() + ")"
-					  + ";"
-					  );
-		}
-		return result;
-	}
-	
-	
-	/**
-	 * Enregistre le model a exporter dans un fichier
-	 * @param model Model a exporter/sauvgarder
-	 * @param fileName Fichier où exporter/sauvgarder le model
-	 * @throws ColoaneException Exception a propager 
-	 */
-	public final void saveModel(Collection<String> model, String fileName) throws ColoaneException {
-		// Creation du fichier
-		FileOutputStream wr;
-		try {
-			wr = new FileOutputStream(new File(fileName)); //$NON-NLS-1$
-		} catch (FileNotFoundException e1) {
-			throw new ColoaneException(Messages.FormalismManager_7 + fileName); //$NON-NLS-2$
-		}
-		BufferedWriter buff = new BufferedWriter(new OutputStreamWriter(wr));
-
-		// Ecriture du modele entier
-		try {
-			Collection<String> pgf = model;
-			for (String line : pgf) {
-				buff.write(line);
-				buff.newLine();
-			}
-		} catch (Exception e) {
-			throw new ColoaneException(Messages.FormalismManager_9);
-		}
-
-		try {
-			buff.flush();
-			wr.flush();
-			buff.close();
-			wr.close();
-		} catch (IOException e) {
-			throw new ColoaneException(Messages.FormalismManager_10);
-		}
 	}
 }
