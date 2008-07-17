@@ -13,5 +13,18 @@
 	<packaging>jar</packaging>
 	<name>Application - Interfaces</name>
 	<description>Interfaces and shared objects between Core and API</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>gef</artifactId>
+			<version>[3.2,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>draw2d</artifactId>
+			<version>[3.2,)</version>
+		</dependency>
+	</dependencies>
 
 </project>
