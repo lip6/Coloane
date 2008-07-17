@@ -90,7 +90,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
 	 */
 	public final void setLocation(Point location) {
+		Dimension delta = location.getDifference(getLocation());
 		setLocation(location.x, location.y);
+		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
 	/**

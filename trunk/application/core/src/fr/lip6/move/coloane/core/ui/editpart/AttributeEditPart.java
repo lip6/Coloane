@@ -41,7 +41,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	@Override
 	protected final IFigure createFigure() {
 		Label figure = new Label();
-		figure.setOpaque(false);
+		figure.setOpaque(true);
 
 		// Localisation
 		IAttribute attribut = (IAttribute) getModel();
@@ -51,8 +51,22 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			figure.setVisible(false);
 		}
 
-		// Si le referent est un noeud, on agit sur la position de l'attribut
+		Point attributeLocation = calculLocation();
+
+		// Stocke les information de positionnement
+		attribut.getGraphicInfo().setLocation(attributeLocation);
+
+		// Positionnement graphique
+		figure.setLocation(attributeLocation);
+
+		return figure;
+	}
+
+	private Point calculLocation() {
+		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;
+
+		// Si le referent est un noeud, on agit sur la position de l'attribut
 		if (attribut.getReference() instanceof INode) {
 
 			// Deux possibilites :
@@ -100,15 +114,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
 
-		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributePosition);
-
-		// Positionnement graphique
-		figure.setLocation(attributePosition);
-
-		return figure;
+		System.err.println("position calculé : " + attributePosition);
+		return attributePosition;
 	}
-
 
 	/**
 	 * Mise a jour de la vue a partir des informations du modele<br>
@@ -268,6 +276,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			String oldValue = (String) evt.getOldValue();
 			String newValue = (String) evt.getNewValue();
 			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				calculLocation();
 				getFigure().setVisible(true);
 			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
 				getFigure().setVisible(false);
