@@ -147,7 +147,9 @@ public class SessionController implements ISessionController {
 			throw new ApiException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
 		this.removeSession(closed);
-		this.activeSession = null;
+		
+		if (listSessions.size() == 0)
+			this.activeSession = null;
 	}
 
 	public void notifyEndResult() {
