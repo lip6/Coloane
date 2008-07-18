@@ -3,7 +3,8 @@ package fr.lip6.move.coloane.api.interfaces;
 import java.io.IOException;
 
 import teststub.CloseSessionObserver;
-import teststub.TraceMessageObserver;
+import teststub.SpecialMessageObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.*;
 import fr.lip6.move.coloane.api.interfaces.*;
 
@@ -16,31 +17,6 @@ import fr.lip6.move.coloane.api.interfaces.*;
 public interface IApiConnection {
 
 
-	/**
-	 * Donne l'observeur des TR  +  MO(1, 3, 4).
-	 * @param l'observeur.
-	 * @return bool.
-	 */
-
-	public boolean setTraceMessageObserver( ITraceMessageObserver o, boolean createThread);
-
-
-	/**
-	 * Donne l'observeur des WN  +  MO(2).
-	 * @param l'observeur.
-	 * @return bool.
-	 */
-
-	public boolean setWarningObserver ( IWarningObserver o, boolean createThread);
-
-
-	/**
-	 * Donne l'observeur des TQ(1, 2, 3, 4, 5, 6).
-	 * @param l'observeur.
-	 * @return bool
-	 */
-
-	public boolean setServiceStateObserver( IServiceStateObserver o, boolean createThread);
 
 
 	/**
@@ -157,6 +133,9 @@ public interface IApiConnection {
 
 	public boolean setCloseSessionObserver(
 			CloseSessionObserver closeSessionObserver, boolean b);
+
+
+	public boolean setSpecialMessageObserver(ISpecialMessageObserver o, boolean createThread) ;
 
 }
 

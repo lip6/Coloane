@@ -72,11 +72,13 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	                connection.setConnectionObserver(new ConnectionObserver(), false);
  	                connection.setDialogObserver(new DialogObserver(), false);
  	                connection.setServiceObserver(new ServiceObserver(), false);
- 	                connection.setServiceStateObserver(new ServiceStateObserver(), false); 	                connection.setSessionObserver(new SessionObserver(), false);
-	                connection.setTraceMessageObserver(new TraceMessageObserver(), false);
- 	                connection.setWarningObserver(new WarningObserver(), false);
+ 	              //  connection.setServiceStateObserver(new ServiceStateObserver(), false); 	           
+ 	                connection.setSessionObserver(new SessionObserver(), false);
+	                //connection.setTraceMessageObserver(new TraceMessageObserver(), false);
+ 	                //connection.setWarningObserver(new WarningObserver(), false);
  	                connection.setCloseConnectionObserver(new CloseConnectionObserver(), false);
  	                connection.setCloseSessionObserver(new CloseSessionObserver(), false);
+ 	               connection.setSpecialMessageObserver(new SpecialMessageObserver(), false);
  	                /** Test ouverture connexion */
  	                connection.openConnection();
  	                return connection;
@@ -249,8 +251,8 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	                
  	                
  	                
- 	 //  Thread.sleep(10000);
- 	//   session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
+ 	   Thread.sleep(10000);
+ 	   session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
  	// session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing",model);
  	  // session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker",model);
   // session.askForService("AMI-Net", "Structural properties", "P-positive invariants",model);
@@ -266,8 +268,8 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	     //  Thread.sleep(10000);
  	     //  connection.closeConnection();
  	
- 	  Thread.sleep(10000);
-	   session.invalidModel();
+ 	//  Thread.sleep(10000);
+	  // session.invalidModel();
 	
  	   //  Thread.sleep(10000);  
  	     //System.out.println("\n\n\n deconnection");

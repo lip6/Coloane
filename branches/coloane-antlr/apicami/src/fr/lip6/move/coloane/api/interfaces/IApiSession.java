@@ -30,8 +30,9 @@ import java.io.IOException;
 	 	        /**
  	         * Appel de la methode ferme session.
 	 	         * @throws IOException
+	 	         * @throws InterruptedException 
 	 	         */
-	 	        public void closeSession() throws IOException;
+	 	        public boolean closeSession() throws IOException, InterruptedException;
 
 
 	 	        /**

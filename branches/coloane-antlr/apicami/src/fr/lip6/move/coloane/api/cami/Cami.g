@@ -8,6 +8,8 @@ package fr.lip6.move.coloane.api.cami;
 @header{
 package fr.lip6.move.coloane.api.cami;
 
+import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
+import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
 import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
@@ -15,6 +17,7 @@ import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
+import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
@@ -112,6 +115,7 @@ ack_open_connection
         } 
     ',' 
     v2=NUMBER {listOfArgs.add($v2.text);
+            
             IConnectionVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
             ((IConnectionObservable)hashObservable.get("IConnection")).notifyObservers(version);
             synchronized(hashObservable){
@@ -397,23 +401,28 @@ message_to_user
 trace_message
 	:
 	'TR(' CAMI_STRING ')'{
-          ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
- System.out.println("je parse le TR");
+           ISpecialMessage msg = new SpecialMessage(2,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+         System.out.println("je parse le TR");
         }
 	;
 
 warning_message
 	:
-	'WN(' CAMI_STRING ')'{
-         ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
+	'WN(' CAMI_STRING ')'{  
+            ISpecialMessage msg = new SpecialMessage(1,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+     //    ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
  System.out.println("je parse le WN");
         }
 	;
 
 special_message
 	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'{
-          ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+	'MO(' NUMBER ',' CAMI_STRING ')'{ 
+            ISpecialMessage msg = new SpecialMessage(1,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+       //   ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
       System.out.println("je parse le MO");
         }
 	;
@@ -459,7 +468,9 @@ result_reception
         } 
         |'<EOF>'*
         'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
-            
+              ISpecialMessage msg = new SpecialMessage(3,$mess2.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+
           //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
           System.out.println("je parse TQ2");
           }
@@ -482,14 +493,18 @@ message_utils
           | special_message2
           |NEWLINE
           | 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
+          ISpecialMessage msg = new SpecialMessage(4,"");
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
           System.out.println("je parse ZA");
           }
 ;
 
 trace_message2
 	:
-	'TR(' CAMI_STRING ')'{
-          ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
+	'TR(' CAMI_STRING ')'{ 
+           ISpecialMessage msg = new SpecialMessage(2,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+        //  ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
  System.out.println("je parse le TR");
         }
 	;
@@ -497,7 +512,9 @@ trace_message2
 warning_message2
 	:
 	'WN(' CAMI_STRING ')'{
-         ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
+          ISpecialMessage msg = new SpecialMessage(1,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+        // ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
  System.out.println("je parse le WN");
         }
 	;
@@ -505,7 +522,9 @@ warning_message2
 special_message2
 	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'{
-          ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+           ISpecialMessage msg = new SpecialMessage(1,$CAMI_STRING.text);
+          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+        //  ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
       System.out.println("je parse le MO");
         }
 	;

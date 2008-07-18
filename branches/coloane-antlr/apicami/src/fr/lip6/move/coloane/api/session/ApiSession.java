@@ -125,13 +125,18 @@ System.out.println("session open");
 	}
 	
 
-	public final void closeSession() throws IOException {
+	public final boolean closeSession() throws IOException, InterruptedException {
 	   if (this.sessionCont.closeSession(this)){
+		   synchronized(this){
+	   
 		   speaker.closeSession(false);
 
 	   if (!this.automate.setWaitingForCloseSessionState()){
 			throw new IllegalStateException("je suis pas dans un etat qui me permet de me fermer");
 	   }
+	   this.wait();
+	   return true;
+		   }
 	   }
 	   else {
 		   throw new IllegalStateException("je peux pas faire close session sur cette session");
@@ -219,6 +224,9 @@ System.out.println("session open");
 
 	public void notifyEndCloseSession() {
 		System.out.println("jai recu un notifyEndCloseSession");
+		synchronized(this){
+	        this.notify();
+		}
 	if(!this.automate.CloseSessionState()){
 		throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
 

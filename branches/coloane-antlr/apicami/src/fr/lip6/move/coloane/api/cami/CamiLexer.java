@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-07-16 15:25:55
+// $ANTLR 3.0.1 Cami.g 2008-07-18 12:56:34
 
 package fr.lip6.move.coloane.api.cami;
             
@@ -1246,8 +1246,8 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // Cami.g:732:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // Cami.g:733:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // Cami.g:751:6: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // Cami.g:752:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start518 = getCharIndex();
             mNUMBER(); 
@@ -1271,10 +1271,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // Cami.g:741:2: ( ({...}? => . )* )
-            // Cami.g:742:2: ({...}? => . )*
+            // Cami.g:760:2: ( ({...}? => . )* )
+            // Cami.g:761:2: ({...}? => . )*
             {
-            // Cami.g:742:2: ({...}? => . )*
+            // Cami.g:761:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -1287,7 +1287,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // Cami.g:742:4: {...}? => .
+            	    // Cami.g:761:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -1316,10 +1316,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // Cami.g:745:8: ( ( '0' .. '9' )+ )
-            // Cami.g:746:2: ( '0' .. '9' )+
+            // Cami.g:764:8: ( ( '0' .. '9' )+ )
+            // Cami.g:765:2: ( '0' .. '9' )+
             {
-            // Cami.g:746:2: ( '0' .. '9' )+
+            // Cami.g:765:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1333,7 +1333,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Cami.g:746:2: '0' .. '9'
+            	    // Cami.g:765:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1363,10 +1363,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // Cami.g:751:2: ( ( ( '\\r' )? '\\n' )+ )
-            // Cami.g:752:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:770:2: ( ( ( '\\r' )? '\\n' )+ )
+            // Cami.g:771:2: ( ( '\\r' )? '\\n' )+
             {
-            // Cami.g:752:2: ( ( '\\r' )? '\\n' )+
+            // Cami.g:771:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -1380,9 +1380,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // Cami.g:752:4: ( '\\r' )? '\\n'
+            	    // Cami.g:771:4: ( '\\r' )? '\\n'
             	    {
-            	    // Cami.g:752:4: ( '\\r' )?
+            	    // Cami.g:771:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -1391,7 +1391,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // Cami.g:752:4: '\\r'
+            	            // Cami.g:771:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1429,8 +1429,8 @@ public class CamiLexer extends Lexer {
     public final void mEOF() throws RecognitionException {
         try {
             int _type = EOF;
-            // Cami.g:755:9: ()
-            // Cami.g:756:10: 
+            // Cami.g:774:9: ()
+            // Cami.g:775:10: 
             {
 
                      System.out.println("je parse EOOOFFFFF"); 
