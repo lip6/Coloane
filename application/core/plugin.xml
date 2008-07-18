@@ -395,7 +395,7 @@
           id="PT-Net"
           image="resources/icons/model_resource.png"
           name="Place/Transition Net"
-          parent="AMI-Net">
+          fkname="AMI-Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -534,7 +534,7 @@
           id="CPN"
           image="resources/icons/model_resource.png"
           name="Colored Petri Net"
-          parent="AMI-Net">
+          fkname="AMI-Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -716,10 +716,10 @@
     </Formalism>
     <Formalism
           extension="rg"
-          id="Reachability Graph"
+          id="RG"
           image="resources/icons/model_resource.png"
           name="Reachability Graph"
-          parent="ReachabilityGraph">
+          fkname="ReachabilityGraph">
        <XmlDescription>
           <Graph
                 name="ReachabilityGraph">

@@ -44,6 +44,9 @@
 
    <element name="Export">
       <complexType>
+         <sequence>
+            <element ref="AcceptedFormalism" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
@@ -68,7 +71,12 @@
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="extension" type="string" use="required">
+      </complexType>
+   </element>
+
+   <element name="AcceptedFormalism">
+      <complexType>
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
                   

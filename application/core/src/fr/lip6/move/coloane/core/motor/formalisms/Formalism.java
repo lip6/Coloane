@@ -20,7 +20,7 @@ public class Formalism implements IFormalism {
 	private String name;
 
 	/** Parent du formalisme (identifiant historique). */
-	private String parent;
+	private String fkname;
 
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
@@ -47,7 +47,7 @@ public class Formalism implements IFormalism {
 	 */
 	Formalism(String name, String parent, String xshema, String image) {
 		this.name = name;
-		this.parent = parent;
+		this.fkname = parent;
 		this.image = image;
 		this.xschema = xshema;
 
@@ -115,8 +115,8 @@ public class Formalism implements IFormalism {
 	 * (non-Javadoc)
 	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#getParent()
 	 */
-	public final String getParent() {
-		return this.parent;
+	public final String getFKName() {
+		return this.fkname;
 	}
 
 	/* (non-Javadoc)
