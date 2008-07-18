@@ -47,6 +47,9 @@ public class SessionController implements ISessionController {
 	}
 
 	public boolean isActivateSession(IApiSession s) {
+		if (activeSession == null)
+			return false;
+		
 		return activeSession.getIdSession().equals(s.getIdSession());
 	}
 	
