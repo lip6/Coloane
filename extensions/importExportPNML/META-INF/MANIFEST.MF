@@ -16,5 +16,4 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.pnml.framework.symmetricnet,
  fr.lip6.move.pnml.framework.utils
 Eclipse-LazyStart: true
-Bundle-ClassPath: .
 Bundle-Vendor: LIP6 / MoVe
