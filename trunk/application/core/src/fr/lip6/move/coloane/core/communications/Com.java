@@ -127,7 +127,7 @@ public final class Com implements IComApi {
 		// Recuperation du nom de la session courante
 		String sessionName = motor.getSessionManager().getCurrentSession().getName();
 		// Recuperation du nom du formalime de la session courante
-		String formalismName = graph.getFormalism().getName();
+		String formalismName = graph.getFormalism().getFKName();
 
 		// Demande de l'ouverture de session a l'API
 		boolean retour = api.openSession(sessionName, graph.getDate(), formalismName);
