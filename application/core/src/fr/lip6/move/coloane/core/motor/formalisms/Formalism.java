@@ -22,9 +22,6 @@ public class Formalism implements IFormalism {
 	/** Parent du formalisme (identifiant historique). */
 	private String parent;
 
-	/** Nom de l'extension du fichier dans lequel on enregistrera le formalisme */
-	private String extension;
-
 	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
 	private String xschema;
 
@@ -48,10 +45,9 @@ public class Formalism implements IFormalism {
 	 * @param xshema Le XSchema nécessaire à la lecture des instances de ce formalisme
 	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	public Formalism(String name, String parent, String extension, String xshema, String image) {
+	Formalism(String name, String parent, String xshema, String image) {
 		this.name = name;
 		this.parent = parent;
-		this.extension = extension;
 		this.image = image;
 		this.xschema = xshema;
 
@@ -128,13 +124,6 @@ public class Formalism implements IFormalism {
 	 */
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getExtension()
-	 */
-	public final String getExtension() {
-		return this.extension;
 	}
 
 	/* (non-Javadoc)
