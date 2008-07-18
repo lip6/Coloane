@@ -26,7 +26,7 @@ public class ReceptDialogObserver implements IReceptDialogObserver {
 			e.printStackTrace();
 			//MessageDialog.openError(shell, "ERROR DIALOG", "Erreur lors de l'envoie");
 		}
-		//System.out.println("update dialog fin");
+		System.out.println("update dialog fin");
 	}
 
 }
