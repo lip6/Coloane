@@ -8,9 +8,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -19,12 +19,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
-import org.eclipse.gef.ui.actions.PrintAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
@@ -32,6 +30,7 @@ import org.eclipse.swt.graphics.Font;
  * Cet EditPart est responsable de la gestion des attributs.
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
@@ -107,8 +106,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 
 		// Recupere la figure du graphe
-		System.err.println("Parent : " + ((IAttribute) getModel()).getReference());
-		
 		GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
 		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
@@ -120,7 +117,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			attributePosition.y = attributePosition.y + MINGAP; // Deplacement de 5 vers le bas si une figure est deja disposee
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
-		System.err.println("*** " + attributePosition);
 		return attributePosition;
 	}
 
@@ -282,11 +278,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			String oldValue = (String) evt.getOldValue();
 			String newValue = (String) evt.getNewValue();
 			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				System.err.println("attribut de nouveau visible");
+				LOGGER.finer("attribut de nouveau visible"); //$NON-NLS-1$
 				model.getGraphicInfo().setLocation(calculLocation());
 				getFigure().setVisible(true);
 			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				System.err.println("attribut caché");
+				LOGGER.finer("attribut caché"); //$NON-NLS-1$
 				model.getGraphicInfo().setLocation(new Point(0, 0));
 				getFigure().setVisible(false);
 			}

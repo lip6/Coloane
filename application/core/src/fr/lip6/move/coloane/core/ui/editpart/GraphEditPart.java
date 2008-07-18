@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;
@@ -21,7 +22,6 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
@@ -34,7 +34,6 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.rulers.RulerProvider;
@@ -45,6 +44,7 @@ import org.eclipse.swt.graphics.Image;
  * EditPart pour le modele global
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -155,18 +155,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		getFigure().repaint();
 	}
 
-	private void printTree(String s, IFigure fig) {
-		String name = fig.getClass().getSimpleName();
-		if (name.equals("")) {
-			name = fig.getClass().getName();
-		}
-		System.err.println(s + name + " [" + fig.getBounds() + "]");
-		for (Object obj : fig.getChildren()) {
-			IFigure child = (IFigure) obj;
-			printTree(s + "| ", child);
-		}
-	}
-
 	/**
 	 * Changement de proprietes dans le modele.
 	 * Ces changements sont typiquement l'ajout ou la suppression d'un noeud
@@ -183,8 +171,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		while (fig.getParent() != null && fig != fig.getParent()) {
 			fig = fig.getParent();
 		}
-		printTree("Default ", fig);
-		printTree("Connection ", ((ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER)));
+
+		LOGGER.finest(treeToString("*** ", fig)); //$NON-NLS-1$
 	}
 
 	/**
@@ -265,5 +253,26 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * Méthode récursive qui va afficher l'arbre d'une figure
+	 * @param s en tête de chaque ligne, une chaine convient très bien
+	 * @param fig figure qui doit être afficher
+	 * @return String de l'arbre
+	 */
+	@SuppressWarnings("unused")
+	private static String treeToString(String s, IFigure fig) {
+		StringBuilder sb = new StringBuilder();
+
+		String name = fig.getClass().getSimpleName();
+		if (name.equals("")) { //$NON-NLS-1$
+			name = fig.getClass().getName();
+		}
+		sb.append(s).append(name).append(" [").append(fig.getBounds()).append("]\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		for (Object obj : fig.getChildren()) {
+			sb.append(treeToString(s + "| ", (IFigure) obj)); //$NON-NLS-1$
+		}
+		return sb.toString();
 	}
 }

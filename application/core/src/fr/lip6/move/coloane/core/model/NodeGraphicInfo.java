@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.model;
 
-import java.util.HashMap;
-
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
+
+import java.util.HashMap;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
