@@ -26,9 +26,22 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#findMiddlePoint()
 	 */
 	public final Point findMiddlePoint() {
-		int x = (this.arc.getSource().getGraphicInfo().getLocation().x + this.arc.getTarget().getGraphicInfo().getLocation().x) / 2;
-		int y = (this.arc.getSource().getGraphicInfo().getLocation().y + this.arc.getTarget().getGraphicInfo().getLocation().y) / 2;
-		return new Point(x, y);
+		Point source, target;
+		int size = arc.getInflexPoints().size();
+		if (size > 0) {
+			if (size % 2 == 0) {
+				source = arc.getInflexPoint(size / 2 - 1);
+				target = arc.getInflexPoint(size / 2);
+			} else {
+				source = arc.getInflexPoint(size / 2);
+				target = source;
+			}
+		} else {
+			source = arc.getSource().getGraphicInfo().getLocation();
+			target = arc.getTarget().getGraphicInfo().getLocation();
+		}
+		Point middle = source.getTranslated(target).scale(0.5);
+		return middle;
 	}
 
 	/*

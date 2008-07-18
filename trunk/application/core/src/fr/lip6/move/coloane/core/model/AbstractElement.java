@@ -77,6 +77,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	}
 
 	public final void propertyChange(PropertyChangeEvent evt) {
+		// La valeur d'un attribut a été modifié
 		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {
 			IAttribute attr = (IAttribute) evt.getSource();
 			String oldValue = (String) evt.getOldValue();

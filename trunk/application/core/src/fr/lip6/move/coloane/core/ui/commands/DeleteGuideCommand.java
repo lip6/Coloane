@@ -39,6 +39,7 @@ public class DeleteGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
 		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
@@ -52,6 +53,7 @@ public class DeleteGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		ruler.addGuide(guide);
 		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();

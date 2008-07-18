@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -22,6 +21,7 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
@@ -34,6 +34,7 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.rulers.RulerProvider;
@@ -154,6 +155,17 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		getFigure().repaint();
 	}
 
+	private void printTree(String s, IFigure fig) {
+		String name = fig.getClass().getSimpleName();
+		if (name.equals("")) {
+			name = fig.getClass().getName();
+		}
+		System.err.println(s + name + " [" + fig.getBounds() + "]");
+		for (Object obj : fig.getChildren()) {
+			IFigure child = (IFigure) obj;
+			printTree(s + "| ", child);
+		}
+	}
 
 	/**
 	 * Changement de proprietes dans le modele.
@@ -167,6 +179,12 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 			refreshChildren();
 		}
 
+		IFigure fig = getFigure();
+		while (fig.getParent() != null && fig != fig.getParent()) {
+			fig = fig.getParent();
+		}
+		printTree("Default ", fig);
+		printTree("Connection ", ((ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER)));
 	}
 
 	/**

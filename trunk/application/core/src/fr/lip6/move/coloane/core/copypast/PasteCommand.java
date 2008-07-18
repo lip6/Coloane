@@ -31,6 +31,7 @@ public class PasteCommand extends Command {
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
 		graphContainer = (GraphContainer) Clipboard.getDefault().getContents();

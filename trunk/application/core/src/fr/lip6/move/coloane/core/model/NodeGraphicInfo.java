@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
+import java.util.HashMap;
+
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -19,7 +21,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
-	private long lastMove;
+	private HashMap<IArc, Long> lastMove = new HashMap<IArc, Long>();
+	private static final Long ZERO = new Long(0);
 
 	/** Taille */
 	private int scale = 100;
@@ -52,35 +55,33 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @param yPos
 	 */
 	private void setLocation(int xPos, int yPos) {
+		Point oldLocation = new Point(this.x, this.y);
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
 		this.x = xPos;
 		this.y = yPos;
 
 		// Mise a jour de la date de dernier mouvement
-		this.lastMove = System.currentTimeMillis();
+		Long currentTime = System.currentTimeMillis();
 
 		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
-		boolean reset = false;
 		for (IArc arc : node.getOutcomingArcs()) {
-			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove() - lastMove) < 256) {
+			lastMove.put(arc, currentTime);
+			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
 				arc.modifyInflexPoints(dx, dy);
-				reset = true;
+				lastMove.put(arc, ZERO);
 			}
 		}
 		for (IArc arc : node.getIncomingArcs()) {
-			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove() - lastMove) < 256) {
+			lastMove.put(arc, currentTime);
+			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
 				arc.modifyInflexPoints(dx, dy);
-				reset = true;
+				lastMove.put(arc, ZERO);
 			}
 		}
-		if (reset) {
-			lastMove = 0;
-		}
-
 		// Lever un evenement
-		node.firePropertyChange(INode.LOCATION_PROP, null, new Point(x, y));
+		node.firePropertyChange(INode.LOCATION_PROP, oldLocation, new Point(x, y));
 
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(node);
@@ -91,7 +92,11 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 */
 	public final void setLocation(Point location) {
 		Dimension delta = location.getDifference(getLocation());
-		setLocation(location.x, location.y);
+		try {
+			setLocation(location.x, location.y);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
@@ -126,8 +131,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getLastMove()
 	 */
-	public final long getLastMove() {
-		return lastMove;
+	public final Long getLastMove(IArc key) {
+		Long time = lastMove.get(key);
+		if (time == null) {
+			return ZERO;
+		}
+		return time;
 	}
 
 	/* (non-Javadoc)
