@@ -574,6 +574,7 @@
                    container="true"
                    name="place">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create a place"
                       drawable="true"
                       icon16px="resources/formalisms/place_16.png"
@@ -602,12 +603,15 @@
                    container="false"
                    name="transition">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
                       description="Create a transition"
                       drawable="true"
+                      height="7"
                       icon16px="resources/formalisms/transition_16.png"
                       icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
-                      paletteName="Transition">
+                      paletteName="Transition"
+                      width="25">
                 </GraphicInfo>
                 <Attribute
                       drawable="true"
