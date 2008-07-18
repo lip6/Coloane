@@ -27,17 +27,12 @@ public interface IFormalism {
 	/**
 	 * @return Le nom du parent du formalisme (identifiant historique)
 	 */
-	String getParent();
+	String getFKName();
 
 	/**
 	 * @return L'image associée à toutes les instances de ce formalisme
 	 */
 	String getImageName();
-
-	/**
-	 * @return La chaine de caractères à utiliser pour l'extension du fichier
-	 */
-	String getExtension();
 
 	/**
 	 * @return L'adresse du xschema a utliser pour la validation
