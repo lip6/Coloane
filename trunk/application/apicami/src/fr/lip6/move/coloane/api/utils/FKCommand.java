@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.api.utils;
 
 import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.utils.CamiParser;
 
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
