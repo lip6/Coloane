@@ -39,7 +39,9 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	 */
 	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection currentSelection) {
-		this.page = new ExportWizardPage("ExportPage", currentSelection); //$NON-NLS-1$
+		IStructuredSelection select = null;
+		if (currentSelection.getFirstElement() instanceof IFile) { select = currentSelection; }
+		this.page = new ExportWizardPage("ExportPage", select); //$NON-NLS-1$
 		super.init(workbench, currentSelection);
 	}
 
