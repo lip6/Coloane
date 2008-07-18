@@ -110,16 +110,16 @@ public class FramekitThreadSpeaker extends Thread {
 	public final void sendModel() {
 		FKCommand cmd = new FKCommand();
 
-		Vector<String> modelCami = this.api.getGraph().translate();
+//		Vector<String> modelCami = this.api.getGraph().translate();
 
 		try {
 			byte[] commande = cmd.createCmdSimple("DB");
 			lowCom.writeCommande(commande);
 
-			for (String line : modelCami) {
-				commande = cmd.convertToFramekit(line);
-				lowCom.writeCommande(commande);
-			}
+//			for (String line : modelCami) {
+//				commande = cmd.convertToFramekit(line);
+//				lowCom.writeCommande(commande);
+//			}
 
 			commande = cmd.createCmdSimple("FB");
 			lowCom.writeCommande(commande);
