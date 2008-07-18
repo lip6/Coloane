@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Coloane Editor"
+            extensions="petri"
+            icon="icons/model.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="fr.lip6.move.coloane.test.apiws.editors.XMLEditor"
+            id="fr.lip6.move.coloane.test.apiws.editors.ColoaneEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="fr.lip6.move.coloane.test.apiws.coloaneAction"
+            label="Coloane Action"
+            visible="true">
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.OpenConnectionAction"
+               icon="icons/authenticate.png"
+               id="fr.lip6.move.coloane.test.apiws.actionOpenConnection"
+               label="&amp;Open Connection"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Open Connection">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.CloseConnectionAction"
+               icon="icons/unauthenticate.png"
+               id="fr.lip6.move.coloane.test.apiws.actionCloseConnection"
+               label="&amp;Close Connection"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Close Connection">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.OpenSessionOKAction"
+               id="fr.lip6.move.coloane.test.apiws.actionOpenSessionOK"
+               label="&amp;Open Session OK"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Open Session OK">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.OpenSessionKOAction"
+               id="fr.lip6.move.coloane.test.apiws.actionOpenSessionKO"
+               label="&amp;Open Session KO"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Open Session KO">
+         </action>
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.CloseSessionAction"
+               id="fr.lip6.move.coloane.test.apiws.actionCloseSession"
+               label="&amp;Close Session"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Close Session">
+         </action>
+         <menu
+               id="sampleMenu"
+               label="ApiWS">
+         </menu>
+      </actionSet>
+   </extension>
+
+</plugin>
