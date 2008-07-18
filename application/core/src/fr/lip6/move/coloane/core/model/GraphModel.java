@@ -296,7 +296,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#modifyDate()
 	 */
 	public final int modifyDate() {
-		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
+//		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
 		date = (int) System.currentTimeMillis();
 		// Si le modele n'etait pas marque comme sale, on le marque
 		if (!dirty) {

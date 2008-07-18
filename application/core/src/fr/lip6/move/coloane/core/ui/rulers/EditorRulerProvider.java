@@ -64,6 +64,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getAttachedModelObjects(java.lang.Object)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public final List getAttachedModelObjects(Object guide) {
 		return new ArrayList(((EditorGuide) guide).getModelObjects());
@@ -73,6 +74,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
+	@Override
 	public final Command getCreateGuideCommand(int position) {
 		return new CreateGuideCommand(ruler, position);
 	}
@@ -81,6 +83,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getDeleteGuideCommand(java.lang.Object)
 	 */
+	@Override
 	public final Command getDeleteGuideCommand(Object guide) {
 		return new DeleteGuideCommand((EditorGuide) guide, ruler);
 	}
@@ -89,6 +92,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getMoveGuideCommand(java.lang.Object, int)
 	 */
+	@Override
 	public final Command getMoveGuideCommand(Object guide, int pDelta) {
 		return new MoveGuideCommand((EditorGuide) guide, pDelta);
 	}
@@ -97,6 +101,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
 	 */
+	@Override
 	public final int[] getGuidePositions() {
 		List<EditorGuide> guides = getGuides();
 		int[] result = new int[guides.size()];
@@ -110,6 +115,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getRuler()
 	 */
+	@Override
 	public final Object getRuler() {
 		return ruler;
 	}
@@ -118,6 +124,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
 	 */
+	@Override
 	public final int getUnit() {
 		return ruler.getUnit();
 	}
@@ -126,6 +133,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#setUnit(int)
 	 */
+	@Override
 	public final void setUnit(int newUnit) {
 		ruler.setUnit(newUnit);
 	}
@@ -134,6 +142,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
 	 */
+	@Override
 	public final int getGuidePosition(Object guide) {
 		return ((EditorGuide) guide).getPosition();
 	}
@@ -142,6 +151,7 @@ public class EditorRulerProvider extends RulerProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
 	 */
+	@Override
 	public final List<EditorGuide> getGuides() {
 		return ruler.getGuides();
 	}

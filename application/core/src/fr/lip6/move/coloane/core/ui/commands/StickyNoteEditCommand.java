@@ -36,6 +36,7 @@ public class StickyNoteEditCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		oldName = label.getLabelContents();
 		label.setLabelContents(newName);
@@ -45,6 +46,7 @@ public class StickyNoteEditCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		label.setLabelContents(oldName);
 	}

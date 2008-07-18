@@ -25,6 +25,7 @@ public class PasteAction extends SelectionAction {
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
 	 */
+	@Override
 	protected final void init()	{
 		super.init();
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();

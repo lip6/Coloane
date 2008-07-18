@@ -222,7 +222,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 
 	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor"; //$NON-NLS-1$
-	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** La page d'apercu */
 	private OutlinePage outlinePage;
@@ -416,9 +416,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			file.setContents(inputS, true, false, monitor);
 			file.setCharset("UTF-8", monitor); //$NON-NLS-1$
 		} catch (CoreException e) {
-			logger.warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
+			LOGGER.warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
-			logger.warning("Erreur lors de la sauvegarde du modele (charset)"); //$NON-NLS-1$
+			LOGGER.warning("Erreur lors de la sauvegarde du modele (charset)"); //$NON-NLS-1$
 		}
 
 		getCommandStack().markSaveLocation();
@@ -488,7 +488,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	@Override
 	public final void createPartControl(Composite parent) {
 		if (listener == null) {
-			logger.config("Mise en place de l'ecouteur de focus"); //$NON-NLS-1$
+			LOGGER.config("Mise en place de l'ecouteur de focus"); //$NON-NLS-1$
 			listener = new TabListener();
 			getSite().getPage().addPartListener(listener);
 		}
@@ -548,12 +548,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		};
 	}
 
+	@Override
 	protected final void createGraphicalViewer(Composite parent) {
 		rulerComposite = new RulerComposite(parent, SWT.NONE);
 		super.createGraphicalViewer(rulerComposite);
 		rulerComposite.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer());
 	}
 
+	@Override
 	protected final Control getGraphicalControl() {
 		return rulerComposite;
 	}
@@ -600,7 +602,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	protected final PaletteRoot getPaletteRoot() {
 		// Logiquementle modele n'est jamais nul... Mais on est jamais trop prudent
 		if (graph == null) {
-			logger.warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
+			LOGGER.warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
 			return null;
 		}
 
@@ -609,7 +611,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Si la creation dela palette a echouee
 		if (paletteRoot == null) {
-			logger.warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
+			LOGGER.warning("Impossible de creer la palette d'outils associee au formalisme"); //$NON-NLS-1$
 		}
 
 		return paletteRoot;

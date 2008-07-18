@@ -32,6 +32,7 @@ public class CreateGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		if (guide == null) {
 			guide = new EditorGuide(!ruler.isHorizontal());
@@ -44,6 +45,7 @@ public class CreateGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		ruler.removeGuide(guide);
 	}

@@ -10,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -18,10 +19,12 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
+import org.eclipse.gef.ui.actions.PrintAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
@@ -51,13 +54,15 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			figure.setVisible(false);
 		}
 
-		Point attributeLocation = calculLocation();
+		if (!attribut.getValue().equals(attribut.getAttributeFormalism().getDefaultValue())) {
+			Point attributeLocation = calculLocation();
 
-		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributeLocation);
+			// Stocke les information de positionnement
+			attribut.getGraphicInfo().setLocation(attributeLocation);
 
-		// Positionnement graphique
-		figure.setLocation(attributeLocation);
+			// Positionnement graphique
+			figure.setLocation(attributeLocation);
+		}
 
 		return figure;
 	}
@@ -101,20 +106,21 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			attributePosition = new Point(0, 0);
 		}
 
-		// Recupere la figure du modele
-		GraphEditPart modelEditPart = (GraphEditPart) getParent();
+		// Recupere la figure du graphe
+		System.err.println("Parent : " + ((IAttribute) getModel()).getReference());
+		
+		GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
 		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
 
 		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
 		Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
 
-		while ((modelEditPart.getFigure().findFigureAt(attributePosition) != null) || (modelEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
+		while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
 			attributePosition.y = attributePosition.y + MINGAP; // Deplacement de 5 vers le bas si une figure est deja disposee
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
-
-		System.err.println("position calculé : " + attributePosition);
+		System.err.println("*** " + attributePosition);
 		return attributePosition;
 	}
 
@@ -276,9 +282,12 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			String oldValue = (String) evt.getOldValue();
 			String newValue = (String) evt.getNewValue();
 			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				calculLocation();
+				System.err.println("attribut de nouveau visible");
+				model.getGraphicInfo().setLocation(calculLocation());
 				getFigure().setVisible(true);
 			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				System.err.println("attribut caché");
+				model.getGraphicInfo().setLocation(new Point(0, 0));
 				getFigure().setVisible(false);
 			}
 			refreshVisuals();
