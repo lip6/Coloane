@@ -37,99 +37,73 @@ public class ArcModel extends AbstractElement implements IArc {
 		// ((NodeModel) target).addIncomingArc(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getId()
-	 */
+	/** {@inheritDoc} */
 	public final int getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getSource()
-	 */
+	/** {@inheritDoc} */
 	public final INode getSource() {
 		return source;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getTarget()
-	 */
+	/** {@inheritDoc} */
 	public final INode getTarget() {
 		return target;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getArcFormalism()
-	 */
+	/** {@inheritDoc} */
 	public final IArcFormalism getArcFormalism() {
 		return arcFormalism;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getGraphicInfo()
-	 */
+	/** {@inheritDoc} */
 	public final IArcGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#addInflexPoint(org.eclipse.draw2d.geometry.Point, int)
-	 */
+	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p, int index) {
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#addInflexPoint(org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p) {
 		inflexPoints.add(new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#removeInflexPoint(int)
-	 */
+	/** {@inheritDoc} */
 	public final void removeInflexPoint(int index) {
 		inflexPoints.remove(index);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#modifyInflexPoint(int, org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void modifyInflexPoint(int index, Point p) {
 		inflexPoints.get(index).setLocation(p);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#modifyInflexPoints(int, int)
-	 */
+	/** {@inheritDoc} */
 	public final void modifyInflexPoints(int dx, int dy) {
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
 			inflexPoint.translate(dx, dy);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getInflexPoint(int)
-	 */
+	/** {@inheritDoc} */
 	public final AbsoluteBendpoint getInflexPoint(int index) {
 		return inflexPoints.get(index);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#getInflexPoints()
-	 */
+	/** {@inheritDoc} */
 	public final List<AbsoluteBendpoint> getInflexPoints() {
 		return Collections.unmodifiableList(inflexPoints);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IArc#reconnect(fr.lip6.move.coloane.core.ui.model.interfaces.INode, fr.lip6.move.coloane.core.ui.model.interfaces.INode)
-	 */
+	/** {@inheritDoc} */
 	public final void reconnect(INode newSource, INode newTarget) {
 		((NodeModel) source).removeOutcomingArc(this);
 		((NodeModel) target).removeIncomingArc(this);
@@ -143,10 +117,7 @@ public class ArcModel extends AbstractElement implements IArc {
 		Coloane.notifyModelChange(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IArc#updateAttributesPosition()
-	 */
+	/** {@inheritDoc} */
 	public final void updateAttributesPosition() {
 		// Calcul du nouveau point milieu
 		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();

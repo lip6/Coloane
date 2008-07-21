@@ -51,10 +51,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 		this.window = w;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
+	/** {@inheritDoc} */
 	public final void run() {
 		Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
 
@@ -152,23 +149,14 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 		return new String[] {"BMP (*.bmp)", "JPEG (*.jpg)", "GIF (*.gif)", "PNG (*.png)" };  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
+	/** {@inheritDoc} */
 	public final void run(IAction action) {
 		this.run();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
+	/** {@inheritDoc} */
 	public void selectionChanged(IAction action, ISelection selection) { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
-	 */
+	/** {@inheritDoc} */
 	public void dispose() { }
 }

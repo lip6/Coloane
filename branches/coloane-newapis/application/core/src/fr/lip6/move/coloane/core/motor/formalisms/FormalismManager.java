@@ -54,19 +54,18 @@ public final class FormalismManager {
 	 * @param description
 	 */
 	private void buildFormalism(IConfigurationElement description) {
-		String name, parent, xschema, extension, image;
+		String name, fkname, xschema, image;
 		name = description.getAttribute("name");  //$NON-NLS-1$
-		parent = description.getAttribute("parent");  //$NON-NLS-1$
+		fkname = description.getAttribute("fkname");  //$NON-NLS-1$
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
-		extension = description.getAttribute("extension"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
 
-		LOGGER.fine("Construction du formalisme " + name + "(parent : " + parent + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.fine("Construction du formalisme " + name + "(parent : " + fkname + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
-		LOGGER.finer("Extension : " + extension + " - XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Creation et ajout du formalisme a la liste du manager
-		Formalism form = new Formalism(name, parent, extension, xschema, image);
+		Formalism form = new Formalism(name, fkname, xschema, image);
 
 		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 

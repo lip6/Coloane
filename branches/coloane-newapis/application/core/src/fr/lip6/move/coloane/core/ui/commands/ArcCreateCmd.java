@@ -30,10 +30,7 @@ public class ArcCreateCmd extends Command {
 		this.arcFormalism = arcFormalism;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 		return true;

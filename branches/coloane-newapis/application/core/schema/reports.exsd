@@ -70,7 +70,7 @@ This way, you can reprensent resulting data (provided by FrameKit) the way you w
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         
       </documentation>
    </annotation>
 
@@ -79,7 +79,7 @@ This way, you can reprensent resulting data (provided by FrameKit) the way you w
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         
       </documentation>
    </annotation>
 
@@ -88,7 +88,7 @@ This way, you can reprensent resulting data (provided by FrameKit) the way you w
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         
       </documentation>
    </annotation>
 
@@ -97,7 +97,7 @@ This way, you can reprensent resulting data (provided by FrameKit) the way you w
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 

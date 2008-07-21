@@ -26,18 +26,12 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 	private ColorFieldEditor arcColorEditor;
 	private ColorFieldEditor arcColorEditor1;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);

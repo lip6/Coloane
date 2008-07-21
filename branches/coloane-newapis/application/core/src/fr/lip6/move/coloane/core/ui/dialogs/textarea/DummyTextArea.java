@@ -15,10 +15,7 @@ public class DummyTextArea extends TextArea {
 		super(p, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, ""); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();

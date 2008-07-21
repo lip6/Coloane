@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
@@ -29,6 +30,7 @@ import org.eclipse.swt.graphics.Font;
  * Cet EditPart est responsable de la gestion des attributs.
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
@@ -51,13 +53,15 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			figure.setVisible(false);
 		}
 
-		Point attributeLocation = calculLocation();
+		if (!attribut.getValue().equals(attribut.getAttributeFormalism().getDefaultValue())) {
+			Point attributeLocation = calculLocation();
 
-		// Stocke les information de positionnement
-		attribut.getGraphicInfo().setLocation(attributeLocation);
+			// Stocke les information de positionnement
+			attribut.getGraphicInfo().setLocation(attributeLocation);
 
-		// Positionnement graphique
-		figure.setLocation(attributeLocation);
+			// Positionnement graphique
+			figure.setLocation(attributeLocation);
+		}
 
 		return figure;
 	}
@@ -101,20 +105,18 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			attributePosition = new Point(0, 0);
 		}
 
-		// Recupere la figure du modele
-		GraphEditPart modelEditPart = (GraphEditPart) getParent();
+		// Recupere la figure du graphe
+		GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
 		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
 
 		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
 		Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
 
-		while ((modelEditPart.getFigure().findFigureAt(attributePosition) != null) || (modelEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
+		while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
 			attributePosition.y = attributePosition.y + MINGAP; // Deplacement de 5 vers le bas si une figure est deja disposee
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
-
-		System.err.println("position calculé : " + attributePosition);
 		return attributePosition;
 	}
 
@@ -252,10 +254,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		new AttributeEditManager(this, model, new AttributeCellEditorLocator(label)).show();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
@@ -263,10 +262,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
@@ -276,9 +272,12 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			String oldValue = (String) evt.getOldValue();
 			String newValue = (String) evt.getNewValue();
 			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				calculLocation();
+				LOGGER.finer("attribut de nouveau visible"); //$NON-NLS-1$
+				model.getGraphicInfo().setLocation(calculLocation());
 				getFigure().setVisible(true);
 			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
+				LOGGER.finer("attribut caché"); //$NON-NLS-1$
+				model.getGraphicInfo().setLocation(new Point(0, 0));
 				getFigure().setVisible(false);
 			}
 			refreshVisuals();

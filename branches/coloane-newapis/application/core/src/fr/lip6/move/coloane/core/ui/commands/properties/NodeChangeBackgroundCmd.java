@@ -22,18 +22,14 @@ public class NodeChangeBackgroundCmd extends Command {
 		this.newColor = color;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldColor = node.getGraphicInfo().getBackground();
 		redo();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		try {
@@ -43,9 +39,7 @@ public class NodeChangeBackgroundCmd extends Command {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		try {

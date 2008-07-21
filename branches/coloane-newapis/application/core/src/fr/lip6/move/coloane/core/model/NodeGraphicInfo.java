@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+import java.util.HashMap;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -19,7 +21,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
-	private long lastMove;
+	private HashMap<IArc, Long> lastMove = new HashMap<IArc, Long>();
+	private static final Long ZERO = new Long(0);
 
 	/** Taille */
 	private int scale = 100;
@@ -39,9 +42,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getLocation()
-	 */
+	/** {@inheritDoc} */
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
@@ -52,46 +53,46 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @param yPos
 	 */
 	private void setLocation(int xPos, int yPos) {
+		Point oldLocation = new Point(this.x, this.y);
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
 		this.x = xPos;
 		this.y = yPos;
 
 		// Mise a jour de la date de dernier mouvement
-		this.lastMove = System.currentTimeMillis();
+		Long currentTime = System.currentTimeMillis();
 
 		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
-		boolean reset = false;
 		for (IArc arc : node.getOutcomingArcs()) {
-			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove() - lastMove) < 256) {
+			lastMove.put(arc, currentTime);
+			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
 				arc.modifyInflexPoints(dx, dy);
-				reset = true;
+				lastMove.put(arc, ZERO);
 			}
 		}
 		for (IArc arc : node.getIncomingArcs()) {
-			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove() - lastMove) < 256) {
+			lastMove.put(arc, currentTime);
+			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
 				arc.modifyInflexPoints(dx, dy);
-				reset = true;
+				lastMove.put(arc, ZERO);
 			}
 		}
-		if (reset) {
-			lastMove = 0;
-		}
-
 		// Lever un evenement
-		node.firePropertyChange(INode.LOCATION_PROP, null, new Point(x, y));
+		node.firePropertyChange(INode.LOCATION_PROP, oldLocation, new Point(x, y));
 
 		// Il faut avertir FrameKit
 		Coloane.notifyModelChange(node);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		Dimension delta = location.getDifference(getLocation());
-		setLocation(location.x, location.y);
+		try {
+			setLocation(location.x, location.y);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
@@ -102,9 +103,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getWidth() * scale) / 100;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getHeight()
-	 */
+	/** {@inheritDoc} */
 	private int getHeight() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}
@@ -116,57 +115,45 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return new Dimension(getWidth(), getHeight());
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isFilled() {
 		return this.node.getNodeFormalism().getGraphicalDescription().isFilled();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getLastMove()
-	 */
-	public final long getLastMove() {
-		return lastMove;
+	/** {@inheritDoc} */
+	public final Long getLastMove(IArc key) {
+		Long time = lastMove.get(key);
+		if (time == null) {
+			return ZERO;
+		}
+		return time;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getBackground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getBackground() {
 		return background;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setBackground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setBackground(Color background) {
 		Color oldValue = this.background;
 		this.background = background;
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getForeground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getForeground() {
 		return foreground;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
 		Color oldValue = this.foreground;
 		this.foreground = foreground;
 		node.firePropertyChange(INode.FOREGROUND_COLOR_PROP, oldValue, foreground);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setScale(int)
-	 */
+	/** {@inheritDoc} */
 	public final void setScale(int scale) {
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
@@ -179,18 +166,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#getScale()
-	 */
+	/** {@inheritDoc} */
 	public final int getScale() {
 		return scale;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
-	 */
+	/** {@inheritDoc} */
 	public final void setSize(Dimension newDimension) {
 		return;
 	}

@@ -52,10 +52,7 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 		this.maxOut = maxOut;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
-	 */
+	/** {@inheritDoc} */
 	public final boolean isSatisfied(INode source, INode target) {
 		// On doit verifier que les contrainte de cardinalites s'applique pour les noeuds source et cible
 
@@ -91,10 +88,7 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		Map<String, String> myParams = new HashMap<String, String>();
 
@@ -124,10 +118,7 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 		this.maxOut = Integer.valueOf(myParams.get("maxOut")); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
 		return Messages.CardinalityConstraint_0;
 	}

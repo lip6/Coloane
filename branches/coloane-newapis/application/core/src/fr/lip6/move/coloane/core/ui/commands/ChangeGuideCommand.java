@@ -64,6 +64,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		// Cache the old values
 		oldGuide = locatedElement.getVerticalGuide();
@@ -76,6 +77,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public final void redo() {
 		changeGuide(oldGuide, newGuide, newAlign);
 	}
@@ -84,6 +86,7 @@ public class ChangeGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		changeGuide(newGuide, oldGuide, oldAlign);
 	}

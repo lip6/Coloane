@@ -35,23 +35,17 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getAttribute(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final IAttribute getAttribute(String name) {
 		return attributes.get(name);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getAttributes()
-	 */
+	/** {@inheritDoc} */
 	public final Collection<IAttribute> getAttributes() {
 		return attributes.values();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getDrawableAttributes()
-	 */
+	/** {@inheritDoc} */
 	public final Collection<IAttribute> getDrawableAttributes() {
 		ArrayList<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
@@ -62,21 +56,18 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		return drawables;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#putAttribute(java.lang.String, fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute)
-	 */
+	/** {@inheritDoc} */
 	public final void putAttribute(String name, IAttribute attribute) {
 		attributes.put(name, attribute);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getParent()
-	 */
+	/** {@inheritDoc} */
 	public final IElement getParent() {
 		return parent;
 	}
 
 	public final void propertyChange(PropertyChangeEvent evt) {
+		// La valeur d'un attribut a été modifié
 		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {
 			IAttribute attr = (IAttribute) evt.getSource();
 			String oldValue = (String) evt.getOldValue();

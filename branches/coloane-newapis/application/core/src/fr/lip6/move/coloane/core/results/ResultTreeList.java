@@ -109,10 +109,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return max;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#addChild(fr.lip6.move.coloane.core.results.IResultTree)
-	 */
+	/** {@inheritDoc} */
 	public final void addChild(IResultTree child) {
 		String serviceName = ""; //$NON-NLS-1$
 		if (child instanceof ResultTreeImpl) {
@@ -122,74 +119,47 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		update(null, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getChildren()
-	 */
+	/** {@inheritDoc} */
 	public final List<IResultTree> getChildren() {
 		return new ArrayList<IResultTree>(map.values());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getElement()
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	public final List getElement() {
 		return new ArrayList(map.values());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getParent()
-	 */
+	/** {@inheritDoc} */
 	public final IResultTree getParent() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#setParent(fr.lip6.move.coloane.core.results.IResultTree)
-	 */
+	/** {@inheritDoc} */
 	public void setParent(IResultTree parent) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getId()
-	 */
+	/** {@inheritDoc} */
 	public final int getId() {
 		return -1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getHighlight()
-	 */
+	/** {@inheritDoc} */
 	public final List<Integer> getHighlighted() {
 		return this.highlights;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#setHighlighted(int[])
-	 */
+	/** {@inheritDoc} */
 	public final void addHighlighted(int... toHighlight) {
 		for (Integer id : toHighlight) {
 			this.highlights.add(id);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#remove()
-	 */
+	/** {@inheritDoc} */
 	public final void remove() { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void update(Observable o, Object arg) {
 		setChanged();
 		Integer width;
@@ -201,18 +171,12 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		notifyObservers(width);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#getSessionManager()
-	 */
+	/** {@inheritDoc} */
 	public final ISessionManager getSessionManager() {
 		return SessionManager.getInstance();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.IResultTree#setSessionManager(fr.lip6.move.coloane.core.motor.session.ISessionManager)
-	 */
+	/** {@inheritDoc} */
 	public final void setSessionManager(ISessionManager sessionManager) {
 		return;
 	}

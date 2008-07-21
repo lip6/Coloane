@@ -79,10 +79,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
@@ -101,10 +98,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Control createDialogArea(Composite parent) {
 		createMessageArea(parent);
@@ -124,10 +118,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		return composite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void buttonPressed(int buttonId) {
 
@@ -147,10 +138,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		this.close();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#addChoice(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void addChoice(String choice) {
 		choices.add(choice);
 		if (textArea != null && textArea instanceof ListTextArea) {
@@ -158,18 +146,12 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#getDialogResult()
-	 */
+	/** {@inheritDoc} */
 	public final IDialogResult getDialogResult() {
 		return dialogResult;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Image getImage() {
 		switch (type) {

@@ -43,18 +43,12 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 		this.id = id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.IStickyNote#getLabelContents()
-	 */
+	/** {@inheritDoc} */
 	public final String getLabelContents() {
 		return text;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.IStickyNote#setLabelContents(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void setLabelContents(String newText) {
 		// sauvegarde de l'ancienne valeur
 		String oldText = this.text;
@@ -66,34 +60,22 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IElement#getId()
-	 */
+	/** {@inheritDoc} */
 	public final int getId() {
 		return this.id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getLocationInfo()
-	 */
+	/** {@inheritDoc} */
 	public final ILocationInfo getLocationInfo() {
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#getLocation()
-	 */
+	/** {@inheritDoc} */
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setLocation(org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		// Sauvegarde des anciennes valeurs
 		Point oldLocation = getLocation();
@@ -106,18 +88,12 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 		firePropertyChange(IStickyNote.LOCATION_PROP, oldLocation, getLocation());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#getSize()
-	 */
+	/** {@inheritDoc} */
 	public final Dimension getSize() {
 		return new Dimension(this.width, this.height);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
-	 */
+	/** {@inheritDoc} */
 	public final void setSize(Dimension size) {
 		// Sauvegarde des anciennes valeurs
 		Dimension oldDimension = getSize();
@@ -130,34 +106,22 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getHorizontalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getHorizontalGuide() {
 		return this.horizontalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getVerticalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getVerticalGuide() {
 		return this.verticalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setHorizontalGuide(EditorGuide guide) {
 		this.horizontalGuide = guide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
 	}

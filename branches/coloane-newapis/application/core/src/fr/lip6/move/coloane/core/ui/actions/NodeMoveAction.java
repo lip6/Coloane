@@ -12,9 +12,8 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * TODO : A documenter
- * @author jbvoron
- *
+ * Action qui va déplacer la selection d'un pixel dans un sens.<br>
+ * Les sens de déplacements possible sont définies par des constantes dans cette classe.
  */
 public class NodeMoveAction extends SelectionAction {
 	/** Déplacement vers le haut */
@@ -50,12 +49,14 @@ public class NodeMoveAction extends SelectionAction {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void init() {
 		super.init();
 		setEnabled(false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean calculateEnabled() {
 		for (Object obj : getSelectedObjects()) {
@@ -66,6 +67,7 @@ public class NodeMoveAction extends SelectionAction {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void run() {
 		CompoundCommand cc = new CompoundCommand();

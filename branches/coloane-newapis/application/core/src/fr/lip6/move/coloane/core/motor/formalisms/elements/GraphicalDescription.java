@@ -49,9 +49,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getPaletteName()
-	 */
+	/** {@inheritDoc} */
 	public final String getPaletteName() {
 		return paletteName;
 	}
@@ -66,9 +64,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getDescription()
-	 */
+	/** {@inheritDoc} */
 	public final String getDescription() {
 		return description;
 	}
@@ -83,25 +79,19 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#isPalettable()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isPalettable() {
 		return palettable;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#isDrawable()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isDrawable() {
 		return drawable;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getAssociatedFigure()
-	 */
+	/** {@inheritDoc} */
 	public final IFigure getAssociatedFigure() {
 		try {
 			return (IFigure) associatedFigureClass.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
@@ -120,9 +110,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getIcon16px()
-	 */
+	/** {@inheritDoc} */
 	public final String getIcon16px() {
 		return "/" + icon16px; //$NON-NLS-1$
 	}
@@ -137,9 +125,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getIcon24px()
-	 */
+	/** {@inheritDoc} */
 	public final String getIcon24px() {
 		return "/" + icon24px; //$NON-NLS-1$
 	}
@@ -153,9 +139,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.icon24px = icon24px;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#isFilled()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isFilled() {
 		return filled;
 	}
@@ -170,9 +154,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getHeight()
-	 */
+	/** {@inheritDoc} */
 	public final Integer getHeight() {
 		return this.height;
 	}
@@ -187,9 +169,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IGraphicalDescription#getWidth()
-	 */
+	/** {@inheritDoc} */
 	public final Integer getWidth() {
 		return this.width;
 	}

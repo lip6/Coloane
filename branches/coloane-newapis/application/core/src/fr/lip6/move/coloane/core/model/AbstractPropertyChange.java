@@ -9,16 +9,12 @@ public abstract class AbstractPropertyChange {
 	 */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#addPropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
+	/** {@inheritDoc} */
 	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcsDelegate.addPropertyChangeListener(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IElement#removePropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
+	/** {@inheritDoc} */
 	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcsDelegate.removePropertyChangeListener(listener);
 	}

@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -20,6 +21,7 @@ import org.eclipse.ui.ide.IDE;
  * @see WorkspaceModifyOperation
  */
 public class ModifyWorkspace extends WorkspaceModifyOperation {
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private IFile file;
 	private IGraph graph;
@@ -38,10 +40,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 		this.window = w;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.actions.WorkspaceModifyOperation#execute(org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
@@ -59,7 +58,8 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 				file.setContents(inputS, true, false, monitor);
 			}
 		} catch (CoreException e) {
-				// TODO : Faire quelque chose
+			// TODO : Faire quelque chose de mieux ?
+			LOGGER.warning(e.toString());
 		}
 
 		// Affichage du nouveau modele dans un nouvel onglet

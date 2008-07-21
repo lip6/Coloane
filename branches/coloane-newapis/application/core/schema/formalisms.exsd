@@ -6,7 +6,7 @@
          <meta.schema plugin="fr.lip6.move.coloane.core" id="formalisms" name="Formalisms"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Describe a formalism that could be handle by Coloane
       </documentation>
    </annotation>
 
@@ -67,7 +67,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="parent" type="string" use="required">
+         <attribute name="fkname" type="string" use="required">
             <annotation>
                <documentation>
                   Parent&apos;s ID. Needed for CPN-AMI purpose. Several formalisms could be considered as the same by FrameKit platform. The parent ID must specify the ID required by the platform to be processed.
@@ -414,7 +414,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         
       </documentation>
    </annotation>
 
@@ -423,7 +423,7 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         
       </documentation>
    </annotation>
 
@@ -432,7 +432,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         
       </documentation>
    </annotation>
 
@@ -441,7 +441,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 

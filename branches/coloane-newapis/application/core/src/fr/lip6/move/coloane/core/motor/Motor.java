@@ -292,10 +292,7 @@ public final class Motor {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IMotorUi#askForService(java.lang.String, java.lang.String, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public void askForService(final String rootMenuName, final String referenceName, final String serviceName) {
 		// Verification de l'existence du module de communications
 		if (com == null) {
@@ -424,10 +421,7 @@ public final class Motor {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IMotorCom#endService()
-	 */
+	/** {@inheritDoc} */
 	public void endService() {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
@@ -438,10 +432,7 @@ public final class Motor {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IMotorCom#setTaskDescription(java.lang.String, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public void setTaskDescription(String service, String description) {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande d'affichage de precision sur la tache en cours"); //$NON-NLS-1$

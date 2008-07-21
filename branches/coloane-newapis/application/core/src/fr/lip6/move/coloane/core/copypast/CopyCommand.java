@@ -35,25 +35,19 @@ public class CopyCommand extends Command {
 		container.addArc(arc);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 		return !container.isEmpty();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canUndo() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {

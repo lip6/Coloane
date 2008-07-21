@@ -27,10 +27,7 @@ public class EditableTextArea extends TextArea {
 		((Text) getTextWidget()).setText(defaultValue);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();

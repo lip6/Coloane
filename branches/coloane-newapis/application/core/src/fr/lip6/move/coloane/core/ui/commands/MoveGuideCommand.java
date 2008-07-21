@@ -31,6 +31,7 @@ public class MoveGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public final void execute() {
 		guide.setPosition(guide.getPosition() + delta);
 		Iterator<ILocatedElement> iter = guide.getModelObjects().iterator();
@@ -50,6 +51,7 @@ public class MoveGuideCommand extends Command {
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public final void undo() {
 		guide.setPosition(guide.getPosition() - delta);
 		Iterator<ILocatedElement> iter = guide.getModelObjects().iterator();

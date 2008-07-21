@@ -15,29 +15,17 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  * </ul>
  */
 public class DisconnectModelAction implements IWorkbenchWindowActionDelegate {
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbenchWindow w) { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
+	/** {@inheritDoc} */
 	public final void run(IAction action) {
 		Coloane.getDefault().getMotor().closeSession();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
+	/** {@inheritDoc} */
 	public void selectionChanged(IAction action, ISelection selection) { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
-	 */
+	/** {@inheritDoc} */
 	public final void dispose() { return; }
 }
