@@ -13,7 +13,8 @@ public class AttributContainer {
 	private Point location;
 
 	/**
-	 * @param attr
+	 * Constructeur
+	 * @param attr L'attribut considéré
 	 */
 	public AttributContainer(IAttribute attr) {
 		name = attr.getName();
@@ -51,8 +52,8 @@ public class AttributContainer {
 
 	/**
 	 * Définis la position de l'attribut.
-	 * @param x
-	 * @param y
+	 * @param x La position en abcisse
+	 * @param y La position en ordonnée
 	 */
 	public final void setLocation(int x, int y) {
 		this.location = new Point(x, y);
