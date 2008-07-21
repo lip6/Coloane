@@ -57,7 +57,7 @@ public final class Com implements ICom {
 	}
 
 	/**
-	 * @return liste des noms des api disponible
+	 * @return liste des noms des APIs disponibles
 	 */
 	public static List<String> getApisName() {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
@@ -104,17 +104,34 @@ public final class Com implements ICom {
 		return connectionInfo;
 	}
 
+	/**
+	 * Déconnexion brutale
+	 * @throws ApiException En cas de problème
+	 */
 	public void breakConnection() throws ApiException {
 		if (connection != null) {
 			connection.closeConnection();
 		}
 	}
 
+	/**
+	 * Ouverture de session (connexion de modèle)
+	 * @param graph Le modèle qui doit être connecté à la plateforme
+	 * @param monitor Le moniteur d'avancement
+	 * @return ????
+	 * TODO : Il faut virer cet Object !!!
+	 */
 	public Object openSession(IGraph graph, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Fermeture de session (déconnexion de modèle)
+	 * @param monitor Le moniteur d'avancement
+	 * @return ????
+	 * TODO : Il faut virer cet Object !!!
+	 */
 	public Object closeSession(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
