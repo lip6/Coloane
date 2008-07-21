@@ -108,16 +108,16 @@ import fr.lip6.move.coloane.api.interfaces.INode;
 	                IApiSession session = testOpenSession(connection, "Mysession1.petri");
  	            //    tab[0] = session;
  	
- 	              Thread.sleep(10000);
- 	              System.out.println("2eme session");
+ 	    //          Thread.sleep(10000);
+ 	  //            System.out.println("2eme session");
  	              /** Test l'ouverture d'une seconde ession */
- 	              IApiSession session2 = testOpenSession(connection, "seconde.petri");
+ 	//              IApiSession session2 = testOpenSession(connection, "seconde.petri");
  	               //tab[0] = session2;
  	
  	
- 	              Thread.sleep(10000);
- 	              System.out.println("\n\n\nreprise de la 1Ã©re session");
- 	              session.resumeSession();
+ 	              //Thread.sleep(10000);
+ 	              //System.out.println("\n\n\nreprise de la 1Ã©re session");
+ 	            //  session.resumeSession();
  	             // tab[0] = session;
  	
  	                
@@ -252,10 +252,10 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	                
  	                
  	   Thread.sleep(10000);
- 	   session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
- 	// session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing",model);
+ 	 //  session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
+ 	 session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing",model);
  	  // session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker",model);
-  // session.askForService("AMI-Net", "Structural properties", "P-positive invariants",model);
+  //session.askForService("AMI-Net", "Structural properties", "P-positive invariants",model);
  	    
  	     //      Thread.sleep(10000);
  	   //   System.out.println("\n\n\nfermeture 1eme session");

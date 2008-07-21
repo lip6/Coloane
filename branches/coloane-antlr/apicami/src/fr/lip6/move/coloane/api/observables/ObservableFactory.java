@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IServiceStateObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;

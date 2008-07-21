@@ -468,11 +468,24 @@ result_reception
         } 
         |'<EOF>'*
         'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
-              ISpecialMessage msg = new SpecialMessage(3,$mess2.text);
-          ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 
-          //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
-          System.out.println("je parse TQ2");
+
+            if($mess2.text != null){
+             ISpecialMessage msg = new SpecialMessage(3,$mess2.text);
+             ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+            //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+            System.out.println("je parse TQ2");
+         }
+            else
+         {
+          //     ISpecialMessage msg = new SpecialMessage(3,"");
+            // ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+            //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+            System.out.println("je parse TQ2");  
+
+
+        }
+            
           }
         |result*
         |message_utils*
@@ -774,6 +787,6 @@ NEWLINE
 EOF     :
 	        {
          System.out.println("je parse EOOOFFFFF"); 
-skip();}
+         skip();}
 	        ;
 

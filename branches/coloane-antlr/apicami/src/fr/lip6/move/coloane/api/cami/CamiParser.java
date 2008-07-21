@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-07-18 12:56:33
+// $ANTLR 3.0.1 Cami.g 2008-07-21 13:17:28
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -1839,19 +1839,32 @@ public class CamiParser extends Parser {
 
                     match(input,9,FOLLOW_9_in_result_reception1026); 
                      
-                                  ISpecialMessage msg = new SpecialMessage(3,mess2.getText());
-                              ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 
-                              //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
-                              System.out.println("je parse TQ2");
+
+                                if(mess2.getText() != null){
+                                 ISpecialMessage msg = new SpecialMessage(3,mess2.getText());
+                                 ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+                                //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+                                System.out.println("je parse TQ2");
+                             }
+                                else
+                             {
+                              //     ISpecialMessage msg = new SpecialMessage(3,"");
+                                // ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+                                //  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
+                                System.out.println("je parse TQ2");  
+
+
+                            }
+                                
                               
 
                     }
                     break;
                 case 5 :
-                    // Cami.g:477:10: ( result )*
+                    // Cami.g:490:10: ( result )*
                     {
-                    // Cami.g:477:10: ( result )*
+                    // Cami.g:490:10: ( result )*
                     loop19:
                     do {
                         int alt19=2;
@@ -1864,7 +1877,7 @@ public class CamiParser extends Parser {
 
                         switch (alt19) {
                     	case 1 :
-                    	    // Cami.g:477:10: result
+                    	    // Cami.g:490:10: result
                     	    {
                     	    pushFollow(FOLLOW_result_in_result_reception1038);
                     	    result();
@@ -1883,9 +1896,9 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // Cami.g:478:10: ( message_utils )*
+                    // Cami.g:491:10: ( message_utils )*
                     {
-                    // Cami.g:478:10: ( message_utils )*
+                    // Cami.g:491:10: ( message_utils )*
                     loop20:
                     do {
                         int alt20=2;
@@ -1898,7 +1911,7 @@ public class CamiParser extends Parser {
 
                         switch (alt20) {
                     	case 1 :
-                    	    // Cami.g:478:10: message_utils
+                    	    // Cami.g:491:10: message_utils
                     	    {
                     	    pushFollow(FOLLOW_message_utils_in_result_reception1050);
                     	    message_utils();
@@ -1917,9 +1930,9 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // Cami.g:479:10: ( domaine_table )*
+                    // Cami.g:492:10: ( domaine_table )*
                     {
-                    // Cami.g:479:10: ( domaine_table )*
+                    // Cami.g:492:10: ( domaine_table )*
                     loop21:
                     do {
                         int alt21=2;
@@ -1932,7 +1945,7 @@ public class CamiParser extends Parser {
 
                         switch (alt21) {
                     	case 1 :
-                    	    // Cami.g:479:10: domaine_table
+                    	    // Cami.g:492:10: domaine_table
                     	    {
                     	    pushFollow(FOLLOW_domaine_table_in_result_reception1062);
                     	    domaine_table();
@@ -1951,9 +1964,9 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // Cami.g:480:10: ( dialogue )*
+                    // Cami.g:493:10: ( dialogue )*
                     {
-                    // Cami.g:480:10: ( dialogue )*
+                    // Cami.g:493:10: ( dialogue )*
                     loop22:
                     do {
                         int alt22=2;
@@ -1966,7 +1979,7 @@ public class CamiParser extends Parser {
 
                         switch (alt22) {
                     	case 1 :
-                    	    // Cami.g:480:10: dialogue
+                    	    // Cami.g:493:10: dialogue
                     	    {
                     	    pushFollow(FOLLOW_dialogue_in_result_reception1074);
                     	    dialogue();
@@ -1985,9 +1998,9 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 9 :
-                    // Cami.g:481:10: ( modele )*
+                    // Cami.g:494:10: ( modele )*
                     {
-                    // Cami.g:481:10: ( modele )*
+                    // Cami.g:494:10: ( modele )*
                     loop23:
                     do {
                         int alt23=2;
@@ -2000,7 +2013,7 @@ public class CamiParser extends Parser {
 
                         switch (alt23) {
                     	case 1 :
-                    	    // Cami.g:481:10: modele
+                    	    // Cami.g:494:10: modele
                     	    {
                     	    pushFollow(FOLLOW_modele_in_result_reception1086);
                     	    modele();
@@ -2019,7 +2032,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 10 :
-                    // Cami.g:482:10: 'FR(' NUMBER ')'
+                    // Cami.g:495:10: 'FR(' NUMBER ')'
                     {
                     match(input,39,FOLLOW_39_in_result_reception1098); 
                     match(input,NUMBER,FOLLOW_NUMBER_in_result_reception1100); 
@@ -2047,10 +2060,10 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start message_utils
-    // Cami.g:489:1: message_utils : ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );
+    // Cami.g:502:1: message_utils : ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );
     public final void message_utils() throws RecognitionException {
         try {
-            // Cami.g:490:11: ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )
+            // Cami.g:503:11: ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )
             int alt25=5;
             switch ( input.LA(1) ) {
             case 31:
@@ -2080,14 +2093,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("489:1: message_utils : ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );", 25, 0, input);
+                    new NoViableAltException("502:1: message_utils : ( trace_message2 | warning_message2 | special_message2 | NEWLINE | 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );", 25, 0, input);
 
                 throw nvae;
             }
 
             switch (alt25) {
                 case 1 :
-                    // Cami.g:491:4: trace_message2
+                    // Cami.g:504:4: trace_message2
                     {
                     pushFollow(FOLLOW_trace_message2_in_message_utils1125);
                     trace_message2();
@@ -2097,7 +2110,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:492:13: warning_message2
+                    // Cami.g:505:13: warning_message2
                     {
                     pushFollow(FOLLOW_warning_message2_in_message_utils1140);
                     warning_message2();
@@ -2107,7 +2120,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:493:13: special_message2
+                    // Cami.g:506:13: special_message2
                     {
                     pushFollow(FOLLOW_special_message2_in_message_utils1155);
                     special_message2();
@@ -2117,14 +2130,14 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:494:12: NEWLINE
+                    // Cami.g:507:12: NEWLINE
                     {
                     match(input,NEWLINE,FOLLOW_NEWLINE_in_message_utils1168); 
 
                     }
                     break;
                 case 5 :
-                    // Cami.g:495:13: 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:508:13: 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,40,FOLLOW_40_in_message_utils1182); 
                     match(input,NUMBER,FOLLOW_NUMBER_in_message_utils1183); 
@@ -2160,13 +2173,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start trace_message2
-    // Cami.g:502:1: trace_message2 : 'TR(' CAMI_STRING ')' ;
+    // Cami.g:515:1: trace_message2 : 'TR(' CAMI_STRING ')' ;
     public final void trace_message2() throws RecognitionException {
         Token CAMI_STRING8=null;
 
         try {
-            // Cami.g:503:2: ( 'TR(' CAMI_STRING ')' )
-            // Cami.g:504:2: 'TR(' CAMI_STRING ')'
+            // Cami.g:516:2: ( 'TR(' CAMI_STRING ')' )
+            // Cami.g:517:2: 'TR(' CAMI_STRING ')'
             {
             match(input,31,FOLLOW_31_in_trace_message21213); 
             CAMI_STRING8=(Token)input.LT(1);
@@ -2194,13 +2207,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start warning_message2
-    // Cami.g:512:1: warning_message2 : 'WN(' CAMI_STRING ')' ;
+    // Cami.g:525:1: warning_message2 : 'WN(' CAMI_STRING ')' ;
     public final void warning_message2() throws RecognitionException {
         Token CAMI_STRING9=null;
 
         try {
-            // Cami.g:513:2: ( 'WN(' CAMI_STRING ')' )
-            // Cami.g:514:2: 'WN(' CAMI_STRING ')'
+            // Cami.g:526:2: ( 'WN(' CAMI_STRING ')' )
+            // Cami.g:527:2: 'WN(' CAMI_STRING ')'
             {
             match(input,32,FOLLOW_32_in_warning_message21230); 
             CAMI_STRING9=(Token)input.LT(1);
@@ -2228,13 +2241,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start special_message2
-    // Cami.g:522:1: special_message2 : 'MO(' NUMBER ',' CAMI_STRING ')' ;
+    // Cami.g:535:1: special_message2 : 'MO(' NUMBER ',' CAMI_STRING ')' ;
     public final void special_message2() throws RecognitionException {
         Token CAMI_STRING10=null;
 
         try {
-            // Cami.g:523:2: ( 'MO(' NUMBER ',' CAMI_STRING ')' )
-            // Cami.g:524:2: 'MO(' NUMBER ',' CAMI_STRING ')'
+            // Cami.g:536:2: ( 'MO(' NUMBER ',' CAMI_STRING ')' )
+            // Cami.g:537:2: 'MO(' NUMBER ',' CAMI_STRING ')'
             {
             match(input,33,FOLLOW_33_in_special_message21248); 
             match(input,NUMBER,FOLLOW_NUMBER_in_special_message21250); 
@@ -2264,13 +2277,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start result
-    // Cami.g:531:1: result : ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' );
+    // Cami.g:544:1: result : ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' );
     public final void result() throws RecognitionException {
         Token ensemble_name=null;
         Token ensemble_type=null;
 
         try {
-            // Cami.g:531:8: ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' )
+            // Cami.g:544:8: ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' )
             int alt28=4;
             switch ( input.LA(1) ) {
             case 44:
@@ -2305,16 +2318,16 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("531:1: result : ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' );", 28, 0, input);
+                    new NoViableAltException("544:1: result : ( ( result_body )+ ( '<EOF>' )* | 'FE()' | 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')' | 'DE()' );", 28, 0, input);
 
                 throw nvae;
             }
 
             switch (alt28) {
                 case 1 :
-                    // Cami.g:532:3: ( result_body )+ ( '<EOF>' )*
+                    // Cami.g:545:3: ( result_body )+ ( '<EOF>' )*
                     {
-                    // Cami.g:532:3: ( result_body )+
+                    // Cami.g:545:3: ( result_body )+
                     int cnt26=0;
                     loop26:
                     do {
@@ -2380,7 +2393,7 @@ public class CamiParser extends Parser {
 
                         switch (alt26) {
                     	case 1 :
-                    	    // Cami.g:532:3: result_body
+                    	    // Cami.g:545:3: result_body
                     	    {
                     	    pushFollow(FOLLOW_result_body_in_result1268);
                     	    result_body();
@@ -2399,7 +2412,7 @@ public class CamiParser extends Parser {
                         cnt26++;
                     } while (true);
 
-                    // Cami.g:533:9: ( '<EOF>' )*
+                    // Cami.g:546:9: ( '<EOF>' )*
                     loop27:
                     do {
                         int alt27=2;
@@ -2412,7 +2425,7 @@ public class CamiParser extends Parser {
 
                         switch (alt27) {
                     	case 1 :
-                    	    // Cami.g:533:9: '<EOF>'
+                    	    // Cami.g:546:9: '<EOF>'
                     	    {
                     	    match(input,37,FOLLOW_37_in_result1279); 
 
@@ -2428,7 +2441,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:534:3: 'FE()'
+                    // Cami.g:547:3: 'FE()'
                     {
                     match(input,41,FOLLOW_41_in_result1284); 
 
@@ -2438,7 +2451,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:537:10: 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')'
+                    // Cami.g:550:10: 'DE(' ensemble_name= CAMI_STRING ',' ensemble_type= NUMBER ')'
                     {
                     match(input,42,FOLLOW_42_in_result1296); 
                     ensemble_name=(Token)input.LT(1);
@@ -2454,7 +2467,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:540:10: 'DE()'
+                    // Cami.g:553:10: 'DE()'
                     {
                     match(input,43,FOLLOW_43_in_result1320); 
 
@@ -2478,10 +2491,10 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start result_body
-    // Cami.g:545:1: result_body : ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion );
+    // Cami.g:558:1: result_body : ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion );
     public final void result_body() throws RecognitionException {
         try {
-            // Cami.g:546:3: ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion )
+            // Cami.g:559:3: ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion )
             int alt29=6;
             switch ( input.LA(1) ) {
             case 44:
@@ -2521,14 +2534,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("545:1: result_body : ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion );", 29, 0, input);
+                    new NoViableAltException("558:1: result_body : ( textual_result | object_designation | object_outline | attribute_outline | object_creation | object_deletion );", 29, 0, input);
 
                 throw nvae;
             }
 
             switch (alt29) {
                 case 1 :
-                    // Cami.g:547:10: textual_result
+                    // Cami.g:560:10: textual_result
                     {
                     pushFollow(FOLLOW_textual_result_in_result_body1342);
                     textual_result();
@@ -2538,7 +2551,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:548:5: object_designation
+                    // Cami.g:561:5: object_designation
                     {
                     pushFollow(FOLLOW_object_designation_in_result_body1348);
                     object_designation();
@@ -2548,7 +2561,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:549:5: object_outline
+                    // Cami.g:562:5: object_outline
                     {
                     pushFollow(FOLLOW_object_outline_in_result_body1354);
                     object_outline();
@@ -2558,7 +2571,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:550:5: attribute_outline
+                    // Cami.g:563:5: attribute_outline
                     {
                     pushFollow(FOLLOW_attribute_outline_in_result_body1360);
                     attribute_outline();
@@ -2568,7 +2581,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // Cami.g:551:5: object_creation
+                    // Cami.g:564:5: object_creation
                     {
                     pushFollow(FOLLOW_object_creation_in_result_body1366);
                     object_creation();
@@ -2578,7 +2591,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // Cami.g:552:5: object_deletion
+                    // Cami.g:565:5: object_deletion
                     {
                     pushFollow(FOLLOW_object_deletion_in_result_body1372);
                     object_deletion();
@@ -2602,11 +2615,11 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start textual_result
-    // Cami.g:555:1: textual_result : 'RT(' CAMI_STRING ')' ;
+    // Cami.g:568:1: textual_result : 'RT(' CAMI_STRING ')' ;
     public final void textual_result() throws RecognitionException {
         try {
-            // Cami.g:556:3: ( 'RT(' CAMI_STRING ')' )
-            // Cami.g:557:3: 'RT(' CAMI_STRING ')'
+            // Cami.g:569:3: ( 'RT(' CAMI_STRING ')' )
+            // Cami.g:570:3: 'RT(' CAMI_STRING ')'
             {
             match(input,44,FOLLOW_44_in_textual_result1388); 
             match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_textual_result1390); 
@@ -2630,13 +2643,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_designation
-    // Cami.g:562:1: object_designation : 'RO(' id= NUMBER ')' ;
+    // Cami.g:575:1: object_designation : 'RO(' id= NUMBER ')' ;
     public final void object_designation() throws RecognitionException {
         Token id=null;
 
         try {
-            // Cami.g:563:3: ( 'RO(' id= NUMBER ')' )
-            // Cami.g:564:3: 'RO(' id= NUMBER ')'
+            // Cami.g:576:3: ( 'RO(' id= NUMBER ')' )
+            // Cami.g:577:3: 'RO(' id= NUMBER ')'
             {
             match(input,45,FOLLOW_45_in_object_designation1408); 
             id=(Token)input.LT(1);
@@ -2661,13 +2674,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_outline
-    // Cami.g:569:1: object_outline : 'ME(' id= NUMBER ')' ;
+    // Cami.g:582:1: object_outline : 'ME(' id= NUMBER ')' ;
     public final void object_outline() throws RecognitionException {
         Token id=null;
 
         try {
-            // Cami.g:570:3: ( 'ME(' id= NUMBER ')' )
-            // Cami.g:571:3: 'ME(' id= NUMBER ')'
+            // Cami.g:583:3: ( 'ME(' id= NUMBER ')' )
+            // Cami.g:584:3: 'ME(' id= NUMBER ')'
             {
             match(input,46,FOLLOW_46_in_object_outline1430); 
             id=(Token)input.LT(1);
@@ -2692,7 +2705,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start attribute_outline
-    // Cami.g:576:1: attribute_outline : 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' ;
+    // Cami.g:589:1: attribute_outline : 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' ;
     public final void attribute_outline() throws RecognitionException {
         Token id=null;
         Token attr_name=null;
@@ -2700,8 +2713,8 @@ public class CamiParser extends Parser {
         Token end=null;
 
         try {
-            // Cami.g:577:7: ( 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' )
-            // Cami.g:578:3: 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')'
+            // Cami.g:590:7: ( 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' )
+            // Cami.g:591:3: 'MT(' id= NUMBER ',' attr_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')'
             {
             match(input,47,FOLLOW_47_in_attribute_outline1456); 
             id=(Token)input.LT(1);
@@ -2710,7 +2723,7 @@ public class CamiParser extends Parser {
             attr_name=(Token)input.LT(1);
             match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_outline1466); 
             match(input,11,FOLLOW_11_in_attribute_outline1468); 
-            // Cami.g:578:54: (begin= NUMBER )?
+            // Cami.g:591:54: (begin= NUMBER )?
             int alt30=2;
             int LA30_0 = input.LA(1);
 
@@ -2719,7 +2732,7 @@ public class CamiParser extends Parser {
             }
             switch (alt30) {
                 case 1 :
-                    // Cami.g:578:54: begin= NUMBER
+                    // Cami.g:591:54: begin= NUMBER
                     {
                     begin=(Token)input.LT(1);
                     match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1472); 
@@ -2730,7 +2743,7 @@ public class CamiParser extends Parser {
             }
 
             match(input,11,FOLLOW_11_in_attribute_outline1475); 
-            // Cami.g:578:70: (end= NUMBER )?
+            // Cami.g:591:70: (end= NUMBER )?
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -2739,7 +2752,7 @@ public class CamiParser extends Parser {
             }
             switch (alt31) {
                 case 1 :
-                    // Cami.g:578:70: end= NUMBER
+                    // Cami.g:591:70: end= NUMBER
                     {
                     end=(Token)input.LT(1);
                     match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1479); 
@@ -2769,10 +2782,10 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_creation
-    // Cami.g:583:1: object_creation : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );
+    // Cami.g:596:1: object_creation : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );
     public final void object_creation() throws RecognitionException {
         try {
-            // Cami.g:584:3: ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )
+            // Cami.g:597:3: ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )
             int alt32=5;
             switch ( input.LA(1) ) {
             case 48:
@@ -2802,14 +2815,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("583:1: object_creation : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );", 32, 0, input);
+                    new NoViableAltException("596:1: object_creation : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );", 32, 0, input);
 
                 throw nvae;
             }
 
             switch (alt32) {
                 case 1 :
-                    // Cami.g:585:4: 'CN(' CAMI_STRING ',' NUMBER ')'
+                    // Cami.g:598:4: 'CN(' CAMI_STRING ',' NUMBER ')'
                     {
                     match(input,48,FOLLOW_48_in_object_creation1499); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_object_creation1501); 
@@ -2823,7 +2836,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:588:4: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:601:4: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,49,FOLLOW_49_in_object_creation1513); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_object_creation1515); 
@@ -2839,7 +2852,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:591:4: 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:604:4: 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,50,FOLLOW_50_in_object_creation1531); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_object_creation1533); 
@@ -2857,7 +2870,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:594:4: 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:607:4: 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,51,FOLLOW_51_in_object_creation1553); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_object_creation1555); 
@@ -2873,7 +2886,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // Cami.g:597:4: 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:610:4: 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,52,FOLLOW_52_in_object_creation1571); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_object_creation1573); 
@@ -2907,13 +2920,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_deletion
-    // Cami.g:602:1: object_deletion : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );
+    // Cami.g:615:1: object_deletion : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );
     public final void object_deletion() throws RecognitionException {
         Token id=null;
         Token page_id=null;
 
         try {
-            // Cami.g:603:2: ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' )
+            // Cami.g:616:2: ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' )
             int alt33=2;
             int LA33_0 = input.LA(1);
 
@@ -2925,13 +2938,13 @@ public class CamiParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("602:1: object_deletion : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );", 33, 0, input);
+                    new NoViableAltException("615:1: object_deletion : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );", 33, 0, input);
 
                 throw nvae;
             }
             switch (alt33) {
                 case 1 :
-                    // Cami.g:604:5: 'SU(' id= NUMBER ')'
+                    // Cami.g:617:5: 'SU(' id= NUMBER ')'
                     {
                     match(input,53,FOLLOW_53_in_object_deletion1608); 
                     id=(Token)input.LT(1);
@@ -2944,7 +2957,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:607:5: 'SI(' page_id= NUMBER ',' id= NUMBER ')'
+                    // Cami.g:620:5: 'SI(' page_id= NUMBER ',' id= NUMBER ')'
                     {
                     match(input,54,FOLLOW_54_in_object_deletion1621); 
                     page_id=(Token)input.LT(1);
@@ -2974,10 +2987,10 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start domaine_table
-    // Cami.g:613:1: domaine_table : ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' );
+    // Cami.g:626:1: domaine_table : ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' );
     public final void domaine_table() throws RecognitionException {
         try {
-            // Cami.g:614:7: ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' )
+            // Cami.g:627:7: ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' )
             int alt34=4;
             switch ( input.LA(1) ) {
             case 55:
@@ -3002,14 +3015,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("613:1: domaine_table : ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' );", 34, 0, input);
+                    new NoViableAltException("626:1: domaine_table : ( 'TD(' CAMI_STRING ')' | 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'FA()' );", 34, 0, input);
 
                 throw nvae;
             }
 
             switch (alt34) {
                 case 1 :
-                    // Cami.g:615:7: 'TD(' CAMI_STRING ')'
+                    // Cami.g:628:7: 'TD(' CAMI_STRING ')'
                     {
                     match(input,55,FOLLOW_55_in_domaine_table1658); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_domaine_table1660); 
@@ -3022,7 +3035,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:619:10: 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:632:10: 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,56,FOLLOW_56_in_domaine_table1674); 
                     match(input,NUMBER,FOLLOW_NUMBER_in_domaine_table1676); 
@@ -3039,7 +3052,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:623:10: 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:636:10: 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,57,FOLLOW_57_in_domaine_table1698); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_domaine_table1700); 
@@ -3060,7 +3073,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:627:9: 'FA()'
+                    // Cami.g:640:9: 'FA()'
                     {
                     match(input,15,FOLLOW_15_in_domaine_table1729); 
 
@@ -3085,17 +3098,17 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start modele
-    // Cami.g:632:1: modele : 'DB()' ( modele )* 'FB()' ;
+    // Cami.g:645:1: modele : 'DB()' ( modele )* 'FB()' ;
     public final void modele() throws RecognitionException {
         try {
-            // Cami.g:633:5: ( 'DB()' ( modele )* 'FB()' )
-            // Cami.g:634:7: 'DB()' ( modele )* 'FB()'
+            // Cami.g:646:5: ( 'DB()' ( modele )* 'FB()' )
+            // Cami.g:647:7: 'DB()' ( modele )* 'FB()'
             {
             match(input,58,FOLLOW_58_in_modele1748); 
 
                      System.out.println("je parse BD"); 
                    
-            // Cami.g:637:8: ( modele )*
+            // Cami.g:650:8: ( modele )*
             loop35:
             do {
                 int alt35=2;
@@ -3108,7 +3121,7 @@ public class CamiParser extends Parser {
 
                 switch (alt35) {
             	case 1 :
-            	    // Cami.g:637:8: modele
+            	    // Cami.g:650:8: modele
             	    {
             	    pushFollow(FOLLOW_modele_in_modele1758);
             	    modele();
@@ -3143,10 +3156,10 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start modele2
-    // Cami.g:643:1: modele2 : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );
+    // Cami.g:656:1: modele2 : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );
     public final void modele2() throws RecognitionException {
         try {
-            // Cami.g:644:5: ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )
+            // Cami.g:657:5: ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )
             int alt36=7;
             switch ( input.LA(1) ) {
             case 48:
@@ -3186,14 +3199,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("643:1: modele2 : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );", 36, 0, input);
+                    new NoViableAltException("656:1: modele2 : ( 'CN(' CAMI_STRING ',' NUMBER ')' | 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' | 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' | 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' );", 36, 0, input);
 
                 throw nvae;
             }
 
             switch (alt36) {
                 case 1 :
-                    // Cami.g:645:7: 'CN(' CAMI_STRING ',' NUMBER ')'
+                    // Cami.g:658:7: 'CN(' CAMI_STRING ',' NUMBER ')'
                     {
                     match(input,48,FOLLOW_48_in_modele21788); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_modele21790); 
@@ -3207,7 +3220,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:648:4: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:661:4: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,49,FOLLOW_49_in_modele21802); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_modele21804); 
@@ -3223,7 +3236,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:651:4: 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:664:4: 'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,50,FOLLOW_50_in_modele21820); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_modele21822); 
@@ -3241,7 +3254,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // Cami.g:654:4: 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:667:4: 'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,51,FOLLOW_51_in_modele21842); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_modele21844); 
@@ -3257,7 +3270,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // Cami.g:657:4: 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+                    // Cami.g:670:4: 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
                     {
                     match(input,52,FOLLOW_52_in_modele21860); 
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_modele21862); 
@@ -3277,7 +3290,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // Cami.g:660:10: 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:673:10: 'PO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,60,FOLLOW_60_in_modele21892); 
                     match(input,NUMBER,FOLLOW_NUMBER_in_modele21893); 
@@ -3295,7 +3308,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // Cami.g:663:10: 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // Cami.g:676:10: 'pO(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
                     match(input,61,FOLLOW_61_in_modele21919); 
                     match(input,NUMBER,FOLLOW_NUMBER_in_modele21920); 
@@ -3329,7 +3342,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialogue
-    // Cami.g:668:1: dialogue : ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' );
+    // Cami.g:681:1: dialogue : ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' );
     public final void dialogue() throws RecognitionException {
         Token dialog_id=null;
         Token line_number=null;
@@ -3343,7 +3356,7 @@ public class CamiParser extends Parser {
         Token default_value=null;
 
         try {
-            // Cami.g:669:6: ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' )
+            // Cami.g:682:6: ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' )
             int alt38=8;
             switch ( input.LA(1) ) {
             case 62:
@@ -3388,14 +3401,14 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("668:1: dialogue : ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' );", 38, 0, input);
+                    new NoViableAltException("681:1: dialogue : ( 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')' | 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' | NEWLINE | 'FF(' | 'DC(' | 'AD(' dialog_id= NUMBER ')' | 'CD(' dialog_id= NUMBER ')' | 'DG(' dialog_id= NUMBER ')' );", 38, 0, input);
 
                 throw nvae;
             }
 
             switch (alt38) {
                 case 1 :
-                    // Cami.g:670:8: 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')'
+                    // Cami.g:683:8: 'DS(' dialog_id= NUMBER ',' line_number= CAMI_STRING ')'
                     {
                     match(input,62,FOLLOW_62_in_dialogue1960); 
                     dialog_id=(Token)input.LT(1);
@@ -3412,7 +3425,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Cami.g:674:10: 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')'
+                    // Cami.g:687:10: 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')'
                     {
                     match(input,63,FOLLOW_63_in_dialogue1983); 
                     dialog_id=(Token)input.LT(1);
@@ -3439,7 +3452,7 @@ public class CamiParser extends Parser {
                     line_type=(Token)input.LT(1);
                     match(input,NUMBER,FOLLOW_NUMBER_in_dialogue2042); 
                     match(input,11,FOLLOW_11_in_dialogue2044); 
-                    // Cami.g:674:236: (default_value= CAMI_STRING )?
+                    // Cami.g:687:236: (default_value= CAMI_STRING )?
                     int alt37=2;
                     int LA37_0 = input.LA(1);
 
@@ -3448,7 +3461,7 @@ public class CamiParser extends Parser {
                     }
                     switch (alt37) {
                         case 1 :
-                            // Cami.g:674:236: default_value= CAMI_STRING
+                            // Cami.g:687:236: default_value= CAMI_STRING
                             {
                             default_value=(Token)input.LT(1);
                             match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialogue2048); 
@@ -3482,14 +3495,14 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // Cami.g:693:9: NEWLINE
+                    // Cami.g:706:9: NEWLINE
                     {
                     match(input,NEWLINE,FOLLOW_NEWLINE_in_dialogue2062); 
 
                     }
                     break;
                 case 4 :
-                    // Cami.g:694:9: 'FF('
+                    // Cami.g:707:9: 'FF('
                     {
                     match(input,64,FOLLOW_64_in_dialogue2072); 
                      
@@ -3503,7 +3516,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // Cami.g:701:9: 'DC('
+                    // Cami.g:714:9: 'DC('
                     {
                     match(input,65,FOLLOW_65_in_dialogue2083); 
 
@@ -3514,7 +3527,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // Cami.g:705:9: 'AD(' dialog_id= NUMBER ')'
+                    // Cami.g:718:9: 'AD(' dialog_id= NUMBER ')'
                     {
                     match(input,66,FOLLOW_66_in_dialogue2094); 
                     dialog_id=(Token)input.LT(1);
@@ -3532,7 +3545,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // Cami.g:713:9: 'CD(' dialog_id= NUMBER ')'
+                    // Cami.g:726:9: 'CD(' dialog_id= NUMBER ')'
                     {
                     match(input,67,FOLLOW_67_in_dialogue2110); 
                     dialog_id=(Token)input.LT(1);
@@ -3548,7 +3561,7 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // Cami.g:719:9: 'DG(' dialog_id= NUMBER ')'
+                    // Cami.g:732:9: 'DG(' dialog_id= NUMBER ')'
                     {
                     match(input,68,FOLLOW_68_in_dialogue2126); 
                     dialog_id=(Token)input.LT(1);
