@@ -64,31 +64,22 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		incomingArcs.clear();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getId()
-	 */
+	/** {@inheritDoc} */
 	public final int getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getNodeFormalism()
-	 */
+	/** {@inheritDoc} */
 	public final INodeFormalism getNodeFormalism() {
 		return nodeFormalism;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getGraphicInfo()
-	 */
+	/** {@inheritDoc} */
 	public final INodeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getLocationInfo()
-	 */
+	/** {@inheritDoc} */
 	public final ILocationInfo getLocationInfo() {
 		return this.getGraphicInfo();
 	}
@@ -129,23 +120,17 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getSourceArcs()
-	 */
+	/** {@inheritDoc} */
 	public final List<IArc> getOutcomingArcs() {
 		return Collections.unmodifiableList(outcomingArcs);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#getTargetArcs()
-	 */
+	/** {@inheritDoc} */
 	public final List<IArc> getIncomingArcs() {
 		return Collections.unmodifiableList(incomingArcs);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.INode#updateAttributesPosition(int, int)
-	 */
+	/** {@inheritDoc} */
 	public final void updateAttributesPosition(int deltaX, int deltaY) {
 		Collection<IAttribute> collection = this.getDrawableAttributes();
 		for (IAttribute att : collection) {
@@ -154,10 +139,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeImpl#updateArcAttributesPosition()
-	 */
+	/** {@inheritDoc} */
 	public final void updateArcAttributesPosition() {
 		// Parcours des arcs sortants
 		for (IArc arc : this.outcomingArcs) {
@@ -170,34 +152,22 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getHorizontalGuide() {
 		return this.horizontalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getVerticalGuide() {
 		return this.verticalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setHorizontalGuide(EditorGuide guide) {
 		this.horizontalGuide = guide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
 	}

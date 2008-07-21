@@ -32,20 +32,14 @@ public class AttributeEditCommand extends Command {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldValue = attribute.getValue();
 		attribute.setValue(newValue);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		attribute.setValue(oldValue);

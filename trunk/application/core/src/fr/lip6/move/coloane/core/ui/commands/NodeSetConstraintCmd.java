@@ -44,30 +44,21 @@ public class NodeSetConstraintCmd extends Command {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldBounds = new Rectangle(node.getGraphicInfo().getLocation(), node.getGraphicInfo().getSize());
 		redo();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		node.getGraphicInfo().setLocation(newBounds.getLocation());
 		node.updateArcAttributesPosition();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		node.getGraphicInfo().setLocation(oldBounds.getLocation());

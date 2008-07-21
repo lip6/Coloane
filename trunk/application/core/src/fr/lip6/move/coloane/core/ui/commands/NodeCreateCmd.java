@@ -42,18 +42,13 @@ public class NodeCreateCmd extends Command {
 		this.location = b.getLocation();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 		return graph != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		try {
@@ -65,19 +60,13 @@ public class NodeCreateCmd extends Command {
 		node.getGraphicInfo().setLocation(location);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		graph.addNode(node);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		graph.deleteNode(node);

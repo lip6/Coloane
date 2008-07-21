@@ -9,10 +9,7 @@ import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 
 public class GenericReport implements IReport {
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.reports.IReport#build(fr.lip6.move.coloane.interfaces.objects.IResultsCom)
-	 */
+	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResultsCom result) {
 
 		// 1. Build the root of the resultat tree

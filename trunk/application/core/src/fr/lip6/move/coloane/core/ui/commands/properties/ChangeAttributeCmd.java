@@ -21,9 +21,7 @@ public class ChangeAttributeCmd extends Command {
 		this.newValue = newValue;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {
@@ -33,17 +31,13 @@ public class ChangeAttributeCmd extends Command {
 		redo();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		attr.setValue(newValue);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		attr.setValue(oldValue);

@@ -46,17 +46,13 @@ public class CutCommand extends Command {
 		container.addArc(arc);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 		return !container.isEmpty();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {
@@ -68,17 +64,13 @@ public class CutCommand extends Command {
 		redo();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canUndo() {
 		return container != null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		for (IArc arc : arcs) {
@@ -89,9 +81,7 @@ public class CutCommand extends Command {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		for (INode node : nodes) {

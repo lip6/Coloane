@@ -25,18 +25,12 @@ public class ListTextArea extends TextArea {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.ITextArea#addChoice(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void addChoice(String choice) {
 		((List) getTextWidget()).add(choice);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.textarea.TextArea#getText()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final ArrayList<String> getText() {
 		ArrayList<String> result = new ArrayList<String>();

@@ -48,19 +48,13 @@ public class ElementFormalism implements IElementFormalism {
 		this.attributes.add(attribute);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {	return name; }
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getAttributes()
-	 */
+	/** {@inheritDoc} */
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IElementFormalism#getGraphicalDescription()
-	 */
+	/** {@inheritDoc} */
 	public final IGraphicalDescription getGraphicalDescription() {
 		return graphicalDescription;
 	}
@@ -73,10 +67,7 @@ public class ElementFormalism implements IElementFormalism {
 		this.graphicalDescription = graphicalDescription;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IElementFormalism#getFormalism()
-	 */
+	/** {@inheritDoc} */
 	public final IFormalism getFormalism() {
 		return this.formalism;
 	}

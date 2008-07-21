@@ -73,9 +73,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -113,9 +111,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		label.setLayoutData(data);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
@@ -127,9 +123,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INode.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refresh();

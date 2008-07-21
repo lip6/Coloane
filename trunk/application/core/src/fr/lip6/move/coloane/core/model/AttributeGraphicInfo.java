@@ -25,9 +25,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		this.attribute = attr;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IAttributeGraphicInfo#getLocation()
-	 */
+	/** {@inheritDoc} */
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
@@ -50,41 +48,27 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		Coloane.notifyModelChange(attribute.getReference());
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttributeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		setLocation(location.x, location.y);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#getBackground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getBackground() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#getForeground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getForeground() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#setBackground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setBackground(Color background) {
 		return;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
 		return;
 	}
@@ -96,10 +80,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		return -1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#getSize()
-	 */
+	/** {@inheritDoc} */
 	public final Dimension getSize() {
 		return new Dimension(getWidth(), getHeight());
 	}
@@ -111,10 +92,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		return -1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
-	 */
+	/** {@inheritDoc} */
 	public final void setSize(Dimension newDimension) {
 		return;
 	}

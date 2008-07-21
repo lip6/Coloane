@@ -285,10 +285,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void activate() {
 		if (!isActive()) {
@@ -297,10 +294,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void deactivate() {
 		if (isActive()) {

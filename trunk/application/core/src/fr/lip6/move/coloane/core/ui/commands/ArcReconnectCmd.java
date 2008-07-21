@@ -127,19 +127,13 @@ public class ArcReconnectCmd extends Command {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		this.redo();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		INode sourceToConnect = newSource;
@@ -158,10 +152,7 @@ public class ArcReconnectCmd extends Command {
 		this.arc.reconnect(sourceToConnect, targetToConnect);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		this.arc.reconnect(oldSource, oldTarget);

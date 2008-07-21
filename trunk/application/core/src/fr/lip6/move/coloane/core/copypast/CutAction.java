@@ -27,9 +27,7 @@ public class CutAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected final boolean calculateEnabled() {
@@ -67,9 +65,7 @@ public class CutAction extends SelectionAction {
 		return cmd;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void init() {
 		super.init();
@@ -82,9 +78,7 @@ public class CutAction extends SelectionAction {
 		setEnabled(false);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void run() {

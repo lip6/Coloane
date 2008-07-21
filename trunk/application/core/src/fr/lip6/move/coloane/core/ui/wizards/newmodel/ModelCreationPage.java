@@ -140,10 +140,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#setVisible(boolean)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void setVisible(boolean visible) {
 		super.setVisible(visible);
@@ -257,10 +254,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		return this.currentProject.getFile(modelName).exists();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
 		// Raccourci : Finich dès la première page

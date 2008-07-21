@@ -23,9 +23,7 @@ public class ArcChangeColorCmd extends Command {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldColor = arc.getGraphicInfo().getColor();
@@ -33,18 +31,14 @@ public class ArcChangeColorCmd extends Command {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		arc.getGraphicInfo().setColor(newColor);
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		arc.getGraphicInfo().setColor(oldColor);

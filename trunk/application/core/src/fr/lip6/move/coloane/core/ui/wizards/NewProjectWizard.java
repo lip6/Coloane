@@ -20,19 +20,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	private ProjectCreationPage projectCreationPage;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
 		addPage(projectCreationPage);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
 		// Recuperation des informations sur le nouveau projet a creer
@@ -76,10 +70,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/newproject_corner.png")); //$NON-NLS-1$
 		setWindowTitle(Messages.NewProjectWizard_1);

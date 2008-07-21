@@ -80,9 +80,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return idCounter++;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#createNode(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
 		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
@@ -95,9 +93,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return node;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#deleteNode(fr.lip6.move.coloane.core.ui.model.interfaces.INode)
-	 */
+	/** {@inheritDoc} */
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
 			for (IArc arc : node.getOutcomingArcs()) {
@@ -114,9 +110,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#deleteNode(int)
-	 */
+	/** {@inheritDoc} */
 	public final void deleteNode(int id) {
 		INode node = nodes.get(id);
 		if (node != null) {
@@ -124,16 +118,12 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getNode(int)
-	 */
+	/** {@inheritDoc} */
 	public final INode getNode(int id) {
 		return nodes.get(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getNodes()
-	 */
+	/** {@inheritDoc} */
 	public final Collection<INode> getNodes() {
 		return nodes.values();
 	}
@@ -145,9 +135,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return sticky.values();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#addNode(fr.lip6.move.coloane.core.ui.model.interfaces.INode)
-	 */
+	/** {@inheritDoc} */
 	public final void addNode(INode node) {
 		if (nodes.containsKey(node.getId())) {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
@@ -184,9 +172,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		firePropertyChange(STICKY_REMOVED_PROP, null, note);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#createArc(java.lang.String, fr.lip6.move.coloane.core.ui.model.interfaces.INode, fr.lip6.move.coloane.core.ui.model.interfaces.INode)
-	 */
+	/** {@inheritDoc} */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
 		try {
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
@@ -208,9 +194,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#deleteArc(fr.lip6.move.coloane.core.ui.model.interfaces.IArc)
-	 */
+	/** {@inheritDoc} */
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
@@ -221,9 +205,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#deleteArc(int)
-	 */
+	/** {@inheritDoc} */
 	public final void deleteArc(int id) {
 		IArc arc = arcs.get(id);
 		if (arc != null) {
@@ -231,23 +213,17 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getArc(int)
-	 */
+	/** {@inheritDoc} */
 	public final IArc getArc(int id) {
 		return arcs.get(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getArcs()
-	 */
+	/** {@inheritDoc} */
 	public final Collection<IArc> getArcs() {
 		return arcs.values();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#addArc(fr.lip6.move.coloane.core.ui.model.interfaces.IArc)
-	 */
+	/** {@inheritDoc} */
 	public final void addArc(IArc arc) {
 		if (arcs.containsKey(arc.getId())) {
 			LOGGER.warning("Cet arc existe déjà."); //$NON-NLS-1$
@@ -265,17 +241,12 @@ public class GraphModel extends AbstractElement implements IGraph {
 		Coloane.notifyModelChange(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IElement#getId()
-	 */
+	/** {@inheritDoc} */
 	public final int getId() {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.IGraph#getObject(int)
-	 */
+	/** {@inheritDoc} */
 	public final IElement getObject(int id) {
 		IElement obj = this.getNode(id);
 		if (obj != null) {
@@ -285,16 +256,12 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getFormalism()
-	 */
+	/** {@inheritDoc} */
 	public final IFormalism getFormalism() {
 		return formalism;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#modifyDate()
-	 */
+	/** {@inheritDoc} */
 	public final int modifyDate() {
 //		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
 		date = (int) System.currentTimeMillis();
@@ -308,23 +275,17 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#getDate()
-	 */
+	/** {@inheritDoc} */
 	public final int getDate() {
 		return date;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#isDirty()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isDirty() {
 		return dirty;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IGraph#setDirty(boolean)
-	 */
+	/** {@inheritDoc} */
 	public final void setDirty(boolean state) {
 		if (state) {
 			LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$

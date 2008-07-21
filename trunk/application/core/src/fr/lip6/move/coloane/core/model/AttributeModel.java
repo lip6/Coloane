@@ -27,23 +27,17 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		this.value = attributeFormalism.getDefaultValue();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
 		return name;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#getValue()
-	 */
+	/** {@inheritDoc} */
 	public final String getValue() {
 		return value;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#setValue(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void setValue(String value) {
 		String oldValue = this.value;
 		this.value = value;
@@ -52,64 +46,43 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#getGraphicInfo()
-	 */
+	/** {@inheritDoc} */
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.interfaces.IAttribute#getReference()
-	 */
+	/** {@inheritDoc} */
 	public final IElement getReference() {
 		return reference;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.core.ICoreAttribute#getAttributeFormalism()
-	 */
+	/** {@inheritDoc} */
 	public final IAttributeFormalism getAttributeFormalism() {
 		return attributFormalism;
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getHorizontalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getHorizontalGuide() {
 		return this.horizontalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#getVerticalGuide()
-	 */
+	/** {@inheritDoc} */
 	public final EditorGuide getVerticalGuide() {
 		return this.verticalGuide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setHorizontalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setHorizontalGuide(EditorGuide guide) {
 		this.horizontalGuide = guide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.ILocatedElement#setVerticalGuide(fr.lip6.move.coloane.core.ui.rulers.EditorGuide)
-	 */
+	/** {@inheritDoc} */
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.model.interfaces.ILocatedElement#getLocationInfo()
-	 */
+	/** {@inheritDoc} */
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
 	}

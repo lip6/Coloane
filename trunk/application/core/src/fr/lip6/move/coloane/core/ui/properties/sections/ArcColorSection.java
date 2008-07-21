@@ -42,9 +42,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 		}
 	};
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -85,9 +83,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 		return cfe;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
@@ -95,9 +91,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 		if (IArc.COLOR_PROP.equals(prop)) {

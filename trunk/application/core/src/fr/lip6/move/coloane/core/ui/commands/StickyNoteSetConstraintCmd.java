@@ -35,39 +35,27 @@ public class StickyNoteSetConstraintCmd extends Command {
 		this.newBounds.y = Math.max(this.newBounds.y, 0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldBounds = new Rectangle(note.getLocation(), note.getSize());
 		redo();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		note.setLocation(newBounds.getLocation());
 		note.setSize(newBounds.getSize());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		note.setLocation(oldBounds.getLocation());

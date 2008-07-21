@@ -180,9 +180,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		return currentType;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (!isDisposed() && IAttribute.VALUE_PROP.equals(evt.getPropertyName())) {
 			refreshContent();

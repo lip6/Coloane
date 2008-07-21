@@ -44,26 +44,17 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 		this.max = max;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#isSatisfied(fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement, fr.lip6.move.coloane.core.motor.formalisms.elements.FormalismElement)
-	 */
+	/** {@inheritDoc} */
 	public final boolean isSatisfied(INode node) {
 		return (node.getNodeFormalism().getName().equals(element));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
 		return Messages.CapacityConstraint_0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		Map<String, String> myParams = new HashMap<String, String>();
 

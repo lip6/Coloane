@@ -8,10 +8,7 @@ import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
 public class SyntaxCheckerReport implements IReport {
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.results.reports.IReport#build(fr.lip6.move.coloane.interfaces.objects.IResultsCom)
-	 */
+	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResultsCom result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
 		root.setSessionManager(SessionManager.getInstance());

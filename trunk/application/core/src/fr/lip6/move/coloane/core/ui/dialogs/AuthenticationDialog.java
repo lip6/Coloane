@@ -95,7 +95,7 @@ public class AuthenticationDialog extends Dialog {
 	/**
 	 * Creer les controles pour ce dialogue
 	 *
-	 * @param Composite parent Parent Composite
+	 * @param parent Parent Composite
 	 * @return Composite du dialogue
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */

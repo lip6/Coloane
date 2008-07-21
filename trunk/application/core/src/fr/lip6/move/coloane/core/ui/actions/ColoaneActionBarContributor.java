@@ -20,10 +20,7 @@ import org.eclipse.ui.actions.RetargetAction;
 
 public class ColoaneActionBarContributor extends ActionBarContributor {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void buildActions() {
 		IWorkbenchWindow iww = getPage().getWorkbenchWindow();
@@ -54,10 +51,7 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void declareGlobalActionKeys() {
 		addGlobalActionKey(ActionFactory.PRINT.getId());
@@ -66,19 +60,13 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addGlobalActionKey(ActionFactory.DELETE.getId());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void contributeToToolBar(IToolBarManager toolBarManager) {
 		super.contributeToToolBar(toolBarManager);

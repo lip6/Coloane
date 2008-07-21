@@ -23,18 +23,12 @@ import org.eclipse.ui.PartInitException;
 public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbenchWindow w) {
 		this.window = w;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
+	/** {@inheritDoc} */
 	public final void run(IAction action) {
 
 		try {
@@ -51,15 +45,9 @@ public class AuthenticationAction implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
+	/** {@inheritDoc} */
 	public void selectionChanged(IAction action, ISelection selection) { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
-	 */
+	/** {@inheritDoc} */
 	public final void dispose() { return; }
 }

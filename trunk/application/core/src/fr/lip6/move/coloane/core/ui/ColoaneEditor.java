@@ -256,10 +256,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void configureGraphicalViewer() {
 		ArrayList<String> zoomContributions;
@@ -560,10 +557,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		return rulerComposite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final Object getAdapter(Class type) {

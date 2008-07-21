@@ -40,10 +40,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 		this.window = w;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.actions.WorkspaceModifyOperation#execute(org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 
