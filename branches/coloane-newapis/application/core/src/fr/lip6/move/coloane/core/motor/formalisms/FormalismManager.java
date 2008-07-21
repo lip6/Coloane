@@ -30,11 +30,11 @@ public final class FormalismManager {
 	/** Le nom du point d'extension qui contient les definitions de formalismes */
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
 
-	/** Liste des formalismes disponibles. */
-	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
-
 	/** L'instance du singleton : FormalismManager */
 	private static FormalismManager instance = null;
+
+	/** Liste des formalismes disponibles. */
+	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
 
 	/**
 	 * Constructeur de la classe FormalismsManager
@@ -50,8 +50,8 @@ public final class FormalismManager {
 	}
 
 	/**
-	 *
-	 * @param description
+	 * Construction du formalisme à partir de la description XML
+	 * @param description L'élément de haut niveau décrivant le formalisme
 	 */
 	private void buildFormalism(IConfigurationElement description) {
 		String name, fkname, xschema, image;
@@ -169,6 +169,11 @@ public final class FormalismManager {
 		}
 	}
 
+	/**
+	 * Construction de la représentation graphique des éléments
+	 * @param element L'élément concerné par la description graphique
+	 * @param current L'élément XML en cours de parse
+	 */
 	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement current) {
 		// Ajout des considérations graphiques
 		IConfigurationElement[] graphicInfoTable = current.getChildren("GraphicInfo"); //$NON-NLS-1$
