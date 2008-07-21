@@ -4,7 +4,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import fr.lip6.move.coloane.apiws.connection.Api;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.test.apiws.controller.SessionController;
 
@@ -18,9 +17,7 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
-	private static Api api;
-	
+		
 	private static SessionController sessionController;
 	
 	private static IApiConnection connection;
@@ -29,12 +26,7 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
-		api = new Api();
 		sessionController = new SessionController();
-	}
-	
-	public static Api getApi(){
-		return api;
 	}
 	
 	public static SessionController getSessionController(){
