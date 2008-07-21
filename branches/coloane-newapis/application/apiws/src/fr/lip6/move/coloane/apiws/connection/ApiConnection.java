@@ -14,15 +14,15 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptErrorObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
-import fr.lip6.move.coloane.interfaces.api.observers.IReceptErrorObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
@@ -57,8 +57,8 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_MENU, ObservableFactory.getNewReceptMenuObservable());
 		this.listObservables.put(IObservables.RECEPT_MESSAGE, ObservableFactory.getNewReceptMessageObservable());
 		this.listObservables.put(IObservables.RECEPT_RESULT, ObservableFactory.getNewReceptResultObservable());
-		this.listObservables.put(IObservables.RECEPT_ERROR, ObservableFactory.getNewReceptErrorObservable());
 		this.listObservables.put(IObservables.DISCONNECT,ObservableFactory.getNewDisconnectObservable());
+		this.listObservables.put(IObservables.BRUTAL_INTERRUPT, ObservableFactory.getNewBrutalInterruptObservable());
 		
 		
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
@@ -104,14 +104,14 @@ public class ApiConnection implements IApiConnection {
 		obs.setCreateThread(createThread);
 	}
 	
-	public void setReceptErrorObserver(IReceptErrorObserver o,boolean createThread){
-		IReceptErrorObservable obs = (IReceptErrorObservable) listObservables.get(IObservables.RECEPT_ERROR);
+	public void setDisconnectObserver(IDisconnectObserver o,boolean createThread){
+		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 	}
 	
-	public void setDisconnectObserver(IDisconnectObserver o,boolean createThread){
-		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
+	public void setBrutalInterruptObserver(IBrutalInterruptObserver o,boolean createThread){
+		IBrutalInterruptObservable obs = (IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 	}

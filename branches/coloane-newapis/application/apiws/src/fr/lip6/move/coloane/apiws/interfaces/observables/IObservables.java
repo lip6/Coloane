@@ -11,4 +11,5 @@ public interface IObservables {
 	final static Integer RECEPT_RESULT = 3;
 	final static Integer RECEPT_ERROR = 4;
 	final static Integer DISCONNECT = 5;
+	final static Integer BRUTAL_INTERRUPT = 6;
 }
