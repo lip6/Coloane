@@ -135,7 +135,7 @@ public class ApiConnection implements IApiConnection {
 		if (!connectionOpened)
 			throw new ApiException("Aucune connexion n'est ouverte");
 
-		((Thread)listener).interrupt();
+		listener.stopper();
 		speaker.closeConnection();
 		
 		connectionOpened = false;
