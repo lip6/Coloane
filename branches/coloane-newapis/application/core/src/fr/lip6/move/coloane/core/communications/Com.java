@@ -65,10 +65,17 @@ public final class Com implements ICom {
 		return instance;
 	}
 
+	/**
+	 * @return instance de l'api de communication
+	 */
 	public IApi getApi() {
 		return api;
 	}
 
+	/**
+	 * Permet de modifier l'api de communication
+	 * @param api nouvelle api à utiliser
+	 */
 	public void setApi(IApi api) {
 		this.api = api;
 	}
