@@ -93,6 +93,7 @@ public final class Motor {
 				try {
 					setResults(Com.getInstance().authentication(authInformation, monitor));
 				} catch (ApiException e) {
+					e.printStackTrace();
 					throw new InvocationTargetException(e);
 				}
 			}
