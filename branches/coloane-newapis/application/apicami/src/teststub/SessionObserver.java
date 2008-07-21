@@ -11,9 +11,9 @@ import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 public class SessionObserver implements ISessionObserver {
 
 
-	public void update(ISessionInfo fkInfo, ArrayList<IMenu> menuList,
+	public void update( ArrayList<IMenu> menuList,
 			ArrayList<IUpdateItem> updatesList) {
-            if ((menuList == null) | (fkInfo == null)){
+            if (menuList == null){
             System.out.println("test stub: on a notifié les modificateurs apré QQ");
             }else {
 		   System.out.println("test stub: on a notifié l'ouverture session");

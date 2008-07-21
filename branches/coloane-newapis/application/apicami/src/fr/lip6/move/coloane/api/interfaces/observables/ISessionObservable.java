@@ -34,6 +34,6 @@ public interface ISessionObservable {
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
-	public void notifyObservers(ISessionInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
+	public void notifyObservers( ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
 
 }

@@ -13,6 +13,6 @@ import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
  *
  */
 public interface ISessionObserver {
-	void update(ISessionInfo fkInfo, ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
+	void update( ArrayList<IMenu> menuList,ArrayList<IUpdateItem> updatesList);
 
 }

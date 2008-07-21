@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import java.lang.IllegalStateException;
 
@@ -223,6 +224,11 @@ public class SessionController implements ISessionController {
 
 	public void notifyEndResult() {
 		this.activeSession.notifyEndResult();
+		
+	}
+
+	public void notifyReceptSessionInfo(ISessionInfo o) {
+	this.activeSession.notifyReceptSessionInfo(o);
 		
 	}
 

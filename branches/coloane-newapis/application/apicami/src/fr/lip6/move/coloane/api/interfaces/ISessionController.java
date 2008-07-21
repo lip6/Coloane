@@ -90,4 +90,6 @@ public interface ISessionController {
 	public void notifyWaitingForModel() throws IOException;
 
 	public void notifyEndResult();
+
+	public void notifyReceptSessionInfo(ISessionInfo fkInfo);
 }

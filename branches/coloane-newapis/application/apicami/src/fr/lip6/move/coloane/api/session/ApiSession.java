@@ -38,6 +38,9 @@ public class ApiSession implements IApiSession {
 	
 	/** notre modele*/
 	private IModel model;
+	
+	/** son ISessionInfo */
+	private ISessionInfo sessionInfo;
 	/**
 	 * le constructeur de notre session.
 	 */
@@ -60,7 +63,7 @@ public class ApiSession implements IApiSession {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public void openSession(String sessionDate, String sessionFormalism,
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism,
 			String sessionName, String interlocutor, int mode)
 			throws IOException, InterruptedException {
 		this.interlocutor = interlocutor;
@@ -68,15 +71,21 @@ public class ApiSession implements IApiSession {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
-System.out.println("session open");
+      System.out.println("session open");
+      synchronized(this){
+	        
 		if (this.sessionCont.openSession(this))
 			// TODO lexeption
 
 			this.speaker.openSession(this.sessionName, this.sessionDate,
 					this.sessionFormalism, this.interlocutor, this.mode);
+		/* on se met en attente de ISessionInfo*/
+	         this.wait();	
 			if( !this.automate.setWaitingForUpdatesAndMenusState() ){
 		 throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
 	}
+      }
+			return this.sessionInfo;
 	}
 
 	/**
@@ -85,9 +94,9 @@ System.out.println("session open");
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public void openSession(String sessionDate, String sessionFormalism,
+	public ISessionInfo openSession(String sessionDate, String sessionFormalism,
 			String sessionName) throws IOException, InterruptedException {
-		openSession(sessionDate, sessionFormalism, sessionName,
+		return openSession(sessionDate, sessionFormalism, sessionName,
 				"KrameKit Environment", 1);
 
 	}
@@ -279,6 +288,14 @@ System.out.println("session open");
 	public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException {
 		speaker.sendDialogResponse(dialogAnswer);
 		return true;
+	}
+
+	public void notifyReceptSessionInfo(ISessionInfo o) {
+		this.sessionInfo = o;
+		synchronized(this){
+	        this.notify();
+		}
+		
 	}
 	
 	

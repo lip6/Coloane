@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
-import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
+import fr.lip6.move.coloane.api.interfaces.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 
 /**
@@ -18,10 +18,10 @@ import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
  *
  */
 
-public class DialogObservable implements IDialogObservable {
+public class ReceptDialogObservable implements IReceptDialogObservable {
 
 	/** liste des observeurs */
-	private ArrayList<IDialogObserver> list;
+	private ArrayList<IReceptDialogObserver> list;
 
 	/** créer un thread ? */
 	private boolean createThread = false;
@@ -29,8 +29,8 @@ public class DialogObservable implements IDialogObservable {
 	/**
 	 * Constructeur
 	 */
-	public DialogObservable() {
-		list = new ArrayList<IDialogObserver>();
+	public ReceptDialogObservable() {
+		list = new ArrayList<IReceptDialogObserver>();
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class DialogObservable implements IDialogObservable {
 	 * @param o
 	 *            L'observer à ajouter
 	 */
-	public void addObserver(IDialogObserver o) {
+	public void addObserver(IReceptDialogObserver o) {
 		this.list.add(o);
 	}
 
@@ -79,11 +79,11 @@ public class DialogObservable implements IDialogObservable {
 	 *
 	 */
 	class ThreadNotifier implements Runnable {
-		private ArrayList<IDialogObserver> listObservers;
+		private ArrayList<IReceptDialogObserver> listObservers;
 		private IDialog dialog;
         private Integer in;
 		
-		public ThreadNotifier(ArrayList<IDialogObserver> list, IDialog dialog,Integer in) {
+		public ThreadNotifier(ArrayList<IReceptDialogObserver> list, IDialog dialog,Integer in) {
 			this.listObservers = list;
 			this.dialog = dialog;
 			this.in = in;

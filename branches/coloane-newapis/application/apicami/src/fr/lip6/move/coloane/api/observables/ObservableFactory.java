@@ -5,12 +5,13 @@ import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservabl
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IServiceObservable;
+
+import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IReceptResultObservable;
+
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
+
 
 public class ObservableFactory {
 
@@ -22,16 +23,14 @@ public class ObservableFactory {
 		return (ISessionObservable) new SessionObservable();
 	}
 
-	public static IServiceObservable getNewServiceObservable(){
-		return (IServiceObservable) new ServiceObservable();
-	}
+	
 
 	public static IBrutalInterruptObservable getNewBrutalInterruptObservable() {
 		return (IBrutalInterruptObservable) new BrutalInterruptObservable();
 	}
 
-	public static IDialogObservable getNewDialogObservable() {
-		return (IDialogObservable) new DialogObservable();
+	public static IReceptDialogObservable getNewreceptDialogObservable() {
+		return (IReceptDialogObservable) new ReceptDialogObservable();
 	}
 
 	public static ICloseConnectionObservable getNewCloseConnectionObservable() {
@@ -49,4 +48,16 @@ public class ObservableFactory {
 	
 		return (ISpecialMessageObservable) new SpecialMessageObservable(); 
 	}
+
+
+		public static IReceptResultObservable getNewReceptResultObservable() {
+			
+			return (IReceptResultObservable) new ReceptResultObservable(); 
+		}
+
+		public static IReceptDialogObservable getNewReceptDialogObservable() {
+			
+			return (IReceptDialogObservable) new ReceptDialogObservable(); 
+		}
+	
 }

@@ -18,13 +18,11 @@ import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IDialogObservable;
+import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ITraceMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IWarningObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 
 import java.util.ArrayList;
@@ -207,6 +205,7 @@ interlocutor_table
         }
     |'FL()'{
             fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
+            sc.notifyReceptSessionInfo(fkInfo);
             System.out.println("je parse le FL");          
 //            System.out.println("fkinfo");
             for(int i=0; i<this.listOfArgs.size(); i++){
@@ -370,7 +369,7 @@ end_menu_transmission
             if($NUMBER.text.equals("3")){
              sc.notifyEndOpenSession();
             updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(fkInfo, menuList, updates);
+            ((ISessionObservable)hashObservable.get("ISession")).notifyObservers( menuList, updates);
               camiUpdates = null;
              camiUpdates = new ArrayList<ArrayList<String>>();
 
@@ -378,7 +377,7 @@ end_menu_transmission
          else {
           System.out.println("je parse eeeeeeeeQQ2");
      updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-     ((ISessionObservable)hashObservable.get("ISession")).notifyObservers(null, null, updates);
+     ((ISessionObservable)hashObservable.get("ISession")).notifyObservers( null, updates);
 
 }
                   
@@ -720,18 +719,18 @@ dialogue
    
        Integer i = Integer.parseInt($dialog_id.text);
  
-       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(i),1);
+       ((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(i),1);
          System.out.println("je parse AD");
         }
        |'CD('dialog_id=NUMBER ')'{
         
        Integer j = Integer.parseInt($dialog_id.text);
-       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(j),2);
+       ((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(j),2);
          System.out.println("je parse CD");
         }
        |'DG(' dialog_id=NUMBER ')'{
        Integer k = Integer.parseInt($dialog_id.text);
-       ((IDialogObservable)hashObservable.get("IDialog")).notifyObservers(dialogs.get(k),3);
+       ((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(k),3);
       dialogs.remove( k);
      
          System.out.println("je parse DG");

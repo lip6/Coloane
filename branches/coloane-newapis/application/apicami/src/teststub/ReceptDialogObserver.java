@@ -3,10 +3,11 @@ package teststub;
 import java.util.Observable;
 
 import fr.lip6.move.coloane.api.interfaces.IDialog;
-import fr.lip6.move.coloane.api.interfaces.observers.IDialogObserver;
+
+import fr.lip6.move.coloane.api.interfaces.observers.IReceptDialogObserver;
 
 
-public class DialogObserver implements IDialogObserver {
+public class ReceptDialogObserver implements IReceptDialogObserver {
 
 	public void update(IDialog dialog, Integer i ) {
 		if (i == 1)

@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.api.interfaces;
 import java.io.IOException;
 
 import teststub.CloseSessionObserver;
+import teststub.ReceptDialogObserver;
+import teststub.ReceptResultObserver;
 import teststub.SpecialMessageObserver;
 
 import fr.lip6.move.coloane.api.interfaces.observers.*;
@@ -39,14 +41,7 @@ public interface IApiConnection {
 
 
 
-	/**
-	 * Donne l'observeur du debut du dialogue.
-	 * @param l'observeur.
-	 * @return bool.
-	 */
-
-	public boolean setDialogObserver( IDialogObserver o, boolean createThread);
-
+	
 
 
 	/**
@@ -66,13 +61,7 @@ public interface IApiConnection {
 	public boolean setConnectionObserver(IConnectionObserver o, boolean createThread);
 
 
-	/**
-	 * Donne l'observeur pour la demande de service.
-	 * @param l'observeur.
-	 * @return bool.
-	 */
-
-	public boolean setServiceObserver(IServiceObserver o, boolean createThread);
+	
 
 
 	// paramètres de connexion
@@ -136,6 +125,16 @@ public interface IApiConnection {
 
 
 	public boolean setSpecialMessageObserver(ISpecialMessageObserver o, boolean createThread) ;
+
+
+
+	public boolean setReceptResultObserver(
+			IReceptResultObserver receptResultObserver, boolean b);
+
+
+
+	public boolean setReceptDialogObserver(
+			IReceptDialogObserver receptDialogObserver, boolean b);
 
 }
 

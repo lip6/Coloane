@@ -1,24 +1,23 @@
 	package teststub;
  	
  	
-	import java.io.IOException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
- 	
- 	import fr.lip6.move.coloane.api.apiPackage.Api;
+import fr.lip6.move.coloane.api.apiPackage.Api;
 import fr.lip6.move.coloane.api.camiObject.Arc;
 import fr.lip6.move.coloane.api.camiObject.Attribute;
 import fr.lip6.move.coloane.api.camiObject.InflexPoint;
 import fr.lip6.move.coloane.api.camiObject.Model;
 import fr.lip6.move.coloane.api.camiObject.Node;
- 	import fr.lip6.move.coloane.api.interfaces.IApiConnection;
+import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
- 	
+import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
  	
  	/**
  	 *
@@ -70,8 +69,8 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	                /** configurer les objets de callback */
  	                connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
  	                connection.setConnectionObserver(new ConnectionObserver(), false);
- 	                connection.setDialogObserver(new DialogObserver(), false);
- 	                connection.setServiceObserver(new ServiceObserver(), false);
+ 	                connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
+ 	                connection.setReceptResultObserver(new ReceptResultObserver(), false);
  	              //  connection.setServiceStateObserver(new ServiceStateObserver(), false); 	           
  	                connection.setSessionObserver(new SessionObserver(), false);
 	                //connection.setTraceMessageObserver(new TraceMessageObserver(), false);
@@ -93,7 +92,12 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	         */
  	        public static IApiSession testOpenSession(IApiConnection connection, String nomSession) throws IOException, InterruptedException{
  	                IApiSession session = connection.getAPISession();
- 	                session.openSession("241483", "AMI-Net", nomSession);
+ 	              ISessionInfo seInfo ;
+ 	               seInfo =   session.openSession("241483", "AMI-Net", nomSession);
+ 	               System.out.println("session Info \n "+ seInfo.getAboutService());
+ 	               System.out.println(seInfo.getIncremental());
+ 	               System.out.println(seInfo.getNameService());
+ 	               System.out.println(seInfo.getResultatCalcule());
  	                return session;
  	        }
  	
@@ -108,16 +112,16 @@ import fr.lip6.move.coloane.api.interfaces.INode;
 	                IApiSession session = testOpenSession(connection, "Mysession1.petri");
  	            //    tab[0] = session;
  	
- 	    //          Thread.sleep(10000);
- 	  //            System.out.println("2eme session");
+ 	              Thread.sleep(10000);
+ 	             System.out.println("2eme session");
  	              /** Test l'ouverture d'une seconde ession */
- 	//              IApiSession session2 = testOpenSession(connection, "seconde.petri");
+ 	         IApiSession session2 = testOpenSession(connection, "seconde.petri");
  	               //tab[0] = session2;
  	
  	
- 	              //Thread.sleep(10000);
- 	              //System.out.println("\n\n\nreprise de la 1Ã©re session");
- 	            //  session.resumeSession();
+ 	              Thread.sleep(10000);
+ 	              System.out.println("\n\n\nreprise de la 1Ã©re session");
+ 	             session.resumeSession();
  	             // tab[0] = session;
  	
  	                
@@ -251,19 +255,19 @@ import fr.lip6.move.coloane.api.interfaces.INode;
  	                
  	                
  	                
- 	   Thread.sleep(10000);
- 	 //  session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
- 	 session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing",model);
- 	  // session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker",model);
-  //session.askForService("AMI-Net", "Structural properties", "P-positive invariants",model);
+ 	//   Thread.sleep(10000);
+ 	 // session.askForService("AMI-Net", "Modelling facilities", "Execute PetriScript program",model);
+ //	 session.askForService("AMI-Net", "Behavioral Properties", "Get the reachability graph - no arc routing",model);
+ 	//   session.askForService("AMI-Net", "Petri net syntax checker", "Petri net syntax checker",model);
+ // session.askForService("AMI-Net", "Structural properties", "P-positive invariants",model);
  	    
  	     //      Thread.sleep(10000);
  	   //   System.out.println("\n\n\nfermeture 1eme session");
  	   //   session.closeSession();
  	    //   tab[0] = null;
- 	     //  Thread.sleep(10000);
- 	     //  System.out.println("\n\n\nfermeture 2eme session");
- 	     //  session2.closeSession();
+ 	       Thread.sleep(10000);
+ 	       System.out.println("\n\n\nfermeture 2eme session");
+ 	       session2.closeSession();
  	
  	     //  Thread.sleep(10000);
  	     //  connection.closeConnection();

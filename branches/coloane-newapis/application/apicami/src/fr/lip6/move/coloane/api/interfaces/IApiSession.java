@@ -23,7 +23,7 @@ import java.io.IOException;
  	         * @throws InterruptedException
 	 	         */
 
-	 	        public void openSession(String sessionDate, String sessionFormalism,
+	 	        public ISessionInfo openSession(String sessionDate, String sessionFormalism,
 	 	                        String sessionName,String interlocutor,int mode) throws IOException, InterruptedException;
 
 
@@ -70,7 +70,7 @@ import java.io.IOException;
 	 	         */
 	 	        public void askForService(String rootName,String menuName, String serviceName, String Date,IModel model) throws IOException;
 
-	 	       public void openSession(String sessionDate, String sessionFormalism,
+	 	       public ISessionInfo openSession(String sessionDate, String sessionFormalism,
                        String sessionName) throws IOException, InterruptedException ;
 
 	 	        public ISessionStateMachine getSessionStateMachine();
@@ -100,6 +100,9 @@ import java.io.IOException;
 			 void notifyEndResult();
 			 
 			 public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException;
+
+
+			public void notifyReceptSessionInfo(ISessionInfo o);
 
 
 	 	}
