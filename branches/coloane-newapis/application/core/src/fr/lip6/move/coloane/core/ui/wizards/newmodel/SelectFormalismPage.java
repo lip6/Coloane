@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.List;
@@ -22,11 +23,12 @@ import org.eclipse.swt.widgets.TableItem;
  */
 public class SelectFormalismPage extends WizardPage {
 
+	/** Hauteur de boite de sélection de formalisme */
+	private static final int GRID_HEIGHT = 20;
+
 	/* Valeurs par defaut */
 	private Label label = null;
 	private Table tableFormalism = null;
-
-	private static final int GRID_HEIGHT = 20;
 
 	/**
 	 * Constructeur
@@ -64,11 +66,11 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.removeAll();
 
 		// Recupere la liste des formalismes
-		List<IFormalism> listOfFormalisms = Coloane.getDefault().getMotor().getFormalismManager().getListOfFormalisms();
+		List<IFormalism> listOfFormalisms = FormalismManager.getInstance().getListOfFormalisms();
 
 		for (IFormalism formalism : listOfFormalisms) {
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Insertion dans la table
-			item.setText(formalism.getName().toUpperCase());			// Determine le nom affiche dans la table
+			item.setText(formalism.getName().toUpperCase()); // Determine le nom affiche dans la table
 			// Determine l'icone associe a l'item dans la table
 			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage());
 		}

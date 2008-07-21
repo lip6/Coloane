@@ -18,6 +18,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 
+/**
+ * Page composant l'assistant d'export de fichiers.<br>
+ * Cette page comporte :
+ * <ul>
+ * 	<li>Une zone pour la selection des fichiers</li>
+ * 	<li>Une zone pour la destination finale</li>
+ * 	<li>Une zone d'options (non utilisée pour le moment) </li>
+ * </ul>
+ */
 public class ExportWizardPage extends WizardExportResourcesPage {
 	private Button destinationBrowseButton;
 	private Text destinationNameField;

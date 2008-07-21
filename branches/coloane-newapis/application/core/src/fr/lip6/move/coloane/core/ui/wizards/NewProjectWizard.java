@@ -16,6 +16,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
+/**
+ * Assistant pour la création de nouveaux fichiers modèle
+ */
 public class NewProjectWizard extends Wizard implements INewWizard {
 
 	private ProjectCreationPage projectCreationPage;

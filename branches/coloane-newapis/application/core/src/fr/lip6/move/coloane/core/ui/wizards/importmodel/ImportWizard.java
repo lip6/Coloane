@@ -13,6 +13,10 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
+/**
+ * Assistant d'import de fichier (externes au workspace).
+ * Cet assistant est composé d'une page {@link ImportWizardPage}
+ */
 public class ImportWizard extends Wizard implements IImportWizard, IExecutableExtension {
 
 	/** Identifiant de l'assistant (wizard) **/
@@ -31,12 +35,14 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 		setNeedsProgressMonitor(true);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
 		addPage(selectFilePage);
 		super.addPages();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canFinish() {
 		if (this.idWizard == null) {
@@ -46,6 +52,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 		return super.canFinish();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
 		try {
