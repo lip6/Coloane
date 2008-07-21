@@ -15,9 +15,16 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+/**
+ * Action COPIER
+ */
 public class CopyAction extends SelectionAction {
 	private ColoaneEditor editor;
 
+	/**
+	 * Constructeur
+	 * @param part Le workbench actif (en fait l'éditeur)
+	 */
 	public CopyAction(IWorkbenchPart part) {
 		super(part);
 		if (part instanceof ColoaneEditor) {

@@ -10,20 +10,28 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
+/**
+ * Commande COLLER
+ */
 public class PasteCommand extends Command {
 	private Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private GraphContainer graphContainer;
-	private HashMap<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
-	private HashMap<ArcContainer, IArc> arcs = new HashMap<ArcContainer, IArc>();
+	private Map<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
+	private Map<ArcContainer, IArc> arcs = new HashMap<ArcContainer, IArc>();
 
 	private IGraph graph;
 
+	/**
+	 * Création de la commande de collage
+	 * @param editor L'éditeur de modèle concerné par la commande
+	 */
 	public PasteCommand(ColoaneEditor editor) {
 		graph = editor.getGraph();
 	}
