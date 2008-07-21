@@ -33,12 +33,6 @@ public final class UserInterface {
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
 
-	/** Le module de communication */
-	private static Com com = null;
-
-	/** Le module de moteur */
-	private Motor motor = null;
-
 	/** L'instance du singlaton : UserInterface */
 	private static UserInterface instance;
 
@@ -70,7 +64,7 @@ public final class UserInterface {
 	 * @param serviceName Le nom du service demande
 	 */
 	public void askForService(String rootMenuName, String parentName, String serviceName) {
-		motor.askForService(rootMenuName, parentName, serviceName);
+		Motor.getInstance().askForService(rootMenuName, parentName, serviceName);
 	}
 
 	/**
@@ -97,7 +91,7 @@ public final class UserInterface {
 		// Supprime tous les menus sauf PLATFORM
 		MenuManipulation.clean();
 
-		ISession currentSession = motor.getSessionManager().getCurrentSession();
+		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
 		if (currentSession == null) {
 			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
@@ -139,7 +133,7 @@ public final class UserInterface {
 		// Supprime tous les menus sauf PLATFORM
 		MenuManipulation.clean();
 
-		ISession currentSession = motor.getSessionManager().getCurrentSession();
+		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
 		if (currentSession == null) {
 			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
 			return;
@@ -170,7 +164,7 @@ public final class UserInterface {
 	 * @param result L'objet contenant les resultats pour ce service
 	 */
 	public void setResults(String serviceName, IResultsCom result) {
-		motor.getSessionManager().getCurrentSession().getServiceResults().add(serviceName, result);
+		Motor.getInstance().getSessionManager().getCurrentSession().getServiceResults().add(serviceName, result);
 	}
 
 	/**
@@ -202,7 +196,7 @@ public final class UserInterface {
 		dialog.open();
 
 		// Capture des resultats
-		com.sendDialogAnswers(dialog.getDialogResult());
+		Com.getInstance().sendDialogAnswers(dialog.getDialogResult());
 	}
 
 	/**
@@ -243,21 +237,5 @@ public final class UserInterface {
 			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
 			break;
 		}
-	}
-
-	/**
-	 * On attache le module de communication a l' l'interface utilisateur
-	 * @param Le module {@link Com}
-	 */
-	public void setCom(Com c) {
-		com = c;
-	}
-
-	/**
-	 * On attache le module du moteur a l' l'interface utilisateur
-	 * @param Motor Le module {@link Motor}
-	 */
-	public void setMotor(Motor mot) {
-		this.motor = mot;
 	}
 }
