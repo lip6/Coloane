@@ -17,67 +17,55 @@ public interface IApiConnection {
 
 	/**
 	 * Initialiser l'adresse IP du serveur
-<<<<<<< .mine
-=======
 	 * @param ipServer L'IP de la plate-forme sur laquelle on souhaite se connecter
->>>>>>> .r3384
 	 */
-	void setIpServer(String ipServer);
+	public void setIpServer(String ipServer);
 
 	/**
 	 * Initialiser le port du serveur
-<<<<<<< .mine
-=======
 	 * @param portServer Le port de la plate-forme sur laquelle on souhaite se connecter
->>>>>>> .r3384
 	 */
-	void setPortServer(int portServer);
+	public void setPortServer(int portServer);
 
 	/**
 	 * Initialiser le login
-<<<<<<< .mine
-=======
 	 * @param login Le login à utiiser pour la connexion
->>>>>>> .r3384
 	 */
-	void setLogin(String login);
+	public void setLogin(String login);
 
 	/**
 	 * Initialiser le password
-<<<<<<< .mine
-=======
 	 * @param password Le password à utiliser pour la connexion
->>>>>>> .r3384
 	 */
-	void setPassword(String password);
+	public void setPassword(String password);
 
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'une boite de dialogue
 	 * @param o l'observateur qui sera notifier par l'evenement : reception d'une boite de dialogue
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread);
+	public void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread);
 
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un menu
 	 * @param o l'observateur qui sera notifier par l'evenement : reception d'un menu
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread);
+	public void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread);
 
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un message
 	 * @param o l'observateur qui sera notifier par l'evenement : reception d'un message
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread);
+	public void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread);
 
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un resultat
 	 * @param o l'observateur qui sera notifier par l'evenement : reception d'un resultat
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setReceptResultObserver(IReceptResultObserver o, boolean createThread);
+	public void setReceptResultObserver(IReceptResultObserver o, boolean createThread);
 
 	/**
 	 * Positionne un observateur pour l'evenement : deconnexion ordonnee
