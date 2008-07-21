@@ -15,6 +15,7 @@
     <module name="TreeWalker">
         <!-- Javadoc -->
         <module name="JavadocStyle">
+            <property name="checkFirstSentence" value="false"/>
             <property name="checkEmptyJavadoc" value="true"/>
         </module>
     	<module name="JavadocType"/>
