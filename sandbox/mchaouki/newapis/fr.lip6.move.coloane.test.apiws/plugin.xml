@@ -35,27 +35,6 @@
                menubarPath="sampleMenu/sampleGroupApiWS"
                tooltip="Close Connection">
          </action>
-         <action
-               class="fr.lip6.move.coloane.test.apiws.actions.OpenSessionOKAction"
-               id="fr.lip6.move.coloane.test.apiws.actionOpenSessionOK"
-               label="&amp;Open Session OK"
-               menubarPath="sampleMenu/sampleGroupApiWS"
-               tooltip="Open Session OK">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.test.apiws.actions.OpenSessionKOAction"
-               id="fr.lip6.move.coloane.test.apiws.actionOpenSessionKO"
-               label="&amp;Open Session KO"
-               menubarPath="sampleMenu/sampleGroupApiWS"
-               tooltip="Open Session KO">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.test.apiws.actions.CloseSessionAction"
-               id="fr.lip6.move.coloane.test.apiws.actionCloseSession"
-               label="&amp;Close Session"
-               menubarPath="sampleMenu/sampleGroupApiWS"
-               tooltip="Close Session">
-         </action>
          <menu
                id="sampleMenu"
                label="ApiWS">
