@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Apiws Plug-in
+Bundle-Name: Coloane ApiWS
 Bundle-SymbolicName: fr.lip6.move.coloane.apiws
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .,
@@ -80,3 +80,4 @@ Export-Package: fr.lip6.move.coloane.apiws.connection,
  fr.lip6.move.coloane.apiws.observables,
  fr.lip6.move.coloane.apiws.session,
  fr.lip6.move.coloane.apiws.wrapperCommunication
+Bundle-Vendor: LIP6 / MoVe
