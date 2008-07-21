@@ -6,7 +6,7 @@
    <extension-point id="reports" name="Reports" schema="schema/reports.exsd"/>
    <extension-point id="examples" name="Examples" schema="schema/examples.exsd"/>
    <extension-point id="formalisms" name="Formalisms" schema="schema/formalisms.exsd"/>
-   <extension-point id="api" name="Api" schema="schema/api.exsd"/>
+   <extension-point id="apis" name="Api" schema="schema/api.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
