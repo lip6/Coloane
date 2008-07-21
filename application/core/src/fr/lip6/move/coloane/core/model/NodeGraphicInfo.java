@@ -42,9 +42,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#getLocation()
-	 */
+	/** {@inheritDoc} */
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
@@ -87,9 +85,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		Coloane.notifyModelChange(node);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setLocation(org.eclipse.draw2d.geometry.Point)
-	 */
+	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		Dimension delta = location.getDifference(getLocation());
 		try {
@@ -107,9 +103,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getWidth() * scale) / 100;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getHeight()
-	 */
+	/** {@inheritDoc} */
 	private int getHeight() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}
@@ -121,16 +115,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return new Dimension(getWidth(), getHeight());
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.INodeGRaphicInfo#isFilled()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isFilled() {
 		return this.node.getNodeFormalism().getGraphicalDescription().isFilled();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getLastMove()
-	 */
+	/** {@inheritDoc} */
 	public final Long getLastMove(IArc key) {
 		Long time = lastMove.get(key);
 		if (time == null) {
@@ -139,43 +129,31 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return time;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getBackground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getBackground() {
 		return background;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#setBackground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setBackground(Color background) {
 		Color oldValue = this.background;
 		this.background = background;
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.INodeGraphicInfo#getForeground()
-	 */
+	/** {@inheritDoc} */
 	public final Color getForeground() {
 		return foreground;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setForeground(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
 		Color oldValue = this.foreground;
 		this.foreground = foreground;
 		node.firePropertyChange(INode.FOREGROUND_COLOR_PROP, oldValue, foreground);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#setScale(int)
-	 */
+	/** {@inheritDoc} */
 	public final void setScale(int scale) {
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
@@ -188,18 +166,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo#getScale()
-	 */
+	/** {@inheritDoc} */
 	public final int getScale() {
 		return scale;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.model.ILocationInfo#setSize(org.eclipse.draw2d.geometry.Dimension)
-	 */
+	/** {@inheritDoc} */
 	public final void setSize(Dimension newDimension) {
 		return;
 	}

@@ -47,10 +47,7 @@ public class ArcCompleteCmd extends Command {
 		this.arcFormalism = arcFormalism;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
 
@@ -62,10 +59,7 @@ public class ArcCompleteCmd extends Command {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		// Construction de l'arc
@@ -77,19 +71,13 @@ public class ArcCompleteCmd extends Command {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		graph.addArc(arc);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		graph.deleteArc(arc);

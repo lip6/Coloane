@@ -70,18 +70,13 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		this.importInstance = importInstance;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControl(Composite parent) {
 		super.createControl(parent);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void createAdvancedControls(Composite parent) {
 		super.createAdvancedControls(parent);
@@ -125,9 +120,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		formalismSelectionArea.moveAbove(null);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final InputStream getInitialContents() {
 		try {
@@ -193,17 +186,13 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final String getNewFileLabel() {
 		return "New File Name:"; //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final IStatus validateLinkedResource() {
 		return new Status(IStatus.OK, "fr.lip6.move.coloane.core", IStatus.OK, "", null); //$NON-NLS-1$ //$NON-NLS-2$

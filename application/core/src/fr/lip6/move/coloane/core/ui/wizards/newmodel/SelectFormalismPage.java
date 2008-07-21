@@ -37,10 +37,7 @@ public class SelectFormalismPage extends WizardPage {
 		setDescription(Messages.SelectFormalismPage_1);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	public final void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -83,19 +80,13 @@ public class SelectFormalismPage extends WizardPage {
 		setControl(composite);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canFlipToNextPage() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
 		return (getErrorMessage() == null) && (tableFormalism.getSelectionCount() > 0);

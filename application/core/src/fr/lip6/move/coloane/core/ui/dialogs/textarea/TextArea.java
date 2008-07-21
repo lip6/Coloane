@@ -30,16 +30,10 @@ public abstract class TextArea implements ITextArea {
 		this.textWidget = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.ITextArea#getText()
-	 */
+	/** {@inheritDoc} */
 	public abstract ArrayList<String> getText();
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.ITextArea#getDefaultValue()
-	 */
+	/** {@inheritDoc} */
 	public final String getDefaultValue() {
 		return defaultValue;
 	}

@@ -69,9 +69,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		}
 	};
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -131,9 +129,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		return cfe;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
@@ -151,9 +147,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		if (INode.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
 			refresh();

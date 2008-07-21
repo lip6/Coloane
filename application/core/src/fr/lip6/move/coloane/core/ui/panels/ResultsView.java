@@ -214,10 +214,7 @@ public class ResultsView extends ViewPart {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void setFocus() {
 		return;

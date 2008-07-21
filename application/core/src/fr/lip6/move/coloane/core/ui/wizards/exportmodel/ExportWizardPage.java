@@ -33,10 +33,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		setDescription(Messages.ExportWizardPage_2);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardExportResourcesPage#createDestinationGroup(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void createDestinationGroup(Composite parent) {
 		Font font = parent.getFont();
@@ -69,10 +66,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
+	/** {@inheritDoc} */
 	public final void handleEvent(Event e) {
 		Widget source = e.widget;
 

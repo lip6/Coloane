@@ -83,10 +83,7 @@ public final class Com implements IComApi {
 		this.ui = ui;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#authentication(fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation, org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	/** {@inheritDoc} */
 	public boolean authentication(AuthenticationInformation authInformation, IProgressMonitor monitor) {
 		logger.fine("Demande d'authentification"); //$NON-NLS-1$
 
@@ -106,10 +103,7 @@ public final class Com implements IComApi {
 		return retour;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#openSession(fr.lip6.move.coloane.core.ui.model.IModelImpl, org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	/** {@inheritDoc} */
 	public boolean openSession(IGraph graph, IProgressMonitor monitor) {
 		logger.fine("Connexion d'un graphe"); //$NON-NLS-1$
 
@@ -144,10 +138,7 @@ public final class Com implements IComApi {
 		return retour;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#closeSession(org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	/** {@inheritDoc} */
 	public boolean closeSession(IProgressMonitor monitor) {
 		// On verifie qu'il y a bien une sesssion courante
 		if (motor.getSessionManager().getCurrentSession() == null) { return false; }
@@ -177,10 +168,7 @@ public final class Com implements IComApi {
 		api.closeConnexion();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.interfaces.IComMotor#askForService(java.lang.String, java.lang.String, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public void askForService(String rootMenuName, String referenceName, String serviceName, IProgressMonitor monitor) {
 		logger.fine("Demande de service : " + serviceName); //$NON-NLS-1$
 
@@ -189,10 +177,7 @@ public final class Com implements IComApi {
 		api.askForService(rootMenuName, referenceName, serviceName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IComApi#setTaskDescription(java.lang.String, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public void setTaskDescription(String service, String description) {
 		motor.setTaskDescription(service, description);
 	}
@@ -334,28 +319,19 @@ public final class Com implements IComApi {
 		return this.motor.getSessionManager().getCurrentSession().getGraph().getDate();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndOpenSession()
-	 */
+	/** {@inheritDoc} */
 	public void setEndOpenSession() {
 		logger.finer("Fin de la demande d'ouverture de session (connexion)");
 		motor.endService();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndCloseSession()
-	 */
+	/** {@inheritDoc} */
 	public void setEndCloseSession() {
 		logger.finer("Fin de la demande de fermeture de session (deconnexion)");
 		motor.endService();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IComApi#setEndService()
-	 */
+	/** {@inheritDoc} */
 	public void setEndService() {
 		logger.finer("Fin du service recu et transmis par l'API");
 		motor.endService();

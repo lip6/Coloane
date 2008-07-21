@@ -24,9 +24,7 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 	private boolean isDisposed = false;
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void dispose() {
 		isDisposed = true;
@@ -39,9 +37,7 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 		return isDisposed;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void setInput(IWorkbenchPart part, ISelection selection) {

@@ -50,6 +50,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * C'est la premiere methode a etre appelee lors du chargement d'une classe du plugin
 	 * @param context Parametre systeme fourni par Eclipse
 	 * @throws Exception
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin
 	 */
 	@Override
 	public final void start(BundleContext context) throws Exception {

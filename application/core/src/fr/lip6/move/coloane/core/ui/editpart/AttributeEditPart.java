@@ -254,10 +254,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		new AttributeEditManager(this, model, new AttributeCellEditorLocator(label)).show();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
@@ -265,10 +262,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 

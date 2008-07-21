@@ -33,10 +33,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	/** La seule et unique page du wizard */
 	private ExportWizardPage page;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		IStructuredSelection select = null;
@@ -45,10 +42,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 		super.init(workbench, currentSelection);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canFinish() {
 		if ((this.idWizard != null) && (!page.getSelectedDirectory().equals("")) && (page.getSelectedRessource().size() > 0)) { //$NON-NLS-1$
@@ -57,19 +51,13 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard#addPages()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
 		addPage(this.page);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard#performFinish()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
 
@@ -111,10 +99,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		// Recuperation de l'identitifant de l'appelant permettant ansi de determiner le format d'export
 		this.setExportFormat(config.getAttribute("id")); //$NON-NLS-1$

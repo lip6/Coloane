@@ -24,10 +24,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	/** L'instance de conversion a utiliser */
 	private IImportFrom instance;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportWizard_0);
 		selectFilePage = new ImportWizardPage(workbench, selection, instance);
@@ -70,10 +67,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 		this.idWizard = id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		this.idWizard = config.getAttribute("id"); //$NON-NLS-1$
 		Coloane.getLogger().finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$

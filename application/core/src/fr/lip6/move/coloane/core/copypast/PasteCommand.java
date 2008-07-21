@@ -28,9 +28,7 @@ public class PasteCommand extends Command {
 		graph = editor.getGraph();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
@@ -42,9 +40,7 @@ public class PasteCommand extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		if (!canExecute()) {
@@ -73,9 +69,7 @@ public class PasteCommand extends Command {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		for (INode node : nodes.values()) {
@@ -86,17 +80,13 @@ public class PasteCommand extends Command {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean canUndo() {
 		return graphContainer != null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		for (IArc arc : arcs.values()) {

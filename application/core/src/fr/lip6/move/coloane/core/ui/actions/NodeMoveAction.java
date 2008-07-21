@@ -49,18 +49,14 @@ public class NodeMoveAction extends SelectionAction {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void init() {
 		super.init();
 		setEnabled(false);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean calculateEnabled() {
 		for (Object obj : getSelectedObjects()) {
@@ -71,9 +67,7 @@ public class NodeMoveAction extends SelectionAction {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void run() {
 		CompoundCommand cc = new CompoundCommand();

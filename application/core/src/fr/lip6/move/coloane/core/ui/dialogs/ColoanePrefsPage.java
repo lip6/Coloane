@@ -43,18 +43,12 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	private Text loginField;
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
+	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -170,10 +164,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		return composite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void performDefaults() {
 		Coloane.getDefault().setDefaultPreference();
@@ -182,10 +173,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		framekitPort.setText(""); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performOk() {
 		Coloane.getDefault().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$

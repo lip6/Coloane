@@ -22,9 +22,7 @@ public class PasteAction extends SelectionAction {
 		setLazyEnablementCalculation(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void init()	{
 		super.init();
@@ -47,18 +45,14 @@ public class PasteAction extends SelectionAction {
 		return new PasteCommand(editor);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean calculateEnabled() {
 		Command command = createPasteCommand();
         return command != null && command.canExecute();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void run() {
 		PasteCommand command = createPasteCommand();

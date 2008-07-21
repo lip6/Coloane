@@ -145,10 +145,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
 		return null;

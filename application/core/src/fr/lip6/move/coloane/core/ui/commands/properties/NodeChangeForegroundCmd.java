@@ -22,26 +22,20 @@ public class NodeChangeForegroundCmd extends Command {
 		this.newColor = color;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldColor = node.getGraphicInfo().getForeground();
 		redo();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		node.getGraphicInfo().setForeground(newColor);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		node.getGraphicInfo().setForeground(oldColor);

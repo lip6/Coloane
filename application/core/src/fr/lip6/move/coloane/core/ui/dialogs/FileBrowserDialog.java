@@ -149,18 +149,12 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 		this.close();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#addChoice(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void addChoice(String choice) {
 		return;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.dialogs.IDialog#getDialogResult()
-	 */
+	/** {@inheritDoc} */
 	public final IDialogResult getDialogResult() {
 		return dialogResult;
 	}

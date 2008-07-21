@@ -26,10 +26,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	private ModelCreationPage createModel;
 
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
 		addPage(selectFormalism);
@@ -48,10 +45,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 		createModel = new ModelCreationPage(workbench, selection);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
 		return createModel.finish();

@@ -39,42 +39,27 @@ public class DialogResult implements IDialogResult {
 		this.multiLine = multiLineAnswer;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#getAnswer()
-	 */
+	/** {@inheritDoc} */
 	public final ArrayList<String> getAnswer() {
 		return answer;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#getAnswerType()
-	 */
+	/** {@inheritDoc} */
 	public final int getAnswerType() {
 		return answerType;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#getDialogId()
-	 */
+	/** {@inheritDoc} */
 	public final int getDialogId() {
 		return dialogId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#hasBeenModified()
-	 */
+	/** {@inheritDoc} */
 	public final boolean hasBeenModified() {
 		return hasBeenModified;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogResult#isMultiLineAnswer()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isMultiLineAnswer() {
 		return multiLine;
 	}

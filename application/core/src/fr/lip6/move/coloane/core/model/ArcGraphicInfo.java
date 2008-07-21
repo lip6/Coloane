@@ -21,10 +21,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 		this.oldMiddlePoint = this.findMiddlePoint();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#findMiddlePoint()
-	 */
+	/** {@inheritDoc} */
 	public final Point findMiddlePoint() {
 		Point source, target;
 		int size = arc.getInflexPoints().size();
@@ -44,32 +41,22 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 		return middle;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#updateMiddlePoint()
-	 */
+	/** {@inheritDoc} */
 	public final void updateMiddlePoint() {
 		this.oldMiddlePoint = findMiddlePoint();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.ui.model.IArcGraphicInfo#getMiddlePoint()
-	 */
+	/** {@inheritDoc} */
 	public final Point getMiddlePoint() {
 		return this.oldMiddlePoint;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#getColor()
-	 */
+	/** {@inheritDoc} */
 	public final Color getColor() {
 		return color;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.ui.model.IArcGraphicInfo#setColor(org.eclipse.swt.graphics.Color)
-	 */
+	/** {@inheritDoc} */
 	public final void setColor(Color color) {
 		Color oldValue = this.color;
 		this.color = color;
