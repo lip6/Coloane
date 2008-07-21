@@ -5,6 +5,10 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.Collection;
 
+/**
+ * Définition d'un graphe.<br>
+ * Cette définition comporte aussi tous les événements qui peuvent se produire sur un graphe
+ */
 public interface IGraph extends IElement {
 
 	/** ID de propriete lorsqu'un noeud est ajoute au modele */
@@ -29,7 +33,7 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Suppression d'un noeud
-	 * @param node
+	 * @param node Le noeud qui doit être supprimé
 	 */
 	void deleteNode(INode node);
 
@@ -40,7 +44,7 @@ public interface IGraph extends IElement {
 	void deleteNode(int id);
 
 	/**
-	 * @param id
+	 * @param id L'identifiant du noeud recherché
 	 * @return le noeud demandé ou null;
 	 */
 	INode getNode(int id);
@@ -52,15 +56,15 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Ajoute un noeud à ce graphe.
-	 * @param arc
+	 * @param node Le noeud à ajouter au graphe
 	 */
 	void addNode(INode node);
 
 	/**
 	 * Création d'un arc attaché aux noeuds source et target.
 	 * @param arcFormalismName type d'arc à créer.
-	 * @param source
-	 * @param target
+	 * @param source La source de l'arc
+	 * @param target La cible de l'arc
 	 * @return l'arc créé.
 	 * @throws ModelException si un des parametres n'est pas correcte, par exemple
 	 * le formalisme n'existe.
@@ -69,7 +73,7 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Suppression d'un arc
-	 * @param arc
+	 * @param arc L'arc à supprimer
 	 */
 	void deleteArc(IArc arc);
 
@@ -80,7 +84,7 @@ public interface IGraph extends IElement {
 	void deleteArc(int id);
 
 	/**
-	 * @param id
+	 * @param id L'identifiant de l'arc recherché
 	 * @return l'arc demandé ou null.
 	 */
 	IArc getArc(int id);
@@ -92,7 +96,7 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Ajouter un arc qui aurait été enlevé.
-	 * @param arc
+	 * @param arc L'arc qui doit être ajouté
 	 */
 	void addArc(IArc arc);
 	

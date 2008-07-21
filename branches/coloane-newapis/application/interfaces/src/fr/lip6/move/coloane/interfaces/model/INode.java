@@ -4,6 +4,13 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 import java.util.List;
 
+/**
+ * Définition d'un noeud du modèle<br>
+ * Cette définition comporte aussi tous les événements qui peuvent se produire sur un noeud
+ * @see IElement
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ */
 public interface INode extends IElement {
 
 	/** ID pour la propriete lors d'un changement des arcs sortants */

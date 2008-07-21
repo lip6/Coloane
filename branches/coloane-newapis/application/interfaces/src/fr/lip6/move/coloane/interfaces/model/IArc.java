@@ -7,6 +7,9 @@ import java.util.List;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * Définition d'un arc
+ */
 public interface IArc extends IElement {
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
@@ -72,13 +75,13 @@ public interface IArc extends IElement {
 
 	/**
 	 * Déplace tous les points d'inflexions.
-	 * @param dx
-	 * @param dy
+	 * @param dx Déplacement en abcisses
+	 * @param dy Déplacement en ordonnées
 	 */
 	void modifyInflexPoints(int dx, int dy);
 
 	/**
-	 * @param index
+	 * @param index Numéro d'index du point d'inflexion
 	 * @return Le point d'inflexion situé à l'index spécifié.
 	 */
 	AbsoluteBendpoint getInflexPoint(int index);
@@ -90,8 +93,8 @@ public interface IArc extends IElement {
 
 	/**
 	 * Reconnecte cet arc à deux nouveaux noeuds.
-	 * @param newSource
-	 * @param newTarget
+	 * @param newSource Nouvelle source de l'arc
+	 * @param newTarget Nouvelle cible de l'arc
 	 */
 	void reconnect(INode newSource, INode newTarget);
 

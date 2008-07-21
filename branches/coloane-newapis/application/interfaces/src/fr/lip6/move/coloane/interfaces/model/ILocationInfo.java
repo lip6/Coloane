@@ -4,7 +4,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Interface définissant les méthodes que doivent implémenter les objets postionnables sur un éditeur
+ * Définition des propriétés et comportements des objets postionnables sur un éditeur
  */
 public interface ILocationInfo {
 
@@ -27,7 +27,7 @@ public interface ILocationInfo {
 
 	/**
 	 * Indique la nouvelle taille de l'objet
-	 * @param newDimension
+	 * @param newDimension Les nouvelles dimensions à prendre en compte
 	 */
 	void setSize(Dimension newDimension);
 }

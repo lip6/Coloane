@@ -2,6 +2,10 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
+/**
+ * Définition d'un attribut d'objet du modèle.<br>
+ * Un attribut peut-être attaché à de nombreux types d'objets (arc, noeud, graphe ...)
+ */
 public interface IAttribute extends IAbstractPropertyChange {
 
 	/** ID de la propriété lors d'un changement de valeur */
