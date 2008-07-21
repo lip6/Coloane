@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.apiPackage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import teststub.CloseSessionObserver;
@@ -34,15 +35,17 @@ import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
+/**
+ * Définit une isntance de connexion à la plate-forme FrameKit
+ */
 public class ApiConnection implements IApiConnection {
 
-	/**
-	 *  Etat de la connexion
-	 */
+	/** Etat de la connexion */
 	private boolean state;
 
 	/** L'adresse IP du serveur */
@@ -64,26 +67,24 @@ public class ApiConnection implements IApiConnection {
 	private ISpeaker speaker;
 
 	/** une table de hash qui stocke les observables */
-	private HashMap< String, Object> hashObservable;
+	private Map< String, Object> hashObservable;
 
-   private IConnectionVersion fkVersion;
+	private IConnectionVersion fkVersion;
 
-    /** le sessionController*/
+	/** le sessionController*/
 	private ISessionController sessionCont;
 
-	/** Constructeur
+	/**
+	 * Constructeur
 	 * Initialise la connexion en créant :
 	 *  - le thread listener.
 	 *  - le speaker.
-	 *  on crée aussi une instance de sessionController ( qui gére les sessions).
+	 * On crée aussi une instance de sessionController ( qui gére les sessions).
 	 * La connexion n'est pas ouverte ici, elle est faite sur l'appel
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
 	 * @throws IOException
 	 */
 	public ApiConnection() {
-
-		// TODO
-
 		this.hashObservable = new HashMap< String, Object>();
 		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
@@ -91,108 +92,80 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
 		this.hashObservable.put("ICloseConnection", ObservableFactory.getNewCloseConnectionObservable());
-		
+
 		this.hashObservable.put("ISpecialMessage", ObservableFactory.getNewSpecialMessageObservable());
 		this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 		this.sessionCont = SessionFactory.getNewSessionController();
-		this.fkVersion= null;
+		this.fkVersion = null;
 	}
 
-	public boolean closeConnection() {
-		speaker.closeConnection();
-		return true;
-	}
-
-	/**
-	 * retourne une IApiSession
-	 */
-	public IApiSession getAPISession() {
-		return SessionFactory.getNewApiSession(this.sessionCont,this.speaker);
-	}
-
-
-	/** set de l'adress IP*/
-	public boolean setIPAdress(String ip) {
+	/** {@inheritDoc} */
+	public final void setIpServer(String ip) {
 		this.ipServer = ip;
-		return true;
 	}
 
-	/** set du login */
-	public boolean setLogin(String login) {
+	/** {@inheritDoc} */
+	public final void setLogin(String login) {
 		this.login = login;
-		return true;
 	}
 
-	/** set du password */
-	public boolean setPassWord(String pw) {
-		this.password = pw;
-		return true;
+	/** {@inheritDoc} */
+	public final void setPassword(String pass) {
+		this.password = pass;
 	}
 
-	/** set du port */
-	public boolean setPort(int p) {
-		this.portServer = p;
-		return true;
+	/** {@inheritDoc} */
+	public final void setPortServer(int port) {
+		this.portServer = port;
 	}
 
-	/**
-	 * initie la connexion avec FrameKit (SC, OC)
-	 */
-	public void openConnection() {
-		// TODO Auto-generated method stub
-		// TODO Vérifier que la connexion est configuré
-
+	/** {@inheritDoc} */
+	public final IConnectionInfo openConnection() throws ApiException {
+		// TODO Vérifier que la connexion est configurée
 		Pair<ISpeaker, IListener> p;
 		this.state = false; // connexion initialement non ouverte
 
-		/* Créer la file Queue entre le parser et le
-		 * thread Listener */
+		/* Création de la file Queue entre le parser et le thread Listener */
+		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
 
-		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
+		/* Création du parser */
+		ThreadParser parser = new ThreadParser(this.sessionCont, fifo, this.hashObservable);
 
-		/* créer le parser */
-		ThreadParser parser = new ThreadParser(this.sessionCont,fifo, this.hashObservable);
-
-		try { /** initialiser la connexion */
-
+		try {
 			/* Créer le Thread Listener et le speaker */
 			p = FkInitCom.initCom(this.ipServer, this.portServer, fifo);
 			this.listener = p.getListener();
-		    this.speaker = p.getSpeaker();
+			this.speaker = p.getSpeaker();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	    /* Lancer le parser */
-	    parser.start();
+		/* Lancer le parser */
+		parser.start();
 
-	    /* Demander l'ouverture de la communication Commande SC et attendre
-	     * l'aquittement de FK */
+		/* Demander l'ouverture de la communication Commande SC et attendre l'aquittement de FK */
 
 
-	    synchronized(this.hashObservable){
-	       	try {
-	       		this.speaker.startCommunication(this.login, this.password);
-	     		this.hashObservable.wait();
+		synchronized (this.hashObservable) {
+			try {
+				this.speaker.startCommunication(this.login, this.password);
+				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			
 		}
 
-	    /* Reveillé par un notify : arrivée d'un SC */
+		/* Reveillé par un notify : arrivée d'un SC */
 
-	    /* Demander Ouverture d'une connexion : OC */
+		/* Demander Ouverture d'une connexion : OC */
 
-	    synchronized(this.hashObservable){
-	       	try {
-	       		this.speaker.openConnection(Api.uiName, Api.uiVersion, this.login);
-	     		this.hashObservable.wait();
+		synchronized (this.hashObservable) {
+			try {
+				this.speaker.openConnection("Coloane", "3.0", this.login);
+				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
@@ -202,7 +175,8 @@ public class ApiConnection implements IApiConnection {
 			}
 		}
 
-	    this.state = true; // connexion maintenant ouverte
+		this.state = true; // connexion maintenant ouverte
+		return null;
 	}
 
 	/** set du IBrutalInterruptObserver*/
@@ -227,11 +201,11 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	
+
 	/** set du IDialogObserver*/
 	public boolean setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
 
-		 IReceptDialogObservable idl =  (IReceptDialogObservable)this.hashObservable.get("IReceptDialog");
+		IReceptDialogObservable idl =  (IReceptDialogObservable)this.hashObservable.get("IReceptDialog");
 		idl.addObserver(o);
 		idl.setCreateThread(createThread);
 
@@ -260,7 +234,7 @@ public class ApiConnection implements IApiConnection {
 
 
 
-	
+
 	/** set du ISessionObserver */
 	public boolean setSessionObserver(ISessionObserver o, boolean createThread) {
 		ISessionObservable ise =  (ISessionObservable)this.hashObservable.get("ISession");
@@ -270,7 +244,7 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	
+
 	public boolean setCloseSessionObserver(
 			ICloseSessionObserver o, boolean b) {
 		ICloseSessionObservable iss =  (ICloseSessionObservable)this.hashObservable.get("ICloseSession");
@@ -280,9 +254,9 @@ public class ApiConnection implements IApiConnection {
 		return true;
 	}
 
-	
 
-	
+
+
 	/** set du IServiceObserver */
 	public boolean setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
 		IReceptResultObservable ise =  (IReceptResultObservable)this.hashObservable.get("IReceptResult");
@@ -297,68 +271,67 @@ public class ApiConnection implements IApiConnection {
 		return false;
 	}
 
-	public fr.lip6.move.coloane.interfaces.api.session.IApiSession getApiSession()
-			throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void setBrutalInterruptObserver(
 			fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setDisconnectObserver(IDisconnectObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	public void setIpServer(String ipServer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setPassword(String password) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setPortServer(int portServer) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void setReceptDialogObserver(
 			fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setReceptMenuObserver(IReceptMenuObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setReceptMessageObserver(IReceptMessageObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setReceptResultObserver(
 			fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
-		
+
+	}
+	
+	public boolean closeConnection() {
+		try {
+			speaker.closeConnection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
-	
-	
-	
+	/**
+	 * @return {@link IApiSession}
+	 */
+	public final IApiSession getAPISession() {
+		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
+	}
+
+	public fr.lip6.move.coloane.interfaces.api.session.IApiSession getApiSession()
+			throws ApiException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
