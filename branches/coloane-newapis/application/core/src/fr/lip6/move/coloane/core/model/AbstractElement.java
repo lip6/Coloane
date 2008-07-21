@@ -24,6 +24,11 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 
 	private IElement parent;
 
+	/**
+	 * Constructeur
+	 * @param parent L'élément parent
+	 * @param attributes Les attribut de l'élément
+	 */
 	AbstractElement(IElement parent, List<IAttributeFormalism> attributes) {
 		this.parent = parent;
 		if (attributes != null) {
@@ -47,7 +52,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 
 	/** {@inheritDoc} */
 	public final Collection<IAttribute> getDrawableAttributes() {
-		ArrayList<IAttribute> drawables = new ArrayList<IAttribute>();
+		List<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
 			if (attr.getAttributeFormalism().isDrawable()) {
 				drawables.add(attr);
@@ -66,6 +71,9 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		return parent;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		// La valeur d'un attribut a été modifié
 		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {

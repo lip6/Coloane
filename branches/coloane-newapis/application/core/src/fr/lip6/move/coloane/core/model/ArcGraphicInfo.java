@@ -7,6 +7,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
+/**
+ * Description graphique d'un arcs
+ */
 public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	/** Il faut conserver le dernier middle point */
@@ -16,8 +19,12 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	private IArc arc;
 
-	public ArcGraphicInfo(IArc a) {
-		this.arc = a;
+	/**
+	 * Constructeur
+	 * @param arc L'arc à considérer
+	 */
+	public ArcGraphicInfo(IArc arc) {
+		this.arc = arc;
 		this.oldMiddlePoint = this.findMiddlePoint();
 	}
 

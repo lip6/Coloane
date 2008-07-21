@@ -8,6 +8,9 @@ import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
+/**
+ * Description d'un attribut d'un objet du modèle
+ */
 public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
 	private IElement reference;
 	private IAttributeFormalism attributFormalism;
@@ -20,6 +23,11 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 
 	private IAttributeGraphicInfo graphicInfo = new AttributeGraphicInfo(this);
 
+	/**
+	 * Constructeur
+	 * @param reference L'élément de référence del'attribut
+	 * @param attributeFormalism Le formalisme accroché à l'attribut
+	 */
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
 		this.reference = reference;
 		this.attributFormalism = attributeFormalism;

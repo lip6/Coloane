@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
 import org.eclipse.draw2d.PositionConstants;
 
+/**
+ * Propriétés de l'éditeur de graphe
+ */
 public class GraphEditorProperties {
 
 	/** Affichage des règles sur l'éditeur ? */
@@ -53,6 +56,7 @@ public class GraphEditorProperties {
 	}
 
 	/**
+	 * @param orientation indique quelle règle doitêtre renvoyée
 	 * @return la règle de l'éditeur désignée par son <code>orientation</code>
 	 */
 	public final EditorRuler getRuler(int orientation) {

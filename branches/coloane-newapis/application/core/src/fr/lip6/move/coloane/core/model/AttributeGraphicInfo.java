@@ -8,6 +8,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
+/**
+ * Description graphique d'un attribut
+ */
 public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** Le noeud enrichi */
@@ -19,7 +22,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/**
 	 * Constructeur
-	 * @param attributeImpl L'attribut enrichi
+	 * @param attr L'attribut concerné par ces propriétés graphiques
 	 */
 	public AttributeGraphicInfo(IAttribute attr) {
 		this.attribute = attr;

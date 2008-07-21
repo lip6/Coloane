@@ -6,13 +6,18 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
+/**
+ * Description graphique d'un noeud
+ */
 public class NodeGraphicInfo implements INodeGraphicInfo {
+	private static final Long ZERO = new Long(0);
 
 	/** Le noeud enrichi */
 	private final NodeModel node;
@@ -21,8 +26,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
-	private HashMap<IArc, Long> lastMove = new HashMap<IArc, Long>();
-	private static final Long ZERO = new Long(0);
+	private Map<IArc, Long> lastMove = new HashMap<IArc, Long>();
 
 	/** Taille */
 	private int scale = 100;
@@ -49,8 +53,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/**
 	 * Positionne le noeud en tenant compte des points d'inflexion
-	 * @param xPos
-	 * @param yPos
+	 * @param xPos La position en abcisse
+	 * @param yPos La position en ordonnée
 	 */
 	private void setLocation(int xPos, int yPos) {
 		Point oldLocation = new Point(this.x, this.y);
@@ -88,22 +92,19 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		Dimension delta = location.getDifference(getLocation());
-		try {
-			setLocation(location.x, location.y);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
 	/**
-	 * @return La largeur du noeud en tenant compte du zoom
+	 * @return la largeur du noeud en tenant compte du zoom
 	 */
 	private int getWidth() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getWidth() * scale) / 100;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * @return la hauteur du noeud en tenant compte du zoom
+	 */
 	private int getHeight() {
 		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
 	}

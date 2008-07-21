@@ -15,6 +15,9 @@ import java.util.List;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * Description d'un arc
+ */
 public class ArcModel extends AbstractElement implements IArc {
 	private int id;
 
@@ -23,8 +26,16 @@ public class ArcModel extends AbstractElement implements IArc {
 
 	private INode source;
 	private INode target;
-	private ArrayList<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
+	private List<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
 
+	/**
+	 * Constructeur
+	 * @param parent L'élément qui contient l'arc
+	 * @param arcFormalism Le formalisme attaché à l'arc
+	 * @param id L'identifiant de l'arc
+	 * @param source La source de l'arc
+	 * @param target La cible de l'arc
+	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
 		super(parent, arcFormalism.getAttributes());
 		this.id = id;

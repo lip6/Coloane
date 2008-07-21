@@ -34,8 +34,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 
-	private ArrayList<IArc> outcomingArcs = new ArrayList<IArc>();
-	private ArrayList<IArc> incomingArcs = new ArrayList<IArc>();
+	private List<IArc> outcomingArcs = new ArrayList<IArc>();
+	private List<IArc> incomingArcs = new ArrayList<IArc>();
 
 	/**
 	 * Constructeur d'un noeud de modèle

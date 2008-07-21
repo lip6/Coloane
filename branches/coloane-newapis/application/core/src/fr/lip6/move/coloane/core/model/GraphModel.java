@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -36,13 +37,13 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private IGraphFormalism graphFormalism;
 
 	/** Liste des noeuds rangé par id */
-	private HashMap<Integer, INode>	nodes = new HashMap<Integer, INode>();
+	private Map<Integer, INode>	nodes = new HashMap<Integer, INode>();
 
 	/** Liste des arcs rangé par id */
-	private HashMap<Integer, IArc> arcs = new HashMap<Integer, IArc>();
+	private Map<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
 	/** Liste des stickyNote rangées par id */
-	private HashMap<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
+	private Map<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 2;
@@ -59,7 +60,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
-	 * @param formalismName
+	 * @param formalismName Le nom du formalisme du modèle
 	 */
 	public GraphModel(String formalismName) {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
@@ -148,7 +149,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-
+	/**
+	 * Création d'une note
+	 * @return la note créée
+	 */
 	public final IStickyNote createStickyNote() {
 		IStickyNote note = new StickyNote(this, getNewId());
 		addSticky(note);
@@ -158,6 +162,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return note;
 	}
 
+	/**
+	 * Ajoute la note au graphe courant
+	 * @param sticky La stickyNote à ajouter
+	 */
 	public final void addSticky(IStickyNote sticky) {
 		if (nodes.containsKey(sticky.getId())) {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
@@ -167,6 +175,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
+	/**
+	 * Supprime la note du graphe courante
+	 * @param note La StickyNote à supprimer
+	 */
 	public final void deleteSticky(IStickyNote note) {
 		this.sticky.remove(note.getId());
 		firePropertyChange(STICKY_REMOVED_PROP, null, note);
@@ -174,7 +186,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
-		try {
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
@@ -188,10 +199,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		return arc;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	/** {@inheritDoc} */
