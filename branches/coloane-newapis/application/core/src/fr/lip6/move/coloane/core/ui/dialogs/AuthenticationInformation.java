@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 
 /**
  * Définition des informations d'authentification auprès de la palte-forme
@@ -10,6 +9,7 @@ public class AuthenticationInformation {
 	private String login;
 	private String pass;
 	private String ip;
+	private String apiType;
 	private int port;
 
 	/**
@@ -18,12 +18,14 @@ public class AuthenticationInformation {
 	 * @param pass Le mot de passe pour ce compte
 	 * @param ip L'ip de la plate-forme
 	 * @param port Le port de la plate-forme
+	 * @param apiType Le type de la plateforme (cami ou webservices)
 	 */
-	public AuthenticationInformation(String login, String pass, String ip, int port) {
+	public AuthenticationInformation(String login, String pass, String ip, int port, String apiType) {
 		this.login = login;
 		this.pass = pass;
 		this.ip = ip;
 		this.port = port;
+		this.apiType = apiType;
 	}
 
 	/**
@@ -58,6 +60,6 @@ public class AuthenticationInformation {
 	 * @return le type de la plate-forme
 	 */
 	public final String getApiType() {
-		return Coloane.getParam("API_TYPE"); //$NON-NLS-1$
+		return apiType;
 	}
 }
