@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Coloane ApiWS
+Bundle-Name: Coloane API (web-services)
 Bundle-SymbolicName: fr.lip6.move.coloane.apiws
-Bundle-Version: 1.0.0
+Bundle-Version: 0.13.0
 Bundle-ClassPath: .,
  lib/activation-1.1.jar,
  lib/annogen-0.1.0.jar,
