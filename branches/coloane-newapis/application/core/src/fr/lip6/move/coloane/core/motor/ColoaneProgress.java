@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -15,6 +16,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
  */
 
 public abstract class ColoaneProgress implements IRunnableWithProgress {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private Object operationResult;
 	private IProgressMonitor progressMonitor;
@@ -50,7 +53,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	 */
 	public final synchronized void waitUntilEnd() {
 		try {
-			Coloane.getLogger().finest("Mise en attente du moniteur"); //$NON-NLS-1$
+			LOGGER.finest("Mise en attente du moniteur"); //$NON-NLS-1$
 			wait();
 		} catch (InterruptedException e) {
 			System.err.println("Erreur Wait Monitor"); //$NON-NLS-1$
@@ -61,7 +64,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 	 * Notifier le thread de la fin de l'operation
 	 */
 	public final synchronized void freeMonitor() {
-		Coloane.getLogger().finest("Liberation du moniteur"); //$NON-NLS-1$
+		LOGGER.finest("Liberation du moniteur"); //$NON-NLS-1$
 		progressMonitor.done();
 		notify();
 	}

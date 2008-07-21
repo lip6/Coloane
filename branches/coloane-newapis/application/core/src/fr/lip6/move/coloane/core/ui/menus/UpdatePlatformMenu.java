@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
+import java.util.logging.Logger;
+
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import org.eclipse.jface.action.ActionContributionItem;
@@ -21,6 +23,8 @@ import org.eclipse.ui.PlatformUI;
  */
 
 public class UpdatePlatformMenu implements Runnable {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private String menuName;
 	private boolean state;
@@ -41,7 +45,7 @@ public class UpdatePlatformMenu implements Runnable {
 		try {
 			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		} catch (NullPointerException e) {
-			Coloane.getLogger().warning("Shell inaccessible"); //$NON-NLS-1$
+			LOGGER.warning("Shell inaccessible"); //$NON-NLS-1$
 			return;
 		}
 

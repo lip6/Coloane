@@ -28,7 +28,7 @@ public class DrawDialog implements Runnable {
 		try {
 			UserInterface.drawDialog(this.dialog);
 		} catch (UIException e) {
-			Coloane.getLogger().warning("Erreur lors de la creation de la boite de dialogue : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Erreur lors de la creation de la boite de dialogue : " + e.getMessage()); //$NON-NLS-1$
 			Coloane.showErrorMsg(e.getMessage());
 		}
 	}

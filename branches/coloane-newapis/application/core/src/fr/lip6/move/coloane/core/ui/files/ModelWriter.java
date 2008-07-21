@@ -3,10 +3,13 @@ package fr.lip6.move.coloane.core.ui.files;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.swt.graphics.Color;
@@ -15,6 +18,8 @@ import org.eclipse.swt.graphics.Color;
  * Classe regroupant les outils pour ecrire un modele sous forme XML
  */
 public final class ModelWriter {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ModelWriter() {	}
 
@@ -224,9 +229,9 @@ public final class ModelWriter {
 	public static String createDefault(String formalismName) {
 		// L'entete XML
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-		String schema = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalismName).getSchema();
+		String schema = Motor.getInstance().getFormalismManager().getFormalismByName(formalismName).getSchema();
 
-		Coloane.getLogger().finer("Choix du schema de validation : " + schema); //$NON-NLS-1$
+		LOGGER.finer("Choix du schema de validation : " + schema); //$NON-NLS-1$
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$

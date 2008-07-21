@@ -93,7 +93,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
 			@Override
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				LOGGER.finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexCreateCmd com = new InflexCreateCmd((IArc) getModel(), request.getLocation(), request.getIndex());
@@ -102,7 +102,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 			@Override
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				LOGGER.finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getLocation(), request.getIndex());
@@ -111,9 +111,9 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			@Override
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
 				Point p = request.getLocation();
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				getConnection().translateToRelative(p);
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				InflexMoveCmd com = new InflexMoveCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}

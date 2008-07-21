@@ -28,7 +28,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
-		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
+		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}
 
 	/** {@inheritDoc} */
@@ -115,7 +115,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 	 * @return Color
 	 */
 	public static Color setColor(String key) {
-		String s = Coloane.getDefault().getPreference(key);
+		String s = Coloane.getInstance().getPreference(key);
 		String[] rgb = s.split(","); //$NON-NLS-1$
 		return new Color(null, Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
 	}

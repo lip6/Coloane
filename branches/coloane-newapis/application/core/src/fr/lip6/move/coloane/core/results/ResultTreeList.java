@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
 import fr.lip6.move.coloane.core.results.reports.IReport;
-import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -38,8 +38,8 @@ public final class ModelLoader {
 			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/model.xsd")); //$NON-NLS-1$
 			schema = schemaFactory.newSchema(schemaSource);
 		} catch (SAXException e) {
-			Coloane.getLogger().warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
-			Coloane.getLogger().finer("Details : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
+			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
 			return null;
 		}
 

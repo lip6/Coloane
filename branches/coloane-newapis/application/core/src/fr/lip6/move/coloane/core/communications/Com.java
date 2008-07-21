@@ -1,11 +1,19 @@
 package fr.lip6.move.coloane.core.communications;
 
+import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;
+import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 /**
@@ -20,10 +28,12 @@ public final class Com implements ICom {
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.apis"; //$NON-NLS-1$
 
 	/** L'instance de Com */
-	private static ICom instance = null;
+	private static Com instance = null;
 
 	/** L'objet IApi courrant */
 	private IApi api = null;
+
+	private IApiConnection connection;
 
 	/**
 	 * Construteur de l'objet en charge des communication avec une API
@@ -36,28 +46,34 @@ public final class Com implements ICom {
 	 * @return une API fraîchement créée
 	 * @throws CoreException Exception lors de la creation d'une instance
 	 */
-	public static IApi getModel(String name) throws CoreException {
+	private static IApi getApi(String name) throws CoreException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		IConfigurationElement convertContribution = null;
-		for (int i = 0; i < contributions.length; i++) {
-			if (contributions[i].getAttribute("name").equals(name)) { //$NON-NLS-1$
-				convertContribution = contributions[i];
-				break;
+		for (IConfigurationElement element : contributions) {
+			if (element.getAttribute("name").equals(name)) { //$NON-NLS-1$
+				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
 			}
 		}
 
-		IApi api = null;
-		if (convertContribution != null) {
-			api = (IApi) convertContribution.createExecutableExtension("class"); //$NON-NLS-1$
+		return null;
+	}
+
+	/**
+	 * @return liste des noms des api disponible
+	 */
+	public static List<String> getApisName() {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		List<String> apis = new ArrayList<String>();
+		for (IConfigurationElement element : contributions) {
+			apis.add((String) element.getAttribute("name")); //$NON-NLS-1$
 		}
-		return api;
+		return apis;
 	}
 
 	/**
 	 * Renvoie toujours le même objet Com
 	 * @return l'interface sur l'objet en charge des communication de Coloane avec une API
 	 */
-	public static ICom getInstance() {
+	public static Com getInstance() {
 		if (instance == null) {
 			LOGGER.config("Creation de l'objet de communications"); //$NON-NLS-1$
 			instance = new Com();
@@ -74,9 +90,35 @@ public final class Com implements ICom {
 
 	/**
 	 * Permet de modifier l'api de communication
-	 * @param api nouvelle api à utiliser
+	 * @param name nom de la nouvelle api à utiliser
 	 */
-	public void setApi(IApi api) {
-		this.api = api;
+	public void setApi(String name) {
+		try {
+			this.api = getApi(name);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
+	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
+		connection = api.getApiConnection();
+		connection.setIpServer(infos.getIp());
+		connection.setPortServer(infos.getPort());
+		connection.setLogin(infos.getLogin());
+		connection.setPassword(infos.getPass());
+		IConnectionInfo connectionInfo = connection.openConnection();
+		return connectionInfo;
+	}
+
+	public Object openSession(IGraph graph, IProgressMonitor monitor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object closeSession(IProgressMonitor monitor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

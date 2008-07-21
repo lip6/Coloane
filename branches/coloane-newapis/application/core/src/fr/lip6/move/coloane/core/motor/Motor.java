@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.lang.reflect.InvocationTargetException;
@@ -37,20 +38,14 @@ public final class Motor {
 	/** Le gestionnaire de session */
 	private static ISessionManager sessionManager;
 
+	/** L'instance du singleton : Motor */
+	private static Motor instance;
+
 	/** L'operation courante */
 	private ColoaneProgress currentProgress;
 
-	/** Le module de communications */
-	private Com com = null;
-
-	/** L'interface utilisateur */
-	private UserInterface ui = null;
-
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-
-	/** L'instance du singleton : Motor */
-	private static Motor instance;
 
 	/**
 	 * Constructeur du module moteur en prive pour eviter les doublons<br>
@@ -69,24 +64,6 @@ public final class Motor {
 	public static synchronized Motor getInstance() {
 		if (instance == null) { instance = new Motor(); }
 		return instance;
-	}
-
-	/**
-	 * Recupere une poignee sur le moteur
-	 * @param com le module de communication
-	 */
-	public void setCom(Com moduleCom) {
-		LOGGER.config("Attachement du module de communication avec le moteur"); //$NON-NLS-1$
-		this.com = moduleCom;
-	}
-
-	/**
-	 * Recupere une poignee sur l'interface utilisateur
-	 * @param ui L'interface utilisateur
-	 */
-	public void setUi(UserInterface moduleUi) {
-		LOGGER.config("Attachement de l'interface utilisateur avec le moteur"); //$NON-NLS-1$
-		this.ui = moduleUi;
 	}
 
 	/**
@@ -113,14 +90,20 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.authentication(authInformation, monitor));
+				try {
+					setResults(Com.getInstance().authentication(authInformation, monitor));
+				} catch (ApiException e) {
+					throw new InvocationTargetException(e);
+				}
 			}
 		};
 
 		try {
 			context.run(false, false, runnable);
-		} catch (Exception e) {
-			LOGGER.warning("Echec de l'authentification: " + e.getMessage()); //$NON-NLS-1$
+		} catch (InvocationTargetException e) {
+			LOGGER.warning("Echec de l'authentification : " + e.getMessage()); //$NON-NLS-1$
+		} catch (InterruptedException e) {
+			LOGGER.warning("Annulation de l'authentification : " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		// Recupere le resultat de l'operation
@@ -136,12 +119,12 @@ public final class Motor {
 		}
 
 		// Mise a jour des boutons et menus de connexion
-		ui.platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
+		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
 	}
 
 	/**
 	 * Creation d'une session
-	 * @param model Le modele qui doit etre attache a la session
+	 * @param graph Le modele qui doit etre attache a la session
 	 * @param name Le nom de la session
 	 * @return boolean Resultat de l'operation
 	 */
@@ -163,19 +146,8 @@ public final class Motor {
 
 	/**
 	 * Ouvre une connexion pour un modele (connect model)
-	 * @param model Le modele adapte
-	 * @param sessionName Le nom de la session eclipse
-	 * @return booleen Le resultat de l'operation
-	 * @throws ColoaneException
 	 */
 	public void openSession() {
-		// Verification de l'existence du module de communications
-		if (com == null) {
-			LOGGER.warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.Motor_5);
-			return;
-		}
-
 		// On verifie que l'utilisateur est authentifie avant de connecter le modele
 		if (!sessionManager.isAuthenticated()) {
 			LOGGER.warning("Aucune authentification prealable"); //$NON-NLS-1$
@@ -191,7 +163,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.openSession(sessionManager.getCurrentSession().getGraph(), monitor));
+				setResults(Com.getInstance().openSession(sessionManager.getCurrentSession().getGraph(), monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
@@ -211,8 +183,10 @@ public final class Motor {
 
 			try {
 				context.run(true, false, runnable);
-			} catch (Exception e) {
+			} catch (InvocationTargetException e) {
 				LOGGER.warning("Echec de la connexion du modele: " + e.getMessage()); //$NON-NLS-1$
+			} catch (InterruptedException e) {
+				LOGGER.warning("Annulation de la connexion du modele: " + e.getMessage()); //$NON-NLS-1$
 			}
 
 			// Recupere le resultat de l'ouverture de session de la com
@@ -226,7 +200,7 @@ public final class Motor {
 			// Si l'ouverture reussie
 			} else {
 				sessionManager.getCurrentSession().setStatus(ISession.CONNECTED);
-				ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
 			}
 		} else {
 			LOGGER.warning("Aucun modele actif"); //$NON-NLS-1$
@@ -237,16 +211,8 @@ public final class Motor {
 
 	/**
 	 * Fermeture de la session courante
-	 * @return boolean Le resultat de l'operation
 	 */
 	public void closeSession() {
-		// Verification de l'existence du module de communications
-		if (com == null) {
-			LOGGER.warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.Motor_10);
-			return;
-		}
-
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
 		if (sessionManager.getCurrentSession().getStatus() != ISession.CONNECTED) {
 			LOGGER.warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
@@ -263,7 +229,7 @@ public final class Motor {
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				setResults(com.closeSession(monitor));
+				setResults(Com.getInstance().closeSession(monitor));
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};

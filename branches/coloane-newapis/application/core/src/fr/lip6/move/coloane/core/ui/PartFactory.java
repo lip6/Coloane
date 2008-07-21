@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
+import java.util.logging.Logger;
+
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.StickyNote;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
@@ -19,6 +21,8 @@ import org.eclipse.gef.EditPartFactory;
  * Cette Factory construit les EditParts pour chacun des elements du modele.
  */
 public class PartFactory implements EditPartFactory {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Creation effective de l'EditPart
@@ -30,14 +34,14 @@ public class PartFactory implements EditPartFactory {
 
 		// Si l'element est nul... Probleme
 		if (modelElement == null) {
-			Coloane.getLogger().warning("L'element est nul : La factory ne peut rien produire"); //$NON-NLS-1$
+			LOGGER.warning("L'element est nul : La factory ne peut rien produire"); //$NON-NLS-1$
 		} else {
 			// Selon l'element on construit un EditPart different
 			part = getPartForElement(modelElement);
 			if (part != null) {
 				part.setModel(modelElement);
 			} else {
-				Coloane.getLogger().warning("L'element n'est pas supporte par la factory"); //$NON-NLS-1$
+				LOGGER.warning("L'element n'est pas supporte par la factory"); //$NON-NLS-1$
 			}
 		}
 		return part;

@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.logging.Logger;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -28,20 +29,6 @@ import org.eclipse.swt.widgets.Widget;
  * FrameKit (login, passwd, ip, port)
  */
 public class AuthenticationDialog extends Dialog {
-
-	/* Initialisation a la chaine */
-	private Text login = null;
-	private Text password = null;
-	private Text framekitIp = null;
-	private Text framekitPort = null;
-	private Combo comboServer = null;
-	private Label framekitIpLabel = null;
-	private Label framekitPortLabel = null;
-	private Composite compo = null;
-	private Button detailsButton = null;
-
-	private AuthenticationInformation results;
-
 	/** Tag pour le champ homonyme */
 	public static final String PASSWORD_TAG = "password"; //$NON-NLS-1$
 
@@ -73,6 +60,23 @@ public class AuthenticationDialog extends Dialog {
 	private static final String SHOW_DETAILS_LABEL = Messages.AuthenticationDialog_4;
 
 	private static final String HIDE_DETAILS_LABEL = Messages.AuthenticationDialog_5;
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/* Initialisation a la chaine */
+	private Text login = null;
+	private Text password = null;
+	private Text framekitIp = null;
+	private Text framekitPort = null;
+	private Combo comboServer = null;
+	private Label framekitIpLabel = null;
+	private Label framekitPortLabel = null;
+	private Composite compo = null;
+	private Button detailsButton = null;
+
+	private AuthenticationInformation results;
+
 
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibility = true;
@@ -126,8 +130,8 @@ public class AuthenticationDialog extends Dialog {
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
-		if (Coloane.getDefault().getPreference("LOGIN_DEFAULT") != "") { //$NON-NLS-1$ //$NON-NLS-2$
-			login.setText(Coloane.getDefault().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
+		if (!Coloane.getInstance().getPreference("LOGIN_DEFAULT").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+			login.setText(Coloane.getInstance().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
 		}
 
 		// PASSWORD
@@ -155,10 +159,10 @@ public class AuthenticationDialog extends Dialog {
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		comboServer.setItems(serversList);
 
-		if (!(Coloane.getDefault().getPreference("SERVER_DEFAULT").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
-			comboServer.setText(Coloane.getDefault().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
-			ip = Coloane.getDefault().getPreference("IP_DEFAULT"); //$NON-NLS-1$
-			port = Coloane.getDefault().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
+		if (!(Coloane.getInstance().getPreference("SERVER_DEFAULT").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+			comboServer.setText(Coloane.getInstance().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
+			ip = Coloane.getInstance().getPreference("IP_DEFAULT"); //$NON-NLS-1$
+			port = Coloane.getInstance().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
@@ -202,7 +206,7 @@ public class AuthenticationDialog extends Dialog {
 						}
 					}
 				} catch (IOException ef) {
-					Coloane.getLogger().warning("IP introuvable"); //$NON-NLS-1$
+					LOGGER.warning("IP introuvable"); //$NON-NLS-1$
 				}
 			}
 		});

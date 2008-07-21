@@ -179,7 +179,7 @@ public class FileBrowserDialog extends Dialog implements IDialog {
 				br.close();
 			}
 		} catch (IOException e) {
-			Coloane.getLogger().warning("Erreur d'entree/sortie sur le fichier" + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Erreur d'entree/sortie sur le fichier" + e.getMessage()); //$NON-NLS-1$
 		}
 		return result;
 	}

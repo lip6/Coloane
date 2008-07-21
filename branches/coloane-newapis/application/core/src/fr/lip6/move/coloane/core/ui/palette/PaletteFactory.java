@@ -189,7 +189,7 @@ public final class PaletteFactory {
 	public static FlyoutPreferences createPalettePreferences() {
 		return new FlyoutPreferences() {
 			private IPreferenceStore getPreferenceStore() {
-				return Coloane.getDefault().getPreferenceStore();
+				return Coloane.getInstance().getPreferenceStore();
 			}
 			public int getDockLocation() {
 				return getPreferenceStore().getInt(PALETTE_DOCK_LOCATION);

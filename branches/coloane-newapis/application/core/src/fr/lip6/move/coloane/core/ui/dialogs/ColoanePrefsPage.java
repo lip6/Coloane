@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.jface.preference.PreferencePage;
 
@@ -25,6 +26,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private Combo combo = null;
 	private Combo comboServer = null;
@@ -45,7 +48,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
-		setPreferenceStore(Coloane.getDefault().getPreferenceStore());
+		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}
 
 	/** {@inheritDoc} */
@@ -116,7 +119,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 					framekitIp.setText(ip);
 					framekitPort.setText(port);
 				} catch (IOException ef) {
-					Coloane.getLogger().warning("IP introuvable"); //$NON-NLS-1$
+					LOGGER.warning("IP introuvable"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -167,7 +170,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	/** {@inheritDoc} */
 	@Override
 	protected final void performDefaults() {
-		Coloane.getDefault().setDefaultPreference();
+		Coloane.getInstance().setDefaultPreference();
 		loginField.setText("");   //$NON-NLS-1$
 		framekitIp.setText("");   //$NON-NLS-1$
 		framekitPort.setText(""); //$NON-NLS-1$
@@ -176,10 +179,10 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	/** {@inheritDoc} */
 	@Override
 	public final boolean performOk() {
-		Coloane.getDefault().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
-		Coloane.getDefault().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
+		Coloane.getInstance().setPreference("LOGIN_DEFAULT", loginField.getText()); //$NON-NLS-1$
+		Coloane.getInstance().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$
+		Coloane.getInstance().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
+		Coloane.getInstance().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
 		return super.performOk();
 	}
 
@@ -188,7 +191,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	 */
 	public final void enableFields() {
 		// Enable Ip/Port fields if "Other..." is selected
-		if (Coloane.getDefault().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) { //$NON-NLS-1$
+		if (Coloane.getInstance().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) { //$NON-NLS-1$
 			framekitIp.setEnabled(true);
 			framekitPort.setEnabled(true);
 		} else {

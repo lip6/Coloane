@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.Motor;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -22,7 +22,7 @@ public class ConnectModelAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		Coloane.getDefault().getMotor().openSession();
+		Motor.getInstance().openSession();
 	}
 
 	/** {@inheritDoc} */

@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import java.util.logging.Logger;
+
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -9,6 +11,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class FileHandler extends DefaultHandler {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private IGraph graph;
 
 	/**
@@ -20,7 +25,7 @@ public class FileHandler extends DefaultHandler {
 		if (baliseName.equals("model")) { //$NON-NLS-1$
 			// Recuperation des positions
 			graph = new GraphModel(attributes.getValue("formalism")); //$NON-NLS-1$
-			Coloane.getLogger().fine("Formalisme du fichier en cours de lecture : " + graph.getFormalism().getName()); //$NON-NLS-1$
+			LOGGER.fine("Formalisme du fichier en cours de lecture : " + graph.getFormalism().getName()); //$NON-NLS-1$
 		}
 	}
 

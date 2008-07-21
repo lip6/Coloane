@@ -12,11 +12,9 @@ import fr.lip6.move.coloane.core.ui.menus.GraphicalMenu;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
-import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
-import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -29,6 +27,8 @@ import org.eclipse.ui.PlatformUI;
  */
 
 public final class UserInterface {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
@@ -99,7 +99,7 @@ public final class UserInterface {
 
 		ISession currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
+			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
 			return;
 		}
@@ -114,7 +114,7 @@ public final class UserInterface {
 	 */
 	public void updateMenu(ISession concernedSession, Vector<IUpdateMenuCom> updates) {
 		if (concernedSession == null) {
-			Coloane.getLogger().warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
+			LOGGER.warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
 			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
 			return;
 		}
@@ -141,7 +141,7 @@ public final class UserInterface {
 
 		ISession currentSession = motor.getSessionManager().getCurrentSession();
 		if (currentSession == null) {
-			Coloane.getLogger().warning("Aucune session courante"); //$NON-NLS-1$
+			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
 			return;
 		}
 		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
@@ -177,13 +177,13 @@ public final class UserInterface {
 	 * Affichage des resultats dans la vue resultats
 	 */
 	public void printResults() {
-		Coloane.getLogger().fine("Affichage des resultats du service"); //$NON-NLS-1$
+		LOGGER.fine("Affichage des resultats du service"); //$NON-NLS-1$
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
 					fenetreTravail.getActivePage().showView(ColoanePerspectiveFactory.RESULTS_VIEW);
 				} catch (PartInitException e) {
-					Coloane.getLogger().warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
+					LOGGER.warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -211,7 +211,7 @@ public final class UserInterface {
 	 * @param newState Le nouvel etat pour l'item
 	 */
 	public void platformState(boolean authentication, int session) {
-		Coloane.getLogger().fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Composite parent = (Composite) Coloane.getParent();
 
 		// Prise en compte de l'authentification
