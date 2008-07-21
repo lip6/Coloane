@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.lang.reflect.InvocationTargetException;
@@ -71,8 +72,6 @@ public final class Motor {
 	 * @param authInformation Les informations recues de la boite de dialogue
 	 */
 	public void authentication(final AuthenticationInformation authInformation) {
-		Boolean res = Boolean.FALSE;
-
 		// Verification que toutes les donnees sont fournies
 		if (authInformation == null) {
 			Coloane.showErrorMsg(Messages.Motor_0);
@@ -103,21 +102,20 @@ public final class Motor {
 			context.run(false, false, runnable);
 		} catch (InvocationTargetException e) {
 			LOGGER.warning("Echec de l'authentification : " + e.getMessage()); //$NON-NLS-1$
+			HistoryView.getInstance().addLine(Messages.Motor_4);
+			sessionManager.setAuthenticated(false);
 		} catch (InterruptedException e) {
 			LOGGER.warning("Annulation de l'authentification : " + e.getMessage()); //$NON-NLS-1$
+			sessionManager.setAuthenticated(false);
 		}
 
 		// Recupere le resultat de l'operation
-		res = (Boolean) runnable.getResults();
+		IConnectionInfo connectionInfo = (IConnectionInfo) runnable.getResults();
 
-		// Si l'authentification s'est bien passee
-		if (res.booleanValue()) {
-			HistoryView.getInstance().addLine(Messages.Motor_3);
-			sessionManager.setAuthenticated(true);
-		} else {
-			HistoryView.getInstance().addLine(Messages.Motor_4);
-			sessionManager.setAuthenticated(false);
-		}
+		HistoryView.getInstance().addLine(Messages.Motor_3 + " " + connectionInfo.getFkName() //$NON-NLS-1$
+				+ "-" + connectionInfo.getFkMajor() //$NON-NLS-1$
+				+ "." + connectionInfo.getFkMinor()); //$NON-NLS-1$
+		sessionManager.setAuthenticated(true);
 
 		// Mise a jour des boutons et menus de connexion
 		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
