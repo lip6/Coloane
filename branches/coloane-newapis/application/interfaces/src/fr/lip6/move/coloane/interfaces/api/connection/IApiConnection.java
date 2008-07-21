@@ -16,25 +16,25 @@ public interface IApiConnection {
 	 * Initialiser l'adresse IP du serveur
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setIpServer(String ipServer);
+	public void setIpServer(String ipServer);
 
 	/**
 	 * Initialiser le port du serveur
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setPortServer(int portServer);
+	public void setPortServer(int portServer);
 
 	/**
 	 * Initialiser le login
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setLogin(String login);
+	public void setLogin(String login);
 
 	/**
 	 * Initialiser le password
 	 * @return true, si l'initialisation a reussie, false sinon
 	 */
-	public boolean setPassword(String password);
+	public void setPassword(String password);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'une boite de dialogue
@@ -42,7 +42,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setReceptDialogObserver(IReceptDialogObserver o,boolean createThread);
+	public void setReceptDialogObserver(IReceptDialogObserver o,boolean createThread);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un menu
@@ -50,7 +50,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setReceptMenuObserver(IReceptMenuObserver o,boolean createThread);
+	public void setReceptMenuObserver(IReceptMenuObserver o,boolean createThread);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un message
@@ -58,7 +58,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setReceptMessageObserver(IReceptMessageObserver o,boolean createThread);
+	public void setReceptMessageObserver(IReceptMessageObserver o,boolean createThread);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'un resultat
@@ -66,7 +66,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setReceptResultObserver(IReceptResultObserver o,boolean createThread);
+	public void setReceptResultObserver(IReceptResultObserver o,boolean createThread);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : reception d'une erreur
@@ -74,7 +74,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setReceptErrorObserver(IReceptErrorObserver o,boolean createThread);
+	public void setReceptErrorObserver(IReceptErrorObserver o,boolean createThread);
 	
 	/**
 	 * Positionne un observateur pour l'evenement : deconnexion ordonnee
@@ -82,7 +82,7 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 * @return true, si le l'observateur a bien etait ajouter, false sinon
 	 */
-	public boolean setDisconnectObserver(IDisconnectObserver o,boolean createThread);
+	public void setDisconnectObserver(IDisconnectObserver o,boolean createThread);
 	
 	/**
 	 * Ouvre une connexion
