@@ -40,7 +40,7 @@ public class Listener extends Thread implements IListener {
 
 		boolean stop = false;
 
-		while (!stop){ 
+		while (!Thread.interrupted()){ 
 			try {
 				sleep(durePing);
 			} catch (InterruptedException e1) {
