@@ -64,66 +64,56 @@ public class ApiConnection implements IApiConnection {
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
 	}
 	
-	public boolean setIpServer(String ipServer) {
+	public void setIpServer(String ipServer) {
 		this.ipServer = ipServer;
-		return true;
 	}
 
-	public boolean setLogin(String login) {
+	public void setLogin(String login) {
 		this.login = login;
-		return true;
 	}
 
-	public boolean setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
-		return true;
 	}
 
-	public boolean setPortServer(int portServer) {
+	public void setPortServer(int portServer) {
 		this.portServer = portServer;
-		return true;
 	}	
 
-	public boolean setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
+	public void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
 		IReceptDialogObservable obs = (IReceptDialogObservable) listObservables.get(IObservables.RECEPT_DIALOG);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 
-	public boolean setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
+	public void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
 		IReceptMenuObservable obs = (IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 
-	public boolean setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
+	public void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
 		IReceptMessageObservable obs = (IReceptMessageObservable) listObservables.get(IObservables.RECEPT_MESSAGE);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 
-	public boolean setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
+	public void setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
 		IReceptResultObservable obs = (IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 	
-	public boolean setReceptErrorObserver(IReceptErrorObserver o,boolean createThread){
+	public void setReceptErrorObserver(IReceptErrorObserver o,boolean createThread){
 		IReceptErrorObservable obs = (IReceptErrorObservable) listObservables.get(IObservables.RECEPT_ERROR);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 	
-	public boolean setDisconnectObserver(IDisconnectObserver o,boolean createThread){
+	public void setDisconnectObserver(IDisconnectObserver o,boolean createThread){
 		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		return true;
 	}
 
 	public IConnectionInfo openConnection() throws ApiException {
