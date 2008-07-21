@@ -32,7 +32,10 @@ public class Speaker implements ISpeaker {
 	
 	public Speaker(){
 		try {
-			stub = new WrapperStub("http://localhost:8081/axis2/services/Wrapper");
+			stub = new WrapperStub("http://izanami.rsr.lip6.fr:8081/axis2/services/Wrapper");
+			//Options op = stub._getServiceClient().getOptions();
+			//op.setTimeOutInMilliSeconds(120000);
+			//stub._getServiceClient().setOptions(op);
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
