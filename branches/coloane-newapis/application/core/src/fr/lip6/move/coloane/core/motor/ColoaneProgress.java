@@ -25,10 +25,8 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 
 	/**
 	 * Constructeur
-	 * @param res L'objet qui servira a stocker le resultat de l'operation
 	 */
-	public ColoaneProgress(ISession session, Object res) {
-		this.operationResult = res;
+	public ColoaneProgress(ISession session) {
 		this.attachedSession = session;
 	}
 

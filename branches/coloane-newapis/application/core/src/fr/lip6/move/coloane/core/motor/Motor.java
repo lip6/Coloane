@@ -85,7 +85,7 @@ public final class Motor {
 		IRunnableContext context = workbench.getProgressService();
 
 		// Definition de l'operation d'authentification
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession(), res) {
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
@@ -400,7 +400,7 @@ public final class Motor {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande d'affichage de precision sur la tache en cours"); //$NON-NLS-1$
 			currentProgress.getMonitor().worked(1);
-			if (description != "") { currentProgress.getMonitor().setTaskName(description); } //$NON-NLS-1$
+			if (!description.equals("")) { currentProgress.getMonitor().setTaskName(description); } //$NON-NLS-1$
 		} else {
 			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
 		}
@@ -410,11 +410,16 @@ public final class Motor {
 	 * Demande de deconnexion brutale (initiee par le client)
 	 */
 	public void breakConnection() {
-		LOGGER.fine("Deconnexion brutale initiee par le client"); //$NON-NLS-1$
-		sessionManager.destroyAllSessions();
-		sessionManager.setAuthenticated(false);
-		Com.getInstance().breakConnection();
-		UserInterface.getInstance().redrawMenus();
-		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
+		try {
+			Com.getInstance().breakConnection();
+			sessionManager.destroyAllSessions();
+			sessionManager.setAuthenticated(false);
+			UserInterface.getInstance().redrawMenus();
+			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+		} catch (ApiException e) {
+			e.printStackTrace();
+			LOGGER.warning(e.getMessage());
+		}
 	}
 }

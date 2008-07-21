@@ -95,6 +95,12 @@ public final class Com implements ICom {
 		return connectionInfo;
 	}
 
+	public void breakConnection() throws ApiException {
+		if (connection != null) {
+			connection.closeConnection();
+		}
+	}
+
 	public Object openSession(IGraph graph, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
