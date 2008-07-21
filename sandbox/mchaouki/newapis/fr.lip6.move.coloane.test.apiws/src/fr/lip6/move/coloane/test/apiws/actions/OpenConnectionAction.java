@@ -39,11 +39,10 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		IApiConnection connection = Api.getApiConnection();
+		IApiConnection connection = (new Api()).getApiConnection();
 
 		connection.setLogin("LOGIN");
 		connection.setPassword("MDP");
-
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), true);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), true);
 		
