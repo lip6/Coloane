@@ -41,8 +41,7 @@ public class Api implements IApi {
 	}
 
 	/**
-	 * Création d'une connexion avec la plate-forme
-	 * @return une poignée sur la connexion
+	 * {@inheritDoc}
 	 */
 	public final IApiConnection getApiConnection() {
 		return new ApiConnection();
