@@ -416,10 +416,11 @@ public final class Motor {
 			sessionManager.destroyAllSessions();
 			sessionManager.setAuthenticated(false);
 			UserInterface.getInstance().redrawMenus();
-			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+			UserInterface.getInstance().platformState(false, ISession.CLOSED);
 		} catch (ApiException e) {
+			LOGGER.fine(e.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-			LOGGER.warning(e.getMessage());
 		}
 	}
 }
