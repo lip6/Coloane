@@ -1,38 +1,35 @@
 package fr.lip6.move.coloane.api.apiPackage;
 
+import fr.lip6.move.coloane.api.interfaces.IApiConnection;
+import fr.lip6.move.coloane.api.log.ApiHandler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fr.lip6.move.coloane.api.interfaces.IApiConnection;
-import fr.lip6.move.coloane.api.log.ApiHandler;
-
-
 /**
- * Cette classe constitue Le point d'accès à la bibliothèque
+ * Cette classe constitue Le point d'accès à la bibliothèque de connexion<br>
  * Son rôle essentiel est de construire des connexions.
  */
-
-
-
 public class Api {
 
-	//TODO set pour l'uiName et la version
-	static String uiName = "Coloane";
-	static String uiVersion = "X.x";
-	static Logger logger;
+	/** Le Logger à initialiser */
+	private static Logger LOGGER;
 
+	/** Constructeur */
+	public Api() {
+		initializeLogger();
+	}
 
-	// sert à initialiser l'api
-	public static void initialize(){
-
-		/* initialiser le logger*/
-		logger = Logger.getLogger("fr.lip6.move.coloane.api");
-		logger.setLevel(Level.FINEST); // On loggue tout !
+	/**
+	 * Initialisation du logger pour l'API entière
+	 */
+	private static void initializeLogger() {
+		LOGGER = Logger.getLogger("fr.lip6.move.coloane.api");
+		LOGGER.setLevel(Level.FINEST); // On loggue tout !
 		try {
-			logger.addHandler(new ApiHandler());
+			LOGGER.addHandler(new ApiHandler());
 		} catch (SecurityException e) {
 			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
 		} catch (FileNotFoundException e) {
@@ -42,18 +39,12 @@ public class Api {
 		}
 	}
 
-
 	/**
-	 *
-	 * @return
-	 * @throws IOException
+	 * Création d'une connexion avec la plate-forme
+	 * @return une poignée sur la connexion
+	 * @throws IOException en cas d'erreur d'écriture ou de lecture
 	 */
-	public static IApiConnection getApiConnection() throws IOException{
+	public final IApiConnection getApiConnection() throws IOException {
 		return new ApiConnection();
 	}
-
-
-
-
-
 }
