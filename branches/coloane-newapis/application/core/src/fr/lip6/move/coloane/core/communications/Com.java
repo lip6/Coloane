@@ -53,8 +53,7 @@ public final class Com implements ICom {
 				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
 			}
 		}
-
-		return null;
+		throw new IllegalArgumentException("l'api " + name + " n'est pas connu");  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -81,27 +80,12 @@ public final class Com implements ICom {
 		return instance;
 	}
 
-	/**
-	 * @return instance de l'api de communication
-	 */
-	public IApi getApi() {
-		return api;
-	}
-
-	/**
-	 * Permet de modifier l'api de communication
-	 * @param name nom de la nouvelle api à utiliser
-	 */
-	public void setApi(String name) {
+	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
 		try {
-			this.api = getApi(name);
+			api = getApi(infos.getApiType());
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
 		connection = api.getApiConnection();
 		connection.setIpServer(infos.getIp());
 		connection.setPortServer(infos.getPort());
