@@ -23,7 +23,7 @@ public class Listener extends Thread implements IListener {
 
 	private WrapperStub stub = null;
 	
-	private int durePing = 3*1000;
+	private int durePing;
 
 	private boolean stopThread = false;
 
@@ -32,6 +32,7 @@ public class Listener extends Thread implements IListener {
 	public Listener(Authentification auth, WrapperStub stub, HashMap<Integer, Object> listObservables){
 		this.auth = auth;
 		this.stub = stub;
+		this.durePing = auth.getPeriodPing();
 		this.stopThread = false;
 		this.listObservable = listObservables;
 	}
