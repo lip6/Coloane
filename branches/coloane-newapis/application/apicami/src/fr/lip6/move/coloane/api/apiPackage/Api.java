@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.api.apiPackage;
 
-import fr.lip6.move.coloane.api.interfaces.IApiConnection;
 import fr.lip6.move.coloane.api.log.ApiHandler;
+import fr.lip6.move.coloane.interfaces.api.connection.IApi;
+import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * Cette classe constitue Le point d'accès à la bibliothèque de connexion<br>
  * Son rôle essentiel est de construire des connexions.
  */
-public class Api {
+public class Api implements IApi {
 
 	/** Le Logger à initialiser */
 	private static Logger LOGGER;
@@ -42,9 +43,8 @@ public class Api {
 	/**
 	 * Création d'une connexion avec la plate-forme
 	 * @return une poignée sur la connexion
-	 * @throws IOException en cas d'erreur d'écriture ou de lecture
 	 */
-	public final IApiConnection getApiConnection() throws IOException {
+	public final IApiConnection getApiConnection() {
 		return new ApiConnection();
 	}
 }
