@@ -31,7 +31,8 @@ public class DisconnectObservable implements IDisconnectObservable {
 				o.update();
 		}
 		else{
-			// TODO Creer la notification dans un thread
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers);
+			threadNotifier.start();
 		}
 	}
 
@@ -43,4 +44,17 @@ public class DisconnectObservable implements IDisconnectObservable {
 		this.createThread = createThread;
 	}
 
+	private class ThreadNotifier extends Thread {
+		
+		private ArrayList<IDisconnectObserver> listObservers;
+		
+		public ThreadNotifier(ArrayList<IDisconnectObserver> listObservers){
+			this.listObservers = listObservers;
+		}
+		
+		public void run(){
+			for (IDisconnectObserver o : listObservers)
+				o.update();
+		}
+	}
 }

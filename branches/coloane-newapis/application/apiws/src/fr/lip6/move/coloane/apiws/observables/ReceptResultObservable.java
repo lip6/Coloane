@@ -32,7 +32,8 @@ public class ReceptResultObservable implements IReceptResultObservable {
 				o.update(e);
 		}
 		else{
-			// TODO Creer la notification dans un thread
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers,e);
+			threadNotifier.start();
 		}
 	}
 
@@ -42,6 +43,23 @@ public class ReceptResultObservable implements IReceptResultObservable {
 
 	public void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
+	}
+	
+	private class ThreadNotifier extends Thread {
+		
+		private ArrayList<IReceptResultObserver> listObservers;
+		
+		private IReceptResult result;
+		
+		public ThreadNotifier(ArrayList<IReceptResultObserver> listObservers, IReceptResult result){
+			this.listObservers = listObservers;
+			this.result = result;
+		}
+		
+		public void run(){
+			for (IReceptResultObserver o : listObservers)
+				o.update(result);
+		}
 	}
 
 }

@@ -32,7 +32,8 @@ public class ReceptErrorObservable implements IReceptErrorObservable {
 				o.update(e);
 		}
 		else{
-			// TODO Creer la notification dans un thread
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers,e);
+			threadNotifier.start();
 		}
 	}
 
@@ -42,6 +43,23 @@ public class ReceptErrorObservable implements IReceptErrorObservable {
 
 	public void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
+	}
+	
+	private class ThreadNotifier extends Thread {
+		
+		private ArrayList<IReceptErrorObserver> listObservers;
+		
+		private IReceptError error;
+		
+		public ThreadNotifier(ArrayList<IReceptErrorObserver> listObservers, IReceptError error){
+			this.listObservers = listObservers;
+			this.error = error;
+		}
+		
+		public void run(){
+			for (IReceptErrorObserver o : listObservers)
+				o.update(error);
+		}
 	}
 
 }

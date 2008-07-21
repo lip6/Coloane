@@ -32,7 +32,8 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 				o.update(dialog);
 		}
 		else{
-			// TODO Creer la notification dans un thread
+			ThreadNotifier threadNotifier  = new ThreadNotifier(listObservers,dialog);
+			threadNotifier.start();
 		}
 	}
 
@@ -42,6 +43,23 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 
 	public void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
+	}
+	
+	private class ThreadNotifier extends Thread {
+		
+		private ArrayList<IReceptDialogObserver> listObservers;
+		
+		private IDialog dialog;
+		
+		public ThreadNotifier(ArrayList<IReceptDialogObserver> listObservers, IDialog dialog){
+			this.listObservers = listObservers;
+			this.dialog = dialog;
+		}
+		
+		public void run(){
+			for (IReceptDialogObserver o : listObservers)
+				o.update(dialog);
+		}
 	}
 
 }

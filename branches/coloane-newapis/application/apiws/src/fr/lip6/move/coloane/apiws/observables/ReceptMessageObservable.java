@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.observables;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
@@ -32,7 +33,8 @@ public class ReceptMessageObservable implements IReceptMessageObservable {
 				o.update(e);
 		}
 		else{
-			// TODO Creer la notification dans un thread
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers, e);
+			threadNotifier.start();
 		}
 	}
 
@@ -43,4 +45,22 @@ public class ReceptMessageObservable implements IReceptMessageObservable {
 	public void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
+	
+	private class ThreadNotifier extends Thread {
+		
+		private ArrayList<IReceptMessageObserver> listObservers;
+		
+		private IReceptMessage message;
+		
+		public ThreadNotifier(ArrayList<IReceptMessageObserver> listObservers, IReceptMessage message){
+			this.listObservers = listObservers;
+			this.message = message;
+		}
+		
+		public void run(){
+			for (IReceptMessageObserver o : listObservers)
+				o.update(message);
+		}
+	}
+	
 }
