@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.api.apiPackage;
 
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -11,8 +9,11 @@ import teststub.CloseSessionObserver;
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.session.SessionFactory;
-import fr.lip6.move.coloane.api.interfaces.*;
+import fr.lip6.move.coloane.api.interfaces.IApiSession;
+import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.api.interfaces.IListener;
+import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
@@ -26,15 +27,16 @@ import fr.lip6.move.coloane.api.interfaces.observers.ICloseConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ICloseSessionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IReceptDialogObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISpecialMessageObserver;
-
-import fr.lip6.move.coloane.api.interfaces.IListener;
-import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
-import fr.lip6.move.coloane.api.interfaces.*;
+import fr.lip6.move.coloane.api.session.SessionFactory;
+import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
 public class ApiConnection implements IApiConnection {
 
@@ -78,7 +80,7 @@ public class ApiConnection implements IApiConnection {
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
 	 * @throws IOException
 	 */
-	public ApiConnection() throws IOException{
+	public ApiConnection() {
 
 		// TODO
 
@@ -96,9 +98,8 @@ public class ApiConnection implements IApiConnection {
 		this.fkVersion= null;
 	}
 
-	public boolean closeConnection() throws IOException {
+	public boolean closeConnection() {
 		speaker.closeConnection();
-
 		return true;
 	}
 
@@ -294,6 +295,66 @@ public class ApiConnection implements IApiConnection {
 			CloseSessionObserver closeSessionObserver, boolean b) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public fr.lip6.move.coloane.interfaces.api.session.IApiSession getApiSession()
+			throws ApiException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setBrutalInterruptObserver(
+			fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDisconnectObserver(IDisconnectObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setIpServer(String ipServer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPassword(String password) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPortServer(int portServer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setReceptDialogObserver(
+			fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setReceptMenuObserver(IReceptMenuObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setReceptMessageObserver(IReceptMessageObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setReceptResultObserver(
+			fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
