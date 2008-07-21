@@ -16,7 +16,7 @@
         <!-- Javadoc -->
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
-            <property name="checkEmptyJavadoc" value="true"/>
+            <property name="checkEmptyJavadoc" value="false"/>
         </module>
     	<module name="JavadocType"/>
         <module name="JavadocMethod"/>
@@ -103,6 +103,17 @@
         </module>
         <module name="UpperEll"/>
         <module name="FallThrough"/>
+        <module name="FileContentsHolder"/>
     </module>
+
+    <!--<module name="SuppressionFilter">
+        <property name="file" value="http://coloane.lip6.fr/resources/suppressions.xml"/>
+    </module>-->
+    
+    <module name="SuppressionCommentFilter">
+        <property name="offCommentFormat" value="CHECKSTYLE OFF"/>
+        <property name="onCommentFormat" value="CHECKSTYLE ON"/>
+    </module>
+    
     <module name="NewlineAtEndOfFile"/>
 </module>
