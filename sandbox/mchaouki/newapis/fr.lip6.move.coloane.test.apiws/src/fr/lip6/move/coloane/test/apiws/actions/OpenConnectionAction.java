@@ -43,8 +43,8 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 		connection.setLogin("LOGIN");
 		connection.setPassword("MDP");
 
-		connection.setReceptMenuObserver(new ReceptMenuObserver(window.getShell()), false);
-		connection.setReceptDialogObserver(new ReceptDialogObserver(window.getShell()), false);
+		connection.setReceptMenuObserver(new ReceptMenuObserver(), true);
+		connection.setReceptDialogObserver(new ReceptDialogObserver(), true);
 		
 		Activator.setConnection(connection);
 		Activator.getSessionController().setConnectionOpened(true);
