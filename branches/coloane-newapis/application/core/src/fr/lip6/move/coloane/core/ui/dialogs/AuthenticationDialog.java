@@ -377,7 +377,7 @@ public class AuthenticationDialog extends Dialog {
 		framekitPort.setTextLimit(TXT_LIMIT);
 
 		apiTypeLabel = new Label(compo, SWT.NULL);
-		apiTypeLabel.setText("Server Type: ");
+		apiTypeLabel.setText(Messages.AuthenticationDialog_28);
 
 		apiType = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		apiType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
