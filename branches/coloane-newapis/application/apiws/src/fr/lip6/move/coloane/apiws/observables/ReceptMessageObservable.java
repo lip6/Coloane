@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.apiws.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
