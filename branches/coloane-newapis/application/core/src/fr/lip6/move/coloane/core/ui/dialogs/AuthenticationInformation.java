@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import fr.lip6.move.coloane.core.main.Coloane;
+
 public class AuthenticationInformation {
 
 	private String login;
@@ -25,5 +27,9 @@ public class AuthenticationInformation {
 	}
 	public final int getPort() {
 		return port;
+	}
+	
+	public final String getApiType() {
+		return Coloane.getParam("API_TYPE");
 	}
 }
