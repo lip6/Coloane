@@ -2,9 +2,9 @@ package fr.lip6.move.coloane.interfaces.api.connection;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
-import fr.lip6.move.coloane.interfaces.api.observers.IReceptErrorObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
@@ -17,25 +17,37 @@ public interface IApiConnection {
 
 	/**
 	 * Initialiser l'adresse IP du serveur
+<<<<<<< .mine
+=======
 	 * @param ipServer L'IP de la plate-forme sur laquelle on souhaite se connecter
+>>>>>>> .r3384
 	 */
 	void setIpServer(String ipServer);
 
 	/**
 	 * Initialiser le port du serveur
+<<<<<<< .mine
+=======
 	 * @param portServer Le port de la plate-forme sur laquelle on souhaite se connecter
+>>>>>>> .r3384
 	 */
 	void setPortServer(int portServer);
 
 	/**
 	 * Initialiser le login
+<<<<<<< .mine
+=======
 	 * @param login Le login à utiiser pour la connexion
+>>>>>>> .r3384
 	 */
 	void setLogin(String login);
 
 	/**
 	 * Initialiser le password
+<<<<<<< .mine
+=======
 	 * @param password Le password à utiliser pour la connexion
+>>>>>>> .r3384
 	 */
 	void setPassword(String password);
 
@@ -68,18 +80,19 @@ public interface IApiConnection {
 	void setReceptResultObserver(IReceptResultObserver o, boolean createThread);
 
 	/**
-	 * Positionne un observateur pour l'evenement : reception d'une erreur
-	 * @param o l'observateur qui sera notifier par l'evenement : reception d'une erreur
-	 * @param createThread definie s'il faut creer un thread pour la notification
-	 */
-	void setReceptErrorObserver(IReceptErrorObserver o, boolean createThread);
-
-	/**
 	 * Positionne un observateur pour l'evenement : deconnexion ordonnee
 	 * @param o l'observateur qui sera notifier par l'evenement : deconnexion ordonnee
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setDisconnectObserver(IDisconnectObserver o, boolean createThread);
+	public void setDisconnectObserver(IDisconnectObserver o,boolean createThread);
+
+	/**
+	 * Positionne un observateur pour l'evenement : reception d'une erreur
+	 * @param o l'observateur qui sera notifier par l'evenement : reception d'une erreur
+	 * @param createThread definie s'il faut creer un thread pour la notification
+	 */
+	public void setBrutalInterruptObserver(IBrutalInterruptObserver o,boolean createThread);
+	
 
 	/**
 	 * Ouvre une connexion
