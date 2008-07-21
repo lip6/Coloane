@@ -11,7 +11,7 @@ public final class Com implements ICom {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** L'instance de Com */
-	private ICom instance = null;
+	private static ICom instance = null;
 
 	/**
 	 * Construteur de l'objet en charge des communication avec une API
@@ -22,11 +22,11 @@ public final class Com implements ICom {
 	 * Renvoie toujours le même objet Com
 	 * @return l'interface sur l'objet en charge des communication de Coloane avec une API
 	 */
-	public ICom getInstance() {
-		if (this.instance == null) {
+	public static ICom getInstance() {
+		if (instance == null) {
 			LOGGER.config("Creation de l'objet de communications"); //$NON-NLS-1$
-			this.instance = new Com();
+			instance = new Com();
 		}
-		return this.instance;
+		return instance;
 	}
 }
