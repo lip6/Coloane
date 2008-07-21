@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 import fr.lip6.move.coloane.core.main.Coloane;
 
+import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -18,6 +20,8 @@ import org.eclipse.ui.IWorkbench;
  * Cet assistant est composé d'une page {@link ImportWizardPage}
  */
 public class ImportWizard extends Wizard implements IImportWizard, IExecutableExtension {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Identifiant de l'assistant (wizard) **/
 	private String idWizard = null;
@@ -59,7 +63,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 			selectFilePage.finish();
 			return true;
 		} catch (ColoaneException e) {
-			Coloane.getLogger().warning("Echec de l'import : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Echec de l'import : " + e.getMessage()); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.ImportWizard_3);
 			return false;
 		}
@@ -77,12 +81,12 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		this.idWizard = config.getAttribute("id"); //$NON-NLS-1$
-		Coloane.getLogger().finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
+		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
 
 		this.instance = (IImportFrom) ImportFromExtension.createConvertInstance(this.idWizard);
 
 		if (this.instance == null) {
-			Coloane.getLogger().warning("Erreur lors de la creation de l'instance de conversion"); //$NON-NLS-1$
+			LOGGER.warning("Erreur lors de la creation de l'instance de conversion"); //$NON-NLS-1$
 		}
 	}
 }
