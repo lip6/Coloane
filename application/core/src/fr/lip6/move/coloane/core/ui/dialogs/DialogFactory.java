@@ -17,7 +17,7 @@ public class DialogFactory {
 	 * Creation d'une boite de dialogue suivant le type de IDialogCom
 	 * @param dialog La boite de dialogue
 	 * @return Une boite de dialogue Eclipse
-	 * @throws UnknowDialogException Lorsque la boite de dialogue n'est pas trouvee
+	 * @throws UIException Lorsque la boite de dialogue n'est pas trouvee
 	 */
 	public static IDialog create(IDialogCom dialog) throws UIException {
 
