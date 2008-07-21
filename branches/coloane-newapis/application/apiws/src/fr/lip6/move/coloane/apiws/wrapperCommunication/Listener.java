@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Map;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
@@ -20,16 +21,13 @@ import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 public class Listener extends Thread implements IListener {
 
 	private Authentification auth = null;
-
 	private WrapperStub stub = null;
-	
 	private int durePing;
-
 	private boolean stopThread = false;
 
-	private HashMap<Integer, Object> listObservable= null;
+	private Map<Integer, Object> listObservable= null;
 
-	public Listener(Authentification auth, WrapperStub stub, HashMap<Integer, Object> listObservables){
+	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables){
 		this.auth = auth;
 		this.stub = stub;
 		this.durePing = auth.getPeriodPing();

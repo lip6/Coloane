@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
@@ -13,7 +13,7 @@ public class SessionFactory {
 		return (IApiSession) new ApiSession(sessionController,speaker);
 	}
 	
-	public static ISessionController getNewSessionController( HashMap<Integer, Object> listObservables){
+	public static ISessionController getNewSessionController(Map<Integer, Object> listObservables){
 		return (ISessionController) new SessionController(listObservables);
 	}
 	

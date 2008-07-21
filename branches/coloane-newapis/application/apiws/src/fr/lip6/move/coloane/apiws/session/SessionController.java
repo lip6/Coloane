@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws.session;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMenu;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
@@ -28,14 +29,13 @@ public class SessionController implements ISessionController {
 	/**
 	 * Represent la liste des observables
 	 */
-	private HashMap<Integer, Object> listObservables;
+	private Map<Integer, Object> listObservables;
 	
 	/**
 	 * Represent la correspondance entre le nom d'une session et son identifiant
 	 * private Hashtable<String, String> correspondenceNameToIdSession;
 	 */
-	
-	public SessionController(HashMap<Integer, Object> listObservables){
+	public SessionController(Map<Integer, Object> listObservables){
 		this.activeSession = null;
 		this.listSessions = new Hashtable<String, IApiSession>();
 		this.listObservables = listObservables;
