@@ -19,9 +19,11 @@ public final class Com implements ICom {
 	/** L'identifiant du point d'extension définissant une API */
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.apis"; //$NON-NLS-1$
 
-
 	/** L'instance de Com */
 	private static ICom instance = null;
+
+	/** L'objet IApi courrant */
+	private IApi api = null;
 
 	/**
 	 * Construteur de l'objet en charge des communication avec une API
@@ -61,5 +63,13 @@ public final class Com implements ICom {
 			instance = new Com();
 		}
 		return instance;
+	}
+
+	public IApi getApi() {
+		return api;
+	}
+
+	public void setApi(IApi api) {
+		this.api = api;
 	}
 }
