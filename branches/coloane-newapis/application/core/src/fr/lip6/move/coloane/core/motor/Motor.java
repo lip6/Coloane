@@ -249,8 +249,8 @@ public final class Motor {
 		// Si la fermeture de session echoue
 		if (res.booleanValue()) {
 			sessionManager.getCurrentSession().setStatus(ISession.CLOSED);
-			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
-			ui.redrawMenus();
+			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+			UserInterface.getInstance().redrawMenus();
 		} else {
 			LOGGER.warning("La deconnexion de la session courante a echouee"); //$NON-NLS-1$
 			Coloane.showErrorMsg(Messages.Motor_12);
@@ -261,11 +261,9 @@ public final class Motor {
 	/** {@inheritDoc} */
 	public void askForService(final String rootMenuName, final String referenceName, final String serviceName) {
 		// Verification de l'existence du module de communications
-		if (com == null) {
-			LOGGER.warning("Module de communication non instanciee"); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.Motor_13);
-			return;
-		}
+		LOGGER.warning("Module de communication non instanciee"); //$NON-NLS-1$
+		Coloane.showErrorMsg(Messages.Motor_13);
+		return;
 
 		// On verifie que le modele courant est bien connecte avant de le deconnecter
 		if (sessionManager.getCurrentSession().getStatus() != ISession.CONNECTED) {
@@ -282,7 +280,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				com.askForService(rootMenuName, referenceName, serviceName, monitor);
+				Com.getInstance().askForService(rootMenuName, referenceName, serviceName, monitor);
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
@@ -291,7 +289,7 @@ public final class Motor {
 		currentProgress = runnable;
 
 		// Grisage du menu de services
-		this.ui.changeRootMenuStatus(rootMenuName, false);
+		UserInterface.getInstance().changeRootMenuStatus(rootMenuName, false);
 
 		try {
 			context.run(true, false, runnable);
@@ -311,8 +309,8 @@ public final class Motor {
 	public void destroySession(String sessionName) {
 		if (sessionManager.destroySession(sessionName)) {
 			LOGGER.finer("OK pour la destruction de la session"); //$NON-NLS-1$
-			ui.platformState(sessionManager.isAuthenticated(), ISession.ERROR);
-			ui.redrawMenus();
+			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.ERROR);
+			UserInterface.getInstance().redrawMenus();
 
 			if (sessionManager.getCurrentSession() != null) {
 				LOGGER.finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
@@ -344,8 +342,8 @@ public final class Motor {
 	public void resumeSession(String name) {
 		if (sessionManager.resumeSession(name)) {
 			LOGGER.finer("OK pour la reprise de session " + name); //$NON-NLS-1$
-			ui.platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
-			ui.redrawMenus();
+			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
+			UserInterface.getInstance().redrawMenus();
 		} else {
 			LOGGER.fine("Echec lors de la reprise de session " + name); //$NON-NLS-1$
 		}
@@ -416,8 +414,8 @@ public final class Motor {
 		LOGGER.fine("Deconnexion brutale initiee par le client"); //$NON-NLS-1$
 		sessionManager.destroyAllSessions();
 		sessionManager.setAuthenticated(false);
-		this.com.breakConnection();
-		ui.redrawMenus();
-		ui.platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+		Com.getInstance().breakConnection();
+		UserInterface.getInstance().redrawMenus();
+		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
 	}
 }

@@ -1,11 +1,7 @@
 package fr.lip6.move.coloane.core.main;
 
-import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.communications.ICom;
-import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
@@ -46,15 +42,6 @@ public class Coloane extends AbstractUIPlugin {
 	/** Journalisation du projet */
 	private static Logger LOGGER;
 
-	/** Le module de communication */
-	private Com com = null;
-
-	/** Le moteur de formalisme et de sessions */
-	private Motor motor = null;
-
-	/** L'interface utilisateur */
-	private UserInterface ui = null;
-
 	/**
 	 * Constructeur du plugin
 	 */
@@ -74,29 +61,6 @@ public class Coloane extends AbstractUIPlugin {
 		// Initialisation du logger
 		this.initializeLogger();
 		LOGGER.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
-
-		// Initialisation de l'interface graphique
-		ui = UserInterface.getInstance();
-		if (ui == null) {
-			LOGGER.warning("Erreur lors du chargement de l'interface utilisateur"); //$NON-NLS-1$
-		}
-
-		// Initialisation du moteur (gestion des session et des formalismes
-		motor = Motor.getInstance();
-		if (motor == null) {
-			LOGGER.warning("Erreur lors du chargement du module moteur"); //$NON-NLS-1$
-		}
-
-		// Initialisation du module de communications
-		com = Com.getInstance();
-		com.setApi(Com.getApisName().get(0));
-		if (com == null) {
-			LOGGER.warning("Erreur lors du chargement du module de communications"); //$NON-NLS-1$
-		}
-
-		// Pour afficher la version et le numero de build
-		ui.printHistoryMessage("Core Version : " + getVersion()); //$NON-NLS-1$
-
 	}
 
 	/**
@@ -147,7 +111,7 @@ public class Coloane extends AbstractUIPlugin {
 			ISession currentSession = SessionManager.getInstance().getCurrentSession();
 			if (dateUpdate != 0 && currentSession != null && currentSession.getStatus() == ISession.CONNECTED) {
 				LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-				Com.getInstance().toUpdate(dateUpdate);
+				//Com.getInstance().toUpdate(dateUpdate);
 			}
 		}
 	}
