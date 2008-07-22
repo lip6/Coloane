@@ -102,7 +102,7 @@ public interface IGraph extends IElement {
 	 * @param arc L'arc qui doit être ajouté
 	 */
 	void addArc(IArc arc);
-	
+
 	/**
 	 * Récupérer un objet du graphe grâce à son identifiant
 	 * @param id L'identifiant de l'objet recherché

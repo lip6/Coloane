@@ -8,13 +8,13 @@ import java.beans.PropertyChangeListener;
 public interface IAbstractPropertyChange {
 	/**
 	 * Attach a listener to this element.
-	 * @param listener
+	 * @param listener listener to add
 	 */
 	void addPropertyChangeListener(PropertyChangeListener listener);
 
 	/**
 	 * Remove a listener.
-	 * @param listener
+	 * @param listener listener to remove
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
 }
