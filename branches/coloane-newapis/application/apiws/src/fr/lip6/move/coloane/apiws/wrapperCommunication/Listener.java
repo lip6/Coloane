@@ -16,11 +16,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
 import java.rmi.RemoteException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent un écouteur pour les messages asynchrone.
  */
 public class Listener extends Thread implements IListener {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private Authentification auth = null;
 	private WrapperStub stub = null;
@@ -47,7 +51,7 @@ public class Listener extends Thread implements IListener {
 	 * {@inheritDoc}
 	 */
 	public final void run() {
-
+		LOGGER.fine("Demmarage du Listener");
 		boolean stop = false;
 
 		while (stop) {
@@ -107,6 +111,7 @@ public class Listener extends Thread implements IListener {
 	 */
 	public final synchronized void stopper() {
 		this.stopThread = true;
+		LOGGER.fine("Arrêt du Listener");
 	}
 
 }
