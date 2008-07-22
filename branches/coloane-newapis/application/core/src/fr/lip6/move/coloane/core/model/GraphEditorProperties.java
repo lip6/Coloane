@@ -20,7 +20,7 @@ public class GraphEditorProperties {
 	/**
 	 * Constructeur
 	 */
-	public GraphEditorProperties() {
+	GraphEditorProperties() {
 		this.leftRuler = new EditorRuler(false);
 		this.topRuler = new EditorRuler(true);
 	}

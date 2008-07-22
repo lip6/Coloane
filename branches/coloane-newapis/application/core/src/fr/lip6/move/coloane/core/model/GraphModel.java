@@ -67,11 +67,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public GraphModel(String formalismName) {
 		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
+		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
 		this.id = 1;
-
-		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
 
 		// Creation des propriétés de l'éditeur
 		this.editorProperties = new GraphEditorProperties();
@@ -86,6 +85,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
+		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
@@ -93,13 +93,13 @@ public class GraphModel extends AbstractElement implements IGraph {
 		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, getNewId());
 		addNode(node);
 
-		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		return node;
 	}
 
 	/** {@inheritDoc} */
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
+			LOGGER.finest("deleteNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			for (IArc arc : node.getOutcomingArcs()) {
 				arcs.remove(arc.getId());
 			}
@@ -145,6 +145,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
 			nodes.put(node.getId(), node);
+			LOGGER.finest("addNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(NODE_ADDED_PROP, null, node);
 
 			// Il faut avertir FrameKit
@@ -157,11 +158,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 * @return la note créée
 	 */
 	public final IStickyNote createStickyNote() {
-		IStickyNote note = new StickyNote(this, getNewId());
-		addSticky(note);
-		firePropertyChange(NODE_ADDED_PROP, null, note);
-
 		LOGGER.fine("Création d'une nouvelle note"); //$NON-NLS-1$
+		IStickyNote note = new StickyNote();
+		addSticky(note);
+
 		return note;
 	}
 
@@ -171,6 +171,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final void addSticky(IStickyNote sticky) {
 		stickys.add(sticky);
+		LOGGER.finest("addSticky(" + sticky.getLocation() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		firePropertyChange(STICKY_ADD_PROP, null, sticky);
 	}
 
@@ -182,6 +183,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	public final boolean deleteSticky(IStickyNote note) {
 		boolean delete = stickys.remove(note);
 		if (delete) {
+			LOGGER.finest("deleteSticky(" + note.getLocation() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(STICKY_REMOVED_PROP, null, note);
 		}
 		return delete;
@@ -189,6 +191,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
+		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
@@ -200,13 +203,13 @@ public class GraphModel extends AbstractElement implements IGraph {
 		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
 		addArc(arc);
 
-		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		return arc;
 	}
 
 	/** {@inheritDoc} */
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
+			LOGGER.finest("deleteArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 
@@ -242,6 +245,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
+			LOGGER.finest("addArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			arcs.put(arc.getId(), arc);
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
@@ -273,7 +277,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final int modifyDate() {
-//		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
 		date = (int) System.currentTimeMillis();
 		// Si le modele n'etait pas marque comme sale, on le marque
 		if (!dirty) {

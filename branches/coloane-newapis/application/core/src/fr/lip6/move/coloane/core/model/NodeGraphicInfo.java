@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -17,6 +18,9 @@ import org.eclipse.swt.graphics.Color;
  * Description graphique d'un noeud
  */
 public class NodeGraphicInfo implements INodeGraphicInfo {
+	/** Logger 'fr.lip6.move.coloane.core'. */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private static final Long ZERO = new Long(0);
 
 	/** Le noeud enrichi */
@@ -57,6 +61,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @param yPos La position en ordonnée
 	 */
 	private void setLocation(int xPos, int yPos) {
+		LOGGER.finest("setLocation(" + xPos + ", " + yPos + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
@@ -92,6 +97,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
 		Dimension delta = location.getDifference(getLocation());
+		setLocation(location.x, location.y);
 		node.updateAttributesPosition(delta.width, delta.height);
 	}
 
@@ -137,6 +143,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setBackground(Color background) {
+		LOGGER.finest("setBackground(" + background + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.background;
 		this.background = background;
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
@@ -149,6 +156,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
+		LOGGER.finest("setForeground(" + foreground + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.foreground;
 		this.foreground = foreground;
 		node.firePropertyChange(INode.FOREGROUND_COLOR_PROP, oldValue, foreground);
@@ -156,6 +164,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setScale(int scale) {
+		LOGGER.finest("setScale(" + scale + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
 		oldSize.width = getWidth();
@@ -170,10 +179,5 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** {@inheritDoc} */
 	public final int getScale() {
 		return scale;
-	}
-
-	/** {@inheritDoc} */
-	public final void setSize(Dimension newDimension) {
-		return;
 	}
 }

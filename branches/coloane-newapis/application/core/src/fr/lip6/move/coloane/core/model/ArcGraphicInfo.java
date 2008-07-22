@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 
+import java.util.logging.Logger;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
@@ -11,6 +13,8 @@ import org.eclipse.swt.graphics.Color;
  * Description graphique d'un arcs
  */
 public class ArcGraphicInfo implements IArcGraphicInfo {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Il faut conserver le dernier middle point */
 	private Point oldMiddlePoint = null;
@@ -50,6 +54,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void updateMiddlePoint() {
+		LOGGER.finest("updateMiddlePoint"); //$NON-NLS-1$
 		this.oldMiddlePoint = findMiddlePoint();
 	}
 
@@ -65,6 +70,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setColor(Color color) {
+		LOGGER.finest("setColor(" + color + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.color;
 		this.color = color;
 		((ArcModel) arc).firePropertyChange(IArc.COLOR_PROP, oldValue, color);

@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
-import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -32,7 +32,7 @@ public class NodeMoveAction extends SelectionAction {
 	private int dy = 0;
 
 	/**
-	 * @param part
+	 * @param part le workBenchPart associé
 	 * @param action voir les constantes défini dans NodeMoveAction
 	 */
 	public NodeMoveAction(IWorkbenchPart part, String action) {
@@ -74,7 +74,7 @@ public class NodeMoveAction extends SelectionAction {
 		for (Object obj : getSelectedObjects()) {
 			if (obj instanceof NodeEditPart) {
 				INode node = (INode) ((EditPart) obj).getModel();
-				ILocationInfo graphicInfo = node.getGraphicInfo();
+				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
 				cc.add(new NodeSetConstraintCmd(node, new Rectangle(
 						graphicInfo.getLocation().x + dx,
 						graphicInfo.getLocation().y + dy,

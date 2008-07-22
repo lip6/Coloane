@@ -8,10 +8,15 @@ import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
+import java.util.logging.Logger;
+
 /**
  * Description d'un attribut d'un objet du modèle
  */
 public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private IElement reference;
 	private IAttributeFormalism attributFormalism;
 
@@ -29,6 +34,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @param attributeFormalism Le formalisme accroché à l'attribut
 	 */
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
+		LOGGER.finest("Création d'un AttributeModel(" + attributeFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		this.reference = reference;
 		this.attributFormalism = attributeFormalism;
 		this.name = attributeFormalism.getName();
@@ -50,6 +56,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		String oldValue = this.value;
 		this.value = value;
 		if (!oldValue.equals(value)) {
+			LOGGER.finest("setValue(" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
 	}

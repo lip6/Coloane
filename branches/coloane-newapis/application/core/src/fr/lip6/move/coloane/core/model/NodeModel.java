@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -21,6 +22,8 @@ import org.eclipse.draw2d.geometry.Point;
  * Description d'un noeud du modele
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement {
+	/** Logger 'fr.lip6.move.coloane.core'. */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Identifiant du noeud */
 	private int id;
@@ -45,6 +48,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(parent, nodeFormalism.getAttributes());
+		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.id = id;
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfo = new NodeGraphicInfo(this);
@@ -54,6 +58,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * Supprime les arcs attachés au noeud
 	 */
 	final void delete() {
+		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		for (IArc arc : outcomingArcs) {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 		}
@@ -89,6 +94,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param outArc L'arc sortant à ajouter à la liste
 	 */
 	final void addOutcomingArc(IArc outArc) {
+		LOGGER.finest("addOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		outcomingArcs.add(outArc);
 		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
 	}
@@ -98,6 +104,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param inArc L'arc à ajouter à la liste
 	 */
 	final void addIncomingArc(IArc inArc) {
+		LOGGER.finest("addIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		incomingArcs.add(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
@@ -107,6 +114,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param outArc L'arc sortant à supprimer de la liste
 	 */
 	final void removeOutcomingArc(IArc outArc) {
+		LOGGER.finest("removeOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		outcomingArcs.remove(outArc);
 		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
 	}
@@ -116,6 +124,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param inArc L'arc entrant à supprimer de la liste
 	 */
 	final void removeIncomingArc(IArc inArc) {
+		LOGGER.finest("removeIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		incomingArcs.remove(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}

@@ -81,6 +81,10 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 		if (prop.equals(IStickyNote.VALUE_PROP)) {
 			refreshVisuals();
+		} else if (prop.equals(IStickyNote.LOCATION_PROP)) {
+			refreshVisuals();
+		} else if (prop.equals(IStickyNote.RESIZE_PROP)) {
+			refreshVisuals();
 		}
 	}
 

@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
@@ -19,6 +20,9 @@ import org.eclipse.draw2d.geometry.Point;
  * Description d'un arc
  */
 public class ArcModel extends AbstractElement implements IArc {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private int id;
 
 	private final IArcFormalism arcFormalism;
@@ -38,6 +42,7 @@ public class ArcModel extends AbstractElement implements IArc {
 	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
 		super(parent, arcFormalism.getAttributes());
+		LOGGER.finest("Création d'un ArcModel(" + arcFormalism.getName() + ", " + source.getId() + " -> " + target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		this.id = id;
 		this.arcFormalism = arcFormalism;
 		this.source = source;
@@ -75,30 +80,35 @@ public class ArcModel extends AbstractElement implements IArc {
 
 	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p, int index) {
+		LOGGER.finest("addInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
 	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p) {
+		LOGGER.finest("addInflexPoint(" + p + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.add(new AbsoluteBendpoint(p));
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
 	/** {@inheritDoc} */
 	public final void removeInflexPoint(int index) {
+		LOGGER.finest("removeInflexPoint(" + index + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.remove(index);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
 	/** {@inheritDoc} */
 	public final void modifyInflexPoint(int index, Point p) {
+		LOGGER.finest("modifyInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		inflexPoints.get(index).setLocation(p);
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
 	/** {@inheritDoc} */
 	public final void modifyInflexPoints(int dx, int dy) {
+		LOGGER.finest("modifyInflexPoint(" + dx + ", " + dy + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
 			inflexPoint.translate(dx, dy);
 		}
@@ -116,6 +126,7 @@ public class ArcModel extends AbstractElement implements IArc {
 
 	/** {@inheritDoc} */
 	public final void reconnect(INode newSource, INode newTarget) {
+		LOGGER.finest("reconnect(" + newSource.getId() + " -> " + newTarget.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		((NodeModel) source).removeOutcomingArc(this);
 		((NodeModel) target).removeIncomingArc(this);
 

@@ -4,7 +4,8 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
-import org.eclipse.draw2d.geometry.Dimension;
+import java.util.logging.Logger;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
@@ -12,6 +13,8 @@ import org.eclipse.swt.graphics.Color;
  * Description graphique d'un attribut
  */
 public class AttributeGraphicInfo implements IAttributeGraphicInfo {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Le noeud enrichi */
 	private final IAttribute attribute;
@@ -39,6 +42,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	 * @param y La position sur l'axe des ordonnées
 	 */
 	private void setLocation(int x, int y) {
+		LOGGER.finest("setLocation(" + x + ", " + y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldValue = new Point(this.x, this.y);
 		this.x = x;
 		this.y = y;
@@ -73,30 +77,6 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
-		return;
-	}
-
-	/**
-	 * @return La largeur du noeud en tenant compte du zoom
-	 */
-	private int getHeight() {
-		return -1;
-	}
-
-	/** {@inheritDoc} */
-	public final Dimension getSize() {
-		return new Dimension(getWidth(), getHeight());
-	}
-
-	/**
-	 * @return La largeur du noeud en tenant compte du zoom
-	 */
-	private int getWidth() {
-		return -1;
-	}
-
-	/** {@inheritDoc} */
-	public final void setSize(Dimension newDimension) {
 		return;
 	}
 }

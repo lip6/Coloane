@@ -3,8 +3,9 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
+
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -13,6 +14,8 @@ import org.eclipse.draw2d.geometry.Point;
  * Description d'une note qui sera affichée sur l'éditeur
  */
 public class StickyNote extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
+	/** Logger 'fr.lip6.move.coloane.core'. */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Les coordonnées de la note */
 	private int x;
@@ -27,16 +30,11 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 	/** Le texte par défaut de la note */
 	private String text = "Sticky"; //$NON-NLS-1$
 
-	/** L'identifiant de la note parmi les noeuds du graphe */
-	private int id;
-
 	/**
 	 * Constructeur
-	 * @param parent L'élément parent (le graphe)
-	 * @param id L'identifiant attribué par le graphe parent
 	 */
-	StickyNote(IElement parent, int id) {
-		this.id = id;
+	StickyNote() {
+		LOGGER.finest("Création d'une StickyNote()"); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
@@ -46,6 +44,7 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 
 	/** {@inheritDoc} */
 	public final void setLabelContents(String newText) {
+		LOGGER.finest("setLabelContent(" + newText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		// sauvegarde de l'ancienne valeur
 		String oldText = this.text;
 
@@ -54,11 +53,6 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 
 		// Evenement
 		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text);
-	}
-
-	/** {@inheritDoc} */
-	public final int getId() {
-		return this.id;
 	}
 
 	/** {@inheritDoc} */
@@ -73,6 +67,7 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
+		LOGGER.finest("setLocation(" + location + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		// Sauvegarde des anciennes valeurs
 		Point oldLocation = getLocation();
 
@@ -91,6 +86,7 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 
 	/** {@inheritDoc} */
 	public final void setSize(Dimension size) {
+		LOGGER.finest("setSize(" + size + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		// Sauvegarde des anciennes valeurs
 		Dimension oldDimension = getSize();
 
