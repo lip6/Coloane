@@ -45,13 +45,17 @@ public class Listener extends Thread implements IListener {
 		this.durePing = auth.getPeriodPing();
 		this.stopThread = false;
 		this.listObservable = listObservables;
+
+		LOGGER.finer("Création du Listener");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void run() {
+
 		LOGGER.fine("Demmarage du Listener");
+
 		boolean stop = false;
 
 		while (stop) {

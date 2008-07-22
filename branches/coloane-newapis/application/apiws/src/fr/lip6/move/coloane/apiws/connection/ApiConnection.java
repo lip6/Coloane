@@ -162,6 +162,9 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final IConnectionInfo openConnection() throws ApiException {
+
+		LOGGER.fine("Demande l'ouverture d'une connexion");
+
 		if (connectionOpened) {
 			LOGGER.warning("Impossible d'ouvrir une connexion: une connexion est deja ouverte");
 			throw new ApiException("Une connexion est deja ouverte");
@@ -173,11 +176,14 @@ public class ApiConnection implements IApiConnection {
 
 		LOGGER.finer("Demande la création du Listener");
 		this.listener = new Listener(speaker.getAuthentification(), speaker.getStub(), listObservables);
+
+		LOGGER.finer("Demande le demmarage du Listener");
 		listener.start();
 
 		connectionOpened = true;
 
 		LOGGER.fine("Ouverture d'une connexion");
+
 		return new ConnectionInfo(auth);
 	}
 
@@ -185,6 +191,9 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final boolean closeConnection() throws ApiException {
+
+		LOGGER.fine("Demande la fermeture de la connexion");
+
 		if (!connectionOpened) {
 			LOGGER.warning("Impossible de fermer la connexion: aucune connexion n'est ouverte");
 			throw new ApiException("Aucune connexion n'est ouverte");

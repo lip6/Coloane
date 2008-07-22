@@ -22,6 +22,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 import java.rmi.RemoteException;
+import java.util.logging.Logger;
 
 import org.apache.axis2.AxisFault;
 
@@ -29,6 +30,10 @@ import org.apache.axis2.AxisFault;
  * Cette classe représent un speaker pour communiquer avec le wrapper.
  */
 public class Speaker implements ISpeaker {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
+
 	private Authentification auth = null;
 
 	private WrapperStub stub = null;
@@ -42,9 +47,14 @@ public class Speaker implements ISpeaker {
 			//Options op = stub._getServiceClient().getOptions();
 			//op.setTimeOutInMilliSeconds(120000);
 			//stub._getServiceClient().setOptions(op);
+
+			LOGGER.finer("Création du Speaker");
+
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
+			LOGGER.warning("Echec de la création du Speaker: " + e.getMessage());
 		}
 	}
 
