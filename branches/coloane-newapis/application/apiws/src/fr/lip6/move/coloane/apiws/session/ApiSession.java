@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
@@ -208,7 +207,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<String> options, IModel model) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -216,7 +215,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model, String date) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<String> options, IModel model, String date) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
