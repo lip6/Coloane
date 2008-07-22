@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.apiws.connection;
 
+import fr.lip6.move.coloane.apiws.log.ApiLogFormatter;
+import fr.lip6.move.coloane.apiws.log.ApiLogHandler;
+import fr.lip6.move.coloane.interfaces.api.connection.IApi;
+import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+
 import java.io.IOException;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
-import fr.lip6.move.coloane.apiws.log.ApiLogFormatter;
-import fr.lip6.move.coloane.apiws.log.ApiLogHandler;
-import fr.lip6.move.coloane.interfaces.api.connection.IApi;
-import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 
 /**
  * Cette classe constitue le point d'accès à la bibliothèque de connexion<br>
@@ -19,7 +19,10 @@ public class Api implements IApi {
 
 	private static Logger LOGGER;
 
-	public Api(){
+	/**
+	 * Constructeur
+	 */
+	public Api() {
 		initializeLogger();
 	}
 	/**

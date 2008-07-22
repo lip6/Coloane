@@ -1,14 +1,17 @@
 package fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication;
 
+/**
+ * Cette interface représente un écouteur pour les messages asynchrone issuent du wrapper.
+ */
 public interface IListener {
 
 	/**
 	 * Lancer le listener
 	 */
-	public void start();
-	
+	void start();
+
 	/**
 	 * Stopper le listener
 	 */
-	public void stopper();
+	void stopper();
 }

@@ -15,114 +15,159 @@ import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
+/**
+ * Cette classe représent une session
+ */
 public class ApiSession implements IApiSession {
 
 	private String sessionDate;
-	
+
 	private String sessionFormalism;
-	
+
 	private String sessionName;
-	
+
 	private String interlocutor;
-	
+
 	private int mode;
-	
+
 	private ISessionController sessionController;
-	
+
 	private ISpeaker speaker;
-	
+
 	private ISessionStateMachine automate;
-	
+
 	private String idSession;
-	
-	public ApiSession(ISessionController sessionController, ISpeaker speaker){
+
+	/**
+	 * Constructeur
+	 * @param sessionController le gestionnaire de sessions à utiliser
+	 * @param speaker le speaker à utiliser par la session
+	 */
+	public ApiSession(ISessionController sessionController, ISpeaker speaker) {
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
 		this.interlocutor = null;
 		this.mode = -1;
-		
+
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
-		
+
 		this.idSession = null;
 	}
 
-	public String getInterlocutor() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getInterlocutor() {
 		return interlocutor;
 	}
 
-	public int getMode() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getMode() {
 		return mode;
 	}
 
-	public String getSessionDate() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getSessionDate() {
 		return sessionDate;
 	}
 
-	public String getSessionFormalism() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getSessionFormalism() {
 		return sessionFormalism;
 	}
 
-	public String getSessionName() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getSessionName() {
 		return sessionName;
 	}
 
-	public String getIdSession() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getIdSession() {
 		return idSession;
 	}
-	
-	public ISessionStateMachine getSessionStateMachine(){
+
+	/**
+	 * Recupére l'automate de la session
+	 * @return  l'automate de la session
+	 */
+	public final ISessionStateMachine getSessionStateMachine() {
 		return automate;
 	}
 
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
 		this.interlocutor = interlocutor;
 		this.mode = mode;
-		
+
 		Session sessionOpened = null;
-		
-		if (sessionController.openSession(this)){
-			if (!automate.goToWaitingForUpdatesAndMenusState()){
+
+		if (sessionController.openSession(this)) {
+			if (!automate.goToWaitingForUpdatesAndMenusState()) {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
-			
+
 			sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
-			
-			sessionController.notifyEndOpenSession(this,sessionOpened.getMenu());
-			
+
+			sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
+
 		}
 		return new SessionInfo(sessionOpened);
 	}
 
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException {
 		// TODO Auto-generated method stub
-		return openSession( sessionDate,  sessionFormalism, sessionName,"FrameKit Environment", 1);
+		return openSession(sessionDate, sessionFormalism, sessionName, "FrameKit Environment", 1);
 	}
 
-	public boolean suspendSession() throws ApiException {
-		if (sessionController.suspendSession(this)){
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean suspendSession() throws ApiException {
+		if (sessionController.suspendSession(this)) {
 			sessionController.notifyEndSuspendSession(this);
 		}
 		return true;
 	}
 
-	public boolean resumeSession() throws ApiException {
-		if (sessionController.resumeSession(this)){
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean resumeSession() throws ApiException {
+		if (sessionController.resumeSession(this)) {
 			speaker.changeSession(this.getIdSession());
 			sessionController.notifyEndResumeSession(this);
 		}
 		return true;
 	}
 
-	public boolean closeSession() throws ApiException {
-		if (sessionController.closeSession(this)){
-			if (!automate.goToWaitingForCloseSessionState()){
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean closeSession() throws ApiException {
+		if (sessionController.closeSession(this)) {
+			if (!automate.goToWaitingForCloseSessionState()) {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 
@@ -133,48 +178,63 @@ public class ApiSession implements IApiSession {
 		return true;
 	}
 
-	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
+
 		DialogBox answer = new DialogBox();
 		answer.setAnswer(new DBAnswer());
-		
+
 		answer.getAnswer().setId(idDialog);
 		answer.getAnswer().setButtonAnswer(buttonAnswer);
 		answer.getAnswer().setModified(modified);
 		answer.getAnswer().setValue(value);
-		
-		if (objects != null){
+
+		if (objects != null) {
 			int [] objectsArray = new int[objects.size()];
 			int cpt = 0;
-			for(Integer line :objects){
-				objectsArray[cpt++]=line.intValue();
+			for (Integer line : objects) {
+				objectsArray[cpt++] = line.intValue();
 			}
 			answer.getAnswer().setObjects(objectsArray);
 		}
-		
+
 		speaker.answerToDialogBox(answer);
-		
+
 		return true;
 	}
-	
-	public boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model) throws ApiException {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model, String date) throws ApiException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<IOption> options, IModel model, String date) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public void invalidModel() throws ApiException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void invalidModel() throws ApiException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void sendModel(IModel model) throws ApiException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void sendModel(IModel model) throws ApiException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

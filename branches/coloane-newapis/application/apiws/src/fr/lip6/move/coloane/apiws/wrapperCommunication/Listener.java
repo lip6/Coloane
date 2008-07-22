@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
-
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
@@ -18,6 +14,12 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.Ping;
 import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
+import java.rmi.RemoteException;
+import java.util.Map;
+
+/**
+ * Cette classe représent un écouteur pour les messages asynchrone.
+ */
 public class Listener extends Thread implements IListener {
 
 	private Authentification auth = null;
@@ -25,9 +27,15 @@ public class Listener extends Thread implements IListener {
 	private int durePing;
 	private boolean stopThread = false;
 
-	private Map<Integer, Object> listObservable= null;
+	private Map<Integer, Object> listObservable = null;
 
-	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables){
+	/**
+	 * Constructeur
+	 * @param auth l'objet Authentification pour identifier l'utilisateur
+	 * @param stub le stub de communication
+	 * @param listObservables la liste des observables à notifier
+	 */
+	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables) {
 		this.auth = auth;
 		this.stub = stub;
 		this.durePing = auth.getPeriodPing();
@@ -35,11 +43,14 @@ public class Listener extends Thread implements IListener {
 		this.listObservable = listObservables;
 	}
 
-	public void run() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void run() {
 
 		boolean stop = false;
 
-		while (stop){ 
+		while (stop) {
 			try {
 				sleep(durePing);
 			} catch (InterruptedException e1) {
@@ -47,32 +58,33 @@ public class Listener extends Thread implements IListener {
 				e1.printStackTrace();
 			}
 
-			AsyncMessage message = null;        
+			AsyncMessage message = null;
 
 			try {
-				if(stub==null)
+				if (stub == null) {
 					throw new ApiException("Error of communcation : Stub is null");
+				}
 				Ping req = new Ping();
 				req.setAuth(auth);
-				PingResponse res=stub.ping(req);
-				message=res.get_return();
-				
-				if (message.getTraces() != null){
-					for (int i=0;i<message.getTraces().length;i++){
+				PingResponse res = stub.ping(req);
+				message = res.get_return();
+
+				if (message.getTraces() != null) {
+					for (int i = 0; i < message.getTraces().length; i++) {
 						// TODO Passer en parametre plus tard le type du message
-						ReceptMessage m = new ReceptMessage(0/* message.getType()*/,message.getTraces()[i].getMessage());
+						ReceptMessage m = new ReceptMessage(0/* message.getType()*/, message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 					}
 				}
 
-				if (message.getDbs() != null){
-					for (int i=0; i<message.getDbs().length;i++){
+				if (message.getDbs() != null) {
+					for (int i = 0; i < message.getDbs().length; i++) {
 						Dialog dialog = new Dialog(message.getDbs()[i]);
 						((IReceptDialogObservable) listObservable.get(IObservables.RECEPT_DIALOG)).notifyObservers(dialog);
 					}
 				}
-				
-			}catch (RemoteException e) {
+
+			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (GExceptionException0 e) {
@@ -83,14 +95,17 @@ public class Listener extends Thread implements IListener {
 				e.printStackTrace();
 			}
 
-			synchronized(this) {
+			synchronized (this) {
 				stop = this.stopThread;
 			}
 
 		}
 	}
 
-	public synchronized void stopper() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final synchronized void stopper() {
 		this.stopThread = true;
 	}
 

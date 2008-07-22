@@ -210,7 +210,7 @@ public class ApiConnection implements IApiConnection {
 			LOGGER.warning("Impossible de créer une session: aucune connexion n'est ouverte");
 			throw new ApiException("Aucune connexion n'est ouverte");
 		}
-		
+
 		LOGGER.fine("Creation d'une session");
 		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}

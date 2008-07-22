@@ -5,7 +5,10 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 public class ReceptResult implements IReceptResult{
 
-	public IResult getResult() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IResult getResult() {
 		// TODO Auto-generated method stub
 		return null;
 	}

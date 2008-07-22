@@ -6,34 +6,50 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 public class SessionInfo implements ISessionInfo {
 
 	private String aboutService;
-	
+
 	private String incremental;
-	
+
 	private String nameService;
-	
+
 	private int resultatCalcule;
-	
-	public SessionInfo(Session s){
+
+	/**
+	 * Constructeur
+	 * @param s L'objet session reçu de la part du wrapper
+	 */
+	public SessionInfo(Session s) {
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
 		this.aboutService = null;
 		this.incremental = null;
 		this.nameService = null;
-		this.resultatCalcule = 0;		
+		this.resultatCalcule = 0;
 	}
-	
-	public String getAboutService() {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getAboutService() {
 		return aboutService;
 	}
 
-	public String getIncremental() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getIncremental() {
 		return incremental;
 	}
 
-	public String getNameService() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getNameService() {
 		return nameService;
 	}
 
-	public int getResultatCalcule() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getResultatCalcule() {
 		return resultatCalcule;
 	}
 
