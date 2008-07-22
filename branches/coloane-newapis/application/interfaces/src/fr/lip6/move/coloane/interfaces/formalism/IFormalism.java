@@ -44,8 +44,8 @@ public interface IFormalism {
 	 */
 	IGraphFormalism getMasterGraph();
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return Le nom du formalisme
 	 */
 	String toString();
 }
