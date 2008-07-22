@@ -25,42 +25,27 @@ public class ResultsCom implements IResultsCom {
 		question = new String();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#addResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
-	 */
+	/** {@inheritDoc} */
 	public final void addResultats(SubResultsCom sr) {
 		subResults.add(sr);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#removeResultats(fr.lip6.move.coloane.interfaces.objects.SousResultsCom)
-	 */
+	/** {@inheritDoc} */
 	public final void removeResultats(SubResultsCom sr) {
 		subResults.remove(sr);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#getQuestion()
-	 */
+	/** {@inheritDoc} */
 	public final String getQuestion() {
 		return question;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#setcmdRQ(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void setcmdRQ(String newQuestion) {
 		this.question = newQuestion;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IResultsCom#getSubResults()
-	 */
+	/** {@inheritDoc} */
 	public final Vector<SubResultsCom> getSubResults() {
 		return subResults;
 	}

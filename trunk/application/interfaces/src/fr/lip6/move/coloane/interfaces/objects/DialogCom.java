@@ -59,128 +59,92 @@ public final class DialogCom implements IDialogCom {
 		this.id = dialogId;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#getButtonType()
-	 */
+	/** {@inheritDoc} */
 	public int getButtonType() {
 		return buttonType;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setButtonType(int)
-	 */
+	/** {@inheritDoc} */
 	public void setButtonType(int dialogButtonType) {
 		this.buttonType = dialogButtonType;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getDef()
-	 */
+	/** {@inheritDoc} */
 	public String getDefault() {
 		return defaut;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setDef(String)
-	 */
+	/** {@inheritDoc} */
 	public void setDefault(String dialogDefaut) {
 		this.defaut = dialogDefaut;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getHelp()
-	 */
+	/** {@inheritDoc} */
 	public String getHelp() {
 		return help;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setHelp(String)
-	 */
+	/** {@inheritDoc} */
 	public void setHelp(String dialogHelp) {
 		this.help = dialogHelp;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getId()
-	 */
+	/** {@inheritDoc} */
 	public int getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setId(int)
-	 */
+	/** {@inheritDoc} */
 	public void setId(int dialogId) {
 		this.id = dialogId;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getInputType()
-	 */
+	/** {@inheritDoc} */
 	public int getInputType() {
 		return inputType;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setInputType(int)
-	 */
+	/** {@inheritDoc} */
 	public void setInputType(int dialogInputType) {
 		this.inputType = dialogInputType;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getMessage()
-	 */
+	/** {@inheritDoc} */
 	public String getMessage() {
 		return message;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setMessage(String)
-	 */
+	/** {@inheritDoc} */
 	public void setMessage(String dialogMessage) {
 		this.message = dialogMessage;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getMultiLine()
-	 */
+	/** {@inheritDoc} */
 	public int getMultiLine() {
 		return multiLine;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setMultiLine(int)
-	 */
+	/** {@inheritDoc} */
 	public void setMultiLine(int dialogMultiLine) {
 		this.multiLine = dialogMultiLine;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getTitle()
-	 */
+	/** {@inheritDoc} */
 	public String getTitle() {
 		return title;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setTitle(String)
-	 */
+	/** {@inheritDoc} */
 	public void setTitle(String dialogTitle) {
 		this.title = dialogTitle;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IDialogCom#getType()
-	 */
+	/** {@inheritDoc} */
 	public int getType() {
 		return type;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IDialogCom#setType(int)
-	 */
+	/** {@inheritDoc} */
 	public void setType(int dialogType) {
 		this.type = dialogType;
 	}

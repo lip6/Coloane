@@ -27,10 +27,7 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public ExportToImpl() { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.extensions.IExportTo#export(fr.lip6.move.coloane.interfaces.model.IGraph, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final void export(IGraph graph, String filePath) throws ColoaneException {
 		PetriNetDocHLAPI doc;
 

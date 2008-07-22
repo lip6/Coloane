@@ -15,10 +15,7 @@ public class ColoaneLogFormatter extends Formatter {
 		version = v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final String format(LogRecord record) {
 		Calendar c = Calendar.getInstance();

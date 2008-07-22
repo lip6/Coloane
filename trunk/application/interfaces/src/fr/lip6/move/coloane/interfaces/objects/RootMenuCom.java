@@ -19,23 +19,17 @@ public class RootMenuCom implements IRootMenuCom {
 		listMenu = new Vector<IMenuCom>();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#addMenu(IMenuCom)
-	 */
+	/** {@inheritDoc} */
 	public final void addMenu(IMenuCom smenu) {
 		this.listMenu.add(smenu);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getListMenu()
-	 */
+	/** {@inheritDoc} */
 	public final Vector<IMenuCom> getListMenu() {
 		return listMenu;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getRootMenu()
-	 */
+	/** {@inheritDoc} */
 	public final String getRootMenuName() {
 		return name;
 	}
@@ -48,9 +42,7 @@ public class RootMenuCom implements IRootMenuCom {
 		this.name = rootMenuName;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#getMenu(String)
-	 */
+	/** {@inheritDoc} */
 	public final IMenuCom getMenu(String menuName) {
 		for (IMenuCom menu : listMenu) {
 			if (menu.getServiceName().equals(name)) {
@@ -60,9 +52,7 @@ public class RootMenuCom implements IRootMenuCom {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IRootMenu#setEnabled(String, boolean)
-	 */
+	/** {@inheritDoc} */
 	public final void setEnabled(String menuName, boolean state) {
 		for (IMenuCom menu : listMenu) {
 			if (menu.getServiceName().equals(name)) {
