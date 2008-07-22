@@ -10,7 +10,6 @@ import teststub.CloseSessionObserver;
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
@@ -39,6 +38,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
  * Définit une isntance de connexion à la plate-forme FrameKit
@@ -67,12 +67,17 @@ public class ApiConnection implements IApiConnection {
 	private ISpeaker speaker;
 
 	/** une table de hash qui stocke les observables */
-	private Map< String, Object> hashObservable;
+	private HashMap< String, Object> hashObservable;
 
 	private IConnectionVersion fkVersion;
 
 	/** le sessionController*/
 	private ISessionController sessionCont;
+	
+    private String uiName;
+	
+	private String uiVersion;
+
 
 	/**
 	 * Constructeur
@@ -84,7 +89,7 @@ public class ApiConnection implements IApiConnection {
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
 	 * @throws IOException
 	 */
-	public ApiConnection() {
+	public ApiConnection(String name, String version) {
 		this.hashObservable = new HashMap< String, Object>();
 		this.hashObservable.put("IConnection", ObservableFactory.getNewConnectionObservable());
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
@@ -97,6 +102,8 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 		this.sessionCont = SessionFactory.getNewSessionController();
 		this.fkVersion = null;
+		this.uiName = name;
+		this.uiVersion = version;
 	}
 
 	/** {@inheritDoc} */
@@ -121,63 +128,74 @@ public class ApiConnection implements IApiConnection {
 
 	/** {@inheritDoc} */
 	public final IConnectionInfo openConnection() throws ApiException {
-		// TODO Vérifier que la connexion est configurée
-		Pair<ISpeaker, IListener> p;
-		this.state = false; // connexion initialement non ouverte
+	
+			// TODO Auto-generated method stub
+			// TODO Vérifier que la connexion est configuré
 
-		/* Création de la file Queue entre le parser et le thread Listener */
-		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
+			Pair<ISpeaker, IListener> p;
+			this.state = false; // connexion initialement non ouverte
 
-		/* Création du parser */
-		ThreadParser parser = new ThreadParser(this.sessionCont, fifo, this.hashObservable);
+			/* Créer la file Queue entre le parser et le
+			 * thread Listener */
 
-		try {
-			/* Créer le Thread Listener et le speaker */
-			p = FkInitCom.initCom(this.ipServer, this.portServer, fifo);
-			this.listener = p.getListener();
-			this.speaker = p.getSpeaker();
+			LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			/* créer le parser */
+			ThreadParser parser = new ThreadParser(this.sessionCont,fifo, this.hashObservable);
 
-		/* Lancer le parser */
-		parser.start();
+			try { /** initialiser la connexion */
 
-		/* Demander l'ouverture de la communication Commande SC et attendre l'aquittement de FK */
+				/* Créer le Thread Listener et le speaker */
+				p = FkInitCom.initCom(this.ipServer, this.portServer, fifo);
+				this.listener = p.getListener();
+			    this.speaker = p.getSpeaker();
 
-
-		synchronized (this.hashObservable) {
-			try {
-				this.speaker.startCommunication(this.login, this.password);
-				this.hashObservable.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 
-		/* Reveillé par un notify : arrivée d'un SC */
+		    /* Lancer le parser */
+		    parser.start();
 
-		/* Demander Ouverture d'une connexion : OC */
+		    /* Demander l'ouverture de la communication Commande SC et attendre
+		     * l'aquittement de FK */
 
-		synchronized (this.hashObservable) {
-			try {
-				this.speaker.openConnection("Coloane", "3.0", this.login);
-				this.hashObservable.wait();
-			} catch (InterruptedException e) {
 
-				e.printStackTrace();
-			} catch (IOException e) {
+		    synchronized(this.hashObservable){
+		       	try {
+		       		this.speaker.startCommunication(this.login, this.password);
+		     		this.hashObservable.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-				e.printStackTrace();
+				
 			}
+
+		    /* Reveillé par un notify : arrivée d'un SC */
+
+		    /* Demander Ouverture d'une connexion : OC */
+
+		    synchronized(this.hashObservable){
+		       	try {
+		       		this.speaker.openConnection(this.uiName, this.uiVersion, this.login);
+		     		this.hashObservable.wait();
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		    this.state = true; // connexion maintenant ouverte
+		    return null;
 		}
 
-		this.state = true; // connexion maintenant ouverte
-		return null;
-	}
 
 	/** set du IBrutalInterruptObserver*/
 	public boolean setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
@@ -320,18 +338,15 @@ public class ApiConnection implements IApiConnection {
 		}
 		return true;
 	}
+	
+	
 
-	/**
-	 * @return {@link IApiSession}
-	 */
-	public final IApiSession getAPISession() {
+	public IApiSession getApiSession() throws ApiException {
 		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
 	}
+	
 
-	public fr.lip6.move.coloane.interfaces.api.session.IApiSession getApiSession()
-			throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
 
 }

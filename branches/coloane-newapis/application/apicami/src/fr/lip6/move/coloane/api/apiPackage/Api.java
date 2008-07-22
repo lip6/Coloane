@@ -17,7 +17,9 @@ public class Api implements IApi {
 
 	/** Le Logger à initialiser */
 	private static Logger LOGGER;
-
+	static String uiName = "Coloane";
+	static String uiVersion = "X.x";
+	
 	/** Constructeur */
 	public Api() {
 		initializeLogger();
@@ -44,6 +46,17 @@ public class Api implements IApi {
 	 * {@inheritDoc}
 	 */
 	public final IApiConnection getApiConnection() {
-		return new ApiConnection();
+		return new ApiConnection(this.uiName,this.uiVersion);
+	}
+	
+public String getUiName() {
+		
+		return this.uiName;
+	}
+
+
+	public String getUiVersion() {
+	
+		return this.uiVersion;
 	}
 }
