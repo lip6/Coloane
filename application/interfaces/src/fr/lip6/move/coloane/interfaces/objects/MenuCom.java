@@ -28,30 +28,22 @@ public class MenuCom implements IMenuCom {
 		this.enabled = state;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#isEnabled()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isEnabled() {
 		return enabled;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#setEnabled(boolean)
-	 */
+	/** {@inheritDoc} */
 	public final void setEnabled(boolean state) {
 		this.enabled = state;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#getFatherName()
-	 */
+	/** {@inheritDoc} */
 	public final String getFatherName() {
 		return fatherName;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.IMenuCom#getServiceName()
-	 */
+	/** {@inheritDoc} */
 	public final String getServiceName() {
 		return serviceName;
 	}

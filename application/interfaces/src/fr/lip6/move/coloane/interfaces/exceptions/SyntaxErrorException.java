@@ -30,10 +30,7 @@ public class SyntaxErrorException extends Exception {
 		this.msg = message;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Throwable#getMessage()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public String getMessage() {
 		return this.msg;

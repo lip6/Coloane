@@ -32,23 +32,17 @@ public class UpdateMenuCom implements IUpdateMenuCom {
 		this.state = menuState;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getRoot()
-	 */
+	/** {@inheritDoc} */
 	public final String getRoot() {
 		return root;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getService()
-	 */
+	/** {@inheritDoc} */
 	public final String getService() {
 		return service;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom#getState()
-	 */
+	/** {@inheritDoc} */
 	public final boolean getState() {
 		return state;
 	}

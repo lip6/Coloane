@@ -11,10 +11,7 @@ public class ImportFromImpl implements IImportFrom {
 	 */
 	public ImportFromImpl() { }
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.extensions.IImportFrom#importFrom(java.lang.String, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public final IGraph importFrom(String filePath, String formalism) throws ColoaneException {
 
 		try {

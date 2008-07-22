@@ -21,10 +21,7 @@ public class ExportToImpl implements IExportTo {
 
 	public ExportToImpl() {	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.extensions.IExportTo#export(fr.lip6.move.coloane.core.ui.model.IModelImpl, java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public void export(IGraph modeleCourant, String filePath) throws ColoaneException {
 		PGFTranslator translator = new PGFTranslator();
 		String model = translator.translateModel(modeleCourant);
