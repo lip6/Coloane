@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
-import fr.lip6.move.coloane.interfaces.objects.menu.IOption;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 
 public interface IApiSession {
@@ -95,7 +94,7 @@ public interface IApiSession {
 	 * @param model
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model) throws ApiException;
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<String> options,IModel model) throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
@@ -107,7 +106,7 @@ public interface IApiSession {
 	 * @param date
 	 * @return true, si la demande de service a reussie, false sinon
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<IOption> options,IModel model, String date) throws ApiException;
+	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<String> options,IModel model, String date) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
