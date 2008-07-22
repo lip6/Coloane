@@ -29,11 +29,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Définit une isntance de connexion à la plate-forme FrameKit
  */
 public class ApiConnection implements IApiConnection {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private boolean connectionOpened;
 	private String ipServer;
@@ -67,6 +71,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final void setIpServer(String ipServer) {
 		this.ipServer = ipServer;
+		LOGGER.finer("Initialisation de l'adresse IP du serveur");
 	}
 
 	/**
@@ -74,6 +79,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final void setLogin(String login) {
 		this.login = login;
+		LOGGER.finer("Initialisation du login de l'utilisateur");
 	}
 
 	/**
@@ -81,6 +87,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final void setPassword(String password) {
 		this.password = password;
+		LOGGER.finer("Initialisation du password de l'utilisateur");
 	}
 
 	/**
@@ -88,6 +95,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final void setPortServer(int portServer) {
 		this.portServer = portServer;
+		LOGGER.finer("Initialisation du port du serveur");
 	}
 
 	/**
@@ -97,6 +105,7 @@ public class ApiConnection implements IApiConnection {
 		IReceptDialogObservable obs = (IReceptDialogObservable) listObservables.get(IObservables.RECEPT_DIALOG);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une boîte de dialogue");
 	}
 
 	/**
@@ -106,6 +115,7 @@ public class ApiConnection implements IApiConnection {
 		IReceptMenuObservable obs = (IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un menu");
 	}
 
 	/**
@@ -115,6 +125,7 @@ public class ApiConnection implements IApiConnection {
 		IReceptMessageObservable obs = (IReceptMessageObservable) listObservables.get(IObservables.RECEPT_MESSAGE);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un message");
 	}
 
 	/**
@@ -124,6 +135,7 @@ public class ApiConnection implements IApiConnection {
 		IReceptResultObservable obs = (IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un résultat");
 	}
 
 	/**
@@ -133,6 +145,7 @@ public class ApiConnection implements IApiConnection {
 		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: déconnexion ordonnée");
 	}
 
 	/**
@@ -142,6 +155,7 @@ public class ApiConnection implements IApiConnection {
 		IBrutalInterruptObservable obs = (IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une erreur");
 	}
 
 	/**
@@ -149,17 +163,21 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final IConnectionInfo openConnection() throws ApiException {
 		if (connectionOpened) {
+			LOGGER.warning("Impossible d'ouvrir une connexion: une connexion est deja ouverte");
 			throw new ApiException("Une connexion est deja ouverte");
 		}
 
+		LOGGER.finer("Demande la création du Speaker");
 		this.speaker = new Speaker();
 		Authentification auth = speaker.openConnection(login, password);
 
+		LOGGER.finer("Demande la création du Listener");
 		this.listener = new Listener(speaker.getAuthentification(), speaker.getStub(), listObservables);
 		listener.start();
 
 		connectionOpened = true;
 
+		LOGGER.fine("Ouverture d'une connexion");
 		return new ConnectionInfo(auth);
 	}
 
@@ -168,14 +186,19 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final boolean closeConnection() throws ApiException {
 		if (!connectionOpened) {
+			LOGGER.warning("Impossible de fermer la connexion: aucune connexion n'est ouverte");
 			throw new ApiException("Aucune connexion n'est ouverte");
 		}
 
+		LOGGER.finer("Demande l'arrêt du Listener");
 		listener.stopper();
+
+		LOGGER.finer("Demande la fermeture de la connexion");
 		speaker.closeConnection();
 
 		connectionOpened = false;
 
+		LOGGER.fine("Fermeture de la connexion");
 		return true;
 	}
 
@@ -184,8 +207,11 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final IApiSession getApiSession() throws ApiException {
 		if (!connectionOpened) {
+			LOGGER.warning("Impossible de créer une session: aucune connexion n'est ouverte");
 			throw new ApiException("Aucune connexion n'est ouverte");
 		}
+		
+		LOGGER.fine("Creation d'une session");
 		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}
 }
