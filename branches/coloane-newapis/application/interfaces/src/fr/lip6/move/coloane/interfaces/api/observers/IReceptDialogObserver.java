@@ -8,6 +8,6 @@ public interface IReceptDialogObserver {
 	 * Met a jour l'observateur d'evenement : reception d'une boite de dialogue
 	 * @param dialog la boite de dialogue recu
 	 */
-	public void update(IDialog dialog);
+	public void update(IDialog dialog,Integer i);
 
 }

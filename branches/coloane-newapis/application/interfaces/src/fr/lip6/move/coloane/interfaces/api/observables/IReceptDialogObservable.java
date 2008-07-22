@@ -20,7 +20,7 @@ public interface IReceptDialogObservable {
 	/**
 	 * Notifie tous les observateurs de l'evenement : reception d'une boite de dialogue
 	 */
-	public void notifyObservers(IDialog dialog);
+	public void notifyObservers(IDialog dialog,Integer i);
 	
 	/**
 	 * Defini s'il faut creer un thread pour la notification
