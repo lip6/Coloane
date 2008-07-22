@@ -8,14 +8,22 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Text;
 
 
+/**
+ * Permet de calculer la position de la zone d'édition par rapport à la stickyNote.
+ * @see CellEditorLocator
+ */
 public final class StickyCellEditorLocator implements CellEditorLocator {
 
 	private StickyNoteFigure stickyNote;
 
+	/**
+	 * @param stickyNote note associée
+	 */
 	public StickyCellEditorLocator(StickyNoteFigure stickyNote) {
 		setLabel(stickyNote);
 	}
 
+	/** {@inheritDoc} */
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Rectangle rect = stickyNote.getClientArea();
@@ -28,7 +36,7 @@ public final class StickyCellEditorLocator implements CellEditorLocator {
 	}
 
 	/**
-	 * Returns the stickyNote figure.
+	 * @return the stickyNote figure.
 	 */
 	protected StickyNoteFigure getLabel() {
 		return stickyNote;

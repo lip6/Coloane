@@ -66,6 +66,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		return figure;
 	}
 
+	/**
+	 * Calcul la position d'un attribut en fonction de à quoi il est rattaché (graphe, noeud ou arc).
+	 * Si la position est différente de (0,0) aucun calcul n'est fait.
+	 * @return position "idéal"
+	 */
 	private Point calculLocation() {
 		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;
@@ -216,14 +221,19 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
+	/** {@inheritDoc} */
 	public final void childAdded(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void partActivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void partDeactivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void removingChild(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void selectedStateChanged(EditPart editpart) {
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
@@ -248,6 +258,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
+	/**
+	 * Affiche une zone d'édition de l'attribut.
+	 */
 	private void performDirectEdit() {
 		Label label = (Label) getFigure();
 		IAttribute model = (IAttribute) getModel();

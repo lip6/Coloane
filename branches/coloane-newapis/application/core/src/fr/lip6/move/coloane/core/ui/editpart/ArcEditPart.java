@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
@@ -39,7 +38,6 @@ import org.eclipse.swt.graphics.Color;
 /**
  * EditPart pour les arcs (CONTROLEUR)
  */
-
 public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 	/**
 	 * Logger 'fr.lip6.move.coloane.core'.
@@ -84,6 +82,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	}
 
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void createEditPolicies() {
 		// Selection handle edit policy.
@@ -162,7 +161,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 * @param property L'evenement qui a ete levee
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
-
+		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
 
 		// Propriete de modification/suppression/ajout de point d'inflexion
@@ -248,14 +247,19 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		((IArcFigure) getFigure()).setLineWidth(1);
 	}
 
+	/** {@inheritDoc} */
 	public final void childAdded(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void partActivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void partDeactivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void removingChild(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void selectedStateChanged(EditPart editpart) {
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:

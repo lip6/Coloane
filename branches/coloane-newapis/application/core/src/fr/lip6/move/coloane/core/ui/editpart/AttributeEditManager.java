@@ -24,7 +24,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.CellEditorActionHandler;
 
-public class AttributeEditManager  extends DirectEditManager {
+/**
+ * Gestionnaire pour l'édition des attributs.
+ * Permet de passer dans un mode d'édition des attributs.
+ */
+public class AttributeEditManager extends DirectEditManager {
 
 	private IActionBars actionBars;
 	private CellEditorActionHandler actionHandler;
@@ -38,6 +42,11 @@ public class AttributeEditManager  extends DirectEditManager {
 	};
 	private int style;
 
+	/**
+	 * @param source parent de l'attribut
+	 * @param model modèle de l'attribut
+	 * @param locator CellEditorLocator associé à ce gestionnaire.
+	 */
 	public AttributeEditManager(GraphicalEditPart source, IAttribute model, CellEditorLocator locator) {
 		super(source, null, locator);
 		if (model.getAttributeFormalism().isMultiLine()) {
@@ -47,17 +56,13 @@ public class AttributeEditManager  extends DirectEditManager {
 		}
 	}
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void bringDown() {
-//		if (getEditPart().getParent() != null) {
-			ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
-			if (zoomMgr != null) {
-				zoomMgr.removeZoomListener(zoomListener);
-			}
-//		}
+		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
+		if (zoomMgr != null) {
+			zoomMgr.removeZoomListener(zoomListener);
+		}
 
 		if (actionHandler != null) {
 			actionHandler.dispose();
@@ -74,11 +79,15 @@ public class AttributeEditManager  extends DirectEditManager {
 		disposeScaledFont();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final CellEditor createCellEditorOn(Composite composite) {
 		return new TextCellEditor(composite, style | SWT.WRAP);
 	}
 
+	/**
+	 * Permet de libérer les ressources des polices.
+	 */
 	private void disposeScaledFont() {
 		if (scaledFont != null) {
 			scaledFont.dispose();
@@ -86,6 +95,7 @@ public class AttributeEditManager  extends DirectEditManager {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void initCellEditor() {
 		// update text
@@ -111,6 +121,10 @@ public class AttributeEditManager  extends DirectEditManager {
 		actionBars.updateActionBars();
 	}
 
+	/**
+	 * Permet de restaurer l'état des actions après l'édition.
+	 * @param actionBars Barre contenant les actions
+	 */
 	private void restoreSavedActions(IActionBars actionBars) {
 		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), copy);
 		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), paste);
@@ -122,6 +136,10 @@ public class AttributeEditManager  extends DirectEditManager {
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redo);
 	}
 
+	/**
+	 * Sauvegarde de l'état des actions avant l'édition.
+	 * @param actionBars Barre contenant les actions
+	 */
 	private void saveCurrentActions(IActionBars actionBars) {
 		copy = actionBars.getGlobalActionHandler(ActionFactory.COPY.getId());
 		paste = actionBars.getGlobalActionHandler(ActionFactory.PASTE.getId());
@@ -133,6 +151,10 @@ public class AttributeEditManager  extends DirectEditManager {
 		redo = actionBars.getGlobalActionHandler(ActionFactory.REDO.getId());
 	}
 
+	/**
+	 * Mise à jour de la taille des polices en fonction du facteur de zoom
+	 * @param zoom Zoom actuel
+	 */
 	private void updateScaledFont(double zoom) {
 		if (cachedZoom == zoom) {
 			return;

@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -65,6 +66,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public final Object getAdapter(Class adapter) {
@@ -126,7 +128,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	@Override
 	protected final List<Object> getModelChildren() {
 		IGraph graph = (IGraph) getModel();
-		ArrayList<Object> children = new ArrayList<Object>();
+		List<Object> children = new ArrayList<Object>();
 		children.addAll(graph.getDrawableAttributes());
 
 		children.addAll(graph.getNodes());
@@ -155,10 +157,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		getFigure().repaint();
 	}
 
-	/**
-	 * Changement de proprietes dans le modele.
-	 * Ces changements sont typiquement l'ajout ou la suppression d'un noeud
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
 		String prop = event.getPropertyName();
 
@@ -201,11 +200,12 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * @param attributeEditPart
+	 * Permet de récupérer l'editPart associé (graphe, noeud ou arc) à l'attributeEditPart
+	 * @param attributeEditPart AttributEditPart
 	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
 	 */
 	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
-		HashSet<Object> editParts = new HashSet<Object>();
+		Set<Object> editParts = new HashSet<Object>();
 		editParts.add(this);
 		editParts.addAll((List< ? >) getChildren());
 		for (Object obj : getChildren()) {
@@ -227,14 +227,19 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	public final void childAdded(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void partActivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void partDeactivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void removingChild(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void selectedStateChanged(EditPart editpart) {
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:

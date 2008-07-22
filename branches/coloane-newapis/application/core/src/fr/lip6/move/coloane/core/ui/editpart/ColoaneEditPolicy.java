@@ -46,7 +46,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 	/**
 	 * Constructeur
-	 * @param layout
+	 * @param layout layout de l'editPart.
 	 */
 	public ColoaneEditPolicy(XYLayout layout) {
 		super();
@@ -54,8 +54,10 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	}
 
 	/**
-	 * Le modele (en tant que conteneur) doit definir une politique vis a vis de
-	 * ses enfants <br>
+	 * Le modele (en tant que conteneur) doit definir une politique vis a vis de ses enfants
+	 * @param child editPart de l'enfant
+	 * @return NonResizableEditPolicy sauf dans le cas de la note.
+	 * @see ColoaneEditPolicy
 	 */
 	@Override
 	protected final EditPolicy createChildEditPolicy(EditPart child) {
@@ -80,6 +82,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Traitement d'une demande d'ajout de noeud
 	 * @param request La requete formulee
+	 * @return commande associée à cette requête ou <tt>null</tt>
 	 */
 	@Override
 	protected final Command getCreateCommand(CreateRequest request) {
@@ -107,10 +110,12 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	}
 
 	/**
-	 * Traitement du deplacement d'un noeud <b>Attention ! Le redimensionnement n'est pas permis !</b>
-	 * @param request La requete formulee
-	 * @param child L'EditPart concernee
-	 * @param constraint La nouvelle position demandee
+	 * Traitement du deplacement d'un noeud<br>
+	 * <b>Attention : Le redimensionnement n'est pas permis !</b>
+	 * @param request La requete formulée
+	 * @param child L'EditPart concernée
+	 * @param constraint La nouvelle position demandée
+	 * @return commande associée à cette requête ou <tt>null</tt>
 	 */
 	@Override
 	protected final Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
@@ -154,12 +159,11 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Returns a command that chains a given command to the command which attaches a subpart to the guide.
 	 * @param request the attachment request
-	 * @param part the subpart to attach
+	 * @param locatedElement the subpart to attach
 	 * @param cmd the command to chain
 	 * @param horizontal indicates whether the guide is horizontal
 	 * @return the command representing the chaining
 	 */
-
 	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, boolean horizontal) {
 		Command result = cmd;
 		String keyGuide = SnapToGuides.KEY_VERTICAL_GUIDE;
@@ -187,7 +191,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Returns a command that chains a given command to the command which detaches a subpart from the guide.
 	 * @param request the detachment request
-	 * @param part the subpart to detach
+	 * @param locatedElement the subpart to detach
 	 * @param cmd the command to chain
 	 * @param horizontal indicates whether the guide is horizontal
 	 * @return the command representing the chaining

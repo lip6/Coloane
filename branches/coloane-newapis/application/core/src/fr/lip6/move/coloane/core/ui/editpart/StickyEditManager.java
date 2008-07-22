@@ -26,6 +26,10 @@ import org.eclipse.ui.part.CellEditorActionHandler;
 
 
 
+/**
+ * Gestionnaire pour l'édition des notes.
+ * Permet de passer dans un mode d'édition des notes.
+ */
 public class StickyEditManager extends DirectEditManager {
 
 	private IActionBars actionBars;
@@ -39,13 +43,15 @@ public class StickyEditManager extends DirectEditManager {
 		}
 	};
 
+	/**
+	 * @param source l'editPart source
+	 * @param locator CellEditorLocator associé à ce gestionnaire.
+	 */
 	public StickyEditManager(GraphicalEditPart source, CellEditorLocator locator) {
 		super(source, null, locator);
 	}
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
@@ -68,11 +74,15 @@ public class StickyEditManager extends DirectEditManager {
 		disposeScaledFont();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final CellEditor createCellEditorOn(Composite composite) {
 		return new TextCellEditor(composite, SWT.MULTI | SWT.WRAP);
 	}
 
+	/**
+	 * Permet de libérer les ressources des polices.
+	 */
 	private void disposeScaledFont() {
 		if (scaledFont != null) {
 			scaledFont.dispose();
@@ -80,6 +90,7 @@ public class StickyEditManager extends DirectEditManager {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void initCellEditor() {
 		// update text
@@ -105,6 +116,10 @@ public class StickyEditManager extends DirectEditManager {
 		actionBars.updateActionBars();
 	}
 
+	/**
+	 * Permet de restaurer l'état des actions après l'édition.
+	 * @param actionBars Barre contenant les actions
+	 */
 	private void restoreSavedActions(IActionBars actionBars) {
 		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), copy);
 		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), paste);
@@ -116,6 +131,10 @@ public class StickyEditManager extends DirectEditManager {
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redo);
 	}
 
+	/**
+	 * Sauvegarde de l'état des actions avant l'édition.
+	 * @param actionBars Barre contenant les actions
+	 */
 	private void saveCurrentActions(IActionBars actionBars) {
 		copy = actionBars.getGlobalActionHandler(ActionFactory.COPY.getId());
 		paste = actionBars.getGlobalActionHandler(ActionFactory.PASTE.getId());
@@ -127,6 +146,10 @@ public class StickyEditManager extends DirectEditManager {
 		redo = actionBars.getGlobalActionHandler(ActionFactory.REDO.getId());
 	}
 
+	/**
+	 * Mise à jour de la taille des polices en fonction du facteur de zoom
+	 * @param zoom Zoom actuel
+	 */
 	private void updateScaledFont(double zoom) {
 		if (cachedZoom == zoom) {
 			return;

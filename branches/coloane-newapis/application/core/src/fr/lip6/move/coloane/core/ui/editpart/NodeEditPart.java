@@ -268,18 +268,22 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		return ((INode) getModel()).getIncomingArcs();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
@@ -345,14 +349,19 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		((INodeFigure) getFigure()).setLineWidth(1);
 	}
 
+	/** {@inheritDoc} */
 	public final void childAdded(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void partActivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void partDeactivated(EditPart editpart) { }
 
+	/** {@inheritDoc} */
 	public final void removingChild(EditPart child, int index) { }
 
+	/** {@inheritDoc} */
 	public final void selectedStateChanged(EditPart editpart) {
 		switch(editpart.getSelected()) {
 		case EditPart.SELECTED:
