@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.api.camiObject.UpdateItem;
 import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
-import fr.lip6.move.coloane.api.interfaces.IDialog;
+
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
@@ -23,6 +23,7 @@ import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * cette classe construit toutes les interfaces offertes a Coloane
@@ -126,7 +127,7 @@ public class CamiObjectBuilder {
 			defaut="";
 		}
         //System.out.println("defaut"+defaut);
-        Dialog dialog = new Dialog(id,type,buttonType, title,help,message,inputType,multiLine,defaut);
+        IDialog dialog = new Dialog(id,type,buttonType, title,help,message,inputType,multiLine,defaut);
 		return dialog;
 	}
 

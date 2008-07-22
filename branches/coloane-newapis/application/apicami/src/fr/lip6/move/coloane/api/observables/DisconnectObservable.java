@@ -2,16 +2,19 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-
-import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.ICloseConnectionObserver;
-
+import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 
 
-public class CloseConnectionObservable implements ICloseConnectionObservable{
+
+
+
+
+
+public class DisconnectObservable implements IDisconnectObservable{
 
 	/** liste des observateurs */
-	private ArrayList<ICloseConnectionObserver> list;
+	private ArrayList<IDisconnectObserver> list;
 
 	/** créer un thread ? */
 	private boolean createThread = false;
@@ -19,8 +22,8 @@ public class CloseConnectionObservable implements ICloseConnectionObservable{
 	/**
 	 * Constructeur
 	 */
-	public CloseConnectionObservable() {
-		list = new ArrayList<ICloseConnectionObserver>();
+	public DisconnectObservable() {
+		list = new ArrayList<IDisconnectObserver>();
 	}
 
 	/**
@@ -39,7 +42,7 @@ public class CloseConnectionObservable implements ICloseConnectionObservable{
 	 * @param o
 	 *            L'observer à ajouter
 	 */
-	public void addObserver(ICloseConnectionObserver o) {
+	public void addObserver(IDisconnectObserver o) {
 		this.list.add( o);
 	}
 
@@ -69,10 +72,10 @@ public class CloseConnectionObservable implements ICloseConnectionObservable{
 	 *
 	 */
 	private class ThreadNotifier implements Runnable {
-		private ArrayList<ICloseConnectionObserver> listObservers;
+		private ArrayList<IDisconnectObserver> listObservers;
 		
 
-		public ThreadNotifier(ArrayList<ICloseConnectionObserver> list) {
+		public ThreadNotifier(ArrayList<IDisconnectObserver> list) {
 			this.listObservers = list;
 		
 		}
@@ -82,6 +85,11 @@ public class CloseConnectionObservable implements ICloseConnectionObservable{
 				this.listObservers.get(i).update();
 		}
 
+	}
+
+	public void removeObserver(IDisconnectObserver o) {
+	
+		
 	}
 
 	

@@ -1,6 +1,10 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.IDialog;
+import java.util.ArrayList;
+
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
+
 
 
 
@@ -125,6 +129,8 @@ public final class Dialog implements IDialog {
 	public int getType() {
 		return type;
 	}
+
+	
 
 	
 }

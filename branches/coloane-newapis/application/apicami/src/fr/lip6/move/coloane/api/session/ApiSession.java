@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.api.session;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IDialogAnswer;
+
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 import fr.lip6.move.coloane.api.interfaces.IApiSession;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
  * cette classe represente une session, elle implemente l'interface IApiSession

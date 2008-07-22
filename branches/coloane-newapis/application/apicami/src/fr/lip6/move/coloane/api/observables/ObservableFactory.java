@@ -1,17 +1,16 @@
 package fr.lip6.move.coloane.api.observables;
 
 
-import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
-
-
-import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IReceptResultObservable;
 
+
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
+
+import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IConnectionObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.ISpecialMessageObservable;
 
 
 public class ObservableFactory {
@@ -34,17 +33,14 @@ public class ObservableFactory {
 		return (IReceptDialogObservable) new ReceptDialogObservable();
 	}
 
-	public static ICloseConnectionObservable getNewCloseConnectionObservable() {
-		return (ICloseConnectionObservable) new CloseConnectionObservable();
+	public static IDisconnectObservable getNewCloseConnectionObservable() {
+		return (IDisconnectObservable) new DisconnectObservable();
 	}
 
 	
 	
 
-	public static ICloseSessionObservable getNewCloseSessionObservable() {
-		return (ICloseSessionObservable) new CloseSessionObservable();
-	}
-
+	
 	public static ISpecialMessageObservable getNewSpecialMessageObservable() {
 	
 		return (ISpecialMessageObservable) new SpecialMessageObservable(); 

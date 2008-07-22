@@ -3,9 +3,9 @@ package fr.lip6.move.coloane.api.observables;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
-import fr.lip6.move.coloane.api.interfaces.observers.IBrutalInterruptObserver;
 
 
 public class BrutalInterruptObservable implements IBrutalInterruptObservable{
@@ -29,7 +29,7 @@ public class BrutalInterruptObservable implements IBrutalInterruptObservable{
 	}
 
 
-	public void notifyObservers(String message) throws IOException {
+	public void notifyObservers(String message) {
 		if (!this.createThread) { /* Option sans création de thread */
 			for (int i = 0; i < this.list.size(); i++)
 				this.list.get(i).update(message);
@@ -70,6 +70,14 @@ private class ThreadNotifier implements Runnable {
 			this.listObservers.get(i).update(message);
 	}
 
+}
+
+
+
+
+public void removeObserver(IBrutalInterruptObserver o) {
+	// TODO Auto-generated method stub
+	
 }
 
 }

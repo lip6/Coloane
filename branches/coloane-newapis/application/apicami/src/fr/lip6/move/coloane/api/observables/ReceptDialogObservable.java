@@ -2,14 +2,17 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IDialog;
+
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
-import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
+
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 
-import fr.lip6.move.coloane.api.interfaces.observers.IReceptDialogObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * Observable des évènements en rapport avec la session.
@@ -94,6 +97,13 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 				this.listObservers.get(i).update(this.dialog,this.in);
 		}
 
+	}
+
+	
+
+	public void removeObserver(IReceptDialogObserver o) {
+		
+		
 	}
 
 }

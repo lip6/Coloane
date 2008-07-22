@@ -3,10 +3,11 @@ package fr.lip6.move.coloane.api.observables;
 import java.util.ArrayList;
 
 
-import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
-import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
 
-import fr.lip6.move.coloane.api.interfaces.observers.ISpecialMessageObserver;
+import fr.lip6.move.coloane.interfaces.api.objects.ISpecialMessage;
+import fr.lip6.move.coloane.interfaces.api.observables.ISpecialMessageObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.ISpecialMessageObserver;
+
 
 
 public class SpecialMessageObservable implements ISpecialMessageObservable {
@@ -86,6 +87,9 @@ public class SpecialMessageObservable implements ISpecialMessageObservable {
 
 	}
 
+	
+	
+	
 	
 	
 

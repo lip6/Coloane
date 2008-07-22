@@ -3,12 +3,13 @@ package fr.lip6.move.coloane.api.cami;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.IAttribute;
-import fr.lip6.move.coloane.api.interfaces.IDialog;
-import fr.lip6.move.coloane.api.interfaces.IDialogAnswer;
+
 import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
 import fr.lip6.move.coloane.api.interfaces.IArc;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
  *
@@ -45,11 +46,7 @@ public class CamiGenerator {
 		return toSend;
 	}
 
-	public ArrayList<byte[]> generateCamiDialogue(IDialog d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 	/**
 	 *
