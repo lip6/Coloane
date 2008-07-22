@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -51,4 +52,9 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	 * @return pourcentage
 	 */
 	int getScale();
+
+	/**
+	 * @return Dimension du noeud
+	 */
+	Dimension getSize();
 }
