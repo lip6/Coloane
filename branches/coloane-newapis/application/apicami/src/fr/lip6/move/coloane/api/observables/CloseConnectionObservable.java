@@ -2,10 +2,10 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.ICloseConnectionObserver;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+
 
 
 public class CloseConnectionObservable implements ICloseConnectionObservable{

@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-07-21 15:48:52
+// $ANTLR 3.0.1 Cami.g 2008-07-22 16:57:42
 
 package fr.lip6.move.coloane.api.cami;
             

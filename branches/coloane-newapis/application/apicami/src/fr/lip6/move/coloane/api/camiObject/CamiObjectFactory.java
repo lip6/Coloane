@@ -2,10 +2,11 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
 /**
  * Cette classe est une factory pour le package CamiObject.
@@ -34,8 +35,8 @@ public class CamiObjectFactory {
 	 * @param fkminor
 	 * @return IFkVersion
 	 */
-	public static IConnectionVersion getNewFkVersion (String fkname,int fkmajor,int fkminor){
-		 return new ConnectionVersion(fkname, fkmajor, fkminor);
+	public static IConnectionInfo getNewFkVersion (String fkname,int fkmajor,int fkminor){
+		 return new ConnectionInfo(fkname, fkmajor, fkminor);
 	}
 
 	/**
@@ -71,6 +72,8 @@ public class CamiObjectFactory {
 	public static IUpdateItem getNewUpdateItem(String rootName,String serviceName,boolean state){
 		 return new UpdateItem(rootName, serviceName, state);
 	}
+
+	
 
 
 }

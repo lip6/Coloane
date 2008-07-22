@@ -3,11 +3,11 @@ package fr.lip6.move.coloane.api.observables;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 
 /**

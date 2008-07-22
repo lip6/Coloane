@@ -2,10 +2,10 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+
 import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
 import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.ISpecialMessageObserver;
 
 

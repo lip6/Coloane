@@ -12,7 +12,7 @@ import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
 import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
@@ -114,7 +114,7 @@ ack_open_connection
     ',' 
     v2=NUMBER {listOfArgs.add($v2.text);
             
-            IConnectionVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
+            IConnectionInfo version = CamiObjectBuilder.buildFkVersion(listOfArgs);
             ((IConnectionObservable)hashObservable.get("IConnection")).notifyObservers(version);
             synchronized(hashObservable){
                 hashObservable.notify();

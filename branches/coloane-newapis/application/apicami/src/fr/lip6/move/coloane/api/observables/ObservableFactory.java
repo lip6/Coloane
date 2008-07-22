@@ -4,13 +4,14 @@ package fr.lip6.move.coloane.api.observables;
 import fr.lip6.move.coloane.api.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseConnectionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ICloseSessionObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
+
 
 import fr.lip6.move.coloane.api.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.IReceptResultObservable;
 
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISpecialMessageObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IConnectionObservable;
 
 
 public class ObservableFactory {

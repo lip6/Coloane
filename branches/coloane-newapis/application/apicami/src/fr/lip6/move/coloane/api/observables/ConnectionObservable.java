@@ -2,9 +2,10 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
-import fr.lip6.move.coloane.api.interfaces.observables.IConnectionObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observables.IConnectionObservable;
+import fr.lip6.move.coloane.interfaces.api.observers.IConnectionObserver;
 
 /**
  * Observable des évènements de la connexion
@@ -54,7 +55,7 @@ public class ConnectionObservable implements IConnectionObservable {
 	 * @param arg
 	 *            argument de la notification.
 	 */
-	public void notifyObservers(IConnectionVersion arg) {
+	public void notifyObservers(IConnectionInfo arg) {
 
 		if (!this.createThread) { /* Option sans création de thread */
 			for (int i = 0; i < this.list.size(); i++)
@@ -75,17 +76,17 @@ public class ConnectionObservable implements IConnectionObservable {
 	 */
 	private class ThreadNotifier implements Runnable {
 		private ArrayList<IConnectionObserver> listObservers;
-		private IConnectionVersion version;
+		private IConnectionInfo Info;
 
 		public ThreadNotifier(ArrayList<IConnectionObserver> list,
-				IConnectionVersion arg) {
+				IConnectionInfo arg) {
 			this.listObservers = list;
-			this.version = arg;
+			this.Info = arg;
 		}
 
 		public void run() {
 			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update(version);
+				this.listObservers.get(i).update(Info);
 		}
 
 	}

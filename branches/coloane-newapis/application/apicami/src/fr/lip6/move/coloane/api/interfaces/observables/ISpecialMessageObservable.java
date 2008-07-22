@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.api.interfaces.observables;
 
 import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
-import fr.lip6.move.coloane.api.interfaces.observers.IConnectionObserver;
+
 import fr.lip6.move.coloane.api.interfaces.observers.ISpecialMessageObserver;
 
 public interface ISpecialMessageObservable {

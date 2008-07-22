@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.SessionInfo;
-import fr.lip6.move.coloane.api.camiObject.ConnectionVersion;
 import fr.lip6.move.coloane.api.camiObject.Menu;
 import fr.lip6.move.coloane.api.camiObject.UpdateItem;
 import fr.lip6.move.coloane.api.interfaces.IArc;
@@ -16,7 +15,6 @@ import fr.lip6.move.coloane.api.interfaces.IBox;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.INode;
@@ -24,6 +22,7 @@ import fr.lip6.move.coloane.api.interfaces.IObjectAttribute;
 import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
 /**
  * cette classe construit toutes les interfaces offertes a Coloane
@@ -43,7 +42,7 @@ public class CamiObjectBuilder {
 		return kfi;
 	}
 
-	public static IConnectionVersion buildFkVersion(ArrayList<String> camiFkVersion) {
+	public static IConnectionInfo buildFkVersion(ArrayList<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
 		int fkmajor;
 		String tmpfkmajor = camiFkVersion.get(1);
@@ -61,7 +60,7 @@ public class CamiObjectBuilder {
 			fkminor = -1;
 		}
 
-		IConnectionVersion fkv = CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
+		IConnectionInfo fkv = (IConnectionInfo) CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
 		return fkv;
 	}
 

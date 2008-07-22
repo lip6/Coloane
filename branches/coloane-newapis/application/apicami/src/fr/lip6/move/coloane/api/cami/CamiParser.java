@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 Cami.g 2008-07-21 15:48:51
+// $ANTLR 3.0.1 Cami.g 2008-07-22 16:57:40
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
 import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IDialog;
@@ -613,7 +613,7 @@ public class CamiParser extends Parser {
             match(input,NUMBER,FOLLOW_NUMBER_in_ack_open_connection216); 
             listOfArgs.add(v2.getText());
                         
-                        IConnectionVersion version = CamiObjectBuilder.buildFkVersion(listOfArgs);
+                        IConnectionInfo version = CamiObjectBuilder.buildFkVersion(listOfArgs);
                         ((IConnectionObservable)hashObservable.get("IConnection")).notifyObservers(version);
                         synchronized(hashObservable){
                             hashObservable.notify();

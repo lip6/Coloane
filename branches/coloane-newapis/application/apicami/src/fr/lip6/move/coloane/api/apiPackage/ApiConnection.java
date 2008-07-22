@@ -10,7 +10,6 @@ import teststub.CloseSessionObserver;
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.interfaces.IConnectionVersion;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
@@ -39,6 +38,7 @@ import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.api.interfaces.*;
 
 /**
  * Définit une isntance de connexion à la plate-forme FrameKit
@@ -69,7 +69,7 @@ public class ApiConnection implements IApiConnection {
 	/** une table de hash qui stocke les observables */
 	private HashMap< String, Object> hashObservable;
 
-	private IConnectionVersion fkVersion;
+	private IConnectionInfo fkVersion;
 
 	/** le sessionController*/
 	private ISessionController sessionCont;

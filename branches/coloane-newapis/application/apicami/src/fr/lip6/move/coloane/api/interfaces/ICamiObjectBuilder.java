@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.api.interfaces;
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+
 /**
  * cette interface nous construit des objets.
  * @author KAHOO & UU
@@ -102,7 +104,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IFKVersion.
 		 */
-		public IConnectionVersion buildFkVersion(ArrayList<String> camiFKVersion);
+		public IConnectionInfo buildFkVersion(ArrayList<String> camiFKVersion);
 
 
 		/**
