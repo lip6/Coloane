@@ -3,11 +3,8 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
-import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
-
-import java.util.ArrayList;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -15,7 +12,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'une note qui sera affichée sur l'éditeur
  */
-public class StickyNote extends AbstractElement implements IStickyNote, ILocatedElement {
+public class StickyNote extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
 
 	/** Les coordonnées de la note */
 	private int x;
@@ -38,8 +35,7 @@ public class StickyNote extends AbstractElement implements IStickyNote, ILocated
 	 * @param parent L'élément parent (le graphe)
 	 * @param id L'identifiant attribué par le graphe parent
 	 */
-	public StickyNote(IElement parent, int id) {
-		super(parent, new ArrayList<IAttributeFormalism>());
+	StickyNote(IElement parent, int id) {
 		this.id = id;
 	}
 

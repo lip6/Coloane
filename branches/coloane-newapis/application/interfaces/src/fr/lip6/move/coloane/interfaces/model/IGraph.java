@@ -17,6 +17,9 @@ public interface IGraph extends IElement {
 	/** ID de propriete lorsqu'un noeud est supprime du modele */
 	String NODE_REMOVED_PROP = "Model.RemovingNode"; //$NON-NLS-1$
 
+	/** ID de propriété lorsqu'une note est ajoutée au modèle */
+	String STICKY_ADD_PROP = "Model.AddSticky"; //$NON-NLS-1$
+
 	/** ID de propriete lorsqu'une note est supprimée du modèle */
 	String STICKY_REMOVED_PROP = "Model.RemovingSticky"; //$NON-NLS-1$
 

@@ -1,12 +1,11 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 /**
  * Interface définissant une note, ses comportements publics et ses propriétés
  */
-public interface IStickyNote extends ILocationInfo, IElement {
+public interface IStickyNote extends ILocationInfo {
 
 	/** ID pour la propriete lorsqu'un changement de la position */
 	String LOCATION_PROP = "Sticky.Location"; //$NON-NLS-1$

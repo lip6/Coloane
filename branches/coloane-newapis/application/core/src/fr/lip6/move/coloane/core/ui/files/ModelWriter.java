@@ -118,7 +118,7 @@ public final class ModelWriter {
 		for (IStickyNote note : ((GraphModel) graph).getStickyNotes()) {
 
 			// Début de la note
-			sb.append("<sticky id='").append(note.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append("<sticky"); //$NON-NLS-1$
 			sb.append(" xposition='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" yposition='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" width='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$

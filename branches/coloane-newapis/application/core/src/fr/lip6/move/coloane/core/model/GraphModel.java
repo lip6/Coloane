@@ -14,8 +14,11 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -42,8 +45,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Liste des arcs rangé par id */
 	private Map<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
-	/** Liste des stickyNote rangées par id */
-	private Map<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
+	/** Liste des stickyNote */
+	private List<IStickyNote> stickys = new ArrayList<IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 2;
@@ -132,8 +135,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/**
 	 * @return La liste des toutes les notes du graphe
 	 */
-	public final Collection<IStickyNote> getStickyNotes() {
-		return sticky.values();
+	public final List<IStickyNote> getStickyNotes() {
+		return Collections.unmodifiableList(stickys);
 	}
 
 	/** {@inheritDoc} */
@@ -167,21 +170,21 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 * @param sticky La stickyNote à ajouter
 	 */
 	public final void addSticky(IStickyNote sticky) {
-		if (nodes.containsKey(sticky.getId())) {
-			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
-		} else {
-			this.sticky.put(sticky.getId(), sticky);
-			firePropertyChange(NODE_ADDED_PROP, null, sticky);
-		}
+		stickys.add(sticky);
+		firePropertyChange(STICKY_ADD_PROP, null, sticky);
 	}
 
 	/**
 	 * Supprime la note du graphe courante
 	 * @param note La StickyNote à supprimer
+	 * @return <tt>false</tt> si aucune note n'a été supprimée, <tt>true</tt> sinon
 	 */
-	public final void deleteSticky(IStickyNote note) {
-		this.sticky.remove(note.getId());
-		firePropertyChange(STICKY_REMOVED_PROP, null, note);
+	public final boolean deleteSticky(IStickyNote note) {
+		boolean delete = stickys.remove(note);
+		if (delete) {
+			firePropertyChange(STICKY_REMOVED_PROP, null, note);
+		}
+		return delete;
 	}
 
 	/** {@inheritDoc} */
