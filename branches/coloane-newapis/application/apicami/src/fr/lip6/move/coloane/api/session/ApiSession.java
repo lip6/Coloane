@@ -11,105 +11,88 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
- * cette classe represente une session, elle implemente l'interface IApiSession
+ * Définition d'une session
  *
- * @author Kahoo & UU
- *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  */
 public class ApiSession implements IApiSession {
 
-	/** la date de la session */
+	/** La date de la session */
 	private String sessionDate;
 
-	/** le formalisme de la session */
+	/** Le formalisme de la session */
 	private String sessionFormalism;
 
-	/** le nom de la session */
+	/** Le nom de la session */
 	private String sessionName;
 
-	/** l'outil avec le quel on communique */
-	private String interlocutor;
+	/** Le contrôleur de sessions */
+	private ISessionController sessionControl;
 
-	/** le mode */
-	private int mode;
-
-	/** le sessionController */
-	private ISessionController sessionCont;
-
-	/** notre speaker */
+	/** Le speaker */
 	private ISpeaker speaker;
 
-	/** notre automate*/
+	/** L'automate d'état */
 	private ISessionStateMachine automate;
 
-	/** notre modele*/
+	/** Le modèle attaché à la session */
 	private IGraph model;
 
-	/** son ISessionInfo */
-	private ISessionInfo sessionInfo;
 	/**
-	 * le constructeur de notre session.
+	 * Constructeur d'une session
+	 * @param speaker Le speaker attaché à cette session
 	 */
 	public ApiSession(ISpeaker speaker) {
-		this.interlocutor = null;
-		this.mode = -1;
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
 		this.model = null;
-		this.sessionCont = SessionController.getInstance();
+		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
-
 	}
 
 	/**
-	 * la methode openSession Ã invoquer sur la session.
 	 *
+	 * @param date
+	 * @param formalism
+	 * @param name
+	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism,
-			String sessionName, String interlocutor, int mode)
-	throws IOException, InterruptedException {
-		this.interlocutor = interlocutor;
-		this.mode = mode;
-		this.sessionDate = sessionDate;
-		this.sessionFormalism = sessionFormalism;
-		this.sessionName = sessionName;
-		System.out.println("session open");
-		synchronized(this){
+	public final ISessionInfo openSession(String date, String formalism, String name) throws IOException, InterruptedException {
+		this.sessionDate = date;
+		this.sessionFormalism = formalism;
+		this.sessionName = name;
 
-			if (this.sessionCont.openSession(this))
-				// TODO lexeption
+		synchronized (this) {
+			if (this.sessionControl.openSession(this)) {
+				this.speaker.openSession(this.sessionName, this.sessionDate, this.sessionFormalism, "FrameKit Environment", 1);
+			}
 
-				this.speaker.openSession(this.sessionName, this.sessionDate,
-						this.sessionFormalism, this.interlocutor, this.mode);
-			/* on se met en attente de ISessionInfo*/
-			this.wait();	
-			if( !this.automate.setWaitingForUpdatesAndMenusState() ){
+			// On se met en attente de ISessionInfo
+			this.wait();
+			if (!this.automate.setWaitingForUpdatesAndMenusState()) {
 				throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
 			}
 		}
-		return this.sessionInfo;
+		// TODO : A changer...
+		return null;
 	}
 
 	/**
-	 * la methode openSession Ã invoquer sur la session.
 	 *
-	 * @throws InterruptedException
+	 * @param rootName
+	 * @param menuName
+	 * @param serviceName
+	 * @param model
 	 * @throws IOException
 	 */
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism,
-			String sessionName) throws IOException, InterruptedException {
-		return openSession(sessionDate, sessionFormalism, sessionName,
-				"KrameKit Environment", 1);
-
-	}
-
-	public void askForService(String rootName,String menuName, String serviceName,IGraph model) throws IOException {
+	public final void askForService(String rootName, String menuName, String serviceName, IGraph model) throws IOException {
 		this.model = model;
-		if (this.sessionCont.askForService(this)){
+		if (this.sessionControl.askForService(this)) {
 
 			speaker.askForService(rootName, menuName, serviceName);
 			System.out.println(this.automate.getState());
@@ -120,16 +103,24 @@ public class ApiSession implements IApiSession {
 		else {
 			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		}
-		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
+	/**
+	 *
+	 * @param rootName
+	 * @param menuName
+	 * @param serviceName
+	 * @param date
+	 * @param model
+	 * @throws IOException
+	 */
 	public void askForService(String rootName,String menuName, String serviceName, String date,IGraph model) throws IOException {
-		this.model=model; 
-		if (this.sessionCont.askForService(this)){
+		this.model = model;
+		if (this.sessionControl.askForService(this)){
 
-			speaker.askForService(rootName, menuName, serviceName,date);
+			speaker.askForService(rootName, menuName, serviceName, date);
 
-			if (!this.automate.setWaitingForResponseState()){
+			if (!this.automate.setWaitingForResponseState()) {
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
 		}
@@ -139,11 +130,12 @@ public class ApiSession implements IApiSession {
 
 	}
 
-
-	public final boolean closeSession() throws IOException, InterruptedException {
-		if (this.sessionCont.closeSession(this)){
-			synchronized(this){
-
+	/**
+	 * 
+	 */
+	public final boolean closeSession() {
+		if (this.sessionControl.closeSession(this)) {
+			synchronized (this) {
 				speaker.closeSession(false);
 
 				if (!this.automate.setWaitingForCloseSessionState()){
@@ -152,14 +144,16 @@ public class ApiSession implements IApiSession {
 				this.wait();
 				return true;
 			}
-		}
-		else {
+		} else {
 			throw new IllegalStateException("je peux pas faire close session sur cette session");
 		}
 	}
 
-	public boolean resumeSession() throws IOException, InterruptedException {
-		if (this.sessionCont.resumeSession(this)){
+	/**
+	 *
+	 */
+	public final boolean resumeSession() {
+		if (this.sessionControl.resumeSession(this)){
 			//  System.out.println("je  resume la session " + this.getSessionName());
 			synchronized(this){
 				speaker.resumeSession(this.getSessionName());
@@ -175,8 +169,8 @@ public class ApiSession implements IApiSession {
 	}
 
 
-	public boolean suspendSession() throws InterruptedException, IOException {
-		if ( this.sessionCont.suspendSession(this)){
+	public final boolean suspendSession() throws InterruptedException, IOException {
+		if ( this.sessionControl.suspendSession(this)){
 			synchronized(this){
 				speaker.suspendSession();
 				if (!this.automate.setWaitingForSuspendSessionState()){
