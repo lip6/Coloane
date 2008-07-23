@@ -58,7 +58,8 @@ public class Listener extends Thread implements IListener {
 
 		boolean stop = false;
 
-		while (stop) {
+		while (!stop) {
+
 			try {
 				sleep(durePing);
 			} catch (InterruptedException e1) {
