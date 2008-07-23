@@ -13,7 +13,7 @@ public class ComStub {
 	
 	public static void main(String args[]) throws InterruptedException, ApiException{
 		Api api = new Api();
-		IApiConnection connection = api.getApiConnection();
+		IApiConnection connection = api.createApiConnection();
 		
 		connection.setLogin(LOGIN);
 		connection.setPassword(MDP);
