@@ -73,14 +73,16 @@ public class Listener extends Thread implements IListener {
 				if (stub == null) {
 					throw new ApiException("Error of communcation : Stub is null");
 				}
+
 				Ping req = new Ping();
 				req.setAuth(auth);
+
 				PingResponse res = stub.ping(req);
 				message = res.get_return();
 
 				if (message.getTraces() != null) {
 					for (int i = 0; i < message.getTraces().length; i++) {
-						// TODO Passer en parametre plus tard le type du message
+						LOGGER.fine("Récéption d'un message");
 						ReceptMessage m = new ReceptMessage(message.getTraces()[i].getNtype(), message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 					}
@@ -88,6 +90,7 @@ public class Listener extends Thread implements IListener {
 
 				if (message.getDbs() != null) {
 					for (int i = 0; i < message.getDbs().length; i++) {
+						LOGGER.fine("Récéption d'une boîte de dialogue");
 						Dialog dialog = new Dialog(message.getDbs()[i]);
 						((IReceptDialogObservable) listObservable.get(IObservables.RECEPT_DIALOG)).notifyObservers(dialog);
 					}

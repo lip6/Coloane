@@ -82,14 +82,19 @@ public class Speaker implements ISpeaker {
 	 */
 	public final Authentification openConnection(String login, String pass) throws ApiException {
 		try {
+
 			if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
+
 			Connect req = new Connect();
 			req.setLogin(login);
 			req.setMdp(pass);
+
+			LOGGER.finer("Envoie de la requête pour l'ouverture de la conexion");
 			ConnectResponse res = stub.connect(req);
 			auth = res.get_return();
+
 		} catch (RemoteException e) {
             e.printStackTrace();
             ApiException ee = new ApiException(e.getMessage());
@@ -201,10 +206,14 @@ public class Speaker implements ISpeaker {
 			if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
+
             Disconnect req = new Disconnect();
             req.setId(auth);
+
+            LOGGER.finer("Envoie de la requête pour la fermeture d'une conexion");
             DisconnectResponse res = stub.disconnect(req);
             unauth = res.get_return();
+
 		} catch (RemoteException e) {
             e.printStackTrace();
             ApiException ee = new ApiException(e.getMessage());
