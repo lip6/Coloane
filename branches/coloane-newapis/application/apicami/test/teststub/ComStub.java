@@ -4,7 +4,8 @@ package teststub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
-import fr.lip6.move.coloane.api.apiPackage.Api;
+
+import fr.lip6.move.coloane.api.Api;
 import fr.lip6.move.coloane.api.camiObject.Arc;
 import fr.lip6.move.coloane.api.camiObject.Attribute;
 import fr.lip6.move.coloane.api.camiObject.InflexPoint;

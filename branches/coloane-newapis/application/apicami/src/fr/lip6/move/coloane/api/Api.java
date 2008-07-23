@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.apiPackage;
+package fr.lip6.move.coloane.api;
 
 import fr.lip6.move.coloane.api.log.ApiHandler;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;

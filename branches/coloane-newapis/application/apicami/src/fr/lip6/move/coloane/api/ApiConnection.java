@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.apiPackage;
+package fr.lip6.move.coloane.api;
 
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
