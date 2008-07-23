@@ -15,24 +15,20 @@ import java.util.logging.Logger;
  */
 public class Api implements IApi {
 
-	/** Le Logger à initialiser */
-	private static Logger LOGGER;
 	private static String uiName = "Coloane";
 	private static String uiVersion = "3.0";
 
-	/** Constructeur */
-	public Api() {
-		initializeLogger();
-	}
+	// Initialisation statique du logger
+	static { initializeLogger(); }
 
 	/**
 	 * Initialisation du logger pour l'API entière
 	 */
 	private static void initializeLogger() {
-		LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
-		LOGGER.setLevel(Level.FINEST); // On loggue tout !
+		Logger log = Logger.getLogger("fr.lip6.move.coloane.apicami");
+		log.setLevel(Level.FINEST); // On loggue tout !
 		try {
-			LOGGER.addHandler(new ApiHandler());
+			log.addHandler(new ApiHandler());
 		} catch (SecurityException e) {
 			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
 		} catch (FileNotFoundException e) {

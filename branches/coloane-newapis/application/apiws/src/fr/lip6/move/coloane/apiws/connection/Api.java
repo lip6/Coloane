@@ -17,14 +17,9 @@ import java.util.logging.Logger;
  */
 public class Api implements IApi {
 
-	private static Logger LOGGER;
+	// Initialisation statique du logger
+	static { initializeLogger(); }
 
-	/**
-	 * Constructeur
-	 */
-	public Api() {
-		initializeLogger();
-	}
 	/**
 	 * {@inheritDoc}
 	 */
@@ -35,10 +30,10 @@ public class Api implements IApi {
 	/**
 	 * Initialisation du logger d'evenements
 	 */
-	private void initializeLogger() {
-		LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws"); //$NON-NLS-1$
-		LOGGER.setLevel(Level.ALL); // On loggue tout !
-		LOGGER.addHandler(new Handler() {
+	private static void initializeLogger() {
+		Logger log = Logger.getLogger("fr.lip6.move.coloane.apiws"); //$NON-NLS-1$
+		log.setLevel(Level.ALL); // On loggue tout !
+		log.addHandler(new Handler() {
 			@Override
 			public void close() throws SecurityException { }
 			@Override
@@ -53,7 +48,7 @@ public class Api implements IApi {
 		ApiLogHandler handler = ApiLogHandler.getInstance();
 		ApiLogFormatter format = new ApiLogFormatter();
 		handler.setFormatter(format);
-		LOGGER.addHandler(handler);
+		log.addHandler(handler);
 		} catch (IOException ioe) {
 			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		} catch (SecurityException se) {
