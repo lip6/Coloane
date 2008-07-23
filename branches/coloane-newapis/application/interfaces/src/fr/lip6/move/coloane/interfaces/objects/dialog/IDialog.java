@@ -39,6 +39,13 @@ public interface IDialog {
 	/** Affichage multi-ligne avec selection multiple */
 	int MULTI_LINE_WITH_MULTI_SELECTION = 5;
 
+	/** Boîte de dialogue visible */
+	int DLG_VISIBLE = 1;
+	/** Boîte de dialogue cachée */
+	int DLG_HIDE = 2;
+	/** Boîte de dialogue détruite */
+	int DLG_DESTROYED = 3;
+
 	/**
 	 * Retourne le type des boutons affiches dans la boite dialogue<br>
 	 * <ul>
@@ -120,5 +127,16 @@ public interface IDialog {
 	 * @return la liste des lignes.
 	 */
 	List<String> getLines();
+
+	/**
+	 * Recupére le type de visibilité de la boîte de dialogue<br>
+	 * <ul>
+	 * 	<il> 1 = Afficher la boite de dialogue </il>
+	 * 	<il> 2 = Cacher la boite de dialogue </il>
+	 * 	<il> 3 = Détruire la boîte de dialogue </il>
+	 * </ul>
+	 * @return le type de visibilité de la boîte de dialogue
+	 */
+	int getVisibility();
 
 }
