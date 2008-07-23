@@ -7,8 +7,8 @@ import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
@@ -209,7 +209,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -217,7 +217,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model, String date) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model, String date) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -233,7 +233,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void sendModel(IModel model) throws ApiException {
+	public final void sendModel(IGraph model) throws ApiException {
 		// TODO Auto-generated method stub
 
 	}
