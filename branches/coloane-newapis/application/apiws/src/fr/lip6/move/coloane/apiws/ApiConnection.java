@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apiws.connection;
+package fr.lip6.move.coloane.apiws;
 
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
