@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.interfaces.api.session;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 
 import java.util.List;
 
@@ -105,7 +104,7 @@ public interface IApiSession {
 	 * @return true, si la demande de service a reussie.
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model) throws ApiException;
+	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
@@ -118,7 +117,7 @@ public interface IApiSession {
 	 * @return true, si la demande de service a reussie.
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model, String date) throws ApiException;
+	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model, String date) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
@@ -133,7 +132,7 @@ public interface IApiSession {
 	 * @param model le model a envoyer
 	 * @throws ApiException si l'envoie du model échoue
 	 */
-	void sendModel(IModel model) throws ApiException;
+	void sendModel(IGraph model) throws ApiException;
 
 	/**
 	 * Invalide un model
