@@ -7,29 +7,63 @@ import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 
+/**
+ * Cette classe permet de créer les différents observables possibles.
+ */
 public class ObservableFactory {
-	
-	public static IReceptDialogObservable getNewReceptDialogObservable(){
+
+	/**
+	 * Constructeur vide
+	 */
+	public ObservableFactory() {
+
+	}
+
+	/**
+	 * Crée un observable pour l'événement: récéption d'une boîte de dialogue
+	 * @return un observable pour l'événement: récéption d'une boîte de dialogue
+	 */
+	public static IReceptDialogObservable getNewReceptDialogObservable() {
 		return (IReceptDialogObservable) new ReceptDialogObservable();
 	}
-	
-	public static IReceptMenuObservable getNewReceptMenuObservable(){
+
+	/**
+	 * Crée un observable pour l'événement: récéption de menus
+	 * @return un observable pour l'événement: récéption de menus
+	 */
+	public static IReceptMenuObservable getNewReceptMenuObservable() {
 		return (IReceptMenuObservable) new ReceptMenuObservable();
 	}
-	
-	public static IReceptMessageObservable getNewReceptMessageObservable(){
+
+	/**
+	 * Crée un observable pour l'événement: récéption de messages
+	 * @return un observable pour l'événement: récéption de messages
+	 */
+	public static IReceptMessageObservable getNewReceptMessageObservable() {
 		return (IReceptMessageObservable) new ReceptMessageObservable();
 	}
-	
-	public static IReceptResultObservable getNewReceptResultObservable(){
+
+	/**
+	 * Crée un observable pour l'événement: récéption de résultats
+	 * @return un observable pour l'événement: récéption de résultats
+	 */
+	public static IReceptResultObservable getNewReceptResultObservable() {
 		return (IReceptResultObservable) new ReceptResultObservable();
 	}
-	
-	public static IBrutalInterruptObservable getNewBrutalInterruptObservable(){
+
+	/**
+	 * Crée un observable pour l'événement: récéption d'une erreur
+	 * @return un observable pour l'événement: récéption d'une erreur
+	 */
+	public static IBrutalInterruptObservable getNewBrutalInterruptObservable() {
 		return (IBrutalInterruptObservable) new BrutalInterruptObservable();
 	}
-	
-	public static IDisconnectObservable getNewDisconnectObservable(){
+
+	/**
+	 * Crée un observable pour l'événement: deconnexion ordonnée
+	 * @return un observable pour l'événement: deconnexion ordonnée
+	 */
+	public static IDisconnectObservable getNewDisconnectObservable() {
 		return (IDisconnectObservable) new DisconnectObservable();
 	}
 }
