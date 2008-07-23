@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -13,6 +11,8 @@ import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
+
+import java.util.List;
 
 /**
  * Cette classe représent une session
@@ -180,7 +180,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException {
+	public final boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, List<String> lines, List<Integer> objects) throws ApiException {
 
 		DialogBox answer = new DialogBox();
 		answer.setAnswer(new DBAnswer());
@@ -207,7 +207,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<String> options, IModel model) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -215,7 +215,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, ArrayList<String> options, IModel model, String date) throws ApiException {
+	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model, String date) throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}

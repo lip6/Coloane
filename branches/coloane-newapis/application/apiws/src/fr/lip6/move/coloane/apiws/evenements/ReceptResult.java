@@ -3,7 +3,10 @@ package fr.lip6.move.coloane.apiws.evenements;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptResult;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
-public class ReceptResult implements IReceptResult{
+/**
+ * Cette classe représent un objet (qui définie des résultats) à envoyer aux observateurs d'événements: réception de résultats.
+ */
+public class ReceptResult implements IReceptResult {
 
 	/**
 	 * {@inheritDoc}

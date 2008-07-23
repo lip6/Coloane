@@ -3,6 +3,15 @@ package fr.lip6.move.coloane.apiws.objects.api;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
+/**
+ * Cette classe représentent les informations liée à la session ouverte:<br>
+ * <ul>
+ * 	<li> aboutService: non retourné par le wrapper </li>
+ * 	<li> incremental: non retourné par le wrapper </li>
+ * 	<li> nameService: non retourné par le wrapper </li>
+ * 	<li> resultatCalcule: non retourné par le wrapper </li>
+ * </ul>
+ */
 public class SessionInfo implements ISessionInfo {
 
 	private String aboutService;

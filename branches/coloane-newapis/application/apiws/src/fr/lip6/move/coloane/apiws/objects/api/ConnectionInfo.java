@@ -3,6 +3,14 @@ package fr.lip6.move.coloane.apiws.objects.api;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
+/**
+ * Cette classe représent les informations liée a la connection ouverte: <br>
+ * <ul>
+ * 	<li> le nom du FrameKit </li>
+ * 	<li> le major </li>
+ * 	<li> le minor </li>
+ * </ul>
+ */
 public class ConnectionInfo implements IConnectionInfo {
 
 	private String fkName;

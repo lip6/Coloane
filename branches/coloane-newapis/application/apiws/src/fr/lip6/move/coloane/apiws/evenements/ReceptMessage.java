@@ -2,6 +2,9 @@ package fr.lip6.move.coloane.apiws.evenements;
 
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 
+/**
+ * Cette classe représent l'objet (qui définie un message) à envoyer aux observateurs d'événements: réception de messages.
+ */
 public class ReceptMessage implements IReceptMessage {
 
 	private int type;

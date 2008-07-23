@@ -1,64 +1,99 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Cette classe représent l'événement observable: récéption de menus.
+ */
 public class ReceptMenuObservable implements IReceptMenuObservable {
-	
-	private ArrayList<IReceptMenuObserver> listObservers;
-	
+
+	private List<IReceptMenuObserver> listObservers;
+
 	private boolean createThread;
-	
-	public ReceptMenuObservable(){
+
+	/**
+	 * Constructeur
+	 */
+	public ReceptMenuObservable() {
 		this.listObservers = new ArrayList<IReceptMenuObserver>();
 		this.createThread = false;
 	}
-	
-	public ReceptMenuObservable(boolean createThread){
+
+	/**
+	 * Constructeur
+	 * @param createThread définie s'il faut ou non, un thread pour la notification
+	 */
+	public ReceptMenuObservable(boolean createThread) {
 		this.listObservers = new ArrayList<IReceptMenuObserver>();
-		this.createThread = createThread;		
+		this.createThread = createThread;
 	}
 
-	public void addObserver(IReceptMenuObserver o) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void addObserver(IReceptMenuObserver o) {
 		this.listObservers.add(o);
 	}
 
-	public void notifyObservers(IReceptMenu e) {
-		if (!createThread){
-			for (IReceptMenuObserver o : listObservers)
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void notifyObservers(IReceptMenu e) {
+		if (!createThread) {
+			for (IReceptMenuObserver o : listObservers) {
 				o.update(e);
-		}
-		else{
-			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers,e);
+			}
+		} else {
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers, e);
 			threadNotifier.start();
 		}
 	}
 
-	public void removeObserver(IReceptMenuObserver o) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void removeObserver(IReceptMenuObserver o) {
 		this.listObservers.remove(o);
 	}
 
-	public void setCreateThread(boolean createThread) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
-	
+
+	/**
+	 * Classe privé représentant un thread pour la notification des observateurs.
+	 */
 	private class ThreadNotifier extends Thread {
-		
-		private ArrayList<IReceptMenuObserver> listObservers;
-		
+
+		private List<IReceptMenuObserver> listObservers;
+
 		private IReceptMenu menu;
-		
-		public ThreadNotifier(ArrayList<IReceptMenuObserver> listObservers, IReceptMenu menu){
+
+		/**
+		 * Constructeur
+		 * @param listObservers la liste des observateurs à mettre à jours.
+		 * @param menu le menu à fournir aux observateurs.
+		 */
+		public ThreadNotifier(List<IReceptMenuObserver> listObservers, IReceptMenu menu) {
 			this.listObservers = listObservers;
 			this.menu = menu;
 		}
-		
-		public void run(){
-			for (IReceptMenuObserver o : listObservers)
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void run() {
+			for (IReceptMenuObserver o : listObservers) {
 				o.update(menu);
+			}
 		}
 	}
 

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
+/**
+ * Cette classe représent un boîte de dialogue pour le core de Coloane.
+ */
 public class Dialog implements IDialog {
 
 	private int id;

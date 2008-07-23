@@ -9,9 +9,12 @@ import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Cette classe représent le gestionnaire de sessions.
+ */
 public class SessionController implements ISessionController {
 
 	/**
@@ -22,7 +25,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * Represent l'ensemle des sessions
 	 */
-	private Hashtable<String, IApiSession> listSessions;
+	private Map<String, IApiSession> listSessions;
 
 	/**
 	 * Represent la liste des observables
@@ -35,7 +38,7 @@ public class SessionController implements ISessionController {
 	 */
 	public SessionController(Map<Integer, Object> listObservables) {
 		this.activeSession = null;
-		this.listSessions = new Hashtable<String, IApiSession>();
+		this.listSessions = new HashMap<String, IApiSession>();
 		this.listObservables = listObservables;
 	}
 
@@ -192,7 +195,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyEndResult() {
+	public final void notifyEndResult() {
 		// TODO Auto-generated method stub
 
 	}
@@ -200,7 +203,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyWaitingForModel() {
+	public final void notifyWaitingForModel() {
 		// TODO Auto-generated method stub
 
 	}
@@ -208,7 +211,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyWaitingForResult() {
+	public final void notifyWaitingForResult() {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,62 +1,98 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Cette classe représent l'événement observable: récéption d'une erreur.
+ */
 public class BrutalInterruptObservable implements IBrutalInterruptObservable {
-	private ArrayList<IBrutalInterruptObserver> listObservers;
-	
+
+	private List<IBrutalInterruptObserver> listObservers;
+
 	private boolean createThread;
-	
-	public BrutalInterruptObservable(){
+
+	/**
+	 * Constructeur
+	 */
+	public BrutalInterruptObservable() {
 		this.listObservers = new ArrayList<IBrutalInterruptObserver>();
 		this.createThread = false;
 	}
-	
-	public BrutalInterruptObservable(boolean createThread){
+
+	/**
+	 * Constructeur
+	 * @param createThread définie s'il faut ou non, un thread pour la notification
+	 */
+	public BrutalInterruptObservable(boolean createThread) {
 		this.listObservers = new ArrayList<IBrutalInterruptObserver>();
-		this.createThread = createThread;		
+		this.createThread = createThread;
 	}
 
-	public void addObserver(IBrutalInterruptObserver o) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void addObserver(IBrutalInterruptObserver o) {
 		this.listObservers.add(o);
 	}
 
-	public void notifyObservers(String e) {
-		if (!createThread){
-			for (IBrutalInterruptObserver o : listObservers)
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void notifyObservers(String e) {
+		if (!createThread) {
+			for (IBrutalInterruptObserver o : listObservers) {
 				o.update(e);
-		}
-		else{
-			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers,e);
+			}
+		} else {
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers, e);
 			threadNotifier.start();
 		}
 	}
 
-	public void removeObserver(IBrutalInterruptObserver o) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void removeObserver(IBrutalInterruptObserver o) {
 		this.listObservers.remove(o);
 	}
 
-	public void setCreateThread(boolean createThread) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
-	
+
+	/**
+	 * Classe privé représentant un thread pour la notification des observateurs.
+	 */
 	private class ThreadNotifier extends Thread {
-		
-		private ArrayList<IBrutalInterruptObserver> listObservers;
-		
+
+		private List<IBrutalInterruptObserver> listObservers;
+
 		private String error;
-		
-		public ThreadNotifier(ArrayList<IBrutalInterruptObserver> listObservers, String error){
+
+		/**
+		 * Constructeur
+		 * @param listObservers la liste des observateurs à mettre à jours.
+		 * @param error le message d'erreur à fournir aux observateurs.
+		 */
+		public ThreadNotifier(List<IBrutalInterruptObserver> listObservers, String error) {
 			this.listObservers = listObservers;
 			this.error = error;
 		}
-		
-		public void run(){
-			for (IBrutalInterruptObserver o : listObservers)
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void run() {
+			for (IBrutalInterruptObserver o : listObservers) {
 				o.update(error);
+			}
 		}
 	}
 }

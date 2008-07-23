@@ -1,64 +1,99 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptResult;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Cette classe représent l'événement observable: récéption de résultats.
+ */
 public class ReceptResultObservable implements IReceptResultObservable {
-	
-	private ArrayList<IReceptResultObserver> listObservers;
-	
+
+	private List<IReceptResultObserver> listObservers;
+
 	private boolean createThread;
-	
-	public ReceptResultObservable(){
+
+	/**
+	 * Constructeur
+	 */
+	public ReceptResultObservable() {
 		this.listObservers = new ArrayList<IReceptResultObserver>();
 		this.createThread = false;
 	}
-	
-	public ReceptResultObservable(boolean createThread){
+
+	/**
+	 * Constructeur
+	 * @param createThread définie s'il faut ou non, un thread pour la notification
+	 */
+	public ReceptResultObservable(boolean createThread) {
 		this.listObservers = new ArrayList<IReceptResultObserver>();
-		this.createThread = createThread;		
+		this.createThread = createThread;
 	}
-	
-	public void addObserver(IReceptResultObserver o) {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void addObserver(IReceptResultObserver o) {
 		this.listObservers.add(o);
 	}
 
-	public void notifyObservers(IReceptResult e) {
-		if (!createThread){
-			for (IReceptResultObserver o : listObservers)
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void notifyObservers(IReceptResult e) {
+		if (!createThread) {
+			for (IReceptResultObserver o : listObservers) {
 				o.update(e);
-		}
-		else{
-			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers,e);
+			}
+		} else {
+			ThreadNotifier threadNotifier = new ThreadNotifier(listObservers, e);
 			threadNotifier.start();
 		}
 	}
 
-	public void removeObserver(IReceptResultObserver o) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void removeObserver(IReceptResultObserver o) {
 		this.listObservers.remove(o);
 	}
 
-	public void setCreateThread(boolean createThread) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
-	
+
+	/**
+	 * Classe privé représentant un thread pour la notification des observateurs.
+	 */
 	private class ThreadNotifier extends Thread {
-		
-		private ArrayList<IReceptResultObserver> listObservers;
-		
+
+		private List<IReceptResultObserver> listObservers;
+
 		private IReceptResult result;
-		
-		public ThreadNotifier(ArrayList<IReceptResultObserver> listObservers, IReceptResult result){
+
+		/**
+		 * Constructeur
+		 * @param listObservers la liste des observateurs à mettre à jours.
+		 * @param result le resultat à fournir aux observateurs.
+		 */
+		public ThreadNotifier(List<IReceptResultObserver> listObservers, IReceptResult result) {
 			this.listObservers = listObservers;
 			this.result = result;
 		}
-		
-		public void run(){
-			for (IReceptResultObserver o : listObservers)
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void run() {
+			for (IReceptResultObserver o : listObservers) {
 				o.update(result);
+			}
 		}
 	}
 

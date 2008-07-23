@@ -77,42 +77,48 @@ public interface ISessionController {
 	boolean askForService(IApiSession s) throws ApiException;
 
 	/**
-	 * Notifier l'ouverture d'une session.
+	 * Notifier au gestionnaire de sessions l'ouverture d'une session.
 	 * @param opened la session ouvert.
+	 * @param menu le menu reçu de la part du wrapper à envoyer aux observateurs
+	 * après traduction pour qu'il soit compréhensible pour le core de Coloane.
+	 * @throws ApiException si la notification de l'ouverture d'une session échoue.
 	 */
 	void notifyEndOpenSession(IApiSession opened, MMenu menu) throws ApiException;
 
 	/**
-	 * Notifier la suspention d'une session
-	 * @param suspended la session suspendue
+	 * Notifier au gestionnaire de sessions la suspention d'une session.
+	 * @param suspended la session suspendue.
+	 * @throws ApiException si la notification de la suspension d'une session échoue.
 	 */
 	void notifyEndSuspendSession(IApiSession suspended) throws ApiException;
 
 	/**
-	 * Notifier la restauration d'une session
-	 * @param resumed la session restaurer
+	 * Notifierr au gestionnaire de sessions la restauration d'une session.
+	 * @param resumed la session restaurer.
+	 * @throws ApiException si la notification de la restauration d'une session échoue.
 	 */
 	void notifyEndResumeSession(IApiSession resumed) throws ApiException;
 
 	/**
-	 * Notifier la fermeture d'une session
-	 * @param closed la session fermer
+	 * Notifier au gestionnaire de sessions la fermeture d'une session.
+	 * @param closed la session fermer.
+	 * @throws ApiException si la notification de la fermeture d'une session échoue.
 	 */
 	void notifyEndCloseSession(IApiSession closed) throws ApiException;
 
 	/**
-	 * 
+	 * Pas utiliser par l'ApiWS
 	 */
 	void notifyWaitingForModel();
 
 
 	/**
-	 * 
+	 * TODO A faire: définir la signature de la méthode notifyWaitingForResult
 	 */
 	void notifyWaitingForResult();
 
 	/**
-	 * 
+	 * TODO A faire: définir la signature de la méthode notifyEndResult
 	 */
 	void notifyEndResult();
 }
