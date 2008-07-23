@@ -193,6 +193,11 @@ public class Speaker implements ISpeaker {
 		Unauthentification unauth = null;
 
 		try {
+			// Attendre une période du ping avant la fermeture
+			// de la connection pour eviter une erreur qui vient du listener
+			// disant qu'il n'est pas authentifier.
+			Thread.sleep(auth.getPeriodPing() * 1000);
+
 			if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
@@ -208,7 +213,10 @@ public class Speaker implements ISpeaker {
         } catch (GException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return unauth;
 	}

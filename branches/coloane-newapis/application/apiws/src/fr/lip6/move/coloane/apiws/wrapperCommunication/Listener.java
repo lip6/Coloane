@@ -42,7 +42,7 @@ public class Listener extends Thread implements IListener {
 	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables) {
 		this.auth = auth;
 		this.stub = stub;
-		this.durePing = auth.getPeriodPing();
+		this.durePing = auth.getPeriodPing() * 1000;
 		this.stopThread = false;
 		this.listObservable = listObservables;
 
