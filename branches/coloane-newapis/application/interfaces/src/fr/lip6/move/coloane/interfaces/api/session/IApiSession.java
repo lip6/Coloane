@@ -27,7 +27,7 @@ public interface IApiSession {
 	 * Recupere la date de la session courrante
 	 * @return la date de la session courrante
 	 */
-	String getSessionDate();
+	int getSessionDate();
 
 	/**
 	 * Recupere l'interlocuteur (l'outil) de la session courrante
