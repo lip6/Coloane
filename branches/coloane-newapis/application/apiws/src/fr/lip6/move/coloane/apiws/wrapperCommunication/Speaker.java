@@ -40,9 +40,14 @@ public class Speaker implements ISpeaker {
 
 	/**
 	 * Constructeur
+	 * @param ipServer adresse IP du serveur où se trouve le wrapper
+	 * @param portServer port du serveur où se trouve le wrapper
+	 * @param cheminServer le chemin où se trouve le wrapper
 	 */
-	public Speaker() {
+	public Speaker(String ipServer, int portServer, String cheminServer) {
 		try {
+			//System.out.println("Adresse: " + "http://" + ipServer + ":" + portServer + cheminServer);
+			//stub = new WrapperStub("http://" + ipServer + ":" + portServer + cheminServer);
 			stub = new WrapperStub("http://izanami.rsr.lip6.fr:8081/axis2/services/Wrapper");
 			//Options op = stub._getServiceClient().getOptions();
 			//op.setTimeOutInMilliSeconds(120000);
