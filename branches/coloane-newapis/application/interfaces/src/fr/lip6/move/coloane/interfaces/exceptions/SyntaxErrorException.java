@@ -13,40 +13,34 @@ public class SyntaxErrorException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/** Message associee a l'exception */
-	private String msg;
+	private String message;
 
 	/** Constructeur */
 	public SyntaxErrorException() {
-		super();
+		this.message = "Unknown Syntax Error";
 	}
 
 	/**
 	 * Construteur
-	 * Ce construteur permet d'associer un message d'erreur a l'exception qu'on leve
-	 * @param message Me message d'explication
+	 * Ce construteur permet d'associer un message d'erreur a l'exception qu'on lève
+	 * @param message Message de détails
 	 */
 	public SyntaxErrorException(final String message) {
-		super(message);
-		this.msg = message;
+		this.message = "Syntax Error : " + message;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Throwable#getMessage()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
-	public String getMessage() {
-		return this.msg;
+	public final String getMessage() {
+		return this.message;
 	}
+
 	/**
-	 * Production d'une chaine de caractere depuis l'exception
-	 * @return string Le messaeg complet d'erreur
+	 * {@inheritDoc}
 	 */
 	public final String toString() {
-		if (msg != null) {
-			return new String("Syntax Error Exception : " + msg); //$NON-NLS-1$
-		} else {
-			return "Syntax Error"; //$NON-NLS-1$
-		}
+		return this.message;
 	}
 }
