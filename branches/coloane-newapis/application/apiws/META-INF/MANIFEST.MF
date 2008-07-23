@@ -71,7 +71,7 @@ Bundle-ClassPath: .,
  lib/XmlSchema-1.3.2.jar
 Require-Bundle: fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.core
-Export-Package: fr.lip6.move.coloane.apiws.connection,
+Export-Package: fr.lip6.move.coloane.apiws,
  fr.lip6.move.coloane.apiws.evenements,
  fr.lip6.move.coloane.apiws.interfaces.observables,
  fr.lip6.move.coloane.apiws.interfaces.session,

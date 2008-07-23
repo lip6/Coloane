@@ -1,4 +1,4 @@
-package test;
+package fr.lip6.move.coloane.apiws.test;
 
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;

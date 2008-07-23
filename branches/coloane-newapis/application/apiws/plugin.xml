@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.apis">
       <API
-            class="fr.lip6.move.coloane.apiws.connection.Api"
+            class="fr.lip6.move.coloane.apiws.Api"
             name="API-WS">
       </API>
    </extension>
