@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.session;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 
 import java.util.List;
@@ -121,16 +122,11 @@ public interface IApiSession {
 
 	/**
 	 * Envoie la boite de dialogue reponse
-	 * @param idDialog l'identifiant de la boite de dialog
-	 * @param buttonAnswer le type de la reponse (OK/CANCEL)
-	 * @param modified si la boite de dialogue a subi une modification
-	 * @param value la valeur à envoyer
-	 * @param lines ????
-	 * @param objects ????
+	 * @param dialogAnswer la boîte dialogue réponse à envoyer.
 	 * @return true, si l'envoie a reussie.
 	 * @throws ApiException si l'envoie la boite de dialogue réponse échoue.
 	 */
-	boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, List<String> lines, List<Integer> objects) throws ApiException;
+	boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException;
 
 	/**
 	 * Envoie un model
