@@ -98,7 +98,7 @@ public interface IApiConnection {
 	/**
 	 * Creer une session
 	 * @return une session
-	 * @throws ApiException si la session n'est pas valide
+	 * @throws ApiException si la création de la session échoue: l'utilisateur n'est pas connecté.
 	 */
-	IApiSession getApiSession() throws ApiException;
+	IApiSession createApiSession() throws ApiException;
 }
