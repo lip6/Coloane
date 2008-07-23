@@ -1,12 +1,14 @@
 package fr.lip6.move.coloane.api;
 
-import fr.lip6.move.coloane.api.log.ApiHandler;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
@@ -22,26 +24,38 @@ public class Api implements IApi {
 	static { initializeLogger(); }
 
 	/**
-	 * Initialisation du logger pour l'API entière
+	 * Initialisation du logger d'evenements
 	 */
 	private static void initializeLogger() {
-		Logger log = Logger.getLogger("fr.lip6.move.coloane.apicami");
-		log.setLevel(Level.FINEST); // On loggue tout !
+		Logger log = Logger.getLogger("fr.lip6.move.coloane.apiws"); //$NON-NLS-1$
+		log.setLevel(Level.ALL); // On loggue tout !
+		log.addHandler(new Handler() {
+			@Override
+			public void close() throws SecurityException { }
+			@Override
+			public void flush() { }
+			@Override
+			public void publish(LogRecord record) {
+				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceClassName() + "." + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+			}
+		});
+
 		try {
-			log.addHandler(new ApiHandler());
-		} catch (SecurityException e) {
-			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
-		} catch (FileNotFoundException e) {
-			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
-		} catch (IOException e) {
-			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier");
+		ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
+		ColoaneLogFormatter format = new ColoaneLogFormatter();
+		handler.setFormatter(format);
+		log.addHandler(handler);
+		} catch (IOException ioe) {
+			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
+		} catch (SecurityException se) {
+			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IApiConnection getApiConnection() {
+	public final IApiConnection createApiConnection() {
 		return new ApiConnection(uiName, uiVersion);
 	}
 }
