@@ -1,26 +1,35 @@
 package fr.lip6.move.coloane.interfaces.api.objects;
 
+/**
+ * Cette interface définie les informations sur une session.
+ * <ul>
+ * 	<li> Le nom du service </li>
+ * 	<li> Les informations relatives au service </li>
+ * 	<li> L'incrmental </li>
+ * 	<li> Le resultat déjà calculé </li>
+ * </ul>
+ */
 public interface ISessionInfo {
-	
+
 	/**
 	 * Retourne le nom du service.
 	 * @return String
 	 */
-	public String getNameService();
+	String getNameService();
 
 
 	/**
 	 * Retourne des informations relatives au service.
 	 * @return String
 	 */
-	public String getAboutService();
+	String getAboutService();
 
 
 	/**
 	 * Retourne l'incrmental.
 	 * @return String
 	 */
-	public String getIncremental();
+	String getIncremental();
 
 
 	/**
@@ -29,5 +38,5 @@ public interface ISessionInfo {
 	 *  (2) non
 	 * @return String
 	 */
-	public int getResultatCalcule();
+	int getResultatCalcule();
 }
