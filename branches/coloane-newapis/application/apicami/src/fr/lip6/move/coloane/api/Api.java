@@ -27,7 +27,7 @@ public class Api implements IApi {
 	 * Initialisation du logger d'evenements
 	 */
 	private static void initializeLogger() {
-		Logger log = Logger.getLogger("fr.lip6.move.coloane.apiws"); //$NON-NLS-1$
+		Logger log = Logger.getLogger("fr.lip6.move.coloane.apicami"); //$NON-NLS-1$
 		log.setLevel(Level.ALL); // On loggue tout !
 		log.addHandler(new Handler() {
 			@Override
