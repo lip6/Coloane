@@ -40,10 +40,16 @@ public class ApiConnection implements IApiConnection {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private boolean connectionOpened;
-	private String ipServer;
 	private String login;
 	private String password;
+	private String ipServer;
 	private int portServer;
+
+	/**
+	 * TODO : Ajouter plus tard un setteur sur le chemin du serveur.
+	 */
+	private String cheminServer = "/axis2/services/Wrapper";
+
 	private ISessionController sessionController;
 	private ISpeaker speaker;
 	private IListener listener;
@@ -171,7 +177,7 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		LOGGER.finer("Demande la création du Speaker");
-		this.speaker = new Speaker();
+		this.speaker = new Speaker(ipServer, portServer, cheminServer);
 		Authentification auth = speaker.openConnection(login, password);
 
 		LOGGER.finer("Demande la création du Listener");
