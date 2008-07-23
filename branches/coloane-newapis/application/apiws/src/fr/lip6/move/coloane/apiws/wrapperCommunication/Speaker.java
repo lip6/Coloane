@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
-import fr.lip6.move.wrapper.ws.GExceptionException0;
+import fr.lip6.move.wrapper.ws.GException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDb;
 import fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse;
@@ -90,7 +90,7 @@ public class Speaker implements ISpeaker {
             ApiException ee = new ApiException(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
-		} catch (GExceptionException0 e) {
+		} catch (GException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -117,7 +117,7 @@ public class Speaker implements ISpeaker {
             ApiException ee = new ApiException(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
-        } catch (GExceptionException0 e) {
+        } catch (GException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -145,7 +145,7 @@ public class Speaker implements ISpeaker {
             ApiException ee = new ApiException(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
-		} catch (GExceptionException0 e) {
+		} catch (GException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -173,7 +173,7 @@ public class Speaker implements ISpeaker {
             ApiException ee = new ApiException(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
-        } catch (GExceptionException0 e) {
+        } catch (GException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class Speaker implements ISpeaker {
             ApiException ee = new ApiException(e.getMessage());
             // TODO Auto-generated catch block
             throw ee;
-        } catch (GExceptionException0 e) {
+        } catch (GException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -227,7 +227,7 @@ public class Speaker implements ISpeaker {
 			ApiException ee = new ApiException(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
-		} catch (GExceptionException0 e) {
+		} catch (GException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

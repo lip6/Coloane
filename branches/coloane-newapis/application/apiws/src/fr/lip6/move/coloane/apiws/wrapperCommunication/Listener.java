@@ -7,7 +7,7 @@ import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
-import fr.lip6.move.wrapper.ws.GExceptionException0;
+import fr.lip6.move.wrapper.ws.GException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.AsyncMessage;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
@@ -80,7 +80,7 @@ public class Listener extends Thread implements IListener {
 				if (message.getTraces() != null) {
 					for (int i = 0; i < message.getTraces().length; i++) {
 						// TODO Passer en parametre plus tard le type du message
-						ReceptMessage m = new ReceptMessage(0/* message.getType()*/, message.getTraces()[i].getMessage());
+						ReceptMessage m = new ReceptMessage(message.getTraces()[i].getNtype(), message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 					}
 				}
@@ -95,7 +95,7 @@ public class Listener extends Thread implements IListener {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (GExceptionException0 e) {
+			} catch (GException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ApiException e) {

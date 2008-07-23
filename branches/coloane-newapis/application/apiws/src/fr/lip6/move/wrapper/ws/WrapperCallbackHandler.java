@@ -39,21 +39,6 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for answerDb method
-     * override this method for handling normal response from answerDb operation
-     */
-    public void receiveResultanswerDb(
-        fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from answerDb operation
-     */
-    public void receiveErroranswerDb(java.lang.Exception e) {
-    }
-
-    /**
      * auto generated Axis2 call back method for closeSession method
      * override this method for handling normal response from closeSession operation
      */
@@ -86,21 +71,6 @@ public abstract class WrapperCallbackHandler {
     // No methods generated for meps other than in-out
 
     /**
-     * auto generated Axis2 call back method for changeSession method
-     * override this method for handling normal response from changeSession operation
-     */
-    public void receiveResultchangeSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.ChangeSessionResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from changeSession operation
-     */
-    public void receiveErrorchangeSession(java.lang.Exception e) {
-    }
-
-    /**
      * auto generated Axis2 call back method for disconnectAllUser method
      * override this method for handling normal response from disconnectAllUser operation
      */
@@ -113,21 +83,6 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling error response from disconnectAllUser operation
      */
     public void receiveErrordisconnectAllUser(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for ping method
-     * override this method for handling normal response from ping operation
-     */
-    public void receiveResultping(
-        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from ping operation
-     */
-    public void receiveErrorping(java.lang.Exception e) {
     }
 
     /**
@@ -146,18 +101,18 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for disconnect method
-     * override this method for handling normal response from disconnect operation
+     * auto generated Axis2 call back method for answerDb method
+     * override this method for handling normal response from answerDb operation
      */
-    public void receiveResultdisconnect(
-        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse result) {
+    public void receiveResultanswerDb(
+        fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse result) {
     }
 
     /**
      * auto generated Axis2 Error handler
-     * override this method for handling error response from disconnect operation
+     * override this method for handling error response from answerDb operation
      */
-    public void receiveErrordisconnect(java.lang.Exception e) {
+    public void receiveErroranswerDb(java.lang.Exception e) {
     }
 
     /**
@@ -173,5 +128,50 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling error response from connect operation
      */
     public void receiveErrorconnect(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for changeSession method
+     * override this method for handling normal response from changeSession operation
+     */
+    public void receiveResultchangeSession(
+        fr.lip6.move.wrapper.ws.WrapperStub.ChangeSessionResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from changeSession operation
+     */
+    public void receiveErrorchangeSession(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for disconnect method
+     * override this method for handling normal response from disconnect operation
+     */
+    public void receiveResultdisconnect(
+        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from disconnect operation
+     */
+    public void receiveErrordisconnect(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for ping method
+     * override this method for handling normal response from ping operation
+     */
+    public void receiveResultping(
+        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from ping operation
+     */
+    public void receiveErrorping(java.lang.Exception e) {
     }
 }
