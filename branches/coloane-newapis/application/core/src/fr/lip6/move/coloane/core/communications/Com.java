@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.communications;
 
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
@@ -116,10 +117,9 @@ public final class Com implements ICom {
 	}
 
 	/**
-	 * Déconnexion brutale
-	 * @throws ApiException En cas de problème
+	 * Déconnexion
 	 */
-	public void breakConnection() throws ApiException {
+	public void breakConnection() {
 		connection.closeConnection();
 	}
 

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 import java.util.logging.Logger;
@@ -15,6 +15,6 @@ public class BrutalInterruptObserver implements IBrutalInterruptObserver {
 	/** {@inheritDoc} */
 	public final void update(String e) {
 		LOGGER.warning("Réception d'un demande de déconnexion forcée : " + e); //$NON-NLS-1$
-		SessionManager.getInstance().setAuthenticated(false);
+		Motor.getInstance().breakConnection();
 	}
 }
