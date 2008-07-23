@@ -9,6 +9,6 @@ Provide-Package: fr.lip6.move.coloane.api.exceptions,
 Require-Bundle: fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.core
 Bundle-ManifestVersion: 2
-Export-Package: fr.lip6.move.coloane.api.apiPackage
+Export-Package: fr.lip6.move.coloane.api
 Bundle-ClassPath: .,
  lib/antlrworks-1.1.7.jar
