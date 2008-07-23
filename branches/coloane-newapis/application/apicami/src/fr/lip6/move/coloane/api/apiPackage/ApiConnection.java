@@ -75,11 +75,11 @@ public class ApiConnection implements IApiConnection {
 
 
 	/**
-	 * Constructeur
+	 * Constructeur<br>
 	 * Initialise la connexion en créant :
 	 *  - le thread listener.
 	 *  - le speaker.
-	 * On crée aussi une instance de sessionController (qui gére les sessions).
+	 * On crée aussi une instance de sessionController (qui gére les sessions).<br>
 	 * La connexion n'est pas ouverte ici, elle est faite sur l'appel
 	 * de la méthode openConnection() après avoir configuré la connexion (méthodes setxxx())
 	 *
