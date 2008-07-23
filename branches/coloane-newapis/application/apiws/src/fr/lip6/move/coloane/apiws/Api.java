@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.apiws;
 
-import fr.lip6.move.coloane.apiws.log.ApiLogFormatter;
-import fr.lip6.move.coloane.apiws.log.ApiLogHandler;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
+import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
 import java.io.IOException;
 import java.util.logging.Handler;
@@ -45,8 +45,8 @@ public class Api implements IApi {
 		});
 
 		try {
-		ApiLogHandler handler = ApiLogHandler.getInstance();
-		ApiLogFormatter format = new ApiLogFormatter();
+		ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
+		ColoaneLogFormatter format = new ColoaneLogFormatter();
 		handler.setFormatter(format);
 		log.addHandler(handler);
 		} catch (IOException ioe) {
