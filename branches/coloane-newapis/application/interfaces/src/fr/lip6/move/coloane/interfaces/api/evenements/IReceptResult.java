@@ -1,12 +1,8 @@
 package fr.lip6.move.coloane.interfaces.api.evenements;
 
-import fr.lip6.move.coloane.interfaces.objects.result.IResult;
-
+/**
+ * Cette interface définie l'objet résultat à envoyer aux observateurs d'événements: réception de résultats.
+ */
 public interface IReceptResult {
 
-	/**
-	 * Recupere le resultat
-	 * @return le resultat
-	 */
-	public IResult getResult();
 }
