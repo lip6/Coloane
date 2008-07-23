@@ -16,7 +16,7 @@ public class ReceptDialogObserver implements IReceptDialogObserver {
 		System.out.println("DIALOG");
 		this.idDialog = dialog.getId();
 		try {
-			session.sendDialogAnswer(getIdDialog(), IDialog.DLG_NO_BUTTON, false, "", null, null);
+			session.sendDialogAnswer(new DialogAnswer(getIdDialog(), IDialog.DLG_NO_BUTTON, false, "", null));
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
