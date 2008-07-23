@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class ApiSession implements IApiSession {
 
-	private String sessionDate;
+	private int sessionDate;
 
 	private String sessionFormalism;
 
@@ -43,7 +44,7 @@ public class ApiSession implements IApiSession {
 	 * @param speaker le speaker à utiliser par la session
 	 */
 	public ApiSession(ISessionController sessionController, ISpeaker speaker) {
-		this.sessionDate = null;
+		this.sessionDate = -1;
 		this.sessionFormalism = null;
 		this.sessionName = null;
 		this.interlocutor = null;
@@ -73,7 +74,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getSessionDate() {
+	public final int getSessionDate() {
 		return sessionDate;
 	}
 
@@ -109,7 +110,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
@@ -135,7 +136,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException {
+	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName) throws ApiException {
 		// TODO Auto-generated method stub
 		return openSession(sessionDate, sessionFormalism, sessionName, "FrameKit Environment", 1);
 	}
@@ -180,16 +181,17 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, List<String> lines, List<Integer> objects) throws ApiException {
+	public final boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
 
 		DialogBox answer = new DialogBox();
 		answer.setAnswer(new DBAnswer());
 
-		answer.getAnswer().setId(idDialog);
-		answer.getAnswer().setButtonAnswer(buttonAnswer);
-		answer.getAnswer().setModified(modified);
-		answer.getAnswer().setValue(value);
+		answer.getAnswer().setId(dialogAnswer.getIdDialog());
+		answer.getAnswer().setButtonAnswer(dialogAnswer.getButtonType());
+		answer.getAnswer().setModified(dialogAnswer.isModified());
+		answer.getAnswer().setValue(dialogAnswer.getValue());
 
+		List<Integer> objects = dialogAnswer.getObjects();
 		if (objects != null) {
 			int [] objectsArray = new int[objects.size()];
 			int cpt = 0;
