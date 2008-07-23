@@ -214,7 +214,7 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IApiSession getApiSession() throws ApiException {
+	public final IApiSession createApiSession() throws ApiException {
 		if (!connectionOpened) {
 			LOGGER.warning("Impossible de créer une session: aucune connexion n'est ouverte");
 			throw new ApiException("Aucune connexion n'est ouverte");
