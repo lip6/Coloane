@@ -1,6 +1,6 @@
 package test;
 
-import fr.lip6.move.coloane.apiws.connection.Api;
+import fr.lip6.move.coloane.apiws.Api;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
