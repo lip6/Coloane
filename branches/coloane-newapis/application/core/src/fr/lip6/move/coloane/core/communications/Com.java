@@ -5,7 +5,7 @@ import fr.lip6.move.coloane.interfaces.api.connection.IApi;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,43 +30,12 @@ public final class Com implements ICom {
 	/** L'instance de Com */
 	private static Com instance = null;
 
-	/** L'objet IApi courrant */
-	private IApi api = null;
-
 	private IApiConnection connection;
 
 	/**
 	 * Construteur de l'objet en charge des communication avec une API
 	 */
 	private Com() {	}
-
-	/**
-	 * Creer une instance d'une API de communication
-	 * @param name Le nom de l'API qu'on souhaite instancier
-	 * @return une API fraîchement créée
-	 * @throws CoreException Exception lors de la creation d'une instance
-	 */
-	private static IApi getApi(String name) throws CoreException {
-		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		for (IConfigurationElement element : contributions) {
-			if (element.getAttribute("name").equals(name)) { //$NON-NLS-1$
-				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
-			}
-		}
-		throw new IllegalArgumentException("L'API " + name + " n'est pas reconnue");  //$NON-NLS-1$//$NON-NLS-2$
-	}
-
-	/**
-	 * @return liste des noms des APIs disponibles
-	 */
-	public static List<String> getApisName() {
-		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		List<String> apis = new ArrayList<String>();
-		for (IConfigurationElement element : contributions) {
-			apis.add((String) element.getAttribute("name")); //$NON-NLS-1$
-		}
-		return apis;
-	}
 
 	/**
 	 * Renvoie toujours le même objet Com
@@ -81,6 +50,34 @@ public final class Com implements ICom {
 	}
 
 	/**
+	 * Créer une instance d'une API de communication
+	 * @param name Le nom de l'API qu'on souhaite instancier
+	 * @return une API fraîchement créée
+	 * @throws CoreException Exception lors de la creation d'une instance
+	 */
+	private IApi getApi(String name) throws CoreException {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		for (IConfigurationElement element : contributions) {
+			if (element.getAttribute("name").equals(name)) { //$NON-NLS-1$
+				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
+			}
+		}
+		throw new IllegalArgumentException("L'API " + name + " n'est pas reconnue");  //$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	/**
+	 * @return liste des noms des APIs disponibles
+	 */
+	public List<String> getApisName() {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		List<String> apis = new ArrayList<String>();
+		for (IConfigurationElement element : contributions) {
+			apis.add((String) element.getAttribute("name")); //$NON-NLS-1$
+		}
+		return apis;
+	}
+
+	/**
 	 * Authentification
 	 * @param infos informations de connexion (contient login, pass etc...)
 	 * @param monitor le moniteur d'avancement
@@ -88,6 +85,7 @@ public final class Com implements ICom {
 	 * @throws ApiException En cas de problème
 	 */
 	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
+		IApi api;
 		try {
 			api = getApi(infos.getApiType());
 		} catch (CoreException e) {
@@ -95,11 +93,24 @@ public final class Com implements ICom {
 			e.printStackTrace();
 			return null;
 		}
+
+		// Création d'un objet de connection
 		connection = api.getApiConnection();
+
+		// Parametres de connection
 		connection.setIpServer(infos.getIp());
 		connection.setPortServer(infos.getPort());
 		connection.setLogin(infos.getLogin());
 		connection.setPassword(infos.getPass());
+
+		// Observers pour tous les messages asynchrones
+		// TODO : dans un Thread ou pas ?
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
+		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
+		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
+		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
+		connection.setReceptResultObserver(new ReceptResultObserver(), false);
+
 		IConnectionInfo connectionInfo = connection.openConnection();
 		return connectionInfo;
 	}
@@ -109,32 +120,14 @@ public final class Com implements ICom {
 	 * @throws ApiException En cas de problème
 	 */
 	public void breakConnection() throws ApiException {
-		if (connection != null) {
-			connection.closeConnection();
-		}
+		connection.closeConnection();
 	}
 
 	/**
-	 * Ouverture de session (connexion de modèle)
-	 * @param graph Le modèle qui doit être connecté à la plateforme
-	 * @param monitor Le moniteur d'avancement
-	 * @return ????
-	 * TODO : Il faut virer cet Object !!!
+	 * @return une nouvelle IApiSession non connecté
+	 * @throws ApiException {@link IApiSession}
 	 */
-	public Object openSession(IGraph graph, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-		return null;
+	public IApiSession createApiSession() throws ApiException {
+		return connection.createApiSession();
 	}
-
-	/**
-	 * Fermeture de session (déconnexion de modèle)
-	 * @param monitor Le moniteur d'avancement
-	 * @return ????
-	 * TODO : Il faut virer cet Object !!!
-	 */
-	public Object closeSession(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
