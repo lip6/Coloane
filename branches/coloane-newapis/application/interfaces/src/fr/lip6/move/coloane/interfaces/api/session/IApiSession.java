@@ -1,52 +1,55 @@
 package fr.lip6.move.coloane.interfaces.api.session;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.model.IModel;
 
+import java.util.List;
+
+/**
+ * Cette interface définie une session.
+ */
 public interface IApiSession {
-	
+
 	/**
 	 * Recupere le nom de la session courrante
 	 * @return le nom de la session
 	 */
-	public String getSessionName();
-	
+	String getSessionName();
+
 	/**
 	 * Recupere le formalise de la session courrante
 	 * @return le formalise de la session courrante
 	 */
-	public String getSessionFormalism();
-	
+	String getSessionFormalism();
+
 	/**
 	 * Recupere la date de la session courrante
 	 * @return la date de la session courrante
 	 */
-	public String getSessionDate();
-	
+	String getSessionDate();
+
 	/**
 	 * Recupere l'interlocuteur (l'outil) de la session courrante
 	 * @return l'interlocuteur de la session courrante
 	 */
-	public String getInterlocutor();
-	
+	String getInterlocutor();
+
 	/**
 	 * Recupere le mode de la session courrante
 	 * @return le mode de la session courrante
 	 */
-	public int getMode();
-	
+	int getMode();
+
 	/**
 	 * Recupere l'identifiant d'une session.
-	 * Cette methode est utiliser par l'apiws, pour identifier une session 
+	 * Cette methode est utiliser par l'apiws, pour identifier une session
 	 * car le nom d'un session n'est pas forcement unique chez le wrapper.
 	 * Dans le cas de l'api-antlr idSession peut-etre considerer comme egale a nameSession.
 	 * @return l'identifiant d'une session.
 	 */
-	public String getIdSession();
-	
+	String getIdSession();
+
 	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
@@ -54,80 +57,90 @@ public interface IApiSession {
 	 * @param sessionName nom de la session.
 	 * @param interlocutor l'interlocuteur (l'outil).
 	 * @param mode le mode (interactif ou batch).
-	 * @return les informations sur la session ouverte
+	 * @return les informations sur la session ouverte.
+	 * @throws ApiException si l'ouverture d'une session échoue.
 	 */
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism,String sessionName,String interlocutor,int mode) throws ApiException;
-	
+	ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException;
+
 	/**
 	 * Ouvre une session
 	 * @param sessionDate date de la session.
 	 * @param sessionFormalism formalisme de la session.
 	 * @param sessionName nom de la session.
-	 * @return les informations sur la session ouverte
+	 * @return les informations sur la session ouverte.
+	 * @throws ApiException si l'ouverture d'une session échoue.
 	 */
-	public ISessionInfo openSession(String sessionDate, String sessionFormalism,String sessionName) throws ApiException;
+	ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException;
 
 	/**
 	 * Suspend la session courrante
-	 * @return true, si la session est bien suspendu, false sinon
+	 * @return true, si la session est bien suspendu.
+	 * @throws ApiException si la suspention de la session échoue.
 	 */
-	public boolean suspendSession() throws ApiException;
-	
+	boolean suspendSession() throws ApiException;
+
 	/**
 	 * Restaure la session courrante
-	 * @return true, si la session est bien restaure, false sinon
+	 * @return true, si la session est bien restaure.
+	 * @throws ApiException si la restauration de la session échoue.
 	 */
-	public boolean resumeSession() throws ApiException;
+	boolean resumeSession() throws ApiException;
 
 	/**
 	 * Ferme la session courrante.
-	 * @return true, si la session est bien fermee, false sinon
+	 * @return true, si la session est bien fermee.
+	 * @throws ApiException si la fermeture de la session échoue.
 	 */
-	public boolean closeSession() throws ApiException;
+	boolean closeSession() throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
-	 * @param rootName 
-	 * @param menuName
-	 * @param serviceName
-	 * @param options 
-	 * @param model
-	 * @return true, si la demande de service a reussie, false sinon
+	 * @param rootName nom du menu principal du service
+	 * @param menuName nom du sous-menu du menu principal du service
+	 * @param serviceName nom du service
+	 * @param options la liste des options cochés
+	 * @param model le model sur lequel invoquer le service
+	 * @return true, si la demande de service a reussie.
+	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<String> options,IModel model) throws ApiException;
+	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model) throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante
-	 * @param rootName
-	 * @param menuName
-	 * @param serviceName
-	 * @param options 
-	 * @param model
-	 * @param date
-	 * @return true, si la demande de service a reussie, false sinon
+	 * @param rootName nom du menu principal du service
+	 * @param menuName nom du sous-menu du menu principal du service
+	 * @param serviceName nom du service
+	 * @param options la liste des options cochés
+	 * @param model le model sur lequel invoquer le service
+	 * @param date la date du model
+	 * @return true, si la demande de service a reussie.
+	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	public boolean askForService(String rootName,String menuName, String serviceName, ArrayList<String> options,IModel model, String date) throws ApiException;
+	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IModel model, String date) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
 	 * @param idDialog l'identifiant de la boite de dialog
 	 * @param buttonAnswer le type de la reponse (OK/CANCEL)
 	 * @param modified si la boite de dialogue a subi une modification
-	 * @param value ????
+	 * @param value la valeur à envoyer
 	 * @param lines ????
-	 * @param objects ???
-	 * @return true, si l'envoie a reussie, false sinon
+	 * @param objects ????
+	 * @return true, si l'envoie a reussie.
+	 * @throws ApiException si l'envoie la boite de dialogue réponse échoue.
 	 */
-	public boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, ArrayList<String> lines, ArrayList<Integer> objects) throws ApiException;
-	
+	boolean sendDialogAnswer(int idDialog, int buttonAnswer, boolean modified, String value, List<String> lines, List<Integer> objects) throws ApiException;
+
 	/**
-	 * 
-	 * @param model
+	 * Envoie un model
+	 * @param model le model a envoyer
+	 * @throws ApiException si l'envoie du model échoue
 	 */
-	public void sendModel(IModel model) throws ApiException;
-	
+	void sendModel(IModel model) throws ApiException;
+
 	/**
-	 * 
+	 * Invalide un model
+	 * @throws ApiException si l'invalidation du model échoue
 	 */
-	public void invalidModel() throws ApiException;
+	void invalidModel() throws ApiException;
 }
