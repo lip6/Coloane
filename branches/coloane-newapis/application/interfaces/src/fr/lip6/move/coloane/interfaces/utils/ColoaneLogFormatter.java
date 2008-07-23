@@ -5,19 +5,22 @@ import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+/**
+ * Classe responsable du format des logs
+ */
 public class ColoaneLogFormatter extends Formatter {
 	private static String version;
 
 	/**
 	 * Indique au formatter la version de coloane utilisee
+	 * @param v La version
 	 */
 	public final void setVersion(String v) {
 		version = v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final String format(LogRecord record) {
@@ -49,6 +52,9 @@ public class ColoaneLogFormatter extends Formatter {
 		return l.toString();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final String getHead(Handler h) {
 		return "-------- COLOANE (" + version + ") --------\n\n"; //$NON-NLS-1$ //$NON-NLS-2$
