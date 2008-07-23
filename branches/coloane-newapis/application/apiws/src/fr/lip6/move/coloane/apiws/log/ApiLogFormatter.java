@@ -4,11 +4,13 @@ import java.util.Calendar;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * Classe responsable du format des logs
+ */
 public class ApiLogFormatter extends Formatter {
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final String format(LogRecord record) {
