@@ -40,8 +40,13 @@ public interface IDialog {
 	int MULTI_LINE_WITH_MULTI_SELECTION = 5;
 
 	/**
-	 * Retourne le type des boutons affiches dans la boite dialogue
-	 * @return le type des boutons affiches dans la boite dialogue
+	 * Retourne le type des boutons affiches dans la boite dialogue<br>
+	 * <ul>
+	 * 	<li> 1 = pas de bouttons </li>
+	 * 	<li> 2 = un boutton (OK) </li>
+	 * 	<li> 3 = deux bouttons ( OK / CANCEL ) </li>
+	 * </ul>
+	 * @return Le type des boutons affiches dans la boite dialogue
 	 */
 	int getButtonType();
 
@@ -65,9 +70,13 @@ public interface IDialog {
 	int getId();
 
 	/**
-	 * Indique le type de saisie autorise<br>
-	 * Les valeurs possibles sont presentees dans IDialogCom
-	 * @return Le type de saisie de la boite de dialogue
+	 * Recupere le type de saisie<br>
+	 * <ul>
+	 * 	<li> 1 = saisie autoriser </li>
+	 * 	<li> 2 = saisie non autoriser </li>
+	 * 	<li> 3 = saisie autoriser avec possiblite d'annuler </li>
+	 * </ul>
+	 * @return le type de saisie
 	 */
 	int getInputType();
 
@@ -78,8 +87,13 @@ public interface IDialog {
 	String getMessage();
 
 	/**
-	 * Indique si la saisie a le droit d'etre multilignes
-	 * @return Un indicateur
+	 * Recupere le type du champ de saisie<br>
+	 * <ul>
+	 * 	<li> 1 = affichage mono-ligne </li>
+	 * 	<li> 2 = affichage multi-ligne avec selection simple </li>
+	 * 	<li> 5 = affichage multi-ligne avec selection multiple </li>
+	 * </ul>
+	 * @return le type du champ de saisie
 	 */
 	int getLineType();
 
@@ -90,7 +104,13 @@ public interface IDialog {
 	String getTitle();
 
 	/**
-	 * Retourne le type de boite de dialogue
+	 * Retourne le type de boite de dialogue<br>
+	 * <ul>
+	 * 	<li> 1 = Standard </li>
+	 * 	<li> 2 = Avertissement </li>
+	 * 	<li> 3 = Erreur </li>
+	 * 	<li> 4 = Intercactive </li>
+	 * </ul>
 	 * @return Le type de boite de dialogue
 	 */
 	int getType();
