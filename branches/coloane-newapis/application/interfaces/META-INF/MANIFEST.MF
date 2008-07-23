@@ -22,5 +22,4 @@ Provide-Package: fr.lip6.move.coloane.interfaces.api.connection,
  fr.lip6.move.coloane.interfaces.objects.result,
  fr.lip6.move.coloane.interfaces.translators,
  fr.lip6.move.coloane.interfaces.utils
-Require-Bundle: org.junit,
- org.eclipse.gef
+Require-Bundle: org.eclipse.gef
