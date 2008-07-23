@@ -60,7 +60,8 @@ public interface IApiSession {
 	 * @return les informations sur la session ouverte.
 	 * @throws ApiException si l'ouverture d'une session échoue.
 	 */
-	ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException;
+	@Deprecated
+	ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException;
 
 	/**
 	 * Ouvre une session
@@ -70,7 +71,7 @@ public interface IApiSession {
 	 * @return les informations sur la session ouverte.
 	 * @throws ApiException si l'ouverture d'une session échoue.
 	 */
-	ISessionInfo openSession(String sessionDate, String sessionFormalism, String sessionName) throws ApiException;
+	ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName) throws ApiException;
 
 	/**
 	 * Suspend la session courrante
