@@ -17,9 +17,9 @@ public class Api implements IApi {
 
 	/** Le Logger à initialiser */
 	private static Logger LOGGER;
-	static String uiName = "Coloane";
-	static String uiVersion = "X.x";
-	
+	private static String uiName = "Coloane";
+	private static String uiVersion = "3.0";
+
 	/** Constructeur */
 	public Api() {
 		initializeLogger();
@@ -29,7 +29,7 @@ public class Api implements IApi {
 	 * Initialisation du logger pour l'API entière
 	 */
 	private static void initializeLogger() {
-		LOGGER = Logger.getLogger("fr.lip6.move.coloane.api");
+		LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 		LOGGER.setLevel(Level.FINEST); // On loggue tout !
 		try {
 			LOGGER.addHandler(new ApiHandler());
@@ -46,17 +46,6 @@ public class Api implements IApi {
 	 * {@inheritDoc}
 	 */
 	public final IApiConnection getApiConnection() {
-		return new ApiConnection(this.uiName,this.uiVersion);
-	}
-	
-public String getUiName() {
-		
-		return this.uiName;
-	}
-
-
-	public String getUiVersion() {
-	
-		return this.uiVersion;
+		return new ApiConnection(uiName, uiVersion);
 	}
 }
