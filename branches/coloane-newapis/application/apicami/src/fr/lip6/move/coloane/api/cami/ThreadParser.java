@@ -13,17 +13,18 @@ import fr.lip6.move.coloane.api.interfaces.ISessionController;
 
 /**
  * Cette classe lance un thread qui récupère les commandes
- * à parser par l'intermediaire du thread Listener et delègue
+ * à parser par l'intermediaire du thread listener et délègue
  * le parsing à un parser ANTLR
  *
- * @author kahoo & uu
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  *
  */
 
 public class ThreadParser extends Thread {
 
 	/** file de lecture */
-	LinkedBlockingQueue fifo;
+	LinkedBlockingQueue<InputStream> fifo;
 
 	/** parser ANTLR */
 	CamiParser parser;
@@ -48,23 +49,15 @@ public class ThreadParser extends Thread {
 		this.sessionCont=sessionController;
 	}
 
-
 	/**
-	 * Code exécuté par le thread
+	 * {@inheritDoc}
 	 */
-	public void run(){
-
-		/* Boucle de récupération des InputStream sur les chaines de
-		 * commandes */
-		while(true){
+	public final void run() {
+		/* Boucle de récupération des InputStream sur les chaines de commandes */
+		while (true) {
 			/* se bloquer en attente d'un ensemble de commandes */
 			try {
-			
-				InputStream is;
-				
-				is = (InputStream)this.fifo.take();
-			
-				
+				InputStream is = (InputStream) this.fifo.take();
 
 				//TODO enlever
 				//System.out.println("lecture .......... de la file .....");
@@ -83,15 +76,13 @@ public class ThreadParser extends Thread {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}catch (IOException e1) {
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}catch (RecognitionException e2) {
+			} catch (RecognitionException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-
 		}
 	}
-
 }
