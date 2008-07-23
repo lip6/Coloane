@@ -1,32 +1,27 @@
 package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import fr.lip6.move.coloane.api.interfaces.IAttribute;
-
-import fr.lip6.move.coloane.api.interfaces.IInflexPoint;
-import fr.lip6.move.coloane.api.interfaces.IModel;
-import fr.lip6.move.coloane.api.interfaces.INode;
-import fr.lip6.move.coloane.api.interfaces.IArc;
-import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
+ * Cette classe génère les commandes CAMI prêtes à être envoyées à FK
  *
- * @author Kahoo & uu
- *
- * cette classe génère les commandes cami prêtes à être envoyées à FK
- *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  */
-
 public class CamiGenerator {
 
 	/**
-	 * Prepare la commande CAMI conformement aux requirements de FK 3 premiers
-	 * octects a 0 4eme octet indiquant la longueur du message
-	 *
-	 * @param command
-	 * @return
+	 * Prepare la commande CAMI conformement aux besoins de FrameKit :
+	 * <ul>
+	 * 	<li>3 premiers octects a 0 </li>
+	 * 	<li>4eme octet indiquant la longueur du message</li>
+	 * </ul>
+	 * @param command La commande à transmettre
+	 * @return la commande formatée pour FK
 	 */
 	private static byte[] initCommand(String command) {
 		byte[] toSend = new byte[command.length() + 4];
@@ -42,14 +37,10 @@ public class CamiGenerator {
 		for (int i = 0; i < message.length; i++) {
 			toSend[i + 4] = message[i];
 		}
-
 		return toSend;
 	}
 
-	
-
 	/**
-	 *
 	 * @return Commande DB formattee
 	 */
 	public static byte[] generateCmdDB() {
@@ -58,7 +49,6 @@ public class CamiGenerator {
 	}
 
 	/**
-	 *
 	 * @return Commande FB formattee
 	 */
 	public static byte[] generateCmdFB() {
@@ -67,95 +57,28 @@ public class CamiGenerator {
 	}
 
 	/**
-	 *
-	 * @param m modele sous forme objet à traduire en Cami
+	 * Traduction du modèle de haut niveau en commandes CAMI
+	 * @param model modele sous forme objet à traduire en Cami
 	 * @return ensemble de commandes cami decrivant un modele
 	 */
-	//TODO Noeuds : Attributs multiLines
-	//TODO Arc    : positions intermediaires
-	public static ArrayList<byte[]> generateCamiModel(IModel m) {
-		ArrayList <byte[]> camiModel = new ArrayList <byte[]>();
-
-		/** generer les noeuds cami */
-		for(int i=0; i<m.getNodes().size(); i++){
-			INode node = m.getNodes().get(i);
-			/** creer le noeud */
-			String command = new String("CN(" + node.getNodeType().length()
-					+  ":" + node.getNodeType() + ","+ node.getId() + ")");
-			camiModel.add(initCommand(command));
-
-			/** ses positions X et Y  PO */
-			command = new String("PO(" + node.getId()
-					+ ","+ node.getXPosition() + "," + node.getYPosition() + ")");
-			camiModel.add(initCommand(command));
-
-			/** ses attributs monolignes */
-			for(int j=0; j<node.getListOfAttr().size(); j++){
-				IAttribute att = node.getListOfAttr().get(j);
-				command = new String("CT(" + att.getName().length()
-						+ ":" + att.getName()
-						+ ","+ node.getId() + "," + att.getValue().length()
-						+ ":" + att.getValue()
-						 + ")");
-				camiModel.add(initCommand(command));
-			}
-		}
-
-		/** generer les arcs cami   */
-
-		for(int i=0; i<m.getArcs().size(); i++){
-			IArc arc = m.getArcs().get(i);
-			/** creer le noeud */
-			String command = new String("CA(" + arc.getArcType().length()
-					+ ":"+arc.getArcType()
-					+ ","+ arc.getId()
-					+ ","+ arc.getStartingNode()
-					+ ","+ arc.getEndingNode()
-					+ ")");
-			
-			camiModel.add(initCommand(command));
-
-			/** ses attributs monolignes */
-			for(int j=0; j<arc.getListOfAttr().size(); j++){
-				IAttribute att = arc.getListOfAttr().get(j);
-				command = new String("CT(" + att.getName().length()
-						+ ":" + att.getName()
-						+ ","+ arc.getId() + ","+ att.getValue().length()
-						+ ":" + att.getValue()
-						 + ")");
-				camiModel.add(initCommand(command));
-			}
-
-			
-			/** ses point intermediaires*/
-		
-			for(int j=0; j<arc.getListOfPI().size(); j++){
-				IInflexPoint att = (IInflexPoint) arc.getListOfPI().get(j);
-				command = new String("PI(-1," + arc.getId()
-						+ "," + att.getXPosition()
-						+ ","+ att.getYPosition()
-						 + ",-1)");
-				camiModel.add(initCommand(command));
-			}
-			
-
-		}
-
-		return camiModel;
+	public static List<byte[]> generateCamiModel(IGraph model) {
+		return null;
 	}
 
 	/**
-	 *
 	 * @param interlocutor : outil interlocuteur
 	 * @param mode : batch/interactif (0/1)
 	 * @return
 	 */
 	public static byte[] generateCmdCI(String interlocutor, int mode) {
-		String command = new String("CI(" + interlocutor.length() + ":"
-				+ interlocutor + "," + mode + ")");
+		String command = new String("CI(" + interlocutor.length() + ":" + interlocutor + "," + mode + ")");
 		return initCommand(command);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static byte[] generateCmdDI() {
 		String command = new String("DI()");
 		return (initCommand(command));
@@ -179,6 +102,10 @@ public class CamiGenerator {
 		return (initCommand(command));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static byte[] generateCmdFT() {
 		String command = new String("FT()");
 		return (initCommand(command));
@@ -186,8 +113,7 @@ public class CamiGenerator {
 
 	/**
 	 *
-	 * @param date
-	 *            nouvelle date du modèle
+	 * @param date Nouvelle date du modèle
 	 * @return
 	 */
 	public static byte[] generateCmdMS(String date) {
@@ -198,64 +124,64 @@ public class CamiGenerator {
 
 	/**
 	 *
-	 * @param UiName :
-	 *            nom du client
-	 * @param version :
-	 *            version du client
-	 * @param login :
-	 *            nom d'utilisateur
-	 * @return commande SC sous forme d'un tableau de bytes
+	 * @param uiName Nom du client
+	 * @param uiVersion Version du client
+	 * @param login Nom d'utilisateur
+	 * @return commande SC formatée pour FK
 	 */
-	public static byte[] generateCmdOC(String UiName, String version,
-			String login) {
+	public static byte[] generateCmdOC(String uiName, String uiVersion, String login) {
+		StringBuilder command = new StringBuilder();
 
-		String command = new String("OC(" + UiName.length() + ":" + UiName
-				+ "," + version.length() + ":" + version + "," + login.length()
-				+ ":" + login + "," + 0 + ")");
-		return (initCommand(command));
-
+		command.append("OC(").append(uiName.length()).append(":").append(uiName);
+		command.append(",").append(uiVersion.length()).append(":").append(uiVersion);
+		command.append(",").append(login.length()).append(":").append(login);
+		command.append(",").append(0).append(")");
+		return (initCommand(command.toString()));
 	}
 
 	/**
 	 *
-	 * @param sessionName :
-	 *            nom de la session
+	 * @param sessionName Nom de la session
 	 * @param date
-	 * @param sessionFormalism :
-	 *            formalisme de la session
+	 * @param sessionFormalism Formalisme de la session
 	 * @return commande OS sous forme d'un tableau de bytes
 	 */
-	public static byte[] generateCmdOS(String sessionName, String date,
-			String sessionFormalism) {
-
-		String command = new String("OS(" + sessionName.length() + ":"
-				+ sessionName + "," + date + "," + sessionFormalism.length()
-				+ ":" + sessionFormalism + ")");
-		return initCommand(command);
+	public static byte[] generateCmdOS(String sessionName, String date, String sessionFormalism) {
+		StringBuffer command = new StringBuffer();
+		command.append("OS(").append(sessionName.length()).append(":").append(sessionName);
+		command.append(",").append(date).append(",");
+		command.append(sessionFormalism.length()).append(":").append(sessionFormalism).append(")");
+		return initCommand(command.toString());
 	}
 
 	/**
 	 * Dans le protocole cami, le 3ème paramètre de la commande PQ est inconnu
 	 * Dans les traces, ce paramètre est toujours à 1
-	 *
 	 * @param rootName
 	 * @param serviceName
 	 * @return
 	 */
 	public static byte[] generateCmdPQ(String rootName, String serviceName) {
-
 		String command = new String("PQ(" + rootName.length() + ":" + rootName
 				+ "," + serviceName.length() + ":" + serviceName + "," + 1
 				+ ")");
 		return initCommand(command);
-
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static byte[] generateCmdQQ() {
 		String command = new String("QQ()");
 		return initCommand(command);
 	}
 
+	/**
+	 * 
+	 * @param sessionName
+	 * @return
+	 */
 	public static byte[] generateCmdRS(String sessionName) {
 		String command = new String("RS(" + sessionName.length() + ":"
 				+ sessionName + ")");
@@ -268,28 +194,25 @@ public class CamiGenerator {
 	 * @return Commande cami SC
 	 */
 	public static byte[] generateCmdSC(String login, String password) {
-
-		String command = new String("SC(" + login.length() + ":" + login + ","
-				+ password.length() + ":" + password + ")");
-		return initCommand(command);
+		StringBuffer command = new StringBuffer();
+		command.append("SC(").append(login.length()).append(":").append(login);
+		command.append(",").append(password.length()).append(":").append(password);
+		command.append(")");
+		return initCommand(command.toString());
 
 	}
 
 	/**
 	 * Construction de la commande FC
-	 *
 	 * @return
 	 */
 	public static byte[] generateCmdFC() {
-
 		String command = new String("FC()");
 		return initCommand(command);
-
 	}
 
 	/**
 	 * Méthode s'occupant de la construction de la commande SS
-	 *
 	 * @param sessionName
 	 * @return
 	 */
@@ -300,16 +223,16 @@ public class CamiGenerator {
 
 	/**
 	 * Construction de la commande FS
-	 *
 	 * @param continueProcessing
 	 * @return
 	 */
 	public static byte[] generateCmdFS(boolean continueProcessing) {
 		int i;
-		if (continueProcessing == true)
+		if (continueProcessing == true) {
 			i = 0;
-		else
+		} else {
 			i = 1;
+		}
 		String command = new String("FS(" + i + ")");
 		return initCommand(command);
 	}

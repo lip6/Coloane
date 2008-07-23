@@ -1,69 +1,71 @@
 package fr.lip6.move.coloane.api.interfaces;
 
-/**
- * cette interface represente celle du session controller
- * @author kahoo && UU
- *
- */
+import fr.lip6.move.coloane.api.session.ApiSession;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
 
-import fr.lip6.move.coloane.interfaces.api.session.*;
-import fr.lip6.move.coloane.api.session.ApiSession;
-
+/**
+ * Gestionnaire de sessions
+ *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
+ */
 public interface ISessionController {
 
 	/**
-	 * nous retourne la session active.
 	 * @return la session active.
 	 */
-	public IApiSession getActiveSession();
+	IApiSession getActiveSession();
 
 	/**
-	 * nous rajoute une session dans ma liste de sessions.
-	 * @param la session à rajouter.
-	 * @return true si c'est fait, false sinon.
+	 * Ajoute une session dans ma liste de sessions.
+	 * @param s La session à rajouter.
+	 * @return <code>true</code> si l'ajoute se passe bien
 	 */
-	public boolean addSession(IApiSession s);
+	boolean addSession(IApiSession s);
 
 	/**
-	 * nous supprime une session dans ma liste de sessions.
-	 * @param la session a supprimer.
-	 * @return true si c'est fait, false sinon.
+	 * Supprime une session de la liste des sessions
+	 * @param session lasession a supprimer.
+	 * @return <code>true</code> si la suppression est effective
 	 */
-	public boolean removeSession(IApiSession s);
+	boolean removeSession(IApiSession session);
 
 	/**
-	 * nous dit si notre session est active ou pas.
-	 * @param la session à verifier.
-	 * @return true, si vraiment c'est la session active, false sinon.
+	 * Indique si la session est active ou pas
+	 * @param session Session concernée par cette vérification
+	 * @return <code>true</code>, si vraiment c'est la session active, <code>false</code> sinon.
 	 */
-	public boolean ifActivateSession(IApiSession s);
+	boolean isSessionActive(IApiSession session);
 
     /**
-     * nous permet de suspendre la session.
-     * @param la session à suspendre.
+     * Suspend la session désignée
+     * @param session La session à suspendre.
      * @return true, si suspendue, false sinon.
      */
-	public boolean suspendSession(IApiSession s);
+	boolean suspendSession(IApiSession session);
 
 	/**
-	 * nous permet de reprendre la session.
-	 * @param la session a reprendre.
+	 * Reprise de la session désignée
+	 * @param session La session a reprendre.
 	 * @return true, si la session a été reprise , false sinon.
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public boolean resumeSession(IApiSession s) throws InterruptedException, IOException;
+	boolean resumeSession(IApiSession session) throws InterruptedException, IOException;
 
 	/**
 	 * session demande a session controller s'il a le droit d'ouvrir une session ou pas.
+	 * si il y'a pas de session active => c bon, sinon je demande a la
+	 * session active de se suspendre , j'attend que le parser me reveille quand
+	 * il recoit la reponse du SS, puis c bon,
 	 * @param s la session qu'on veut ouvrir.
 	 * @return vraie si c'est ok, false sinon.
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public boolean openSession(IApiSession s) throws InterruptedException, IOException;
+	boolean openSession(IApiSession s) throws InterruptedException, IOException;
 
 	/**
 	 * nous signale la fin, des AQ et TQ

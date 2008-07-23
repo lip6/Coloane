@@ -21,6 +21,8 @@ import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
@@ -131,7 +133,7 @@ public class ApiConnection implements IApiConnection {
 		// Création du parseur
 		ThreadParser parser = new ThreadParser(this.sessionCont, fifo, this.hashObservable);
 
-		 // Initialisation de la connexion
+		// Initialisation de la connexion
 		try {
 			// Création du thread listener et le speaker
 			p = FkInitCom.initCom(this.ipServer, this.portServer, fifo);
@@ -182,6 +184,33 @@ public class ApiConnection implements IApiConnection {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean closeConnection() {
+		try {
+			speaker.closeConnection();
+		} catch (IOException e) {
+			LOGGER.warning("Echec lors de la fermeture de la connexion");
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IApiSession createApiSession() throws ApiException {
+		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
+	}
+
+
+
+
+
+
+
+
 
 	/** set du IBrutalInterruptObserver*/
 	public void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
@@ -226,18 +255,12 @@ public class ApiConnection implements IApiConnection {
 
 	}
 
-	public void setSpecialMessageObserver(ISpecialMessageObserver o, boolean createThread) {
+	public void setSpecialMessageObserver(IReceptMessageObserver o, boolean createThread) {
 
-		ISpecialMessageObservable idl =  (ISpecialMessageObservable)this.hashObservable.get("ISpecialMessage");
+		IReceptMessageObserver idl =  (IReceptMessageObserver)this.hashObservable.get("ISpecialMessage");
 		idl.addObserver(o);
 		idl.setCreateThread(createThread);
-
-
 	}
-
-
-
-
 
 	/** set du ISessionObserver */
 	public void setSessionObserver(ISessionObserver o, boolean createThread) {
@@ -258,29 +281,20 @@ public class ApiConnection implements IApiConnection {
 
 	}
 
-
-
-
-	public boolean closeConnection() {
-		try {
-			speaker.closeConnection();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-	}
-
-
-
-	public IApiSession getApiSession() throws ApiException {
-		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
-	}
-
-
-
 	public void setReceptResultObserver(
 			fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setReceptMenuObserver(IReceptMenuObserver o,
+			boolean createThread) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setReceptMessageObserver(IReceptMessageObserver o,
 			boolean createThread) {
 		// TODO Auto-generated method stub
 

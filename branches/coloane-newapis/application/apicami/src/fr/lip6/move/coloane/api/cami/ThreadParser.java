@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.cami;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -41,7 +42,7 @@ public class ThreadParser extends Thread {
 	 * 		  Observable, en plus elle est utilisée comme moniteur
 	 * 		  de synchronisation
 	 */
-	public ThreadParser(ISessionController sessionController, LinkedBlockingQueue queue, HashMap<String, Object> hm){
+	public ThreadParser(ISessionController sessionController, LinkedBlockingQueue queue, Map<String, Object> hm){
 		this.fifo = queue;
 		this.parser = new CamiParser(null, sessionController, hm);
 		this.sessionCont=sessionController;
