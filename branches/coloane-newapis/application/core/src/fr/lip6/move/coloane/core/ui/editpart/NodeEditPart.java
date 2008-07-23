@@ -27,6 +27,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -51,6 +52,33 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 	private boolean isSelected = false;
 	private ConnectionAnchor connectionAnchor;
+
+	/**
+	 * Permet d'écouter les changements de sélections des attributs
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		/** {@inheritDoc} */
+		@Override
+		public void selectedStateChanged(EditPart editpart) {
+			switch(editpart.getSelected()) {
+			case EditPart.SELECTED:
+			case EditPart.SELECTED_PRIMARY:
+				setHighlight();
+				break;
+			case ISelectionEditPartListener.HIGHLIGHT:
+				break;
+			case ISelectionEditPartListener.SPECIAL:
+				break;
+			case EditPart.SELECTED_NONE:
+			case ISelectionEditPartListener.HIGHLIGHT_NONE:
+			case ISelectionEditPartListener.SPECIAL_NONE:
+				setUnselect();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	/**
 	 * Creation de la figure associee (VUE)
@@ -350,35 +378,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/** {@inheritDoc} */
-	public final void childAdded(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void partActivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void partDeactivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void removingChild(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			setHighlight();
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case EditPart.SELECTED_NONE:
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			setUnselect();
-			break;
-		default:
-			break;
-		}
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }

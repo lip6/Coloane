@@ -17,6 +17,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -34,6 +35,36 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
+
+	/**
+	 * Permet d'écouter les changements de sélection de ses "parents"
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		@Override
+		public void selectedStateChanged(EditPart part) {
+			switch(part.getSelected()) {
+			case EditPart.SELECTED:
+			case EditPart.SELECTED_PRIMARY:
+				getFigure().setForegroundColor(ColorConstants.blue);
+				break;
+			case EditPart.SELECTED_NONE:
+				getFigure().setForegroundColor(ColorConstants.black);
+				break;
+			case ISelectionEditPartListener.HIGHLIGHT:
+				getFigure().setBackgroundColor(ColorConstants.lightGray);
+				break;
+			case ISelectionEditPartListener.HIGHLIGHT_NONE:
+				getFigure().setBackgroundColor(ColorConstants.white);
+				break;
+			case ISelectionEditPartListener.SPECIAL:
+				break;
+			case ISelectionEditPartListener.SPECIAL_NONE:
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	/**
 	 * Creation de la figure associee<br>
@@ -194,8 +225,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				GraphEditPart graphEditPart = (GraphEditPart) getParent();
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
 				if (parent != null) {
-					addEditPartListener((ISelectionEditPartListener) parent);
-					parent.addEditPartListener(this);
+					addEditPartListener(((ISelectionEditPartListener) parent).getSelectionEditPartListener());
+					parent.addEditPartListener(editPartListener);
 				}
 			}
 		}
@@ -214,47 +245,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
 				if (parent != null) {
 					setSelected(EditPart.SELECTED_NONE);
-					removeEditPartListener((ISelectionEditPartListener) parent);
-					parent.removeEditPartListener(this);
+					removeEditPartListener(((ISelectionEditPartListener) parent).getSelectionEditPartListener());
+					parent.removeEditPartListener(editPartListener);
 				}
 			}
-		}
-	}
-
-	/** {@inheritDoc} */
-	public final void childAdded(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void partActivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void partDeactivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void removingChild(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			getFigure().setForegroundColor(ColorConstants.blue);
-			break;
-		case EditPart.SELECTED_NONE:
-			getFigure().setForegroundColor(ColorConstants.black);
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			getFigure().setBackgroundColor(ColorConstants.lightGray);
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			getFigure().setBackgroundColor(ColorConstants.white);
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -299,5 +293,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		} else if (IAttribute.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }

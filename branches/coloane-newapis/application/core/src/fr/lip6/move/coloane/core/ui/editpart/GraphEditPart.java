@@ -28,6 +28,7 @@ import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToGeometry;
@@ -46,6 +47,11 @@ import org.eclipse.swt.graphics.Image;
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/**
+	 * Permet d'écouter les changements de sélections, pour l'instant ne fait rien.
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub();
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -227,39 +233,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		return null;
 	}
 
-	/** {@inheritDoc} */
-	public final void childAdded(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void partActivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void partDeactivated(EditPart editpart) { }
-
-	/** {@inheritDoc} */
-	public final void removingChild(EditPart child, int index) { }
-
-	/** {@inheritDoc} */
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			break;
-		case EditPart.SELECTED_NONE:
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			break;
-		default:
-			break;
-		}
-	}
-
 	/**
 	 * Méthode récursive qui va afficher l'arbre d'une figure
 	 * @param s en tête de chaque ligne, une chaine convient très bien
@@ -279,5 +252,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 			sb.append(treeToString(s + "| ", (IFigure) obj)); //$NON-NLS-1$
 		}
 		return sb.toString();
+	}
+
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }
