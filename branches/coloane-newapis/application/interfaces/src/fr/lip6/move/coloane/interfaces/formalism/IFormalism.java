@@ -2,6 +2,9 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+/**
+ * Définition d'un formalisme.<br>
+ */
 public interface IFormalism {
 
 	/**
@@ -33,11 +36,6 @@ public interface IFormalism {
 	 * @return L'image associée à toutes les instances de ce formalisme
 	 */
 	String getImageName();
-
-	/**
-	 * @return L'adresse du xschema a utliser pour la validation
-	 */
-	String getSchema();
 
 	/**
 	 * @return Le graphe principal du formalisme
