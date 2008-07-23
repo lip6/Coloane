@@ -6,9 +6,7 @@ import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
-import fr.lip6.move.coloane.api.interfaces.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
-import fr.lip6.move.coloane.api.interfaces.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.session.SessionFactory;
@@ -18,11 +16,14 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
@@ -204,99 +205,75 @@ public class ApiConnection implements IApiConnection {
 		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
 	}
 
-
-
-
-
-
-
-
-
-	/** set du IBrutalInterruptObserver*/
-	public void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
-		IBrutalInterruptObservable ico =  (IBrutalInterruptObservable)this.hashObservable.get("IBrutalInterrupt");
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
+		IBrutalInterruptObservable ico =  (IBrutalInterruptObservable) this.hashObservable.get("IBrutalInterrupt");
 		ico.addObserver(o);
 		ico.setCreateThread(createThread);
-
-
 	}
 
-	/** set du IConnectionObserver
-	 * positionne l'observable aproprié par rapport à l'observeur dans notre hashmap,
+	/**
+	 * {@inheritDoc}
 	 */
-	public void setConnectionObserver(IConnectionObserver o, boolean createThread) {
-		// TODO Voir si on laisse la hashmap ou les observers
-
-		IConnectionObservable ico1 =  (IConnectionObservable)this.hashObservable.get("IConnection");
-		ico1.addObserver(o);
-		ico1.setCreateThread(createThread);
-
-
-	}
-
-
-	/** set du IDialogObserver*/
-	public void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
-
-		IReceptDialogObservable idl =  (IReceptDialogObservable)this.hashObservable.get("IReceptDialog");
-		idl.addObserver(o);
-		idl.setCreateThread(createThread);
-
-
-	}
-
-	/** set du IFKCloseConnectionObserver*/
-	public void setDisconnectObserver(IDisconnectObserver o, boolean createThread) {
-
-		IDisconnectObservable idl =  (IDisconnectObservable)this.hashObservable.get("IDisconnect");
-		idl.addObserver(o);
-		idl.setCreateThread(createThread);
-
-
-	}
-
-	public void setSpecialMessageObserver(IReceptMessageObserver o, boolean createThread) {
-
-		IReceptMessageObserver idl =  (IReceptMessageObserver)this.hashObservable.get("ISpecialMessage");
+	public final void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
+		IReceptDialogObservable idl =  (IReceptDialogObservable) this.hashObservable.get("IReceptDialog");
 		idl.addObserver(o);
 		idl.setCreateThread(createThread);
 	}
 
-	/** set du ISessionObserver */
-	public void setSessionObserver(ISessionObserver o, boolean createThread) {
-		ISessionObservable ise =  (ISessionObservable)this.hashObservable.get("ISession");
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setDisconnectObserver(IDisconnectObserver o, boolean createThread) {
+		IDisconnectObservable idl =  (IDisconnectObservable) this.hashObservable.get("IDisconnect");
+		idl.addObserver(o);
+		idl.setCreateThread(createThread);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
+		IReceptResultObservable ise =  (IReceptResultObservable) this.hashObservable.get("IReceptResult");
 		ise.addObserver(o);
 		ise.setCreateThread(createThread);
-
-
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
+		// TODO ???
+	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
+		// TODO ???
+	}
 
-	/** set du IServiceObserver */
-	public void setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
-		IReceptResultObservable ise =  (IReceptResultObservable)this.hashObservable.get("IReceptResult");
+	/**
+	 * TODO Cette méthode est-elle utile ?
+	 * @param o
+	 * @param createThread
+	 */
+	public final void setSpecialMessageObserver(IReceptMessageObserver o, boolean createThread) {
+		IReceptMessageObservable idl =  (IReceptMessageObservable) this.hashObservable.get("ISpecialMessage");
+		idl.addObserver(o);
+		idl.setCreateThread(createThread);
+	}
+
+	/**
+	 * TODO Cette méthode est-elle utile ?
+	 * @param o
+	 * @param createThread
+	 */
+	public final void setSessionObserver(ISessionObserver o, boolean createThread) {
+		ISessionObservable ise =  (ISessionObservable) this.hashObservable.get("ISession");
 		ise.addObserver(o);
 		ise.setCreateThread(createThread);
-
-	}
-
-	public void setReceptResultObserver(
-			fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver o,
-			boolean createThread) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setReceptMenuObserver(IReceptMenuObserver o,
-			boolean createThread) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setReceptMessageObserver(IReceptMessageObserver o,
-			boolean createThread) {
-		// TODO Auto-generated method stub
-
 	}
 }
