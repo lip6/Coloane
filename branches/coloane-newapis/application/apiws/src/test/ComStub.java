@@ -38,7 +38,7 @@ public class ComStub {
 		 * Ouverture d'une session
 		 */
 		System.out.println("2-a Ouverture session");
-		IApiSession session1 = connection.getApiSession();
+		IApiSession session1 = connection.createApiSession();
 		receptDialogObserver.setSession(session1);
 		System.out.println("SESSION   :");
 		session1.openSession("27-06-2008", "AM-Net", "maseesion1");
