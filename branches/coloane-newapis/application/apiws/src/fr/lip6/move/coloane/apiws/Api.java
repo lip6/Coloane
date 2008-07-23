@@ -23,7 +23,7 @@ public class Api implements IApi {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IApiConnection getApiConnection() {
+	public final IApiConnection createApiConnection() {
 		return new ApiConnection();
 	}
 
