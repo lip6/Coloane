@@ -14,11 +14,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent une session
  */
 public class ApiSession implements IApiSession {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private int sessionDate;
 
@@ -55,6 +59,8 @@ public class ApiSession implements IApiSession {
 		this.automate = SessionFactory.getNewSessionStateMachine();
 
 		this.idSession = null;
+
+		LOGGER.finer("Création d'une IApiConnection");
 	}
 
 	/**
@@ -130,6 +136,9 @@ public class ApiSession implements IApiSession {
 			sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
 
 		}
+
+		LOGGER.fine("Ouverture d'une session");
+
 		return new SessionInfo(sessionOpened);
 	}
 

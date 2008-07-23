@@ -70,6 +70,8 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.BRUTAL_INTERRUPT, ObservableFactory.getNewBrutalInterruptObservable());
 
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
+
+		LOGGER.finer("Création d'une IApiConnection");
 	}
 
 	/**
@@ -226,7 +228,7 @@ public class ApiConnection implements IApiConnection {
 			throw new ApiException("Aucune connexion n'est ouverte");
 		}
 
-		LOGGER.fine("Creation d'une session");
+		LOGGER.finer("Demande la creation d'une IApiSession");
 		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}
 }
