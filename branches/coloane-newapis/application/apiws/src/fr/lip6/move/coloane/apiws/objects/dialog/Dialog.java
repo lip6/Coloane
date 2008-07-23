@@ -1,9 +1,10 @@
 package fr.lip6.move.coloane.apiws.objects.dialog;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe représent un boîte de dialogue pour le core de Coloane.
@@ -28,7 +29,9 @@ public class Dialog implements IDialog {
 
     private String defaultValue;
 
-    private ArrayList<String> lines;
+    private List<String> lines;
+
+    private int visibility;
 
     /**
      * Constructeur
@@ -44,6 +47,7 @@ public class Dialog implements IDialog {
         this.inputType = dialog.getInputType();
         this.lineType = dialog.getLineType();
         this.defaultValue = dialog.getDefaultValue();
+        this.visibility = IDialog.DLG_VISIBLE;
 
         this.lines = new ArrayList<String>();
         if (dialog.getLine() != null) {
@@ -84,7 +88,7 @@ public class Dialog implements IDialog {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ArrayList<String> getLines() {
+	public final List<String> getLines() {
 		return lines;
 	}
 
@@ -119,8 +123,15 @@ public class Dialog implements IDialog {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final int getTypeButton() {
+	public final int getButtonType() {
 		return typeButton;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getVisibility() {
+		return visibility;
 	}
 
 }
