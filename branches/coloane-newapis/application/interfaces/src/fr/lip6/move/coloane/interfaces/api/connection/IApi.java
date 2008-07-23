@@ -10,5 +10,5 @@ public interface IApi {
 	 * Cree un objet representant une connexion
 	 * @return un objet representant une connexion
 	 */
-	IApiConnection getApiConnection();
+	IApiConnection createApiConnection();
 }
