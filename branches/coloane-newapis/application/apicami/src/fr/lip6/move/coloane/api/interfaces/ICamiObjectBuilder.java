@@ -2,6 +2,9 @@ package fr.lip6.move.coloane.api.interfaces;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
@@ -53,7 +56,7 @@ public interface ICamiObjectBuilder {
 		 * @param les commandes venant de FrameKit.
 		 * @return IModel.
 		 */
-		IModel buildModel(ArrayList<String> CamiModel);
+		IGraph buildModel(ArrayList<String> CamiModel);
 
 
 		/**

@@ -6,7 +6,8 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import java.io.IOException;
 
 /**
- * Gestionnaire de sessions
+ * Gestionnaire de sessions.<br>
+ * Il existe un gestionnaire de sessions pour toute {@link ApiConnection}
  *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
@@ -71,27 +72,58 @@ public interface ISessionController {
 	 * nous signale la fin, des AQ et TQ
 	 * fait par le parseur.
 	 */
-	public void notifyEndOpenSession();
+	void notifyEndOpenSession();
 
 	/**
 	 * nous signale la reception du SS
 	 * appelé par le parseur.
 	 */
-	public void notifyEndSuspendSession();
+	 void notifyEndSuspendSession();
 
-	public void notifyEndResumeSession(String nameSession);
+	 /**
+	  * 
+	  * @param nameSession
+	  */
+	 void notifyEndResumeSession(String nameSession);
 
-	public void notifyEndCloseSession();
+	 /**
+	  * 
+	  */
+	 void notifyEndCloseSession();
 
-	public boolean closeSession(ApiSession apiSession);
+	 /**
+	  * 
+	  * @param apiSession
+	  * @return
+	  */
+	 boolean closeSession(ApiSession apiSession);
 
-	public boolean askForService(ApiSession apiSession);
+	 /**
+	  * 
+	  * @param apiSession
+	  * @return
+	  */
+	 boolean askForService(ApiSession apiSession);
 
-	public void notifyWaitingForResult();
+	 /**
+	  * 
+	  */
+	 void notifyWaitingForResult();
 
-	public void notifyWaitingForModel() throws IOException;
+	 /**
+	  * 
+	  * @throws IOException
+	  */
+	 void notifyWaitingForModel() throws IOException;
 
-	public void notifyEndResult();
+	 /**
+	  * 
+	  */
+	 void notifyEndResult();
 
-	public void notifyReceptSessionInfo(ISessionInfo fkInfo);
+	 /**
+	  * 
+	  * @param fkInfo
+	  */
+	 void notifyReceptSessionInfo(ISessionInfo fkInfo);
 }

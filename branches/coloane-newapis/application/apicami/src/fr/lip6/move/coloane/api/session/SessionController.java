@@ -15,33 +15,46 @@ import java.util.List;
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */
-public class SessionController implements ISessionController {
+public final class SessionController implements ISessionController {
 
-	/** l'ensemble de nos session */
+	/** L'instance du session contrôleur */
+	private static ISessionController instance = null;
+
+	/** L'ensemble de nos session */
 	private List<IApiSession> list;
 
-	/** la session active */
+	/** La session active */
 	private IApiSession activeSession;
 
 	/**
-	 * Constructeur
+	 * Constructeur masqué pour éviter les doublons
 	 */
-	public SessionController() {
+	private SessionController() {
 		this.activeSession = null;
 		this.list = new ArrayList<IApiSession>();
 	}
 
 	/**
+	 * @return l'instance unique du session contrôleur
+	 */
+	public static ISessionController getInstance() {
+		if (instance == null) {
+			instance = new SessionController();
+		}
+		return instance;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
-	public final IApiSession getActiveSession() {
+	public IApiSession getActiveSession() {
 		return this.activeSession;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean addSession(IApiSession s) {
+	public boolean addSession(IApiSession s) {
 		this.list.add(s);
 		return true;
 	}
@@ -49,21 +62,21 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean removeSession(IApiSession session) {
+	public boolean removeSession(IApiSession session) {
 		return (this.list.remove(session));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean isSessionActive(IApiSession session) {
+	public boolean isSessionActive(IApiSession session) {
 		return this.activeSession.equals(session);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean suspendSession(IApiSession session) {
+	public boolean suspendSession(IApiSession session) {
 		if (this.activeSession.equals(session)) {
 			return true;
 		}
@@ -73,7 +86,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean resumeSession(IApiSession s) throws InterruptedException, IOException {
+	public boolean resumeSession(IApiSession s) throws InterruptedException, IOException {
 		if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 			this.activeSession.suspendSession();
 			this.activeSession = s;
@@ -86,7 +99,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean openSession(IApiSession s) throws InterruptedException, IOException {
+	public boolean openSession(IApiSession s) throws InterruptedException, IOException {
 		if (this.activeSession == null) {
 			this.activeSession = s;
 			addSession(s);
@@ -107,7 +120,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(ApiSession apiSession) {
+	public boolean askForService(ApiSession apiSession) {
 		if (this.activeSession.equals(apiSession)){
 			return true;
 		}
@@ -117,7 +130,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean closeSession(ApiSession apiSession) {
+	public boolean closeSession(ApiSession apiSession) {
 		if (this.activeSession.equals(apiSession)) {
 			return true;
 		}
@@ -127,21 +140,21 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndOpenSession() {
+	public void notifyEndOpenSession() {
 		this.activeSession.notifyEndOpenSession();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndSuspendSession() {
+	public void notifyEndSuspendSession() {
 		this.activeSession.notifyEndSuspendSession();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndCloseSession() {
+	public void notifyEndCloseSession() {
 		this.activeSession.notifyEndCloseSession();
 		this.activeSession = null;
 	}
@@ -149,12 +162,12 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndResumeSession(String nameSession) {
+	public void notifyEndResumeSession(String nameSession) {
 		//	for(IApiSession session : liste ) {
 		//		System.out.println("dans la liste ya" +session.getSessionName());
 		//	}
 		//	System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
-		for (IApiSession session : liste) {
+		for (IApiSession session : this.list) {
 
 			if (session.getSessionName().equals(nameSession)){
 				session.notifyEndResumeSession(nameSession);
@@ -168,28 +181,28 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyWaitingForModel() throws IOException {
+	public void notifyWaitingForModel() throws IOException {
 		this.activeSession.notifyWaitingForModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyWaitingForResult() {
+	public void notifyWaitingForResult() {
 		this.activeSession.notifyWaitingForResult();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndResult() {
+	public void notifyEndResult() {
 		this.activeSession.notifyEndResult();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyReceptSessionInfo(ISessionInfo o) {
+	public void notifyReceptSessionInfo(ISessionInfo o) {
 		this.activeSession.notifyReceptSessionInfo(o);
 	}
 }

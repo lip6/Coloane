@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.api.cami.CamiGenerator;
-
-import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 

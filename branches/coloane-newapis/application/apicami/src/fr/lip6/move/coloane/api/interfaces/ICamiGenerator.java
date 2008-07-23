@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 
@@ -12,7 +13,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
  */
 public interface ICamiGenerator {
 
-// onverture de la connexion
+//	onverture de la connexion
 
 
 	/**
@@ -65,7 +66,7 @@ public interface ICamiGenerator {
 
 
 
-//demande de service
+//	demande de service
 	/**
 	 * nous génére la(les) commande(s) DT.
 	 * @return un tableau de byte.
@@ -91,7 +92,7 @@ public interface ICamiGenerator {
 	 * @param le Modele.
 	 * @return un tableau de byte.
 	 */
-	public ArrayList<byte[]> generateCamiModel(IModel m);
+	public ArrayList<byte[]> generateCamiModel(IGraph m);
 
 	/**
 	 * nous génére les commandes relatives a l'envoi du dialogue.

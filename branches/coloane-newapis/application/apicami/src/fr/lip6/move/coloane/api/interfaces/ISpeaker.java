@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.io.IOException;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 
@@ -93,7 +94,7 @@ public interface ISpeaker {
 	 *   @param le model.
 	 * @throws IOException
 	 */
-	void sendModel(IModel m) throws IOException;
+	void sendModel(IGraph m) throws IOException;
 
 	/**
 	 *  demande a ISpeaker d'envoyer a FK une boite de dialogue.

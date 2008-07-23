@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 public interface IBox {
 
 	/**

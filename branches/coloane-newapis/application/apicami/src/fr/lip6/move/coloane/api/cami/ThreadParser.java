@@ -10,6 +10,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.session.SessionController;
 
 /**
  * Cette classe lance un thread qui récupère les commandes
@@ -29,9 +30,6 @@ public class ThreadParser extends Thread {
 	/** parser ANTLR */
 	CamiParser parser;
 
-	/** SessionController*/
-	ISessionController sessionCont;
-
 	/**
 	 * @param sessionController
 	 * @param queue file de messages d'ou le Thread
@@ -43,10 +41,9 @@ public class ThreadParser extends Thread {
 	 * 		  Observable, en plus elle est utilisée comme moniteur
 	 * 		  de synchronisation
 	 */
-	public ThreadParser(ISessionController sessionController, LinkedBlockingQueue queue, Map<String, Object> hm){
+	public ThreadParser(LinkedBlockingQueue<InputStream> queue, Map<String, Object> hm){
 		this.fifo = queue;
-		this.parser = new CamiParser(null, sessionController, hm);
-		this.sessionCont=sessionController;
+		this.parser = new CamiParser(null, SessionController.getInstance(), hm);
 	}
 
 	/**

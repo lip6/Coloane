@@ -2,12 +2,12 @@ package fr.lip6.move.coloane.api.session;
 
 import java.io.IOException;
 
-import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
@@ -43,21 +43,21 @@ public class ApiSession implements IApiSession {
 	private ISessionStateMachine automate;
 
 	/** notre modele*/
-	private IModel model;
+	private IGraph model;
 
 	/** son ISessionInfo */
 	private ISessionInfo sessionInfo;
 	/**
 	 * le constructeur de notre session.
 	 */
-	public ApiSession(ISessionController se, ISpeaker speaker) {
+	public ApiSession(ISpeaker speaker) {
 		this.interlocutor = null;
 		this.mode = -1;
 		this.sessionDate = null;
 		this.sessionFormalism = null;
 		this.sessionName = null;
-		this.model=null;
-		this.sessionCont = se;
+		this.model = null;
+		this.sessionCont = SessionController.getInstance();
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
 
@@ -107,7 +107,7 @@ public class ApiSession implements IApiSession {
 
 	}
 
-	public void askForService(String rootName,String menuName, String serviceName,IModel model) throws IOException {
+	public void askForService(String rootName,String menuName, String serviceName,IGraph model) throws IOException {
 		this.model = model;
 		if (this.sessionCont.askForService(this)){
 
@@ -123,7 +123,7 @@ public class ApiSession implements IApiSession {
 		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
-	public void askForService(String rootName,String menuName, String serviceName, String date,IModel model) throws IOException {
+	public void askForService(String rootName,String menuName, String serviceName, String date,IGraph model) throws IOException {
 		this.model=model; 
 		if (this.sessionCont.askForService(this)){
 
@@ -242,7 +242,7 @@ public class ApiSession implements IApiSession {
 		synchronized(this){
 			this.notify();
 		}
-		if(!this.automate.CloseSessionState()){
+		if(!this.automate.closeSessionState()){
 			throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
 
 		}

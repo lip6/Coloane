@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
+import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -61,16 +62,10 @@ public class ApiConnection implements IApiConnection {
 	/** Speaker */
 	private ISpeaker speaker;
 
-	/** une table de hash qui stocke les observables */
+	/** Une table de hash qui stocke tous les observeurs */
 	private Map< String, Object> hashObservable;
 
-	private IConnectionInfo fkVersion;
-
-	/** le sessionController*/
-	private ISessionController sessionCont;
-
 	private String uiName;
-
 	private String uiVersion;
 
 
@@ -95,8 +90,6 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("ISpecialMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
-		this.sessionCont = SessionFactory.getNewSessionController();
-		this.fkVersion = null;
 		this.uiName = name;
 		this.uiVersion = version;
 	}
@@ -132,7 +125,7 @@ public class ApiConnection implements IApiConnection {
 		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
 
 		// Création du parseur
-		ThreadParser parser = new ThreadParser(this.sessionCont, fifo, this.hashObservable);
+		ThreadParser parser = new ThreadParser(fifo, this.hashObservable);
 
 		// Initialisation de la connexion
 		try {
@@ -202,7 +195,7 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final IApiSession createApiSession() throws ApiException {
-		return SessionFactory.getNewApiSession(this.sessionCont, this.speaker);
+		return SessionFactory.getNewApiSession(this.speaker);
 	}
 
 	/**

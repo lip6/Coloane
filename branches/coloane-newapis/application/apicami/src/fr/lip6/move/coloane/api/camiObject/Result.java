@@ -2,11 +2,11 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IArc;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
-import fr.lip6.move.coloane.api.interfaces.INode;
 import fr.lip6.move.coloane.api.interfaces.IResult;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class Result implements IResult{
 

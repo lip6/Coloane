@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.interfaces.IAttribute;
 import fr.lip6.move.coloane.api.interfaces.IBox;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 
 /**
@@ -11,7 +11,7 @@ import fr.lip6.move.coloane.api.interfaces.IBox;
  * @author kahoo & UU
  *
  */
-public class Box implements IBox{
+public class Box implements IBox {
     /** le tableau des attributs de notre box*/
     private ArrayList<IAttribute> attribute;
 

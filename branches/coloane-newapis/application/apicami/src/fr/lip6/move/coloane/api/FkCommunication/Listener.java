@@ -53,35 +53,35 @@ public class Listener extends Thread implements IListener {
 
 		/** ensemble de commandes reçus de Fk lors de chaque lecture */
 		String commandSuite;
-        String result = null;
+		String result = null;
 		try {
 			/** boucle de lecture des commandes */
 			while(true){
-				
+
 				commandSuite = this.fkll.readCommand();
 
 				/* Ecrire les commandes a dans le pipe + EOF pour commancer
 				 * à parser */
 				commandSuite = commandSuite.replace("\n\n", "");
-           //    System.out.println("|je recois:  " + commandSuite + "|");
-             //    if (commandSuite.equals("DR()")){
-               // 	 result = "DR()";
-                //	 System.out.println("jai recuuuuuuuu le DR");
-                	// while(!commandSuite.equals("FR(1)")){
-                		// commandSuite = this.fkll.readCommand();
-                		// result+="\n";
-                       //  result+=commandSuite;
-                		 
-                	// }
-                	// result+="FR(1)";
-               // 	 commandSuite = result;
-                //	 
-                // }
-                 
-                 System.out.println("|je recois avant input stream:  " + commandSuite + "|");
+				//    System.out.println("|je recois:  " + commandSuite + "|");
+				//    if (commandSuite.equals("DR()")){
+				// 	 result = "DR()";
+				//	 System.out.println("jai recuuuuuuuu le DR");
+				// while(!commandSuite.equals("FR(1)")){
+				// commandSuite = this.fkll.readCommand();
+				// result+="\n";
+				//  result+=commandSuite;
+
+				// }
+				// result+="FR(1)";
+				// 	 commandSuite = result;
+				//	 
+				// }
+
+				System.out.println("|je recois avant input stream:  " + commandSuite + "|");
 				InputStream is = new ByteArrayInputStream(commandSuite.getBytes());
-				
-					fifo.put(is);
+
+				fifo.put(is);
 
 
 			}

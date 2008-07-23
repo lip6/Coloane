@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.ISpecialMessage;
 
 public class SpecialMessage implements ISpecialMessage{
 
