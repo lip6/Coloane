@@ -1,17 +1,13 @@
 package fr.lip6.move.coloane.api.session;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 
 import fr.lip6.move.coloane.api.interfaces.IModel;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
-
-import fr.lip6.move.coloane.api.interfaces.IApiSession;
-import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
@@ -45,10 +41,10 @@ public class ApiSession implements IApiSession {
 
 	/** notre automate*/
 	private ISessionStateMachine automate;
-	
+
 	/** notre modele*/
 	private IModel model;
-	
+
 	/** son ISessionInfo */
 	private ISessionInfo sessionInfo;
 	/**
@@ -75,27 +71,27 @@ public class ApiSession implements IApiSession {
 	 */
 	public ISessionInfo openSession(String sessionDate, String sessionFormalism,
 			String sessionName, String interlocutor, int mode)
-			throws IOException, InterruptedException {
+	throws IOException, InterruptedException {
 		this.interlocutor = interlocutor;
 		this.mode = mode;
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
-      System.out.println("session open");
-      synchronized(this){
-	        
-		if (this.sessionCont.openSession(this))
-			// TODO lexeption
+		System.out.println("session open");
+		synchronized(this){
 
-			this.speaker.openSession(this.sessionName, this.sessionDate,
-					this.sessionFormalism, this.interlocutor, this.mode);
-		/* on se met en attente de ISessionInfo*/
-	         this.wait();	
+			if (this.sessionCont.openSession(this))
+				// TODO lexeption
+
+				this.speaker.openSession(this.sessionName, this.sessionDate,
+						this.sessionFormalism, this.interlocutor, this.mode);
+			/* on se met en attente de ISessionInfo*/
+			this.wait();	
 			if( !this.automate.setWaitingForUpdatesAndMenusState() ){
-		 throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
-	}
-      }
-			return this.sessionInfo;
+				throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
+			}
+		}
+		return this.sessionInfo;
 	}
 
 	/**
@@ -115,15 +111,15 @@ public class ApiSession implements IApiSession {
 		this.model = model;
 		if (this.sessionCont.askForService(this)){
 
-			   speaker.askForService(rootName, menuName, serviceName);
-          System.out.println(this.automate.getState());
-		   if (!this.automate.setWaitingForResponseState()){
+			speaker.askForService(rootName, menuName, serviceName);
+			System.out.println(this.automate.getState());
+			if (!this.automate.setWaitingForResponseState()){
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
-		   }
-		   }
-		   else {
-			   throw new IllegalStateException("je peux pas faire demander de service sur cette session");
-		   }
+			}
+		}
+		else {
+			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
+		}
 		// System.out.println("askk for service222 " + this.getSessionName());
 	}
 
@@ -131,91 +127,91 @@ public class ApiSession implements IApiSession {
 		this.model=model; 
 		if (this.sessionCont.askForService(this)){
 
-			   speaker.askForService(rootName, menuName, serviceName,date);
+			speaker.askForService(rootName, menuName, serviceName,date);
 
-		   if (!this.automate.setWaitingForResponseState()){
+			if (!this.automate.setWaitingForResponseState()){
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
-		   }
-		   }
-		   else {
-			   throw new IllegalStateException("je peux pas faire demander de service sur cette session");
-		   }
-		
+			}
+		}
+		else {
+			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
+		}
+
 	}
-	
+
 
 	public final boolean closeSession() throws IOException, InterruptedException {
-	   if (this.sessionCont.closeSession(this)){
-		   synchronized(this){
-	   
-		   speaker.closeSession(false);
+		if (this.sessionCont.closeSession(this)){
+			synchronized(this){
 
-	   if (!this.automate.setWaitingForCloseSessionState()){
-			throw new IllegalStateException("je suis pas dans un etat qui me permet de me fermer");
-	   }
-	   this.wait();
-	   return true;
-		   }
-	   }
-	   else {
-		   throw new IllegalStateException("je peux pas faire close session sur cette session");
-	   }
+				speaker.closeSession(false);
+
+				if (!this.automate.setWaitingForCloseSessionState()){
+					throw new IllegalStateException("je suis pas dans un etat qui me permet de me fermer");
+				}
+				this.wait();
+				return true;
+			}
+		}
+		else {
+			throw new IllegalStateException("je peux pas faire close session sur cette session");
+		}
 	}
 
 	public boolean resumeSession() throws IOException, InterruptedException {
-        if (this.sessionCont.resumeSession(this)){
-     //  System.out.println("je  resume la session " + this.getSessionName());
-        	synchronized(this){
-    			speaker.resumeSession(this.getSessionName());
-    			 if (!this.automate.setWaitingForResumeSessionState()){
-    				throw new IllegalStateException("je suis pas dans un etat qui me permet de reprendre mon execution");
-    			 }
-    			  this.wait();
-    		}
-    			// System.out.println("letat de la session a resumer  " + this.automate.getState());
-    		return true;
-    		}
-    		return false;
-    	}
+		if (this.sessionCont.resumeSession(this)){
+			//  System.out.println("je  resume la session " + this.getSessionName());
+			synchronized(this){
+				speaker.resumeSession(this.getSessionName());
+				if (!this.automate.setWaitingForResumeSessionState()){
+					throw new IllegalStateException("je suis pas dans un etat qui me permet de reprendre mon execution");
+				}
+				this.wait();
+			}
+			// System.out.println("letat de la session a resumer  " + this.automate.getState());
+			return true;
+		}
+		return false;
+	}
 
 
 	public boolean suspendSession() throws InterruptedException, IOException {
 		if ( this.sessionCont.suspendSession(this)){
-		synchronized(this){
-			speaker.suspendSession();
-			 if (!this.automate.setWaitingForSuspendSessionState()){
-				throw new IllegalStateException("je suis pas dans un etat qui me permet de me suspendre");
-			 }
-		    this.wait();
-		}
-		return true;
+			synchronized(this){
+				speaker.suspendSession();
+				if (!this.automate.setWaitingForSuspendSessionState()){
+					throw new IllegalStateException("je suis pas dans un etat qui me permet de me suspendre");
+				}
+				this.wait();
+			}
+			return true;
 		}
 		return false;
 	}
 
 
 	public ISessionStateMachine getSessionStateMachine() {
-      return this.automate;
+		return this.automate;
 	}
 
 
 	public void notifyEndOpenSession() {
 		System.out.println("jai recu un notifyEndOpenSession");
-      if (! this.automate.setIdleState()){
-    	  throw new IllegalStateException("je suis pas dans un etat qui me permette detre idle");
-      }
+		if (! this.automate.setIdleState()){
+			throw new IllegalStateException("je suis pas dans un etat qui me permette detre idle");
+		}
 
-    //   System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
+		//   System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
 	}
 
 
 	public void notifyEndSuspendSession() {
 		System.out.println("jai recu un notifyEndSuspendSession");
 		synchronized(this){
-        this.notify();
+			this.notify();
 		}
 		if (!this.automate.setSuspendSessionState()){
-		throw new IllegalStateException("je suis pas en attente dune suspension de session");
+			throw new IllegalStateException("je suis pas en attente dune suspension de session");
 		}
 
 	}
@@ -230,11 +226,11 @@ public class ApiSession implements IApiSession {
 	public void notifyEndResumeSession(String nameSession) {
 		System.out.println("jai recu un notifyEndResumeSession");
 		synchronized(this){
-	        this.notify();
-			}
+			this.notify();
+		}
 		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
 		if (!this.automate.setIdleState()){
-		throw new IllegalStateException("etat pas coherent");
+			throw new IllegalStateException("etat pas coherent");
 		}
 
 
@@ -244,12 +240,12 @@ public class ApiSession implements IApiSession {
 	public void notifyEndCloseSession() {
 		System.out.println("jai recu un notifyEndCloseSession");
 		synchronized(this){
-	        this.notify();
+			this.notify();
 		}
-	if(!this.automate.CloseSessionState()){
-		throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
+		if(!this.automate.CloseSessionState()){
+			throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
 
-	}
+		}
 
 	}
 
@@ -257,42 +253,42 @@ public class ApiSession implements IApiSession {
 
 //	public void sendModel(IModel model) throws IOException {
 
-	
+
 	//	if (!this.automate.setWaitingForResultState()){
 	//		throw new IllegalStateException("j'etais pas en attente de resultat");
 	//	}
-//		speaker.sendModel(model);
-//}
+//	speaker.sendModel(model);
+//	}
 
 	public void invalidModel() throws IOException {
-		 if(!this.automate.setWaitingForUpdatesState()){
-			 throw new IllegalStateException("je peux pas me mettre dans cette etat"); 
-		 }
-		 else{
-			 speaker.invalidModel();
-		 }
-		
+		if(!this.automate.setWaitingForUpdatesState()){
+			throw new IllegalStateException("je peux pas me mettre dans cette etat"); 
+		}
+		else{
+			speaker.invalidModel();
+		}
+
 	}
 
 	public void notifyWaitingForModel() throws IOException {
-		
+
 		if(!this.automate.setWaitingForModelState())
-	throw new IllegalStateException("j'etais pas en attente de model");
-		
+			throw new IllegalStateException("j'etais pas en attente de model");
+
 		speaker.sendModel(this.model);
 	}
 
 	public void notifyWaitingForResult() {
 		System.out.println(automate.getState());
 		if(!this.automate.setWaitingForResultState())
-	 throw new IllegalStateException("j'etais pas en attente de reponse");
+			throw new IllegalStateException("j'etais pas en attente de reponse");
 	}
 
 	public void notifyEndResult() {
-	 
+
 		if(!this.automate.setIdleState()){
-			 throw new IllegalStateException("je peux pas me mettre dans cet etat");
-			}
+			throw new IllegalStateException("je peux pas me mettre dans cet etat");
+		}
 	}
 
 	public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException {
@@ -303,17 +299,7 @@ public class ApiSession implements IApiSession {
 	public void notifyReceptSessionInfo(ISessionInfo o) {
 		this.sessionInfo = o;
 		synchronized(this){
-	        this.notify();
+			this.notify();
 		}
-		
 	}
-
-	
-	
-	
-
-	
-	
-	
-
 }

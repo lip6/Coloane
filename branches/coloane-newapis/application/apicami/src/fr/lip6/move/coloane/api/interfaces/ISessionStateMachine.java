@@ -1,127 +1,118 @@
 package fr.lip6.move.coloane.api.interfaces;
 
 /**
- * cette interface represente l'automate de la session.
- * @author kahoo && uu.
- *
+ * Cette interface décrit l'automate d'états associé à chaque session
  */
 public interface ISessionStateMachine {
 
-	/** l'état initial de l'automate.
-	 * qui correspond a une session créée,cf automates d'etat de la session.
-	 */
-     static final int INITIAL_STATE = 0;
+	/** L'état initial de l'automate qui correspond a une session créée */
+     int INITIAL_STATE = 0;
+
+	/** Etat correspondant à l'attente des menus et updates */
+	int WAITING_FOR_MENUS_AND_UPDATES_STATE = 1;
+
+	/** Etat correspondant à une session ovuerte */
+	int IDLE_STATE = 2;
+
+	/** Etat correspondant à l'attente de la suspension de session */
+	int WAITING_FOR_SUSPEND_SESSION_STATE = 3;
+
+	/** Etat correspondant à une session suspendue */
+	int SUSPEND_SESSION_STATE = 4;
+
+	/** Etat correspondant à l'attente de reprise de session */
+	int WAITING_FOR_RESUME_SESSION_STATE = 5;
+
+	/** Etat correspondant à l'attente de fin de session */
+	int WAITING_FOR_CLOSE_SESSION_STATE = 6;
+
+	/** Etat correspondant à une session fermée */
+	int CLOSE_SESSION_STATE = 7;
+
+	 /** Etat correspondant à l'attente de réponse de la part de la plate-forme */
+	int WAITING_FOR_RESPONSE_STATE = 8;
+
+	/** TODO : A documenter */
+	int WAITING_FOR_MODEL_STATE = 9;
+
+	/** TODO : A documenter */
+	int WAITING_FOR_RESULT_STATE = 10;
+
+	/** TODO : A documenter */
+	int WAITING_FOR_UPDATES_STATE = 11;
+
+	/** TODO : A documenter */
+	int MODELE_SALE_STATE = 12;
 
 	/**
-	 * ca correspond a l'attente des menus et updates,cf automates d'etat de la session.
+	 * @return l'état courant de la session
 	 */
-	static final int WAITING_FOR_MENUS_AND_UPDATES_STATE = 1;
-
-
-	/**
-	 * ca correspond a session ouverte .
-	 */
-	static final int IDLE_STATE = 2;
-
-	/**
-	 * ca correspond a lattente de la suspension de la session .
-	 */
-	static final int WAITING_FOR_SUSPEND_SESSION_STATE = 3;
-
-
-	/**
-	 * ca correspond a letat de la suspension de la session .
-	 */
-	static final int SUSPEND_SESSION_STATE = 4;
-
-
-	/**
-	 * ca correspond a lattente de la reprise de la session .
-	 */
-	static final int WAITING_FOR_RESUME_SESSION_STATE = 5;
-
-	/**
-	 * ca correspond a lattente de la reprise de la fin de la session .
-	 */
-	static final int WAITING_FOR_CLOSE_SESSION_STATE = 6;
-
-
-	/**
-	 * ca correspond a la fin de la session .
-	 */
-	static final int CLOSE_SESSION_STATE = 7;
-
-	 /**
-	  * c'est letat ou jatten soit un DR ou un DF de FK
-	  */
-	static final int WAITING_FOR_RESPONSE_STATE =8 ;
-	
-	/**
-	 * ca correspond a lattente de la reprise de la fin de la session .
-	 */
-	static final int WAITING_FOR_MODEL_STATE = 9;
-
-
-	
-	static final int WAITING_FOR_RESULT_STATE =10 ;
-	
-	static final int WAITING_FOR_UPDATES_STATE =11 ;
-	
-	static final int MODELE_SALE_STATE =12 ;
-	/**
-	 * nous retourne l'etat de notre session.
-	 * @return int
-	 */
-    public int getState();
-
+	int getState();
 
     /**
-     * nous positionne l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE, si possible.
-     * @return boolean
+     * Positionne la session dans l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
      */
-    public boolean setWaitingForUpdatesAndMenusState();
+    boolean setWaitingForUpdatesAndMenusState();
 
     /**
-     * nous positionne l'etat IdleState, si possible.
-     * @return boolean
+     * Positionne la session dans l'etat IDLE_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
      */
-    public boolean setIdleState();
-
+    boolean setIdleState();
 
     /**
-     * nous positionne l'etat WAITING_FOR_SUSPEND_SESSION_STATE, si possible.
-     * @return boolean
+     * Positionne la session dans l'etat WAITING_FOR_SUSPEND_SESSION_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
      */
-    public boolean setWaitingForSuspendSessionState();
+    boolean setWaitingForSuspendSessionState();
 
     /**
-     * nous positionne SUSPEND_SESSION_STATE, si possible.
-     * @return boolean
+     * Positionne la session dans l'etat SUSPEND_SESSION_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
      */
-    public boolean setSuspendSessionState();
-
+    boolean setSuspendSessionState();
 
     /**
-     * nous positionne l'etat WAITING_FOR_RESUME_SESSION_STATE, si possible.
-     * @return boolean
+     * Positionne la session dans l'etat WAITING_FOR_RESUME_SESSION_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
      */
-    public boolean setWaitingForResumeSessionState();
+    boolean setWaitingForResumeSessionState();
 
+    /**
+     * Positionne la session dans l'etat WAITING_FOR_CLOSE_SESSION_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+     */
+	boolean setWaitingForCloseSessionState();
 
-	public boolean setWaitingForCloseSessionState();
+	/**
+	 * Positionne la session dans l'etat CLOSE_SESSION_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+	 */
+	boolean closeSessionState();
 
-	public boolean CloseSessionState();
+	/**
+	 * Positionne la session dans l'etat WAITING_FOR_MODEL_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+	 */
+	boolean setWaitingForModelState();
 
+	/**
+	 * Positionne la session dans l'etat WAITING_FOR_RESULT_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+	 */
+	boolean setWaitingForResultState();
 
-	public boolean setWaitingForModelState();
+	/**
+	 * Positionne la session dans l'etat WAITING_FOR_RESPONSE_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+	 */
+	boolean setWaitingForResponseState();
 
-
-	public boolean setWaitingForResultState();
-
-
-	public boolean setWaitingForResponseState();
-
-
-	public boolean setWaitingForUpdatesState();
+	/**
+	 * Positionne la session dans l'etat WAITING_FOR_UPDATES_STATE, si possible.
+     * @return <code>true</code> si l'opération est réussie
+	 */
+	boolean setWaitingForUpdatesState();
 
 }
