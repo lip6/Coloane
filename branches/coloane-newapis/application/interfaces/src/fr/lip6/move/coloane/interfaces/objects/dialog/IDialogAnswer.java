@@ -1,47 +1,42 @@
 package fr.lip6.move.coloane.interfaces.objects.dialog;
 
-
-
-
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Interface fournie par Coloane a l'API
- * Elle contient toutes les informations pour manipuler les resultats
- * envoye par Coloane a la suite d'un affichage d'une boite de dialogue
+ * Interface fournie par Coloane a l'API.
+ * Elle contient toutes les informations pour manipuler les resultats.
+ * envoye par Coloane a la suite d'un affichage d'une boite de dialogue.
  */
 public interface IDialogAnswer {
 
 	/**
-	 * Retourne le texte qui a ete saisi dans la boite de dialogue
-	 * @return Un tableau de lignes saisies
+	 * Récupére l'identifiant de la boîte de dialogue à la quel on répond.
+	 * @return L'identifiant de la boîte de dialogue à la quel on répond.
 	 */
-	ArrayList<String> getAnswer();
+	int getIdDialog();
 
 	/**
-	 * Retourne le type de reponse de Coloane
-	 * @return un type de reponse
-	 * @see IDialogCom
+	 * Récupére le type du button réponse choisi.
+	 * @return Le type du button réponse choisi.
 	 */
-	int getAnswerType();
+	int getButtonType();
 
 	/**
-	 * Indique l'identifiant de la boite de dialogue consideree
-	 * @return Un identifiant
+	 * Détermine si la boîte de dialogue est modifiée.
+	 * @return <code>true</code> si la boîte de dialogue est modifiée, <code>false</code> sinon.
 	 */
-	int getDialogId();
+	boolean isModified();
 
 	/**
-	 * Indique si le contenu de la boite de dialogue a ete modifiee
-	 * @return Un booleen
+	 * Récupére la valeur saisie dans la boîte de dialogue.
+	 * @return La valeur saisie dans la boîte de dialogue.
 	 */
-	boolean hasBeenModified();
+	String getValue();
 
 	/**
-	 * Indique si la reponse provient d'une boite de dialogue multilignes
-	 * @return Un booleen
+	 * Récupere la liste d'objets faisant parti de la réponse.
+	 * @return La liste d'objets faisant parti de la réponse.
 	 */
-	boolean isMultiLineAnswer();
+	List<Integer> getObjects();
 
 }
