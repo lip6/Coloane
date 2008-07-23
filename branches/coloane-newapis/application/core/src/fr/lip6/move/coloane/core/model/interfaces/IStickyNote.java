@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.core.model.interfaces;
 
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
+import org.eclipse.draw2d.geometry.Dimension;
+
 /**
  * Interface définissant une note, ses comportements publics et ses propriétés
  */
@@ -26,4 +28,14 @@ public interface IStickyNote extends ILocationInfo {
 	 * @param newText Le nouveau contenu
 	 */
 	void setLabelContents(String newText);
+
+	/**
+	 * @return Taille de la note
+	 */
+	Dimension getSize();
+
+	/**
+	 * @param size nouvelle taille de la note
+	 */
+	void setSize(Dimension size);
 }
