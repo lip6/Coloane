@@ -15,8 +15,6 @@ public class ComStub {
 		Api api = new Api();
 		IApiConnection connection = api.createApiConnection();
 		
-		connection.setLogin(LOGIN);
-		connection.setPassword(MDP);
 		
 		ReceptDialogObserver receptDialogObserver = new ReceptDialogObserver();
 		ReceptMenuObserver receptMenuObserver = new ReceptMenuObserver();
@@ -29,7 +27,7 @@ public class ComStub {
 		 * Ouveture d'une connection
 		 */
 		System.out.println("1 Ouveture connexion");
-		IConnectionInfo connectionInfo = connection.openConnection();
+		IConnectionInfo connectionInfo = connection.openConnection(LOGIN,MDP,"",0);
 		System.out.println("CONNECTION: Version="+connectionInfo.getFkName()+" major="+connectionInfo.getFkMajor()+" minor="+connectionInfo.getFkMinor());
 		System.out.println("");
 		Thread.sleep(1*1000);
