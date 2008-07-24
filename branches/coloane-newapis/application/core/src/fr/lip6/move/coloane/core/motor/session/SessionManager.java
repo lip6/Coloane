@@ -118,7 +118,6 @@ public final class SessionManager extends Observable implements ISessionManager 
 			LOG.finer("Reprise de la session : " + sessionName); //$NON-NLS-1$
 
 			if (currentSession != null && !toResume.equals(currentSession)) {
-				LOG.warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
 				suspendSession(currentSession);
 			}
 

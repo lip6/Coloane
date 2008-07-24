@@ -142,11 +142,13 @@ public class Session implements ISession {
 			return false;
 		}
 		setStatus(ISession.CONNECTED);
+		LOG.finer("Connexion de la session " + name); //$NON-NLS-1$
 		return true;
 	}
 
 	/** {@inheritDoc} */
 	public final boolean disconnect() {
+		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
 		try {
 			if (apiSession != null) {
 				apiSession.closeSession();
@@ -157,6 +159,7 @@ public class Session implements ISession {
 			return false;
 		}
 		setStatus(ISession.CLOSED);
+		LOG.finer("Déconnexion de la session " + name); //$NON-NLS-1$
 		return true;
 	}
 
