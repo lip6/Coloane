@@ -167,6 +167,7 @@ public class AuthenticationDialog extends Dialog {
 			comboServer.setText(Coloane.getInstance().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
 			ip = Coloane.getInstance().getPreference("IP_DEFAULT"); //$NON-NLS-1$
 			port = Coloane.getInstance().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
+			type = Coloane.getInstance().getPreference("TYPE_DEFAULT"); //$NON-NLS-1$
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {

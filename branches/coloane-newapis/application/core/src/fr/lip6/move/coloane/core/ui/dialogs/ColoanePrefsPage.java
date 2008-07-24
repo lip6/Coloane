@@ -33,12 +33,15 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	private Combo comboServer = null;
 	private Text framekitIp = null;
 	private Text framekitPort = null;
+	private Text serverType = null;
 	private Label framekitIpLabel = null;
 	private Label framekitPortLabel = null;
+	private Label serverTypeLabel = null;
 	private Group connection = null;
 
 	private String ip;
 	private String port;
+	private String type;
 
 	/** Limit size for text field */
 	public static final int TXT_LIMIT = 255;
@@ -100,24 +103,30 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) {
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
+						serverType.setEnabled(false);
 						ip = InetAddress.getByName("localhost").getHostAddress(); //$NON-NLS-1$
 						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
+						type = String.valueOf(Coloane.getParam("TYPE_DEFAULT")); //$NON-NLS-1$
 
 					// Dans le cas Autres...
 					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_14)) { // Autre ..
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
+						serverType.setEnabled(true);
 						ip = ""; //$NON-NLS-1$
 						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 					} else {
 						int indexServer = comboServer.indexOf(comboServer.getText());
 						ip = Coloane.getParam("IP" + (indexServer + 1)); //$NON-NLS-1$
 						port = Coloane.getParam("PORT" + (indexServer + 1)); //$NON-NLS-1$
+						type = Coloane.getParam("TYPE" + (indexServer + 1)); //$NON-NLS-1$
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
+						serverType.setEnabled(false);
 					}
 					framekitIp.setText(ip);
 					framekitPort.setText(port);
+					serverType.setText(type);
 				} catch (IOException ef) {
 					LOGGER.warning("IP introuvable"); //$NON-NLS-1$
 				}
@@ -137,7 +146,13 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekitPort.setTextLimit(TXT_LIMIT);
 
-		// Enable Ip/Port fields if "Other..." is selected
+		serverTypeLabel = new Label(connection, SWT.NULL);
+		serverTypeLabel.setText(Messages.ColoanePrefsPage_3);
+		serverType = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		serverType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		serverType.setTextLimit(TXT_LIMIT);
+
+		// Enable Ip/Port/Type fields if "Other..." is selected
 		enableFields();
 
 		// Groupe pour le log
@@ -174,6 +189,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		loginField.setText("");   //$NON-NLS-1$
 		framekitIp.setText("");   //$NON-NLS-1$
 		framekitPort.setText(""); //$NON-NLS-1$
+		serverType.setText(""); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
@@ -183,6 +199,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		Coloane.getInstance().setPreference("SERVER_DEFAULT", comboServer.getText()); //$NON-NLS-1$
 		Coloane.getInstance().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
 		Coloane.getInstance().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
+		Coloane.getInstance().setPreference("TYPE_DEFAULT", serverType.getText()); //$NON-NLS-1$
 		return super.performOk();
 	}
 
@@ -194,9 +211,11 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		if (Coloane.getInstance().getPreference("SERVER").equals(Messages.AuthenticationDialog_14)) { //$NON-NLS-1$
 			framekitIp.setEnabled(true);
 			framekitPort.setEnabled(true);
+			serverType.setEnabled(true);
 		} else {
 			framekitIp.setEnabled(false);
 			framekitPort.setEnabled(false);
+			serverType.setEnabled(false);
 		}
 	}
 }
