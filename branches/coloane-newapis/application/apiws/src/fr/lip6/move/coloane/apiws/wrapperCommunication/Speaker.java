@@ -27,8 +27,14 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.apache.axis2.AxisFault;
@@ -277,21 +283,28 @@ public class Speaker implements ISpeaker {
                 throw new ApiException("Error of communcation : Stub is null");
             }
 
-            //Model m =new Model();
-            //m.setCami("");
-            //m.setParsing(true);
-            //m.setInvalidate(param)
+            /////////////////////////////
+            Model m = new Model();
+            String chaine = createModel("/home/mchaouki/workspace64_newapis/fr.lip6.move.coloane.apiws/ressource/modele.txt");
+            System.out.println("Taille chaine = " + chaine.length());
+            m.setCami(chaine);
+            m.setParsing(true);
+            m.setInvalidate(false);
+            ////////////////////////////////
 
             ExecuteService req = new ExecuteService();
             req.setUid(auth);
             req.setIdSession(idSession);
-            req.setTheModel(theModel);
+            req.setTheModel(m);
+            //req.setTheModel(theModel);
+
+
             //System.out.println("here"+model.getCamiModel());
             //req.setTheModel(new String("Hello"));
             req.setQuestion(question);
             req.setRoot(root);
             Option[] ops;
-            if (options.size() > 0) {
+            if (options != null && options.size() > 0) {
                 ops = new  Option[options.size()];
                 int i = 0;
                 for (Option op : options) {
@@ -318,5 +331,40 @@ public class Speaker implements ISpeaker {
 
         return toReturn;
 
+	}
+
+	/**
+	 * Crée un model pour le test
+	 * @param filePath le chemin du fichier cami
+	 * @return le model cami sous forme de String
+	 */
+	private String createModel(String filePath) {
+		File toImport = new File(filePath);
+
+		List<String> commands = new Vector<String>();
+
+		String res = "";
+
+		try {
+			BufferedReader buffer = new BufferedReader(new FileReader(toImport));
+
+			while (buffer.ready()) {
+				commands.add(buffer.readLine());
+			}
+			buffer.close();
+
+			for (String line : commands) {
+				res = res + line + "\n";
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 }
