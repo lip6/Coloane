@@ -22,7 +22,7 @@ public class ReceptServiceState implements IReceptServiceState {
 	public ReceptServiceState(QuestionState infoService) {
 		this.message = infoService.getMessage();
 		this.serviceName = infoService.getNameQuestion();
-		this.state = Integer.parseInt(infoService.getEtat());
+		this.state = 1; /*Integer.parseInt(infoService.getEtat());*/
 	}
 
 	/**
