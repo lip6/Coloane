@@ -35,6 +35,14 @@
                menubarPath="sampleMenu/sampleGroupApiWS"
                tooltip="Close Connection">
          </action>
+         <action
+               class="fr.lip6.move.coloane.test.apiws.actions.ExecuteServiceAction"
+               icon="icons/sticky.png"
+               id="fr.lip6.move.coloane.test.apiws.actionExecutService"
+               label="&amp;Execut Service"
+               menubarPath="sampleMenu/sampleGroupApiWS"
+               tooltip="Execut Service">
+         </action>
          <menu
                id="sampleMenu"
                label="ApiWS">

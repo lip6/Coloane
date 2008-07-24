@@ -13,6 +13,8 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.test.apiws.Activator;
 import fr.lip6.move.coloane.test.observers.ReceptDialogObserver;
 import fr.lip6.move.coloane.test.observers.ReceptMenuObserver;
+import fr.lip6.move.coloane.test.observers.ReceptResultObserver;
+import fr.lip6.move.coloane.test.observers.ReceptServiceStateObserver;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -41,10 +43,10 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		IApiConnection connection = (new Api()).createApiConnection();
 
-		connection.setLogin("LOGIN");
-		connection.setPassword("MDP");
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), true);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), true);
+		connection.setReceptResultObserver(new ReceptResultObserver(), true);
+		connection.setReceptServiceStateObserver(new ReceptServiceStateObserver(), true);
 		
 		Activator.setConnection(connection);
 		Activator.getSessionController().setConnectionOpened(true);
@@ -52,7 +54,7 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 		try {
 
 			System.out.println("Ouveture connexion");
-			IConnectionInfo connectionInfo = connection.openConnection();
+			IConnectionInfo connectionInfo = connection.openConnection("login","mdp","",0);
 			MessageDialog.openInformation(window.getShell(), "OPEN CONNECTION", connectionInfo.getFkName());
 
 		} catch (ApiException e) {
