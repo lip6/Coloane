@@ -18,12 +18,14 @@ import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
@@ -68,6 +70,7 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_RESULT, ObservableFactory.getNewReceptResultObservable());
 		this.listObservables.put(IObservables.DISCONNECT, ObservableFactory.getNewDisconnectObservable());
 		this.listObservables.put(IObservables.BRUTAL_INTERRUPT, ObservableFactory.getNewBrutalInterruptObservable());
+		this.listObservables.put(IObservables.RECEPT_SERVICE_STATE, ObservableFactory.getNewReceptServiceStateObservable());
 
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
 
@@ -164,6 +167,16 @@ public class ApiConnection implements IApiConnection {
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une erreur");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+		IReceptServiceStateObservable obs = (IReceptServiceStateObservable) listObservables.get(IObservables.RECEPT_SERVICE_STATE);
+		obs.addObserver(o);
+		obs.setCreateThread(createThread);
+		LOGGER.finer("Initialisation de l'observateur d'événement: récéption d'une information le service en cours d'exécution");
 	}
 
 	/**

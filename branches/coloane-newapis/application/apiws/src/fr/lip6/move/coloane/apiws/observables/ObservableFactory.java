@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptServiceStateObservable;
 
 /**
  * Cette classe permet de créer les différents observables possibles.
@@ -65,5 +66,13 @@ public class ObservableFactory {
 	 */
 	public static IDisconnectObservable getNewDisconnectObservable() {
 		return (IDisconnectObservable) new DisconnectObservable();
+	}
+
+	/**
+	 * Crée un observable pour l'événement: récéption d'une information sur un service en cours d'exécution.
+	 * @return @return un observable pour l'événement: récéption d'une information sur un service en cours d'exécution.
+	 */
+	public static IReceptServiceStateObservable getNewReceptServiceStateObservable() {
+		return (IReceptServiceStateObservable) new ReceptServiceStateObservable();
 	}
 }

@@ -25,4 +25,7 @@ public interface IObservables {
 
 	/** Réception d'une erreur */
 	Integer BRUTAL_INTERRUPT = 6;
+
+	/** Récéption d'une information sur un service */
+	Integer RECEPT_SERVICE_STATE = 7;
 }

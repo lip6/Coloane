@@ -1,12 +1,14 @@
 package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
+import fr.lip6.move.coloane.apiws.evenements.ReceptServiceState;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptServiceStateObservable;
 import fr.lip6.move.wrapper.ws.GException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.AsyncMessage;
@@ -93,6 +95,14 @@ public class Listener extends Thread implements IListener {
 						LOGGER.fine("Récéption d'une boîte de dialogue");
 						Dialog dialog = new Dialog(message.getDbs()[i]);
 						((IReceptDialogObservable) listObservable.get(IObservables.RECEPT_DIALOG)).notifyObservers(dialog);
+					}
+				}
+
+				if (message.getQts() != null) {
+					for (int i = 0; i < message.getQts().length; i++) {
+						LOGGER.fine("Récéption d'une information sur un service");
+						ReceptServiceState serviceState = new ReceptServiceState(message.getQts()[i]);
+						((IReceptServiceStateObservable) listObservable.get(IObservables.RECEPT_SERVICE_STATE)).notifyObservers(serviceState);
 					}
 				}
 
