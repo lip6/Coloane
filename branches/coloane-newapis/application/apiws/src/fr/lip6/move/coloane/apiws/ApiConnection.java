@@ -198,20 +198,27 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean closeConnection() throws ApiException {
+	public final boolean closeConnection() {
 
 		LOGGER.fine("Demande la fermeture de la connexion");
 
 		if (!connectionOpened) {
 			LOGGER.warning("Impossible de fermer la connexion: aucune connexion n'est ouverte");
-			throw new ApiException("Aucune connexion n'est ouverte");
+			//throw new ApiException("Aucune connexion n'est ouverte");
 		}
 
 		LOGGER.finer("Demande l'arrêt du Listener");
 		listener.stopper();
 
 		LOGGER.finer("Demande la fermeture de la connexion");
-		speaker.closeConnection();
+
+		try {
+			speaker.closeConnection();
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			LOGGER.warning("Impossible de fermer la connexion: " + e.getMessage());
+		}
 
 		connectionOpened = false;
 
