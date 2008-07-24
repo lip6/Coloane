@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.apiws.observables.ObservableFactory;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
-import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;

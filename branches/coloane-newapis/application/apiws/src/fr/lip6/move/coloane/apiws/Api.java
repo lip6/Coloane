@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws;
 
-import fr.lip6.move.coloane.interfaces.api.connection.IApi;
-import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.IApi;
+import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
