@@ -7,7 +7,7 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
 public class InhibitorArc extends RoundedPolylineConnection {
-	// TODO : à documenter, pourquoi 0.8 ?
+	// On réduit légerement la taille du cercle
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
 

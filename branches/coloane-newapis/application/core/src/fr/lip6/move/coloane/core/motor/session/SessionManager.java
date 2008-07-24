@@ -159,7 +159,6 @@ public final class SessionManager extends Observable implements ISessionManager 
 	private void setCurrentSession(ISession currentSession) {
 		this.currentSession = currentSession;
 
-		System.err.println("**************** session " + currentSession);
 		LOG.finer("La session " + currentSession + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Rafraichisement des vues annexes

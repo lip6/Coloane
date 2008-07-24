@@ -30,26 +30,20 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	/**
 	 * Constructeur
 	 * Etablit quelles sont les connexions impossibles
-	 * @param in élément source de l'arc
-	 * @param out élément cible de l'arc
+	 * @param source élément source de l'arc
+	 * @param target élément cible de l'arc
 	 */
 	public ConnectionConstraint(String source, String target) {
 		this.source = source;
 		this.target = target;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink#isSatisfied(fr.lip6.move.coloane.interfaces.model.INode, fr.lip6.move.coloane.interfaces.model.INode)
-	 */
+	/** {@inheritDoc} */
 	public final boolean isSatisfied(INode source, INode target) {
 		return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-	 */
+	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		Map<String, String> myParams = new HashMap<String, String>();
 
@@ -72,10 +66,7 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 		this.target = myParams.get("target"); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
 		return Messages.ConnectionConstraint_0;
 	}

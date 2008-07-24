@@ -83,48 +83,50 @@ public final class UserInterface {
 		});
 	}
 
-	/**
-	 * Afficher un menu
-	 * @param menu La racine du menu a afficher
-	 */
-	public void drawMenu(RootMenu menu) {
-		// Supprime tous les menus sauf PLATFORM
-		MenuManipulation.clean();
+	// TODO : supprimer cette méthode qui n'est jamais appelée
+//	/**
+//	 * Afficher un menu
+//	 * @param menu La racine du menu a afficher
+//	 */
+//	public void drawMenu(RootMenu menu) {
+//		// Supprime tous les menus sauf PLATFORM
+//		MenuManipulation.clean();
+//
+//		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
+//		if (currentSession == null) {
+//			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
+//			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
+//			return;
+//		}
+//		currentSession.setServicesMenu(menu);
+//		GraphicalMenu gmenu = new GraphicalMenu(menu, fenetreTravail, this);
+//		gmenu.build();
+//	}
 
-		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
-		if (currentSession == null) {
-			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
-			Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
-			return;
-		}
-		currentSession.setServicesMenu(menu);
-		GraphicalMenu gmenu = new GraphicalMenu(menu, fenetreTravail, this);
-		gmenu.build();
-	}
-
-	/**
-	 * Demande la mise a jour du menu
-	 * @param updates La liste des mises a jour a faire sur les menus
-	 */
-	public void updateMenu(ISession concernedSession, Vector<IUpdateMenuCom> updates) {
-		if (concernedSession == null) {
-			LOGGER.warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
-			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
-			return;
-		}
-		// Recuperation du menu de service de la session
-		RootMenu service = concernedSession.getServicesMenu();
-		if (service == null) {
-			return;
-		}
-		for (IUpdateMenuCom up : updates) {
-			if (up.getRoot().equals(service.getName())) {
-				service.setEnabled(up.getService(), up.getState());
-			}
-		}
-		GraphicalMenu gmenu = new GraphicalMenu(concernedSession.getServicesMenu(), fenetreTravail, this);
-		gmenu.update();
-	}
+	// TODO : supprimer cette méthode qui n'est jamais appelée
+//	/**
+//	 * Demande la mise a jour du menu
+//	 * @param updates La liste des mises a jour a faire sur les menus
+//	 */
+//	public void updateMenu(ISession concernedSession, Vector<IUpdateMenuCom> updates) {
+//		if (concernedSession == null) {
+//			LOGGER.warning("Aucune session concernee par ces resultats"); //$NON-NLS-1$
+//			Coloane.showWarningMsg("Impossible de mettre a jour le menu"); //$NON-NLS-1$
+//			return;
+//		}
+//		// Recuperation du menu de service de la session
+//		RootMenu service = concernedSession.getServicesMenu();
+//		if (service == null) {
+//			return;
+//		}
+//		for (IUpdateMenuCom up : updates) {
+//			if (up.getRoot().equals(service.getName())) {
+//				service.setEnabled(up.getService(), up.getState());
+//			}
+//		}
+//		GraphicalMenu gmenu = new GraphicalMenu(concernedSession.getServicesMenu(), fenetreTravail, this);
+//		gmenu.update();
+//	}
 
 	/**
 	 * Reaffiche les menus (clean + reconstruction)
@@ -152,7 +154,8 @@ public final class UserInterface {
 
 	/**
 	 * Desactivation du rootMenu
-	 * @param rootMenu menu Root a griser (ainsi que tous ses fils)
+	 * @param rootName menu Root a griser (ainsi que tous ses fils)
+	 * @param status nouvelle état du menu
 	 */
 	public void changeRootMenuStatus(String rootName, boolean status) {
 		MenuManipulation.setEnabled(rootName, rootName, status);
@@ -185,7 +188,7 @@ public final class UserInterface {
 
 	/**
 	 * Affichage d'une boite de dialogue
-	 * @param Dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
+	 * @param dialogCom L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 * @throws UIException
 	 */
 	public static void drawDialog(IDialogCom dialogCom) throws UIException {
@@ -200,9 +203,9 @@ public final class UserInterface {
 	}
 
 	/**
-	 * Modifie l'etat d'un item du menu Platform
-	 * @param menuItem Le nom de l'item a modifier
-	 * @param newState Le nouvel etat pour l'item
+	 * Mise à jour des actions de connexion/déconnexion
+	 * @param authentication état de la connexion avec l'api
+	 * @param session état de la connexion de la session courrante
 	 */
 	public void platformState(boolean authentication, int session) {
 		LOGGER.fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.core.ui;
 
-import java.util.logging.Logger;
-
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.StickyNote;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
@@ -13,6 +10,8 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.util.logging.Logger;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -26,8 +25,9 @@ public class PartFactory implements EditPartFactory {
 
 	/**
 	 * Creation effective de l'EditPart
-	 * @param context
+	 * @param context contexte
 	 * @param modelElement l'element du modele pour lequel on doit construire un EditPart
+	 * @return nouvelle EditPart
 	 */
 	public final EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
@@ -50,6 +50,7 @@ public class PartFactory implements EditPartFactory {
 	/**
 	 * Selon le type de l'element... on choisit sont EditPart
 	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
+	 * @return nouvelle EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof INode) {

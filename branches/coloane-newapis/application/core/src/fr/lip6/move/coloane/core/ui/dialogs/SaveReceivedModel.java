@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.ModifyWorkspace;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -29,6 +31,7 @@ public class SaveReceivedModel implements Runnable {
 	/**
 	 * Constructeur
 	 * @param graph Le modele a sauvegarder
+	 * @param w IWorkbenchWindow
 	 */
 	public SaveReceivedModel(IGraph graph, IWorkbenchWindow w) {
 		this.graph = graph;
@@ -52,8 +55,7 @@ public class SaveReceivedModel implements Runnable {
 
 			// Manipulation du path (pour ajout de l'extension du nouveu formalisme)
 			path = path.removeFileExtension();
-			path = path.addFileExtension(".model"); //$NON-NLS-1$
-			//TODO : Sortir l'extension en propriété
+			path = path.addFileExtension("." + Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$ //$NON-NLS-2$
 
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
@@ -95,7 +97,10 @@ public class SaveReceivedModel implements Runnable {
 			try {
 				// Sauvegarde effective et affichage dans un nouvel onglet
 				new ProgressMonitorDialog(window.getShell()).run(false,	false, new ModifyWorkspace(this.window, file, this.graph));
-			} catch (Exception e) {
+			} catch (InvocationTargetException e) {
+				Coloane.showErrorMsg(e.getTargetException().getMessage());
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				Coloane.showErrorMsg(e.getMessage());
 				e.printStackTrace();
 			}
