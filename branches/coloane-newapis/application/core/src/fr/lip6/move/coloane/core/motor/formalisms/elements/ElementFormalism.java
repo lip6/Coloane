@@ -34,6 +34,7 @@ public class ElementFormalism implements IElementFormalism {
 	/**
 	 * Constructeur
 	 * @param name Nom de l'élément de base.
+	 * @param formalism Formalisme de l'élément de base.
 	 */
 	public ElementFormalism(String name, IFormalism formalism) {
 		this.name = name;
