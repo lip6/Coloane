@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.test.apiws.Activator;
 import fr.lip6.move.coloane.test.observers.ReceptDialogObserver;
 import fr.lip6.move.coloane.test.observers.ReceptMenuObserver;
+import fr.lip6.move.coloane.test.observers.ReceptMessageObserver;
 import fr.lip6.move.coloane.test.observers.ReceptResultObserver;
 import fr.lip6.move.coloane.test.observers.ReceptServiceStateObserver;
 
@@ -47,6 +48,7 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), true);
 		connection.setReceptResultObserver(new ReceptResultObserver(), true);
 		connection.setReceptServiceStateObserver(new ReceptServiceStateObserver(), true);
+		connection.setReceptMessageObserver(new ReceptMessageObserver(), true);
 		
 		Activator.setConnection(connection);
 		Activator.getSessionController().setConnectionOpened(true);
