@@ -74,7 +74,7 @@ public interface IApiConnection {
 	 * @return les informations sur la connection
 	 * @throws ApiException si l'ouverture de session échoue
 	 */
-	IConnectionInfo openConnection(String login, String pass, String ip, String port) throws ApiException;
+	IConnectionInfo openConnection(String login, String pass, String ip, int port) throws ApiException;
 
 	/**
 	 * Ferme une connexion
