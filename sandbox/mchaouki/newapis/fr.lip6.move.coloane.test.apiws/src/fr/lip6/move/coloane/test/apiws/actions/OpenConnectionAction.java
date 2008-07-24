@@ -6,7 +6,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import fr.lip6.move.coloane.apiws.connection.Api;
+import fr.lip6.move.coloane.apiws.Api;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
@@ -39,7 +39,7 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		IApiConnection connection = (new Api()).getApiConnection();
+		IApiConnection connection = (new Api()).createApiConnection();
 
 		connection.setLogin("LOGIN");
 		connection.setPassword("MDP");

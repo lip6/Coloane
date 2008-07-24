@@ -13,16 +13,17 @@ public class ReceptDialogObserver implements IReceptDialogObserver {
 		myDialog.start();
 
 		try {
-			Activator.getSessionController().getActiveSession().sendDialogAnswer(dialog.getId(),
-					IDialog.DLG_NO_BUTTON,
-					false,
-					"",
-					null,
-					null);
+			Activator.getSessionController().getActiveSession().sendDialogAnswer(
+					new DialogAnswer(
+							dialog.getId(),
+							IDialog.DLG_NO_BUTTON,
+							false,
+							"",
+							null));
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

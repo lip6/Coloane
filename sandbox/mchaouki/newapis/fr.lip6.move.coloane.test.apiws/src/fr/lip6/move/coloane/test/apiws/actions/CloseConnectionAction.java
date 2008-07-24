@@ -6,7 +6,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
-import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.test.apiws.Activator;
 
 public class CloseConnectionAction implements IWorkbenchWindowActionDelegate {
@@ -27,16 +26,10 @@ public class CloseConnectionAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		IApiConnection connection = Activator.getConnection();
 
-		try {
+		System.out.println("fermeture connexion");
+		connection.closeConnection();
+		Activator.getSessionController().setConnectionOpened(false);
 
-			System.out.println("fermeture connexion");
-			connection.closeConnection();
-			Activator.getSessionController().setConnectionOpened(false);
-
-		} catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 

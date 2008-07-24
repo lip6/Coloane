@@ -83,12 +83,12 @@ public class TabListener implements IPartListener2 {
 				return;
 			try {
 				IApiConnection connection = Activator.getConnection();
-				IApiSession session = connection.getApiSession();
+				IApiSession session = connection.createApiSession();
 
 				Activator.getSessionController().addSession(partRef.getTitle(), session);
 				Activator.getSessionController().setActiveSession(partRef.getTitle());
 				
-				session.openSession("27-06-2008", "AMI-Net", partRef.getTitle());
+				session.openSession(27062008, "AMI-Net", partRef.getTitle());
 
 				System.out.println("OPEN SESSION: session active :"+Activator.getSessionController().getActiveSession().getSessionName());
 
