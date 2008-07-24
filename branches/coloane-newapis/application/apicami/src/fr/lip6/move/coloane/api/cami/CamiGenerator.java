@@ -8,7 +8,6 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
  * Cette classe génère les commandes CAMI prêtes à être envoyées à FK
- *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */

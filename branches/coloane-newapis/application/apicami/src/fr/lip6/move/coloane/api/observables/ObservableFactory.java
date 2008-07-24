@@ -1,11 +1,10 @@
 package fr.lip6.move.coloane.api.observables;
 
-import fr.lip6.move.coloane.api.interfaces.observables.IReceptResultObservable;
-import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 
 public class ObservableFactory {
 

@@ -7,6 +7,8 @@ grammar Cami;
 
 @header{
 	package fr.lip6.move.coloane.api.cami;
+	
+	import fr.lip6.move.coloane.api.session.SessionController;
 
 	import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 	import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
@@ -22,39 +24,37 @@ grammar Cami;
 
 	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
+	import java.util.List;
 	import java.util.ArrayList;
+	import java.util.Map;
 	import java.util.HashMap;
 }
 
 @members {
-	ArrayList<String> listOfArgs; /* liste des arguments pour la construction des objets de notification */
-	ArrayList<ArrayList<String>> camiMenuList; /* liste servant a construire les objets Correspondant aux AQ */
-	ArrayList<ArrayList<String>> camiUpdates; /* liste servant a construire les objets Correspondant aux TQ 7 et 8 */
+	List<String> listOfArgs; /* liste des arguments pour la construction des objets de notification */
+	List<List<String>> camiMenuList; /* liste servant a construire les objets Correspondant aux AQ */
+	List<List<String>> camiUpdates; /* liste servant a construire les objets Correspondant aux TQ 7 et 8 */
 
-	HashMap<String, Object> hashObservable; /* Table de hash des observables */
-
-	ISessionController sc; /* Controleur de la session */
+	Map<String, Object> hashObservable; /* Table de hash des observables */
 
 	ISessionInfo fkInfo; 
+
 	IDialog dialog;
+	List<String> camiDialog; /* represente une boite de dialogue */
+	Map<Integer,IDialog> dialogs ;
 
-	ArrayList<String> camiDialog; /* represente une boite de dialogue */
 	IMenu menu;
-	ArrayList<IMenu> menuList;
-
-	ArrayList<IUpdateItem> updates;
-
-	HashMap<Integer,IDialog> dialogs ;
+	List<IMenu> menuList;
+	List<IUpdateItem> updates;
 
 	/* Constructeur du parser */
-	public CamiParser(TokenStream input, ISessionController sessionController, 
-		HashMap<String, Object> hm) {
-			this(input);
-			hashObservable = hm;       
-			sc = sessionController;
-			dialogs = new HashMap<Integer,IDialog>();
-		}
-		} /* fin du header */
+	public CamiParser(TokenStream input, Map<String, Object> hm) {
+		this(input);
+		hashObservable = hm;
+		sc = SessionController.getInstance();
+		dialogs = new HashMap<Integer,IDialog>();
+	}
+} /* fin de members */
 
 		/* --------------------------------------------------------------------------- *
 		*                                  PRODUCTIONS                                *

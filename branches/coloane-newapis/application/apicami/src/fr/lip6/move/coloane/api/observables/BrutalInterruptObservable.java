@@ -1,12 +1,9 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
-
-
 
 public class BrutalInterruptObservable implements IBrutalInterruptObservable{
 
@@ -49,36 +46,36 @@ public class BrutalInterruptObservable implements IBrutalInterruptObservable{
 
 
 
-/**
- * Cette classe est utilisée pour créer un thread lors de la notification,
- * si cette option est active. cette classe est interne.
- *
- * @author kahoo & uu
- *
- */
-private class ThreadNotifier implements Runnable {
-	private ArrayList<IBrutalInterruptObserver> listObservers;
-	 private String message;
+	/**
+	 * Cette classe est utilisée pour créer un thread lors de la notification,
+	 * si cette option est active. cette classe est interne.
+	 *
+	 * @author kahoo & uu
+	 *
+	 */
+	private class ThreadNotifier implements Runnable {
+		private ArrayList<IBrutalInterruptObserver> listObservers;
+		private String message;
 
-	public ThreadNotifier(String message) {
-		this.listObservers = new ArrayList<IBrutalInterruptObserver> ();
-		this.message = message;
+		public ThreadNotifier(String message) {
+			this.listObservers = new ArrayList<IBrutalInterruptObserver> ();
+			this.message = message;
+		}
+
+		public void run()  {
+			for (int i = 0; i < this.listObservers.size(); i++)
+				this.listObservers.get(i).update(message);
+		}
+
 	}
 
-	public void run()  {
-		for (int i = 0; i < this.listObservers.size(); i++)
-			this.listObservers.get(i).update(message);
+
+
+
+	public void removeObserver(IBrutalInterruptObserver o) {
+		// TODO Auto-generated method stub
+
 	}
-
-}
-
-
-
-
-public void removeObserver(IBrutalInterruptObserver o) {
-	// TODO Auto-generated method stub
-	
-}
 
 }
 

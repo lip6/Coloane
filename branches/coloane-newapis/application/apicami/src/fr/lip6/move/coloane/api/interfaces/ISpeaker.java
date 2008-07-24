@@ -16,20 +16,19 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 public interface ISpeaker {
 
-	/**
-	 *
-	 * @param login
-	 * @param password
+	/** 
+	 * Initie la connexion avec FrameKit
+	 * @param login Le login pour la connexion
+	 * @param password Le mot de passe associé
 	 * @throws IOException
 	 */
 	public void startCommunication(String login, String password)throws IOException;
 
 	/**
-	 * demande a ISpeaker d'envoyer a FK l'ouverture de la connection.
-	 * @param uiName
-	 * @param uiVersion
-	 * @param loginName
-	 * @throws IOException
+	 * Ouverture de connexion
+	 * @param uiName Nom de l'interface utilisateur (client)
+	 * @param uiVersion Version du client
+	 * @param Login login déja passé dans la commande SC de la connexion gardé pour des raisons de compatibilité ascendante
 	 */
 	void openConnection(String uiName ,String uiVersion, String login) throws IOException;
 

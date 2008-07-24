@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * @author uu & kahoo
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 
-// TODO Ne pas oublier si on a le temps le cas dérrière proxy
+//TODO Ne pas oublier si on a le temps le cas dérrière proxy
 
 public class FkComLowLevel {
 

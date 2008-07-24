@@ -1,16 +1,12 @@
 package fr.lip6.move.coloane.api.cami;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-
-import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.session.SessionController;
 
 /**
  * Cette classe lance un thread qui récupère les commandes
@@ -43,7 +39,7 @@ public class ThreadParser extends Thread {
 	 */
 	public ThreadParser(LinkedBlockingQueue<InputStream> queue, Map<String, Object> hm){
 		this.fifo = queue;
-		this.parser = new CamiParser(null, SessionController.getInstance(), hm);
+		this.parser = new CamiParser(null, hm);
 	}
 
 	/**

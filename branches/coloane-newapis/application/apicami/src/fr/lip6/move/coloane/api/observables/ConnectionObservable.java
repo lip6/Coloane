@@ -2,10 +2,7 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
-import fr.lip6.move.coloane.interfaces.api.observables.IConnectionObservable;
-import fr.lip6.move.coloane.interfaces.api.observers.IConnectionObserver;
 
 /**
  * Observable des évènements de la connexion
@@ -90,7 +87,5 @@ public class ConnectionObservable implements IConnectionObservable {
 		}
 
 	}
-
-	
 
 }

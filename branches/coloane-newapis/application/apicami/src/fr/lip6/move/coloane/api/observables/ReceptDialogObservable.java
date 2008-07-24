@@ -2,14 +2,6 @@ package fr.lip6.move.coloane.api.observables;
 
 import java.util.ArrayList;
 
-
-import fr.lip6.move.coloane.api.interfaces.IMenu;
-import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
-
-import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
-
-
-import fr.lip6.move.coloane.api.interfaces.observers.ISessionObserver;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
@@ -84,8 +76,8 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 	class ThreadNotifier implements Runnable {
 		private ArrayList<IReceptDialogObserver> listObservers;
 		private IDialog dialog;
-        private Integer in;
-		
+		private Integer in;
+
 		public ThreadNotifier(ArrayList<IReceptDialogObserver> list, IDialog dialog,Integer in) {
 			this.listObservers = list;
 			this.dialog = dialog;
@@ -99,10 +91,15 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 
 	}
 
-	
+
 
 	public void removeObserver(IReceptDialogObserver o) {
-		
+
+
+	}
+
+	public void notifyObservers(IDialog dialog) {
+		// TODO Auto-generated method stub
 		
 	}
 
