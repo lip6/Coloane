@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class SubMenu extends ItemMenu implements ISubMenu {
 
-	private List<ItemMenu> subMenu;
+	private List<IItemMenu> subMenu;
 
 	/**
 	 * Constructeur d'un item
@@ -21,7 +21,7 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	 * @param helps l'aide sur l'item
 	 * @param subMenu la liste des items qui compose le sous-menu
 	 */
-	protected SubMenu(int type, String name, boolean visible, String associatedService, List<String> helps, List<ItemMenu> subMenu) {
+	protected SubMenu(int type, String name, boolean visible, String associatedService, List<String> helps, List<IItemMenu> subMenu) {
 		super(type, name, visible, associatedService, helps);
 		this.subMenu = subMenu;
 	}
@@ -29,7 +29,7 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<ItemMenu> getSubMenu() {
+	public final List<IItemMenu> getSubMenu() {
 		return subMenu;
 	}
 

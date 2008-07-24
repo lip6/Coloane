@@ -9,14 +9,14 @@ public class RootMenu implements IRootMenu {
 
 	private String name;
 
-	private List<ItemMenu> subMenu;
+	private List<IItemMenu> subMenu;
 
 	/**
 	 * Constructeur
 	 * @param name le nom du menu principal
 	 * @param subMenu le sous-menu qui compose le menu principal
 	 */
-	public RootMenu(String name, List<ItemMenu> subMenu) {
+	public RootMenu(String name, List<IItemMenu> subMenu) {
 		this.name = name;
 		this.subMenu = subMenu;
 	}
@@ -38,7 +38,7 @@ public class RootMenu implements IRootMenu {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<ItemMenu> getSubMenu() {
+	public final List<IItemMenu> getSubMenu() {
 		return subMenu;
 	}
 

@@ -11,6 +11,6 @@ public interface ISubMenu {
 	 * Récupére la liste des items qui compose le sous-menu
 	 * @return la liste des items qui compose le sous-menu
 	 */
-	List<ItemMenu> getSubMenu();
+	List<IItemMenu> getSubMenu();
 
 }

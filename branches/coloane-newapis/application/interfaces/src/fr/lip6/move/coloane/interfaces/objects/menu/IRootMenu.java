@@ -23,6 +23,6 @@ public interface IRootMenu {
 	 * Récupére le sous-menu qui compose le menu principal
 	 * @return le sous-menu qui compose le menu principal
 	 */
-	List<ItemMenu> getSubMenu();
+	List<IItemMenu> getSubMenu();
 
 }
