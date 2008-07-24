@@ -24,6 +24,10 @@ public class Api implements IApi {
 	 * {@inheritDoc}
 	 */
 	public final IApiConnection createApiConnection() {
+
+		Logger log = Logger.getLogger("fr.lip6.move.coloane.apiws"); //$NON-NLS-1$
+		log.finer("Demande la création d'une IApiConnection");
+
 		return new ApiConnection();
 	}
 

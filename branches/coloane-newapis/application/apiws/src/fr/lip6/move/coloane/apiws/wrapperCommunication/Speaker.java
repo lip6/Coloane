@@ -91,7 +91,7 @@ public class Speaker implements ISpeaker {
 			req.setLogin(login);
 			req.setMdp(pass);
 
-			LOGGER.finer("Envoie de la requête pour l'ouverture de la conexion");
+			LOGGER.finer("Envoie de la requête pour l'ouverture de la connexion");
 			ConnectResponse res = stub.connect(req);
 			auth = res.get_return();
 

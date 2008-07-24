@@ -60,7 +60,7 @@ public class ApiSession implements IApiSession {
 
 		this.idSession = null;
 
-		LOGGER.finer("Création d'une IApiConnection");
+		LOGGER.finer("Création d'une IApiSession");
 	}
 
 	/**

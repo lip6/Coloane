@@ -184,7 +184,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final IConnectionInfo openConnection() throws ApiException {
 
-		LOGGER.fine("Demande l'ouverture d'une connexion");
+		LOGGER.finer("Demande l'ouverture d'une connexion");
 
 		if (connectionOpened) {
 			LOGGER.warning("Impossible d'ouvrir une connexion: une connexion est deja ouverte");
@@ -213,7 +213,7 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final boolean closeConnection() {
 
-		LOGGER.fine("Demande la fermeture de la connexion");
+		LOGGER.finer("Demande la fermeture de la connexion");
 
 		if (!connectionOpened) {
 			LOGGER.warning("Impossible de fermer la connexion: aucune connexion n'est ouverte");
@@ -223,7 +223,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Demande l'arrêt du Listener");
 		listener.stopper();
 
-		LOGGER.finer("Demande la fermeture de la connexion");
+		LOGGER.finer("Demande l'arrêt de la communication");
 
 		try {
 			speaker.closeConnection();
