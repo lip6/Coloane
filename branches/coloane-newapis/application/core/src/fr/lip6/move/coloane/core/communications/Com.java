@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.communications;
 
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
-import fr.lip6.move.coloane.interfaces.api.connection.IApi;
-import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.IApi;
+import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
