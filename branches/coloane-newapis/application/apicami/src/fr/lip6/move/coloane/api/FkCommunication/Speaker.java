@@ -30,7 +30,7 @@ public class Speaker implements ISpeaker{
 	public Speaker(FkComLowLevel lowLevel) {
 		this.fkLowLevel = lowLevel;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,40 +48,51 @@ public class Speaker implements ISpeaker{
 	public void openConnection(String uiName, String uiVersion, String login) throws IOException {
 		// Fabrique la commande OC
 		byte[] cmdToSend = CamiGenerator.generateCmdOC(uiName,uiVersion, login);
-		// Envoi de la commande SC
+		// Envoi de la commande
 		this.fkLowLevel.writeCommand(cmdToSend);
 		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void closeConnection() throws IOException {
+		// Fabrique la commande FC
+		byte[] cmdToSend = CamiGenerator.generateCmdFC();
+		// Envoi de la commande
+		this.fkLowLevel.writeCommand(cmdToSend);
+		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * @param rootName nom du service principal
 	 * @param menuName Menu de service
@@ -127,17 +138,7 @@ public class Speaker implements ISpeaker{
 
 	}
 
-	/**
-	 * Ferme la connexion avec FrameKit
-	 * @throws IOException
-	 */
-	public void closeConnection() throws IOException {
-		/** fabrique la commande FC */
-		byte[] cmdToSend = CamiGenerator.generateCmdFC();
-		/** envoie de la commande FC */
-		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
-	}
+
 
 	/**
 	 * Clore la session
@@ -157,7 +158,7 @@ public class Speaker implements ISpeaker{
 
 
 
-	
+
 
 
 	/**
@@ -169,7 +170,7 @@ public class Speaker implements ISpeaker{
 	 *   @param mode batch ou interactif
 	 *   @throws IOException
 	 *
- 	 */
+	 */
 	public void openSession(String sessionName, String date,
 			String sessionFormalism, String interlocutor, int mode) throws IOException {
 
@@ -211,7 +212,7 @@ public class Speaker implements ISpeaker{
 	}
 
 
-	
+
 
 	/**
 	 * Envoi du modèle
@@ -219,7 +220,7 @@ public class Speaker implements ISpeaker{
 	 * @throws IOException
 	 * @throws IOException
 	 */
-	public void sendModel(IModel m) throws IOException {
+	public void sendModel(IGraph m) {
 
 
 		/** transformer le modèle en cami */
@@ -234,7 +235,7 @@ public class Speaker implements ISpeaker{
 		/** envoyer le coeur du modele */
 		for(int i=0; i<camiModel.size(); i++){
 			this.fkLowLevel.writeCommand(camiModel.get(i));
-			
+
 			LOGGER.finer("[CO-->FK] : " + new String(camiModel.get(i), 4, camiModel.get(i).length - 4));
 		}
 
@@ -261,7 +262,7 @@ public class Speaker implements ISpeaker{
 
 
 	public void invalidModel() throws IOException {
-		
+
 		/** fabrique la commande SS */
 		byte[] cmdToSend = CamiGenerator.generateCmdQQ();
 		/** envoie de la commande SS */
@@ -271,29 +272,22 @@ public class Speaker implements ISpeaker{
 
 
 	public void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException {
-	     /** envoi de la commande DP */
+		/** envoi de la commande DP */
 		byte[] cmdToSend = CamiGenerator.generateCmdDP();
 		this.fkLowLevel.writeCommand(cmdToSend);
 		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
-		
+
 		/***** le coeur de la reponse a la boite de dialogue*/
-        ArrayList<byte[]> camiDialog;
-        camiDialog = CamiGenerator.generateCmdDialogAnswer(dialogAnswer);
-    	for(int i=0; i<camiDialog.size(); i++){
+		ArrayList<byte[]> camiDialog;
+		camiDialog = CamiGenerator.generateCmdDialogAnswer(dialogAnswer);
+		for(int i=0; i<camiDialog.size(); i++){
 			this.fkLowLevel.writeCommand(camiDialog.get(i));
-			
+
 			LOGGER.finer("[CO-->FK] : " + new String(camiDialog.get(i), 4, camiDialog.get(i).length - 4));
 		}
-    	 /** envoi de la commande DP */
+		/** envoi de la commande DP */
 		byte[] cmdToSend2 = CamiGenerator.generateCmdFP();
 		this.fkLowLevel.writeCommand(cmdToSend2);
 		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend2, 4, cmdToSend2.length - 4));
 	}
-
-
-	public void sendModel(IGraph m) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-		}
+}
