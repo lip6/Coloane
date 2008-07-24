@@ -91,9 +91,8 @@ public interface IApiConnection {
 	/**
 	 * Ferme une connexion
 	 * @return true, si la fermeture a reussie, false sinon
-	 * @throws ApiException si la fermeture de session échoue
 	 */
-	boolean closeConnection() throws ApiException;
+	boolean closeConnection();
 
 	/**
 	 * Creer une session
