@@ -97,12 +97,6 @@ public final class Com implements ICom {
 		// Création d'un objet de connection
 		connection = api.createApiConnection();
 
-		// Parametres de connection
-		connection.setIpServer(infos.getIp());
-		connection.setPortServer(infos.getPort());
-		connection.setLogin(infos.getLogin());
-		connection.setPassword(infos.getPass());
-
 		// Observers pour tous les messages asynchrones
 		// TODO : dans un Thread ou pas ?
 		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
@@ -111,7 +105,7 @@ public final class Com implements ICom {
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
 		connection.setReceptResultObserver(new ReceptResultObserver(), false);
 
-		IConnectionInfo connectionInfo = connection.openConnection();
+		IConnectionInfo connectionInfo = connection.openConnection(infos.getLogin(), infos.getPass(), infos.getIp(), infos.getPort());
 		return connectionInfo;
 	}
 
