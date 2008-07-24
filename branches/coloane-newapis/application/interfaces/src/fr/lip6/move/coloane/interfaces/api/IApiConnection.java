@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.api.connection;
+package fr.lip6.move.coloane.interfaces.api;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;

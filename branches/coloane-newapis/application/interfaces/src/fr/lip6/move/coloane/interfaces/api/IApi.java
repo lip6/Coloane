@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.interfaces.api.connection;
+package fr.lip6.move.coloane.interfaces.api;
 
 /**
  * Définition d'une API de communication.<br>

@@ -3,7 +3,7 @@ Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
 Bundle-Version: 0.14.0
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
-Provide-Package: fr.lip6.move.coloane.interfaces.api.connection,
+Provide-Package: fr.lip6.move.coloane.interfaces.api,
  fr.lip6.move.coloane.interfaces.api.evenements,
  fr.lip6.move.coloane.interfaces.api.exceptions,
  fr.lip6.move.coloane.interfaces.api.objects,
