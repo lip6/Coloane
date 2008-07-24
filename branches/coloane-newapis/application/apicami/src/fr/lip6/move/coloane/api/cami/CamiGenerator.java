@@ -61,7 +61,7 @@ public class CamiGenerator {
 	 * @return ensemble de commandes cami decrivant un modele
 	 */
 	public static List<byte[]> generateCamiModel(IGraph model) {
-		return null;
+		return CamiModelTranslator.translateModel(model);
 	}
 
 	/**
