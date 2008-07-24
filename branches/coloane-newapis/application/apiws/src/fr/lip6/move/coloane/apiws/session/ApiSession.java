@@ -11,7 +11,13 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
+import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
+import fr.lip6.move.wrapper.ws.WrapperStub.Model;
+import fr.lip6.move.wrapper.ws.WrapperStub.Option;
+import fr.lip6.move.wrapper.ws.WrapperStub.Question;
+import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
+import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -42,6 +48,8 @@ public class ApiSession implements IApiSession {
 
 	private String idSession;
 
+	private MMenu menus;
+
 	/**
 	 * Constructeur
 	 * @param sessionController le gestionnaire de sessions à utiliser
@@ -57,6 +65,8 @@ public class ApiSession implements IApiSession {
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
+
+		this.menus = null;
 
 		this.idSession = null;
 
@@ -132,6 +142,7 @@ public class ApiSession implements IApiSession {
 
 			sessionOpened = speaker.openSession(sessionFormalism);
 			this.idSession = sessionOpened.getSessionId();
+			this.menus = sessionOpened.getMenu();
 
 			sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
 
@@ -219,8 +230,84 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
+
+		if (sessionController.askForService(this)) {
+
+			Question root = null;
+			Question question = null;
+			List<Option> theOptions = null;
+			Model theModel = null;
+
+			for (int i = 0; i < menus.getRoots().length; i++) {
+				if (menus.getRoots()[i].getName().equals(rootName)) {
+					root = (Question) menus.getRoots()[i].getRoot();
+					question = getQuestion(menus.getRoots()[i].getRoot(), serviceName);
+				}
+			}
+
+			if (root == null) {
+				throw new ApiException("Le menu principal: " + rootName + " n'existe pas.");
+			}
+
+			if (question == null) {
+				throw new ApiException("Le service: " + serviceName + " n'existe pas.");
+			}
+
+			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
+
+			sessionController.notifyEndResult(this, result);
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Récupére la question pour le service demander.
+	 * @param rootMenu le menu principale où se trouve le service demander.
+	 * @param serviceName le nom du service demander.
+	 * @return la question pour le service demander.
+	 */
+	private Question getQuestion(SubMenu rootMenu, String serviceName) {
+
+		for (int i = 0; i < rootMenu.getServices().length; i++) {
+			if (rootMenu.getServices()[i].equals(serviceName)) {
+				return rootMenu.getServices()[i];
+			}
+		}
+
+		for (int i = 0; i < rootMenu.getServicesWithObjects().length; i++) {
+			if (rootMenu.getServices()[i].equals(serviceName)) {
+				return rootMenu.getServices()[i];
+			}
+		}
+
+		for (int i = 0; i < rootMenu.getServicesWithOneObject().length; i++) {
+			if (rootMenu.getServices()[i].equals(serviceName)) {
+				return rootMenu.getServices()[i];
+			}
+		}
+
+		for (int i = 0; i < rootMenu.getServiceWithOneText().length; i++) {
+			if (rootMenu.getServices()[i].equals(serviceName)) {
+				return rootMenu.getServices()[i];
+			}
+		}
+
+		for (int i = 0; i < rootMenu.getServiceWithTexts().length; i++) {
+			if (rootMenu.getServices()[i].equals(serviceName)) {
+				return rootMenu.getServices()[i];
+			}
+		}
+
+		for (int i = 0; i < rootMenu.getSubMenus().length; i++) {
+			Question q = getQuestion(rootMenu.getSubMenus()[i], serviceName);
+			if (q != null) {
+				return q;
+			}
+		}
+
+		return null;
 	}
 
 	/**

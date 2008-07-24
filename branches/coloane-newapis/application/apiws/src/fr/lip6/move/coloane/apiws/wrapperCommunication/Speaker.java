@@ -18,10 +18,17 @@ import fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.Disconnect;
 import fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteService;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.Model;
+import fr.lip6.move.wrapper.ws.WrapperStub.Option;
+import fr.lip6.move.wrapper.ws.WrapperStub.Question;
+import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.axis2.AxisFault;
@@ -246,6 +253,7 @@ public class Speaker implements ISpeaker {
 			AnswerDbResponse res = stub.answerDb(req);
 			toReturn = res.get_return();
 		} catch (RemoteException e) {
+			e.printStackTrace();
 			ApiException ee = new ApiException(e.getMessage());
 			// TODO Auto-generated catch block
 			throw ee;
@@ -260,8 +268,55 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void executService() {
-		// TODO Auto-generated method stub
+	public final RService executService(String idSession, Question root, Question question, List<Option> options, Model theModel) throws ApiException {
+
+		RService toReturn = null;
+
+		try {
+            if (stub == null) {
+                throw new ApiException("Error of communcation : Stub is null");
+            }
+
+            //Model m =new Model();
+            //m.setCami("");
+            //m.setParsing(true);
+            //m.setInvalidate(param)
+
+            ExecuteService req = new ExecuteService();
+            req.setUid(auth);
+            req.setIdSession(idSession);
+            req.setTheModel(theModel);
+            //System.out.println("here"+model.getCamiModel());
+            //req.setTheModel(new String("Hello"));
+            req.setQuestion(question);
+            req.setRoot(root);
+            Option[] ops;
+            if (options.size() > 0) {
+                ops = new  Option[options.size()];
+                int i = 0;
+                for (Option op : options) {
+                    ops[i++] = op;
+                }
+            } else {
+                ops = new  Option[1];
+                ops[0] = null;
+            }
+
+            req.setOptions(ops);
+
+            ExecuteServiceResponse res = stub.executeService(req);
+            toReturn = res.get_return();
+
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (GException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return toReturn;
 
 	}
 }

@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
+import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 /**
  * Cette interface represent le gestionnaire des sessions.
@@ -118,7 +119,10 @@ public interface ISessionController {
 	void notifyWaitingForResult();
 
 	/**
-	 * TODO A faire: définir la signature de la méthode notifyEndResult
+	 * Notifie la fin de l'exécution d'un service
+	 * @param sessionExecuted la session qui a exécuté le service
+	 * @param result le resultat du service exécuter
+	 * @throws ApiException si la notification de la fin de l'exécution d'un service échoue
 	 */
-	void notifyEndResult();
+	void notifyEndResult(IApiSession sessionExecuted, RService result) throws ApiException;
 }

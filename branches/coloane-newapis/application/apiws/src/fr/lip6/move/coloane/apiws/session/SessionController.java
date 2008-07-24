@@ -1,13 +1,16 @@
 package fr.lip6.move.coloane.apiws.session;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMenu;
+import fr.lip6.move.coloane.apiws.evenements.ReceptResult;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
+import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
+import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -195,8 +198,13 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndResult() {
-		// TODO Auto-generated method stub
+	public final void notifyEndResult(IApiSession sessionExecuted, RService result) throws ApiException {
+		if (!((ApiSession) sessionExecuted).getSessionStateMachine().goToIdleState()) {
+			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
+		}
+
+		ReceptResult receptResult = new ReceptResult(result);
+		((IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT)).notifyObservers(receptResult);
 
 	}
 

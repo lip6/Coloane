@@ -4,8 +4,14 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
+import fr.lip6.move.wrapper.ws.WrapperStub.Model;
+import fr.lip6.move.wrapper.ws.WrapperStub.Option;
+import fr.lip6.move.wrapper.ws.WrapperStub.Question;
+import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
+
+import java.util.List;
 
 /**
  * Cette interface représent un speaker pour la communication avec le wrapper.
@@ -74,9 +80,14 @@ public interface ISpeaker {
 
 	/**
 	 * Demander l'execution d'un service au wrapper
-	 * ATTENTION: SE METTRE D'ACCORD AVEC SILIEN POUR LA SIGNIATURE
-	 * @throws ApiException si l'excution d'un service échoue
+	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
+	 * @param root le menu principal où se trouve le service à executer
+	 * @param question le service à executer
+	 * @param options la liste des options pour le service
+	 * @param theModel le model sur lequel exécuter le service
+	 * @return le résultat de l'execution du service
+	 * @throws ApiException si l'exécution du service échoue
 	 */
-	void executService() throws ApiException;
+	RService executService(String idSession, Question root, Question question, List<Option> options, Model theModel) throws ApiException;
 
 }
