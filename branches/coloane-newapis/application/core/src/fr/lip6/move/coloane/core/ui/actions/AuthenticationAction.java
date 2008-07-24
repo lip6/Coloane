@@ -1,11 +1,8 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.ui.ColoanePerspectiveFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationDialog;
-import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;

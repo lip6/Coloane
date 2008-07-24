@@ -8,6 +8,8 @@ import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -17,11 +19,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.osgi.framework.debug.Debug;
+import org.eclipse.osgi.framework.debug.FrameworkDebugOptions;
+import org.eclipse.osgi.framework.internal.core.FrameworkProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -45,7 +51,10 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * Constructeur du plugin
 	 */
-	public Coloane() { instance = this; }
+	public Coloane() {
+		instance = this;
+//		throw new NullPointerException("test");
+	}
 
 	/**
 	 * Methode de lancement du plugin
@@ -160,11 +169,11 @@ public class Coloane extends AbstractUIPlugin {
 		});
 
 		try {
-		ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
-		ColoaneLogFormatter format = new ColoaneLogFormatter();
-		format.setVersion(getVersion());
-		handler.setFormatter(format);
-		LOGGER.addHandler(handler);
+			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
+			ColoaneLogFormatter format = new ColoaneLogFormatter();
+			format.setVersion(getVersion());
+			handler.setFormatter(format);
+			LOGGER.addHandler(handler);
 		} catch (IOException ioe) {
 			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		} catch (SecurityException se) {

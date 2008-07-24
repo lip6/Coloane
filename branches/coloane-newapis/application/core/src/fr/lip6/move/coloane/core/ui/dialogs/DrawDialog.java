@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
+import java.util.logging.Logger;
+
 import fr.lip6.move.coloane.core.exceptions.UIException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.UserInterface;
@@ -10,6 +12,8 @@ import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
  * Cette classe est executee dans un thread dediee (affichage oblige)
  */
 public class DrawDialog implements Runnable {
+	/** Logger 'fr.lip6.move.coloane.core'. */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private IDialogCom dialog;
 

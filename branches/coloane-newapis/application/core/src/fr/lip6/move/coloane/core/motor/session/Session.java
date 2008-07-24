@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.logging.Logger;
@@ -13,144 +16,152 @@ public class Session implements ISession {
 	/** Le logger pour la classe */
 	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** Nom de la session */
+	private String name;
+
 	/** Le graph associe */
-	private IGraph sessionGraph;
+	private IGraph graph;
 
 	/** Le ResultTreeList associé */
-	private ResultTreeList serviceResults;
-
-	/** Nom de la session */
-	private String sessionName;
+	private ResultTreeList results;
 
 	/** Arborescence du menu administration */
 	private RootMenu adminMenu;
 
 	/** Arborescence du menu et des services de la session */
-	private RootMenu sessionMenu;
+	private RootMenu menu;
 
 	/** Status de la session */
-	private int sessionStatus;
+	private int status;
+
+	/** Objet session de l'api */
+	private IApiSession apiSession;
 
 
 	/**
-	 * Constructeur</br>
-	 * Tous les chmpas sont initialisés.</br>
-	 * Le nom ne doit pas etre nul ou vide.
+	 * Constructeur<br>
+	 * Tous les champs sont initialisés.<br>
+	 * Le nom ne doit pas etre nul.
 	 * @param name Nom de la session
 	 */
 	public Session(String name) {
-		this.sessionName = name;
-		this.sessionGraph = null;
-		this.sessionStatus = ISession.CLOSED;
-		this.serviceResults = null;
+		if (name == null) {
+			throw new NullPointerException("name cannot be null"); //$NON-NLS-1$
+		}
+		this.name = name;
+		this.graph = null;
+		this.status = ISession.CLOSED;
+		this.results = null;
 		this.adminMenu = null;
-		this.sessionMenu = null;
+		this.menu = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#suspend()
-	 */
+	/** {@inheritDoc} */
 	public final void suspend() {
-		LOG.finer("Suspension de la session " + sessionName); //$NON-NLS-1$
-		if (sessionStatus == ISession.CONNECTED) {
-			sessionStatus = ISession.SUSPENDED;
+		LOG.finer("Suspension de la session " + name); //$NON-NLS-1$
+		if (status == ISession.CONNECTED) {
+			status = ISession.SUSPENDED;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#resume()
-	 */
+	/** {@inheritDoc} */
 	public final void resume() {
-		LOG.finer("Reprise de la session " + sessionName); //$NON-NLS-1$
-		if (sessionStatus == ISession.SUSPENDED) {
-			sessionStatus = ISession.CONNECTED;
+		LOG.finer("Reprise de la session " + name); //$NON-NLS-1$
+		if (status == ISession.SUSPENDED) {
+			status = ISession.CONNECTED;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#destroy()
-	 */
+	/** {@inheritDoc} */
 	public final void destroy() {
-		this.sessionMenu = null;
+		this.menu = null;
 		this.adminMenu = null;
-		this.sessionStatus = ISession.CLOSED;
+		this.status = ISession.CLOSED;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
-		return sessionName;
+		return name;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getModel()
-	 */
+	/** {@inheritDoc} */
 	public final IGraph getGraph() {
-		return this.sessionGraph;
+		return this.graph;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setModel(fr.lip6.move.coloane.core.ui.model.IModelImpl)
-	 */
+	/** {@inheritDoc} */
 	public final void setModel(IGraph model) {
-		this.sessionGraph = model;
+		this.graph = model;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getAdminMenu()
-	 */
+	/** {@inheritDoc} */
 	public final RootMenu getAdminMenu() {
 		return adminMenu;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setAdminMenu(fr.lip6.move.coloane.core.menus.RootMenu)
-	 */
+	/** {@inheritDoc} */
 	public final void setAdminMenu(RootMenu admin) {
 		this.adminMenu = admin;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getServicesMenu()
-	 */
+	/** {@inheritDoc} */
 	public final RootMenu getServicesMenu() {
-		return sessionMenu;
+		return menu;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setServicesMenu(fr.lip6.move.coloane.core.menus.RootMenu)
-	 */
+	/** {@inheritDoc} */
 	public final void setServicesMenu(RootMenu root) {
-		this.sessionMenu = root;
+		this.menu = root;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getStatus()
-	 */
+	/** {@inheritDoc} */
 	public final int getStatus() {
-		return sessionStatus;
+		return status;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#setStatus(int)
-	 */
+	/** {@inheritDoc} */
 	public final void setStatus(int status) {
-		this.sessionStatus = status;
+		this.status = status;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISession#getServiceResults()
-	 */
+	/** {@inheritDoc} */
 	public final ResultTreeList getServiceResults() {
-		if (serviceResults == null) {
-			this.serviceResults = new ResultTreeList();
+		if (results == null) {
+			this.results = new ResultTreeList();
 		}
-		return serviceResults;
+		return results;
+	}
+
+	/** {@inheritDoc} */
+	public final boolean connect() {
+		try {
+			if (apiSession == null) {
+				apiSession = Com.getInstance().createApiSession();
+			}
+			apiSession.openSession(graph.getDate(), graph.getFormalism().getFKName(), name);
+		} catch (ApiException e) {
+			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
+			return false;
+		}
+		setStatus(ISession.CONNECTED);
+		return true;
+	}
+
+	/** {@inheritDoc} */
+	public final boolean disconnect() {
+		try {
+			apiSession.closeSession();
+		} catch (ApiException e) {
+			LOG.warning("Problème lors de la déconnexion de la session : " + e); //$NON-NLS-1$
+			return false;
+		}
+		setStatus(ISession.CLOSED);
+		return true;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return name;
 	}
 }

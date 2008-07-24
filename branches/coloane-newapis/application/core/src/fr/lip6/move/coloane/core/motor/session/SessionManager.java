@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Logger;
 
@@ -11,6 +12,9 @@ public final class SessionManager extends Observable implements ISessionManager 
 	/** Le logger pour la classe */
 	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** L'instance singleton du Session Manager */
+	private static SessionManager instance = null;
+
 	/** Est-on authentifie sur la plate-forme ? */
 	private boolean authenticated;
 
@@ -18,10 +22,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	private ISession currentSession;
 
 	/** Liste des sessions */
-	private ArrayList<ISession> listOfSessions = new ArrayList<ISession>();
-
-	/** L'instance singleton du Session Manager */
-	private static SessionManager instance = null;
+	private Map<String, ISession> sessions = new HashMap<String, ISession>();
 
 	/**
 	 * Constructeur du gestionnaire de sessions
@@ -39,164 +40,141 @@ public final class SessionManager extends Observable implements ISessionManager 
 		return instance;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#getCurrentSession()
-	 */
+	/** {@inheritDoc} */
 	public ISession getCurrentSession() {
 		return currentSession;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#getSession(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public ISession getSession(String sessionName) {
-		for (ISession session : listOfSessions) {
-			if (session.getName().equals(sessionName)) { return session; }
-		}
-		return null;
+		return sessions.get(sessionName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#newSession(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public ISession newSession(String name) {
-		// Si une session homonyme existe deja... On retourne null
-		if (this.getSession(name) != null) {
-			LOG.fine("Une session homonyme (" + name + ") existe deja..."); //$NON-NLS-1$ //$NON-NLS-2$
-			return this.getSession(name);
+		// Le nom de la nouvelle session ne doit pas être null
+		if (name == null) {
+			throw new NullPointerException("Nom de session null"); //$NON-NLS-1$
 		}
 
-		// Le nom de la nouvelle session ne doi pas etre vide ou null
-		if ((name == null) || ("".equals(name))) { //$NON-NLS-1$
-			return null;
+		// Le nom de la nouvelle session ne doit pas être vide
+		if (name.length() == 0) {
+			throw new IllegalArgumentException("Le nom de la session ne doit pas être vide"); //$NON-NLS-1$
+		}
+
+		// Si une session homonyme existe déjà... On lève une IllegalArgumentException
+		if (sessions.containsKey(name)) {
+			LOG.fine("Une session homonyme (" + name + ") existe deja..."); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("Cette session existe déjà :" + name); //$NON-NLS-1$
 		}
 
 		// Sinon on cree la session
 		ISession newSession = new Session(name);
 		if (this.currentSession == null) {
-			this.currentSession = newSession;
-			LOG.finer("La nouvelle session " + name + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
-
-			// Rafraichisement des vues annexes
-			setChanged();
-			notifyObservers(currentSession);
+			setCurrentSession(newSession);
 		}
-		this.listOfSessions.add(newSession);
+		sessions.put(name, newSession);
 		return newSession;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#suspendSession(java.lang.String)
+	/**
+	 * @param session session a suspendre
 	 */
+	private void suspendSession(ISession session) {
+		if (session == null) {
+			throw new NullPointerException("Impossible de suspendre une session null"); //$NON-NLS-1$
+		}
+
+		LOG.finer("Suspension de la session : " + session); //$NON-NLS-1$
+
+		// Suspension de la session
+		session.suspend();
+
+		// Si la session suspendue etait la session courante...
+		if (session.equals(currentSession)) {
+			setCurrentSession(null);
+		}
+	}
+
+	/** {@inheritDoc} */
 	public boolean suspendSession(String sessionName) {
-		LOG.finer("Suspension d'une session : " + sessionName); //$NON-NLS-1$
 		ISession toSuspend = getSession(sessionName);
 
-		// Si la session existe vraiment
+		// Si la session existe
 		if (toSuspend != null) {
-			LOG.finer("Session suspendue : " + toSuspend.getName()); //$NON-NLS-1$
-
-			// Si la session suspendue etait la session courante...
-			if (toSuspend.equals(this.currentSession)) {
-				LOG.finer("La session courante est maintenant nulle"); //$NON-NLS-1$
-				this.currentSession = null;
-			}
-
-			// Suspension de la session
-			toSuspend.suspend();
-
-			setChanged();
-			notifyObservers(currentSession);
+			suspendSession(toSuspend);
 			return true;
 		} else {
-			LOG.finer("Session suspendue non enregistree dans le SessionManager"); //$NON-NLS-1$
+			LOG.finer("Session " + sessionName + " non enregistree dans le SessionManager"); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#resumeSession(java.lang.String)
-	 */
+	/** {@inheritDoc} */
 	public boolean resumeSession(String sessionName) {
-		LOG.finer("Reprise d'une session : " + sessionName); //$NON-NLS-1$
 		ISession toResume = getSession(sessionName);
 
 		if (toResume != null) {
-			LOG.finer("La session est enregistree dans le SessionManager !"); //$NON-NLS-1$
+			LOG.finer("Reprise de la session : " + sessionName); //$NON-NLS-1$
 
-			if ((currentSession != null) && (!toResume.equals(currentSession))) {
+			if (currentSession != null && !toResume.equals(currentSession)) {
 				LOG.warning("La session courante n'est pas suspendue"); //$NON-NLS-1$
-				this.suspendSession(currentSession.getName());
+				suspendSession(currentSession);
 			}
-
-			this.currentSession = toResume;
 
 			// Reprise de la session
 			toResume.resume();
+			setCurrentSession(toResume);
 
-			setChanged();
-			notifyObservers(currentSession);
 			return true;
 		} else {
-			LOG.fine("Session active non enregistree dans le SessionManager"); //$NON-NLS-1$
+			LOG.fine("Session " + sessionName + " non enregistree dans le SessionManager"); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#destroySession(java.lang.String)
-	 */
-	public boolean destroySession(String sessionName) {
+	/** {@inheritDoc} */
+	public void destroySession(String sessionName) {
 		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
-		ISession toDestroy = getSession(sessionName);
+		ISession toDestroy = sessions.remove(sessionName);
 		if (toDestroy != null) {
-			// Suppression de la liste des sessions active
-			listOfSessions.remove(toDestroy);
-
 			// La session courante devient nulle
 			if (toDestroy.equals(currentSession)) {
-				currentSession = null;
+				setCurrentSession(null);
 			}
-
-			setChanged();
-			notifyObservers(null);
-			return true;
 		}
-		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#destroyAllSessions()
-	 */
+	/** {@inheritDoc} */
 	public void destroyAllSessions() {
 		LOG.fine("Destruction de toutes les sessions"); //$NON-NLS-1$
-		for (ISession session : this.listOfSessions) {
+		for (ISession session : sessions.values()) {
 			session.destroy();
 		}
-		this.listOfSessions.clear();
-		this.currentSession = null;
-
-		setChanged();
-		notifyObservers(null);
+		sessions.clear();
+		setCurrentSession(null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#isAuthenticated()
+	/**
+	 * Change la session courrante
+	 * @param currentSession nouvelle session courrante
 	 */
+	private void setCurrentSession(ISession currentSession) {
+		this.currentSession = currentSession;
+
+		LOG.finer("La session " + currentSession + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// Rafraichisement des vues annexes
+		setChanged();
+		notifyObservers(currentSession);
+	}
+
+	/** {@inheritDoc} */
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.session.ISessionManager#setAuthenticated(boolean)
-	 */
+	/** {@inheritDoc} */
 	public void setAuthenticated(boolean authStatus) {
 		this.authenticated = authStatus;
 	}

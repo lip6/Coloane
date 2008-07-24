@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.interfaces.api.connection.IApi;
 import fr.lip6.move.coloane.interfaces.api.connection.IApiConnection;
@@ -63,7 +62,7 @@ public final class Com implements ICom {
 				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
 			}
 		}
-		throw new IllegalArgumentException("L'API " + name + " n'est pas reconnue");  //$NON-NLS-1$//$NON-NLS-2$
+		throw new IllegalArgumentException("l'API '" + name + "' n'est pas connue");  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -96,7 +95,7 @@ public final class Com implements ICom {
 		}
 
 		// Création d'un objet de connection
-		connection = api.getApiConnection();
+		connection = api.createApiConnection();
 
 		// Parametres de connection
 		connection.setIpServer(infos.getIp());

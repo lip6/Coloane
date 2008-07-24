@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.motor;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +11,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 /**
  * Objet permettant la creation d'une barre de progression.<br>
  * Toutes les operations avec la plateforme doivent etre supervisee par un tel objet.<br>
- * Cet objet permet aussi de verouiller l'arriere plan.
+ * Cet objet permet aussi de verrouiller l'arriere plan.
  */
 
 public abstract class ColoaneProgress implements IRunnableWithProgress {
@@ -25,6 +24,7 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 
 	/**
 	 * Constructeur
+	 * @param session session courrante
 	 */
 	public ColoaneProgress(ISession session) {
 		this.attachedSession = session;
@@ -91,9 +91,6 @@ public abstract class ColoaneProgress implements IRunnableWithProgress {
 		return attachedSession;
 	}
 
-	/**
-	 * Le methode run qui lance l'operation.<br>
-	 * A implementer selon l'operation...
-	 */
+	/** {@inheritDoc} */
 	public abstract void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException;
 }

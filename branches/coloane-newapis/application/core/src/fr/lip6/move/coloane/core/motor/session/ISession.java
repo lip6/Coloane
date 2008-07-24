@@ -4,6 +4,9 @@ import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+/**
+ * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
+ */
 public interface ISession {
 
 	/** Les indicateurs de statuts */
@@ -11,6 +14,18 @@ public interface ISession {
 	int CLOSED = 0;
 	int CONNECTED = 1;
 	int SUSPENDED = 2;
+
+	/**
+	 * Connecte la session à framekit.
+	 * @return <code>true</code> si la connexion est ouverte
+	 */
+	boolean connect();
+
+	/**
+	 * Déconnecte la session de framekit.
+	 * @return <code>true</code> si la connexion est fermé
+	 */
+	boolean disconnect();
 
 	/**
 	 * Suspension de la session
@@ -32,20 +47,19 @@ public interface ISession {
 	void destroy();
 
 	/**
-	 * Retoune le nom de la session
-	 * @return name
+	 * @return nom de la session
 	 */
 	String getName();
 
 	/**
 	 * Retoune le modele
-	 * @return IModelImpl Le modele de la session
+	 * @return IGraph Le modele de la session
 	 */
 	IGraph getGraph();
 
 	/**
 	 * Positionne le modele
-	 * @param model nouveau modele
+	 * @param graph nouveau modele
 	 */
 	void setModel(IGraph graph);
 
@@ -57,7 +71,7 @@ public interface ISession {
 
 	/**
 	 * Indique le menu d'administration attache a la session
-	 * @param adminMenu La racinde du menu d'administration
+	 * @param admin La racine du menu d'administration
 	 */
 	void setAdminMenu(RootMenu admin);
 
@@ -69,7 +83,7 @@ public interface ISession {
 
 	/**
 	 * Indique le menu de services attache a la session
-	 * @param sessionMenu la racine du menu de services
+	 * @param root la racine du menu de services
 	 */
 	void setServicesMenu(RootMenu root);
 
@@ -87,7 +101,7 @@ public interface ISession {
 
 	/**
 	 * Modifie le status courant de la session
-	 * @param sessionStatus Le status courant de la session
+	 * @param status Le status courant de la session
 	 */
 	void setStatus(int status);
 }

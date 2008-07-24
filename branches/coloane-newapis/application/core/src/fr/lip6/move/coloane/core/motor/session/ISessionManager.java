@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+/**
+ * Gestionnaire de session, gère également l'état de la connection avec l'api.
+ */
 public interface ISessionManager {
 
 	/**
@@ -25,7 +28,7 @@ public interface ISessionManager {
 	ISession getSession(String sessionName);
 
 	/**
-	 * Suspension d'une session.</br>
+	 * Suspension d'une session.<br>
 	 * Si la session suspendue est la session courante, la session courante est NULL
 	 * @param sessionName Le nom de la session
 	 * @return booleen Un indicateur de deroulement
@@ -43,7 +46,7 @@ public interface ISessionManager {
 	 * Destruction de la session courante
 	 * @param sessionName nom de la session
 	 */
-	boolean destroySession(String sessionName);
+	void destroySession(String sessionName);
 
 	/**
 	 * Deconnexion brutale de tous les modeles
@@ -59,7 +62,7 @@ public interface ISessionManager {
 
 	/**
 	 * Positionne le status d'authentification du client
-	 * @param authenticated Le nouveau status du client
+	 * @param authStatus Le nouveau status du client
 	 */
 	void setAuthenticated(boolean authStatus);
 }
