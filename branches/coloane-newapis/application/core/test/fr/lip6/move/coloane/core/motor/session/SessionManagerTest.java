@@ -52,7 +52,7 @@ public class SessionManagerTest {
 		ISession session5 = manager.newSession("s5"); //$NON-NLS-1$
 		assertTrue(manager.getCurrentSession().equals(session5));
 
-		manager.destroySession(manager.getCurrentSession().getName());
+		manager.deleteSession(manager.getCurrentSession().getName());
 		session5 = manager.newSession("s5bis"); //$NON-NLS-1$
 		assertTrue(manager.getCurrentSession().equals(session5));
 	}
@@ -91,16 +91,16 @@ public class SessionManagerTest {
 		ISession session3 = manager.getSession("s3"); //$NON-NLS-1$
 		assertNotNull(session3);
 
-		assertTrue(manager.destroySession("s3")); //$NON-NLS-1$
+		assertTrue(manager.deleteSession("s3")); //$NON-NLS-1$
 		assertNull(manager.getSession("s3")); //$NON-NLS-1$
 
-		assertFalse(manager.destroySession("s6")); //$NON-NLS-1$
+		assertFalse(manager.deleteSession("s6")); //$NON-NLS-1$
 
 		assertNotNull(manager.getCurrentSession());
-		assertTrue(manager.destroySession(manager.getCurrentSession().getName()));
+		assertTrue(manager.deleteSession(manager.getCurrentSession().getName()));
 		assertNull(manager.getCurrentSession());
 
-		assertTrue(manager.destroySession("s2")); //$NON-NLS-1$
+		assertTrue(manager.deleteSession("s2")); //$NON-NLS-1$
 	}
 
 	@Test

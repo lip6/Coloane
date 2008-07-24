@@ -21,7 +21,7 @@ public class TabListener implements IPartListener2 {
 	/** {@inheritDoc} */
 	public final void partClosed(IWorkbenchPartReference partRef) {
 		LOGGER.finer("Fermeture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		Motor.getInstance().destroySession(partRef.getPartName());
+		Motor.getInstance().deleteSession(partRef.getPartName());
 	}
 
 	/** {@inheritDoc} */

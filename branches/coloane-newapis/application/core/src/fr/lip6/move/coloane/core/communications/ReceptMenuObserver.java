@@ -13,7 +13,7 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 
 	/** {@inheritDoc} */
 	public final void update(IReceptMenu e) {
-		displayMenu("MENU ", e.getMenus());
+//		displayMenu("MENU ", e.getMenus());
 	}
 
 	private void displayMenu(String s, List<IRootMenu> menus) {

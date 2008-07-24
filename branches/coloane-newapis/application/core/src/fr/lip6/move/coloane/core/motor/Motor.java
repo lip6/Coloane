@@ -169,6 +169,7 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
+				setResults(false);
 				setResults(session.connect());
 //				waitUntilEnd(); // Attente de la fin de l'operation
 			}
@@ -196,13 +197,8 @@ public final class Motor {
 		boolean res = (Boolean) runnable.getResults();
 
 		// Si l'ouverture de connexion echoue, on supprime la session existante
-		if (!res) {
-			LOGGER.warning("Echec de l'ouverture de session sur FK : Destruction de moignon"); //$NON-NLS-1$
-			sessionManager.destroySession(session.getName());
-
-			// Si l'ouverture reussie
-		} else {
-			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
+		if (res) {
+			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
 		}
 	}
 
@@ -303,9 +299,9 @@ public final class Motor {
 	 * Detruit la session designee
 	 * @param sessionName Le nom de la session a detruire
 	 */
-	public void destroySession(String sessionName) {
+	public void deleteSession(String sessionName) {
 		LOGGER.finer("Destruction de la session : " + sessionName); //$NON-NLS-1$
-		sessionManager.destroySession(sessionName);
+		sessionManager.deleteSession(sessionName);
 		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.ERROR);
 		UserInterface.getInstance().redrawMenus();
 
@@ -407,7 +403,7 @@ public final class Motor {
 	public void breakConnection() {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
 		Com.getInstance().breakConnection();
-		sessionManager.destroyAllSessions();
+		sessionManager.disconnectAllSessions();
 		sessionManager.setAuthenticated(false);
 		UserInterface.getInstance().redrawMenus();
 		UserInterface.getInstance().platformState(false, ISession.CLOSED);

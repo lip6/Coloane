@@ -134,7 +134,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	}
 
 	/** {@inheritDoc} */
-	public void destroySession(String sessionName) {
+	public void deleteSession(String sessionName) {
 		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		ISession toDestroy = sessions.remove(sessionName);
 		if (toDestroy != null) {
@@ -146,13 +146,11 @@ public final class SessionManager extends Observable implements ISessionManager 
 	}
 
 	/** {@inheritDoc} */
-	public void destroyAllSessions() {
-		LOG.fine("Destruction de toutes les sessions"); //$NON-NLS-1$
+	public void disconnectAllSessions() {
+		LOG.fine("Déconnexion de toutes les sessions"); //$NON-NLS-1$
 		for (ISession session : sessions.values()) {
-			session.destroy();
+			session.disconnect();
 		}
-		sessions.clear();
-		setCurrentSession(null);
 	}
 
 	/**
@@ -162,6 +160,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 	private void setCurrentSession(ISession currentSession) {
 		this.currentSession = currentSession;
 
+		System.err.println("**************** session " + currentSession);
 		LOG.finer("La session " + currentSession + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Rafraichisement des vues annexes

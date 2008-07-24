@@ -46,12 +46,12 @@ public interface ISessionManager {
 	 * Destruction de la session courante
 	 * @param sessionName nom de la session
 	 */
-	void destroySession(String sessionName);
+	void deleteSession(String sessionName);
 
 	/**
 	 * Deconnexion brutale de tous les modeles
 	 */
-	void destroyAllSessions();
+	void disconnectAllSessions();
 
 	/**
 	 * Retourne le status d'authentification du client<br>

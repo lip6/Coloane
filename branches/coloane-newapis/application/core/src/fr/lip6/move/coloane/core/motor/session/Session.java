@@ -135,9 +135,7 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final boolean connect() {
 		try {
-			if (apiSession == null) {
-				apiSession = Com.getInstance().createApiSession();
-			}
+			apiSession = Com.getInstance().createApiSession();
 			apiSession.openSession(graph.getDate(), graph.getFormalism().getFKName(), name);
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
@@ -150,7 +148,10 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final boolean disconnect() {
 		try {
-			apiSession.closeSession();
+			if (apiSession != null) {
+				apiSession.closeSession();
+				apiSession = null;
+			}
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la déconnexion de la session : " + e); //$NON-NLS-1$
 			return false;
