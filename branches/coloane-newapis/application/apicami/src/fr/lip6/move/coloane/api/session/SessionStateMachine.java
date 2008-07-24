@@ -36,7 +36,6 @@ public class SessionStateMachine implements ISessionStateMachine {
 		return false;
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -57,7 +56,6 @@ public class SessionStateMachine implements ISessionStateMachine {
 		}
 		return false;
 	}
-
 
 	/**
 	 * {@inheritDoc}

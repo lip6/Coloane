@@ -1,11 +1,13 @@
 package fr.lip6.move.coloane.api.session;
 
 import java.io.IOException;
+import java.util.List;
 
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
@@ -19,7 +21,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 public class ApiSession implements IApiSession {
 
 	/** La date de la session */
-	private String sessionDate;
+	private int sessionDate;
 
 	/** Le formalisme de la session */
 	private String sessionFormalism;
@@ -44,43 +46,166 @@ public class ApiSession implements IApiSession {
 	 * @param speaker Le speaker attaché à cette session
 	 */
 	public ApiSession(ISpeaker speaker) {
-		this.sessionDate = null;
+		this.sessionDate = 0;
 		this.sessionFormalism = null;
 		this.sessionName = null;
 		this.model = null;
 		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
-		this.automate = SessionFactory.getNewSessionStateMachine();
+		this.automate = new SessionStateMachine();
 	}
 
 	/**
-	 *
-	 * @param date
-	 * @param formalism
-	 * @param name
-	 * @return
-	 * @throws IOException
-	 * @throws InterruptedException
+	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(String date, String formalism, String name) throws IOException, InterruptedException {
+	public final ISessionInfo openSession(int date, String formalism, String name) throws ApiException {
 		this.sessionDate = date;
 		this.sessionFormalism = formalism;
 		this.sessionName = name;
 
 		synchronized (this) {
 			if (this.sessionControl.openSession(this)) {
-				this.speaker.openSession(this.sessionName, this.sessionDate, this.sessionFormalism, "FrameKit Environment", 1);
+				try {
+					this.speaker.openSession(this.sessionName, this.sessionDate, this.sessionFormalism, "FrameKit Environment", 1);
+				} catch (IOException ioe) {
+					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+				}
 			}
 
-			// On se met en attente de ISessionInfo
-			this.wait();
+			// Attente de la fin de l'ouverture de session
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				throw new ApiException("Interrupted while openning session");
+			}
+
+			// On vérifie qu'on est dans un état compatible avec unne ouverture de session
 			if (!this.automate.setWaitingForUpdatesAndMenusState()) {
-				throw new IllegalStateException("je suis pas dans un etat qui me permette dattendre les menus et updates");
+				throw new ApiException("Session cannot be opened correctly. It cannot receive service menus.");
 			}
 		}
 		// TODO : A changer...
 		return null;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+		return openSession(sessionDate, sessionFormalism, sessionName);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean closeSession() throws ApiException {
+		if (this.sessionControl.closeSession(this)) {
+			synchronized (this) {
+				try {
+					speaker.closeSession(false);
+				} catch (IOException ioe) {
+					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+				}
+				
+				// On vérifie qu'on est dans un état compatible avec une fermeture de session
+				if (!this.automate.setWaitingForCloseSessionState()){
+					throw new ApiException("The session cannot be closed");
+				}
+
+				// Attente de la fermeture de session
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					throw new ApiException("Interrupted while closing session");
+				}
+
+				// Tout est OK
+				return true;
+			}
+		} else {
+			throw new ApiException("This session is not active. So it cannot be closed.");
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean resumeSession() throws ApiException {
+		if (this.sessionControl.resumeSession(this)){
+			synchronized(this){
+				try {
+					speaker.resumeSession(this.getSessionName());
+				} catch (IOException ioe) {
+					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+				}
+				if (!this.automate.setWaitingForResumeSessionState()){
+					throw new ApiException("The session cannot be resumed");
+				}
+				
+				// Attente de la reprise effective
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					throw new ApiException("Interrupted while resuming session");
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean suspendSession() throws ApiException {
+		if ( this.sessionControl.suspendSession(this)){
+			synchronized(this){
+				try {
+					speaker.suspendSession();
+				} catch (IOException ioe) {
+					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+				}
+				if (!this.automate.setWaitingForSuspendSessionState()){
+					throw new IllegalStateException("The session cannot be suspended");
+				}
+				
+				// Attente de la suspension effective
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					throw new ApiException("Interrupted while suspending session");
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 *
@@ -130,58 +255,12 @@ public class ApiSession implements IApiSession {
 
 	}
 
-	/**
-	 * 
-	 */
-	public final boolean closeSession() {
-		if (this.sessionControl.closeSession(this)) {
-			synchronized (this) {
-				speaker.closeSession(false);
-
-				if (!this.automate.setWaitingForCloseSessionState()){
-					throw new IllegalStateException("je suis pas dans un etat qui me permet de me fermer");
-				}
-				this.wait();
-				return true;
-			}
-		} else {
-			throw new IllegalStateException("je peux pas faire close session sur cette session");
-		}
-	}
-
-	/**
-	 *
-	 */
-	public final boolean resumeSession() {
-		if (this.sessionControl.resumeSession(this)){
-			//  System.out.println("je  resume la session " + this.getSessionName());
-			synchronized(this){
-				speaker.resumeSession(this.getSessionName());
-				if (!this.automate.setWaitingForResumeSessionState()){
-					throw new IllegalStateException("je suis pas dans un etat qui me permet de reprendre mon execution");
-				}
-				this.wait();
-			}
-			// System.out.println("letat de la session a resumer  " + this.automate.getState());
-			return true;
-		}
-		return false;
-	}
 
 
-	public final boolean suspendSession() throws InterruptedException, IOException {
-		if ( this.sessionControl.suspendSession(this)){
-			synchronized(this){
-				speaker.suspendSession();
-				if (!this.automate.setWaitingForSuspendSessionState()){
-					throw new IllegalStateException("je suis pas dans un etat qui me permet de me suspendre");
-				}
-				this.wait();
-			}
-			return true;
-		}
-		return false;
-	}
+
+
+
+
 
 
 	public ISessionStateMachine getSessionStateMachine() {
@@ -295,5 +374,55 @@ public class ApiSession implements IApiSession {
 		synchronized(this){
 			this.notify();
 		}
+	}
+
+	public boolean askForService(String rootName, String menuName,
+			String serviceName, List<String> options, IGraph model)
+	throws ApiException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean askForService(String rootName, String menuName,
+			String serviceName, List<String> options, IGraph model, String date)
+	throws ApiException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public String getIdSession() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getInterlocutor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getMode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getSessionDate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public String getSessionFormalism() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer)
+	throws ApiException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void sendModel(IGraph model) throws ApiException {
+		// TODO Auto-generated method stub
+
 	}
 }

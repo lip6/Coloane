@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.api.session;
 
-import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
@@ -23,12 +22,5 @@ public final class SessionFactory {
 	 */
 	public static IApiSession getNewApiSession(ISpeaker speaker) {
 		return (IApiSession) new ApiSession(speaker);
-	}
-
-	/**
-	 * @return un nouvel automate d'état initialisé
-	 */
-	public static ISessionStateMachine getNewSessionStateMachine() {
-		return new SessionStateMachine();
 	}
 }

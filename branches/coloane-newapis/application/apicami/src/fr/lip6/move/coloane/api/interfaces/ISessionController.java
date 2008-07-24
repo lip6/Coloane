@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.interfaces;
 
 import fr.lip6.move.coloane.api.session.ApiSession;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
@@ -17,28 +18,7 @@ public interface ISessionController {
 	/**
 	 * @return la session active.
 	 */
-	IApiSession getActiveSession();
-
-	/**
-	 * Ajoute une session dans ma liste de sessions.
-	 * @param s La session à rajouter.
-	 * @return <code>true</code> si l'ajoute se passe bien
-	 */
-	boolean addSession(IApiSession s);
-
-	/**
-	 * Supprime une session de la liste des sessions
-	 * @param session lasession a supprimer.
-	 * @return <code>true</code> si la suppression est effective
-	 */
-	boolean removeSession(IApiSession session);
-
-	/**
-	 * Indique si la session est active ou pas
-	 * @param session Session concernée par cette vérification
-	 * @return <code>true</code>, si vraiment c'est la session active, <code>false</code> sinon.
-	 */
-	boolean isSessionActive(IApiSession session);
+	ApiSession getActiveSession();
 
     /**
      * Suspend la session désignée
@@ -54,19 +34,17 @@ public interface ISessionController {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	boolean resumeSession(IApiSession session) throws InterruptedException, IOException;
+	boolean resumeSession(ApiSession session) throws ApiException;
 
 	/**
-	 * session demande a session controller s'il a le droit d'ouvrir une session ou pas.
-	 * si il y'a pas de session active => c bon, sinon je demande a la
-	 * session active de se suspendre , j'attend que le parser me reveille quand
-	 * il recoit la reponse du SS, puis c bon,
-	 * @param s la session qu'on veut ouvrir.
-	 * @return vraie si c'est ok, false sinon.
-	 * @throws InterruptedException
-	 * @throws IOException
+	 * La session demande au contrôleur de sessions si elle a le droit de s'ouvrir ou pas.<br>
+	 * Si aucune session n'est active : la demande est accordée<br>
+	 * Sinon le session contrôleur essaye de suspendre la session active pour la remplacer par celle là<br>
+	 * @param s La session qu'on veut ouvrir.
+	 * @return <code>true</code> si c'est l'ouverture est autorisée, <code>false</code> sinon.
+	 * @throws ApiException si la session active n'est pas suspendable
 	 */
-	boolean openSession(IApiSession s) throws InterruptedException, IOException;
+	boolean openSession(ApiSession s) throws ApiException;
 
 	/**
 	 * nous signale la fin, des AQ et TQ
@@ -125,5 +103,5 @@ public interface ISessionController {
 	  * 
 	  * @param fkInfo
 	  */
-	 void notifyReceptSessionInfo(ISessionInfo fkInfo);
+	 //void notifyReceptSessionInfo(ISessionInfo fkInfo);
 }

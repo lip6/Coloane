@@ -1,13 +1,14 @@
 package fr.lip6.move.coloane.api.session;
 
-import fr.lip6.move.coloane.api.interfaces.ISessionController;
-import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
-import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
-import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.lip6.move.coloane.api.interfaces.ISessionController;
+import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
  * Cette classe est chargée de la gestion des sessions
@@ -21,17 +22,17 @@ public final class SessionController implements ISessionController {
 	private static ISessionController instance = null;
 
 	/** L'ensemble de nos session */
-	private List<IApiSession> list;
+	private List<ApiSession> list;
 
 	/** La session active */
-	private IApiSession activeSession;
+	private ApiSession activeSession;
 
 	/**
 	 * Constructeur masqué pour éviter les doublons
 	 */
 	private SessionController() {
 		this.activeSession = null;
-		this.list = new ArrayList<IApiSession>();
+		this.list = new ArrayList<ApiSession>();
 	}
 
 	/**
@@ -47,32 +48,68 @@ public final class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public IApiSession getActiveSession() {
+	public ApiSession getActiveSession() {
 		return this.activeSession;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addSession(IApiSession s) {
+	public boolean openSession(ApiSession s) throws ApiException {
+		// Pas de session active donc celle ci est la bonne !
+		if (this.activeSession == null) {
+			this.activeSession = s;
+			addSession(this.activeSession);
+			return true;
+		
+		// Sinon d'autres sessions existent
+		} else {
+			
+			// Si la session active dort... alors on la suspend et on prend sa place
+			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
+				this.activeSession.suspendSession();
+				this.activeSession = s;
+				addSession(this.activeSession);
+				return true;
+			
+			// Sinon l'ouverture n'est pas autorisée
+			} else {
+				throw new ApiException("Another session is processed by the platform... Please wait...");
+			}
+		}
+	}
+	
+	/**
+	 * Ajoute une session dans ma liste de sessions.
+	 * @param s La session à rajouter.
+	 */
+	private void addSession(ApiSession s) {
 		this.list.add(s);
-		return true;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean removeSession(IApiSession session) {
-		return (this.list.remove(session));
+	public boolean closeSession(ApiSession apiSession) {
+		if (this.activeSession.equals(apiSession)) {
+			return true;
+		}
+		return false;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isSessionActive(IApiSession session) {
-		return this.activeSession.equals(session);
+	public boolean resumeSession(ApiSession s) throws ApiException {
+		if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
+			this.activeSession.suspendSession();
+			this.activeSession = s;
+			return true;
+		} else {
+			throw new ApiException("Since this session is not active, it cannot be resumed");
+		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,40 +119,23 @@ public final class SessionController implements ISessionController {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean resumeSession(IApiSession s) throws InterruptedException, IOException {
-		if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
-			this.activeSession.suspendSession();
-			this.activeSession = s;
-			return true;
-		} else {
-			throw new IllegalStateException("on peut pas reprendre cette session!!!");
-		}
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean openSession(IApiSession s) throws InterruptedException, IOException {
-		if (this.activeSession == null) {
-			this.activeSession = s;
-			addSession(s);
-			return true;
-		} else {
-			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
-				this.activeSession.suspendSession();
-				this.activeSession = s;
-				addSession(s);
-				return true;
-			} else {
-				/// lever lexception attendre la notification de endOpenSession
-				throw new IllegalStateException("une autre session est en cours d'ouverture!!!");
-			}
-		}
-	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -127,15 +147,7 @@ public final class SessionController implements ISessionController {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean closeSession(ApiSession apiSession) {
-		if (this.activeSession.equals(apiSession)) {
-			return true;
-		}
-		return false;
-	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -167,7 +179,7 @@ public final class SessionController implements ISessionController {
 		//		System.out.println("dans la liste ya" +session.getSessionName());
 		//	}
 		//	System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
-		for (IApiSession session : this.list) {
+		for (ApiSession session : this.list) {
 
 			if (session.getSessionName().equals(nameSession)){
 				session.notifyEndResumeSession(nameSession);
