@@ -42,15 +42,12 @@ public class ApiConnection implements IApiConnection {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private boolean connectionOpened;
-	private String login;
-	private String password;
-	private String ipServer;
-	private int portServer;
 
 	/**
 	 * TODO : Ajouter plus tard un setteur sur le chemin du serveur.
 	 */
 	private String cheminServer = "/axis2/services/Wrapper";
+
 
 	private ISessionController sessionController;
 	private ISpeaker speaker;
@@ -75,38 +72,6 @@ public class ApiConnection implements IApiConnection {
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
 
 		LOGGER.finer("Création d'une IApiConnection");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setIpServer(String ipServer) {
-		this.ipServer = ipServer;
-		LOGGER.finer("Initialisation de l'adresse IP du serveur");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setLogin(String login) {
-		this.login = login;
-		LOGGER.finer("Initialisation du login de l'utilisateur");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setPassword(String password) {
-		this.password = password;
-		LOGGER.finer("Initialisation du password de l'utilisateur");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setPortServer(int portServer) {
-		this.portServer = portServer;
-		LOGGER.finer("Initialisation du port du serveur");
 	}
 
 	/**
@@ -182,7 +147,7 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IConnectionInfo openConnection() throws ApiException {
+	public final IConnectionInfo openConnection(String login, String pass, String ip, int port) throws ApiException {
 
 		LOGGER.finer("Demande l'ouverture d'une connexion");
 
@@ -192,8 +157,8 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		LOGGER.finer("Demande la création du Speaker");
-		this.speaker = new Speaker(ipServer, portServer, cheminServer);
-		Authentification auth = speaker.openConnection(login, password);
+		this.speaker = new Speaker(ip, port, cheminServer);
+		Authentification auth = speaker.openConnection(login, pass);
 
 		LOGGER.finer("Demande la création du Listener");
 		this.listener = new Listener(speaker.getAuthentification(), speaker.getStub(), listObservables);
