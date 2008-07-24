@@ -17,30 +17,6 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 public interface IApiConnection {
 
 	/**
-	 * Initialiser l'adresse IP du serveur
-	 * @param ipServer L'IP de la plate-forme sur laquelle on souhaite se connecter
-	 */
-	void setIpServer(String ipServer);
-
-	/**
-	 * Initialiser le port du serveur
-	 * @param portServer Le port de la plate-forme sur laquelle on souhaite se connecter
-	 */
-	void setPortServer(int portServer);
-
-	/**
-	 * Initialiser le login
-	 * @param login Le login à utiiser pour la connexion
-	 */
-	void setLogin(String login);
-
-	/**
-	 * Initialiser le password
-	 * @param password Le password à utiliser pour la connexion
-	 */
-	void setPassword(String password);
-
-	/**
 	 * Positionne un observateur pour l'evenement : reception d'une boite de dialogue
 	 * @param o l'observateur qui sera notifier par l'evenement : reception d'une boite de dialogue
 	 * @param createThread definie s'il faut creer un thread pour la notification
@@ -91,10 +67,14 @@ public interface IApiConnection {
 
 	/**
 	 * Ouvre une connexion
+	 * @param login Le login d'authentification
+	 * @param pass Le mot de passe associé
+	 * @param ip L'adresse IP de la plate-forme
+	 * @param port Le port sur lequel la plate-forme est en écoute
 	 * @return les informations sur la connection
 	 * @throws ApiException si l'ouverture de session échoue
 	 */
-	IConnectionInfo openConnection() throws ApiException;
+	IConnectionInfo openConnection(String login, String pass, String ip, String port) throws ApiException;
 
 	/**
 	 * Ferme une connexion
