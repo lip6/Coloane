@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.LMenuModification;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class ReceptMenu implements IReceptMenu {
 	 */
 	public ReceptMenu(MMenu menus) {
 		// TODO Completer le condtructeur de ReceptMenu
+		this.menus = new ArrayList<IRootMenu>();
+		this.updateMenus = new ArrayList<IUpdateMenu>();
 	}
 
 	/**
@@ -33,6 +36,8 @@ public class ReceptMenu implements IReceptMenu {
 	 */
 	public ReceptMenu(LMenuModification updateMenus) {
 		// TODO Completer le condtructeur de ReceptMenu
+		this.menus = new ArrayList<IRootMenu>();
+		this.updateMenus = new ArrayList<IUpdateMenu>();
 	}
 
 	/**
@@ -44,6 +49,8 @@ public class ReceptMenu implements IReceptMenu {
 	 */
 	public ReceptMenu(MMenu menus, LMenuModification updateMenus) {
 		// TODO Completer le condtructeur de ReceptMenu
+		this.menus = new ArrayList<IRootMenu>();
+		this.updateMenus = new ArrayList<IUpdateMenu>();
 	}
 
 	/**
