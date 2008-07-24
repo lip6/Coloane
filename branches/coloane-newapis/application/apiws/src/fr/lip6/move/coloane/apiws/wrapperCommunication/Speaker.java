@@ -283,14 +283,14 @@ public class Speaker implements ISpeaker {
                 throw new ApiException("Error of communcation : Stub is null");
             }
 
-            /////////////////////////////
+            ////////////////////////////////// Attention ceci sera supprimer plus tard
             Model m = new Model();
             String chaine = createModel("/home/mchaouki/workspace64_newapis/fr.lip6.move.coloane.apiws/ressource/modele.txt");
             System.out.println("Taille chaine = " + chaine.length());
             m.setCami(chaine);
             m.setParsing(true);
             m.setInvalidate(false);
-            ////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////
 
             ExecuteService req = new ExecuteService();
             req.setUid(auth);

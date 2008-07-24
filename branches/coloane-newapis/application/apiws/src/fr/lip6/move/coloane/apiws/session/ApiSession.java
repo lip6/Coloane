@@ -7,7 +7,10 @@ import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
@@ -19,6 +22,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -239,7 +243,7 @@ public class ApiSession implements IApiSession {
 			Question root = null;
 			Question question = null;
 			List<Option> theOptions = null;
-			Model theModel = null;
+			Model theModel = translateModel(model);
 
 			for (int i = 0; i < menus.getRoots().length; i++) {
 				if (menus.getRoots()[i].getName().equals(rootName)) {
@@ -323,6 +327,35 @@ public class ApiSession implements IApiSession {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Traduit un model qui vient du core de Colane en un model compréhensible par le wrapper.
+	 * @param model le modelreçu de la part du core de coloane.
+	 * @return Un model compréhensible par le wrapper.
+	 */
+	private Model translateModel(IGraph model) {
+
+		Model theModel = new Model();
+
+		Collection<IArc> arcs = model.getArcs();
+		Collection<INode> nodes = model.getNodes();
+		Collection<IAttribute> attributs = model.getAttributes();
+
+		for (IArc arc : arcs) {
+			arc.getAttributes();
+		}
+
+		for (INode node : nodes) {
+			node.getAttributes();
+		}
+
+		for (IAttribute attribut : attributs) {
+			attribut.getName();
+		}
+
+
+		return theModel;
 	}
 
 	/**
