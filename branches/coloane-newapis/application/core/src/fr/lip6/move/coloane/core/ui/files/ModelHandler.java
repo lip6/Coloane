@@ -38,9 +38,7 @@ public class ModelHandler extends DefaultHandler {
 	private StringBuilder data;
 
 
-	/**
-	 * Lecture des balises ouvrantes du modele
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 		data = new StringBuilder();
@@ -81,18 +79,14 @@ public class ModelHandler extends DefaultHandler {
 		}
 	}
 
-	/**
-	 * Gestion des donnees contenues dans les balises
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void characters(char[] ch, int start, int length) throws SAXException {
 		data.append(this.deformat(new String(ch, start, length)));
 	}
 
 
-	/**
-	 * Lecture des balises fermantes du modele
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void endElement(String uri, String localName, String baliseName) throws SAXException {
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
@@ -112,10 +106,12 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * Gestion des caracteres speciaux (deprotection)
-	 * @param txt Le texte a deproteger
-	 * @return Le texte transforme et protege
+	 * @param protectedTxt Le texte a deproteger
+	 * @return Le texte transforme et deprotege
 	 */
-	private String deformat(String txt) {
+	private String deformat(String protectedTxt) {
+		String txt = protectedTxt;
+		txt = txt.replaceAll("&amp;", "&"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll("&lt;", "<"); //$NON-NLS-1$ //$NON-NLS-2$
 		txt = txt.replaceAll("&gt;", ">"); //$NON-NLS-1$ //$NON-NLS-2$
 		return txt;
@@ -123,7 +119,7 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * La pile doit être vide (à priori)
-	 * @param attributes
+	 * @param attributes Les attributs attachée à la balise
 	 */
 	private void startModel(Attributes attributes) {
 		// Récupération du nom du formalisme
@@ -202,11 +198,11 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * Transforme une chaine de caractères en couleur
-	 * @param value couleur à parser
+	 * @param value couleur à parser du type '#XXXXXX' avec X un chiffre en hexadécimal
 	 * @return objet couleur correspondante
 	 * @throws NumberFormatException si la chaine n'est pas correctement formaté
 	 */
-	private Color parseColor(String value) {
+	private Color parseColor(String value) throws NumberFormatException {
 		if (value == null || !value.matches("#\\p{XDigit}{6}")) { //$NON-NLS-1$
 			throw new NumberFormatException("This value : " + value + " is not a valid color.");  //$NON-NLS-1$//$NON-NLS-2$
 		}
@@ -219,7 +215,7 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * Analyse d'un arc du graphe<br>
-	 * @param attributes
+	 * @param attributes Les attributs attachée à la balise
 	 * @throws ModelException Si la création de l'arc pose problème.
 	 */
 	private void startArc(Attributes attributes) throws ModelException {
@@ -247,7 +243,7 @@ public class ModelHandler extends DefaultHandler {
 
 	/**
 	 * La pile doit contenir un IArcImpl
-	 * @param attributes
+	 * @param attributes Les attributs attachée à la balise
 	 */
 	private void startInflexPoint(Attributes attributes) {
 		IArc arc = (IArc) stack.peek();
@@ -259,7 +255,7 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * La pile doit contenir l'IElement sur lequel doit être placé cet attribut
 	 * @param name nom de l'attribut
-	 * @param attributes
+	 * @param attributes Les attributs attachée à la balise
 	 */
 	private void startAttribute(String name, Attributes attributes) {
 		IElement element = (IElement) stack.peek();
@@ -271,6 +267,9 @@ public class ModelHandler extends DefaultHandler {
 		stack.push(attribute);
 	}
 
+	/**
+	 * Le graphe est dépilé et this.graph est affecté
+	 */
 	private void endModel() {
 		this.graph = (IGraph) stack.pop();
 	}
@@ -315,7 +314,7 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Retourne le modele cree par le parcours du fichier xml
+	 * @return le modele crée par le parcours du fichier xml
 	 */
 	public final IGraph getGraph() {
 		return graph;
