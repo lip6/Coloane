@@ -232,6 +232,9 @@ public class ApiSession implements IApiSession {
 	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException {
 
 		if (sessionController.askForService(this)) {
+			if (!automate.goToWaitingForResultState()) {
+				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_RESULT_STATE");
+			}
 
 			Question root = null;
 			Question question = null;
@@ -270,40 +273,52 @@ public class ApiSession implements IApiSession {
 	 */
 	private Question getQuestion(SubMenu rootMenu, String serviceName) {
 
-		for (int i = 0; i < rootMenu.getServices().length; i++) {
-			if (rootMenu.getServices()[i].equals(serviceName)) {
-				return rootMenu.getServices()[i];
+		if (rootMenu.getServices() != null) {
+			for (int i = 0; i < rootMenu.getServices().length; i++) {
+				if (rootMenu.getServices()[i].getName().equals(serviceName)) {
+					return rootMenu.getServices()[i];
+				}
 			}
 		}
 
-		for (int i = 0; i < rootMenu.getServicesWithObjects().length; i++) {
-			if (rootMenu.getServices()[i].equals(serviceName)) {
-				return rootMenu.getServices()[i];
+		if (rootMenu.getServicesWithObjects() != null) {
+			for (int i = 0; i < rootMenu.getServicesWithObjects().length; i++) {
+				if (rootMenu.getServicesWithObjects()[i].getName().equals(serviceName)) {
+					return rootMenu.getServicesWithObjects()[i];
+				}
 			}
 		}
 
-		for (int i = 0; i < rootMenu.getServicesWithOneObject().length; i++) {
-			if (rootMenu.getServices()[i].equals(serviceName)) {
-				return rootMenu.getServices()[i];
+		if (rootMenu.getServicesWithOneObject() != null) {
+			for (int i = 0; i < rootMenu.getServicesWithOneObject().length; i++) {
+				if (rootMenu.getServicesWithOneObject()[i].getName().equals(serviceName)) {
+					return rootMenu.getServicesWithOneObject()[i];
+				}
 			}
 		}
 
-		for (int i = 0; i < rootMenu.getServiceWithOneText().length; i++) {
-			if (rootMenu.getServices()[i].equals(serviceName)) {
-				return rootMenu.getServices()[i];
+		if (rootMenu.getServiceWithOneText() != null) {
+			for (int i = 0; i < rootMenu.getServiceWithOneText().length; i++) {
+				if (rootMenu.getServiceWithOneText()[i].getName().equals(serviceName)) {
+					return rootMenu.getServiceWithOneText()[i];
+				}
 			}
 		}
 
-		for (int i = 0; i < rootMenu.getServiceWithTexts().length; i++) {
-			if (rootMenu.getServices()[i].equals(serviceName)) {
-				return rootMenu.getServices()[i];
+		if (rootMenu.getServiceWithTexts() != null) {
+			for (int i = 0; i < rootMenu.getServiceWithTexts().length; i++) {
+				if (rootMenu.getServiceWithTexts()[i].getName().equals(serviceName)) {
+					return rootMenu.getServiceWithTexts()[i];
+				}
 			}
 		}
 
-		for (int i = 0; i < rootMenu.getSubMenus().length; i++) {
-			Question q = getQuestion(rootMenu.getSubMenus()[i], serviceName);
-			if (q != null) {
-				return q;
+		if (rootMenu.getSubMenus() != null) {
+			for (int i = 0; i < rootMenu.getSubMenus().length; i++) {
+				Question q = getQuestion(rootMenu.getSubMenus()[i], serviceName);
+				if (q != null) {
+					return q;
+				}
 			}
 		}
 
