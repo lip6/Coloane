@@ -7,28 +7,29 @@ grammar Cami;
 @header{
 	package fr.lip6.move.coloane.api.cami;
 
-	import fr.lip6.move.coloane.api.session.SessionController;
-	import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
-	import fr.lip6.move.coloane.api.observables.DisconnectObservable;
-
-	import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
-	import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
+	import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
-
-	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+	import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+	import fr.lip6.move.coloane.api.observables.DisconnectObservable;
+	import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
+	import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
+	import fr.lip6.move.coloane.api.session.SessionController;
+	import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 	import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
-	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
-
-	import java.util.List;
 	import java.util.ArrayList;
-	import java.util.Map;
 	import java.util.HashMap;
+	import java.util.List;
+	import java.util.Map;
+	import java.util.logging.Logger;
 }
 
 @members {
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
+	
 	List<String> listOfArgs; /* liste des arguments pour la construction des objets de notification */
 	List<List<String>> camiMenuList; /* liste servant a construire les objets Correspondant aux AQ */
 	List<List<String>> camiUpdates; /* liste servant a construire les objets Correspondant aux TQ 7 et 8 */
@@ -198,12 +199,12 @@ grammar Cami;
 	}
 	;
 
-	/* ----------------------------  Réception des menus  CQ ----------------------------- */
+	/* ----------------------------  Reception des menus  CQ ----------------------------- */
 	menu_name
 	:
 	'CQ(' name=CAMI_STRING ',' question_type=NUMBER ',' question_behavior=NUMBER ')'{
 
-		// Réception de la description d'une racine de menu
+		// Reception de la description d'une racine de menu
 		List<String> cq = new ArrayList<String>();
 		cq.add($name.text); // Nom du menu racine
 		cq.add($question_type.text); // Type du menu
@@ -215,7 +216,7 @@ grammar Cami;
 	;
 
 
-	/* ----------------------------  Réception des menus  AQ ----------------------------- */
+	/* ----------------------------  Reception des menus  AQ ----------------------------- */
 	question_add
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ',' 
@@ -282,7 +283,7 @@ grammar Cami;
 	;
 
 
-	/* ----------------------------  Réception des menus  TQ (7 et 8) -------------------- */
+	/* ----------------------------  Reception des menus  TQ (7 et 8) -------------------- */
 	update
 	:   
 	'TQ(' service_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=('7'|'8') ',' mess=CAMI_STRING? ')'{
@@ -299,7 +300,7 @@ grammar Cami;
 
 		camiUpdates.add(update);
 
-		LOGGER.finest("Reception d'un modificateur de menu :" + service_name.text);
+		LOGGER.finest("Reception d'un modificateur de menu :" + $service_name.text);
 	}
 	;
 
@@ -331,7 +332,7 @@ grammar Cami;
 	trace_message
 	:
 	'TR(' CAMI_STRING ')'{
-		LOGGER.finest("Reception d'un message de trace")
+		LOGGER.finest("Reception d'un message de trace");
 		IReceptMessage msg = (IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
 		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
@@ -340,8 +341,8 @@ grammar Cami;
 	warning_message
 	:
 	'WN(' CAMI_STRING ')'{  
-		LOGGER.finest("Reception d'un message de warning")
-		IReceptMessage msg =(ISpecialMessage) new ReceptMessage(2,$CAMI_STRING.text);
+		LOGGER.finest("Reception d'un message de warning");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
 		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
@@ -350,8 +351,8 @@ grammar Cami;
 	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'{
 		// TODO : Expliquer ce qu'est le MO ? est-ce vraiment un warning ?
-		LOGGER.finest("Reception d'un message special (MO)")
-		IReceptMessage msg =(ISpecialMessage) new ReceptMessage(2,$CAMI_STRING.text);
+		LOGGER.finest("Reception d'un message special (MO)");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
 		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
