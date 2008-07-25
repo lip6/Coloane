@@ -6,32 +6,41 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
+/**
+ * Classe de tests
+ */
 public class ComStub {
-	final static String LOGIN ="login";
-	
-	final static String MDP ="mdp";
-	
-	public static void main(String args[]) throws InterruptedException, ApiException{
+	private static final String LOGIN = "login";
+
+	private static final String MDP = "mdp";
+
+	/**
+	 * Constructeur
+	 * @param args arguments
+	 * @throws InterruptedException exceptions
+	 * @throws ApiException exceptions
+	 */
+	public static void main(String args[]) throws InterruptedException, ApiException {
 		Api api = new Api();
 		IApiConnection connection = api.createApiConnection();
-		
-		
+
+
 		ReceptDialogObserver receptDialogObserver = new ReceptDialogObserver();
 		ReceptMenuObserver receptMenuObserver = new ReceptMenuObserver();
 		ReceptMessageObserver receptMessageObserver = new ReceptMessageObserver();
 		connection.setReceptDialogObserver(receptDialogObserver, false);
 		connection.setReceptMenuObserver(receptMenuObserver, false);
 		connection.setReceptMessageObserver(receptMessageObserver, false);
-		
+
 		/**
 		 * Ouveture d'une connection
 		 */
 		System.out.println("1 Ouveture connexion");
-		IConnectionInfo connectionInfo = connection.openConnection(LOGIN,MDP,"",0);
-		System.out.println("CONNECTION: Version="+connectionInfo.getFkName()+" major="+connectionInfo.getFkMajor()+" minor="+connectionInfo.getFkMinor());
+		IConnectionInfo connectionInfo = connection.openConnection(LOGIN, MDP, "", 0);
+		System.out.println("CONNECTION: Version=" + connectionInfo.getFkName() + " major=" + connectionInfo.getFkMajor() + " minor=" + connectionInfo.getFkMinor());
 		System.out.println("");
-		Thread.sleep(1*1000);
-		
+		Thread.sleep(1 * 1000);
+
 		/**
 		 * Ouverture d'une session
 		 */
@@ -40,30 +49,30 @@ public class ComStub {
 		receptDialogObserver.setSession(session1);
 		System.out.println("SESSION   :");
 		session1.openSession(27062008, "AM-Net", "maseesion1");
-		
+
 		//session1.sendDialogAnswer(receptDialogObserver.getIdDialog(), IDialog.DLG_NO_BUTTON, false, "", null, null);
 		System.out.println("");
-		Thread.sleep(1*1000);
-		
-		
-		
-		
-		
-		
+		Thread.sleep(1 * 1000);
+
+
+
+
+
+
 		/**
 		 * Fermeture d'une session
 		 */
 		System.out.println("3-a Fermeture session");
 		session1.closeSession();
 		System.out.println("");
-		Thread.sleep(1*1000);
-		
+		Thread.sleep(1 * 1000);
+
 		/**
 		 * Fermeture de la connection
 		 */
 		System.out.println("4 Fermeture Connexion");
 		connection.closeConnection();
-		Thread.sleep(1*1000);
-		
+		Thread.sleep(1 * 1000);
+
 	}
 }
