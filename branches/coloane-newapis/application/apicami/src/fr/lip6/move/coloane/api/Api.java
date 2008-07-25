@@ -7,9 +7,7 @@ import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
@@ -18,8 +16,8 @@ import java.util.logging.Logger;
  */
 public class Api implements IApi {
 
-	private final static String UINAME = "Coloane";
-	private final static String UIVERSION = "3.0";
+	private static final String UINAME = "Coloane";
+	private static final String UIVERSION = "3.0";
 
 	// Initialisation statique du logger
 	static { initializeLogger(); }

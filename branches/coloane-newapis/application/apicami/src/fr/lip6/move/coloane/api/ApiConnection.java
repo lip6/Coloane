@@ -1,18 +1,13 @@
 package fr.lip6.move.coloane.api;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
-
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.api.observables.ObservableFactory;
+import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -26,12 +21,19 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
+
 /**
- * Définit une isntance de connexion à la plate-forme FrameKit
- * 
+ * Définit une instance de connexion à la plate-forme FrameKit
+ *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
- * 
+ *
  */
 public class ApiConnection implements IApiConnection {
 	/** Le logger */
@@ -42,10 +44,10 @@ public class ApiConnection implements IApiConnection {
 
 	/** Une table de hash qui stocke tous les observeurs */
 	private Map< String, Object> hashObservable;
-	
+
 	/** Le nom du client */
 	private String uiName;
-	
+
 	/** La version du client */
 	private String uiVersion;
 
@@ -66,7 +68,7 @@ public class ApiConnection implements IApiConnection {
 		this.uiName = uiName;
 		this.uiVersion = uiVersion;
 
-		//this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
+		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		//this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		//this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
@@ -186,7 +188,9 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
-		// TODO ???
+		ReceptMenuObservable observable = (ReceptMenuObservable) this.hashObservable.get("ISession");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**
