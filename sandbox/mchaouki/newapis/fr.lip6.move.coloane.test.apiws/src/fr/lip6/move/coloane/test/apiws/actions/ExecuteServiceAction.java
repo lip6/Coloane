@@ -28,7 +28,7 @@ public class ExecuteServiceAction implements IWorkbenchWindowActionDelegate {
 		
 		try {
 			
-			Activator.getSessionController().getActiveSession().askForService("AMI-Net", "", "Petri net syntax checker", null, null);
+			Activator.getSessionController().getActiveSession().askForService("AMI-Net", "Petri net syntax checker", null, null);
 
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block

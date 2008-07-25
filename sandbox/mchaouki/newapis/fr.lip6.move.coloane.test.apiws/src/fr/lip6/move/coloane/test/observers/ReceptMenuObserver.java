@@ -1,25 +1,33 @@
 package fr.lip6.move.coloane.test.observers;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
-import fr.lip6.move.coloane.test.apiws.Activator;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
 public class ReceptMenuObserver implements IReceptMenuObserver {
 
 
 	public void update(IReceptMenu e) {
-		// TODO Auto-generated method stub
-
-		Activator.getDefault().getWorkbench().getDisplay().syncExec(
-				new Runnable() {
-					public void run(){
-						MessageDialog.openInformation(
-								Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(),
-								"RECEPT MENU", 
-						"Menu recu");
-					}
-				});
+		for (ISubMenu subMenu : e.getMenus()) {
+			printMenus(subMenu,"");
+		}
+	}
+	
+	private void printMenus(ISubMenu menu, String dec) {
+			System.out.println(dec+(menu.isVisible()?"[+]":"[-]")+"    "+"[menu   ]"+" "+menu.getName());
+			
+			for (IServiceMenu service : menu.getServiceMenus()) {
+				System.out.println("   "+dec+(service.isVisible()?"[+]":"[-]")+"    "+"[service]"+" "+service.getName());
+			}
+			
+			for (IOptionMenu option : menu.getOptions()) {
+				System.out.println("   "+dec+(option.isVisible()?"[+]":"[-]")+(option.isValidated()?" [X] ":" [ ] ")+" [option ]"+" "+option.getName());
+			}
+			
+			for (ISubMenu subMenu : menu.getSubMenus()) {
+				printMenus(subMenu, "   " + dec);
+			}
 	}
 }
