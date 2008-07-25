@@ -34,4 +34,11 @@ public class OptionMenu extends Item implements IOptionMenu {
 	public final boolean isValidated() {
 		return this.validate;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getType() {
+		return IOptionMenu.TYPE_CHECKBOX;
+	}
 }
