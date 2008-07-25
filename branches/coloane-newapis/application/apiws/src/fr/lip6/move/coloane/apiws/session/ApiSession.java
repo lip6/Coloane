@@ -8,15 +8,17 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.wrapper.ws.WrapperStub.BArc;
+import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Option;
+import fr.lip6.move.wrapper.ws.WrapperStub.Position;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
@@ -25,6 +27,8 @@ import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
  * Cette classe représent une session
@@ -52,6 +56,8 @@ public class ApiSession implements IApiSession {
 
 	private String idSession;
 
+	private boolean invalidateTheModel;
+
 	private MMenu menus;
 
 	/**
@@ -69,6 +75,8 @@ public class ApiSession implements IApiSession {
 		this.sessionController = sessionController;
 		this.speaker = speaker;
 		this.automate = SessionFactory.getNewSessionStateMachine();
+
+		this.invalidateTheModel = false;
 
 		this.menus = null;
 
@@ -239,7 +247,9 @@ public class ApiSession implements IApiSession {
 	 */
 	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) throws ApiException {
 
+		// Test si on peut exécuter un service
 		if (sessionController.askForService(this)) {
+			// Met à jours l'automate de la session
 			if (!automate.goToWaitingForResultState()) {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_RESULT_STATE");
 			}
@@ -249,6 +259,7 @@ public class ApiSession implements IApiSession {
 			List<Option> theOptions = null;
 			Model theModel = translateModel(model);
 
+			// Détérmine le menu principal et le service demander à envoyer au wrapper
 			for (int i = 0; i < menus.getRoots().length; i++) {
 				if (menus.getRoots()[i].getName().equals(rootName)) {
 					root = (Question) menus.getRoots()[i].getRoot();
@@ -256,16 +267,26 @@ public class ApiSession implements IApiSession {
 				}
 			}
 
+			// Teste si le menu principal du service demander existe
 			if (root == null) {
 				throw new ApiException("Le menu principal: " + rootName + " n'existe pas.");
 			}
 
+			// Teste si le service demander existe
 			if (question == null) {
 				throw new ApiException("Le service: " + serviceName + " n'existe pas.");
 			}
 
-			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
+			// Invalidation si nécessaire du model
+			theModel.setInvalidate(invalidateTheModel);
 
+			// Exécute le service demander
+			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
+			
+			// Réinitialise le boolean sur l'invalidation du model à false
+			this.invalidateTheModel = false;
+			
+			// Notifie la fin de l'exécution du service demander
 			sessionController.notifyEndResult(this, result);
 
 		}
@@ -342,22 +363,58 @@ public class ApiSession implements IApiSession {
 
 		Model theModel = new Model();
 
-		Collection<IArc> arcs = model.getArcs();
 		Collection<INode> nodes = model.getNodes();
-		Collection<IAttribute> attributs = model.getAttributes();
-
-		for (IArc arc : arcs) {
-			arc.getAttributes();
-		}
+		Collection<IArc> arcs = model.getArcs();
 
 		for (INode node : nodes) {
-			node.getAttributes();
+
+			// Création d'un noeud pour le wrapper
+			BNode noeud = new BNode();
+
+			// Création de la position du noeud pour le wrapper
+			Position pos = new Position();
+			pos.setXx(node.getGraphicInfo().getLocation().x);
+			pos.setYy(node.getGraphicInfo().getLocation().y);
+
+			// Initialisation de l'identifiant du noeud pour le wrapper
+			noeud.setId(node.getId());
+			// Initialisation de la position du noeud pour le wrapper
+			noeud.setPosition(pos);
+			// Initialisation du type du noeud pour le wrapper
+			noeud.setType(node.getNodeFormalism().getName());
+
+			// Ajout du noeud dans le model pour le wrapper
+			theModel.addNodes(noeud);
 		}
 
-		for (IAttribute attribut : attributs) {
-			attribut.getName();
-		}
+		for (IArc arc : arcs) {
 
+			// Création d'un arc pour le wrapper
+			BArc theArc = new BArc();
+
+			// Création de la liste des points du noeuds.
+			Position[] listPts = new Position[arc.getInflexPoints().size()];
+			int i = 0;
+			for (AbsoluteBendpoint pts : arc.getInflexPoints()) {
+				Position pos = new Position();
+				pos.setXx(pts.x);
+				pos.setYy(pts.y);
+
+				listPts[i++] = pos;
+			}
+
+			// Initialisation de l'identifiant de l'arc pour le wrapper
+			theArc.setId(arc.getId());
+			// Initialisation de la source de l'arc pour le wrapper
+			theArc.setSource(arc.getSource().getId());
+			// Initialisation de la destination de l'arc pour le wrapper
+			theArc.setDestination(arc.getTarget().getId());
+			// Initialisation de la liste des points de l'arc pour le wrapper
+			theArc.setPoints(listPts);
+
+			// Ajout d'un arc dans le model pour le wrapper
+			theModel.addArcs(theArc);
+		}
 
 		return theModel;
 	}
@@ -367,7 +424,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void invalidModel() throws ApiException {
 		// TODO Auto-generated method stub
-
+		this.invalidateTheModel = true;
 	}
 
 	/**
