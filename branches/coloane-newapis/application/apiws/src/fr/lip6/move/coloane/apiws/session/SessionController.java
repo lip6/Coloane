@@ -194,9 +194,10 @@ public class SessionController implements ISessionController {
 		//  S'il n'y a plus de sessions: activeSession est null
 		if (closed.getIdSession().equals(idSessionToResume) && listSessions.size() == 0) {
 			this.activeSession = null;
-		} else { //  Sinon: activeSession est la session renvoyée par le wrapper
+		} /*else { //  Sinon: activeSession est la session renvoyée par le wrapper
+			//listSessions.get(idSessionToResume).resumeSession();
 			this.activeSession = listSessions.get(idSessionToResume);
-		}
+		}*/
 
 	}
 
@@ -227,6 +228,19 @@ public class SessionController implements ISessionController {
 	public final void notifyWaitingForResult() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean onlyOneSession() throws ApiException {
+		if (listSessions.size() == 0) {
+			throw new ApiException("Il n'y a pas de sessions");
+		}
+		if (listSessions.size() == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

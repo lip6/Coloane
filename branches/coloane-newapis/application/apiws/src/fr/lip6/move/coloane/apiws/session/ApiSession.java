@@ -171,7 +171,6 @@ public class ApiSession implements IApiSession {
 		}
 
 		LOGGER.fine("Ouverture de la session: " + this.sessionName);
-
 		return new SessionInfo(sessionOpened);
 	}
 
@@ -187,6 +186,7 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean suspendSession() throws ApiException {
+
 		// Test si on peut suspendre la session
 		if (sessionController.suspendSession(this)) {
 			// Notifie la fin de la suspension de la session
@@ -201,9 +201,17 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean resumeSession() throws ApiException {
+		// TODO Factoriser le code
+
 		// Test si la session est déjà active
 		if (sessionController.isActivateSession(this)) {
 			LOGGER.fine("Restauration de la session: " + sessionName + " [session déjà active]");
+			return true;
+		}
+
+		// Test si la session est unique
+		if (sessionController.onlyOneSession()) {
+			sessionController.notifyEndResumeSession(this);
 			return true;
 		}
 
@@ -226,6 +234,7 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean closeSession() throws ApiException {
+
 		// Test si on peut fermer la session
 		if (sessionController.closeSession(this)) {
 			// Met à jours l'automate de la session

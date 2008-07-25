@@ -38,6 +38,13 @@ public interface ISessionController {
 	boolean isActivateSession(IApiSession s);
 
 	/**
+	 * Demande s'il existe seulement une session.
+	 * @return <code>true</code> s'il n'y a qu'une session, <code>false</code> si plus d'une session
+	 * @throws ApiException si il y a zéro session.
+	 */
+	boolean onlyOneSession() throws ApiException;
+
+	/**
 	 * Verifie si on peut ouvrir une session.
 	 * @param s la session qu'on veut ouvrir.
 	 * @return true si on peut ouvrir une session.
