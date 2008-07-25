@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
@@ -162,6 +163,7 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
+		LOGGER.fine("Enregistrement d'un observer sur la déconnexion brutale de la plate-forme");
 		BrutalInterruptObservable observable = (BrutalInterruptObservable) this.hashObservable.get("IBrutalInterrupt");
 		observable.addObserver(o);
 		observable.setCreateThread(createThread);
@@ -178,7 +180,10 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setDisconnectObserver(IDisconnectObserver o, boolean createThread) {
-		// TODO ???
+		LOGGER.fine("Enregistrement d'un observer sur la déconnexion de la plate-forme");
+		DisconnectObservable observable = (DisconnectObservable) this.hashObservable.get("IDisconnect");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**
@@ -192,6 +197,7 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
+		LOGGER.fine("Enregistrement d'un observer sur la reception de menus de la plate-forme");
 		ReceptMenuObservable observable = (ReceptMenuObservable) this.hashObservable.get("ISession");
 		observable.addObserver(o);
 		observable.setCreateThread(createThread);
@@ -201,6 +207,7 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
+		LOGGER.fine("Enregistrement d'un observer sur la reception de message de la plate-forme");
 		ReceptMessageObservable observable = (ReceptMessageObservable) this.hashObservable.get("IReceptMessage");
 		observable.addObserver(o);
 		observable.setCreateThread(createThread);
