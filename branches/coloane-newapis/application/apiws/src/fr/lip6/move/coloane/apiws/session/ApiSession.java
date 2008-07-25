@@ -147,20 +147,30 @@ public class ApiSession implements IApiSession {
 
 		Session sessionOpened = null;
 
+		// Test si on peut ouvrir la session
 		if (sessionController.openSession(this)) {
+			// Met à jours l'automate de la session
 			if (!automate.goToWaitingForUpdatesAndMenusState()) {
+				LOGGER.warning("La session '" + this.sessionName + "' ne peut pas être en état d'attendre des menus");
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
 
+			// Demande l'ouverture de la session
+			LOGGER.finer("Demande l'ouverture de la session: " + this.sessionName);
 			sessionOpened = speaker.openSession(sessionFormalism);
+
+			// Récupere l'identifiant de la session pour pouvoir interagir dessus via le wrapper
 			this.idSession = sessionOpened.getSessionId();
+
+			// Récupére le menu de la session
 			this.menus = sessionOpened.getMenu();
 
+			// Notifie la fin de l'ouverture de la session
 			sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
 
 		}
 
-		LOGGER.fine("Ouverture d'une session");
+		LOGGER.fine("Ouverture de la session: " + this.sessionName);
 
 		return new SessionInfo(sessionOpened);
 	}
@@ -177,9 +187,13 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean suspendSession() throws ApiException {
+		// Test si on peut suspendre la session
 		if (sessionController.suspendSession(this)) {
+			// Notifie la fin de la suspension de la session
 			sessionController.notifyEndSuspendSession(this);
 		}
+
+		LOGGER.fine("Suspension de la session: " + sessionName);
 		return true;
 	}
 
@@ -187,14 +201,24 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean resumeSession() throws ApiException {
+		// Test si la session est déjà active
 		if (sessionController.isActivateSession(this)) {
+			LOGGER.fine("Restauration de la session: " + sessionName + " [session déjà active]");
 			return true;
 		}
 
+		// Test si on peut restaurer
 		if (sessionController.resumeSession(this)) {
+
+			// Demande au wrapper changer de session: restaure la session
+			LOGGER.finer("Demande la restauration de la session: " + sessionName);
 			speaker.changeSession(this.getIdSession());
+
+			// Notifie la fin de la restauration de la session
 			sessionController.notifyEndResumeSession(this);
 		}
+
+		LOGGER.fine("Restauration de la session: " + sessionName);
 		return true;
 	}
 
@@ -202,15 +226,24 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean closeSession() throws ApiException {
+		// Test si on peut fermer la session
 		if (sessionController.closeSession(this)) {
+			// Met à jours l'automate de la session
 			if (!automate.goToWaitingForCloseSessionState()) {
+				LOGGER.warning("La session '" + sessionName + "' ne peut pas être en état d'attente pour une fermeture");
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 
+			// Demande au wrapper de fermer la session
+			LOGGER.finer("Demande la fermeture de la session: " + sessionName);
 			Session sessionToResme = speaker.closeSession(idSession);
+
+			// Notifie la fin de la fermeture de la session
 			sessionController.notifyEndCloseSession(this, sessionToResme.getSessionId());
 
 		}
+
+		LOGGER.fine("Fermeture de la session: " + sessionName);
 		return true;
 	}
 
@@ -219,9 +252,12 @@ public class ApiSession implements IApiSession {
 	 */
 	public final boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
 
+		// Création d'une boîte de dialogue pour le wrapper
 		DialogBox answer = new DialogBox();
+		// Création de la boîte de dialogue réponse pour le wrapper
 		answer.setAnswer(new DBAnswer());
 
+		// Initialisation de la boîte de dialogue réponse à envoyer au wrapper
 		answer.getAnswer().setId(dialogAnswer.getIdDialog());
 		answer.getAnswer().setButtonAnswer(dialogAnswer.getButtonType());
 		answer.getAnswer().setModified(dialogAnswer.isModified());
@@ -237,8 +273,11 @@ public class ApiSession implements IApiSession {
 			answer.getAnswer().setObjects(objectsArray);
 		}
 
+		// Envoyer la boîte de dialogue réponse à envoyer au wrapper
+		LOGGER.finer("Demande l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		speaker.answerToDialogBox(answer);
 
+		LOGGER.fine("Envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		return true;
 	}
 
@@ -251,15 +290,20 @@ public class ApiSession implements IApiSession {
 		if (sessionController.askForService(this)) {
 			// Met à jours l'automate de la session
 			if (!automate.goToWaitingForResultState()) {
+				LOGGER.warning("La session '" + sessionName + "' ne peut pas être en état de demander un service");
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_RESULT_STATE");
 			}
 
 			Question root = null;
 			Question question = null;
 			List<Option> theOptions = null;
+
+			// Traduction du model pour le wrapper
+			LOGGER.finer("Traduction du model pour la session: " + sessionName);
 			Model theModel = translateModel(model);
 
 			// Détérmine le menu principal et le service demander à envoyer au wrapper
+			LOGGER.finer("Recherche pour la session '" + sessionName + "' le service demander: " + serviceName);
 			for (int i = 0; i < menus.getRoots().length; i++) {
 				if (menus.getRoots()[i].getName().equals(rootName)) {
 					root = (Question) menus.getRoots()[i].getRoot();
@@ -269,21 +313,26 @@ public class ApiSession implements IApiSession {
 
 			// Teste si le menu principal du service demander existe
 			if (root == null) {
+				LOGGER.warning("Le menu principal: " + rootName + " n'existe pas");
 				throw new ApiException("Le menu principal: " + rootName + " n'existe pas.");
 			}
 
 			// Teste si le service demander existe
 			if (question == null) {
+				LOGGER.warning("Le service: " + serviceName + " n'existe pas");
 				throw new ApiException("Le service: " + serviceName + " n'existe pas.");
 			}
 
 			// Invalidation si nécessaire du model
+			LOGGER.finer("Invalidation du model de la session '" + sessionName + "' si nécessaire: invalidateTheModel=" + invalidateTheModel);
 			theModel.setInvalidate(invalidateTheModel);
 
 			// Exécute le service demander
+			LOGGER.finer("Demande l'exécution du service: " + serviceName);
 			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
 
 			// Réinitialise le boolean sur l'invalidation du model à false
+			LOGGER.finer("Réinitialise invalidateTheModel à false");
 			this.invalidateTheModel = false;
 
 			// Notifie la fin de l'exécution du service demander
@@ -291,6 +340,7 @@ public class ApiSession implements IApiSession {
 
 		}
 
+		LOGGER.finer("Exécution du service: " + serviceName);
 		return true;
 	}
 

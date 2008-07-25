@@ -189,11 +189,13 @@ public class ApiConnection implements IApiConnection {
 
 			LOGGER.finer("Demande l'arrêt du Listener");
 			listener.stopper();
+
+			// Attend l'arrêt du listener
 			((Thread) listener).join();
 
 			LOGGER.finer("Demande l'arrêt de la communication");
-
 			speaker.closeConnection();
+
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

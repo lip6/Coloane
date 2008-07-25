@@ -39,10 +39,10 @@ public class Api implements IApi {
 		log.addHandler(new ConsoleHandler());
 
 		try {
-		ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
-		ColoaneLogFormatter format = new ColoaneLogFormatter();
-		handler.setFormatter(format);
-		log.addHandler(handler);
+			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
+			ColoaneLogFormatter format = new ColoaneLogFormatter();
+			handler.setFormatter(format);
+			log.addHandler(handler);
 		} catch (IOException ioe) {
 			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		} catch (SecurityException se) {
