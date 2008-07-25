@@ -1,54 +1,45 @@
 package fr.lip6.move.coloane.api.observables;
 
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO : A documenter
+ * Observable des messages en provenance de FrameKit
  *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
+ *
  */
-public class ReceptMessageObservable implements IReceptMessageObservable {
+public class ReceptMessageObservable {
+	/** Liste des observeurs */
+	private List<IReceptMessageObserver> observers;
 
-	/** liste des observateurs */
-	private List<IReceptMessageObserver> list;
-
-	/** créer un thread ? */
+	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
 
 	/**
 	 * Constructeur
 	 */
-	public SpecialMessageObservable() {
-		list = new ArrayList<IReceptMessageObserver>();
+	public ReceptMessageObservable() {
+		observers = new ArrayList<IReceptMessageObserver>();
 	}
 
 	/**
-	 * Set de la variable createThread
-	 * @param createThread notification avec ou sans création de thread
+	 * {@inheritDoc}
 	 */
 	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
 
 	/**
-	 * Ajoute un observer
-	 * @param o L'observer à ajouter
+	 * Ajout d'un observer sur cet observable
+	 * @param o L'observer
 	 */
 	public final void addObserver(IReceptMessageObserver o) {
-		this.list.add(o);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void removeObserver(IReceptMessageObserver o) {
-		this.list.remove(o);
+		this.observers.add(o);
 	}
 
 	/**
@@ -58,41 +49,49 @@ public class ReceptMessageObservable implements IReceptMessageObservable {
 	public final void notifyObservers(IReceptMessage arg) {
 		// Option sans création de thread
 		if (!this.createThread) {
-			for (int i = 0; i < this.list.size(); i++) {
-				this.list.get(i).update(arg);
+			for (IReceptMessageObserver o : this.observers) {
+				o.update(arg);
 			}
+
 		// Option avec création de thread
 		} else {
-			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
+			ThreadNotifier thread = new ThreadNotifier(this.observers, arg);
 			new Thread(thread, "threadConnectionSpecialMessage").start();
 		}
 	}
 
 	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.
+	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.<br>
+	 * Cette classe est interne.
+	 *
+	 * @author Kahina Bouarab
+	 * @author Youcef Belattaf
+	 *
 	 */
 	private class ThreadNotifier implements Runnable {
-		private List<IReceptMessageObserver> listObservers;
-		private IReceptMessage version;
+		/** Liste des observeurs */
+		private List<IReceptMessageObserver> observers;
+
+		/** L'objet qui doit être envoyés aux observers */
+		private IReceptMessage receptMessage;
 
 		/**
-		 * TODO : A documenter
-		 * @param list
-		 * @param arg
+		 * Constructeur
+		 * @param observers La liste des observers
+		 * @param receptMenu L'objet à transmettre aux observers
 		 */
-		public ThreadNotifier(List<IReceptMessageObserver> list, IReceptMessage arg) {
-			this.listObservers = list;
-			this.version = arg;
+		public ThreadNotifier(List<IReceptMessageObserver> observers, IReceptMessage receptMenu) {
+			this.observers = observers;
+			this.receptMessage = receptMenu;
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		public void run() {
-			for (int i = 0; i < this.listObservers.size(); i++) {
-				this.listObservers.get(i).update(version);
+			for (IReceptMessageObserver o : this.observers) {
+				o.update(this.receptMessage);
 			}
 		}
-
 	}
 }

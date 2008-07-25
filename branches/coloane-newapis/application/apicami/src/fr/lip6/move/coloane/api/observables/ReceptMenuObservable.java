@@ -53,8 +53,8 @@ public class ReceptMenuObservable {
 
 		// Option sans création de thread
 		if (!this.createThread) {
-			for (int i = 0; i < this.observers.size(); i++) {
-				this.observers.get(i).update(receptMenu);
+			for (IReceptMenuObserver o : this.observers) {
+				o.update(receptMenu);
 			}
 
 			// Option avec création de thread
@@ -65,8 +65,8 @@ public class ReceptMenuObservable {
 	}
 
 	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification,
-	 * si cette option est active. cette classe est interne.
+	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.<br>
+	 * Cette classe est interne.
 	 *
 	 * @author Kahina Bouarab
 	 * @author Youcef Belattaf
@@ -93,8 +93,8 @@ public class ReceptMenuObservable {
 		 * {@inheritDoc}
 		 */
 		public void run() {
-			for (int i = 0; i < this.observers.size(); i++) {
-				this.observers.get(i).update(receptMenu);
+			for (IReceptMenuObserver o : this.observers) {
+				o.update(this.receptMenu);
 			}
 		}
 	}
