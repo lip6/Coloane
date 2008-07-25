@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
@@ -28,7 +29,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 public class CamiObjectBuilder {
 
-	public static ISessionInfo buildFkInfo(ArrayList<String> camiFKInfo) {
+	public static ISessionInfo buildFkInfo(List<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
@@ -37,7 +38,7 @@ public class CamiObjectBuilder {
 		return kfi;
 	}
 
-	public static IConnectionInfo buildFkVersion(ArrayList<String> camiFkVersion) {
+	public static IConnectionInfo buildFkVersion(List<String> camiFkVersion) {
 		String fkname = camiFkVersion.get(0);
 		int fkmajor;
 		String tmpfkmajor = camiFkVersion.get(1);

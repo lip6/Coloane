@@ -1,4 +1,5 @@
 package fr.lip6.move.coloane.api.cami;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;

@@ -2,7 +2,6 @@ grammar Cami;
 
 @lexer::header{
 	package fr.lip6.move.coloane.api.cami;
-
 }           
 
 @header{
@@ -13,10 +12,8 @@ grammar Cami;
 	import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 	import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
-	import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 	import fr.lip6.move.coloane.api.interfaces.IMenu;
 	import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
-	import fr.lip6.move.coloane.api.interfaces.observables.ISessionObservable;
 
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
@@ -37,8 +34,8 @@ grammar Cami;
 
 	Map<String, Object> hashObservable; /* Table de hash des observables */
 
-	ISessionInfo fkInfo; 
-
+	ISessionController sessionControl;
+	 
 	IDialog dialog;
 	List<String> camiDialog; /* represente une boite de dialogue */
 	Map<Integer,IDialog> dialogs ;
@@ -51,7 +48,7 @@ grammar Cami;
 	public CamiParser(TokenStream input, Map<String, Object> hm) {
 		this(input);
 		hashObservable = hm;
-		sc = SessionController.getInstance();
+		sessionControl = SessionController.getInstance();
 		dialogs = new HashMap<Integer,IDialog>();
 	}
 } /* fin de members */
@@ -124,7 +121,7 @@ grammar Cami;
 			/* on initialise ici la table des menus : on ne voit pas d'autre endroit ....*/
 			menuList = new ArrayList<IMenu>();
 			/*  */
-			camiUpdates = new ArrayList<ArrayList<String>>();
+			camiUpdates = new ArrayList<List<String>>();
 		}
 		|'TD()'{
 			// Ajouter un controle qu'on doit bien recevoir TD
@@ -142,7 +139,7 @@ grammar Cami;
 	ack_suspend_current_session 
 	:	 
 	'SS()'{/* Notifier au sessionController de l'acquittement du SS  */
-	sc.notifyEndSuspendSession();
+	sessionControl.notifyEndSuspendSession();
 }
 ;
 
@@ -152,7 +149,7 @@ grammar Cami;
 ack_resume_suspend_current_session
 :
 'RS(' CAMI_STRING ')'{
-	sc.notifyEndResumeSession($CAMI_STRING.text);
+	sessionControl.notifyEndResumeSession($CAMI_STRING.text);
 }
 ;
 
@@ -161,7 +158,7 @@ ack_resume_suspend_current_session
 ack_close_current_session
 :
 'FS(' CAMI_STRING ')'{
-	sc.notifyEndCloseSession();
+	sessionControl.notifyEndCloseSession();
 	//  ((ICloseSessionObservable)hashObservable.get("ICloseSession")).notifyObservers($CAMI_STRING.text);  
 }
 ;
@@ -188,7 +185,7 @@ interlocutor_table
 }
 |'FL()'{
 	fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
-	sc.notifyReceptSessionInfo(fkInfo);
+	sessionControl.notifyReceptSessionInfo(fkInfo);
 	System.out.println("je parse le FL");          
 	//            System.out.println("fkinfo");
 	for(int i=0; i<this.listOfArgs.size(); i++){
@@ -205,7 +202,7 @@ receving_menu
 :
 'DQ()'{
 	/* creer la menuList  */
-	camiMenuList = new ArrayList<ArrayList<String>>();
+	camiMenuList = new ArrayList<List<String>>();
 	System.out.println("je parse le DQ");
 }
 menu_name
@@ -237,7 +234,7 @@ menu_name
 	// TODO :  Veifier qu'on est dans la reception de menus racine !!!
 
 	/* racine des question  */
-	ArrayList<String> cq = new ArrayList<String>();
+	List<String> cq = new ArrayList<String>();
 	cq.add($name.text); /* racine  */
 	cq.add($question_type.text); /* type de la question  */
 	cq.add($question_behavior.text); /* type du choix */
@@ -261,7 +258,7 @@ set_item=NUMBER? ','  dialog=NUMBER? ',' stop_authorized=NUMBER? ','
 output_formalism=CAMI_STRING? ',' active=NUMBER? ')'{
 	System.out.println("je parse le AQ");
 	// TODO Veifier qu'on est dans la reception de menus
-	ArrayList<String> aq = new ArrayList<String>();
+	List<String> aq = new ArrayList<String>();
 	aq.add($parent_menu.text); /* parent  */
 	aq.add($entry_name.text);  /* entry_name  */
 
@@ -326,7 +323,7 @@ update /* TQ de type 7 et 8*/
 
 
 	/*  */
-	ArrayList<String> update = new ArrayList<String>();
+	List<String> update = new ArrayList<String>();
 
 	update.add($service_name.text); /* nom du service */
 	update.add($question_name.text);  /* nom de la question  */
@@ -350,11 +347,11 @@ end_menu_transmission
 
 	System.out.println("QQ((((" + $NUMBER.text + ")");
 	if($NUMBER.text.equals("3")){
-		sc.notifyEndOpenSession();
+		sessionControl.notifyEndOpenSession();
 		updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 		((ISessionObservable)hashObservable.get("ISession")).notifyObservers( menuList, updates);
 		camiUpdates = null;
-		camiUpdates = new ArrayList<ArrayList<String>>();
+		camiUpdates = new ArrayList<List<String>>();
 
 	}
 	else {
@@ -427,7 +424,7 @@ ask_for_a_model
 :                                                       
 'DF(-2,' NUMBER ',' NUMBER ')'{
 	System.out.println("je parse le DF");
-	sc.notifyWaitingForModel();
+	sessionControl.notifyWaitingForModel();
 	//    ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
 }
 ;
@@ -442,7 +439,7 @@ result_reception
 	// initialiser la liste des updates 
 	//    camiUpdates = new ArrayList<ArrayList<String>>();
 	System.out.println("je parse DR");
-	sc.notifyWaitingForResult();
+	sessionControl.notifyWaitingForResult();
 }
 |'<EOF>'*
 |'RQ(' service_name1=CAMI_STRING ',' question_name1=CAMI_STRING ',' num1=NUMBER ')'{
@@ -476,7 +473,7 @@ result_reception
 |modele*
 |'FR(' NUMBER ')'{
 	System.out.println("je parse FR");
-	sc.notifyEndResult();
+	sessionControl.notifyEndResult();
 	//TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
 }
 ;
