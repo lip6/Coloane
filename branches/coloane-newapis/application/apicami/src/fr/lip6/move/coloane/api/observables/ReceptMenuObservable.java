@@ -38,6 +38,14 @@ public class ReceptMenuObservable {
 	}
 
 	/**
+	 * Ajout d'un observer sur cet observable
+	 * @param o L'observer
+	 */
+	public final void addObserver(IReceptMenuObserver o) {
+		this.observers.add(o);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(List<ISubMenu> menus, List<IUpdateMenu> updateMenus) {

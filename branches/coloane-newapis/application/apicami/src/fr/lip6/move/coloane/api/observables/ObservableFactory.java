@@ -16,7 +16,7 @@ public final class ObservableFactory {
 	 * Responsable du passage des menus et des modifications sur ceux-ci
 	 * @return L'observeur
 	 */
-	public static ReceptMenuObservable getNewSessionObservable(){
+	public static ReceptMenuObservable getNewSessionObservable() {
 		return (ReceptMenuObservable) new ReceptMenuObservable();
 	}
 
