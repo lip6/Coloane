@@ -27,6 +27,10 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
  * Définit une isntance de connexion à la plate-forme FrameKit
+ * 
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
+ * 
  */
 public class ApiConnection implements IApiConnection {
 	/** Le logger */

@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 public class Api implements IApi {
 
-	private static String uiName = "Coloane";
-	private static String uiVersion = "3.0";
+	private final static String UINAME = "Coloane";
+	private final static String UIVERSION = "3.0";
 
 	// Initialisation statique du logger
 	static { initializeLogger(); }
@@ -56,6 +56,6 @@ public class Api implements IApi {
 	 * {@inheritDoc}
 	 */
 	public final IApiConnection createApiConnection() {
-		return new ApiConnection(uiName, uiVersion);
+		return new ApiConnection(UINAME, UIVERSION);
 	}
 }
