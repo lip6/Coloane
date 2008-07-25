@@ -189,14 +189,15 @@ public class SessionController implements ISessionController {
 			throw new ApiException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
 
+		this.removeSession(closed);
+
 		//  S'il n'y a plus de sessions: activeSession est null
-		if (closed.getIdSession().equals(idSessionToResume)) {
+		if (closed.getIdSession().equals(idSessionToResume) && listSessions.size() == 0) {
 			this.activeSession = null;
 		} else { //  Sinon: activeSession est la session renvoyée par le wrapper
 			this.activeSession = listSessions.get(idSessionToResume);
 		}
 
-		this.removeSession(closed);
 	}
 
 	/**
