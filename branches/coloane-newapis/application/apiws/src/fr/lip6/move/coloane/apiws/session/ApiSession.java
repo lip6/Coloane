@@ -282,10 +282,10 @@ public class ApiSession implements IApiSession {
 
 			// Exécute le service demander
 			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
-			
+
 			// Réinitialise le boolean sur l'invalidation du model à false
 			this.invalidateTheModel = false;
-			
+
 			// Notifie la fin de l'exécution du service demander
 			sessionController.notifyEndResult(this, result);
 
