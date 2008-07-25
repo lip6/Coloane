@@ -33,8 +33,7 @@ public interface ISessionController {
 	 * Reprise de la session désignée
 	 * @param session La session a reprendre.
 	 * @return true, si la session a été reprise , false sinon.
-	 * @throws IOException
-	 * @throws InterruptedException
+	 * @throws ApiException si on ne peut pas reprendre cette session
 	 */
 	boolean resumeSession(ApiSession session) throws ApiException;
 
@@ -61,18 +60,18 @@ public interface ISessionController {
 	 void notifyEndSuspendSession();
 
 	 /**
-	  * 
+	  *
 	  * @param nameSession
 	  */
 	 void notifyEndResumeSession(String nameSession);
 
 	 /**
-	  * 
+	  *
 	  */
 	 void notifyEndCloseSession();
 
 	 /**
-	  * 
+	  *
 	  * @param apiSession
 	  * @return
 	  */
