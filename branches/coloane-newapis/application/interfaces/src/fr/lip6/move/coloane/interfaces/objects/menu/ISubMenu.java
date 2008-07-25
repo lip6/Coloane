@@ -10,7 +10,7 @@ public interface ISubMenu extends IItemMenu {
 	/**
 	 * @return la liste des items qui composent le sous-menu
 	 */
-	List<IServiceMenu> getItems();
+	List<IServiceMenu> getServiceMenus();
 
 	/**
 	 * @return la liste des options qui composent le sous-menu
