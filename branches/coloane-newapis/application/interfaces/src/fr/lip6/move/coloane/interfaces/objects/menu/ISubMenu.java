@@ -3,26 +3,22 @@ package fr.lip6.move.coloane.interfaces.objects.menu;
 import java.util.List;
 
 /**
- * Cette interface définie un sous-menu.
+ * Définition d'un sous-menu.
  */
 public interface ISubMenu extends IItemMenu {
 
 	/**
-	 * Récupére la liste des items qui compose le sous-menu
-	 * @return la liste des items qui compose le sous-menu
+	 * @return la liste des items qui composent le sous-menu
 	 */
-	List<IItemMenu> getItems();
+	List<IServiceMenu> getItems();
 
 	/**
-	 * Récupére la liste des options qui compose le sous-menu
-	 * @return la liste des options qui compose le sous-menu
+	 * @return la liste des options qui composent le sous-menu
 	 */
 	List<IOptionMenu> getOptions();
 
 	/**
-	 * Récupére la liste des sous-menu qui compose le sous-menu
-	 * @return la liste des sous-menu qui compose le sous-menu
+	 * @return la liste des sous-menus qui composent le sous-menu
 	 */
 	List<ISubMenu> getSubMenus();
-
 }

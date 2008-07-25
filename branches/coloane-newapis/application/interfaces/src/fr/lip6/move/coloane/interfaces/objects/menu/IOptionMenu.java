@@ -1,19 +1,12 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
 /**
- * Cette intreface définie une option.
+ * Définition d'une option (case à cocher ou bouton radio)
  */
 public interface IOptionMenu extends IItemMenu {
 
 	/**
-     * Récupére la validité d'une option
-     * @return true si l'option est cochée, false sinon
+     * @return <code>true</code> si l'option est cochée, <code>false</code> sinon
      */
     boolean isValidated();
-
-    /**
-     * Modifie la validité d'une option
-     * @param validated la nouvelle validité d'une option
-     */
-    void setValidated(boolean validated);
 }
