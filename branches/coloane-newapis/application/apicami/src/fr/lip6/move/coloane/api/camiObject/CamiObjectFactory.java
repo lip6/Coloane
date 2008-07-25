@@ -2,11 +2,10 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
-import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 
 /**
  * Cette classe est une factory pour le package CamiObject.
@@ -14,18 +13,23 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
  * @author kahoo && uu
  *
  */
-public class CamiObjectFactory {
+public final class CamiObjectFactory {
 
 	/**
-	 * nous crée un IFkInfo.
-	 * @param nameService
-	 * @param aboutService
-	 * @param incremental
-	 * @param resultatCalcule
-	 * @return IFkInfo
+	 * Constructeur privé
 	 */
-	public static ISessionInfo getNewFkInfo (String nameService,String aboutService,String incremental,String resultatCalcule){
-	 return new SessionInfo(aboutService, incremental, nameService,resultatCalcule);
+	private CamiObjectFactory() { }
+
+	/**
+	 * Création d'un objet ISessionInfo
+	 * @param nameService TODO A documenter
+	 * @param aboutService TODO A documenter
+	 * @param incremental TODO A documenter
+	 * @param resultatCalcule TODO A documenter
+	 * @return L'objet contenant les informations sur la session
+	 */
+	public static ISessionInfo getNewFkInfo(String nameService, String aboutService, String incremental, int resultatCalcule) {
+	 return new SessionInfo(aboutService, incremental, nameService, resultatCalcule);
 }
 
 	/**

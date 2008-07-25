@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.api.interfaces;
 
+import java.io.IOException;
+
+import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.api.session.ApiSession;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-
-import java.io.IOException;
 
 /**
  * Gestionnaire de sessions.<br>
@@ -100,8 +102,8 @@ public interface ISessionController {
 	 void notifyEndResult();
 
 	 /**
-	  * 
-	  * @param fkInfo
+	  * Transmet les informations relatives à la session pour les retourner au core
+	  * @param sessionInfo Les informatiosne en question
 	  */
-	 //void notifyReceptSessionInfo(ISessionInfo fkInfo);
+	 void notifyReceptSessionInfo(ISessionInfo sessionInfo);
 }

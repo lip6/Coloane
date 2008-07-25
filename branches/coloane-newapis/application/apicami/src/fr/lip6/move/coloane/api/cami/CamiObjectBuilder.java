@@ -13,9 +13,9 @@ import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IObjectAttribute;
 import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
-import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
@@ -29,12 +29,17 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 public class CamiObjectBuilder {
 
-	public static ISessionInfo buildFkInfo(List<String> camiFKInfo) {
+	/**
+	 * Construit l'objet ISessionInfo avec les informations en provenance du parser
+	 * @param camiFKInfo Les éléments qui permettent la construction
+	 * @return Les informations sur la session
+	 */
+	public static ISessionInfo buildSessionInfo(List<String> camiFKInfo) {
 		String aboutService = camiFKInfo.get(0);
 		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
-		String resultatCalcule = camiFKInfo.get(3);
-		ISessionInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService,resultatCalcule);
+		int resultatCalcule = Integer.valueOf(camiFKInfo.get(3));
+		ISessionInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService, resultatCalcule);
 		return kfi;
 	}
 

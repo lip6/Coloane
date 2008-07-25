@@ -1,69 +1,68 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import fr.lip6.move.coloane.api.interfaces.ISessionInfo;
-
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 
 /**
- * cette classe implemente linterface IFKInfo
- * retourné en resultat a la méthode opensession.
- * @author kahoo & UU
+ * Définition de toutes les informations renvoyées par la plate-forme à propos d'une session
+ *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  *
  */
 
-public class SessionInfo implements ISessionInfo{
+public class SessionInfo implements ISessionInfo {
 
-	 /** informations relatives au service*/
+	 /** Informations relatives au service*/
 	private String aboutService;
 
-	 /** l'incremental*/
+	 /** L'incremental*/
 	private String incremental;
 
-	 /** le nom du service*/
+	 /** Le nom du service*/
 	private String nameService;
 
-	 /** le resultat calculé*/
-	private String resultatCalcule;
+	 /** Le resultat calculé*/
+	private int resultatCalcule;
 
  /**
-  * le constructeur de notre classe
-  * @param aboutService
-  * @param incremental
-  * @param nameService
-  * @param resultatCalcule
+  * Constructeur
+  * @param aboutService TODO A documenter
+  * @param incremental TODO A documenter
+  * @param nameService TODO A documenter
+  * @param resultatCalcule TODO A documenter
   */
-	public SessionInfo (String nameService,String aboutService,String incremental,String resultatCalcule ) {
+	public SessionInfo(String nameService, String aboutService, String incremental, int resultatCalcule) {
 		this.aboutService = aboutService;
-			this.incremental=incremental;
-			this.nameService=nameService;
-			this.resultatCalcule=resultatCalcule;
-
+			this.incremental = incremental;
+			this.nameService = nameService;
+			this.resultatCalcule = resultatCalcule;
 	}
 
 	/**
-	 * constructeur par defaut.
+	 * {@inheritDoc}
 	 */
-	public SessionInfo () {
-		this.aboutService = null;
-			this.incremental=null;
-			this.nameService=null;
-			this.resultatCalcule=null;
-
-	}
-	public String getAboutService() {
+	public final String getAboutService() {
      return this.aboutService;
 	}
 
-	public String getIncremental (){
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getIncremental() {
 		return this.incremental;
 	}
 
-	public String getNameService() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getNameService() {
 		return this.nameService;
 	}
 
-	public String getResultatCalcule() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getResultatCalcule() {
 		return this.resultatCalcule;
 	}
-
-
 }

@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
+import fr.lip6.move.coloane.api.interfaces.IListener;
+import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import fr.lip6.move.coloane.api.interfaces.IListener;
-import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 /**
  * Cette classe construit
@@ -18,7 +18,14 @@ import fr.lip6.move.coloane.api.interfaces.ISpeaker;
  *  @author Kahina Bouarab
  *  @author Youcef Bellataf
  */
-public class FkInitCom {
+public final class FkInitCom {
+
+	/**
+	 * Constructeur
+	 */
+	private FkInitCom() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Fabrique un objet Listener.
@@ -35,18 +42,18 @@ public class FkInitCom {
 	 * @param lowLevel Objet bas niveau s'occupant des lectures à partir de la socket.
 	 * @return l'interface ISpeaker
 	 */
-	private static ISpeaker getFkComSpeaker(FkComLowLevel lowLevel){
+	private static ISpeaker getFkComSpeaker(FkComLowLevel lowLevel) {
 		return new Speaker(lowLevel);
 	}
 
 
 	/**
-	 * TODO: A documenter
-	 * @param ip adresse Ip de la machine hébérgeant FrameKit
-	 * @param port d'écoute de FrameKit
-	 * @param fifo
-	 * @return paire d'objet contenant le Speaker et le Listener
-	 * @throws IOException
+	 * Création de l'objet de communication <b>bas niveau</b>
+	 * @param ip Adresse Ip de la machine hébérgeant FrameKit
+	 * @param port Port d'écoute de FrameKit
+	 * @param fifo La queue des messages qui doivent être traités par le parser
+	 * @return paire d'objets contenant le Speaker et le Listener
+	 * @throws IOException En cas de problème
 	 */
 	public static Pair<ISpeaker, IListener> initCom(String ip, int port, LinkedBlockingQueue<InputStream> fifo) throws IOException {
 

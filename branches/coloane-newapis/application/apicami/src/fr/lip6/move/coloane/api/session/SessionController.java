@@ -51,7 +51,7 @@ public final class SessionController implements ISessionController {
 	public ApiSession getActiveSession() {
 		return this.activeSession;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -61,24 +61,24 @@ public final class SessionController implements ISessionController {
 			this.activeSession = s;
 			addSession(this.activeSession);
 			return true;
-		
+
 		// Sinon d'autres sessions existent
 		} else {
-			
+
 			// Si la session active dort... alors on la suspend et on prend sa place
-			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE){
+			if (this.activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 				this.activeSession.suspendSession();
 				this.activeSession = s;
 				addSession(this.activeSession);
 				return true;
-			
+
 			// Sinon l'ouverture n'est pas autorisée
 			} else {
 				throw new ApiException("Another session is processed by the platform... Please wait...");
 			}
 		}
 	}
-	
+
 	/**
 	 * Ajoute une session dans ma liste de sessions.
 	 * @param s La session à rajouter.

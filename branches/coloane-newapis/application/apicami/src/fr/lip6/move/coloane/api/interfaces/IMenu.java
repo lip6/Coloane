@@ -2,8 +2,6 @@ package fr.lip6.move.coloane.api.interfaces;
 
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.camiObject.Menu;
-
 
 /**
  * cette interface décrit un menu ( suite de AQ).

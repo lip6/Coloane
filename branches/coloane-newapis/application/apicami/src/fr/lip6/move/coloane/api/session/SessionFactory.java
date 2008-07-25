@@ -17,8 +17,9 @@ public final class SessionFactory {
 	private SessionFactory() { }
 
 	/**
-	 * @param speaker
-	 * @return interface IApiSession
+	 * Création d'un nouvel objet session
+	 * @param speaker L'objet qui parle à la plate-forme
+	 * @return l'objet session fraîchement créé
 	 */
 	public static IApiSession getNewApiSession(ISpeaker speaker) {
 		return (IApiSession) new ApiSession(speaker);

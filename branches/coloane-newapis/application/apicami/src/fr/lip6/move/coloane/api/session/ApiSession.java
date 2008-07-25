@@ -41,6 +41,9 @@ public class ApiSession implements IApiSession {
 	/** Le modèle attaché à la session */
 	private IGraph model;
 
+	/** Les informations sur la session */
+	private ISessionInfo sessionInfo;
+
 	/**
 	 * Constructeur d'une session
 	 * @param speaker Le speaker attaché à cette session
@@ -85,13 +88,13 @@ public class ApiSession implements IApiSession {
 			}
 		}
 		// TODO : A changer...
-		return null;
+		return this.sessionInfo;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
 		return openSession(sessionDate, sessionFormalism, sessionName);
 	}
 
@@ -131,8 +134,8 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean resumeSession() throws ApiException {
-		if (this.sessionControl.resumeSession(this)){
-			synchronized(this){
+		if (this.sessionControl.resumeSession(this)) {
+			synchronized (this) {
 				try {
 					speaker.resumeSession(this.getSessionName());
 				} catch (IOException ioe) {
@@ -141,7 +144,7 @@ public class ApiSession implements IApiSession {
 				if (!this.automate.setWaitingForResumeSessionState()){
 					throw new ApiException("The session cannot be resumed");
 				}
-				
+
 				// Attente de la reprise effective
 				try {
 					this.wait();
@@ -153,13 +156,13 @@ public class ApiSession implements IApiSession {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final boolean suspendSession() throws ApiException {
-		if ( this.sessionControl.suspendSession(this)){
-			synchronized(this){
+		if (this.sessionControl.suspendSession(this)){
+			synchronized (this) {
 				try {
 					speaker.suspendSession();
 				} catch (IOException ioe) {
@@ -168,7 +171,7 @@ public class ApiSession implements IApiSession {
 				if (!this.automate.setWaitingForSuspendSessionState()){
 					throw new IllegalStateException("The session cannot be suspended");
 				}
-				
+
 				// Attente de la suspension effective
 				try {
 					this.wait();
@@ -369,9 +372,13 @@ public class ApiSession implements IApiSession {
 		return true;
 	}
 
-	public void notifyReceptSessionInfo(ISessionInfo o) {
+	/**
+	 * Réception des informations sur une nouvelle session
+	 * @param o Les informations
+	 */
+	public final void notifyReceptSessionInfo(ISessionInfo o) {
 		this.sessionInfo = o;
-		synchronized(this){
+		synchronized (this) {
 			this.notify();
 		}
 	}

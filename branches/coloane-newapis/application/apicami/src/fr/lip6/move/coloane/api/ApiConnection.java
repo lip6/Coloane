@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
+import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.session.SessionFactory;
@@ -64,7 +65,7 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable = new HashMap< String, Object>();
 		this.uiName = uiName;
 		this.uiVersion = uiVersion;
-		
+
 		//this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		//this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
@@ -130,7 +131,7 @@ public class ApiConnection implements IApiConnection {
 			}
 		}
 
-		return null;
+		return new ConnectionInfo("TOTO", 3, 2);
 	}
 
 	/**

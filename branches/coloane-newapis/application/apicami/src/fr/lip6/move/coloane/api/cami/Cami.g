@@ -16,6 +16,7 @@ grammar Cami;
 	import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 	import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 	import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 
@@ -35,6 +36,7 @@ grammar Cami;
 	Map<String, Object> hashObservable; /* Table de hash des observables */
 
 	ISessionController sessionControl;
+	ISessionInfo sessionInfo;
 	 
 	IDialog dialog;
 	List<String> camiDialog; /* represente une boite de dialogue */
@@ -95,7 +97,6 @@ grammar Cami;
 		} 
 		',' 
 		v2=NUMBER {listOfArgs.add($v2.text);
-			IConnectionInfo version = CamiObjectBuilder.buildFkVersion(listOfArgs);
 			synchronized(hashObservable) {
 				hashObservable.notify();
 			}
@@ -184,9 +185,9 @@ interlocutor_table
 
 }
 |'FL()'{
-	fkInfo = CamiObjectBuilder.buildFkInfo(listOfArgs);
-	sessionControl.notifyReceptSessionInfo(fkInfo);
-	System.out.println("je parse le FL");          
+	sessionInfo = CamiObjectBuilder.buildSessionInfo(listOfArgs);
+	sessionControl.notifyReceptSessionInfo(sessionInfo);
+	System.out.println("je parse le FL");
 	//            System.out.println("fkinfo");
 	for(int i=0; i<this.listOfArgs.size(); i++){
 		//              System.out.println(this.listOfArgs.get(i));
