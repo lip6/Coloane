@@ -1,0 +1,52 @@
+package fr.lip6.move.coloane.api.camiObject.menu;
+
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
+
+import java.util.List;
+
+/**
+ * Définition d'un item
+ */
+public class Item implements IItemMenu {
+	/** Le nom de l'item */
+	private String name;
+
+	/** Liste des messages d'aide associés à l'item */
+	private List<String> help;
+
+	/** Visibilité de l'item */
+	private boolean visibility;
+
+	/**
+	 * Constructeur
+	 * @param name Le nom de l'item
+	 * @param visibility La visibilité de l'item
+	 * @param help La liste des messages d'aide associés à l'item
+	 */
+	public Item(String name, boolean visibility, List<String> help) {
+		this.name = name;
+		this.help = help;
+		this.visibility = visibility;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final List<String> getHelps() {
+		return this.help;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getName() {
+		return this.name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean isVisible() {
+		return this.visibility;
+	}
+}
