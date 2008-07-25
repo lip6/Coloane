@@ -69,6 +69,14 @@ public class Session implements ISession {
 		LOG.finer("Reprise de la session " + name); //$NON-NLS-1$
 		if (status == ISession.SUSPENDED) {
 			status = ISession.CONNECTED;
+			try {
+				System.err.println("*********");
+				apiSession.resumeSession();
+			} catch (ApiException e) {
+				e.printStackTrace();
+				LOG.finer("Impossible de reprendre la session " + name); //$NON-NLS-1$
+				// TODO : désactiver les services du menu
+			}
 		}
 	}
 
