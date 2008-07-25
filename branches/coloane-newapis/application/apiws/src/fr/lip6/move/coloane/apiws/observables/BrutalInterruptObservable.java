@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 import java.util.ArrayList;

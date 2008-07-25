@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 

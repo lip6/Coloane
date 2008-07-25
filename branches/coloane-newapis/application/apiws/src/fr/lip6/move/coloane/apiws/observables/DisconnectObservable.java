@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 
 import java.util.ArrayList;

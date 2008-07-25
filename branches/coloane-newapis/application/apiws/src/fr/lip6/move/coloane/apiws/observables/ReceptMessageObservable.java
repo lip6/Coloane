@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.observables;
 
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
 import java.util.ArrayList;

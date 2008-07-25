@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.apiws.observables;
 
-import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptServiceStateObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IDisconnectObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMenuObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 
 /**
  * Cette classe permet de créer les différents observables possibles.

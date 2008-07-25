@@ -1,6 +1,13 @@
 package fr.lip6.move.coloane.apiws;
 
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMenuObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -12,13 +19,6 @@ import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
-import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMenuObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptMessageObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
