@@ -1,8 +1,11 @@
 package fr.lip6.move.coloane.core.motor.session;
 
-import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import java.util.List;
+
+import org.eclipse.jface.action.MenuManager;
 
 /**
  * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
@@ -67,25 +70,25 @@ public interface ISession {
 	 * Retourne le menu d'administration
 	 * @return la racine du menu d'administration
 	 */
-	RootMenu getAdminMenu();
+	MenuManager getAdminMenu();
 
 	/**
 	 * Indique le menu d'administration attache a la session
 	 * @param admin La racine du menu d'administration
 	 */
-	void setAdminMenu(RootMenu admin);
+	void setAdminMenu(MenuManager admin);
 
 	/**
 	 * Retourne le menu de service de la session
 	 * @return la racine du menu de services
 	 */
-	RootMenu getServicesMenu();
+	List<MenuManager> getServicesMenu();
 
 	/**
 	 * Indique le menu de services attache a la session
-	 * @param root la racine du menu de services
+	 * @param menus la racine du menu de services
 	 */
-	void setServicesMenu(RootMenu root);
+	void setServicesMenu(List<MenuManager> menus);
 
 	/**
 	 * Retourne la liste de resultats associee a la session

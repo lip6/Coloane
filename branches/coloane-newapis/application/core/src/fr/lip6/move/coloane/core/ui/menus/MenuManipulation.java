@@ -1,77 +1,71 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-public class MenuManipulation {
-
-	protected MenuManipulation() { }
-
-	/*
-	 * The first step is to find, on the menubar, the ancestor of
-	 * the menu we want to change the enabled property.
-	 */
-	public static void setEnabled(String fatherName, String menuName, boolean enabled) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-
-		/*
-		 * When we found it, we just verify recursively every child until we find the Choosen One.
-		 */
-		for (MenuItem item : shell.getMenuBar().getItems()) {
+/**
+ * Bibliothèque de méthode statique permettant de manipuler le menu de Coloane.<br>
+ * <br>
+ * <ul>On peut :
+ *   <li>Construire un MenuManager à partir d'un ISubMenu
+ *   <li>Ajouter un MenuManager dans le menu de Coloane
+ *   <li>Nettoyer le menu de Coloane
+ *   <li>modifier l'état d'un élément du menu
+ * </ul>
+ */
+public final class MenuManipulation {
+	private static Menu COLOANE;
+	static {
+		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
+		for (MenuItem item : menu.getItems()) {
 			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
-				setEnabled(item, menuName, enabled);
+				COLOANE = item.getMenu();
 			}
 		}
 	}
 
-	/*
-	 * If we are on the menu we are looking for, we set
-	 * the enable property for it and for all its children
+	/**
+	 * Classe non instanciable
 	 */
-	private static void setEnabled(MenuItem item, String menuName, boolean enabled) {
+	private MenuManipulation() { }
 
-		if (menuName.equals(item.getText())) {
-			setEnabled(item, enabled);
-			return;
-		} else if (item.getMenu() != null) { // If this item is not a leaf
-			for (MenuItem childItem : item.getMenu().getItems()) {
-				setEnabled(childItem, menuName, enabled);
-			}
-		}
+	/**
+	 * @param rootApiMenu menu reçu par l'api
+	 * @return MenuManager correpondant au menu passé en parametre
+	 */
+	public static MenuManager build(ISubMenu rootApiMenu) {
+		MenuManager root = new MenuManager(rootApiMenu.getName());
+		return root;
 	}
 
-	/*
-	 * This method sets the enabled property for a menu and
-	 * for all its children.
+	/**
+	 * Ajoute le menu passé en parametre au menu de Coloane.
+	 * @param menu menu
 	 */
-	private static void setEnabled(MenuItem item, boolean enabled) {
-		item.setEnabled(enabled);
-
-		if (item.getMenu() == null) {
-			return;
+	public static void add(MenuManager menu) {
+		if (COLOANE == null) {
+			throw new IllegalStateException("Le menu de Coloane n'existe pas"); //$NON-NLS-1$
 		}
-
-		for (MenuItem childItem : item.getMenu().getItems()) {
-			setEnabled(childItem, enabled);
-		}
+		menu.fill(COLOANE, COLOANE.getItemCount());
 	}
 
 	/**
 	 * Supprime tous les menus sauf PLATFORM
 	 */
 	public static void clean() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-
-		for (MenuItem root : shell.getMenuBar().getItems()) {
-			if (root.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
-				for (MenuItem item : root.getMenu().getItems()) {
-					if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
-						item.dispose();
-					}
-				}
+		if (COLOANE == null) {
+			throw new IllegalStateException("Le menu de Coloane n'existe pas"); //$NON-NLS-1$
+		}
+		for (MenuItem item : COLOANE.getItems()) {
+			if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
+				item.dispose();
 			}
 		}
 	}

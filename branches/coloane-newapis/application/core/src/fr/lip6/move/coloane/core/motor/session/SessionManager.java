@@ -137,6 +137,7 @@ public final class SessionManager extends Observable implements ISessionManager 
 		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		ISession toDestroy = sessions.remove(sessionName);
 		if (toDestroy != null) {
+			toDestroy.destroy();
 			// La session courante devient nulle
 			if (toDestroy.equals(currentSession)) {
 				setCurrentSession(null);

@@ -196,7 +196,7 @@ public final class Motor {
 		// Recupere le resultat de l'ouverture de session de la com
 		boolean res = (Boolean) runnable.getResults();
 
-		// Si l'ouverture de connexion echoue, on supprime la session existante
+		// Si l'ouverture de connexion réussi, on met à jour le menu Platform
 		if (res) {
 			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
 		}

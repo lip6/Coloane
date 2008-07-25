@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.menus.ChildMenu;
-import fr.lip6.move.coloane.core.menus.RootMenu;
-import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.MenuItem;
@@ -15,20 +13,14 @@ import org.eclipse.ui.IWorkbenchWindow;
  * @author Alexandre ORTIZ
  */
 public class GraphicalMenu {
-	private RootMenu root;
-	private Shell shell;
-	private UserInterface ui;
+	private ISubMenu root;
 
 	/**
-	 * Constructeur
-	 * @param root
-	 * @param window The window repersenting the workbench.<br/>
-	 * Can be obtained with PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+	 * Construit un
+	 * @param root racine du menu
 	 */
-	public GraphicalMenu(RootMenu r, IWorkbenchWindow window, UserInterface userInterface) {
-		this.shell  = window.getShell();
-		this.root = r;
-		this.ui = userInterface;
+	public GraphicalMenu(ISubMenu root) {
+		this.root = root;
 	}
 
 	/**
@@ -50,7 +42,7 @@ public class GraphicalMenu {
 		 */
 		for (ChildMenu child : root.getChildren()) {
 			if (child.isLeaf()) {
-				UIAction uiAction = new UIAction(ui, root.getName(), child.getReference().getName(), child.getName());
+				ServiceAction uiAction = new ServiceAction(ui, root.getName(), child.getReference().getName(), child.getName());
 				uiAction.setEnabled(child.isEnabled());
 				rootMenuManager.add(uiAction);
 			} else {
@@ -78,7 +70,7 @@ public class GraphicalMenu {
 			 * If we are on a leaf, we don't add a MenuManager but a Action.
 			 */
 			if (littleChild.isLeaf()) {
-				UIAction exitAction = new UIAction(ui, root.getName(), littleChild.getReference().getName(), littleChild.getName());
+				ServiceAction exitAction = new ServiceAction(ui, root.getName(), littleChild.getReference().getName(), littleChild.getName());
 				exitAction.setEnabled(littleChild.isEnabled());
 				childMenuManager.add(exitAction);
 			} else {

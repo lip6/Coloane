@@ -1,13 +1,17 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.menus.RootMenu;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.util.List;
 import java.util.logging.Logger;
+
+import org.eclipse.jface.action.MenuManager;
 
 /**
  * Definition d'une session
@@ -26,10 +30,10 @@ public class Session implements ISession {
 	private ResultTreeList results;
 
 	/** Arborescence du menu administration */
-	private RootMenu adminMenu;
+	private MenuManager adminMenu;
 
 	/** Arborescence du menu et des services de la session */
-	private RootMenu menu;
+	private List<MenuManager> menus;
 
 	/** Status de la session */
 	private int status;
@@ -53,7 +57,7 @@ public class Session implements ISession {
 		this.status = ISession.CLOSED;
 		this.results = null;
 		this.adminMenu = null;
-		this.menu = null;
+		this.menus = null;
 	}
 
 	/** {@inheritDoc} */
@@ -70,7 +74,6 @@ public class Session implements ISession {
 		if (status == ISession.SUSPENDED) {
 			status = ISession.CONNECTED;
 			try {
-				System.err.println("*********");
 				apiSession.resumeSession();
 			} catch (ApiException e) {
 				e.printStackTrace();
@@ -82,9 +85,20 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final void destroy() {
-		this.menu = null;
-		this.adminMenu = null;
-		this.status = ISession.CLOSED;
+		menus = null;
+		adminMenu = null;
+		status = ISession.CLOSED;
+		if (apiSession != null) {
+			try {
+				apiSession.closeSession();
+			} catch (ApiException e) {
+				new Thread(new Runnable() {
+					public void run() {
+						
+					}
+				}).start();
+			}
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -103,23 +117,23 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final RootMenu getAdminMenu() {
+	public final MenuManager getAdminMenu() {
 		return adminMenu;
 	}
 
 	/** {@inheritDoc} */
-	public final void setAdminMenu(RootMenu admin) {
+	public final void setAdminMenu(MenuManager admin) {
 		this.adminMenu = admin;
 	}
 
 	/** {@inheritDoc} */
-	public final RootMenu getServicesMenu() {
-		return menu;
+	public final List<MenuManager> getServicesMenu() {
+		return menus;
 	}
 
 	/** {@inheritDoc} */
-	public final void setServicesMenu(RootMenu root) {
-		this.menu = root;
+	public final void setServicesMenu(List<MenuManager> menus) {
+		this.menus = menus;
 	}
 
 	/** {@inheritDoc} */
@@ -157,6 +171,7 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final boolean disconnect() {
 		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
+		UserInterface.getInstance().cleanMenu();
 		try {
 			if (apiSession != null) {
 				apiSession.closeSession();
