@@ -98,27 +98,13 @@ public interface IApiSession {
 	/**
 	 * Demande un service sur la session courrante
 	 * @param rootName nom du menu principal du service
-	 * @param menuName nom du sous-menu du menu principal du service
 	 * @param serviceName nom du service
 	 * @param options la liste des options cochés
 	 * @param model le model sur lequel invoquer le service
 	 * @return true, si la demande de service a reussie.
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException;
-
-	/**
-	 * Demande un service sur la session courrante
-	 * @param rootName nom du menu principal du service
-	 * @param menuName nom du sous-menu du menu principal du service
-	 * @param serviceName nom du service
-	 * @param options la liste des options cochés
-	 * @param model le model sur lequel invoquer le service
-	 * @param date la date du model
-	 * @return true, si la demande de service a reussie.
-	 * @throws ApiException si l'excution du service sur la session échoue.
-	 */
-	boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model, String date) throws ApiException;
+	boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
