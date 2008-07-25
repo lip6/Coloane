@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.evenements;
 
+import fr.lip6.move.coloane.apiws.objects.menu.SubMenuImpl;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
@@ -26,6 +27,11 @@ public class ReceptMenu implements IReceptMenu {
 	public ReceptMenu(MMenu menus) {
 		// TODO Completer le condtructeur de ReceptMenu
 		this.menus = new ArrayList<ISubMenu>();
+		if (menus != null) {
+			for (int i = 0; i < menus.getRoots().length; i++) {
+				this.menus.add(new SubMenuImpl(menus.getRoots()[i].getRoot()));
+			}
+		}
 		this.updateMenus = new ArrayList<IUpdateMenu>();
 	}
 
