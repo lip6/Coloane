@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
-import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public final class FkInitCom {
 	 * @param queue file d'objets (InputStream) où le listener déposera pour le parser des flux sur les commandes arrivant de FrameKit.
 	 * @return une interface IListener.
 	 */
-	private static IListener getFkComListener(FkComLowLevel lowLevel, LinkedBlockingQueue<InputStream> queue) {
+	private static Listener getFkComListener(FkComLowLevel lowLevel, LinkedBlockingQueue<InputStream> queue) {
 		return new Listener(lowLevel, queue);
 	}
 
@@ -55,18 +54,18 @@ public final class FkInitCom {
 	 * @return paire d'objets contenant le Speaker et le Listener
 	 * @throws IOException En cas de problème
 	 */
-	public static Pair<ISpeaker, IListener> initCom(String ip, int port, LinkedBlockingQueue<InputStream> fifo) throws IOException {
+	public static Pair<ISpeaker, Listener> initCom(String ip, int port, LinkedBlockingQueue<InputStream> fifo) throws IOException {
 
 		/** Créer une nouvelle connexion */
 		FkComLowLevel lowLevel = new FkComLowLevel(ip, port);
-		Pair<ISpeaker, IListener> pair = new Pair<ISpeaker, IListener>();
+		Pair<ISpeaker, Listener> pair = new Pair<ISpeaker, Listener>();
 
 		/** Créer un listener */
-		pair.listener = getFkComListener(lowLevel, fifo);
-		pair.listener.start();
+		pair.setListener(getFkComListener(lowLevel, fifo));
+		pair.getListener().start();
 
 		/** Créer un speaker */
-		pair.speaker  = getFkComSpeaker(lowLevel);
+		pair.setSpeaker(getFkComSpeaker(lowLevel));
 
 		return pair;
 	}

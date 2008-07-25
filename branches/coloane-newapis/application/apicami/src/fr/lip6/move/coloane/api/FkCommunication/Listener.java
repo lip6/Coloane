@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
-import fr.lip6.move.coloane.api.interfaces.IListener;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +14,7 @@ import java.util.logging.Logger;
  *
  */
 
-public class Listener extends Thread implements IListener {
+public class Listener extends Thread {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
@@ -59,6 +57,7 @@ public class Listener extends Thread implements IListener {
 			LOGGER.warning("Tentative de lecture sur une socket fermee");
 			lowLevel.closeCommunication();
 			e.printStackTrace();
+			return;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

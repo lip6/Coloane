@@ -1,14 +1,13 @@
 package fr.lip6.move.coloane.api.FkCommunication;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import fr.lip6.move.coloane.api.cami.CamiGenerator;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
-import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -121,7 +120,7 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void askForService(String rootName, String menuName, String serviceName) throws IOException {
+	public final void askForService(String rootName, String menuName, String serviceName) throws IOException {
 		// Fabrique et envoie la commande DT
 		byte[] cmdToSend = CamiGenerator.generateCmdDT();
 		this.fkLowLevel.writeCommand(cmdToSend);
@@ -146,7 +145,7 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void askForService(String rootName, String menuName, String serviceName, String date) throws IOException {
+	public final void askForService(String rootName, String menuName, String serviceName, String date) throws IOException {
 		// Génération de la commande MS pour l'envoi de la date de mise à jour
 		byte[] cmdToSend = CamiGenerator.generateCmdMS(date);
 		this.fkLowLevel.writeCommand(cmdToSend);
@@ -159,9 +158,9 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void sendModel(IGraph model) {
+	public final void sendModel(IGraph model) throws IOException {
 		// Transformation du modèle en CAMI
-		ArrayList<byte[]> camiModel;
+		List<byte[]> camiModel;
 		camiModel = CamiGenerator.generateCamiModel(model);
 
 		// Envoyer un DB : Début de transmission du modele
@@ -170,7 +169,7 @@ public class Speaker implements ISpeaker {
 		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		// Envoyer le coeur du modèle
-		for(int i=0; i<camiModel.size(); i++){
+		for (int i = 0; i < camiModel.size(); i++) {
 			this.fkLowLevel.writeCommand(camiModel.get(i));
 			LOGGER.finer("[CO-->FK] : " + new String(camiModel.get(i), 4, camiModel.get(i).length - 4));
 		}
@@ -184,7 +183,7 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void invalidModel() throws IOException {
+	public final void invalidModel() throws IOException {
 		// Fabrique en envoie la commande QQ
 		byte[] cmdToSend = CamiGenerator.generateCmdQQ();
 		this.fkLowLevel.writeCommand(cmdToSend);
@@ -194,20 +193,20 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException {
+	public final void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException {
 		// Fabrique en envoie la commande DP
 		byte[] cmdToSend = CamiGenerator.generateCmdDP();
 		this.fkLowLevel.writeCommand(cmdToSend);
 		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		// Le coeur dela réponse à une boite de dialogue
-		ArrayList<byte[]> camiDialog;
+		List<byte[]> camiDialog;
 		camiDialog = CamiGenerator.generateCmdDialogAnswer(dialogAnswer);
-		for(int i=0; i<camiDialog.size(); i++){
+		for (int i = 0; i < camiDialog.size(); i++) {
 			this.fkLowLevel.writeCommand(camiDialog.get(i));
 			LOGGER.finer("[CO-->FK] : " + new String(camiDialog.get(i), 4, camiDialog.get(i).length - 4));
 		}
-		
+
 		// Fin de la réponse à la boite de dialogue
 		byte[] cmdToSend2 = CamiGenerator.generateCmdFP();
 		this.fkLowLevel.writeCommand(cmdToSend2);
