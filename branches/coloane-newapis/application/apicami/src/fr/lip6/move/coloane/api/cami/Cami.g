@@ -12,11 +12,11 @@ grammar Cami;
 	import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 	import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
-	import fr.lip6.move.coloane.api.interfaces.IMenu;
 	import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 	import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 	import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 
@@ -42,8 +42,8 @@ grammar Cami;
 	List<String> camiDialog; /* represente une boite de dialogue */
 	Map<Integer,IDialog> dialogs ;
 
-	IMenu menu;
-	List<IMenu> menuList;
+	ISubMenu menu;
+	List<ISubMenu> menuList;
 	List<IUpdateItem> updates;
 
 	/* Constructeur du parser */
@@ -120,7 +120,7 @@ grammar Cami;
 			System.out.println("je parse le OS");
 
 			/* on initialise ici la table des menus : on ne voit pas d'autre endroit ....*/
-			menuList = new ArrayList<IMenu>();
+			menuList = new ArrayList<ISubMenu>();
 			/*  */
 			camiUpdates = new ArrayList<List<String>>();
 		}
@@ -259,60 +259,54 @@ set_item=NUMBER? ','  dialog=NUMBER? ',' stop_authorized=NUMBER? ','
 output_formalism=CAMI_STRING? ',' active=NUMBER? ')'{
 	System.out.println("je parse le AQ");
 	// TODO Veifier qu'on est dans la reception de menus
+	
 	List<String> aq = new ArrayList<String>();
 	aq.add($parent_menu.text); /* parent  */
 	aq.add($entry_name.text);  /* entry_name  */
 
-	if($question_type != null)
-	aq.add($question_type.text); /* question_type  */
-	else
-	aq.add(null/*new String()*/);
+	if($question_type != null) {
+		aq.add($question_type.text); /* question_type  */
+	} else {
+		aq.add(null/*new String()*/);
+	}
 
-	if($question_behavior != null)
-	aq.add($question_behavior.text); /* question_behavior  */
-	else
-	aq.add(null/*new String("")*/);
+	if($question_behavior != null) {
+		aq.add($question_behavior.text); /* question_behavior  */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
-	if($set_item != null)
-	aq.add($set_item.text); /* validation par defaut  */
-	else
-	aq.add(null/*new String("")*/);
+	if($set_item != null) {
+		aq.add($set_item.text); /* validation par defaut  */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
-	if($dialog != null)
-	aq.add($dialog.text); /* dialog autorise ?  */
-	else
-	aq.add(null/*new String("")*/);
+	if($dialog != null) {
+		aq.add($dialog.text); /* dialog autorise ?  */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
+	if($stop_authorized != null) {
+		aq.add($stop_authorized.text); /* on autorise l'arret du service ? */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
-	if($stop_authorized != null)
-	aq.add($stop_authorized.text); /* on autorise l'arret du service ? */
-	else
-	aq.add(null/*new String("")*/);
+	if($output_formalism != null) {
+		aq.add($output_formalism.text); /* formalisme */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
-
-	if($output_formalism != null)
-	aq.add($output_formalism.text); /* formalisme */
-	else
-	aq.add(null/*new String("")*/);
-
-
-	if($active != null)
-	aq.add($active.text); /* grise ou non ? */
-	else
-	aq.add(null/*new String("")*/);
-
+	if($active != null) {
+		aq.add($active.text); /* grise ou non ? */
+	} else {
+		aq.add(null/*new String("")*/);
+	}
 
 	camiMenuList.add(aq); /* ajouter a la liste de AQ */
-
-
-	/* TODO : a enlever */
-
-	//                        System.out.print("AQ(" + aq.get(0));
-	for(int i=1; i<9; i++){
-		//                            System.out.print(", " + aq.get(i));
-	}
-	//                        System.out.println(")");
-
 }
 ;
 
