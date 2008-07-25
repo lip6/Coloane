@@ -109,7 +109,7 @@ grammar Cami;
 	close_connection
 	:
 	'FC()'{
-		((DisconnectObservable)hashObservable.get("IDisconnect")).notifyObservers();
+		((DisconnectObservable) hashObservable.get("IDisconnect")).notifyObservers();
 	}
 	;
 	/* ---------------------------- Ouverture de la session ------------------------------ */
@@ -184,6 +184,7 @@ grammar Cami;
 	:
 	'DQ()'{
 		LOGGER.finest("Creation des tables de menus");
+		menuList = new ArrayList<ISubMenu>();
 		camiMenuList = new ArrayList<List<String>>();
 	}
 	menu_name
@@ -310,14 +311,14 @@ grammar Cami;
 	:       
 	'QQ(' NUMBER ')'{
 		LOGGER.finest("Fin de la transmission d'un menu");
-		if($NUMBER.text.equals("3")){
+		if($NUMBER.text.equals("3")) {
 			sessionControl.notifyEndOpenSession();
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-			((ReceptMenuObservable)hashObservable.get("ISession")).notifyObservers(menuList, updates);
+			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(menuList, updates);
 			camiUpdates = new ArrayList<List<String>>();
 		} else {
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-			((ReceptMenuObservable)hashObservable.get("ISession")).notifyObservers(null, updates);
+			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates);
 		}
 	}
 	;
@@ -334,7 +335,7 @@ grammar Cami;
 	'TR(' CAMI_STRING ')'{
 		LOGGER.finest("Reception d'un message de trace");
 		IReceptMessage msg = (IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
-		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
 
@@ -343,7 +344,7 @@ grammar Cami;
 	'WN(' CAMI_STRING ')'{  
 		LOGGER.finest("Reception d'un message de warning");
 		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
-		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
 
@@ -353,7 +354,7 @@ grammar Cami;
 		// TODO : Expliquer ce qu'est le MO ? est-ce vraiment un warning ?
 		LOGGER.finest("Reception d'un message special (MO)");
 		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
-		((ReceptMessageObservable)hashObservable.get("IReceptMessage")).notifyObservers(msg);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
 
@@ -361,8 +362,8 @@ grammar Cami;
 	brutal_interrupt
 	:
 	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'{
-		LOGGER.finest("Reception d'un message KO")
-		((BrutalInterruptObservable)hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
+		LOGGER.finest("Reception d'un message KO");
+		((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
 	}
 	;
 
