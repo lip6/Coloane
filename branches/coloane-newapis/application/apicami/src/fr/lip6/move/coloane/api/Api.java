@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
+import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
 import java.util.logging.Handler;
@@ -29,16 +30,7 @@ public class Api implements IApi {
 	private static void initializeLogger() {
 		Logger log = Logger.getLogger("fr.lip6.move.coloane.apicami"); //$NON-NLS-1$
 		log.setLevel(Level.ALL); // On loggue tout !
-		log.addHandler(new Handler() {
-			@Override
-			public void close() throws SecurityException { }
-			@Override
-			public void flush() { }
-			@Override
-			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceClassName() + "." + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-			}
-		});
+		log.addHandler(new ConsoleHandler());
 
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();

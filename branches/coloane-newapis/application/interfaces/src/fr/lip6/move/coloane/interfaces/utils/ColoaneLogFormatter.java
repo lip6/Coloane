@@ -29,8 +29,10 @@ public class ColoaneLogFormatter extends Formatter {
 
 		if (record.getLoggerName().equals("fr.lip6.move.coloane.core")) { //$NON-NLS-1$
 			name = "Core"; //$NON-NLS-1$
-		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.api")) { //$NON-NLS-1$
-			name = "Api"; //$NON-NLS-1$
+		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.apiws")) { //$NON-NLS-1$
+			name = "Apiws"; //$NON-NLS-1$
+		} else if (record.getLoggerName().equals("fr.lip6.move.coloane.apicami")) { //$NON-NLS-1$
+			name = "Apicami"; //$NON-NLS-1$
 		}
 
 		StringBuffer l = new StringBuffer();

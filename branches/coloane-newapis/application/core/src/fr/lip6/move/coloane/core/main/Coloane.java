@@ -6,8 +6,10 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
+import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -151,17 +153,11 @@ public class Coloane extends AbstractUIPlugin {
 	private void initializeLogger() {
 		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 		LOGGER.setLevel(Level.ALL); // On loggue tout !
-		LOGGER.addHandler(new Handler() {
-			@Override
-			public void close() throws SecurityException { }
-			@Override
-			public void flush() { }
-			@Override
-			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceClassName() + "." + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-			}
-		});
 
+		// Les logs sont affichés dans la console
+		LOGGER.addHandler(new ConsoleHandler());
+
+		// Les logs sont enregistrés dans un fichier.
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();
@@ -169,10 +165,15 @@ public class Coloane extends AbstractUIPlugin {
 			handler.setFormatter(format);
 			LOGGER.addHandler(handler);
 		} catch (IOException ioe) {
-			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
+			System.err.println("FileHandler cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		} catch (SecurityException se) {
-			System.err.println("Logger cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
+			System.err.println("FileHandler cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		}
+
+		System.err.println(Arrays.asList(LOGGER.getHandlers()));
+		System.err.println(LOGGER.getParent().getName());
+		System.err.println(Arrays.asList(LOGGER.getParent().getHandlers()));
+		LOGGER.warning("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"); //$NON-NLS-1$
 	}
 
 	/**
