@@ -6,8 +6,10 @@ import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
+import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -70,10 +72,10 @@ public class ApiConnection implements IApiConnection {
 
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
-		//this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
+		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		//this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
-		//this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
-		//this.hashObservable.put("ISpecialMessage", ObservableFactory.getNewSpecialMessageObservable());
+		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
+		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 
 	}
@@ -160,7 +162,9 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
-		// TODO ???
+		BrutalInterruptObservable observable = (BrutalInterruptObservable) this.hashObservable.get("IBrutalInterrupt");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**
@@ -197,7 +201,9 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
-		// TODO ???
+		ReceptMessageObservable observable = (ReceptMessageObservable) this.hashObservable.get("IReceptMessage");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**
