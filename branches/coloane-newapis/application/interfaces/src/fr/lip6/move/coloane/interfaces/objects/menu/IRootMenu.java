@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
-import java.util.List;
-
 /**
  * Cette interface représent un menu principal
  */
@@ -23,6 +21,6 @@ public interface IRootMenu {
 	 * Récupére le sous-menu qui compose le menu principal
 	 * @return le sous-menu qui compose le menu principal
 	 */
-	List<IItemMenu> getSubMenu();
+	ISubMenu getSubMenu();
 
 }

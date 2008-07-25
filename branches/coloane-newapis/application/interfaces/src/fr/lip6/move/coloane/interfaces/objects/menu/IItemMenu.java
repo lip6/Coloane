@@ -3,32 +3,9 @@ package fr.lip6.move.coloane.interfaces.objects.menu;
 import java.util.List;
 
 /**
- * Cette interface définie un item.
- * Un item peut être:
- * 		- un item simple (i.e. service)
- * 		- une option
- * 		- un sous-menu
+ * Cette interface définie un item (i.e. un service).
  */
 public interface IItemMenu {
-
-	/** item simple (i.e. un service) */
-	int ITEM_SIMPLE = 1;
-	/** option */
-	int OPTION = 2;
-	/** sous-menu */
-	int SUB_MENU = 3;
-
-	/**
-     * Recupere le type de l'item
-     * @return le type de l'item
-     */
-	int getType();
-
-    /**
-     * Modifie le type de l'item
-     * @param type le nouveau type de l'item
-     */
-	void setType(int type);
 
 	/**
 	 * Récupére le nom de l'item

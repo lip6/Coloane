@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.interfaces.objects.menu;
 /**
  * Cette intreface définie une option.
  */
-public interface IOptionMenu {
+public interface IOptionMenu extends IItemMenu {
 
 	/**
      * Récupére la validité d'une option
