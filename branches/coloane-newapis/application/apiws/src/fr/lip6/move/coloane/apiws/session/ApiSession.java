@@ -237,7 +237,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model) throws ApiException {
+	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) throws ApiException {
 
 		if (sessionController.askForService(this)) {
 			if (!automate.goToWaitingForResultState()) {
@@ -360,14 +360,6 @@ public class ApiSession implements IApiSession {
 
 
 		return theModel;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model, String date) throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/**
