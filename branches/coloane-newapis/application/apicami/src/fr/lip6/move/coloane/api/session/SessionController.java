@@ -1,14 +1,14 @@
 package fr.lip6.move.coloane.api.session;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe est chargée de la gestion des sessions
@@ -86,7 +86,7 @@ public final class SessionController implements ISessionController {
 	private void addSession(ApiSession s) {
 		this.list.add(s);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -96,7 +96,7 @@ public final class SessionController implements ISessionController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -109,7 +109,7 @@ public final class SessionController implements ISessionController {
 			throw new ApiException("Since this session is not active, it cannot be resumed");
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -119,35 +119,17 @@ public final class SessionController implements ISessionController {
 		}
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean askForService(ApiSession apiSession) {
-		if (this.activeSession.equals(apiSession)){
+		if (this.activeSession.equals(apiSession)) {
+			// TODO : A faire !
 			return true;
 		}
 		return false;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -175,19 +157,15 @@ public final class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public void notifyEndResumeSession(String nameSession) {
-		//	for(IApiSession session : liste ) {
-		//		System.out.println("dans la liste ya" +session.getSessionName());
-		//	}
-		//	System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
+		// Je recherche la session qui vient de reprendre et je la notifie
 		for (ApiSession session : this.list) {
-
-			if (session.getSessionName().equals(nameSession)){
-				session.notifyEndResumeSession(nameSession);
+			if (session.getSessionName().equals(nameSession)) {
+				session.notifyEndResumeSession();
+				// Mise a jour de la nouvelle session active
 				this.activeSession = session;
 				break;
 			}
 		}
-		// System.out.println(this.activeSession.getSessionName() + this.activeSession.getSessionStateMachine().getState() );
 	}
 
 	/**

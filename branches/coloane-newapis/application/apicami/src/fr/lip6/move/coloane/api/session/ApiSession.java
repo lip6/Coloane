@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.session;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
@@ -20,6 +21,8 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
  * @author Youcef Belattaf
  */
 public class ApiSession implements IApiSession {
+	/** Le Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** La date de la session */
 	private int sessionDate;
@@ -57,6 +60,41 @@ public class ApiSession implements IApiSession {
 		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
 		this.automate = new SessionStateMachine();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getSessionName() {
+		return this.sessionName;
+	}
+
+	/**
+	 * @return l'automate d'états pour la session courante
+	 */
+	public final ISessionStateMachine getSessionStateMachine() {
+		return this.automate;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getIdSession() {
+		return this.sessionName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getSessionDate() {
+		return this.sessionDate;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getSessionFormalism() {
+		return this.sessionFormalism;
 	}
 
 	/**
@@ -162,14 +200,14 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean suspendSession() throws ApiException {
-		if (this.sessionControl.suspendSession(this)){
+		if (this.sessionControl.suspendSession(this)) {
 			synchronized (this) {
 				try {
 					speaker.suspendSession();
 				} catch (IOException ioe) {
 					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
 				}
-				if (!this.automate.setWaitingForSuspendSessionState()){
+				if (!this.automate.setWaitingForSuspendSessionState()) {
 					throw new IllegalStateException("The session cannot be suspended");
 				}
 
@@ -184,6 +222,74 @@ public class ApiSession implements IApiSession {
 		}
 		return false;
 	}
+
+	/**
+	 * Actions à entreprendre lors de l'ouverture de la session
+	 */
+	public final void notifyEndOpenSession() {
+		LOGGER.fine("La session " + this.sessionName + "vient d'etre connectee...");
+		if (!this.automate.setIdleState()) {
+			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec l'ouverture de session");
+			// TODO: Faire quelque chose
+		}
+	}
+
+	/**
+	 * Actions à entreprendre lors de la fermeture de la session
+	 */
+	public final void notifyEndCloseSession() {
+		LOGGER.fine("La session " + this.sessionName + "vient d'etre deconnectee...");
+		synchronized (this) {
+			this.notify();
+		}
+		if (!this.automate.closeSessionState()) {
+			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la deconnexion de session");
+			// TODO: Faire quelque chose
+		}
+
+	}
+
+	/**
+	 * Actions à entreprendre lors de la suspension de la session
+	 */
+	public final void notifyEndSuspendSession() {
+		LOGGER.fine("La session " + this.sessionName + "vient d'etre suspendue...");
+		synchronized (this) {
+			this.notify();
+		}
+		if (!this.automate.setSuspendSessionState()) {
+			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la suspension de session");
+			// TODO: Faire quelque chose
+		}
+	}
+
+	/**
+	 * Actions à entreprendre lors de la reprise de la session
+	 */
+	public final void notifyEndResumeSession() {
+		LOGGER.fine("La session " + this.sessionName + "vient d'etre reprise...");
+		synchronized (this) {
+			this.notify();
+		}
+		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
+		if (!this.automate.setIdleState()) {
+			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la reprise de session");
+			// TODO: Faire quelque chose
+		}
+	}
+
+	/**
+	 * Réception des informations sur une nouvelle session
+	 * @param o Les informations
+	 */
+	public final void notifyReceptSessionInfo(ISessionInfo o) {
+		this.sessionInfo = o;
+		synchronized (this) {
+			this.notify();
+		}
+	}
+
+
 
 
 
@@ -235,74 +341,6 @@ public class ApiSession implements IApiSession {
 	}
 
 
-
-
-
-
-
-
-
-	public ISessionStateMachine getSessionStateMachine() {
-		return this.automate;
-	}
-
-
-	public void notifyEndOpenSession() {
-		System.out.println("jai recu un notifyEndOpenSession");
-		if (! this.automate.setIdleState()){
-			throw new IllegalStateException("je suis pas dans un etat qui me permette detre idle");
-		}
-
-		//   System.out.println("jai recu un notifyEndOpenSession  " + this.automate.getState());
-	}
-
-
-	public void notifyEndSuspendSession() {
-		System.out.println("jai recu un notifyEndSuspendSession");
-		synchronized(this){
-			this.notify();
-		}
-		if (!this.automate.setSuspendSessionState()){
-			throw new IllegalStateException("je suis pas en attente dune suspension de session");
-		}
-
-	}
-
-
-	public String getSessionName() {
-
-		return this.sessionName;
-	}
-
-
-	public void notifyEndResumeSession(String nameSession) {
-		System.out.println("jai recu un notifyEndResumeSession");
-		synchronized(this){
-			this.notify();
-		}
-		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
-		if (!this.automate.setIdleState()){
-			throw new IllegalStateException("etat pas coherent");
-		}
-
-
-	}
-
-
-	public void notifyEndCloseSession() {
-		System.out.println("jai recu un notifyEndCloseSession");
-		synchronized(this){
-			this.notify();
-		}
-		if(!this.automate.closeSessionState()){
-			throw new IllegalStateException("j'étais pas en attente dune fermeture de session");
-
-		}
-
-	}
-
-
-
 //	public void sendModel(IModel model) throws IOException {
 
 
@@ -312,18 +350,16 @@ public class ApiSession implements IApiSession {
 //	speaker.sendModel(model);
 //	}
 
-	public void invalidModel() throws IOException {
+	public final void invalidModel() {
 		if(!this.automate.setWaitingForUpdatesState()){
-			throw new IllegalStateException("je peux pas me mettre dans cette etat"); 
-		}
-		else{
+			throw new IllegalStateException("je peux pas me mettre dans cette etat");
+		} else {
 			speaker.invalidModel();
 		}
 
 	}
 
 	public void notifyWaitingForModel() throws IOException {
-
 		if(!this.automate.setWaitingForModelState())
 			throw new IllegalStateException("j'etais pas en attente de model");
 
@@ -337,30 +373,12 @@ public class ApiSession implements IApiSession {
 	}
 
 	public void notifyEndResult() {
-
 		if(!this.automate.setIdleState()){
 			throw new IllegalStateException("je peux pas me mettre dans cet etat");
 		}
 	}
 
-	public boolean sendDilaogAnswer(IDialogAnswer dialogAnswer) throws IOException {
-		speaker.sendDialogResponse(dialogAnswer);
-		return true;
-	}
-
-	/**
-	 * Réception des informations sur une nouvelle session
-	 * @param o Les informations
-	 */
-	public final void notifyReceptSessionInfo(ISessionInfo o) {
-		this.sessionInfo = o;
-		synchronized (this) {
-			this.notify();
-		}
-	}
-
-	public boolean askForService(String rootName, String menuName,
-			String serviceName, List<String> options, IGraph model)
+	public boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model)
 	throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
@@ -373,31 +391,6 @@ public class ApiSession implements IApiSession {
 		return false;
 	}
 
-	public String getIdSession() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getInterlocutor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getMode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int getSessionDate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public String getSessionFormalism() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer)
 	throws ApiException {
 		// TODO Auto-generated method stub
@@ -406,6 +399,5 @@ public class ApiSession implements IApiSession {
 
 	public void sendModel(IGraph model) throws ApiException {
 		// TODO Auto-generated method stub
-
 	}
 }
