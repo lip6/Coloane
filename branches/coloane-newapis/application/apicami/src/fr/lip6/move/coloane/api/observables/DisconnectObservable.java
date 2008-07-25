@@ -1,97 +1,90 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Observable d'une déconnexion de la plate-forme
+ *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
+ *
+ */
+public class DisconnectObservable {
+	/** Liste des observeurs */
+	private List<IDisconnectObserver> observers;
 
-
-
-
-
-public class DisconnectObservable implements IDisconnectObservable{
-
-	/** liste des observateurs */
-	private ArrayList<IDisconnectObserver> list;
-
-	/** créer un thread ? */
+	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
 
 	/**
 	 * Constructeur
 	 */
 	public DisconnectObservable() {
-		list = new ArrayList<IDisconnectObserver>();
+		observers = new ArrayList<IDisconnectObserver>();
 	}
 
 	/**
-	 * set de la variable createThread
-	 *
-	 * @param createThread
-	 *            notification avec ou sans création de thread
+	 * {@inheritDoc}
 	 */
-	public void setCreateThread(boolean createThread) {
+	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
 
 	/**
-	 * Ajoute un observer
-	 *
-	 * @param o
-	 *            L'observer à ajouter
+	 * Ajout d'un observer sur cet observable
+	 * @param o L'observer
 	 */
-	public void addObserver(IDisconnectObserver o) {
-		this.list.add( o);
+	public final void addObserver(IDisconnectObserver o) {
+		this.observers.add(o);
 	}
 
 	/**
 	 * Notifier tous les observers
-	 *
-	 * @param arg
-	 *            argument de la notification.
 	 */
-	public void notifyObservers() {
+	public final void notifyObservers() {
+		// Option sans création de thread
+		if (!this.createThread) {
+			for (IDisconnectObserver o : this.observers) {
+				o.update();
+			}
 
-		if (!this.createThread) { /* Option sans création de thread */
-			for (int i = 0; i < this.list.size(); i++)
-				this.list.get(i).update();
-		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(list);
-			new Thread(thread, "threadCloseConnection").start();
+		// Option avec création de thread
+		} else {
+			ThreadNotifier thread = new ThreadNotifier(this.observers);
+			new Thread(thread, "threadConnectionSpecialMessage").start();
 		}
-
 	}
 
 	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification,
-	 * si cette option est active.
+	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.<br>
+	 * Cette classe est interne.
 	 *
-	 * @author kahoo & uu
+	 * @author Kahina Bouarab
+	 * @author Youcef Belattaf
 	 *
 	 */
 	private class ThreadNotifier implements Runnable {
-		private ArrayList<IDisconnectObserver> listObservers;
-		
+		/** Liste des observeurs */
+		private List<IDisconnectObserver> observers;
 
-		public ThreadNotifier(ArrayList<IDisconnectObserver> list) {
-			this.listObservers = list;
-		
+		/**
+		 * Constructeur
+		 * @param observers La liste des observers
+		 */
+		public ThreadNotifier(List<IDisconnectObserver> observers) {
+			this.observers = observers;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public void run() {
-			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update();
+			for (IDisconnectObserver o : this.observers) {
+				o.update();
+			}
 		}
-
 	}
-
-	public void removeObserver(IDisconnectObserver o) {
-	
-		
-	}
-
-	
-
 }

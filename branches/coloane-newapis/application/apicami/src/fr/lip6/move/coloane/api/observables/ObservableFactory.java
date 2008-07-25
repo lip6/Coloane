@@ -14,26 +14,38 @@ public final class ObservableFactory {
 	/**
 	 * Création d'un observable pour l'ouverture de session.<br>
 	 * Responsable du passage des menus et des modifications sur ceux-ci
-	 * @return L'observeur
+	 * @return L'observable fraîchement créé
 	 */
 	public static ReceptMenuObservable getNewSessionObservable() {
 		return (ReceptMenuObservable) new ReceptMenuObservable();
 	}
 
+	/**
+	 * Création d'un observable pour la déconnexion brutale de la part de FrameKit.<br>
+	 * @return L'observable fraîchement créé
+	 */
 	public static BrutalInterruptObservable getNewBrutalInterruptObservable() {
 		return new BrutalInterruptObservable();
 	}
 
-	public static ReceptDialogObservable getNewreceptDialogObservable() {
-		return new ReceptDialogObservable();
-	}
-
+	/**
+	 * Création d'un observable pour la déconnexion de la plate-forme
+	 * @return L'observable fraîchement créé
+	 */
 	public static DisconnectObservable getNewCloseConnectionObservable() {
 		return new DisconnectObservable();
 	}
 
+	/**
+	 * Création d'un observable pour la réception d'un message en provenance de FrameKit
+	 * @return L'observable fraîchement créé
+	 */
 	public static ReceptMessageObservable getNewSpecialMessageObservable() {
 		return new ReceptMessageObservable();
+	}
+	
+	public static ReceptDialogObservable getNewreceptDialogObservable() {
+		return new ReceptDialogObservable();
 	}
 
 	public static ReceptResultObservable getNewReceptResultObservable() {

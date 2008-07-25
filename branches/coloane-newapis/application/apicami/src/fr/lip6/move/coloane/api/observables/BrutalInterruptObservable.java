@@ -1,82 +1,96 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.util.ArrayList;
-
-import fr.lip6.move.coloane.interfaces.api.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
-public class BrutalInterruptObservable implements IBrutalInterruptObservable{
+import java.util.ArrayList;
+import java.util.List;
 
-	/** liste des observeurs */
-	private ArrayList<IBrutalInterruptObserver> list;
+/**
+ * Observable d'une déconnexion <b>brutale</b> de la part de la plate-forme
+ *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
+ *
+ */
+public class BrutalInterruptObservable {
+	/** Liste des observeurs */
+	private List<IBrutalInterruptObserver> observers;
 
-	/** créer un thread ? */
+	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
 
 	/**
 	 * Constructeur
 	 */
 	public BrutalInterruptObservable() {
-		list = new ArrayList<IBrutalInterruptObserver>();
+		observers = new ArrayList<IBrutalInterruptObserver>();
 	}
-
-	public void addObserver (IBrutalInterruptObserver o) {
-		this.list.add(o);
-
-	}
-
-
-	public void notifyObservers(String message) {
-		if (!this.createThread) { /* Option sans création de thread */
-			for (int i = 0; i < this.list.size(); i++)
-				this.list.get(i).update(message);
-		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(message);
-			new Thread(thread, "threadAskForModel").start();
-		}
-
-	}
-
-
-	public void setCreateThread(boolean createThread) {
-		this.createThread = createThread;
-
-	}
-
-
-
 
 	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification,
-	 * si cette option est active. cette classe est interne.
+	 * {@inheritDoc}
+	 */
+	public final void setCreateThread(boolean createThread) {
+		this.createThread = createThread;
+	}
+
+	/**
+	 * Ajout d'un observer sur cet observable
+	 * @param o L'observer
+	 */
+	public final void addObserver(IBrutalInterruptObserver o) {
+		this.observers.add(o);
+	}
+
+	/**
+	 * Notifier tous les observers
+	 * @param arg argument de la notification.
+	 */
+	public final void notifyObservers(String arg) {
+		// Option sans création de thread
+		if (!this.createThread) {
+			for (IBrutalInterruptObserver o : this.observers) {
+				o.update(arg);
+			}
+
+		// Option avec création de thread
+		} else {
+			ThreadNotifier thread = new ThreadNotifier(this.observers, arg);
+			new Thread(thread, "threadConnectionSpecialMessage").start();
+		}
+	}
+
+	/**
+	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.<br>
+	 * Cette classe est interne.
 	 *
-	 * @author kahoo & uu
+	 * @author Kahina Bouarab
+	 * @author Youcef Belattaf
 	 *
 	 */
 	private class ThreadNotifier implements Runnable {
-		private ArrayList<IBrutalInterruptObserver> listObservers;
+		/** Liste des observeurs */
+		private List<IBrutalInterruptObserver> observers;
+
+		/** L'objet qui doit être envoyés aux observers */
 		private String message;
 
-		public ThreadNotifier(String message) {
-			this.listObservers = new ArrayList<IBrutalInterruptObserver> ();
+		/**
+		 * Constructeur
+		 * @param observers La liste des observers
+		 * @param message L'objet à transmettre aux observers
+		 */
+		public ThreadNotifier(List<IBrutalInterruptObserver> observers, String message) {
+			this.observers = observers;
 			this.message = message;
 		}
 
-		public void run()  {
-			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update(message);
+		/**
+		 * {@inheritDoc}
+		 */
+		public void run() {
+			for (IBrutalInterruptObserver o : this.observers) {
+				o.update(this.message);
+			}
 		}
-
 	}
-
-
-
-
-	public void removeObserver(IBrutalInterruptObserver o) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
-
-
