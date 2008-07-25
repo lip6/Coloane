@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Cette interface définie une session.
  */
-public interface IApiSession {
+public interface IApiSession { // TODO : plus de détails dans les commentaires des exceptions pour permettre au core de traiter les exceptions.
 
 	/**
 	 * Recupere le nom de la session courrante
