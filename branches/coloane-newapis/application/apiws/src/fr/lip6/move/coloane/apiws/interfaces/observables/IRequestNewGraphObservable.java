@@ -3,6 +3,9 @@ package fr.lip6.move.coloane.apiws.interfaces.observables;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 
+/**
+ * Cette interface définie l'observable pour l'événement: demande un model au core de coloane.
+ */
 public interface IRequestNewGraphObservable {
 
 	/**
