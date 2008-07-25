@@ -199,8 +199,8 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 
-			speaker.closeSession(idSession);
-			sessionController.notifyEndCloseSession(this);
+			Session sessionToResme = speaker.closeSession(idSession);
+			sessionController.notifyEndCloseSession(this, sessionToResme.getSessionId());
 
 		}
 		return true;

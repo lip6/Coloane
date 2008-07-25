@@ -103,9 +103,10 @@ public interface ISessionController {
 	/**
 	 * Notifier au gestionnaire de sessions la fermeture d'une session.
 	 * @param closed la session fermer.
+	 * @param idSessionToResume la session a restaurer.
 	 * @throws ApiException si la notification de la fermeture d'une session échoue.
 	 */
-	void notifyEndCloseSession(IApiSession closed) throws ApiException;
+	void notifyEndCloseSession(IApiSession closed, String idSessionToResume) throws ApiException;
 
 	/**
 	 * Pas utiliser par l'ApiWS
