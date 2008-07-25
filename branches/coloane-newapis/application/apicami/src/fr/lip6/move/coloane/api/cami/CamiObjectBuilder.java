@@ -6,28 +6,35 @@ import java.util.List;
 import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
+import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
+import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
 import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
 import fr.lip6.move.coloane.api.interfaces.IBox;
 import fr.lip6.move.coloane.api.interfaces.IDomainTable;
-import fr.lip6.move.coloane.api.interfaces.IMenu;
 import fr.lip6.move.coloane.api.interfaces.IObjectAttribute;
 import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
 import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
-import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
 /**
- * cette classe construit toutes les interfaces offertes a Coloane
+ * Cette classe est chargée de la construction d'objets compatibles avec Coloane
  *
- * @author kahoo && UU
- *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
+ * @author Jean-Baptiste Voron
  */
+public final class CamiObjectBuilder {
 
-public class CamiObjectBuilder {
+	/**
+	 * Constructeur
+	 */
+	private CamiObjectBuilder() { }
 
 	/**
 	 * Construit l'objet ISessionInfo avec les informations en provenance du parser
@@ -43,26 +50,48 @@ public class CamiObjectBuilder {
 		return kfi;
 	}
 
-	public static IConnectionInfo buildFkVersion(List<String> camiFkVersion) {
-		String fkname = camiFkVersion.get(0);
-		int fkmajor;
-		String tmpfkmajor = camiFkVersion.get(1);
-		if (tmpfkmajor != null) {
-			fkmajor = Integer.parseInt(tmpfkmajor);
-		} else {
-			fkmajor = -1;
-		}
+	/**
+	 * Construction des menus de services
+	 * @param camiMenu L'ensemble des éléments pour constuire le menu
+	 * @return Le menu racine construit
+	 * TODO : Transformer les conditionnelles raccourcies en méthode privée
+	 */
+	public static ISubMenu buildMenu(List<List<String>> camiMenu) {
+		// Le menu racine de base...
+		ISubMenu root = null;
 
-		int fkminor;
-		String tmpfkminor = camiFkVersion.get(2);
-		if (tmpfkminor != null) {
-			fkminor = Integer.parseInt(tmpfkminor);
-		} else {
-			fkminor = -1;
-		}
+		// Flag pour indiquer si on parcourt le premier menu (root)
+		boolean isRoot = true;
 
-		IConnectionInfo fkv = (IConnectionInfo) CamiObjectFactory.getNewFkVersion(fkname, fkmajor, fkminor);
-		return fkv;
+		// Parcours de toutes les commandes AQ
+		for (List<String> aq : camiMenu) {
+
+			// Dans le cas du premier menu parcouru, on construit le menu ROOT
+			if (isRoot) {
+				String name = aq.get(0);
+				int questionType = (aq.get(1) != null)?Integer.parseInt(aq.get(1)):-1;
+				int questionBehavior  = (aq.get(2) != null)?Integer.parseInt(aq.get(2)):-1;
+				root = CamiObjectFactory.getNewRootMenu(name, questionType, questionBehavior, true);
+				isRoot = false;
+
+			// Dans tous les autres cas...
+			} else {
+				String parentName = aq.get(0);
+				String name = aq.get(1);
+				int questionType = (aq.get(2) != null)?Integer.parseInt(aq.get(2)):-1;
+				int questionBehavior  = (aq.get(3) != null)?Integer.parseInt(aq.get(3)):-1;
+				boolean valid = (aq.get(4) != null)?computeBoolean(Integer.valueOf(aq.get(4)), 1, true):false;
+				boolean dialogAllowed = (aq.get(5) != null)?computeBoolean(Integer.valueOf(aq.get(5)), 1, false):true;
+				boolean stopAuthorized = (aq.get(6) != null)?computeBoolean(Integer.valueOf(aq.get(6)), 1, false):true;
+				String outputFormalism = aq.get(7);
+				boolean activate = (aq.get(8) != null)?computeBoolean(Integer.valueOf(aq.get(8)), 1, true):false;
+
+				// Construction de la question et ajout au menu
+				IQuestion question = CamiObjectFactory.getNewQuestion(parentName, name, questionType, questionBehavior, valid, dialogAllowed, stopAuthorized, outputFormalism, activate);
+				((SubMenu) root).addQuestion(question);
+			}
+		}
+		return root;
 	}
 
 	public static IArc buildArc(ArrayList<String> camiArc) {
@@ -136,143 +165,11 @@ public class CamiObjectBuilder {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
-	public static IMenu buildMenu(ArrayList<ArrayList<String>> camiMenu) {
 
-		IMenu root = null;
-		boolean isRoot = true;
 
-		for (ArrayList<String> aq : camiMenu) {
-
-			if (isRoot) {
-
-				String name = aq.get(0);
-				int questionT;
-				String tmpquestionT = aq.get(1);
-				if (tmpquestionT != null) {
-					questionT = Integer.parseInt(tmpquestionT);
-				} else {
-					questionT = -1;
-				}
-
-				int questionB;
-				String tmpquestionB = aq.get(2);
-				if (tmpquestionB != null) {
-					questionB = Integer.parseInt(tmpquestionB);
-				} else {
-					questionB = -1;
-				}
-
-				root = CamiObjectFactory.getNewMenu(null, name, questionT, questionB, false, false,
-						false, null, false, new ArrayList<IMenu>());
-				isRoot = false;
-
-			}
-
-			else {
-
-				IMenu parent = null;
-				String parentName = aq.get(0);
-				String name = aq.get(1);
-
-				/* le type de la question */
-				int questionType;
-				String tmpquestionType = aq.get(2);
-				if (tmpquestionType != null) {
-					questionType = Integer.parseInt(tmpquestionType);
-				} else {
-					questionType = -1;
-				}
-
-				/* la question precedente */
-				int questionBehavior;
-				String tmpquestionBehavior = aq.get(3);
-
-				if (tmpquestionBehavior != null) {
-
-					questionBehavior = Integer.parseInt(tmpquestionBehavior);
-				} else {
-					questionBehavior = -1;
-				}
-
-				/* (1) valider (2) ne pas valider */
-				String tmpValid2 = aq.get(4);
-				boolean valid;
-				if (tmpValid2 != null) {
-
-					int tmpValid = Integer.parseInt(tmpValid2);
-					if (tmpValid == 1) {
-						valid = true;
-					} else {
-						valid = false;
-					}
-
-				} else {
-					valid = false;
-				}
-
-				/* (1) interdit (2) permis */
-				String tmpDialogAllowed2 = aq.get(5);
-				boolean dialogAllowed;
-				if (tmpDialogAllowed2 != null) {
-					int tmpDialogAllowed = Integer.parseInt(tmpDialogAllowed2);
-					if (tmpDialogAllowed == 1) {
-						dialogAllowed = false;
-					} else {
-						dialogAllowed = true;
-					}
-				} else {
-					dialogAllowed = true;
-				}
-
-				/* (1) arret impossible (2) arret possible (suspendre) */
-				String tmpStopAuthorized2 = aq.get(6);
-				boolean stopAuthorized;
-				if (tmpStopAuthorized2 != null) {
-					int tmpStopAuthorized = Integer
-							.parseInt(tmpStopAuthorized2);
-					if (tmpStopAuthorized == 1) {
-						stopAuthorized = false;
-					} else {
-						stopAuthorized = true;
-					}
-				} else {
-					stopAuthorized = true;
-				}
-
-				String outputFormalism = aq.get(7);
-
-				/* (1) ENABLE (2) Disable */
-				String tmpActivate2 = aq.get(8);
-				boolean activate;
-				if (tmpActivate2 != null) {
-					int tmpActivate = Integer.parseInt(tmpActivate2);
-
-					if (tmpActivate == 1) {
-						activate = true;
-					} else {
-						activate = false;
-					}
-				} else {
-					activate = false;
-				}
-
-				ArrayList<IMenu> children = new ArrayList<IMenu>();
-
-				IMenu menu = CamiObjectFactory.getNewMenu(parent, name, questionType,
-						questionBehavior, valid, dialogAllowed, stopAuthorized,
-						outputFormalism, activate, children);
-
-				root.addMenu(parentName, menu);
-
-			}
-
-		}
-
-		return root;
-	}
-
-	public static IModel buildModel(ArrayList<String> camiModel) {
+	public static IGraph buildModel(ArrayList<String> camiModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -330,5 +227,18 @@ public class CamiObjectBuilder {
 		return tab;
 	}
 
-
+	/**
+	 * Calcule une valeur booléenne en fonction d'un paramètre et de deux choix
+	 * @param value La valeur effective
+	 * @param compare La valeur qui sert d'étalon
+	 * @param success résultat si la valeur effective est égale à la valeur étalon
+	 * @return <code>true</code> si valeur effective == valeur étalon; <code>false</code> sinon
+	 */
+	private static boolean computeBoolean(int value, int compare, boolean success) {
+		if (value == compare) {
+			return success;
+		} else {
+			return !success;
+		}
+	}
 }
