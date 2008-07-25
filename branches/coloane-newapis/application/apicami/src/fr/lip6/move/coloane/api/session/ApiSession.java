@@ -108,11 +108,11 @@ public class ApiSession implements IApiSession {
 				try {
 					speaker.closeSession(false);
 				} catch (IOException ioe) {
-					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+					throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 				}
 
 				// On vérifie qu'on est dans un état compatible avec une fermeture de session
-				if (!this.automate.setWaitingForCloseSessionState()){
+				if (!this.automate.setWaitingForCloseSessionState()) {
 					throw new ApiException("The session cannot be closed");
 				}
 
@@ -219,7 +219,7 @@ public class ApiSession implements IApiSession {
 	 * @param model Le modèle sur lequel est invoqué le service
 	 * @throws IOException
 	 */
-	public final void askForService(String rootName, String serviceName, List<IOptionMenu> options, IGraph model) throws IOException {
+	public final void askForService(String rootName, String serviceName, List<String> options, IGraph model) throws IOException {
 		this.model = model;
 		if (this.sessionControl.askForService(this)) {
 			// TODO trouver comment on calcule menuName
