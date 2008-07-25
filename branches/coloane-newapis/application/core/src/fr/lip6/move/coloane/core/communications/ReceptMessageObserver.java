@@ -23,7 +23,7 @@ public class ReceptMessageObserver implements IReceptMessageObserver {
 		case IReceptMessage.ERROR_MESSAGE :
 		case IReceptMessage.TRACE_MESSAGE :
 		case IReceptMessage.WARRNING_MESSAGE :
-			HistoryView.getInstance().addText(e.getMessage());
+			HistoryView.getInstance().addLine(e.getMessage());
 			break;
 		default :
 			break;
