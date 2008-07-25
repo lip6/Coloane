@@ -17,7 +17,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
  * aux modules de API pour envoyer des commandes à FrameKit.
  */
 
-public class Speaker implements ISpeaker{
+public class Speaker implements ISpeaker {
 	/** Le logger */
 	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
@@ -35,90 +35,87 @@ public class Speaker implements ISpeaker{
 	/**
 	 * {@inheritDoc}
 	 */
-	public void startCommunication(String login, String password) throws IOException {
+	public final void startCommunication(String login, String password) throws IOException {
+		LOGGER.finer("Demande de connexion - Premiere etape");
 		// Fabrique de la commande SC
 		byte[] cmdToSend = CamiGenerator.generateCmdSC(login, password);
 		// Envoi de la commande
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void openConnection(String uiName, String uiVersion, String login) throws IOException {
+	public final void openConnection(String uiName, String uiVersion, String login) throws IOException {
+		LOGGER.finer("Demande de connexion - Deuxieme etape");
 		// Fabrique la commande OC
-		byte[] cmdToSend = CamiGenerator.generateCmdOC(uiName,uiVersion, login);
+		byte[] cmdToSend = CamiGenerator.generateCmdOC(uiName, uiVersion, login);
 		// Envoie la commande
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void closeConnection() throws IOException {
+	public final void closeConnection() throws IOException {
+		LOGGER.finer("Demande de deconnexion");
 		// Fabrique la commande FC
 		byte[] cmdToSend = CamiGenerator.generateCmdFC();
 		// Envoie la commande
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public void openSession(String sessionName, int date, String sessionFormalism, String interlocutor, int mode) throws IOException {
+	public final void openSession(String sessionName, int date, String sessionFormalism, String interlocutor, int mode) throws IOException {
+		LOGGER.finer("Demande d'ouverture de session");
 		// Fabrique et envoie la commande OS
 		byte[] cmdToSend = CamiGenerator.generateCmdOS(sessionName, String.valueOf(date), sessionFormalism);
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		// Fabrique et envoie la commande DI
 		cmdToSend = CamiGenerator.generateCmdDI();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		// Fabrique et envoie la commande CI
 		cmdToSend = CamiGenerator.generateCmdCI(interlocutor, mode);
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 
 		// Fabrique et envoie la commande FI
 		cmdToSend = CamiGenerator.generateCmdFI();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void closeSession(boolean continueProcessing) throws IOException {
-		// Fabrique la commande FS
-		byte[] cmdToSend = CamiGenerator.generateCmdFS(continueProcessing);
-		// Envoie la commande
-		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resumeSession(String sessionName) throws IOException {
-		// Fabrique et envoie la commande RS
-		byte[] cmdToSend = CamiGenerator.generateCmdRS(sessionName);
-		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void suspendSession() throws IOException {
+	public final void closeSession(boolean continueProcessing) throws IOException {
+		LOGGER.finer("Demande de fermeture de session");
+		// Fabrique la commande FS
+		byte[] cmdToSend = CamiGenerator.generateCmdFS(continueProcessing);
+		// Envoie la commande
+		this.fkLowLevel.writeCommand(cmdToSend);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void resumeSession(String sessionName) throws IOException {
+		LOGGER.finer("Demande de reprise de session");
+		// Fabrique et envoie la commande RS
+		byte[] cmdToSend = CamiGenerator.generateCmdRS(sessionName);
+		this.fkLowLevel.writeCommand(cmdToSend);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void suspendSession() throws IOException {
+		LOGGER.finer("Demande de suspension de session");
 		// Fabrique et envoie la commande SS
 		byte[] cmdToSend = CamiGenerator.generateCmdSS();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + new String(cmdToSend, 4, cmdToSend.length - 4));
 	}
 
 	/**

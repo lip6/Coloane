@@ -40,7 +40,7 @@ public class MenuTest extends TestCase {
 		this.assertEquals("fd", pere.outputFormalism());
 		this.assertEquals(parent, pere.getParent());
 		this.assertEquals(1, pere.getQuestionBehavior());
-		this.assertEquals(5, pere.getQuestionType());
+		this.assertEquals(5, pere.getType());
 		this.assertEquals(false, pere.stopAuthorized());
 		this.assertEquals(false, pere.isValid());
 
@@ -125,7 +125,7 @@ public class MenuTest extends TestCase {
 		System.out.print("//////////AQ(");
 
 		System.out.print(menu.getName()+",");
-		System.out.print(menu.getQuestionType()+",");
+		System.out.print(menu.getType()+",");
 		System.out.print(menu.getQuestionBehavior()+",");
 		System.out.print(menu.isValid()+",");
 		System.out.print(menu.isDialogAllowed()+",");

@@ -3,11 +3,15 @@ package fr.lip6.move.coloane.api.camiObject.menu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Définition d'une option
  */
 public class OptionMenu extends Item implements IOptionMenu {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
+
 	/** Etat de l'option */
 	private boolean validate;
 
@@ -21,6 +25,7 @@ public class OptionMenu extends Item implements IOptionMenu {
 	public OptionMenu(String name, boolean visibility, List<String> help, boolean validate) {
 		super(name, visibility, help);
 		this.validate = validate;
+		LOGGER.finest("Ajout de l'option " + name + " (visible = " + visibility + "; valeur = " + validate + ")");
 	}
 
 	/**

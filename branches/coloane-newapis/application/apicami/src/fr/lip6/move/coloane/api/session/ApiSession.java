@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
 /**
  * Définition d'une session
@@ -109,7 +110,7 @@ public class ApiSession implements IApiSession {
 				} catch (IOException ioe) {
 					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
 				}
-				
+
 				// On vérifie qu'on est dans un état compatible avec une fermeture de session
 				if (!this.automate.setWaitingForCloseSessionState()){
 					throw new ApiException("The session cannot be closed");
@@ -212,16 +213,16 @@ public class ApiSession implements IApiSession {
 
 	/**
 	 *
-	 * @param rootName
-	 * @param menuName
-	 * @param serviceName
-	 * @param model
+	 * @param rootName Le nom da la racine du menu qui contient ce service
+	 * @param serviceName Le nom du service invoqué
+	 * @param options La liste des options active dans le menu
+	 * @param model Le modèle sur lequel est invoqué le service
 	 * @throws IOException
 	 */
-	public final void askForService(String rootName, String menuName, String serviceName, IGraph model) throws IOException {
+	public final void askForService(String rootName, String serviceName, List<IOptionMenu> options, IGraph model) throws IOException {
 		this.model = model;
 		if (this.sessionControl.askForService(this)) {
-
+			// TODO trouver comment on calcule menuName
 			speaker.askForService(rootName, menuName, serviceName);
 			System.out.println(this.automate.getState());
 			if (!this.automate.setWaitingForResponseState()){
@@ -231,31 +232,6 @@ public class ApiSession implements IApiSession {
 		else {
 			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		}
-	}
-
-	/**
-	 *
-	 * @param rootName
-	 * @param menuName
-	 * @param serviceName
-	 * @param date
-	 * @param model
-	 * @throws IOException
-	 */
-	public void askForService(String rootName,String menuName, String serviceName, String date,IGraph model) throws IOException {
-		this.model = model;
-		if (this.sessionControl.askForService(this)){
-
-			speaker.askForService(rootName, menuName, serviceName, date);
-
-			if (!this.automate.setWaitingForResponseState()) {
-				throw new IllegalStateException("je doit attendre qque chose de chez FK");
-			}
-		}
-		else {
-			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
-		}
-
 	}
 
 

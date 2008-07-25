@@ -3,9 +3,10 @@ package fr.lip6.move.coloane.api.camiObject;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.Question;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
-import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
+import fr.lip6.move.coloane.api.camiObject.menu.UpdateMenu;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 /**
  * Factory du package CamiObject
@@ -63,13 +64,13 @@ public final class CamiObjectFactory {
 	}
 
 	/**
-	 * nous crée un IUpdateItem.
-	 * @param rootName
-	 * @param serviceName
-	 * @param state
-	 * @return IUpdateItem
+	 * Construction d'un modificateur de menu
+	 * @param rootName Le nom du menu racine
+	 * @param serviceName Le nom du service
+	 * @param state L'état de l'item de menu
+	 * @return L'objet de modification sur le menu
 	 */
-	public static IUpdateItem getNewUpdateItem(String rootName, String serviceName, boolean state){
-		return new UpdateItem(rootName, serviceName, state);
+	public static IUpdateMenu getNewUpdateMenu(String rootName, String serviceName, boolean state) {
+		return new UpdateMenu(rootName, serviceName, state);
 	}
 }

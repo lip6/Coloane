@@ -6,15 +6,15 @@ package fr.lip6.move.coloane.api.camiObject.menu;
 public interface IQuestion {
 
 	/** Constantes */
-	int TYPE_TEXT = 0;
-	int TYPE_TEXT_VARIABLE = 1;
-	int TYPE_SUBMENU = 2;
-	int TYPE_OBJECT = 3;
+	int TYPE_TEXT = 1;
+	int TYPE_TEXT_VARIABLE = 2;
+	int TYPE_SUBMENU = 3;
+	int TYPE_OBJECT = 4;
 
-	int BEHAVIOR_MOSTONE = 0;
-	int BEHAVIOR_MORETHANZERO = 1;
-	int BEHAVIOR_ONECHOICE = 2;
-	int BEHAVIOR_MORETHANONE = 3;
+	int BEHAVIOR_MOSTONE = 1;
+	int BEHAVIOR_MORETHANZERO = 2;
+	int BEHAVIOR_ONECHOICE = 3;
+	int BEHAVIOR_MORETHANONE = 4;
 
 	/**
 	 * @return Le parent de la question

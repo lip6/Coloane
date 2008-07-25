@@ -6,11 +6,15 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Définition de la racine d'un menu de services
  */
 public class SubMenu extends Item implements ISubMenu {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
+
 	/** La liste des sous-menus */
 	private List<ISubMenu> submenus;
 
@@ -48,13 +52,21 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @return Le sous menu désiré ou <code>null</code> si aucun ne correspond
 	 */
 	private ISubMenu findMenu(String name) {
+		// Je commence par vérifier qu'il ne s'agit pas du sous-menu courant
+		if (this.getName().equals(name)) {
+			return this;
+		}
+
 		// Parcours de tous les sous-menu
 		for (ISubMenu submenu : this.submenus) {
 			if (submenu.getName().equals(name)) {
 				return submenu;
 			}
 			// Appel récursif si nécessaire
-			return ((SubMenu) submenu).findMenu(name);
+			ISubMenu ret = ((SubMenu) submenu).findMenu(name);
+			if (ret != null) {
+				return ret;
+			}
 		}
 		// Si on ne trouve rien
 		return null;
@@ -65,22 +77,28 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @param question La description de la question transmise par la plate-forme
 	 */
 	public final void addQuestion(IQuestion question) {
+		LOGGER.finer("Demande d'ajout de la question: " + question.getName());
+
 		// Recherche du sous-menu
 		ISubMenu parentMenu = findMenu(question.getParent());
 		if (parentMenu == null) {
 			// TODO Exception ou quelque chose dans le style
+			LOGGER.warning("Impossible de trouver le parent (" + question.getParent() + ") de la question");
 			return;
 		}
 
 		// Si la question transmise est la définition d'un sous-menu
 		if (question.getType() == IQuestion.TYPE_SUBMENU) {
 			((SubMenu) parentMenu).addSubMenu(question);
+			LOGGER.finer("La question est ajoutee comme sous-menu de " + parentMenu.getName());
 		// Si le père de la question transmise est un conteneur d'options
 		} else if (((SubMenu) parentMenu).isContainingOptions()) {
 			((SubMenu) parentMenu).addOptionMenu(question);
+			LOGGER.finer("La question est ajoutee comme option de " + parentMenu.getName());
 		// Dans tous les autres cas, c'est une description de services
 		} else {
 			((SubMenu) parentMenu).addServiceMenu(question);
+			LOGGER.finer("La question est ajoutee comme service de " + parentMenu.getName());
 		}
 	}
 

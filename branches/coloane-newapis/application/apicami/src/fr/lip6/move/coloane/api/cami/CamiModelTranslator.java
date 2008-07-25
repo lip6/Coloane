@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.Vector;
 
+import org.eclipse.draw2d.geometry.Point;
+
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -58,7 +60,7 @@ public class CamiModelTranslator {
 		toReturn.add(buffer.toString());
 
 		// Traduction des points intermediaires
-		for (AbsoluteBendpoint pi : arc.getInflexPoints()) {
+		for (Point pi : arc.getInflexPoints()) {
 			toReturn.add(new String("PI(-1," + arc.getId() + "," + pi.x + "," + pi.y + ",-1)"));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 		}
 

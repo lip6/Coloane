@@ -13,7 +13,7 @@ import java.util.List;
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */
-public class SpecialMessageObservable implements IReceptMessageObservable {
+public class ReceptMessageObservable implements IReceptMessageObservable {
 
 	/** liste des observateurs */
 	private List<IReceptMessageObserver> list;

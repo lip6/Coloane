@@ -147,8 +147,8 @@ public class CamiObjectBuilderTest extends TestCase {
 			}
 		}
 		System.out.print(menu.getName() + ",");
-		if (menu.getQuestionType() != -1) {
-			System.out.print(menu.getQuestionType() + ",");
+		if (menu.getType() != -1) {
+			System.out.print(menu.getType() + ",");
 		} else {
 			System.out.print(",");
 		}

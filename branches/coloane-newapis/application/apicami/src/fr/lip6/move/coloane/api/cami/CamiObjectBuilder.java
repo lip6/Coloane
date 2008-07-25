@@ -14,13 +14,13 @@ import fr.lip6.move.coloane.api.interfaces.IDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IObjectAttribute;
 import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
-import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 /**
  * Cette classe est chargée de la construction d'objets compatibles avec Coloane
@@ -93,6 +93,47 @@ public final class CamiObjectBuilder {
 		}
 		return root;
 	}
+
+	/**
+	 * Constructeur des modificateurs de menu
+	 * @param camiUpdateItems L'ensemble des éléments pour modifier le menu
+	 * @return Une liste de modification à entreprendre sur le menu
+ 	 * TODO : Transformer les conditionnelles raccourcies en méthode privée
+	 */
+	public static List<IUpdateMenu> buildUpdateItem(List<List<String>> camiUpdateItems) {
+		List<IUpdateMenu> list = new ArrayList<IUpdateMenu>();
+
+		// Parcours de tous les éléments envoyés par la plate-forme
+		for (List<String> tq : camiUpdateItems) {
+
+			String rootName = tq.get(0);
+			String serviceName = tq.get(1);
+			boolean state = (tq.get(2) != null)?computeBoolean(Integer.valueOf(tq.get(2)), 7, true):true;
+
+			// Construction de l'objet modificateur de menu
+			IUpdateMenu update = CamiObjectFactory.getNewUpdateMenu(rootName, serviceName, state);
+			list.add(update);
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public static IArc buildArc(ArrayList<String> camiArc) {
 		// TODO Auto-generated method stub
@@ -196,36 +237,7 @@ public final class CamiObjectBuilder {
 		return null;
 	}
 
-	/**
-	 * nous genere les interfaces des TQ
-	 *
-	 * @param camiUpdateItem
-	 * @return un tableau de TQ 7 & 8
-	 */
-	public static ArrayList<IUpdateItem> buildUpdateItem(
-			ArrayList<ArrayList<String>> camiUpdateItem) {
-		ArrayList<IUpdateItem> tab = new ArrayList<IUpdateItem>();
-		for (ArrayList<String> tq : camiUpdateItem) {
-			String rootName = tq.get(0);
-			String serviceName = tq.get(1);
-			String tmpState2 = tq.get(2);
-			boolean state;
-			if (tmpState2 != null) {
-				int tmpState = Integer.parseInt(tmpState2);
-
-				if (tmpState == 7) {
-					state = true;
-				} else {
-					state = false;
-				}
-			} else {
-				state = true;
-			}
-			IUpdateItem update = CamiObjectFactory.getNewUpdateItem(rootName, serviceName, state);
-			tab.add(update);
-		}
-		return tab;
-	}
+	
 
 	/**
 	 * Calcule une valeur booléenne en fonction d'un paramètre et de deux choix

@@ -8,17 +8,17 @@ grammar Cami;
 	package fr.lip6.move.coloane.api.cami;
 	
 	import fr.lip6.move.coloane.api.session.SessionController;
+	import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
+	import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 
 	import fr.lip6.move.coloane.api.camiObject.SpecialMessage;
 	import fr.lip6.move.coloane.api.cami.CamiObjectBuilder;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
-	import fr.lip6.move.coloane.api.interfaces.IUpdateItem;
 
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
-	import fr.lip6.move.coloane.interfaces.api.observables.IDisconnectObservable;
-	import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
+	import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
@@ -44,7 +44,7 @@ grammar Cami;
 
 	ISubMenu menu;
 	List<ISubMenu> menuList;
-	List<IUpdateItem> updates;
+	List<IUpdateMenu> updates;
 
 	/* Constructeur du parser */
 	public CamiParser(TokenStream input, Map<String, Object> hm) {
@@ -109,7 +109,7 @@ grammar Cami;
 		close_connection
 		:
 		'FC()'{
-			((IDisconnectObservable)hashObservable.get("IDisconnect")).notifyObservers();  
+			((DisconnectObservable)hashObservable.get("IDisconnect")).notifyObservers();  
 		}
 		;
 		/* ---------------------- Ouverture de la session ------------------------------ */
@@ -339,23 +339,16 @@ update /* TQ de type 7 et 8*/
 end_menu_transmission
 :       
 'QQ(' NUMBER ')'{
-
 	System.out.println("QQ((((" + $NUMBER.text + ")");
 	if($NUMBER.text.equals("3")){
 		sessionControl.notifyEndOpenSession();
 		updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-		((ISessionObservable)hashObservable.get("ISession")).notifyObservers( menuList, updates);
-		camiUpdates = null;
+		((ReceptMenuObservable)hashObservable.get("ISession")).notifyObservers(menuList, updates);
 		camiUpdates = new ArrayList<List<String>>();
-
-	}
-	else {
-		System.out.println("je parse eeeeeeeeQQ2");
+	} else {
 		updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-		((ISessionObservable)hashObservable.get("ISession")).notifyObservers( null, updates);
-
+		((ReceptMenuObservable)hashObservable.get("ISession")).notifyObservers(null, updates);
 	}
-
 }
 ;
 
@@ -376,7 +369,7 @@ trace_message
 :
 'TR(' CAMI_STRING ')'{
 	ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(2,$CAMI_STRING.text);
-	((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+	((SpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 	System.out.println("je parse le TR");
 }
 ;
@@ -385,7 +378,7 @@ warning_message
 :
 'WN(' CAMI_STRING ')'{  
 	ISpecialMessage msg =(ISpecialMessage) new SpecialMessage(1,$CAMI_STRING.text);
-	((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+	((SpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 	//    ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
 	System.out.println("je parse le WN");
 }
