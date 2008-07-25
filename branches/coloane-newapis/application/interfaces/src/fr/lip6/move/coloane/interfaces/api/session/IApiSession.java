@@ -31,18 +31,6 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	int getSessionDate();
 
 	/**
-	 * Recupere l'interlocuteur (l'outil) de la session courrante
-	 * @return l'interlocuteur de la session courrante
-	 */
-	String getInterlocutor();
-
-	/**
-	 * Recupere le mode de la session courrante
-	 * @return le mode de la session courrante
-	 */
-	int getMode();
-
-	/**
 	 * Recupere l'identifiant d'une session.
 	 * Cette methode est utiliser par l'apiws, pour identifier une session
 	 * car le nom d'un session n'est pas forcement unique chez le wrapper.
