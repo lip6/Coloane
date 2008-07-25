@@ -179,6 +179,10 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean resumeSession() throws ApiException {
+		if (sessionController.isActivateSession(this)) {
+			return true;
+		}
+
 		if (sessionController.resumeSession(this)) {
 			speaker.changeSession(this.getIdSession());
 			sessionController.notifyEndResumeSession(this);
