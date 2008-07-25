@@ -122,6 +122,7 @@ public class Listener extends Thread implements IListener {
 			}
 
 		}
+		LOGGER.fine("Arrêt du Listener");
 	}
 
 	/**
@@ -129,7 +130,6 @@ public class Listener extends Thread implements IListener {
 	 */
 	public final synchronized void stopper() {
 		this.stopThread = true;
-		LOGGER.fine("Arrêt du Listener");
 	}
 
 }

@@ -185,17 +185,22 @@ public class ApiConnection implements IApiConnection {
 			//throw new ApiException("Aucune connexion n'est ouverte");
 		}
 
-		LOGGER.finer("Demande l'arrêt du Listener");
-		listener.stopper();
-
-		LOGGER.finer("Demande l'arrêt de la communication");
-
 		try {
+
+			LOGGER.finer("Demande l'arrêt du Listener");
+			listener.stopper();
+			((Thread) listener).join();
+
+			LOGGER.finer("Demande l'arrêt de la communication");
+
 			speaker.closeConnection();
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			LOGGER.warning("Impossible de fermer la connexion: " + e.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		connectionOpened = false;
