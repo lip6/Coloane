@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.api.evenements;
 
-import fr.lip6.move.coloane.interfaces.objects.menu.IRootMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface IReceptMenu {
 	 * Recupere les menus
 	 * @return les menus
 	 */
-	List<IRootMenu> getMenus();
+	List<ISubMenu> getMenus();
 
 	/**
 	 * Recupere les mises a jour sur les menus
