@@ -10,6 +10,8 @@ public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 
 	private boolean validated;
 
+	private int type;
+
 	/**
 	 * Constructeur
 	 * @param option La question correspondant à une option réçu de la part du wrapper
@@ -17,6 +19,7 @@ public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 	public OptionMenuImpl(Question option) {
 		super(option);
 		this.validated = option.getValidation();
+		this.type = IOptionMenu.TYPE_CHECKBOX;
 	}
 
 	/**
@@ -31,6 +34,13 @@ public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 	 */
 	public final void setValidated(boolean validated) {
 		this.validated = validated;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getType() {
+		return type;
 	}
 
 }
