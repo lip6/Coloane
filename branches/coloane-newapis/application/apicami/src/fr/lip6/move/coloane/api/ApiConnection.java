@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.api;
 
 import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
+import fr.lip6.move.coloane.api.FkCommunication.Listener;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
-import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
@@ -83,7 +83,7 @@ public class ApiConnection implements IApiConnection {
 
 	/** {@inheritDoc} */
 	public final IConnectionInfo openConnection(String login, String password, String ip, int port) throws ApiException {
-		Pair<ISpeaker, IListener> p;
+		Pair<ISpeaker, Listener> p;
 
 		// Créer la file Queue entre le parser et le thread Listener
 		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
