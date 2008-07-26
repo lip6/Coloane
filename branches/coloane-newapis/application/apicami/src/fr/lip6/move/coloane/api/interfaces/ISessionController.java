@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.api.interfaces;
 
-import java.io.IOException;
-
-import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.api.session.ApiSession;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
@@ -10,7 +7,7 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
  * Gestionnaire de sessions.<br>
- * Il existe un gestionnaire de sessions pour toute {@link ApiConnection}
+ * Il existe un seul gestionnaire de sessions pour les {@link ApiConnection}
  *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
@@ -22,11 +19,11 @@ public interface ISessionController {
 	 */
 	ApiSession getActiveSession();
 
-    /**
-     * Suspend la session désignée
-     * @param session La session à suspendre.
-     * @return true, si suspendue, false sinon.
-     */
+	/**
+	 * Suspend la session désignée
+	 * @param session La session à suspendre.
+	 * @return true, si suspendue, false sinon.
+	 */
 	boolean suspendSession(IApiSession session);
 
 	/**
@@ -48,61 +45,59 @@ public interface ISessionController {
 	boolean openSession(ApiSession s) throws ApiException;
 
 	/**
-	 * nous signale la fin, des AQ et TQ
-	 * fait par le parseur.
+	 * Demande la fermeture de la session désignée
+	 * @param apiSession La session qui doit être fermée
+	 * @return <code>true</code> si la fermeture s'est bien passsée
+	 */
+	boolean closeSession(ApiSession apiSession);
+
+	/**
+	 * Indique la fin du parsing des menus et donc la fin de l'ouverture de session
 	 */
 	void notifyEndOpenSession();
 
 	/**
-	 * nous signale la reception du SS
-	 * appelé par le parseur.
+	 * Indique la réception de l'acquittement de FK pour la suspension de session
 	 */
-	 void notifyEndSuspendSession();
+	void notifyEndSuspendSession();
 
-	 /**
-	  *
-	  * @param nameSession
-	  */
-	 void notifyEndResumeSession(String nameSession);
+	/**
+	 * Indique la réception de l'acquittement de FK pour la reprise de session
+	 * @param nameSession Le nom de la session concernée
+	 */
+	void notifyEndResumeSession(String nameSession);
 
-	 /**
-	  *
-	  */
-	 void notifyEndCloseSession();
+	/**
+	 * Indique la réception de l'acquittement de FK pour la fermetue de session
+	 */
+	void notifyEndCloseSession();
 
-	 /**
-	  *
-	  * @param apiSession
-	  * @return
-	  */
-	 boolean closeSession(ApiSession apiSession);
 
-	 /**
-	  * 
-	  * @param apiSession
-	  * @return
-	  */
-	 boolean askForService(ApiSession apiSession);
+	/**
+	 * Demande d'une invocation de service sur une session
+	 * @param apiSession La session concernée par l'invocation de service
+	 * @return <code>true</code> Si l'invocation (et non le service) s'est bien déroulée
+	 */
+	boolean askForService(ApiSession apiSession);
 
-	 /**
-	  * 
-	  */
-	 void notifyWaitingForResult();
+	/**
+	 * TODO : A documenter
+	 */
+	void notifyWaitingForResult();
 
-	 /**
-	  * 
-	  * @throws IOException
-	  */
-	 void notifyWaitingForModel() throws IOException;
+	/**
+	 * TODO : A documenter
+	 */
+	void notifyWaitingForModel();
 
-	 /**
-	  * 
-	  */
-	 void notifyEndResult();
+	/**
+	 * Indique la réception de l'acquittement de FK pour la réception des résultats
+	 */
+	void notifyEndResult();
 
-	 /**
-	  * Transmet les informations relatives à la session pour les retourner au core
-	  * @param sessionInfo Les informatiosne en question
-	  */
-	 void notifyReceptSessionInfo(ISessionInfo sessionInfo);
+	/**
+	 * Transmet les informations relatives à la session pour les retourner au core
+	 * @param sessionInfo Les informatiosne en question
+	 */
+	void notifyReceptSessionInfo(ISessionInfo sessionInfo);
 }

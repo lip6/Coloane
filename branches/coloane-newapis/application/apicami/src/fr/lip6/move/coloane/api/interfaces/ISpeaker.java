@@ -1,9 +1,10 @@
 package fr.lip6.move.coloane.api.interfaces;
 
-import java.io.IOException;
-
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+
+import java.io.IOException;
+
 
 /**
  * cette interface représente notre speaker.
@@ -78,31 +79,31 @@ public interface ISpeaker {
 
 	/**
 	 * Demande l'exécution d'un service en précisant la mise à jour du modèle
-	 * @param rootName Le nom du menu principal 
+	 * @param rootName Le nom du menu principal
 	 * @param menuName Le nom du menu parent responsable
 	 * @param serviceName Le nom du service à exécuter
 	 * @param date La nouvelle date de mise à jour du modèle
-	 * @throws IOException
+	 * @throws IOException En cas de problème
 	 */
 	void askForService(String rootName, String menuName, String serviceName, String date) throws IOException;
 
 	/**
 	 * Demande la transmission du modèle à FrameKit
 	 * @param m Le modèle à transmettre
-	 * @throws IOException
+	 * @throws IOException En cas de problème
 	 */
 	void sendModel(IGraph m) throws IOException;
 
 	/**
 	 * Envoie une réponse à une boite de dialogue à FK
 	 * @param dialogAnswer L'objet contenant toutes les informations de réponse
-	 * @throws IOException
+	 * @throws IOException En cas de problème
 	 */
 	void sendDialogResponse(IDialogAnswer dialogAnswer) throws IOException;
 
 	/**
 	 * Notifie FrameKit de la mise à jour du modèle coté client
-	 * @throws IOException
+	 * @throws IOException En cas de problème
 	 */
 	void invalidModel() throws IOException;
 }
