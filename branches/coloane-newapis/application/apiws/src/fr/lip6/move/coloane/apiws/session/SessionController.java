@@ -59,14 +59,14 @@ public class SessionController implements ISessionController {
 		if (activeSession == null) {
 			return false;
 		}
-		return activeSession.getIdSession().equals(s.getIdSession());
+		return activeSession.getId().equals(s.getId());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final boolean addSession(IApiSession s) {
-		listSessions.put(s.getIdSession(), s);
+		listSessions.put(s.getId(), s);
 		return true;
 	}
 
@@ -74,7 +74,7 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final boolean removeSession(IApiSession s) {
-		listSessions.remove(s.getIdSession());
+		listSessions.remove(s.getId());
 		return true;
 	}
 
@@ -101,7 +101,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de suspendre la session: idSession=" + s.getIdSession() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de suspendre la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de reprondre la session: idSession=" + s.getIdSession() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de reprondre la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE || s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de fermer la session: idSession=" + s.getIdSession() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de fermer la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class SessionController implements ISessionController {
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de demander un service sur la session: idSession=" + s.getIdSession() + " etat=" + s.getSessionStateMachine().getState() +  " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de demander un service sur la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() +  " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -173,9 +173,9 @@ public class SessionController implements ISessionController {
 	public final void notifyEndResumeSession(IApiSession resumed) throws ApiException  {
 
 		if (activeSession != null) {
-			activeSession.suspendSession();
+			((ApiSession) activeSession).suspend();
 		}
-		activeSession = listSessions.get(resumed.getIdSession());
+		activeSession = listSessions.get(resumed.getId());
 		if (!((ApiSession) activeSession).getSessionStateMachine().goToIdleState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
@@ -192,7 +192,7 @@ public class SessionController implements ISessionController {
 		this.removeSession(closed);
 
 		//  S'il n'y a plus de sessions: activeSession est null
-		if (closed.getIdSession().equals(idSessionToResume) && listSessions.size() == 0) {
+		if (closed.getId().equals(idSessionToResume) && listSessions.size() == 0) {
 			this.activeSession = null;
 		} /*else { //  Sinon: activeSession est la session renvoyée par le wrapper
 			//listSessions.get(idSessionToResume).resumeSession();

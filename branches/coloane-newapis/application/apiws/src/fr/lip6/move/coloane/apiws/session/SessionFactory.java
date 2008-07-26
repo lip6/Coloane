@@ -1,16 +1,21 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import java.util.Map;
-
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
+import java.util.Map;
+
 /**
  * Cette classe représent une fabrique.
  */
-public class SessionFactory {
+public final class SessionFactory {
+
+	/**
+	 * Constructeur
+	 */
+	private SessionFactory() { }
 
 	/**
 	 * Crée une nouvelle session

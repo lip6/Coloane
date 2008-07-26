@@ -176,17 +176,17 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean closeConnection() {
+	public final void closeConnection(boolean softMode) {
 
 		LOGGER.finer("Demande la fermeture de la connexion");
 
 		if (!connectionOpened) {
 			LOGGER.warning("Impossible de fermer la connexion: aucune connexion n'est ouverte");
-			//throw new ApiException("Aucune connexion n'est ouverte");
+			return;
 		}
 
+		// TODO : Implémenter le softMode
 		try {
-
 			LOGGER.finer("Demande l'arrêt du Listener");
 			listener.stopper();
 
@@ -206,9 +206,7 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		connectionOpened = false;
-
 		LOGGER.fine("Fermeture de la connexion");
-		return true;
 	}
 
 	/**

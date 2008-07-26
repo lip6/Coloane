@@ -44,10 +44,6 @@ public class ApiSession implements IApiSession {
 
 	private String sessionName;
 
-	private String interlocutor;
-
-	private int mode;
-
 	private ISessionController sessionController;
 
 	private ISpeaker speaker;
@@ -69,8 +65,6 @@ public class ApiSession implements IApiSession {
 		this.sessionDate = -1;
 		this.sessionFormalism = null;
 		this.sessionName = null;
-		this.interlocutor = null;
-		this.mode = -1;
 
 		this.sessionController = sessionController;
 		this.speaker = speaker;
@@ -88,42 +82,28 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getInterlocutor() {
-		return interlocutor;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final int getMode() {
-		return mode;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final int getSessionDate() {
+	public final int getDate() {
 		return sessionDate;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getSessionFormalism() {
+	public final String getFormalism() {
 		return sessionFormalism;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getSessionName() {
+	public final String getName() {
 		return sessionName;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getIdSession() {
+	public final String getId() {
 		return idSession;
 	}
 
@@ -138,12 +118,10 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
+	public final ISessionInfo open(int sessionDate, String sessionFormalism, String sessionName) throws ApiException {
 		this.sessionDate = sessionDate;
 		this.sessionFormalism = sessionFormalism;
 		this.sessionName = sessionName;
-		this.interlocutor = interlocutor;
-		this.mode = mode;
 
 		Session sessionOpened = null;
 
@@ -177,42 +155,31 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName) throws ApiException {
-		// TODO Auto-generated method stub
-		return openSession(sessionDate, sessionFormalism, sessionName, "FrameKit Environment", 1);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean suspendSession() throws ApiException {
-
+	public final void suspend() throws ApiException {
 		// Test si on peut suspendre la session
 		if (sessionController.suspendSession(this)) {
 			// Notifie la fin de la suspension de la session
 			sessionController.notifyEndSuspendSession(this);
 		}
-
 		LOGGER.fine("Suspension de la session: " + sessionName);
-		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean resumeSession() throws ApiException {
+	public final void resume() throws ApiException {
 		// TODO Factoriser le code
 
 		// Test si la session est déjà active
 		if (sessionController.isActivateSession(this)) {
 			LOGGER.fine("Restauration de la session: " + sessionName + " [session déjà active]");
-			return true;
+			return;
 		}
 
 		// Test si la session est unique
 		if (sessionController.onlyOneSession()) {
 			sessionController.notifyEndResumeSession(this);
-			return true;
+			return;
 		}
 
 		// Test si on peut restaurer
@@ -220,20 +187,20 @@ public class ApiSession implements IApiSession {
 
 			// Demande au wrapper changer de session: restaure la session
 			LOGGER.finer("Demande la restauration de la session: " + sessionName);
-			speaker.changeSession(this.getIdSession());
+			speaker.changeSession(this.getId());
 
 			// Notifie la fin de la restauration de la session
 			sessionController.notifyEndResumeSession(this);
 		}
 
 		LOGGER.fine("Restauration de la session: " + sessionName);
-		return true;
+		return;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean closeSession() throws ApiException {
+	public final void close() throws ApiException {
 
 		// Test si on peut fermer la session
 		if (sessionController.closeSession(this)) {
@@ -253,7 +220,7 @@ public class ApiSession implements IApiSession {
 		}
 
 		LOGGER.fine("Fermeture de la session: " + sessionName);
-		return true;
+		return;
 	}
 
 	/**
