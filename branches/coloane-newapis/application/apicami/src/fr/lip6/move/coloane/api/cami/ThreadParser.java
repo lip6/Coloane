@@ -22,10 +22,10 @@ import org.antlr.runtime.RecognitionException;
 public class ThreadParser extends Thread {
 
 	/** file de lecture */
-	LinkedBlockingQueue<InputStream> fifo;
+	private LinkedBlockingQueue<InputStream> fifo;
 
 	/** parser ANTLR */
-	CamiParser parser;
+	private CamiParser parser;
 
 	/**
 	 * @param sessionController
@@ -38,7 +38,7 @@ public class ThreadParser extends Thread {
 	 * 		  Observable, en plus elle est utilisée comme moniteur
 	 * 		  de synchronisation
 	 */
-	public ThreadParser(LinkedBlockingQueue<InputStream> queue, Map<String, Object> hm){
+	public ThreadParser(LinkedBlockingQueue<InputStream> queue, Map<String, Object> hm) {
 		this.fifo = queue;
 		this.parser = new CamiParser(null, hm);
 	}
