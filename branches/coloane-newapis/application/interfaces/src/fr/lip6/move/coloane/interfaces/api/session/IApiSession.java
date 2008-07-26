@@ -13,75 +13,57 @@ import java.util.List;
 public interface IApiSession { // TODO : plus de détails dans les commentaires des exceptions pour permettre au core de traiter les exceptions.
 
 	/**
-	 * Recupere le nom de la session courrante
 	 * @return le nom de la session
 	 */
-	String getSessionName();
+	String getName();
 
 	/**
-	 * Recupere le formalise de la session courrante
-	 * @return le formalise de la session courrante
+	 * @return le formalise de la session
 	 */
-	String getSessionFormalism();
+	String getFormalism();
 
 	/**
-	 * Recupere la date de la session courrante
-	 * @return la date de la session courrante
+	 * @return la date de la session
 	 */
-	int getSessionDate();
+	int getDate();
 
 	/**
-	 * Recupere l'identifiant d'une session.
-	 * Cette methode est utiliser par l'apiws, pour identifier une session
-	 * car le nom d'un session n'est pas forcement unique chez le wrapper.
-	 * Dans le cas de l'api-antlr idSession peut-etre considerer comme egale a nameSession.
-	 * @return l'identifiant d'une session.
+	 * Recupère l'identifiant d'une session.<br>
+	 * Celui ci est calculé par les API en fonction de leur interlocuteur.<br>
+	 * @return l'identifiant de la session
 	 */
-	String getIdSession();
+	String getId();
 
 	/**
-	 * Ouvre une session
-	 * @param sessionDate date de la session.
-	 * @param sessionFormalism formalisme de la session.
-	 * @param sessionName nom de la session.
-	 * @param interlocutor l'interlocuteur (l'outil).
-	 * @param mode le mode (interactif ou batch).
+	 * Ouvre la session sur la plate-forme de services
+	 * @param date Date de la session.
+	 * @param formalism Formalisme de la session.
+	 * @param name Nom de la session.
 	 * @return les informations sur la session ouverte.
 	 * @throws ApiException si l'ouverture d'une session échoue.
 	 */
-	@Deprecated
-	ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException;
+	ISessionInfo open(int date, String formalism, String name) throws ApiException;
 
 	/**
-	 * Ouvre une session
-	 * @param sessionDate date de la session.
-	 * @param sessionFormalism formalisme de la session.
-	 * @param sessionName nom de la session.
-	 * @return les informations sur la session ouverte.
-	 * @throws ApiException si l'ouverture d'une session échoue.
-	 */
-	ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName) throws ApiException;
-
-	/**
-	 * Suspend la session courrante
-	 * @return true, si la session est bien suspendu.
+	 * Suspend la session
 	 * @throws ApiException si la suspention de la session échoue.
 	 */
-	boolean suspendSession() throws ApiException;
+	@Deprecated
+	void suspend() throws ApiException;
 
 	/**
-	 * Restaure la session courrante
-	 * @return true, si la session est bien restaure.
-	 * @throws ApiException si la restauration de la session échoue.
+	 * Restaure la session
+	 * @throws ApiException si la reprise de la session échoue.
 	 */
-	boolean resumeSession() throws ApiException;
+	void resume() throws ApiException;
 
 	/**
-	 * Ferme la session courrante.
-	 * @return true, si la session est bien fermee.
+	 * Ferme la session.
+	 * <b>Aucune garantie n'est donnée sur la session active après la fermeture !!</b><br>
+	 * <b>Ce <code>close</code> doit donc être suivi d'un <code>resume</code></b>
 	 * @throws ApiException si la fermeture de la session échoue.
 	 */
-	boolean closeSession() throws ApiException;
+	void close() throws ApiException;
 
 	/**
 	 * Demande un service sur la session courrante

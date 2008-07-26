@@ -78,9 +78,10 @@ public interface IApiConnection {
 
 	/**
 	 * Ferme une connexion
-	 * @return true, si la fermeture a reussie, false sinon
+	 * @param softMode Si <code>true</code> alors toutes les sessions doivent être proprement déconnectées d'abord.
+	 * Si <code>false</code> on se contente de couper les différentes socket.
 	 */
-	boolean closeConnection();
+	void closeConnection(boolean softMode);
 
 	/**
 	 * Creer une session
