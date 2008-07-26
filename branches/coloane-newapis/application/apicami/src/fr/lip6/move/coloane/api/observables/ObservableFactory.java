@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.util.Map;
+import fr.lip6.move.coloane.api.ApiConnection;
 
 /**
  * Fabrique des objets observables de l'API
@@ -40,11 +40,11 @@ public final class ObservableFactory {
 
 	/**
 	 * Création d'un observable pour la connexion à la plate-forme
-	 * @param hashObservers La table qui contient les observers et sur laquelle on se synchronise
+	 * @param apiConnection Le gestionnaire de connexion qui doit être averti
 	 * @return L'observable fraîchement créé
 	 */
-	public static ConnectionObservable getNewOpenConnectionObservable(Map< String, Object> hashObservers) {
-		return new ConnectionObservable(hashObservers);
+	public static ConnectionObservable getNewOpenConnectionObservable(ApiConnection apiConnection) {
+		return new ConnectionObservable(apiConnection);
 	}
 
 	/**

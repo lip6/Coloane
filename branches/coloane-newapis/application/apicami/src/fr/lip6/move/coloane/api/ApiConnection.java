@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
-import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
@@ -74,7 +73,7 @@ public class ApiConnection implements IApiConnection {
 		this.uiName = uiName;
 		this.uiVersion = uiVersion;
 
-		this.hashObservable.put("IConnection", ObservableFactory.getNewOpenConnectionObservable(this.hashObservable));
+		this.hashObservable.put("IConnection", ObservableFactory.getNewOpenConnectionObservable(this));
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
@@ -144,7 +143,6 @@ public class ApiConnection implements IApiConnection {
 		synchronized (this.hashObservable) {
 			try {
 				this.hashObservable.wait();
-				this.connectionInfo = ((ConnectionObservable) this.hashObservable.get("IConnection")).getConnectionInfo();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

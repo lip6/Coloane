@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
+import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
-
-import java.util.Map;
-
 
 /**
  * Observable d'une déconnexion de la plate-forme
@@ -13,25 +11,16 @@ import java.util.Map;
  *
  */
 public class ConnectionObservable {
-	/** Liste des observeurs */
-	private Map< String, Object> synchro;
+	/** L'unique observer */
+	private ApiConnection apiConnection;
 
-	/** Les informations de connexion */
-	private IConnectionInfo connectionInfo;
 
 	/**
 	 * Constructeur
-	 * @param hashObservers La table qui contient les observers et sur laquelle on se synchronise
+	 * @param apiConnection Le gestionnaire de connexion qui doit être averti
 	 */
-	public ConnectionObservable(Map< String, Object> hashObservers) {
-		synchro = hashObservers;
-	}
-
-	/**
-	 * @return les informations de connexion
-	 */
-	public final IConnectionInfo getConnectionInfo() {
-		return this.connectionInfo;
+	public ConnectionObservable(ApiConnection apiConnection) {
+		this.apiConnection = apiConnection;
 	}
 
 	/**
@@ -39,9 +28,8 @@ public class ConnectionObservable {
 	 * @param infos Les informations récupérées lors de l'ouverture de connexion
 	 */
 	public final void notifyObservers(IConnectionInfo infos) {
-		this.connectionInfo = infos;
-		synchronized (synchro) {
-			synchro.notify();
+		synchronized (apiConnection) {
+			apiConnection.notifyEndOpenConnection(infos);
 		}
 	}
 }
