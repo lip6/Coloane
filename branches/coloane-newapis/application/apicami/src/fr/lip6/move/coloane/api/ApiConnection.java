@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
+import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -155,6 +156,13 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final boolean closeConnection() {
+		try {
+			LOGGER.fine("Demande de deconnexion de tous les modeles");
+			SessionController.getInstance().closeAllSessions();
+		} catch (ApiException apie) {
+			LOGGER.warning("Au moins une session ne s'est pas fini correctement... Déconnexion brutale !");
+		}
+
 		try {
 			speaker.closeConnection();
 		} catch (IOException e) {

@@ -3,16 +3,10 @@ package fr.lip6.move.coloane.api.cami;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.lip6.move.coloane.api.camiObject.AttributeModify;
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
-import fr.lip6.move.coloane.api.interfaces.IAttributeModify;
-import fr.lip6.move.coloane.api.interfaces.IBox;
-import fr.lip6.move.coloane.api.interfaces.IDomainTable;
-import fr.lip6.move.coloane.api.interfaces.IObjectAttribute;
-import fr.lip6.move.coloane.api.interfaces.IObjectDomainTable;
 import fr.lip6.move.coloane.api.interfaces.IResult;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IArc;

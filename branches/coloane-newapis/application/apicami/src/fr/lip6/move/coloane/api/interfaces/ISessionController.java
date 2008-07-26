@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.api.interfaces;
 import fr.lip6.move.coloane.api.session.ApiSession;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
-import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
  * Gestionnaire de sessions.<br>
@@ -13,43 +12,37 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
  * @author Youcef Belattaf
  */
 public interface ISessionController {
-
 	/**
 	 * @return la session active.
 	 */
 	ApiSession getActiveSession();
 
 	/**
-	 * Suspend la session désignée
-	 * @param session La session à suspendre.
-	 * @return true, si suspendue, false sinon.
+	 * Indique la nouvelle session active<br>
+	 * Si la session à activer n'est pas enregistrée... Il y a un problème
+	 * @param session La nouvelle session active
+	 * @return <code>true</code> si tout est OK; <code>false</code> si la session n'est pas enregistrée.
 	 */
-	boolean suspendSession(IApiSession session);
+	boolean setActiveSession(ApiSession session);
 
 	/**
-	 * Reprise de la session désignée
-	 * @param session La session a reprendre.
-	 * @return true, si la session a été reprise , false sinon.
-	 * @throws ApiException si on ne peut pas reprendre cette session
+	 * Ajoute une session à la liste des sessions contrôlées
+	 * @param session La session à ajouter
 	 */
-	boolean resumeSession(ApiSession session) throws ApiException;
+	void addSession(ApiSession session);
 
 	/**
-	 * La session demande au contrôleur de sessions si elle a le droit de s'ouvrir ou pas.<br>
-	 * Si aucune session n'est active : la demande est accordée<br>
-	 * Sinon le session contrôleur essaye de suspendre la session active pour la remplacer par celle là<br>
-	 * @param s La session qu'on veut ouvrir.
-	 * @return <code>true</code> si c'est l'ouverture est autorisée, <code>false</code> sinon.
-	 * @throws ApiException si la session active n'est pas suspendable
+	 * Supprime une session de la liste des sessions contrôlées<br>
+	 * <b>Si la session supprimée est la session active, la session active sera <code>null</code> après la suppression</b>
+	 * @param session La session à supprimer
 	 */
-	boolean openSession(ApiSession s) throws ApiException;
+	void removeSession(ApiSession session);
 
 	/**
-	 * Demande la fermeture de la session désignée
-	 * @param apiSession La session qui doit être fermée
-	 * @return <code>true</code> si la fermeture s'est bien passsée
+	 * Fermeture de toutes les session connectées
+	 * @throws ApiException Si au moins une des session ne s'est pas correctement fermée
 	 */
-	boolean closeSession(ApiSession apiSession);
+	void closeAllSessions() throws ApiException;
 
 	/**
 	 * Indique la fin du parsing des menus et donc la fin de l'ouverture de session
@@ -71,14 +64,6 @@ public interface ISessionController {
 	 * Indique la réception de l'acquittement de FK pour la fermetue de session
 	 */
 	void notifyEndCloseSession();
-
-
-	/**
-	 * Demande d'une invocation de service sur une session
-	 * @param apiSession La session concernée par l'invocation de service
-	 * @return <code>true</code> Si l'invocation (et non le service) s'est bien déroulée
-	 */
-	boolean askForService(ApiSession apiSession);
 
 	/**
 	 * TODO : A documenter

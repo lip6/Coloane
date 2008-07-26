@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.api.session;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Logger;
-
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
@@ -12,26 +8,30 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Définition d'une session
  *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
+ * @author Jean-Baptiste Voron
  */
 public class ApiSession implements IApiSession {
 	/** Le Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** La date de la session */
-	private int sessionDate;
+	private int date;
 
 	/** Le formalisme de la session */
-	private String sessionFormalism;
+	private String formalism;
 
 	/** Le nom de la session */
-	private String sessionName;
+	private String name;
 
 	/** Le contrôleur de sessions */
 	private ISessionController sessionControl;
@@ -40,7 +40,7 @@ public class ApiSession implements IApiSession {
 	private ISpeaker speaker;
 
 	/** L'automate d'état */
-	private ISessionStateMachine automate;
+	private ISessionStateMachine stateMachine;
 
 	/** Le modèle attaché à la session */
 	private IGraph model;
@@ -53,65 +53,85 @@ public class ApiSession implements IApiSession {
 	 * @param speaker Le speaker attaché à cette session
 	 */
 	public ApiSession(ISpeaker speaker) {
-		this.sessionDate = 0;
-		this.sessionFormalism = null;
-		this.sessionName = null;
+		this.date = 0;
+		this.formalism = null;
+		this.name = null;
 		this.model = null;
 		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
-		this.automate = new SessionStateMachine();
+		this.stateMachine = new SessionStateMachine();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final String getSessionName() {
-		return this.sessionName;
+		return this.name;
 	}
 
 	/**
 	 * @return l'automate d'états pour la session courante
 	 */
 	public final ISessionStateMachine getSessionStateMachine() {
-		return this.automate;
+		return this.stateMachine;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final String getIdSession() {
-		return this.sessionName;
+		return this.name;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final int getSessionDate() {
-		return this.sessionDate;
+		return this.date;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final String getSessionFormalism() {
-		return this.sessionFormalism;
+		return this.formalism;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(int date, String formalism, String name) throws ApiException {
-		this.sessionDate = date;
-		this.sessionFormalism = formalism;
-		this.sessionName = name;
+	public final ISessionInfo open(int date, String formalism, String name) throws ApiException {
+		this.date = date;
+		this.formalism = formalism;
+		this.name = name;
+
+		// La session active avant l'ouverture de celle-là
+		ApiSession activeSession = null;
+
+
+		// Contrôles de rigueur
+		// TODO : Est-ce qu'un session homonyme n'existe pas déjà ?
+		// TODO : Est-ce que la session est bien déconnectée ?
 
 		synchronized (this) {
-			if (this.sessionControl.openSession(this)) {
-				try {
-					this.speaker.openSession(this.sessionName, this.sessionDate, this.sessionFormalism, "FrameKit Environment", 1);
-				} catch (IOException ioe) {
-					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
+			LOGGER.fine("Demande d'ouverture de session: " + this.name);
+			// On essaye de faire passer cette session en session active
+			this.resume();
+
+			// On met a jour le contrôleur de sessions
+			this.sessionControl.addSession(this);
+			this.sessionControl.setActiveSession(this);
+
+			// Dialogue avec la plate-forme
+			try {
+				this.speaker.openSession(this.name, this.date, this.formalism, "FrameKit Environment", 1);
+			} catch (IOException ioe) {
+				// Il faut reprendre la session précédemment suspendue (si nécessaire)
+				if (activeSession != null) {
+					activeSession.resume();
+					this.sessionControl.setActiveSession(activeSession);
 				}
+				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 			}
 
 			// Attente de la fin de l'ouverture de session
@@ -122,92 +142,134 @@ public class ApiSession implements IApiSession {
 			}
 
 			// On vérifie qu'on est dans un état compatible avec unne ouverture de session
-			if (!this.automate.setWaitingForUpdatesAndMenusState()) {
+			if (!this.stateMachine.setWaitingForUpdatesAndMenusState()) {
 				throw new ApiException("Session cannot be opened correctly. It cannot receive service menus.");
 			}
 		}
-		// TODO : A changer...
 		return this.sessionInfo;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ISessionInfo openSession(int sessionDate, String sessionFormalism, String sessionName, String interlocutor, int mode) throws ApiException {
-		return openSession(sessionDate, sessionFormalism, sessionName);
-	}
+	public final void close() throws ApiException {
+		// La session active avant l'ouverture de celle-là
+		ApiSession activeSession = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean closeSession() throws ApiException {
-		if (this.sessionControl.closeSession(this)) {
-			synchronized (this) {
-				try {
-					speaker.closeSession(false);
-				} catch (IOException ioe) {
-					throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
+		synchronized (this) {
+			LOGGER.fine("Demande de fermeture de la session " + this.name);
+			// On essaye de faire passer cette session en session active
+			this.resume();
+
+			// Envoi des commandes CAMI
+			try {
+				speaker.closeSession(false);
+			} catch (IOException ioe) {
+				// Il faut reprendre la session précédemment suspendue (si nécessaire)
+				if (activeSession != null) {
+					activeSession.resume();
+					this.sessionControl.setActiveSession(activeSession);
 				}
-
-				// On vérifie qu'on est dans un état compatible avec une fermeture de session
-				if (!this.automate.setWaitingForCloseSessionState()) {
-					throw new ApiException("The session cannot be closed");
-				}
-
-				// Attente de la fermeture de session
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					throw new ApiException("Interrupted while closing session");
-				}
-
-				// Tout est OK
-				return true;
+				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 			}
-		} else {
-			throw new ApiException("This session is not active. So it cannot be closed.");
+
+			// On vérifie qu'on est dans un état compatible avec une fermeture de session
+			if (!this.stateMachine.setWaitingForCloseSessionState()) {
+				throw new ApiException("The session cannot be closed");
+			}
+
+			// Attente de la fermeture de session
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				throw new ApiException("Interrupted while closing session");
+			}
+
+			// Suppression de la liste des sessions contrôlées
+			this.sessionControl.removeSession(this);
+			LOGGER.finer("La session vient d'être supprimee de la liste des sessions controlees");
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean resumeSession() throws ApiException {
-		if (this.sessionControl.resumeSession(this)) {
-			synchronized (this) {
-				try {
-					speaker.resumeSession(this.getSessionName());
-				} catch (IOException ioe) {
-					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
-				}
-				if (!this.automate.setWaitingForResumeSessionState()){
-					throw new ApiException("The session cannot be resumed");
-				}
+	public final void resume() throws ApiException {
+		// La session active avant l'ouverture de celle-là
+		ApiSession activeSession = null;
 
-				// Attente de la reprise effective
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					throw new ApiException("Interrupted while resuming session");
+		synchronized (this) {
+			// Pas de session active... Il faut reprendre la session avant de la fermer
+			if (sessionControl.getActiveSession() == null) {
+				LOGGER.warning("Pas de session active...");
+
+				// Si la session est déjà active
+			} else if (this.equals(this.sessionControl.getActiveSession())) {
+				LOGGER.finest("La session est deja active");
+				return;
+
+				// Sinon : Une autre session est déjà active
+			} else {
+				activeSession = this.sessionControl.getActiveSession();
+				LOGGER.finest("La session " + activeSession.getName() + " est deja active");
+
+				// Si la session active ne fait rien... alors on la suspend et on prend sa place
+				if (activeSession.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
+					LOGGER.finest("Demande de la suspension de " + activeSession.getSessionName());
+					activeSession.suspend();
+
+					// Sinon l'ouverture n'est pas autorisée
+				} else {
+					LOGGER.warning("Impossible de suspendre la session active " + activeSession.getSessionName() + " (Etat : " + activeSession.getSessionStateMachine().getState() + ")");
+					throw new ApiException("Cannot open this session. Another one is under execution...");
 				}
 			}
-			return true;
+
+			// Si la session n'est pas encore enregistrée... on retourne
+			// Sinon la session active est modifiée
+			if (!this.sessionControl.setActiveSession(this)) {
+				return;
+			}
+
+			// Dialogue en CAMI
+			try {
+				speaker.resumeSession(this.getSessionName());
+			} catch (IOException ioe) {
+				// Il faut reprendre la session précédemment suspendue (si nécessaire)
+				if (activeSession != null) {
+					activeSession.resume();
+					this.sessionControl.setActiveSession(activeSession);
+				}
+				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
+			}
+			if (!this.stateMachine.setWaitingForResumeSessionState()) {
+				throw new ApiException("The session " + this.name + " cannot be resumed");
+			}
+
+			// Attente de la reprise effective
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				throw new ApiException("Interrupted while resuming session");
+			}
 		}
-		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean suspendSession() throws ApiException {
-		if (this.sessionControl.suspendSession(this)) {
+	public final void suspend() throws ApiException {
+		if (this.equals(this.sessionControl.getActiveSession())) {
 			synchronized (this) {
+				// Dialogue CAMI pour suspendra la session
 				try {
 					speaker.suspendSession();
 				} catch (IOException ioe) {
 					throw new ApiException("Error while speakig to the platform: " + ioe.getMessage());
 				}
-				if (!this.automate.setWaitingForSuspendSessionState()) {
+
+				// Vérification et Positionnement du nouvel état
+				if (!this.stateMachine.setWaitingForSuspendSessionState()) {
 					throw new IllegalStateException("The session cannot be suspended");
 				}
 
@@ -218,18 +280,19 @@ public class ApiSession implements IApiSession {
 					throw new ApiException("Interrupted while suspending session");
 				}
 			}
-			return true;
+		} else {
+			LOGGER.warning("Impossible de suspendre la session " + this.name + ". Elle n'est pas active");
+			throw new ApiException("Cannot suspend the session... It is not active (active one is " + this.sessionControl.getActiveSession().getSessionName());
 		}
-		return false;
 	}
 
 	/**
 	 * Actions à entreprendre lors de l'ouverture de la session
 	 */
 	public final void notifyEndOpenSession() {
-		LOGGER.fine("La session " + this.sessionName + "vient d'etre connectee...");
-		if (!this.automate.setIdleState()) {
-			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec l'ouverture de session");
+		LOGGER.fine("La session " + this.name + " vient d'etre connectee...");
+		if (!this.stateMachine.setIdleState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec l'ouverture de session");
 			// TODO: Faire quelque chose
 		}
 	}
@@ -238,12 +301,12 @@ public class ApiSession implements IApiSession {
 	 * Actions à entreprendre lors de la fermeture de la session
 	 */
 	public final void notifyEndCloseSession() {
-		LOGGER.fine("La session " + this.sessionName + "vient d'etre deconnectee...");
+		LOGGER.fine("La session " + this.name + " vient d'etre deconnectee...");
 		synchronized (this) {
 			this.notify();
 		}
-		if (!this.automate.closeSessionState()) {
-			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la deconnexion de session");
+		if (!this.stateMachine.closeSessionState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec la deconnexion de session");
 			// TODO: Faire quelque chose
 		}
 
@@ -253,12 +316,12 @@ public class ApiSession implements IApiSession {
 	 * Actions à entreprendre lors de la suspension de la session
 	 */
 	public final void notifyEndSuspendSession() {
-		LOGGER.fine("La session " + this.sessionName + "vient d'etre suspendue...");
+		LOGGER.fine("La session " + this.name + " vient d'etre suspendue...");
 		synchronized (this) {
 			this.notify();
 		}
-		if (!this.automate.setSuspendSessionState()) {
-			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la suspension de session");
+		if (!this.stateMachine.setSuspendSessionState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec la suspension de session");
 			// TODO: Faire quelque chose
 		}
 	}
@@ -267,13 +330,13 @@ public class ApiSession implements IApiSession {
 	 * Actions à entreprendre lors de la reprise de la session
 	 */
 	public final void notifyEndResumeSession() {
-		LOGGER.fine("La session " + this.sessionName + "vient d'etre reprise...");
+		LOGGER.fine("La session " + this.name + " vient d'etre reprise...");
 		synchronized (this) {
 			this.notify();
 		}
 		//System.out.println("mon etat apré le notifyEndResumeSession   "+ this.automate.getState());
-		if (!this.automate.setIdleState()) {
-			LOGGER.warning("L'etat de la session " + this.sessionName + "est incompatible avec la reprise de session");
+		if (!this.stateMachine.setIdleState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec la reprise de session");
 			// TODO: Faire quelque chose
 		}
 	}
@@ -330,8 +393,8 @@ public class ApiSession implements IApiSession {
 		if (this.sessionControl.askForService(this)) {
 			// TODO trouver comment on calcule menuName
 			speaker.askForService(rootName, menuName, serviceName);
-			System.out.println(this.automate.getState());
-			if (!this.automate.setWaitingForResponseState()){
+			System.out.println(this.stateMachine.getState());
+			if (!this.stateMachine.setWaitingForResponseState()){
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
 		}
@@ -344,14 +407,14 @@ public class ApiSession implements IApiSession {
 //	public void sendModel(IModel model) throws IOException {
 
 
-	//	if (!this.automate.setWaitingForResultState()){
-	//		throw new IllegalStateException("j'etais pas en attente de resultat");
-	//	}
+//	if (!this.automate.setWaitingForResultState()){
+//	throw new IllegalStateException("j'etais pas en attente de resultat");
+//	}
 //	speaker.sendModel(model);
 //	}
 
 	public final void invalidModel() {
-		if(!this.automate.setWaitingForUpdatesState()){
+		if(!this.stateMachine.setWaitingForUpdatesState()){
 			throw new IllegalStateException("je peux pas me mettre dans cette etat");
 		} else {
 			speaker.invalidModel();
@@ -360,20 +423,20 @@ public class ApiSession implements IApiSession {
 	}
 
 	public void notifyWaitingForModel() throws IOException {
-		if(!this.automate.setWaitingForModelState())
+		if(!this.stateMachine.setWaitingForModelState())
 			throw new IllegalStateException("j'etais pas en attente de model");
 
 		speaker.sendModel(this.model);
 	}
 
 	public void notifyWaitingForResult() {
-		System.out.println(automate.getState());
-		if(!this.automate.setWaitingForResultState())
+		System.out.println(stateMachine.getState());
+		if(!this.stateMachine.setWaitingForResultState())
 			throw new IllegalStateException("j'etais pas en attente de reponse");
 	}
 
 	public void notifyEndResult() {
-		if(!this.automate.setIdleState()){
+		if(!this.stateMachine.setIdleState()){
 			throw new IllegalStateException("je peux pas me mettre dans cet etat");
 		}
 	}
@@ -399,5 +462,33 @@ public class ApiSession implements IApiSession {
 
 	public void sendModel(IGraph model) throws ApiException {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final int getDate() {
+		return this.date;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getFormalism() {
+		return this.formalism;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getId() {
+		return this.name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getName() {
+		return this.name;
 	}
 }

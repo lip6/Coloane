@@ -160,7 +160,8 @@ grammar Cami;
 	/* ----------------------------  Fermeture d'une session ----------------------------- */
 	ack_close_current_session
 	:
-	'FS(' CAMI_STRING ')'{
+	// TODO : Verifier qu'il n'y a pas d'argument pour le FS
+	'FS()'{
 		sessionControl.notifyEndCloseSession();
 	}
 	;
