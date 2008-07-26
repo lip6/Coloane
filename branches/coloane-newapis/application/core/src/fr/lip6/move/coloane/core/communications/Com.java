@@ -111,9 +111,11 @@ public final class Com implements ICom {
 
 	/**
 	 * Déconnexion
+	 * @param softMode Le softMode détermine si les sessions connectées doivent être déconnectées proprement par l'API
 	 */
-	public void breakConnection() {
-		connection.closeConnection();
+	public void breakConnection(boolean softMode) {
+		// On activele soft mode : Les sessions doivent être déconnectées d'abord
+		connection.closeConnection(softMode);
 	}
 
 	/**

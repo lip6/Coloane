@@ -402,10 +402,35 @@ public final class Motor {
 	 */
 	public void breakConnection() {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
-		Com.getInstance().breakConnection();
-		sessionManager.disconnectAllSessions();
-		sessionManager.setAuthenticated(false);
-		UserInterface.getInstance().redrawMenus();
-		UserInterface.getInstance().platformState(false, ISession.CLOSED);
+
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IRunnableContext context = workbench.getProgressService();
+
+		// Definition de l'operation d'authentification
+		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				setMonitor(monitor);
+				Com.getInstance().breakConnection(true);
+				sessionManager.disconnectAllSessions();
+				sessionManager.setAuthenticated(false);
+				UserInterface.getInstance().redrawMenus();
+				UserInterface.getInstance().platformState(false, ISession.CLOSED);
+			}
+		};
+
+		try {
+			context.run(false, true, runnable);
+		} catch (InvocationTargetException e) {
+			LOGGER.warning("Echec de la deconnexion : " + e.getTargetException()); //$NON-NLS-1$
+			Com.getInstance().breakConnection(false);
+			sessionManager.setAuthenticated(false);
+			return;
+		} catch (InterruptedException e) {
+			LOGGER.warning("Annulation de la deconnexion : " + e.getMessage()); //$NON-NLS-1$
+			Com.getInstance().breakConnection(false);
+			sessionManager.setAuthenticated(false);
+			return;
+		}
 	}
 }

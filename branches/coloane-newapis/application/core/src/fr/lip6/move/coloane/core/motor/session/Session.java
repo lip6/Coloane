@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.core.motor.session;
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.core.ui.UserInterface;
-import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -74,7 +73,7 @@ public class Session implements ISession {
 		if (status == ISession.SUSPENDED) {
 			status = ISession.CONNECTED;
 			try {
-				apiSession.resumeSession();
+				apiSession.resume();
 			} catch (ApiException e) {
 				e.printStackTrace();
 				LOG.finer("Impossible de reprendre la session " + name); //$NON-NLS-1$
@@ -90,7 +89,7 @@ public class Session implements ISession {
 		status = ISession.CLOSED;
 		if (apiSession != null) {
 			try {
-				apiSession.closeSession();
+				apiSession.close();
 			} catch (ApiException e) {
 				new Thread(new Runnable() {
 					public void run() {
@@ -158,7 +157,7 @@ public class Session implements ISession {
 	public final boolean connect() {
 		try {
 			apiSession = Com.getInstance().createApiSession();
-			apiSession.openSession(graph.getDate(), graph.getFormalism().getFKName(), name);
+			apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
 			return false;
@@ -174,7 +173,7 @@ public class Session implements ISession {
 		UserInterface.getInstance().cleanMenu();
 		try {
 			if (apiSession != null) {
-				apiSession.closeSession();
+				apiSession.close();
 				apiSession = null;
 			}
 		} catch (ApiException e) {
