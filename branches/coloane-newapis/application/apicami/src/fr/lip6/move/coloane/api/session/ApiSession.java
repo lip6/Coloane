@@ -108,10 +108,15 @@ public class ApiSession implements IApiSession {
 		// La session active avant l'ouverture de celle-là
 		ApiSession activeSession = null;
 
-
 		// Contrôles de rigueur
+
+		// Est-ce que la session n'est pas deja ouverte ?
+		if (this.getSessionStateMachine().getState() != ISessionStateMachine.INITIAL_STATE) {
+			LOGGER.fine("La session " + this.name + " est deja ouverte");
+			return this.sessionInfo;
+		}
+
 		// TODO : Est-ce qu'un session homonyme n'existe pas déjà ?
-		// TODO : Est-ce que la session est bien déconnectée ?
 
 		synchronized (this) {
 			LOGGER.fine("Demande d'ouverture de session: " + this.name);
@@ -155,6 +160,11 @@ public class ApiSession implements IApiSession {
 	public final void close() throws ApiException {
 		// La session active avant l'ouverture de celle-là
 		ApiSession activeSession = null;
+
+		if (this.getSessionStateMachine().getState() == ISessionStateMachine.CLOSE_SESSION_STATE) {
+			LOGGER.fine("La session " + this.name + " est deja fermee");
+			return;
+		}
 
 		synchronized (this) {
 			LOGGER.fine("Demande de fermeture de la session " + this.name);

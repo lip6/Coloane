@@ -111,8 +111,8 @@ public class SessionStateMachine implements ISessionStateMachine {
 	 */
 	public final boolean closeSessionState() {
 		if (this.state == WAITING_FOR_CLOSE_SESSION_STATE) {
-			//this.state = CLOSE_SESSION_STATE;
-			this.state = INITIAL_STATE;
+			this.state = CLOSE_SESSION_STATE;
+			// équivalent à this.state = INITIAL_STATE;
 			return true;
 		}
 		return false;

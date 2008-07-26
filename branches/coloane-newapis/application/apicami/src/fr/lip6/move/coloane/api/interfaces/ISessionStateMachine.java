@@ -27,7 +27,7 @@ public interface ISessionStateMachine {
 	int WAITING_FOR_CLOSE_SESSION_STATE = 6;
 
 	/** Etat correspondant à une session fermée */
-	int CLOSE_SESSION_STATE = 7;
+	int CLOSE_SESSION_STATE = 0; // Le même que INITIAL_STATE
 
 	 /** Etat correspondant à l'attente de réponse de la part de la plate-forme */
 	int WAITING_FOR_RESPONSE_STATE = 8;
