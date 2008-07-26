@@ -155,12 +155,15 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean closeConnection() {
-		try {
-			LOGGER.fine("Demande de deconnexion de tous les modeles");
-			SessionController.getInstance().closeAllSessions();
-		} catch (ApiException apie) {
-			LOGGER.warning("Au moins une session ne s'est pas fini correctement... Déconnexion brutale !");
+	public final void closeConnection(boolean softMode) {
+		// Si le softMode est active... Les sessions doivent être déconnecté en premier
+		if (softMode) {
+			try {
+				LOGGER.fine("Demande de deconnexion de tous les modeles");
+				SessionController.getInstance().closeAllSessions();
+			} catch (ApiException apie) {
+				LOGGER.warning("Au moins une session ne s'est pas fini correctement... Déconnexion brutale !");
+			}
 		}
 
 		try {
@@ -169,7 +172,6 @@ public class ApiConnection implements IApiConnection {
 			LOGGER.warning("Echec lors de la fermeture de la connexion");
 			e.printStackTrace();
 		}
-		return true;
 	}
 
 	/**
