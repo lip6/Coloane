@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
+import java.util.Map;
+
 /**
  * Fabrique des objets observables de l'API
  *
@@ -37,13 +39,22 @@ public final class ObservableFactory {
 	}
 
 	/**
+	 * Création d'un observable pour la connexion à la plate-forme
+	 * @param hashObservers La table qui contient les observers et sur laquelle on se synchronise
+	 * @return L'observable fraîchement créé
+	 */
+	public static ConnectionObservable getNewOpenConnectionObservable(Map< String, Object> hashObservers) {
+		return new ConnectionObservable(hashObservers);
+	}
+
+	/**
 	 * Création d'un observable pour la réception d'un message en provenance de FrameKit
 	 * @return L'observable fraîchement créé
 	 */
 	public static ReceptMessageObservable getNewSpecialMessageObservable() {
 		return new ReceptMessageObservable();
 	}
-	
+
 	public static ReceptDialogObservable getNewreceptDialogObservable() {
 		return new ReceptDialogObservable();
 	}

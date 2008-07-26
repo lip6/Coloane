@@ -2,57 +2,55 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
-
-
 /**
- * cette classe implemente linterface IFKVersion
- * retourné en resultat a la méthode openconnection.
- * @author kahoo & UU
+ * Cette classe contient toutes les informations renvoyées par la plate-forme lors d'une connexion
+ *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  *
  */
 
 public class ConnectionInfo implements IConnectionInfo {
-    /** le nom du FrameKit*/
-    private String FkName;
+    /** Le nom de la plate-forme */
+    private String fkName;
 
-    /** le numero majeur de FrameKit*/
-    private int FKMajor;
+    /** Le numéro de version majeur de la plate-forme */
+    private int fkMajor;
 
-    /** le numero mineur de FrameKit*/
-    private int FKMinor;
+    /** LE numéro de version mineur de la plate-forme */
+    private int fkMinor;
 
     /**
      * le constructeur de notre classe
-     * @param FkName le nom du FrameKit.
-     * @param FKMajor le numero majeur de FrameKit.
-     * @param FKMinor le numero mineur de FrameKit.
+     * @param fkName le nom du FrameKit.
+     * @param fkMajor le numero majeur de FrameKit.
+     * @param fkMinor le numero mineur de FrameKit.
      */
-	public ConnectionInfo(String FkName,int FKMajor,int FKMinor){
-     this.FkName = FkName;
-     this.FKMajor=FKMajor;
-     this.FKMinor=FKMinor;
-	}
-
-	
-	/**
-	 * retourne le numero majeur de notre FrameKit.
-	 */
-	public int getFkMajor() {
-		return this.FKMajor;
+	public ConnectionInfo(String fkName, String fkMajor, String fkMinor) {
+     this.fkName = fkName;
+     this.fkMajor = Integer.valueOf(fkMajor);
+     this.fkMinor = Integer.valueOf(fkMinor);
 	}
 
 	/**
-	 * retourne le numero mineur de notre FrameKit.
+	 * {@inheritDoc}
 	 */
-	public int getFkMinor() {
-		return this.FKMinor;
+	public final int getFkMajor() {
+		return this.fkMajor;
 	}
 
 	/**
-	 * retourne le nom du FrameKit.
+	 * {@inheritDoc}
 	 */
-	public String getFkName() {
-		return this.FkName;
+	public final int getFkMinor() {
+		return this.fkMinor;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getFkName() {
+		return this.fkName;
 	}
 
 }

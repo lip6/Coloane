@@ -1,91 +1,47 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
+import java.util.Map;
+
+
 /**
- * Observable des évènements de la connexion
+ * Observable d'une déconnexion de la plate-forme
  *
- * @author kahoo & uu
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  *
  */
+public class ConnectionObservable {
+	/** Liste des observeurs */
+	private Map< String, Object> synchro;
 
-public class ConnectionObservable implements IConnectionObservable {
-
-	/** liste des observateurs */
-	private ArrayList<IConnectionObserver> list;
-
-	/** créer un thread ? */
-	private boolean createThread = false;
+	/** Les informations de connexion */
+	private IConnectionInfo connectionInfo;
 
 	/**
 	 * Constructeur
+	 * @param hashObservers La table qui contient les observers et sur laquelle on se synchronise
 	 */
-	public ConnectionObservable() {
-		list = new ArrayList<IConnectionObserver>();
+	public ConnectionObservable(Map< String, Object> hashObservers) {
+		synchro = hashObservers;
 	}
 
 	/**
-	 * set de la variable createThread
-	 *
-	 * @param createThread
-	 *            notification avec ou sans création de thread
+	 * @return les informations de connexion
 	 */
-	public void setCreateThread(boolean createThread) {
-		this.createThread = createThread;
-	}
-
-	/**
-	 * Ajoute un observer
-	 *
-	 * @param o
-	 *            L'observer à ajouter
-	 */
-	public void addObserver(IConnectionObserver o) {
-		this.list.add(o);
+	public final IConnectionInfo getConnectionInfo() {
+		return this.connectionInfo;
 	}
 
 	/**
 	 * Notifier tous les observers
-	 *
-	 * @param arg
-	 *            argument de la notification.
+	 * @param infos Les informations récupérées lors de l'ouverture de connexion
 	 */
-	public void notifyObservers(IConnectionInfo arg) {
-
-		if (!this.createThread) { /* Option sans création de thread */
-			for (int i = 0; i < this.list.size(); i++)
-				this.list.get(i).update(arg);
-		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(this.list, arg);
-			new Thread(thread, "threadConnection").start();
+	public final void notifyObservers(IConnectionInfo infos) {
+		this.connectionInfo = infos;
+		synchronized (synchro) {
+			synchro.notify();
 		}
-
 	}
-
-	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification,
-	 * si cette option est active.
-	 *
-	 * @author kahoo & uu
-	 *
-	 */
-	private class ThreadNotifier implements Runnable {
-		private ArrayList<IConnectionObserver> listObservers;
-		private IConnectionInfo Info;
-
-		public ThreadNotifier(ArrayList<IConnectionObserver> list,
-				IConnectionInfo arg) {
-			this.listObservers = list;
-			this.Info = arg;
-		}
-
-		public void run() {
-			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update(Info);
-		}
-
-	}
-
 }

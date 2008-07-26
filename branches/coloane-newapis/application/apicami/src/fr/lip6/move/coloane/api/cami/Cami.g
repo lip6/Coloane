@@ -7,14 +7,17 @@ grammar Cami;
 @header{
 	package fr.lip6.move.coloane.api.cami;
 
+	import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 	import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
 	import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+	import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 	import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 	import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 	import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
 	import fr.lip6.move.coloane.api.session.SessionController;
 	import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
+	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -83,7 +86,7 @@ grammar Cami;
 	'SC(' CAMI_STRING ')'{
 		listOfArgs = new ArrayList<String>();
 		listOfArgs.add($CAMI_STRING.text);
-		synchronized(hashObservable) {
+		synchronized (hashObservable) {
 			hashObservable.notify();
 		}
 	}
@@ -97,10 +100,15 @@ grammar Cami;
 		listOfArgs.add($v1.text);
 	} 
 	',' 
-	v2=NUMBER {listOfArgs.add($v2.text);
-		synchronized(hashObservable) {
+	v2=NUMBER {
+		listOfArgs.add($v2.text);
+		synchronized (hashObservable) {
 			hashObservable.notify();
 		}
+		// Construction de l'objet contenant les informations de connexion
+		LOGGER.finest("Fin de la construction des objets de connexion. Transmission...");
+		IConnectionInfo connect = new ConnectionInfo(listOfArgs.get(0), listOfArgs.get(1), listOfArgs.get(2));
+		((ConnectionObservable) hashObservable.get("IConnection")).notifyObservers(connect);
 	}
 	')'
 	;

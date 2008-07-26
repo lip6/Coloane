@@ -4,9 +4,9 @@ import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
 import fr.lip6.move.coloane.api.FkCommunication.Listener;
 import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
@@ -54,6 +54,9 @@ public class ApiConnection implements IApiConnection {
 	/** La version du client */
 	private String uiVersion;
 
+	/** Les informations de connexion */
+	private IConnectionInfo connectionInfo;
+
 	/**
 	 * Constructeur<br>
 	 * Initialise la connexion en créant :
@@ -71,6 +74,7 @@ public class ApiConnection implements IApiConnection {
 		this.uiName = uiName;
 		this.uiVersion = uiVersion;
 
+		this.hashObservable.put("IConnection", ObservableFactory.getNewOpenConnectionObservable(this.hashObservable));
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
@@ -136,7 +140,17 @@ public class ApiConnection implements IApiConnection {
 			}
 		}
 
-		return new ConnectionInfo("TOTO", 3, 2);
+		// Mise en attente... des résultats de la connexion
+		synchronized (this.hashObservable) {
+			try {
+				this.hashObservable.wait();
+				this.connectionInfo = ((ConnectionObservable) this.hashObservable.get("IConnection")).getConnectionInfo();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return this.connectionInfo;
 	}
 
 	/**
@@ -157,6 +171,17 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final IApiSession createApiSession() throws ApiException {
 		return SessionFactory.getNewApiSession(this.speaker);
+	}
+
+	/**
+	 * Indique la fin de l'ouverture de connexion
+	 * @param infos Les informations de connexion
+	 */
+	public final void notifyEndOpenConnection(IConnectionInfo infos) {
+		this.connectionInfo = infos;
+		synchronized (hashObservable) {
+			this.hashObservable.notify();
+		}
 	}
 
 	/**
