@@ -100,7 +100,7 @@ public final class Com implements ICom {
 
 		// Observers pour tous les messages asynchrones
 		// TODO : dans un Thread ou pas ?
-		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), true);
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
 		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
