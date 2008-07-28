@@ -1,14 +1,25 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.Parameterization;
+import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.resources.ICommand;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.menus.CommandContributionItem;
 
 /**
  * Bibliothèque de méthode statique permettant de manipuler le menu de Coloane.<br>
@@ -41,8 +52,43 @@ public final class MenuManipulation {
 	 * @return MenuManager correpondant au menu passé en parametre
 	 */
 	public static MenuManager build(ISubMenu rootApiMenu) {
-		MenuManager root = new MenuManager(rootApiMenu.getName());
-		return root;
+		try {
+			return build(rootApiMenu, rootApiMenu.isVisible());
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	/**
+	 * @param apiMenu (sous-)menu reçu par l'api
+	 * @param active <code>true</code> si les éléments de ce menu doivent être actif
+	 * @return MenuManager correpondant au menu passé en parametre
+	 */
+	private static MenuManager build(ISubMenu apiMenu, boolean active) {
+		MenuManager item = new MenuManager(apiMenu.getName());
+		for (ISubMenu subMenu : apiMenu.getSubMenus()) {
+			item.add(build(subMenu, active && apiMenu.isVisible()));
+		}
+		for (IServiceMenu service : apiMenu.getServiceMenus()) {
+			item.add(buildServiceMenu(service, active && apiMenu.isVisible()));
+		}
+		for (IOptionMenu option : apiMenu.getOptions()) {
+			item.add(buildOptionMenu(option, active && apiMenu.isVisible()));
+		}
+		return item;
+	}
+
+	private static IAction buildServiceMenu(IServiceMenu service, boolean active) {
+		IAction item = new ServiceAction(service.getName());
+		item.setEnabled(active && service.isVisible());
+		return item;
+	}
+
+	private static IAction buildOptionMenu(IOptionMenu option, boolean active) {
+		IAction item = new ServiceAction(option.getName());
+		item.setEnabled(active && option.isVisible());
+		return item;
 	}
 
 	/**
