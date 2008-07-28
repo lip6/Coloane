@@ -25,7 +25,13 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * Définition de la page de préférence dédiée à Coloane
+ */
 public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
+	/** Limit size for text field */
+	public static final int TXT_LIMIT = 255;
+
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -43,8 +49,6 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	private String port;
 	private String type;
 
-	/** Limit size for text field */
-	public static final int TXT_LIMIT = 255;
 	// Text fields for user to enter preferences
 	private Text loginField;
 
@@ -76,6 +80,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		loginField = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		loginField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		loginField.setTextLimit(TXT_LIMIT);
+		loginField.setText(Coloane.getInstance().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
 
 		// Combo List pour le choix du serveur
 		new Label(connection, SWT.NULL).setText(Messages.AuthenticationDialog_10);
@@ -93,7 +98,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		serversList[i] = Messages.AuthenticationDialog_13;
 		serversList[i + 1] = Messages.AuthenticationDialog_14;
 
-		// Mise en place de la liste des serveurs recup�r�s
+		// Mise en place de la liste des serveurs recupérés
 		comboServer.setItems(serversList);
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -152,6 +157,13 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		serverType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		serverType.setTextLimit(TXT_LIMIT);
 
+		if (!Coloane.getInstance().getPreference("SERVER_DEFAULT").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+			comboServer.setText(Coloane.getInstance().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
+			framekitIp.setText(Coloane.getInstance().getPreference("IP_DEFAULT")); //$NON-NLS-1$
+			framekitPort.setText(Coloane.getInstance().getPreference("PORT_DEFAULT")); //$NON-NLS-1$
+			serverType.setText(Coloane.getInstance().getPreference("TYPE_DEFAULT")); //$NON-NLS-1$
+		}
+
 		// Enable Ip/Port/Type fields if "Other..." is selected
 		enableFields();
 
@@ -186,10 +198,10 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	@Override
 	protected final void performDefaults() {
 		Coloane.getInstance().setDefaultPreference();
-		loginField.setText("");   //$NON-NLS-1$
-		framekitIp.setText("");   //$NON-NLS-1$
-		framekitPort.setText(""); //$NON-NLS-1$
-		serverType.setText(""); //$NON-NLS-1$
+		loginField.setText(Coloane.getInstance().getPreference("LOGIN_DEFAULT"));   //$NON-NLS-1$
+		framekitIp.setText(Coloane.getInstance().getPreference("IP_DEFAULT"));   //$NON-NLS-1$
+		framekitPort.setText(Coloane.getInstance().getPreference("PORT_DEFAULT")); //$NON-NLS-1$
+		serverType.setText(Coloane.getInstance().getPreference("TYPE_DEFAULT")); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
