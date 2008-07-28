@@ -201,7 +201,7 @@ grammar Cami;
 	'FQ()'{
 		menu = CamiObjectBuilder.buildMenu(camiMenuList);
 		LOGGER.finest("Nombre de questions recues : " + camiMenuList.size());
-		LOGGER.finest("Ajout du RootMenu " + menu.getName() + "a la liste des menu");
+		LOGGER.finest("Ajout du RootMenu " + menu.getName() + "à la liste des menu");
 		menuList.add(menu);
 	}
 	'VQ('name=CAMI_STRING')'{
@@ -319,13 +319,14 @@ grammar Cami;
 	end_menu_transmission
 	:       
 	'QQ(' NUMBER ')'{
-		LOGGER.finest("Fin de la transmission d'un menu");
 		if($NUMBER.text.equals("3")) {
+                LOGGER.finest("Fin de la transmission d'un menu aprés une ouverture de session");
 			sessionControl.notifyEndOpenSession();
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(menuList, updates);
 			camiUpdates = new ArrayList<List<String>>();
 		} else {
+                LOGGER.finest("Fin de la transmission d'un menu aprés une invalidation de modèle");
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates);
 		}
@@ -383,7 +384,7 @@ grammar Cami;
 	'DF(-2,' NUMBER ',' NUMBER ')'{
 		System.out.println("je parse le DF");
 		sessionControl.notifyWaitingForModel();
-		//    ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+		
 	}
 	;
 
@@ -410,12 +411,11 @@ grammar Cami;
 		if($mess2.text != null){
 			ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,$mess2.text);
 			((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-			//  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
 			System.out.println("je parse TQ2");
 		}
 		else
 		{
-			//     ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,"");
+			//  ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,"");
 			// ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 			//  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
 			System.out.println("je parse TQ2");  
@@ -430,9 +430,10 @@ grammar Cami;
 	|dialogue*
 	|modele*
 	|'FR(' NUMBER ')'{
+                //TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
 		System.out.println("je parse FR");
 		sessionControl.notifyEndResult();
-		//TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
+		
 	}
 	;
 
@@ -454,7 +455,6 @@ grammar Cami;
 	'TR(' CAMI_STRING ')'{ 
 		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(2,$CAMI_STRING.text);
 		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-		//  ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
 		System.out.println("je parse le TR");
 	}
 	;
@@ -464,7 +464,6 @@ grammar Cami;
 	'WN(' CAMI_STRING ')'{
 		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(1,$CAMI_STRING.text);
 		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-		// ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
 		System.out.println("je parse le WN");
 	}
 	;
@@ -473,8 +472,7 @@ grammar Cami;
 	:	
 	'MO(' NUMBER ',' CAMI_STRING ')'{
 		ISpecialMessage msg =(ISpecialMessage) new SpecialMessage(1,$CAMI_STRING.text);
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-		//  ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);            
 		System.out.println("je parse le MO");
 	}
 	;
@@ -636,7 +634,7 @@ grammar Cami;
 		if($default_value != null)
 		camiDialog.add($default_value.text); 
 		else
-		camiDialog.add(null/*new String("")*/);
+		camiDialog.add(null);
 
 		System.out.println("je parse CE"); 
 	}
@@ -656,22 +654,26 @@ grammar Cami;
 
 
 		Integer i = Integer.parseInt($dialog_id.text);
-
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(i),1);
+                Dialog dialog = dialogs.get(i);
+                dialog.setVisibility(1);
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		System.out.println("je parse AD");
 	}
 	|'CD('dialog_id=NUMBER ')'{
 
 		Integer j = Integer.parseInt($dialog_id.text);
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(j),2);
+                Dialog dialog = dialogs.get(j);
+                dialog.setVisibility(2);
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		System.out.println("je parse CD");
 	}
 	|'DG(' dialog_id=NUMBER ')'{
 		Integer k = Integer.parseInt($dialog_id.text);
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(k),3);
+                Dialog dialog = dialogs.get(k);
+                dialog.setVisibility(3);
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		dialogs.remove( k);
-
-		System.out.println("je parse DG");
+                System.out.println("je parse DG");
 	}
 	;
 	/*
@@ -722,7 +724,7 @@ grammar Cami;
 	;
 
 	EOF     :
-	{
+	        {
 		System.out.println("je parse EOOOFFFFF"); 
 		skip();}
 		;

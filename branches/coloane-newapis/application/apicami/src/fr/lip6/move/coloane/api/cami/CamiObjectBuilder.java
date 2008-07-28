@@ -2,12 +2,12 @@ package fr.lip6.move.coloane.api.cami;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
 import fr.lip6.move.coloane.api.interfaces.IResult;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -39,8 +39,10 @@ public final class CamiObjectBuilder {
 		String aboutService = camiFKInfo.get(0);
 		String incremental = camiFKInfo.get(1);
 		String nameService = camiFKInfo.get(2);
+
 		int resultatCalcule = Integer.valueOf(camiFKInfo.get(3));
 		ISessionInfo kfi = CamiObjectFactory.getNewFkInfo(aboutService, incremental, nameService, resultatCalcule);
+
 		return kfi;
 	}
 
@@ -112,21 +114,7 @@ public final class CamiObjectBuilder {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 
 	public static IArc buildArc(ArrayList<String> camiArc) {
@@ -134,23 +122,12 @@ public final class CamiObjectBuilder {
 		return null;
 	}
 
-	public static IAttributeModify buildAttributeModify(
-			ArrayList<String> CamiAttributeModify) {
-		String attributeType = CamiAttributeModify.get(1);
-		String newContent = CamiAttributeModify.get(2);
-		int objectID = Integer.parseInt(CamiAttributeModify.get(3));
-		IAttributeModify at = new AttributeModify(attributeType, newContent,
-				objectID);
-		return at;
-	}
-
-	public static IBox buildBox(ArrayList<String> camiBox) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
+    /*
+     * on construit la boite de dialogue
+     * @param camiDialog les elements necessaires pour cette construction
+     */
 	public static IDialog buildDialog(ArrayList<String> camiDialog) {
-		
 		int id;
 		int type;
 		int buttonType;
@@ -160,51 +137,41 @@ public final class CamiObjectBuilder {
         int inputType;
         int multiLine;
         String defaut;
-        
-      //  System.out.println(camiDialog.get(0));
+        IDialog dialog;
+        List<String> list = new ArrayList<String>();
         id = Integer.parseInt(camiDialog.get(0));
-        //System.out.println("id" + id);
-        //System.out.println(camiDialog.get(1));
         type = Integer.parseInt(camiDialog.get(1));
-        //System.out.println("type"+type);
-        //System.out.println(camiDialog.get(2));
         buttonType = Integer.parseInt(camiDialog.get(2));
-        //System.out.println("boutton" + buttonType);
-        //System.out.println(camiDialog.get(3));
         title = camiDialog.get(3);
-        //System.out.println("titre"+title);
-        //System.out.println(camiDialog.get(4));
         help = camiDialog.get(4);
-        //System.out.println("help" + help);
-        //System.out.println(camiDialog.get(5));
         message = camiDialog.get(5);
-        //System.out.println("msg" + message);
-        //System.out.println(camiDialog.get(6));
         inputType = Integer.parseInt(camiDialog.get(6));
-        //System.out.println("inputtype" + inputType);
-        //System.out.println(camiDialog.get(7));
         multiLine = Integer.parseInt(camiDialog.get(7));
-       // System.out.println("multiline"+multiLine);
-        //System.out.println(camiDialog.get(8));
-        defaut= camiDialog.get(8);
+        defaut = camiDialog.get(8);
         if (defaut == null) {
-			defaut="";
+			defaut = "";
 		}
-        //System.out.println("defaut"+defaut);
-        IDialog dialog = new Dialog(id,type,buttonType, title,help,message,inputType,multiLine,defaut);
+        if (camiDialog.size() != 9) {
+         for (int i = 9; i < camiDialog.size(); i++) {
+    	   list.add(camiDialog.get(i));
+    	 }
+        }
+        dialog = new Dialog(id, type, buttonType, title, help, message, inputType, multiLine, defaut, list);
 		return dialog;
 	}
 
-	public static IDomainTable buildDomainTable(
-			ArrayList<String> camiDomainTable) {
+	//public static IDomainTable buildDomainTable(
+		//	ArrayList<String> camiDomainTable) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		//return null;
+	//}
 	
 
 
 
+
 	public static IGraph buildModel(ArrayList<String> camiModel) {
+
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -214,7 +181,7 @@ public final class CamiObjectBuilder {
 		return null;
 	}
 
-	public static IObjectAttribute buildObjectAttribute(
+	/*public static IObjectAttribute buildObjectAttribute(
 			ArrayList<String> camiObjectAttribute) {
 		// TODO Auto-generated method stub
 		return null;
@@ -224,7 +191,7 @@ public final class CamiObjectBuilder {
 			ArrayList<String> camiObjectDomainTable) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	public static IResult buildResult(ArrayList<String> camiResult) {
 		// TODO Auto-generated method stub
