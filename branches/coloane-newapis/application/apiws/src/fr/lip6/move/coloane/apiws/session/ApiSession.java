@@ -327,7 +327,7 @@ public class ApiSession implements IApiSession {
 				// Attend que le nouveu graph arrive i.e. jusqu'à un notify dans setNewGraph
 				this.wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				LOGGER.warning("Erreur lors l'attend pour l'arrivé d'un nouveau graph: " + e.getMessage());
 				e.printStackTrace();
 				new ApiException(e.getMessage());
 			}

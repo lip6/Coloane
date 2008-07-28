@@ -214,11 +214,10 @@ public class ApiConnection implements IApiConnection {
 			speaker.closeConnection();
 
 		} catch (ApiException e) {
-			// TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
 			e.printStackTrace();
-			LOGGER.warning("Impossible de fermer la connexion: " + e.getMessage());
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
 			e.printStackTrace();
 		}
 

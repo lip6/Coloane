@@ -62,17 +62,13 @@ public class Listener extends Thread implements IListener {
 
 		while (!stop) {
 
-			// Pause durant un certains temps pour ne pas se faire tuer par le wrapper
 			try {
+
+				// Pause durant un certains temps pour ne pas se faire tuer par le wrapper
 				sleep(durePing);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 
-			AsyncMessage message = null;
+				AsyncMessage message = null;
 
-			try {
 				if (stub == null) {
 					throw new ApiException("Error of communcation : Stub is null");
 				}
@@ -114,12 +110,19 @@ public class Listener extends Thread implements IListener {
 
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
+				LOGGER.warning(e.getMessage());
 				e.printStackTrace();
 			} catch (GException e) {
 				// TODO Auto-generated catch block
+				LOGGER.warning(e.getMessage());
 				e.printStackTrace();
 			} catch (ApiException e) {
 				// TODO Auto-generated catch block
+				LOGGER.warning(e.getMessage());
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				LOGGER.warning(e.getMessage());
 				e.printStackTrace();
 			}
 

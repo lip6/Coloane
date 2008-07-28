@@ -63,10 +63,8 @@ public class Speaker implements ISpeaker {
 			LOGGER.finer("Création du Speaker");
 
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
 			LOGGER.warning("Echec de la création du Speaker: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -104,13 +102,13 @@ public class Speaker implements ISpeaker {
 			auth = res.get_return();
 
 		} catch (RemoteException e) {
+			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
             e.printStackTrace();
-            ApiException ee = new ApiException(e.getMessage());
-			// TODO Auto-generated catch block
-			throw ee;
+            throw new ApiException(e.getMessage());
 		} catch (GException e) {
-			// TODO Auto-generated catch block
+			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
 			e.printStackTrace();
+            throw new ApiException(e.getMessage());
 		}
 		return auth;
 	}
@@ -136,13 +134,13 @@ public class Speaker implements ISpeaker {
             session = res.get_return();
 
         } catch (RemoteException e) {
+			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
             e.printStackTrace();
-            ApiException ee = new ApiException(e.getMessage());
-            // TODO Auto-generated catch block
-            throw ee;
+            throw new ApiException(e.getMessage());
         } catch (GException e) {
-            // TODO Auto-generated catch block
+			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
             e.printStackTrace();
+            throw new ApiException(e.getMessage());
         }
 
 		return session;
@@ -169,13 +167,13 @@ public class Speaker implements ISpeaker {
 			session = res.get_return();
 
 		} catch (RemoteException e) {
+			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
             e.printStackTrace();
-            ApiException ee = new ApiException(e.getMessage());
-			// TODO Auto-generated catch block
-			throw ee;
+            throw new ApiException(e.getMessage());
 		} catch (GException e) {
-			// TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
 			e.printStackTrace();
+            throw new ApiException(e.getMessage());
 		}
 
 		return session;
@@ -202,13 +200,13 @@ public class Speaker implements ISpeaker {
             session = res.get_return();
 
         } catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
             e.printStackTrace();
-            ApiException ee = new ApiException(e.getMessage());
-            // TODO Auto-generated catch block
-            throw ee;
+            throw new ApiException(e.getMessage());
         } catch (GException e) {
-            // TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
             e.printStackTrace();
+            throw new ApiException(e.getMessage());
         }
 
         return session;
@@ -235,13 +233,13 @@ public class Speaker implements ISpeaker {
             unauth = res.get_return();
 
 		} catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
             e.printStackTrace();
-            ApiException ee = new ApiException(e.getMessage());
-            // TODO Auto-generated catch block
-            throw ee;
+            throw new ApiException(e.getMessage());
         } catch (GException e) {
-            // TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
             e.printStackTrace();
+            throw new ApiException(e.getMessage());
         }
 
         return unauth;
@@ -268,13 +266,13 @@ public class Speaker implements ISpeaker {
 			toReturn = res.get_return();
 
 		} catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
 			e.printStackTrace();
-			ApiException ee = new ApiException(e.getMessage());
-			// TODO Auto-generated catch block
-			throw ee;
+            throw new ApiException(e.getMessage());
 		} catch (GException e) {
-			// TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
 			e.printStackTrace();
+            throw new ApiException(e.getMessage());
 		}
 
 		return toReturn;
@@ -326,12 +324,13 @@ public class Speaker implements ISpeaker {
             toReturn = res.get_return();
 
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
             e.printStackTrace();
             throw new ApiException(e.getMessage());
         } catch (GException e) {
-            // TODO Auto-generated catch block
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
             e.printStackTrace();
+            throw new ApiException(e.getMessage());
         }
 
         return toReturn;
