@@ -58,6 +58,7 @@ public final class Com implements ICom {
 	private IApi getApi(String name) throws CoreException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement element : contributions) {
+			LOGGER.finest("Detection de l'API : " + element.getAttribute("name"));  //$NON-NLS-1$//$NON-NLS-2$
 			if (element.getAttribute("name").equals(name)) { //$NON-NLS-1$
 				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
 			}
@@ -99,7 +100,7 @@ public final class Com implements ICom {
 
 		// Observers pour tous les messages asynchrones
 		// TODO : dans un Thread ou pas ?
-		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), true);
 		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
