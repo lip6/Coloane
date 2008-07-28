@@ -20,5 +20,5 @@ public interface IItemMenu {
 	/**
      * @return les messages d'aide sur l'item
      */
-	List<String> getHelps();
+	String getHelps();
 }
