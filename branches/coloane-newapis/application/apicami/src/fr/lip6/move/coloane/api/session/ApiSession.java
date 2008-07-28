@@ -381,18 +381,17 @@ public class ApiSession implements IApiSession {
 		}
 		this.sendDate = false;
 		if (this.sessionControl.askForService(this)) {
-			// TODO trouver comment on calcule menuName
+			// TODO trouver comment on calcule menuName????
 			speaker.askForService(rootName, serviceName);
 			System.out.println(this.stateMachine.getState());
-			if (!this.stateMachine.setWaitingForResponseState()){
+			if (!this.stateMachine.setWaitingForResponseState()) {
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
 			return true;
-		}
-		else {
+		} else {
 			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		}
-		
+
 	}
 
 
@@ -414,38 +413,42 @@ public class ApiSession implements IApiSession {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void notifyWaitingForModel() throws IOException {
 		if(!this.stateMachine.setWaitingForModelState())
 			throw new IllegalStateException("j'etais pas en attente de model");
 
 		speaker.sendModel(this.model);
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void notifyWaitingForResult() {
 		System.out.println(stateMachine.getState());
 		if(!this.stateMachine.setWaitingForResultState())
 			throw new IllegalStateException("j'etais pas en attente de reponse");
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void notifyEndResult() {
 		if(!this.stateMachine.setIdleState()){
 			throw new IllegalStateException("je peux pas me mettre dans cet etat");
 		}
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model)
 	throws ApiException {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public boolean askForService(String rootName, String menuName,
-			String serviceName, List<String> options, IGraph model, String date)
-	throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */

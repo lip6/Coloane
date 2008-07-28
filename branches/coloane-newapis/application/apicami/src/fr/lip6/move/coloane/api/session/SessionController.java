@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -141,7 +142,12 @@ public final class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public void notifyWaitingForModel() {
-		this.activeSession.notifyWaitingForModel();
+		try {
+			this.activeSession.notifyWaitingForModel();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
