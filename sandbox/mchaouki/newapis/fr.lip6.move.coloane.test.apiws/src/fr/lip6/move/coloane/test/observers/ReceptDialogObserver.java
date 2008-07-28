@@ -18,12 +18,11 @@ public class ReceptDialogObserver implements IReceptDialogObserver {
 							dialog.getId(),
 							IDialog.DLG_NO_BUTTON,
 							false,
-							"",
+							null,
 							null));
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }

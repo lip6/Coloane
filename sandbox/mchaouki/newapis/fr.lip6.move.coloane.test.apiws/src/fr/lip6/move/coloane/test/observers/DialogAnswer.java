@@ -12,11 +12,11 @@ public class DialogAnswer implements IDialogAnswer {
 	
 	private List<Integer> objects;
 	
-	private String value;
+	private List<String> value;
 	
 	private boolean modified;
 	
-	public DialogAnswer(int idDialg, int buttonType, boolean modified, String value, List<Integer> objects){
+	public DialogAnswer(int idDialg, int buttonType, boolean modified, List<String> value, List<Integer> objects){
 		this.buttonType = buttonType;
 		this.idDialg = idDialg;
 		this.objects = objects;
@@ -36,7 +36,7 @@ public class DialogAnswer implements IDialogAnswer {
 		return objects;
 	}
 
-	public String getValue() {
+	public List<String> getAllValue() {
 		return value;
 	}
 
