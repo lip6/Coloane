@@ -7,15 +7,15 @@ package fr.lip6.move.coloane.interfaces.objects.service;
 public interface IService {
 
 	/** Constantes */
-	int TYPE_TEXT = 1;
-	int TYPE_TEXT_VARIABLE = 2;
+	int TYPE_SIMPLE = 1;
+	int TYPE_TEXT = 2;
 	int TYPE_SUBMENU = 3;
 	int TYPE_OBJECT = 4;
 
-	int BEHAVIOR_MOSTONE = 1;
-	int BEHAVIOR_MORETHANZERO = 2;
-	int BEHAVIOR_ONECHOICE = 3;
-	int BEHAVIOR_MORETHANONE = 4;
+	int CARDINALITY_MOSTONE = 1;
+	int CARDINALITY_MORETHANZERO = 2;
+	int CARDINALITY_ONECHOICE = 3;
+	int CARDINALITY_MORETHANONE = 4;
 
 	/**
 	 * @return le nom de la racine du menu dans lequel est défini le service
