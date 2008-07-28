@@ -1,10 +1,7 @@
 package fr.lip6.move.coloane.api.camiObject;
 
-import java.util.ArrayList;
-
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
-
-
+import java.util.List;
 
 
 
@@ -21,7 +18,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
  * 	<li>Un type de saisie </li>
  * 	<li>Un indicateur de saisie multi-lignes</li>
  *  <li>Une valeur par defaut</li>
- * </lu>
+ * </ul>
  *
  * Beaucoup d'indicateurs utilisent des constantes definies dans l'interface IDialog
  * @see fr.lip6.move.coloane.interfaces.IDialog
@@ -54,83 +51,112 @@ public final class Dialog implements IDialog {
 	private int multiLine;
 
 	/** Valeur par defaut */
-	private String defaut = ""; 
+	private String defaut = "";
+
+	/** la visibilité de la boite de dialogue*/
+	private int visibility = 1;
+
+	/**la liste des lignes*/
+	private List<String> lines;
+
+    /**
+     * constructeur
+     * @param id lidentifiant de la boite de dialgue
+     * @param type le type du dialogue
+     * @param buttonType le type du boutton dans la boite de dialogue
+     * @param title le titre de la boite de dialogue
+     * @param help le message d'aide associe avec la boite de dialogue
+     * @param message le message a afficher dans la boite de dialogue
+     * @param inputType  le type de saisie
+     * @param multiLine le type du champ de saisie
+     * @param defaut le message par defaut a afficher dans la boite de dialogue
+     * @param lines la liste des lignes
+     */
+	public Dialog(int id, int type, int buttonType, String title, String help, String message,
+			     int inputType, int multiLine, String defaut, List<String> lines) {
+		this.id = id;
+		this.type = type;
+		this.buttonType = buttonType;
+		this.title = title;
+		this.help = help;
+		this.message = message;
+		this.inputType = inputType;
+		this.multiLine = multiLine;
+		this.defaut = defaut;
+		this.lines = lines;
+
+	}
 
 	/**
-	 * Constructeur
-	 *
-	 * @param id Identifiant de la boite de dialogue
-	 * @see fr.lip6.move.coloane.interfaces.IDialog
+	 * {@inheritDoc}
 	 */
-	public Dialog(int dialogId) {
-		this.id = dialogId;
-	}
-   
-	public Dialog(int id,int type,int buttonType, String title, String help,String message,
-              int inputType, int multiLine, String defaut){
-		this.id=id;
-		this.type=type;
-		this.buttonType=buttonType;
-		this.title=title;
-		this.help=help;
-		this.message=message;
-		this.inputType=inputType;
-		this.multiLine=multiLine;
-		this.defaut=defaut;
-	}
-	
 	public int getButtonType() {
-		return buttonType;
+		return this.buttonType;
 	}
-
-	
-	
-	public String getDefault() {
-		return defaut;
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getDefaultValue() {
+		return this.defaut;
 	}
-
-
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getHelp() {
-		return help;
+		return this.help;
 	}
-
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-
-	
-
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getInputType() {
-		return inputType;
+		return this.inputType;
 	}
-
-	
-	
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getLineType() {
+		return this.multiLine;
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<String> getLines() {
+		return this.lines;
+	}
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
-
-	
-	public int getMultiLine() {
-		return multiLine;
-	}
-
-	
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
-
-	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getType() {
-		return type;
+		return this.type;
 	}
-
-	
-
-	
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getVisibility() {
+		return this.visibility;
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setVisibility(int visibility) {
+		this.visibility = visibility;
+	}
 }
