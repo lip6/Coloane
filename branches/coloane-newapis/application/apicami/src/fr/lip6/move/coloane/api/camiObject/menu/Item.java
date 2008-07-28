@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.camiObject.menu;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,11 @@ public class Item implements IItemMenu {
 	 */
 	public Item(String name, boolean visibility, List<String> help) {
 		this.name = name;
-		this.help = help;
+		if (help == null) {
+			this.help = new ArrayList<String>();
+		} else {
+			this.help = help;
+		}
 		this.visibility = visibility;
 	}
 
