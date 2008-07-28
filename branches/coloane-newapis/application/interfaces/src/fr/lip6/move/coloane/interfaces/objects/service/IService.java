@@ -58,6 +58,7 @@ public interface IService {
 	/**
 	 * @return <code>true</code> si l'élément doit être coché (s'applique pour les cases à cocher)
 	 */
+	@Deprecated
 	boolean isChecked();
 
 	/**
