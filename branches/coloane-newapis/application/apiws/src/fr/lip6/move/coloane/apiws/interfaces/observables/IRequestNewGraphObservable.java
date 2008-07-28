@@ -1,30 +1,29 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
-import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IRequestNewGraphObserver;
 
 /**
- * Cette interface définie l'observable pour l'événement: demande un model au core de coloane.
+ * Cette interface définie l'observable pour l'événement: demande un nouveua graph au core de coloane.
  */
 public interface IRequestNewGraphObservable {
 
 	/**
-	 * Ajoute un observateur a la liste des observateurs de l'evenement
+	 * Ajoute un observateur a la liste des observateurs de l'evenement: demande un nouveua graph au core de coloane.
 	 * @param o l'observateur a ajouter
 	 */
-	void addObserver(IReceptServiceStateObserver o);
+	void addObserver(IRequestNewGraphObserver o);
 
 	/**
-	 * Supprime un observateur de la liste des observateurs de l'evenement
+	 * Supprime un observateur de la liste des observateurs de l'evenement: demande un nouveua graph au core de coloane.
 	 * @param o l'observateur a supprimer
 	 */
-	void removeObserver(IReceptServiceStateObserver o);
+	void removeObserver(IRequestNewGraphObserver o);
 
 	/**
-	 * Notifie tous les observateurs de l'evenement
-	 * @param e l'objet qui represent l'information sur le service en cours d'exécution.
+	 * Notifie tous les observateurs de l'evenement: demande un nouveua graph au core de coloane.
+	 * @param e le formalism du model désiré
 	 */
-	void notifyObservers(IReceptServiceState e);
+	void notifyObservers(String e);
 
 	/**
 	 * Defini s'il faut creer un thread pour la notification

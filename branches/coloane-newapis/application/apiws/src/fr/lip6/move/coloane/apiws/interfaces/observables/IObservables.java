@@ -28,4 +28,7 @@ public interface IObservables {
 
 	/** Récéption d'une information sur un service */
 	Integer RECEPT_SERVICE_STATE = 7;
+
+	/** Demande un nouveau model */
+	Integer REQUEST_NEW_GRAPH = 8;
 }

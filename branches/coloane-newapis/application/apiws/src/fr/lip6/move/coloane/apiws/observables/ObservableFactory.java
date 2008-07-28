@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 
 /**
  * Cette classe permet de créer les différents observables possibles.
@@ -70,9 +71,17 @@ public class ObservableFactory {
 
 	/**
 	 * Crée un observable pour l'événement: récéption d'une information sur un service en cours d'exécution.
-	 * @return @return un observable pour l'événement: récéption d'une information sur un service en cours d'exécution.
+	 * @return un observable pour l'événement: récéption d'une information sur un service en cours d'exécution.
 	 */
 	public static IReceptServiceStateObservable getNewReceptServiceStateObservable() {
 		return (IReceptServiceStateObservable) new ReceptServiceStateObservable();
+	}
+
+	/**
+	 * Crée un observable pour l'événement: demande un nouveau graph.
+	 * @return un observable pour l'événement: demande un nouveau graph.
+	 */
+	public static IRequestNewGraphObservable getNewRequestNewGraphObservable() {
+		return (IRequestNewGraphObservable) new RequestNewGraphObservable();
 	}
 }
