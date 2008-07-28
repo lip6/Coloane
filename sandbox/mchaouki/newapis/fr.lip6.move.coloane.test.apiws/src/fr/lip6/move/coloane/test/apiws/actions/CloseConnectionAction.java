@@ -27,7 +27,7 @@ public class CloseConnectionAction implements IWorkbenchWindowActionDelegate {
 		IApiConnection connection = Activator.getConnection();
 
 		System.out.println("fermeture connexion");
-		connection.closeConnection();
+		connection.closeConnection(false);
 		Activator.getSessionController().setConnectionOpened(false);
 
 

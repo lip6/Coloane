@@ -16,10 +16,10 @@ public class TabListener implements IPartListener2 {
 			System.out.println("ACIVATED "+partRef.getTitle());
 			if (Activator.getSessionController().isOpened() == false)
 				return;
-			if (Activator.getSessionController().getActiveSession().getSessionName().equals(partRef.getTitle()))
+			if (Activator.getSessionController().getActiveSession().getName().equals(partRef.getTitle()))
 				return;
 			try {
-				Activator.getSessionController().getSession(partRef.getTitle()).resumeSession();
+				Activator.getSessionController().getSession(partRef.getTitle()).resume();
 				Activator.getSessionController().setActiveSession(partRef.getTitle());
 			} catch (ApiException e) {
 				// TODO Auto-generated catch block
@@ -43,7 +43,7 @@ public class TabListener implements IPartListener2 {
 			if (Activator.getSessionController().isOpened() == false)
 				return;
 			try {
-				Activator.getSessionController().getSession(partRef.getTitle()).closeSession();
+				Activator.getSessionController().getSession(partRef.getTitle()).close();
 				Activator.getSessionController().removeSession(partRef.getTitle());
 			} catch (ApiException e) {
 				// TODO Auto-generated catch block
@@ -88,9 +88,9 @@ public class TabListener implements IPartListener2 {
 				Activator.getSessionController().addSession(partRef.getTitle(), session);
 				Activator.getSessionController().setActiveSession(partRef.getTitle());
 				
-				session.openSession(27062008, "AMI-Net", partRef.getTitle());
+				session.open(27062008, "AMI-Net", partRef.getTitle());
 
-				System.out.println("OPEN SESSION: session active :"+Activator.getSessionController().getActiveSession().getSessionName());
+				System.out.println("OPEN SESSION: session active :"+Activator.getSessionController().getActiveSession().getName());
 
 			} catch (ApiException e) {
 				// TODO Auto-generated catch block
