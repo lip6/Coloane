@@ -219,10 +219,12 @@ public class ApiConnection implements IApiConnection {
 		} catch (InterruptedException e) {
 			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
 			e.printStackTrace();
+		} finally {
+			listener = null;
+			speaker = null;
+			connectionOpened = false;
+			LOGGER.fine("Fermeture de la connexion");
 		}
-
-		connectionOpened = false;
-		LOGGER.fine("Fermeture de la connexion");
 	}
 
 	/**
