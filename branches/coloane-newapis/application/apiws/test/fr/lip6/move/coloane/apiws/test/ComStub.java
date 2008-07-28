@@ -48,7 +48,7 @@ public class ComStub {
 		IApiSession session1 = connection.createApiSession();
 		receptDialogObserver.setSession(session1);
 		System.out.println("SESSION   :");
-		session1.openSession(27062008, "AM-Net", "maseesion1");
+		session1.open(27062008, "AM-Net", "maseesion1");
 
 		//session1.sendDialogAnswer(receptDialogObserver.getIdDialog(), IDialog.DLG_NO_BUTTON, false, "", null, null);
 		System.out.println("");
@@ -63,7 +63,7 @@ public class ComStub {
 		 * Fermeture d'une session
 		 */
 		System.out.println("3-a Fermeture session");
-		session1.closeSession();
+		session1.close();
 		System.out.println("");
 		Thread.sleep(1 * 1000);
 
@@ -71,7 +71,7 @@ public class ComStub {
 		 * Fermeture de la connection
 		 */
 		System.out.println("4 Fermeture Connexion");
-		connection.closeConnection();
+		connection.closeConnection(false);
 		Thread.sleep(1 * 1000);
 
 	}
