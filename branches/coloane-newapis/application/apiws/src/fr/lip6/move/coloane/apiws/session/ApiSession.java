@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
+import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -56,12 +57,17 @@ public class ApiSession implements IApiSession {
 
 	private MMenu menus;
 
+	private IGraph newGraph;
+
+	private IRequestNewGraphObservable requestNewGraphObservable;
+
 	/**
 	 * Constructeur
 	 * @param sessionController le gestionnaire de sessions à utiliser
 	 * @param speaker le speaker à utiliser par la session
+	 * @param requestNewGraphObservable l'observable pour demande des nouveau graph
 	 */
-	public ApiSession(ISessionController sessionController, ISpeaker speaker) {
+	public ApiSession(ISessionController sessionController, ISpeaker speaker, IRequestNewGraphObservable requestNewGraphObservable) {
 		this.sessionDate = -1;
 		this.sessionFormalism = null;
 		this.sessionName = null;
@@ -73,6 +79,8 @@ public class ApiSession implements IApiSession {
 		this.invalidateTheModel = false;
 
 		this.menus = null;
+
+		this.requestNewGraphObservable = requestNewGraphObservable;
 
 		this.idSession = null;
 
@@ -311,8 +319,20 @@ public class ApiSession implements IApiSession {
 			LOGGER.finer("Réinitialise invalidateTheModel à false");
 			this.invalidateTheModel = false;
 
+			// Demande la création d'un nouveau graph
+			LOGGER.finer("Création d'un nouveau grah");
+			requestNewGraphObservable.notifyObservers(sessionFormalism);
+			try {
+				// Attend que le nouveu graph arrive i.e. jusqu'à un notify dans setNewGraph
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				new ApiException(e.getMessage());
+			}
+
 			// Notifie la fin de l'exécution du service demander
-			sessionController.notifyEndResult(this, result);
+			sessionController.notifyEndResult(this, result, newGraph);
 
 		}
 
@@ -443,6 +463,15 @@ public class ApiSession implements IApiSession {
 		}
 
 		return theModel;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setNewGraph(IGraph newGraph) {
+		// TODO Auto-generated method stub
+		this.newGraph = newGraph;
+		this.notify();
 	}
 
 	/**

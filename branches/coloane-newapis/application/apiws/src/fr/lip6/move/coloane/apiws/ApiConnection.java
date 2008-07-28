@@ -236,6 +236,6 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		LOGGER.finer("Demande la creation d'une IApiSession");
-		return SessionFactory.getNewApiSession(sessionController, speaker);
+		return SessionFactory.getNewApiSession(sessionController, speaker, (IRequestNewGraphObservable) listObservables.get(IObservables.REQUEST_NEW_GRAPH));
 	}
 }

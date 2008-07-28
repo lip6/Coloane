@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
+import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -21,10 +22,11 @@ public final class SessionFactory {
 	 * Crée une nouvelle session
 	 * @param sessionController le gestionnaire de sessions à utiliser
 	 * @param speaker le speaker à utiliser par la session
+	 * @param requestNewGraphObservable l'observable pour demander un nouveau graph
 	 * @return une session
 	 */
-	public static IApiSession getNewApiSession(ISessionController sessionController, ISpeaker speaker) {
-		return (IApiSession) new ApiSession(sessionController, speaker);
+	public static IApiSession getNewApiSession(ISessionController sessionController, ISpeaker speaker, IRequestNewGraphObservable requestNewGraphObservable) {
+		return (IApiSession) new ApiSession(sessionController, speaker, requestNewGraphObservable);
 	}
 
 	/**

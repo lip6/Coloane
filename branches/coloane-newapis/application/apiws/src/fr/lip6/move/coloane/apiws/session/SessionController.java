@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
@@ -205,7 +206,7 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndResult(IApiSession sessionExecuted, RService result) throws ApiException {
+	public final void notifyEndResult(IApiSession sessionExecuted, RService result, IGraph newGraph) throws ApiException {
 		if (!((ApiSession) sessionExecuted).getSessionStateMachine().goToIdleState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
