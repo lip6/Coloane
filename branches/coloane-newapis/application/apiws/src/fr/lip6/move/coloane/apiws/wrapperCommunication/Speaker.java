@@ -94,6 +94,7 @@ public class Speaker implements ISpeaker {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
 
+			// Construction d'une requête pour l'ouverture de la connexion
 			Connect req = new Connect();
 			req.setLogin(login);
 			req.setMdp(pass);
@@ -124,11 +125,16 @@ public class Speaker implements ISpeaker {
             if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
             }
+
+            // Construction d'une requête pour l'ouverture d'une session
             CreateSession req = new CreateSession();
             req.setNameFormalism(nameFormalism);
             req.setUid(auth);
+
+            LOGGER.finer("Envoie de la requête pour l'ouverture d'une session");
             CreateSessionResponse res = stub.createSession(req);
             session = res.get_return();
+
         } catch (RemoteException e) {
             e.printStackTrace();
             ApiException ee = new ApiException(e.getMessage());
@@ -152,11 +158,16 @@ public class Speaker implements ISpeaker {
 			if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
+
+			// Construction d'une requête pour le changement de session i.e. restauration d'une session
 			ChangeSession req = new ChangeSession();
 			req.setUid(auth);
 			req.setIdSession(idSession);
+
+			LOGGER.finer("Envoie de la requête pour le changement de session");
 			ChangeSessionResponse res = stub.changeSession(req);
 			session = res.get_return();
+
 		} catch (RemoteException e) {
             e.printStackTrace();
             ApiException ee = new ApiException(e.getMessage());
@@ -180,11 +191,16 @@ public class Speaker implements ISpeaker {
             if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
             }
+
+            // Construction d'une requête pour la fermeture d'une session
             CloseSession req = new CloseSession();
             req.setUid(auth);
             req.setIdSession(idSession);
+
+            LOGGER.finer("Envoie de la requête pour la fermeture d'une session");
             CloseSessionResponse res = stub.closeSession(req);
             session = res.get_return();
+
         } catch (RemoteException e) {
             e.printStackTrace();
             ApiException ee = new ApiException(e.getMessage());
@@ -210,6 +226,7 @@ public class Speaker implements ISpeaker {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
 
+			// Construction d'une requête pour la fermeture de la connexion
             Disconnect req = new Disconnect();
             req.setId(auth);
 
@@ -240,11 +257,16 @@ public class Speaker implements ISpeaker {
 			if (stub == null) {
 				throw new ApiException("Error of communcation : Stub is null");
 			}
+
+			// Construction d'une requête pour la réponse à une boîte de dialogue
 			AnswerDb req = new AnswerDb();
 			req.setAuth(auth);
 			req.setDialog(answer);
+
+            LOGGER.finer("Envoie de la requête pour la réponse à une boîte de dialogue");
 			AnswerDbResponse res = stub.answerDb(req);
 			toReturn = res.get_return();
+
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			ApiException ee = new ApiException(e.getMessage());
@@ -279,13 +301,13 @@ public class Speaker implements ISpeaker {
             //req.setTheModel(m);
             ///////////////////////////////////////////////////////////////////////////
 
+            // Construction d'un requête pour l'exécution d'un service
             ExecuteService req = new ExecuteService();
             req.setUid(auth);
             req.setIdSession(idSession);
             req.setTheModel(theModel);
             req.setQuestion(question);
             req.setRoot(root);
-
             Option[] ops;
             if (options != null && options.size() > 0) {
                 ops = new  Option[options.size()];
@@ -297,9 +319,9 @@ public class Speaker implements ISpeaker {
                 ops = new  Option[1];
                 ops[0] = null;
             }
-
             req.setOptions(ops);
 
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service");
             ExecuteServiceResponse res = stub.executeService(req);
             toReturn = res.get_return();
 

@@ -62,6 +62,7 @@ public class Listener extends Thread implements IListener {
 
 		while (!stop) {
 
+			// Pause durant un certains temps pour ne pas se faire tuer par le wrapper
 			try {
 				sleep(durePing);
 			} catch (InterruptedException e1) {
@@ -76,12 +77,15 @@ public class Listener extends Thread implements IListener {
 					throw new ApiException("Error of communcation : Stub is null");
 				}
 
+				// Construction d'une requête pour demander s'il y a quelque-chose (messages asynchrones) à lire
 				Ping req = new Ping();
 				req.setAuth(auth);
 
+				// Envoie de la requête pour demander s'il y a quelque-chose (messages asynchrones) à lire
 				PingResponse res = stub.ping(req);
 				message = res.get_return();
 
+				// Test s'il y a des messages de traces à lire
 				if (message.getTraces() != null) {
 					for (int i = 0; i < message.getTraces().length; i++) {
 						LOGGER.fine("Récéption d'un message");
@@ -90,6 +94,7 @@ public class Listener extends Thread implements IListener {
 					}
 				}
 
+				// Test s'il y a des boîtes de dialogues à afficher
 				if (message.getDbs() != null) {
 					for (int i = 0; i < message.getDbs().length; i++) {
 						LOGGER.fine("Récéption d'une boîte de dialogue");
@@ -98,6 +103,7 @@ public class Listener extends Thread implements IListener {
 					}
 				}
 
+				// Test s'il y a des informations sur l'exécution d'un service à lire
 				if (message.getQts() != null) {
 					for (int i = 0; i < message.getQts().length; i++) {
 						LOGGER.fine("Récéption d'une information sur un service");
@@ -117,6 +123,7 @@ public class Listener extends Thread implements IListener {
 				e.printStackTrace();
 			}
 
+			// Réinitialise à chaque tour de boucle le boolean 'stop' pour savoir s'il faut arrêter le Listener
 			synchronized (this) {
 				stop = this.stopThread;
 			}
