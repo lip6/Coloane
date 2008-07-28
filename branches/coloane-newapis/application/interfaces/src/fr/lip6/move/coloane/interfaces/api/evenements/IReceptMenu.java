@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cette interface définie l'objet menu à envoyer aux observateurs d'événements: réception de menus.
@@ -12,20 +13,17 @@ import java.util.List;
 public interface IReceptMenu {
 
 	/**
-	 * Recupere les menus
-	 * @return les menus
+	 * @return la liste des root menu disponibles
 	 */
 	List<ISubMenu> getMenus();
 
 	/**
-	 * Recupere les services installés sur la plate-formes
-	 * @return une liste de service
+	 * @return une liste de service installés et disponibles sur la plate-forme
 	 */
 	List<IService> getServices();
 
 	/**
-	 * Recupere les mises a jour sur les menus
 	 * @return les mises a jour sur les menus
 	 */
-	List<IUpdateMenu> getUpdateMenus();
+	Map<String, IUpdateMenu> getUpdateMenus();
 }
