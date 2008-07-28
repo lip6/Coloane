@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IRequestNewGraphObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 /**
@@ -64,6 +65,13 @@ public interface IApiConnection {
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
 	void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread);
+
+	/**
+	 * Positionne un observateur pour l'evenement : demande un model.
+	 * @param o l'observateur qui sera notifier par l'evenement : demande un model.
+	 * @param createThread definie s'il faut creer un thread pour la notification.
+	 */
+	void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread);
 
 	/**
 	 * Ouvre une connexion
