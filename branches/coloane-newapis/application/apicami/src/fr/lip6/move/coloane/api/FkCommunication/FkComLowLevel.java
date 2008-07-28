@@ -89,10 +89,12 @@ public class FkComLowLevel {
 	 * @param command LA commande à écrire
 	 * @throws IOException En cas de problème d'écriture
 	 */
-	public final void writeCommand(byte[] command) throws IOException {
+	public final void writeCommand(String command) throws IOException {
 		try {
-			this.socketOutput.write(command, 0, command.length);
-			String debug = new String(command, 4, command.length - 4);
+			byte[] commandFinal;
+			commandFinal = initCommand(command);
+			this.socketOutput.write(commandFinal, 0, commandFinal.length);
+			String debug = new String(commandFinal, 4, commandFinal.length - 4);
 			LOGGER.finest("[CO-->FK] : " + debug);
 		} catch (IOException e) {
 			throw e;
@@ -119,5 +121,31 @@ public class FkComLowLevel {
 			LOGGER.warning("Echec de la fermeture de connexion de bas niveau avec la plate-forme");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Prepare la commande CAMI conformement aux besoins de FrameKit :
+	 * <ul>
+	 * 	<li>3 premiers octects a 0 </li>
+	 * 	<li>4eme octet indiquant la longueur du message</li>
+	 * </ul>
+	 * @param command La commande à transmettre
+	 * @return la commande formatée pour FK
+	 */
+	private static byte[] initCommand(String command) {
+		byte[] toSend = new byte[command.length() + 4];
+		byte[] message = command.getBytes();
+
+		// Entete
+		toSend[0] = 0;
+		toSend[1] = 0;
+		toSend[2] = 0;
+		toSend[3] = (byte) (message.length);
+
+		// Remplissage
+		for (int i = 0; i < message.length; i++) {
+			toSend[i + 4] = message[i];
+		}
+		return toSend;
 	}
 }

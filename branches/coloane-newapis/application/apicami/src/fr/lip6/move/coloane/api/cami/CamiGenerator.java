@@ -1,57 +1,33 @@
 package fr.lip6.move.coloane.api.cami;
 
-
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * Cette classe génère les commandes CAMI prêtes à être envoyées à FK
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */
-public class CamiGenerator {
+public final class CamiGenerator {
 
 	/**
-	 * Prepare la commande CAMI conformement aux besoins de FrameKit :
-	 * <ul>
-	 * 	<li>3 premiers octects a 0 </li>
-	 * 	<li>4eme octet indiquant la longueur du message</li>
-	 * </ul>
-	 * @param command La commande à transmettre
-	 * @return la commande formatée pour FK
+	 * constructeur
 	 */
-	private static byte[] initCommand(String command) {
-		byte[] toSend = new byte[command.length() + 4];
-		byte[] message = command.getBytes();
-
-		// Entete
-		toSend[0] = 0;
-		toSend[1] = 0;
-		toSend[2] = 0;
-		toSend[3] = (byte) (message.length);
-
-		// Remplissage
-		for (int i = 0; i < message.length; i++) {
-			toSend[i + 4] = message[i];
-		}
-		return toSend;
-	}
-
+	private CamiGenerator() { }
 	/**
-	 * @return Commande DB formattee
+	 * @return Commande DB non formattee
 	 */
-	public static byte[] generateCmdDB() {
+	public static String generateCmdDB() {
 		String command = new String("DB()");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
-	 * @return Commande FB formattee
+	 * @return Commande FB non formattee
 	 */
-	public static byte[] generateCmdFB() {
+	public static String generateCmdFB() {
 		String command = new String("FB()");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
@@ -66,58 +42,58 @@ public class CamiGenerator {
 	/**
 	 * @param interlocutor : outil interlocuteur
 	 * @param mode : batch/interactif (0/1)
-	 * @return
+	 * @return string
 	 */
-	public static byte[] generateCmdCI(String interlocutor, int mode) {
+	public static String generateCmdCI(String interlocutor, int mode) {
 		String command = new String("CI(" + interlocutor.length() + ":" + interlocutor + "," + mode + ")");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
-	 *
-	 * @return
+	 * commande DI
+	 * @return string
 	 */
-	public static byte[] generateCmdDI() {
+	public static String generateCmdDI() {
 		String command = new String("DI()");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
-	 *
-	 * @return
+	 * commande DT
+	 * @return string
 	 */
-	public static byte[] generateCmdDT() {
+	public static String generateCmdDT() {
 		String command = new String("DT()");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
-	 *
-	 * @return
+	 * commmande FI
+	 * @return string
 	 */
-	public static byte[] generateCmdFI() {
+	public static String generateCmdFI() {
 		String command = new String("FI()");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * commande FT
+	 * @return string
 	 */
-	public static byte[] generateCmdFT() {
+	public static String generateCmdFT() {
 		String command = new String("FT()");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
 	 *
 	 * @param date Nouvelle date du modèle
-	 * @return
+	 * @return string
 	 */
-	public static byte[] generateCmdMS(String date) {
+	public static String generateCmdMS(String date) {
 		// TODO Auto-generated method stub
 		String command = new String("MS(" + date + ")");
-		return (initCommand(command));
+		return command;
 	}
 
 	/**
@@ -127,128 +103,131 @@ public class CamiGenerator {
 	 * @param login Nom d'utilisateur
 	 * @return commande SC formatée pour FK
 	 */
-	public static byte[] generateCmdOC(String uiName, String uiVersion, String login) {
+	public static String generateCmdOC(String uiName, String uiVersion, String login) {
 		StringBuilder command = new StringBuilder();
 
 		command.append("OC(").append(uiName.length()).append(":").append(uiName);
 		command.append(",").append(uiVersion.length()).append(":").append(uiVersion);
 		command.append(",").append(login.length()).append(":").append(login);
 		command.append(",").append(0).append(")");
-		return (initCommand(command.toString()));
+		return command.toString();
 	}
 
 	/**
 	 *
 	 * @param sessionName Nom de la session
-	 * @param date
+	 * @param date la date
 	 * @param sessionFormalism Formalisme de la session
 	 * @return commande OS sous forme d'un tableau de bytes
 	 */
-	public static byte[] generateCmdOS(String sessionName, String date, String sessionFormalism) {
+	public static String generateCmdOS(String sessionName, String date, String sessionFormalism) {
 		StringBuffer command = new StringBuffer();
 		command.append("OS(").append(sessionName.length()).append(":").append(sessionName);
 		command.append(",").append(date).append(",");
 		command.append(sessionFormalism.length()).append(":").append(sessionFormalism).append(")");
-		return initCommand(command.toString());
+		return command.toString();
 	}
 
 	/**
 	 * Dans le protocole cami, le 3ème paramètre de la commande PQ est inconnu
 	 * Dans les traces, ce paramètre est toujours à 1
-	 * @param rootName
-	 * @param serviceName
-	 * @return
+	 * @param rootName le nom de la racine ds le menu
+	 * @param serviceName le nom du service
+	 * @return string
 	 */
-	public static byte[] generateCmdPQ(String rootName, String serviceName) {
+	public static String generateCmdPQ(String rootName, String serviceName) {
 		String command = new String("PQ(" + rootName.length() + ":" + rootName
 				+ "," + serviceName.length() + ":" + serviceName + "," + 1
 				+ ")");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * commande QQ
+	 * @return string
 	 */
-	public static byte[] generateCmdQQ() {
+	public static String generateCmdQQ() {
 		String command = new String("QQ()");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
-	 * 
-	 * @param sessionName
-	 * @return
+	 * commande RS
+	 * @param sessionName le nom de la session
+	 * @return string
 	 */
-	public static byte[] generateCmdRS(String sessionName) {
+	public static String generateCmdRS(String sessionName) {
 		String command = new String("RS(" + sessionName.length() + ":"
 				+ sessionName + ")");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
-	 * @param login
-	 * @param password
+	 * @param login login
+	 * @param password mot de passe
 	 * @return Commande cami SC
 	 */
-	public static byte[] generateCmdSC(String login, String password) {
+	public static String generateCmdSC(String login, String password) {
 		StringBuffer command = new StringBuffer();
 		command.append("SC(").append(login.length()).append(":").append(login);
 		command.append(",").append(password.length()).append(":").append(password);
 		command.append(")");
-		return initCommand(command.toString());
+		return command.toString();
 
 	}
 
 	/**
 	 * Construction de la commande FC
-	 * @return
+	 * @return string
 	 */
-	public static byte[] generateCmdFC() {
+	public static String generateCmdFC() {
 		String command = new String("FC()");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
 	 * Méthode s'occupant de la construction de la commande SS
 	 * @param sessionName
-	 * @return
+	 * @return string
 	 */
-	public static byte[] generateCmdSS() {
+	public static String generateCmdSS() {
 		String command = new String("SS()");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
 	 * Construction de la commande FS
-	 * @param continueProcessing
-	 * @return
+	 * @param continueProcessing bool
+	 * @return string
 	 */
-	public static byte[] generateCmdFS(boolean continueProcessing) {
+	public static String generateCmdFS(boolean continueProcessing) {
 		int i;
-		if (continueProcessing == true) {
+		if (continueProcessing) {
 			i = 0;
 		} else {
 			i = 1;
 		}
 		String command = new String("FS(" + i + ")");
-		return initCommand(command);
+		return command;
 	}
 
 	/**********commandes pour la reponse a une boite de dialog**********/
-
-	public static byte[] generateCmdDP() {
+    /**
+     * la commande DP
+     * @return string
+     */
+	public static String generateCmdDP() {
 		String command = new String("DP()");
-		return initCommand(command);
+		return command;
 	}
 
 	/**
 	 * repondre a une boite de dialogue
 	 * @param d la reponse a la boite de dialogue
-	 * @return  tableau de byte
+	 * @return  tableau de string
 	 */
-	public static List<byte[]> generateCmdDialogAnswer(IDialogAnswer d) {
-		List <byte[]> camiDialog = new ArrayList <byte[]>();
+	public static List<String> generateCmdDialogAnswer(IDialogAnswer d) {
+		List <String> camiDialog = new ArrayList <String>();
 		int modify = 1;
 		if (d.isModified()) {
 			modify = 2;
@@ -256,35 +235,35 @@ public class CamiGenerator {
 		if (d.getAllValue().size() == 1) {
 			if (d.getAllValue().get(0) == null) {
 			String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," + modify + "," + ")");
-			camiDialog.add(initCommand(command));
-
-			}
-			else {
-				String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," +
-	                    modify + "," + d.getAllValue().get(0).length() + ":" + d.getAllValue().get(0) + ")");
-			camiDialog.add(initCommand(command));
+			camiDialog.add(command);
+            } else {
+				String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," + modify + "," + d.getAllValue().get(0).length() + ":" + d.getAllValue().get(0) + ")");
+			camiDialog.add(command);
 			}
 
-		}
-		else {
+	   } else {
 			String command = new String("RD(" + d.getIdDialog() + "," + d.getAllValue() + "," + modify + "," + ")");
-           camiDialog.add(initCommand(command));
+           camiDialog.add(command);
            String command1 = new String("DE()");
-           camiDialog.add(initCommand(command1));
+           camiDialog.add(command1);
            for (int i = 0; i < d.getAllValue().size(); i++) {
    			String command2 = new String("DS(" + d.getIdDialog() + "," +  d.getAllValue().get(i).length() + ":" + d.getAllValue().get(i) + ")");
-   			camiDialog.add(initCommand(command2));
+   			camiDialog.add(command2);
 			}
 
            String command3 = new String("FE()");
-           camiDialog.add(initCommand(command3));
+           camiDialog.add(command3);
 		}
 		return camiDialog;
 	}
 
-	public static byte[] generateCmdFP() {
+	/**
+	 * on genere le FP
+	 * @return string
+	 */
+	public static String generateCmdFP() {
 		String command = new String("FP()");
-		return initCommand(command);
+		return command;
 	}
 
 
