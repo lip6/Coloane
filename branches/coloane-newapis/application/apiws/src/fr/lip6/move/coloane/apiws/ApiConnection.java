@@ -78,30 +78,30 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une boîte de dialogue");
 		IReceptDialogObservable obs = (IReceptDialogObservable) listObservables.get(IObservables.RECEPT_DIALOG);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une boîte de dialogue");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMenuObserver(IReceptMenuObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un menu");
 		IReceptMenuObservable obs = (IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un menu");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void setReceptMessageObserver(IReceptMessageObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un message");
 		IReceptMessageObservable obs = (IReceptMessageObservable) listObservables.get(IObservables.RECEPT_MESSAGE);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un message");
 	}
 
 	/**
@@ -118,30 +118,30 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setDisconnectObserver(IDisconnectObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: déconnexion ordonnée");
 		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: déconnexion ordonnée");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une erreur");
 		IBrutalInterruptObservable obs = (IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une erreur");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: récéption d'une information le service en cours d'exécution");
 		IReceptServiceStateObservable obs = (IReceptServiceStateObservable) listObservables.get(IObservables.RECEPT_SERVICE_STATE);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: récéption d'une information le service en cours d'exécution");
 	}
 
 	/**
