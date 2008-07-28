@@ -84,7 +84,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une boîte de dialogue");
 		IReceptDialogObservable obs = (IReceptDialogObservable) listObservables.get(IObservables.RECEPT_DIALOG);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un menu");
 		IReceptMenuObservable obs = (IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un message");
 		IReceptMessageObservable obs = (IReceptMessageObservable) listObservables.get(IObservables.RECEPT_MESSAGE);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un résultat");
 		IReceptResultObservable obs = (IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: déconnexion ordonnée");
 		IDisconnectObservable obs = (IDisconnectObservable) listObservables.get(IObservables.DISCONNECT);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'une erreur");
 		IBrutalInterruptObservable obs = (IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Initialisation de l'observateur d'événement: récéption d'une information le service en cours d'exécution");
 		IReceptServiceStateObservable obs = (IReceptServiceStateObservable) listObservables.get(IObservables.RECEPT_SERVICE_STATE);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.fine("Initialisation de l'observateur d'événement: demande un nouveau graph");
 		IRequestNewGraphObservable obs = (IRequestNewGraphObservable) listObservables.get(IObservables.REQUEST_NEW_GRAPH);
 		obs.addObserver(o);
-		obs.setCreateThread(createThread);
+		obs.setCreateThread(true);
 	}
 
 	/**
