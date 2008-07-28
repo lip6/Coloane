@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.api.observables;
 
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptResult;
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 
-public class ReceptResultObservable implements IReceptResultObservable{
+public class ReceptResultObservable {
 
 
 	public void addObserver(IReceptResultObserver o) {

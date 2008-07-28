@@ -9,6 +9,7 @@ grammar Cami;
 
 	import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
 	import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
+	import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 	import fr.lip6.move.coloane.api.interfaces.ISessionController;
 	import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 	import fr.lip6.move.coloane.api.observables.ConnectionObservable;
@@ -20,10 +21,10 @@ grammar Cami;
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
-        import fr.lip6.move.coloane.api.camiObject.Dialog;
 	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 	import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-        import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
+	import fr.lip6.move.coloane.interfaces.objects.service.IService;
+
 	import java.util.ArrayList;
 	import java.util.HashMap;
 	import java.util.List;
@@ -35,7 +36,7 @@ grammar Cami;
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 	
 	List<String> listOfArgs; /* liste des arguments pour la construction des objets de notification */
-	List<List<String>> camiMenuList; /* liste servant a construire les objets Correspondant aux AQ */
+	List<List<String>> camiQuestions; /* liste servant a construire les objets Correspondant aux AQ (questions) */
 	List<List<String>> camiUpdates; /* liste servant a construire les objets Correspondant aux TQ 7 et 8 */
 
 	Map<String, Object> hashObservable; /* Table de hash des observables */
@@ -46,11 +47,12 @@ grammar Cami;
 	IDialog dialog;
 	List<String> camiDialog; /* represente une boite de dialogue */
 	Map<Integer,IDialog> dialogs ;
-
-	ISubMenu menu;
-	List<ISubMenu> menuList;
-	List<IUpdateMenu> updates;
-
+	
+	/** La liste des menus root transmis */
+	List<ISubMenu> rootMenus = new ArrayList<ISubMenu>();
+	/** La liste des services */
+	List<IService> services = new ArrayList<IService>();
+	
 	/* Constructeur du parser */
 	public CamiParser(TokenStream input, Map<String, Object> hm) {
 		this(input);
@@ -161,7 +163,7 @@ grammar Cami;
 	/* ----------------------------  Fermeture d'une session ----------------------------- */
 	ack_close_current_session
 	:
-	
+	// TODO : Verifier qu'il n'y a pas d'argument pour le FS
 	'FS()'{
 		sessionControl.notifyEndCloseSession();
 	}
@@ -194,16 +196,28 @@ grammar Cami;
 	:
 	'DQ()'{
 		LOGGER.finest("Creation des tables de menus");
-		menuList = new ArrayList<ISubMenu>();
-		camiMenuList = new ArrayList<List<String>>();
+		// Initialisation de la liste des questions
+		camiQuestions = new ArrayList<List<String>>();
 	}
 	menu_name
 	question_add*
 	'FQ()'{
-		menu = CamiObjectBuilder.buildMenu(camiMenuList);
-		LOGGER.finest("Nombre de questions recues : " + camiMenuList.size());
-		LOGGER.finest("Ajout du RootMenu " + menu.getName() + "a la liste des menu");
-		menuList.add(menu);
+		// Construction du menu racine
+		ISubMenu root = CamiObjectBuilder.buildRootMenu(camiQuestions.get(0));
+		rootMenus.add(root);
+		LOGGER.finest("Construction du RootMenu " + root.getName() + " et ajout a la liste des menu");
+
+		// Suppression de la description du root et construction de la liste des questions
+		camiQuestions.remove(0);
+		List<IQuestion> questions = CamiObjectBuilder.buildQuestions(camiQuestions);
+		LOGGER.finest("Nombre de questions recues : " + questions.size());
+		
+		// Construction de l'objet menu
+		root = CamiObjectBuilder.buildMenus(root, questions);
+		
+		// Ajout de la liste des services
+		LOGGER.finest("Ajout des services pour le menu " + root.getName());
+		services.addAll(CamiObjectBuilder.buildServices(root, questions));
 	}
 	'VQ('name=CAMI_STRING')'{
 		LOGGER.finest("Affichage du menu " + $name.text);
@@ -213,16 +227,15 @@ grammar Cami;
 	/* ----------------------------  Reception des menus  CQ ----------------------------- */
 	menu_name
 	:
-	'CQ(' name=CAMI_STRING ',' question_type=NUMBER ',' question_behavior=NUMBER ')'{
-
+	'CQ(' name=CAMI_STRING ',' question_type=NUMBER ',' question_behavior=NUMBER ')'{		
 		// Reception de la description d'une racine de menu
 		List<String> cq = new ArrayList<String>();
 		cq.add($name.text); // Nom du menu racine
 		cq.add($question_type.text); // Type du menu
 		cq.add($question_behavior.text); // Type du comportement
 
-		camiMenuList.add(cq); // Ajouter au sommet de la liste des AQ
-		LOGGER.finest("Reception d'un menu racine " + $name.text);
+		LOGGER.finest("Ajout de la description du menu root");
+		camiQuestions.add(cq); // Ajouter au sommet de la liste des AQ
 	}
 	;
 
@@ -289,7 +302,7 @@ grammar Cami;
 			aq.add(null);
 		}
 
-		camiMenuList.add(aq); /* ajouter a la liste de AQ */
+		camiQuestions.add(aq); /* Ajouter a la liste de AQ */
 	}
 	;
 
@@ -320,16 +333,17 @@ grammar Cami;
 	end_menu_transmission
 	:       
 	'QQ(' NUMBER ')'{
+		List<IUpdateMenu> updates;
+		LOGGER.finest("Fin de la transmission d'un menu");
 		if($NUMBER.text.equals("3")) {
-                LOGGER.finest("Fin de la transmission d'un menu aprés une ouverture de session");
+			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
+			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(rootMenus, updates, services);
+			// Nettoyage des updates
+			camiUpdates.clear();
 			sessionControl.notifyEndOpenSession();
-			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(menuList, updates);
-			camiUpdates = new ArrayList<List<String>>();
 		} else {
-                LOGGER.finest("Fin de la transmission d'un menu aprés une invalidation de modèle");
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
-			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates);
+			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates, null);
 		}
 	}
 	;
@@ -361,27 +375,11 @@ grammar Cami;
 
 	special_message
 	:	
-	'MO(' number=NUMBER ',' CAMI_STRING ')'{
-		if(!$number.text.equals("1")){
-		LOGGER.finest("Reception d'un message de ladmin");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-                if(!$number.text.equals("2")){
-		LOGGER.finest("Reception d'un message court et urgent");
+	'MO(' NUMBER ',' CAMI_STRING ')'{
+		// TODO : Expliquer ce qu'est le MO ? est-ce vraiment un warning ?
+		LOGGER.finest("Reception d'un message special (MO)");
 		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
 		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-                if(!$number.text.equals("3")){
-		LOGGER.finest("Reception d'un message copyright");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-               if(!$number.text.equals("4")){
-		LOGGER.finest("Reception d'un message a propos des statistiques dexecution");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
 	}
 	;
 
@@ -389,7 +387,7 @@ grammar Cami;
 	brutal_interrupt
 	:
 	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'{
-                // TODO plusieurs sortes de KO , 1 2 3 différencier le traitement pour chauque sorte
+		// TODO : Differencier les KOs (1 2 ou 3)
 		LOGGER.finest("Reception d'un message KO");
 		((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
 	}
@@ -402,7 +400,7 @@ grammar Cami;
 	'DF(-2,' NUMBER ',' NUMBER ')'{
 		System.out.println("je parse le DF");
 		sessionControl.notifyWaitingForModel();
-		
+		//    ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
 	}
 	;
 
@@ -425,16 +423,16 @@ grammar Cami;
 	|'<EOF>'*
 	'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
 
-                // TODO traiter le TQ 2 tout seul ou dans les messages speciaux
+
 		if($mess2.text != null){
-                  
-			//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,$mess2.text);
-			//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+			ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,$mess2.text);
+			((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+			//  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
 			System.out.println("je parse TQ2");
 		}
 		else
 		{
-			//  ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,"");
+			//     ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,"");
 			// ((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 			//  ((IServiceStateObservable)hashObservable.get("IServiceState")).notifyObservers();
 			System.out.println("je parse TQ2");  
@@ -449,10 +447,9 @@ grammar Cami;
 	|dialogue*
 	|modele*
 	|'FR(' NUMBER ')'{
-                //TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
 		System.out.println("je parse FR");
 		sessionControl.notifyEndResult();
-		
+		//TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
 	}
 	;
 
@@ -463,9 +460,8 @@ grammar Cami;
 	| special_message2
 	|NEWLINE
 	| 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-                //TODO traiter le ZA ? le remonter ?
-		//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
-		//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
+		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 		System.out.println("je parse ZA");
 	}
 	;
@@ -473,44 +469,30 @@ grammar Cami;
 	trace_message2
 	:
 	'TR(' CAMI_STRING ')'{ 
-		LOGGER.finest("Reception d'un message de trace");
-		IReceptMessage msg = (IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(2,$CAMI_STRING.text);
+		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		//  ((ITraceMessageObservable)hashObservable.get("ITraceMessage")).notifyObservers($CAMI_STRING.text);
+		System.out.println("je parse le TR");
 	}
 	;
 
 	warning_message2
 	:
 	'WN(' CAMI_STRING ')'{
-		LOGGER.finest("Reception d'un message de warning");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(1,$CAMI_STRING.text);
+		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		// ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);
+		System.out.println("je parse le WN");
 	}
 	;
 
 	special_message2
 	:	
-	'MO(' number=NUMBER ',' CAMI_STRING ')'{
-		if(!$number.text.equals("1")){
-		LOGGER.finest("Reception d'un message de ladmin");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-                if(!$number.text.equals("2")){
-		LOGGER.finest("Reception d'un message court et urgent");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-                if(!$number.text.equals("3")){
-		LOGGER.finest("Reception d'un message copyright");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
-               if(!$number.text.equals("4")){
-		LOGGER.finest("Reception d'un message a propos des statistiques dexecution");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
-		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
-               }
+	'MO(' NUMBER ',' CAMI_STRING ')'{
+		ISpecialMessage msg =(ISpecialMessage) new SpecialMessage(1,$CAMI_STRING.text);
+		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		//  ((IWarningObservable)hashObservable.get("IWarning")).notifyObservers($CAMI_STRING.text);            
+		System.out.println("je parse le MO");
 	}
 	;
 	result	:
@@ -671,7 +653,7 @@ grammar Cami;
 		if($default_value != null)
 		camiDialog.add($default_value.text); 
 		else
-		camiDialog.add(null);
+		camiDialog.add(null/*new String("")*/);
 
 		System.out.println("je parse CE"); 
 	}
@@ -691,26 +673,22 @@ grammar Cami;
 
 
 		Integer i = Integer.parseInt($dialog_id.text);
-                Dialog dialog = (Dialog)dialogs.get(i);
-                dialog.setVisibility(1);
-		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(i),1);
 		System.out.println("je parse AD");
 	}
 	|'CD('dialog_id=NUMBER ')'{
 
 		Integer j = Integer.parseInt($dialog_id.text);
-                Dialog dialog = (Dialog)dialogs.get(j);
-                dialog.setVisibility(2);
-		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(j),2);
 		System.out.println("je parse CD");
 	}
 	|'DG(' dialog_id=NUMBER ')'{
 		Integer k = Integer.parseInt($dialog_id.text);
-                Dialog dialog = (Dialog)dialogs.get(k);
-                dialog.setVisibility(3);
-		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialogs.get(k),3);
 		dialogs.remove( k);
-                System.out.println("je parse DG");
+
+		System.out.println("je parse DG");
 	}
 	;
 	/*
@@ -761,7 +739,7 @@ grammar Cami;
 	;
 
 	EOF     :
-	        {
+	{
 		System.out.println("je parse EOOOFFFFF"); 
 		skip();}
 		;

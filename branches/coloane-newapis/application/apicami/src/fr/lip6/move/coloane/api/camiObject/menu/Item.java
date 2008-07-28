@@ -32,8 +32,12 @@ public class Item implements IItemMenu {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<String> getHelps() {
-		return this.help;
+	public final String getHelps() {
+		StringBuilder toReturn = new StringBuilder();
+		for (String helpLine : help) {
+			toReturn.append(helpLine);
+		}
+		return toReturn.toString();
 	}
 
 	/**
