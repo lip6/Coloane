@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
-import java.util.List;
-
 /**
  * Le composant de base d'un menu.<br><b>Tout est item !</b>
  */
