@@ -18,6 +18,11 @@ public interface IService {
 	int CARDINALITY_MORETHANONE = 4;
 
 	/**
+	 * @return l'identifiant unnique des services
+	 */
+	String getId();
+
+	/**
 	 * @return le nom de la racine du menu dans lequel est défini le service
 	 */
 	String getRoot();
