@@ -26,6 +26,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -245,7 +246,7 @@ public class ApiSession implements IApiSession {
 		answer.getAnswer().setId(dialogAnswer.getIdDialog());
 		answer.getAnswer().setButtonAnswer(dialogAnswer.getButtonType());
 		answer.getAnswer().setModified(dialogAnswer.isModified());
-		answer.getAnswer().setValue(dialogAnswer.getValue());
+		answer.getAnswer().setValue(join(dialogAnswer.getAllValue(), "\n"));
 
 		List<Integer> objects = dialogAnswer.getObjects();
 		if (objects != null) {
@@ -463,6 +464,25 @@ public class ApiSession implements IApiSession {
 		}
 
 		return theModel;
+	}
+
+	/**
+	 * Transforme une liste de chaînes-de-caractères en une seul chaîne-de-caractères
+	 * @param s la liste de chaînes-de-caractères
+	 * @param delimiter le délimiteur à concaténer sur chacune des lignes
+	 * @return une chaîne-de-caractères
+	 */
+	private String join(Collection<String> s, String delimiter) {
+		StringBuilder buffer = new StringBuilder();
+		Iterator<String> iter = s.iterator();
+		if (iter.hasNext()) {
+			buffer.append(iter.next());
+			while (iter.hasNext()) {
+				buffer.append(delimiter);
+				buffer.append(iter.next());
+			}
+		}
+		return buffer.toString();
 	}
 
 	/**
