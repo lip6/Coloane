@@ -28,10 +28,10 @@ public interface IDialogAnswer {
 	boolean isModified();
 
 	/**
-	 * Récupére la valeur saisie dans la boîte de dialogue.
-	 * @return La valeur saisie dans la boîte de dialogue.
+	 * Récupére la ou les valeur(s) saisie(s) dans la boîte de dialogue.
+	 * @return La ou les valeur(s) saisie(s) dans la boîte de dialogue.
 	 */
-	String getValue();
+	List<String> getAllValue();
 
 	/**
 	 * Récupere la liste d'objets faisant parti de la réponse.
