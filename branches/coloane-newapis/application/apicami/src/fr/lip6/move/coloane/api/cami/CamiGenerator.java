@@ -1,11 +1,10 @@
 package fr.lip6.move.coloane.api.cami;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Cette classe génère les commandes CAMI prêtes à être envoyées à FK
  * @author Kahina Bouarab
@@ -60,9 +59,9 @@ public class CamiGenerator {
 	 * @param model modele sous forme objet à traduire en Cami
 	 * @return ensemble de commandes cami decrivant un modele
 	 */
-	public static List<byte[]> generateCamiModel(IGraph model) {
-		return CamiModelTranslator.translateModel(model);
-	}
+	//public static List<byte[]> generateCamiModel(IGraph model) {
+		//return CamiModelTranslator.translateModel(model);
+	//}
 
 	/**
 	 * @param interlocutor : outil interlocuteur
@@ -243,48 +242,46 @@ public class CamiGenerator {
 		return initCommand(command);
 	}
 
-	public static ArrayList<byte[]> generateCmdDialogAnswer(IDialogAnswer d) {
-		ArrayList <byte[]> camiDialog = new ArrayList <byte[]>();
+	/**
+	 * repondre a une boite de dialogue
+	 * @param d la reponse a la boite de dialogue
+	 * @return  tableau de byte
+	 */
+	public static List<byte[]> generateCmdDialogAnswer(IDialogAnswer d) {
+		List <byte[]> camiDialog = new ArrayList <byte[]>();
 		int modify = 1;
-		if(d.hasBeenModified())
-		{
+		if (d.isModified()) {
 			modify = 2;
 		}
-		
-		if(!d.isMultiLineAnswer()) {
-			if(d.getAnswer()==null){
-			
-			String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
-					                    modify +","+ ")");
+		if (d.getAllValue().size() == 1) {
+			if (d.getAllValue().get(0) == null) {
+			String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," + modify + "," + ")");
 			camiDialog.add(initCommand(command));
 
 			}
 			else {
-				String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
-	                    modify +","+ d.getAnswer().get(0).length()+":" +d.getAnswer().get(0) +")");
+				String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," +
+	                    modify + "," + d.getAllValue().get(0).length() + ":" + d.getAllValue().get(0) + ")");
 			camiDialog.add(initCommand(command));
 			}
-			
+
 		}
-		
 		else {
-			String command = new String("RD(" + d.getDialogId()+ "," + d.getAnswerType()+"," +
-                    modify +","+ ")");
+			String command = new String("RD(" + d.getIdDialog() + "," + d.getAllValue() + "," + modify + "," + ")");
            camiDialog.add(initCommand(command));
            String command1 = new String("DE()");
            camiDialog.add(initCommand(command1));
-           
-           for(int i=0; i<d.getAnswer().size(); i++){
-   			String command2 = new String("DS(" + d.getDialogId() +"," +  d.getAnswer().get(i).length() +":" + d.getAnswer().get(i) + ")");
+           for (int i = 0; i < d.getAllValue().size(); i++) {
+   			String command2 = new String("DS(" + d.getIdDialog() + "," +  d.getAllValue().get(i).length() + ":" + d.getAllValue().get(i) + ")");
    			camiDialog.add(initCommand(command2));
 			}
-           
+
            String command3 = new String("FE()");
            camiDialog.add(initCommand(command3));
 		}
 		return camiDialog;
 	}
-	
+
 	public static byte[] generateCmdFP() {
 		String command = new String("FP()");
 		return initCommand(command);
