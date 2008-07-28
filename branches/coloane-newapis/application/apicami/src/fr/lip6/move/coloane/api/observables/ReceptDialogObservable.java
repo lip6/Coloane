@@ -1,24 +1,27 @@
 package fr.lip6.move.coloane.api.observables;
 
-import java.util.ArrayList;
 
-import fr.lip6.move.coloane.interfaces.api.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 /**
- * Observable des évènements en rapport avec la session.
+ * l'observable associé aux boites de dialogues.
  *
- * @author kahoo & uu
- *
+ * @author Kahina Bouarab
+ * @author Youcef Belattaf
  */
 
-public class ReceptDialogObservable implements IReceptDialogObservable {
+public class ReceptDialogObservable  {
 
 	/** liste des observeurs */
-	private ArrayList<IReceptDialogObserver> list;
+	private List<IReceptDialogObserver> list;
 
-	/** créer un thread ? */
+	/** par defaut , ne pas créer de thread */
 	private boolean createThread = false;
 
 	/**
@@ -29,40 +32,43 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 	}
 
 	/**
-	 * set de la variable createThread
-	 *
-	 * @param createThread
-	 *            notification avec ou sans création de thread
+	 * notifier avec ou sans creation d'un thread?
+	 * @param createThread true or false
 	 */
-	public void setCreateThread(boolean createThread) {
+	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
 
 	/**
-	 * Ajoute un observer
-	 *
-	 * @param o
-	 *            L'observer à ajouter
+	 * abonner des observateurs a cet evenement
+	 * @param o l'observateur.
 	 */
-	public void addObserver(IReceptDialogObserver o) {
+	public final void addObserver(IReceptDialogObserver o) {
 		this.list.add(o);
 	}
-
 	/**
 	 * Notifier tous les observers
-	 *
-	 * @param arg
-	 *            argument de la notification.
+	 * @param dialog argument de la notification.
 	 */
-	public void notifyObservers(IDialog dialog,Integer in) {
-
-		if (!this.createThread) { /* Option sans création de thread */
-			for (int i = 0; i < this.list.size(); i++)
-				this.list.get(i).update(dialog,in);
-		} else {/* Option avec création de thread */
-			ThreadNotifier thread = new ThreadNotifier(list,dialog,in);
+	public final void notifyObservers(IDialog dialog) {
+		// Option sans création de thread
+		if (!this.createThread) {
+			for (int i = 0; i < this.list.size(); i++) {
+				this.list.get(i).update(dialog);
+			}
+         //Option avec création de thread
+		} else {
+			ThreadNotifier thread = new ThreadNotifier(list, dialog);
 			new Thread(thread, "threadDialog").start();
 		}
+
+	}
+	/**
+	 * effacer lobservateur
+	 * @param o lobservateur
+	 */
+	public final void removeObserver(IReceptDialogObserver o) {
+     this.list.remove(o);
 
 	}
 
@@ -70,38 +76,37 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 	 * Cette classe est utilisée pour créer un thread lors de la notification,
 	 * si cette option est active. cette classe est interne.
 	 *
-	 * @author kahoo & uu
+	 * @author Kahina Bouarab
+     * @author Youcef Belattaf
 	 *
 	 */
 	class ThreadNotifier implements Runnable {
-		private ArrayList<IReceptDialogObserver> listObservers;
-		private IDialog dialog;
-		private Integer in;
+		/** Liste des observeurs */
+		private List<IReceptDialogObserver> listObservers;
 
-		public ThreadNotifier(ArrayList<IReceptDialogObserver> list, IDialog dialog,Integer in) {
+		/** L'objet qui doit être envoyés aux observers */
+		private IDialog dialog;
+
+		/**
+		 * Constructeur
+		 * @param list La liste des observers
+		 * @param dialog L'objet à transmettre aux observers
+		 */
+		public ThreadNotifier(List<IReceptDialogObserver> list, IDialog dialog) {
 			this.listObservers = list;
 			this.dialog = dialog;
-			this.in = in;
 		}
-
+		/**
+		 * {@inheritDoc}
+		 */
 		public void run() {
-			for (int i = 0; i < this.listObservers.size(); i++)
-				this.listObservers.get(i).update(this.dialog,this.in);
+			for (int i = 0; i < this.listObservers.size(); i++) {
+				this.listObservers.get(i).update(this.dialog);
+			}
 		}
 
 	}
 
-
-
-	public void removeObserver(IReceptDialogObserver o) {
-
-
-	}
-
-	public void notifyObservers(IDialog dialog) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
 
