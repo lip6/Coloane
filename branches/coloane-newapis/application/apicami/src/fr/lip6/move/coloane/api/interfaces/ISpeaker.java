@@ -78,14 +78,11 @@ public interface ISpeaker {
 	void askForService(String rootName, String menuName, String serviceName) throws IOException;
 
 	/**
-	 * Demande l'exécution d'un service en précisant la mise à jour du modèle
-	 * @param rootName Le nom du menu principal
-	 * @param menuName Le nom du menu parent responsable
-	 * @param serviceName Le nom du service à exécuter
+	 * Demande lenvoi de la nouvelle date
 	 * @param date La nouvelle date de mise à jour du modèle
 	 * @throws IOException En cas de problème
 	 */
-	void askForService(String rootName, String menuName, String serviceName, String date) throws IOException;
+	void sendDate(int date) throws IOException;
 
 	/**
 	 * Demande la transmission du modèle à FrameKit

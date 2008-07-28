@@ -147,14 +147,12 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(String rootName, String menuName, String serviceName, String date) throws IOException {
+	public final void sendDate(int date) throws IOException {
 		// Génération de la commande MS pour l'envoi de la date de mise à jour
 		String cmdToSend = CamiGenerator.generateCmdMS(date);
 		this.fkLowLevel.writeCommand(cmdToSend);
 		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
-		// Appel de la méthode habituelle
-		askForService(rootName, menuName, serviceName);
 	}
 
 	/**

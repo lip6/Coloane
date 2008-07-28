@@ -48,6 +48,9 @@ public class ApiSession implements IApiSession {
 	/** Les informations sur la session */
 	private ISessionInfo sessionInfo;
 
+	/** modele sale*/
+	private boolean sendDate = false;
+
 	/**
 	 * Constructeur d'une session
 	 * @param speaker Le speaker attaché à cette session
@@ -363,71 +366,50 @@ public class ApiSession implements IApiSession {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 *
 	 * @param rootName Le nom da la racine du menu qui contient ce service
 	 * @param serviceName Le nom du service invoqué
 	 * @param options La liste des options active dans le menu
 	 * @param model Le modèle sur lequel est invoqué le service
-	 * @throws IOException
+	 * @return true or false
 	 */
-	public final void askForService(String rootName, String serviceName, List<String> options, IGraph model) throws IOException {
+	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) {
 		this.model = model;
+		if (sendDate) {
+		speaker.sendDate(model.getDate());
+		}
+		this.sendDate = false;
 		if (this.sessionControl.askForService(this)) {
 			// TODO trouver comment on calcule menuName
-			speaker.askForService(rootName, menuName, serviceName);
+			speaker.askForService(rootName, serviceName);
 			System.out.println(this.stateMachine.getState());
 			if (!this.stateMachine.setWaitingForResponseState()){
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
+			return true;
 		}
 		else {
 			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		}
+		
 	}
 
 
-//	public void sendModel(IModel model) throws IOException {
-
-
-//	if (!this.automate.setWaitingForResultState()){
-//	throw new IllegalStateException("j'etais pas en attente de resultat");
-//	}
-//	speaker.sendModel(model);
-//	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void invalidModel() {
-		if(!this.stateMachine.setWaitingForUpdatesState()){
+		this.sendDate = true;
+		if (!this.stateMachine.setWaitingForUpdatesState()) {
 			throw new IllegalStateException("je peux pas me mettre dans cette etat");
 		} else {
-			speaker.invalidModel();
+			try {
+				speaker.invalidModel();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -464,14 +446,27 @@ public class ApiSession implements IApiSession {
 		return false;
 	}
 
-	public boolean sendDialogAnswer(IDialogAnswer dialogAnswer)
-	throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
+		try {
+			speaker.sendDialogResponse(dialogAnswer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 
-	public void sendModel(IGraph model) throws ApiException {
-		// TODO Auto-generated method stub
+	/**
+	 * {@inheritDoc}
+     */
+	public final void sendModel(IGraph model) throws ApiException {
+		try {
+			speaker.sendModel(model);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

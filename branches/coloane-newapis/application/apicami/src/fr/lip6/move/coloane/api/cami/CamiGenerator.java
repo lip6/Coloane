@@ -90,7 +90,7 @@ public final class CamiGenerator {
 	 * @param date Nouvelle date du modèle
 	 * @return string
 	 */
-	public static String generateCmdMS(String date) {
+	public static String generateCmdMS(int date) {
 		// TODO Auto-generated method stub
 		String command = new String("MS(" + date + ")");
 		return command;
