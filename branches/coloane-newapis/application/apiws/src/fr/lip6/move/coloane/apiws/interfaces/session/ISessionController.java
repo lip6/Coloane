@@ -133,4 +133,10 @@ public interface ISessionController {
 	 * @throws ApiException si la notification de la fin de l'exécution d'un service échoue
 	 */
 	void notifyEndResult(IApiSession sessionExecuted, RService result) throws ApiException;
+
+	/**
+	 * Ferme toutes les sessions.
+	 * @throws ApiException la fermeture de toutes les sessions échoue
+	 */
+	void closeAllSessions() throws ApiException;
 }

@@ -14,6 +14,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Cette classe représent le gestionnaire de sessions.
@@ -241,6 +242,32 @@ public class SessionController implements ISessionController {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void closeAllSessions() throws ApiException {
+
+		/** Détérmine s'il y a eu une erreur lors de la fermeture d'une session */
+		boolean isError = false;
+		/** Messages d'erreur s'il y a lieu */
+		String msgError = "";
+
+		for (Entry<String, IApiSession> entry : listSessions.entrySet()) {
+			try {
+				entry.getValue().close();
+			} catch (ApiException e) {
+				isError = true;
+				msgError +=
+					"Erreur lors de la fermeture de la session: " + entry.getValue().getName() + ".\n"
+					+ "Cause: " + e.getMessage() + "\n";
+			}
+		}
+
+		if (isError) {
+			throw new ApiException(msgError);
+		}
 	}
 
 }

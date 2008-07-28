@@ -185,8 +185,12 @@ public class ApiConnection implements IApiConnection {
 			return;
 		}
 
-		// TODO : Implémenter le softMode
 		try {
+			if (softMode) {
+				LOGGER.finer("Mode softMode: fermeture de toutes les sessions avant la fermeture de la connexion");
+				sessionController.closeAllSessions();
+			}
+
 			LOGGER.finer("Demande l'arrêt du Listener");
 			listener.stopper();
 
