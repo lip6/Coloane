@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.api.FkCommunication.Pair;
 import fr.lip6.move.coloane.api.cami.ThreadParser;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
@@ -22,6 +23,7 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
+import fr.lip6.move.coloane.interfaces.api.observers.IRequestNewGraphObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
@@ -74,7 +76,10 @@ public class ApiConnection implements IApiConnection {
 		this.uiName = uiName;
 		this.uiVersion = uiVersion;
 
-		this.hashObservable.put("IConnection", ObservableFactory.getNewOpenConnectionObservable(this));
+		ConnectionObservable connectionObservable = ObservableFactory.getNewOpenConnectionObservable(this.hashObservable);
+		connectionObservable.registerApiConnection(this);
+
+		this.hashObservable.put("IConnection", connectionObservable);
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
@@ -82,7 +87,6 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
-
 	}
 
 	/** {@inheritDoc} */
@@ -170,7 +174,6 @@ public class ApiConnection implements IApiConnection {
 			speaker.closeConnection();
 		} catch (IOException e) {
 			LOGGER.warning("Echec lors de la fermeture de la connexion");
-			e.printStackTrace();
 		}
 	}
 
@@ -250,6 +253,13 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+		// TODO ???
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
 		// TODO ???
 	}
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-28 17:40:32
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-28 18:34:56
 
 	package fr.lip6.move.coloane.api.cami;
 
@@ -1245,8 +1245,8 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:718:2: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:719:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:722:2: ( NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead] )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:2: NUMBER ':' fs= FIXED_LENGTH_STRING[nbToRead]
             {
             int NUMBER1Start514 = getCharIndex();
             mNUMBER(); 
@@ -1270,10 +1270,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:727:2: ( ({...}? => . )* )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:728:2: ({...}? => . )*
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:731:2: ( ({...}? => . )* )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: ({...}? => . )*
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:728:2: ({...}? => . )*
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: ({...}? => . )*
             loop1:
             do {
                 int alt1=2;
@@ -1286,7 +1286,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:728:4: {...}? => .
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:4: {...}? => .
             	    {
             	    if ( !( len > 0 ) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", " len > 0 ");
@@ -1315,10 +1315,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:731:8: ( ( '0' .. '9' )+ )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: ( '0' .. '9' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:735:8: ( ( '0' .. '9' )+ )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:736:2: ( '0' .. '9' )+
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: ( '0' .. '9' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:736:2: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1332,7 +1332,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: '0' .. '9'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:736:2: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1362,10 +1362,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:737:2: ( ( ( '\\r' )? '\\n' )+ )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:2: ( ( '\\r' )? '\\n' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:741:2: ( ( ( '\\r' )? '\\n' )+ )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:2: ( ( '\\r' )? '\\n' )+
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:2: ( ( '\\r' )? '\\n' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:2: ( ( '\\r' )? '\\n' )+
             int cnt4=0;
             loop4:
             do {
@@ -1379,9 +1379,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:4: ( '\\r' )? '\\n'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:4: ( '\\r' )? '\\n'
             	    {
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:4: ( '\\r' )?
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:4: ( '\\r' )?
             	    int alt3=2;
             	    int LA3_0 = input.LA(1);
 
@@ -1390,7 +1390,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt3) {
             	        case 1 :
-            	            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:4: '\\r'
+            	            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:4: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1428,8 +1428,8 @@ public class CamiLexer extends Lexer {
     public final void mEOF() throws RecognitionException {
         try {
             int _type = EOF;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:741:9: ()
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:742:2: 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:745:9: ()
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:746:2: 
             {
 
             		System.out.println("je parse EOOOFFFFF"); 

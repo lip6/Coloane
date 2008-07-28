@@ -63,7 +63,12 @@ public class Speaker implements ISpeaker {
 		// Fabrique la commande FC
 		String cmdToSend = CamiGenerator.generateCmdFC();
 		// Envoie la commande
-		this.fkLowLevel.writeCommand(cmdToSend);
+		try {
+			this.fkLowLevel.writeCommand(cmdToSend);
+		} catch (IOException ioe) {
+			LOGGER.warning("Impossible d'ecrire sur une socket fermee");
+			throw ioe;
+		}
 	}
 
 	/**

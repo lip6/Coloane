@@ -375,10 +375,14 @@ grammar Cami;
 
 	special_message
 	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'{
+	'MO(' level=NUMBER ',' mess=CAMI_STRING ')'{
+		if ("2".equals($level.text)) {
+			LOGGER.finest("Reception d'un message MO fatal");
+			((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers($mess.text);
+		}
 		// TODO : Expliquer ce qu'est le MO ? est-ce vraiment un warning ?
 		LOGGER.finest("Reception d'un message special (MO)");
-		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$mess.text);
 		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;

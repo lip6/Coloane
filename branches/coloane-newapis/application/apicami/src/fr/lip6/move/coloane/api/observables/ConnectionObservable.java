@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.api.observables;
 import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
+import java.util.Map;
+
 /**
  * Observable d'une déconnexion de la plate-forme
  *
@@ -11,16 +13,26 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
  *
  */
 public class ConnectionObservable {
-	/** L'unique observer */
-	private ApiConnection apiConnection;
+	/** Le point de synchronisation */
+	private Map< String, Object> hashObservers;
 
+	/** L'observer */
+	private ApiConnection apiConnection;
 
 	/**
 	 * Constructeur
-	 * @param apiConnection Le gestionnaire de connexion qui doit être averti
+	 * @param hashObservers Le point de synchronisation
 	 */
-	public ConnectionObservable(ApiConnection apiConnection) {
-		this.apiConnection = apiConnection;
+	public ConnectionObservable(Map< String, Object> hashObservers) {
+		this.hashObservers = hashObservers;
+	}
+
+	/**
+	 * Permet l'enregistrement de l'API
+	 * @param api L'objet qui doit être prévenu a la fin de la connexion
+	 */
+	public final void registerApiConnection(ApiConnection api) {
+		this.apiConnection = api;
 	}
 
 	/**
@@ -28,7 +40,7 @@ public class ConnectionObservable {
 	 * @param infos Les informations récupérées lors de l'ouverture de connexion
 	 */
 	public final void notifyObservers(IConnectionInfo infos) {
-		synchronized (apiConnection) {
+		synchronized (hashObservers) {
 			apiConnection.notifyEndOpenConnection(infos);
 		}
 	}

@@ -440,15 +440,7 @@ public class ApiSession implements IApiSession {
 			throw new IllegalStateException("je peux pas me mettre dans cet etat");
 		}
 	}
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean askForService(String rootName, String menuName, String serviceName, List<String> options, IGraph model)
-	throws ApiException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -498,5 +490,12 @@ public class ApiSession implements IApiSession {
 	 */
 	public final String getName() {
 		return this.name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setNewGraph(IGraph newGraph) {
+		LOGGER.fine("Le core envoie un nouveau graph");
 	}
 }
