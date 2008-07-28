@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Définit une isntance de connexion à la plate-forme FrameKit
+ * Définit une instance de connexion à la plate-forme FrameKit
  */
 public class ApiConnection implements IApiConnection {
 
@@ -108,10 +108,10 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
+		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un résultat");
 		IReceptResultObservable obs = (IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT);
 		obs.addObserver(o);
 		obs.setCreateThread(createThread);
-		LOGGER.finer("Initialisation de l'observateur d'événement: réception d'un résultat");
 	}
 
 	/**

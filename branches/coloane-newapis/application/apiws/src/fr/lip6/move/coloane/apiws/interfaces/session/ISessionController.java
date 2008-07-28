@@ -45,6 +45,12 @@ public interface ISessionController {
 	boolean onlyOneSession() throws ApiException;
 
 	/**
+	 * Ferme toutes les sessions.
+	 * @throws ApiException si la fermeture de toutes les sessions échoue
+	 */
+	void closeAllSessions() throws ApiException;
+
+	/**
 	 * Verifie si on peut ouvrir une session.
 	 * @param s la session qu'on veut ouvrir.
 	 * @return true si on peut ouvrir une session.
@@ -133,10 +139,4 @@ public interface ISessionController {
 	 * @throws ApiException si la notification de la fin de l'exécution d'un service échoue
 	 */
 	void notifyEndResult(IApiSession sessionExecuted, RService result) throws ApiException;
-
-	/**
-	 * Ferme toutes les sessions.
-	 * @throws ApiException la fermeture de toutes les sessions échoue
-	 */
-	void closeAllSessions() throws ApiException;
 }
