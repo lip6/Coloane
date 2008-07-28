@@ -13,11 +13,11 @@ public class ServiceMenuImpl extends ItemMenuImpl implements IServiceMenu {
 	/**
 	 * Constructeur
 	 * @param service La question correspondant a un service réçu de la part du wrapper
+	 * @param root Le menu principal où est contenu le service.
 	 */
-	public ServiceMenuImpl(Question service) {
+	public ServiceMenuImpl(Question service, String root) {
 		super(service);
-		// TODO Auto-generated constructor stub
-		this.associatedService = null;
+		this.associatedService = root + "_" + service.getName();
 	}
 
 	/**

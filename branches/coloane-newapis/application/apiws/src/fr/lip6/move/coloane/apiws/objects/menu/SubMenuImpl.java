@@ -23,8 +23,9 @@ public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 	/**
 	 * Constructeur
 	 * @param subMenu le sous-menu reçu de la part du wrapper.
+	 * @param root le menu principal où est contenu le sous-menu.
 	 */
-	public SubMenuImpl(Question subMenu) {
+	public SubMenuImpl(Question subMenu, String root) {
 		super(subMenu);
 
 		this.services = new ArrayList<IServiceMenu>();
@@ -35,31 +36,31 @@ public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 
 		if (sub.getServices() != null) {
 			for (int i = 0; i < sub.getServices().length; i++) {
-				services.add(new ServiceMenuImpl(sub.getServices()[i]));
+				services.add(new ServiceMenuImpl(sub.getServices()[i], root));
 			}
 		}
 
 		if (sub.getServicesWithObjects() != null) {
 			for (int i = 0; i < sub.getServicesWithObjects().length; i++) {
-				services.add(new ServiceMenuImpl(sub.getServicesWithObjects()[i]));
+				services.add(new ServiceMenuImpl(sub.getServicesWithObjects()[i], root));
 			}
 		}
 
 		if (sub.getServicesWithOneObject() != null) {
 			for (int i = 0; i < sub.getServicesWithOneObject().length; i++) {
-				services.add(new ServiceMenuImpl(sub.getServicesWithOneObject()[i]));
+				services.add(new ServiceMenuImpl(sub.getServicesWithOneObject()[i], root));
 			}
 		}
 
 		if (sub.getServiceWithOneText() != null) {
 			for (int i = 0; i < sub.getServiceWithOneText().length; i++) {
-				services.add(new ServiceMenuImpl(sub.getServiceWithOneText()[i]));
+				services.add(new ServiceMenuImpl(sub.getServiceWithOneText()[i], root));
 			}
 		}
 
 		if (sub.getServiceWithTexts() != null) {
 			for (int i = 0; i < sub.getServiceWithTexts().length; i++) {
-				services.add(new ServiceMenuImpl(sub.getServiceWithTexts()[i]));
+				services.add(new ServiceMenuImpl(sub.getServiceWithTexts()[i], root));
 			}
 		}
 
@@ -71,7 +72,7 @@ public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 
 		if (sub.getSubMenus() != null) {
 			for (int i = 0; i < sub.getSubMenus().length; i++) {
-				subMenus.add(new SubMenuImpl(sub.getSubMenus()[i]));
+				subMenus.add(new SubMenuImpl(sub.getSubMenus()[i], root));
 			}
 		}
 

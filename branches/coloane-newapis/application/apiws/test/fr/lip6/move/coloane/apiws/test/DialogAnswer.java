@@ -15,7 +15,7 @@ public class DialogAnswer implements IDialogAnswer {
 
 	private List<Integer> objects;
 
-	private String value;
+	private List<String> value;
 
 	private boolean modified;
 
@@ -27,7 +27,7 @@ public class DialogAnswer implements IDialogAnswer {
 	 * @param value la valeur saisie
 	 * @param objects les objets
 	 */
-	public DialogAnswer(int idDialg, int buttonType, boolean modified, String value, List<Integer> objects) {
+	public DialogAnswer(int idDialg, int buttonType, boolean modified, List<String> value, List<Integer> objects) {
 		this.buttonType = buttonType;
 		this.idDialg = idDialg;
 		this.objects = objects;
@@ -59,7 +59,7 @@ public class DialogAnswer implements IDialogAnswer {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getValue() {
+	public final List<String> getAllValue() {
 		return value;
 	}
 

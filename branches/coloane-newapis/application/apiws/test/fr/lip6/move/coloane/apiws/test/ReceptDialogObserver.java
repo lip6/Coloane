@@ -22,7 +22,7 @@ public class ReceptDialogObserver implements IReceptDialogObserver {
 		System.out.println("DIALOG");
 		this.idDialog = dialog.getId();
 		try {
-			session.sendDialogAnswer(new DialogAnswer(getIdDialog(), IDialog.DLG_NO_BUTTON, false, "", null));
+			session.sendDialogAnswer(new DialogAnswer(getIdDialog(), IDialog.DLG_NO_BUTTON, false, null, null));
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
