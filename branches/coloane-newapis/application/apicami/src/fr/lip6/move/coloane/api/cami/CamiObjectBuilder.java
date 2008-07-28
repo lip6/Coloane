@@ -127,7 +127,7 @@ public final class CamiObjectBuilder {
      * on construit la boite de dialogue
      * @param camiDialog les elements necessaires pour cette construction
      */
-	public static IDialog buildDialog(ArrayList<String> camiDialog) {
+	public static IDialog buildDialog(List<String> camiDialog) {
 		int id;
 		int type;
 		int buttonType;

@@ -20,9 +20,10 @@ grammar Cami;
 	import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 	import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 	import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+        import fr.lip6.move.coloane.api.camiObject.Dialog;
 	import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 	import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-
+        import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
 	import java.util.ArrayList;
 	import java.util.HashMap;
 	import java.util.List;
@@ -160,7 +161,7 @@ grammar Cami;
 	/* ----------------------------  Fermeture d'une session ----------------------------- */
 	ack_close_current_session
 	:
-	// TODO : Verifier qu'il n'y a pas d'argument pour le FS
+	
 	'FS()'{
 		sessionControl.notifyEndCloseSession();
 	}
@@ -201,7 +202,7 @@ grammar Cami;
 	'FQ()'{
 		menu = CamiObjectBuilder.buildMenu(camiMenuList);
 		LOGGER.finest("Nombre de questions recues : " + camiMenuList.size());
-		LOGGER.finest("Ajout du RootMenu " + menu.getName() + "à la liste des menu");
+		LOGGER.finest("Ajout du RootMenu " + menu.getName() + "a la liste des menu");
 		menuList.add(menu);
 	}
 	'VQ('name=CAMI_STRING')'{
@@ -360,11 +361,27 @@ grammar Cami;
 
 	special_message
 	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'{
-		// TODO : Expliquer ce qu'est le MO ? est-ce vraiment un warning ?
-		LOGGER.finest("Reception d'un message special (MO)");
+	'MO(' number=NUMBER ',' CAMI_STRING ')'{
+		if(!$number.text.equals("1")){
+		LOGGER.finest("Reception d'un message de ladmin");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+                if(!$number.text.equals("2")){
+		LOGGER.finest("Reception d'un message court et urgent");
 		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
 		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+                if(!$number.text.equals("3")){
+		LOGGER.finest("Reception d'un message copyright");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+               if(!$number.text.equals("4")){
+		LOGGER.finest("Reception d'un message a propos des statistiques dexecution");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
 	}
 	;
 
@@ -372,6 +389,7 @@ grammar Cami;
 	brutal_interrupt
 	:
 	'KO(1,' mess=CAMI_STRING ',' level=NUMBER ')'{
+                // TODO plusieurs sortes de KO , 1 2 3 différencier le traitement pour chauque sorte
 		LOGGER.finest("Reception d'un message KO");
 		((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers($CAMI_STRING.text);
 	}
@@ -407,10 +425,11 @@ grammar Cami;
 	|'<EOF>'*
 	'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')'{ 
 
-
+                // TODO traiter le TQ 2 tout seul ou dans les messages speciaux
 		if($mess2.text != null){
-			ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,$mess2.text);
-			((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+                  
+			//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(3,$mess2.text);
+			//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 			System.out.println("je parse TQ2");
 		}
 		else
@@ -444,8 +463,9 @@ grammar Cami;
 	| special_message2
 	|NEWLINE
 	| 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+                //TODO traiter le ZA ? le remonter ?
+		//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
+		//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 		System.out.println("je parse ZA");
 	}
 	;
@@ -453,27 +473,44 @@ grammar Cami;
 	trace_message2
 	:
 	'TR(' CAMI_STRING ')'{ 
-		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(2,$CAMI_STRING.text);
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-		System.out.println("je parse le TR");
+		LOGGER.finest("Reception d'un message de trace");
+		IReceptMessage msg = (IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
 
 	warning_message2
 	:
 	'WN(' CAMI_STRING ')'{
-		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(1,$CAMI_STRING.text);
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
-		System.out.println("je parse le WN");
+		LOGGER.finest("Reception d'un message de warning");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
 
 	special_message2
 	:	
-	'MO(' NUMBER ',' CAMI_STRING ')'{
-		ISpecialMessage msg =(ISpecialMessage) new SpecialMessage(1,$CAMI_STRING.text);
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);            
-		System.out.println("je parse le MO");
+	'MO(' number=NUMBER ',' CAMI_STRING ')'{
+		if(!$number.text.equals("1")){
+		LOGGER.finest("Reception d'un message de ladmin");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+                if(!$number.text.equals("2")){
+		LOGGER.finest("Reception d'un message court et urgent");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+                if(!$number.text.equals("3")){
+		LOGGER.finest("Reception d'un message copyright");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
+               if(!$number.text.equals("4")){
+		LOGGER.finest("Reception d'un message a propos des statistiques dexecution");
+		IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text);
+		((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg);
+               }
 	}
 	;
 	result	:
@@ -654,24 +691,24 @@ grammar Cami;
 
 
 		Integer i = Integer.parseInt($dialog_id.text);
-                Dialog dialog = dialogs.get(i);
+                Dialog dialog = (Dialog)dialogs.get(i);
                 dialog.setVisibility(1);
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		System.out.println("je parse AD");
 	}
 	|'CD('dialog_id=NUMBER ')'{
 
 		Integer j = Integer.parseInt($dialog_id.text);
-                Dialog dialog = dialogs.get(j);
+                Dialog dialog = (Dialog)dialogs.get(j);
                 dialog.setVisibility(2);
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		System.out.println("je parse CD");
 	}
 	|'DG(' dialog_id=NUMBER ')'{
 		Integer k = Integer.parseInt($dialog_id.text);
-                Dialog dialog = dialogs.get(k);
+                Dialog dialog = (Dialog)dialogs.get(k);
                 dialog.setVisibility(3);
-		((IReceptDialogObservable)hashObservable.get("IReceptDialog")).notifyObservers(dialog);
+		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		dialogs.remove( k);
                 System.out.println("je parse DG");
 	}
