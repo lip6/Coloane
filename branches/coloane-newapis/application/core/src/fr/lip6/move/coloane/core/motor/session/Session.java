@@ -240,12 +240,12 @@ public class Session implements ISession {
 			LOG.warning("Invocation du service impossible, la session n'est pas connecté"); //$NON-NLS-1$
 			return;
 		}
-//		try {
-			LOG.fine("Invocation du service : " + service.getName() + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
-//			apiSession.askForService(service, getActiveOptions(), graph);
-//		} catch (ApiException e) {
-//			LOG.warning("L'invocation du service a échoué : " + e); //$NON-NLS-1$
-//		}
+		try {
+			LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
+			apiSession.askForService(service, getActiveOptions(), graph);
+		} catch (ApiException e) {
+			LOG.warning("L'invocation du service a échoué : " + e); //$NON-NLS-1$
+		}
 	}
 
 	/** {@inheritDoc} */
