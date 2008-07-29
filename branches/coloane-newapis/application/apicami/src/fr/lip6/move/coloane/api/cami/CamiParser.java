@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-29 18:37:18
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-29 19:23:08
 
 	package fr.lip6.move.coloane.api.cami;
 
@@ -2421,21 +2421,21 @@ public class CamiParser extends Parser {
             match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_special_message21047); 
             match(input,9,FOLLOW_9_in_special_message21049); 
              
-            		if(!number.getText().equals("1")){ 
-            			LOGGER.finest("Reception d'un message de ladmin"); 
+            		if(number.getText().equals("1")){ 
+            			LOGGER.finest("Reception d'un message de l'administrateur"); 
             			IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,mess.getText()); 
             			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 
             		}
-            		if(!number.getText().equals("2")){ 
+            		if(number.getText().equals("2")){ 
             			LOGGER.finest("Reception d'un message court et urgent"); 
             			((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers(mess.getText());  
             		}
-            		if(!number.getText().equals("3")){ 
+            		if(number.getText().equals("3")){ 
             			LOGGER.finest("Reception d'un message copyright"); 
             			IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,mess.getText()); 
             			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 
             		}
-            		if(!number.getText().equals("4")){ 
+            		if(number.getText().equals("4")){ 
             			LOGGER.finest("Reception d'un message a propos des statistiques dexecution"); 
             			IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,mess.getText()); 
             			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 

@@ -569,21 +569,21 @@ grammar Cami;
 	special_message2
 	:	
 	'MO(' number=NUMBER ',' mess=CAMI_STRING ')'{ 
-		if(!$number.text.equals("1")){ 
-			LOGGER.finest("Reception d'un message de ladmin"); 
+		if($number.text.equals("1")){ 
+			LOGGER.finest("Reception d'un message de l'administrateur"); 
 			IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$CAMI_STRING.text); 
 			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 
 		}
-		if(!$number.text.equals("2")){ 
+		if($number.text.equals("2")){ 
 			LOGGER.finest("Reception d'un message court et urgent"); 
 			((BrutalInterruptObservable) hashObservable.get("IBrutalInterrupt")).notifyObservers($mess.text);  
 		}
-		if(!$number.text.equals("3")){ 
+		if($number.text.equals("3")){ 
 			LOGGER.finest("Reception d'un message copyright"); 
 			IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$CAMI_STRING.text); 
 			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 
 		}
-		if(!$number.text.equals("4")){ 
+		if($number.text.equals("4")){ 
 			LOGGER.finest("Reception d'un message a propos des statistiques dexecution"); 
 			IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$CAMI_STRING.text); 
 			((ReceptMessageObservable) hashObservable.get("IReceptMessage")).notifyObservers(msg); 
