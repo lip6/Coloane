@@ -85,10 +85,10 @@ public interface ISession {
 	List<MenuManager> getServicesMenu();
 
 	/**
-	 * Indique le menu de services attache a la session
-	 * @param menus la racine du menu de services
+	 * Permet d'ajouter un menu à la liste des menus associés à cette session
+	 * @param menu racine du menu à ajouter
 	 */
-	void setServicesMenu(List<MenuManager> menus);
+	void addServicesMenu(MenuManager menu);
 
 	/**
 	 * Retourne la liste de resultats associee a la session

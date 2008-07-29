@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.exceptions.UIException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
@@ -14,6 +15,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.jface.action.MenuManager;
@@ -88,6 +90,10 @@ public final class UserInterface {
 	 * @param menus La racine du menu a afficher
 	 */
 	public void drawMenus(final List<ISubMenu> menus) {
+		final ISession session = SessionManager.getInstance().getCurrentSession();
+		if (session == null) {
+			return;
+		}
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				// Supprime tous les menus sauf PLATFORM
@@ -103,6 +109,7 @@ public final class UserInterface {
 				for (ISubMenu menu : menus) {
 					MenuManager menuManager = MenuManipulation.build(menu);
 					MenuManipulation.add(menuManager);
+					session.addServicesMenu(menuManager);
 				}
 			}
 		});
@@ -121,37 +128,39 @@ public final class UserInterface {
 
 	/**
 	 * Demande la mise a jour du menu
-	 * @param updates La liste des mises a jour a faire sur les menus
+	 * @param mapUpdateMenu La liste des mises a jour a faire sur les menus
 	 */
-	public void updateMenu(List<IUpdateMenu> updates) {
-//		// Recuperation du menu de service de la session
-//		MenuManager service = SessionManager.getInstance().getCurrentSession().getServicesMenu();
-//		if (service == null) {
-//			return;
-//		}
-//		for (IUpdateMenu up : updates) {
-//			if (up.getRootName().equals(service.getName())) {
-//				service.setEnabled(up.getServiceName(), up.getState());
-//			}
-//		}
-//		GraphicalMenu gmenu = new GraphicalMenu(service, fenetreTravail, this);
-//		gmenu.update();
+	public void updateMenu(final Map<String, IUpdateMenu> mapUpdateMenu) {
+		// Recuperation du menu de service de la session
+		final ISession session = SessionManager.getInstance().getCurrentSession();
+		if (session == null) {
+			return;
+		}
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				for (MenuManager menuManager : session.getServicesMenu()) {
+					MenuManipulation.update(menuManager, mapUpdateMenu);
+				}
+			}
+		});
 	}
 
 	/**
 	 * Reaffiche les menus (clean + reconstruction)
 	 */
 	public void redrawMenus() {
-//		// Supprime tous les menus sauf PLATFORM
-//		MenuManipulation.clean();
-//
-//		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
-//		if (currentSession == null) {
-//			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
-//			return;
-//		}
-//		GraphicalMenu gmenu = new GraphicalMenu(currentSession.getServicesMenu(), fenetreTravail, this);
-//		gmenu.build();
+		// Supprime tous les menus sauf PLATFORM
+		MenuManipulation.clean();
+
+		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
+		if (currentSession == null) {
+			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
+			return;
+		}
+
+		for (MenuManager menu : currentSession.getServicesMenu()) {
+			MenuManipulation.add(menu);
+		}
 	}
 
 	/**

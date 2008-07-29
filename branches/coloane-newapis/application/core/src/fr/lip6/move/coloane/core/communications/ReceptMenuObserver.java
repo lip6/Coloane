@@ -18,16 +18,17 @@ import java.util.Map;
 public class ReceptMenuObserver implements IReceptMenuObserver {
 	/** {@inheritDoc} */
 	public final void update(IReceptMenu menu) {
-		UserInterface.getInstance().drawMenus(menu.getMenus());
+		if (menu.getMenus() != null) {
+			UserInterface.getInstance().drawMenus(menu.getMenus());
+		}
+		if (menu.getUpdateMenus() != null) {
+			UserInterface.getInstance().updateMenu(menu.getUpdateMenus());
+		}
 
 		// Affichage du menu dans la console pour le debug
-//		for (ISubMenu subMenu : menu.getMenus()) {
-//			Map<String, IUpdateMenu> mapUpdateMenu = new HashMap<String, IUpdateMenu>();
-//			for (IUpdateMenu element : menu.getUpdateMenus()) {
-//				mapUpdateMenu.put(element.getServiceName(), element);
-//			}
-//			printMenus(subMenu, mapUpdateMenu, ""); //$NON-NLS-1$
-//		}
+		for (ISubMenu subMenu : menu.getMenus()) {
+//			printMenus(subMenu, menu.getUpdateMenus(), ""); //$NON-NLS-1$
+		}
 	}
 
 	/**

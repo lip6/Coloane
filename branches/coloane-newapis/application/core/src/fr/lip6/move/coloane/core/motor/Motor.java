@@ -228,7 +228,8 @@ public final class Motor {
 			throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
 				setResults(session.disconnect());
-//				waitUntilEnd(); // Attente de la fin de l'operation
+				UserInterface.getInstance().cleanMenu();
+				//waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
 

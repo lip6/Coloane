@@ -2,11 +2,11 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -56,7 +56,7 @@ public class Session implements ISession {
 		this.status = ISession.CLOSED;
 		this.results = null;
 		this.adminMenu = null;
-		this.menus = null;
+		this.menus = new ArrayList<MenuManager>();
 	}
 
 	/** {@inheritDoc} */
@@ -84,19 +84,8 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final void destroy() {
-		menus = null;
-		adminMenu = null;
-		status = ISession.CLOSED;
-		if (apiSession != null) {
-			try {
-				apiSession.close();
-			} catch (ApiException e) {
-				new Thread(new Runnable() {
-					public void run() {
-						
-					}
-				}).start();
-			}
+		if (apiSession != null && !disconnect()) {
+			LOG.warning("La session " + name + " n'a pas pu être fermé"); //$NON-NLS-1$//$NON-NLS-2$
 		}
 	}
 
@@ -131,8 +120,8 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final void setServicesMenu(List<MenuManager> menus) {
-		this.menus = menus;
+	public final void addServicesMenu(MenuManager menu) {
+		this.menus.add(menu);
 	}
 
 	/** {@inheritDoc} */
@@ -170,7 +159,8 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final boolean disconnect() {
 		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
-		UserInterface.getInstance().cleanMenu();
+		menus.clear();
+		adminMenu = null;
 		try {
 			if (apiSession != null) {
 				apiSession.close();
