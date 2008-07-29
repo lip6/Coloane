@@ -108,9 +108,7 @@ grammar Cami;
 	',' 
 	v2=NUMBER {
 		listOfArgs.add($v2.text);
-		synchronized (hashObservable) {
-			hashObservable.notify();
-		}
+
 		// Construction de l'objet contenant les informations de connexion
 		LOGGER.finest("Fin de la construction des objets de connexion. Transmission...");
 		IConnectionInfo connect = new ConnectionInfo(listOfArgs.get(0), listOfArgs.get(1), listOfArgs.get(2));

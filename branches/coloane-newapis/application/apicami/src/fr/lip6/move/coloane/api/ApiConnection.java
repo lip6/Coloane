@@ -141,15 +141,6 @@ public class ApiConnection implements IApiConnection {
 			}
 		}
 
-		// Mise en attente... des résultats de la connexion
-		synchronized (this.hashObservable) {
-			try {
-				this.hashObservable.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
 		return this.connectionInfo;
 	}
 
