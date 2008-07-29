@@ -59,6 +59,7 @@ public class Listener extends Thread {
 			e.printStackTrace();
 			return;
 		} catch (InterruptedException e) {
+			LOGGER.warning("Demande de fermeture du listener");
 			e.printStackTrace();
 		}
 	}

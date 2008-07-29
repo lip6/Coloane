@@ -45,7 +45,7 @@ public class ApiConnection implements IApiConnection {
 	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** Speaker */
-	private ISpeaker speaker;
+	private Pair<ISpeaker, Listener> pair;
 
 	/** Une table de hash qui stocke tous les observeurs */
 	private Map< String, Object> hashObservable;
@@ -91,8 +91,6 @@ public class ApiConnection implements IApiConnection {
 
 	/** {@inheritDoc} */
 	public final IConnectionInfo openConnection(String login, String password, String ip, int port) throws ApiException {
-		Pair<ISpeaker, Listener> p;
-
 		// Créer la file Queue entre le parser et le thread Listener
 		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
 
@@ -102,8 +100,7 @@ public class ApiConnection implements IApiConnection {
 		// Initialisation de la connexion
 		try {
 			// Création du thread listener et le speaker
-			p = FkInitCom.initCom(ip, port, fifo);
-			this.speaker = p.getSpeaker();
+			this.pair = FkInitCom.initCom(ip, port, fifo);
 		} catch (IOException e) {
 			LOGGER.warning("Echec lors de la connexion a la plate-forme");
 			e.printStackTrace();
@@ -120,7 +117,7 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.fine("Demande d'ouverture de connexion");
 		synchronized (this.hashObservable) {
 			try {
-				this.speaker.startCommunication(login, password);
+				this.pair.getSpeaker().startCommunication(login, password);
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -135,7 +132,7 @@ public class ApiConnection implements IApiConnection {
 		// Demander Ouverture d'une connexion : OC
 		synchronized (this.hashObservable) {
 			try {
-				this.speaker.openConnection(uiName, uiVersion, login);
+				this.pair.getSpeaker().openConnection(uiName, uiVersion, login);
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -171,17 +168,20 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		try {
-			speaker.closeConnection();
+			this.pair.getSpeaker().closeConnection();
 		} catch (IOException e) {
 			LOGGER.warning("Echec lors de la fermeture de la connexion");
 		}
+
+ 	 	//TODO: Détruire le thread listener proprement
+		this.pair.getListener().stop();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IApiSession createApiSession() throws ApiException {
-		return SessionFactory.getNewApiSession(this.speaker);
+		return SessionFactory.getNewApiSession(this.pair.getSpeaker());
 	}
 
 	/**
