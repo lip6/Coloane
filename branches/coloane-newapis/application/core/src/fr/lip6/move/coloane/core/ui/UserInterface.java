@@ -102,9 +102,9 @@ public final class UserInterface {
 
 //				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 //				if (currentSession == null) {
-//					LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
-//					Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
-//					return;
+//				LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
+//				Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
+//				return;
 //				}
 //				currentSession.setServicesMenu(menus);
 				for (ISubMenu menu : menus) {
@@ -151,17 +151,21 @@ public final class UserInterface {
 	 */
 	public void redrawMenus() {
 		// Supprime tous les menus sauf PLATFORM
-		MenuManipulation.clean();
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				MenuManipulation.clean();
 
-		ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
-		if (currentSession == null) {
-			LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
-			return;
-		}
+				ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
+				if (currentSession == null) {
+					LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
+					return;
+				}
 
-		for (MenuManager menu : currentSession.getServicesMenu()) {
-			MenuManipulation.add(menu);
-		}
+				for (MenuManager menu : currentSession.getServicesMenu()) {
+					MenuManipulation.add(menu);
+				}
+			}
+		});
 	}
 
 	/**
@@ -203,35 +207,35 @@ public final class UserInterface {
 	 */
 	public void platformState(boolean authentication, int session) {
 		LOGGER.fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		Composite parent = (Composite) Coloane.getParent();
+		Display dispay = Display.getDefault();
 
 		// Prise en compte de l'authentification
 		if (!authentication) {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 			return;
 		} else {
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
 		}
 
 		// Prise en compte de l'etat de la session
 		switch (session) {
 		case ISession.CLOSED:
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 
 		case ISession.ERROR:
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 			break;
 
 		default:
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			parent.getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
 			break;
 		}
 	}
