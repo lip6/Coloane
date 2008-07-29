@@ -121,6 +121,7 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final void addServicesMenu(MenuManager menu) {
+		LOG.finer("Ajout d'un rootMenu : " + menu.getMenuText()); //$NON-NLS-1$
 		this.menus.add(menu);
 	}
 

@@ -98,6 +98,7 @@ public final class UserInterface {
 			public void run() {
 				// Supprime tous les menus sauf PLATFORM
 				MenuManipulation.clean();
+				session.getServicesMenu().clear();
 
 //				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 //				if (currentSession == null) {
