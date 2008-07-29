@@ -507,7 +507,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void invalidModel() throws ApiException {
+	public final void invalidModel() {
 		// TODO Auto-generated method stub
 		this.invalidateTheModel = true;
 	}
