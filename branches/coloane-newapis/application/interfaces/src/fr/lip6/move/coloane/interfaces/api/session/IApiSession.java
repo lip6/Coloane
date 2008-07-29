@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.List;
 
@@ -67,14 +68,13 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 
 	/**
 	 * Demande un service sur la session courrante
-	 * @param rootName nom du menu principal du service
-	 * @param serviceName nom du service
+	 * @param service service à executer
 	 * @param options la liste des options cochés
 	 * @param model le model sur lequel invoquer le service
 	 * @return true, si la demande de service a reussie.
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) throws ApiException;
+	boolean askForService(IService service, List<String> options, IGraph model) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
