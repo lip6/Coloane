@@ -65,7 +65,7 @@ T66 : 'AD(' ;
 T67 : 'CD(' ;
 T68 : 'DG(' ;
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 777
+// $ANTLR src "Cami.g" 780
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
@@ -74,7 +74,7 @@ CAMI_STRING
 	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text);}
 	;
     
-	// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 785
+	// $ANTLR src "Cami.g" 788
 fragment
 	FIXED_LENGTH_STRING
 	[int len]
@@ -82,18 +82,18 @@ fragment
 	( { len > 0 }?=> .{len--;})* // Gated predicate : deactivate the '.' when len chars have been read
 	;
     
-	// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 792
+	// $ANTLR src "Cami.g" 795
 NUMBER	: 	
 	'0'..'9'+
 	;
     
-	// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 796
+	// $ANTLR src "Cami.g" 799
 NEWLINE
 	: 	
 	( '\r'?'\n' )+ {skip();}
 	;
     
-	// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 801
+	// $ANTLR src "Cami.g" 804
 EOF     :
 	{
 		System.out.println("je parse EOOOFFFFF"); 

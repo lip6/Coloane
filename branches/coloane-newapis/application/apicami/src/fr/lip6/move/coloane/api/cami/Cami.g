@@ -26,6 +26,8 @@ grammar Cami;
 	import fr.lip6.move.coloane.interfaces.objects.service.IService;
 	import fr.lip6.move.coloane.api.observables.ReceptDialogObservable; 
 	import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
+        import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
+        import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 	import fr.lip6.move.coloane.api.camiObject.Dialog; 
 
 	import java.util.ArrayList;
@@ -343,6 +345,7 @@ grammar Cami;
 			camiUpdates.clear();
 			sessionControl.notifyEndOpenSession();
 		} else {
+                         sessionControl.notifyEndUpdates();
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates, null);
 		}
@@ -531,8 +534,8 @@ grammar Cami;
 	| special_message2
 	|NEWLINE
 	| 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-		ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
-		((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
+		//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
 		System.out.println("je parse ZA");
 	}
 	;
