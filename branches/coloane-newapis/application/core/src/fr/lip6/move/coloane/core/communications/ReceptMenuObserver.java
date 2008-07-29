@@ -74,10 +74,10 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 	private String menuToString(ISubMenu menu, Map<String, IUpdateMenu> mapUpdateMenu, String dec) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(dec).append(visibility(menu, mapUpdateMenu)).append(" [menu] ").append(menu.getName()); //$NON-NLS-1$
+		sb.append(dec).append(visibility(menu, mapUpdateMenu)).append(" [menu] ").append(menu.getName()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		for (IServiceMenu service : menu.getServiceMenus()) {
-			sb.append("   ").append(dec).append(visibility(service, mapUpdateMenu)).append(" [service] ").append(service.getName());  //$NON-NLS-1$//$NON-NLS-2$
+			sb.append("   ").append(dec).append(visibility(service, mapUpdateMenu)).append(" [service] ").append(service.getName()).append("\n");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		for (IOptionMenu option : menu.getOptions()) {
@@ -87,7 +87,7 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 			} else {
 				sb.append(" [ ] "); //$NON-NLS-1$
 			}
-			sb.append(" [option] ").append(option.getName()); //$NON-NLS-1$
+			sb.append(" [option] ").append(option.getName()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		for (ISubMenu subMenu : menu.getSubMenus()) {
