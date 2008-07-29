@@ -2,12 +2,14 @@ package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.evenements.ReceptServiceState;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.wrapper.ws.GException;
 import fr.lip6.move.wrapper.ws.WrapperStub;
@@ -83,15 +85,25 @@ public class Listener extends Thread implements IListener {
 
 				// Test s'il y a des messages de traces à lire
 				if (message.getTraces() != null) {
+					// Parcours tous les messages et notifie l'observateur adéquat
 					for (int i = 0; i < message.getTraces().length; i++) {
 						LOGGER.fine("Récéption d'un message");
-						ReceptMessage m = new ReceptMessage(message.getTraces()[i].getNtype(), message.getTraces()[i].getMessage());
+						ReceptMessage m = new ReceptMessage(getMyType(message.getTraces()[i].getNtype()), message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
+
+						// Si un message est une erreur, on notifie l'observateur adéquat et arrête on arrête le Listener
+						if (getMyType(message.getTraces()[i].getNtype()) == IReceptMessage.ERROR_MESSAGE) {
+							LOGGER.fine("Récéption d'une erreur");
+							((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(message.getTraces()[i].getMessage());
+							stopper();
+							//((IMyReceptErrorObservable) listObservable.get(IObservables.RECEPT_ERROR)).notifyObservers(message.getTraces()[i].getMessage());
+						}
 					}
 				}
 
 				// Test s'il y a des boîtes de dialogues à afficher
 				if (message.getDbs() != null) {
+					// Parcours tous les boîtes de dialogue et notifie l'observateur adéquat
 					for (int i = 0; i < message.getDbs().length; i++) {
 						LOGGER.fine("Récéption d'une boîte de dialogue");
 						Dialog dialog = new Dialog(message.getDbs()[i]);
@@ -101,6 +113,7 @@ public class Listener extends Thread implements IListener {
 
 				// Test s'il y a des informations sur l'exécution d'un service à lire
 				if (message.getQts() != null) {
+					// Parcours tous les informations sur l'exécution d'un service et notifie l'observateur adéquat
 					for (int i = 0; i < message.getQts().length; i++) {
 						LOGGER.fine("Récéption d'une information sur un service");
 						ReceptServiceState serviceState = new ReceptServiceState(message.getQts()[i]);
@@ -140,6 +153,23 @@ public class Listener extends Thread implements IListener {
 	 */
 	public final synchronized void stopper() {
 		this.stopThread = true;
+	}
+
+	/**
+	 * Cette methode permet de faire la correspendance entre les types de messages reçu de la part du wrapper
+	 * avec nos propres types de messages.
+	 * @param type le type de message reçu de la part du wrapper
+	 * @return un de nos types de messages
+	 */
+	private synchronized int getMyType(int type) {
+		switch (type) {
+			case 0 : return IReceptMessage.ADMINISTRATOR_MESSAGE;
+			case 1 : return IReceptMessage.COPYRIGHT_MESSAGE;
+			case 2 : return IReceptMessage.TRACE_MESSAGE;
+			case 3 : return IReceptMessage.WARRNING_MESSAGE;
+			case 4 : return IReceptMessage.ERROR_MESSAGE;
+			default : return -1;
+		}
 	}
 
 }

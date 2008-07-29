@@ -72,6 +72,12 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_SERVICE_STATE, ObservableFactory.getNewReceptServiceStateObservable());
 		this.listObservables.put(IObservables.REQUEST_NEW_GRAPH, ObservableFactory.getNewRequestNewGraphObservable());
 
+		//IMyReceptErrorObservable obs = new MyReceptErrorObservable();
+		//obs.addObserver(new MyReceptErrorObserver(this));
+		//obs.setCreateThread(true);
+		//this.listObservables.put(IObservables.RECEPT_ERROR, obs);
+
+
 		LOGGER.finer("Création d'une IApiConnection");
 	}
 
@@ -227,6 +233,17 @@ public class ApiConnection implements IApiConnection {
 			connectionOpened = false;
 			LOGGER.fine("Fermeture de la connexion");
 		}
+	}
+
+	/**
+	 * Force la fermeture de la connexion aprés la récéption d'une erreur grave
+	 */
+	public final void closeConnectionError() {
+		LOGGER.fine("Fermeture forcé de la connexion après la récéption d'une erreur grave");
+		listener = null;
+		speaker = null;
+		sessionController = null;
+		connectionOpened = false;
 	}
 
 	/**
