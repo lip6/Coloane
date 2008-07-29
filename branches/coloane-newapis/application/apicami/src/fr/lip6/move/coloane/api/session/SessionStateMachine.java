@@ -112,7 +112,7 @@ public class SessionStateMachine implements ISessionStateMachine {
 	public final boolean closeSessionState() {
 		if (this.state == WAITING_FOR_CLOSE_SESSION_STATE) {
 			this.state = CLOSE_SESSION_STATE;
-			// équivalent à this.state = INITIAL_STATE;
+
 			return true;
 		}
 		return false;
@@ -122,7 +122,7 @@ public class SessionStateMachine implements ISessionStateMachine {
 	 * {@inheritDoc}
 	 */
 	public final boolean setWaitingForModelState() {
-		if (this.state == WAITING_FOR_RESPONSE_STATE) {
+		if (this.state == WAITING_FOR_RESULT_STATE) {
 			this.state = WAITING_FOR_MODEL_STATE;
 			return true;
 		}
@@ -137,24 +137,18 @@ public class SessionStateMachine implements ISessionStateMachine {
 			this.state = WAITING_FOR_RESULT_STATE;
 			return true;
 		}
-
-		if (this.state == WAITING_FOR_RESPONSE_STATE) {
+		if (this.state == IDLE_STATE) {
+			this.state = WAITING_FOR_RESULT_STATE;
+			return true;
+		}
+		if (this.state == MODELE_SALE_STATE) {
 			this.state = WAITING_FOR_RESULT_STATE;
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForResponseState() {
-		if (this.state == IDLE_STATE) {
-			this.state = WAITING_FOR_RESPONSE_STATE;
-			return true;
-		}
-		return false;
-	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -166,4 +160,17 @@ public class SessionStateMachine implements ISessionStateMachine {
 		}
 		return false;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean setModeleSaleState() {
+		if (this.state == WAITING_FOR_UPDATES_STATE) {
+			this.state = MODELE_SALE_STATE;
+			return true;
+		}
+		return false;
+	}
 }
+
+

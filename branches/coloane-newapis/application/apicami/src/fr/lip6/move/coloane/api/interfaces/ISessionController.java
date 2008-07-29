@@ -87,4 +87,9 @@ public interface ISessionController {
 	 * @param sessionInfo Les informatiosne en question
 	 */
 	void notifyReceptSessionInfo(ISessionInfo sessionInfo);
+
+	/**
+	 * on notifie la fin des updates aprés une invalidation de modele.
+	 */
+	void notifyEndUpdates();
 }

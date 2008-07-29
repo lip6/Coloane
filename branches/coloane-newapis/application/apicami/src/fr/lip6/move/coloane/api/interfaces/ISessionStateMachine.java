@@ -29,8 +29,6 @@ public interface ISessionStateMachine {
 	/** Etat correspondant à une session fermée */
 	int CLOSE_SESSION_STATE = 0; // Le même que INITIAL_STATE
 
-	 /** Etat correspondant à l'attente de réponse de la part de la plate-forme */
-	int WAITING_FOR_RESPONSE_STATE = 8;
 
 	/** TODO : A documenter */
 	int WAITING_FOR_MODEL_STATE = 9;
@@ -38,10 +36,10 @@ public interface ISessionStateMachine {
 	/** TODO : A documenter */
 	int WAITING_FOR_RESULT_STATE = 10;
 
-	/** TODO : A documenter */
+	/** aprés une invalidation de modele , on se met en attente de updates */
 	int WAITING_FOR_UPDATES_STATE = 11;
 
-	/** TODO : A documenter */
+	/** aprés une invalidation de modele , ce dernier est sale */
 	int MODELE_SALE_STATE = 12;
 
 	/**
@@ -104,10 +102,10 @@ public interface ISessionStateMachine {
 	boolean setWaitingForResultState();
 
 	/**
-	 * Positionne la session dans l'etat WAITING_FOR_RESPONSE_STATE, si possible.
+	 * Positionne la session dans l'etat MODELE_SALE_STATE, si possible.
      * @return <code>true</code> si l'opération est réussie
 	 */
-	boolean setWaitingForResponseState();
+	boolean setModeleSaleState();
 
 	/**
 	 * Positionne la session dans l'etat WAITING_FOR_UPDATES_STATE, si possible.

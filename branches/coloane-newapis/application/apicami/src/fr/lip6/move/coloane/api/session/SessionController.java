@@ -170,4 +170,9 @@ public final class SessionController implements ISessionController {
 	public void notifyReceptSessionInfo(ISessionInfo o) {
 		this.activeSession.notifyReceptSessionInfo(o);
 	}
+
+	public void notifyEndUpdates() {
+		this.activeSession.notifyEndUpdates();
+		
+	}
 }

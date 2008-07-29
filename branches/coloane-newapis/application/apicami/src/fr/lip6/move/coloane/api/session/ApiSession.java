@@ -376,7 +376,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) {
 		this.model = model;
-		if (sendDate) {
+		if ((sendDate) & (this.stateMachine.getState() == 12)) {
 		speaker.sendDate(model.getDate());
 		}
 		this.sendDate = false;
@@ -384,7 +384,7 @@ public class ApiSession implements IApiSession {
 			// TODO trouver comment on calcule menuName????
 			speaker.askForService(rootName, serviceName);
 			System.out.println(this.stateMachine.getState());
-			if (!this.stateMachine.setWaitingForResponseState()) {
+			if (!this.stateMachine.setWaitingForResultState()) {
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
 			return true;
@@ -421,6 +421,9 @@ public class ApiSession implements IApiSession {
 			throw new IllegalStateException("j'etais pas en attente de model");
 
 		speaker.sendModel(this.model);
+		// pas trés utile car on remonte pas par observable la demande de modele 
+		if(!this.stateMachine.setWaitingForResultState())
+			throw new IllegalStateException("j'etais pas en attente de model");
 	}
 	
 	/**
@@ -497,5 +500,12 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void setNewGraph(IGraph newGraph) {
 		LOGGER.fine("Le core envoie un nouveau graph");
+	}
+
+	/**
+	 * fin des updates aprés une invalidation de modele
+	 */
+	public final void notifyEndUpdates() {
+		this.stateMachine.setModeleSaleState();
 	}
 }
