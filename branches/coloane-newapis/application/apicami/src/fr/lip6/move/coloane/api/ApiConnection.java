@@ -91,6 +91,13 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IServiceState", ObservableFactory.getNewReceptServiceStateObservable());
 	}
 
+	/**
+	 * @return la liste des observers
+	 */
+	public final Map< String, Object> getObservablesList() {
+		return this.hashObservable;
+	}
+
 	/** {@inheritDoc} */
 	public final IConnectionInfo openConnection(String login, String password, String ip, int port) throws ApiException {
 		// Créer la file Queue entre le parser et le thread Listener
@@ -174,7 +181,7 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final IApiSession createApiSession() throws ApiException {
-		return SessionFactory.getNewApiSession(this.pair.getSpeaker());
+		return SessionFactory.getNewApiSession(this, this.pair.getSpeaker());
 	}
 
 	/**
@@ -189,7 +196,7 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	/**
-	 * Indique la fin de l'ouverture de connexion
+	 * Indique une déconnexion brutale
 	 */
 	public final void notifyBrutalDisconnection() {
 		this.closeConnection(false);
