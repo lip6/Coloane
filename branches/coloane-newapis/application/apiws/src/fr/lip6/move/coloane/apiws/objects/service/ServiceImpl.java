@@ -110,4 +110,10 @@ public class ServiceImpl implements IService {
 		return stopAuthorized;
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return this.name + " (root=" + this.root + " ; parent=" + this.parent + ")";
+	}
+
 }
