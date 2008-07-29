@@ -172,10 +172,12 @@ public final class Motor {
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				monitor.beginTask("Connect model", 3);
 				setMonitor(monitor);
 				setResults(false);
-				setResults(session.connect());
-//				waitUntilEnd(); // Attente de la fin de l'operation
+				setResults(session.connect(monitor));
+				monitor.subTask("Recept menus");
+				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
 
@@ -268,6 +270,7 @@ public final class Motor {
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
 			@Override
 			public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				monitor.beginTask(service.getName(), IProgressMonitor.UNKNOWN);
 				setMonitor(monitor);
 				IReceptServiceStateObserver observer = new IReceptServiceStateObserver() {
 					public void update(IReceptServiceState e) {
@@ -286,7 +289,7 @@ public final class Motor {
 		currentProgress = runnable;
 
 		try {
-			context.run(true, false, runnable);
+			context.run(true, true, runnable);
 		} catch (InvocationTargetException e) {
 			LOGGER.warning("Echec de l'invocation de service (" + service + ") " + e.getTargetException()); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (InterruptedException e) {
@@ -378,7 +381,9 @@ public final class Motor {
 		}
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * Permet de prevenir que le service en cours est fini
+	 */
 	public void endService() {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
@@ -389,15 +394,11 @@ public final class Motor {
 		}
 	}
 
-	/** {@inheritDoc} */
-	public void setTaskDescription(String service, String description) {
-		if (currentProgress != null) {
-			LOGGER.finer("Demande d'affichage de precision sur la tache en cours"); //$NON-NLS-1$
-			currentProgress.getMonitor().worked(1);
-			if (!description.equals("")) { currentProgress.getMonitor().setTaskName(description); } //$NON-NLS-1$
-		} else {
-			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
-		}
+	/**
+	 * @return La boite de progression en cours
+	 */
+	public ColoaneProgress getCurrentProgress() {
+		return currentProgress;
 	}
 
 	/**

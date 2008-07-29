@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
 
 /**
@@ -26,9 +27,10 @@ public interface ISession {
 
 	/**
 	 * Connecte la session à framekit.
+	 * @param monitor moniteur pour la progressbar
 	 * @return <code>true</code> si la connexion est ouverte
 	 */
-	boolean connect();
+	boolean connect(IProgressMonitor monitor);
 
 	/**
 	 * Déconnecte la session de framekit.

@@ -88,6 +88,7 @@ public final class Com implements ICom {
 	 */
 	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
 		IApi api;
+		monitor.beginTask(Messages.Com_0, 4);
 		try {
 			api = getApi(infos.getApiType());
 		} catch (CoreException e) {
@@ -95,19 +96,26 @@ public final class Com implements ICom {
 			e.printStackTrace();
 			return null;
 		}
+		monitor.worked(1);
 
 		// Création d'un objet de connection
+		monitor.subTask(Messages.Com_1);
 		connection = api.createApiConnection();
+		monitor.worked(1);
 
 		// Observers pour tous les messages asynchrones
 		// TODO : dans un Thread ou pas ?
+		monitor.subTask(Messages.Com_2);
 		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
 		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
 		connection.setReceptResultObserver(new ReceptResultObserver(), false);
+		monitor.worked(1);
 
+		monitor.subTask(Messages.Com_3);
 		IConnectionInfo connectionInfo = connection.openConnection(infos.getLogin(), infos.getPass(), infos.getIp(), infos.getPort());
+		monitor.worked(1);
 		return connectionInfo;
 	}
 

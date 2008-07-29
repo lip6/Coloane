@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
 
 /**
@@ -165,10 +166,14 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final boolean connect() {
+	public final boolean connect(IProgressMonitor monitor) {
 		try {
+			monitor.subTask("Create session");
 			apiSession = Com.getInstance().createApiSession();
+			monitor.worked(1);
+			monitor.subTask("Open session");
 			apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
+			monitor.worked(1);
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
 			return false;

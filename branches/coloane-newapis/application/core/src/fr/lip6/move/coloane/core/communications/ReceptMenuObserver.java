@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.communications;
 
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
@@ -35,11 +36,13 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 			ISession session = SessionManager.getInstance().getCurrentSession();
 			session.addAllServices(menu.getServices());
 		}
+		Motor.getInstance().getCurrentProgress().getMonitor().worked(1);
 
 		// Affichage du menu dans la console pour le debug
 		for (ISubMenu subMenu : menu.getMenus()) {
 			LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		Motor.getInstance().endService();
 	}
 
 	/**
