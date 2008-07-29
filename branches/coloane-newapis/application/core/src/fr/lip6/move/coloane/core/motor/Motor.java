@@ -172,11 +172,11 @@ public final class Motor {
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				monitor.beginTask("Connect model", 3);
+				monitor.beginTask(Messages.Motor_16, 3);
 				setMonitor(monitor);
 				setResults(false);
 				setResults(session.connect(monitor));
-				monitor.subTask("Recept menus");
+				monitor.subTask(Messages.Motor_17);
 				waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
