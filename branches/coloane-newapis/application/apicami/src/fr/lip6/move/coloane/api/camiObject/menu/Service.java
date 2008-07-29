@@ -121,4 +121,12 @@ public class Service implements IService {
 	public final String getId() {
 		return this.root + this.name;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return this.name + " (root=" + this.root + " ; parent=" + this.parent + ")";
+	}
 }
