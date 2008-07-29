@@ -131,22 +131,18 @@ public class Speaker implements ISpeaker {
 		// Fabrique et envoie la commande DT
 		String cmdToSend = CamiGenerator.generateCmdDT();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 		// Fabrique et envoie la commande PQ
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, menuName);
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 		// Fabrique et envoie la commande PQ (la deuxième)
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, serviceName);
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 		// Fabrique et envoie la commande FT
 		cmdToSend = CamiGenerator.generateCmdFT();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 	}
 
 	/**
@@ -156,7 +152,6 @@ public class Speaker implements ISpeaker {
 		// Génération de la commande MS pour l'envoi de la date de mise à jour
 		String cmdToSend = CamiGenerator.generateCmdMS(date);
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 	}
 
@@ -165,23 +160,19 @@ public class Speaker implements ISpeaker {
 	 */
 	public final void sendModel(IGraph model) throws IOException {
 		// Transformation du modèle en CAMI
-		Vector<String> commandes;
-		commandes = CamiModelTranslator.translateModel(model);
+		Vector<String> commandes = CamiModelTranslator.translateModel(model);
 		// Envoyer un DB : Début de transmission du modele
 		String cmdToSend = CamiGenerator.generateCmdDB();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 		// Envoyer le coeur du modèle
 		for (int i = 0; i < commandes.size(); i++) {
 			this.fkLowLevel.writeCommand(commandes.get(i));
-			LOGGER.finer("[CO-->FK] : " + cmdToSend);
 		}
 
 		// Envoyer un FB : Fin de transmission du modele
 		cmdToSend = CamiGenerator.generateCmdFB();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 	}
 
 	/**
@@ -191,7 +182,6 @@ public class Speaker implements ISpeaker {
 		// Fabrique en envoie la commande QQ
 		String cmdToSend = CamiGenerator.generateCmdQQ();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 	}
 
 	/**
@@ -201,19 +191,16 @@ public class Speaker implements ISpeaker {
 		// Fabrique en envoie la commande DP
 		String cmdToSend = CamiGenerator.generateCmdDP();
 		this.fkLowLevel.writeCommand(cmdToSend);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 
 		// Le coeur de la réponse à une boite de dialogue
 		List<String> camiDialog;
 		camiDialog = CamiGenerator.generateCmdDialogAnswer(dialogAnswer);
 		for (int i = 0; i < camiDialog.size(); i++) {
 			this.fkLowLevel.writeCommand(camiDialog.get(i));
-			LOGGER.finer("[CO-->FK] : " + cmdToSend);
 		}
 
 		// Fin de la réponse à la boite de dialogue
 		String cmdToSend2 = CamiGenerator.generateCmdFP();
 		this.fkLowLevel.writeCommand(cmdToSend2);
-		LOGGER.finer("[CO-->FK] : " + cmdToSend);
 	}
 }

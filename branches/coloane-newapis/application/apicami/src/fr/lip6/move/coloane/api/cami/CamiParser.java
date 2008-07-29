@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-29 17:48:29
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-07-29 18:37:18
 
 	package fr.lip6.move.coloane.api.cami;
 
@@ -1416,17 +1416,17 @@ public class CamiParser extends Parser {
             		List<IUpdateMenu> updates;
             		
             		if(NUMBER3.getText().equals("3")) {
-                                    LOGGER.finest("Fin de la transmission d'un menu");
+            			LOGGER.finest("Fin de la transmission d'un menu");
             			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
             			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(rootMenus, updates, services);
             			// Nettoyage des updates
             			camiUpdates.clear();
-                                    // notifier au session controlleur de la fin de louverture de la session i.e reception des menus + updates 
+            			// Notifier au session controleur la fin de l'ouverture de la session (i.e reception des menus + updates)
             			sessionControl.notifyEndOpenSession();
             		} else {
-                                    LOGGER.finest("Fin de la transmission des updates apres une invalidation de modele");
-                                    // notifier au session controlleur de la reception des updates 
-                                    sessionControl.notifyEndUpdates();
+            			LOGGER.finest("Fin de la transmission des updates apres une invalidation de modele");
+            			// Notifier au session controleur de la reception des updates 
+            			sessionControl.notifyEndUpdates();
             			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
             			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates, null);
             		}
@@ -1951,7 +1951,7 @@ public class CamiParser extends Parser {
                     match(input,9,FOLLOW_9_in_result_reception885); 
 
 
-                    		if(!state2.getText().equals("1")) { 
+                    		if(state2.getText().equals("1")) { 
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 1"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),1,mess2.getText()); 
@@ -1963,7 +1963,7 @@ public class CamiParser extends Parser {
                     			} 
                     		}
 
-                    		if(!state2.getText().equals("2")) { 
+                    		if(state2.getText().equals("2")) { 
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 2"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),2,mess2.getText()); 
@@ -1975,7 +1975,7 @@ public class CamiParser extends Parser {
                     			} 
                     		} 
 
-                    		if(!state2.getText().equals("3")) { 
+                    		if(state2.getText().equals("3")) { 
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 3"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),3,mess2.getText()); 
@@ -1987,7 +1987,7 @@ public class CamiParser extends Parser {
                     			} 
                     		} 
                         
-                    		if(!state2.getText().equals("4")) { 
+                    		if(state2.getText().equals("4")) { 
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 4"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),4,mess2.getText()); 
@@ -1999,7 +1999,7 @@ public class CamiParser extends Parser {
                     			} 
                     		} 
                         
-                    		if(!state2.getText().equals("5")) { 
+                    		if(state2.getText().equals("5")) { 
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 5"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),5,mess2.getText()); 
@@ -2011,7 +2011,7 @@ public class CamiParser extends Parser {
                     			} 
                     		} 
 
-                    		if(!state2.getText().equals("6")) {
+                    		if(state2.getText().equals("6")) {
                     			if(mess2.getText() != null) { 
                     				LOGGER.finest("Reception d'un TQ 6"); 
                     				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState(service_name2.getText(),6,mess2.getText()); 

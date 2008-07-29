@@ -88,7 +88,7 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
-		this.hashObservable.put("IServiceState", ObservableFactory.getNewReceptServiceStateObservable());
+		this.hashObservable.put("IReceptServiceState", ObservableFactory.getNewReceptServiceStateObservable());
 	}
 
 	/**
@@ -262,9 +262,9 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+	public final void addReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
 		LOGGER.fine("Enregistrement d'un observer sur la reception de message d'etat de la plate-forme");
-		ReceptServiceStateObservable observable = (ReceptServiceStateObservable) this.hashObservable.get("IServiceState");
+		ReceptServiceStateObservable observable = (ReceptServiceStateObservable) this.hashObservable.get("IReceptServiceState");
 		observable.addObserver(o);
 		observable.setCreateThread(createThread);
 	}
@@ -274,5 +274,14 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
 		// TODO ???
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void removeReceptServiceStateObserver(IReceptServiceStateObserver o) {
+		LOGGER.fine("Suppression d'un observer de l'evenement de reception de message d'etat de la plate-forme");
+		ReceptServiceStateObservable observable = (ReceptServiceStateObservable) this.hashObservable.get("IReceptServiceState");
+		observable.removeObserver(o);
 	}
 }

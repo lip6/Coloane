@@ -55,7 +55,7 @@ public class ApiSession implements IApiSession {
 	private ISessionInfo sessionInfo;
 
 	/** modele sale*/
-	private boolean mustSendModel = false;
+	private boolean mustSendModel = true;
 
 	/**
 	 * Constructeur d'une session
@@ -401,8 +401,10 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 			}
 
+			// Vérification et Positionnement du nouvel état
 			if (!this.stateMachine.setWaitingForResultState()) {
-				throw new IllegalStateException("je doit attendre qque chose de chez FK");
+				LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec la reprise de session (etat actuel = " + this.stateMachine.getState() + ")");
+				throw new ApiException("The session is not ready to ask the platform for a service");
 			}
 		}
 	}
@@ -425,18 +427,16 @@ public class ApiSession implements IApiSession {
 	}
 
 
-
-
-
-
-
-
 	/**
-	 * {@inheritDoc}
+	 * Actions à entreprendre lors de la notification de l'attente d'un modèle<br>
+	 * Envoi du modèle
+	 * @throws IOException
 	 */
 	public void notifyWaitingForModel() throws IOException {
-		if(!this.stateMachine.setWaitingForModelState())
+		LOGGER.fine("La session " + this.name + " doit envoyer son modele");
+		if (!this.stateMachine.setWaitingForModelState()) {
 			throw new IllegalStateException("j'etais pas en attente de model");
+		}
 
 		speaker.sendModel(this.model);
 		// pas trés utile car on remonte pas par observable la demande de modele 
@@ -447,11 +447,18 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyWaitingForResult() {
-		System.out.println(stateMachine.getState());
+	public final void notifyWaitingForResult() {
+		
 		if(!this.stateMachine.setWaitingForResultState())
 			throw new IllegalStateException("j'etais pas en attente de reponse");
 	}
+
+
+
+
+
+
+	
 
 	/**
 	 * {@inheritDoc}

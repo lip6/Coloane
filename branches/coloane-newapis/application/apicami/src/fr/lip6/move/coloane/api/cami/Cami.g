@@ -341,17 +341,17 @@ grammar Cami;
 		List<IUpdateMenu> updates;
 		
 		if($NUMBER.text.equals("3")) {
-                        LOGGER.finest("Fin de la transmission d'un menu");
+			LOGGER.finest("Fin de la transmission d'un menu");
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(rootMenus, updates, services);
 			// Nettoyage des updates
 			camiUpdates.clear();
-                        // notifier au session controlleur de la fin de louverture de la session i.e reception des menus + updates 
+			// Notifier au session controleur la fin de l'ouverture de la session (i.e reception des menus + updates)
 			sessionControl.notifyEndOpenSession();
 		} else {
-                        LOGGER.finest("Fin de la transmission des updates apres une invalidation de modele");
-                        // notifier au session controlleur de la reception des updates 
-                        sessionControl.notifyEndUpdates();
+			LOGGER.finest("Fin de la transmission des updates apres une invalidation de modele");
+			// Notifier au session controleur de la reception des updates 
+			sessionControl.notifyEndUpdates();
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates, null);
 		}
@@ -451,7 +451,7 @@ grammar Cami;
 	|'<EOF>'*
 	|'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')' {
 
-		if(!$state2.text.equals("1")) { 
+		if($state2.text.equals("1")) { 
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 1"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,1,$mess2.text); 
@@ -463,7 +463,7 @@ grammar Cami;
 			} 
 		}
 
-		if(!$state2.text.equals("2")) { 
+		if($state2.text.equals("2")) { 
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 2"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,2,$mess2.text); 
@@ -475,7 +475,7 @@ grammar Cami;
 			} 
 		} 
 
-		if(!$state2.text.equals("3")) { 
+		if($state2.text.equals("3")) { 
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 3"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,3,$mess2.text); 
@@ -487,7 +487,7 @@ grammar Cami;
 			} 
 		} 
     
-		if(!$state2.text.equals("4")) { 
+		if($state2.text.equals("4")) { 
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 4"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,4,$mess2.text); 
@@ -499,7 +499,7 @@ grammar Cami;
 			} 
 		} 
     
-		if(!$state2.text.equals("5")) { 
+		if($state2.text.equals("5")) { 
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 5"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,5,$mess2.text); 
@@ -511,7 +511,7 @@ grammar Cami;
 			} 
 		} 
 
-		if(!$state2.text.equals("6")) {
+		if($state2.text.equals("6")) {
 			if($mess2.text != null) { 
 				LOGGER.finest("Reception d'un TQ 6"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,6,$mess2.text); 

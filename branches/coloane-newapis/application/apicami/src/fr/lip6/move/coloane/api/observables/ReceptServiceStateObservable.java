@@ -44,6 +44,14 @@ public class ReceptServiceStateObservable {
 	}
 
 	/**
+	 * Supprime un observer enregistré
+	 * @param o L'observer à supprimer
+	 */
+	public final void removeObserver(IReceptServiceStateObserver o) {
+		this.observers.remove(o);
+	}
+
+	/**
 	 * Notifier tous les observers
 	 * @param arg argument de la notification.
 	 */
