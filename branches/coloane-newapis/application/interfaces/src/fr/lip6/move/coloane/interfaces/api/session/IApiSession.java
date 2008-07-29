@@ -92,9 +92,8 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 
 	/**
 	 * Invalide un model
-	 * @throws ApiException si l'invalidation du model échoue
 	 */
-	void invalidModel() throws ApiException;
+	void invalidModel();
 
 	/**
 	 * Initialise un nouveau graph qui peut être manipuler par l'API.
