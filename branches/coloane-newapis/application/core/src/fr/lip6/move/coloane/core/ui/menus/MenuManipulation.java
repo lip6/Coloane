@@ -127,7 +127,7 @@ public final class MenuManipulation {
 	 */
 	public static void clean() {
 		// On ne fait pas de clean si le menu n'existe pas
-		if (getColoaneMenu() != null) {
+		if (getColoaneMenu() != null && !getColoaneMenu().isDisposed()) {
 			for (MenuItem item : getColoaneMenu().getItems()) {
 				if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
 					item.dispose();
