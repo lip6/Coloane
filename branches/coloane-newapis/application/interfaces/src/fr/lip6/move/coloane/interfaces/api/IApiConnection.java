@@ -64,7 +64,13 @@ public interface IApiConnection {
 	 * @param o l'observateur qui sera notifier par l'evenement : récéption d'une information sur un service en cours d'exécution.
 	 * @param createThread definie s'il faut creer un thread pour la notification
 	 */
-	void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread);
+	void addReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread);
+
+	/**
+	 * Enlève un observateur pour l'évenement : récéption d'une information sur un service en cours d'exécution.
+	 * @param o observateur à enlever
+	 */
+	void removeReceptServiceStateObserver(IReceptServiceStateObserver o);
 
 	/**
 	 * Positionne un observateur pour l'evenement : demande un model.
