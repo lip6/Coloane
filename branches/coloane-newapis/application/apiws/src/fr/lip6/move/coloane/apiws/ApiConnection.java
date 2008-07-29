@@ -72,8 +72,6 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_SERVICE_STATE, ObservableFactory.getNewReceptServiceStateObservable());
 		this.listObservables.put(IObservables.REQUEST_NEW_GRAPH, ObservableFactory.getNewRequestNewGraphObservable());
 
-		this.sessionController = SessionFactory.getNewSessionController(listObservables);
-
 		LOGGER.finer("Création d'une IApiConnection");
 	}
 
@@ -176,6 +174,9 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Demande la création du Listener");
 		this.listener = new Listener(speaker.getAuthentification(), speaker.getStub(), listObservables);
 
+		LOGGER.finer("Création du gestionnaire de session");
+		this.sessionController = SessionFactory.getNewSessionController(listObservables);
+
 		LOGGER.finer("Demande le demmarage du Listener");
 		listener.start();
 
@@ -222,6 +223,7 @@ public class ApiConnection implements IApiConnection {
 		} finally {
 			listener = null;
 			speaker = null;
+			sessionController = null;
 			connectionOpened = false;
 			LOGGER.fine("Fermeture de la connexion");
 		}
