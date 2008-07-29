@@ -51,5 +51,11 @@ public abstract class ItemMenuImpl implements IItemMenu {
 		return visible;
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return name;
+	}
+
 
 }

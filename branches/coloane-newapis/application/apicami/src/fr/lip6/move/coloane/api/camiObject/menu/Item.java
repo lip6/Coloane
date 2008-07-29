@@ -58,4 +58,9 @@ public class Item implements IItemMenu {
 	public final boolean isVisible() {
 		return this.visibility;
 	}
+
+	@Override
+	public final String toString() {
+		return name;
+	}
 }

@@ -48,4 +48,12 @@ public class UpdateMenu implements IUpdateMenu {
 	public final boolean getState() {
 		return this.state;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return serviceName + " [" + state + "]"; //$NON-NLS-1$//$NON-NLS-2$
+	}
 }
