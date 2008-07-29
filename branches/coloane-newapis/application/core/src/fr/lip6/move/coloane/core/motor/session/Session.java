@@ -168,10 +168,10 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final boolean connect(IProgressMonitor monitor) {
 		try {
-			monitor.subTask("Create session");
+			monitor.subTask(Messages.Session_0);
 			apiSession = Com.getInstance().createApiSession();
 			monitor.worked(1);
-			monitor.subTask("Open session");
+			monitor.subTask(Messages.Session_1);
 			apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
 			monitor.worked(1);
 		} catch (ApiException e) {
