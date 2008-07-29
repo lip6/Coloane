@@ -55,15 +55,27 @@ public final class ObservableFactory {
 		return new ReceptMessageObservable();
 	}
 
+	/**
+	 * Création d'un observable pour la réception d'une boite de dialog en provenance de FrameKit
+	 * @return L'observable fraîchement créé
+	 */
 	public static ReceptDialogObservable getNewreceptDialogObservable() {
 		return new ReceptDialogObservable();
 	}
 
+	/**
+	 * Création d'un observable pour la réception des resultats en provenance de FrameKit
+	 * @return L'observable fraîchement créé
+	 */
 	public static ReceptResultObservable getNewReceptResultObservable() {
 		return new ReceptResultObservable();
 	}
 
-	public static ReceptDialogObservable getNewReceptDialogObservable() {
-		return new ReceptDialogObservable();
+	/**
+	 * Création d'un observable pour les services states en provenance de FrameKit
+	 * @return L'observable fraîchement créé
+	 */
+	public static ReceptServiceStateObservable getNewReceptServiceStateObservable() {
+		return new ReceptServiceStateObservable();
 	}
 }
