@@ -429,43 +429,42 @@ public class ApiSession implements IApiSession {
 
 	/**
 	 * Actions à entreprendre lors de la notification de l'attente d'un modèle<br>
-	 * Envoi du modèle
-	 * @throws IOException
+	 * Envoi du modèle et changements des états de la session
 	 */
-	public void notifyWaitingForModel() throws IOException {
+	public final void notifyWaitingForModel() {
 		LOGGER.fine("La session " + this.name + " doit envoyer son modele");
 		if (!this.stateMachine.setWaitingForModelState()) {
-			throw new IllegalStateException("j'etais pas en attente de model");
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec l'envoi d'un modele");
+			return;
 		}
 
-		speaker.sendModel(this.model);
-		// pas trés utile car on remonte pas par observable la demande de modele 
-		if(!this.stateMachine.setWaitingForResultState())
-			throw new IllegalStateException("j'etais pas en attente de model");
+		try {
+			speaker.sendModel(this.model);
+		} catch (IOException e) {
+			LOGGER.warning("Problème lors de l'envoi du modèle (IO)");
+			// TODO : Faire quelque chose
+		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Actions à entreprendre lors de la réception des premiers résultats
 	 */
 	public final void notifyWaitingForResult() {
-		
-		if(!this.stateMachine.setWaitingForResultState())
-			throw new IllegalStateException("j'etais pas en attente de reponse");
+		LOGGER.fine("La session " + this.name + " a commence a recevoir des resultats");
+		if (!this.stateMachine.setWaitingForResultState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec la reception de resultats");
+			return;
+		}
 	}
 
-
-
-
-
-
-	
-
 	/**
-	 * {@inheritDoc}
+	 * Actions à entreprendre lors de la réception de tous les résultats
 	 */
-	public void notifyEndResult() {
-		if(!this.stateMachine.setIdleState()){
-			throw new IllegalStateException("je peux pas me mettre dans cet etat");
+	public final void notifyEndResult() {
+		LOGGER.fine("La session " + this.name + " a terminee de recevoir les resultats");
+		if (!this.stateMachine.setIdleState()) {
+			LOGGER.warning("L'etat de la session " + this.name + " est incompatible avec le traitement des resultats");
+			return;
 		}
 	}
 

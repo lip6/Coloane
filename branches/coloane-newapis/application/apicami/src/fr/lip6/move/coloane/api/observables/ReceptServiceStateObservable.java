@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Observable des événements en rapport avec un service state
@@ -14,6 +15,8 @@ import java.util.List;
  *
  */
 public class ReceptServiceStateObservable {
+	/** Le Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** Liste des observeurs */
 	private List<IReceptServiceStateObserver> observers;
@@ -56,6 +59,7 @@ public class ReceptServiceStateObservable {
 	 * @param arg argument de la notification.
 	 */
 	public final void notifyObservers(IReceptServiceState arg) {
+		LOGGER.finer("Envoie d'un message d'etat : " + arg.getMessage());
 		// Option sans création de thread
 		if (!this.createThread) {
 			for (IReceptServiceStateObserver o : this.observers) {
