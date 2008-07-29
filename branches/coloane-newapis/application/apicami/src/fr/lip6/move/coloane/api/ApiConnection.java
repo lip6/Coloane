@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
+import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.api.session.SessionFactory;
@@ -82,7 +83,7 @@ public class ApiConnection implements IApiConnection {
 
 		this.hashObservable.put("IConnection", connectionObservable);
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
-		//this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
+		this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
 		//this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
@@ -236,7 +237,10 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptResultObserver(IReceptResultObserver o, boolean createThread) {
-		// TODO ???
+		LOGGER.fine("Enregistrement d'un observer sur la reception des resultats");
+		ReceptResultObservable observable = (ReceptResultObservable) this.hashObservable.get("IReceptResult");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**
