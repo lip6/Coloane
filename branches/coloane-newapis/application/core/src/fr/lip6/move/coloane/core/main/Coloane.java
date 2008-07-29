@@ -1,18 +1,12 @@
 package fr.lip6.move.coloane.core.main;
 
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Platform;
@@ -98,26 +92,6 @@ public class Coloane extends AbstractUIPlugin {
 			return Platform.getResourceBundle(instance.getBundle()).getString(key);
 		} catch (NullPointerException ne) {
 			return null;
-		}
-	}
-
-	/**
-	 * Notifier le changement du modele de la session courrante
-	 * @param element un element du graph
-	 */
-	public static void notifyModelChange(IElement element) {
-		IElement tmp = element;
-		while (tmp.getParent() != null) {
-			tmp = tmp.getParent();
-		}
-		IGraph graph = (IGraph) tmp;
-		if (graph != null) {
-			int dateUpdate = graph.modifyDate();
-			ISession currentSession = SessionManager.getInstance().getCurrentSession();
-			if (dateUpdate != 0 && currentSession != null && currentSession.getStatus() == ISession.CONNECTED) {
-				LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-				//Com.getInstance().toUpdate(dateUpdate);
-			}
 		}
 	}
 

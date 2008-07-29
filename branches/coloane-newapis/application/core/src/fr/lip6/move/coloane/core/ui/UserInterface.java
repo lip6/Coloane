@@ -29,8 +29,8 @@ import org.eclipse.ui.PlatformUI;
  * Interface Utilisateur
  */
 public final class UserInterface {
-	/** Le logger */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+		/** Le logger */
+		private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
@@ -98,17 +98,10 @@ public final class UserInterface {
 			public void run() {
 				// Supprime tous les menus sauf PLATFORM
 				MenuManipulation.clean();
-				session.getServicesMenu().clear();
+				session.clearServicesMenu();
 
-//				ISession currentSession = SessionManager.getInstance().getCurrentSession();
-//				if (currentSession == null) {
-//				LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
-//				Coloane.showWarningMsg("Impossible d'afficher le menu"); //$NON-NLS-1$
-//				return;
-//				}
-//				currentSession.setServicesMenu(menus);
 				for (ISubMenu menu : menus) {
-					MenuManager menuManager = MenuManipulation.build(menu);
+					MenuManager menuManager = MenuManipulation.build(menu, session);
 					MenuManipulation.add(menuManager);
 					session.addServicesMenu(menuManager);
 				}

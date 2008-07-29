@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -91,7 +91,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		node.firePropertyChange(INode.LOCATION_PROP, oldLocation, new Point(x, y));
 
 		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(node);
+		Motor.getInstance().notifyModelChange(node);
 	}
 
 	/** {@inheritDoc} */

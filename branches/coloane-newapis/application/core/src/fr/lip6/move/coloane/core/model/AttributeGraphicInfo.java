@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 
@@ -52,7 +52,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		((AttributeModel) this.attribute).firePropertyChange(IAttribute.LOCATION_PROP, oldValue, newValue);
 
 		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(attribute.getReference());
+		Motor.getInstance().notifyModelChange(attribute.getReference());
 	}
 
 	/** {@inheritDoc} */

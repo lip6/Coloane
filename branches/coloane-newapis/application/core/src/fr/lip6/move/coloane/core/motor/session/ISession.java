@@ -2,13 +2,19 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.action.MenuManager;
 
 /**
  * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
+ */
+/**
+ * @author clement
+ *
  */
 public interface ISession {
 
@@ -91,6 +97,11 @@ public interface ISession {
 	void addServicesMenu(MenuManager menu);
 
 	/**
+	 * Vide le menu pour cette session.
+	 */
+	void clearServicesMenu();
+
+	/**
 	 * Retourne la liste de resultats associee a la session
 	 * @return La liste de resultats a afficher dans la vue adequate
 	 */
@@ -107,4 +118,42 @@ public interface ISession {
 	 * @param status Le status courant de la session
 	 */
 	void setStatus(int status);
+
+	/**
+	 * Ajout de tous les services passé en paramètre
+	 * @param services Collection de services
+	 */
+	void addAllServices(Collection<IService> services);
+
+	/**
+	 * @return liste des services disponibles
+	 */
+	Collection<IService> getServices();
+
+	/**
+	 * @param id id du service
+	 * @return IService correspondant ou <code>null</code>
+	 */
+	IService getService(String id);
+
+	/**
+	 * @param option nom de l'option
+	 * @param state état de l'option
+	 */
+	void setOption(String option, boolean state);
+
+	/**
+	 * @return la liste des options actives
+	 */
+	List<String> getActiveOptions();
+
+	/**
+	 * @param service service à executer
+	 */
+	void askForService(IService service);
+
+	/**
+	 * Previens l'api d'un changement majeur du modèle
+	 */
+	void invalidModel();
 }

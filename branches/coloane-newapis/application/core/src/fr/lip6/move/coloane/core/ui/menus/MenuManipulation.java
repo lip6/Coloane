@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -59,27 +60,29 @@ public final class MenuManipulation {
 
 	/**
 	 * @param rootApiMenu menu reçu par l'api
+	 * @param session session attaché à ce menu
 	 * @return MenuManager correpondant au menu passé en parametre
 	 */
-	public static MenuManager build(ISubMenu rootApiMenu) {
-		return build(rootApiMenu, rootApiMenu.isVisible());
+	public static MenuManager build(ISubMenu rootApiMenu, ISession session) {
+		return build(rootApiMenu, rootApiMenu.isVisible(), session);
 	}
 
 	/**
 	 * @param apiMenu (sous-)menu reçu par l'api
 	 * @param active <code>true</code> si les éléments de ce menu doivent être actif
+	 * @param session session attaché à ce menu
 	 * @return MenuManager correpondant au menu passé en parametre
 	 */
-	private static MenuManager build(ISubMenu apiMenu, boolean active) {
+	private static MenuManager build(ISubMenu apiMenu, boolean active, ISession session) {
 		MenuManager item = new MenuManager(apiMenu.getName(), apiMenu.getName());
 		for (IServiceMenu service : apiMenu.getServiceMenus()) {
-			item.add(buildServiceMenu(service, active && apiMenu.isVisible()));
+			item.add(buildServiceMenu(service, active && apiMenu.isVisible(), session));
 		}
 		for (ISubMenu subMenu : apiMenu.getSubMenus()) {
-			item.add(build(subMenu, active && apiMenu.isVisible()));
+			item.add(build(subMenu, active && apiMenu.isVisible(), session));
 		}
 		for (IOptionMenu option : apiMenu.getOptions()) {
-			item.add(buildOptionMenu(option, active && apiMenu.isVisible()));
+			item.add(buildOptionMenu(option, active && apiMenu.isVisible(), session));
 		}
 		return item;
 	}
@@ -87,10 +90,11 @@ public final class MenuManipulation {
 	/**
 	 * @param service service à créer
 	 * @param active est-ce que le parent est actif
+	 * @param session session attaché à ce menu
 	 * @return ServiceAction
 	 */
-	private static IAction buildServiceMenu(IServiceMenu service, boolean active) {
-		IAction item = new ServiceAction(service);
+	private static IAction buildServiceMenu(IServiceMenu service, boolean active, ISession session) {
+		IAction item = new ServiceAction(service, session);
 		item.setEnabled(active && service.isVisible());
 		return item;
 	}
@@ -98,10 +102,11 @@ public final class MenuManipulation {
 	/**
 	 * @param option option à créer
 	 * @param active est-ce que le parent est actif
+	 * @param session session attaché à ce menu
 	 * @return OptionAction
 	 */
-	private static IAction buildOptionMenu(IOptionMenu option, boolean active) {
-		IAction item = new OptionAction(option);
+	private static IAction buildOptionMenu(IOptionMenu option, boolean active, ISession session) {
+		IAction item = new OptionAction(option, session);
 		item.setEnabled(active && option.isVisible());
 		return item;
 	}

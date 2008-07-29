@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.communications;
 
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
@@ -29,11 +31,15 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 			LOGGER.finer("Réception d'une mise à jour de menu : " + menu.getUpdateMenus()); //$NON-NLS-1$
 			UserInterface.getInstance().updateMenu(menu.getUpdateMenus());
 		}
+		if (menu.getServices() != null && SessionManager.getInstance().getCurrentSession() != null) {
+			ISession session = SessionManager.getInstance().getCurrentSession();
+			session.addAllServices(menu.getServices());
+		}
 
 		// Affichage du menu dans la console pour le debug
-//		for (ISubMenu subMenu : menu.getMenus()) {
-//			printMenus(subMenu, menu.getUpdateMenus(), ""); //$NON-NLS-1$
-//		}
+		for (ISubMenu subMenu : menu.getMenus()) {
+			LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 
 	/**
@@ -62,21 +68,32 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 	 * @param menu menu qui doit être affiché
 	 * @param mapUpdateMenu mise à jours à appliquer
 	 * @param dec décalage correspondant à la profondeur actuelle
+	 * @return String représentant le menu
 	 */
-	private void printMenus(ISubMenu menu, Map<String, IUpdateMenu> mapUpdateMenu, String dec) {
+	@SuppressWarnings("unused")
+	private String menuToString(ISubMenu menu, Map<String, IUpdateMenu> mapUpdateMenu, String dec) {
+		StringBuilder sb = new StringBuilder();
 
-		System.out.println(dec + visibility(menu, mapUpdateMenu) + " " + "[menu ]" + " " + menu.getName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append(dec).append(visibility(menu, mapUpdateMenu)).append(" [menu] ").append(menu.getName()); //$NON-NLS-1$
 
 		for (IServiceMenu service : menu.getServiceMenus()) {
-			System.out.println("   " + dec + visibility(service, mapUpdateMenu) + " " + "[service]" + " " + service.getName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("   ").append(dec).append(visibility(service, mapUpdateMenu)).append(" [service] ").append(service.getName());  //$NON-NLS-1$//$NON-NLS-2$
 		}
 
 		for (IOptionMenu option : menu.getOptions()) {
-			System.out.println("   " + dec + visibility(option, mapUpdateMenu) + (option.isValidated() ? " [X] " : " [ ] ") + " [option]" + " " + option.getName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			sb.append("   ").append(dec).append(visibility(option, mapUpdateMenu)); //$NON-NLS-1$
+			if (option.isValidated()) {
+				sb.append(" [X] "); //$NON-NLS-1$
+			} else {
+				sb.append(" [ ] "); //$NON-NLS-1$
+			}
+			sb.append(" [option] ").append(option.getName()); //$NON-NLS-1$
 		}
 
 		for (ISubMenu subMenu : menu.getSubMenus()) {
-			printMenus(subMenu, mapUpdateMenu, "   " + dec); //$NON-NLS-1$
+			sb.append(menuToString(subMenu, mapUpdateMenu, "   " + dec)); //$NON-NLS-1$
 		}
+
+		return sb.toString();
 	}
 }

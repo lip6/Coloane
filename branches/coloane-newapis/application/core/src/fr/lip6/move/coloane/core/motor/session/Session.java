@@ -5,9 +5,16 @@ import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.jface.action.MenuManager;
@@ -34,6 +41,12 @@ public class Session implements ISession {
 	/** Arborescence du menu et des services de la session */
 	private List<MenuManager> menus;
 
+	/**	Liste des services disponibles */
+	private Map<String, IService> services;
+
+	/** Liste des options active */
+	private Set<String> options;
+
 	/** Status de la session */
 	private int status;
 
@@ -57,6 +70,8 @@ public class Session implements ISession {
 		this.results = null;
 		this.adminMenu = null;
 		this.menus = new ArrayList<MenuManager>();
+		this.services = new HashMap<String, IService>();
+		this.options = new HashSet<String>();
 	}
 
 	/** {@inheritDoc} */
@@ -116,13 +131,19 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final List<MenuManager> getServicesMenu() {
-		return menus;
+		return Collections.unmodifiableList(menus);
 	}
 
 	/** {@inheritDoc} */
 	public final void addServicesMenu(MenuManager menu) {
 		LOG.finer("Ajout d'un rootMenu : " + menu.getMenuText()); //$NON-NLS-1$
 		this.menus.add(menu);
+	}
+
+	/** {@inheritDoc} */
+	public final void clearServicesMenu() {
+		LOG.finer("Suppression du menu"); //$NON-NLS-1$
+		menus.clear();
 	}
 
 	/** {@inheritDoc} */
@@ -180,5 +201,58 @@ public class Session implements ISession {
 	@Override
 	public final String toString() {
 		return name;
+	}
+
+	/** {@inheritDoc} */
+	public final void addAllServices(Collection<IService> services) {
+		for (IService service : services) {
+			this.services.put(service.getId(), service);
+		}
+	}
+
+	/** {@inheritDoc} */
+	public final IService getService(String id) {
+		return services.get(id);
+	}
+
+	/** {@inheritDoc} */
+	public final Collection<IService> getServices() {
+		return services.values();
+	}
+
+	/** {@inheritDoc} */
+	public final List<String> getActiveOptions() {
+		return Collections.unmodifiableList(new ArrayList<String>(options));
+	}
+
+	/** {@inheritDoc} */
+	public final void setOption(String option, boolean state) {
+		if (state) {
+			options.add(option);
+		} else {
+			options.remove(option);
+		}
+	}
+
+	/** {@inheritDoc} */
+	public final void askForService(IService service) {
+		if (status != ISession.CONNECTED) {
+			LOG.warning("Invocation du service impossible, la session n'est pas connecté"); //$NON-NLS-1$
+			return;
+		}
+//		try {
+			LOG.fine("Invocation du service : " + service.getName() + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
+//			apiSession.askForService(service, getActiveOptions(), graph);
+//		} catch (ApiException e) {
+//			LOG.warning("L'invocation du service a échoué : " + e); //$NON-NLS-1$
+//		}
+	}
+
+	/** {@inheritDoc} */
+	public final void invalidModel() {
+		if (status != ISession.CONNECTED) {
+			return;
+		}
+		apiSession.invalidModel();
 	}
 }

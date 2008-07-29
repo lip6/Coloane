@@ -12,7 +12,9 @@ import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
@@ -252,16 +254,9 @@ public final class Motor {
 
 
 	/** {@inheritDoc} */
-	public void askForService(final String rootMenuName, final String referenceName, final String serviceName) {
-		// Verification de l'existence du module de communications
-		LOGGER.warning("Module de communication non instanciee"); //$NON-NLS-1$
-		Coloane.showErrorMsg(Messages.Motor_13);
-		return;
-
-		// On verifie que le modele courant est bien connecte avant de le deconnecter
-		if (sessionManager.getCurrentSession().getStatus() != ISession.CONNECTED) {
-			LOGGER.warning("Le modele courant n'est pas connecte"); //$NON-NLS-1$
-			Coloane.showWarningMsg(Messages.Motor_14);
+	public void askForService(final IService service) {
+		final ISession session = SessionManager.getInstance().getCurrentSession();
+		if (session == null) {
 			return;
 		}
 
@@ -272,23 +267,19 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-//				Com.getInstance().askForService(rootMenuName, referenceName, serviceName, monitor);
-				waitUntilEnd(); // Attente de la fin de l'operation
+				session.askForService(service);
 			}
 		};
 
 		// Doit etre positionne avant le run !!
 		currentProgress = runnable;
 
-		// Grisage du menu de services
-		UserInterface.getInstance().changeRootMenuStatus(rootMenuName, false);
-
 		try {
 			context.run(true, false, runnable);
 		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de l'invocation de service (" + serviceName + ") " + e.getTargetException()); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.warning("Echec de l'invocation de service (" + service + ") " + e.getTargetException()); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation du service : " + serviceName + " [" + e.getMessage() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			LOGGER.warning("Annulation du service : " + service + " [" + e.getMessage() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		// Au retour d'un service, le modele est toujours propre
@@ -432,6 +423,27 @@ public final class Motor {
 			Com.getInstance().breakConnection(false);
 			sessionManager.setAuthenticated(false);
 			return;
+		}
+	}
+
+	/**
+	 * Notifier le changement du modele de la session courrante
+	 * @param element un element du graph
+	 */
+	public void notifyModelChange(IElement element) {
+		// On cherche le graphe
+		IElement tmp = element;
+		while (tmp.getParent() != null) {
+			tmp = tmp.getParent();
+		}
+		IGraph graph = (IGraph) tmp;
+		if (graph != null) {
+			int dateUpdate = graph.modifyDate();
+			ISession currentSession = SessionManager.getInstance().getCurrentSession();
+			if (dateUpdate != 0 && currentSession != null) {
+				LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
+				currentSession.invalidModel();
+			}
 		}
 	}
 }
