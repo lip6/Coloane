@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
+import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.api.session.SessionFactory;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
@@ -87,6 +88,7 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
+		this.hashObservable.put("IServiceState", ObservableFactory.getNewReceptServiceStateObservable());
 	}
 
 	/** {@inheritDoc} */
@@ -136,8 +138,8 @@ public class ApiConnection implements IApiConnection {
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ioe) {
+				LOGGER.warning("Echec de la lecture / ecriture sur la socket: " + ioe.getMessage());
 			}
 		}
 
@@ -187,12 +189,22 @@ public class ApiConnection implements IApiConnection {
 	}
 
 	/**
+	 * Indique la fin de l'ouverture de connexion
+	 */
+	public final void notifyBrutalDisconnection() {
+		this.closeConnection(false);
+		synchronized (hashObservable) {
+			this.hashObservable.notify();
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public final void setBrutalInterruptObserver(IBrutalInterruptObserver o, boolean createThread) {
 		LOGGER.fine("Enregistrement d'un observer sur la déconnexion brutale de la plate-forme");
 		BrutalInterruptObservable observable = (BrutalInterruptObservable) this.hashObservable.get("IBrutalInterrupt");
-		observable.addObserver(o);
+		observable.addObserver(o, this);
 		observable.setCreateThread(createThread);
 	}
 
@@ -243,8 +255,11 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
-		// TODO ???
+	public final void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+		LOGGER.fine("Enregistrement d'un observer sur la reception de message d'etat de la plate-forme");
+		ReceptServiceStateObservable observable = (ReceptServiceStateObservable) this.hashObservable.get("IServiceState");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**

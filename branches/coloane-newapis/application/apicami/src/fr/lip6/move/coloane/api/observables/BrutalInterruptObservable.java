@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.observables;
 
+import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import java.util.List;
 public class BrutalInterruptObservable {
 	/** Liste des observeurs */
 	private List<IBrutalInterruptObserver> observers;
+
+	/** L'ApiConnection qui doit être avertie au moment de la réceptiond'un message de déconnexion */
+	private ApiConnection api;
 
 	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
@@ -36,9 +40,11 @@ public class BrutalInterruptObservable {
 	/**
 	 * Ajout d'un observer sur cet observable
 	 * @param o L'observer
+	 * @param api L'API qui doit être prévenu de la fermeture de connexion
 	 */
-	public final void addObserver(IBrutalInterruptObserver o) {
+	public final void addObserver(IBrutalInterruptObserver o, ApiConnection api) {
 		this.observers.add(o);
+		this.api = api;
 	}
 
 	/**
@@ -46,6 +52,9 @@ public class BrutalInterruptObservable {
 	 * @param arg argument de la notification.
 	 */
 	public final void notifyObservers(String arg) {
+		// On prévient l'API qu'il se passe quelque chose de potentiellement mauvais
+		this.api.notifyBrutalDisconnection();
+
 		// Option sans création de thread
 		if (!this.createThread) {
 			for (IBrutalInterruptObserver o : this.observers) {
