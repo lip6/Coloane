@@ -10,8 +10,10 @@ import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
@@ -265,9 +267,17 @@ public final class Motor {
 
 		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
 			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
+				IReceptServiceStateObserver observer = new IReceptServiceStateObserver() {
+					public void update(IReceptServiceState e) {
+						System.err.println(e.getMessage());
+						monitor.subTask(e.getMessage());
+					}
+				};
+				Com.getInstance().addReceptServiceStateObserver(observer);
 				session.askForService(service);
+				Com.getInstance().removeReceptServiceStateObserver(observer);
 			}
 		};
 

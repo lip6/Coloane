@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.util.ArrayList;
@@ -125,5 +126,21 @@ public final class Com implements ICom {
 	 */
 	public IApiSession createApiSession() throws ApiException {
 		return connection.createApiSession();
+	}
+
+	/**
+	 * Ajouter un observateur
+	 * @param o observateur de service
+	 */
+	public void addReceptServiceStateObserver(IReceptServiceStateObserver o) {
+		connection.addReceptServiceStateObserver(o, false);
+	}
+
+	/**
+	 * Enlever un observateur
+	 * @param o observateur de service
+	 */
+	public void removeReceptServiceStateObserver(IReceptServiceStateObserver o) {
+		connection.removeReceptServiceStateObserver(o);
 	}
 }
