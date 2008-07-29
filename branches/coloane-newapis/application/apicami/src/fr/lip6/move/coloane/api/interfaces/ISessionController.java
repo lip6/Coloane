@@ -66,14 +66,14 @@ public interface ISessionController {
 	void notifyEndCloseSession();
 
 	/**
-	 * indique a la session active quon est en attente des resultats 
+	 * indique a la session active quon est en attente des resultats
 	 * utile pour mettre a jour lautomate
 	 */
 	void notifyWaitingForResult();
 
 	/**
 	 * indique a la session active quon est en attente de lenvoi du modele
-	 * ie reception du DF, utile surtout pour mettre a jour lautomate 
+	 * ie reception du DF, utile surtout pour mettre a jour lautomate
 	 */
 	void notifyWaitingForModel();
 

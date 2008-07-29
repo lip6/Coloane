@@ -145,7 +145,6 @@ public final class SessionController implements ISessionController {
 		try {
 			this.activeSession.notifyWaitingForModel();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -170,9 +169,12 @@ public final class SessionController implements ISessionController {
 	public void notifyReceptSessionInfo(ISessionInfo o) {
 		this.activeSession.notifyReceptSessionInfo(o);
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void notifyEndUpdates() {
 		this.activeSession.notifyEndUpdates();
-		
+
 	}
 }
