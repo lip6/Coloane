@@ -255,9 +255,12 @@ public class SessionController implements ISessionController {
 		/** Messages d'erreur s'il y a lieu */
 		String msgError = "";
 
-		for (Entry<String, IApiSession> entry : listSessions.entrySet()) {
+		/** Copie de la liste des sessions pour pouvoir supprimer les sessions */
+		Map<String, IApiSession> copyListSessions = new HashMap<String, IApiSession>(listSessions);
+
+		for (Entry<String, IApiSession> entry : copyListSessions.entrySet()) {
 			try {
-				entry.getValue().close();
+				listSessions.get(entry.getKey()).close();
 			} catch (ApiException e) {
 				isError = true;
 				msgError +=
