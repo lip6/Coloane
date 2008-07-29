@@ -65,7 +65,7 @@ T66 : 'AD(' ;
 T67 : 'CD(' ;
 T68 : 'DG(' ;
 
-// $ANTLR src "Cami.g" 780
+// $ANTLR src "Cami.g" 794
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
@@ -74,7 +74,7 @@ CAMI_STRING
 	fs=FIXED_LENGTH_STRING[nbToRead]{setText($fs.text);}
 	;
     
-	// $ANTLR src "Cami.g" 788
+	// $ANTLR src "Cami.g" 802
 fragment
 	FIXED_LENGTH_STRING
 	[int len]
@@ -82,18 +82,18 @@ fragment
 	( { len > 0 }?=> .{len--;})* // Gated predicate : deactivate the '.' when len chars have been read
 	;
     
-	// $ANTLR src "Cami.g" 795
+	// $ANTLR src "Cami.g" 809
 NUMBER	: 	
 	'0'..'9'+
 	;
     
-	// $ANTLR src "Cami.g" 799
+	// $ANTLR src "Cami.g" 813
 NEWLINE
 	: 	
 	( '\r'?'\n' )+ {skip();}
 	;
     
-	// $ANTLR src "Cami.g" 804
+	// $ANTLR src "Cami.g" 818
 EOF     :
 	{
 		System.out.println("je parse EOOOFFFFF"); 

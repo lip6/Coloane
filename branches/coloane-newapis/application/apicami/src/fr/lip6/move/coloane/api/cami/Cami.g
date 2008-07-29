@@ -46,15 +46,19 @@ grammar Cami;
 
 	Map<String, Object> hashObservable; /* Table de hash des observables */
 
-	ISessionController sessionControl;
-	ISessionInfo sessionInfo;
+	ISessionController sessionControl; /* le session controller */
+	
+        ISessionInfo sessionInfo; /*lobjet retourné a louverture dune session*/        
 
-	IDialog dialog;
+        IDialog dialog; /* boite de dialogue reçu de FK*/
+
 	List<String> camiDialog; /* represente une boite de dialogue */
-	Map<Integer,IDialog> dialogs ;
+
+	Map<Integer,IDialog> dialogs; /* Table de hash des boites de dialogues */
 
 	/** La liste des menus root transmis */
 	List<ISubMenu> rootMenus = new ArrayList<ISubMenu>();
+     
 	/** La liste des services */
 	List<IService> services = new ArrayList<IService>();
 
@@ -126,6 +130,7 @@ grammar Cami;
 		((DisconnectObservable) hashObservable.get("IDisconnect")).notifyObservers();
 	}
 	;
+
 	/* ---------------------------- Ouverture de la session ------------------------------ */
 	ack_open_session
 	:
@@ -157,6 +162,7 @@ grammar Cami;
 	ack_resume_suspend_current_session
 	:
 	'RS(' CAMI_STRING ')'{
+                //Notifier au sessionController de l'acquittement du RS
 		sessionControl.notifyEndResumeSession($CAMI_STRING.text);
 	}
 	;
@@ -164,8 +170,8 @@ grammar Cami;
 	/* ----------------------------  Fermeture d'une session ----------------------------- */
 	ack_close_current_session
 	:
-	// TODO : Verifier qu'il n'y a pas d'argument pour le FS
 	'FS()'{
+                //Notifier au sessionController de l'acquittement du FS
 		sessionControl.notifyEndCloseSession();
 	}
 	;
@@ -185,7 +191,8 @@ grammar Cami;
 		listOfArgs.add($new_model.text);
 		LOGGER.finest("Fin du parse de VI");
 	}
-	|'FL()'{
+	|'FL()'{ 
+                //notifier le session controller de la construction de sessionInfo
 		sessionInfo = CamiObjectBuilder.buildSessionInfo(listOfArgs);
 		sessionControl.notifyReceptSessionInfo(sessionInfo);
 		LOGGER.finest("Fin du parse de FL");
@@ -337,15 +344,19 @@ grammar Cami;
 	:       
 	'QQ(' NUMBER ')'{
 		List<IUpdateMenu> updates;
-		LOGGER.finest("Fin de la transmission d'un menu");
+		
 		if($NUMBER.text.equals("3")) {
+                        LOGGER.finest("Fin de la transmission d'un menu");
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(rootMenus, updates, services);
 			// Nettoyage des updates
 			camiUpdates.clear();
+                        // notifier au session controlleur de la fin de louverture de la session i.e reception des menus + updates 
 			sessionControl.notifyEndOpenSession();
 		} else {
-                         sessionControl.notifyEndUpdates();
+                        LOGGER.finest("Fin de la transmission des updates apres une invalidation de modele");
+                        // notifier au session controlleur de la reception des updates 
+                        sessionControl.notifyEndUpdates();
 			updates = CamiObjectBuilder.buildUpdateItem(camiUpdates);
 			((ReceptMenuObservable) hashObservable.get("ISession")).notifyObservers(null, updates, null);
 		}
@@ -420,20 +431,22 @@ grammar Cami;
 	ask_for_a_model
 	:                                                       
 	'DF(-2,' NUMBER ',' NUMBER ')'{
-		System.out.println("je parse le DF");
+	        LOGGER.finest("Reception d'un message DF");
+                // notifier le session controlleur de la demande du modele
 		sessionControl.notifyWaitingForModel();
-		//    ((IAskForModelObservable)hashObservable.get("IAskForModel")).notifyObservers();
+		
 	}
 	;
     
     
-	/******************resultats**************************************/
+	/*-------------------------resultats--------------------------------------------*/
 	result_reception
 	:
 	'DR()'{ 
 		// initialiser la liste des updates 
 		//    camiUpdates = new ArrayList<ArrayList<String>>();
 		System.out.println("je parse DR");
+                // notifier le session controlleur de la demande de service
 		sessionControl.notifyWaitingForResult();
 	}
 	|'<EOF>'*
@@ -521,9 +534,10 @@ grammar Cami;
 	|dialogue*
 	|modele*
 	|'FR(' NUMBER ')'{
-		System.out.println("je parse FR");
+                //TODO envoyer les resultats
+	        LOGGER.finest("Reception d'un FR"); 
+                // notifier Coloane  de la fin de reception des resultats 
 		sessionControl.notifyEndResult();
-		//TODO notifier Coloane  de la fin de reception des resultats et envoyer les resultats
 	}
 	;
     
@@ -534,8 +548,7 @@ grammar Cami;
 	| special_message2
 	|NEWLINE
 	| 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'{
-		//ISpecialMessage msg = (ISpecialMessage)new SpecialMessage(4,"");
-		//((ISpecialMessageObservable)hashObservable.get("ISpecialMessage")).notifyObservers(msg);
+		//  le traiter ?
 		System.out.println("je parse ZA");
 	}
 	;
@@ -723,7 +736,7 @@ grammar Cami;
 		System.out.println("je parse DS"); 
 	}
 	| 'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' help=CAMI_STRING ','             title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' default_value=CAMI_STRING? ')'{
-    	camiDialog.add($dialog_id.text); 
+    	        camiDialog.add($dialog_id.text); 
 		camiDialog.add($dialog_type.text); 
 		camiDialog.add($buttons_type.text); 
 		camiDialog.add($window_title.text); 
@@ -742,9 +755,10 @@ grammar Cami;
 	}
 	|NEWLINE
 	|'FF('{ 
+                // je construit une boite de dialogue et je la sauvegarde
 		IDialog dialog = (IDialog)CamiObjectBuilder.buildDialog(camiDialog);
-    	dialogs.put((Integer) dialog.getId(), dialog); 
-    	System.out.println("je parse FF");
+    	        dialogs.put((Integer) dialog.getId(), dialog); 
+    	        System.out.println("je parse FF");
 	}
 	|'DC('{
 		camiDialog = new ArrayList<String>();
@@ -755,14 +769,14 @@ grammar Cami;
 		Dialog dialog = (Dialog)dialogs.get(i); 
 		dialog.setVisibility(1); 
 		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
-		System.out.println("je parse AD");
+		LOGGER.finest("boite de dialogue a afficher"); 
 	}
 	|'CD('dialog_id=NUMBER ')'{
 		Integer j = Integer.parseInt($dialog_id.text);
 		Dialog dialog = (Dialog)dialogs.get(j); 
 		dialog.setVisibility(2); 
 		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
-		System.out.println("je parse CD");
+		LOGGER.finest("boite de dialogue a cacher"); 
 	}
 	|'DG(' dialog_id=NUMBER ')'{
 		Integer k = Integer.parseInt($dialog_id.text);
@@ -770,7 +784,7 @@ grammar Cami;
 		dialog.setVisibility(3); 
 		((ReceptDialogObservable) hashObservable.get("IReceptDialog")).notifyObservers(dialog);
 		dialogs.remove( k);
-		System.out.println("je parse DG");
+		LOGGER.finest("boite de dialogue a effacer"); 
 	}
 	;
     
