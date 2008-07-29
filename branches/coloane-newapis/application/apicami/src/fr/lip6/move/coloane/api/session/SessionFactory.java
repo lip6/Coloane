@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.session;
 
+import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
@@ -18,10 +19,11 @@ public final class SessionFactory {
 
 	/**
 	 * Création d'un nouvel objet session
+	 * @param apiConnection Le gestionnaire de connexion
 	 * @param speaker L'objet qui parle à la plate-forme
 	 * @return l'objet session fraîchement créé
 	 */
-	public static IApiSession getNewApiSession(ISpeaker speaker) {
-		return (IApiSession) new ApiSession(speaker);
+	public static IApiSession getNewApiSession(ApiConnection apiConnection, ISpeaker speaker) {
+		return (IApiSession) new ApiSession(apiConnection, speaker);
 	}
 }

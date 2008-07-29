@@ -160,7 +160,7 @@ public class SessionStateMachine implements ISessionStateMachine {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

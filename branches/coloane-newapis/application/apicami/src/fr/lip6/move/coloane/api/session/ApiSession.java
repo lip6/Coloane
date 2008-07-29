@@ -1,13 +1,16 @@
 package fr.lip6.move.coloane.api.session;
 
+import fr.lip6.move.coloane.api.ApiConnection;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +26,9 @@ import java.util.logging.Logger;
 public class ApiSession implements IApiSession {
 	/** Le Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
+
+	/** Le gestionnaire de connexion */
+	private ApiConnection apiConnection;
 
 	/** La date de la session */
 	private int date;
@@ -49,13 +55,15 @@ public class ApiSession implements IApiSession {
 	private ISessionInfo sessionInfo;
 
 	/** modele sale*/
-	private boolean sendDate = false;
+	private boolean mustSendModel = false;
 
 	/**
 	 * Constructeur d'une session
+	 * @param apiConnection Le gestionnaire de la connexion
 	 * @param speaker Le speaker attaché à cette session
 	 */
-	public ApiSession(ISpeaker speaker) {
+	public ApiSession(ApiConnection apiConnection, ISpeaker speaker) {
+		this.apiConnection = apiConnection;
 		this.date = 0;
 		this.formalism = null;
 		this.name = null;
@@ -367,31 +375,36 @@ public class ApiSession implements IApiSession {
 
 
 	/**
-	 *
-	 * @param rootName Le nom da la racine du menu qui contient ce service
-	 * @param serviceName Le nom du service invoqué
-	 * @param options La liste des options active dans le menu
-	 * @param model Le modèle sur lequel est invoqué le service
-	 * @return true or false
+	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) {
+	public final void askForService(IService service, List<String> options, IGraph model) throws ApiException {
 		this.model = model;
-		if ((sendDate) & (this.stateMachine.getState() == 12)) {
-		speaker.sendDate(model.getDate());
+		if ((mustSendModel) & (this.stateMachine.getState() == ISessionStateMachine.MODELE_SALE_STATE)) {
+			try {
+				speaker.sendDate(model.getDate());
+			} catch (IOException ioe) {
+				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
+			}
 		}
-		this.sendDate = false;
-		if (this.sessionControl.askForService(this)) {
-			// TODO trouver comment on calcule menuName????
-			speaker.askForService(rootName, serviceName);
-			System.out.println(this.stateMachine.getState());
+
+		// Maintenant que les update ont été envoyé... On réinitialise le booleen
+		this.mustSendModel = false;
+
+		synchronized (this) {
+			LOGGER.fine("Demande de service sur la session " + this.name);
+			// On essaye de faire passer cette session en session active
+			this.resume();
+
+			try {
+				speaker.askForService(service.getRoot(), service.getParent(), service.getName());
+			} catch (IOException ioe) {
+				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
+			}
+
 			if (!this.stateMachine.setWaitingForResultState()) {
 				throw new IllegalStateException("je doit attendre qque chose de chez FK");
 			}
-			return true;
-		} else {
-			throw new IllegalStateException("je peux pas faire demander de service sur cette session");
 		}
-
 	}
 
 
@@ -399,19 +412,24 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void invalidModel() {
-		this.sendDate = true;
+		this.mustSendModel = true;
 		if (!this.stateMachine.setWaitingForUpdatesState()) {
 			throw new IllegalStateException("je peux pas me mettre dans cette etat");
 		} else {
 			try {
 				speaker.invalidModel();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException ioe) {
+				((BrutalInterruptObservable) this.apiConnection.getObservablesList().get("IBrutalInterrupt")).notifyObservers("Error while speaking to the platform: " + ioe.getMessage());
 			}
 		}
-
 	}
+
+
+
+
+
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -425,7 +443,7 @@ public class ApiSession implements IApiSession {
 		if(!this.stateMachine.setWaitingForResultState())
 			throw new IllegalStateException("j'etais pas en attente de model");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -434,7 +452,7 @@ public class ApiSession implements IApiSession {
 		if(!this.stateMachine.setWaitingForResultState())
 			throw new IllegalStateException("j'etais pas en attente de reponse");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -458,7 +476,7 @@ public class ApiSession implements IApiSession {
 
 	/**
 	 * {@inheritDoc}
-     */
+	 */
 	public final void sendModel(IGraph model) throws ApiException {
 		try {
 			speaker.sendModel(model);
