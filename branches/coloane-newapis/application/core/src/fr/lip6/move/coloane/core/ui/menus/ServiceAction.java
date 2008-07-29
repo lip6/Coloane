@@ -42,7 +42,8 @@ public class ServiceAction extends Action {
 		IService service = session.getService(serviceId);
 		if (service == null) {
 			LOGGER.warning("Service non disponible : " + serviceId); //$NON-NLS-1$
+		} else {
+			Motor.getInstance().askForService(service);
 		}
-		Motor.getInstance().askForService(service);
 	}
 }
