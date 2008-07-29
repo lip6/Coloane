@@ -210,6 +210,11 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void close() throws ApiException {
+		// Test si la session est déjà fermer
+		if (this.automate.getState() == ISessionStateMachine.CLOSE_SESSION_STATE) {
+			LOGGER.fine("Fermeture de la session: " + sessionName + " [était déjà fermer]");
+			return;
+		}
 
 		// Test si on peut fermer la session
 		if (sessionController.closeSession(this)) {
