@@ -67,7 +67,7 @@ public final class CamiObjectBuilder {
 	public static ISubMenu buildMenus(ISubMenu root, List<IQuestion> questions) {
 		// Parcours de toutes les questions
 		for (IQuestion question : questions) {
-			((SubMenu) root).addQuestion(question);
+			((SubMenu) root).addQuestion(root, question);
 		}
 		return root;
 	}

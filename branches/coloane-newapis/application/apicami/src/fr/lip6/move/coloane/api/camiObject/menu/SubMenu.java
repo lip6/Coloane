@@ -76,7 +76,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * Ajoute une question (option, item ou sous-menu) au sous-menu courant OU à un de ses fils
 	 * @param question La description de la question transmise par la plate-forme
 	 */
-	public final void addQuestion(IQuestion question) {
+	public final void addQuestion(ISubMenu root, IQuestion question) {
 		LOGGER.finer("Demande d'ajout de la question: " + question.getName());
 
 		// Recherche du sous-menu
@@ -97,7 +97,7 @@ public class SubMenu extends Item implements ISubMenu {
 			LOGGER.finer("La question est ajoutee comme option de " + parentMenu.getName());
 		// Dans tous les autres cas, c'est une description de services
 		} else {
-			((SubMenu) parentMenu).addServiceMenu(question);
+			((SubMenu) parentMenu).addServiceMenu(root, question);
 			LOGGER.finer("La question est ajoutee comme service de " + parentMenu.getName());
 		}
 	}
@@ -122,13 +122,24 @@ public class SubMenu extends Item implements ISubMenu {
 
 	/**
 	 * Ajoute une nouvelle entrée de service dans le menu
+	 * @param root Le pointeur sur le menu root (pour le calcul de l'identifiant de service)
 	 * @param question La description de l'entrée de service à ajouter
 	 * TODO : Gérer la liste des aides (est-ce possible ? pour le moment = null)
 	 * TODO : Gérer la question associée (pour le moment il s'agit du nom)
 	 */
-	private void addServiceMenu(IQuestion question) {
-		IServiceMenu service = new ServiceMenu(question.getName(), question.isVisible(), null, question.getName());
+	private void addServiceMenu(ISubMenu root, IQuestion question) {
+		IServiceMenu service = new ServiceMenu(question.getName(), question.isVisible(), null, computeServiceId(root.getName(), question.getName()));
 		this.services.add(service);
+	}
+
+	/**
+	 * Calcule l'identifiant unique du service
+	 * @param rootName Le nom du menu root
+	 * @param questionName Le nom de la question
+	 * @return l'identifiant unique du service
+	 */
+	private String computeServiceId(String rootName, String questionName) {
+		return rootName + "_" + questionName;
 	}
 
 	/**

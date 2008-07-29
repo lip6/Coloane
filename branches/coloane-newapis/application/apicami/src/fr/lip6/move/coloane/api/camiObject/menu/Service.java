@@ -119,7 +119,7 @@ public class Service implements IService {
 	 * {@inheritDoc}
 	 */
 	public final String getId() {
-		return this.root + this.name;
+		return this.root + "_" + this.name;
 	}
 
 	/**
