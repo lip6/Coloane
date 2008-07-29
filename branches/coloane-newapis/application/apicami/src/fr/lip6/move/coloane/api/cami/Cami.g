@@ -449,10 +449,10 @@ grammar Cami;
 		System.out.println("je parse RQ"); 
 	} 
 	|'<EOF>'*
-	|'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER/*('2'|'3'|'4'|'5'|'6'|'9')*/ ',' mess2=CAMI_STRING? ')' {
+	|'TQ(' service_name2=CAMI_STRING ',' question_name2=CAMI_STRING ',' state2=NUMBER ',' mess2=CAMI_STRING? ')' {
 
 		if($state2.text.equals("1")) { 
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 1"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,1,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
@@ -464,7 +464,7 @@ grammar Cami;
 		}
 
 		if($state2.text.equals("2")) { 
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 2"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,2,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
@@ -476,7 +476,7 @@ grammar Cami;
 		} 
 
 		if($state2.text.equals("3")) { 
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 3"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,3,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
@@ -488,7 +488,7 @@ grammar Cami;
 		} 
     
 		if($state2.text.equals("4")) { 
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 4"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,4,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
@@ -500,7 +500,7 @@ grammar Cami;
 		} 
     
 		if($state2.text.equals("5")) { 
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 5"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,5,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
@@ -512,7 +512,7 @@ grammar Cami;
 		} 
 
 		if($state2.text.equals("6")) {
-			if($mess2.text != null) { 
+			if($mess2 != null) { 
 				LOGGER.finest("Reception d'un TQ 6"); 
 				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($service_name2.text,6,$mess2.text); 
 				((ReceptServiceStateObservable)hashObservable.get("IReceptServiceState")).notifyObservers(msg); 
