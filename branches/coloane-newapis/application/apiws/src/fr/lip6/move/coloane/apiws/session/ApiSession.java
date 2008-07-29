@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.wrapper.ws.WrapperStub.BArc;
 import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
@@ -274,7 +275,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean askForService(String rootName, String serviceName, List<String> options, IGraph model) throws ApiException {
+	public final void askForService(IService service, List<String> options, IGraph model) throws ApiException {
 
 		// Test si on peut exécuter un service
 		if (sessionController.askForService(this)) {
@@ -284,8 +285,12 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_RESULT_STATE");
 			}
 
+			String rootName = service.getRoot();
 			Question root = null;
+
+			String serviceName = service.getName();
 			Question question = null;
+
 			List<Option> theOptions = null;
 
 			// Traduction du model pour le wrapper
@@ -342,8 +347,8 @@ public class ApiSession implements IApiSession {
 
 		}
 
-		LOGGER.finer("Exécution du service: " + serviceName);
-		return true;
+		LOGGER.finer("Exécution du service: " + service.getName());
+		return;
 	}
 
 	/**
