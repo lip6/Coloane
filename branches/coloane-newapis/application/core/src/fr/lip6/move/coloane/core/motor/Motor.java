@@ -271,12 +271,13 @@ public final class Motor {
 				setMonitor(monitor);
 				IReceptServiceStateObserver observer = new IReceptServiceStateObserver() {
 					public void update(IReceptServiceState e) {
-						System.err.println(e.getMessage());
 						monitor.subTask(e.getMessage());
+						monitor.worked(1);
 					}
 				};
 				Com.getInstance().addReceptServiceStateObserver(observer);
 				session.askForService(service);
+				waitUntilEnd();
 				Com.getInstance().removeReceptServiceStateObserver(observer);
 			}
 		};
@@ -382,7 +383,7 @@ public final class Motor {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
 			currentProgress.freeMonitor();
-			//currentProgress = null;
+			currentProgress = null;
 		} else {
 			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
 		}
