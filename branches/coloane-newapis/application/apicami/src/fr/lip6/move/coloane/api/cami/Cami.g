@@ -28,6 +28,7 @@ grammar Cami;
 	import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 	import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
 	import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
+	import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 	import fr.lip6.move.coloane.api.camiObject.Dialog; 
 
 	import java.util.ArrayList;
@@ -529,10 +530,12 @@ grammar Cami;
 	|dialogue*
 	|modele*
 	|'FR(' NUMBER ')'{
-                //TODO envoyer les resultats
-	        LOGGER.finest("Reception d'un FR"); 
-                // notifier Coloane  de la fin de reception des resultats 
+		//TODO envoyer les resultats
+		LOGGER.finest("Reception d'un FR"); 
+		// notifier Coloane  de la fin de reception des resultats 
 		sessionControl.notifyEndResult();
+		((ReceptResultObservable) hashObservable.get("IReceptResult")).notifyObservers();
+		
 	}
 	;
     
