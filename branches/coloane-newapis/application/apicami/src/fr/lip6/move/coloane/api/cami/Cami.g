@@ -26,8 +26,8 @@ grammar Cami;
 	import fr.lip6.move.coloane.interfaces.objects.service.IService;
 	import fr.lip6.move.coloane.api.observables.ReceptDialogObservable; 
 	import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
-        import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
-        import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
+	import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
+	import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 	import fr.lip6.move.coloane.api.camiObject.Dialog; 
 
 	import java.util.ArrayList;
@@ -43,22 +43,18 @@ grammar Cami;
 	List<String> listOfArgs; /* liste des arguments pour la construction des objets de notification */
 	List<List<String>> camiQuestions; /* liste servant a construire les objets Correspondant aux AQ (questions) */
 	List<List<String>> camiUpdates; /* liste servant a construire les objets Correspondant aux TQ 7 et 8 */
-
 	Map<String, Object> hashObservable; /* Table de hash des observables */
 
 	ISessionController sessionControl; /* le session controller */
-	
-        ISessionInfo sessionInfo; /*lobjet retourné a louverture dune session*/        
+	ISessionInfo sessionInfo; /*l'objet retourne a l'ouverture dune session*/        
 
-        IDialog dialog; /* boite de dialogue reçu de FK*/
-
+	IDialog dialog; /* boite de dialogue recu de FK*/
 	List<String> camiDialog; /* represente une boite de dialogue */
-
 	Map<Integer,IDialog> dialogs; /* Table de hash des boites de dialogues */
 
 	/** La liste des menus root transmis */
 	List<ISubMenu> rootMenus = new ArrayList<ISubMenu>();
-     
+
 	/** La liste des services */
 	List<IService> services = new ArrayList<IService>();
 
@@ -137,6 +133,10 @@ grammar Cami;
 	'OS(' CAMI_STRING')'{
 		LOGGER.finest("Creation des tables de menus et de modifications");
 		camiUpdates = new ArrayList<List<String>>();
+		/** La liste des menus root transmis */
+		rootMenus = new ArrayList<ISubMenu>();
+		/** La liste des services */
+		services = new ArrayList<IService>();
 	}
 	|'TD()'{
 		LOGGER.finest("Reception d'un TD");
@@ -206,10 +206,6 @@ grammar Cami;
 		LOGGER.finest("Creation des tables de menus");
 		// Initialisation de la liste des questions
 		camiQuestions = new ArrayList<List<String>>();
-		/** La liste des menus root transmis */
-		rootMenus = new ArrayList<ISubMenu>();
-		/** La liste des services */
-		services = new ArrayList<IService>();
 	}
 	menu_name
 	question_add*
@@ -317,7 +313,6 @@ grammar Cami;
 		camiQuestions.add(aq); /* Ajouter a la liste de AQ */
 	}
 	;
-
 
 	/* ----------------------------  Reception des menus  TQ (7 et 8) -------------------- */
 	update
