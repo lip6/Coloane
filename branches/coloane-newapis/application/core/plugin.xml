@@ -96,6 +96,15 @@
                </objectClass>
             </enablement>
          </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.TestAction"
+               icon="resources/icons/model_resource.png"
+               id="fr.lip6.move.coloane.core.actionTest"
+               label="Test"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons"
+               tooltip="Pour faire des tests">
+         </action>
       </actionSet>
    </extension>
     <extension
