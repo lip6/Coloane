@@ -194,7 +194,7 @@ public class SessionController implements ISessionController {
 		this.removeSession(closed);
 
 		//  S'il n'y a plus de sessions: activeSession est null
-		if (closed.getId().equals(idSessionToResume) && listSessions.size() == 0) {
+		if (isActivateSession(closed)) {
 			this.activeSession = null;
 		} /*else { //  Sinon: activeSession est la session renvoyée par le wrapper
 			//listSessions.get(idSessionToResume).resumeSession();
