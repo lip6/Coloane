@@ -53,20 +53,23 @@ public class ReceptMenu implements IReceptMenu {
 
 	/**
 	 * Constructeur des modifications à faire sur les menu à envoyer aux observateurs.
-	 * @param updateMenus les modification reçu de la part du wrapper à traduire
+	 * @param modification les modification reçu de la part du wrapper à traduire
 	 * pour être comprehensible par le core de Coloane.
 	 */
-	public ReceptMenu(LMenuModification updateMenus) {
+	public ReceptMenu(LMenuModification modification) {
 		this.menus = new ArrayList<ISubMenu>();
 
 		this.services = new ArrayList<IService>();
 
 		this.updateMenus = new HashMap<String, IUpdateMenu>();
-		if (updateMenus != null) {
-			for (int i = 0; i < updateMenus.getLModification().length; i++) {
-				this.updateMenus.put(
-						updateMenus.getLModification()[i].getQuestion(),
-						new UpdateMenuImpl(updateMenus.getLModification()[i]));
+		if (modification != null) {
+			if (modification.getLModification() != null) {
+				for (int i = 0; i < modification.getLModification().length; i++) {
+					System.out.println("UPDATE MENU question_service = " + modification.getLModification()[i].getQuestion());
+					this.updateMenus.put(
+							modification.getLModification()[i].getQuestion(),
+							new UpdateMenuImpl(modification.getLModification()[i]));
+				}
 			}
 		}
 	}
@@ -75,10 +78,10 @@ public class ReceptMenu implements IReceptMenu {
 	 * Constructeur des menus et des modifications à faire sur les menu à envoyer aux observateurs.
 	 * @param menus les menus reçu de la part du wrapper à traduire
 	 * pour être comprehensible par le core de Coloane.
-	 * @param updateMenus les modification reçu de la part du wrapper à traduire
+	 * @param modification les modification reçu de la part du wrapper à traduire
 	 * pour être comprehensible par le core de Coloane.
 	 */
-	public ReceptMenu(MMenu menus, LMenuModification updateMenus) {
+	public ReceptMenu(MMenu menus, LMenuModification modification) {
 		this.menus = new ArrayList<ISubMenu>();
 		if (menus != null) {
 			for (int i = 0; i < menus.getRoots().length; i++) {
@@ -94,11 +97,14 @@ public class ReceptMenu implements IReceptMenu {
 		}
 
 		this.updateMenus = new HashMap<String, IUpdateMenu>();
-		if (menus.getLastModification() != null) {
-			for (int i = 0; i < menus.getLastModification().getLModification().length; i++) {
-				this.updateMenus.put(
-						menus.getLastModification().getLModification()[i].getQuestion(),
-						new UpdateMenuImpl(menus.getLastModification().getLModification()[i]));
+		if (modification != null) {
+			if (modification.getLModification() != null) {
+				for (int i = 0; i < modification.getLModification().length; i++) {
+					System.out.println("UPDATE MENU question_service = " + modification.getLModification()[i].getQuestion());
+					this.updateMenus.put(
+							modification.getLModification()[i].getQuestion(),
+							new UpdateMenuImpl(modification.getLModification()[i]));
+				}
 			}
 		}
 	}
