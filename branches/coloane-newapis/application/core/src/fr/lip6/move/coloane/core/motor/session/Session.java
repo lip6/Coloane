@@ -186,14 +186,32 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final boolean disconnect() {
+		return disconnect(new IProgressMonitor() {
+			public void beginTask(String name, int totalWork) { }
+			public void done() { }
+			public void internalWorked(double work) { }
+			public boolean isCanceled() { return false; }
+			public void setCanceled(boolean value) { }
+			public void setTaskName(String name) { }
+			public void subTask(String name) { }
+			public void worked(int work) { }
+		});
+	}
+
+	/** {@inheritDoc} */
+	public final boolean disconnect(IProgressMonitor monitor) {
 		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
+		monitor.subTask(Messages.Session_2);
 		menus.clear();
 		adminMenu = null;
+		monitor.worked(1);
 		try {
+			monitor.subTask(Messages.Session_3);
 			if (apiSession != null) {
 				apiSession.close();
 				apiSession = null;
 			}
+			monitor.worked(1);
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la déconnexion de la session : " + e); //$NON-NLS-1$
 			return false;

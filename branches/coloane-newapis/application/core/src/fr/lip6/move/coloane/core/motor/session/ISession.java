@@ -39,6 +39,13 @@ public interface ISession {
 	boolean disconnect();
 
 	/**
+	 * Déconnecte la session de framekit.
+	 * @param monitor moniteur pour la boite de progression
+	 * @return <code>true</code> si la connexion est fermé
+	 */
+	boolean disconnect(IProgressMonitor monitor);
+
+	/**
 	 * Suspension de la session
 	 */
 	void suspend();

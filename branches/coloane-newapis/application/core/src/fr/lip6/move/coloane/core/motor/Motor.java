@@ -236,9 +236,13 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException {
+				monitor.beginTask(Messages.Motor_18, 3);
 				setMonitor(monitor);
-				setResults(session.disconnect());
+				setResults(session.disconnect(monitor));
+				monitor.subTask(Messages.Motor_19);
 				UserInterface.getInstance().cleanMenu();
+				monitor.worked(1);
+				monitor.done();
 			}
 		};
 
@@ -422,8 +426,8 @@ public final class Motor {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				setMonitor(monitor);
-				Com.getInstance().breakConnection(true);
 				sessionManager.disconnectAllSessions();
+				Com.getInstance().breakConnection(true);
 				sessionManager.setAuthenticated(false);
 				UserInterface.getInstance().redrawMenus();
 				UserInterface.getInstance().platformState(false, ISession.CLOSED);

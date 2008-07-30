@@ -13,6 +13,8 @@ public final class Messages extends NLS {
 	public static String Motor_15;
 	public static String Motor_16;
 	public static String Motor_17;
+	public static String Motor_18;
+	public static String Motor_19;
 	public static String Motor_2;
 	public static String Motor_3;
 	public static String Motor_4;
