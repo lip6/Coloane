@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.evenements.ReceptServiceState;
-import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
@@ -92,12 +91,14 @@ public class Listener extends Thread implements IListener {
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 
 						// Si un message est une erreur, on notifie l'observateur adéquat et arrête on arrête le Listener
-						if (getMyType(message.getTraces()[i].getNtype()) == IReceptMessage.ERROR_MESSAGE) {
+						/*if (getMyType(message.getTraces()[i].getNtype()) == IReceptMessage.ERROR_MESSAGE) {
 							LOGGER.fine("Récéption d'une erreur");
+							// Notifie mon observeur d'erreur pour qu'il ferme la connexion
+							((IMyReceptErrorObservable) listObservable.get(IObservables.RECEPT_ERROR)).notifyObservers(message.getTraces()[i].getMessage());
+							// Notifie les observateurs d'événement: récéption d'une erreur.
 							((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(message.getTraces()[i].getMessage());
 							stopper();
-							//((IMyReceptErrorObservable) listObservable.get(IObservables.RECEPT_ERROR)).notifyObservers(message.getTraces()[i].getMessage());
-						}
+						}*/
 					}
 				}
 

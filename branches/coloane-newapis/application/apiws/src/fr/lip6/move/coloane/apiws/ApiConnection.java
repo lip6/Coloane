@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.apiws;
 
 import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IDisconnectObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IMyReceptErrorObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMenuObservable;
@@ -13,7 +14,9 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.api.ConnectionInfo;
+import fr.lip6.move.coloane.apiws.observables.MyReceptErrorObservable;
 import fr.lip6.move.coloane.apiws.observables.ObservableFactory;
+import fr.lip6.move.coloane.apiws.observer.MyReceptErrorObserver;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
@@ -72,10 +75,10 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.RECEPT_SERVICE_STATE, ObservableFactory.getNewReceptServiceStateObservable());
 		this.listObservables.put(IObservables.REQUEST_NEW_GRAPH, ObservableFactory.getNewRequestNewGraphObservable());
 
-		//IMyReceptErrorObservable obs = new MyReceptErrorObservable();
-		//obs.addObserver(new MyReceptErrorObserver(this));
-		//obs.setCreateThread(true);
-		//this.listObservables.put(IObservables.RECEPT_ERROR, obs);
+		IMyReceptErrorObservable obs = new MyReceptErrorObservable();
+		obs.addObserver(new MyReceptErrorObserver(this));
+		obs.setCreateThread(false);
+		this.listObservables.put(IObservables.RECEPT_ERROR, obs);
 
 
 		LOGGER.finer("Création d'une IApiConnection");
@@ -249,6 +252,9 @@ public class ApiConnection implements IApiConnection {
 	 */
 	public final void closeConnectionError() {
 		LOGGER.fine("Fermeture forcé de la connexion après la récéption d'une erreur grave");
+
+		listener.stopper();
+
 		listener = null;
 		speaker = null;
 		sessionController = null;
