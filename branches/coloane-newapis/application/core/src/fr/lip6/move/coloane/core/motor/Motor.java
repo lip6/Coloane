@@ -175,9 +175,11 @@ public final class Motor {
 				monitor.beginTask(Messages.Motor_16, 3);
 				setMonitor(monitor);
 				setResults(false);
-				setResults(session.connect(monitor));
-				monitor.subTask(Messages.Motor_17);
-				waitUntilEnd(); // Attente de la fin de l'operation
+				synchronized (this) {
+					setResults(session.connect(monitor));
+					monitor.subTask(Messages.Motor_17);
+					waitUntilEnd(); // Attente de la fin de l'operation
+				}
 			}
 		};
 
@@ -205,6 +207,8 @@ public final class Motor {
 		// Si l'ouverture de connexion réussi, on met à jour le menu Platform
 		if (res) {
 			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
+		} else {
+			endService();
 		}
 	}
 
@@ -235,7 +239,6 @@ public final class Motor {
 				setMonitor(monitor);
 				setResults(session.disconnect());
 				UserInterface.getInstance().cleanMenu();
-				//waitUntilEnd(); // Attente de la fin de l'operation
 			}
 		};
 
@@ -279,8 +282,10 @@ public final class Motor {
 					}
 				};
 				Com.getInstance().addReceptServiceStateObserver(observer);
-				session.askForService(service);
-				waitUntilEnd();
+				synchronized (this) {
+					session.askForService(service);
+					waitUntilEnd();
+				}
 				Com.getInstance().removeReceptServiceStateObserver(observer);
 			}
 		};
@@ -387,7 +392,9 @@ public final class Motor {
 	public void endService() {
 		if (currentProgress != null) {
 			LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
-			currentProgress.freeMonitor();
+			synchronized (currentProgress) {
+				currentProgress.freeMonitor();
+			}
 			currentProgress = null;
 		} else {
 			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$

@@ -176,6 +176,7 @@ public class Session implements ISession {
 			monitor.worked(1);
 		} catch (ApiException e) {
 			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
+			e.printStackTrace();
 			return false;
 		}
 		setStatus(ISession.CONNECTED);

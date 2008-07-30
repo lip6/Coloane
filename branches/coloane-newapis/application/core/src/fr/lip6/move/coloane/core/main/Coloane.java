@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -143,11 +142,6 @@ public class Coloane extends AbstractUIPlugin {
 		} catch (SecurityException se) {
 			System.err.println("FileHandler cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		}
-
-		System.err.println(Arrays.asList(LOGGER.getHandlers()));
-		System.err.println(LOGGER.getParent().getName());
-		System.err.println(Arrays.asList(LOGGER.getParent().getHandlers()));
-		LOGGER.warning("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"); //$NON-NLS-1$
 	}
 
 	/**
