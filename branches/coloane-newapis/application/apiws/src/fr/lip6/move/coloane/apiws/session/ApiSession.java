@@ -62,8 +62,6 @@ public class ApiSession implements IApiSession {
 
 	private IGraph newGraph;
 
-	private IRequestNewGraphObservable requestNewGraphObservable;
-
 	/**
 	 * Constructeur
 	 * @param sessionController le gestionnaire de sessions à utiliser
@@ -82,8 +80,6 @@ public class ApiSession implements IApiSession {
 		this.invalidateTheModel = false;
 
 		this.menus = null;
-
-		this.requestNewGraphObservable = requestNewGraphObservable;
 
 		this.idSession = null;
 
@@ -339,18 +335,6 @@ public class ApiSession implements IApiSession {
 			LOGGER.finer("Réinitialise invalidateTheModel à false");
 			this.invalidateTheModel = false;
 
-			// Demande la création d'un nouveau graph
-			LOGGER.finer("Création d'un nouveau grah");
-			requestNewGraphObservable.notifyObservers(sessionFormalism);
-			try {
-				// Attend que le nouveu graph arrive i.e. jusqu'à un notify dans setNewGraph
-				this.wait();
-			} catch (InterruptedException e) {
-				LOGGER.warning("Erreur lors l'attend pour l'arrivé d'un nouveau graph: " + e.getMessage());
-				e.printStackTrace();
-				new ApiException(e.getMessage());
-			}
-
 			// Notifie la fin de l'exécution du service demander
 			sessionController.notifyEndResult(this, result, newGraph);
 
@@ -518,6 +502,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void invalidModel() {
 		// TODO Auto-generated method stub
+		LOGGER.finer("Invalidation du model de la session '" + sessionName);
 		this.invalidateTheModel = true;
 	}
 

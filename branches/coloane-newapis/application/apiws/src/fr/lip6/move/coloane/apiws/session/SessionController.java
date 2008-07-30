@@ -214,6 +214,9 @@ public class SessionController implements ISessionController {
 		ReceptResult receptResult = new ReceptResult(result);
 		((IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT)).notifyObservers(receptResult);
 
+		ReceptMenu receptMenu = new ReceptMenu(result.getMenu(), result.getMenu().getLastModification());
+		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(receptMenu);
+
 	}
 
 	/**
