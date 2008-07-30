@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
+import fr.lip6.move.coloane.apiws.utils.CamiModelTranslator;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
@@ -295,7 +296,15 @@ public class ApiSession implements IApiSession {
 
 			// Traduction du model pour le wrapper
 			LOGGER.finer("Traduction du model pour la session: " + sessionName);
-			Model theModel = translateModel(model);
+			//Model theModel = translateModel(model);
+
+
+			/////////////////////////////
+			Model theModel = new Model();
+			theModel.setCami(join(CamiModelTranslator.translateModel(model), "\n"));
+			theModel.setParsing(true);
+			/////////////////////////////
+
 
 			// Détérmine le menu principal et le service demander à envoyer au wrapper
 			LOGGER.finer("Recherche pour la session '" + sessionName + "' le service demander: " + serviceName);
