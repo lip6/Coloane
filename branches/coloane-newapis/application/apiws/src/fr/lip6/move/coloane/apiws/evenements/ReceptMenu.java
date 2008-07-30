@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.evenements;
 
 import fr.lip6.move.coloane.apiws.objects.menu.SubMenuImpl;
+import fr.lip6.move.coloane.apiws.objects.menu.UpdateMenuImpl;
 import fr.lip6.move.coloane.apiws.objects.service.ServiceImpl;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -32,7 +33,6 @@ public class ReceptMenu implements IReceptMenu {
 	 * pour être comprehensible par le core de Coloane.
 	 */
 	public ReceptMenu(MMenu menus) {
-		// TODO Completer le condtructeur de ReceptMenu
 		this.menus = new ArrayList<ISubMenu>();
 		if (menus != null) {
 			for (int i = 0; i < menus.getRoots().length; i++) {
@@ -57,9 +57,18 @@ public class ReceptMenu implements IReceptMenu {
 	 * pour être comprehensible par le core de Coloane.
 	 */
 	public ReceptMenu(LMenuModification updateMenus) {
-		// TODO Completer le condtructeur de ReceptMenu
 		this.menus = new ArrayList<ISubMenu>();
+
+		this.services = new ArrayList<IService>();
+
 		this.updateMenus = new HashMap<String, IUpdateMenu>();
+		if (updateMenus != null) {
+			for (int i = 0; i < updateMenus.getLModification().length; i++) {
+				this.updateMenus.put(
+						updateMenus.getLModification()[i].getQuestion(),
+						new UpdateMenuImpl(updateMenus.getLModification()[i]));
+			}
+		}
 	}
 
 	/**
@@ -70,9 +79,28 @@ public class ReceptMenu implements IReceptMenu {
 	 * pour être comprehensible par le core de Coloane.
 	 */
 	public ReceptMenu(MMenu menus, LMenuModification updateMenus) {
-		// TODO Completer le condtructeur de ReceptMenu
 		this.menus = new ArrayList<ISubMenu>();
+		if (menus != null) {
+			for (int i = 0; i < menus.getRoots().length; i++) {
+				this.menus.add(new SubMenuImpl(menus.getRoots()[i].getRoot(), menus.getRoots()[i].getName()));
+			}
+		}
+
+		this.services = new ArrayList<IService>();
+		if (menus != null) {
+			for (int i = 0; i < menus.getRoots().length; i++) {
+				createListService(menus.getRoots()[i].getRoot(), menus.getRoots()[i].getName(), menus.getRoots()[i].getName(), this.services);
+			}
+		}
+
 		this.updateMenus = new HashMap<String, IUpdateMenu>();
+		if (menus.getLastModification() != null) {
+			for (int i = 0; i < menus.getLastModification().getLModification().length; i++) {
+				this.updateMenus.put(
+						menus.getLastModification().getLModification()[i].getQuestion(),
+						new UpdateMenuImpl(menus.getLastModification().getLModification()[i]));
+			}
+		}
 	}
 
 	/**
