@@ -394,14 +394,14 @@ public final class Motor {
 	 * Permet de prevenir que le service en cours est fini
 	 */
 	public void endService() {
-		if (currentProgress != null) {
-			LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
-			synchronized (currentProgress) {
+		synchronized (currentProgress) {
+			if (currentProgress != null) {
+				LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
 				currentProgress.freeMonitor();
+				currentProgress = null;
+			} else {
+				LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
 			}
-			currentProgress = null;
-		} else {
-			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
 		}
 	}
 
