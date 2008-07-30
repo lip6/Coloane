@@ -47,7 +47,7 @@ public class OpenConnectionAction implements IWorkbenchWindowActionDelegate {
 		connection.setReceptMenuObserver(new ReceptMenuObserver(), true);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), true);
 		connection.setReceptResultObserver(new ReceptResultObserver(), true);
-		connection.setReceptServiceStateObserver(new ReceptServiceStateObserver(), true);
+		connection.addReceptServiceStateObserver(new ReceptServiceStateObserver(), true);
 		connection.setReceptMessageObserver(new ReceptMessageObserver(), true);
 		
 		Activator.setConnection(connection);
