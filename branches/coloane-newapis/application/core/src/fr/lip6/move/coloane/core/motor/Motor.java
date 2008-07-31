@@ -227,22 +227,19 @@ public final class Motor {
 		}
 
 		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		Job save = new Job("save editor") { //$NON-NLS-1$
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				if (editor == null) {
-					LOGGER.warning("Il n'y a aucun éditeur actif"); //$NON-NLS-1$
-					return new Status(IStatus.ERROR, "coloane", "Il n'y a aucun éditeur actif"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (editor.isDirty()) {
+			Job save = new Job("save editor") { //$NON-NLS-1$
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					editor.doSave(monitor);
+					return Status.OK_STATUS;
 				}
-				editor.doSave(monitor);
-
-				return Status.OK_STATUS;
-			}
-		};
-		save.setPriority(Job.SHORT);
-		save.setRule(ResourcesPlugin.getWorkspace().getRoot());
-		save.setSystem(true);
-		save.schedule();
+			};
+			save.setPriority(Job.SHORT);
+			save.setRule(ResourcesPlugin.getWorkspace().getRoot());
+			save.setSystem(true);
+			save.schedule();
+		}
 
 		Job job = new Job(SERVICE_JOB) {
 			@Override
@@ -266,7 +263,7 @@ public final class Motor {
 		job.setPriority(Job.LONG);
 		job.setUser(true);
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
-//		job.schedule();
+		job.schedule();
 	}
 
 
