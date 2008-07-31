@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
+import fr.lip6.move.coloane.apiws.ApiConnection;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.wrapper.ws.GException;
@@ -29,6 +32,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.axis2.AxisFault;
@@ -45,13 +49,19 @@ public class Speaker implements ISpeaker {
 
 	private WrapperStub stub = null;
 
+	private Map<Integer, Object> listObservables = null;
+
+	private ApiConnection connection;
+
 	/**
 	 * Constructeur
 	 * @param ipServer adresse IP du serveur où se trouve le wrapper
 	 * @param portServer port du serveur où se trouve le wrapper
 	 * @param cheminServer le chemin où se trouve le wrapper
+	 * @param listObservables les observables
+	 * @param connection la connexion
 	 */
-	public Speaker(String ipServer, int portServer, String cheminServer) {
+	public Speaker(String ipServer, int portServer, String cheminServer, Map<Integer, Object> listObservables, ApiConnection connection) {
 		try {
 			//System.out.println("Adresse: " + "http://" + ipServer + ":" + portServer + cheminServer);
 			//stub = new WrapperStub("http://" + ipServer + ":" + portServer + cheminServer);
@@ -59,6 +69,9 @@ public class Speaker implements ISpeaker {
 			//Options op = stub._getServiceClient().getOptions();
 			//op.setTimeOutInMilliSeconds(120000);
 			//stub._getServiceClient().setOptions(op);
+
+			this.listObservables = listObservables;
+			this.connection = connection;
 
 			LOGGER.finer("Création du Speaker");
 
@@ -103,12 +116,24 @@ public class Speaker implements ISpeaker {
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible d'ouvrir une connexion: " + e.getMessage());
 		} catch (GException e) {
 			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
-			e.printStackTrace();
-            throw new ApiException(e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException("Imposible d'ouvrir une connexion: " + e.getMessage());
 		}
 		return auth;
 	}
@@ -135,12 +160,24 @@ public class Speaker implements ISpeaker {
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible d'ouvrir une session: " + e.getMessage());
         } catch (GException e) {
 			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible d'ouvrir une session: " + e.getMessage());
         }
 
 		return session;
@@ -168,12 +205,24 @@ public class Speaker implements ISpeaker {
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible de changer de session: " + e.getMessage());
 		} catch (GException e) {
 			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
-			e.printStackTrace();
-            throw new ApiException(e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException("Imposible de changer de session: " + e.getMessage());
 		}
 
 		return session;
@@ -201,12 +250,24 @@ public class Speaker implements ISpeaker {
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible de fermer une session: " + e.getMessage());
         } catch (GException e) {
 			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible de fermer une session: " + e.getMessage());
         }
 
         return session;
@@ -234,12 +295,24 @@ public class Speaker implements ISpeaker {
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible de fermer la connexion: " + e.getMessage());
         } catch (GException e) {
 			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
-            throw new ApiException(e.getMessage());
+            throw new ApiException("Imposible de fermer la connexion: " + e.getMessage());
         }
 
         return unauth;
@@ -267,11 +340,23 @@ public class Speaker implements ISpeaker {
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
-			e.printStackTrace();
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
             throw new ApiException(e.getMessage());
 		} catch (GException e) {
 			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
-			e.printStackTrace();
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
             throw new ApiException(e.getMessage());
 		}
 
@@ -325,10 +410,22 @@ public class Speaker implements ISpeaker {
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
         } catch (GException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
         }
@@ -336,5 +433,33 @@ public class Speaker implements ISpeaker {
         return toReturn;
 
 	}
+
+	/**
+	 * Récupére le niveau de l'exception à partir du message d'erreur
+	 * @param msgException le message d'erreur
+	 * @return le niveau de l'exception
+	 */
+	private int getLevelException(String msgException) {
+        //String type;
+        //String mess;
+        //int error;
+        int level;
+        if (msgException.indexOf("FKException") != -1 || msgException.indexOf("WException") != -1) {
+            int nb1 = 0;
+            int nb2 = msgException.indexOf(":", nb1);
+            //type = msgException.substring(nb1, nb2);
+            nb1 = nb2 + 1;
+            nb2 = msgException.indexOf(":", nb1);
+            //error = new Integer(msgException.substring(nb1, nb2)).intValue();
+            nb1 = nb2 + 1;
+            nb2 = msgException.indexOf(":", nb1);
+            level = new Integer(msgException.substring(nb1, nb2)).intValue();
+            nb1 = nb2 + 1;
+            nb2 = msgException.length();
+            //mess =msgException.substring(nb1, nb2);
+            return level;
+        }
+        return -1;
+    }
 
 }

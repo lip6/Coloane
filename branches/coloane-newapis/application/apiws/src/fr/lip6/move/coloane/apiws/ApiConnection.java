@@ -186,7 +186,7 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		LOGGER.finer("Demande la création du Speaker");
-		this.speaker = new Speaker(ip, port, cheminServer);
+		this.speaker = new Speaker(ip, port, cheminServer, listObservables, this);
 		Authentification auth = speaker.openConnection(login, pass);
 
 		LOGGER.finer("Demande la création du Listener");
@@ -254,6 +254,13 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.fine("Fermeture forcé de la connexion après la récéption d'une erreur grave");
 
 		listener.stopper();
+		// Attend l'arrêt du listener
+		try {
+			((Thread) listener).join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		listener = null;
 		speaker = null;
