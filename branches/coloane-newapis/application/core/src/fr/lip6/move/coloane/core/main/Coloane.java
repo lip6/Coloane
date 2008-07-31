@@ -114,10 +114,14 @@ public class Coloane extends AbstractUIPlugin {
 
 	/**
 	 * Retourne le conteneur graphique de haut niveau
-	 * @return Composite Le conteneur parent
+	 * @return Composite Le conteneur parent ou null
 	 */
 	public static Composite getParent() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		} else {
+			return null;
+		}
 	}
 
 	/**

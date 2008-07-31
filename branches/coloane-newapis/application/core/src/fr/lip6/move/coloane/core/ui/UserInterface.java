@@ -52,21 +52,11 @@ public final class UserInterface {
 	public static synchronized UserInterface getInstance() {
 		if (instance == null) {
 			instance = new UserInterface();
-			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
+			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
+			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
+			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 		}
 		return instance;
-	}
-
-	/**
-	 * Demande d'un service
-	 * @param rootMenuName Le nom du menu racine
-	 * @param parentName Le nom du pere de la feuille cliquee
-	 * @param serviceName Le nom du service demande
-	 */
-	public void askForService(String rootMenuName, String parentName, String serviceName) {
-		Motor.getInstance().askForService(rootMenuName, parentName, serviceName);
 	}
 
 	/**
@@ -148,7 +138,7 @@ public final class UserInterface {
 			public void run() {
 				MenuManipulation.clean();
 
-				ISession currentSession = Motor.getInstance().getSessionManager().getCurrentSession();
+				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession == null) {
 					LOGGER.warning("Aucune session courante"); //$NON-NLS-1$
 					return;

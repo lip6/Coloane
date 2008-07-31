@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
@@ -13,18 +14,19 @@ import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -34,6 +36,9 @@ import org.eclipse.ui.PlatformUI;
  * Il doit etre tenu au courant des changements de sessions.
  */
 public final class Motor {
+	public static final String SERVICE_JOB = "Ask for service"; //$NON-NLS-1$
+	public static final String OPEN_SESSION_JOB = "Open session"; //$NON-NLS-1$
+
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -45,9 +50,6 @@ public final class Motor {
 
 	/** L'instance du singleton : Motor */
 	private static Motor instance;
-
-	/** L'operation courante */
-	private ColoaneProgress currentProgress;
 
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -82,49 +84,30 @@ public final class Motor {
 			return;
 		}
 
-		// Affichage dans la zone d'historique
-		HistoryView.getInstance().addText(Messages.Motor_15);
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IRunnableContext context = workbench.getProgressService();
-
-		// Definition de l'operation d'authentification
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+		Job job = new Job("authentication") { //$NON-NLS-1$
 			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				setMonitor(monitor);
+			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					setResults(Com.getInstance().authentication(authInformation, monitor));
+					IConnectionInfo connectionInfo = Com.getInstance().authentication(authInformation, monitor);
+
+					// Affichage dans la zone d'historique
+					HistoryView.getInstance().addLine(Messages.Motor_15 + Messages.Motor_3 + " " + connectionInfo.getFkName() //$NON-NLS-1$
+							+ "-" + connectionInfo.getFkMajor() //$NON-NLS-1$
+							+ "." + connectionInfo.getFkMinor()); //$NON-NLS-1$
+					sessionManager.setAuthenticated(true);
+
+					// Mise a jour des boutons et menus de connexion
+					UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
 				} catch (ApiException e) {
-					e.printStackTrace();
-					throw new InvocationTargetException(e);
+					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
 				}
+				return Status.OK_STATUS;
 			}
 		};
 
-		try {
-			context.run(false, true, runnable);
-		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de l'authentification : " + e.getTargetException()); //$NON-NLS-1$
-			HistoryView.getInstance().addLine(Messages.Motor_4);
-			sessionManager.setAuthenticated(false);
-			return;
-		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation de l'authentification : " + e.getMessage()); //$NON-NLS-1$
-			sessionManager.setAuthenticated(false);
-			return;
-		}
-
-		// Recupere le resultat de l'operation
-		IConnectionInfo connectionInfo = (IConnectionInfo) runnable.getResults();
-
-		HistoryView.getInstance().addLine(Messages.Motor_3 + " " + connectionInfo.getFkName() //$NON-NLS-1$
-				+ "-" + connectionInfo.getFkMajor() //$NON-NLS-1$
-				+ "." + connectionInfo.getFkMinor()); //$NON-NLS-1$
-		sessionManager.setAuthenticated(true);
-
-		// Mise a jour des boutons et menus de connexion
-		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
+		job.setPriority(Job.SHORT);
+		job.schedule();
 	}
 
 	/**
@@ -160,56 +143,35 @@ public final class Motor {
 			return;
 		}
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IRunnableContext context = workbench.getProgressService();
-
 		final ISession session = sessionManager.getCurrentSession();
 		if (session == null) {
 			LOGGER.warning("Tentative d'ouverture de session alors qu'il n'y a aucune session courrante"); //$NON-NLS-1$
 			return;
 		}
 
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+		Job job = new Job(OPEN_SESSION_JOB) {
 			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.Motor_16, 3);
-				setMonitor(monitor);
-				setResults(false);
-				synchronized (this) {
-					setResults(session.connect(monitor));
+				try {
+					ISessionInfo info = ((Session) session).connect(monitor);
 					monitor.subTask(Messages.Motor_17);
-					waitUntilEnd(); // Attente de la fin de l'operation
+
+					// Affichage dans la zone d'historique
+					HistoryView.getInstance().addText(info.getAboutService());
+				} catch (ApiException e) {
+					return new Status(ISession.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
+				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
+
+				return ASYNC_FINISH;
 			}
 		};
 
-		// Doit etre positionne avant le run !!
-		currentProgress = runnable;
-
-		// Affichage dans la zone d'historique
-		HistoryView.getInstance().addText(Messages.Motor_7);
-
-		// Le modele existe... On peut essayer de le connecter
-		HistoryView.getInstance().addLine(session.getName());
-		LOGGER.fine("Session courante : " + session.getName()); //$NON-NLS-1$
-
-		try {
-			context.run(true, false, runnable);
-		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de la connexion du modele: " + e.getTargetException()); //$NON-NLS-1$
-		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation de la connexion du modele: " + e.getMessage()); //$NON-NLS-1$
-		}
-
-		// Recupere le resultat de l'ouverture de session de la com
-		boolean res = (Boolean) runnable.getResults();
-
-		// Si l'ouverture de connexion réussi, on met à jour le menu Platform
-		if (res) {
-			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
-		} else {
-			endService();
-		}
+		job.setPriority(Job.SHORT);
+		job.setUser(true);
+		// TODO : lock, on ne peut pas lancer si il y a un service en cours par exemple
+		job.schedule();
 	}
 
 	/**
@@ -229,38 +191,29 @@ public final class Motor {
 			return;
 		}
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IRunnableContext context = workbench.getProgressService();
-
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+		Job job = new Job("Close session") { //$NON-NLS-1$
 			@Override
-			public void run(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException {
+			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.Motor_18, 3);
-				setMonitor(monitor);
-				setResults(session.disconnect(monitor));
+				try {
+					((Session) session).disconnect(monitor);
+				} catch (ApiException e) {
+					return new Status(IStatus.ERROR, "coloane", "Close session failed", e); //$NON-NLS-1$ //$NON-NLS-2$
+				}
 				monitor.subTask(Messages.Motor_19);
 				UserInterface.getInstance().cleanMenu();
+				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
+				UserInterface.getInstance().redrawMenus();
 				monitor.worked(1);
 				monitor.done();
+				return Status.OK_STATUS;
 			}
 		};
 
-		// Doit etre positionne avant le run !!
-		currentProgress = runnable;
-
-		try {
-			context.run(true, false, runnable);
-		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de la déconnexion du modele: " + e.getTargetException()); //$NON-NLS-1$
-		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation de la déconnexion du modele: " + e.getMessage()); //$NON-NLS-1$
-		}
-
-		if ((Boolean) runnable.getResults()) {
-			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getCurrentSession().getStatus());
-			UserInterface.getInstance().redrawMenus();
-		}
+		job.setPriority(Job.SHORT);
+		job.setUser(true);
+		// TODO : lock, on ne peut pas fermer si il y a un service en cours par exemple
+		job.schedule();
 	}
 
 
@@ -271,42 +224,29 @@ public final class Motor {
 			return;
 		}
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IRunnableContext context = workbench.getProgressService();
-
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+		Job job = new Job(SERVICE_JOB) {
 			@Override
-			public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			protected IStatus run(final IProgressMonitor monitor) {
 				monitor.beginTask(service.getName(), IProgressMonitor.UNKNOWN);
-				setMonitor(monitor);
 				IReceptServiceStateObserver observer = new IReceptServiceStateObserver() {
 					public void update(IReceptServiceState e) {
 						monitor.subTask(e.getMessage());
-						monitor.worked(1);
 					}
 				};
 				Com.getInstance().addReceptServiceStateObserver(observer);
-				synchronized (this) {
-					session.askForService(service);
-					waitUntilEnd();
+				try {
+					((Session) session).askForService(service);
+				} catch (ApiException e) {
+					return new Status(IStatus.ERROR, "coloane", "Service " + service.getName() + " failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
-				Com.getInstance().removeReceptServiceStateObserver(observer);
+				return ASYNC_FINISH;
 			}
 		};
 
-		// Doit etre positionne avant le run !!
-		currentProgress = runnable;
-
-		try {
-			context.run(true, true, runnable);
-		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de l'invocation de service (" + service + ") " + e.getTargetException()); //$NON-NLS-1$ //$NON-NLS-2$
-		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation du service : " + service + " [" + e.getMessage() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-
-		// Au retour d'un service, le modele est toujours propre
-		sessionManager.getCurrentSession().getGraph().setDirty(false);
+		job.setPriority(Job.LONG);
+		job.setUser(true);
+		// TODO : lock, on ne peut pas fermer si il y a un service en cours par exemple
+		job.schedule();
 	}
 
 
@@ -314,17 +254,32 @@ public final class Motor {
 	 * Detruit la session designee
 	 * @param sessionName Le nom de la session a detruire
 	 */
-	public void deleteSession(String sessionName) {
-		LOGGER.finer("Destruction de la session : " + sessionName); //$NON-NLS-1$
-		sessionManager.deleteSession(sessionName);
-		UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.ERROR);
-		UserInterface.getInstance().redrawMenus();
+	public void deleteSession(final String sessionName) {
+		Job job = new Job("Resume session") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				LOGGER.finer("Destruction de la session : " + sessionName); //$NON-NLS-1$
+				try {
+					((SessionManager) sessionManager).deleteSession(sessionName);
+				} catch (ApiException e) {
+					LOGGER.warning("Impossible de fermer la session : " + e); //$NON-NLS-1$
+					return new Status(IStatus.ERROR, "coloane", "Close session failed", e); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.ERROR);
+				UserInterface.getInstance().redrawMenus();
 
-		if (sessionManager.getCurrentSession() != null) {
-			LOGGER.finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
-		} else {
-			LOGGER.fine("Pas de session courante..."); //$NON-NLS-1$
-		}
+				ISession currentSession = sessionManager.getCurrentSession();
+				if (currentSession != null) {
+					LOGGER.finer("Session courante : " + currentSession.getName()); //$NON-NLS-1$
+				} else {
+					LOGGER.fine("Pas de session courante"); //$NON-NLS-1$
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.setPriority(Job.SHORT);
+		job.setSystem(true);
+		job.schedule();
 	}
 
 	/**
@@ -344,20 +299,28 @@ public final class Motor {
 	 * Suspend la session designee
 	 * @param name Le nom de la session a suspendre
 	 */
-	public void resumeSession(String name) {
-		if (sessionManager.resumeSession(name)) {
-			LOGGER.finer("OK pour la reprise de session " + name); //$NON-NLS-1$
-			UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
-			UserInterface.getInstance().redrawMenus();
-		} else {
-			LOGGER.fine("Echec lors de la reprise de session " + name); //$NON-NLS-1$
-		}
+	public void resumeSession(final String name) {
+		Job job = new Job("Resume session") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				if (((SessionManager) sessionManager).resumeSession(name)) {
+					LOGGER.finer("OK pour la reprise de session " + name); //$NON-NLS-1$
+					UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
+					UserInterface.getInstance().redrawMenus();
 
-		if (sessionManager.getCurrentSession() != null) {
-			LOGGER.finer("Session courante : " + sessionManager.getCurrentSession().getName()); //$NON-NLS-1$
-		} else {
-			LOGGER.fine("Pas de session courante"); //$NON-NLS-1$
-		}
+					ISession currentSession = sessionManager.getCurrentSession();
+					if (currentSession != null) {
+						LOGGER.finer("Session courante : " + currentSession.getName()); //$NON-NLS-1$
+					} else {
+						LOGGER.fine("Pas de session courante"); //$NON-NLS-1$
+					}
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.setPriority(Job.SHORT);
+		job.setSystem(true);
+		job.schedule();
 	}
 
 	/**
@@ -377,96 +340,64 @@ public final class Motor {
 	}
 
 	/**
-	 * Retourne la session concernee par les oparations en cours
-	 * @return La session attachee a l'operation
-	 */
-	public ISession getConcernedSession() {
-		if (currentProgress != null) {
-			LOGGER.finer("Recuperation de la session attachee"); //$NON-NLS-1$
-			return currentProgress.getAttachedSession();
-		} else {
-			LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
-			return null;
-		}
-	}
-
-	/**
-	 * Permet de prevenir que le service en cours est fini
-	 */
-	public void endService() {
-		synchronized (currentProgress) {
-			if (currentProgress != null) {
-				LOGGER.finer("Demande de liberation de moniteur"); //$NON-NLS-1$
-				currentProgress.freeMonitor();
-				currentProgress = null;
-			} else {
-				LOGGER.warning("Aucun service en cours..."); //$NON-NLS-1$
-			}
-		}
-	}
-
-	/**
-	 * @return La boite de progression en cours
-	 */
-	public ColoaneProgress getCurrentProgress() {
-		return currentProgress;
-	}
-
-	/**
 	 * Demande de deconnexion brutale (initiee par le client)
 	 */
 	public void breakConnection() {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IRunnableContext context = workbench.getProgressService();
-
-		// Definition de l'operation d'authentification
-		ColoaneProgress runnable = new ColoaneProgress(sessionManager.getCurrentSession()) {
+		Job job = new Job("Close connection") { //$NON-NLS-1$
 			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				setMonitor(monitor);
-				sessionManager.disconnectAllSessions();
-				Com.getInstance().breakConnection(true);
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					((SessionManager) sessionManager).disconnectAllSessions();
+					Com.getInstance().breakConnection(true);
+				} catch (ApiException e) {
+					Com.getInstance().breakConnection(false);
+				}
 				sessionManager.setAuthenticated(false);
 				UserInterface.getInstance().redrawMenus();
 				UserInterface.getInstance().platformState(false, ISession.CLOSED);
+				return Status.OK_STATUS;
 			}
 		};
 
-		try {
-			context.run(false, true, runnable);
-		} catch (InvocationTargetException e) {
-			LOGGER.warning("Echec de la deconnexion : " + e.getTargetException()); //$NON-NLS-1$
-			Com.getInstance().breakConnection(false);
-			sessionManager.setAuthenticated(false);
-			return;
-		} catch (InterruptedException e) {
-			LOGGER.warning("Annulation de la deconnexion : " + e.getMessage()); //$NON-NLS-1$
-			Com.getInstance().breakConnection(false);
-			sessionManager.setAuthenticated(false);
-			return;
-		}
+		job.setPriority(Job.SHORT);
+		job.setUser(true);
+		job.schedule();
 	}
 
 	/**
 	 * Notifier le changement du modele de la session courrante
 	 * @param element un element du graph
 	 */
-	public void notifyModelChange(IElement element) {
-		// On cherche le graphe
-		IElement tmp = element;
-		while (tmp.getParent() != null) {
-			tmp = tmp.getParent();
-		}
-		IGraph graph = (IGraph) tmp;
-		if (graph != null) {
-			int dateUpdate = graph.modifyDate();
-			ISession currentSession = SessionManager.getInstance().getCurrentSession();
-			if (dateUpdate != 0 && currentSession != null) {
-				LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-				currentSession.invalidModel();
+	public void notifyModelChange(final IElement element) {
+		Job job = new Job("Invalid model") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				// On cherche le graphe
+				IElement tmp = element;
+				while (tmp.getParent() != null) {
+					tmp = tmp.getParent();
+				}
+				IGraph graph = (IGraph) tmp;
+				if (graph != null) {
+					int dateUpdate = graph.modifyDate();
+					ISession currentSession = SessionManager.getInstance().getCurrentSession();
+					if (dateUpdate != 0 && currentSession != null) {
+						LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
+						try {
+							((Session) currentSession).invalidModel();
+						} catch (ApiException e) {
+							return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
+						}
+					}
+				}
+				return Status.OK_STATUS;
 			}
-		}
+		};
+
+		job.setPriority(Job.SHORT);
+		job.setSystem(true);
+		job.schedule();
 	}
 }

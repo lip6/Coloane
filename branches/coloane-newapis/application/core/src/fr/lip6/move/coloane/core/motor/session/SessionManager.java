@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -78,51 +80,18 @@ public final class SessionManager extends Observable implements ISessionManager 
 	}
 
 	/**
-	 * @param session session a suspendre
+	 * Reprendre, rendre active une session
+	 * @param sessionName nom de la session
+	 * @return booleen Un indicateur de deroulement
 	 */
-	private void suspendSession(ISession session) {
-		if (session == null) {
-			throw new NullPointerException("Impossible de suspendre une session null"); //$NON-NLS-1$
-		}
-
-		LOG.finer("Suspension de la session : " + session); //$NON-NLS-1$
-
-		// Suspension de la session
-		session.suspend();
-
-		// Si la session suspendue etait la session courante...
-		if (session.equals(currentSession)) {
-			setCurrentSession(null);
-		}
-	}
-
-	/** {@inheritDoc} */
-	public boolean suspendSession(String sessionName) {
-		ISession toSuspend = getSession(sessionName);
-
-		// Si la session existe
-		if (toSuspend != null) {
-			suspendSession(toSuspend);
-			return true;
-		} else {
-			LOG.finer("Session " + sessionName + " non enregistree dans le SessionManager"); //$NON-NLS-1$ //$NON-NLS-2$
-			return false;
-		}
-	}
-
-	/** {@inheritDoc} */
 	public boolean resumeSession(String sessionName) {
 		ISession toResume = getSession(sessionName);
 
 		if (toResume != null) {
 			LOG.finer("Reprise de la session : " + sessionName); //$NON-NLS-1$
 
-			if (currentSession != null && !toResume.equals(currentSession)) {
-				suspendSession(currentSession);
-			}
-
 			// Reprise de la session
-			toResume.resume();
+			((Session) toResume).resume();
 			setCurrentSession(toResume);
 
 			return true;
@@ -132,12 +101,16 @@ public final class SessionManager extends Observable implements ISessionManager 
 		}
 	}
 
-	/** {@inheritDoc} */
-	public void deleteSession(String sessionName) {
+	/**
+	 * Destruction de la session courante
+	 * @param sessionName nom de la session
+	 * @throws ApiException En cas d'erreur lors de la fermeture de la session
+	 */
+	public void deleteSession(String sessionName) throws ApiException {
 		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		ISession toDestroy = sessions.remove(sessionName);
 		if (toDestroy != null) {
-			toDestroy.destroy();
+			((Session) toDestroy).destroy();
 			// La session courante devient nulle
 			if (toDestroy.equals(currentSession)) {
 				setCurrentSession(null);
@@ -145,11 +118,14 @@ public final class SessionManager extends Observable implements ISessionManager 
 		}
 	}
 
-	/** {@inheritDoc} */
-	public void disconnectAllSessions() {
+	/**
+	 * Deconnexion brutale de tous les modeles
+	 * @throws ApiException En cas d'erreur lors de la fermeture de la session
+	 */
+	public void disconnectAllSessions() throws ApiException {
 		LOG.fine("Déconnexion de toutes les sessions"); //$NON-NLS-1$
 		for (ISession session : sessions.values()) {
-			session.disconnect();
+			((Session) session).disconnect();
 		}
 	}
 

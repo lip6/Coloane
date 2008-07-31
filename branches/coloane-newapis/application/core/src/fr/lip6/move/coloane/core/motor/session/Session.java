@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.motor.session;
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
@@ -75,15 +76,9 @@ public class Session implements ISession {
 		this.options = new HashSet<String>();
 	}
 
-	/** {@inheritDoc} */
-	public final void suspend() {
-		LOG.finer("Suspension de la session " + name); //$NON-NLS-1$
-		if (status == ISession.CONNECTED) {
-			status = ISession.SUSPENDED;
-		}
-	}
-
-	/** {@inheritDoc} */
+	/**
+	 * Reprise de la session
+	 */
 	public final void resume() {
 		LOG.finer("Reprise de la session " + name); //$NON-NLS-1$
 		if (status == ISession.SUSPENDED) {
@@ -98,10 +93,16 @@ public class Session implements ISession {
 		}
 	}
 
-	/** {@inheritDoc} */
-	public final void destroy() {
-		if (apiSession != null && !disconnect()) {
-			LOG.warning("La session " + name + " n'a pas pu être fermé"); //$NON-NLS-1$//$NON-NLS-2$
+	/**
+	 * Destruction de la session :
+	 * <ul>
+	 * 	<li>Déconnexion de la session</li>
+	 * </ul>
+	 * @throws ApiException En cas d'echec
+	 */
+	public final void destroy() throws ApiException {
+		if (apiSession != null) {
+			disconnect();
 		}
 	}
 
@@ -165,28 +166,30 @@ public class Session implements ISession {
 		return results;
 	}
 
-	/** {@inheritDoc} */
-	public final boolean connect(IProgressMonitor monitor) {
-		try {
-			monitor.subTask(Messages.Session_0);
-			apiSession = Com.getInstance().createApiSession();
-			monitor.worked(1);
-			monitor.subTask(Messages.Session_1);
-			apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
-			monitor.worked(1);
-		} catch (ApiException e) {
-			LOG.warning("Problème lors de la connection de la session : " + e); //$NON-NLS-1$
-			e.printStackTrace();
-			return false;
-		}
+	/**
+	 * Connecte la session à framekit.
+	 * @param monitor moniteur pour la progressbar
+	 * @return <code>true</code> si la connexion est ouverte
+	 * @throws ApiException en cas d'échec lors de la connexion
+	 */
+	public final ISessionInfo connect(IProgressMonitor monitor) throws ApiException {
+		monitor.subTask(Messages.Session_0);
+		apiSession = Com.getInstance().createApiSession();
+		monitor.worked(1);
+		monitor.subTask(Messages.Session_1);
+		ISessionInfo info = apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
+		monitor.worked(1);
 		setStatus(ISession.CONNECTED);
 		LOG.finer("Connexion de la session " + name); //$NON-NLS-1$
-		return true;
+		return info;
 	}
 
-	/** {@inheritDoc} */
-	public final boolean disconnect() {
-		return disconnect(new IProgressMonitor() {
+	/**
+	 * Déconnecte la session de framekit.
+	 * @throws ApiException En cas d'erreur de l'api
+	 */
+	public final void disconnect() throws ApiException {
+		disconnect(new IProgressMonitor() {
 			public void beginTask(String name, int totalWork) { }
 			public void done() { }
 			public void internalWorked(double work) { }
@@ -198,27 +201,25 @@ public class Session implements ISession {
 		});
 	}
 
-	/** {@inheritDoc} */
-	public final boolean disconnect(IProgressMonitor monitor) {
+	/**
+	 * Déconnecte la session de framekit.
+	 * @param monitor moniteur pour la boite de progression
+	 * @throws ApiException En cas d'erreur de l'api
+	 */
+	public final void disconnect(IProgressMonitor monitor) throws ApiException {
 		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
 		monitor.subTask(Messages.Session_2);
 		menus.clear();
 		adminMenu = null;
 		monitor.worked(1);
-		try {
-			monitor.subTask(Messages.Session_3);
-			if (apiSession != null) {
-				apiSession.close();
-				apiSession = null;
-			}
-			monitor.worked(1);
-		} catch (ApiException e) {
-			LOG.warning("Problème lors de la déconnexion de la session : " + e); //$NON-NLS-1$
-			return false;
+		monitor.subTask(Messages.Session_3);
+		if (apiSession != null) {
+			apiSession.close();
+			apiSession = null;
 		}
+		monitor.worked(1);
 		setStatus(ISession.CLOSED);
 		LOG.finer("Déconnexion de la session " + name); //$NON-NLS-1$
-		return true;
 	}
 
 	/** {@inheritDoc} */
@@ -258,23 +259,25 @@ public class Session implements ISession {
 		}
 	}
 
-	/** {@inheritDoc} */
-	public final void askForService(IService service) {
+	/**
+	 * @param service service à executer
+	 * @throws ApiException Si l'invocation du service a échoué
+	 */
+	public final void askForService(IService service) throws ApiException {
 		if (status != ISession.CONNECTED) {
 			LOG.warning("Invocation du service impossible, la session n'est pas connecté"); //$NON-NLS-1$
 			return;
 		}
-		try {
-			LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
-			apiSession.askForService(service, getActiveOptions(), graph);
-		} catch (ApiException e) {
-			LOG.warning("L'invocation du service a échoué : " + e); //$NON-NLS-1$
-		}
+		LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
+		apiSession.askForService(service, getActiveOptions(), graph);
 	}
 
-	/** {@inheritDoc} */
-	public final void invalidModel() {
-		if (status != ISession.CONNECTED) {
+	/**
+	 * Previens l'api d'un changement majeur du modèle
+	 * @throws ApiException En cas d'erreur de l'api
+	 */
+	public final void invalidModel() throws ApiException {
+		if (apiSession == null) {
 			return;
 		}
 		apiSession.invalidModel();

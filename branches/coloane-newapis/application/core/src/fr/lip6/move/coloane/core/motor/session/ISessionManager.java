@@ -28,32 +28,6 @@ public interface ISessionManager {
 	ISession getSession(String sessionName);
 
 	/**
-	 * Suspension d'une session.<br>
-	 * Si la session suspendue est la session courante, la session courante est NULL
-	 * @param sessionName Le nom de la session
-	 * @return booleen Un indicateur de deroulement
-	 */
-	boolean suspendSession(String sessionName);
-
-	/**
-	 * Reprendre, rendre active une session
-	 * @param sessionName nom de la session
-	 * @return booleen Un indicateur de deroulement
-	 */
-	boolean resumeSession(String sessionName);
-
-	/**
-	 * Destruction de la session courante
-	 * @param sessionName nom de la session
-	 */
-	void deleteSession(String sessionName);
-
-	/**
-	 * Deconnexion brutale de tous les modeles
-	 */
-	void disconnectAllSessions();
-
-	/**
 	 * Retourne le status d'authentification du client<br>
 	 * L'authentification est valable pour tous les modeles
 	 * @return Un booleen

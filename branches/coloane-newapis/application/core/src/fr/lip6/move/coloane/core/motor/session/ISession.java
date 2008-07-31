@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
 
 /**
@@ -24,45 +23,6 @@ public interface ISession {
 	int CLOSED = 0;
 	int CONNECTED = 1;
 	int SUSPENDED = 2;
-
-	/**
-	 * Connecte la session à framekit.
-	 * @param monitor moniteur pour la progressbar
-	 * @return <code>true</code> si la connexion est ouverte
-	 */
-	boolean connect(IProgressMonitor monitor);
-
-	/**
-	 * Déconnecte la session de framekit.
-	 * @return <code>true</code> si la connexion est fermé
-	 */
-	boolean disconnect();
-
-	/**
-	 * Déconnecte la session de framekit.
-	 * @param monitor moniteur pour la boite de progression
-	 * @return <code>true</code> si la connexion est fermé
-	 */
-	boolean disconnect(IProgressMonitor monitor);
-
-	/**
-	 * Suspension de la session
-	 */
-	void suspend();
-
-	/**
-	 * Reprise de la session
-	 */
-	void resume();
-
-	/**
-	 * Destruction de la session :
-	 * <ul>
-	 * 	<li>Suppression des menus admin / services</li>
-	 *  <li>Etat de la session positionne a CLOSED</li>
-	 * </ul>
-	 */
-	void destroy();
 
 	/**
 	 * @return nom de la session
@@ -155,14 +115,4 @@ public interface ISession {
 	 * @return la liste des options actives
 	 */
 	List<String> getActiveOptions();
-
-	/**
-	 * @param service service à executer
-	 */
-	void askForService(IService service);
-
-	/**
-	 * Previens l'api d'un changement majeur du modèle
-	 */
-	void invalidModel();
 }

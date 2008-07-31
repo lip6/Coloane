@@ -15,6 +15,9 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
 /**
  * Permet d'être notifié des changements de menu
  */
@@ -36,13 +39,17 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 			ISession session = SessionManager.getInstance().getCurrentSession();
 			session.addAllServices(menu.getServices());
 		}
-		Motor.getInstance().getCurrentProgress().getMonitor().worked(1);
 
 		// Affichage du menu dans la console pour le debug
 		for (ISubMenu subMenu : menu.getMenus()) {
 			LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		Motor.getInstance().endService();
+
+		for (Job job : Job.getJobManager().find(null)) {
+			if (job.getName().equals(Motor.OPEN_SESSION_JOB)) {
+				job.done(Status.OK_STATUS);
+			}
+		}
 	}
 
 	/**

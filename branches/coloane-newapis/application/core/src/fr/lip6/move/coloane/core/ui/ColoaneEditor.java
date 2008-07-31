@@ -621,11 +621,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		return PaletteFactory.createPalettePreferences();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected final void createActions() {
@@ -688,6 +684,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		getSelectionActions().add(action.getId());
 	}
 
+	/** {@inheritDoc} */
 	public final String getContributorId() {
 		return CONTRIBUTOR_ID;
 	}

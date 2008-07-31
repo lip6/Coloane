@@ -18,8 +18,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * Objet en charge de toutes les communications avec une API de communication.
+ * Objet en charge de toutes les communications avec une API de communication.<br>
  * Ces API sont connectées aux serveurs de services (type FrameKit)<br>
+ * <br>
+ * Cette est faite pour être manipulé uniquement par le package motor,
+ * pour accéder accéder au fonctionnalité de l'api de communication, il faut
+ * utilisé les méthodes de la classe Motor
  */
 public final class Com implements ICom {
 	/** Le logger */
