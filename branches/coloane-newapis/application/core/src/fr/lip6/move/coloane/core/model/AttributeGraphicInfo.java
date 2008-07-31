@@ -50,9 +50,6 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 		// Lever un evenement
 		((AttributeModel) this.attribute).firePropertyChange(IAttribute.LOCATION_PROP, oldValue, newValue);
-
-		// Il faut avertir FrameKit
-		Motor.getInstance().notifyModelChange(attribute.getReference());
 	}
 
 	/** {@inheritDoc} */

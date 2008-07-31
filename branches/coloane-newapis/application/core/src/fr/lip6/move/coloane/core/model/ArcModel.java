@@ -134,9 +134,6 @@ public class ArcModel extends AbstractElement implements IArc {
 		((NodeModel) source).addOutcomingArc(this);
 		this.target = newTarget;
 		((NodeModel) target).addIncomingArc(this);
-
-		// Il faut avertir FrameKit
-		Motor.getInstance().notifyModelChange(this);
 	}
 
 	/** {@inheritDoc} */

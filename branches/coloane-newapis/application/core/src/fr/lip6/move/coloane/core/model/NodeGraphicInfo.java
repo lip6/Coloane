@@ -89,9 +89,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		}
 		// Lever un evenement
 		node.firePropertyChange(INode.LOCATION_PROP, oldLocation, new Point(x, y));
-
-		// Il faut avertir FrameKit
-		Motor.getInstance().notifyModelChange(node);
 	}
 
 	/** {@inheritDoc} */

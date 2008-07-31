@@ -108,9 +108,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
-
-			// Il faut avertir FrameKit
-			Motor.getInstance().notifyModelChange(this);
 		}
 	}
 
@@ -147,9 +144,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 			nodes.put(node.getId(), node);
 			LOGGER.finest("addNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(NODE_ADDED_PROP, null, node);
-
-			// Il faut avertir FrameKit
-			Motor.getInstance().notifyModelChange(this);
 		}
 	}
 
@@ -212,9 +206,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.finest("deleteArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
-
-			// Il faut avertir FrameKit
-			Motor.getInstance().notifyModelChange(this);
 		}
 	}
 
@@ -250,9 +241,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
 		}
-
-		// Il faut avertir FrameKit
-		Motor.getInstance().notifyModelChange(this);
 	}
 
 	/** {@inheritDoc} */

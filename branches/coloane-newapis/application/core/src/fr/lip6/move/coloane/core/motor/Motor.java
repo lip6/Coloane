@@ -16,17 +16,18 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -107,6 +108,7 @@ public final class Motor {
 		};
 
 		job.setPriority(Job.SHORT);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
@@ -170,7 +172,7 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setUser(true);
-		// TODO : lock, on ne peut pas lancer si il y a un service en cours par exemple
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
@@ -212,7 +214,7 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setUser(true);
-		// TODO : lock, on ne peut pas fermer si il y a un service en cours par exemple
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
@@ -223,6 +225,24 @@ public final class Motor {
 		if (session == null) {
 			return;
 		}
+
+		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		Job save = new Job("save editor") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				if (editor == null) {
+					LOGGER.warning("Il n'y a aucun éditeur actif"); //$NON-NLS-1$
+					return new Status(IStatus.ERROR, "coloane", "Il n'y a aucun éditeur actif"); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				editor.doSave(monitor);
+
+				return Status.OK_STATUS;
+			}
+		};
+		save.setPriority(Job.SHORT);
+		save.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		save.setSystem(true);
+		save.schedule();
 
 		Job job = new Job(SERVICE_JOB) {
 			@Override
@@ -245,8 +265,8 @@ public final class Motor {
 
 		job.setPriority(Job.LONG);
 		job.setUser(true);
-		// TODO : lock, on ne peut pas fermer si il y a un service en cours par exemple
-		job.schedule();
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+//		job.schedule();
 	}
 
 
@@ -279,6 +299,7 @@ public final class Motor {
 		};
 		job.setPriority(Job.SHORT);
 		job.setSystem(true);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
@@ -320,6 +341,7 @@ public final class Motor {
 		};
 		job.setPriority(Job.SHORT);
 		job.setSystem(true);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
@@ -363,33 +385,25 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setUser(true);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 
 	/**
 	 * Notifier le changement du modele de la session courrante
-	 * @param element un element du graph
 	 */
-	public void notifyModelChange(final IElement element) {
+	public void notifyModelChange() {
 		Job job = new Job("Invalid model") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				// On cherche le graphe
-				IElement tmp = element;
-				while (tmp.getParent() != null) {
-					tmp = tmp.getParent();
-				}
-				IGraph graph = (IGraph) tmp;
-				if (graph != null) {
-					int dateUpdate = graph.modifyDate();
-					ISession currentSession = SessionManager.getInstance().getCurrentSession();
-					if (dateUpdate != 0 && currentSession != null) {
-						LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-						try {
-							((Session) currentSession).invalidModel();
-						} catch (ApiException e) {
-							return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
-						}
+				ISession currentSession = SessionManager.getInstance().getCurrentSession();
+				if (currentSession != null) {
+					LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
+					currentSession.getGraph().modifyDate();
+					try {
+						((Session) currentSession).invalidModel();
+					} catch (ApiException e) {
+						return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
 					}
 				}
 				return Status.OK_STATUS;
@@ -398,6 +412,7 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setSystem(true);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 }

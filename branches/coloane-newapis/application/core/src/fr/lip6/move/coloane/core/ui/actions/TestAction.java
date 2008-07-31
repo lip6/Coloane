@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import java.util.Arrays;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -13,9 +11,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
-
-import fr.lip6.move.coloane.core.communications.Com;
 
 /**
  * Classe de test pour les jobs ou n'importe quoi d'autre
@@ -34,15 +29,6 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		System.err.println(Arrays.asList(Job.getJobManager().find(null)));
-		for (Job job : Job.getJobManager().find(null)) {
-			System.err.println(job + " - " + job.getState());
-			if (job.getName().equals("Open session")
-					|| job.getName().equals("Petri net syntax checker")) {
-				System.err.println("Fin de " + job);
-				job.done(Status.OK_STATUS);
-			}
-		}
 //		testJob();
 //		testJob2();
 	}
