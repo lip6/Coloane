@@ -194,6 +194,7 @@ public class ApiConnection implements IApiConnection {
 
 		LOGGER.finer("Création du gestionnaire de session");
 		this.sessionController = SessionFactory.getNewSessionController(listObservables);
+		this.sessionController.setConnectionOpened(true);
 
 		LOGGER.finer("Demande le demmarage du Listener");
 		listener.start();
@@ -241,7 +242,7 @@ public class ApiConnection implements IApiConnection {
 		} finally {
 			listener = null;
 			speaker = null;
-			sessionController = null;
+			sessionController.setConnectionOpened(false);
 			connectionOpened = false;
 			LOGGER.fine("Fermeture de la connexion");
 		}
@@ -264,7 +265,7 @@ public class ApiConnection implements IApiConnection {
 
 		listener = null;
 		speaker = null;
-		sessionController = null;
+		sessionController.setConnectionOpened(false);
 		connectionOpened = false;
 	}
 

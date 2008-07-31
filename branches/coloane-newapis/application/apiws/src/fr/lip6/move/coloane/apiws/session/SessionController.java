@@ -37,6 +37,8 @@ public class SessionController implements ISessionController {
 	 */
 	private Map<Integer, Object> listObservables;
 
+	private boolean connectionOpened;
+
 	/**
 	 * Constructeur
 	 * @param listObservables la liste des observables à notifier
@@ -45,8 +47,22 @@ public class SessionController implements ISessionController {
 		this.activeSession = null;
 		this.listSessions = new HashMap<String, IApiSession>();
 		this.listObservables = listObservables;
+		this.connectionOpened = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean isConnectionOpened() {
+		return connectionOpened;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setConnectionOpened(boolean connectionOpened) {
+		this.connectionOpened = connectionOpened;
+	}
 	/**
 	 * {@inheritDoc}
 	 */

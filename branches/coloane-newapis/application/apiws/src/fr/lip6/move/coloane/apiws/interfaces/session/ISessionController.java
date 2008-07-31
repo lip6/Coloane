@@ -12,6 +12,18 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 public interface ISessionController {
 
 	/**
+	 * Détermine si une session est ouvert ou non
+	 * @return <code>true</code>, si la connection est ouverte, <code>false</code> sinon
+	 */
+	boolean isConnectionOpened();
+
+	/**
+	 * Initialise si une connection est ouverte
+	 * @param connectionOpened si une connection est ouverte
+	 */
+	void setConnectionOpened(boolean connectionOpened);
+
+	/**
 	 * Recupere la session active.
 	 * @return la session active.
 	 */
