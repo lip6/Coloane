@@ -277,4 +277,12 @@ public class SessionController implements ISessionController {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void notifyEndInvalidate(IApiSession session, MMenu menu) {
+		ReceptMenu receptMenu = new ReceptMenu(menu);
+		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(receptMenu);
+	}
+
 }

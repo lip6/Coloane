@@ -501,9 +501,9 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void invalidModel() {
-		// TODO Auto-generated method stub
 		LOGGER.finer("Invalidation du model de la session '" + sessionName);
 		this.invalidateTheModel = true;
+		sessionController.notifyEndInvalidate(this, menus);
 	}
 
 	/**

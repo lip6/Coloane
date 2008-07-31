@@ -141,4 +141,12 @@ public interface ISessionController {
 	 * @throws ApiException si la notification de la fin de l'exécution d'un service échoue
 	 */
 	void notifyEndResult(IApiSession sessionExecuted, RService result, IGraph newGraph) throws ApiException;
+
+	/**
+	 * Notifie au gestionnaire de sessions l'invalidation d'un model
+	 * @param session la session à invalide
+	 * @param menu le menu par défaut à afficher après une invalidation
+	 */
+	void notifyEndInvalidate(IApiSession session, MMenu menu);
+
 }
