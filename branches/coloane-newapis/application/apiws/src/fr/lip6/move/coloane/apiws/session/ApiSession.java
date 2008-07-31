@@ -461,6 +461,8 @@ public class ApiSession implements IApiSession {
 			theArc.setDestination(arc.getTarget().getId());
 			// Initialisation de la liste des points de l'arc pour le wrapper
 			theArc.setPoints(listPts);
+			// Initialisation du type de l'arc pour le wrapper
+			theArc.setType(arc.getArcFormalism().getName());
 
 			// Ajout d'un arc dans le model pour le wrapper
 			theModel.addArcs(theArc);
