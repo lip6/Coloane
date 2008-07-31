@@ -40,16 +40,18 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * Test des régles sur un job
 	 */
+	@SuppressWarnings("unused")
 	private void testJob2() {
 		final int id = count++;
-		Job j = new Job("job " + id) {
+		Job j = new Job("job " + id) { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Tache" + id, 100);
+				monitor.beginTask("Tache" + id, 100); //$NON-NLS-1$
 				for (int i = 0; i < 100; i++) {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 					monitor.worked(1);
 				}
@@ -58,7 +60,6 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 		};
 //		j.setUser(true);
 		j.setRule(ResourcesPlugin.getWorkspace().getRoot());
-//		j.setRule(Com.getInstance().getRule());
 		j.schedule();
 	}
 

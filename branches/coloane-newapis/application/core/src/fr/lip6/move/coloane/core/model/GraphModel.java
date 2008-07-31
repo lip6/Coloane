@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
