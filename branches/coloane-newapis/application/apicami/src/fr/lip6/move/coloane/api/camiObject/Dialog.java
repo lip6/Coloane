@@ -1,9 +1,8 @@
 package fr.lip6.move.coloane.api.camiObject;
 
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import java.util.List;
-
-
 
 /**
  * Cette classe defini le contenu d'un boite de dialogue ainsi que sa structure.<br>
@@ -59,21 +58,19 @@ public final class Dialog implements IDialog {
 	/**la liste des lignes*/
 	private List<String> lines;
 
-    /**
-     * constructeur
-     * @param id lidentifiant de la boite de dialgue
-     * @param type le type du dialogue
-     * @param buttonType le type du boutton dans la boite de dialogue
-     * @param title le titre de la boite de dialogue
-     * @param help le message d'aide associe avec la boite de dialogue
-     * @param message le message a afficher dans la boite de dialogue
-     * @param inputType  le type de saisie
-     * @param multiLine le type du champ de saisie
-     * @param defaut le message par defaut a afficher dans la boite de dialogue
-     * @param lines la liste des lignes
-     */
-	public Dialog(int id, int type, int buttonType, String title, String help, String message,
-			     int inputType, int multiLine, String defaut, List<String> lines) {
+	/**
+	 * constructeur
+	 * @param id lidentifiant de la boite de dialgue
+	 * @param type le type du dialogue
+	 * @param buttonType le type du boutton dans la boite de dialogue
+	 * @param title le titre de la boite de dialogue
+	 * @param help le message d'aide associe avec la boite de dialogue
+	 * @param message le message a afficher dans la boite de dialogue
+	 * @param inputType  le type de saisie
+	 * @param multiLine le type du champ de saisie
+	 * @param defaut le message par defaut a afficher dans la boite de dialogue
+	 */
+	public Dialog(int id, int type, int buttonType, String title, String help, String message, int inputType, int multiLine, String defaut) {
 		this.id = id;
 		this.type = type;
 		this.buttonType = buttonType;
@@ -83,8 +80,6 @@ public final class Dialog implements IDialog {
 		this.inputType = inputType;
 		this.multiLine = multiLine;
 		this.defaut = defaut;
-		this.lines = lines;
-
 	}
 
 	/**

@@ -9,27 +9,40 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
  * @author Youcef Belattaf
  *
  */
-
 public class ConnectionInfo implements IConnectionInfo {
-    /** Le nom de la plate-forme */
-    private String fkName;
+	/** Le nom de la plate-forme */
+	private String fkName;
 
-    /** Le numéro de version majeur de la plate-forme */
-    private int fkMajor;
+	/** Le numéro de version majeur de la plate-forme */
+	private int fkMajor;
 
-    /** LE numéro de version mineur de la plate-forme */
-    private int fkMinor;
+	/** LE numéro de version mineur de la plate-forme */
+	private int fkMinor;
 
-    /**
-     * le constructeur de notre classe
-     * @param fkName le nom du FrameKit.
-     * @param fkMajor le numero majeur de FrameKit.
-     * @param fkMinor le numero mineur de FrameKit.
-     */
-	public ConnectionInfo(String fkName, String fkMajor, String fkMinor) {
-     this.fkName = fkName;
-     this.fkMajor = Integer.valueOf(fkMajor);
-     this.fkMinor = Integer.valueOf(fkMinor);
+	/**
+	 * le constructeur de notre classe
+	 * @param fkName le nom du FrameKit.
+	 */
+	public ConnectionInfo(String fkName) {
+		this.fkName = fkName;
+		this.fkMajor = Integer.valueOf(fkMajor);
+		this.fkMinor = Integer.valueOf(fkMinor);
+	}
+
+	/**
+	 * Indique le numero de version majeur de la plate-forme
+	 * @param fkMajor Le numéro de version (majeur)
+	 */
+	public final void setFkMajor(String fkMajor) {
+		this.fkMajor = Integer.valueOf(fkMajor);
+	}
+
+	/**
+	 * Indique le numero de version mineur de la plate-forme
+	 * @param fkMinor Le numéro de version (mineur)
+	 */
+	public final void setFkMinor(String fkMinor) {
+		this.fkMinor = Integer.valueOf(fkMinor);
 	}
 
 	/**
@@ -52,5 +65,4 @@ public class ConnectionInfo implements IConnectionInfo {
 	public final String getFkName() {
 		return this.fkName;
 	}
-
 }

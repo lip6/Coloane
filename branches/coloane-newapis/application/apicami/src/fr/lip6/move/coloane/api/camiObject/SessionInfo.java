@@ -12,37 +12,37 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 
 public class SessionInfo implements ISessionInfo {
 
-	 /** Informations relatives au service*/
+	/** Informations relatives au service*/
 	private String aboutService;
 
-	 /** L'incremental*/
+	/** L'incremental*/
 	private String incremental;
 
-	 /** Le nom du service*/
+	/** Le nom du service*/
 	private String nameService;
 
-	 /** Le resultat calculé*/
+	/** Le resultat calculé*/
 	private int resultatCalcule;
 
- /**
-  * Constructeur
-  * @param aboutService TODO A documenter
-  * @param incremental TODO A documenter
-  * @param nameService TODO A documenter
-  * @param resultatCalcule TODO A documenter
-  */
+	/**
+	 * Constructeur
+	 * @param aboutService TODO A documenter
+	 * @param incremental TODO A documenter
+	 * @param nameService TODO A documenter
+	 * @param resultatCalcule TODO A documenter
+	 */
 	public SessionInfo(String nameService, String aboutService, String incremental, int resultatCalcule) {
 		this.aboutService = aboutService;
-			this.incremental = incremental;
-			this.nameService = nameService;
-			this.resultatCalcule = resultatCalcule;
+		this.incremental = incremental;
+		this.nameService = nameService;
+		this.resultatCalcule = resultatCalcule;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final String getAboutService() {
-     return this.aboutService;
+		return this.aboutService;
 	}
 
 	/**
