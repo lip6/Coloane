@@ -31,13 +31,19 @@ public class ServiceImpl implements IService {
 		this.id = root + "_" + question.getName();
 		this.cardinality = question.getCardinality();
 		this.name = question.getName();
-		this.outPutFormalism = question.getDomain();
 		this.parent = root;
 		this.root = root;
 		this.type = type;
 		this.checked = question.getValidation();
 		this.interactive = question.getInteraction();
 		this.stopAuthorized = question.getStop();
+
+		if (question.getDomain().equals("")) {
+			this.outPutFormalism = null;
+		} else {
+			this.outPutFormalism = question.getDomain();
+		}
+
 	}
 
 	/**
