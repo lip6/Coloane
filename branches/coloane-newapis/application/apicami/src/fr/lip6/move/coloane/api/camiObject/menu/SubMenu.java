@@ -24,9 +24,6 @@ public class SubMenu extends Item implements ISubMenu {
 	/** La liste des options attachées au sous-menu */
 	private List<IOptionMenu> options;
 
-	/** Type du sous-menu */
-	private int type;
-
 	/** Comportement du sous-menu */
 	private int behavior;
 
@@ -39,7 +36,6 @@ public class SubMenu extends Item implements ISubMenu {
 	 */
 	public SubMenu(String name, int type, int behavior, boolean visibility) {
 		super(name, visibility, null);
-		this.type = type;
 		this.behavior = behavior;
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();
@@ -76,7 +72,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * Ajoute une question (option, item ou sous-menu) au sous-menu courant OU à un de ses fils
 	 * @param question La description de la question transmise par la plate-forme
 	 */
-	public final void addQuestion(ISubMenu root, IQuestion question) {
+	public final void addQuestion(IQuestion question) {
 		LOGGER.finer("Demande d'ajout de la question: " + question.getName());
 
 		// Recherche du sous-menu
@@ -97,7 +93,7 @@ public class SubMenu extends Item implements ISubMenu {
 			LOGGER.finer("La question est ajoutee comme option de " + parentMenu.getName());
 		// Dans tous les autres cas, c'est une description de services
 		} else {
-			((SubMenu) parentMenu).addServiceMenu(root, question);
+			((SubMenu) parentMenu).addServiceMenu(this, question);
 			LOGGER.finer("La question est ajoutee comme service de " + parentMenu.getName());
 		}
 	}

@@ -59,6 +59,9 @@ public class Item implements IItemMenu {
 		return this.visibility;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final String toString() {
 		return name;
