@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.api.cami.CamiParser;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Map;
 
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.RecognitionException;
@@ -48,6 +49,14 @@ public class Listener implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Transmets les observers au parser pourqu'il puisse renvoyer les objets à la session
+	 * @param hash La map des observers
+	 */
+	public final void setObservers(Map<String, Object> hash) {
+		this.parser.setObservers(hash);
 	}
 
 	/**

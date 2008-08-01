@@ -19,6 +19,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
@@ -40,10 +41,8 @@ Map<String, Object> hash;
 /* Le gestionnaire de session */
 ISessionController sessionController;
 
-/* Constructeur du parser */
-/* Ce cosntructeur est nécessaire pour récupérer l'objet de synchronisation */
-public CamiParser(TokenStream input, Map<String, Object> hash) {
-	this(input);
+/* Indique tous les observers disponibles */
+public void setObservers(Map<String, Object> hash) {
 	this.hash = hash;
 	this.sessionController = SessionController.getInstance();
 }

@@ -44,7 +44,7 @@ public class ApiConnection implements IApiConnection {
 	private ComObjects comObjects;
 
 	/** Une table de hash qui stocke tous les observeurs */
-	private Map< String, Object> hashObservable;
+	private Map<String, Object> hashObservable;
 
 	/** Le nom du client */
 	private String uiName;
