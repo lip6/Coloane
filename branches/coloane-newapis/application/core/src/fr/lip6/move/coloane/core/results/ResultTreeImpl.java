@@ -21,12 +21,12 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private String serviceName;
 
 	private IResultTree parent;
-	private ArrayList<IResultTree> children;
-	private ArrayList<Object> elements;
-	private final ArrayList<Integer> highlights;
+	private List<IResultTree> children;
+	private List<Object> elements;
+	private final List<Integer> highlights;
 
 	/**
-	 * Le gestionnaire de session.</br>
+	 * Le gestionnaire de session.<br>
 	 * Doit être renseigné au moins une fois auprès du père
 	 * @see #setSessionManager(ISessionManager)
 	 */
@@ -158,7 +158,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/**
 	 * Champ initialisé par le ResultTreeList après la création par la méthode build du IReport.
-	 * @param serviceName
+	 * @param serviceName nom du service
 	 */
 	public final void setServiceName(String serviceName) {
 		this.serviceName = serviceName;

@@ -4,13 +4,15 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
-import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
+/**
+ * Cette classe va générer un arbre de résultat générique
+ */
 public class GenericReport implements IReport {
 
 	/** {@inheritDoc} */
-	public final ResultTreeImpl build(IResultsCom result) {
+	public final ResultTreeImpl build(IResult result) {
 
 		// 1. Build the root of the resultat tree
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());

@@ -2,13 +2,12 @@ package fr.lip6.move.coloane.core.results.reports;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
-import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
-import fr.lip6.move.coloane.interfaces.objects.SubResultsCom;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 public class LTLModCheck implements IReport {
 
 	/** {@inheritDoc} */
-	public final ResultTreeImpl build(IResultsCom result) {
+	public final ResultTreeImpl build(IResult result) {
 		ResultTreeImpl root = new ResultTreeImpl(result.getQuestion());
 		root.setSessionManager(SessionManager.getInstance());
 

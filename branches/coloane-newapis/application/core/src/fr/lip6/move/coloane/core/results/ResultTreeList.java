@@ -4,10 +4,12 @@ import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
 import fr.lip6.move.coloane.core.results.reports.IReport;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,16 +36,22 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 
 	private final ConcurrentHashMap<String, IResultTree> map;
-	private final ArrayList<Integer> highlights;
-	private HashMap<String, IReport> services;
+	private final List<Integer> highlights;
+	private Map<String, IReport> services;
 	private final IReport generic;
 
+	/**
+	 * Constructeur
+	 */
 	public ResultTreeList() {
 		map = new ConcurrentHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
 		generic = new GenericReport();
 	}
 
+	/**
+	 * Ajouter tous les services disponible par le point d'extension SERVICE_EXTENSION
+	 */
 	private void buildServicesList() {
 		services = new HashMap<String, IReport>();
 
@@ -66,7 +74,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @param serviceName Le nom du service pour lequel on recoit les resultats
 	 * @param result L'objet (en provenance de Com) qui contient les resultats
 	 */
-	public final void add(String serviceName, IResultsCom result) {
+	public final void add(String serviceName, IResult result) {
 		if (services == null) {
 			this.buildServicesList();
 		}
@@ -180,6 +188,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
 		return map.toString();
@@ -187,7 +196,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 	/**
 	 * Supprime le resultat serviceName
-	 * @param serviceName
+	 * @param serviceName nom du service
 	 */
 	public final void remove(String serviceName) {
 		if (serviceName != null) {

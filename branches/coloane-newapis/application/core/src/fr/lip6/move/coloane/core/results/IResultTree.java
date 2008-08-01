@@ -32,7 +32,7 @@ public interface IResultTree {
 
 	/**
 	 * Permet de rajouter un fils à ce noeud
-	 * @param child
+	 * @param child fils à ajouter
 	 */
 	void addChild(IResultTree child);
 
@@ -50,13 +50,12 @@ public interface IResultTree {
 
 	/**
 	 * Ajoute un ou plusieurs elements à mettre en valeur lors de la selection du sous-resultat
-	 * @param toHighlight
+	 * @param toHighlight élément(s) à ajouter
 	 */
 	void addHighlighted(int... toHighlight);
 
 	/**
 	 * Supprime ce service de la liste des resultats
-	 * @param sessionManager Le gestionnaire de session
 	 * @see {@link SessionManager.#getInstance()}
 	 */
 	void remove();
