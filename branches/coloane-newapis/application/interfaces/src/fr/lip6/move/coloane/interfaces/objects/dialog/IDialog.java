@@ -39,19 +39,12 @@ public interface IDialog {
 	/** Affichage multi-ligne avec selection multiple */
 	int MULTI_LINE_WITH_MULTI_SELECTION = 5;
 
-	/** Boîte de dialogue visible */
-	int DLG_VISIBLE = 1;
-	/** Boîte de dialogue cachée */
-	int DLG_HIDE = 2;
-	/** Boîte de dialogue détruite */
-	int DLG_DESTROYED = 3;
-
 	/**
 	 * Retourne le type des boutons affiches dans la boite dialogue<br>
 	 * <ul>
-	 * 	<li> 1 = pas de bouttons </li>
-	 * 	<li> 2 = un boutton (OK) </li>
-	 * 	<li> 3 = deux bouttons ( OK / CANCEL ) </li>
+	 * 	<li> DLG_NO_BUTTON = pas de bouttons </li>
+	 * 	<li> DLG_OK = un boutton (OK) </li>
+	 * 	<li> DLG_OK_CANCEL = deux bouttons ( OK / CANCEL ) </li>
 	 * </ul>
 	 * @return Le type des boutons affiches dans la boite dialogue
 	 */
@@ -79,9 +72,9 @@ public interface IDialog {
 	/**
 	 * Recupere le type de saisie<br>
 	 * <ul>
-	 * 	<li> 1 = saisie autoriser </li>
-	 * 	<li> 2 = saisie non autoriser </li>
-	 * 	<li> 3 = saisie autoriser avec possiblite d'annuler </li>
+	 * 	<li> INPUT_AUTHORIZED = saisie autoriser </li>
+	 * 	<li> INPUT_FORBIDDEN = saisie non autoriser </li>
+	 * 	<li> INPUT_AND_ABORT_AUTHORIZED = saisie autoriser avec possiblite d'annuler </li>
 	 * </ul>
 	 * @return le type de saisie
 	 */
@@ -96,9 +89,9 @@ public interface IDialog {
 	/**
 	 * Recupere le type du champ de saisie<br>
 	 * <ul>
-	 * 	<li> 1 = affichage mono-ligne </li>
-	 * 	<li> 2 = affichage multi-ligne avec selection simple </li>
-	 * 	<li> 5 = affichage multi-ligne avec selection multiple </li>
+	 * 	<li> SINGLE_LINE = affichage mono-ligne </li>
+	 * 	<li> MULTI_LINE_WITH_SINGLE_SELECTION = affichage multi-ligne avec selection simple </li>
+	 * 	<li> MULTI_LINE_WITH_MULTI_SELECTION = affichage multi-ligne avec selection multiple </li>
 	 * </ul>
 	 * @return le type du champ de saisie
 	 */
@@ -113,10 +106,10 @@ public interface IDialog {
 	/**
 	 * Retourne le type de boite de dialogue<br>
 	 * <ul>
-	 * 	<li> 1 = Standard </li>
-	 * 	<li> 2 = Avertissement </li>
-	 * 	<li> 3 = Erreur </li>
-	 * 	<li> 4 = Intercactive </li>
+	 * 	<li> DLG_STANDARD = Standard </li>
+	 * 	<li> DLG_WARNING = Avertissement </li>
+	 * 	<li> DLG_ERROR = Erreur </li>
+	 * 	<li> DLG_INTERACTIVE = Intercactive </li>
 	 * </ul>
 	 * @return Le type de boite de dialogue
 	 */
@@ -127,16 +120,5 @@ public interface IDialog {
 	 * @return la liste des lignes.
 	 */
 	List<String> getLines();
-
-	/**
-	 * Recupére le type de visibilité de la boîte de dialogue<br>
-	 * <ul>
-	 * 	<il> 1 = Afficher la boite de dialogue </il>
-	 * 	<il> 2 = Cacher la boite de dialogue </il>
-	 * 	<il> 3 = Détruire la boîte de dialogue </il>
-	 * </ul>
-	 * @return le type de visibilité de la boîte de dialogue
-	 */
-	int getVisibility();
 
 }
