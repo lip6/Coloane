@@ -1,6 +1,7 @@
-package fr.lip6.move.coloane.core.ui.dialogs;
+package fr.lip6.move.coloane.core.ui.prefs;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.dialogs.Messages;
 
 import java.io.IOException;
 import java.net.InetAddress;

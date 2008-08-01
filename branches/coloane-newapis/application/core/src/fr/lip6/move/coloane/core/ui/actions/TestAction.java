@@ -1,5 +1,9 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -11,6 +15,11 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
+import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
+import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * Classe de test pour les jobs ou n'importe quoi d'autre
@@ -29,12 +38,35 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
+		testDialog();
 //		testJob();
 //		testJob2();
 	}
 
 	/** {@inheritDoc} */
 	public final void selectionChanged(IAction action, ISelection selection) {
+	}
+
+	/**
+	 * Test des boite de dialogue
+	 */
+	private void testDialog() {
+		IDialog dialog = new IDialog() {
+			public int getButtonType() { return DLG_NO_BUTTON; }
+			public String getDefaultValue() { return "Valeur par défaut"; }
+			public String getHelp() { return "Aide"; }
+			public int getId() { return 0; }
+			public int getInputType() { return INPUT_FORBIDDEN; }
+			public int getLineType() { return SINGLE_LINE; }
+			public List<String> getLines() { return Arrays.asList("Ligne 1"); }
+			public String getMessage() { return "Message"; }
+			public String getTitle() { return "Titre"; }
+			public int getType() { return DLG_STANDARD; }
+			public int getVisibility() { return DLG_VISIBLE; }
+		};
+		IDialogUI dialogUI = DialogFactory.create(dialog);
+		dialogUI.open();
+		System.err.println(dialogUI.getDialogResult());
 	}
 
 	/**

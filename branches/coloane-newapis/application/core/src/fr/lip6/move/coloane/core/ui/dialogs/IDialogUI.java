@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-import fr.lip6.move.coloane.interfaces.IDialogResult;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 /**
  * Interface pour les objet boites de dialogue
  */
-public interface IDialog {
+public interface IDialogUI {
 
 	/** Pour les boites de dialogue simples */
 	int TERMINATED_OK = 1;
@@ -29,8 +29,7 @@ public interface IDialog {
 	void addChoice(String choice);
 
 	/**
-	 * Retourne les resultat de la boite de dialogue
-	 * @return
+	 * @return les resultats de la boite de dialogue
 	 */
-	IDialogResult getDialogResult();
+	IDialogAnswer getDialogResult();
 }

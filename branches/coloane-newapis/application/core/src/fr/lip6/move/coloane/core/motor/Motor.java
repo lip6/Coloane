@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.logging.Logger;
@@ -402,8 +403,39 @@ public final class Motor {
 					} catch (ApiException e) {
 						return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
 					}
+					return Status.OK_STATUS;
+				} else {
+					return new Status(IStatus.ERROR, "coloane", "Current session not found"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				return Status.OK_STATUS;
+			}
+		};
+
+		job.setPriority(Job.SHORT);
+		job.setSystem(true);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
+	}
+
+	/**
+	 * Envoi d'une réponse à une boite de dialogue
+	 * @param dialogAnswer réponse à envoyer
+	 */
+	public void sendDialogAnswer(final IDialogAnswer dialogAnswer) {
+		Job job = new Job("Send DialogAnswer") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				ISession currentSession = SessionManager.getInstance().getCurrentSession();
+				if (currentSession != null) {
+					LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
+					try {
+						((Session) currentSession).sendDialogAnswer(dialogAnswer);
+					} catch (ApiException e) {
+						return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
+					}
+					return Status.OK_STATUS;
+				} else {
+					return new Status(IStatus.ERROR, "coloane", "Current session not found"); //$NON-NLS-1$ //$NON-NLS-2$
+				}
 			}
 		};
 

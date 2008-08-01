@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.ArrayList;
@@ -281,5 +282,17 @@ public class Session implements ISession {
 			return;
 		}
 		apiSession.invalidModel();
+	}
+
+	/**
+	 * Envoi la réponse a une boite de dialogue
+	 * @param dialogAnswer réponse à la boite de dialogue
+	 * @throws ApiException En cas d'erreur de l'api
+	 */
+	public final void sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
+		if (apiSession == null) {
+			return;
+		}
+		apiSession.sendDialogAnswer(dialogAnswer);
 	}
 }

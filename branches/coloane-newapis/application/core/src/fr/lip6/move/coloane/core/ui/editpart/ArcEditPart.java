@@ -5,9 +5,9 @@ import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
-import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
+import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 

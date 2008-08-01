@@ -7,10 +7,11 @@ import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
-import fr.lip6.move.coloane.core.ui.dialogs.IDialog;
+import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
@@ -169,18 +170,17 @@ public final class UserInterface {
 
 	/**
 	 * Affichage d'une boite de dialogue
-	 * @param dialogCom L'objet contenant toutes les informations sur la boite de dialogue a afficher
-	 * @throws UIException
+	 * @param dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
-	public static void drawDialog(IDialogCom dialogCom) throws UIException {
+	public void drawDialog(IDialog dialog) {
 		// Factory de boite de dialogue
-		IDialog dialog = DialogFactory.create(dialogCom);
+		IDialogUI dialogUI = DialogFactory.create(dialog);
 
 		// Ouverture de la boite de dialogue
-		dialog.open();
+		dialogUI.open();
 
 		// Capture des resultats
-		Com.getInstance().sendDialogAnswers(dialog.getDialogResult());
+		Motor.getInstance().sendDialogAnswer(dialogUI.getDialogResult());
 	}
 
 	/**
