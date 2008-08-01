@@ -18,6 +18,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * Color preference page
+ */
 public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private ColorFieldEditor nodeColorEditor;
@@ -96,10 +99,8 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		arcColorEditor.loadDefault();
 		arcColorEditor1.loadDefault();
 	}
-	/**
-	 * Method declared on IPreferencePage. Save the
-	 * author name to the preference store.
-	 */
+
+	/** {@inheritDoc} */
 	@Override
 	public final boolean performOk() {
 		nodeColorEditor.store();
@@ -112,8 +113,8 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 
 	/**
 	 * Return a new Color based on preference string "r,g,b"
-	 * @param key
-	 * @return Color
+	 * @param key color
+	 * @return Color object Color
 	 */
 	public static Color setColor(String key) {
 		String s = Coloane.getInstance().getPreference(key);
