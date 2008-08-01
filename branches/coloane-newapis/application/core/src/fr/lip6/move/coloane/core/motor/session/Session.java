@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
+import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
@@ -270,7 +271,11 @@ public class Session implements ISession {
 			return;
 		}
 		LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
-		apiSession.askForService(service, getActiveOptions(), graph);
+		IGraph emptyGraph = null;
+		if (service.getOutputFormalism() != null) {
+			emptyGraph = new GraphModel(service.getOutputFormalism());
+		}
+		apiSession.askForService(service, getActiveOptions(), graph, emptyGraph);
 	}
 
 	/**
