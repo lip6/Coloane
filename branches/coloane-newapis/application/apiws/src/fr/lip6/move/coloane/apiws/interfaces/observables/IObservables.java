@@ -31,4 +31,10 @@ public interface IObservables {
 
 	/** Demande un nouveau model */
 	Integer REQUEST_NEW_GRAPH = 8;
+
+	/**
+	 * Récupére le type de l'observable
+	 * @return le type de de l'observable
+	 */
+	Integer getTypeObservable();
 }

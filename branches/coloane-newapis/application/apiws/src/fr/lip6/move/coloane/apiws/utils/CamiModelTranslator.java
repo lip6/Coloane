@@ -1,25 +1,34 @@
 package fr.lip6.move.coloane.apiws.utils;
 
-import java.util.Vector;
-
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class CamiModelTranslator {
+import java.util.List;
+import java.util.Vector;
+
+import org.eclipse.draw2d.geometry.Point;
+
+/**
+ * Cette classe permet de traduire un model en CAMI.
+ */
+public final class CamiModelTranslator {
 
 	private static final int MAXLENGHT = 255;
+
+	/**
+	 * Constructeur vide
+	 */
+	private CamiModelTranslator() { }
 
 	/**
 	 * Traduction d'un modèle en vecteur de commandes CAMI
 	 * @param model Le modèle à convertir
 	 * @return Un vecteur de chaines de caractères (commandes CAMI)
 	 */
-	public static Vector<String> translateModel(IGraph model) {
-		Vector<String> toReturn = new Vector<String>();
+	public static List<String> translateModel(IGraph model) {
+		List<String> toReturn = new Vector<String>();
 
 		// Ajout du noeud du modele
 		toReturn.add(new String("CN(3:net,1)")); //$NON-NLS-1$
@@ -47,8 +56,8 @@ public class CamiModelTranslator {
 	 * @param arc L'arc à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateArc(IArc arc) {
-		Vector<String> toReturn = new Vector<String>();
+	private static List<String> translateArc(IArc arc) {
+		List<String> toReturn = new Vector<String>();
 
 		// traduction de la partie principale
 		StringBuffer buffer = new StringBuffer();
@@ -77,8 +86,8 @@ public class CamiModelTranslator {
 	 * @param attribute L'attribut à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateAttribute(IAttribute attribute) {
-		Vector<String> toReturn = new Vector<String>();
+	private static List<String> translateAttribute(IAttribute attribute) {
+		List<String> toReturn = new Vector<String>();
 		String attributeValue = attribute.getValue();
 
 		// Si la valeur de l'attribut est vide... on retourne
@@ -112,7 +121,7 @@ public class CamiModelTranslator {
 					buffer.append(1 + ","); // Archaisme de Framekit //$NON-NLS-1$
 					buffer.append(valueTable[i].length() + ":" + valueTable[i]); //$NON-NLS-1$
 					buffer.append(")"); //$NON-NLS-1$
-					toReturn.addElement(buffer.toString());
+					((Vector<String>) toReturn).addElement(buffer.toString());
 				} else {
 					int start = 0;
 					int end = MAXLENGHT;
@@ -126,7 +135,7 @@ public class CamiModelTranslator {
 						buffer.append(1 + ","); // archaisme de Framekit //$NON-NLS-1$
 						buffer.append(sub.length() + ":" + sub); //$NON-NLS-1$
 						buffer.append(")"); //$NON-NLS-1$
-						toReturn.addElement(buffer.toString());
+						((Vector<String>) toReturn).addElement(buffer.toString());
 
 						start += MAXLENGHT;
 						end += MAXLENGHT;
@@ -140,7 +149,7 @@ public class CamiModelTranslator {
 					buffer.append(1 + ","); // archaisme de Framekit //$NON-NLS-1$
 					buffer.append(sub.length() + ":" + sub); //$NON-NLS-1$
 					buffer.append(")"); //$NON-NLS-1$
-					toReturn.addElement(buffer.toString());
+					((Vector<String>) toReturn).addElement(buffer.toString());
 				}
 			}
 
@@ -160,11 +169,11 @@ public class CamiModelTranslator {
 
 	/**
 	 * Traduction d'un noeud du modèle en commandes CAMI
-	 * @param arc Le noeud à convertir
+	 * @param node Le noeud à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateNode(INode node) {
-		Vector<String> toReturn = new Vector<String>();
+	private static List<String> translateNode(INode node) {
+		List<String> toReturn = new Vector<String>();
 		toReturn.add(new String("CN(" + node.getNodeFormalism().getName().length() + ":" + node.getNodeFormalism().getName() + "," + node.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		toReturn.add(new String("PO(" + node.getId() + "," + node.getGraphicInfo().getLocation().x + "," + node.getGraphicInfo().getLocation().y + ")"));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 

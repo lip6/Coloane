@@ -12,14 +12,12 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObserva
 /**
  * Cette classe permet de créer les différents observables possibles.
  */
-public class ObservableFactory {
+public final class ObservableFactory {
 
 	/**
 	 * Constructeur vide
 	 */
-	public ObservableFactory() {
-
-	}
+	private ObservableFactory() { }
 
 	/**
 	 * Crée un observable pour l'événement: récéption d'une boîte de dialogue
