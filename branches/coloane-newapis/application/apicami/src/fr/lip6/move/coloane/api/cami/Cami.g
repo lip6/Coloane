@@ -26,6 +26,7 @@ import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
 import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 	
 import java.util.Map;
 import java.util.logging.Logger;
@@ -286,7 +287,7 @@ state_service
 
 ko_message
 	:
-	'KO(1' mess=CAMI_STRING ',' severity=number ')' {
+	'KO(1' mess=CAMI_STRING ',' severity=NUMBER ')' {
 		// TODO: Differencier les KOs (1 2 ou 3)
 		// TODO: Traiter le dernier argument du KO
 		LOGGER.warning("Reception d'un message asynchrone");
@@ -359,7 +360,7 @@ special_message
 receive_results
 	:	
 	'DR()'
-	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=number ')' {}
+	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {}
 	(	state_service {}
 	|	special_message {}
 	|	warning_message {}
@@ -370,7 +371,7 @@ receive_results
 /* Description d'un résultats */
 result	
 	:	
-	'DE(' set_name=CAMI_STRING ',' set_type=number ')'
+	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')'
 	( result_body {} )+
 	'FE()' {}
 	;
@@ -396,25 +397,25 @@ textual_result
 /* Changement d'un attribut */
 attribute_change
 	:	
-	'WE(' id=number ',' attribute_name=CAMI_STRING ',' new_value=CAMI_STRING ')' {}
+	'WE(' id=NUMBER ',' attribute_name=CAMI_STRING ',' new_value=CAMI_STRING ')' {}
 	;
 
 /* Mise en valeur d'un attribut */
 attribute_outline
 	:	
-	'MT(' id=number ',' attribute_name=CAMI_STRING ',' begin=number? ',' end=number? ')' {}
+	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' {}
 	;
 
 /* Désignation d'un objet */
 object_designation
 	:
-	'RO(' id=number ')' {}		
+	'RO(' id=NUMBER ')' {}		
 	;
 
 /* Mise en valeur d'un objet */
 object_outline
 	:
-	'ME(' id=number ')' {}
+	'ME(' id=NUMBER ')' {}
 	;
 
 /* Création d'un objet */
@@ -427,8 +428,8 @@ object_creation
 
 /* Suppression d'un objet */
 object_deletion
-	:	'SU(' id=number ')' {}
- 	|	'SI(' page_id=number ',' id=number ')' {}
+	:	'SU(' id=NUMBER ')' {}
+ 	|	'SI(' page_id=NUMBER ',' id=NUMBER ')' {}
  	;
  	
 /* --------------------------------------- */
@@ -452,23 +453,23 @@ syntactic
 /* Description d'un noeud */
 node
 	:	
-	'CN(' CAMI_STRING ',' number ')'
+	'CN(' CAMI_STRING ',' NUMBER ')'
 	;
 
 /* Description d'une boite */
 box	:
-	'CB(' CAMI_STRING ',' number ',' number ')'
+	'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
 	;
 
 /* Description d'un arc */
 arc	:
-	'CA(' CAMI_STRING ',' number ',' number ',' number ')'
+	'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
 	;
 
 /* Description d'un attribut */
 attribute
-	:	'CT(' CAMI_STRING ',' number ',' CAMI_STRING ')'
-	|	'CM(' CAMI_STRING ',' number ',' number ',' number ',' CAMI_STRING ')'
+	:	'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
+	|	'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
 	;
 
 /* Description esthétique */
@@ -479,21 +480,21 @@ aestetic
 
 /* Position d'un objet */
 object_position
-	:	'PO(' id=number ',' h_distance=number ',' v_distance=number ')'
-	|	'pO(' id=number ',' h_distance=number ',' v_distance=number ')'
-	|	'PO(-1,' id=number ',' left=number ',' right=number ',' top=number ',' bottom=number')'
+	:	'PO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
+	|	'pO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
+	|	'PO(-1,' id=NUMBER ',' left=NUMBER ',' right=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
 	;
 
 /* Position d'un attribut */
 text_position
 	:	
-	'PT(' id=number ',' name_attr=CAMI_STRING ',' h_distance=number ',' v_distance=number ')'
+	'PT(' id=NUMBER ',' name_attr=CAMI_STRING ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
 	;
 
 /* Position des points d'inflexion */
 intermediary_point
 	:	
-	'PI(' number ',' number ',' number ')'
+	'PI(' NUMBER ',' NUMBER ',' NUMBER ')'
 	;
 	
 /* --------------------------------------- */
@@ -517,10 +518,10 @@ dialog_definition
 dialog_creation
 	@init { List<String> ce = new ArrayList<String>();}
 	:
-	'CE(' dialog_id=number ',' dialog_type=number ',' 
-	buttons_type=number ','  window_title=CAMI_STRING ',' 
+	'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' 
+	buttons_type=NUMBER ','  window_title=CAMI_STRING ',' 
 	help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' 
-	input_type=number ',' line_type=number ',' 
+	input_type=NUMBER ',' line_type=NUMBER ',' 
 	default_value=CAMI_STRING? ')' {
 	
 		ce.add($dialog_id.text);
@@ -531,54 +532,48 @@ dialog_creation
 		ce.add($title_or_message.text);
 		ce.add($input_type.text);
 		ce.add($line_type.text);
-		if ($default_value != null) { ce.add($default_value.text); } else { ce.Add(null); }
+		if ($default_value != null) { ce.add($default_value.text); } else { ce.add(null); }
 		
 		// Construction de l'objet boite de dialogue
 		IDialog dialog = CamiObjectBuilder.buildDialog(ce);
 		// Ajout de la boite de dialogue à la liste
-		$dialog_definition::dialogs.add(dialog};
+		$dialog_definition::dialogs.add(dialog);
 	}
 	;
 
 /* ??? */
 next_dialog
 	:
-	'DS(' dialog_id=number ',' line=CAMI_STRING ')' {}
+	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' {}
 	;
 
 /* Affiche la boite de dialogue */
 display_dialog
 	:
-	'AD(' dialog_id=number ')' {}
+	'AD(' dialog_id=NUMBER ')' {}
 	;
 
 /* Cache la boite de dialogue */
 hide_dialog
 	:
-	'HD(' dialog_id=number ')' {}
+	'HD(' dialog_id=NUMBER ')' {}
 	;
 
 /* Destruction de la boite de dialogue */	
 destroy_dialog
 	:
-	'DG(' dialog_id=number ')' {}
+	'DG(' dialog_id=NUMBER ')' {}
 	;
 
 // Deprecated
 interactive_response
 	:
-	'MI(' number ',' number ')'
+	'MI(' NUMBER ',' NUMBER ')'
 	;
 
 /* --------------------------------------- */
 /* Divers objets                           */
 /* --------------------------------------- */
-
-number
-	returns [int value]
-	:
-	NUMBER {value = Integer.parseInt($NUMBER.text);}
-	;
 
 CAMI_STRING
 	@init{int nbToRead = 0;}

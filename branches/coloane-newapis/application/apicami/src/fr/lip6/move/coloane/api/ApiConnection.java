@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ObservableFactory;
+import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
 import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
@@ -85,7 +86,7 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("ISession", ObservableFactory.getNewSessionObservable());
 		this.hashObservable.put("IReceptResult", ObservableFactory.getNewReceptResultObservable());
 		this.hashObservable.put("IBrutalInterrupt", ObservableFactory.getNewBrutalInterruptObservable());
-		//this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
+		this.hashObservable.put("IReceptDialog", ObservableFactory.getNewReceptDialogObservable());
 		this.hashObservable.put("IDisconnect", ObservableFactory.getNewCloseConnectionObservable());
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
@@ -220,7 +221,10 @@ public class ApiConnection implements IApiConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceptDialogObserver(IReceptDialogObserver o, boolean createThread) {
-		// TODO ???
+		LOGGER.fine("Enregistrement d'un observer sur la reception des boites de dialogues");
+		ReceptDialogObservable observable = (ReceptDialogObservable) this.hashObservable.get("IReceptDialog");
+		observable.addObserver(o);
+		observable.setCreateThread(createThread);
 	}
 
 	/**

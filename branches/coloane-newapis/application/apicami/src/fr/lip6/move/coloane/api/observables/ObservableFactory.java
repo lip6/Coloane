@@ -59,7 +59,7 @@ public final class ObservableFactory {
 	 * Création d'un observable pour la réception d'une boite de dialog en provenance de FrameKit
 	 * @return L'observable fraîchement créé
 	 */
-	public static ReceptDialogObservable getNewreceptDialogObservable() {
+	public static ReceptDialogObservable getNewReceptDialogObservable() {
 		return new ReceptDialogObservable();
 	}
 
