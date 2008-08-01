@@ -66,9 +66,9 @@ public class Speaker implements ISpeaker {
 			//System.out.println("Adresse: " + "http://" + ipServer + ":" + portServer + cheminServer);
 			//stub = new WrapperStub("http://" + ipServer + ":" + portServer + cheminServer);
 			stub = new WrapperStub("http://izanami.rsr.lip6.fr:8081/axis2/services/Wrapper");
-			//Options op = stub._getServiceClient().getOptions();
-			//op.setTimeOutInMilliSeconds(120000);
-			//stub._getServiceClient().setOptions(op);
+			org.apache.axis2.client.Options op = stub._getServiceClient().getOptions();
+			op.setTimeOutInMilliSeconds(120000);
+			stub._getServiceClient().setOptions(op);
 
 			this.listObservables = listObservables;
 			this.connection = connection;

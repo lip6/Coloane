@@ -300,6 +300,7 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException {
+
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
 			return;
@@ -551,6 +552,14 @@ public class ApiSession implements IApiSession {
 	 */
 	public final boolean isInvalidate() {
 		return invalidateTheModel;
+	}
+
+	/**
+	 * Initialise le invalidateTheModel
+	 * @param invalidateTheModel la nouvelle valeur
+	 */
+	public final void setInvalidate(boolean invalidateTheModel) {
+		this.invalidateTheModel = invalidateTheModel;
 	}
 
 }
