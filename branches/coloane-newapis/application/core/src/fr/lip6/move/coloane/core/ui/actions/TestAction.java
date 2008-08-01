@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
@@ -51,22 +52,26 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	 * Test des boite de dialogue
 	 */
 	private void testDialog() {
-		IDialog dialog = new IDialog() {
+		final IDialog dialog = new IDialog() {
 			public int getButtonType() { return DLG_OK_CANCEL; }
 			public String getDefaultValue() { return "Valeur par défaut"; } //$NON-NLS-1$
 			public String getHelp() { return "Aide"; } //$NON-NLS-1$
 			public int getId() { return 0; }
 			public int getInputType() { return INPUT_AUTHORIZED; }
 			public int getLineType() { return MULTI_LINE_WITH_SINGLE_SELECTION; }
-			public List<String> getLines() { return Arrays.asList("Ligne 1"); } //$NON-NLS-1$
+			public List<String> getLines() { return Arrays.asList("Ligne 1", "Ligne 2"); } //$NON-NLS-1$ //$NON-NLS-2$
 			public String getMessage() { return "Message"; } //$NON-NLS-1$
 			public String getTitle() { return "Titre"; } //$NON-NLS-1$
 			public int getType() { return DLG_STANDARD; }
 			public int getVisibility() { return DLG_VISIBLE; }
 		};
-		IDialogUI dialogUI = DialogFactory.create(dialog);
-		dialogUI.open();
-		System.err.println(dialogUI.getDialogResult());
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				IDialogUI dialogUI = DialogFactory.create(dialog);
+				dialogUI.open();
+				System.err.println(dialogUI.getDialogResult());
+			}
+		});
 	}
 
 	/**

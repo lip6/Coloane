@@ -172,15 +172,19 @@ public final class UserInterface {
 	 * Affichage d'une boite de dialogue
 	 * @param dialog L'objet contenant toutes les informations sur la boite de dialogue a afficher
 	 */
-	public void drawDialog(IDialog dialog) {
-		// Factory de boite de dialogue
-		IDialogUI dialogUI = DialogFactory.create(dialog);
+	public void drawDialog(final IDialog dialog) {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				// Factory de boite de dialogue
+				IDialogUI dialogUI = DialogFactory.create(dialog);
 
-		// Ouverture de la boite de dialogue
-		dialogUI.open();
+				// Ouverture de la boite de dialogue
+				dialogUI.open();
 
-		// Capture des resultats
-		Motor.getInstance().sendDialogAnswer(dialogUI.getDialogResult());
+				// Capture des resultats
+				Motor.getInstance().sendDialogAnswer(dialogUI.getDialogResult());
+			}
+		});
 	}
 
 	/**

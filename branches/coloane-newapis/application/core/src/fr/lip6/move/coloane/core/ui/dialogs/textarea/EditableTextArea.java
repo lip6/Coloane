@@ -18,7 +18,7 @@ public class EditableTextArea extends TextArea {
 		super(parent, TextArea.INPUT_AUTHORIZED, multiLine, defaultValue);
 
 		if (multiLine == TextArea.SINGLE_LINE) {
-			setTextWidget(new Text(parent, SWT.SINGLE));
+			setTextWidget(new Text(parent, SWT.SINGLE | SWT.BORDER));
 		} else {
 			parent.getParent().setSize(400, 300);
 			setTextWidget(new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL));
