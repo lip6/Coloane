@@ -36,6 +36,7 @@ public interface IDialogAnswer {
 	/**
 	 * Récupere la liste d'objets faisant parti de la réponse.
 	 * @return La liste d'objets faisant parti de la réponse.
+	 * @deprecated
 	 */
 	List<Integer> getObjects();
 
