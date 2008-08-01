@@ -126,9 +126,9 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 		// Selon le type de retour
 		int answerType;
 		if (buttonId == OK) {
-			answerType = TERMINATED_OK;
+			answerType = IDialogAnswer.BUTTON_OK;
 		} else {
-			answerType = TERMINATED_CANCEL;
+			answerType = IDialogAnswer.BUTTON_CANCEL;
 		}
 
 		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?

@@ -57,8 +57,8 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 			public String getDefaultValue() { return "Valeur par défaut"; } //$NON-NLS-1$
 			public String getHelp() { return "Aide"; } //$NON-NLS-1$
 			public int getId() { return 0; }
-			public int getInputType() { return INPUT_FORBIDDEN; }
-			public int getLineType() { return MULTI_LINE_WITH_MULTI_SELECTION; }
+			public int getInputType() { return INPUT_AND_ABORT_AUTHORIZED; }
+			public int getLineType() { return MULTI_LINE_WITH_SINGLE_SELECTION; }
 			public List<String> getLines() { return Arrays.asList("Ligne 1", "Ligne 2", "Ligne 3", "Ligne 4", "Ligne 5"); } //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 			public String getMessage() { return "Message"; } //$NON-NLS-1$
 			public String getTitle() { return "Titre"; } //$NON-NLS-1$

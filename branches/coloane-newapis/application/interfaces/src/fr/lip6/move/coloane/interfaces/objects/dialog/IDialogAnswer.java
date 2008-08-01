@@ -9,6 +9,14 @@ import java.util.List;
  */
 public interface IDialogAnswer {
 
+	/** Pour les boites de dialogue simples */
+	int BUTTON_OK = 1;
+	int BUTTON_CANCEL = 2;
+
+	/** Pour les boites de dialogues interactives */
+	int BUTTON_ABORT = 1;
+	int BUTTON_QUIT = 2;
+
 	/**
 	 * Récupére l'identifiant de la boîte de dialogue à la quel on répond.
 	 * @return L'identifiant de la boîte de dialogue à la quel on répond.

@@ -7,14 +7,6 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
  */
 public interface IDialogUI {
 
-	/** Pour les boites de dialogue simples */
-	int TERMINATED_OK = 1;
-	int TERMINATED_CANCEL = 2;
-
-	/** Pour les boites de dialogues interactives */
-	int TERMINATED_ABORT = 1;
-	int TERMINATED_QUIT = 2;
-
 	/**
 	 * Ouverture et affichage d'une boite de dialogue
 	 * @return OK ou CANCEL
