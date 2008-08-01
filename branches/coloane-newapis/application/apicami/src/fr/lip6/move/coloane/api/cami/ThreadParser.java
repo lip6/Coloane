@@ -65,7 +65,7 @@ public class ThreadParser extends Thread {
 				// réinitialiser le parser
 				parser.setTokenStream(tokens);
 
-				parser.command();
+				parser.main();
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
