@@ -441,7 +441,7 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setSystem(true);
-		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+//		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
 }
