@@ -58,12 +58,11 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 			public String getHelp() { return "Aide"; } //$NON-NLS-1$
 			public int getId() { return 0; }
 			public int getInputType() { return INPUT_AUTHORIZED; }
-			public int getLineType() { return MULTI_LINE_WITH_SINGLE_SELECTION; }
+			public int getLineType() { return SINGLE_LINE; }
 			public List<String> getLines() { return Arrays.asList("Ligne 1", "Ligne 2"); } //$NON-NLS-1$ //$NON-NLS-2$
 			public String getMessage() { return "Message"; } //$NON-NLS-1$
 			public String getTitle() { return "Titre"; } //$NON-NLS-1$
-			public int getType() { return DLG_STANDARD; }
-			public int getVisibility() { return DLG_VISIBLE; }
+			public int getType() { return DLG_ERROR; }
 		};
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {

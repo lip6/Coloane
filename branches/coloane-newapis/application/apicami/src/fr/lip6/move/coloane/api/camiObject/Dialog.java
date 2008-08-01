@@ -52,9 +52,6 @@ public final class Dialog implements IDialog {
 	/** Valeur par defaut */
 	private String defaut = "";
 
-	/** la visibilité de la boite de dialogue*/
-	private int visibility = 1;
-
 	/**la liste des lignes*/
 	private List<String> lines;
 
@@ -141,17 +138,5 @@ public final class Dialog implements IDialog {
 	 */
 	public int getType() {
 		return this.type;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getVisibility() {
-		return this.visibility;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setVisibility(int visibility) {
-		this.visibility = visibility;
 	}
 }

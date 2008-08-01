@@ -31,8 +31,6 @@ public class Dialog implements IDialog {
 
     private List<String> lines;
 
-    private int visibility;
-
     /**
      * Constructeur
      * @param dialog la boîte de dialogue reçu de la part du wrapper
@@ -47,7 +45,6 @@ public class Dialog implements IDialog {
         this.inputType = dialog.getInputType();
         this.lineType = dialog.getLineType();
         this.defaultValue = dialog.getDefaultValue();
-        this.visibility = IDialog.DLG_VISIBLE;
 
         this.lines = new ArrayList<String>();
         if (dialog.getLine() != null) {
@@ -125,13 +122,6 @@ public class Dialog implements IDialog {
 	 */
 	public final int getButtonType() {
 		return typeButton;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final int getVisibility() {
-		return visibility;
 	}
 
 }

@@ -70,7 +70,7 @@ public class DialogAnswer implements IDialogAnswer {
 		sb.append(" * modified : ").append(modified).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append(" * message : "); //$NON-NLS-1$
 		for (String line : answer) {
-			sb.append("\n      ").append(line); //$NON-NLS-1$
+			sb.append("\n").append(line); //$NON-NLS-1$
 		}
 		return sb.toString();
 	}
