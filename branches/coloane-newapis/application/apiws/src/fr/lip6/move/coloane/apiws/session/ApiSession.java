@@ -60,8 +60,6 @@ public class ApiSession implements IApiSession {
 
 	private MMenu menus;
 
-	private IGraph newGraph;
-
 	/**
 	 * Constructeur
 	 * @param sessionController le gestionnaire de sessions à utiliser
@@ -296,14 +294,14 @@ public class ApiSession implements IApiSession {
 		LOGGER.finer("Demande l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		speaker.answerToDialogBox(answer);
 
-		LOGGER.fine("Envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
+		LOGGER.fine("Fin de l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, IGraph model) throws ApiException {
+	public final void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException {
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
 			return;
@@ -333,7 +331,7 @@ public class ApiSession implements IApiSession {
 
 			/////////////////////////////
 			Model theModel = new Model();
-			theModel.setCami(join(CamiModelTranslator.translateModel(model), "\n"));
+			theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
 			theModel.setParsing(true);
 			/////////////////////////////
 
@@ -372,7 +370,7 @@ public class ApiSession implements IApiSession {
 			this.invalidateTheModel = false;
 
 			// Notifie la fin de l'exécution du service demander
-			sessionController.notifyEndResult(this, result, newGraph);
+			sessionController.notifyEndResult(this, result, outputModel);
 
 		}
 
@@ -531,8 +529,6 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void setNewGraph(IGraph newGraph) {
 		// TODO Auto-generated method stub
-		this.newGraph = newGraph;
-		this.notify();
 	}
 
 	/**
