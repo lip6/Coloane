@@ -6,6 +6,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
+/**
+ * Zone de texte avec une liste d'élement selectionnable
+ */
 public class ListTextArea extends TextArea {
 
 	/**
@@ -32,8 +35,8 @@ public class ListTextArea extends TextArea {
 
 	/** {@inheritDoc} */
 	@Override
-	public final ArrayList<String> getText() {
-		ArrayList<String> result = new ArrayList<String>();
+	public final java.util.List<String> getText() {
+		java.util.List<String> result = new ArrayList<String>();
 
 		for (String selection : ((List) getTextWidget()).getSelection()) {
 			result.add(selection);

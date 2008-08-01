@@ -113,7 +113,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 
 		textArea = TextAreaFactory.create(composite, inputType, lineType, defaultValue);
 		if (textArea instanceof ListTextArea) {
-			for (String choice : choices) { textArea.addChoice(choice); }
+			for (String choice : choices) { ((ListTextArea) textArea).addChoice(choice); }
 		}
 
 		return composite;
@@ -140,14 +140,6 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 		dialogAnswer = new DialogAnswer(id, answerType, hasbeenmodified, textArea.getText());
 
 		this.close();
-	}
-
-	/** {@inheritDoc} */
-	public final void addChoice(String choice) {
-		choices.add(choice);
-		if (textArea != null && textArea instanceof ListTextArea) {
-			textArea.addChoice(choice);
-		}
 	}
 
 	/** {@inheritDoc} */

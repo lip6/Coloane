@@ -14,13 +14,6 @@ public interface IDialogUI {
 	int open();
 
 	/**
-	 * Ajoute un item a la liste de la boite de dialogue
-	 * Valable seulement pour les boites de dialogue a liste
-	 * @param choice La nouveau choix
-	 */
-	void addChoice(String choice);
-
-	/**
 	 * @return les resultats de la boite de dialogue
 	 */
 	IDialogAnswer getDialogResult();

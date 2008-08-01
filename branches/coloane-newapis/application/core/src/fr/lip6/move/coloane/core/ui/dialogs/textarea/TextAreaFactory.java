@@ -9,9 +9,12 @@ import org.eclipse.swt.widgets.Composite;
  * En fonction des parametres inputType et multiLine, la zone de texte differe
  *
  */
-public class TextAreaFactory {
+public final class TextAreaFactory {
 
-	protected TextAreaFactory() { }
+	/**
+	 * Classe statique
+	 */
+	private TextAreaFactory() { }
 
 	/**
 	 * Construction de la zone de texte

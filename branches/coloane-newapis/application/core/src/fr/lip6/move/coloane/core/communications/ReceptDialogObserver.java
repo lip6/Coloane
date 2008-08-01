@@ -10,7 +10,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 public class ReceptDialogObserver implements IReceptDialogObserver {
 
 	/** {@inheritDoc} */
-	public void update(IDialog dialog) {
+	public final void update(IDialog dialog) {
 		UserInterface.getInstance().drawDialog(dialog);
 	}
 
