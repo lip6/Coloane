@@ -251,15 +251,41 @@ public final class FormalismManager {
 	/**
 	 * Cette methode retourne un formalisme à partir de son nom
 	 * @param name Le nom du formalism qu'on cherche
-	 * @return Le formalisme attendu ou <code>null</code> sinon
+	 * @return Le IFormalism
+	 * @throws IllegalArgumentException si le formalisme n'est pas connu
 	 */
-	public IFormalism getFormalismByName(String name) {
+	public IFormalism getFormalismByName(String name) throws IllegalArgumentException {
 		for (IFormalism form : formalisms) {
 			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;
 			}
 		}
-		return null;
+		LOGGER.warning("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Cette methode retourne un formalisme à partir de son nom
+	 * @param fkName Le nom du formalism qu'on cherche
+	 * @return Le IFormalism
+	 * @throws IllegalArgumentException si le formalisme n'est pas connu
+	 */
+	public IFormalism getFormalismByFkName(String fkName) throws IllegalArgumentException {
+		// TODO : meilleur gestion du lien formalisme/coloane <-> formalisme/framekit
+		if (fkName.toLowerCase().equals("ami-net")) { //$NON-NLS-1$
+			for (IFormalism form : formalisms) {
+				if ("Colored Petri Net".toLowerCase().equals(form.getName().toLowerCase())) { //$NON-NLS-1$
+					return form;
+				}
+			}
+		}
+		for (IFormalism form : formalisms) {
+			if (fkName.toLowerCase().equals(form.getFKName().toLowerCase())) {
+				return form;
+			}
+		}
+		LOGGER.warning("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

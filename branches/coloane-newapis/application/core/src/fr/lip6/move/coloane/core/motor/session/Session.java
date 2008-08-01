@@ -2,10 +2,12 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
@@ -273,7 +275,8 @@ public class Session implements ISession {
 		LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
 		IGraph emptyGraph = null;
 		if (service.getOutputFormalism() != null) {
-			emptyGraph = new GraphModel(service.getOutputFormalism());
+			IFormalism form = FormalismManager.getInstance().getFormalismByFkName(service.getOutputFormalism());
+			emptyGraph = new GraphModel(form.getName());
 		}
 		apiSession.askForService(service, getActiveOptions(), graph, emptyGraph);
 	}
