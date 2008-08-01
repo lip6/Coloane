@@ -1,113 +1,97 @@
 package fr.lip6.move.coloane.api.observables;
 
-
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptDialogObserver;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
- * l'observable associé aux boites de dialogues.
+ * Observable des boites de dialogues en provenance de FrameKit
  *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
+ *
  */
+public class ReceptDialogObservable {
+	/** Liste des observeurs */
+	private List<IReceptDialogObserver> observers;
 
-public class ReceptDialogObservable  {
-
-	/** liste des observeurs */
-	private List<IReceptDialogObserver> list;
-
-	/** par defaut , ne pas créer de thread */
+	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
 
 	/**
 	 * Constructeur
 	 */
 	public ReceptDialogObservable() {
-		list = new ArrayList<IReceptDialogObserver>();
+		observers = new ArrayList<IReceptDialogObserver>();
 	}
 
 	/**
-	 * notifier avec ou sans creation d'un thread?
-	 * @param createThread true or false
+	 * {@inheritDoc}
 	 */
 	public final void setCreateThread(boolean createThread) {
 		this.createThread = createThread;
 	}
 
 	/**
-	 * abonner des observateurs a cet evenement
-	 * @param o l'observateur.
+	 * Ajout d'un observer sur cet observable
+	 * @param o L'observer
 	 */
 	public final void addObserver(IReceptDialogObserver o) {
-		this.list.add(o);
+		this.observers.add(o);
 	}
+
 	/**
 	 * Notifier tous les observers
-	 * @param dialog argument de la notification.
+	 * @param arg argument de la notification.
 	 */
-	public final void notifyObservers(IDialog dialog) {
+	public final void notifyObservers(IDialog arg) {
 		// Option sans création de thread
 		if (!this.createThread) {
-			for (int i = 0; i < this.list.size(); i++) {
-				this.list.get(i).update(dialog);
+			for (IReceptDialogObserver o : this.observers) {
+				o.update(arg);
 			}
-         //Option avec création de thread
+
+		// Option avec création de thread
 		} else {
-			ThreadNotifier thread = new ThreadNotifier(list, dialog);
-			new Thread(thread, "threadDialog").start();
+			ThreadNotifier thread = new ThreadNotifier(this.observers, arg);
+			new Thread(thread, "threadConnectionSpecialMessage").start();
 		}
-
-	}
-	/**
-	 * effacer lobservateur
-	 * @param o lobservateur
-	 */
-	public final void removeObserver(IReceptDialogObserver o) {
-     this.list.remove(o);
-
 	}
 
 	/**
-	 * Cette classe est utilisée pour créer un thread lors de la notification,
-	 * si cette option est active. cette classe est interne.
+	 * Cette classe est utilisée pour créer un thread lors de la notification, si cette option est active.<br>
+	 * Cette classe est interne.
 	 *
 	 * @author Kahina Bouarab
-     * @author Youcef Belattaf
+	 * @author Youcef Belattaf
 	 *
 	 */
-	class ThreadNotifier implements Runnable {
+	private class ThreadNotifier implements Runnable {
 		/** Liste des observeurs */
-		private List<IReceptDialogObserver> listObservers;
+		private List<IReceptDialogObserver> observers;
 
 		/** L'objet qui doit être envoyés aux observers */
-		private IDialog dialog;
+		private IDialog receptMessage;
 
 		/**
 		 * Constructeur
-		 * @param list La liste des observers
-		 * @param dialog L'objet à transmettre aux observers
+		 * @param observers La liste des observers
+		 * @param receptMenu L'objet à transmettre aux observers
 		 */
-		public ThreadNotifier(List<IReceptDialogObserver> list, IDialog dialog) {
-			this.listObservers = list;
-			this.dialog = dialog;
+		public ThreadNotifier(List<IReceptDialogObserver> observers, IDialog receptMenu) {
+			this.observers = observers;
+			this.receptMessage = receptMenu;
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */
 		public void run() {
-			for (int i = 0; i < this.listObservers.size(); i++) {
-				this.listObservers.get(i).update(this.dialog);
+			for (IReceptDialogObserver o : this.observers) {
+				o.update(this.receptMessage);
 			}
 		}
-
 	}
-
-
 }
-
-
