@@ -52,15 +52,15 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	 */
 	private void testDialog() {
 		IDialog dialog = new IDialog() {
-			public int getButtonType() { return DLG_NO_BUTTON; }
-			public String getDefaultValue() { return "Valeur par défaut"; }
-			public String getHelp() { return "Aide"; }
+			public int getButtonType() { return DLG_OK_CANCEL; }
+			public String getDefaultValue() { return "Valeur par défaut"; } //$NON-NLS-1$
+			public String getHelp() { return "Aide"; } //$NON-NLS-1$
 			public int getId() { return 0; }
-			public int getInputType() { return INPUT_FORBIDDEN; }
-			public int getLineType() { return SINGLE_LINE; }
-			public List<String> getLines() { return Arrays.asList("Ligne 1"); }
-			public String getMessage() { return "Message"; }
-			public String getTitle() { return "Titre"; }
+			public int getInputType() { return INPUT_AUTHORIZED; }
+			public int getLineType() { return MULTI_LINE_WITH_SINGLE_SELECTION; }
+			public List<String> getLines() { return Arrays.asList("Ligne 1"); } //$NON-NLS-1$
+			public String getMessage() { return "Message"; } //$NON-NLS-1$
+			public String getTitle() { return "Titre"; } //$NON-NLS-1$
 			public int getType() { return DLG_STANDARD; }
 			public int getVisibility() { return DLG_VISIBLE; }
 		};

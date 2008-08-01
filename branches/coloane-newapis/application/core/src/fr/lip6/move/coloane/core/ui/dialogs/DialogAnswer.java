@@ -65,12 +65,12 @@ public class DialogAnswer implements IDialogAnswer {
 	@Override
 	public final String toString() {
 		StringBuilder sb = new StringBuilder("Answer :\n"); //$NON-NLS-1$
-		sb.append("\tid : ").append(dialogId).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("\tbutton type : ").append(buttonType).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("\tmodified : ").append(modified).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("\tmessage : "); //$NON-NLS-1$
+		sb.append(" * id : ").append(dialogId).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" * button type : ").append(buttonType).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" * modified : ").append(modified).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" * message : "); //$NON-NLS-1$
 		for (String line : answer) {
-			sb.append("\n").append(line); //$NON-NLS-1$
+			sb.append("\n      ").append(line); //$NON-NLS-1$
 		}
 		return sb.toString();
 	}
