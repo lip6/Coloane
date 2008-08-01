@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
+import fr.lip6.move.coloane.api.observables.ReceptNewGraphObservable;
 import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 import fr.lip6.move.coloane.api.session.SessionController;
@@ -91,6 +92,7 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 		this.hashObservable.put("IReceptServiceState", ObservableFactory.getNewReceptServiceStateObservable());
+		this.hashObservable.put("IReceptNewGraph", ObservableFactory.getNewReceptServiceStateObservable());
 	}
 
 	/**
@@ -280,8 +282,10 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
-		// TODO ???
+	public final void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
+		LOGGER.fine("Enregistrement d'un observer sur pour la demande d'un nouveau modèle");
+		ReceptNewGraphObservable observable = (ReceptNewGraphObservable) this.hashObservable.get("IReceptNewGraph");
+		observable.setObserver(o);
 	}
 
 	/**
