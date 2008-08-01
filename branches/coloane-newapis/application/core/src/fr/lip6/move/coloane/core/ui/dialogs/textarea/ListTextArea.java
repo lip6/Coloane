@@ -19,9 +19,9 @@ public class ListTextArea extends TextArea {
 
 		/* Autorise-t-on les choix multiples ? */
 		if (multiLine == TextArea.MULTI_LINE_WITH_SINGLE_SELECTION) {
-			setTextWidget(new List(parent, SWT.SINGLE));
+			setTextWidget(new List(parent, SWT.SINGLE | SWT.BORDER));
 		} else {
-			setTextWidget(new List(parent, SWT.MULTI));
+			setTextWidget(new List(parent, SWT.MULTI | SWT.BORDER));
 		}
 	}
 

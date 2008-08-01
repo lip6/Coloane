@@ -76,7 +76,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 		defaultValue = dialog.getDefaultValue();
 
 		// La liste des choix
-		choices = new ArrayList<String>();
+		choices = new ArrayList<String>(dialog.getLines());
 	}
 
 
@@ -132,7 +132,10 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 		}
 
 		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?
-		boolean hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
+		boolean hasbeenmodified = false;
+		if (inputType != IDialog.INPUT_FORBIDDEN) {
+			hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
+		}
 
 		dialogAnswer = new DialogAnswer(id, answerType, hasbeenmodified, textArea.getText());
 
