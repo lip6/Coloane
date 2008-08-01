@@ -70,10 +70,11 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	 * Demande un service sur la session courante
 	 * @param service service à executer
 	 * @param options la liste des options cochés
-	 * @param model le model sur lequel invoquer le service
+	 * @param inputModel Le modèle sur lequel il faut invoquer le service
+	 * @param outputModel Le modèle qu'on est susceptible de recevoir en retour
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	void askForService(IService service, List<String> options, IGraph model) throws ApiException;
+	void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse
