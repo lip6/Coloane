@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.apiws.session;
 
-import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -64,9 +63,8 @@ public class ApiSession implements IApiSession {
 	 * Constructeur
 	 * @param sessionController le gestionnaire de sessions à utiliser
 	 * @param speaker le speaker à utiliser par la session
-	 * @param requestNewGraphObservable l'observable pour demande des nouveau graph
 	 */
-	public ApiSession(ISessionController sessionController, ISpeaker speaker, IRequestNewGraphObservable requestNewGraphObservable) {
+	public ApiSession(ISessionController sessionController, ISpeaker speaker) {
 		this.sessionDate = -1;
 		this.sessionFormalism = null;
 		this.sessionName = null;
@@ -546,6 +544,13 @@ public class ApiSession implements IApiSession {
 	public final void sendModel(IGraph model) throws ApiException {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return <code>true</code> si le model est invalidé, <code>false</code> sinon
+	 */
+	public final boolean isInvalidate() {
+		return invalidateTheModel;
 	}
 
 }

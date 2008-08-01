@@ -8,7 +8,6 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMenuObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
-import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
@@ -27,7 +26,6 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
-import fr.lip6.move.coloane.interfaces.api.observers.IRequestNewGraphObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
@@ -73,8 +71,6 @@ public class ApiConnection implements IApiConnection {
 		this.listObservables.put(IObservables.DISCONNECT, ObservableFactory.getNewDisconnectObservable());
 		this.listObservables.put(IObservables.BRUTAL_INTERRUPT, ObservableFactory.getNewBrutalInterruptObservable());
 		this.listObservables.put(IObservables.RECEPT_SERVICE_STATE, ObservableFactory.getNewReceptServiceStateObservable());
-		this.listObservables.put(IObservables.REQUEST_NEW_GRAPH, ObservableFactory.getNewRequestNewGraphObservable());
-
 
 		LOGGER.finer("Création d'une IApiConnection");
 	}
@@ -156,16 +152,6 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.finer("Supression de l'observateur d'événement: récéption d'une information le service en cours d'exécution");
 		IReceptServiceStateObservable obs = (IReceptServiceStateObservable) listObservables.get(IObservables.RECEPT_SERVICE_STATE);
 		obs.removeObserver(o);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
-		LOGGER.fine("Initialisation de l'observateur d'événement: demande un nouveau graph");
-		IRequestNewGraphObservable obs = (IRequestNewGraphObservable) listObservables.get(IObservables.REQUEST_NEW_GRAPH);
-		obs.addObserver(o);
-		obs.setCreateThread(true);
 	}
 
 	/**
@@ -287,7 +273,7 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		LOGGER.finer("Demande la creation d'une IApiSession");
-		return SessionFactory.getNewApiSession(sessionController, speaker, (IRequestNewGraphObservable) listObservables.get(IObservables.REQUEST_NEW_GRAPH));
+		return SessionFactory.getNewApiSession(sessionController, speaker);
 	}
 
 	/**
