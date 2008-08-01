@@ -23,27 +23,22 @@ import java.util.Map.Entry;
  */
 public class SessionController implements ISessionController {
 
-	/**
-	 * Represent la session active
-	 */
+	/** Représent la session active */
 	private IApiSession activeSession;
 
-	/**
-	 * Represent l'ensemle des sessions
-	 */
+	/** Représent l'ensemle des sessions */
 	private Map<String, IApiSession> listSessions;
 
-	/**
-	 * Represent la liste des observables
-	 */
+	/** Représent la liste des observables */
 	private Map<Integer, Object> listObservables;
 
+	/** Représent la connexion */
 	private ApiConnection connection;
 
 	/**
 	 * Constructeur
 	 * @param listObservables la liste des observables à notifier
-	 * @param connection la connection
+	 * @param connection la connexion
 	 */
 	public SessionController(Map<Integer, Object> listObservables, ApiConnection connection) {
 		this.activeSession = null;
@@ -99,7 +94,7 @@ public class SessionController implements ISessionController {
 		try {
 			return  this.suspendSession(activeSession);
 		} catch (ApiException e) {
-			throw new ApiException("Impossible d'ouvrire une session -> " + e.getMessage());
+			throw new ApiException("Impossible d'ouvrir la session '" + s.getName() + "' car " + e.getMessage());
 		}
 	}
 
@@ -115,7 +110,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de suspendre la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de suspendre la session '" + session.getName() + "': " + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -126,7 +121,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de reprondre la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de reprondre la session '" + session.getName() + "': " + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -138,7 +133,7 @@ public class SessionController implements ISessionController {
 		if (s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE || s.getSessionStateMachine().getState() == ISessionStateMachine.SUSPEND_SESSION_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de fermer la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de fermer la session '" + session.getName() + "': " + " etat=" + s.getSessionStateMachine().getState() + " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -150,7 +145,7 @@ public class SessionController implements ISessionController {
 		if (isActivateSession(s) && s.getSessionStateMachine().getState() == ISessionStateMachine.IDLE_STATE) {
 			return true;
 		}
-		throw new ApiException("Impossible de demander un service sur la session: idSession=" + s.getId() + " etat=" + s.getSessionStateMachine().getState() +  " activeSession=" + isActivateSession(s));
+		throw new ApiException("Impossible de demander un service sur la session '" + session.getName() + "': " + " etat=" + s.getSessionStateMachine().getState() +  " activeSession=" + isActivateSession(s));
 	}
 
 	/**
@@ -208,10 +203,7 @@ public class SessionController implements ISessionController {
 		//  S'il n'y a plus de sessions: activeSession est null
 		if (isActivateSession(closed)) {
 			this.activeSession = null;
-		} /*else { //  Sinon: activeSession est la session renvoyée par le wrapper
-			//listSessions.get(idSessionToResume).resumeSession();
-			this.activeSession = listSessions.get(idSessionToResume);
-		}*/
+		}
 
 	}
 
