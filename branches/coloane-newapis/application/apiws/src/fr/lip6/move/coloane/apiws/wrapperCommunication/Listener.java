@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.apiws.wrapperCommunication;
 
+import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.apiws.evenements.ReceptMessage;
 import fr.lip6.move.coloane.apiws.evenements.ReceptServiceState;
+import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptDialogObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservable;
@@ -36,18 +38,22 @@ public class Listener extends Thread implements IListener {
 
 	private Map<Integer, Object> listObservable = null;
 
+	private ApiConnection connection = null;
+
 	/**
 	 * Constructeur
 	 * @param auth l'objet Authentification pour identifier l'utilisateur
 	 * @param stub le stub de communication
 	 * @param listObservables la liste des observables à notifier
+	 * @param connection la connexion
 	 */
-	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables) {
+	public Listener(Authentification auth, WrapperStub stub, Map<Integer, Object> listObservables, ApiConnection connection) {
 		this.auth = auth;
 		this.stub = stub;
 		this.durePing = auth.getPeriodPing() * 1000;
 		this.stopThread = false;
 		this.listObservable = listObservables;
+		this.connection = connection;
 
 		LOGGER.finer("Création du Listener");
 	}
@@ -86,19 +92,25 @@ public class Listener extends Thread implements IListener {
 				if (message.getTraces() != null) {
 					// Parcours tous les messages et notifie l'observateur adéquat
 					for (int i = 0; i < message.getTraces().length; i++) {
-						LOGGER.fine("Récéption d'un message");
+						LOGGER.fine("Récéption d'un message : " + message.getTraces()[i].getType() + " : " + message.getTraces()[i].getMessage());
 						ReceptMessage m = new ReceptMessage(getMyType(message.getTraces()[i].getNtype()), message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 
 						// Si un message est une erreur, on notifie l'observateur adéquat et arrête on arrête le Listener
-						/*if (getMyType(message.getTraces()[i].getNtype()) == IReceptMessage.ERROR_MESSAGE) {
-							LOGGER.fine("Récéption d'une erreur");
-							// Notifie mon observeur d'erreur pour qu'il ferme la connexion
-							((IMyReceptErrorObservable) listObservable.get(IObservables.RECEPT_ERROR)).notifyObservers(message.getTraces()[i].getMessage());
-							// Notifie les observateurs d'événement: récéption d'une erreur.
-							((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(message.getTraces()[i].getMessage());
-							stopper();
-						}*/
+						if (getMyType(message.getTraces()[i].getNtype()) == IReceptMessage.ERROR_MESSAGE) {
+							// Test si l'erreur grave est déjà traiter i.e. la connexion est déjà fermée
+							if (connection.isConnectionClosedByError()) {
+								LOGGER.fine("Récéption d'une erreur via le listener qui est déjà traité: " + message.getTraces()[i].getType() + " : " + message.getTraces()[i].getMessage());
+							} else { // Sinon c'est une erreur grave "asynchronne" du wrapper
+								LOGGER.fine("Récéption d'une erreur via le listener qui est non traité" + message.getTraces()[i].getType() + " : " + message.getTraces()[i].getMessage());
+								// En force la fermeture de la connexion
+								connection.closeConnectionError();
+								// Notifie les observateurs d'événement: récéption d'une erreur.
+								((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(message.getTraces()[i].getMessage());
+								// On stoppe le Listener
+								stopper();
+							}
+						}
 					}
 				}
 
@@ -116,7 +128,7 @@ public class Listener extends Thread implements IListener {
 				if (message.getQts() != null) {
 					// Parcours tous les informations sur l'exécution d'un service et notifie l'observateur adéquat
 					for (int i = 0; i < message.getQts().length; i++) {
-						LOGGER.fine("Récéption d'une information sur un service");
+						LOGGER.fine("Récéption d'une information sur un service: " + message.getQts()[i].getNameQuestion() + " : " + message.getQts()[i].getMessage());
 						ReceptServiceState serviceState = new ReceptServiceState(message.getQts()[i]);
 						((IReceptServiceStateObservable) listObservable.get(IObservables.RECEPT_SERVICE_STATE)).notifyObservers(serviceState);
 					}

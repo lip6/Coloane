@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
+import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IRequestNewGraphObservable;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
@@ -32,10 +33,11 @@ public final class SessionFactory {
 	/**
 	 * Crée un nouveau gestionnaire de sessions
 	 * @param listObservables la liste des observables à notifier
+	 * @param connection la connexion
 	 * @return un nouveau gestionnaire de sessions
 	 */
-	public static ISessionController getNewSessionController(Map<Integer, Object> listObservables) {
-		return (ISessionController) new SessionController(listObservables);
+	public static ISessionController getNewSessionController(Map<Integer, Object> listObservables, ApiConnection connection) {
+		return (ISessionController) new SessionController(listObservables, connection);
 	}
 
 	/**

@@ -132,6 +132,11 @@ public class ApiSession implements IApiSession {
 
 		Session sessionOpened = null;
 
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible d'ouvrir la session: " + this.sessionName + " [connexion fermée]");
+			throw new ApiException("Impossible d'ouvrir la session '" + this.sessionName + "' car la connexion est fermée");
+		}
+
 		// Test si on peut ouvrir la session
 		if (sessionController.openSession(this)) {
 			// Met à jours l'automate de la session
@@ -163,6 +168,12 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void suspend() throws ApiException {
+
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible de suspendre la session: " + this.sessionName + " [connexion fermée]");
+			throw new ApiException("Impossible de suspendre la session '" + this.sessionName + "' car la connexion est fermée");
+		}
+
 		// Test si on peut suspendre la session
 		if (sessionController.suspendSession(this)) {
 			// Notifie la fin de la suspension de la session
@@ -175,7 +186,11 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void resume() throws ApiException {
-		// TODO Factoriser le code
+
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible de restaurer la session: " + this.sessionName + " [connexion fermée]");
+			throw new ApiException("Impossible de restaurer la session '" + this.sessionName + "' car la connexion est fermée");
+		}
 
 		// Test si la session est déjà active
 		if (sessionController.isActivateSession(this)) {
@@ -208,13 +223,14 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void close() throws ApiException {
-		if (!sessionController.isConnectionOpened()) {
-			LOGGER.warning("Impossible de fermer la session: " + sessionName + " [connexion fermer]");
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible de fermer la session: " + sessionName + " [connexion fermée]");
 			return;
 		}
+
 		// Test si la session est déjà fermer
 		if (this.automate.getState() == ISessionStateMachine.CLOSE_SESSION_STATE) {
-			LOGGER.fine("Fermeture de la session: " + sessionName + " [était déjà fermer]");
+			LOGGER.fine("Fermeture de la session: " + sessionName + " [était déjà fermée]");
 			return;
 		}
 
@@ -243,6 +259,10 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible d'envoyer une boîte de dialogue réponse pour la session: " + sessionName + " [connexion fermée]");
+			return false;
+		}
 
 		// Création d'une boîte de dialogue pour le wrapper
 		DialogBox answer = new DialogBox();
@@ -255,6 +275,12 @@ public class ApiSession implements IApiSession {
 		answer.getAnswer().setModified(dialogAnswer.isModified());
 		answer.getAnswer().setValue(join(dialogAnswer.getAllValue(), "\n"));
 
+		// Initialisation du champ objects de la boîte de dialogue réponse en un tableau vide
+		// car on ne le gére pas pour l'instant
+		answer.getAnswer().setObjects(new int[0]);
+
+		/*
+		// Transformation de la list d'objets en un tableau d'objets pour le wrapper
 		List<Integer> objects = dialogAnswer.getObjects();
 		if (objects != null) {
 			int [] objectsArray = new int[objects.size()];
@@ -264,6 +290,7 @@ public class ApiSession implements IApiSession {
 			}
 			answer.getAnswer().setObjects(objectsArray);
 		}
+		*/
 
 		// Envoyer la boîte de dialogue réponse à envoyer au wrapper
 		LOGGER.finer("Demande l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
@@ -277,6 +304,11 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void askForService(IService service, List<String> options, IGraph model) throws ApiException {
+		if (!sessionController.getConnection().isConnectionOpened()) {
+			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
+			return;
+		}
+
 
 		// Test si on peut exécuter un service
 		if (sessionController.askForService(this)) {

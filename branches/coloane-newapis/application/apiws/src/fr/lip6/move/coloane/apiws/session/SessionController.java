@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.session;
 
+import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.apiws.evenements.ReceptMenu;
 import fr.lip6.move.coloane.apiws.evenements.ReceptResult;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
@@ -37,32 +38,27 @@ public class SessionController implements ISessionController {
 	 */
 	private Map<Integer, Object> listObservables;
 
-	private boolean connectionOpened;
+	private ApiConnection connection;
 
 	/**
 	 * Constructeur
 	 * @param listObservables la liste des observables à notifier
+	 * @param connection la connection
 	 */
-	public SessionController(Map<Integer, Object> listObservables) {
+	public SessionController(Map<Integer, Object> listObservables, ApiConnection connection) {
 		this.activeSession = null;
 		this.listSessions = new HashMap<String, IApiSession>();
 		this.listObservables = listObservables;
-		this.connectionOpened = false;
+		this.connection = connection;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean isConnectionOpened() {
-		return connectionOpened;
+	public final ApiConnection getConnection() {
+		return connection;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setConnectionOpened(boolean connectionOpened) {
-		this.connectionOpened = connectionOpened;
-	}
 	/**
 	 * {@inheritDoc}
 	 */

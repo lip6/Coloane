@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.interfaces.session;
 
+import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -12,16 +13,9 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 public interface ISessionController {
 
 	/**
-	 * Détermine si une session est ouvert ou non
-	 * @return <code>true</code>, si la connection est ouverte, <code>false</code> sinon
+	 * @return Retourne la connexion
 	 */
-	boolean isConnectionOpened();
-
-	/**
-	 * Initialise si une connection est ouverte
-	 * @param connectionOpened si une connection est ouverte
-	 */
-	void setConnectionOpened(boolean connectionOpened);
+	ApiConnection getConnection();
 
 	/**
 	 * Recupere la session active.
