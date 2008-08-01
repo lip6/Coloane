@@ -438,6 +438,7 @@ object_deletion
 
 /* En-tête d'un modèle */
 model_definition
+	scope { IGraph model; }
 	:	
 	'DB()'
 	( syntactic | aestetic )

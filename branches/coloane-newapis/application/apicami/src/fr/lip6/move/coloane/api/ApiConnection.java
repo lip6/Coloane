@@ -1,10 +1,6 @@
 package fr.lip6.move.coloane.api;
 
-import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
-import fr.lip6.move.coloane.api.FkCommunication.Listener;
-import fr.lip6.move.coloane.api.FkCommunication.Pair;
-import fr.lip6.move.coloane.api.cami.ThreadParser;
-import fr.lip6.move.coloane.api.interfaces.ISpeaker;
+import fr.lip6.move.coloane.api.communications.ComObjects;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
@@ -12,7 +8,6 @@ import fr.lip6.move.coloane.api.observables.ObservableFactory;
 import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
-import fr.lip6.move.coloane.api.observables.ReceptNewGraphObservable;
 import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 import fr.lip6.move.coloane.api.session.SessionController;
@@ -27,14 +22,11 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
-import fr.lip6.move.coloane.interfaces.api.observers.IRequestNewGraphObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +41,7 @@ public class ApiConnection implements IApiConnection {
 	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** Speaker */
-	private Pair<ISpeaker, Listener> pair;
+	private ComObjects comObjects;
 
 	/** Une table de hash qui stocke tous les observeurs */
 	private Map< String, Object> hashObservable;
@@ -92,7 +84,6 @@ public class ApiConnection implements IApiConnection {
 		this.hashObservable.put("IReceptMessage", ObservableFactory.getNewSpecialMessageObservable());
 		//this.hashObservable.put("ICloseSession", ObservableFactory.getNewCloseSessionObservable());
 		this.hashObservable.put("IReceptServiceState", ObservableFactory.getNewReceptServiceStateObservable());
-		this.hashObservable.put("IReceptNewGraph", ObservableFactory.getNewReceptServiceStateObservable());
 	}
 
 	/**
@@ -104,53 +95,46 @@ public class ApiConnection implements IApiConnection {
 
 	/** {@inheritDoc} */
 	public final IConnectionInfo openConnection(String login, String password, String ip, int port) throws ApiException {
-		// Créer la file Queue entre le parser et le thread Listener
-		LinkedBlockingQueue<InputStream> fifo = new LinkedBlockingQueue<InputStream>();
 
-		// Création du parseur
-		ThreadParser parser = new ThreadParser(fifo, this.hashObservable);
-
-		// Initialisation de la connexion
+		// Création des objets communicants
 		try {
-			// Création du thread listener et le speaker
-			this.pair = FkInitCom.initCom(ip, port, fifo);
+			this.comObjects = new ComObjects(ip, port);
 		} catch (IOException e) {
-			LOGGER.warning("Echec lors de la connexion a la plate-forme");
 			e.printStackTrace();
-			return null;
+			throw new ApiException("Cannot initialize a connection with the platform... ");
 		}
-
 		LOGGER.fine("Initialisation OK");
 
-		// Lancer le parser
-		parser.start();
+		// Lancer le parseur (listener)
+		this.comObjects.getListener().run();
 		LOGGER.fine("Parser ANTLR en cours d'execution");
 
 		// Demander l'ouverture de la communication Commande SC et attendre l'aquittement de FK
 		LOGGER.fine("Demande d'ouverture de connexion");
 		synchronized (this.hashObservable) {
 			try {
-				this.pair.getSpeaker().startCommunication(login, password);
+				this.comObjects.getSpeaker().startCommunication(login, password);
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				throw new ApiException("Error while connecting to the platform... Connection has been interrupted");
 			} catch (IOException e) {
 				e.printStackTrace();
+				throw new ApiException("Error while connecting to the platform... The connection has been broken");
 			}
 		}
 
-		// Reveillé par un notify : arrivée d'un SC
-		LOGGER.finer("Réveil OK par arrivée de SC");
-
-		// Demander Ouverture d'une connexion : OC
+		// Demander l'ouverture d'une connexion : OC
 		synchronized (this.hashObservable) {
 			try {
-				this.pair.getSpeaker().openConnection(uiName, uiVersion, login);
+				this.comObjects.getSpeaker().openConnection(uiName, uiVersion, login);
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				throw new ApiException("Error while connecting to the platform... Connection has been interrupted");
 			} catch (IOException ioe) {
 				LOGGER.warning("Echec de la lecture / ecriture sur la socket: " + ioe.getMessage());
+				throw new ApiException("Error while connecting to the platform...  The connection has been broken");
 			}
 		}
 
@@ -172,20 +156,20 @@ public class ApiConnection implements IApiConnection {
 		}
 
 		try {
-			this.pair.getSpeaker().closeConnection();
+			this.comObjects.getSpeaker().closeConnection();
 		} catch (IOException e) {
 			LOGGER.warning("Echec lors de la fermeture de la connexion");
 		}
 
  	 	//TODO: Détruire le thread listener proprement
-		this.pair.getListener().stop();
+		this.comObjects.getListener().stop();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IApiSession createApiSession() throws ApiException {
-		return SessionFactory.getNewApiSession(this, this.pair.getSpeaker());
+		return SessionFactory.getNewApiSession(this, this.comObjects.getSpeaker());
 	}
 
 	/**
@@ -277,15 +261,6 @@ public class ApiConnection implements IApiConnection {
 		ReceptServiceStateObservable observable = (ReceptServiceStateObservable) this.hashObservable.get("IReceptServiceState");
 		observable.addObserver(o);
 		observable.setCreateThread(createThread);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setRequestNewGraphObserver(IRequestNewGraphObserver o, boolean createThread) {
-		LOGGER.fine("Enregistrement d'un observer sur pour la demande d'un nouveau modèle");
-		ReceptNewGraphObservable observable = (ReceptNewGraphObservable) this.hashObservable.get("IReceptNewGraph");
-		observable.setObserver(o);
 	}
 
 	/**

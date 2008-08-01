@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.api.FkCommunication.tests;
 
 import java.io.IOException;
 
-import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
-import fr.lip6.move.coloane.api.FkCommunication.Pair;
+import fr.lip6.move.coloane.api.communications.FkInitCom;
+import fr.lip6.move.coloane.api.communications.ComObjects;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
@@ -37,7 +37,7 @@ public class FkInitComTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testInitCom() throws IOException {
-		Pair<ISpeaker, IListener> pair = FkInitCom.initCom(this.IP_ADRESS, this.PORT, null);
+		ComObjects<ISpeaker, IListener> pair = FkInitCom.initCom(this.IP_ADRESS, this.PORT, null);
 		/* Tester que les listener et speaker sont bien créés */
 		this.assertNotNull(pair.speaker);
 		this.assertNotNull(pair.listener);

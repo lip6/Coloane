@@ -3,10 +3,10 @@ package fr.lip6.move.coloane.api.FkCommunication.tests;
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import fr.lip6.move.coloane.api.FkCommunication.FkInitCom;
-import fr.lip6.move.coloane.api.FkCommunication.Listener;
-import fr.lip6.move.coloane.api.FkCommunication.Pair;
-import fr.lip6.move.coloane.api.FkCommunication.Speaker;
+import fr.lip6.move.coloane.api.communications.FkInitCom;
+import fr.lip6.move.coloane.api.communications.Listener;
+import fr.lip6.move.coloane.api.communications.ComObjects;
+import fr.lip6.move.coloane.api.communications.Speaker;
 import fr.lip6.move.coloane.api.interfaces.IListener;
 import fr.lip6.move.coloane.api.interfaces.ISpeaker;
 
@@ -45,7 +45,7 @@ public class SpeakerTest extends TestCase {
 
 	/** setup */
 	protected void setUp() throws Exception {
-		Pair<ISpeaker, IListener> p = FkInitCom.initCom(this.IP_ADRESS, this.PORT, new LinkedBlockingQueue());
+		ComObjects<ISpeaker, IListener> p = FkInitCom.initCom(this.IP_ADRESS, this.PORT, new LinkedBlockingQueue());
 		this.sp = (Speaker) p.speaker;
 		this.ls = (Listener)p.listener;
 

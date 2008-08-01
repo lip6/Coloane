@@ -72,14 +72,6 @@ public final class ObservableFactory {
 	}
 
 	/**
-	 * Création d'un observable pour la demande d'un nouveau modèle au corp
-	 * @return L'observable fraîchement créé
-	 */
-	public static ReceptNewGraphObservable getNewReceptNewGraphObservable() {
-		return new ReceptNewGraphObservable();
-	}
-
-	/**
 	 * Création d'un observable pour les services states en provenance de FrameKit
 	 * @return L'observable fraîchement créé
 	 */

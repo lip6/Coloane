@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.api.FkCommunication.tests;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import fr.lip6.move.coloane.api.FkCommunication.FkComLowLevel;
+import fr.lip6.move.coloane.api.communications.FkComLowLevel;
 
 import junit.framework.TestCase;
 

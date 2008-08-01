@@ -49,7 +49,10 @@ public class ApiSession implements IApiSession {
 	private ISessionStateMachine stateMachine;
 
 	/** Le modèle attaché à la session */
-	private IGraph model;
+	private IGraph inputModel;
+
+	/** Le modèle attaché à la session */
+	private IGraph outputModel;
 
 	/** Les informations sur la session */
 	private ISessionInfo sessionInfo;
@@ -67,7 +70,7 @@ public class ApiSession implements IApiSession {
 		this.date = 0;
 		this.formalism = null;
 		this.name = null;
-		this.model = null;
+		this.inputModel = null;
 		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
 		this.stateMachine = new SessionStateMachine();
@@ -377,11 +380,12 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, IGraph model) throws ApiException {
-		this.model = model;
+	public final void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException {
+		this.outputModel = null;
+		this.inputModel = inputModel;
 		if ((mustSendModel) & (this.stateMachine.getState() == ISessionStateMachine.MODELE_SALE_STATE)) {
 			try {
-				speaker.sendDate(model.getDate());
+				speaker.sendDate(inputModel.getDate());
 			} catch (IOException ioe) {
 				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 			}
@@ -396,8 +400,10 @@ public class ApiSession implements IApiSession {
 			this.resume();
 
 			try {
+				if (outputModel != null) { this.outputModel = outputModel; }
 				speaker.askForService(service.getRoot(), service.getParent(), service.getName());
 			} catch (IOException ioe) {
+				this.outputModel = null;
 				throw new ApiException("Error while speaking to the platform: " + ioe.getMessage());
 			}
 
@@ -407,6 +413,13 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("The session is not ready to ask the platform for a service");
 			}
 		}
+	}
+
+	/**
+	 * @return Le modèle qui peut être reçu en retour de service
+	 */
+	public final IGraph getOutputModel() {
+		return this.outputModel;
 	}
 
 
@@ -439,7 +452,7 @@ public class ApiSession implements IApiSession {
 		}
 
 		try {
-			speaker.sendModel(this.model);
+			speaker.sendModel(this.inputModel);
 		} catch (IOException e) {
 			LOGGER.warning("Problème lors de l'envoi du modèle (IO)");
 			// TODO : Faire quelque chose

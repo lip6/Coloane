@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import fr.lip6.move.coloane.api.cami.ThreadParser;
+import fr.lip6.move.coloane.api.communications.Listener;
 
 import junit.framework.TestCase;
 
@@ -33,7 +33,7 @@ public class ThreadParserTest extends TestCase {
 	public void testThreadParser() throws InterruptedException, IOException{
 		/* créer la file + le thread */
 		LinkedBlockingQueue fifo = new LinkedBlockingQueue();
-		ThreadParser tp = new ThreadParser(null, fifo,null);
+		Listener tp = new Listener(null, fifo,null);
 
 		/* Lancer le thread */
 		tp.start();
