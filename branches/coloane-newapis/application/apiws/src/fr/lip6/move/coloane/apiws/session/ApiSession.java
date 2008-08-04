@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
-import fr.lip6.move.coloane.apiws.utils.CamiModelTranslator;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
@@ -21,9 +20,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Option;
 import fr.lip6.move.wrapper.ws.WrapperStub.Position;
+import fr.lip6.move.wrapper.ws.WrapperStub.QO;
+import fr.lip6.move.wrapper.ws.WrapperStub.QT;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Service;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithObjects;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneObject;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneText;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
@@ -300,7 +305,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException {
+	public final void askForService(IService service, List<String> options, List<Integer> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
@@ -326,14 +331,14 @@ public class ApiSession implements IApiSession {
 
 			// Traduction du model pour le wrapper
 			LOGGER.finer("Traduction du model pour la session: " + sessionName);
-			//Model theModel = translateModel(model);
+			Model theModel = translateModel(inputModel);
 
 
-			/////////////////////////////
-			Model theModel = new Model();
-			theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
-			theModel.setParsing(true);
-			/////////////////////////////
+			/////////////////////////      Pour envoyer un model en CAMI    ////////////////////////////
+			//Model theModel = new Model();
+			//theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
+			//theModel.setParsing(true);
+			////////////////////////////////////////////////////////////////////////////////////////////
 
 
 			// Détérmine le menu principal et le service demander à envoyer au wrapper
@@ -358,12 +363,73 @@ public class ApiSession implements IApiSession {
 			}
 
 			// Invalidation si nécessaire du model
-			LOGGER.finer("Invalidation du model de la session '" + sessionName + "' si nécessaire: invalidateTheModel=" + invalidateTheModel);
+			LOGGER.finer("Invalidation du model de la session '" + sessionName + "' si nécessaire: invalidateTheModel = " + invalidateTheModel);
 			theModel.setInvalidate(invalidateTheModel);
 
 			// Exécute le service demander
-			LOGGER.finer("Demande l'exécution du service: " + serviceName);
-			RService result = speaker.executService(idSession, root, (Service) question, theOptions, theModel);
+			RService result = null;
+			if (question instanceof Service) {
+				LOGGER.finer("Demande l'exécution du service simple: " + serviceName);
+				result = speaker.executService(idSession, root, (Service) question, theOptions, theModel);
+			} else if (question instanceof ServiceWithObjects) {
+				LOGGER.finer("Demande l'exécution du service sur des objets: " + serviceName);
+				// Construit le tableau d'objets pour le wrapper
+				QO[] objectsArray = null;
+				if (objects != null) {
+					objectsArray = new QO[objects.size()];
+					int cpt = 0;
+					for (Integer obj : objects) {
+						QO myQO = new QO();
+						myQO.setId(obj);
+						objectsArray[cpt++] = myQO;
+					}
+				}
+				// Initialise le tableau d'objet pour le service demander wrapper
+				((ServiceWithObjects) question).setObjects(objectsArray);
+				result = speaker.executeServiceWithObjects(idSession, root, (ServiceWithObjects) question, theOptions, theModel);
+			} else if (question instanceof ServiceWithOneObject) {
+				LOGGER.finer("Demande l'exécution du service sur un objet: " + serviceName);
+				// Construit l'objet pour le wrapper
+				QO myQO = null;
+				if (objects != null && objects.size() == 1) {
+					myQO = new QO();
+					myQO.setId(objects.get(0));
+				}
+				// Initialise l'objet sur lequel exécuter le service
+				((ServiceWithOneObject) question).setObject(myQO);
+				result = speaker.executeServiceWithOneObject(idSession, root, (ServiceWithOneObject) question, theOptions, theModel);
+			} else if (question instanceof ServiceWithOneText) {
+				LOGGER.finer("Demande l'exécution du service sur un texte: " + serviceName);
+				// Construit le texte pour le wrapper
+				QT myQT = null;
+				if (texts != null && texts.size() == 1) {
+					myQT = new QT();
+					myQT.setName(texts.get(0));
+				}
+				// Initialise le text sur lequel exécuter le service
+				result = speaker.executeServiceWithOneText(idSession, root, (ServiceWithOneText) question, theOptions, theModel);
+			} else if (question instanceof ServiceWithTexts) {
+				LOGGER.finer("Demande l'exécution du service sur du texte: " + serviceName);
+				// Construit le tableau de texts pour le wrapper
+				QT[] textsArray = null;
+				if (texts != null) {
+					textsArray = new QT[texts.size()];
+					int cpt = 0;
+					for (String tex : texts) {
+						QT myQT = new QT();
+						myQT.setName(tex);
+						textsArray[cpt++] = myQT;
+					}
+				}
+				// Initialise le tableau de texts pour le service demander wrapper
+				((ServiceWithTexts) question).setTexts(textsArray);
+				result = speaker.executeServiceWithTexts(idSession, root, (ServiceWithTexts) question, theOptions, theModel);
+			} else {
+				LOGGER.finer("Demande l'exécution du service: " + serviceName + "qui n'est pas reconnu comme un des cinq types de services possible");
+				throw new ApiException("Le service: " + serviceName + " n'est pas reconnu comme un des cinq types de services possible");
+			}
+
+			LOGGER.finer("Fin de l'exécution du service: " + serviceName);
 
 			// Réinitialise le boolean sur l'invalidation du model à false
 			LOGGER.finer("Réinitialise invalidateTheModel à false");
