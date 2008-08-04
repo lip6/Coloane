@@ -23,6 +23,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Option;
 import fr.lip6.move.wrapper.ws.WrapperStub.Position;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
+import fr.lip6.move.wrapper.ws.WrapperStub.Service;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
@@ -362,7 +363,7 @@ public class ApiSession implements IApiSession {
 
 			// Exécute le service demander
 			LOGGER.finer("Demande l'exécution du service: " + serviceName);
-			RService result = speaker.executService(idSession, root, question, theOptions, theModel);
+			RService result = speaker.executService(idSession, root, (Service) question, theOptions, theModel);
 
 			// Réinitialise le boolean sur l'invalidation du model à false
 			LOGGER.finer("Réinitialise invalidateTheModel à false");

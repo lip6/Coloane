@@ -39,6 +39,21 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
+     * auto generated Axis2 call back method for executeServiceWithObjects method
+     * override this method for handling normal response from executeServiceWithObjects operation
+     */
+    public void receiveResultexecuteServiceWithObjects(
+        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithObjectsResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from executeServiceWithObjects operation
+     */
+    public void receiveErrorexecuteServiceWithObjects(java.lang.Exception e) {
+    }
+
+    /**
      * auto generated Axis2 call back method for closeSession method
      * override this method for handling normal response from closeSession operation
      */
@@ -52,23 +67,6 @@ public abstract class WrapperCallbackHandler {
      */
     public void receiveErrorcloseSession(java.lang.Exception e) {
     }
-
-    /**
-     * auto generated Axis2 call back method for createSession method
-     * override this method for handling normal response from createSession operation
-     */
-    public void receiveResultcreateSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from createSession operation
-     */
-    public void receiveErrorcreateSession(java.lang.Exception e) {
-    }
-
-    // No methods generated for meps other than in-out
 
     /**
      * auto generated Axis2 call back method for disconnectAllUser method
@@ -101,6 +99,36 @@ public abstract class WrapperCallbackHandler {
     }
 
     /**
+     * auto generated Axis2 call back method for executeServiceWithOneObject method
+     * override this method for handling normal response from executeServiceWithOneObject operation
+     */
+    public void receiveResultexecuteServiceWithOneObject(
+        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneObjectResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from executeServiceWithOneObject operation
+     */
+    public void receiveErrorexecuteServiceWithOneObject(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for executeServiceWithOneText method
+     * override this method for handling normal response from executeServiceWithOneText operation
+     */
+    public void receiveResultexecuteServiceWithOneText(
+        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneTextResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from executeServiceWithOneText operation
+     */
+    public void receiveErrorexecuteServiceWithOneText(java.lang.Exception e) {
+    }
+
+    /**
      * auto generated Axis2 call back method for answerDb method
      * override this method for handling normal response from answerDb operation
      */
@@ -114,6 +142,53 @@ public abstract class WrapperCallbackHandler {
      */
     public void receiveErroranswerDb(java.lang.Exception e) {
     }
+
+    /**
+     * auto generated Axis2 call back method for ping method
+     * override this method for handling normal response from ping operation
+     */
+    public void receiveResultping(
+        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from ping operation
+     */
+    public void receiveErrorping(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for executeServiceWithTexts method
+     * override this method for handling normal response from executeServiceWithTexts operation
+     */
+    public void receiveResultexecuteServiceWithTexts(
+        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithTextsResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from executeServiceWithTexts operation
+     */
+    public void receiveErrorexecuteServiceWithTexts(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for createSession method
+     * override this method for handling normal response from createSession operation
+     */
+    public void receiveResultcreateSession(
+        fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from createSession operation
+     */
+    public void receiveErrorcreateSession(java.lang.Exception e) {
+    }
+
+    // No methods generated for meps other than in-out
 
     /**
      * auto generated Axis2 call back method for connect method
@@ -158,20 +233,5 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling error response from disconnect operation
      */
     public void receiveErrordisconnect(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for ping method
-     * override this method for handling normal response from ping operation
-     */
-    public void receiveResultping(
-        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from ping operation
-     */
-    public void receiveErrorping(java.lang.Exception e) {
     }
 }

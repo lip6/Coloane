@@ -27,6 +27,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Option;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
+import fr.lip6.move.wrapper.ws.WrapperStub.Service;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
@@ -367,7 +368,7 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final RService executService(String idSession, Question root, Question question, List<Option> options, Model theModel) throws ApiException {
+	public final RService executService(String idSession, Question root, Service question, List<Option> options, Model theModel) throws ApiException {
 
 		RService toReturn = null;
 
