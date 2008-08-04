@@ -249,13 +249,16 @@ public class ApiConnection implements IApiConnection {
 		connectionOpened = false;
 		connectionClosedByError = true;
 
-		listener.stopper();
-		// Attend l'arrêt du listener
-		try {
-			((Thread) listener).join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (listener != null) {
+			try {
+				// Deamande l'arrêt du listener
+				listener.stopper();
+				// Attend l'arrêt du listener
+				((Thread) listener).join();
+			} catch (InterruptedException e) {
+				LOGGER.warning("Erreur lors de la fermeture force de la connexion: " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
 
 		listener = null;
