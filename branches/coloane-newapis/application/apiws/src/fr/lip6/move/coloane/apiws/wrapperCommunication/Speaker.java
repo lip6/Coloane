@@ -67,7 +67,7 @@ public class Speaker implements ISpeaker {
 			//stub = new WrapperStub("http://" + ipServer + ":" + portServer + cheminServer);
 			stub = new WrapperStub("http://izanami.rsr.lip6.fr:8081/axis2/services/Wrapper");
 			org.apache.axis2.client.Options op = stub._getServiceClient().getOptions();
-			op.setTimeOutInMilliSeconds(120000);
+			op.setTimeOutInMilliSeconds(240000);
 			stub._getServiceClient().setOptions(op);
 
 			this.listObservables = listObservables;
@@ -459,7 +459,7 @@ public class Speaker implements ISpeaker {
             //mess =msgException.substring(nb1, nb2);
             return level;
         }
-        return -1;
+        return 99;
     }
 
 }

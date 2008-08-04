@@ -118,7 +118,7 @@ public class Listener extends Thread implements IListener {
 				if (message.getDbs() != null) {
 					// Parcours tous les boîtes de dialogue et notifie l'observateur adéquat
 					for (int i = 0; i < message.getDbs().length; i++) {
-						LOGGER.fine("Récéption d'une boîte de dialogue");
+						LOGGER.fine("Récéption d'une boîte de dialogue: TYPE = " + message.getDbs()[i].getType() + " TITRE = " + message.getDbs()[i].getTitle() + " MESSAGE = " + message.getDbs()[i].getMessage());
 						Dialog dialog = new Dialog(message.getDbs()[i]);
 						((IReceptDialogObservable) listObservable.get(IObservables.RECEPT_DIALOG)).notifyObservers(dialog);
 					}
