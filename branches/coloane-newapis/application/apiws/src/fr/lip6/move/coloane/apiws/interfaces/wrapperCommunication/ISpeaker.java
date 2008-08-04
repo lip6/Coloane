@@ -9,6 +9,10 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Option;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Service;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithObjects;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneObject;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneText;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
@@ -80,10 +84,10 @@ public interface ISpeaker {
 	String answerToDialogBox(DialogBox answer) throws ApiException;
 
 	/**
-	 * Demander l'execution d'un service au wrapper
+	 * Demander l'execution d'un service simple au wrapper
 	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
 	 * @param root le menu principal où se trouve le service à executer
-	 * @param question le service à executer
+	 * @param question le service simple à executer
 	 * @param options la liste des options pour le service
 	 * @param theModel le model sur lequel exécuter le service
 	 * @return le résultat de l'execution du service
@@ -91,4 +95,51 @@ public interface ISpeaker {
 	 */
 	RService executService(String idSession, Question root, Service question, List<Option> options, Model theModel) throws ApiException;
 
+	/**
+	 * Demander l'execution d'un service sur des objets au wrapper
+	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
+	 * @param root le menu principal où se trouve le service à executer
+	 * @param question le service sur des objets à executer
+	 * @param options la liste des options pour le service
+	 * @param theModel le model sur lequel exécuter le service
+	 * @return le résultat de l'execution du service
+	 * @throws ApiException si l'exécution du service échoue
+	 */
+	RService executeServiceWithObjects(String idSession, Question root, ServiceWithObjects question, List<Option> options, Model theModel) throws ApiException;
+
+	/**
+	 * Demander l'execution d'un service sur un objet au wrapper
+	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
+	 * @param root le menu principal où se trouve le service à executer
+	 * @param question le service sur des objets à executer
+	 * @param options la liste des options pour le service
+	 * @param theModel le model sur lequel exécuter le service
+	 * @return le résultat de l'execution du service
+	 * @throws ApiException si l'exécution du service échoue
+	 */
+	RService executeServiceWithOneObject(String idSession, Question root, ServiceWithOneObject question, List<Option> options, Model theModel) throws ApiException;
+
+	/**
+	 * Demander l'execution d'un service sur un texte au wrapper
+	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
+	 * @param root le menu principal où se trouve le service à executer
+	 * @param question le service sur un texte à executer
+	 * @param options la liste des options pour le service
+	 * @param theModel le model sur lequel exécuter le service
+	 * @return le résultat de l'execution du service
+	 * @throws ApiException si l'exécution du service échoue
+	 */
+	RService executeServiceWithOneText(String idSession, Question root, ServiceWithOneText question, List<Option> options, Model theModel) throws ApiException;
+
+	/**
+	 * Demander l'execution d'un service sur du texte au wrapper
+	 * @param idSession l'identifiant de la session sur laquelle il faut exécuter le service.
+	 * @param root le menu principal où se trouve le service à executer
+	 * @param question le service sur du texte à executer
+	 * @param options la liste des options pour le service
+	 * @param theModel le model sur lequel exécuter le service
+	 * @return le résultat de l'execution du service
+	 * @throws ApiException si l'exécution du service échoue
+	 */
+	RService executeServiceWithTexts(String idSession, Question root, ServiceWithTexts question, List<Option> options, Model theModel) throws ApiException;
 }

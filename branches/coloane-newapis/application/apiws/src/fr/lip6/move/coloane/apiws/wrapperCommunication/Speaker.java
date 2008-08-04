@@ -23,11 +23,23 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Disconnect;
 import fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse;
 import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteService;
 import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithObjects;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithObjectsResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneObject;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneObjectResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneText;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneTextResponse;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithTexts;
+import fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithTextsResponse;
 import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Option;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import fr.lip6.move.wrapper.ws.WrapperStub.Service;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithObjects;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneObject;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneText;
+import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
@@ -377,16 +389,7 @@ public class Speaker implements ISpeaker {
                 throw new ApiException("Error of communcation : Stub is null");
             }
 
-            ////////////////////////////////// Attention ceci sera supprimer plus tard
-            //Model m = new Model();
-            //String chaine = createModel("/home/mchaouki/workspace64_newapis/fr.lip6.move.coloane.apiws/ressource/modele.txt");
-            //m.setCami(chaine);
-            //m.setParsing(true);
-            //m.setInvalidate(false);
-            //req.setTheModel(m);
-            ///////////////////////////////////////////////////////////////////////////
-
-            // Construction d'un requête pour l'exécution d'un service
+            // Construction d'un requête pour l'exécution d'un service simple
             ExecuteService req = new ExecuteService();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -406,7 +409,7 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service");
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service simple");
             ExecuteServiceResponse res = stub.executeService(req);
             toReturn = res.get_return();
 
@@ -434,6 +437,253 @@ public class Speaker implements ISpeaker {
 
         return toReturn;
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final RService executeServiceWithObjects(String idSession, Question root, ServiceWithObjects question, List<Option> options, Model theModel) throws ApiException {
+
+		RService toReturn = null;
+
+		try {
+            if (stub == null) {
+                throw new ApiException("Error of communcation : Stub is null");
+            }
+
+            // Construction d'un requête pour l'exécution d'un service sur des objects
+            ExecuteServiceWithObjects req = new ExecuteServiceWithObjects();
+            req.setUid(auth);
+            req.setIdSession(idSession);
+            req.setTheModel(theModel);
+            req.setQuestion(question);
+            req.setRoot(root);
+            Option[] ops;
+            if (options != null && options.size() > 0) {
+                ops = new  Option[options.size()];
+                int i = 0;
+                for (Option op : options) {
+                    ops[i++] = op;
+                }
+            } else {
+                ops = new  Option[1];
+                ops[0] = null;
+            }
+            req.setOptions(ops);
+
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur des objects");
+            ExecuteServiceWithObjectsResponse res = stub.executeServiceWithObjects(req);
+            toReturn = res.get_return();
+
+        } catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (GException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        }
+
+        return toReturn;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final RService executeServiceWithOneObject(String idSession,	Question root, ServiceWithOneObject question, List<Option> options,	Model theModel) throws ApiException {
+
+		RService toReturn = null;
+
+		try {
+            if (stub == null) {
+                throw new ApiException("Error of communcation : Stub is null");
+            }
+
+            // Construction d'un requête pour l'exécution d'un service sur un objet
+            ExecuteServiceWithOneObject req = new ExecuteServiceWithOneObject();
+            req.setUid(auth);
+            req.setIdSession(idSession);
+            req.setTheModel(theModel);
+            req.setQuestion(question);
+            req.setRoot(root);
+            Option[] ops;
+            if (options != null && options.size() > 0) {
+                ops = new  Option[options.size()];
+                int i = 0;
+                for (Option op : options) {
+                    ops[i++] = op;
+                }
+            } else {
+                ops = new  Option[1];
+                ops[0] = null;
+            }
+            req.setOptions(ops);
+
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur un objet");
+            ExecuteServiceWithOneObjectResponse res = stub.executeServiceWithOneObject(req);
+            toReturn = res.get_return();
+
+        } catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (GException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        }
+
+        return toReturn;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final RService executeServiceWithOneText(String idSession, Question root, ServiceWithOneText question, List<Option> options, Model theModel) throws ApiException {
+
+		RService toReturn = null;
+
+		try {
+            if (stub == null) {
+                throw new ApiException("Error of communcation : Stub is null");
+            }
+
+            // Construction d'un requête pour l'exécution d'un service sur un texte
+            ExecuteServiceWithOneText req = new ExecuteServiceWithOneText();
+            req.setUid(auth);
+            req.setIdSession(idSession);
+            req.setTheModel(theModel);
+            req.setQuestion(question);
+            req.setRoot(root);
+            Option[] ops;
+            if (options != null && options.size() > 0) {
+                ops = new  Option[options.size()];
+                int i = 0;
+                for (Option op : options) {
+                    ops[i++] = op;
+                }
+            } else {
+                ops = new  Option[1];
+                ops[0] = null;
+            }
+            req.setOptions(ops);
+
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur un texte");
+            ExecuteServiceWithOneTextResponse res = stub.executeServiceWithOneText(req);
+            toReturn = res.get_return();
+
+        } catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (GException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        }
+
+        return toReturn;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final RService executeServiceWithTexts(String idSession, Question root, ServiceWithTexts question, List<Option> options, Model theModel) throws ApiException {
+
+		RService toReturn = null;
+
+		try {
+            if (stub == null) {
+                throw new ApiException("Error of communcation : Stub is null");
+            }
+
+            // Construction d'un requête pour l'exécution d'un service sur du texte
+            ExecuteServiceWithTexts req = new ExecuteServiceWithTexts();
+            req.setUid(auth);
+            req.setIdSession(idSession);
+            req.setTheModel(theModel);
+            req.setQuestion(question);
+            req.setRoot(root);
+            Option[] ops;
+            if (options != null && options.size() > 0) {
+                ops = new  Option[options.size()];
+                int i = 0;
+                for (Option op : options) {
+                    ops[i++] = op;
+                }
+            } else {
+                ops = new  Option[1];
+                ops[0] = null;
+            }
+            req.setOptions(ops);
+
+            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur du texte");
+            ExecuteServiceWithTextsResponse res = stub.executeServiceWithTexts(req);
+            toReturn = res.get_return();
+
+        } catch (RemoteException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (GException e) {
+			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
+			// Si c'est une erreur grave alors en force la fermeture de la connexion et
+			// on notifie l'observateur de l'événement: BrutalInterupt
+			if (getLevelException(e.getMessage()) >= 1) {
+				connection.closeConnectionError();
+				((IBrutalInterruptObservable) listObservables.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+			}
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        }
+
+        return toReturn;
 	}
 
 	/**
