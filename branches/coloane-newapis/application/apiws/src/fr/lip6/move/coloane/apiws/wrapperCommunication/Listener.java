@@ -135,20 +135,40 @@ public class Listener extends Thread implements IListener {
 				}
 
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				LOGGER.warning(e.getMessage());
+				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
+				// En force la fermeture de la connexion
+				connection.closeConnectionError();
+				// Notifie les observateurs d'événement: récéption d'une erreur.
+				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+				// On stoppe le Listener
+				stopper();
 				e.printStackTrace();
 			} catch (GException e) {
-				// TODO Auto-generated catch block
-				LOGGER.warning(e.getMessage());
+				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
+				// En force la fermeture de la connexion
+				connection.closeConnectionError();
+				// Notifie les observateurs d'événement: récéption d'une erreur.
+				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+				// On stoppe le Listener
+				stopper();
 				e.printStackTrace();
 			} catch (ApiException e) {
-				// TODO Auto-generated catch block
-				LOGGER.warning(e.getMessage());
+				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
+				// En force la fermeture de la connexion
+				connection.closeConnectionError();
+				// Notifie les observateurs d'événement: récéption d'une erreur.
+				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+				// On stoppe le Listener
+				stopper();
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				LOGGER.warning(e.getMessage());
+				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
+				// En force la fermeture de la connexion
+				connection.closeConnectionError();
+				// Notifie les observateurs d'événement: récéption d'une erreur.
+				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
+				// On stoppe le Listener
+				stopper();
 				e.printStackTrace();
 			}
 
