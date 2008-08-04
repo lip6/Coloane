@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * Flux dédié à la communication avec la plate-forme<br>
- * Ce flux permet de traiter les besoin de la plate-forme en termes de format de message.
+ * Ce flux permet de traiter les besoins de la plate-forme en termes de format de message.
  * Toute  écriture <b>DOIT</b> passer par cette classe
  *
  * @author Alexandre Hamez

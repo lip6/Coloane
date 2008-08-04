@@ -55,7 +55,6 @@ public class Listener implements Runnable {
 		while (true) {
 			String toParse = this.input.getCommands();
 			CharStream antlrStream = new ANTLRStringStream(toParse);
-			LOGGER.finest("Lecture : " + toParse);
 			CamiLexer lexer = new CamiLexer(antlrStream);
 			this.parser = new CamiParser(new CommonTokenStream(lexer));
 			this.parser.setObservers(this.hash);

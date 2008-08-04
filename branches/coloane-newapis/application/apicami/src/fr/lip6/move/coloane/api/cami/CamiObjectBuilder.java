@@ -49,8 +49,8 @@ public final class CamiObjectBuilder {
 	 * @return La description du menu
 	 */
 	public static ISubMenu buildRootMenu(String name, String questionType, String questionBehavior) {
-		int type = handleNullValue(questionType, Integer.parseInt(questionType), -1);
-		int behavior  = handleNullValue(questionBehavior, Integer.parseInt(questionBehavior), -1);
+		int type = handleNullValue(questionType, -1);
+		int behavior  = handleNullValue(questionBehavior, -1);
 		return (CamiObjectFactory.getNewRootMenu(name, type, behavior, true));
 	}
 
@@ -64,13 +64,13 @@ public final class CamiObjectBuilder {
 	public static IQuestion buildQuestion(List<String> description) {
 		String parentName = description.get(0);
 		String name = description.get(1);
-		int questionType = handleNullValue(description.get(2), Integer.parseInt(description.get(2)), -1);
-		int questionBehavior  = handleNullValue(description.get(3), Integer.parseInt(description.get(3)), -1);
-		boolean valid = handleNullValue(description.get(4), computeBoolean(Integer.valueOf(description.get(4)), 1, true), false);
-		boolean dialogAllowed = handleNullValue(description.get(5), computeBoolean(Integer.valueOf(description.get(5)), 1, false), true);
-		boolean stopAuthorized = handleNullValue(description.get(6), computeBoolean(Integer.valueOf(description.get(6)), 1, false), true);
+		int questionType = handleNullValue(description.get(2), -1);
+		int questionBehavior  = handleNullValue(description.get(3), -1);
+		boolean valid = handleNullValue(description.get(4), 1, false);
+		boolean dialogAllowed = handleNullValue(description.get(5), 1, true);
+		boolean stopAuthorized = handleNullValue(description.get(6), 1, true);
 		String outputFormalism = description.get(7);
-		boolean activate = handleNullValue(description.get(8), computeBoolean(Integer.valueOf(description.get(8)), 1, true), false);
+		boolean activate = handleNullValue(description.get(8), 1, false);
 
 		// Construction de la question
 		IQuestion question = CamiObjectFactory.getNewQuestion(parentName, name, questionType, questionBehavior, valid, dialogAllowed, stopAuthorized, outputFormalism, activate);
@@ -86,7 +86,7 @@ public final class CamiObjectBuilder {
 	public static IUpdateMenu buildUpdate(List<String> description) {
 		String rootName = description.get(0);
 		String serviceName = description.get(1);
-		boolean state = handleNullValue(description.get(2), computeBoolean(Integer.valueOf(description.get(2)), 7, true), true);
+		boolean state = handleNullValue(description.get(2), 7, false);
 
 		// Construction de l'objet modificateur de menu
 		IUpdateMenu update = CamiObjectFactory.getNewUpdateMenu(rootName, serviceName, state);
@@ -139,15 +139,28 @@ public final class CamiObjectBuilder {
 
 	/**
 	 * Détermine la valeur résultat si l'objet est <code>null</code>
-	 * @param <T> Le type de l'objet résultat attendu (il dépend des paramètres)
 	 * @param obj L'objet qui doit être testé
-	 * @param ifTrue La valeur si l'objet n'est pas <code>null</code>
 	 * @param ifFalse La valeur si l'objet est <code>null</code>
-	 * @return L'objet
+	 * @return L'entier qui convient
 	 */
-	private static <T> T handleNullValue(final Object obj, final T ifTrue, final T ifFalse) {
+	private static int handleNullValue(String obj, int ifFalse) {
 		if (obj != null) {
-			return ifTrue;
+			return Integer.parseInt(obj);
+		} else {
+			return ifFalse;
+		}
+	}
+
+	/**
+	 * Détermine la valeur résultat si l'objet est <code>null</code>
+	 * @param obj L'objet qui doit être testé (<code>null</code> ou non)
+	 * @param compare Valeur de comparaison. Si la valeur est égale à compare, alors on renvoie !ifFalse
+	 * @param ifFalse La valeur si l'objet est <code>null</code> ou différent de compare
+	 * @return Le booléen
+	 */
+	private static boolean handleNullValue(String obj, int compare, boolean ifFalse) {
+		if (obj != null) {
+			return computeBoolean(Integer.parseInt(obj), compare, !ifFalse);
 		} else {
 			return ifFalse;
 		}

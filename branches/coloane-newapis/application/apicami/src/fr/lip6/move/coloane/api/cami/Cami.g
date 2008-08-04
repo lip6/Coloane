@@ -124,6 +124,7 @@ open_session
 		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo($open_session::sessionArgs);
 		sessionController.notifyReceptSessionInfo(sessionInfo);
 	}
+	receive_services
 	;
 
 /* @deprecated */
@@ -263,7 +264,7 @@ state_service
 			tq.add($root_name.text);
 			tq.add($question_name.text);
 			tq.add($state.text);
-			tq.add($message.text);
+			if ($message != null) { tq.add($message.text); } else { tq.add(""); }
 			
 			// Ajout ˆ la liste des updates
 			IUpdateMenu update = CamiObjectBuilder.buildUpdate(tq);

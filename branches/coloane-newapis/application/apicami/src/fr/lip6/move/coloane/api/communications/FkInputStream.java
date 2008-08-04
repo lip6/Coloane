@@ -3,13 +3,16 @@ package fr.lip6.move.coloane.api.communications;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Logger;
 
+/**
+ * Flux dédié à la communication avec la plate-forme (CO->FK)<br>
+ * Ce flux permet de traiter les messages en provenance de la plate-forme.
+ * Toute lecture passe par cette classe
+ *
+ * @author Alexandre Hamez
+ * @author Jean-Baptiste Voron
+ */
 public final class FkInputStream extends FilterInputStream {
-
-	/** Le logger */
-	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
-
 	/** Un compteur pour les commandes longues */
 	private int toBeRead = 0;
 
@@ -88,8 +91,6 @@ public final class FkInputStream extends FilterInputStream {
 
 		// On regarde s'il y a du reste à lire...
 		this.toBeRead = commandLength - nbRead;
-
-		System.err.println("FkInputStream has read: " + new String(b));
 		return nbRead;
 	}
 
@@ -100,9 +101,7 @@ public final class FkInputStream extends FilterInputStream {
 	 */
 	private String getLastCommand(String buffer) {
 		int beginCommand = buffer.lastIndexOf('\n', buffer.length() - 2);
-		LOGGER.finest("L'index du dernier saut de ligne est : " + beginCommand);
 		String lastToken = buffer.substring(beginCommand + 1, beginCommand + 3);
-		LOGGER.finest("Commande extraite : " + lastToken);
 		return lastToken;
 	}
 
@@ -138,8 +137,7 @@ public final class FkInputStream extends FilterInputStream {
 				if (toReturn.toString().endsWith(")")) { toReturn.append('\n'); } else { continue; }
 
 			} while (!this.hasRichedLastCommand(toReturn.toString()));
-			String fina = toReturn.toString().replaceAll("\n", "");
-			return fina.trim();
+			return toReturn.toString().replaceAll("\n", "").trim();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

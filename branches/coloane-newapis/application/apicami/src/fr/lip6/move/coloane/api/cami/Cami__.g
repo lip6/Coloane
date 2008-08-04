@@ -64,7 +64,7 @@ T60 : 'HD(' ;
 T61 : 'DG(' ;
 T62 : 'MI(' ;
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 573
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 574
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
@@ -73,13 +73,13 @@ CAMI_STRING
 	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 581
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 582
 NUMBER
 	:
 	'0'..'9'+
 	;
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 586
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 587
 fragment
 FIXED_LENGTH_STRING
 	[int len]

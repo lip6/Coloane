@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.api.communications;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 import java.util.logging.Logger;
 
 /**
