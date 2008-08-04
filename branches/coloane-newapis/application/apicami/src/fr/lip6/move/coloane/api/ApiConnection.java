@@ -106,14 +106,17 @@ public class ApiConnection implements IApiConnection {
 		LOGGER.fine("Initialisation OK");
 
 		// Lancer le parseur (listener)
-		this.comObjects.getListener().run();
+		this.comObjects.getListener().setObservers(this.hashObservable);
+		new Thread(this.comObjects.getListener()).start();
+
 		LOGGER.fine("Parser ANTLR en cours d'execution");
 
-		// Demander l'ouverture de la communication Commande SC et attendre l'aquittement de FK
+		// Demander l'ouverture de la communication Commande SC / OC et attendre les acquittements de FK
 		LOGGER.fine("Demande d'ouverture de connexion");
 		synchronized (this.hashObservable) {
 			try {
 				this.comObjects.getSpeaker().startCommunication(login, password);
+				this.comObjects.getSpeaker().openConnection(uiName, uiVersion, login);
 				this.hashObservable.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -121,20 +124,6 @@ public class ApiConnection implements IApiConnection {
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new ApiException("Error while connecting to the platform... The connection has been broken");
-			}
-		}
-
-		// Demander l'ouverture d'une connexion : OC
-		synchronized (this.hashObservable) {
-			try {
-				this.comObjects.getSpeaker().openConnection(uiName, uiVersion, login);
-				this.hashObservable.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				throw new ApiException("Error while connecting to the platform... Connection has been interrupted");
-			} catch (IOException ioe) {
-				LOGGER.warning("Echec de la lecture / ecriture sur la socket: " + ioe.getMessage());
-				throw new ApiException("Error while connecting to the platform...  The connection has been broken");
 			}
 		}
 

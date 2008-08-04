@@ -50,9 +50,6 @@ public void setObservers(Map<String, Object> hash) {
 /** Le logger des evenements */
 private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
-/* Divers objets utiles pour les notifications */
-private IConnectionInfo connectionInfo;
-
 }
 /* --------------------------------------- */
 /* Selecteur principal                     */
@@ -61,7 +58,6 @@ private IConnectionInfo connectionInfo;
 main 
 	/* Pour la connexion */
 	:	open_communication
-	|	open_connection
 	|	close_connection
 	/* Pour les sessions */
 	|	open_session
@@ -85,23 +81,22 @@ main
 
 /* Ouverture de la communication avec la plte-forme */
 open_communication
+	scope { IConnectionInfo connectionInfo;	}
 	:
-	'SC(' fkName=CAMI_STRING ')' {
+	'SC('fkName=CAMI_STRING ')' {
 		LOGGER.finest("Creation de l'objet de connexion");
-		connectionInfo = new ConnectionInfo($fkName.text);
-		synchronized (hash) {
-			hash.notify();
-		}
+		$open_communication::connectionInfo = new ConnectionInfo($fkName.text);
 	}
+	open_connection {}
 	;
 
 /* Ouverture de la connexion */
 open_connection
 	:
 	'OC(' major=NUMBER ',' minor=NUMBER ')' {
-		((ConnectionInfo) connectionInfo).setFkMajor($major.text);
-		((ConnectionInfo) connectionInfo).setFkMinor($minor.text);
-		((ConnectionObservable) hash.get("IConnection")).notifyObservers(connectionInfo);
+		((ConnectionInfo) $open_communication::connectionInfo).setFkMajor($major.text);
+		((ConnectionInfo) $open_communication::connectionInfo).setFkMinor($minor.text);
+		((ConnectionObservable) hash.get("IConnection")).notifyObservers($open_communication::connectionInfo);
 	}
 	;
 
@@ -120,13 +115,13 @@ close_connection
 /* Ouverture de session */
 open_session
 	scope { List<String> sessionArgs; }
-	@init { List<String> sessionArgs = new ArrayList<String>(); }
+	@init { $open_session::sessionArgs = new ArrayList<String>(); }
 	:
 	'OS(' session_name=CAMI_STRING ')'
 	'TD()'
 	'FA()'
 	interlocutor_table {
-		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo(sessionArgs);
+		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo($open_session::sessionArgs);
 		sessionController.notifyReceptSessionInfo(sessionInfo);
 	}
 	;
@@ -189,16 +184,16 @@ receive_services
 		List<IService> services;
 	}
 	@init { 
-		List<ISubMenu> roots = new ArrayList<ISubMenu>();
-		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>();
-		List<IService> services = new ArrayList<IService>();
+		$receive_services::roots = new ArrayList<ISubMenu>();
+		$receive_services::updates = new ArrayList<IUpdateMenu>();
+		$receive_services::services = new ArrayList<IService>();
 	}
 	:
 	receive_services_group+
 	state_service*
 	'QQ(3)' {
 		LOGGER.finest("Fin de la transmission des services");
-		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(roots, updates, services);
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers($receive_services::roots, $receive_services::updates, $receive_services::services);
 	}
 	;
 
@@ -595,8 +590,4 @@ FIXED_LENGTH_STRING
 	({len > 0}?=> .{len--;})*
 	;
 
-EOF	
-	:
-	{skip();}
-	;
 

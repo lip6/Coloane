@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.communications;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 /**
  * Flux dédié à la communication avec la plate-forme<br>
@@ -12,6 +13,8 @@ import java.io.OutputStream;
  * @author Jean-Baptiste Voron
  */
 public final class FkOutputStream extends FilterOutputStream {
+	/** Le logger */
+	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/**
 	 * Constructeur
@@ -27,6 +30,7 @@ public final class FkOutputStream extends FilterOutputStream {
 	 * @throws IOException En cas de problème lors de l'écriture
 	 */
 	public void write(String data) throws IOException {
+		LOGGER.finest("[CO->FK] " + data);
 		byte[] dataByte = data.getBytes();
 
 		byte[] toSend = new byte[dataByte.length + 4];

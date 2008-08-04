@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.api.communications;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
+import java.util.logging.Logger;
 
 /**
  * Cette classe construit
@@ -15,12 +17,15 @@ import java.net.Socket;
  *  @author Jean-Baptiste Voron
  */
 public class ComObjects {
+	/** Le logger */
+	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	private Listener listener;
 
 	private Speaker speaker;
 
 	private Socket socket;
+
 
 	/**
 	 * Constructeur
@@ -30,8 +35,9 @@ public class ComObjects {
 	 */
 	public ComObjects(String ip, int port) throws IOException {
 		/** Création de la socket */
-		this.socket = new Socket();
-		this.socket.connect(new InetSocketAddress(ip, port));
+		 this.socket = new Socket();
+		 this.socket.connect(new InetSocketAddress(ip, port));
+		LOGGER.finer("Creation de la socket");
 
 		this.listener = new Listener(this.socket);
 		this.speaker = new Speaker(this.socket);
