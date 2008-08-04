@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
@@ -305,7 +306,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, List<Integer> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
+	public final void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
@@ -378,9 +379,9 @@ public class ApiSession implements IApiSession {
 				if (objects != null) {
 					objectsArray = new QO[objects.size()];
 					int cpt = 0;
-					for (Integer obj : objects) {
+					for (IElement obj : objects) {
 						QO myQO = new QO();
-						myQO.setId(obj);
+						myQO.setId(obj.getId());
 						objectsArray[cpt++] = myQO;
 					}
 				}
@@ -393,7 +394,7 @@ public class ApiSession implements IApiSession {
 				QO myQO = null;
 				if (objects != null && objects.size() == 1) {
 					myQO = new QO();
-					myQO.setId(objects.get(0));
+					myQO.setId(objects.get(0).getId());
 				}
 				// Initialise l'objet sur lequel exécuter le service
 				((ServiceWithOneObject) question).setObject(myQO);
