@@ -10,8 +10,11 @@ package fr.lip6.move.coloane.api.cami;
 package fr.lip6.move.coloane.api.cami;
 	
 import fr.lip6.move.coloane.api.camiObject.ConnectionInfo;
+import fr.lip6.move.coloane.api.observables.ReceptDialogObservable;
 import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
+import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
+import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ConnectionObservable;
 import fr.lip6.move.coloane.api.session.SessionController;
@@ -24,12 +27,15 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
+import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
+import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 	
 import java.util.Map;
+import java.util.HashMap;
 import java.util.logging.Logger;
 }
 
@@ -70,7 +76,10 @@ main
 	/* Messages spéciaux */
 	|	message_to_user
 	/* Pour les résultats */
+	|	ask_for_model
 	|	receive_results
+	|	dialog_definition
+	|	dialog_destroy
 	/* Les messages KO */
 	|	ko_message
 	;
@@ -195,6 +204,7 @@ receive_services
 	'QQ(3)' {
 		LOGGER.finest("Fin de la transmission des services");
 		((ReceptMenuObservable) hash.get("ISession")).notifyObservers($receive_services::roots, $receive_services::updates, $receive_services::services);
+		sessionController.notifyEndOpenSession();
 	}
 	;
 
@@ -269,9 +279,64 @@ state_service
 			// Ajout à la liste des updates
 			IUpdateMenu update = CamiObjectBuilder.buildUpdate(tq);
 			$receive_services::updates.add(update);
-		} else {
-			// TODO: Lever une exception ?
-			LOGGER.warning("Reception d'un etat de service non conforme -> " + $state.text);
+		} else if($state.text.equals("2")) { 
+			if($message != null) { 
+				LOGGER.finest("Reception d'un TQ 2"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,2,$message.text); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} else { 
+				LOGGER.finest("Reception d'un TQ 2"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,2,null); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} 
+		} 
+
+		if($state.text.equals("3")) { 
+			if($message != null) { 
+				LOGGER.finest("Reception d'un TQ 3"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,3,$message.text); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} else { 
+				LOGGER.finest("Reception d'un TQ 3"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,3,null); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} 
+		} 
+    
+		if($state.text.equals("4")) { 
+			if($message != null) { 
+				LOGGER.finest("Reception d'un TQ 4"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,4,$message.text); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} else { 
+				LOGGER.finest("Reception d'un TQ 4"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,4,null); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} 
+		} 
+    
+		if($state.text.equals("5")) { 
+			if($message != null) { 
+				LOGGER.finest("Reception d'un TQ 5"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,5,$message.text); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} else { 
+				LOGGER.finest("Reception d'un TQ 5"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,5,null); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} 
+		} 
+
+		if($state.text.equals("6")) {
+			if($message != null) { 
+				LOGGER.finest("Reception d'un TQ 6"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,6,$message.text); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} else { 
+				LOGGER.finest("Reception d'un TQ 6"); 
+				IReceptServiceState msg = (IReceptServiceState)new ReceptServiceState($question_name.text,6,null); 
+				((ReceptServiceStateObservable)hash.get("IReceptServiceState")).notifyObservers(msg); 
+			} 
 		}
 	}
 	;
@@ -351,15 +416,24 @@ special_message
 /* Gestion des résultats                   */
 /* --------------------------------------- */
 
+ask_for_model
+	:
+	state_service?	
+	'DF(-2,' NUMBER ',' NUMBER ')' {
+		sessionController.notifyWaitingForModel();
+	}
+	;
+
 /* Réception des résultats */
 receive_results
 	:	
 	'DR()'
 	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {}
-	(	state_service {}
-	|	special_message {}
-	|	warning_message {}
-	|	result {}
+	(	state_service
+	|	special_message
+	|	warning_message
+	|	dialog_definition
+	|	result
 	)*
 	;
 
@@ -499,15 +573,15 @@ intermediary_point
 
 /* Description d'une boite de dialogue */
 dialog_definition
-	scope { List<IDialog> dialogs; }
-	@init { List<IDialog> dialogs = new ArrayList<IDialog>(); }
-	:	
-	'DC()'
+	scope { Map<Integer, IDialog> dialogs; }
+	@init { $dialog_definition::dialogs = new HashMap<Integer, IDialog>(); }
+	:
+	dialog_destroy?
+	'DC()' { LOGGER.finest("Reception d'une definition d'une boite de dialogue"); }
 	dialog_creation
-	(
-	next_dialog { } 
-	)+
-	'FF()' {}
+	( next_dialog )*
+	'FF()' { LOGGER.finest("Fin de reception des boites de dialogue"); }
+	dialog_display?
 	;
 
 /* Corps de la boite de dialogue */
@@ -533,20 +607,26 @@ dialog_creation
 		// Construction de l'objet boite de dialogue
 		IDialog dialog = CamiObjectBuilder.buildDialog(ce);
 		// Ajout de la boite de dialogue à la liste
-		$dialog_definition::dialogs.add(dialog);
+		$dialog_definition::dialogs.put(Integer.parseInt($dialog_id.text), dialog);
 	}
 	;
 
 /* ??? */
 next_dialog
 	:
-	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' {}
+	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' {
+		LOGGER.finest("Ajout d'une ligne a la boite de dialogue : " + $dialog_id.text);
+		((Dialog) $dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text))).addLine($line.text);
+	}
 	;
 
 /* Affiche la boite de dialogue */
-display_dialog
+dialog_display
 	:
-	'AD(' dialog_id=NUMBER ')' {}
+	'AD(' dialog_id=NUMBER ')' {
+		LOGGER.finest("Affichage de la boite de dialogue " + $dialog_id.text);
+		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));  
+	}
 	;
 
 /* Cache la boite de dialogue */
@@ -556,9 +636,13 @@ hide_dialog
 	;
 
 /* Destruction de la boite de dialogue */	
-destroy_dialog
+dialog_destroy
 	:
-	'DG(' dialog_id=NUMBER ')' {}
+	'DG(' dialog_id=NUMBER ')' { 
+		LOGGER.finest("Destruction de la boite de dialogue " + $dialog_id.text);
+	}
+	( state_service | message_to_user )*
+	'FR(' NUMBER ')' { LOGGER.finest("Fin des echanges"); }
 	;
 
 // Deprecated

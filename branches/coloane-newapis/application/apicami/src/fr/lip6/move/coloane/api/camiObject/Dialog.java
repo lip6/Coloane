@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.camiObject;
 
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,6 +78,7 @@ public final class Dialog implements IDialog {
 		this.inputType = inputType;
 		this.multiLine = multiLine;
 		this.defaut = defaut;
+		this.lines = new ArrayList<String>();
 	}
 
 	/**
@@ -138,5 +140,13 @@ public final class Dialog implements IDialog {
 	 */
 	public int getType() {
 		return this.type;
+	}
+
+	/**
+	 * Ajoute une ligne à celles déjà existantes
+	 * @param line La ligne à ajouter
+	 */
+	public void addLine(String line) {
+		this.lines.add(line);
 	}
 }

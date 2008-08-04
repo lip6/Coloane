@@ -32,39 +32,41 @@ T29 : 'KO(1' ;
 T30 : 'TR(' ;
 T31 : 'WN(' ;
 T32 : 'MO(' ;
-T33 : 'DR()' ;
-T34 : 'RQ(' ;
-T35 : 'DE(' ;
-T36 : 'FE()' ;
-T37 : 'RT(' ;
-T38 : 'WE(' ;
-T39 : 'MT(' ;
-T40 : 'RO(' ;
-T41 : 'ME(' ;
-T42 : 'SU(' ;
-T43 : 'SI(' ;
-T44 : 'DB()' ;
-T45 : 'FB()' ;
-T46 : 'CN(' ;
-T47 : 'CB(' ;
-T48 : 'CA(' ;
-T49 : 'CT(' ;
-T50 : 'CM(' ;
-T51 : 'PO(' ;
-T52 : 'pO(' ;
-T53 : 'PO(-1,' ;
-T54 : 'PT(' ;
-T55 : 'PI(' ;
-T56 : 'DC()' ;
-T57 : 'FF()' ;
-T58 : 'CE(' ;
-T59 : 'DS(' ;
-T60 : 'AD(' ;
-T61 : 'HD(' ;
-T62 : 'DG(' ;
-T63 : 'MI(' ;
+T33 : 'DF(-2,' ;
+T34 : 'DR()' ;
+T35 : 'RQ(' ;
+T36 : 'DE(' ;
+T37 : 'FE()' ;
+T38 : 'RT(' ;
+T39 : 'WE(' ;
+T40 : 'MT(' ;
+T41 : 'RO(' ;
+T42 : 'ME(' ;
+T43 : 'SU(' ;
+T44 : 'SI(' ;
+T45 : 'DB()' ;
+T46 : 'FB()' ;
+T47 : 'CN(' ;
+T48 : 'CB(' ;
+T49 : 'CA(' ;
+T50 : 'CT(' ;
+T51 : 'CM(' ;
+T52 : 'PO(' ;
+T53 : 'pO(' ;
+T54 : 'PO(-1,' ;
+T55 : 'PT(' ;
+T56 : 'PI(' ;
+T57 : 'DC()' ;
+T58 : 'FF()' ;
+T59 : 'CE(' ;
+T60 : 'DS(' ;
+T61 : 'AD(' ;
+T62 : 'HD(' ;
+T63 : 'DG(' ;
+T64 : 'FR(' ;
+T65 : 'MI(' ;
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 574
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 658
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
@@ -73,12 +75,12 @@ CAMI_STRING
 	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 582
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 666
 NUMBER	:	'0'..'9'+;
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 583
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 667
 NEWLINE :	( '\r'?'\n' )+ {skip();};
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 585
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 669
 fragment
 FIXED_LENGTH_STRING
 	[int len]

@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.api.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
@@ -380,7 +381,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, IGraph inputModel, IGraph outputModel) throws ApiException {
+	public final void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 		this.outputModel = null;
 		this.inputModel = inputModel;
 		if ((mustSendModel) & (this.stateMachine.getState() == ISessionStateMachine.MODELE_SALE_STATE)) {

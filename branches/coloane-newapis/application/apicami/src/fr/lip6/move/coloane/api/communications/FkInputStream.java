@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.communications;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  * Flux dédié à la communication avec la plate-forme (CO->FK)<br>
@@ -13,6 +14,9 @@ import java.io.InputStream;
  * @author Jean-Baptiste Voron
  */
 public final class FkInputStream extends FilterInputStream {
+	/** Le logger */
+	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
+
 	/** Un compteur pour les commandes longues */
 	private int toBeRead = 0;
 
@@ -116,6 +120,20 @@ public final class FkInputStream extends FilterInputStream {
 			return true;
 		} else if (lastToken.equals("QQ")) {
 			return true;
+		} else if (lastToken.equals("FS")) {
+			return true;
+		} else if (lastToken.equals("KO")) {
+			return true;
+		} else if (lastToken.equals("SS")) {
+			return true;
+		} else if (lastToken.equals("RS")) {
+			return true;
+		} else if (lastToken.equals("DF")) {
+			return true;
+		} else if (lastToken.equals("AD")) {
+			return true;
+		} else if (lastToken.equals("FR")) {
+			return true;
 		}
 		return false;
 	}
@@ -123,25 +141,24 @@ public final class FkInputStream extends FilterInputStream {
 	/**
 	 * Retourne la série de commande reçue de la palte-forme
 	 * @return Une chaine de caractères contenant toutes les commmandes de la plate-forme
+	 * @throws IOException En cas de problèmes sur la socket
 	 */
-	public String getCommands() {
+	public String getCommands() throws IOException {
 		byte[] fromInput = new byte[255];
 		StringBuilder toReturn = new StringBuilder();
-		try {
-			do {
-				int nbRead = this.read(fromInput);
-				toReturn.append(new String(fromInput, 0, nbRead));
+		do {
+			int nbRead = this.read(fromInput);
+			if (nbRead < 0) { throw new IOException("Connection closed..."); }
+			String read = new String(fromInput, 0, nbRead);
+			//LOGGER.finest(read);
+			for (String toDebug : read.split("\n")) { LOGGER.finest("[FK->CO] " + toDebug);	}
+			toReturn.append(read);
 
-				// On doit verifier que la commande est complete
-				fromInput = new byte[255];
-				if (toReturn.toString().endsWith(")")) { toReturn.append('\n'); } else { continue; }
+			// On doit verifier que la commande est complete
+			fromInput = new byte[255];
+			if (toReturn.toString().endsWith(")")) { toReturn.append('\n'); } else { continue; }
 
-			} while (!this.hasRichedLastCommand(toReturn.toString()));
-			return toReturn.toString().trim();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		} while (!this.hasRichedLastCommand(toReturn.toString()));
+		return toReturn.toString().trim();
 	}
 }
