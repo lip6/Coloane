@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -18,10 +20,10 @@ public class ListTextArea extends TextArea {
 	 * @param defaultValue Valeur par defaut
 	 */
 	public ListTextArea(Composite parent, int multiLine, String defaultValue) {
-		super(parent, TextArea.INPUT_FORBIDDEN, multiLine, defaultValue);
+		super(parent, IDialog.INPUT_FORBIDDEN, multiLine, defaultValue);
 
 		/* Autorise-t-on les choix multiples ? */
-		if (multiLine == TextArea.MULTI_LINE_WITH_SINGLE_SELECTION) {
+		if (multiLine == IDialog.MULTI_LINE_WITH_SINGLE_SELECTION) {
 			setTextWidget(new List(parent, SWT.SINGLE | SWT.BORDER));
 		} else {
 			setTextWidget(new List(parent, SWT.MULTI | SWT.BORDER));

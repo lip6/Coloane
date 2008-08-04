@@ -9,15 +9,6 @@ import org.eclipse.swt.widgets.Control;
  * Classe abstraite pour une zone de texte d'une boite de dialogue
  */
 public abstract class TextArea implements ITextArea {
-
-	public static final int INPUT_AUTHORIZED = 1;
-	public static final int INPUT_FORBIDDEN = 2;
-	public static final int INPUT_AND_ABORT_AUTHORIZED = 5;
-
-	public static final int SINGLE_LINE = 1;
-	public static final int MULTI_LINE_WITH_SINGLE_SELECTION = 2;
-	public static final int MULTI_LINE_WITH_MULTI_SELECTION = 5;
-
 	private String defaultValue;
 	private Control textWidget;
 

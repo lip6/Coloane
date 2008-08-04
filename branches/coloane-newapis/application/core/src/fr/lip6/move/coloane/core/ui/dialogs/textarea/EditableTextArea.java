@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,9 @@ public class EditableTextArea extends TextArea {
 	 * @param defaultValue Valeur par defaut
 	 */
 	public EditableTextArea(Composite parent, int multiLine, String defaultValue) {
-		super(parent, TextArea.INPUT_AUTHORIZED, multiLine, defaultValue);
+		super(parent, IDialog.INPUT_AUTHORIZED, multiLine, defaultValue);
 
-		if (multiLine == TextArea.SINGLE_LINE) {
+		if (multiLine == IDialog.SINGLE_LINE) {
 			setTextWidget(new Text(parent, SWT.SINGLE | SWT.BORDER));
 		} else {
 			parent.getParent().setSize(400, 300);

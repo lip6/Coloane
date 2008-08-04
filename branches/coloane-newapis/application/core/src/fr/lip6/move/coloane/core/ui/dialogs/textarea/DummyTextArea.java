@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
 
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class DummyTextArea extends TextArea {
 	 * @param p La boite de dialogue en cours de construction
 	 */
 	public DummyTextArea(Composite p) {
-		super(p, TextArea.INPUT_FORBIDDEN, TextArea.SINGLE_LINE, ""); //$NON-NLS-1$
+		super(p, IDialog.INPUT_FORBIDDEN, IDialog.SINGLE_LINE, ""); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */

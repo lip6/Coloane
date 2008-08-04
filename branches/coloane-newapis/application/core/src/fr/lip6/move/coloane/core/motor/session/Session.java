@@ -278,7 +278,7 @@ public class Session implements ISession {
 			IFormalism form = FormalismManager.getInstance().getFormalismByFkName(service.getOutputFormalism());
 			emptyGraph = new GraphModel(form.getName());
 		}
-		apiSession.askForService(service, getActiveOptions(), graph, emptyGraph);
+		apiSession.askForService(service, getActiveOptions(), null, null, graph, emptyGraph);
 	}
 
 	/**
