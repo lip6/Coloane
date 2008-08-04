@@ -55,7 +55,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 	private IDialogAnswer dialogAnswer;
 
 	/** Les choix de la boite de dialogue */
-	private List<String> choices = null;
+	private List<String> choices = new ArrayList<String>();
 
 	private TextArea textArea = null;
 
@@ -76,7 +76,9 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 		defaultValue = dialog.getDefaultValue();
 
 		// La liste des choix
-		choices = new ArrayList<String>(dialog.getLines());
+		if (dialog.getLines() != null) {
+			choices.addAll(dialog.getLines());
+		}
 	}
 
 
