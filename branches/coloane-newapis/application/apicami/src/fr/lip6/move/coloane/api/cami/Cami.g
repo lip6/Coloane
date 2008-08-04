@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.api.observables.ReceptServiceStateObservable;
 import fr.lip6.move.coloane.api.camiObject.ReceptServiceState;
 import fr.lip6.move.coloane.api.observables.DisconnectObservable;
 import fr.lip6.move.coloane.api.observables.ConnectionObservable;
+import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
@@ -24,7 +25,11 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
+import fr.lip6.move.coloane.api.camiObject.Result;
+import fr.lip6.move.coloane.api.camiObject.SubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
+import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
@@ -428,21 +433,38 @@ ask_for_model
 receive_results
 	:	
 	'DR()'
-	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {}
+	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {
+		IResult result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
+	}
 	(	state_service
 	|	special_message
 	|	warning_message
 	|	dialog_definition
-	|	result
-	)*
+	|	result {
+			LOGGER.finest("Ajout du sous-resultat");
+			((Result) result).addSubResult($result.builtResult);
+		}
+	)* {
+		LOGGER.finest("Transmission des resultats");
+		((ReceptResultObservable)hash.get("IReceptResult")).notifyObservers(result); 
+		
+	}
 	;
 
 /* Description d'un résultats */
-result	
+result
+	returns[ISubResult builtResult]
+	scope { ISubResult current; }
 	:	
-	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')'
+	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' {
+		LOGGER.finest("Debut du parcours de l'ensemble de resultats");
+		$result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text);
+	}
 	( result_body {} )+
-	'FE()' {}
+	'FE()' {
+		LOGGER.finest("Fin du parcours de l'ensemble de resultats");
+		builtResult = $result::current;
+	}
 	;
 
 /* Corps d'un résultat */
@@ -460,7 +482,7 @@ result_body
 /* Résultat textuel */
 textual_result
 	:	
-	'RT(' text=CAMI_STRING ')' {}
+	'RT(' text=CAMI_STRING ')' { ((SubResult) $result::current).addTextualResult($text.text); }
 	;
 
 /* Changement d'un attribut */
@@ -472,19 +494,21 @@ attribute_change
 /* Mise en valeur d'un attribut */
 attribute_outline
 	:	
-	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' {}
+	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' {
+		((SubResult) $result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text);
+	}
 	;
 
 /* Désignation d'un objet */
 object_designation
 	:
-	'RO(' id=NUMBER ')' {}		
+	'RO(' id=NUMBER ')' { ((SubResult) $result::current).addObjectDesignation(Integer.parseInt($id.text)); }		
 	;
 
 /* Mise en valeur d'un objet */
 object_outline
 	:
-	'ME(' id=NUMBER ')' {}
+	'ME(' id=NUMBER ')' { ((SubResult) $result::current).addObjectOutline(Integer.parseInt($id.text)); }
 	;
 
 /* Création d'un objet */

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.observables;
 
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,17 +43,18 @@ public class ReceptResultObservable {
 
 	/**
 	 * Notifier tous les observers
+	 * @param result L'objet contenant tous les résultats
 	 */
-	public final void notifyObservers() {
+	public final void notifyObservers(IResult result) {
 		// Option sans création de thread
 		if (!this.createThread) {
 			for (IReceptResultObserver o : this.observers) {
-				o.update(null);
+				o.update(result);
 			}
 
 		// Option avec création de thread
 		} else {
-			ThreadNotifier thread = new ThreadNotifier(this.observers);
+			ThreadNotifier thread = new ThreadNotifier(this.observers, result);
 			new Thread(thread, "threadConnectionSpecialMessage").start();
 		}
 	}
@@ -69,12 +71,17 @@ public class ReceptResultObservable {
 		/** Liste des observeurs */
 		private List<IReceptResultObserver> observers;
 
+		/** Les résultats */
+		private IResult result;
+
 		/**
 		 * Constructeur
 		 * @param observers La liste des observers
+		 * @param result Les objets contenant tous les résultats
 		 */
-		public ThreadNotifier(List<IReceptResultObserver> observers) {
+		public ThreadNotifier(List<IReceptResultObserver> observers, IResult result) {
 			this.observers = observers;
+			this.result = result;
 		}
 
 		/**
@@ -82,7 +89,7 @@ public class ReceptResultObservable {
 		 */
 		public void run() {
 			for (IReceptResultObserver o : this.observers) {
-				o.update(null);
+				o.update(this.result);
 			}
 		}
 	}

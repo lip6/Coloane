@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.api.cami;
 
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
+import fr.lip6.move.coloane.api.camiObject.Result;
+import fr.lip6.move.coloane.api.camiObject.SubResult;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.Service;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
@@ -9,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.List;
@@ -128,13 +131,23 @@ public final class CamiObjectBuilder {
 	}
 
 	/**
-	 * Construction d'un résultat à partir des informations transmises par la plate-forme
-	 * @param description La description du resultat
+	 * Construction d'un sous-résultat à partir des informations transmises par la plate-forme
+	 * @param name Le nom de l'ensemble de résultats
+	 * @param type Le type de l'ensemble de résultats
 	 * @return Le résultat
 	 */
-	public static IResult buildResult(List<String> description) {
-		// TODO Auto-generated method stub
-		return null;
+	public static ISubResult buildSubResult(String name, String type) {
+		return new SubResult(name, Integer.parseInt(type));
+	}
+
+	/**
+	 * Construction d'un résultat à partir des informations transmises par la plate-forme
+	 * @param rootName Le nom du menu racine qui contient le service qui a été invoqué
+	 * @param serviceName Le nom du service qui a été invoqué
+	 * @return Le résultat
+	 */
+	public static IResult buildResult(String rootName, String serviceName) {
+		return new Result(rootName, serviceName);
 	}
 
 	/**
