@@ -33,9 +33,9 @@ public interface IDialog {
 	int INPUT_AND_ABORT_AUTHORIZED = 5;
 
 	/** Affichage mono-ligne */
-	int SINGLE_LINE = 1;
+	int SINGLE_LINE = 2;
 	/** Affichage multi-ligne avec selection simple */
-	int MULTI_LINE_WITH_SINGLE_SELECTION = 2;
+	int MULTI_LINE_WITH_SINGLE_SELECTION = 1;
 	/** Affichage multi-ligne avec selection multiple */
 	int MULTI_LINE_WITH_MULTI_SELECTION = 5;
 
