@@ -54,6 +54,7 @@ public class Listener implements Runnable {
 		/* Boucle de récupération des InputStream sur les chaines de commandes */
 		while (true) {
 			String toParse = this.input.getCommands();
+			LOGGER.finest("Commandes a parser : " + toParse);
 			CharStream antlrStream = new ANTLRStringStream(toParse);
 			CamiLexer lexer = new CamiLexer(antlrStream);
 			this.parser = new CamiParser(new CommonTokenStream(lexer));

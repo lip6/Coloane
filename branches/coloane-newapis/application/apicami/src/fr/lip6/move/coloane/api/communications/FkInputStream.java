@@ -100,7 +100,7 @@ public final class FkInputStream extends FilterInputStream {
 	 * @return La dernière commande lue
 	 */
 	private String getLastCommand(String buffer) {
-		int beginCommand = buffer.lastIndexOf('\n', buffer.length() - 2);
+		int beginCommand = buffer.lastIndexOf('\n', buffer.length() - 3);
 		String lastToken = buffer.substring(beginCommand + 1, beginCommand + 3);
 		return lastToken;
 	}
@@ -129,15 +129,15 @@ public final class FkInputStream extends FilterInputStream {
 		StringBuilder toReturn = new StringBuilder();
 		try {
 			do {
-				this.read(fromInput);
-				toReturn.append(new String(fromInput).trim());
+				int nbRead = this.read(fromInput);
+				toReturn.append(new String(fromInput, 0, nbRead));
 
 				// On doit verifier que la commande est complete
 				fromInput = new byte[255];
 				if (toReturn.toString().endsWith(")")) { toReturn.append('\n'); } else { continue; }
 
 			} while (!this.hasRichedLastCommand(toReturn.toString()));
-			return toReturn.toString().replaceAll("\n", "").trim();
+			return toReturn.toString().trim();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

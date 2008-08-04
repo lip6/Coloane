@@ -228,7 +228,7 @@ service_description
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ','
 	question_type=NUMBER? ',' question_behavior=NUMBER? ','
 	set_item=NUMBER? ',' dialog=NUMBER? ','
-	stop_authorized=NUMBER? ',' output_formalism=CAMI_STRING ',' active_state=NUMBER? ')' {
+	stop_authorized=NUMBER? ',' output_formalism=CAMI_STRING? ',' active_state=NUMBER? ')' {
 	
 		LOGGER.finest("Reception d'une question " + $entry_name.text);
 
@@ -579,10 +579,8 @@ CAMI_STRING
 	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-NUMBER
-	:
-	'0'..'9'+
-	;
+NUMBER	:	'0'..'9'+;
+NEWLINE :	( '\r'?'\n' )+ {skip();};
 
 fragment
 FIXED_LENGTH_STRING
