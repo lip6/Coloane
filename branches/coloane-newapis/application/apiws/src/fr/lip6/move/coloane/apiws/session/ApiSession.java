@@ -4,15 +4,19 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
+import fr.lip6.move.coloane.apiws.utils.CamiModelTranslator;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
+import fr.lip6.move.wrapper.ws.WrapperStub.Attribute;
+import fr.lip6.move.wrapper.ws.WrapperStub.AttributeValue;
 import fr.lip6.move.wrapper.ws.WrapperStub.BArc;
 import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
@@ -33,6 +37,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -330,15 +335,15 @@ public class ApiSession implements IApiSession {
 
 			List<Option> theOptions = null;
 
-			// Traduction du model pour le wrapper
+			// Traduction du model en objets pour le wrapper
 			LOGGER.finer("Traduction du model pour la session: " + sessionName);
-			Model theModel = translateModel(inputModel);
+			//Model theModel = translateModel(inputModel);
 
 
 			/////////////////////////      Pour envoyer un model en CAMI    ////////////////////////////
-			//Model theModel = new Model();
-			//theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
-			//theModel.setParsing(true);
+			Model theModel = new Model();
+			theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
+			theModel.setParsing(true);
 			////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -533,6 +538,44 @@ public class ApiSession implements IApiSession {
 			noeud.setPosition(pos);
 			// Initialisation du type du noeud pour le wrapper
 			noeud.setType(node.getNodeFormalism().getName());
+			// Initialisation des attributs
+			List<Attribute> myAttributes = new ArrayList<Attribute>();
+
+			if (node.getAttribute("name") != null) {
+				Attribute attName = new Attribute();
+				attName.setAttName("name");
+
+				AttributeValue attValueName = new AttributeValue();
+				attValueName.setValue(node.getAttribute("name").getValue());
+				AttributeValue[] attsValueArray = new AttributeValue[1];
+				attsValueArray[0] = attValueName;
+
+				attName.setValues(attsValueArray);
+
+				myAttributes.add(attName);
+			}
+
+			if (node.getAttribute("marking") != null) {
+				Attribute attMarking = new Attribute();
+				attMarking.setAttName("marking");
+
+				AttributeValue attValueMarking = new AttributeValue();
+				attValueMarking.setValue(node.getAttribute("marking").getValue());
+				AttributeValue[] attsValueArray = new AttributeValue[1];
+				attsValueArray[0] = attValueMarking;
+
+				attMarking.setValues(attsValueArray);
+
+				myAttributes.add(attMarking);
+			}
+
+			Attribute[] theAttributs = new Attribute[myAttributes.size()];
+			int cpt = 0;
+			for (Attribute myAtt : myAttributes) {
+				theAttributs[cpt++] = myAtt;
+			}
+
+			noeud.setAtts(theAttributs);
 
 			// Ajout du noeud dans le model pour le wrapper
 			theModel.addNodes(noeud);
@@ -564,6 +607,30 @@ public class ApiSession implements IApiSession {
 			theArc.setPoints(listPts);
 			// Initialisation du type de l'arc pour le wrapper
 			theArc.setType(arc.getArcFormalism().getName());
+			// Initialisation des attributs
+			List<Attribute> myAttributes = new ArrayList<Attribute>();
+
+			if (arc.getAttribute("name") != null) {
+				Attribute attName = new Attribute();
+				attName.setAttName("valuation");
+
+				AttributeValue attValueName = new AttributeValue();
+				attValueName.setValue(arc.getAttribute("valuation").getValue());
+				AttributeValue[] attsValueArray = new AttributeValue[1];
+				attsValueArray[0] = attValueName;
+
+				attName.setValues(attsValueArray);
+
+				myAttributes.add(attName);
+			}
+
+			Attribute[] theAttributs = new Attribute[myAttributes.size()];
+			int cpt = 0;
+			for (Attribute myAtt : myAttributes) {
+				theAttributs[cpt++] = myAtt;
+			}
+
+			theArc.setAtts(theAttributs);
 
 			// Ajout d'un arc dans le model pour le wrapper
 			theModel.addArcs(theArc);
