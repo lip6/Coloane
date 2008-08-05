@@ -792,40 +792,37 @@
        </menu>
     </menuContribution>
     <menuContribution
-          locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-       <toolbar
-             id="fr.lip6.move.coloane.core.toolbar">
-          <command
-                commandId="%AUTHENTICATION"
-                icon="resources/icons/authenticate.png"
-                id="%AUTHENTICATION_ITEM"
-                style="push"
-                tooltip="%AUTHENTICATION_TIP">
-          </command>
-          <command
-                commandId="%BREAK"
-                icon="resources/icons/unauthenticate.png"
-                id="%BREAK_ITEM"
-                style="push"
-                tooltip="%BREAK_TIP">
-          </command>
-          <command
-                commandId="%CONNECT"
-                icon="resources/icons/connect.png"
-                id="%CONNECT_ITEM"
-                label="%CONNECT_ITEM"
-                style="push"
-                tooltip="%CONNECT_TIP">
-          </command>
-          <command
-                commandId="%DISCONNECT"
-                icon="resources/icons/disconnect.png"
-                id="%DISCONNECT_ITEM"
-                label="%DISCONNECT_ITEM"
-                style="push"
-                tooltip="%DISCONNECT_TIP">
-          </command>
-       </toolbar>
+          locationURI="toolbar:org.eclipse.ui.workbench.file?after=additions">
+       <command
+             commandId="%AUTHENTICATION"
+             icon="resources/icons/authenticate.png"
+             id="%AUTHENTICATION_ITEM"
+             style="push"
+             tooltip="%AUTHENTICATION_TIP">
+       </command>
+       <command
+             commandId="%BREAK"
+             icon="resources/icons/unauthenticate.png"
+             id="%BREAK_ITEM"
+             style="push"
+             tooltip="%BREAK_TIP">
+       </command>
+       <command
+             commandId="%CONNECT"
+             icon="resources/icons/connect.png"
+             id="%CONNECT_ITEM"
+             label="%CONNECT_ITEM"
+             style="push"
+             tooltip="%CONNECT_TIP">
+       </command>
+       <command
+             commandId="%DISCONNECT"
+             icon="resources/icons/disconnect.png"
+             id="%DISCONNECT_ITEM"
+             label="%DISCONNECT_ITEM"
+             style="push"
+             tooltip="%DISCONNECT_TIP">
+       </command>
     </menuContribution>
  </extension>
  <extension
