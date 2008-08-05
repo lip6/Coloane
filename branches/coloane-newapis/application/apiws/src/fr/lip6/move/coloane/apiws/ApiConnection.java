@@ -138,7 +138,7 @@ public class ApiConnection implements IApiConnection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void addReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
+	public final void setReceptServiceStateObserver(IReceptServiceStateObserver o, boolean createThread) {
 		LOGGER.finer("Ajout d'un observateur d'événement: récéption d'une information le service en cours d'exécution");
 		IReceptServiceStateObservable obs = (IReceptServiceStateObservable) listObservables.get(IObservables.RECEPT_SERVICE_STATE);
 		obs.addObserver(o);

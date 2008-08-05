@@ -269,7 +269,7 @@ public class ApiSession implements IApiSession {
 		// Initialisation de la boîte de dialogue réponse à envoyer au wrapper
 		answer.getAnswer().setId(dialogAnswer.getIdDialog());
 		answer.getAnswer().setButtonAnswer(dialogAnswer.getButtonType());
-		answer.getAnswer().setModified(dialogAnswer.isModified());
+		answer.getAnswer().setModified(dialogAnswer.hasBeenModified());
 		answer.getAnswer().setValue(join(dialogAnswer.getAllValue(), "\n"));
 
 		// Initialisation du champ objects de la boîte de dialogue réponse en un tableau vide
