@@ -1,15 +1,12 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.exceptions.UIException;
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
+import fr.lip6.move.coloane.core.ui.handlers.AuthenticationHandler;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
-import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -20,18 +17,18 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * Interface Utilisateur
  */
 public final class UserInterface {
-		/** Le logger */
-		private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** La fenetre de travail */
 	private static IWorkbenchWindow fenetreTravail;
@@ -44,6 +41,8 @@ public final class UserInterface {
 	 */
 	private UserInterface() {
 		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+//		IHandlerService service = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+//		service.activateHandler("", new AuthenticationHandler());
 	}
 
 	/**
@@ -53,9 +52,6 @@ public final class UserInterface {
 	public static synchronized UserInterface getInstance() {
 		if (instance == null) {
 			instance = new UserInterface();
-			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			Display.getDefault().asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
 		}
 		return instance;
 	}
@@ -185,45 +181,5 @@ public final class UserInterface {
 				Motor.getInstance().sendDialogAnswer(dialogUI.getDialogResult());
 			}
 		});
-	}
-
-	/**
-	 * Mise à jour des actions de connexion/déconnexion
-	 * @param authentication état de la connexion avec l'api
-	 * @param session état de la connexion de la session courrante
-	 */
-	public void platformState(boolean authentication, int session) {
-		LOGGER.fine("Mise a jour de l'etat de la session (AUTH,SESSION) : (" + authentication + "," + session + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		Display dispay = Display.getDefault();
-
-		// Prise en compte de l'authentification
-		if (!authentication) {
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), true)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), false)); //$NON-NLS-1$
-			return;
-		} else {
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("AUTHENTICATION_ITEM"), false)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("BREAK_ITEM"), true)); //$NON-NLS-1$
-		}
-
-		// Prise en compte de l'etat de la session
-		switch (session) {
-		case ISession.CLOSED:
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), true)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			break;
-
-		case ISession.ERROR:
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
-			break;
-
-		default:
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-			dispay.asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), true)); //$NON-NLS-1$
-			break;
-		}
 	}
 }

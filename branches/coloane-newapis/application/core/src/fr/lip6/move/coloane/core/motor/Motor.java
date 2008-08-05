@@ -22,6 +22,7 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.logging.Logger;
 
+import org.eclipse.core.internal.jobs.JobManager;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -98,9 +99,6 @@ public final class Motor {
 							+ "-" + connectionInfo.getFkMajor() //$NON-NLS-1$
 							+ "." + connectionInfo.getFkMinor()); //$NON-NLS-1$
 					sessionManager.setAuthenticated(true);
-
-					// Mise a jour des boutons et menus de connexion
-					UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.CLOSED);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
 				}
@@ -163,10 +161,8 @@ public final class Motor {
 					// Affichage dans la zone d'historique
 					HistoryView.getInstance().addText(info.getAboutService());
 				} catch (ApiException e) {
-					return new Status(ISession.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
+					return new Status(IStatus.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
-
 				return ASYNC_FINISH;
 			}
 		};
@@ -205,7 +201,6 @@ public final class Motor {
 				}
 				monitor.subTask(Messages.Motor_19);
 				UserInterface.getInstance().cleanMenu();
-				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), session.getStatus());
 				UserInterface.getInstance().redrawMenus();
 				monitor.worked(1);
 				monitor.done();
@@ -283,7 +278,6 @@ public final class Motor {
 					LOGGER.warning("Impossible de fermer la session : " + e); //$NON-NLS-1$
 					return new Status(IStatus.ERROR, "coloane", "Close session failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), ISession.ERROR);
 				UserInterface.getInstance().redrawMenus();
 
 				ISession currentSession = sessionManager.getCurrentSession();
@@ -324,7 +318,6 @@ public final class Motor {
 			protected IStatus run(IProgressMonitor monitor) {
 				if (((SessionManager) sessionManager).resumeSession(name)) {
 					LOGGER.finer("OK pour la reprise de session " + name); //$NON-NLS-1$
-					UserInterface.getInstance().platformState(sessionManager.isAuthenticated(), sessionManager.getSession(name).getStatus());
 					UserInterface.getInstance().redrawMenus();
 
 					ISession currentSession = sessionManager.getCurrentSession();
@@ -376,7 +369,6 @@ public final class Motor {
 				}
 				sessionManager.setAuthenticated(false);
 				UserInterface.getInstance().redrawMenus();
-				UserInterface.getInstance().platformState(false, ISession.CLOSED);
 				return Status.OK_STATUS;
 			}
 		};

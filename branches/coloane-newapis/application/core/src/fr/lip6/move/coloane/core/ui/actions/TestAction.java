@@ -37,7 +37,13 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		testDialog();
+//		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
+//		for (MenuItem item : menu.getItems()) {
+//			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
+//				System.err.println("trouvé");
+//			}
+//		}
+//		testDialog();
 //		testJob();
 //		testJob2();
 	}
@@ -49,6 +55,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * Test des boite de dialogue
 	 */
+	@SuppressWarnings("unused")
 	private void testDialog() {
 		final IDialog dialog = new IDialog() {
 			public int getButtonType() { return DLG_OK_CANCEL; }

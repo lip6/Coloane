@@ -38,7 +38,6 @@ public class PasteCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
-	@SuppressWarnings("unchecked")
 	public final boolean canExecute() {
 		graphContainer = (GraphContainer) Clipboard.getDefault().getContents();
 		if (graphContainer == null || graphContainer.isEmpty()

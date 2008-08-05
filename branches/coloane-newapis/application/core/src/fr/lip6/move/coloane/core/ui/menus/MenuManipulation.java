@@ -48,7 +48,7 @@ public final class MenuManipulation {
 		// sinon on le cherche
 		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
 		for (MenuItem item : menu.getItems()) {
-			if (item.getText().equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
+			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL").replace("&", ""))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				coloaneMenu = item.getMenu();
 				return coloaneMenu;
 			}

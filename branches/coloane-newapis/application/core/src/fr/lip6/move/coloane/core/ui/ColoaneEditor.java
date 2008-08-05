@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
-import fr.lip6.move.coloane.core.ui.menus.UpdatePlatformMenu;
 import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
 import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
@@ -59,9 +58,9 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -239,9 +238,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getGraph()); // Mise en place du contenu dans l'editeur
-
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("CONNECT_ITEM"), false)); //$NON-NLS-1$
-		Coloane.getParent().getDisplay().asyncExec(new UpdatePlatformMenu(Coloane.getParam("DISCONNECT_ITEM"), false)); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */

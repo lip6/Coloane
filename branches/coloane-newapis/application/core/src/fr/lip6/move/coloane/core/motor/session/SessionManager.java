@@ -2,15 +2,16 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.logging.Logger;
 
 /**
  * Gestionnaire de Sessions
  */
-public final class SessionManager extends Observable implements ISessionManager {
+public final class SessionManager implements ISessionManager {
 	/** Le logger pour la classe */
 	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -25,6 +26,9 @@ public final class SessionManager extends Observable implements ISessionManager 
 
 	/** Liste des sessions */
 	private Map<String, ISession> sessions = new HashMap<String, ISession>();
+
+	/** Gestion des listeners */
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	/**
 	 * Constructeur du gestionnaire de sessions
@@ -134,13 +138,13 @@ public final class SessionManager extends Observable implements ISessionManager 
 	 * @param currentSession nouvelle session courrante
 	 */
 	private void setCurrentSession(ISession currentSession) {
+		ISession previousSession = this.currentSession;
 		this.currentSession = currentSession;
 
 		LOG.finer("La session " + currentSession + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Rafraichisement des vues annexes
-		setChanged();
-		notifyObservers(currentSession);
+		firePropertyChange(PROP_CURRENT_SESSION, previousSession, currentSession);
 	}
 
 	/** {@inheritDoc} */
@@ -150,6 +154,32 @@ public final class SessionManager extends Observable implements ISessionManager 
 
 	/** {@inheritDoc} */
 	public void setAuthenticated(boolean authStatus) {
+		if (authenticated == authStatus) {
+			return;
+		}
 		this.authenticated = authStatus;
+		firePropertyChange(PROP_AUTHENTICATION, !authStatus, authStatus);
+	}
+
+	/** {@inheritDoc} */
+	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
+	}
+
+	/** {@inheritDoc} */
+	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+		pcs.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * Envoie une notification de modification de propriété
+	 * @param property La propriété
+	 * @param oldValue L'ancienne valeur de la propriété
+	 * @param newValue La nouvelle valeur
+	 */
+	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+		if (pcs.hasListeners(property)) {
+			pcs.firePropertyChange(property, oldValue, newValue);
+		}
 	}
 }

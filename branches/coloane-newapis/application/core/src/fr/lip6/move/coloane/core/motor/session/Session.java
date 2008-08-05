@@ -12,6 +12,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,6 +60,8 @@ public class Session implements ISession {
 
 	/** Objet session de l'api */
 	private IApiSession apiSession;
+
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
 	/**
@@ -159,7 +163,9 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	public final void setStatus(int status) {
+		int oldStatus = this.status;
 		this.status = status;
+		firePropertyChange(ISession.PROP_CONNECTION, oldStatus, status);
 	}
 
 	/** {@inheritDoc} */
@@ -302,5 +308,27 @@ public class Session implements ISession {
 			return;
 		}
 		apiSession.sendDialogAnswer(dialogAnswer);
+	}
+
+	/** {@inheritDoc} */
+	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcs .addPropertyChangeListener(listener);
+	}
+
+	/** {@inheritDoc} */
+	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+		pcs.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * Envoie une notification de modification de propriété
+	 * @param property La propriété
+	 * @param oldValue L'ancienne valeur de la propriété
+	 * @param newValue La nouvelle valeur
+	 */
+	protected final void firePropertyChange(String property, Object oldValue, Object newValue) {
+		if (pcs.hasListeners(property)) {
+			pcs.firePropertyChange(property, oldValue, newValue);
+		}
 	}
 }

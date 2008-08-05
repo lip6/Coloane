@@ -41,11 +41,9 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 		}
 
 		// Affichage du menu dans la console pour le debug
-		if (menu.getMenus() != null) {
-			for (ISubMenu subMenu : menu.getMenus()) {
-				LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		}
+//		for (ISubMenu subMenu : menu.getMenus()) {
+//			LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
+//		}
 
 		for (Job job : Job.getJobManager().find(null)) {
 			if (job.getName().equals(Motor.OPEN_SESSION_JOB)) {

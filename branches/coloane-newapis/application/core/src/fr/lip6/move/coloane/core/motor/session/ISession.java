@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,8 +19,10 @@ import org.eclipse.jface.action.MenuManager;
  */
 public interface ISession {
 
+	/** Propriété pour les changmenents d'état de la connection */
+	String PROP_CONNECTION = "Session.connection"; //$NON-NLS-1$
+
 	/** Les indicateurs de statuts */
-	int ERROR = -1;
 	int CLOSED = 0;
 	int CONNECTED = 1;
 	int SUSPENDED = 2;
@@ -115,4 +118,16 @@ public interface ISession {
 	 * @return la liste des options actives
 	 */
 	List<String> getActiveOptions();
+
+	/**
+	 * @param listener listener à ajouter
+	 * @see PropertyChangeSupport
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * @param listener listener à enlever
+	 * @see PropertyChangeSupport
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

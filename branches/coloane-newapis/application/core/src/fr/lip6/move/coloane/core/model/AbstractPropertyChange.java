@@ -12,12 +12,16 @@ public abstract class AbstractPropertyChange {
 	 */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
-	/** {@inheritDoc} */
+	/**
+	 * @param listener listener à ajouter
+	 */
 	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcsDelegate.addPropertyChangeListener(listener);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * @param listener listener à enlever
+	 */
 	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcsDelegate.removePropertyChangeListener(listener);
 	}
