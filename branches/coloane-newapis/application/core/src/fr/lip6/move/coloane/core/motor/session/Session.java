@@ -92,6 +92,7 @@ public class Session implements ISession {
 		if (status == ISession.SUSPENDED) {
 			status = ISession.CONNECTED;
 			try {
+				System.err.println("apiSession.resume()");
 				apiSession.resume();
 			} catch (ApiException e) {
 				e.printStackTrace();

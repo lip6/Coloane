@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -16,6 +17,8 @@ import org.eclipse.core.commands.HandlerEvent;
  * Handler pour la commande de fermeture de la connection
  */
 public class BreakConnectionHandler extends AbstractHandler implements PropertyChangeListener {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Constructeur, ajout d'un listener sur le SessionManager
@@ -44,6 +47,7 @@ public class BreakConnectionHandler extends AbstractHandler implements PropertyC
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
+		LOGGER.finer("BreakConnectionHandler : " + isEnabled());
 		if (evt.getPropertyName().equals(ISessionManager.PROP_AUTHENTICATION)) {
 			fireHandlerChanged(new HandlerEvent(this, true, false));
 		}

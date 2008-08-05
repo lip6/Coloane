@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -17,6 +18,9 @@ import org.eclipse.core.commands.HandlerEvent;
  * Handler pour la commande de fermeture d'une session
  */
 public class DisconnectHandler extends AbstractHandler implements PropertyChangeListener {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	/**
 	 * Constructeur, ajout d'un listener sur le SessionManager
 	 */
@@ -45,6 +49,7 @@ public class DisconnectHandler extends AbstractHandler implements PropertyChange
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
+		LOGGER.finer("DisconnectHandler : " + isEnabled());
 		if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
 			if (evt.getOldValue() != null) {
 				((ISession) evt.getOldValue()).removePropertyChangeListener(this);
