@@ -76,8 +76,7 @@ main
 	|	suspend_session
 	|	resume_session
 	/* Pour les services */
-	|	receive_services
-	|	state_service
+	|	invalid_model
 	/* Messages spéciaux */
 	|	message_to_user
 	/* Pour les résultats */
@@ -138,6 +137,7 @@ open_session
 		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo($open_session::sessionArgs);
 		sessionController.notifyReceptSessionInfo(sessionInfo);
 	}
+	message_to_user*
 	receive_services
 	;
 
@@ -193,51 +193,55 @@ close_session
 
 /* Réception des services */
 receive_services
-	scope { 
-		List<ISubMenu> roots;
-		List<IUpdateMenu> updates;
-		List<IService> services;
-	}
+	scope { List<IService> services; }
 	@init { 
-		$receive_services::roots = new ArrayList<ISubMenu>();
-		$receive_services::updates = new ArrayList<IUpdateMenu>();
 		$receive_services::services = new ArrayList<IService>();
+		List<ISubMenu> roots = new ArrayList<ISubMenu>();
+		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>();
+		LOGGER.finest("Reception d'une liste de services");
 	}
 	:
-	receive_services_group+
-	state_service*
+	( receive_services_group { roots.add($receive_services_group.builtRoot); } )+
+	( state_service { updates.add($state_service.builtUpdate); } )+
 	'QQ(3)' {
-		LOGGER.finest("Fin de la transmission des services");
-		((ReceptMenuObservable) hash.get("ISession")).notifyObservers($receive_services::roots, $receive_services::updates, $receive_services::services);
+		LOGGER.finest("Fin de la transmission des services (status=3)");
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(roots, updates, $receive_services::services);
 		sessionController.notifyEndOpenSession();
 	}
 	;
 
 receive_services_group
-	scope { ISubMenu root; }
+	returns [ISubMenu builtRoot]
+	@init { LOGGER.finest("Reception d'une liste de services (Groupe)"); }
 	:	
 	'DQ()'
-	root_description
-	service_description*
-	'FQ()' {
-		LOGGER.finest("Fin de la reception du groupe de services");
-		$receive_services::roots.add($receive_services_group::root);
-	}
+	root_description { builtRoot = $root_description.root; } 
 	(
-	'VQ(' root_name=CAMI_STRING ')' {}
-	)?
+	service_description {
+		// Ajout de la question au menu root existant
+		((SubMenu) builtRoot).addQuestion($service_description.question);
+
+		// Ajout à la liste des services
+		IService service = CamiObjectBuilder.buildService(builtRoot, $service_description.question);
+		$receive_services::services.add(service);
+	}
+	)+
+	'FQ()' { LOGGER.finest("Fin de la reception du groupe de services"); }
+	( 'VQ(' root_name=CAMI_STRING ')' )?
 	;
 
 /* Description du menu root */
 root_description
+	returns [ISubMenu root]
 	:
 	'CQ(' name=CAMI_STRING ',' question_type=NUMBER ',' question_behavior=NUMBER')' {
-		$receive_services_group::root = CamiObjectBuilder.buildRootMenu($name.text, $question_type.text, $question_behavior.text);
+		root = CamiObjectBuilder.buildRootMenu($name.text, $question_type.text, $question_behavior.text);
 	}
 	;
 
 /* Description d'un service (question) */
 service_description
+	returns [IQuestion question]
 	@init { List<String> aq = new ArrayList<String>(); }
 	:
 	'AQ(' parent_menu=CAMI_STRING ',' entry_name=CAMI_STRING ','
@@ -258,19 +262,13 @@ service_description
        		if ($active_state != null) { aq.add($active_state.text); } else { aq.add(null); }
 
 		// Construction de la question
-		IQuestion question = CamiObjectBuilder.buildQuestion(aq);
-
-		// Ajout au menu root existant
-		((SubMenu) $receive_services_group::root).addQuestion(question);
-
-		// Ajout à la liste des services
-		IService service = CamiObjectBuilder.buildService($receive_services_group::root, question);
-		$receive_services::services.add(service);
+		question = CamiObjectBuilder.buildQuestion(aq);
 	}
 	;
 
 /* Description de l'état d'un services */
 state_service
+	returns [IUpdateMenu builtUpdate]
 	@init { List<String> tq = new ArrayList<String>(); }
 	:
 	'TQ(' root_name=CAMI_STRING ',' question_name=CAMI_STRING ',' state=NUMBER ',' message=CAMI_STRING? ')' {
@@ -281,9 +279,8 @@ state_service
 			tq.add($state.text);
 			if ($message != null) { tq.add($message.text); } else { tq.add(""); }
 			
-			// Ajout à la liste des updates
-			IUpdateMenu update = CamiObjectBuilder.buildUpdate(tq);
-			$receive_services::updates.add(update);
+			// Construction de la mise a jour
+			builtUpdate = CamiObjectBuilder.buildUpdate(tq);
 		} else if($state.text.equals("2")) { 
 			if($message != null) { 
 				LOGGER.finest("Reception d'un TQ 2"); 
@@ -346,13 +343,24 @@ state_service
 	}
 	;
 
+invalid_model
+	@init { List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); }
+	:	
+	(state_service { updates.add($state_service.builtUpdate); } )+
+	'QQ(2)' {
+		LOGGER.finest("Fin de la mise a jour (status=2)");
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates, null); 
+		sessionController.notifyEndInvalidModel();
+	}
+	;
+
 /* --------------------------------------- */
 /* Message aux utilisateurs                */
 /* --------------------------------------- */
 
 ko_message
 	:
-	'KO(1' mess=CAMI_STRING ',' severity=NUMBER ')' {
+	'KO(' NUMBER ',' mess=CAMI_STRING ',' severity=NUMBER ')' {
 		// TODO: Differencier les KOs (1 2 ou 3)
 		// TODO: Traiter le dernier argument du KO
 		LOGGER.warning("Reception d'un message asynchrone");
@@ -423,30 +431,31 @@ special_message
 
 ask_for_model
 	:
-	state_service?	
-	'DF(-2,' NUMBER ',' NUMBER ')' {
+	state_service*
+	'DF(-' NUMBER ',' NUMBER ',' NUMBER ')' {
 		sessionController.notifyWaitingForModel();
 	}
 	;
 
 /* Réception des résultats */
 receive_results
+	@init { List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); }
 	:	
 	'DR()'
 	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {
 		IResult result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
 	}
-	(	state_service
+	(	state_service { updates.add($state_service.builtUpdate); }
 	|	special_message
 	|	warning_message
 	|	dialog_definition
-	|	result {
-			LOGGER.finest("Ajout du sous-resultat");
-			((Result) result).addSubResult($result.builtResult);
-		}
+	|	result { ((Result) result).addSubResult($result.builtResult); }
 	)* {
 		LOGGER.finest("Transmission des resultats");
-		((ReceptResultObservable)hash.get("IReceptResult")).notifyObservers(result); 
+		((ReceptResultObservable)hash.get("IReceptResult")).notifyObservers(result);
+		LOGGER.finest("Transmission des mises a jour des services");
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates, null); 
+		sessionController.notifyEndResult();
 		
 	}
 	;
@@ -687,7 +696,7 @@ CAMI_STRING
 	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-NUMBER	:	'0'..'9'+;
+NUMBER	:	('0'..'9')+;
 NEWLINE :	( '\r'?'\n' )+ {skip();};
 
 fragment
@@ -696,5 +705,3 @@ FIXED_LENGTH_STRING
 	:
 	({len > 0}?=> .{len--;})*
 	;
-
-

@@ -2,11 +2,15 @@ package fr.lip6.move.coloane.api.session;
 
 import fr.lip6.move.coloane.api.interfaces.ISessionStateMachine;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe décrit le comportement d'une session<br>
  * Ce comportement peut être représenté comme une machine à états
  */
 public class SessionStateMachine implements ISessionStateMachine {
+	/** Le Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** Etat courant */
 	private int state;
@@ -21,155 +25,40 @@ public class SessionStateMachine implements ISessionStateMachine {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final int getState() {
+	public final int getCurrentState() {
 		return this.state;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean setWaitingForUpdatesAndMenusState() {
-		if (this.state == INITIAL_STATE) {
-			this.state = WAITING_FOR_MENUS_AND_UPDATES_STATE;
-			return true;
-		}
-		return false;
+	public final void setBusy() {
+		LOGGER.finest("Etat precedent : " + this.state + " -> " + BUSY_STATE);
+		this.state = BUSY_STATE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean setIdleState() {
-		if (this.state == WAITING_FOR_MENUS_AND_UPDATES_STATE) {
-			this.state = IDLE_STATE;
-			return true;
-		}
-
-		if (this.state == WAITING_FOR_RESUME_SESSION_STATE) {
-			this.state = IDLE_STATE;
-			return true;
-		}
-
-		if (this.state == WAITING_FOR_RESULT_STATE) {
-			this.state = IDLE_STATE;
-			return true;
-		}
-		return false;
+	public final void setIdle() {
+		LOGGER.finest("Etat precedent : " + this.state + " -> " + IDLE_STATE);
+		this.state = IDLE_STATE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean setWaitingForSuspendSessionState() {
-		if (this.state == IDLE_STATE) {
-			this.state = WAITING_FOR_SUSPEND_SESSION_STATE;
-			return true;
-		}
-		return false;
+	public final void setInitial() {
+		LOGGER.finest("Etat precedent : " + this.state + " -> " + INITIAL_STATE);
+		this.state = INITIAL_STATE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean setSuspendSessionState() {
-		if (this.state == WAITING_FOR_SUSPEND_SESSION_STATE) {
-			this.state = SUSPEND_SESSION_STATE;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForResumeSessionState() {
-		if (this.state == SUSPEND_SESSION_STATE) {
-			this.state = WAITING_FOR_RESUME_SESSION_STATE;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForCloseSessionState() {
-		if (this.state == IDLE_STATE) {
-			this.state = WAITING_FOR_CLOSE_SESSION_STATE;
-			return true;
-		}
-
-		if (this.state == MODELE_SALE_STATE) {
-			this.state = WAITING_FOR_CLOSE_SESSION_STATE;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean closeSessionState() {
-		if (this.state == WAITING_FOR_CLOSE_SESSION_STATE) {
-			this.state = CLOSE_SESSION_STATE;
-
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForModelState() {
-		if (this.state == WAITING_FOR_RESULT_STATE) {
-			this.state = WAITING_FOR_MODEL_STATE;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForResultState() {
-		if (this.state == WAITING_FOR_MODEL_STATE) {
-			this.state = WAITING_FOR_RESULT_STATE;
-			return true;
-		}
-		if (this.state == IDLE_STATE) {
-			this.state = WAITING_FOR_RESULT_STATE;
-			return true;
-		}
-		if (this.state == MODELE_SALE_STATE) {
-			this.state = WAITING_FOR_RESULT_STATE;
-			return true;
-		}
-		return false;
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setWaitingForUpdatesState() {
-		if (this.state == IDLE_STATE) {
-			this.state = WAITING_FOR_UPDATES_STATE;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean setModeleSaleState() {
-		if (this.state == WAITING_FOR_UPDATES_STATE) {
-			this.state = MODELE_SALE_STATE;
-			return true;
-		}
-		return false;
+	public final void setSuspend() {
+		LOGGER.finest("Etat precedent : " + this.state + " -> " + SUSPEND_STATE);
+		this.state = SUSPEND_STATE;
 	}
 }
 

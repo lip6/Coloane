@@ -76,7 +76,7 @@ public final class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public void addSession(ApiSession session) {
-		LOGGER.finest("Ajout de la session " + session.getSessionName() + " a la liste des sessions controlees");
+		LOGGER.finest("Ajout de la session " + session.getName() + " a la liste des sessions controlees");
 		this.sessionsList.add(session);
 	}
 
@@ -130,11 +130,18 @@ public final class SessionController implements ISessionController {
 	public void notifyEndResumeSession(String nameSession) {
 		// Je recherche la session qui vient de reprendre et je la notifie
 		for (ApiSession session : this.sessionsList) {
-			if (session.getSessionName().equals(nameSession)) {
+			if (session.getName().equals(nameSession)) {
 				session.notifyEndResumeSession();
 				break;
 			}
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void notifyReceptSessionInfo(ISessionInfo o) {
+		this.activeSession.notifyReceptSessionInfo(o);
 	}
 
 	/**
@@ -161,15 +168,7 @@ public final class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyReceptSessionInfo(ISessionInfo o) {
-		this.activeSession.notifyReceptSessionInfo(o);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void notifyEndUpdates() {
-		this.activeSession.notifyEndUpdates();
-
+	public void notifyEndInvalidModel() {
+		this.activeSession.notifyEndInvalidatedSession();
 	}
 }

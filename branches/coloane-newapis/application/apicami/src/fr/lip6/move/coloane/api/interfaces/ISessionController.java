@@ -61,19 +61,17 @@ public interface ISessionController {
 	void notifyEndResumeSession(String nameSession);
 
 	/**
-	 * Indique la réception de l'acquittement de FK pour la fermetue de session
+	 * Indique la réception de l'acquittement de FK pour la fermeture de session
 	 */
 	void notifyEndCloseSession();
 
 	/**
-	 * indique a la session active quon est en attente des resultats
-	 * utile pour mettre a jour lautomate
+	 * Indique a la session active qu'on est en attente de resultats de la plate-forme
 	 */
 	void notifyWaitingForResult();
 
 	/**
-	 * indique a la session active quon est en attente de lenvoi du modele
-	 * ie reception du DF, utile surtout pour mettre a jour lautomate
+	 * Indique que la plate-forme attend notre modele
 	 */
 	void notifyWaitingForModel();
 
@@ -89,7 +87,7 @@ public interface ISessionController {
 	void notifyReceptSessionInfo(ISessionInfo sessionInfo);
 
 	/**
-	 * on notifie la fin des updates aprés une invalidation de modele.
+	 * Indique a la session active la fin de l'invalidation de modèle
 	 */
-	void notifyEndUpdates();
+	void notifyEndInvalidModel();
 }
