@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
@@ -143,10 +143,10 @@ public interface ISessionController {
 	 * Notifie la fin de l'exécution d'un service
 	 * @param sessionExecuted la session qui a exécuté le service
 	 * @param result le resultat du service exécuter
-	 * @param newGraph le nouveau graph vide compréhensible par le core et qui peut être manipuler par l'API
+	 * @param service le service exécuter
 	 * @throws ApiException si la notification de la fin de l'exécution d'un service échoue
 	 */
-	void notifyEndResult(IApiSession sessionExecuted, RService result, IGraph newGraph) throws ApiException;
+	void notifyEndResult(IApiSession sessionExecuted, RService result, IService service) throws ApiException;
 
 	/**
 	 * Notifie au gestionnaire de sessions l'invalidation d'un model
