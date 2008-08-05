@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.apiws.observables;
 
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable;
-import fr.lip6.move.coloane.interfaces.api.evenements.IReceptResult;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class ReceptResultObservable implements IReceptResultObservable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyObservers(IReceptResult e) {
+	public final void notifyObservers(IResult e) {
 		if (!createThread) {
 			for (IReceptResultObserver o : listObservers) {
 				o.update(e);
@@ -75,14 +75,14 @@ public class ReceptResultObservable implements IReceptResultObservable {
 
 		private List<IReceptResultObserver> listObservers;
 
-		private IReceptResult result;
+		private IResult result;
 
 		/**
 		 * Constructeur
 		 * @param listObservers la liste des observateurs à mettre à jours.
 		 * @param result le resultat à fournir aux observateurs.
 		 */
-		public ThreadNotifier(List<IReceptResultObserver> listObservers, IReceptResult result) {
+		public ThreadNotifier(List<IReceptResultObserver> listObservers, IResult result) {
 			this.listObservers = listObservers;
 			this.result = result;
 		}

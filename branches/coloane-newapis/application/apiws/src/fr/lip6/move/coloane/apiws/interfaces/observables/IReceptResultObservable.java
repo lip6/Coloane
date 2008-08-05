@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.interfaces.observables;
 
-import fr.lip6.move.coloane.interfaces.api.evenements.IReceptResult;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 /**
  * Cette interface définie l'événement observable: récéption d'un résultat.
@@ -24,7 +24,7 @@ public interface IReceptResultObservable {
 	 * Notifie tous les observateurs de l'evenement : reception d'un resultat
 	 * @param e l'objet qui represent les resultats
 	 */
-	void notifyObservers(IReceptResult e);
+	void notifyObservers(IResult e);
 
 	/**
 	 * Defini s'il faut creer un thread pour la notification
