@@ -88,13 +88,6 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException;
 
 	/**
-	 * Envoie un model
-	 * @param model le model a envoyer
-	 * @throws ApiException si l'envoie du model échoue
-	 */
-	void sendModel(IGraph model) throws ApiException;
-
-	/**
 	 * Invalide un model
 	 * @throws ApiException en cas de problème réseau
 	 */
