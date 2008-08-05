@@ -87,7 +87,7 @@ public final class Motor {
 		}
 
 
-		Job job = new Job("authentication") { //$NON-NLS-1$
+		Job job = new Job("Authentication") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
