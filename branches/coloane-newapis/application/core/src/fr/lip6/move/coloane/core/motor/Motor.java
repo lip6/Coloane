@@ -18,6 +18,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.logging.Logger;
@@ -431,7 +432,33 @@ public final class Motor {
 
 		job.setPriority(Job.SHORT);
 		job.setSystem(true);
-//		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
+	}
+
+	/**
+	 * Ajoute un résultat pour la session courrante
+	 * @param result résultat à ajouter
+	 */
+	public void addResult(final IResult result) {
+		Job job = new Job("Add result") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				ISession currentSession = SessionManager.getInstance().getCurrentSession();
+				if (currentSession != null) {
+					try {
+					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
+					currentSession.getServiceResults().add(result.getServiceName(), result);
+					} catch (RuntimeException e) {
+						e.printStackTrace();
+					}
+					return Status.OK_STATUS;
+				} else {
+					return new Status(IStatus.ERROR, "coloane", "Current session not found");
+				}
+			}
+		};
+		job.setPriority(Job.SHORT);
+		job.setSystem(true);
 		job.schedule();
 	}
 }

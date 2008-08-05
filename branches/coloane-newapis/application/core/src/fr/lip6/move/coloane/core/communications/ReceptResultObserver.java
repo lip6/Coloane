@@ -14,6 +14,7 @@ public class ReceptResultObserver implements IReceptResultObserver {
 
 	/** {@inheritDoc} */
 	public final void update(IResult result) {
+		Motor.getInstance().addResult(result);
 		for (Job job : Job.getJobManager().find(null)) {
 			if (job.getName().equals(Motor.SERVICE_JOB)) {
 				job.done(Status.OK_STATUS);

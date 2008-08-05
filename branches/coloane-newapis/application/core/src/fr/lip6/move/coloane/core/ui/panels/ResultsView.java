@@ -8,6 +8,8 @@ import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -140,10 +142,10 @@ public class ResultsView extends ViewPart {
 		});
 
 		// Ajout d'un Observer sur les changements de sessions
-		((Observable) MANAGER).addObserver(new Observer() {
-			public void update(Observable o, Object arg) {
-				if (arg instanceof Session) {
-					final ResultTreeList currentResult = ((ISession) arg).getServiceResults();
+		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
+					final ResultTreeList currentResult = ((ISession) evt.getNewValue()).getServiceResults();
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
 							viewer.setInput(currentResult);
@@ -154,6 +156,11 @@ public class ResultsView extends ViewPart {
 				}
 			}
 		});
+//			public void update(Observable o, Object arg) {
+//				if (arg instanceof Session) {
+//				}
+//			}
+//		});
 
 		createToolbar();
 
