@@ -144,15 +144,7 @@ public final class Com implements ICom {
 	 * Ajouter un observateur
 	 * @param o observateur de service
 	 */
-	public void addReceptServiceStateObserver(IReceptServiceStateObserver o) {
-		connection.addReceptServiceStateObserver(o, false);
-	}
-
-	/**
-	 * Enlever un observateur
-	 * @param o observateur de service
-	 */
-	public void removeReceptServiceStateObserver(IReceptServiceStateObserver o) {
-		connection.removeReceptServiceStateObserver(o);
+	public void setReceptServiceStateObserver(IReceptServiceStateObserver o) {
+		connection.setReceptServiceStateObserver(o, false);
 	}
 }

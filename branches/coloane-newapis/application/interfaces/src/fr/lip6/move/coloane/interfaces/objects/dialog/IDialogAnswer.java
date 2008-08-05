@@ -33,7 +33,7 @@ public interface IDialogAnswer {
 	 * Détermine si la boîte de dialogue est modifiée.
 	 * @return <code>true</code> si la boîte de dialogue est modifiée, <code>false</code> sinon.
 	 */
-	boolean isModified();
+	boolean hasBeenModified();
 
 	/**
 	 * Récupére la ou les valeur(s) saisie(s) dans la boîte de dialogue.

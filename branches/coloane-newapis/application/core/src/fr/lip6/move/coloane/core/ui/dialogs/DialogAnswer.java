@@ -57,7 +57,7 @@ public class DialogAnswer implements IDialogAnswer {
 	}
 
 	/** {@inheritDoc} */
-	public final boolean isModified() {
+	public final boolean hasBeenModified() {
 		return modified;
 	}
 
