@@ -99,10 +99,4 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	 * @throws ApiException en cas de problème réseau
 	 */
 	void invalidModel() throws ApiException;
-
-	/**
-	 * Initialise un nouveau graph qui peut être manipuler par l'API.
-	 * @param newGraph Le nouveau graph envoyé à la session.
-	 */
-	void setNewGraph(IGraph newGraph);
 }
