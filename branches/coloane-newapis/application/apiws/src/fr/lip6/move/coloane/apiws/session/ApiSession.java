@@ -4,27 +4,19 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
 import fr.lip6.move.coloane.apiws.objects.api.SessionInfo;
-import fr.lip6.move.coloane.apiws.utils.CamiModelTranslator;
+import fr.lip6.move.coloane.apiws.utils.WrapperModelTranslator;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.wrapper.ws.WrapperStub.Attribute;
-import fr.lip6.move.wrapper.ws.WrapperStub.AttributeValue;
-import fr.lip6.move.wrapper.ws.WrapperStub.BArc;
-import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
 import fr.lip6.move.wrapper.ws.WrapperStub.DBAnswer;
 import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Option;
-import fr.lip6.move.wrapper.ws.WrapperStub.Position;
 import fr.lip6.move.wrapper.ws.WrapperStub.QO;
 import fr.lip6.move.wrapper.ws.WrapperStub.QT;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
@@ -37,13 +29,10 @@ import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
  * Cette classe représent une session
@@ -337,13 +326,13 @@ public class ApiSession implements IApiSession {
 
 			// Traduction du model en objets pour le wrapper
 			LOGGER.finer("Traduction du model pour la session: " + sessionName);
-			//Model theModel = translateModel(inputModel);
+			Model theModel = WrapperModelTranslator.translateModel(inputModel);
 
 
 			/////////////////////////      Pour envoyer un model en CAMI    ////////////////////////////
-			Model theModel = new Model();
-			theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
-			theModel.setParsing(true);
+			//Model theModel = new Model();
+			//theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
+			//theModel.setParsing(true);
 			////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -516,135 +505,6 @@ public class ApiSession implements IApiSession {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Traduit un model qui vient du core de Colane en un model compréhensible par le wrapper.
-	 * @param model le modelreçu de la part du core de coloane.
-	 * @return Un model compréhensible par le wrapper.
-	 */
-	private Model translateModel(IGraph model) {
-
-		Model theModel = new Model();
-
-		Collection<INode> nodes = model.getNodes();
-		Collection<IArc> arcs = model.getArcs();
-
-		for (INode node : nodes) {
-
-			// Création d'un noeud pour le wrapper
-			BNode noeud = new BNode();
-
-			// Création de la position du noeud pour le wrapper
-			Position pos = new Position();
-			pos.setXx(node.getGraphicInfo().getLocation().x);
-			pos.setYy(node.getGraphicInfo().getLocation().y);
-
-			// Initialisation de l'identifiant du noeud pour le wrapper
-			noeud.setId(node.getId());
-			// Initialisation de la position du noeud pour le wrapper
-			noeud.setPosition(pos);
-			// Initialisation du type du noeud pour le wrapper
-			noeud.setType(node.getNodeFormalism().getName());
-			// Initialisation des attributs
-			List<Attribute> myAttributes = new ArrayList<Attribute>();
-
-			if (node.getAttribute("name") != null) {
-				Attribute attName = new Attribute();
-				attName.setAttName("name");
-
-				AttributeValue attValueName = new AttributeValue();
-				attValueName.setValue(node.getAttribute("name").getValue());
-				AttributeValue[] attsValueArray = new AttributeValue[1];
-				attsValueArray[0] = attValueName;
-
-				attName.setValues(attsValueArray);
-
-				myAttributes.add(attName);
-			}
-
-			if (node.getAttribute("marking") != null) {
-				Attribute attMarking = new Attribute();
-				attMarking.setAttName("marking");
-
-				AttributeValue attValueMarking = new AttributeValue();
-				attValueMarking.setValue(node.getAttribute("marking").getValue());
-				AttributeValue[] attsValueArray = new AttributeValue[1];
-				attsValueArray[0] = attValueMarking;
-
-				attMarking.setValues(attsValueArray);
-
-				myAttributes.add(attMarking);
-			}
-
-			Attribute[] theAttributs = new Attribute[myAttributes.size()];
-			int cpt = 0;
-			for (Attribute myAtt : myAttributes) {
-				theAttributs[cpt++] = myAtt;
-			}
-
-			noeud.setAtts(theAttributs);
-
-			// Ajout du noeud dans le model pour le wrapper
-			theModel.addNodes(noeud);
-		}
-
-		for (IArc arc : arcs) {
-
-			// Création d'un arc pour le wrapper
-			BArc theArc = new BArc();
-
-			// Création de la liste des points du noeuds.
-			Position[] listPts = new Position[arc.getInflexPoints().size()];
-			int i = 0;
-			for (AbsoluteBendpoint pts : arc.getInflexPoints()) {
-				Position pos = new Position();
-				pos.setXx(pts.x);
-				pos.setYy(pts.y);
-
-				listPts[i++] = pos;
-			}
-
-			// Initialisation de l'identifiant de l'arc pour le wrapper
-			theArc.setId(arc.getId());
-			// Initialisation de la source de l'arc pour le wrapper
-			theArc.setSource(arc.getSource().getId());
-			// Initialisation de la destination de l'arc pour le wrapper
-			theArc.setDestination(arc.getTarget().getId());
-			// Initialisation de la liste des points de l'arc pour le wrapper
-			theArc.setPoints(listPts);
-			// Initialisation du type de l'arc pour le wrapper
-			theArc.setType(arc.getArcFormalism().getName());
-			// Initialisation des attributs
-			List<Attribute> myAttributes = new ArrayList<Attribute>();
-
-			if (arc.getAttribute("name") != null) {
-				Attribute attName = new Attribute();
-				attName.setAttName("valuation");
-
-				AttributeValue attValueName = new AttributeValue();
-				attValueName.setValue(arc.getAttribute("valuation").getValue());
-				AttributeValue[] attsValueArray = new AttributeValue[1];
-				attsValueArray[0] = attValueName;
-
-				attName.setValues(attsValueArray);
-
-				myAttributes.add(attName);
-			}
-
-			Attribute[] theAttributs = new Attribute[myAttributes.size()];
-			int cpt = 0;
-			for (Attribute myAtt : myAttributes) {
-				theAttributs[cpt++] = myAtt;
-			}
-
-			theArc.setAtts(theAttributs);
-
-			// Ajout d'un arc dans le model pour le wrapper
-			theModel.addArcs(theArc);
-		}
-
-		return theModel;
 	}
 
 	/**
