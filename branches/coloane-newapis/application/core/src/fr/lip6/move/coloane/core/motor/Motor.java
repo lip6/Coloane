@@ -94,9 +94,8 @@ public final class Motor {
 					IConnectionInfo connectionInfo = Com.getInstance().authentication(authInformation, monitor);
 
 					// Affichage dans la zone d'historique
-					HistoryView.getInstance().addLine(Messages.Motor_15 + Messages.Motor_3 + " " + connectionInfo.getFkName() //$NON-NLS-1$
-							+ "-" + connectionInfo.getFkMajor() //$NON-NLS-1$
-							+ "." + connectionInfo.getFkMinor()); //$NON-NLS-1$
+					HistoryView.getInstance().addLine(Messages.Motor_15 + Messages.Motor_3);
+					HistoryView.getInstance().addLine("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor()); //$NON-NLS-1$ //$NON-NLS-2$
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
@@ -158,7 +157,7 @@ public final class Motor {
 					monitor.subTask(Messages.Motor_17);
 
 					// Affichage dans la zone d'historique
-					HistoryView.getInstance().addText(info.getAboutService());
+					HistoryView.getInstance().addText(info.getNameService());
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
@@ -245,7 +244,7 @@ public final class Motor {
 						monitor.subTask(e.getMessage());
 					}
 				};
-				Com.getInstance().addReceptServiceStateObserver(observer);
+				Com.getInstance().setReceptServiceStateObserver(observer);
 				try {
 					((Session) session).askForService(service);
 				} catch (ApiException e) {
