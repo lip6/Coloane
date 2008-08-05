@@ -536,14 +536,6 @@ public class ApiSession implements IApiSession {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public final void sendModel(IGraph model) throws ApiException {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * @return <code>true</code> si le model est invalidé, <code>false</code> sinon
 	 */
 	public final boolean isInvalidate() {
