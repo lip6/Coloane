@@ -10,11 +10,14 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -58,8 +61,11 @@ public class ApiSession implements IApiSession {
 	/** Les informations sur la session */
 	private ISessionInfo sessionInfo;
 
-	/** modele sale*/
+	/** Modele sale*/
 	private boolean mustSendModel = true;
+
+	/** Liste des boites de dialogues reçues */
+	private Map<Integer, IDialog> dialogs;
 
 	/**
 	 * Constructeur d'une session
@@ -75,6 +81,7 @@ public class ApiSession implements IApiSession {
 		this.sessionControl = SessionController.getInstance();
 		this.speaker = speaker;
 		this.stateMachine = new SessionStateMachine();
+		this.dialogs = new HashMap<Integer, IDialog>();
 	}
 
 	/**
@@ -430,6 +437,25 @@ public class ApiSession implements IApiSession {
 	public final void notifyEndResult() {
 		LOGGER.fine("La session " + this.name + " a terminee de recevoir les resultats");
 		this.stateMachine.setIdle();
+	}
+
+	/**
+	 * Stocakge de la description d'une boite de dialogue pour pouvoir s'y référer plus tard
+	 * @param dialog La boite de dialogue
+	 */
+	public final void storeDialog(IDialog dialog) {
+		LOGGER.finer("Enregistrement d'une boite de dialogue " + dialog.getId());
+		this.dialogs.put(dialog.getId(), dialog);
+	}
+
+	/**
+	 * Récupération des information concernant une boite de dialogue
+	 * @param id L'identifiat dans le boite de dialogue
+	 * @return La boite de dialogue si elle existe ou <code>null</code> sinon.
+	 */
+	public final IDialog getDialog(int id) {
+		LOGGER.finer("Demande d'informations sur une boite de dialogue " + id);
+		return this.dialogs.get(id);
 	}
 
 	/**

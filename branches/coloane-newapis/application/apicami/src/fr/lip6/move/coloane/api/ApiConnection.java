@@ -127,6 +127,9 @@ public class ApiConnection implements IApiConnection {
 			}
 		}
 
+		if (this.connectionInfo == null) {
+			throw new ApiException("Authentication failure...");
+		}
 		return this.connectionInfo;
 	}
 

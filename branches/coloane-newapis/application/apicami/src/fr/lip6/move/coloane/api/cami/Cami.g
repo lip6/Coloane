@@ -130,6 +130,7 @@ open_session
 	scope { List<String> sessionArgs; }
 	@init { $open_session::sessionArgs = new ArrayList<String>(); }
 	:
+	message_to_user*
 	'OS(' session_name=CAMI_STRING ')'
 	'TD()'
 	'FA()'
@@ -346,7 +347,7 @@ state_service
 invalid_model
 	@init { List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); }
 	:	
-	(state_service { updates.add($state_service.builtUpdate); } )+
+	(state_service { updates.add($state_service.builtUpdate); } )*
 	'QQ(2)' {
 		LOGGER.finest("Fin de la mise a jour (status=2)");
 		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates, null); 
@@ -407,8 +408,9 @@ special_message
     
 		if($type.text.equals("2")) {
 			//TODO :Verifier qu'il faut traiter ce message comme un KO
-			LOGGER.finest("Reception d'un message court et urgent"); 
-			((BrutalInterruptObservable) hash.get("IBrutalInterrupt")).notifyObservers($message.text);  
+			LOGGER.finest("Reception d'un message court et urgent");
+			IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$message.text); 
+			((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg); 
 		}
 
 		if($type.text.equals("3")) { 
@@ -658,7 +660,8 @@ dialog_display
 	:
 	'AD(' dialog_id=NUMBER ')' {
 		LOGGER.finest("Affichage de la boite de dialogue " + $dialog_id.text);
-		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));  
+		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));
+		sessionController.notifyReceptDialog($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));
 	}
 	;
 
@@ -675,7 +678,7 @@ dialog_destroy
 		LOGGER.finest("Destruction de la boite de dialogue " + $dialog_id.text);
 	}
 	( state_service | message_to_user )*
-	'FR(' NUMBER ')' { LOGGER.finest("Fin des echanges"); }
+	( 'FR(' NUMBER ')' { LOGGER.finest("Fin des echanges"); } )?
 	;
 
 // Deprecated

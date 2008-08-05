@@ -55,6 +55,7 @@ public class ReceptMenu implements IReceptMenu {
 	public final Map<String, IUpdateMenu> getUpdateMenus() {
 		Map<String, IUpdateMenu> mapUpdateMenu = new HashMap<String, IUpdateMenu>();
 		for (IUpdateMenu element : this.updateMenus) {
+			if (element == null) { continue; }
 			mapUpdateMenu.put(element.getServiceName(), element);
 		}
 		return mapUpdateMenu;

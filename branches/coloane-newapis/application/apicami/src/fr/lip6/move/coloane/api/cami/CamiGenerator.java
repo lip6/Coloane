@@ -1,14 +1,19 @@
 package fr.lip6.move.coloane.api.cami;
 
+import fr.lip6.move.coloane.api.session.SessionController;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 /**
  * Cette classe génère les commandes CAMI prêtes à être envoyées à FK
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */
 public final class CamiGenerator {
+	/** Le Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/**
 	 * constructeur
@@ -29,15 +34,6 @@ public final class CamiGenerator {
 		String command = new String("FB()");
 		return command;
 	}
-
-	/**
-	 * Traduction du modèle de haut niveau en commandes CAMI
-	 * @param model modele sous forme objet à traduire en Cami
-	 * @return ensemble de commandes cami decrivant un modele
-	 */
-	//public static List<byte[]> generateCamiModel(IGraph model) {
-		//return CamiModelTranslator.translateModel(model);
-	//}
 
 	/**
 	 * @param interlocutor : outil interlocuteur
@@ -91,7 +87,6 @@ public final class CamiGenerator {
 	 * @return string
 	 */
 	public static String generateCmdMS(int date) {
-		// TODO Auto-generated method stub
 		String command = new String("MS(" + date + ")");
 		return command;
 	}
@@ -212,53 +207,65 @@ public final class CamiGenerator {
 	}
 
 	/**********commandes pour la reponse a une boite de dialog**********/
-    /**
-     * la commande DP
-     * @return string
-     */
+	/**
+	 * la commande DP
+	 * @return string
+	 */
 	public static String generateCmdDP() {
 		String command = new String("DP()");
 		return command;
 	}
 
 	/**
-	 * repondre a une boite de dialogue
-	 * @param d la reponse a la boite de dialogue
-	 * @return  tableau de string
+	 * Construction de la réponse à une boite de dialogue
+	 * @param dialog la reponse a la boite de dialogue
+	 * @return L'ensemble des commandes CAMI
 	 */
-	public static List<String> generateCmdDialogAnswer(IDialogAnswer d) {
+	public static List<String> generateCmdDialogAnswer(IDialogAnswer dialog) {
 		List <String> camiDialog = new ArrayList <String>();
-		int modify = 1;
-		if (d.isModified()) {
-			modify = 2;
+
+		// Récupération de la boite de dialogue originale
+		IDialog original = SessionController.getInstance().getActiveSession().getDialog(dialog.getIdDialog());
+		if (original == null) {
+			LOGGER.warning("La boite de dialogue n'a pas ete enregsitree...");
+			return null;
 		}
-		if (d.getAllValue().size() == 1) {
-			if (d.getAllValue().get(0) == null) {
-			String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," + modify + "," + ")");
-			camiDialog.add(command);
-            } else {
-				String command = new String("RD(" + d.getIdDialog() + "," + d.getButtonType() + "," + modify + "," + d.getAllValue().get(0).length() + ":" + d.getAllValue().get(0) + ")");
-			camiDialog.add(command);
+
+		// Si la réponse tient sur une ligne
+		if ((original.getLineType() == IDialog.SINGLE_LINE) || ((original.getLineType() == IDialog.MULTI_LINE_WITH_SINGLE_SELECTION) && (original.getInputType() == IDialog.INPUT_FORBIDDEN))) {
+			if ((!dialog.hasBeenModified()) && (dialog.getAllValue().size() <= 0)) {
+				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",2,)");
+				camiDialog.add(command);
+			} else {
+				String value = dialog.getAllValue().get(0);
+				if (value == null) { value = ""; }
+				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",1," + value.length() + ":" + value + ")");
+				camiDialog.add(command);
 			}
 
-	   } else {
-			String command = new String("RD(" + d.getIdDialog() + "," + d.getAllValue() + "," + modify + "," + ")");
-           camiDialog.add(command);
-           String command1 = new String("DE()");
-           camiDialog.add(command1);
-           for (int i = 0; i < d.getAllValue().size(); i++) {
-   			String command2 = new String("DS(" + d.getIdDialog() + "," +  d.getAllValue().get(i).length() + ":" + d.getAllValue().get(i) + ")");
-   			camiDialog.add(command2);
+			// Sinon la réponse est multi-lignes
+		} else {
+			if ((!dialog.hasBeenModified()) && (dialog.getAllValue().size() <= 0)) {
+				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",2,)");
+				camiDialog.add(command);
+			} else {
+				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",1,)");
+				camiDialog.add(command);
+				String command1 = new String("DE()");
+				camiDialog.add(command1);
+				for (int i = 0; i < dialog.getAllValue().size(); i++) {
+					String command2 = new String("DS(" + dialog.getIdDialog() + "," +  dialog.getAllValue().get(i).length() + ":" + dialog.getAllValue().get(i) + ")");
+					camiDialog.add(command2);
+				}
+				String command3 = new String("FE()");
+				camiDialog.add(command3);
 			}
-
-           String command3 = new String("FE()");
-           camiDialog.add(command3);
 		}
 		return camiDialog;
 	}
 
 	/**
-	 * on genere le FP
+	 * On genere le FP
 	 * @return string
 	 */
 	public static String generateCmdFP() {

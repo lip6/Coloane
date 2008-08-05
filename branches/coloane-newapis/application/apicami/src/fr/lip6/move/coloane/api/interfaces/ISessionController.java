@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.interfaces;
 import fr.lip6.move.coloane.api.session.ApiSession;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * Gestionnaire de sessions.<br>
@@ -90,4 +91,11 @@ public interface ISessionController {
 	 * Indique a la session active la fin de l'invalidation de modèle
 	 */
 	void notifyEndInvalidModel();
+
+	/**
+	 * Indique à la session la définition d'une nouvelle boite de dialogue.<br>
+	 * L'enregistrement des boites de dialogue est nécessaire pour permettre des réponses correctes
+	 * @param dialog La définition de la boite de dialogue
+	 */
+	void notifyReceptDialog(IDialog dialog);
 }

@@ -104,6 +104,7 @@ public final class FkInputStream extends FilterInputStream {
 	 * @return La dernière commande lue
 	 */
 	private String getLastCommand(String buffer) {
+		if (buffer.length() < 1) { return ""; }
 		int beginCommand = buffer.lastIndexOf('\n', buffer.length() - 3);
 		String lastToken = buffer.substring(beginCommand + 1, beginCommand + 3);
 		return lastToken;

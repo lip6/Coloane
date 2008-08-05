@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.api.interfaces.ISessionController;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,5 +171,12 @@ public final class SessionController implements ISessionController {
 	 */
 	public void notifyEndInvalidModel() {
 		this.activeSession.notifyEndInvalidatedSession();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void notifyReceptDialog(IDialog dialog) {
+		this.activeSession.storeDialog(dialog);
 	}
 }
