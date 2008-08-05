@@ -1,10 +1,8 @@
 package fr.lip6.move.coloane.api.observables;
 
-
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.logging.Logger;
 
 /**
@@ -19,17 +17,10 @@ public class ReceptServiceStateObservable {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
 	/** Liste des observeurs */
-	private List<IReceptServiceStateObserver> observers;
+	private IReceptServiceStateObserver observer;
 
 	/** Création de thread nécessaire ? */
 	private boolean createThread = false;
-
-	/**
-	 * Constructeur
-	 */
-	public ReceptServiceStateObservable() {
-		observers = new ArrayList<IReceptServiceStateObserver>();
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -42,16 +33,8 @@ public class ReceptServiceStateObservable {
 	 * Ajout d'un observer sur cet observable
 	 * @param o L'observer
 	 */
-	public final void addObserver(IReceptServiceStateObserver o) {
-		this.observers.add(o);
-	}
-
-	/**
-	 * Supprime un observer enregistré
-	 * @param o L'observer à supprimer
-	 */
-	public final void removeObserver(IReceptServiceStateObserver o) {
-		this.observers.remove(o);
+	public final void setObserver(IReceptServiceStateObserver o) {
+		this.observer = o;
 	}
 
 	/**
@@ -62,13 +45,11 @@ public class ReceptServiceStateObservable {
 		LOGGER.finer("Envoie d'un message d'etat : " + arg.getMessage());
 		// Option sans création de thread
 		if (!this.createThread) {
-			for (IReceptServiceStateObserver o : this.observers) {
-				o.update(arg);
-			}
+			observer.update(arg);
 
 		// Option avec création de thread
 		} else {
-			ThreadNotifier thread = new ThreadNotifier(this.observers, arg);
+			ThreadNotifier thread = new ThreadNotifier(this.observer, arg);
 			new Thread(thread, "threadConnectionSpecialServiceState").start();
 		}
 	}
@@ -83,18 +64,18 @@ public class ReceptServiceStateObservable {
 	 */
 	private class ThreadNotifier implements Runnable {
 		/** Liste des observeurs */
-		private List<IReceptServiceStateObserver> observers;
+		private IReceptServiceStateObserver observer;
 
 		/** L'objet qui doit être envoyés aux observers */
 		private IReceptServiceState receptServiceState;
 
 		/**
 		 * Constructeur
-		 * @param observers La liste des observers
+		 * @param observer L'unique observateur de ces événements
 		 * @param receptMenu L'objet à transmettre aux observers
 		 */
-		public ThreadNotifier(List<IReceptServiceStateObserver> observers, IReceptServiceState receptMenu) {
-			this.observers = observers;
+		public ThreadNotifier(IReceptServiceStateObserver observer, IReceptServiceState receptMenu) {
+			this.observer = observer;
 			this.receptServiceState = receptMenu;
 		}
 
@@ -102,9 +83,7 @@ public class ReceptServiceStateObservable {
 		 * {@inheritDoc}
 		 */
 		public void run() {
-			for (IReceptServiceStateObserver o : this.observers) {
-				o.update(this.receptServiceState);
-			}
+			this.observer.update(this.receptServiceState);
 		}
 	}
 }

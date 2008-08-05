@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.api.camiObject;
 
+import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +36,18 @@ public class ReceptMenu implements IReceptMenu {
 	 * Constructeur
 	 * @param menus La liste des menus
  	 * @param updateMenus La liste des modifications à faire sur les menus
- 	 * @param services La liste des services installés sur la plate-forme
 	 */
-	public ReceptMenu(List<ISubMenu> menus, List<IUpdateMenu> updateMenus, List<IService> services) {
+	public ReceptMenu(List<ISubMenu> menus, List<IUpdateMenu> updateMenus) {
 		this.menus = menus;
 		this.updateMenus = updateMenus;
-		this.services = services;
+		this.services = new ArrayList<IService>();
+
+		// Extraction des services
+		if (menus != null) {
+			for (ISubMenu root : menus) {
+				this.services.addAll(((SubMenu) root).getRealServices());
+			}
+		}
 	}
 
 	/**
@@ -54,6 +62,9 @@ public class ReceptMenu implements IReceptMenu {
 	 */
 	public final Map<String, IUpdateMenu> getUpdateMenus() {
 		Map<String, IUpdateMenu> mapUpdateMenu = new HashMap<String, IUpdateMenu>();
+		if (this.updateMenus == null) { return null; }
+
+		// Parcours des mises à jour
 		for (IUpdateMenu element : this.updateMenus) {
 			if (element == null) { continue; }
 			mapUpdateMenu.put(element.getServiceName(), element);

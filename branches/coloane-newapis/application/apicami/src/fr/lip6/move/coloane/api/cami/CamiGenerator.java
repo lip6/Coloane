@@ -124,9 +124,9 @@ public final class CamiGenerator {
 	}
 
 	/**
-	 * Dans le protocole cami, le 3ème paramètre de la commande PQ est inconnu
+	 * Dans le protocole cami, le 3ème paramètre de la commande PQ est inconnu<br>
 	 * Dans les traces, ce paramètre est toujours à 1
-	 * @param rootName le nom de la racine ds le menu
+	 * @param rootName le nom de la racine dans le menu
 	 * @param serviceName le nom du service
 	 * @return string
 	 */

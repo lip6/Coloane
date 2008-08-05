@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.camiObject.menu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ public class SubMenu extends Item implements ISubMenu {
 	/** La liste des options attachées au sous-menu */
 	private List<IOptionMenu> options;
 
+	/** La liste des services attachés */
+	private List<IService> realServices;
+
 	/** Comportement du sous-menu */
 	private int behavior;
 
@@ -40,6 +44,22 @@ public class SubMenu extends Item implements ISubMenu {
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();
 		this.submenus = new ArrayList<ISubMenu>();
+		this.realServices = new ArrayList<IService>();
+	}
+
+	/**
+	 * Ajoute un service réel à la liste des services
+	 * @param service Le service réel à ajouter
+	 */
+	private void addRealService(IService service) {
+		this.realServices.add(service);
+	}
+
+	/**
+	 * @return La liste des services réels
+	 */
+	public final List<IService> getRealServices() {
+		return this.realServices;
 	}
 
 	/**
@@ -47,7 +67,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @param name Le nom du sous-menu recherché
 	 * @return Le sous menu désiré ou <code>null</code> si aucun ne correspond
 	 */
-	private ISubMenu findMenu(String name) {
+	final ISubMenu findMenu(String name) {
 		// Je commence par vérifier qu'il ne s'agit pas du sous-menu courant
 		if (this.getName().equals(name)) {
 			return this;
@@ -126,6 +146,9 @@ public class SubMenu extends Item implements ISubMenu {
 	private void addServiceMenu(ISubMenu root, IQuestion question) {
 		IServiceMenu service = new ServiceMenu(question.getName(), question.isVisible(), null, computeServiceId(root.getName(), question.getName()));
 		this.services.add(service);
+
+		// Ajout du service reel
+		((SubMenu) root).addRealService(new Service(question, root));
 	}
 
 	/**

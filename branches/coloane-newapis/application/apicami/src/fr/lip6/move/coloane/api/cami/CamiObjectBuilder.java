@@ -5,14 +5,12 @@ import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.Result;
 import fr.lip6.move.coloane.api.camiObject.SubResult;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
-import fr.lip6.move.coloane.api.camiObject.menu.Service;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
-import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.List;
 
@@ -94,17 +92,6 @@ public final class CamiObjectBuilder {
 		// Construction de l'objet modificateur de menu
 		IUpdateMenu update = CamiObjectFactory.getNewUpdateMenu(rootName, serviceName, state);
 		return update;
-	}
-
-	/**
-	 * Construction de la liste des services installés et accessibles sur la plate-forme
-	 * @param root Le menu racine auquel est attaché la liste de services
-	 * @param question Les questions transmises par la plate-forme
-	 * @return la liste des services
-	 */
-	public static IService buildService(ISubMenu root, IQuestion question) {
-		IService service = new Service(question, root.getName());
-		return service;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject.menu;
 
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 /**
@@ -40,16 +41,24 @@ public class Service implements IService {
 	 * @param question La description de la question par la plate-forme
 	 * @param root Le menu racine qui contient la description du service
 	 */
-	public Service(IQuestion question, String root) {
+	public Service(IQuestion question, ISubMenu root) {
 		this.name = question.getName();
-		this.root = root;
-		this.parent = question.getParent();
+		this.root = root.getName();
 		this.type = question.getType();
 		this.cardinality = question.getBehavior();
 		this.checked = question.isValid();
 		this.interactive = question.isDialogAllowed();
 		this.stoppable = question.isStopAuthorized();
 		this.outputFormalism = question.getOutputFormalism();
+		this.parent = question.getParent();
+
+		// Calcul du parent
+		for (ISubMenu potentialParent : root.getSubMenus()) {
+			if (((SubMenu) potentialParent).findMenu(question.getParent()) != null) {
+				this.parent = potentialParent.getName();
+				break;
+			}
+		}
 	}
 
 	/**

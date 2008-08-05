@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,8 @@ public class ReceptMenuObservable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyObservers(List<ISubMenu> menus, List<IUpdateMenu> updateMenus, List<IService> services) {
-		IReceptMenu receptMenu = new ReceptMenu(menus, updateMenus, services);
+	public final void notifyObservers(List<ISubMenu> menus, List<IUpdateMenu> updateMenus) {
+		IReceptMenu receptMenu = new ReceptMenu(menus, updateMenus);
 
 		// Option sans création de thread
 		if (!this.createThread) {

@@ -61,6 +61,9 @@ public void setObservers(Map<String, Object> hash) {
 /** Le logger des evenements */
 private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
+/** L'objet résultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
+private static IResult result;
+
 }
 /* --------------------------------------- */
 /* Selecteur principal                     */
@@ -82,8 +85,7 @@ main
 	/* Pour les résultats */
 	|	ask_for_model
 	|	receive_results
-	|	dialog_definition
-	|	dialog_destroy
+	|	inside_result
 	/* Les messages KO */
 	|	ko_message
 	;
@@ -196,17 +198,14 @@ close_session
 receive_services
 	scope { List<IService> services; }
 	@init { 
-		$receive_services::services = new ArrayList<IService>();
 		List<ISubMenu> roots = new ArrayList<ISubMenu>();
 		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>();
-		LOGGER.finest("Reception d'une liste de services");
 	}
 	:
 	( receive_services_group { roots.add($receive_services_group.builtRoot); } )+
 	( state_service { updates.add($state_service.builtUpdate); } )+
 	'QQ(3)' {
-		LOGGER.finest("Fin de la transmission des services (status=3)");
-		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(roots, updates, $receive_services::services);
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(roots, updates);
 		sessionController.notifyEndOpenSession();
 	}
 	;
@@ -217,16 +216,7 @@ receive_services_group
 	:	
 	'DQ()'
 	root_description { builtRoot = $root_description.root; } 
-	(
-	service_description {
-		// Ajout de la question au menu root existant
-		((SubMenu) builtRoot).addQuestion($service_description.question);
-
-		// Ajout à la liste des services
-		IService service = CamiObjectBuilder.buildService(builtRoot, $service_description.question);
-		$receive_services::services.add(service);
-	}
-	)+
+	( service_description { ((SubMenu) builtRoot).addQuestion($service_description.question); } )+
 	'FQ()' { LOGGER.finest("Fin de la reception du groupe de services"); }
 	( 'VQ(' root_name=CAMI_STRING ')' )?
 	;
@@ -350,7 +340,7 @@ invalid_model
 	(state_service { updates.add($state_service.builtUpdate); } )*
 	'QQ(2)' {
 		LOGGER.finest("Fin de la mise a jour (status=2)");
-		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates, null); 
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates); 
 		sessionController.notifyEndInvalidModel();
 	}
 	;
@@ -441,25 +431,38 @@ ask_for_model
 
 /* Réception des résultats */
 receive_results
-	@init { List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); }
 	:	
 	'DR()'
 	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {
-		IResult result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
+		result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
 	}
+	inside_result
+	;
+
+inside_result
+	scope { Map<Integer, IDialog> dialogs; }
+	@init { 
+		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); 
+		LOGGER.finest("Reception d'un ensemble d'elements de resultats");
+	}
+	:	
 	(	state_service { updates.add($state_service.builtUpdate); }
 	|	special_message
 	|	warning_message
 	|	dialog_definition
+	|	dialog_display
+	|	dialog_destroy
 	|	result { ((Result) result).addSubResult($result.builtResult); }
-	)* {
+	)+ 
+	(
+	'FR(' NUMBER ')' {
 		LOGGER.finest("Transmission des resultats");
 		((ReceptResultObservable)hash.get("IReceptResult")).notifyObservers(result);
 		LOGGER.finest("Transmission des mises a jour des services");
-		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates, null); 
+		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates); 
 		sessionController.notifyEndResult();
-		
 	}
+	)?
 	;
 
 /* Description d'un résultats */
@@ -608,15 +611,12 @@ intermediary_point
 
 /* Description d'une boite de dialogue */
 dialog_definition
-	scope { Map<Integer, IDialog> dialogs; }
-	@init { $dialog_definition::dialogs = new HashMap<Integer, IDialog>(); }
+	@init { $inside_result::dialogs = new HashMap<Integer, IDialog>(); }
 	:
-	dialog_destroy?
 	'DC()' { LOGGER.finest("Reception d'une definition d'une boite de dialogue"); }
 	dialog_creation
 	( next_dialog )*
 	'FF()' { LOGGER.finest("Fin de reception des boites de dialogue"); }
-	dialog_display?
 	;
 
 /* Corps de la boite de dialogue */
@@ -642,7 +642,7 @@ dialog_creation
 		// Construction de l'objet boite de dialogue
 		IDialog dialog = CamiObjectBuilder.buildDialog(ce);
 		// Ajout de la boite de dialogue à la liste
-		$dialog_definition::dialogs.put(Integer.parseInt($dialog_id.text), dialog);
+		$inside_result::dialogs.put(Integer.parseInt($dialog_id.text), dialog);
 	}
 	;
 
@@ -651,7 +651,7 @@ next_dialog
 	:
 	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' {
 		LOGGER.finest("Ajout d'une ligne a la boite de dialogue : " + $dialog_id.text);
-		((Dialog) $dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text))).addLine($line.text);
+		((Dialog) $inside_result::dialogs.get(Integer.parseInt($dialog_id.text))).addLine($line.text);
 	}
 	;
 
@@ -660,8 +660,8 @@ dialog_display
 	:
 	'AD(' dialog_id=NUMBER ')' {
 		LOGGER.finest("Affichage de la boite de dialogue " + $dialog_id.text);
-		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));
-		sessionController.notifyReceptDialog($dialog_definition::dialogs.get(Integer.parseInt($dialog_id.text)));
+		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($inside_result::dialogs.get(Integer.parseInt($dialog_id.text)));
+		sessionController.notifyReceptDialog($inside_result::dialogs.get(Integer.parseInt($dialog_id.text)));
 	}
 	;
 
@@ -674,11 +674,7 @@ hide_dialog
 /* Destruction de la boite de dialogue */	
 dialog_destroy
 	:
-	'DG(' dialog_id=NUMBER ')' { 
-		LOGGER.finest("Destruction de la boite de dialogue " + $dialog_id.text);
-	}
-	( state_service | message_to_user )*
-	( 'FR(' NUMBER ')' { LOGGER.finest("Fin des echanges"); } )?
+	'DG(' dialog_id=NUMBER ')' { LOGGER.finest("Destruction de la boite de dialogue " + $dialog_id.text); }
 	;
 
 // Deprecated
