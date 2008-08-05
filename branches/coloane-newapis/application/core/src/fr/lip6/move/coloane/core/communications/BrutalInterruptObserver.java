@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.jobs.Job;
+
 /**
  * Permet d'être notifié des demandes de déconnexion.
  */
@@ -15,6 +17,7 @@ public class BrutalInterruptObserver implements IBrutalInterruptObserver {
 	/** {@inheritDoc} */
 	public final void update(String e) {
 		LOGGER.warning("Réception d'un demande de déconnexion forcée : " + e); //$NON-NLS-1$
+		Job.getJobManager().cancel(null);
 		Motor.getInstance().breakConnection();
 	}
 }
