@@ -47,7 +47,7 @@ public class BreakConnectionHandler extends AbstractHandler implements PropertyC
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		LOGGER.finer("BreakConnectionHandler : " + isEnabled());
+		LOGGER.finer("BreakConnectionHandler : " + isEnabled()); //$NON-NLS-1$
 		if (evt.getPropertyName().equals(ISessionManager.PROP_AUTHENTICATION)) {
 			fireHandlerChanged(new HandlerEvent(this, true, false));
 		}

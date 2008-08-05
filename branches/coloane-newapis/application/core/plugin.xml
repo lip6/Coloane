@@ -834,7 +834,7 @@
        point="org.eclipse.ui.handlers">
     <handler
           class="fr.lip6.move.coloane.core.ui.handlers.AuthenticationHandler"
-          commandId="fr.lip6.move.coloane.core.commands.authentication">
+          commandId="%AUTHENTICATION">
     </handler>
  </extension>
  <extension

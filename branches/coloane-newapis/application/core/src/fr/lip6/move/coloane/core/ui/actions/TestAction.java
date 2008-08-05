@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
@@ -7,6 +8,8 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -17,8 +20,12 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 
 /**
  * Classe de test pour les jobs ou n'importe quoi d'autre
@@ -37,12 +44,21 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-//		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
-//		for (MenuItem item : menu.getItems()) {
-//			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
-//				System.err.println("trouvé");
-//			}
-//		}
+		ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+		for (Command c : service.getDefinedCommands()) {
+			if (c.getId().contains("lip6")) {
+				try {
+					System.err.println(c.getName() + " " + c.isEnabled() + " " + c.isDefined());
+				} catch (NotDefinedException e) {
+				}
+			}
+		}
+		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
+		for (MenuItem item : menu.getItems()) {
+			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
+				System.err.println("trouvé");
+			}
+		}
 //		testDialog();
 //		testJob();
 //		testJob2();

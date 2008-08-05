@@ -49,7 +49,7 @@ public class ConnectHandler extends AbstractHandler implements PropertyChangeLis
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		LOGGER.finer("ConnectHandler : " + isEnabled());
+		LOGGER.finer("ConnectHandler : " + isEnabled()); //$NON-NLS-1$
 		if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
 			if (evt.getOldValue() != null) {
 				((ISession) evt.getOldValue()).removePropertyChangeListener(this);

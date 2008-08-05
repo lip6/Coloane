@@ -49,7 +49,7 @@ public class DisconnectHandler extends AbstractHandler implements PropertyChange
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		LOGGER.finer("DisconnectHandler : " + isEnabled());
+		LOGGER.finer("DisconnectHandler : " + isEnabled()); //$NON-NLS-1$
 		if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
 			if (evt.getOldValue() != null) {
 				((ISession) evt.getOldValue()).removePropertyChangeListener(this);

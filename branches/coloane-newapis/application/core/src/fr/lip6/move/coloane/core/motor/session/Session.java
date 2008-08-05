@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Definition d'une session
@@ -327,9 +328,13 @@ public class Session implements ISession {
 	 * @param oldValue L'ancienne valeur de la propriété
 	 * @param newValue La nouvelle valeur
 	 */
-	protected final void firePropertyChange(String property, Object oldValue, Object newValue) {
-		if (pcs.hasListeners(property)) {
-			pcs.firePropertyChange(property, oldValue, newValue);
-		}
+	protected final void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				if (pcs.hasListeners(property)) {
+					pcs.firePropertyChange(property, oldValue, newValue);
+				}
+			}
+		});
 	}
 }

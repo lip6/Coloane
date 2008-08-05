@@ -31,7 +31,7 @@ public class AuthenticationHandler extends AbstractHandler implements PropertyCh
 	public AuthenticationHandler() {
 		SessionManager.getInstance().addPropertyChangeListener(this);
 		IHandlerService service = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-		service.activateHandler(Coloane.getParam("BREAK"), new BreakConnectionHandler()); //$NON-NLS-1$
+		service.activateHandler(Coloane.getParam("BREAK"), new BreakConnectionHandler(), null, true); //$NON-NLS-1$
 		service.activateHandler(Coloane.getParam("CONNECT"), new ConnectHandler()); //$NON-NLS-1$
 		service.activateHandler(Coloane.getParam("DISCONNECT"), new DisconnectHandler()); //$NON-NLS-1$
 	}
@@ -60,7 +60,7 @@ public class AuthenticationHandler extends AbstractHandler implements PropertyCh
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		LOGGER.finer("AuthenticationHandler : " + isEnabled());
+		LOGGER.finer("AuthenticationHandler : " + isEnabled()); //$NON-NLS-1$
 		if (evt.getPropertyName().equals(ISessionManager.PROP_AUTHENTICATION)) {
 			fireHandlerChanged(new HandlerEvent(this, true, false));
 		}
