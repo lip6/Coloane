@@ -22,7 +22,6 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.logging.Logger;
 
-import org.eclipse.core.internal.jobs.JobManager;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
