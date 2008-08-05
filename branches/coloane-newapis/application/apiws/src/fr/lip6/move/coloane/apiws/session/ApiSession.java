@@ -298,7 +298,7 @@ public class ApiSession implements IApiSession {
 			}
 			answer.getAnswer().setObjects(objectsArray);
 		}
-		*/
+		 */
 
 		// Envoyer la boîte de dialogue réponse à envoyer au wrapper
 		LOGGER.finer("Demande l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
@@ -374,65 +374,73 @@ public class ApiSession implements IApiSession {
 
 			// Exécute le service demander
 			RService result = null;
-			if (question instanceof Service) {
-				LOGGER.finer("Demande l'exécution du service simple: " + serviceName);
-				result = speaker.executService(idSession, root, (Service) question, theOptions, theModel);
-			} else if (question instanceof ServiceWithObjects) {
-				LOGGER.finer("Demande l'exécution du service sur des objets: " + serviceName);
-				// Construit le tableau d'objets pour le wrapper
-				QO[] objectsArray = null;
-				if (objects != null) {
-					objectsArray = new QO[objects.size()];
-					int cpt = 0;
-					for (IElement obj : objects) {
-						QO myQO = new QO();
-						myQO.setId(obj.getId());
-						objectsArray[cpt++] = myQO;
+			try {
+				if (question instanceof Service) {
+					LOGGER.finer("Demande l'exécution du service simple: " + serviceName);
+					result = speaker.executService(idSession, root, (Service) question, theOptions, theModel);
+				} else if (question instanceof ServiceWithObjects) {
+					LOGGER.finer("Demande l'exécution du service sur des objets: " + serviceName);
+					// Construit le tableau d'objets pour le wrapper
+					QO[] objectsArray = null;
+					if (objects != null) {
+						objectsArray = new QO[objects.size()];
+						int cpt = 0;
+						for (IElement obj : objects) {
+							QO myQO = new QO();
+							myQO.setId(obj.getId());
+							objectsArray[cpt++] = myQO;
+						}
 					}
-				}
-				// Initialise le tableau d'objet pour le service demander wrapper
-				((ServiceWithObjects) question).setObjects(objectsArray);
-				result = speaker.executeServiceWithObjects(idSession, root, (ServiceWithObjects) question, theOptions, theModel);
-			} else if (question instanceof ServiceWithOneObject) {
-				LOGGER.finer("Demande l'exécution du service sur un objet: " + serviceName);
-				// Construit l'objet pour le wrapper
-				QO myQO = null;
-				if (objects != null && objects.size() == 1) {
-					myQO = new QO();
-					myQO.setId(objects.get(0).getId());
-				}
-				// Initialise l'objet sur lequel exécuter le service
-				((ServiceWithOneObject) question).setObject(myQO);
-				result = speaker.executeServiceWithOneObject(idSession, root, (ServiceWithOneObject) question, theOptions, theModel);
-			} else if (question instanceof ServiceWithOneText) {
-				LOGGER.finer("Demande l'exécution du service sur un texte: " + serviceName);
-				// Construit le texte pour le wrapper
-				QT myQT = null;
-				if (texts != null && texts.size() == 1) {
-					myQT = new QT();
-					myQT.setName(texts.get(0));
-				}
-				// Initialise le text sur lequel exécuter le service
-				result = speaker.executeServiceWithOneText(idSession, root, (ServiceWithOneText) question, theOptions, theModel);
-			} else if (question instanceof ServiceWithTexts) {
-				LOGGER.finer("Demande l'exécution du service sur du texte: " + serviceName);
-				// Construit le tableau de texts pour le wrapper
-				QT[] textsArray = null;
-				if (texts != null) {
-					textsArray = new QT[texts.size()];
-					int cpt = 0;
-					for (String tex : texts) {
-						QT myQT = new QT();
-						myQT.setName(tex);
-						textsArray[cpt++] = myQT;
+					// Initialise le tableau d'objet pour le service demander wrapper
+					((ServiceWithObjects) question).setObjects(objectsArray);
+					result = speaker.executeServiceWithObjects(idSession, root, (ServiceWithObjects) question, theOptions, theModel);
+				} else if (question instanceof ServiceWithOneObject) {
+					LOGGER.finer("Demande l'exécution du service sur un objet: " + serviceName);
+					// Construit l'objet pour le wrapper
+					QO myQO = null;
+					if (objects != null && objects.size() == 1) {
+						myQO = new QO();
+						myQO.setId(objects.get(0).getId());
 					}
+					// Initialise l'objet sur lequel exécuter le service
+					((ServiceWithOneObject) question).setObject(myQO);
+					result = speaker.executeServiceWithOneObject(idSession, root, (ServiceWithOneObject) question, theOptions, theModel);
+				} else if (question instanceof ServiceWithOneText) {
+					LOGGER.finer("Demande l'exécution du service sur un texte: " + serviceName);
+					// Construit le texte pour le wrapper
+					QT myQT = null;
+					if (texts != null && texts.size() == 1) {
+						myQT = new QT();
+						myQT.setName(texts.get(0));
+					}
+					// Initialise le text sur lequel exécuter le service
+					result = speaker.executeServiceWithOneText(idSession, root, (ServiceWithOneText) question, theOptions, theModel);
+				} else if (question instanceof ServiceWithTexts) {
+					LOGGER.finer("Demande l'exécution du service sur du texte: " + serviceName);
+					// Construit le tableau de texts pour le wrapper
+					QT[] textsArray = null;
+					if (texts != null) {
+						textsArray = new QT[texts.size()];
+						int cpt = 0;
+						for (String tex : texts) {
+							QT myQT = new QT();
+							myQT.setName(tex);
+							textsArray[cpt++] = myQT;
+						}
+					}
+					// Initialise le tableau de texts pour le service demander wrapper
+					((ServiceWithTexts) question).setTexts(textsArray);
+					result = speaker.executeServiceWithTexts(idSession, root, (ServiceWithTexts) question, theOptions, theModel);
+				} else {
+					LOGGER.warning("Demande l'exécution du service: " + serviceName + "qui n'est pas reconnu comme un des cinq types de services possible");
+					throw new ApiException("Le service: " + serviceName + " n'est pas reconnu comme un des cinq types de services possible");
 				}
-				// Initialise le tableau de texts pour le service demander wrapper
-				((ServiceWithTexts) question).setTexts(textsArray);
-				result = speaker.executeServiceWithTexts(idSession, root, (ServiceWithTexts) question, theOptions, theModel);
-			} else {
-				LOGGER.finer("Demande l'exécution du service: " + serviceName + "qui n'est pas reconnu comme un des cinq types de services possible");
-				throw new ApiException("Le service: " + serviceName + " n'est pas reconnu comme un des cinq types de services possible");
+			} catch (ApiException e) {
+				LOGGER.warning("Erreur lors de l'exécution du service '" + serviceName + "' : " + e.getMessage());
+				// Si l'exécution d'un service c'est mal passé en remet l'état de la session à IDLE_STATE
+				automate.goToIdleState();
+				// On rediffuse l'exception
+				throw e;
 			}
 
 			LOGGER.finer("Fin de l'exécution du service: " + serviceName);
@@ -656,13 +664,6 @@ public class ApiSession implements IApiSession {
 			}
 		}
 		return buffer.toString();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void setNewGraph(IGraph newGraph) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
