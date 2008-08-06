@@ -96,7 +96,7 @@ public final class Motor {
 
 					// Affichage dans la zone d'historique
 					HistoryView.getInstance().addLine(Messages.Motor_15 + Messages.Motor_3);
-					HistoryView.getInstance().addLine("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor()); //$NON-NLS-1$ //$NON-NLS-2$
+					HistoryView.getInstance().addLine("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
