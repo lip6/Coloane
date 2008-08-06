@@ -168,7 +168,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		String prop = event.getPropertyName();
 
 		// Ajout/Suppression
-		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
+		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
 		}
 
