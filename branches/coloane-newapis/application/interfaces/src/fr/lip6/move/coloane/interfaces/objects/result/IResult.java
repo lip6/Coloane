@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.result;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 import java.util.List;
 
 /**
@@ -8,18 +10,32 @@ import java.util.List;
 public interface IResult {
 
 	/**
-	 * @return Tous les sous-résultats
+	 * @return tous les sous-résultats
 	 */
 	List<ISubResult> getSubResults();
 
 	/**
-	 * @return Le nom du menu racine qui contient le service qui fournit ces résultats
+	 * @return le nom du menu racine qui contient le service qui fournit ces résultats
 	 */
 	String getRootName();
 
 	/**
-	 * @return Le nom du service qui a été invoqué
+	 * @return le nom du service qui a été invoqué
 	 */
 	String getServiceName();
 
+	/**
+	 * @return la liste d'informations associées au résultat
+	 */
+	List<ITip> getTipsList();
+
+	/**
+	 * @return le nouveau graphe qui doit être affiché dans une nouvelle fenêtre
+	 */
+	IGraph getNewGraph();
+
+	/**
+	 * @return le graphe courant qui doit donc être rafraîchit du coté du core
+	 */
+	IGraph getCurrentGraph();
 }
