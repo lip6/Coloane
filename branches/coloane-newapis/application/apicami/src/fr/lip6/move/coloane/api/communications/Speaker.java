@@ -9,12 +9,12 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
- *Le rôle de cette classe est d'offrir une interface de haut niveau
+ * Le rôle de cette classe est d'offrir une interface de haut niveau
  * aux modules de API pour envoyer des commandes à FrameKit
+ *
  * @author Kahina Bouarab
  * @author Youcef Belattaf
  */
@@ -162,7 +162,7 @@ public class Speaker implements ISpeaker {
 	 */
 	public final void sendModel(IGraph model) throws IOException {
 		// Transformation du modèle en CAMI
-		Vector<String> commandes = CamiModelTranslator.translateModel(model);
+		List<String> commandes = CamiModelTranslator.translateModel(model);
 		// Envoyer un DB : Début de transmission du modele
 		String cmdToSend = CamiGenerator.generateCmdDB();
 		this.outputStream.write(cmdToSend);
