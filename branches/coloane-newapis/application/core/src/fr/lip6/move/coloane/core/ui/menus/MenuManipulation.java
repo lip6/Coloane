@@ -141,28 +141,24 @@ public final class MenuManipulation {
 	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
 	 */
 	public static void update(MenuManager menuManager, Map<String, IUpdateMenu> mapUpdateMenu) {
-		update(menuManager, mapUpdateMenu, true);
+		update(menuManager, mapUpdateMenu, null);
 	}
 
 	/**
 	 * @param item élement du menu
 	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
-	 * @param parentActive est que les menus parents sont actifs.
+	 * @param parent est que les menus parents sont actifs.
 	 */
-	private static void update(IContributionItem item, Map<String, IUpdateMenu> mapUpdateMenu, boolean parentActive) {
-		boolean active;
-		if (!parentActive) {
-			active = false;
-		} else {
-			IUpdateMenu updateMenu = mapUpdateMenu.get(item.getId());
-			if (updateMenu != null) {
-				active = updateMenu.getState();
-			} else {
-				active = item.isEnabled();
-			}
+	private static void update(IContributionItem item, Map<String, IUpdateMenu> mapUpdateMenu, Boolean parent) {
+		IUpdateMenu update = mapUpdateMenu.get(item.getId());
+		Boolean active = null;
+		if (parent != null) {
+			active = parent;
+		} else if (update != null) {
+			active = update.getState();
 		}
 
-		if (item.isEnabled() != active && item instanceof ActionContributionItem) {
+		if (item instanceof ActionContributionItem && active != null && item.isEnabled() != active) {
 			IAction action = ((ActionContributionItem) item).getAction();
 			action.setEnabled(active);
 		}
