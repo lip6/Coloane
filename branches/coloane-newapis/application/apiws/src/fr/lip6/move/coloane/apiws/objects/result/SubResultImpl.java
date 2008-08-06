@@ -82,6 +82,73 @@ public class SubResultImpl implements ISubResult {
 	}
 
 	/**
+	 * Constructeur
+	 * @param ensemble l'ensemble des sous-resultat reçu de la part du wrapper
+	 *//*
+	public SubResultImpl(Ensemble ensemble) {
+
+		this.name = ensemble.getName();
+
+		this.textualResults = new ArrayList<String>();
+		if (ensemble.getTxts().getTxts() != null) {
+			for (int i = 0; i < ensemble.getTxts().getTxts().length; i++) {
+				this.textualResults.add(ensemble.getTxts().getTxts()[i]);
+			}
+		}
+
+		this.objectsDesignation = new ArrayList<Integer>();
+		if (ensemble.getObjs().getObjs() != null) {
+			for (int i = 0; i < ensemble.getObjs().getObjs().length; i++) {
+				this.objectsDesignation.add(ensemble.getObjs().getObjs()[i]);
+			}
+		}
+
+		this.objectsOutline = new ArrayList<Integer>();
+		if (ensemble.getSubLightObject() != null) {
+			for (int i = 0; i < ensemble.getSubLightObject().length; i++) {
+				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+				if (ensemble.getSubLightObject()[i] == null) {
+					break;
+				}
+				this.objectsOutline.add((Integer) ensemble.getSubLightObject()[i].getId());
+			}
+		}
+
+		this.attributesOutline = new HashMap<Integer, List<String>>();
+		if (ensemble.getSubLightAttribute() != null) {
+			// On parcour la liste des attribut mis en valeurs
+			for (int i = 0; i < ensemble.getSubLightAttribute().length; i++) {
+				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+				if (ensemble.getSubLightAttribute()[i] == null) {
+					break;
+				}
+				// Si l'identifiant d'un object sur lequel s'applique un attribut est déjà présent dans la hashMap
+				// alors on ajout simplement cette attribut dans la liste des attributs
+				if (this.attributesOutline.containsKey((Integer) ensemble.getSubLightAttribute()[i].getId())) {
+					this.attributesOutline.get((Integer) ensemble.getSubLightAttribute()[i].getId()).add(ensemble.getSubLightAttribute()[i].getName());
+				} else { // Sinon on ajout l'identifiant dans la hashMap et on ajout l'attribut dans la liste des attributs créée
+					this.attributesOutline.put((Integer) ensemble.getSubLightAttribute()[i].getId(), new ArrayList<String>());
+					this.attributesOutline.get((Integer) ensemble.getSubLightAttribute()[i].getId()).add(ensemble.getSubLightAttribute()[i].getName());
+				}
+			}
+		}
+
+		this.children = new ArrayList<ISubResult>();
+		if (ensemble.getEnsembles() != null) {
+			for (int i = 0; i < ensemble.getEnsembles().length; i++) {
+				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+				if (ensemble.getEnsembles()[i] == null) {
+					break;
+				}
+				this.children.add(new SubResultImpl(ensemble.getEnsembles()[i]));
+			}
+		}
+
+		this.type = ensemble.getType();
+
+	}*/
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public final Map<Integer, List<String>> getAttributesOutline() {
