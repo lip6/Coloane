@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 /**
  * Description d'une commande de modification sur le modèle<br>
  * Plusieurs types de commandes existent, mais elles implémentent toutes cette interface.<br>
@@ -16,16 +18,19 @@ public interface ICommand {
 
 	/**
 	 * Execute la commande
+	 * @param graph Le graphe qui est concerné par cette commande
 	 */
-	void execute();
+	void execute(IGraph graph);
 
 	/**
 	 * Annule les effets de la commande
+	 * @param graph Le graphe qui est concerné par cette commande
 	 */
-	void undo();
+	void undo(IGraph graph);
 
 	/**
 	 * Réapplique les effets de la commandes
+	 * @param graph Le graphe qui est concerné par cette commande
 	 */
-	void redo();
+	void redo(IGraph graph);
 }

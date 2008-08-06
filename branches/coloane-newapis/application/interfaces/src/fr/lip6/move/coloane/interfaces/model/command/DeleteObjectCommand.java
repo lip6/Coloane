@@ -1,4 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
+
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 /**
  * Commande de suppression d'un objet<br>
  * Cet objet peut-être un arc ou un noeud au choix.
@@ -20,15 +23,15 @@ public class DeleteObjectCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute() { }
+	public void execute(IGraph graph) { }
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo() { }
+	public void redo(IGraph graph) { }
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo() { }
+	public void undo(IGraph graph) { }
 }

@@ -3,26 +3,15 @@ package fr.lip6.move.coloane.interfaces.model.command;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
- * Commande de création de noeud
+ * Commande de suppression de tous les points d'inflexion<br>
  *
  * @author Jean-Baptiste Voron
  */
-public class CreateNodeCommand implements ICommand {
-	/** Identifiant de l'objet */
-	private int id;
-
-	/** Type de l'objet à créer */
-	private String type;
-
+public class DeleteInflexPointsCommand implements ICommand {
 	/**
 	 * Constructeur
-	 * @param id L'identifiant de l'objet à créer
-	 * @param type Le type de l'objet à créer
 	 */
-	public CreateNodeCommand(int id, String type) {
-		this.id = id;
-		this.type = type;
-	}
+	public DeleteInflexPointsCommand() { }
 
 	/**
 	 * {@inheritDoc}
@@ -38,5 +27,4 @@ public class CreateNodeCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
-
 }

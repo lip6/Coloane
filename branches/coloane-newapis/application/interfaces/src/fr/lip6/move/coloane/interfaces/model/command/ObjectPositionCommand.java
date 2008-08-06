@@ -3,25 +3,25 @@ package fr.lip6.move.coloane.interfaces.model.command;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
- * Commande de création de noeud
+ * Commande de changement de position d'un noeud ou d'un arc
  *
  * @author Jean-Baptiste Voron
  */
-public class CreateNodeCommand implements ICommand {
-	/** Identifiant de l'objet */
+public class ObjectPositionCommand implements ICommand {
 	private int id;
-
-	/** Type de l'objet à créer */
-	private String type;
+	private int x;
+	private int y;
 
 	/**
 	 * Constructeur
-	 * @param id L'identifiant de l'objet à créer
-	 * @param type Le type de l'objet à créer
+	 * @param id L'identifiant du noeud ou de l'arc concerné par le placement
+	 * @param x La position en x
+	 * @param y La position en y
 	 */
-	public CreateNodeCommand(int id, String type) {
+	public ObjectPositionCommand(int id, int x, int y) {
 		this.id = id;
-		this.type = type;
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -38,5 +38,4 @@ public class CreateNodeCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
-
 }
