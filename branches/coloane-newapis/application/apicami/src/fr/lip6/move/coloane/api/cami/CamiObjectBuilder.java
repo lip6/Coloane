@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.result.Result;
 import fr.lip6.move.coloane.api.camiObject.result.SubResult;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
@@ -130,11 +131,12 @@ public final class CamiObjectBuilder {
 	/**
 	 * Construction d'un résultat à partir des informations transmises par la plate-forme
 	 * @param rootName Le nom du menu racine qui contient le service qui a été invoqué
-	 * @param serviceName Le nom du service qui a été invoqué
+	 * @param serviceName Le nom du service qui a été invoqué sur la plate-forme
+	 * @param outputGraph Le modèle résultat qui doit être rempli par l'API
 	 * @return Le résultat
 	 */
-	public static IResult buildResult(String rootName, String serviceName) {
-		return new Result(rootName, serviceName);
+	public static IResult buildResult(String rootName, String serviceName, IGraph outputGraph) {
+		return new Result(rootName, serviceName, outputGraph);
 	}
 
 	/**

@@ -47,7 +47,7 @@ public class CamiModelTranslator {
 	 * @param arc L'arc à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateArc(IArc arc) {
+	private static Vector<String> translateArc(IArc arc) {
 		Vector<String> toReturn = new Vector<String>();
 
 		// traduction de la partie principale
@@ -77,7 +77,7 @@ public class CamiModelTranslator {
 	 * @param arc L'attribut à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateAttribute(IAttribute attribute) {
+	private static Vector<String> translateAttribute(IAttribute attribute) {
 		Vector<String> toReturn = new Vector<String>();
 		String attributeValue = attribute.getValue();
 
@@ -163,7 +163,7 @@ public class CamiModelTranslator {
 	 * @param arc Le noeud à convertir
 	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private final static Vector<String> translateNode(INode node) {
+	private static Vector<String> translateNode(INode node) {
 		Vector<String> toReturn = new Vector<String>();
 		toReturn.add(new String("CN(" + node.getNodeFormalism().getName().length() + ":" + node.getNodeFormalism().getName() + "," + node.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		toReturn.add(new String("PO(" + node.getId() + "," + node.getGraphicInfo().getLocation().x + "," + node.getGraphicInfo().getLocation().y + ")"));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$

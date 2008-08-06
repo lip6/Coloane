@@ -22,11 +22,22 @@ import fr.lip6.move.coloane.api.session.SessionController;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.model.command.CreateNodeCommand;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.coloane.api.camiObject.Result;
-import fr.lip6.move.coloane.api.camiObject.SubResult;
+import fr.lip6.move.coloane.api.camiObject.result.Tip;
+import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
+import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
+import fr.lip6.move.coloane.interfaces.model.command.DeleteObjectCommand;
+import fr.lip6.move.coloane.interfaces.model.command.CreateArcCommand;
+import fr.lip6.move.coloane.interfaces.model.command.CreateNodeCommand;
+import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
+import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
+import fr.lip6.move.coloane.api.camiObject.result.Result;
+import fr.lip6.move.coloane.api.camiObject.result.SubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
@@ -450,19 +461,20 @@ receive_results
 	:	
 	'DR()'
 	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {
-		result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
+		result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text, sessionController.getActiveSession().getOutputModel());
 	}
 	;
 
 results
 	:	
 	(	message_to_user
-	|	state_service { updates.add($state_service.builtUpdate); }
-	|	dialog_definition { dialogs.put($dialog_definition.dialog.getId(), $dialog_definition.dialog); }
+	|	state_service 		{ updates.add($state_service.builtUpdate); }
+	|	dialog_definition 	{ dialogs.put($dialog_definition.dialog.getId(), $dialog_definition.dialog); }
 	|	dialog_display
 	|	dialog_destroy
-	|	one_result { ((Result) result).addSubResult($one_result.builtResult); }
-	|	model_changes
+	|	one_result 		{ ((Result) result).addSubResult($one_result.builtResult); }
+	|	model_changes		{ ((Result) result).addTip($model_changes.tip); }
+	|	model_definition 	{ ((Result) result).addOutputGraph($model_definition.commandsList); }
 	)*
 	(
 	'FR(' NUMBER ')' {
@@ -483,27 +495,21 @@ one_result
 	returns[ISubResult builtResult]
 	scope { ISubResult current; }
 	:	
-	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' {
-		LOGGER.finest("Debut du parcours de l'ensemble de resultats");
-		$one_result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text);
-	}
-	( result_body {} )+
-	'FE()' {
-		LOGGER.finest("Fin du parcours de l'ensemble de resultats");
-		builtResult = $one_result::current;
-	}
+	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' { $one_result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text); }
+	result_body+
+	'FE()' { builtResult = $one_result::current; }
 	;
 
 /* Corps d'un résultat */
 result_body
-	:	one_result {}
-	|	textual_result {}
-	|	attribute_change {}
-	|	object_designation {}
-	|	object_outline {}
-	|	attribute_outline {}
-	|	object_creation {}
-	|	object_deletion {}
+	:	one_result
+	|	textual_result
+	|	attribute_change
+	|	object_designation
+	|	object_outline
+	|	attribute_outline
+	|	object_creation { ((Result) result).addCommand($object_creation.command); }
+	|	object_deletion { ((Result) result).addCommand($object_deletion.command); }
 	;
 
 /* Résultat textuel */
@@ -515,15 +521,14 @@ textual_result
 /* Changement d'un attribut */
 attribute_change
 	:	
-	'WE(' id=NUMBER ',' attribute_name=CAMI_STRING ',' new_value=CAMI_STRING ')' {}
+	'WE(' id=NUMBER ',' attribute_name=CAMI_STRING ',' new_value=CAMI_STRING ')'
 	;
 
 /* Mise en valeur d'un attribut */
 attribute_outline
 	:	
-	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' {
-		((SubResult) $one_result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text);
-	}
+	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' 
+	{ ((SubResult) $one_result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text); }
 	;
 
 /* Désignation d'un objet */
@@ -539,34 +544,36 @@ object_outline
 	;
 
 /* Création d'un objet */
-object_creation
-	:	node
+object_creation returns [ICommand command]
+	:	node		{ command = $node.command; }
 	|	box
-	|	arc
-	|	attribute
+	| 	arc 		{ command = $arc.command; }
+	| 	attribute	{ command = $attribute.command; }
 	;
 
 /* Suppression d'un objet */
-object_deletion
-	:	'SU(' id=NUMBER ')' {}
- 	|	'SI(' page_id=NUMBER ',' id=NUMBER ')' {}
+object_deletion returns [ICommand command]
+	:	'SU(' id=NUMBER ')' { command = new DeleteObjectCommand(Integer.parseInt($id.text)); }
+ 	|	'SI(' page_id=NUMBER ',' id=NUMBER ')' {
+ 			if (($id.text).equals("-1")) { command = new DeleteInflexPointsCommand(); } 
+ 			else { command = new DeleteObjectCommand(Integer.parseInt($id.text)); }
+ 		}
  	;
  
  /* Description des changements à apporter au modèle pour ces résultats */
- model_changes
- 	:	attribute_table?
- 		( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' ) ?
- 		'XA(' id_object=NUMBER ',' attribute_name=CAMI_STRING ',' attribute_value=CAMI_STRING ')' {}
+ model_changes returns [ITip tip]
+ 	:	
+ 	attribute_table?
+ 	( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' ) ?
+ 	'XA(' id_object=NUMBER ',' attribute_name=CAMI_STRING ',' attribute_value=CAMI_STRING ')' 
+ 	{ tip = new Tip(Integer.parseInt($id_object.text), $attribute_name.text, $attribute_value.text); }
  	;
  
  /* Table des attributs (non prise en compte par le core) */
  attribute_table
  	:	
  	'TD(' CAMI_STRING ')'
- 	(
- 	'OB(' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
- 	| 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
- 	)*
+ 	( 'OB(' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )*
 	'FA()'
  	;
  
@@ -575,65 +582,80 @@ object_deletion
 /* --------------------------------------- */
 
 /* En-tête d'un modèle */
-model_definition
-	scope { IGraph model; }
+model_definition returns [List<ICommand> commandsList]
+	@init { commandsList = new ArrayList<ICommand>(); }
 	:	
 	'DB()'
-	( syntactic | aestetic )
+	( 	syntactic { commandsList.add($syntactic.command); } 
+	| 	aestetic  { commandsList.add($aestetic.command); }
+	)*
 	'FB()'
 	;
 
 /* Définition des composants */
-syntactic
-	:
-	node | box | arc | attribute
+syntactic returns [ICommand command]
+	:	node 		{ command = $node.command; }
+	|	box 
+	| 	arc 		{ command = $arc.command; }
+	| 	attribute	{ command = $attribute.command; }
 	;
 
 /* Description d'un noeud */
-node
+node returns [ICommand command]
 	:	
-	'CN(' CAMI_STRING ',' NUMBER ')'
+	'CN(' type=CAMI_STRING ',' id=NUMBER ')' { command = new CreateNodeCommand(Integer.parseInt($id.text), $type.text); }
 	;
 
 /* Description d'une boite */
-box	:
-	'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+box	
+	:
+	'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' { LOGGER.warning("BOX support is deprecated"); }
 	;
 
 /* Description d'un arc */
-arc	:
-	'CA(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ')'
+arc returns [ICommand command]
+	:
+	'CA(' type=CAMI_STRING ',' id=NUMBER ',' source=NUMBER ',' target=NUMBER ')' 
+	{ command = new CreateArcCommand(Integer.parseInt($id.text), $type.text, Integer.parseInt($source.text), Integer.parseInt($target.text)); }
 	;
 
 /* Description d'un attribut */
-attribute
+attribute returns [ICommand command]
 	:	'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
 	|	'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
 	;
 
 /* Description esthétique */
-aestetic
-	:
-	object_position | text_position | intermediary_point
+aestetic returns [ICommand command]
+	:	object_position	{ command = $object_position.command; }
+	| 	text_position	{ command = $text_position.command; }
+	| 	inflex_point	{ command = $inflex_point.command; }
 	;
 
 /* Position d'un objet */
-object_position
-	:	'PO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
-	|	'pO(' id=NUMBER ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
-	|	'PO(-1,' id=NUMBER ',' left=NUMBER ',' right=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
+object_position returns [ICommand command]
+	:	
+	(	'PO(' id=NUMBER ',' x=NUMBER ',' y=NUMBER ')'
+	|	'pO(' id=NUMBER ',' x=NUMBER ',' y=NUMBER ')'
+	|	'PO(-1,' id=NUMBER ',' x=NUMBER ',' y=NUMBER ',' top=NUMBER ',' bottom=NUMBER')'
+	) 
+	{ command = new ObjectPositionCommand(Integer.parseInt($id.text), Integer.parseInt($x.text), Integer.parseInt($y.text)); }
 	;
 
 /* Position d'un attribut */
-text_position
+text_position returns [ICommand command]
 	:	
-	'PT(' id=NUMBER ',' name_attr=CAMI_STRING ',' h_distance=NUMBER ',' v_distance=NUMBER ')'
+	'PT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' x=NUMBER ',' y=NUMBER ')'
+	{ command = new AttributePositionCommand(Integer.parseInt($id.text), $attribute_name.text, Integer.parseInt($x.text), Integer.parseInt($y.text)); }
 	;
 
 /* Position des points d'inflexion */
-intermediary_point
+inflex_point returns [ICommand command]
 	:	
-	'PI(' NUMBER ',' NUMBER ',' NUMBER ')'
+	(	'PI(' id=NUMBER ',' x=NUMBER ',' y=NUMBER ')' 
+	|	'pI(' id=NUMBER ',' x=NUMBER ',' y=NUMBER ')'
+	)
+	{ command = new CreateInflexPointCommand(Integer.parseInt($id.text), Integer.parseInt($x.text), Integer.parseInt($y.text)); }
 	;
 	
 /* --------------------------------------- */
@@ -683,8 +705,8 @@ dialog_next[IDialog dialog]
 /* Affiche la boite de dialogue */
 dialog_display
 	:
-	'AD(' dialog_id=NUMBER ')' {
-		// Demande l'affichage au core
+	'AD(' dialog_id=NUMBER ')'
+	{	// Demande l'affichage au core
 		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers(dialogs.get(Integer.parseInt($dialog_id.text)));
 		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y répondre
 		sessionController.notifyReceptDialog(dialogs.get(Integer.parseInt($dialog_id.text)));
@@ -704,8 +726,8 @@ dialog_destroy
 	;
 
 // Deprecated
-interactive_response
-	:
+interactive_response 
+	: 
 	'MI(' NUMBER ',' NUMBER ')'
 	;
 
@@ -716,17 +738,11 @@ interactive_response
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
-	NUMBER {nbToRead = Integer.parseInt($NUMBER.text);}
-	':'
-	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
+	NUMBER {nbToRead = Integer.parseInt($NUMBER.text);} ':' value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-NUMBER	:	('0'..'9')+;
-NEWLINE :	( '\r'?'\n' )+ {skip();};
+NUMBER	:	('0'..'9')+ ;
+NEWLINE :	( '\r'?'\n' )+ {skip();} ;
 
 fragment
-FIXED_LENGTH_STRING
-	[int len]
-	:
-	({len > 0}?=> .{len--;})*
-	;
+FIXED_LENGTH_STRING [int len] :	({len > 0}?=> .{len--;})* ;

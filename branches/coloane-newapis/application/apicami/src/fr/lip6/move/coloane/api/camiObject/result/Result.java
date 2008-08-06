@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.api.camiObject.result;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
@@ -24,15 +25,31 @@ public class Result implements IResult {
 	/** La liste des sous-résultats */
 	private List<ISubResult> subResults;
 
+	/** Liste des informations */
+	private List<ITip> tipsList;
+
+	/** Liste des commandes de modifications du modele */
+	private List<ICommand> commandsList;
+
+	/** La graphe résultat */
+	private IGraph outputGraph;
+
+	/** La liste des commandes pour construire le graphe résultat */
+	private List<ICommand> outputCommandsList;
+
 	/**
 	 * Constructeur
 	 * @param rootName Le nom du menu racine qui contient le service qui a été invoqué
 	 * @param serviceName Le service qui fournit les résultats
+	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir
 	 */
-	public Result(String rootName, String serviceName) {
+	public Result(String rootName, String serviceName, IGraph outputGraph) {
 		this.rootName = rootName;
 		this.serviceName = serviceName;
+		this.outputGraph = outputGraph;
 		this.subResults = new ArrayList<ISubResult>();
+		this.tipsList = new ArrayList<ITip>();
+		this.commandsList = new ArrayList<ICommand>();
 	}
 
 	/**
@@ -41,6 +58,30 @@ public class Result implements IResult {
 	 */
 	public final void addSubResult(ISubResult subResult) {
 		this.subResults.add(subResult);
+	}
+
+	/**
+	 * Ajoute une information à la liste des informations renvoyées par la plate-forme
+	 * @param tip L'information à ajouter à la liste
+	 */
+	public final void addTip(ITip tip) {
+		this.tipsList.add(tip);
+	}
+
+	/**
+	 * Ajouter une commande de modification du modèle à la liste
+	 * @param command La commande qui doit être ajoutée
+	 */
+	public final void addCommand(ICommand command) {
+		this.commandsList.add(command);
+	}
+
+	/**
+	 * Demande la création d'un nouveau graphe
+	 * @param commands La liste de commandes décrivant le nouveau noeud
+	 */
+	public final void addOutputGraph(List<ICommand> commands) {
+		this.outputCommandsList.addAll(commands);
 	}
 
 	/**
@@ -67,21 +108,35 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IGraph getCurrentGraph() {
-		return null;
+	public final List<ITip> getTipsList() {
+		return this.tipsList;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final List<ICommand> getModificationsOnCurrentGraph() {
+		return this.commandsList;
+	}
+
+	/**
+	 * Construit le modèle résultat à partir des commandes transmises par la plate-forme
+	 * @return Le modèle résultat construit
+	 */
+	private IGraph buildOutputGraph() {
+		for (ICommand command : this.outputCommandsList) {
+			command.execute(this.outputGraph);
+		}
+		return this.outputGraph;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IGraph getNewGraph() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final List<ITip> getTipsList() {
-		return null;
+		if (outputGraph == null) {
+			outputGraph = buildOutputGraph();
+		}
+		return outputGraph;
 	}
 }

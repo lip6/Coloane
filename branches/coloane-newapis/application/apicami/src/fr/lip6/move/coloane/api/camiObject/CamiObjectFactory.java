@@ -59,7 +59,7 @@ public final class CamiObjectFactory {
 	 * @param visibility Le menu est-il visible ?
 	 * @return Une nouvelle question
 	 */
-	public static IQuestion getNewQuestion(String parent, String name, int type, int behavior, boolean valid, boolean dialogAllowed, boolean stopAuthorized,String outputFormalism, boolean visibility) {
+	public static IQuestion getNewQuestion(String parent, String name, int type, int behavior, boolean valid, boolean dialogAllowed, boolean stopAuthorized, String outputFormalism, boolean visibility) {
 		return new Question(parent, name, type, behavior, valid, dialogAllowed, stopAuthorized, outputFormalism, visibility);
 	}
 
