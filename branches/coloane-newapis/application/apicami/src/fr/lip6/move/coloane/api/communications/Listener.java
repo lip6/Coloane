@@ -73,11 +73,11 @@ public class Listener implements Runnable {
 				switch (this.parser.getState()) {
 				case ICamiParserState.RESULT_STATE:
 					LOGGER.finest("Le parser est invoque sur les resultats");
-					parser.inside_result();
+					parser.results();
 					break;
 				case ICamiParserState.OPENSESSION_STATE:
 					LOGGER.finest("Le parser est invoque sur l'ouverture de session");
-					parser.inside_result();
+					parser.results();
 					break;
 				default:
 					parser.main();

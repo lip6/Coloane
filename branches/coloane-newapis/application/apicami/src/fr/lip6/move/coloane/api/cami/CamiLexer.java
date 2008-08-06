@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-06 10:20:49
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-06 15:12:51
 
 package fr.lip6.move.coloane.api.cami;
 
@@ -15,6 +15,7 @@ public class CamiLexer extends Lexer {
     public static final int NUMBER=5;
     public static final int T36=36;
     public static final int T58=58;
+    public static final int T70=70;
     public static final int T35=35;
     public static final int T61=61;
     public static final int T45=45;
@@ -36,11 +37,13 @@ public class CamiLexer extends Lexer {
     public static final int T41=41;
     public static final int T24=24;
     public static final int T19=19;
+    public static final int T69=69;
     public static final int T39=39;
     public static final int T21=21;
     public static final int T62=62;
     public static final int T44=44;
     public static final int T55=55;
+    public static final int T68=68;
     public static final int T33=33;
     public static final int T11=11;
     public static final int T22=22;
@@ -53,6 +56,7 @@ public class CamiLexer extends Lexer {
     public static final int T42=42;
     public static final int T66=66;
     public static final int T40=40;
+    public static final int T71=71;
     public static final int T63=63;
     public static final int T57=57;
     public static final int T13=13;
@@ -64,8 +68,9 @@ public class CamiLexer extends Lexer {
     public static final int T15=15;
     public static final int T54=54;
     public static final int EOF=-1;
+    public static final int T67=67;
     public static final int T47=47;
-    public static final int Tokens=67;
+    public static final int Tokens=72;
     public static final int T53=53;
     public static final int T60=60;
     public static final int T31=31;
@@ -823,10 +828,10 @@ public class CamiLexer extends Lexer {
     public final void mT47() throws RecognitionException {
         try {
             int _type = T47;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:49:5: ( 'DB()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:49:7: 'DB()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:49:5: ( 'ZA(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:49:7: 'ZA('
             {
-            match("DB()"); 
+            match("ZA("); 
 
 
             }
@@ -842,10 +847,10 @@ public class CamiLexer extends Lexer {
     public final void mT48() throws RecognitionException {
         try {
             int _type = T48;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:50:5: ( 'FB()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:50:7: 'FB()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:50:5: ( 'XA(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:50:7: 'XA('
             {
-            match("FB()"); 
+            match("XA("); 
 
 
             }
@@ -861,10 +866,10 @@ public class CamiLexer extends Lexer {
     public final void mT49() throws RecognitionException {
         try {
             int _type = T49;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:51:5: ( 'CN(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:51:7: 'CN('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:51:5: ( 'TD(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:51:7: 'TD('
             {
-            match("CN("); 
+            match("TD("); 
 
 
             }
@@ -880,10 +885,10 @@ public class CamiLexer extends Lexer {
     public final void mT50() throws RecognitionException {
         try {
             int _type = T50;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:52:5: ( 'CB(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:52:7: 'CB('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:52:5: ( 'OB(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:52:7: 'OB('
             {
-            match("CB("); 
+            match("OB("); 
 
 
             }
@@ -899,10 +904,10 @@ public class CamiLexer extends Lexer {
     public final void mT51() throws RecognitionException {
         try {
             int _type = T51;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:53:5: ( 'CA(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:53:7: 'CA('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:53:5: ( 'AT(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:53:7: 'AT('
             {
-            match("CA("); 
+            match("AT("); 
 
 
             }
@@ -918,10 +923,10 @@ public class CamiLexer extends Lexer {
     public final void mT52() throws RecognitionException {
         try {
             int _type = T52;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:54:5: ( 'CT(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:54:7: 'CT('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:54:5: ( 'DB()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:54:7: 'DB()'
             {
-            match("CT("); 
+            match("DB()"); 
 
 
             }
@@ -937,10 +942,10 @@ public class CamiLexer extends Lexer {
     public final void mT53() throws RecognitionException {
         try {
             int _type = T53;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:55:5: ( 'CM(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:55:7: 'CM('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:55:5: ( 'FB()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:55:7: 'FB()'
             {
-            match("CM("); 
+            match("FB()"); 
 
 
             }
@@ -956,10 +961,10 @@ public class CamiLexer extends Lexer {
     public final void mT54() throws RecognitionException {
         try {
             int _type = T54;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:56:5: ( 'PO(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:56:7: 'PO('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:56:5: ( 'CN(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:56:7: 'CN('
             {
-            match("PO("); 
+            match("CN("); 
 
 
             }
@@ -975,10 +980,10 @@ public class CamiLexer extends Lexer {
     public final void mT55() throws RecognitionException {
         try {
             int _type = T55;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:57:5: ( 'pO(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:57:7: 'pO('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:57:5: ( 'CB(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:57:7: 'CB('
             {
-            match("pO("); 
+            match("CB("); 
 
 
             }
@@ -994,10 +999,10 @@ public class CamiLexer extends Lexer {
     public final void mT56() throws RecognitionException {
         try {
             int _type = T56;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:58:5: ( 'PO(-1,' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:58:7: 'PO(-1,'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:58:5: ( 'CA(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:58:7: 'CA('
             {
-            match("PO(-1,"); 
+            match("CA("); 
 
 
             }
@@ -1013,10 +1018,10 @@ public class CamiLexer extends Lexer {
     public final void mT57() throws RecognitionException {
         try {
             int _type = T57;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:59:5: ( 'PT(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:59:7: 'PT('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:59:5: ( 'CT(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:59:7: 'CT('
             {
-            match("PT("); 
+            match("CT("); 
 
 
             }
@@ -1032,10 +1037,10 @@ public class CamiLexer extends Lexer {
     public final void mT58() throws RecognitionException {
         try {
             int _type = T58;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:60:5: ( 'PI(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:60:7: 'PI('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:60:5: ( 'CM(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:60:7: 'CM('
             {
-            match("PI("); 
+            match("CM("); 
 
 
             }
@@ -1051,10 +1056,10 @@ public class CamiLexer extends Lexer {
     public final void mT59() throws RecognitionException {
         try {
             int _type = T59;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:61:5: ( 'DC()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:61:7: 'DC()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:61:5: ( 'PO(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:61:7: 'PO('
             {
-            match("DC()"); 
+            match("PO("); 
 
 
             }
@@ -1070,10 +1075,10 @@ public class CamiLexer extends Lexer {
     public final void mT60() throws RecognitionException {
         try {
             int _type = T60;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:62:5: ( 'FF()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:62:7: 'FF()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:62:5: ( 'pO(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:62:7: 'pO('
             {
-            match("FF()"); 
+            match("pO("); 
 
 
             }
@@ -1089,10 +1094,10 @@ public class CamiLexer extends Lexer {
     public final void mT61() throws RecognitionException {
         try {
             int _type = T61;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:63:5: ( 'CE(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:63:7: 'CE('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:63:5: ( 'PO(-1,' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:63:7: 'PO(-1,'
             {
-            match("CE("); 
+            match("PO(-1,"); 
 
 
             }
@@ -1108,10 +1113,10 @@ public class CamiLexer extends Lexer {
     public final void mT62() throws RecognitionException {
         try {
             int _type = T62;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:64:5: ( 'DS(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:64:7: 'DS('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:64:5: ( 'PT(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:64:7: 'PT('
             {
-            match("DS("); 
+            match("PT("); 
 
 
             }
@@ -1127,10 +1132,10 @@ public class CamiLexer extends Lexer {
     public final void mT63() throws RecognitionException {
         try {
             int _type = T63;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:65:5: ( 'AD(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:65:7: 'AD('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:65:5: ( 'PI(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:65:7: 'PI('
             {
-            match("AD("); 
+            match("PI("); 
 
 
             }
@@ -1146,10 +1151,10 @@ public class CamiLexer extends Lexer {
     public final void mT64() throws RecognitionException {
         try {
             int _type = T64;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:66:5: ( 'HD(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:66:7: 'HD('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:66:5: ( 'DC()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:66:7: 'DC()'
             {
-            match("HD("); 
+            match("DC()"); 
 
 
             }
@@ -1165,10 +1170,10 @@ public class CamiLexer extends Lexer {
     public final void mT65() throws RecognitionException {
         try {
             int _type = T65;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:67:5: ( 'DG(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:67:7: 'DG('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:67:5: ( 'FF()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:67:7: 'FF()'
             {
-            match("DG("); 
+            match("FF()"); 
 
 
             }
@@ -1184,10 +1189,10 @@ public class CamiLexer extends Lexer {
     public final void mT66() throws RecognitionException {
         try {
             int _type = T66;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:68:5: ( 'MI(' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:68:7: 'MI('
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:68:5: ( 'CE(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:68:7: 'CE('
             {
-            match("MI("); 
+            match("CE("); 
 
 
             }
@@ -1199,6 +1204,101 @@ public class CamiLexer extends Lexer {
     }
     // $ANTLR end T66
 
+    // $ANTLR start T67
+    public final void mT67() throws RecognitionException {
+        try {
+            int _type = T67;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:69:5: ( 'DS(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:69:7: 'DS('
+            {
+            match("DS("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T67
+
+    // $ANTLR start T68
+    public final void mT68() throws RecognitionException {
+        try {
+            int _type = T68;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:70:5: ( 'AD(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:70:7: 'AD('
+            {
+            match("AD("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T68
+
+    // $ANTLR start T69
+    public final void mT69() throws RecognitionException {
+        try {
+            int _type = T69;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:71:5: ( 'HD(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:71:7: 'HD('
+            {
+            match("HD("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T69
+
+    // $ANTLR start T70
+    public final void mT70() throws RecognitionException {
+        try {
+            int _type = T70;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:72:5: ( 'DG(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:72:7: 'DG('
+            {
+            match("DG("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T70
+
+    // $ANTLR start T71
+    public final void mT71() throws RecognitionException {
+        try {
+            int _type = T71;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:73:5: ( 'MI(' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:73:7: 'MI('
+            {
+            match("MI("); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T71
+
     // $ANTLR start CAMI_STRING
     public final void mCAMI_STRING() throws RecognitionException {
         try {
@@ -1207,17 +1307,17 @@ public class CamiLexer extends Lexer {
             Token NUMBER1=null;
 
             int nbToRead = 0;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:699:2: ( NUMBER ':' value= FIXED_LENGTH_STRING[nbToRead] )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:700:2: NUMBER ':' value= FIXED_LENGTH_STRING[nbToRead]
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:716:2: ( NUMBER ':' value= FIXED_LENGTH_STRING[nbToRead] )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:717:2: NUMBER ':' value= FIXED_LENGTH_STRING[nbToRead]
             {
-            int NUMBER1Start510 = getCharIndex();
+            int NUMBER1Start550 = getCharIndex();
             mNUMBER(); 
-            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start510, getCharIndex()-1);
+            NUMBER1 = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, NUMBER1Start550, getCharIndex()-1);
             nbToRead = Integer.parseInt(NUMBER1.getText());
             match(':'); 
-            int valueStart520 = getCharIndex();
+            int valueStart560 = getCharIndex();
             mFIXED_LENGTH_STRING(nbToRead); 
-            value = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, valueStart520, getCharIndex()-1);
+            value = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, valueStart560, getCharIndex()-1);
             setText(value.getText());
 
             }
@@ -1233,10 +1333,10 @@ public class CamiLexer extends Lexer {
     public final void mNUMBER() throws RecognitionException {
         try {
             int _type = NUMBER;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:705:8: ( ( '0' .. '9' )+ )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:705:10: ( '0' .. '9' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:722:8: ( ( '0' .. '9' )+ )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:722:10: ( '0' .. '9' )+
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:705:10: ( '0' .. '9' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:722:10: ( '0' .. '9' )+
             int cnt1=0;
             loop1:
             do {
@@ -1250,7 +1350,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:705:11: '0' .. '9'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:722:11: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1280,10 +1380,10 @@ public class CamiLexer extends Lexer {
     public final void mNEWLINE() throws RecognitionException {
         try {
             int _type = NEWLINE;
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:9: ( ( ( '\\r' )? '\\n' )+ )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:11: ( ( '\\r' )? '\\n' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:9: ( ( ( '\\r' )? '\\n' )+ )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:11: ( ( '\\r' )? '\\n' )+
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:11: ( ( '\\r' )? '\\n' )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:11: ( ( '\\r' )? '\\n' )+
             int cnt3=0;
             loop3:
             do {
@@ -1297,9 +1397,9 @@ public class CamiLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:13: ( '\\r' )? '\\n'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:13: ( '\\r' )? '\\n'
             	    {
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:13: ( '\\r' )?
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:13: ( '\\r' )?
             	    int alt2=2;
             	    int LA2_0 = input.LA(1);
 
@@ -1308,7 +1408,7 @@ public class CamiLexer extends Lexer {
             	    }
             	    switch (alt2) {
             	        case 1 :
-            	            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:706:13: '\\r'
+            	            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:723:13: '\\r'
             	            {
             	            match('\r'); 
 
@@ -1345,10 +1445,10 @@ public class CamiLexer extends Lexer {
     // $ANTLR start FIXED_LENGTH_STRING
     public final void mFIXED_LENGTH_STRING(int len) throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:711:2: ( ({...}? => . )* )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:712:2: ({...}? => . )*
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:728:2: ( ({...}? => . )* )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:729:2: ({...}? => . )*
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:712:2: ({...}? => . )*
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:729:2: ({...}? => . )*
             loop4:
             do {
                 int alt4=2;
@@ -1361,7 +1461,7 @@ public class CamiLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:712:3: {...}? => .
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:729:3: {...}? => .
             	    {
             	    if ( !(len > 0) ) {
             	        throw new FailedPredicateException(input, "FIXED_LENGTH_STRING", "len > 0");
@@ -1387,8 +1487,8 @@ public class CamiLexer extends Lexer {
     // $ANTLR end FIXED_LENGTH_STRING
 
     public void mTokens() throws RecognitionException {
-        // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE )
-        int alt5=62;
+        // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:8: ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | CAMI_STRING | NUMBER | NEWLINE )
+        int alt5=67;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
@@ -1805,21 +1905,56 @@ public class CamiLexer extends Lexer {
                 }
                 break;
             case 60 :
-                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:244: CAMI_STRING
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:244: T67
+                {
+                mT67(); 
+
+                }
+                break;
+            case 61 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:248: T68
+                {
+                mT68(); 
+
+                }
+                break;
+            case 62 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:252: T69
+                {
+                mT69(); 
+
+                }
+                break;
+            case 63 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:256: T70
+                {
+                mT70(); 
+
+                }
+                break;
+            case 64 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:260: T71
+                {
+                mT71(); 
+
+                }
+                break;
+            case 65 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:264: CAMI_STRING
                 {
                 mCAMI_STRING(); 
 
                 }
                 break;
-            case 61 :
-                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:256: NUMBER
+            case 66 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:276: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 62 :
-                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:263: NEWLINE
+            case 67 :
+                // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:1:283: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -1833,56 +1968,55 @@ public class CamiLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\23\uffff\1\111\70\uffff\1\120\4\uffff";
+        "\25\uffff\1\115\71\uffff\1\123\1\uffff\1\127\6\uffff";
     static final String DFA5_eofS =
-        "\121\uffff";
+        "\130\uffff";
     static final String DFA5_minS =
-        "\1\12\1\103\1\uffff\1\103\1\uffff\1\101\1\104\1\111\1\117\1\121"+
-        "\1\102\1\101\1\104\1\uffff\2\105\1\111\2\uffff\1\60\32\uffff\1\50"+
-        "\31\uffff\1\50\2\uffff\1\62\1\55\4\uffff";
+        "\1\12\1\103\1\uffff\1\102\1\uffff\1\101\1\104\1\111\1\117\1\121"+
+        "\1\102\1\101\1\104\1\uffff\2\105\2\uffff\1\111\2\uffff\1\60\21\uffff"+
+        "\1\50\11\uffff\1\50\32\uffff\1\50\2\uffff\1\51\1\62\1\55\6\uffff";
     static final String DFA5_maxS =
         "\1\160\1\125\1\uffff\1\123\1\uffff\1\123\1\122\1\121\1\124\1\121"+
-        "\1\123\1\124\1\121\1\uffff\1\116\2\124\2\uffff\1\72\32\uffff\1\50"+
-        "\31\uffff\1\50\2\uffff\1\63\1\55\4\uffff";
+        "\1\123\2\124\1\uffff\1\116\1\124\2\uffff\1\124\2\uffff\1\72\21\uffff"+
+        "\1\50\11\uffff\1\50\32\uffff\1\50\2\uffff\1\51\1\63\1\55\6\uffff";
     static final String DFA5_acceptS =
-        "\2\uffff\1\2\1\uffff\1\4\10\uffff\1\27\3\uffff\1\60\1\71\1\uffff"+
-        "\1\76\1\14\1\47\1\46\1\1\1\3\1\6\1\40\1\10\1\65\1\16\1\21\1\51\1"+
-        "\12\1\5\1\36\1\30\1\25\1\11\1\7\1\22\1\13\1\41\1\44\1\15\1\35\1"+
-        "\uffff\1\50\1\33\1\20\1\37\1\72\1\64\1\67\1\34\1\66\1\52\1\55\1"+
-        "\54\1\23\1\53\1\56\1\70\1\24\1\31\1\42\1\43\1\73\1\32\1\45\1\62"+
-        "\1\63\1\uffff\1\75\1\74\2\uffff\1\17\1\26\1\61\1\57";
+        "\2\uffff\1\2\1\uffff\1\4\10\uffff\1\27\2\uffff\1\50\1\51\1\uffff"+
+        "\1\65\1\76\1\uffff\1\103\1\1\1\14\1\47\1\46\1\3\1\53\1\6\1\40\1"+
+        "\72\1\21\1\5\1\56\1\10\1\16\1\12\1\36\1\uffff\1\30\1\25\1\11\1\13"+
+        "\1\22\1\44\1\15\1\41\1\35\1\uffff\1\55\1\77\1\20\1\33\1\37\1\34"+
+        "\1\74\1\71\1\23\1\61\1\73\1\60\1\63\1\57\1\62\1\75\1\24\1\54\1\42"+
+        "\1\31\1\45\1\43\1\32\1\100\1\70\1\67\1\uffff\1\102\1\101\3\uffff"+
+        "\1\7\1\52\1\17\1\26\1\66\1\64";
     static final String DFA5_specialS =
-        "\121\uffff}>";
+        "\130\uffff}>";
     static final String[] DFA5_transitionS = {
-            "\1\24\2\uffff\1\24\33\uffff\1\2\2\uffff\1\4\3\uffff\12\23\7"+
-            "\uffff\1\14\1\uffff\1\13\1\12\1\uffff\1\5\1\uffff\1\22\2\uffff"+
-            "\1\15\1\uffff\1\17\1\uffff\1\3\1\20\1\11\1\10\1\1\1\6\1\uffff"+
-            "\1\7\1\16\30\uffff\1\21",
-            "\1\30\5\uffff\1\26\11\uffff\1\25\1\uffff\1\27",
+            "\1\26\2\uffff\1\26\33\uffff\1\2\2\uffff\1\4\3\uffff\12\25\7"+
+            "\uffff\1\14\1\uffff\1\13\1\12\1\uffff\1\5\1\uffff\1\24\2\uffff"+
+            "\1\15\1\uffff\1\17\1\uffff\1\3\1\22\1\11\1\10\1\1\1\6\1\uffff"+
+            "\1\7\1\16\1\21\1\uffff\1\20\25\uffff\1\23",
+            "\1\27\5\uffff\1\31\11\uffff\1\30\1\uffff\1\32",
             "",
-            "\1\31\17\uffff\1\32",
+            "\1\34\1\33\17\uffff\1\35",
             "",
-            "\1\34\1\40\1\42\1\uffff\1\33\1\35\5\uffff\1\41\4\uffff\1\37"+
-            "\1\43\1\36",
-            "\1\47\7\uffff\1\46\4\uffff\1\45\1\44",
-            "\1\51\7\uffff\1\50",
-            "\1\53\1\uffff\1\55\1\uffff\1\54\1\52",
-            "\1\56",
-            "\1\57\1\64\1\uffff\1\62\1\60\1\63\11\uffff\1\61\1\66\1\65",
-            "\1\72\1\74\2\uffff\1\67\7\uffff\1\75\1\70\2\uffff\1\73\2\uffff"+
-            "\1\71",
-            "\1\76\14\uffff\1\77",
+            "\1\43\1\42\1\41\1\uffff\1\36\1\37\5\uffff\1\45\4\uffff\1\40"+
+            "\1\46\1\44",
+            "\1\47\7\uffff\1\52\4\uffff\1\51\1\50",
+            "\1\53\7\uffff\1\54",
+            "\1\55\1\uffff\1\60\1\uffff\1\56\1\57",
+            "\1\61",
+            "\1\62\1\71\1\uffff\1\66\1\65\1\63\11\uffff\1\64\1\67\1\70",
+            "\1\73\1\75\2\uffff\1\74\7\uffff\1\76\1\77\2\uffff\1\72\2\uffff"+
+            "\1\100",
+            "\1\101\14\uffff\1\102\2\uffff\1\103",
             "",
-            "\1\101\10\uffff\1\100",
-            "\1\105\3\uffff\1\103\5\uffff\1\104\4\uffff\1\102",
-            "\1\107\5\uffff\1\110\4\uffff\1\106",
-            "",
-            "",
-            "\12\23\1\112",
+            "\1\104\10\uffff\1\105",
+            "\1\106\3\uffff\1\111\5\uffff\1\110\4\uffff\1\107",
             "",
             "",
+            "\1\112\5\uffff\1\114\4\uffff\1\113",
             "",
             "",
+            "\12\25\1\116",
             "",
             "",
             "",
@@ -1900,42 +2034,51 @@ public class CamiLexer extends Lexer {
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\113",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\114",
-            "",
-            "",
-            "\1\116\1\115",
             "\1\117",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\120",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\121",
+            "",
+            "",
+            "\1\122",
+            "\1\125\1\124",
+            "\1\126",
+            "",
+            "",
             "",
             "",
             "",
@@ -1972,7 +2115,7 @@ public class CamiLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | CAMI_STRING | NUMBER | NEWLINE );";
+            return "1:1: Tokens : ( T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20 | T21 | T22 | T23 | T24 | T25 | T26 | T27 | T28 | T29 | T30 | T31 | T32 | T33 | T34 | T35 | T36 | T37 | T38 | T39 | T40 | T41 | T42 | T43 | T44 | T45 | T46 | T47 | T48 | T49 | T50 | T51 | T52 | T53 | T54 | T55 | T56 | T57 | T58 | T59 | T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | CAMI_STRING | NUMBER | NEWLINE );";
         }
     }
  

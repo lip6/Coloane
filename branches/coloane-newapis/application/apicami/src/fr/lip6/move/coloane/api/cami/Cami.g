@@ -80,7 +80,8 @@ private static Map<Integer, IDialog> dialogs;
 /* Selecteur principal                     */
 /* --------------------------------------- */
 
-main 
+main
+	@init { state = ICamiParserState.DEFAULT_STATE; }
 	/* Pour la connexion */
 	:	open_communication
 	|	close_connection
@@ -96,7 +97,6 @@ main
 	/* Pour les résultats */
 	|	ask_for_model
 	|	receive_results
-	|	inside_result
 	/* Les messages KO */
 	|	ko_message
 	;
@@ -454,14 +454,15 @@ receive_results
 	}
 	;
 
-inside_result
+results
 	:	
 	(	message_to_user
 	|	state_service { updates.add($state_service.builtUpdate); }
 	|	dialog_definition { dialogs.put($dialog_definition.dialog.getId(), $dialog_definition.dialog); }
 	|	dialog_display
 	|	dialog_destroy
-	|	result { ((Result) result).addSubResult($result.builtResult); }
+	|	one_result { ((Result) result).addSubResult($one_result.builtResult); }
+	|	model_changes
 	)*
 	(
 	'FR(' NUMBER ')' {
@@ -478,24 +479,24 @@ inside_result
 	;
 
 /* Description d'un résultats */
-result
+one_result
 	returns[ISubResult builtResult]
 	scope { ISubResult current; }
 	:	
 	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' {
 		LOGGER.finest("Debut du parcours de l'ensemble de resultats");
-		$result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text);
+		$one_result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text);
 	}
 	( result_body {} )+
 	'FE()' {
 		LOGGER.finest("Fin du parcours de l'ensemble de resultats");
-		builtResult = $result::current;
+		builtResult = $one_result::current;
 	}
 	;
 
 /* Corps d'un résultat */
 result_body
-	:	result {}
+	:	one_result {}
 	|	textual_result {}
 	|	attribute_change {}
 	|	object_designation {}
@@ -508,7 +509,7 @@ result_body
 /* Résultat textuel */
 textual_result
 	:	
-	'RT(' text=CAMI_STRING ')' { ((SubResult) $result::current).addTextualResult($text.text); }
+	'RT(' text=CAMI_STRING ')' { ((SubResult) $one_result::current).addTextualResult($text.text); }
 	;
 
 /* Changement d'un attribut */
@@ -521,20 +522,20 @@ attribute_change
 attribute_outline
 	:	
 	'MT(' id=NUMBER ',' attribute_name=CAMI_STRING ',' begin=NUMBER? ',' end=NUMBER? ')' {
-		((SubResult) $result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text);
+		((SubResult) $one_result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text);
 	}
 	;
 
 /* Désignation d'un objet */
 object_designation
 	:
-	'RO(' id=NUMBER ')' { ((SubResult) $result::current).addObjectDesignation(Integer.parseInt($id.text)); }		
+	'RO(' id=NUMBER ')' { ((SubResult) $one_result::current).addObjectDesignation(Integer.parseInt($id.text)); }		
 	;
 
 /* Mise en valeur d'un objet */
 object_outline
 	:
-	'ME(' id=NUMBER ')' { ((SubResult) $result::current).addObjectOutline(Integer.parseInt($id.text)); }
+	'ME(' id=NUMBER ')' { ((SubResult) $one_result::current).addObjectOutline(Integer.parseInt($id.text)); }
 	;
 
 /* Création d'un objet */
@@ -550,7 +551,25 @@ object_deletion
 	:	'SU(' id=NUMBER ')' {}
  	|	'SI(' page_id=NUMBER ',' id=NUMBER ')' {}
  	;
- 	
+ 
+ /* Description des changements à apporter au modèle pour ces résultats */
+ model_changes
+ 	:	attribute_table?
+ 		( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' ) ?
+ 		'XA(' id_object=NUMBER ',' attribute_name=CAMI_STRING ',' attribute_value=CAMI_STRING ')' {}
+ 	;
+ 
+ /* Table des attributs (non prise en compte par le core) */
+ attribute_table
+ 	:	
+ 	'TD(' CAMI_STRING ')'
+ 	(
+ 	'OB(' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+ 	| 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+ 	)*
+	'FA()'
+ 	;
+ 
 /* --------------------------------------- */
 /* Définition d'un modèle		   */
 /* --------------------------------------- */

@@ -46,28 +46,33 @@ T43 : 'RO(' ;
 T44 : 'ME(' ;
 T45 : 'SU(' ;
 T46 : 'SI(' ;
-T47 : 'DB()' ;
-T48 : 'FB()' ;
-T49 : 'CN(' ;
-T50 : 'CB(' ;
-T51 : 'CA(' ;
-T52 : 'CT(' ;
-T53 : 'CM(' ;
-T54 : 'PO(' ;
-T55 : 'pO(' ;
-T56 : 'PO(-1,' ;
-T57 : 'PT(' ;
-T58 : 'PI(' ;
-T59 : 'DC()' ;
-T60 : 'FF()' ;
-T61 : 'CE(' ;
-T62 : 'DS(' ;
-T63 : 'AD(' ;
-T64 : 'HD(' ;
-T65 : 'DG(' ;
-T66 : 'MI(' ;
+T47 : 'ZA(' ;
+T48 : 'XA(' ;
+T49 : 'TD(' ;
+T50 : 'OB(' ;
+T51 : 'AT(' ;
+T52 : 'DB()' ;
+T53 : 'FB()' ;
+T54 : 'CN(' ;
+T55 : 'CB(' ;
+T56 : 'CA(' ;
+T57 : 'CT(' ;
+T58 : 'CM(' ;
+T59 : 'PO(' ;
+T60 : 'pO(' ;
+T61 : 'PO(-1,' ;
+T62 : 'PT(' ;
+T63 : 'PI(' ;
+T64 : 'DC()' ;
+T65 : 'FF()' ;
+T66 : 'CE(' ;
+T67 : 'DS(' ;
+T68 : 'AD(' ;
+T69 : 'HD(' ;
+T70 : 'DG(' ;
+T71 : 'MI(' ;
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 697
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 714
 CAMI_STRING
 	@init{int nbToRead = 0;}
 	:
@@ -76,12 +81,12 @@ CAMI_STRING
 	value=FIXED_LENGTH_STRING[nbToRead]{setText($value.text);}
 	;
 	
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 705
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 722
 NUMBER	:	('0'..'9')+;
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 706
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 723
 NEWLINE :	( '\r'?'\n' )+ {skip();};
 
-// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 708
+// $ANTLR src "/Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g" 725
 fragment
 FIXED_LENGTH_STRING
 	[int len]

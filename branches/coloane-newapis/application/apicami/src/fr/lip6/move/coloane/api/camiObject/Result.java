@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.api.camiObject;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,5 +62,26 @@ public class Result implements IResult {
 	 */
 	public final List<ISubResult> getSubResults() {
 		return this.subResults;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IGraph getCurrentGraph() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IGraph getNewGraph() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final List<ITip> getTipsList() {
+		return null;
 	}
 }
