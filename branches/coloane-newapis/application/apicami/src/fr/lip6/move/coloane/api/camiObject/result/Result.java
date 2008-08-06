@@ -50,6 +50,7 @@ public class Result implements IResult {
 		this.subResults = new ArrayList<ISubResult>();
 		this.tipsList = new ArrayList<ITip>();
 		this.commandsList = new ArrayList<ICommand>();
+		this.outputCommandsList = new ArrayList<ICommand>();
 	}
 
 	/**

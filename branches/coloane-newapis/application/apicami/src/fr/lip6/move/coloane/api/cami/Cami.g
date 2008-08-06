@@ -28,6 +28,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.coloane.api.camiObject.result.Tip;
 import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
+import fr.lip6.move.coloane.interfaces.model.command.CreateAttributeCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
 import fr.lip6.move.coloane.interfaces.model.command.DeleteObjectCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateArcCommand;
@@ -545,10 +546,8 @@ object_outline
 
 /* Création d'un objet */
 object_creation returns [ICommand command]
-	:	node		{ command = $node.command; }
-	|	box
-	| 	arc 		{ command = $arc.command; }
-	| 	attribute	{ command = $attribute.command; }
+	:	syntactic { command = $syntactic.command; }
+	|	aestetic  { command = $aestetic.command;  }
 	;
 
 /* Suppression d'un objet */
@@ -621,7 +620,7 @@ arc returns [ICommand command]
 
 /* Description d'un attribut */
 attribute returns [ICommand command]
-	:	'CT(' CAMI_STRING ',' NUMBER ',' CAMI_STRING ')'
+	:	'CT(' name=CAMI_STRING ',' id=NUMBER ','value=CAMI_STRING ')' { command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text); }
 	|	'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
 	;
 
