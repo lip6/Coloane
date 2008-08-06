@@ -353,6 +353,7 @@ public final class Motor {
 
 	/**
 	 * Demande de deconnexion brutale (initiee par le client)
+	 * @param safeMode mode de déconnection
 	 */
 	public void breakConnection(final boolean safeMode) {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
