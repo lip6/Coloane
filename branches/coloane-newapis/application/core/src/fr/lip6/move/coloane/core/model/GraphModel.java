@@ -51,7 +51,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private int idCounter = 2;
 
 	/** Date de derniere modification */
-	private int date = 0;//(int) System.currentTimeMillis();
+	private int date = (int) System.currentTimeMillis();
 
 	/** Etat du modele par rapport a FK (true -> pas a jour) */
 	private boolean dirty = false;

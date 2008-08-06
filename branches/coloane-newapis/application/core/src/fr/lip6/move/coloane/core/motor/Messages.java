@@ -4,6 +4,8 @@ import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.motor.messages"; //$NON-NLS-1$
+	public static String CancelableJob_1;
+	public static String CancelableJob_2;
 	public static String Motor_0;
 	public static String Motor_10;
 	public static String Motor_11;

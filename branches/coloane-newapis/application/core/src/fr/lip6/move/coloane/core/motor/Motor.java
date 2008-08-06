@@ -88,7 +88,7 @@ public final class Motor {
 		}
 
 
-		Job job = new Job("Authentication") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Authentication") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
@@ -100,8 +100,6 @@ public final class Motor {
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
-				} catch (RuntimeException e) {
-					e.printStackTrace();
 				}
 				return Status.OK_STATUS;
 			}
@@ -151,7 +149,7 @@ public final class Motor {
 			return;
 		}
 
-		Job job = new Job(OPEN_SESSION_JOB) {
+		Job job = new AsyncJob(OPEN_SESSION_JOB) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.Motor_16, 3);
@@ -191,7 +189,7 @@ public final class Motor {
 			return;
 		}
 
-		Job job = new Job("Close session") { //$NON-NLS-1$
+		Job job = new AsyncJob("Close session") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.Motor_18, 3);
@@ -238,7 +236,7 @@ public final class Motor {
 			save.schedule();
 		}
 
-		Job job = new Job(SERVICE_JOB) {
+		Job job = new AsyncJob(SERVICE_JOB) {
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 				monitor.beginTask(service.getName(), IProgressMonitor.UNKNOWN);
@@ -255,11 +253,6 @@ public final class Motor {
 				}
 				return ASYNC_FINISH;
 			}
-
-			@Override
-			protected void canceling() {
-				done(new Status(IStatus.ERROR, "coloane", "Service was interrupted"));
-			}
 		};
 
 		job.setPriority(Job.LONG);
@@ -274,7 +267,7 @@ public final class Motor {
 	 * @param sessionName Le nom de la session a detruire
 	 */
 	public void deleteSession(final String sessionName) {
-		Job job = new Job("Resume session") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Resume session") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				LOGGER.finer("Destruction de la session : " + sessionName); //$NON-NLS-1$
@@ -319,7 +312,7 @@ public final class Motor {
 	 * @param name Le nom de la session a suspendre
 	 */
 	public void resumeSession(final String name) {
-		Job job = new Job("Resume session") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Resume session") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				if (((SessionManager) sessionManager).resumeSession(name)) {
@@ -364,7 +357,7 @@ public final class Motor {
 	public void breakConnection() {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
 
-		Job job = new Job("Close connection") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Close connection") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
@@ -389,7 +382,7 @@ public final class Motor {
 	 * Notifier le changement du modele de la session courrante
 	 */
 	public void notifyModelChange() {
-		Job job = new Job("Invalid model") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Invalid model") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
@@ -419,7 +412,7 @@ public final class Motor {
 	 * @param dialogAnswer réponse à envoyer
 	 */
 	public void sendDialogAnswer(final IDialogAnswer dialogAnswer) {
-		Job job = new Job("Send DialogAnswer") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Send DialogAnswer") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
@@ -447,7 +440,7 @@ public final class Motor {
 	 * @param result résultat à ajouter
 	 */
 	public void addResult(final IResult result) {
-		Job job = new Job("Add result") { //$NON-NLS-1$
+		Job job = new InterruptedJob("Add result") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
@@ -456,7 +449,7 @@ public final class Motor {
 					currentSession.getServiceResults().add(result.getServiceName(), result);
 					return Status.OK_STATUS;
 				} else {
-					return new Status(IStatus.ERROR, "coloane", "Current session not found");
+					return new Status(IStatus.ERROR, "coloane", "Current session not found"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 		};
