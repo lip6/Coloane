@@ -42,22 +42,31 @@ public class ApiSession implements IApiSession {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
+	/** La date de la session */
 	private int sessionDate;
 
+	/** Le formalism de la session */
 	private String sessionFormalism;
 
+	/** Le nom de la session */
 	private String sessionName;
 
+	/** Le gestionnaire de session */
 	private ISessionController sessionController;
 
+	/** Le speaker */
 	private ISpeaker speaker;
 
+	/** L'automate de la session */
 	private ISessionStateMachine automate;
 
+	/** L'identifiant de la session pour le wrapper */
 	private String idSession;
 
+	/** Détérmine si la session est invalidé */
 	private boolean invalidateTheModel;
 
+	/** Le menu par défaut de la session */
 	private MMenu menus;
 
 	/**
@@ -129,6 +138,7 @@ public class ApiSession implements IApiSession {
 
 		Session sessionOpened = null;
 
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'ouvrir la session: " + this.sessionName + " [connexion fermée]");
 			throw new ApiException("Impossible d'ouvrir la session '" + this.sessionName + "' car la connexion est fermée");
@@ -142,21 +152,30 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE");
 			}
 
-			// Demande l'ouverture de la session
-			LOGGER.finer("Demande l'ouverture de la session: " + this.sessionName);
-			sessionOpened = speaker.openSession(sessionFormalism);
+			try {
+				// Demande l'ouverture de la session
+				LOGGER.finer("Demande l'ouverture de la session: " + this.sessionName);
+				sessionOpened = speaker.openSession(sessionFormalism);
 
-			// Récupere l'identifiant de la session pour pouvoir interagir dessus via le wrapper
-			this.idSession = sessionOpened.getSessionId();
+				// Récupere l'identifiant de la session pour pouvoir interagir dessus via le wrapper
+				this.idSession = sessionOpened.getSessionId();
 
-			// Récupére le menu de la session
-			this.menus = sessionOpened.getMenu();
+				// Récupére le menu de la session
+				this.menus = sessionOpened.getMenu();
 
-			// Notifie la fin de l'ouverture de la session
-			sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
+				// Notifie la fin de l'ouverture de la session
+				sessionController.notifyEndOpenSession(this, sessionOpened.getMenu());
+			} catch (ApiException e) {
+				LOGGER.warning("Erreur lors de l'ouverture de la session '" + sessionName + "' : " + e.getMessage());
+				// Si l'ouverture de la session c'est mal passé en remet l'état de la session à INITIAL_STATE
+				automate.setState(ISessionStateMachine.INITIAL_STATE);
+				// On rediffuse l'exception
+				throw e;
+			}
 
 		}
 
+		// Retourne les informations de la session
 		LOGGER.fine("Ouverture de la session: " + this.sessionName);
 		return new SessionInfo(sessionOpened);
 	}
@@ -166,6 +185,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void suspend() throws ApiException {
 
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible de suspendre la session: " + this.sessionName + " [connexion fermée]");
 			throw new ApiException("Impossible de suspendre la session '" + this.sessionName + "' car la connexion est fermée");
@@ -184,6 +204,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void resume() throws ApiException {
 
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible de restaurer la session: " + this.sessionName + " [connexion fermée]");
 			throw new ApiException("Impossible de restaurer la session '" + this.sessionName + "' car la connexion est fermée");
@@ -220,6 +241,8 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void close() throws ApiException {
+
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible de fermer la session: " + sessionName + " [connexion fermée]");
 			return;
@@ -239,12 +262,20 @@ public class ApiSession implements IApiSession {
 				throw new ApiException("Impossible d'aller a l'etat WAITING_FOR_CLOSE_SESSION_STATE");
 			}
 
-			// Demande au wrapper de fermer la session
-			LOGGER.finer("Demande la fermeture de la session: " + sessionName);
-			Session sessionToResme = speaker.closeSession(idSession);
+			try {
+				// Demande au wrapper de fermer la session
+				LOGGER.finer("Demande la fermeture de la session: " + sessionName);
+				Session sessionToResme = speaker.closeSession(idSession);
 
-			// Notifie la fin de la fermeture de la session
-			sessionController.notifyEndCloseSession(this, sessionToResme.getSessionId());
+				// Notifie la fin de la fermeture de la session
+				sessionController.notifyEndCloseSession(this, sessionToResme.getSessionId());
+			} catch (ApiException e) {
+				LOGGER.warning("Erreur lors de la fermetrue de la session '" + sessionName + "' : " + e.getMessage());
+				// Si l'ouverture de la session c'est mal passé on remet l'état de la session à IDLE_STATE
+				automate.setState(ISessionStateMachine.IDLE_STATE);
+				// On rediffuse l'exception
+				throw e;
+			}
 
 		}
 
@@ -256,6 +287,8 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final boolean sendDialogAnswer(IDialogAnswer dialogAnswer) throws ApiException {
+
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'envoyer une boîte de dialogue réponse pour la session: " + sessionName + " [connexion fermée]");
 			return false;
@@ -302,6 +335,7 @@ public class ApiSession implements IApiSession {
 	 */
 	public final void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 
+		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
 			LOGGER.warning("Impossible d'exécuter un service pour la session: " + sessionName + " [connexion fermée]");
 			return;
@@ -427,7 +461,7 @@ public class ApiSession implements IApiSession {
 			} catch (ApiException e) {
 				LOGGER.warning("Erreur lors de l'exécution du service '" + serviceName + "' : " + e.getMessage());
 				// Si l'exécution d'un service c'est mal passé en remet l'état de la session à IDLE_STATE
-				automate.goToIdleState();
+				automate.setState(ISessionStateMachine.IDLE_STATE);
 				// On rediffuse l'exception
 				throw e;
 			}
@@ -445,6 +479,15 @@ public class ApiSession implements IApiSession {
 
 		LOGGER.finer("Exécution du service: " + service.getName());
 		return;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void invalidModel() {
+		LOGGER.finer("Invalidation du model de la session: " + sessionName);
+		this.invalidateTheModel = true;
+		sessionController.notifyEndInvalidate(this, menus);
 	}
 
 	/**
@@ -524,30 +567,6 @@ public class ApiSession implements IApiSession {
 			}
 		}
 		return buffer.toString();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void invalidModel() {
-		LOGGER.finer("Invalidation du model de la session '" + sessionName);
-		this.invalidateTheModel = true;
-		sessionController.notifyEndInvalidate(this, menus);
-	}
-
-	/**
-	 * @return <code>true</code> si le model est invalidé, <code>false</code> sinon
-	 */
-	public final boolean isInvalidate() {
-		return invalidateTheModel;
-	}
-
-	/**
-	 * Initialise le invalidateTheModel
-	 * @param invalidateTheModel la nouvelle valeur
-	 */
-	public final void setInvalidate(boolean invalidateTheModel) {
-		this.invalidateTheModel = invalidateTheModel;
 	}
 
 }
