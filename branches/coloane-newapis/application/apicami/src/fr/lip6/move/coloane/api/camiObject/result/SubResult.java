@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.api.camiObject;
+package fr.lip6.move.coloane.api.camiObject.result;
 
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 

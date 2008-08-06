@@ -18,13 +18,13 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.api.observables.ReceptMenuObservable;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.coloane.api.camiObject.Result;
-import fr.lip6.move.coloane.api.camiObject.SubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.api.observables.ReceptResultObservable;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
 import fr.lip6.move.coloane.api.camiObject.menu.SubMenu;
+import fr.lip6.move.coloane.api.camiObject.result.Result;
+import fr.lip6.move.coloane.api.camiObject.result.SubResult;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
 import fr.lip6.move.coloane.api.camiObject.ReceptMessage;
 import fr.lip6.move.coloane.api.observables.ReceptMessageObservable;
@@ -77,15 +77,15 @@ public class CamiParser extends Parser {
     /** Le logger des evenements */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
-    /** Un indicateur d'Žtat */
+    /** Un indicateur d'ï¿½tat */
     private static int state = ICamiParserState.DEFAULT_STATE;
 
-    /** Permet de consulter l'Žtat en cours du parser */
+    /** Permet de consulter l'ï¿½tat en cours du parser */
     public int getState() {
     	return state;
     }
 
-    /** L'objet rŽsultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
+    /** L'objet rï¿½sultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
     private static IResult result;
 
     private static List<IUpdateMenu> updates;
@@ -3331,7 +3331,7 @@ public class CamiParser extends Parser {
 
             		// Demande l'affichage au core
             		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers(dialogs.get(Integer.parseInt(dialog_id.getText())));
-            		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y rŽpondre
+            		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y rï¿½pondre
             		sessionController.notifyReceptDialog(dialogs.get(Integer.parseInt(dialog_id.getText())));
             	
 

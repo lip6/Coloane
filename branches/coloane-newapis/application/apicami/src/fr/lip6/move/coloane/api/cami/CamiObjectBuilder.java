@@ -2,9 +2,9 @@ package fr.lip6.move.coloane.api.cami;
 
 import fr.lip6.move.coloane.api.camiObject.CamiObjectFactory;
 import fr.lip6.move.coloane.api.camiObject.Dialog;
-import fr.lip6.move.coloane.api.camiObject.Result;
-import fr.lip6.move.coloane.api.camiObject.SubResult;
 import fr.lip6.move.coloane.api.camiObject.menu.IQuestion;
+import fr.lip6.move.coloane.api.camiObject.result.Result;
+import fr.lip6.move.coloane.api.camiObject.result.SubResult;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
