@@ -8,12 +8,24 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+/**
+ * Description d'une figure en forme de triangle.<br>
+ * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ *
+ * @author Clément Demoulins
+ */
 public class TriangleNode extends AbstractNodeFigure {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
 		graphics.fillRectangle(getBounds());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		PointList list = new PointList();
@@ -38,6 +50,9 @@ public class TriangleNode extends AbstractNodeFigure {
 		graphics.drawPolygon(list);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}
