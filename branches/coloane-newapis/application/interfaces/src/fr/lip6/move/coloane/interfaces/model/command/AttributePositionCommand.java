@@ -41,4 +41,12 @@ public class AttributePositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Attribut " + name + " (objet: " + refId + ") -> x=" + x + "; y=" + y;
+	}
 }

@@ -39,4 +39,11 @@ public class CreateNodeCommand implements ICommand {
 	 */
 	public void undo(IGraph graph) { }
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Creation Noeud " + id + " (type: " + type + ")";
+	}
 }

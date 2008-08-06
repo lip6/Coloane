@@ -38,4 +38,12 @@ public class CreateInflexPointCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Creation Inflex (arc: " + id + ") : x=" + x + "; y=" + y;
+	}
 }

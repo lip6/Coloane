@@ -41,4 +41,12 @@ public class CreateArcCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Creation de l'arc" + id + " (type: " + type + ") : " + sourceId + " -> " + targetId;
+	}
 }

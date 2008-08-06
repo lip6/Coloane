@@ -27,4 +27,12 @@ public class DeleteInflexPointsCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Suppression de tous les points d'inlfexion";
+	}
 }

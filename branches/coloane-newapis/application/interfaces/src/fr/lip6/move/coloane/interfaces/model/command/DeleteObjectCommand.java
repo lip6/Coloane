@@ -34,4 +34,12 @@ public class DeleteObjectCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Suppression de l'objet id=" + id;
+	}
 }

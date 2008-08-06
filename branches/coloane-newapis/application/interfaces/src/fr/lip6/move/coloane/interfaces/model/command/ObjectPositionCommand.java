@@ -38,4 +38,12 @@ public class ObjectPositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public void undo(IGraph graph) { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Positionnement de l'objet " + id + " : x=" + x + "; y=" + y;
+	}
 }

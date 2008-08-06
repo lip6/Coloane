@@ -42,4 +42,11 @@ public class CreateAttributeCommand implements ICommand {
 	 */
 	public void undo(IGraph graph) { }
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return "Creation attribut " + name + " (objet: " + referenceId + ") : value=" + value;
+	}
 }
