@@ -90,10 +90,8 @@ public class Session implements ISession {
 	 */
 	public final void resume() {
 		LOG.finer("Reprise de la session " + name); //$NON-NLS-1$
-		if (status == ISession.SUSPENDED) {
-			status = ISession.CONNECTED;
+		if (status == ISession.CONNECTED) {
 			try {
-				System.err.println("apiSession.resume()");
 				apiSession.resume();
 			} catch (ApiException e) {
 				e.printStackTrace();

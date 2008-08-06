@@ -25,7 +25,6 @@ public interface ISession {
 	/** Les indicateurs de statuts */
 	int CLOSED = 0;
 	int CONNECTED = 1;
-	int SUSPENDED = 2;
 
 	/**
 	 * @return nom de la session
