@@ -61,8 +61,19 @@ public void setObservers(Map<String, Object> hash) {
 /** Le logger des evenements */
 private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
+/** Un indicateur d'état */
+private static int state = ICamiParserState.DEFAULT_STATE;
+
+/** Permet de consulter l'état en cours du parser */
+public int getState() {
+	return state;
+}
+
 /** L'objet résultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
 private static IResult result;
+
+private static List<IUpdateMenu> updates;
+private static Map<Integer, IDialog> dialogs;
 
 }
 /* --------------------------------------- */
@@ -431,29 +442,27 @@ ask_for_model
 
 /* Réception des résultats */
 receive_results
+	@init { 
+		state = ICamiParserState.RESULT_STATE;
+		updates = new ArrayList<IUpdateMenu>();
+		dialogs = new HashMap<Integer, IDialog>();
+	}
 	:	
 	'DR()'
 	'RQ(' root_name=CAMI_STRING ',' service_name=CAMI_STRING ',' deprecated=NUMBER ')' {
 		result = CamiObjectBuilder.buildResult($root_name.text, $service_name.text);
 	}
-	inside_result
 	;
 
 inside_result
-	scope { Map<Integer, IDialog> dialogs; }
-	@init { 
-		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>(); 
-		LOGGER.finest("Reception d'un ensemble d'elements de resultats");
-	}
 	:	
-	(	state_service { updates.add($state_service.builtUpdate); }
-	|	special_message
-	|	warning_message
-	|	dialog_definition
+	(	message_to_user
+	|	state_service { updates.add($state_service.builtUpdate); }
+	|	dialog_definition { dialogs.put($dialog_definition.dialog.getId(), $dialog_definition.dialog); }
 	|	dialog_display
 	|	dialog_destroy
 	|	result { ((Result) result).addSubResult($result.builtResult); }
-	)+ 
+	)*
 	(
 	'FR(' NUMBER ')' {
 		LOGGER.finest("Transmission des resultats");
@@ -461,6 +470,9 @@ inside_result
 		LOGGER.finest("Transmission des mises a jour des services");
 		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(null, updates); 
 		sessionController.notifyEndResult();
+		
+		// Remise a zero de l'etat du parser
+		state = ICamiParserState.DEFAULT_STATE;
 	}
 	)?
 	;
@@ -611,22 +623,21 @@ intermediary_point
 
 /* Description d'une boite de dialogue */
 dialog_definition
-	@init { $inside_result::dialogs = new HashMap<Integer, IDialog>(); }
+	returns [IDialog dialog]
 	:
 	'DC()' { LOGGER.finest("Reception d'une definition d'une boite de dialogue"); }
-	dialog_creation
-	( next_dialog )*
+	dialog_creation { dialog = $dialog_creation.dialog; }
+	dialog_next[dialog]*
 	'FF()' { LOGGER.finest("Fin de reception des boites de dialogue"); }
 	;
 
 /* Corps de la boite de dialogue */
 dialog_creation
+	returns [IDialog dialog]
 	@init { List<String> ce = new ArrayList<String>();}
 	:
-	'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' 
-	buttons_type=NUMBER ','  window_title=CAMI_STRING ',' 
-	help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' 
-	input_type=NUMBER ',' line_type=NUMBER ',' 
+	'CE(' dialog_id=NUMBER ',' dialog_type=NUMBER ',' buttons_type=NUMBER ','  window_title=CAMI_STRING ',' 
+	help=CAMI_STRING ',' title_or_message=CAMI_STRING ',' input_type=NUMBER ',' line_type=NUMBER ',' 
 	default_value=CAMI_STRING? ')' {
 	
 		ce.add($dialog_id.text);
@@ -640,35 +651,31 @@ dialog_creation
 		if ($default_value != null) { ce.add($default_value.text); } else { ce.add(null); }
 		
 		// Construction de l'objet boite de dialogue
-		IDialog dialog = CamiObjectBuilder.buildDialog(ce);
-		// Ajout de la boite de dialogue à la liste
-		$inside_result::dialogs.put(Integer.parseInt($dialog_id.text), dialog);
+		dialog = CamiObjectBuilder.buildDialog(ce);
 	}
 	;
 
 /* ??? */
-next_dialog
+dialog_next[IDialog dialog]
 	:
-	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' {
-		LOGGER.finest("Ajout d'une ligne a la boite de dialogue : " + $dialog_id.text);
-		((Dialog) $inside_result::dialogs.get(Integer.parseInt($dialog_id.text))).addLine($line.text);
-	}
+	'DS(' dialog_id=NUMBER ',' line=CAMI_STRING ')' { ((Dialog) dialog).addLine($line.text); }
 	;
 
 /* Affiche la boite de dialogue */
 dialog_display
 	:
 	'AD(' dialog_id=NUMBER ')' {
-		LOGGER.finest("Affichage de la boite de dialogue " + $dialog_id.text);
-		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers($inside_result::dialogs.get(Integer.parseInt($dialog_id.text)));
-		sessionController.notifyReceptDialog($inside_result::dialogs.get(Integer.parseInt($dialog_id.text)));
+		// Demande l'affichage au core
+		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers(dialogs.get(Integer.parseInt($dialog_id.text)));
+		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y répondre
+		sessionController.notifyReceptDialog(dialogs.get(Integer.parseInt($dialog_id.text)));
 	}
 	;
 
 /* Cache la boite de dialogue */
-hide_dialog
+dialog_hide
 	:
-	'HD(' dialog_id=NUMBER ')' {}
+	'HD(' dialog_id=NUMBER ')'
 	;
 
 /* Destruction de la boite de dialogue */	

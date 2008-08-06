@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Cette classe contient toutes les informations qui définissent un résultat
+ * Cette classe contient toutes les informations qui définissent un sous-résultat<br>
+ * Un sous résultat est forcément contenu dans un résultat (ou un sous résultat).
+ * D'autres sous-résultats peuvent le composer.
  *
  * @author Jean-Baptiste Voron
  */
@@ -17,16 +19,22 @@ public class SubResult implements ISubResult {
 	/** Les sous-résultats par rapport à ce résultat */
 	private List<ISubResult> children;
 
+	/** Liste des objets désignés par la plate-forme */
 	private List<Integer> objectsDesignation;
 
+	/** Liste des objets à mettre en valeur */
 	private List<Integer> objectsOutline;
 
+	/** Liste des résultats textuels */
 	private List<String> textualResults;
 
+	/** Liste des attributs à mettre en valeur */
 	private Map<Integer, List<String>> attributesOutline;
 
+	/** Nom du sous-résultat */
 	private String name;
 
+	/** Type du sous-résultat */
 	private int type;
 
 	/**

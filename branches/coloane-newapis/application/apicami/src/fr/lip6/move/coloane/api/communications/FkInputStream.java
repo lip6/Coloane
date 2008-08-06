@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.api.communications;
 
+import fr.lip6.move.coloane.api.cami.CamiParser;
+import fr.lip6.move.coloane.api.cami.ICamiParserState;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,7 +118,7 @@ public final class FkInputStream extends FilterInputStream {
 	 * @param buffer Le buffer en cours de lecture
 	 * @return <code>true</code> si la dernière commande lue finie la transaction
 	 */
-	private boolean hasRichedLastCommand(String buffer) {
+	private boolean hasRichedLastCommand(String buffer, int state) {
 		String lastToken = this.getLastCommand(buffer);
 		if (lastToken.equals("OC")) {
 			return true;
@@ -135,19 +138,36 @@ public final class FkInputStream extends FilterInputStream {
 			return true;
 		} else if (lastToken.equals("FR")) {
 			return true;
+		} else if (lastToken.equals("RQ")) {
+			return true;
+		} else if (lastToken.equals("TQ") && (state != ICamiParserState.DEFAULT_STATE)) {
+			LOGGER.finest("Message asynchrone lu");
+			return true;
 		}
 		return false;
 	}
 
 	/**
+	 * Est-ce que la commande qu'on s'apprete à renvoyer est complète ?
+	 * @param buffer Le buffer contenant toutes les commmandes
+	 * @return <code>true</code> si le buffer est complet et valid
+	 */
+	private boolean isComplete(String buffer) {
+		return buffer.toString().endsWith(")");
+	}
+
+	/**
 	 * Retourne la série de commande reçue de la palte-forme
+	 * @param state L'etat courant du parser. A-t-on le droit de parser les commandes asynchrone ?
 	 * @return Une chaine de caractères contenant toutes les commmandes de la plate-forme
 	 * @throws IOException En cas de problèmes sur la socket
 	 */
-	public String getCommands() throws IOException {
+	public String getCommands(int state) throws IOException {
 		byte[] fromInput = new byte[255];
 		StringBuilder toReturn = new StringBuilder();
+		boolean isCompleteStatus;
 		do {
+			isCompleteStatus = false;
 			int nbRead = this.read(fromInput);
 			if (nbRead < 0) { throw new IOException("Connection closed..."); }
 			String read = new String(fromInput, 0, nbRead);
@@ -157,9 +177,9 @@ public final class FkInputStream extends FilterInputStream {
 
 			// On doit verifier que la commande est complete
 			fromInput = new byte[255];
-			if (toReturn.toString().endsWith(")")) { toReturn.append('\n'); } else { continue; }
+			if (isComplete(toReturn.toString())) { toReturn.append('\n'); isCompleteStatus = true; }
 
-		} while (!this.hasRichedLastCommand(toReturn.toString()));
+		} while ((!this.hasRichedLastCommand(toReturn.toString(), state)) || !isCompleteStatus);
 		return toReturn.toString().trim();
 	}
 }

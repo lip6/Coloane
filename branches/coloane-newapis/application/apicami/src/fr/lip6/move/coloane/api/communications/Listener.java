@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.api.communications;
 
 import fr.lip6.move.coloane.api.cami.CamiLexer;
 import fr.lip6.move.coloane.api.cami.CamiParser;
+import fr.lip6.move.coloane.api.cami.ICamiParserState;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -22,7 +23,6 @@ import org.antlr.runtime.RecognitionException;
  * @author Youcef Belattaf
  *
  */
-
 public class Listener implements Runnable {
 	/** Le logger */
 	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
@@ -55,7 +55,9 @@ public class Listener implements Runnable {
 		while (true) {
 			String toParse = null;
 			try {
-				toParse = this.input.getCommands();
+				int state = ICamiParserState.DEFAULT_STATE;
+				if (this.parser != null) { state = this.parser.getState(); }
+				toParse = this.input.getCommands(state);
 			} catch (IOException ioe) {
 				break;
 			}
@@ -66,7 +68,21 @@ public class Listener implements Runnable {
 
 			try {
 				LOGGER.finer("Invocation de la methode main du CamiParser (" + toParse + ")");
-				parser.main();
+
+				// Lecture de l'heuristique pour accélerer le parsing
+				switch (this.parser.getState()) {
+				case ICamiParserState.RESULT_STATE:
+					LOGGER.finest("Le parser est invoque sur les resultats");
+					parser.inside_result();
+					break;
+				case ICamiParserState.OPENSESSION_STATE:
+					LOGGER.finest("Le parser est invoque sur l'ouverture de session");
+					parser.inside_result();
+					break;
+				default:
+					parser.main();
+					break;
+				}
 			} catch (RecognitionException e) {
 				e.printStackTrace();
 			}
