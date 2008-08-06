@@ -29,7 +29,7 @@ public class BreakConnectionHandler extends AbstractHandler implements PropertyC
 
 	/** {@inheritDoc} */
 	public final Object execute(ExecutionEvent event) throws ExecutionException {
-		Motor.getInstance().breakConnection();
+		Motor.getInstance().breakConnection(true);
 		return null;
 	}
 

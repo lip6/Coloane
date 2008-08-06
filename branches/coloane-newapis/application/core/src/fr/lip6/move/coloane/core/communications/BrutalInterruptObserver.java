@@ -18,6 +18,6 @@ public class BrutalInterruptObserver implements IBrutalInterruptObserver {
 	public final void update(String e) {
 		LOGGER.warning("Réception d'un demande de déconnexion forcée : " + e); //$NON-NLS-1$
 		Job.getJobManager().cancel(null);
-		Motor.getInstance().breakConnection();
+		Motor.getInstance().breakConnection(true);
 	}
 }

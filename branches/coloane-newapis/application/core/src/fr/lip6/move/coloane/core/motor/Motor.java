@@ -354,15 +354,15 @@ public final class Motor {
 	/**
 	 * Demande de deconnexion brutale (initiee par le client)
 	 */
-	public void breakConnection() {
+	public void breakConnection(final boolean safeMode) {
 		LOGGER.fine("Demmande de déconnexion"); //$NON-NLS-1$
 
 		Job job = new InterruptedJob("Close connection") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
+					Com.getInstance().breakConnection(safeMode);
 					((SessionManager) sessionManager).disconnectAllSessions();
-					Com.getInstance().breakConnection(true);
 				} catch (ApiException e) {
 					Com.getInstance().breakConnection(false);
 				}
