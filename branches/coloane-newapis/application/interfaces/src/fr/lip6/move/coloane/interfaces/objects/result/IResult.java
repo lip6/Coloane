@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.result;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface IResult {
 	IGraph getNewGraph();
 
 	/**
-	 * @return le graphe courant qui doit donc être rafraîchit du coté du core
+	 * @return les modifications à faire sur le graphe courant
 	 */
-	IGraph getCurrentGraph();
+	List<ICommand> getModificationsOnCurrentGraph();
 }
