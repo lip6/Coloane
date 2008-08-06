@@ -1,0 +1,41 @@
+package fr.lip6.move.coloane.interfaces.model.command;
+/**
+ * Commande de création d'un arc
+ *
+ * @author Jean-Baptiste Voron
+ */
+public class CreateArcCommand implements ICommand {
+	private int id;
+	private String type;
+	private int sourceId;
+	private int targetId;
+
+	/**
+	 * Constructeur
+	 * @param id L'identifiant de l'arc qui doit être crée
+	 * @param type Le type de l'arc qui doit être crée
+	 * @param sourceId La source de l'arc qui doit être créé
+	 * @param targetId La cible de l'arc qui doit être créé
+	 */
+	public CreateArcCommand(int id, String type, int sourceId, int targetId) {
+		this.id = id;
+		this.type = type;
+		this.sourceId = sourceId;
+		this.targetId = targetId;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void execute() { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void redo() { }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void undo() { }
+}
