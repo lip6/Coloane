@@ -119,6 +119,7 @@ public final class MenuManipulation {
 		if (getColoaneMenu() == null) {
 			throw new IllegalStateException("Le menu de Coloane n'existe pas"); //$NON-NLS-1$
 		}
+		System.err.println(menu.getMenuText() + " ajout à l'index " + getColoaneMenu().getItemCount());
 		menu.fill(getColoaneMenu(), getColoaneMenu().getItemCount());
 	}
 
@@ -152,10 +153,10 @@ public final class MenuManipulation {
 	private static void update(IContributionItem item, Map<String, IUpdateMenu> mapUpdateMenu, Boolean parent) {
 		IUpdateMenu update = mapUpdateMenu.get(item.getId());
 		Boolean active = null;
-		if (parent != null) {
-			active = parent;
-		} else if (update != null) {
+		if (update != null) {
 			active = update.getState();
+		} else if (parent != null) {
+			active = parent;
 		}
 
 		if (item instanceof ActionContributionItem && active != null && item.isEnabled() != active) {
