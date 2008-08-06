@@ -55,6 +55,12 @@ public interface ISessionStateMachine {
     int getState();
 
     /**
+     * Initialise l'etat courrant de la session dans l'automate
+     * @param state le nouvelle état de la session dans l'automate
+     */
+    void setState(int state);
+
+    /**
      * Aller a l'etat WAITING_FOR_MENUS_AND_UPDATES_STATE, si possible
      * @return true, si possible d'aller vers WAITING_FOR_MENUS_AND_UPDATES_STATE, false sinon
      */

@@ -29,6 +29,13 @@ public class SessionStateMachine implements ISessionStateMachine {
 	/**
 	 * {@inheritDoc}
 	 */
+	public final void setState(int state) {
+		this.state = state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public final boolean goToCloseSessionState() {
 		if (state == WAITING_FOR_CLOSE_SESSION_STATE) {
 			state = CLOSE_SESSION_STATE;
