@@ -80,7 +80,7 @@ public class SubResult implements ISubResult {
 	 * @param id L'identifiant qui doit être ajouté dans la liste
 	 */
 	public final void addObjectOutline(Integer id) {
-		this.objectsDesignation.add(id);
+		this.objectsOutline.add(id);
 	}
 
 	/**

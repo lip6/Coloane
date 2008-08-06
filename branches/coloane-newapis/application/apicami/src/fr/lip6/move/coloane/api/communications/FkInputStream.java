@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.api.communications;
 
-import fr.lip6.move.coloane.api.cami.CamiParser;
 import fr.lip6.move.coloane.api.cami.ICamiParserState;
 
 import java.io.FilterInputStream;
@@ -116,6 +115,7 @@ public final class FkInputStream extends FilterInputStream {
 	/**
 	 * Détermine si la lecture de la socket est terminée ou pas
 	 * @param buffer Le buffer en cours de lecture
+	 * @param state l'état du parser
 	 * @return <code>true</code> si la dernière commande lue finie la transaction
 	 */
 	private boolean hasRichedLastCommand(String buffer, int state) {
