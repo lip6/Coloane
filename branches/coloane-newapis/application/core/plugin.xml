@@ -751,6 +751,7 @@
              label="%MENUBAR_LABEL"
              mnemonic="S">
           <menu
+                id="fr.lip6.move.coloane.core.menu.platform"
                 label="%PLATFORM_MENU">
              <command
                    commandId="%AUTHENTICATION"

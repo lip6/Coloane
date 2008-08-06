@@ -119,8 +119,7 @@ public final class MenuManipulation {
 		if (getColoaneMenu() == null) {
 			throw new IllegalStateException("Le menu de Coloane n'existe pas"); //$NON-NLS-1$
 		}
-		System.err.println(menu.getMenuText() + " ajout à l'index " + getColoaneMenu().getItemCount());
-		menu.fill(getColoaneMenu(), getColoaneMenu().getItemCount());
+		menu.fill(getColoaneMenu(), -1);
 	}
 
 	/**

@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -56,6 +57,11 @@ public final class SessionManager implements ISessionManager {
 	/** {@inheritDoc} */
 	public ISession getSession(String sessionName) {
 		return sessions.get(sessionName);
+	}
+
+	/** {@inheritDoc} */
+	public Collection<ISession> getSessions() {
+		return sessions.values();
 	}
 
 	/** {@inheritDoc} */

@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
@@ -8,8 +11,6 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.core.commands.Command;
-import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -25,7 +26,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.commands.ICommandService;
 
 /**
  * Classe de test pour les jobs ou n'importe quoi d'autre
@@ -44,24 +44,30 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
-		for (Command c : service.getDefinedCommands()) {
-			if (c.getId().contains("lip6")) {
-				try {
-					System.err.println(c.getName() + " " + c.isEnabled() + " " + c.isDefined());
-				} catch (NotDefinedException e) {
-				}
-			}
-		}
 		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
 		for (MenuItem item : menu.getItems()) {
-			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL"))) { //$NON-NLS-1$
-				System.err.println("trouvé");
+			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL").replace("&", ""))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				Menu coloaneMenu = item.getMenu();
+				System.err.println();
+				System.err.println(coloaneMenu);
 			}
 		}
+//		printSessionsState();
 //		testDialog();
 //		testJob();
 //		testJob2();
+	}
+
+	/**
+	 * Affichage de l'état des sessions
+	 */
+	@SuppressWarnings("unused")
+	private void printSessionsState() {
+		ISessionManager sm = SessionManager.getInstance();
+		System.err.println();
+		for (ISession session : sm.getSessions()) {
+			System.err.println(session.getName() + " : " + session.getStatus()); //$NON-NLS-1$
+		}
 	}
 
 	/** {@inheritDoc} */

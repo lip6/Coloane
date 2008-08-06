@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 
 /**
  * Gestionnaire de session, gère également l'état de la connection avec l'api.
@@ -34,6 +35,11 @@ public interface ISessionManager {
 	 * @return la session designe ou NULL si on ne trouve pas la session
 	 */
 	ISession getSession(String sessionName);
+
+	/**
+	 * @return Liste de toutes les sessions
+	 */
+	Collection<ISession> getSessions();
 
 	/**
 	 * Retourne le status d'authentification du client<br>

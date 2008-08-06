@@ -100,6 +100,8 @@ public final class Motor {
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
+				} catch (RuntimeException e) {
+					e.printStackTrace();
 				}
 				return Status.OK_STATUS;
 			}
@@ -252,6 +254,11 @@ public final class Motor {
 					return new Status(IStatus.ERROR, "coloane", "Service " + service.getName() + " failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 				return ASYNC_FINISH;
+			}
+
+			@Override
+			protected void canceling() {
+				done(new Status(IStatus.ERROR, "coloane", "Service was interrupted"));
 			}
 		};
 
@@ -445,12 +452,8 @@ public final class Motor {
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession != null) {
-					try {
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
 					currentSession.getServiceResults().add(result.getServiceName(), result);
-					} catch (RuntimeException e) {
-						e.printStackTrace();
-					}
 					return Status.OK_STATUS;
 				} else {
 					return new Status(IStatus.ERROR, "coloane", "Current session not found");
