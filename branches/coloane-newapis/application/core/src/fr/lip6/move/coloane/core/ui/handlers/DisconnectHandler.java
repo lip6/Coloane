@@ -26,6 +26,10 @@ public class DisconnectHandler extends AbstractHandler implements PropertyChange
 	 */
 	public DisconnectHandler() {
 		SessionManager.getInstance().addPropertyChangeListener(this);
+		ISession currentSession = SessionManager.getInstance().getCurrentSession();
+		if (currentSession != null) {
+			currentSession.addPropertyChangeListener(this);
+		}
 	}
 
 	/** {@inheritDoc} */

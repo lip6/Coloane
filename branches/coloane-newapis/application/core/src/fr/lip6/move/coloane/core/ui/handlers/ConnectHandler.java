@@ -26,6 +26,10 @@ public class ConnectHandler extends AbstractHandler implements PropertyChangeLis
 	 */
 	public ConnectHandler() {
 		SessionManager.getInstance().addPropertyChangeListener(this);
+		ISession currentSession = SessionManager.getInstance().getCurrentSession();
+		if (currentSession != null) {
+			currentSession.addPropertyChangeListener(this);
+		}
 	}
 
 	/** {@inheritDoc} */
