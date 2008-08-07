@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.objects.result.ResultImpl;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.RService;
@@ -210,12 +211,12 @@ public class SessionController implements ISessionController {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void notifyEndResult(IApiSession sessionExecuted, RService result, IService service) throws ApiException {
+	public final void notifyEndResult(IApiSession sessionExecuted, RService result, IService service, IGraph outputGraph) throws ApiException {
 		if (!((ApiSession) sessionExecuted).getSessionStateMachine().goToIdleState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
 
-		ResultImpl receptResult = new ResultImpl(result, service);
+		ResultImpl receptResult = new ResultImpl(result, service, outputGraph);
 		((IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT)).notifyObservers(receptResult);
 
 		ReceptMenu receptMenu = new ReceptMenu(result.getMenu(), result.getMenu().getLastModification());

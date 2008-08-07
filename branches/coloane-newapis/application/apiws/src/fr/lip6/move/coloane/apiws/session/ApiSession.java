@@ -473,7 +473,7 @@ public class ApiSession implements IApiSession {
 			this.invalidateTheModel = false;
 
 			// Notifie la fin de l'exécution du service demander
-			sessionController.notifyEndResult(this, result, service);
+			sessionController.notifyEndResult(this, result, service, outputModel);
 
 		}
 
