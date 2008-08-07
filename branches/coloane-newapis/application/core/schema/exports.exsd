@@ -71,12 +71,7 @@
                </appInfo>
             </annotation>
          </attribute>
-      </complexType>
-   </element>
-
-   <element name="AcceptedFormalism">
-      <complexType>
-         <attribute name="id" type="string" use="required">
+         <attribute name="extension" type="string" use="required">
             <annotation>
                <documentation>
                   
