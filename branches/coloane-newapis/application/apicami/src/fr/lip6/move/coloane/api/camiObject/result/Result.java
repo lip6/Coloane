@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.camiObject.result;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -33,6 +34,7 @@ public class Result implements IResult {
 
 	/** La graphe résultat */
 	private IGraph outputGraph;
+	private IGraph computedGraph;
 
 	/** La liste des commandes pour construire le graphe résultat */
 	private List<ICommand> outputCommandsList;
@@ -47,6 +49,7 @@ public class Result implements IResult {
 		this.rootName = rootName;
 		this.serviceName = serviceName;
 		this.outputGraph = outputGraph;
+		this.computedGraph = null;
 		this.subResults = new ArrayList<ISubResult>();
 		this.tipsList = new ArrayList<ITip>();
 		this.commandsList = new ArrayList<ICommand>();
@@ -123,10 +126,20 @@ public class Result implements IResult {
 	/**
 	 * Construit le modèle résultat à partir des commandes transmises par la plate-forme
 	 * @return Le modèle résultat construit
+	 * TODO: A ameliorer
 	 */
 	private IGraph buildOutputGraph() {
-		for (ICommand command : this.outputCommandsList) {
-			command.execute(this.outputGraph);
+		// Si il n'y a aucune commande pour contrsuire le graphe resultat...
+		if (this.outputCommandsList.size() == 0) { return null; }
+		// Sinon on le construit
+		try {
+			for (ICommand command : this.outputCommandsList) {
+				if (command == null) { continue; }
+				command.execute(this.outputGraph); 
+			}
+		} catch (ModelException me) {
+			// TODO
+			System.err.println("Aie...");
 		}
 		return this.outputGraph;
 	}
@@ -135,9 +148,11 @@ public class Result implements IResult {
 	 * {@inheritDoc}
 	 */
 	public final IGraph getNewGraph() {
-		if (outputGraph == null) {
-			outputGraph = buildOutputGraph();
+		if (this.outputCommandsList.size() <= 0) {
+			return null;
+		} else {
+			if (computedGraph == null) { computedGraph = buildOutputGraph(); }
+			return computedGraph;
 		}
-		return outputGraph;
 	}
 }

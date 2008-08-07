@@ -495,8 +495,10 @@ results
 one_result
 	returns[ISubResult builtResult]
 	scope { ISubResult current; }
-	:	
-	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' { $one_result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text); }
+	:
+	(	'DE()' { $one_result::current = CamiObjectBuilder.buildSubResult("","0"); }
+	|	'DE(' set_name=CAMI_STRING ',' set_type=NUMBER ')' { $one_result::current = CamiObjectBuilder.buildSubResult($set_name.text, $set_type.text); }
+	)
 	result_body+
 	'FE()' { builtResult = $one_result::current; }
 	;
