@@ -50,7 +50,6 @@ public class StickyEditManager extends DirectEditManager {
 
 	/** {@inheritDoc} */
 	@Override
-	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {

@@ -16,7 +16,6 @@ public class AttributeDirectEditPolicy extends DirectEditPolicy {
 
 	/** {@inheritDoc} */
 	@Override
-	@Override
 	protected final Command getDirectEditCommand(DirectEditRequest edit) {
 		String labelText = (String) edit.getCellEditor().getValue();
 		AttributeEditPart label = (AttributeEditPart) getHost();
@@ -25,7 +24,6 @@ public class AttributeDirectEditPolicy extends DirectEditPolicy {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	@Override
 	protected final void showCurrentEditValue(DirectEditRequest request) {
 		String value = (String) request.getCellEditor().getValue();
