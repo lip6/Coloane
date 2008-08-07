@@ -223,8 +223,8 @@ public class ResultImpl implements IResult {
 
 			// Supprimer tous les points d'inflexions
 			case 7 :
-
 				return new DeleteInflexPointsCommand();
+
 			// Sinon
 			default : return null;
 		}
