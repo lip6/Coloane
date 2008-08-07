@@ -30,7 +30,6 @@ public class CreateGuideCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
-	@Override
 	public final void execute() {
 		if (guide == null) {
 			guide = new EditorGuide(!ruler.isHorizontal());
@@ -40,7 +39,6 @@ public class CreateGuideCommand extends Command {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	@Override
 	public final void undo() {
 		ruler.removeGuide(guide);

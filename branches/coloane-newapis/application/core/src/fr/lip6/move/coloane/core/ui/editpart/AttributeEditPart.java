@@ -97,6 +97,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		return figure;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private Point calculLocation() {
 		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;

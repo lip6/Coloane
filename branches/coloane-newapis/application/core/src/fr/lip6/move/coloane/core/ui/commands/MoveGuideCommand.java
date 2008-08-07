@@ -32,7 +32,6 @@ public class MoveGuideCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
-	@Override
 	public final void execute() {
 		guide.setPosition(guide.getPosition() + delta);
 		Iterator<ILocatedElement> iter = guide.getModelObjects().iterator();
@@ -49,7 +48,6 @@ public class MoveGuideCommand extends Command {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	@Override
 	public final void undo() {
 		guide.setPosition(guide.getPosition() - delta);
