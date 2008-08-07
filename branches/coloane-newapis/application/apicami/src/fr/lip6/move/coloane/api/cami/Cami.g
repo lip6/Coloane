@@ -572,7 +572,7 @@ object_deletion returns [ICommand command]
  attribute_table
  	:	
  	'TD(' CAMI_STRING ')'
- 	( 'OB(' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )*
+ 	( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )*
 	'FA()'
  	;
  
