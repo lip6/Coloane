@@ -22,9 +22,6 @@ public class Formalism implements IFormalism {
 	/** Parent du formalisme (identifiant historique). */
 	private String fkname;
 
-	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
-	private String xschema;
-
 	/** Liste des regles du formalisme concernant les liens entre objets. */
 	private List<IConstraintLink> linkconstraints;
 
@@ -42,14 +39,12 @@ public class Formalism implements IFormalism {
 	 *
 	 * @param name Nom du formalisme.
 	 * @param fkname Le nom du formalisme à utiliser avec FrameKit
-	 * @param xshema Le XSchema nécessaire à la lecture des instances de ce formalisme
 	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	Formalism(String name, String parent, String xshema, String image) {
+	Formalism(String name, String fkname, String image) {
 		this.name = name;
-		this.fkname = parent;
+		this.fkname = fkname;
 		this.image = image;
-		this.xschema = xshema;
 
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
@@ -122,13 +117,6 @@ public class Formalism implements IFormalism {
 	 */
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final String getSchema() {
-		return this.xschema;
 	}
 
 	/**

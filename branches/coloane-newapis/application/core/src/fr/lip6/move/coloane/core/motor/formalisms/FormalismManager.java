@@ -65,7 +65,7 @@ public final class FormalismManager {
 		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Creation et ajout du formalisme a la liste du manager
-		Formalism form = new Formalism(name, fkname, xschema, image);
+		Formalism form = new Formalism(name, fkname, image);
 
 		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 
