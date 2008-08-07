@@ -738,6 +738,21 @@
                       paletteName="Event">
                 </GraphicInfo>
              </Arc>
+             <Attribute
+                   drawable="true"
+                   multiline="false"
+                   name="type">
+             </Attribute>
+             <Attribute
+                   drawable="true"
+                   multiline="true"
+                   name="author(s)">
+             </Attribute>
+             <Attribute
+                   drawable="true"
+                   multiline="true"
+                   name="information">
+             </Attribute>
           </Graph>
        </XmlDescription>
     </Formalism>
