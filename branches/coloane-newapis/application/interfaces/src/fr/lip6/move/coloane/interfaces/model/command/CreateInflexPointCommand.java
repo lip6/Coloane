@@ -1,6 +1,10 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Commande de création d'un point d'inflexion
@@ -27,7 +31,10 @@ public class CreateInflexPointCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		IArc arc = graph.getArc(id);
+		arc.addInflexPoint(new Point(x, y));
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
@@ -16,7 +18,11 @@ public class DeleteInflexPointsCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		for (IArc arc : graph.getArcs()) {
+			arc.removeAllInflexPoints();
+		}
+	}
 
 	/**
 	 * {@inheritDoc}

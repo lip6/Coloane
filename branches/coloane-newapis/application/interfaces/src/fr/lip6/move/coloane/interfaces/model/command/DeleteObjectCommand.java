@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
@@ -23,7 +24,9 @@ public class DeleteObjectCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		graph.deleteObject(id);
+	}
 
 	/**
 	 * {@inheritDoc}

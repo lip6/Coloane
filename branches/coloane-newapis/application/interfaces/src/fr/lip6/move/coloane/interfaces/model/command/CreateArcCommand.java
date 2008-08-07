@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Commande de création d'un arc
@@ -12,6 +14,9 @@ public class CreateArcCommand implements ICommand {
 	private String type;
 	private int sourceId;
 	private int targetId;
+
+	private INode source;
+	private INode target;
 
 	/**
 	 * Constructeur
@@ -30,17 +35,25 @@ public class CreateArcCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		source = graph.getNode(sourceId);
+		target = graph.getNode(targetId);
+		graph.createArc(type, source, target, id);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo(IGraph graph) { }
+	public final void redo(IGraph graph) throws ModelException {
+		graph.createArc(type, source, target, id);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo(IGraph graph) { }
+	public final void undo(IGraph graph) throws ModelException {
+		graph.deleteArc(id);
+	}
 
 	/**
 	 * {@inheritDoc}

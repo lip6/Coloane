@@ -35,6 +35,15 @@ public interface IGraph extends IElement {
 	INode createNode(String nodeFormalismName) throws ModelException;
 
 	/**
+	 * Création d'un noeud attaché à ce graphe.
+	 * @param nodeFormalismName type du noeud à créer.
+	 * @param id L'identifiant du noeud
+	 * @return le noeud créé.
+	 * @throws ModelException si le nom du formalisme n'est pas correcte
+	 */
+	INode createNode(String nodeFormalismName, int id) throws ModelException;
+
+	/**
 	 * Suppression d'un noeud
 	 * @param node Le noeud qui doit être supprimé
 	 */
@@ -69,10 +78,20 @@ public interface IGraph extends IElement {
 	 * @param source La source de l'arc
 	 * @param target La cible de l'arc
 	 * @return l'arc créé.
-	 * @throws ModelException si un des parametres n'est pas correcte, par exemple
-	 * le formalisme n'existe.
+	 * @throws ModelException si un des parametres n'est pas correcte, par exemple le formalisme n'existe.
 	 */
 	IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException;
+
+	/**
+	 * Création d'un arc attaché aux noeuds source et target.
+	 * @param arcFormalismName type d'arc à créer.
+	 * @param source La source de l'arc
+	 * @param target La cible de l'arc
+	 * @param id L'identifiant de l'arc à créer
+	 * @return l'arc créé.
+	 * @throws ModelException si un des parametres n'est pas correcte, par exemple le formalisme n'existe.
+	 */
+	IArc createArc(String arcFormalismName, INode source, INode target, int id) throws ModelException;
 
 	/**
 	 * Suppression d'un arc
@@ -109,6 +128,13 @@ public interface IGraph extends IElement {
 	 * @return L'objet comme un {@link IElement}
 	 */
 	IElement getObject(int id);
+
+	/**
+	 * Supprime un objet identifié par son identifiant
+	 * @param id L'identifiant de l'objet à supprimer
+	 * @throws ModelException si l'objet n'existe pas ou si la suppression s'est mal passée
+	 */
+	void deleteObject(int id) throws ModelException;
 
 	/**
 	 * @return le formalisme associé à ce graphe.

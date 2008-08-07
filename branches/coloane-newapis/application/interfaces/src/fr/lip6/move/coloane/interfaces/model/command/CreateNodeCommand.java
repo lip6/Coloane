@@ -1,9 +1,11 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
- * Commande de création de noeud
+ * Commande de création de noeud.<br>
+ * Le noeud doit être créé avec son identifiant.
  *
  * @author Jean-Baptiste Voron
  */
@@ -27,17 +29,23 @@ public class CreateNodeCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		graph.createNode(type, id);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo(IGraph graph) { }
+	public final void redo(IGraph graph) throws ModelException {
+		this.execute(graph);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo(IGraph graph) { }
+	public final void undo(IGraph graph) throws ModelException {
+		graph.deleteNode(id);
+	}
 
 	/**
 	 * {@inheritDoc}

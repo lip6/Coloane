@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
@@ -30,7 +32,10 @@ public class CreateAttributeCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		IElement ref = graph.getObject(referenceId);
+		ref.getAttribute(name).setValue(value);
+	}
 
 	/**
 	 * {@inheritDoc}

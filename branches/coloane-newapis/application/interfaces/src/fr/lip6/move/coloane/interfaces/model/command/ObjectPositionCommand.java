@@ -1,9 +1,12 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import org.eclipse.draw2d.geometry.Point;
+
 /**
- * Commande de changement de position d'un noeud ou d'un arc
+ * Commande de changement de position d'un noeud
  *
  * @author Jean-Baptiste Voron
  */
@@ -27,7 +30,9 @@ public class ObjectPositionCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) throws ModelException {
+		graph.getNode(id).getGraphicInfo().setLocation(new Point(x, y));
+	}
 
 	/**
 	 * {@inheritDoc}

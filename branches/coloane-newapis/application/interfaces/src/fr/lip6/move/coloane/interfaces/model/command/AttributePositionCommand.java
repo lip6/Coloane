@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Commande de changment de position d'un arc
@@ -30,7 +33,10 @@ public class AttributePositionCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void execute(IGraph graph) { }
+	public final void execute(IGraph graph) {
+		IElement element = graph.getObject(refId);
+		element.getAttribute(name).getGraphicInfo().setLocation(new Point(x, y));
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -67,6 +67,11 @@ public interface IArc extends IElement {
 	void removeInflexPoint(int index);
 
 	/**
+	 * Suppression de tous les points d'inflexion
+	 */
+	void removeAllInflexPoints();
+
+	/**
 	 * Modification des coordonnées d'un point d'inflexion.
 	 * @param index index du point d'inflexion.
 	 * @param p nouvelles coordonnées.
