@@ -693,6 +693,11 @@
                       paletteName="Initial State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Node
                    container="true"
@@ -709,6 +714,11 @@
                       paletteName="Terminal State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Node
                    container="false"
@@ -725,6 +735,11 @@
                       paletteName="State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Arc
                    name="event">
@@ -737,6 +752,11 @@
                       palettable="true"
                       paletteName="Event">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="false"
+                      name="label">
+                </Attribute>
              </Arc>
              <Attribute
                    drawable="true"
