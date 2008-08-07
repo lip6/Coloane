@@ -81,14 +81,14 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 				String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
 				LOGGER.finer("Nom final : " + newName); //$NON-NLS-1$
 
-				if (exportInstance == null) { return false;	}
+				if (exportInstance == null) { return false; }
 				exportInstance.export(model, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
 			} catch (ColoaneException e) {
 				LOGGER.warning("Erreur lors de l'export du fichier...");  //$NON-NLS-1$
 				LOGGER.warning("Echec de l'export..." + e.getMessage()); //$NON-NLS-1$
 				return false;
 			} catch (CoreException ce) {
-				LOGGER.warning("Erreur lors de l'initialisation de l'extension chargee de l'export");  //$NON-NLS-1$
+				LOGGER.warning("Erreur lors de l'initialisation de l'extension chargee de l'export: " + ce);  //$NON-NLS-1$
 				return false;
 			}
 		}
