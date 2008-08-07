@@ -51,6 +51,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param context Parametre systeme fourni par Eclipse
 	 * @throws Exception Si quelque chose se passe mal lors de l'initialisation dans Eclipse
 	 * @see AbstractUIPlugin
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin
 	 */
 	@Override
 	public final void start(BundleContext context) throws Exception {

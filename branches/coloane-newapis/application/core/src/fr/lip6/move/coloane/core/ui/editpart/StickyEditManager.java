@@ -23,9 +23,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.CellEditorActionHandler;
 
-
-
-
 /**
  * Gestionnaire pour l'édition des notes.
  * Permet de passer dans un mode d'édition des notes.
@@ -52,6 +49,7 @@ public class StickyEditManager extends DirectEditManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Override
 	protected final void bringDown() {
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());

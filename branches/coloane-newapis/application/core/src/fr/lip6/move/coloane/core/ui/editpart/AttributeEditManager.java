@@ -58,11 +58,14 @@ public class AttributeEditManager extends DirectEditManager {
 
 	/** {@inheritDoc} */
 	@Override
+	@Override
 	protected final void bringDown() {
-		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
-		if (zoomMgr != null) {
-			zoomMgr.removeZoomListener(zoomListener);
-		}
+//		if (getEditPart().getParent() != null) {
+			ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer().getProperty(ZoomManager.class.toString());
+			if (zoomMgr != null) {
+				zoomMgr.removeZoomListener(zoomListener);
+			}
+//		}
 
 		if (actionHandler != null) {
 			actionHandler.dispose();

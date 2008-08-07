@@ -62,6 +62,7 @@ public class ChangeGuideCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
+	@Override
 	public final void execute() {
 		// Cache the old values
 		oldGuide = locatedElement.getVerticalGuide();
@@ -72,11 +73,13 @@ public class ChangeGuideCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
+	@Override
 	public final void redo() {
 		changeGuide(oldGuide, newGuide, newAlign);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Override
 	public final void undo() {
 		changeGuide(newGuide, oldGuide, oldAlign);

@@ -45,9 +45,9 @@ public class Formalism implements IFormalism {
 	 * @param xshema Le XSchema nécessaire à la lecture des instances de ce formalisme
 	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	Formalism(String name, String fkname, String xshema, String image) {
+	Formalism(String name, String parent, String xshema, String image) {
 		this.name = name;
-		this.fkname = fkname;
+		this.fkname = parent;
 		this.image = image;
 		this.xschema = xshema;
 

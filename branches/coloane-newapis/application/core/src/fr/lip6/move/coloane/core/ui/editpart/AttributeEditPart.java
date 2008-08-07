@@ -97,11 +97,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		return figure;
 	}
 
-	/**
-	 * Calcul la position d'un attribut en fonction de à quoi il est rattaché (graphe, noeud ou arc).
-	 * Si la position est différente de (0,0) aucun calcul n'est fait.
-	 * @return position "idéal"
-	 */
 	private Point calculLocation() {
 		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;

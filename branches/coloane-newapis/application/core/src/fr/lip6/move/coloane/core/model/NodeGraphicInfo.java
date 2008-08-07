@@ -29,7 +29,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
-	private Map<IArc, Long> lastMove = new HashMap<IArc, Long>();
+	private HashMap<IArc, Long> lastMove = new HashMap<IArc, Long>();
+	private static final Long ZERO = new Long(0);
 
 	/** Taille */
 	private int scale = 100;
@@ -60,7 +61,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @param yPos La position en ordonnée
 	 */
 	private void setLocation(int xPos, int yPos) {
-		LOGGER.finest("setLocation(" + xPos + ", " + yPos + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
@@ -175,5 +175,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** {@inheritDoc} */
 	public final int getScale() {
 		return scale;
+	}
+
+	/** {@inheritDoc} */
+	public final void setSize(Dimension newDimension) {
+		return;
 	}
 }

@@ -14,8 +14,12 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+<<<<<<< .working
 import java.util.Set;
 import java.util.logging.Logger;
+=======
+import java.util.logging.Logger;
+>>>>>>> .merge-right.r3876
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;

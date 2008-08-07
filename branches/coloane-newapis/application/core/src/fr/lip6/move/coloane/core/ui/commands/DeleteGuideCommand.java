@@ -37,6 +37,7 @@ public class DeleteGuideCommand extends Command {
 
 	/** {@inheritDoc} */
 	@Override
+	@Override
 	public final void execute() {
 		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
 		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
@@ -47,6 +48,7 @@ public class DeleteGuideCommand extends Command {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Override
 	public final void undo() {
 		ruler.addGuide(guide);
