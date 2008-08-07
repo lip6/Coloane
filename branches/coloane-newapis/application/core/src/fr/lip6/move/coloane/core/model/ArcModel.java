@@ -99,6 +99,13 @@ public class ArcModel extends AbstractElement implements IArc {
 	}
 
 	/** {@inheritDoc} */
+	public final void removeAllInflexPoints() {
+		LOGGER.finest("removeAllInflexPoints()");  //$NON-NLS-1$
+		inflexPoints.clear();
+		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
+	}
+
+	/** {@inheritDoc} */
 	public final void modifyInflexPoint(int index, Point p) {
 		LOGGER.finest("modifyInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		inflexPoints.get(index).setLocation(p);

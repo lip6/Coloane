@@ -79,17 +79,28 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 * @return un identifiant unique.
 	 */
 	private int getNewId() {
-		return idCounter++;
+		int proposal = idCounter + 1;
+		while ((nodes.get(proposal) != null) || (nodes.get(proposal) != null)) {
+			proposal++;
+		}
+		idCounter = proposal;
+		return idCounter;
 	}
 
 	/** {@inheritDoc} */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
+		return createNode(nodeFormalismName, getNewId());
+	}
+
+	/** {@inheritDoc} */
+	public final INode createNode(String nodeFormalismName, int id) throws ModelException {
 		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
-		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, getNewId());
+
+		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, id);
 		addNode(node);
 
 		return node;
@@ -184,6 +195,11 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
+		return this.createArc(arcFormalismName, source, target, getNewId());
+	}
+
+	/** {@inheritDoc} */
+	public final IArc createArc(String arcFormalismName, INode source, INode target, int id) throws ModelException {
 		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
@@ -193,7 +209,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
-		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
+		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, id, source, target);
 		addArc(arc);
 
 		return arc;
@@ -255,6 +271,17 @@ public class GraphModel extends AbstractElement implements IGraph {
 		} else {
 			return this.getArc(id);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void deleteObject(int id) throws ModelException {
+		INode node = this.getNode(id);
+		if (node != null) { this.deleteNode(node); return; }
+		IArc arc = this.getArc(id);
+		if (arc != null) { this.deleteArc(arc); return; }
+		throw new ModelException("Object id=" + id + " does not exist in the model");
 	}
 
 	/** {@inheritDoc} */
