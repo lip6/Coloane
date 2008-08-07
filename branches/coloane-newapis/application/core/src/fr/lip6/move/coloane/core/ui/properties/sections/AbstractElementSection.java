@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -29,7 +30,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	private Composite composite;
 
 	/** Structure sauvegardant les listes de propriétés. */
-	private HashMap<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
+	private Map<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
 
 	/** Nom de la propriété courrante. */
 	private String currentType;
@@ -72,11 +73,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -169,7 +166,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/**
 	 * @return map associant le nom d'une propriété avec un LabelText
 	 */
-	public final HashMap<String, List<LabelText>> getMap() {
+	public final Map<String, List<LabelText>> getMap() {
 		return map;
 	}
 

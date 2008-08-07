@@ -28,10 +28,7 @@ public class CreateGuideCommand extends Command {
 		this.position = position;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		if (guide == null) {
@@ -41,10 +38,7 @@ public class CreateGuideCommand extends Command {
 		ruler.addGuide(guide);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		ruler.removeGuide(guide);

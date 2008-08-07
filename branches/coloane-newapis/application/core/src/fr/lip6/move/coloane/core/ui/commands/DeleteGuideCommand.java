@@ -35,10 +35,7 @@ public class DeleteGuideCommand extends Command {
 		this.ruler = ruler;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
@@ -49,10 +46,7 @@ public class DeleteGuideCommand extends Command {
 		ruler.removeGuide(guide);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		ruler.addGuide(guide);

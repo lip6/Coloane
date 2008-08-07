@@ -20,7 +20,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
  * @param <T>
  */
 public abstract class AbstractSection<T extends IAbstractPropertyChange> extends AbstractPropertySection implements PropertyChangeListener {
-	private ArrayList<T> elements = new ArrayList<T>();
+	private List<T> elements = new ArrayList<T>();
 	private boolean isDisposed = false;
 
 

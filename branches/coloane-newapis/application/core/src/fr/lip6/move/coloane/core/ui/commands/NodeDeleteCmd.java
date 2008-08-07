@@ -28,13 +28,13 @@ public class NodeDeleteCmd extends Command {
 
 	/**
 	 * Constructeur
-	 * @param graph
-	 * @param node
+	 * @param graph graphe contenant le noeud
+	 * @param node noeud à supprimer
 	 */
-	public NodeDeleteCmd(IGraph graph, INode n) {
+	public NodeDeleteCmd(IGraph graph, INode node) {
 		super(Messages.NodeDeleteCmd_0);
 		this.graph = graph;
-		this.node = n;
+		this.node = node;
 	}
 
 	/** {@inheritDoc} */

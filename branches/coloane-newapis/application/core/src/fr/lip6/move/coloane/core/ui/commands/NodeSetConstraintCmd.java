@@ -23,13 +23,13 @@ public class NodeSetConstraintCmd extends Command {
 	 * @param node noeud
 	 * @param newBounds Nouvelles limites
 	 */
-	public NodeSetConstraintCmd(INode n, Rectangle bounds) {
+	public NodeSetConstraintCmd(INode node, Rectangle newBounds) {
 		super(Messages.NodeSetConstraintCmd_0);
-		if (n == null || bounds == null) {
-			throw new IllegalArgumentException();
+		if (node == null || newBounds == null) {
+			throw new NullPointerException();
 		}
-		this.node = n;
-		this.newBounds = bounds.getCopy();
+		this.node = node;
+		this.newBounds = newBounds.getCopy();
 		this.newBounds.x = Math.max(this.newBounds.x, 0);
 		this.newBounds.y = Math.max(this.newBounds.y, 0);
 	}
