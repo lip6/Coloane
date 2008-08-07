@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-06 20:30:55
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-07 14:20:55
 
 package fr.lip6.move.coloane.api.cami;
 	
@@ -352,15 +352,15 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start open_session
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:154:1: open_session : ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table ( message_to_user )* receive_services ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:154:1: open_session : ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table receive_services ;
     public final void open_session() throws RecognitionException {
         open_session_stack.push(new open_session_scope());
         Token session_name=null;
 
          ((open_session_scope)open_session_stack.peek()).sessionArgs = new ArrayList<String>(); 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:157:2: ( ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table ( message_to_user )* receive_services )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:158:2: ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table ( message_to_user )* receive_services
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:157:2: ( ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table receive_services )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:158:2: ( message_to_user )* 'OS(' session_name= CAMI_STRING ')' 'TD()' 'FA()' interlocutor_table receive_services
             {
             // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:158:2: ( message_to_user )*
             loop2:
@@ -404,35 +404,7 @@ public class CamiParser extends Parser {
             		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo(((open_session_scope)open_session_stack.peek()).sessionArgs);
             		sessionController.notifyReceptSessionInfo(sessionInfo);
             	
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:166:2: ( message_to_user )*
-            loop3:
-            do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
-
-                if ( ((LA3_0>=31 && LA3_0<=33)) ) {
-                    alt3=1;
-                }
-
-
-                switch (alt3) {
-            	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:166:2: message_to_user
-            	    {
-            	    pushFollow(FOLLOW_message_to_user_in_open_session261);
-            	    message_to_user();
-            	    _fsp--;
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop3;
-                }
-            } while (true);
-
-            pushFollow(FOLLOW_receive_services_in_open_session265);
+            pushFollow(FOLLOW_receive_services_in_open_session261);
             receive_services();
             _fsp--;
 
@@ -453,30 +425,30 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start interlocutor_table
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:171:1: interlocutor_table : 'TL()' ( body_table )+ 'FL()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:170:1: interlocutor_table : 'TL()' ( body_table )+ 'FL()' ;
     public final void interlocutor_table() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:172:2: ( 'TL()' ( body_table )+ 'FL()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:173:2: 'TL()' ( body_table )+ 'FL()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:171:2: ( 'TL()' ( body_table )+ 'FL()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:172:2: 'TL()' ( body_table )+ 'FL()'
             {
-            match(input,16,FOLLOW_16_in_interlocutor_table280); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:174:2: ( body_table )+
-            int cnt4=0;
-            loop4:
+            match(input,16,FOLLOW_16_in_interlocutor_table276); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:173:2: ( body_table )+
+            int cnt3=0;
+            loop3:
             do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
+                int alt3=2;
+                int LA3_0 = input.LA(1);
 
-                if ( (LA4_0==18) ) {
-                    alt4=1;
+                if ( (LA3_0==18) ) {
+                    alt3=1;
                 }
 
 
-                switch (alt4) {
+                switch (alt3) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:174:2: body_table
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:173:2: body_table
             	    {
-            	    pushFollow(FOLLOW_body_table_in_interlocutor_table283);
+            	    pushFollow(FOLLOW_body_table_in_interlocutor_table279);
             	    body_table();
             	    _fsp--;
 
@@ -485,15 +457,15 @@ public class CamiParser extends Parser {
             	    break;
 
             	default :
-            	    if ( cnt4 >= 1 ) break loop4;
+            	    if ( cnt3 >= 1 ) break loop3;
                         EarlyExitException eee =
-                            new EarlyExitException(4, input);
+                            new EarlyExitException(3, input);
                         throw eee;
                 }
-                cnt4++;
+                cnt3++;
             } while (true);
 
-            match(input,17,FOLLOW_17_in_interlocutor_table287); 
+            match(input,17,FOLLOW_17_in_interlocutor_table283); 
 
             }
 
@@ -510,7 +482,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start body_table
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:179:1: body_table : 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:178:1: body_table : 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')' ;
     public final void body_table() throws RecognitionException {
         Token service_name=null;
         Token about_service=null;
@@ -518,22 +490,22 @@ public class CamiParser extends Parser {
         Token new_model=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:180:2: ( 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:181:2: 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:179:2: ( 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:180:2: 'VI(' service_name= CAMI_STRING ',' about_service= CAMI_STRING ',' deprecated= NUMBER ',' new_model= NUMBER ')'
             {
-            match(input,18,FOLLOW_18_in_body_table302); 
+            match(input,18,FOLLOW_18_in_body_table298); 
             service_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_body_table306); 
-            match(input,11,FOLLOW_11_in_body_table308); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_body_table302); 
+            match(input,11,FOLLOW_11_in_body_table304); 
             about_service=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_body_table312); 
-            match(input,11,FOLLOW_11_in_body_table314); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_body_table308); 
+            match(input,11,FOLLOW_11_in_body_table310); 
             deprecated=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_body_table318); 
-            match(input,11,FOLLOW_11_in_body_table320); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_body_table314); 
+            match(input,11,FOLLOW_11_in_body_table316); 
             new_model=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_body_table324); 
-            match(input,9,FOLLOW_9_in_body_table326); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_body_table320); 
+            match(input,9,FOLLOW_9_in_body_table322); 
 
             		((open_session_scope)open_session_stack.peek()).sessionArgs.add(service_name.getText());
             		((open_session_scope)open_session_stack.peek()).sessionArgs.add(about_service.getText());
@@ -556,13 +528,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start suspend_session
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:190:1: suspend_session : 'SS()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:189:1: suspend_session : 'SS()' ;
     public final void suspend_session() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:191:2: ( 'SS()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:192:2: 'SS()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:190:2: ( 'SS()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:191:2: 'SS()'
             {
-            match(input,19,FOLLOW_19_in_suspend_session343); 
+            match(input,19,FOLLOW_19_in_suspend_session339); 
 
             		LOGGER.finest("Reception d'un acquittement de suspension de session");
             		sessionController.notifyEndSuspendSession();
@@ -583,18 +555,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start resume_session
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:199:1: resume_session : 'RS(' session_name= CAMI_STRING ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:198:1: resume_session : 'RS(' session_name= CAMI_STRING ')' ;
     public final void resume_session() throws RecognitionException {
         Token session_name=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:200:2: ( 'RS(' session_name= CAMI_STRING ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:201:2: 'RS(' session_name= CAMI_STRING ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:199:2: ( 'RS(' session_name= CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:200:2: 'RS(' session_name= CAMI_STRING ')'
             {
-            match(input,20,FOLLOW_20_in_resume_session359); 
+            match(input,20,FOLLOW_20_in_resume_session355); 
             session_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_resume_session363); 
-            match(input,9,FOLLOW_9_in_resume_session365); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_resume_session359); 
+            match(input,9,FOLLOW_9_in_resume_session361); 
 
             		LOGGER.finest("Reception d'un acquittement de reprise de session");
             		sessionController.notifyEndResumeSession(session_name.getText());
@@ -615,13 +587,13 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start close_session
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:208:1: close_session : 'FS()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:207:1: close_session : 'FS()' ;
     public final void close_session() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:209:2: ( 'FS()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:210:2: 'FS()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:208:2: ( 'FS()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:209:2: 'FS()'
             {
-            match(input,21,FOLLOW_21_in_close_session382); 
+            match(input,21,FOLLOW_21_in_close_session378); 
 
             		LOGGER.finest("Reception d'un acquittement de fermeture de session");
             		sessionController.notifyEndCloseSession();
@@ -647,7 +619,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start receive_services
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:221:1: receive_services : ( receive_services_group )+ ( state_service )+ 'QQ(3)' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:220:1: receive_services : ( receive_services_group )+ ( state_service )+ 'QQ(3)' ;
     public final void receive_services() throws RecognitionException {
         receive_services_stack.push(new receive_services_scope());
         ISubMenu receive_services_group1 = null;
@@ -660,30 +632,64 @@ public class CamiParser extends Parser {
         		List<IUpdateMenu> updates = new ArrayList<IUpdateMenu>();
         	
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:227:2: ( ( receive_services_group )+ ( state_service )+ 'QQ(3)' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:228:2: ( receive_services_group )+ ( state_service )+ 'QQ(3)'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:226:2: ( ( receive_services_group )+ ( state_service )+ 'QQ(3)' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:227:2: ( receive_services_group )+ ( state_service )+ 'QQ(3)'
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:228:2: ( receive_services_group )+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:227:2: ( receive_services_group )+
+            int cnt4=0;
+            loop4:
+            do {
+                int alt4=2;
+                int LA4_0 = input.LA(1);
+
+                if ( (LA4_0==23||(LA4_0>=31 && LA4_0<=33)) ) {
+                    alt4=1;
+                }
+
+
+                switch (alt4) {
+            	case 1 :
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:227:4: receive_services_group
+            	    {
+            	    pushFollow(FOLLOW_receive_services_group_in_receive_services414);
+            	    receive_services_group1=receive_services_group();
+            	    _fsp--;
+
+            	     roots.add(receive_services_group1); 
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt4 >= 1 ) break loop4;
+                        EarlyExitException eee =
+                            new EarlyExitException(4, input);
+                        throw eee;
+                }
+                cnt4++;
+            } while (true);
+
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:228:2: ( state_service )+
             int cnt5=0;
             loop5:
             do {
                 int alt5=2;
                 int LA5_0 = input.LA(1);
 
-                if ( (LA5_0==23) ) {
+                if ( (LA5_0==28) ) {
                     alt5=1;
                 }
 
 
                 switch (alt5) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:228:4: receive_services_group
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:228:4: state_service
             	    {
-            	    pushFollow(FOLLOW_receive_services_group_in_receive_services418);
-            	    receive_services_group1=receive_services_group();
+            	    pushFollow(FOLLOW_state_service_in_receive_services424);
+            	    state_service2=state_service();
             	    _fsp--;
 
-            	     roots.add(receive_services_group1); 
+            	     updates.add(state_service2); 
 
             	    }
             	    break;
@@ -697,41 +703,7 @@ public class CamiParser extends Parser {
                 cnt5++;
             } while (true);
 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:229:2: ( state_service )+
-            int cnt6=0;
-            loop6:
-            do {
-                int alt6=2;
-                int LA6_0 = input.LA(1);
-
-                if ( (LA6_0==28) ) {
-                    alt6=1;
-                }
-
-
-                switch (alt6) {
-            	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:229:4: state_service
-            	    {
-            	    pushFollow(FOLLOW_state_service_in_receive_services428);
-            	    state_service2=state_service();
-            	    _fsp--;
-
-            	     updates.add(state_service2); 
-
-            	    }
-            	    break;
-
-            	default :
-            	    if ( cnt6 >= 1 ) break loop6;
-                        EarlyExitException eee =
-                            new EarlyExitException(6, input);
-                        throw eee;
-                }
-                cnt6++;
-            } while (true);
-
-            match(input,22,FOLLOW_22_in_receive_services436); 
+            match(input,22,FOLLOW_22_in_receive_services432); 
 
             		((ReceptMenuObservable) hash.get("ISession")).notifyObservers(roots, updates);
             		sessionController.notifyEndOpenSession();
@@ -753,7 +725,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start receive_services_group
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:236:1: receive_services_group returns [ISubMenu builtRoot] : 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )? ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:235:1: receive_services_group returns [ISubMenu builtRoot] : ( message_to_user )* 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )? ;
     public final ISubMenu receive_services_group() throws RecognitionException {
         ISubMenu builtRoot = null;
 
@@ -765,9 +737,37 @@ public class CamiParser extends Parser {
 
          LOGGER.finest("Reception d'une liste de services (Groupe)"); 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:239:2: ( 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )? )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:240:2: 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )?
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:238:2: ( ( message_to_user )* 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )? )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:239:2: ( message_to_user )* 'DQ()' root_description ( service_description )+ 'FQ()' ( 'VQ(' root_name= CAMI_STRING ')' )?
             {
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:239:2: ( message_to_user )*
+            loop6:
+            do {
+                int alt6=2;
+                int LA6_0 = input.LA(1);
+
+                if ( ((LA6_0>=31 && LA6_0<=33)) ) {
+                    alt6=1;
+                }
+
+
+                switch (alt6) {
+            	case 1 :
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:239:2: message_to_user
+            	    {
+            	    pushFollow(FOLLOW_message_to_user_in_receive_services_group457);
+            	    message_to_user();
+            	    _fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop6;
+                }
+            } while (true);
+
             match(input,23,FOLLOW_23_in_receive_services_group462); 
             pushFollow(FOLLOW_root_description_in_receive_services_group465);
             root_description3=root_description();
@@ -3679,28 +3679,28 @@ public class CamiParser extends Parser {
     public static final BitSet FOLLOW_14_in_open_session250 = new BitSet(new long[]{0x0000000000008000L});
     public static final BitSet FOLLOW_15_in_open_session253 = new BitSet(new long[]{0x0000000000010000L});
     public static final BitSet FOLLOW_interlocutor_table_in_open_session256 = new BitSet(new long[]{0x0000000380800000L});
-    public static final BitSet FOLLOW_message_to_user_in_open_session261 = new BitSet(new long[]{0x0000000380800000L});
-    public static final BitSet FOLLOW_receive_services_in_open_session265 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_interlocutor_table280 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_body_table_in_interlocutor_table283 = new BitSet(new long[]{0x0000000000060000L});
-    public static final BitSet FOLLOW_17_in_interlocutor_table287 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_18_in_body_table302 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_body_table306 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_body_table308 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_body_table312 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_body_table314 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_body_table318 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_body_table320 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_body_table324 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_body_table326 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_19_in_suspend_session343 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_20_in_resume_session359 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_resume_session363 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_resume_session365 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_21_in_close_session382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_receive_services_group_in_receive_services418 = new BitSet(new long[]{0x0000000010800000L});
-    public static final BitSet FOLLOW_state_service_in_receive_services428 = new BitSet(new long[]{0x0000000010400000L});
-    public static final BitSet FOLLOW_22_in_receive_services436 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_receive_services_in_open_session261 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_16_in_interlocutor_table276 = new BitSet(new long[]{0x0000000000040000L});
+    public static final BitSet FOLLOW_body_table_in_interlocutor_table279 = new BitSet(new long[]{0x0000000000060000L});
+    public static final BitSet FOLLOW_17_in_interlocutor_table283 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_18_in_body_table298 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_body_table302 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_body_table304 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_body_table308 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_body_table310 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_body_table314 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_body_table316 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_body_table320 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_body_table322 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_19_in_suspend_session339 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_20_in_resume_session355 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_resume_session359 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_resume_session361 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_21_in_close_session378 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_receive_services_group_in_receive_services414 = new BitSet(new long[]{0x0000000390800000L});
+    public static final BitSet FOLLOW_state_service_in_receive_services424 = new BitSet(new long[]{0x0000000010400000L});
+    public static final BitSet FOLLOW_22_in_receive_services432 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_message_to_user_in_receive_services_group457 = new BitSet(new long[]{0x0000000380800000L});
     public static final BitSet FOLLOW_23_in_receive_services_group462 = new BitSet(new long[]{0x0000000004000000L});
     public static final BitSet FOLLOW_root_description_in_receive_services_group465 = new BitSet(new long[]{0x0000000008000000L});
     public static final BitSet FOLLOW_service_description_in_receive_services_group473 = new BitSet(new long[]{0x0000000009000000L});

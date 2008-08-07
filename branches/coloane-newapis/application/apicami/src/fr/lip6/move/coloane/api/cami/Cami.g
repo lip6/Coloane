@@ -163,7 +163,6 @@ open_session
 		ISessionInfo sessionInfo = CamiObjectBuilder.buildSessionInfo($open_session::sessionArgs);
 		sessionController.notifyReceptSessionInfo(sessionInfo);
 	}
-	message_to_user*
 	receive_services
 	;
 
@@ -236,7 +235,8 @@ receive_services
 receive_services_group
 	returns [ISubMenu builtRoot]
 	@init { LOGGER.finest("Reception d'une liste de services (Groupe)"); }
-	:	
+	:
+	message_to_user*	
 	'DQ()'
 	root_description { builtRoot = $root_description.root; } 
 	( service_description { ((SubMenu) builtRoot).addQuestion($service_description.question); } )+
