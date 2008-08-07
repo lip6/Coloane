@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: fr.lip6.move.coloane.interfaces
+Bundle-SymbolicName: fr.lip6.move.coloane.interfaces;singleton:=true
 Bundle-Version: 0.14.0
 Bundle-Name: Coloane Interfaces
 Bundle-Vendor: LIP6 / MoVe
@@ -19,3 +19,4 @@ Provide-Package: fr.lip6.move.coloane.interfaces.api,
  fr.lip6.move.coloane.interfaces.objects.service,
  fr.lip6.move.coloane.interfaces.utils
 Require-Bundle: org.eclipse.gef;reprovide=true
+Bundle-ManifestVersion: 2
