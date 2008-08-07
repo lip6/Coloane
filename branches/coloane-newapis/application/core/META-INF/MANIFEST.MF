@@ -27,3 +27,4 @@ Require-Bundle: fr.lip6.move.coloane.interfaces,
  org.eclipse.core.expressions
 Plugin-Class: fr.lip6.move.coloane.core.main.Coloane
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
