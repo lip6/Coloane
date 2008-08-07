@@ -24,11 +24,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 /**
  * Cette classe définie un résultat pour le core de Coloane.
  */
 public class ResultImpl implements IResult {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private String rootName;
 
@@ -181,11 +185,17 @@ public class ResultImpl implements IResult {
 		switch (modification.getType()) {
 			// Suppresion d'un element
 			case 0:
+				LOGGER.finest("Suppression de l'objet: id:" + modification.getId());
 				return new DeleteObjectCommand(modification.getId());
 			// Ajout d'un element
 			case 1 :
 				for (int i = 0; i < model.getArcs().length; i++) {
 					if (model.getArcs()[i].getId() == modification.getId()) {
+						LOGGER.finest(
+								"Ajout d'un arc: id:" + modification.getId()
+								+ " type:" + model.getArcs()[i].getType()
+								+ " idSource:" + model.getArcs()[i].getSource()
+								+ " idTarget:" + model.getArcs()[i].getDestination());
 						return new CreateArcCommand(
 								modification.getId(),
 								model.getArcs()[i].getType(),
@@ -195,24 +205,39 @@ public class ResultImpl implements IResult {
 				}
 				for (int i = 0; i < model.getNodes().length; i++) {
 					if (model.getNodes()[i].getId() == modification.getId()) {
+						LOGGER.finest("Ajout d'un noeud: id:" + modification.getId() + " type:" + model.getNodes()[i].getType());
 						return new CreateNodeCommand(modification.getId(), model.getNodes()[i].getType());
 					}
 				}
 				return null;
 			// Modification d'un element
 			case 2 :
+				LOGGER.finest(
+						"Ajout d'un attribut: idReferenced:" + modification.getId()
+						+ " nameAtt:" + modification.getNameAtt()
+						+ " valueAtt:" + modification.getValue());
 				return new CreateAttributeCommand(modification.getNameAtt(), modification.getId(), modification.getValue());
 
 			// Modification de la position d'un objet
 			case 3 :
+				LOGGER.finest(
+						"Modification de la position d'un objet: id:" + modification.getId()
+						+ " x:" + modification.getPos().getXx()
+						+ " y:" + modification.getPos().getYy());
 				return new ObjectPositionCommand(modification.getId(), modification.getPos().getXx(), modification.getPos().getYy());
 
 			// Modification de la taille d'un objet
 			case 4 :
+				LOGGER.warning("Modification de la taille d'un objet non pris en compte: id:" + modification.getId());
 				return null;
 
 			// Modification de la position d'un attribut
 			case 5 :
+				LOGGER.finest(
+						"Modification de la position d'un attribut: idReferenced:" + modification.getId()
+						+ "nameAtt:" + modification.getNameAtt()
+						+ " x:" + modification.getPos().getXx()
+						+ " y:" + modification.getPos().getYy());
 				return new AttributePositionCommand(
 						modification.getId(),
 						modification.getNameAtt(),
@@ -221,6 +246,10 @@ public class ResultImpl implements IResult {
 
 			// Ajout d'un point d'inflexion
 			case 6 :
+				LOGGER.finest(
+						"Suppression d'un points d'inflexion: id:" + modification.getId()
+						+ " x:" + modification.getPos().getXx()
+						+ " y:" + modification.getPos().getYy());
 				return new CreateInflexPointCommand(
 						modification.getId(),
 						modification.getPos().getXx(),
@@ -228,10 +257,13 @@ public class ResultImpl implements IResult {
 
 			// Supprimer tous les points d'inflexions
 			case 7 :
+				LOGGER.finest("Suppression de tous les points d'inflexions");
 				return new DeleteInflexPointsCommand();
 
 			// Sinon
-			default : return null;
+			default:
+				LOGGER.warning("Modification inconnu sur l'objet: id:" + modification.getId());
+				return null;
 		}
 	}
 
@@ -257,6 +289,9 @@ public class ResultImpl implements IResult {
 				if (model.getNodes()[i].getId() != 1) {
 
 					//Ajout une commande pour créer le noeud
+					LOGGER.finest(
+							"Création d'un noeud: id:" + model.getNodes()[i].getId()
+							+ " type:" + model.getNodes()[i].getType());
 					ICommand addNodeCommand = new CreateNodeCommand(model.getNodes()[i].getId(), model.getNodes()[i].getType());
 					commandForNewGraph.add(addNodeCommand);
 
@@ -268,6 +303,10 @@ public class ResultImpl implements IResult {
 						}
 
 						// Ajout une commande pour créer un attribut du noeud
+						LOGGER.finest(
+								"Creation d'un attribut pour un noeud: idReferenced:" + model.getNodes()[i].getId()
+								+ " nameAtt:" + model.getNodes()[i].getAtts()[j].getAttName()
+								+ " valueAtt:" +  myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
 						ICommand addNodeAttCommand = new CreateAttributeCommand(
 								model.getNodes()[i].getAtts()[j].getAttName(),
 								model.getNodes()[i].getId(),
@@ -284,6 +323,10 @@ public class ResultImpl implements IResult {
 						}
 
 						// Ajout une commande pour créer un attribut du noeud
+						LOGGER.finest(
+								"Creation d'un attribut pour le noeud special: idReferenced:" + model.getNodes()[i].getId()
+								+ " nameAtt:" + model.getNodes()[i].getAtts()[j].getAttName()
+								+ " valueAtt:" +  myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
 						ICommand addNodeAttCommand = new CreateAttributeCommand(
 								model.getNodes()[i].getAtts()[j].getAttName(),
 								model.getNodes()[i].getId(),
@@ -304,6 +347,11 @@ public class ResultImpl implements IResult {
 				}
 
 				// Ajout une commande pour créer l'arc
+				LOGGER.finest(
+						"Creation d'un arc: id:" + model.getArcs()[i].getId()
+						+ " type:" + model.getArcs()[i].getType()
+						+ " idSource:" + model.getArcs()[i].getSource()
+						+ " idTarget:" + model.getArcs()[i].getDestination());
 				ICommand addArcCommand = new CreateArcCommand(
 						model.getArcs()[i].getId(),
 						model.getArcs()[i].getType(),
@@ -319,6 +367,10 @@ public class ResultImpl implements IResult {
 					}
 
 					// Ajout une commande pour créer un attribut de l'arc
+					LOGGER.finest(
+							"Création d'un attribut pour un arc: idReferenced:" + model.getArcs()[i].getId()
+							+ " nameAtt:" + model.getArcs()[i].getAtts()[j].getAttName()
+							+ " valueAtt:" + myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
 					ICommand addArcAttCommand = new CreateAttributeCommand(
 							model.getArcs()[i].getAtts()[j].getAttName(),
 							model.getArcs()[i].getId(),
@@ -335,6 +387,10 @@ public class ResultImpl implements IResult {
 					}
 
 					// Ajout une commande pour créer un point d'inflexion à l'arc
+					LOGGER.finest(
+							"Création d'un point d'un point d'inflexion: id:" + model.getArcs()[i].getId()
+							+ " x:" + model.getArcs()[i].getPoints()[j].getXx()
+							+ " y:" + model.getArcs()[i].getPoints()[j].getYy());
 					ICommand addArcInflexPtCommand = new CreateInflexPointCommand(
 							model.getArcs()[i].getId(),
 							model.getArcs()[i].getPoints()[j].getXx(),
@@ -358,6 +414,7 @@ public class ResultImpl implements IResult {
 				command.execute(newGraph);
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
+				LOGGER.warning("La creéation du nouveau graph à echouer: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
