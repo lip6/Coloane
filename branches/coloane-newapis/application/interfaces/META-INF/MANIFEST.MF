@@ -18,5 +18,5 @@ Provide-Package: fr.lip6.move.coloane.interfaces.api,
  fr.lip6.move.coloane.interfaces.objects.result,
  fr.lip6.move.coloane.interfaces.objects.service,
  fr.lip6.move.coloane.interfaces.utils
-Require-Bundle: org.eclipse.gef;reprovide=true
+Require-Bundle: org.eclipse.gef;visibility:=reexport
 Bundle-ManifestVersion: 2
