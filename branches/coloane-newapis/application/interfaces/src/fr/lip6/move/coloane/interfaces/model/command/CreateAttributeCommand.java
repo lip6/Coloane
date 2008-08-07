@@ -33,8 +33,12 @@ public class CreateAttributeCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
-		IElement ref = graph.getObject(referenceId);
-		ref.getAttribute(name).setValue(value);
+		if (referenceId == 1) {
+			graph.getAttribute(name).setValue(value);
+		} else {
+			IElement ref = graph.getObject(referenceId);
+			ref.getAttribute(name).setValue(value);
+		}
 	}
 
 	/**
