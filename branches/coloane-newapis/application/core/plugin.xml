@@ -608,6 +608,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
                       description="Create an arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"
@@ -625,6 +626,7 @@
              <Arc
                    name="inhibitor">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
                       icon16px="resources/formalisms/inhibitor_16.png"

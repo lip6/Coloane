@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
@@ -37,8 +36,6 @@ public final class ModelLoader {
 	 * @return IGraph construit à partir du fichier xml
 	 */
 	public static IGraph loadFromXML(IFile xmlFile) {
-		IGraph graph = null;
-
 		ModelHandler modelHandler = new ModelHandler();
 
 		// Declaration de quelques variables utiles ;o)
@@ -75,13 +72,6 @@ public final class ModelLoader {
 			LOGGER.warning("Erreur lors de la création du parser. " + e.getMessage()); //$NON-NLS-1$
 		}
 
-		// Creation du modele a partir du modele generique
-		graph = modelHandler.getGraph();
-
-		// Creation d'une session pour ce modele
-		if (graph != null && !Motor.getInstance().createSession(graph, xmlFile.getName())) {
-			LOGGER.warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
-		}
-		return graph;
+		return modelHandler.getGraph();
 	}
 }

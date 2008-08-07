@@ -370,6 +370,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			return;
 		}
 
+		// Creation d'une session pour ce modele
+		if (!Motor.getInstance().createSession(graph, file.getName())) {
+			LOGGER.warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
+		}
+
 		// Mise en place de l'editeur
 		// On est oblige d'attendre le formalisme pour creer le domaine d'edition
 		// En effet, le formalisme determine la palette qui sera affichee
