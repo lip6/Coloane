@@ -169,6 +169,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			return pageBook;
 		}
 
+		/**
+		 * Initialisation de l'overview
+		 */
 		protected void initializeOverview() {
 			LightweightSystem lws = new LightweightSystem(overview);
 			RootEditPart rep = getGraphicalViewer().getRootEditPart();
