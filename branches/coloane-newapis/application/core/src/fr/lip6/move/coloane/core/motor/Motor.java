@@ -446,6 +446,10 @@ public final class Motor {
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession != null) {
+					if (result.getNewGraph() != null) {
+						LOGGER.fine("Detection d'un modèle sortant");  //$NON-NLS-1$
+						Motor.this.setNewModel(result.getNewGraph());
+					}
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
 					currentSession.getServiceResults().add(result.getServiceName(), result);
 					return Status.OK_STATUS;
