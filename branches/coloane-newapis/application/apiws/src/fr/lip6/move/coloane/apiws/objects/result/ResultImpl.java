@@ -51,6 +51,7 @@ public class ResultImpl implements IResult {
 		this.rootName = service.getRoot();
 		this.serviceName = result.getAnswerToquestion().getName();
 
+		// Création de la liste des sous-resultats
 		this.subResult = new ArrayList<ISubResult>();
 		if (result.getEnsemble().getEnsembles() != null) {
 			for (int i = 0; i < result.getEnsemble().getEnsembles().length; i++) {
@@ -62,6 +63,7 @@ public class ResultImpl implements IResult {
 			}
 		}
 
+		// Création de la liste des modification à ignorer
 		this.tipsList = new ArrayList<ITip>();
 		if (result.getCurrentModel() != null) {
 			if (result.getCurrentModel().getModification() != null) {
@@ -77,12 +79,14 @@ public class ResultImpl implements IResult {
 			}
 		}
 
+		// Construit le nouveau graph
 		if (result.getNewModels() != null) {
 			if (result.getNewModels()[0] != null) {
 				this.newGraph = createGraph(result.getNewModels()[0], newGraph);
 			}
 		}
 
+		// Création de la liste des modifications à apporter sur le graph courrant
 		this.modificationsOnCurrentGraph = new ArrayList<ICommand>();
 		if (result.getModelModification()) {
 			Model theCurrentModel = result.getCurrentModel();
@@ -237,24 +241,29 @@ public class ResultImpl implements IResult {
 	 * @return le nouveau graph
 	 */
 	private IGraph createGraph(Model model, IGraph newGraph) {
+		// La liste des commandes pour construire le nouveau graph
 		List<ICommand> commandForNewGraph = new ArrayList<ICommand>();
 
 		if (model.getNodes() != null) {
+			// Parcours tous les noeuds
 			for (int i = 0; i < model.getNodes().length; i++) {
+				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
 				if (model.getNodes()[i] == null) {
 					break;
 				}
+
+				//Ajout une commande pour créer le noeud
 				ICommand addNodeCommand = new CreateNodeCommand(model.getNodes()[i].getId(), model.getNodes()[i].getType());
 				commandForNewGraph.add(addNodeCommand);
-			}
-			for (int i = 0; i < model.getNodes().length; i++) {
-				if (model.getNodes()[i] == null) {
-					break;
-				}
+
+				// Parcours les attributs du noeud
 				for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
+					// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
 					if (model.getNodes()[i].getAtts()[j] == null) {
 						break;
 					}
+
+					// Ajout une commande pour créer un attribut du noeud
 					ICommand addNodeAttCommand = new CreateAttributeCommand(
 							model.getNodes()[i].getAtts()[j].getAttName(),
 							model.getNodes()[i].getId(),
@@ -263,29 +272,32 @@ public class ResultImpl implements IResult {
 
 				}
 			}
-
 		}
 
 		if (model.getArcs() != null) {
+			// Parcours tous les arcs
 			for (int i = 0; i < model.getArcs().length; i++) {
+				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
 				if (model.getArcs()[i] == null) {
 					break;
 				}
+
+				// Ajout une commande pour créer l'arc
 				ICommand addArcCommand = new CreateArcCommand(
 						model.getArcs()[i].getId(),
 						model.getArcs()[i].getType(),
 						model.getArcs()[i].getSource(),
 						model.getArcs()[i].getDestination());
 				commandForNewGraph.add(addArcCommand);
-			}
-			for (int i = 0; i < model.getArcs().length; i++) {
-				if (model.getArcs()[i] == null) {
-					break;
-				}
+
+				// Parcours les attributs de l'arc
 				for (int j = 0; j < model.getArcs()[i].getAtts().length; j++) {
+					// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
 					if (model.getArcs()[i].getAtts()[j] == null) {
 						break;
 					}
+
+					// Ajout une commande pour créer un attribut de l'arc
 					ICommand addArcAttCommand = new CreateAttributeCommand(
 							model.getArcs()[i].getAtts()[j].getAttName(),
 							model.getArcs()[i].getId(),
@@ -293,10 +305,15 @@ public class ResultImpl implements IResult {
 					commandForNewGraph.add(addArcAttCommand);
 
 				}
+
+				// Parcours les points d'inflexion de l'arc
 				for (int j = 0; j < model.getArcs()[i].getPoints().length; j++) {
+					// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
 					if (model.getArcs()[i].getPoints()[j] == null) {
 						break;
 					}
+
+					// Ajout une commande pour créer un point d'inflexion à l'arc
 					ICommand addArcInflexPtCommand = new CreateInflexPointCommand(
 							model.getArcs()[i].getId(),
 							model.getArcs()[i].getPoints()[j].getXx(),
@@ -312,6 +329,12 @@ public class ResultImpl implements IResult {
 		for (ICommand command : commandForNewGraph) {
 			command.execute(newGraph);
 			System.out.println("\t" + command.toString());
+		}
+
+
+		// Parcours la liste des commandes à exécuter pour créer le nouveau graph
+		for (ICommand command : commandForNewGraph) {
+			command.execute(newGraph);
 		}
 
 		return newGraph;
