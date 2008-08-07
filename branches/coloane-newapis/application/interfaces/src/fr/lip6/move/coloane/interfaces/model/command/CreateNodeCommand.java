@@ -30,6 +30,7 @@ public class CreateNodeCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
+		if (id == 1) { return; }
 		graph.createNode(type, id);
 	}
 
