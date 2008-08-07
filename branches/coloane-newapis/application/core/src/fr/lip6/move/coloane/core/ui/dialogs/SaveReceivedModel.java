@@ -55,7 +55,7 @@ public class SaveReceivedModel implements Runnable {
 
 			// Manipulation du path (pour ajout de l'extension du nouveu formalisme)
 			path = path.removeFileExtension();
-			path = path.addFileExtension("." + Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$ //$NON-NLS-2$
+			path = path.addFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
