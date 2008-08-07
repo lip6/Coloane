@@ -81,7 +81,7 @@ public class SaveReceivedModel implements Runnable {
 					// On verifie que l'extension est bien numerique
 					try {
 						int indice = Integer.parseInt(currentIndice);
-						modelName = modelName.substring(0, indPos).concat(Integer.toString(indice + 1));
+						modelName = modelName.substring(0, indPos + 1).concat(Integer.toString(indice + 1));
 					} catch (NumberFormatException ne) {
 						modelName = modelName + ".2"; //$NON-NLS-1$
 					}
