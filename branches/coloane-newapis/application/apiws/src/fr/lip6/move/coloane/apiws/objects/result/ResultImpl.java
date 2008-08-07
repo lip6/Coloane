@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateArcCommand;
@@ -252,24 +253,44 @@ public class ResultImpl implements IResult {
 					break;
 				}
 
-				//Ajout une commande pour créer le noeud
-				ICommand addNodeCommand = new CreateNodeCommand(model.getNodes()[i].getId(), model.getNodes()[i].getType());
-				commandForNewGraph.add(addNodeCommand);
+				// On trait tous les noeuds dont l'identifiant est différent de 1
+				if (model.getNodes()[i].getId() != 1) {
 
-				// Parcours les attributs du noeud
-				for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
-					// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
-					if (model.getNodes()[i].getAtts()[j] == null) {
-						break;
+					//Ajout une commande pour créer le noeud
+					ICommand addNodeCommand = new CreateNodeCommand(model.getNodes()[i].getId(), model.getNodes()[i].getType());
+					commandForNewGraph.add(addNodeCommand);
+
+					// Parcours les attributs du noeud
+					for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
+						// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+						if (model.getNodes()[i].getAtts()[j] == null) {
+							break;
+						}
+
+						// Ajout une commande pour créer un attribut du noeud
+						ICommand addNodeAttCommand = new CreateAttributeCommand(
+								model.getNodes()[i].getAtts()[j].getAttName(),
+								model.getNodes()[i].getId(),
+								myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
+						commandForNewGraph.add(addNodeAttCommand);
+
 					}
+				} else { // Si c'est un noeud de type 1
+					// Parcours les attributs du noeud
+					for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
+						// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+						if (model.getNodes()[i].getAtts()[j] == null) {
+							break;
+						}
 
-					// Ajout une commande pour créer un attribut du noeud
-					ICommand addNodeAttCommand = new CreateAttributeCommand(
-							model.getNodes()[i].getAtts()[j].getAttName(),
-							model.getNodes()[i].getId(),
-							myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
-					commandForNewGraph.add(addNodeAttCommand);
+						// Ajout une commande pour créer un attribut du noeud
+						ICommand addNodeAttCommand = new CreateAttributeCommand(
+								model.getNodes()[i].getAtts()[j].getAttName(),
+								model.getNodes()[i].getId(),
+								myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
+						commandForNewGraph.add(addNodeAttCommand);
 
+					}
 				}
 			}
 		}
@@ -327,14 +348,18 @@ public class ResultImpl implements IResult {
 		System.out.println();
 		System.out.println("COMMANDES POUR CREER UN MODEL:");
 		for (ICommand command : commandForNewGraph) {
-			command.execute(newGraph);
 			System.out.println("\t" + command.toString());
 		}
 
 
 		// Parcours la liste des commandes à exécuter pour créer le nouveau graph
 		for (ICommand command : commandForNewGraph) {
-			command.execute(newGraph);
+			try {
+				command.execute(newGraph);
+			} catch (ModelException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return newGraph;
