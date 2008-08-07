@@ -681,7 +681,7 @@
                 name="ReachabilityGraph">
              <Node
                    container="false"
-                   name="initial state">
+                   name="initial_state">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create an initial state"
@@ -696,7 +696,7 @@
              </Node>
              <Node
                    container="true"
-                   name="terminal state">
+                   name="terminal_state">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create a terminal state"
