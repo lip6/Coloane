@@ -8,6 +8,12 @@
             extension="dot"
             id="fr.lip6.move.coloane.extensions.exportdot"
             reference="fr.lip6.move.coloane.wizard.export.dot">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
       </Export>
    </extension>
    <extension

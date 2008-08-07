@@ -8,6 +8,12 @@
             extension="tex"
             id="fr.lip6.move.coloane.extensions.exportpgf"
             reference="fr.lip6.move.coloane.wizard.export.pgf">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
       </Export>
    </extension>
    <extension
