@@ -241,11 +241,20 @@ public class ResultImpl implements IResult {
 
 		if (model.getNodes() != null) {
 			for (int i = 0; i < model.getNodes().length; i++) {
+				if (model.getNodes()[i] == null) {
+					break;
+				}
 				ICommand addNodeCommand = new CreateNodeCommand(model.getNodes()[i].getId(), model.getNodes()[i].getType());
 				commandForNewGraph.add(addNodeCommand);
 			}
 			for (int i = 0; i < model.getNodes().length; i++) {
+				if (model.getNodes()[i] == null) {
+					break;
+				}
 				for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
+					if (model.getNodes()[i].getAtts()[j] == null) {
+						break;
+					}
 					ICommand addNodeAttCommand = new CreateAttributeCommand(
 							model.getNodes()[i].getAtts()[j].getAttName(),
 							model.getNodes()[i].getId(),
@@ -259,6 +268,9 @@ public class ResultImpl implements IResult {
 
 		if (model.getArcs() != null) {
 			for (int i = 0; i < model.getArcs().length; i++) {
+				if (model.getArcs()[i] == null) {
+					break;
+				}
 				ICommand addArcCommand = new CreateArcCommand(
 						model.getArcs()[i].getId(),
 						model.getArcs()[i].getType(),
@@ -267,7 +279,13 @@ public class ResultImpl implements IResult {
 				commandForNewGraph.add(addArcCommand);
 			}
 			for (int i = 0; i < model.getArcs().length; i++) {
+				if (model.getArcs()[i] == null) {
+					break;
+				}
 				for (int j = 0; j < model.getArcs()[i].getAtts().length; j++) {
+					if (model.getArcs()[i].getAtts()[j] == null) {
+						break;
+					}
 					ICommand addArcAttCommand = new CreateAttributeCommand(
 							model.getArcs()[i].getAtts()[j].getAttName(),
 							model.getArcs()[i].getId(),
@@ -276,6 +294,9 @@ public class ResultImpl implements IResult {
 
 				}
 				for (int j = 0; j < model.getArcs()[i].getPoints().length; j++) {
+					if (model.getArcs()[i].getPoints()[j] == null) {
+						break;
+					}
 					ICommand addArcInflexPtCommand = new CreateInflexPointCommand(
 							model.getArcs()[i].getId(),
 							model.getArcs()[i].getPoints()[j].getXx(),
@@ -286,8 +307,11 @@ public class ResultImpl implements IResult {
 			}
 		}
 
+		System.out.println();
+		System.out.println("COMMANDES POUR CREER UN MODEL:");
 		for (ICommand command : commandForNewGraph) {
 			command.execute(newGraph);
+			System.out.println("\t" + command.toString());
 		}
 
 		return newGraph;
