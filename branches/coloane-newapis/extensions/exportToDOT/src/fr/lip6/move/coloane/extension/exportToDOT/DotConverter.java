@@ -95,9 +95,9 @@ public class DotConverter {
 			if (attribut.getValue().equals(attribut.getAttributeFormalism().getDefaultValue())) {
 				continue;
 			}
-			attributes.append("\t\t " + element.getId() + "-" + attribut.getName());
+			attributes.append("\t\t \"" + element.getId() + "-" + attribut.getName() + "\"");
 			attributes.append(" [label=\"" + attribut.getValue() + "\", shape=plaintext, fontcolor=blue];\n");
-			attributes.append("\t\t " + element.getId() + "-" + attribut.getName() + " -> " + element.getId());
+			attributes.append("\t\t \"" + element.getId() + "-" + attribut.getName() + "\" -> \"" + element.getId() + "\"");
 			attributes.append(" [color=blue, style=dotted];\n");
 		}
 		return attributes.toString();
