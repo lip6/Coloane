@@ -74,18 +74,18 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			try {
 				IGraph model = ModelLoader.loadFromXML(file);
 				IExportTo exportInstance = ExportToExtension.createConvertInstance(this.idWizard);
-				LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final");
+				LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final"); //$NON-NLS-1$
 
 				// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle
 				String newExtension = ExportToExtension.findExtension(this.idWizard);
 				String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
-				LOGGER.finer("Nom final : " + newName);
+				LOGGER.finer("Nom final : " + newName); //$NON-NLS-1$
 
 				if (exportInstance == null) { return false;	}
 				exportInstance.export(model, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
 			} catch (ColoaneException e) {
 				LOGGER.warning("Erreur lors de l'export du fichier...");  //$NON-NLS-1$
-				LOGGER.warning("Echec de l'export..." + e.getMessage());
+				LOGGER.warning("Echec de l'export..." + e.getMessage()); //$NON-NLS-1$
 				return false;
 			} catch (CoreException ce) {
 				LOGGER.warning("Erreur lors de l'initialisation de l'extension chargee de l'export");  //$NON-NLS-1$
