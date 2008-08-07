@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
+import fr.lip6.move.wrapper.ws.WrapperStub.IgnoreCommand;
 
 /**
  * Cette classe représent les informations sur un objet
@@ -15,14 +16,12 @@ public class TipImpl implements ITip {
 
 	/**
 	 * Constructeur
-	 * @param idObject l'identifiant de l'objet sur lequel s'applique la modification
-	 * @param name le nom de l'attribut
-	 * @param value la valeur de l'attribut
+	 * @param ignoreCommand la commande ignorée
 	 */
-	public TipImpl(int idObject, String name, String value) {
-		this.idObject = idObject;
-		this.name = name;
-		this.value = value;
+	public TipImpl(IgnoreCommand ignoreCommand) {
+		this.idObject = ignoreCommand.getId();
+		this.name = ignoreCommand.getName1();
+		this.value = ignoreCommand.getName2();
 	}
 
 	/**

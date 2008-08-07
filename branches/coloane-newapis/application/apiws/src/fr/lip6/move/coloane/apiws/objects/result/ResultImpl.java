@@ -1,12 +1,15 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateArcCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateAttributeCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateNodeCommand;
+import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
 import fr.lip6.move.coloane.interfaces.model.command.DeleteObjectCommand;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
@@ -19,6 +22,7 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * Cette classe définie un résultat pour le core de Coloane.
@@ -48,16 +52,30 @@ public class ResultImpl implements IResult {
 		this.serviceName = result.getAnswerToquestion().getName();
 
 		this.subResult = new ArrayList<ISubResult>();
-		/*if (result.getEnsemble().getEnsembles != null) {
-			for (int i = 0; i < result.getEnsemble().getEnsembles.length; i++) {
+		if (result.getEnsemble().getEnsembles() != null) {
+			for (int i = 0; i < result.getEnsemble().getEnsembles().length; i++) {
 				// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
-				if (result.getEnsemble().getEnsembles[i] == null) {
+				if (result.getEnsemble().getEnsembles()[i] == null) {
 					break;
 				}
-				this.subResult.add(new SubResultImpl(result.getEnsemble().getEnsembles[i]));
+				this.subResult.add(new SubResultImpl(result.getEnsemble().getEnsembles()[i]));
 			}
-		}*/
-		this.subResult.add(new SubResultImpl(result));
+		}
+
+		this.tipsList = new ArrayList<ITip>();
+		if (result.getCurrentModel() != null) {
+			if (result.getCurrentModel().getModification() != null) {
+				if (result.getCurrentModel().getModification().getIgnores() != null) {
+					for (int i = 0; i < result.getCurrentModel().getModification().getIgnores().length; i++) {
+						// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+						if (result.getCurrentModel().getModification().getIgnores()[i] == null) {
+							break;
+						}
+						this.tipsList.add(new TipImpl(result.getCurrentModel().getModification().getIgnores()[i]));
+					}
+				}
+			}
+		}
 
 		if (result.getNewModels() != null) {
 			if (result.getNewModels()[0] != null) {
@@ -72,12 +90,36 @@ public class ResultImpl implements IResult {
 			if (theModificationModel != null) {
 				if (theModificationModel.getModifications() != null) {
 					for (int i = 0; i < theModificationModel.getModifications().length; i++) {
-						this.modificationsOnCurrentGraph.add(createCommand(theModificationModel.getModifications()[i], theCurrentModel));
+						// Si le premier element est null c'est que le tableau est vide cela est dù à la gestion special des tableau null d'axis
+						if (theModificationModel.getModifications()[i] == null) {
+							break;
+						}
+
+						ICommand cmd = createCommand(theModificationModel.getModifications()[i], theCurrentModel);
+						if (cmd != null) {
+							this.modificationsOnCurrentGraph.add(cmd);
+						}
 					}
 				}
 			}
 		}
 
+		///////////////////////////// AFFICHAGE
+		System.out.println();
+		System.out.println("ARBRE DES RESULTATS:");
+		for (ISubResult subRes : subResult) {
+			printResult(subRes, "");
+		}
+		System.out.println();
+		System.out.println("COMMANDES DE MODIFICATIONS:");
+		for (ICommand cmd : modificationsOnCurrentGraph) {
+			System.out.println("\t" + cmd.toString());
+		}
+		System.out.println();
+		System.out.println("COMMANDEs IGNIOREES:");
+		for (ITip t : tipsList) {
+			System.out.println("\t" + "Id:" + t.getIdObject() + " Name:" + t.getName() + " Value:" + t.getValue());
+		}
 
 	}
 
@@ -151,40 +193,41 @@ public class ResultImpl implements IResult {
 						return new CreateNodeCommand(modification.getId(), model.getNodes()[i].getType());
 					}
 				}
-				break;
+				return null;
 			// Modification d'un element
 			case 2 :
-				for (int i = 0; i < model.getArcs().length; i++) {
-					if (model.getArcs()[i].getId() == modification.getId()) {
-						//return new CreateAttributeCommand(model.getArcs()[i].getNameAtt(), modification.getId(), model.getArcs()[i].getValue());
-					}
-				}
-				for (int i = 0; i < model.getNodes().length; i++) {
-					if (model.getNodes()[i].getId() == modification.getId()) {
-						//return new CreateAttributeCommand(model.getNodes()[i].getNameAtt(), modification.getId(), model.getNodes()[i].getValue());
-					}
-				}
-				break;
+				return new CreateAttributeCommand(modification.getNameAtt(), modification.getId(), modification.getValue());
 
 			// Modification de la position d'un objet
 			case 3 :
+				return new ObjectPositionCommand(modification.getId(), modification.getPos().getXx(), modification.getPos().getYy());
 
 			// Modification de la taille d'un objet
 			case 4 :
+				return null;
 
 			// Modification de la position d'un attribut
 			case 5 :
+				return new AttributePositionCommand(
+						modification.getId(),
+						modification.getNameAtt(),
+						modification.getPos().getXx(),
+						modification.getPos().getYy());
 
 			// Ajout d'un point d'inflexion
 			case 6 :
+				return new CreateInflexPointCommand(
+						modification.getId(),
+						modification.getPos().getXx(),
+						modification.getPos().getYy());
 
 			// Supprimer tous les points d'inflexions
 			case 7 :
 
+				return new DeleteInflexPointsCommand();
+			// Sinon
 			default : return null;
 		}
-
-		return null;
 	}
 
 	/**
@@ -269,6 +312,33 @@ public class ResultImpl implements IResult {
 		}
 
 		return buffer.toString();
+	}
+
+	/**
+	 * Affiche l'arbe d'un sous-résultat
+	 * @param res le sous-résultat à afficher
+	 * @param dec le décalage
+	 */
+	private void printResult(ISubResult res, String dec) {
+			System.out.println(dec + "+ " + res.getName());
+			for (String str : res.getTextualResults()) {
+				System.out.println("   " + dec + "- " + "TextualResult     : " + str);
+			}
+			for (Integer o : res.getObjectsOutline()) {
+				System.out.println("   " + dec + "- " + "ObjectsOutline    : " + o);
+			}
+			for (Integer i : res.getObjectsDesignation()) {
+				System.out.println("   " + dec + "- " + "ObjectsDesignation: " + i);
+			}
+			for (Entry<Integer, List<String>> entry : res.getAttributesOutline().entrySet()) {
+				System.out.println("   " + dec + "* " + "AttributesOutline : " + entry.getKey());
+				for (String s : entry.getValue()) {
+					System.out.println("   " + "   " + dec + "- " + "AttributesOutline : " + s);
+				}
+			}
+			for (ISubResult subRes : res.getChildren()) {
+				printResult(subRes, "   " + dec);
+			}
 	}
 
 }
