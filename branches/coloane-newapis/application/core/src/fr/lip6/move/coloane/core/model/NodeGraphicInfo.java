@@ -29,8 +29,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
-	private HashMap<IArc, Long> lastMove = new HashMap<IArc, Long>();
-	private static final Long ZERO = new Long(0);
+	private Map<IArc, Long> lastMove = new HashMap<IArc, Long>();
 
 	/** Taille */
 	private int scale = 100;

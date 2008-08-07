@@ -119,14 +119,6 @@ public final class Com implements ICom {
 
 		monitor.subTask(Messages.Com_3);
 		IConnectionInfo connectionInfo = connection.openConnection(infos.getLogin(), infos.getPass(), infos.getIp(), infos.getPort());
-		// Recuperation du nom de la session courante
-		String sessionName = motor.getSessionManager().getCurrentSession().getName();
-		// Recuperation du nom du formalime de la session courante
-		String formalismName = graph.getFormalism().getFKName();
-
-		// Demande de l'ouverture de session a l'API
-		boolean retour = api.openSession(sessionName, graph.getDate(), formalismName);
-
 		monitor.worked(1);
 		return connectionInfo;
 	}
