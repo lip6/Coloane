@@ -31,7 +31,7 @@ public final class WrapperModelTranslator {
 	public static Model translateModel(IGraph model) {
 		Model theModel = new Model();
 
-		theModel.addNodes(createNetNode());
+		theModel.addNodes(createNetNode(model));
 
 		for (INode node : model.getNodes()) {
 			theModel.addNodes(translateNode(node));
@@ -129,13 +129,20 @@ public final class WrapperModelTranslator {
 
 	/**
 	 * Créer le premier noeud du model
+	 * @param model le model
 	 * @return le premier noeud du model
 	 */
-	private static BNode createNetNode() {
+	private static BNode createNetNode(IGraph model) {
 		BNode theNetNode = new BNode();
 
 		theNetNode.setId(1);
 		theNetNode.setType("net");
+
+		for (IAttribute attribute : model.getAttributes()) {
+			if (!attribute.getValue().equals("")) {
+				theNetNode.addAtts(translateAttribute(attribute));
+			}
+		}
 
 		return theNetNode;
 
