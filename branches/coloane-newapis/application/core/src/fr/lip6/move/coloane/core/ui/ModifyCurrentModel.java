@@ -1,17 +1,22 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.eclipse.gef.commands.Command;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * Classe responsable de la création de l'action GEF en charge de modifier le modèle courant.
+ * Les modifications sont envoyées par la plate-forme.
+ * @author jbvoron
+ *
+ */
 public class ModifyCurrentModel implements Runnable {
-	/** Le logger pour la classe */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	/** La liste des commandes de modification du modèle courant */
 	private List<ICommand> commands;
 
@@ -27,16 +32,11 @@ public class ModifyCurrentModel implements Runnable {
 		this.currentModel =	SessionManager.getInstance().getCurrentSession().getGraph();
 	}
 
-	public void run() {
-		try {
-			for (ICommand command : commands) {
-				command.execute(currentModel);
-			}
-		} catch (ModelException me) {
-			LOGGER.warning("Erreur lors de la construction (modification) du modele sur resultat de la plate-forme"); //$NON-NLS-1$
-			// TODO : Undo ?
-		}
-
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void run() {
+		Command modifyCommand = new ModificationResultCommand(this.currentModel, this.commands);
+		((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(modifyCommand);
 	}
-
 }

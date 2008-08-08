@@ -47,6 +47,7 @@ import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -503,6 +504,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 				firePropertyChange(IEditorPart.PROP_DIRTY);
 			}
 		});
+	}
+
+	/**
+	 * Execute une commande particulière
+	 * @param command La commande qui doit être exécuté
+	 */
+	public final void executeCommand(Command command) {
+		super.getCommandStack().execute(command);
 	}
 
 	/** {@inheritDoc} */
