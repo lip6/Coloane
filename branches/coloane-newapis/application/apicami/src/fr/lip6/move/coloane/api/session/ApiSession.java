@@ -492,4 +492,16 @@ public class ApiSession implements IApiSession {
 	public final IGraph getOutputModel() {
 		return this.outputModel;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void stopService() {
+		// Envoi des commandes CAMI
+		try {
+			speaker.closeSession(false);
+		} catch (IOException ioe) {
+			this.crashRecover("Error while speaking to the platform " + ioe.getMessage());
+		}
+	}
 }
