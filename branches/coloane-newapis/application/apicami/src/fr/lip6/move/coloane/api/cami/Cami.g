@@ -473,8 +473,9 @@ results
 	|	dialog_definition 	{ dialogs.put($dialog_definition.dialog.getId(), $dialog_definition.dialog); }
 	|	dialog_display
 	|	dialog_destroy
+	| 	tip_description 	{ ((Result) result).addTip($tip_description.tip); }
 	|	one_result 		{ ((Result) result).addSubResult($one_result.builtResult); }
-	|	model_changes		{ ((Result) result).addTip($model_changes.tip); }
+	|	formalism_change
 	|	model_definition 	{ ((Result) result).addOutputGraph($model_definition.commandsList); }
 	)*
 	(
@@ -506,7 +507,6 @@ one_result
 /* Corps d'un résultat */
 result_body
 	:	one_result
-	|	tip_description
 	|	textual_result
 	|	attribute_change
 	|	object_designation
@@ -514,6 +514,7 @@ result_body
 	|	attribute_outline
 	|	object_creation { ((Result) result).addCommand($object_creation.command); }
 	|	object_deletion { ((Result) result).addCommand($object_deletion.command); }
+	| 	tip_description { ((Result) result).addTip($tip_description.tip); }
 	;
 
 /* Résultat textuel */
@@ -563,11 +564,10 @@ object_deletion returns [ICommand command]
  	;
  
  /* Description des changements à apporter au modèle pour ces résultats */
- model_changes returns [ITip tip]
+ formalism_change
  	:	
- 	attribute_table?
- 	( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' ) ?
-	tip_description { tip = $tip_description.tip; }
+ 	attribute_table
+ 	( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )?
  	;
  
  /* Une information sur un attribut particulier */
@@ -629,8 +629,9 @@ arc returns [ICommand command]
 
 /* Description d'un attribut */
 attribute returns [ICommand command]
-	:	'CT(' name=CAMI_STRING ',' id=NUMBER ','value=CAMI_STRING ')' { command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text); }
+	:	'CT(' name=CAMI_STRING ',' id=NUMBER ','value=CAMI_STRING ')' { command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, false); }
 	|	'CM(' name=CAMI_STRING ',' id=NUMBER ',' line=NUMBER ',' deprecated=NUMBER ',' value=CAMI_STRING ')'
+		{ command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, true); }
 	;
 
 /* Description esthétique */
