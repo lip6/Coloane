@@ -184,14 +184,12 @@ public class ResultImpl implements IResult {
 	 * @param listeCommand la liste de commande à remplire
 	 */
 	private void createCommand(ModelModification modification, Model model, List<ICommand> listeCommand) {
-
 		switch (modification.getType()) {
 			// Suppresion d'un element
 			case 0:
 				LOGGER.finest("Suppression de l'objet: id:" + modification.getId());
 				listeCommand.add(new DeleteObjectCommand(modification.getId()));
 				return;
-
 			// Ajout d'un element
 			case 1:
 				if (model.getNodes() != null) {
@@ -273,7 +271,6 @@ public class ResultImpl implements IResult {
 					}
 				}
 				return;
-
 			// Modification d'un element
 			case 2:
 				LOGGER.finest(
@@ -282,7 +279,6 @@ public class ResultImpl implements IResult {
 						+ " valueAtt:" + modification.getValue());
 				listeCommand.add(new CreateAttributeCommand(modification.getNameAtt(), modification.getId(), modification.getValue()));
 				return;
-
 			// Modification de la position d'un objet
 			case 3:
 				LOGGER.finest(
@@ -291,12 +287,10 @@ public class ResultImpl implements IResult {
 						+ " y:" + modification.getPos().getYy());
 				listeCommand.add(new ObjectPositionCommand(modification.getId(), modification.getPos().getXx(), modification.getPos().getYy()));
 				return;
-
 			// Modification de la taille d'un objet
 			case 4 :
 				LOGGER.warning("Modification de la taille d'un objet non pris en compte: id:" + modification.getId());
 				return;
-
 			// Modification de la position d'un attribut
 			case 5 :
 				LOGGER.finest(
@@ -310,7 +304,6 @@ public class ResultImpl implements IResult {
 						modification.getPos().getXx(),
 						modification.getPos().getYy()));
 				return;
-
 			// Ajout d'un point d'inflexion
 			case 6 :
 				LOGGER.finest(
@@ -322,13 +315,11 @@ public class ResultImpl implements IResult {
 						modification.getPos().getXx(),
 						modification.getPos().getYy()));
 				return;
-
 			// Supprimer tous les points d'inflexions
 			case 7 :
 				LOGGER.finest("Suppression de tous les points d'inflexions");
 				listeCommand.add(new DeleteInflexPointsCommand());
 				return;
-
 			// Sinon
 			default:
 				LOGGER.warning("Modification inconnu sur l'objet: id:" + modification.getId());
