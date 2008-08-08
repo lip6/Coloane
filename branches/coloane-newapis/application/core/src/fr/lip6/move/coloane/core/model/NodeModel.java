@@ -25,9 +25,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Identifiant du noeud */
-	private int id;
-
 	/** Formalisme associé au noeud */
 	private final INodeFormalism nodeFormalism;
 
@@ -47,9 +44,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param id L'identifiant du noeud dans le modèle
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
-		super(parent, nodeFormalism.getAttributes());
+		super(id, parent, nodeFormalism.getAttributes());
 		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		this.id = id;
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfo = new NodeGraphicInfo(this);
 	}
@@ -67,11 +63,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		}
 		outcomingArcs.clear();
 		incomingArcs.clear();
-	}
-
-	/** {@inheritDoc} */
-	public final int getId() {
-		return id;
 	}
 
 	/** {@inheritDoc} */

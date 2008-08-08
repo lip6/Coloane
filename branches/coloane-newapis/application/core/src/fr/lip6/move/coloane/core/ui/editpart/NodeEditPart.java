@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
@@ -50,7 +51,11 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private boolean isSelected = false;
+	private boolean select = false;
+	private boolean special = false;
+	private boolean highlight = false;
+	private boolean attributSelect = false;
+
 	private ConnectionAnchor connectionAnchor;
 
 	/**
@@ -59,20 +64,16 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
 		/** {@inheritDoc} */
 		@Override
-		public void selectedStateChanged(EditPart editpart) {
-			switch(editpart.getSelected()) {
+		public void selectedStateChanged(EditPart editPart) {
+			switch(editPart.getSelected()) {
 			case EditPart.SELECTED:
 			case EditPart.SELECTED_PRIMARY:
-				setHighlight();
-				break;
-			case ISelectionEditPartListener.HIGHLIGHT:
-				break;
-			case ISelectionEditPartListener.SPECIAL:
+				attributSelect = true;
+				refreshVisuals();
 				break;
 			case EditPart.SELECTED_NONE:
-			case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			case ISelectionEditPartListener.SPECIAL_NONE:
-				setUnselect();
+				attributSelect = false;
+				refreshVisuals();
 				break;
 			default:
 				break;
@@ -105,6 +106,25 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		// Mise à jour de la figure (couleurs et taille)
+		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
+		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
+		((INodeFigure) getFigure()).setLineWidth(1);
+		if (special) {
+			getFigure().setForegroundColor(ColorConstants.red);
+			((INodeFigure) getFigure()).setLineWidth(3);
+		}
+		if (attributSelect) {
+			getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+		}
+		if (select) {
+			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
+			((INodeFigure) getFigure()).setLineWidth(3);
+		}
+		if (highlight) {
+			figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+		}
+
 		INode nodeModel = (INode) getModel();
 
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(), nodeModel.getGraphicInfo().getSize());
@@ -138,6 +158,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
+
+		// Propriété pour une demande de changement de l'état "special" (mise en valeur)
+		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+			special = (Boolean) property.getNewValue();
 		}
 
 		refreshVisuals();
@@ -150,27 +174,18 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final void createEditPolicies() {
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				if (getSelected() == SELECTED_NONE) {
-					setUnselect();
-				}
+				select = false;
+				refreshVisuals();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				if (getSelected() == SELECTED || getSelected() == SELECTED_PRIMARY) {
-					setSelect();
-				}
-			}
-
-			// Comportement lorsque l'objet est selectionne
-			@Override
-			protected void setSelectedState(int state) {
-				super.setSelectedState(state);
+				select = true;
+				refreshVisuals();
 			}
 		});
 
@@ -243,12 +258,9 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		});
 
 		getFigure().addMouseMotionListener(new MouseMotionListener.Stub() {
-			private Color previous;
 			@Override
 			public void mouseEntered(MouseEvent me) {
-				IFigure figure = (IFigure) me.getSource();
-				previous = figure.getBackgroundColor();
-				figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				highlight = true;
 				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT);
 				setSelected(previousState);
@@ -256,8 +268,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 			@Override
 			public void mouseExited(MouseEvent me) {
-				IFigure figure = (IFigure) me.getSource();
-				figure.setBackgroundColor(previous);
+				highlight = false;
 				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT_NONE);
 				setSelected(previousState);
@@ -333,48 +344,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
-	}
-
-	/**
-	 * Mise en valeur du noeud (selection d'un attribut referent)
-	 */
-	public final void setHighlight() {
-		isSelected = true;
-		getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est selectionee
-	 * On definit ici le feedback visuel lors de la selection d'un objet Noeud
-	 */
-	public final void setSelect() {
-		isSelected = true;
-		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
-		((INodeFigure) getFigure()).setLineWidth(3);
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est mise en valeur par des retours de services
-	 * On definit ici le feedback visuel lors de la selection d'un resultat qui met en valeur le noeud
-	 */
-	public final void setSelectSpecial() {
-		isSelected = true;
-		getFigure().setForegroundColor(ColorConstants.red);
-		((INodeFigure) getFigure()).setLineWidth(3);
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est deselectionee
-	 * Annulation du feedback visuel du a la selection d'un objet Noeud
-	 */
-	public final void setUnselect() {
-		if (!isSelected) {
-			return;
-		}
-		isSelected = false;
-		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
-		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
-		((INodeFigure) getFigure()).setLineWidth(1);
 	}
 
 	/** {@inheritDoc} */

@@ -12,8 +12,6 @@ public interface ISelectionEditPartListener {
 	 */
 	int HIGHLIGHT = 10;
 	int HIGHLIGHT_NONE = 11;
-	int SPECIAL = 12;
-	int SPECIAL_NONE = 13;
 
 	/**
 	 * @return listener qui va écouter les changements de sélection

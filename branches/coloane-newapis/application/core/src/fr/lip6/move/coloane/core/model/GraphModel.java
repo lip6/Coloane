@@ -29,9 +29,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Identifiant unique */
-	private int id;
-
 	/** Formalisme */
 	private IFormalism formalism;
 
@@ -65,11 +62,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 * @param formalismName Le nom du formalisme du modèle
 	 */
 	public GraphModel(String formalismName) {
-		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
+		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
 		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
-		this.id = 1;
 
 		// Creation des propriétés de l'éditeur
 		this.editorProperties = new GraphEditorProperties();
@@ -80,7 +76,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	private int getNewId() {
 		int proposal = idCounter + 1;
-		while ((nodes.get(proposal) != null) || (nodes.get(proposal) != null)) {
+		while ((nodes.get(proposal) != null) || (arcs.get(proposal) != null)) {
 			proposal++;
 		}
 		idCounter = proposal;
@@ -256,11 +252,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
 		}
-	}
-
-	/** {@inheritDoc} */
-	public final int getId() {
-		return id;
 	}
 
 	/** {@inheritDoc} */

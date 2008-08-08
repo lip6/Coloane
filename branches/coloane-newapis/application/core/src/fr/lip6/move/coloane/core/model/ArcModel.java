@@ -22,8 +22,6 @@ public class ArcModel extends AbstractElement implements IArc {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private int id;
-
 	private final IArcFormalism arcFormalism;
 	private final IArcGraphicInfo graphicInfo;
 
@@ -40,21 +38,12 @@ public class ArcModel extends AbstractElement implements IArc {
 	 * @param target La cible de l'arc
 	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
-		super(parent, arcFormalism.getAttributes());
+		super(id, parent, arcFormalism.getAttributes());
 		LOGGER.finest("Création d'un ArcModel(" + arcFormalism.getName() + ", " + source.getId() + " -> " + target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		this.id = id;
 		this.arcFormalism = arcFormalism;
 		this.source = source;
 		this.target = target;
 		this.graphicInfo = new ArcGraphicInfo(this);
-
-		// ((NodeModel) source).addOutcomingArc(this);
-		// ((NodeModel) target).addIncomingArc(this);
-	}
-
-	/** {@inheritDoc} */
-	public final int getId() {
-		return id;
 	}
 
 	/** {@inheritDoc} */

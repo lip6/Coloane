@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
@@ -9,13 +10,19 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -24,6 +31,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -31,12 +40,13 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Gestion de la vue des resultats
  */
 public class ResultsView extends ViewPart {
+	public static final String SELECTION_CHANGE = "ResultsView.SelectionChange"; //$NON-NLS-1$
+
 	private static ResultsView instance;
 	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
-
 	/** Vue représentant l'arbre des résultats */
-	private TreeViewer viewer;
+	private CheckboxTreeViewer viewer;
 
 	/** Action pour supprimer un resultat de l'arbre */
 	private Action delete;
@@ -45,26 +55,25 @@ public class ResultsView extends ViewPart {
 	private Action deleteAll;
 
 	/**
-	 * Constructeur privé, ResultView est un singleton
+	 * Constructeur
 	 */
 	public ResultsView() {
 		super();
 		createActions();
+		instance = this;
 	}
 
 	/**
 	 * @return Instance du ResultView
 	 */
 	public static ResultsView getInstance() {
-		if (instance == null) {
-			instance = new ResultsView();
-		}
 		return instance;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
-		viewer = new TreeViewer(parent);
+		viewer = new CheckboxTreeViewer(parent);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
 
@@ -90,7 +99,7 @@ public class ResultsView extends ViewPart {
 						}
 						updateColumnsWidth();
 
-						// Rafraichissement de la vue
+						// Rafraîchissement de la vue
 						viewer.refresh();
 					}
 				});
@@ -103,40 +112,26 @@ public class ResultsView extends ViewPart {
 			results.addObserver(resultObserver);
 		}
 
-		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
+		// Action quand on clic dans l'arbre : activer la suppression des résultats
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IGraph graph = MANAGER.getCurrentSession().getGraph();
-				if (graph == null) {
-					return;
-				}
-
-//				// Mise a zero de tous les objets (retour a leur apparence normale)
-//				for (IElement elt : graph.getNodes()) {
-//					elt.setSpecial(false);
-//				}
-//				for (IElement elt : graph.getArcs()) {
-//					elt.setSpecial(false);
-//				}
-//
-//				// Recuperation de l'arbre de sous-resultat (ou de resultat)
-//				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
-//
-//				if (node != null) {
-//					// Selection des objets du modele
-//					for (Integer toHighlight : node.getHighlighted()) {
-//						if (toHighlight != -1) {
-//							IElement elt = graph.getNode(toHighlight);
-//							if (elt == null) {
-//								elt = graph.getArc(toHighlight);
-//							}
-//							if (elt != null) {
-//								elt.setSpecial(true);
-//							}
-//						}
-//					}
-//				}
 				delete.setEnabled(true);
+			}
+		});
+		viewer.addCheckStateListener(new ICheckStateListener() {
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				IGraph graph = MANAGER.getCurrentSession().getGraph();
+				IResultTree result = (IResultTree) event.getElement();
+				for (int id : result.getHighlighted()) {
+					System.err.println("id : " + id + " - highlight : " + event.getChecked());
+					ISpecialState element = (ISpecialState) graph.getNode(id);
+					if (element == null) {
+						element = (ISpecialState) graph.getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(event.getChecked());
+					}
+				}
 			}
 		});
 
@@ -167,15 +162,13 @@ public class ResultsView extends ViewPart {
 		Tree tree = viewer.getTree();
 		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-		instance = this;
 	}
 
 	private void createActions() {
 		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// Suppression d'un resultat
+		// Suppression d'un résultat
 		delete = new Action(Messages.ResultsView_0) {
 			@Override
 			public void run() {
@@ -224,5 +217,9 @@ public class ResultsView extends ViewPart {
 	@Override
 	public final void setFocus() {
 		return;
+	}
+
+	public TreeViewer getViewer() {
+		return viewer;
 	}
 }

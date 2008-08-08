@@ -4,8 +4,14 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
+import fr.lip6.move.coloane.core.ui.panels.ResultsView;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 import java.util.Arrays;
@@ -18,11 +24,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
@@ -44,18 +52,24 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		Menu menu = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getMenuBar();
-		for (MenuItem item : menu.getItems()) {
-			if (item.getText().replace("&", "").equals(Coloane.getParam("MENUBAR_LABEL").replace("&", ""))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				Menu coloaneMenu = item.getMenu();
-				System.err.println();
-				System.err.println(coloaneMenu);
-			}
-		}
+//		System.err.println(((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()));
+//		System.err.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("fr.lip6.move.coloane.views.ResultsView").getViewSite().);
+		printGraph();
 //		printSessionsState();
 //		testDialog();
 //		testJob();
 //		testJob2();
+	}
+
+	private void printGraph() {
+		IGraph g = SessionManager.getInstance().getCurrentSession().getGraph();
+		System.err.println("Graph(" + g.getId() + ")");
+		for (INode n : g.getNodes()) {
+			System.err.println("Node(" + n.getId() + ") " + (g.getNode(n.getId()) != null));
+		}
+		for (IArc a : g.getArcs()) {
+			System.err.println("Arc(" + a.getId() + ") " + (g.getArc(a.getId()) != null));
+		}
 	}
 
 	/**

@@ -36,6 +36,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
 
+	private boolean select = false;
+	private boolean elementSelect = false;
+	private boolean highlight = false;
+
 	/**
 	 * Permet d'écouter les changements de sélection de ses "parents"
 	 */
@@ -45,24 +49,21 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			switch(part.getSelected()) {
 			case EditPart.SELECTED:
 			case EditPart.SELECTED_PRIMARY:
-				getFigure().setForegroundColor(ColorConstants.blue);
+				elementSelect = true;
 				break;
 			case EditPart.SELECTED_NONE:
-				getFigure().setForegroundColor(ColorConstants.black);
+				elementSelect = false;
 				break;
 			case ISelectionEditPartListener.HIGHLIGHT:
-				getFigure().setBackgroundColor(ColorConstants.lightGray);
+				highlight = true;
 				break;
 			case ISelectionEditPartListener.HIGHLIGHT_NONE:
-				getFigure().setBackgroundColor(ColorConstants.white);
-				break;
-			case ISelectionEditPartListener.SPECIAL:
-				break;
-			case ISelectionEditPartListener.SPECIAL_NONE:
+				highlight = false;
 				break;
 			default:
 				break;
 			}
+			refreshVisuals();
 		}
 	};
 
@@ -98,8 +99,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Calcul la position d'un attribut suivant qu'il est attaché à un noeud, un arc
+	 * ou un graphe et si il avait déjà une position.
+	 * @return La position calculé de l'attribut
 	 */
 	private Point calculLocation() {
 		IAttribute attribut = (IAttribute) getModel();
@@ -161,6 +163,15 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		// Mise à jour de l'etat de l'attribut
+		getFigure().setForegroundColor(ColorConstants.black);
+		getFigure().setBackgroundColor(ColorConstants.white);
+		if (select || elementSelect) {
+			getFigure().setForegroundColor(ColorConstants.blue);
+		}
+		if (highlight) {
+			getFigure().setBackgroundColor(ColorConstants.lightGray);
+		}
 
 		IAttribute attribut = (IAttribute) getModel();
 		Label attributeFigure = (Label) getFigure();
@@ -191,23 +202,17 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-
-			// Comportement lorsque l'objet est selectionne
 			@Override
-			protected void setSelectedState(int state) {
-				super.setSelectedState(state);
-				if (state == SELECTED || state == SELECTED_PRIMARY) {
-					((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-				} else {
-					((Label) getFigure()).setForegroundColor(ColorConstants.black);
-				}
+			protected void hideSelection() {
+				select = false;
+				refreshVisuals();
 			}
 
 			@Override
-			protected void hideSelection() { }
-
-			@Override
-			protected void showSelection() { }
+			protected void showSelection() {
+				select = true;
+				refreshVisuals();
+			}
 		});
 
 	}
