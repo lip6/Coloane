@@ -16,6 +16,10 @@ public class CreateAttributeCommand implements ICommand {
 	private int referenceId;
 	/** La valeur de l'attribut à créer */
 	private String value;
+	/** Indicateur de concaténation : Doit-on concaténer les valeurs ? */
+	private boolean concat;
+
+	private String oldValue = "";
 
 	/**
 	 * Constructeur
@@ -24,9 +28,21 @@ public class CreateAttributeCommand implements ICommand {
 	 * @param value La valeur de l'attribut à créer
 	 */
 	public CreateAttributeCommand(String name, int referenceId, String value) {
+		new CreateAttributeCommand(name, referenceId, value, false);
+	}
+
+	/**
+	 * Constructeur
+	 * @param name Le nom de l'attribut à créer
+	 * @param referenceId Le noeud de référence de l'attribut qui doit être créé
+	 * @param value La valeur de l'attribut à créer
+	 * @param concat Indique si la valeur doit être concatenee a la valeur existante de l'attribut
+	 */
+	public CreateAttributeCommand(String name, int referenceId, String value, boolean concat) {
 		this.name = name;
 		this.referenceId = referenceId;
 		this.value = value;
+		this.concat = concat;
 	}
 
 	/**
@@ -35,6 +51,8 @@ public class CreateAttributeCommand implements ICommand {
 	public final void execute(IGraph graph) throws ModelException {
 		if (referenceId == 1) {
 			if (graph.getAttribute(name) != null) {
+				this.oldValue = graph.getAttribute(name).getValue();
+				if (concat) { value = oldValue + value; }
 				graph.getAttribute(name).setValue(value);
 			} else {
 				// Attribut du graphe inexistant pour le formalisme
@@ -43,6 +61,8 @@ public class CreateAttributeCommand implements ICommand {
 		} else if (graph.getObject(referenceId) != null) {
 			IAttribute attribute = graph.getObject(referenceId).getAttribute(name);
 			if (attribute != null) {
+				this.oldValue = graph.getAttribute(name).getValue();
+				if (concat) { value = oldValue + value; }
 				attribute.setValue(value);
 			} else {
 				// Attribut introuvable
@@ -67,7 +87,7 @@ public class CreateAttributeCommand implements ICommand {
 	public final void undo(IGraph graph) throws ModelException {
 		if (referenceId == 1) {
 			if (graph.getAttribute(name) != null) {
-				graph.getAttribute(name).setValue("");
+				graph.getAttribute(name).setValue(this.oldValue);
 			} else {
 				// Attribut du graphe inexistant pour le formalisme
 				throw new ModelException("The attribute " + name + " cannot be found for the graph element");
@@ -75,7 +95,7 @@ public class CreateAttributeCommand implements ICommand {
 		} else if (graph.getObject(referenceId) != null) {
 			IAttribute attribute = graph.getObject(referenceId).getAttribute(name);
 			if (attribute != null) {
-				attribute.setValue("");
+				attribute.setValue(this.oldValue);
 			} else {
 				// Attribut introuvable
 				throw new ModelException("The attribute " + name + " cannot be found for the element" + referenceId);
