@@ -38,6 +38,7 @@ public class DeleteObjectCommand implements ICommand {
 	public final void execute(IGraph graph) throws ModelException {
 		// Sauvegarde
 		element = graph.getObject(id);
+		if (element == null) { return; }
 		if (element instanceof INode) {
 			this.inputArcs = new ArrayList<IArc>(((INode) element).getIncomingArcs());
 			this.outputArcs = new ArrayList<IArc>(((INode) element).getIncomingArcs());
@@ -56,6 +57,7 @@ public class DeleteObjectCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void undo(IGraph graph) {
+		if (element == null) { return; }
 		if (this.element instanceof INode) {
 			graph.addNode((INode) element);
 			for (IArc arc : this.inputArcs) { graph.addArc(arc); }
