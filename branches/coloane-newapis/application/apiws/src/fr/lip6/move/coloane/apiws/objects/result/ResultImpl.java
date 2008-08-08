@@ -209,7 +209,7 @@ public class ResultImpl implements IResult {
 									+ " y:" + model.getNodes()[i].getPosition().getYy());
 							listeCommand.add(new ObjectPositionCommand(modification.getId(), model.getNodes()[i].getPosition().getXx(), model.getNodes()[i].getPosition().getYy()));
 
-							for (int j = 0; j < model.getNodes()[i].getAtts().length; i++) {
+							for (int j = 0; j < model.getNodes()[i].getAtts().length; j++) {
 								if (model.getNodes()[i].getAtts()[j] == null) {
 									break;
 								}
