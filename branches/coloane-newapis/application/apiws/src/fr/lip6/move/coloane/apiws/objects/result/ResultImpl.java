@@ -23,7 +23,6 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 /**
@@ -116,23 +115,6 @@ public class ResultImpl implements IResult {
 					}
 				}
 			}
-		}
-
-		///////////////////////////// AFFICHAGE
-		System.out.println();
-		System.out.println("ARBRE DES RESULTATS:");
-		for (ISubResult subRes : subResult) {
-			printResult(subRes, "");
-		}
-		System.out.println();
-		System.out.println("COMMANDES DE MODIFICATIONS:");
-		for (ICommand cmd : modificationsOnCurrentGraph) {
-			System.out.println("\t" + cmd.toString());
-		}
-		System.out.println();
-		System.out.println("COMMANDEs IGNIOREES:");
-		for (ITip t : tipsList) {
-			System.out.println("\t" + "Id:" + t.getIdObject() + " Name:" + t.getName() + " Value:" + t.getValue());
 		}
 
 	}
@@ -503,33 +485,6 @@ public class ResultImpl implements IResult {
 		}
 
 		return buffer.toString();
-	}
-
-	/**
-	 * Affiche l'arbe d'un sous-résultat
-	 * @param res le sous-résultat à afficher
-	 * @param dec le décalage
-	 */
-	private void printResult(ISubResult res, String dec) {
-			System.out.println(dec + "+ " + res.getName());
-			for (String str : res.getTextualResults()) {
-				System.out.println("   " + dec + "- " + "TextualResult     : " + str);
-			}
-			for (Integer o : res.getObjectsOutline()) {
-				System.out.println("   " + dec + "- " + "ObjectsOutline    : " + o);
-			}
-			for (Integer i : res.getObjectsDesignation()) {
-				System.out.println("   " + dec + "- " + "ObjectsDesignation: " + i);
-			}
-			for (Entry<Integer, List<String>> entry : res.getAttributesOutline().entrySet()) {
-				System.out.println("   " + dec + "* " + "AttributesOutline : " + entry.getKey());
-				for (String s : entry.getValue()) {
-					System.out.println("   " + "   " + dec + "- " + "AttributesOutline : " + s);
-				}
-			}
-			for (ISubResult subRes : res.getChildren()) {
-				printResult(subRes, "   " + dec);
-			}
 	}
 
 }
