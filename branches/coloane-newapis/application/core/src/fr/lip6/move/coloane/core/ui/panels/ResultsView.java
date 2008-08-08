@@ -10,8 +10,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,17 +20,13 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -42,7 +36,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class ResultsView extends ViewPart {
 	public static final String SELECTION_CHANGE = "ResultsView.SelectionChange"; //$NON-NLS-1$
 
-	private static ResultsView instance;
 	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
 	/** Vue représentant l'arbre des résultats */
@@ -60,14 +53,6 @@ public class ResultsView extends ViewPart {
 	public ResultsView() {
 		super();
 		createActions();
-		instance = this;
-	}
-
-	/**
-	 * @return Instance du ResultView
-	 */
-	public static ResultsView getInstance() {
-		return instance;
 	}
 
 	/** {@inheritDoc} */
@@ -123,7 +108,6 @@ public class ResultsView extends ViewPart {
 				IGraph graph = MANAGER.getCurrentSession().getGraph();
 				IResultTree result = (IResultTree) event.getElement();
 				for (int id : result.getHighlighted()) {
-					System.err.println("id : " + id + " - highlight : " + event.getChecked());
 					ISpecialState element = (ISpecialState) graph.getNode(id);
 					if (element == null) {
 						element = (ISpecialState) graph.getArc(id);
@@ -164,6 +148,9 @@ public class ResultsView extends ViewPart {
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 	}
 
+	/**
+	 * Création des actions associé à la vue des résultats
+	 */
 	private void createActions() {
 		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -172,10 +159,12 @@ public class ResultsView extends ViewPart {
 		delete = new Action(Messages.ResultsView_0) {
 			@Override
 			public void run() {
-				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
-				if (node != null) {
-					node.remove();
-					this.setEnabled(false);
+				for (Object obj : ((ITreeSelection) viewer.getSelection()).toList()) {
+					IResultTree node = (IResultTree) obj;
+					if (node != null) {
+						node.remove();
+						this.setEnabled(false);
+					}
 				}
 			}
 		};
@@ -217,9 +206,5 @@ public class ResultsView extends ViewPart {
 	@Override
 	public final void setFocus() {
 		return;
-	}
-
-	public TreeViewer getViewer() {
-		return viewer;
 	}
 }

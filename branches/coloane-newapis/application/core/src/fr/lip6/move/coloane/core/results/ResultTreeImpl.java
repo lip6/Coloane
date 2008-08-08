@@ -93,7 +93,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		// Si le noeud est un fils... On demande au pere quel est le gestionnaire de sessions
 		if (this.parent != null) {
 			this.sessionManager = parent.getSessionManager();
-			return parent.getSessionManager();
+			return this.sessionManager;
 		}
 		// Si aucun resultat : null
 		return null;
@@ -140,12 +140,16 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/** {@inheritDoc} */
 	public final void remove() {
-		this.sessionManager = this.getSessionManager();
-		if (this.sessionManager != null) {
-			this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
+		if (serviceName != null) {
+			this.sessionManager = this.getSessionManager();
+			if (this.sessionManager != null) {
+				this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
+				setChanged();
+				notifyObservers();
+			}
+		} else {
+			parent.remove();
 		}
-		setChanged();
-		notifyObservers();
 	}
 
 	/**

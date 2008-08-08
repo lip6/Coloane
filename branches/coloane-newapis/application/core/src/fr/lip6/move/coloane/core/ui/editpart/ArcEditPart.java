@@ -35,7 +35,6 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
