@@ -231,35 +231,35 @@ public final class CamiGenerator {
 			return null;
 		}
 
+		// En cas d'annulation
+		if (dialog.getButtonType() == 2) {
+			String command = new String("RD(" + dialog.getIdDialog() + ",2,2,)");
+			camiDialog.add(command);
+			return camiDialog;
+		}
+
+		int freshStatus = 2;
+		if (dialog.hasBeenModified()) { freshStatus = 1; }
+
 		// Si la réponse tient sur une ligne
 		if ((original.getLineType() == IDialog.SINGLE_LINE) || ((original.getLineType() == IDialog.MULTI_LINE_WITH_SINGLE_SELECTION) && (original.getInputType() == IDialog.INPUT_FORBIDDEN))) {
-			if ((!dialog.hasBeenModified()) && (dialog.getAllValue().size() <= 0)) {
-				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",2,)");
-				camiDialog.add(command);
-			} else {
-				String value = dialog.getAllValue().get(0);
-				if (value == null) { value = ""; }
-				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",1," + value.length() + ":" + value + ")");
-				camiDialog.add(command);
-			}
+			String value = dialog.getAllValue().get(0);
+			if (value == null) { value = ""; }
+			String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + "," + freshStatus + "," + value.length() + ":" + value + ")");
+			camiDialog.add(command);
 
 			// Sinon la réponse est multi-lignes
 		} else {
-			if ((!dialog.hasBeenModified()) && (dialog.getAllValue().size() <= 0)) {
-				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",2,)");
-				camiDialog.add(command);
-			} else {
-				String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + ",1,)");
-				camiDialog.add(command);
-				String command1 = new String("DE()");
-				camiDialog.add(command1);
-				for (int i = 0; i < dialog.getAllValue().size(); i++) {
-					String command2 = new String("DS(" + dialog.getIdDialog() + "," +  dialog.getAllValue().get(i).length() + ":" + dialog.getAllValue().get(i) + ")");
-					camiDialog.add(command2);
-				}
-				String command3 = new String("FE()");
-				camiDialog.add(command3);
+			String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + "," + freshStatus + ",)");
+			camiDialog.add(command);
+			String head = new String("DE()");
+			camiDialog.add(head);
+			for (int i = 0; i < dialog.getAllValue().size(); i++) {
+				String body = new String("DS(" + dialog.getIdDialog() + "," +  dialog.getAllValue().get(i).length() + ":" + dialog.getAllValue().get(i) + ")");
+				camiDialog.add(body);
 			}
+			String foot = new String("FE()");
+			camiDialog.add(foot);
 		}
 		return camiDialog;
 	}
@@ -272,6 +272,4 @@ public final class CamiGenerator {
 		String command = new String("FP()");
 		return command;
 	}
-
-
 }
