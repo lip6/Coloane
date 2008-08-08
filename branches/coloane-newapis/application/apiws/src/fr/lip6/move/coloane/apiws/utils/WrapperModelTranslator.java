@@ -11,12 +11,17 @@ import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
 import fr.lip6.move.wrapper.ws.WrapperStub.Model;
 import fr.lip6.move.wrapper.ws.WrapperStub.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Cette classe permet de traduire un model en objet pour le wrapper
  */
 public final class WrapperModelTranslator {
+
+	private static final int MAXLENGHT = 255;
 
 	/**
 	 * Constricteur vide
@@ -111,18 +116,69 @@ public final class WrapperModelTranslator {
 		Attribute theAttribute = new Attribute();
 		theAttribute.setAttName(attribute.getName());
 
-		AttributeValue theAttributeValue = new AttributeValue();
-		theAttributeValue.setValue(attribute.getValue());
+		// La liste des valeurs de l'attributs
+		List<AttributeValue> listeOfTheValue = new ArrayList<AttributeValue>();
 
-		AttributeValue[] theAttributeValueArray = new AttributeValue[1];
-		theAttributeValueArray[0] = theAttributeValue;
+		// Decoupage de la chaine de charactere suivant un pattern
+		String[] valueTable = attribute.getValue().split("(\n\r)|(\r\n)|(\n)|(\r)");
 
+		// Si la tableau obtenu est de taille 1 et que la ligne est de taille < a 255, on a un attribut d'une ligne
+		if (valueTable.length == 1 && valueTable[0].length() > 0 && valueTable[0].length() <= MAXLENGHT) {
+			AttributeValue theAttributeValue = new AttributeValue();
+			theAttributeValue.setValue(valueTable[0]);
+
+			listeOfTheValue.add(theAttributeValue);
+
+			// Sinon, on a un attribut multiligne
+		} else {
+			for (int i = 0; i < valueTable.length; i++) {
+
+				// Pour chaque ligne, on teste si on doit la decouper car trop longue
+				if (valueTable[i].length() < MAXLENGHT) {
+					AttributeValue theAttributeValue = new AttributeValue();
+					theAttributeValue.setValue(valueTable[i]);
+
+					listeOfTheValue.add(theAttributeValue);
+				} else {
+					int start = 0;
+					int end = MAXLENGHT;
+
+					// Traduction des n*255 premiers caracteres
+					while (end < valueTable[i].length()) {
+						String sub = valueTable[i].substring(start, end);
+						AttributeValue theAttributeValue = new AttributeValue();
+						theAttributeValue.setValue(sub);
+
+						listeOfTheValue.add(theAttributeValue);
+
+						start += MAXLENGHT;
+						end += MAXLENGHT;
+					}
+
+					// Traduction des caracteres restants
+					String sub = valueTable[i].substring(start, valueTable[i].length());
+					AttributeValue theAttributeValue = new AttributeValue();
+					theAttributeValue.setValue(sub);
+
+					listeOfTheValue.add(theAttributeValue);
+
+				}
+			}
+		}
+
+		// Initialise le tableau de valeur pour l'attribut
+		AttributeValue[] theAttributeValueArray = new AttributeValue[listeOfTheValue.size()];
+		int cpt = 0;
+		for (AttributeValue val : listeOfTheValue) {
+			theAttributeValueArray[cpt++] = val;
+		}
+		theAttribute.setValues(theAttributeValueArray);
+
+		// Initialise la position de l'attribut
 		Position pos = new Position();
 		pos.setXx(attribute.getGraphicInfo().getLocation().x);
 		pos.setYy(attribute.getGraphicInfo().getLocation().y);
 		theAttribute.setPos(pos);
-
-		theAttribute.setValues(theAttributeValueArray);
 
 		return theAttribute;
 	}
