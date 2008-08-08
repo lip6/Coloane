@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver
 
 /**
  * Cette interface définie l'événement observable: récéption d'une information sur un service en cours d'exécution.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IReceptServiceStateObservable {
 

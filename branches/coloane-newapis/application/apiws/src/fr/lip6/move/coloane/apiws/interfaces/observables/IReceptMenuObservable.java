@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 
 /**
  * Cette interface définie l'événement observable: récéption d'un menu.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IReceptMenuObservable {
 	/**

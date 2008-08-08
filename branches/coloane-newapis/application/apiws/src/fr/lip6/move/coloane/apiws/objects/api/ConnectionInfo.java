@@ -12,6 +12,8 @@ import java.util.logging.Logger;
  * 	<li> le major </li>
  * 	<li> le minor </li>
  * </ul>
+ *
+ * @author Monir CHAOUKI
  */
 public class ConnectionInfo implements IConnectionInfo {
 

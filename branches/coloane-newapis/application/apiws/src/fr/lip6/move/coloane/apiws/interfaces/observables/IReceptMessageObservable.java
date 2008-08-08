@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
 /**
  * Cette interface définie l'événement observable: récéption d'un message.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IReceptMessageObservable {
 

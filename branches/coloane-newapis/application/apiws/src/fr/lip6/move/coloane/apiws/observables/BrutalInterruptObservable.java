@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'une erreur.
+ *
+ * @author Monir CHAOUKI
  */
 public class BrutalInterruptObservable implements IBrutalInterruptObservable {
 

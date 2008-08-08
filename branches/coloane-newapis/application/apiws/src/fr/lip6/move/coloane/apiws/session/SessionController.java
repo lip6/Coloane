@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent le gestionnaire de sessions.
+ *
+ * @author Monir CHAOUKI
  */
 public class SessionController implements ISessionController {
 

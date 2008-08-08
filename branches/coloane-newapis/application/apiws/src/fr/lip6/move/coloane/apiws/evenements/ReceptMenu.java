@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'objet (qui définie des menus) à envoyer aux observateurs d'événements: réception de menus.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptMenu implements IReceptMenu {
 

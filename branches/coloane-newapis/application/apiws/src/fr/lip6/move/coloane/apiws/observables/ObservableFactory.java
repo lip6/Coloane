@@ -10,6 +10,8 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObse
 
 /**
  * Cette classe permet de créer les différents observables possibles.
+ *
+ * @author Monir CHAOUKI
  */
 public final class ObservableFactory {
 

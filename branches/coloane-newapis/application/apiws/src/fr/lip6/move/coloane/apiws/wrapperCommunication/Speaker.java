@@ -52,6 +52,8 @@ import org.apache.axis2.AxisFault;
 
 /**
  * Cette classe représent un speaker pour communiquer avec le wrapper.
+ *
+ * @author Monir CHAOUKI
  */
 public class Speaker implements ISpeaker {
 

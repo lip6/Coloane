@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 /**
  * Cette classe représent l'objet (qui définie une information sur un service)
  * à envoyer aux observateurs d'événements: récéption d'informations le service en cours d'exécution.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptServiceState implements IReceptServiceState {
 

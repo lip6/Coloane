@@ -36,6 +36,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent une session
+ *
+ * @author Monir CHAOUKI
  */
 public class ApiSession implements IApiSession {
 

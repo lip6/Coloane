@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe définie un sous-menu.
+ *
+ * @author Monir CHAOUKI
  */
 public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 

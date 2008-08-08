@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 
 /**
  * Cette classe représent l'automate d'une session
+ *
+ * @author Monir CHAOUKI
  */
 public class SessionStateMachine implements ISessionStateMachine {
 

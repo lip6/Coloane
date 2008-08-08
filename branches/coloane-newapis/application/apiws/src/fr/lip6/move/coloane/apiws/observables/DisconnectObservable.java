@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption de messages.
+ *
+ * @author Monir CHAOUKI
  */
 public class DisconnectObservable implements IDisconnectObservable {
 

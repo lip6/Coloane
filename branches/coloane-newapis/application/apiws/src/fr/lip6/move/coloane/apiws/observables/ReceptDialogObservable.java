@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'une boîte de dialogue.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptDialogObservable implements IReceptDialogObservable {
 

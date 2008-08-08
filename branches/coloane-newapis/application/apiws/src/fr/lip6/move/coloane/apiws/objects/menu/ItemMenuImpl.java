@@ -5,6 +5,8 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
 /**
  * Cette interfaces définie un items.
+ *
+ * @author Monir CHAOUKI
  */
 public abstract class ItemMenuImpl implements IItemMenu {
 

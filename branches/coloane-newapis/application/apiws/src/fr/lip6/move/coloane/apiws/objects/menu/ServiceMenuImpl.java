@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe définie un service dans un menu.
+ *
+ * @author Monir CHAOUKI
  */
 public class ServiceMenuImpl extends ItemMenuImpl implements IServiceMenu {
 

@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe définie un sous résultat
+ *
+ * @author Monir CHAOUKI
  */
 public class SubResultImpl implements ISubResult {
 

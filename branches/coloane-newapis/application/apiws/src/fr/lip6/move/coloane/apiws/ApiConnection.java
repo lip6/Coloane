@@ -35,6 +35,8 @@ import java.util.logging.Logger;
 
 /**
  * Définit une instance de connexion à la plate-forme FrameKit
+ *
+ * @author Monir CHAOUKI
  */
 public class ApiConnection implements IApiConnection {
 

@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe définie une option.
+ *
+ * @author Monir CHAOUKI
  */
 public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 

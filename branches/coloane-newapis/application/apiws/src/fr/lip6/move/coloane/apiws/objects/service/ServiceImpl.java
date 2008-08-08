@@ -5,6 +5,8 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
 /**
  * Cette classe définie un service
+ *
+ * @author Monir CHAOUKI
  */
 public class ServiceImpl implements IService {
 

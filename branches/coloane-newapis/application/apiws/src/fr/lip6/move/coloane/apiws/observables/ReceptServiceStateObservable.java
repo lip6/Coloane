@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'informations le service en cours d'exécution.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptServiceStateObservable implements IReceptServiceStateObservable {
 

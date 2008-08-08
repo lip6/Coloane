@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'objet (qui définie un message) à envoyer aux observateurs d'événements: réception de messages.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptMessage implements IReceptMessage {
 

@@ -18,6 +18,8 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Cette classe permet de traduire un model en objet pour le wrapper
+ *
+ * @author Monir CHAOUKI
  */
 public final class WrapperModelTranslator {
 

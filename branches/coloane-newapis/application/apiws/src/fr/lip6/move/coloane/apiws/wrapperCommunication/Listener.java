@@ -25,6 +25,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent un écouteur pour les messages asynchrone.
+ *
+ * @author Monir CHAOUKI
  */
 public class Listener extends Thread implements IListener {
 

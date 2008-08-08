@@ -5,6 +5,8 @@ import fr.lip6.move.wrapper.ws.WrapperStub.MenuModification;
 
 /**
  * Cette classe définie les modification sur un menu
+ *
+ * @author Monir CHAOUKI
  */
 public class UpdateMenuImpl implements IUpdateMenu {
 

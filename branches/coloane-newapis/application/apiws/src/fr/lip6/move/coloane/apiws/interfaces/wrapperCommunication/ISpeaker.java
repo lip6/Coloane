@@ -20,6 +20,8 @@ import java.util.List;
 
 /**
  * Cette interface représent un speaker pour la communication avec le wrapper.
+ *
+ * @author Monir CHAOUKI
  */
 public interface ISpeaker {
 

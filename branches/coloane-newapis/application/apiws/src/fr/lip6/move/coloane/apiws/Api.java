@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 /**
  * Cette classe constitue le point d'accès à la bibliothèque de connexion<br>
  * Son rôle essentiel est de construire des connexions.
+ *
+ * @author Monir CHAOUKI
  */
 public class Api implements IApi {
 

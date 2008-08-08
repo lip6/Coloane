@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 
 /**
  * Cette interface définie l'événement observable: déconnexion ordonnée.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IDisconnectObservable {
 	/**

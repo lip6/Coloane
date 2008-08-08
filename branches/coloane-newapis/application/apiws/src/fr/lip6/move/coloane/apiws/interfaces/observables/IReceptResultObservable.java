@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 /**
  * Cette interface définie l'événement observable: récéption d'un résultat.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IReceptResultObservable {
 

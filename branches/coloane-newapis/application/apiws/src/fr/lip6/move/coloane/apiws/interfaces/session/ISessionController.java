@@ -10,6 +10,8 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 /**
  * Cette interface represent le gestionnaire des sessions.
+ *
+ * @author Monir CHAOUKI
  */
 public interface ISessionController {
 

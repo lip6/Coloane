@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 /**
  * Cette interface définie l'événement observable: récéption d'une erreur.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IBrutalInterruptObservable {
 	/**

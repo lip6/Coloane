@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption de menus.
+ *
+ * @author Monir CHAOUKI
  */
 public class ReceptMenuObservable implements IReceptMenuObservable {
 

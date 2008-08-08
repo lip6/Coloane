@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent un boîte de dialogue pour le core de Coloane.
+ *
+ * @author Monir CHAOUKI
  */
 public class Dialog implements IDialog {
 

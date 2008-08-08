@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.apiws.interfaces.session;
 /**
  * Cette interface repéresente les états de l'automate représentant le cycle de vie d'une session.
  * Cette interface contient également les méthodes pour interagir sur cette automate.
+ *
+ * @author Monir CHAOUKI
  */
 public interface ISessionStateMachine {
 

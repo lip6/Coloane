@@ -13,6 +13,8 @@ import java.util.logging.Logger;
  * 	<li> nameService: non retourné par le wrapper </li>
  * 	<li> resultatCalcule: non retourné par le wrapper </li>
  * </ul>
+ *
+ * @author Monir CHAOUKI
  */
 public class SessionInfo implements ISessionInfo {
 

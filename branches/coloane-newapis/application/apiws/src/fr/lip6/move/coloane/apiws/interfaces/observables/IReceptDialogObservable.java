@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * Cette interface définie l'événement observable: récéption d'une boîte de dialogue.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IReceptDialogObservable {
 

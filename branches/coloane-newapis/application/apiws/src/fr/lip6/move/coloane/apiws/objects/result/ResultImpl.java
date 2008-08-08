@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe définie un résultat pour le core de Coloane.
+ *
+ * @author Monir CHAOUKI
  */
 public class ResultImpl implements IResult {
 

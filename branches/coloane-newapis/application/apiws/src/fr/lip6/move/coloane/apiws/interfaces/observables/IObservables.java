@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.apiws.interfaces.observables;
 
 /**
  * Cette interface permet d'identifier les diffférents événements observables.
+ *
+ * @author Monir CHAOUKI
  */
 public interface IObservables {
 

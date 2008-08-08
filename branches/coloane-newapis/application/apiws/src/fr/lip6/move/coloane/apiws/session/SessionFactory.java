@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Cette classe représent une fabrique.
+ *
+ * @author Monir CHAOUKI
  */
 public final class SessionFactory {
 

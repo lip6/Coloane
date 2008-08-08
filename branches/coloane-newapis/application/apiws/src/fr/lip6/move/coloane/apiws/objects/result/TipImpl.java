@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Cette classe représent les informations sur un objet
+ *
+ * @author Monir CHAOUKI
  */
 public class TipImpl implements ITip {
 
