@@ -335,4 +335,11 @@ public class Session implements ISession {
 			}
 		});
 	}
+
+	/**
+	 * Interruption du service en cours.
+	 */
+	public final void interruptService() {
+		apiSession.stopService();
+	}
 }

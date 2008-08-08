@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.motor;
 
+import fr.lip6.move.coloane.core.motor.session.Session;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
+
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IStatus;
@@ -25,6 +28,7 @@ public abstract class AsyncJob extends Job {
 	@Override
 	protected final void canceling() {
 		LOGGER.warning("Arret du job asynchrone : " + getName()); //$NON-NLS-1$
+		((Session) SessionManager.getInstance().getCurrentSession()).interruptService();
 		done(new Status(IStatus.ERROR, "coloane", Messages.CancelableJob_1 + getName() + Messages.CancelableJob_2)); //$NON-NLS-1$
 	}
 
