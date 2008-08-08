@@ -41,6 +41,8 @@ public class ObjectPositionCommand implements ICommand {
 	public final void execute(IGraph graph) throws ModelException {
 		node = graph.getNode(id);
 		if (node != null) {
+			this.oldX = node.getGraphicInfo().getLocation().x;
+			this.oldY = node.getGraphicInfo().getLocation().y;
 			node.getGraphicInfo().setLocation(new Point(x, y));
 		} else {
 			throw new ModelException("The node " + id + " does not exist in the model");
