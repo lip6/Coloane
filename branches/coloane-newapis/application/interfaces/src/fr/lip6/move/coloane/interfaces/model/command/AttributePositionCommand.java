@@ -12,10 +12,18 @@ import org.eclipse.draw2d.geometry.Point;
  * @author Jean-Baptiste Voron
  */
 public class AttributePositionCommand implements ICommand {
-	private int refId;
+	/** L'identifiant de l'objet référence */
+	private int referenceId;
+	/** Le nom de l'attribut */
 	private String name;
+	/** Nouvelle position en X */
 	private int x;
+	/** Nouvelle position en Y */
 	private int y;
+
+	private IAttribute attribute;
+	private int oldX;
+	private int oldY;
 
 	/**
 	 * Constructeur
@@ -25,7 +33,7 @@ public class AttributePositionCommand implements ICommand {
 	 * @param y La position en y
 	 */
 	public AttributePositionCommand(int refId, String name, int x, int y) {
-		this.refId = refId;
+		this.referenceId = refId;
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -35,29 +43,38 @@ public class AttributePositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
-		IAttribute attribute = graph.getObject(refId).getAttribute(name);
+		// Recherche de l'attribut concerne
+		attribute = graph.getObject(referenceId).getAttribute(name);
 		if (attribute != null) {
 			attribute.getGraphicInfo().setLocation(new Point(x, y));
 		} else {
-			throw new ModelException("The attribute " + name + " cannot be found for element " + refId);
+			throw new ModelException("The attribute " + name + " cannot be found for element " + referenceId);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo(IGraph graph) { }
+	public final void redo(IGraph graph) throws ModelException {
+		this.execute(graph);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo(IGraph graph) { }
+	public final void undo(IGraph graph) throws ModelException {
+		if (attribute != null) {
+			attribute.getGraphicInfo().setLocation(new Point(oldX, oldY));
+		} else {
+			throw new ModelException("The attribute " + name + " cannot be found for element " + referenceId);
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public final String toString() {
-		return "Attribut " + name + " (objet: " + refId + ") -> x=" + x + "; y=" + y;
+		return "Attribut " + name + " (objet: " + referenceId + ") -> x=" + x + "; y=" + y;
 	}
 }

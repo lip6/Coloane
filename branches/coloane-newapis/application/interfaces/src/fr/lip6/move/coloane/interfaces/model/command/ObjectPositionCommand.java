@@ -12,9 +12,16 @@ import org.eclipse.draw2d.geometry.Point;
  * @author Jean-Baptiste Voron
  */
 public class ObjectPositionCommand implements ICommand {
+	/** L'identifiant de l'objet à déplacer */
 	private int id;
+	/** La position en X */
 	private int x;
+	/** La position en Y */
 	private int y;
+
+	private INode node;
+	private int oldX;
+	private int oldY;
 
 	/**
 	 * Constructeur
@@ -32,7 +39,7 @@ public class ObjectPositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
-		INode node = graph.getNode(id);
+		node = graph.getNode(id);
 		if (node != null) {
 			node.getGraphicInfo().setLocation(new Point(x, y));
 		} else {
@@ -43,12 +50,20 @@ public class ObjectPositionCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo(IGraph graph) { }
+	public final void redo(IGraph graph) throws ModelException {
+		this.execute(graph);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo(IGraph graph) { }
+	public final void undo(IGraph graph) throws ModelException {
+		if (node != null) {
+			node.getGraphicInfo().setLocation(new Point(oldX, oldY));
+		} else {
+			throw new ModelException("The node " + id + " does not exist in the model");
+		}
+	}
 
 	/**
 	 * {@inheritDoc}

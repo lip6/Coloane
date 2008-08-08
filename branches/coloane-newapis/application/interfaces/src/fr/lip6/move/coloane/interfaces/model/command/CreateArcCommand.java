@@ -10,9 +10,13 @@ import fr.lip6.move.coloane.interfaces.model.INode;
  * @author Jean-Baptiste Voron
  */
 public class CreateArcCommand implements ICommand {
+	/** L'identifiant de l'arc qui doit être créé */
 	private int id;
+	/** Le type de l'arc qui doit être créé */
 	private String type;
+	/** L'identifiant de la source de l'arc */
 	private int sourceId;
+	/** L'identifiant de la cible de l'arc */
 	private int targetId;
 
 	private INode source;

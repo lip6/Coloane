@@ -12,9 +12,15 @@ import org.eclipse.draw2d.geometry.Point;
  * @author Jean-Baptiste Voron
  */
 public class CreateInflexPointCommand implements ICommand {
+	/** L'identifiant de l'arc qui doit accueillir ce point d'inflexion */
 	private int id;
+	/** Position en X */
 	private int x;
+	/** Position en Y */
 	private int y;
+
+	private IArc arc;
+	private int index;
 
 	/**
 	 * Constructeur
@@ -32,9 +38,10 @@ public class CreateInflexPointCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
-		IArc arc = graph.getArc(id);
+		arc = graph.getArc(id);
 		if (arc != null) {
 			arc.addInflexPoint(new Point(x, y));
+			index = arc.getInflexPoints().size() - 1;
 		} else {
 			throw new ModelException("Arc identified by " + id + " does not exist in the model");
 		}
@@ -43,12 +50,20 @@ public class CreateInflexPointCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void redo(IGraph graph) { }
+	public final void redo(IGraph graph) throws ModelException {
+		this.execute(graph);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void undo(IGraph graph) { }
+	public final void undo(IGraph graph) throws ModelException {
+		if (arc != null) {
+			arc.removeInflexPoint(index);
+		} else {
+			throw new ModelException("Arc identified by " + id + " does not exist in the model");
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
