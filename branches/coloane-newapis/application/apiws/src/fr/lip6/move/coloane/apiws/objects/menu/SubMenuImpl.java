@@ -32,7 +32,7 @@ public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 	public SubMenuImpl(Question subMenu, String root) {
 		super(subMenu);
 
-		LOGGER.finest("Construction d'un sous-menu: " + this.getName());
+		LOGGER.finest("Construction d'un sous-menu: " + subMenu.getName() + "(Visibility = " + subMenu.getVisibility() + ")");
 
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();

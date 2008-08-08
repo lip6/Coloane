@@ -23,8 +23,8 @@ public class ServiceMenuImpl extends ItemMenuImpl implements IServiceMenu {
 	public ServiceMenuImpl(Question service, String root) {
 		super(service);
 
-		LOGGER.finest("Construction d'un ServiceMenu: " + service.getName());
 		this.associatedService = root + "_" + service.getName();
+		LOGGER.finest("Construction d'un ServiceMenu: " + service.getName() + "(Visibility = " + this.isVisible() + "; associatedService = " + this.getAssociatedService() + ")");
 	}
 
 	/**

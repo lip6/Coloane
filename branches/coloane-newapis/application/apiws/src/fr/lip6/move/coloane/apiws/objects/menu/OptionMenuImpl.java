@@ -24,9 +24,9 @@ public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 	public OptionMenuImpl(Question option) {
 		super(option);
 
-		LOGGER.finest("Construction d'un option: " + option.getName());
 		this.validated = option.getValidation();
 		this.type = IOptionMenu.TYPE_CHECKBOX;
+		LOGGER.finest("Construction d'un option: " + option.getName() + "(Visibility = " + this.isVisible() + "Checked = " +  this.isValidated() + ")");
 	}
 
 	/**
