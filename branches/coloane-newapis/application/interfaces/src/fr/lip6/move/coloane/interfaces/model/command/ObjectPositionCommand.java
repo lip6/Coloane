@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.interfaces.model.command;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -31,7 +32,12 @@ public class ObjectPositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
-		graph.getNode(id).getGraphicInfo().setLocation(new Point(x, y));
+		INode node = graph.getNode(id);
+		if (node != null) {
+			node.getGraphicInfo().setLocation(new Point(x, y));
+		} else {
+			throw new ModelException("The node " + id + " does not exist in the model");
+		}
 	}
 
 	/**

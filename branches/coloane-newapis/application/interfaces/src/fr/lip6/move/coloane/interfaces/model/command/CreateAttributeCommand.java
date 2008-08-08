@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
@@ -34,10 +34,23 @@ public class CreateAttributeCommand implements ICommand {
 	 */
 	public final void execute(IGraph graph) throws ModelException {
 		if (referenceId == 1) {
-			graph.getAttribute(name).setValue(value);
+			if (graph.getAttribute(name) != null) {
+				graph.getAttribute(name).setValue(value);
+			} else {
+				// Attribut du graphe inexistant pour le formalisme
+				throw new ModelException("The attribute " + name + " cannot be found for the graph element");
+			}
+		} else if (graph.getObject(referenceId) != null) {
+			IAttribute attribute = graph.getObject(referenceId).getAttribute(name);
+			if (attribute != null) {
+				attribute.setValue(value);
+			} else {
+				// Attribut introuvable
+				throw new ModelException("The attribute " + name + " cannot be found for the element" + referenceId);
+			}
 		} else {
-			IElement ref = graph.getObject(referenceId);
-			ref.getAttribute(name).setValue(value);
+			// L'element n'existe meme pas
+			throw new ModelException("The element " + referenceId + " connot be retrived from the graph");
 		}
 	}
 

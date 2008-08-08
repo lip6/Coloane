@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.command;
 
-import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -33,9 +34,13 @@ public class AttributePositionCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void execute(IGraph graph) {
-		IElement element = graph.getObject(refId);
-		element.getAttribute(name).getGraphicInfo().setLocation(new Point(x, y));
+	public final void execute(IGraph graph) throws ModelException {
+		IAttribute attribute = graph.getObject(refId).getAttribute(name);
+		if (attribute != null) {
+			attribute.getGraphicInfo().setLocation(new Point(x, y));
+		} else {
+			throw new ModelException("The attribute " + name + " cannot be found for element " + refId);
+		}
 	}
 
 	/**

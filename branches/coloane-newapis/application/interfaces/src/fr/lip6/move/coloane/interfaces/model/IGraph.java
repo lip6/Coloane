@@ -78,7 +78,8 @@ public interface IGraph extends IElement {
 	 * @param source La source de l'arc
 	 * @param target La cible de l'arc
 	 * @return l'arc créé.
-	 * @throws ModelException si un des parametres n'est pas correcte, par exemple le formalisme n'existe.
+	 * @throws ModelException si un des parametres n'est pas correct, par exemple le formalisme n'existe pas
+	 * ou un des noeuds source ou cible n'est pas valide.
 	 */
 	IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException;
 
@@ -89,7 +90,8 @@ public interface IGraph extends IElement {
 	 * @param target La cible de l'arc
 	 * @param id L'identifiant de l'arc à créer
 	 * @return l'arc créé.
-	 * @throws ModelException si un des parametres n'est pas correcte, par exemple le formalisme n'existe.
+	 * @throws ModelException si un des parametres n'est pas correct, par exemple le formalisme n'existe pas
+	 * ou un des noeuds source ou cible n'est pas valide.
 	 */
 	IArc createArc(String arcFormalismName, INode source, INode target, int id) throws ModelException;
 
@@ -130,9 +132,10 @@ public interface IGraph extends IElement {
 	IElement getObject(int id);
 
 	/**
-	 * Supprime un objet identifié par son identifiant
+	 * Supprime un objet identifié par son identifiant<br>
+	 * Si aucun objet existe... Rien ne se passe.
 	 * @param id L'identifiant de l'objet à supprimer
-	 * @throws ModelException si l'objet n'existe pas ou si la suppression s'est mal passée
+	 * @throws ModelException si la suppression s'est mal passée
 	 */
 	void deleteObject(int id) throws ModelException;
 

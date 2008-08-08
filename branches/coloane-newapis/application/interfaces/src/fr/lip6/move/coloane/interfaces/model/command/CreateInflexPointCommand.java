@@ -33,7 +33,11 @@ public class CreateInflexPointCommand implements ICommand {
 	 */
 	public final void execute(IGraph graph) throws ModelException {
 		IArc arc = graph.getArc(id);
-		arc.addInflexPoint(new Point(x, y));
+		if (arc != null) {
+			arc.addInflexPoint(new Point(x, y));
+		} else {
+			throw new ModelException("Arc identified by " + id + " does not exist in the model");
+		}
 	}
 
 	/**
