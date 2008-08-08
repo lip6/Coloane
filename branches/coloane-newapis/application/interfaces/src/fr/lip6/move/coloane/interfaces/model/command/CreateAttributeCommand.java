@@ -52,7 +52,7 @@ public class CreateAttributeCommand implements ICommand {
 		if (referenceId == 1) {
 			if (graph.getAttribute(name) != null) {
 				this.oldValue = graph.getAttribute(name).getValue();
-				if (concat) { value = oldValue + value; }
+				if (concat) { value = oldValue + "\n" + value; }
 				graph.getAttribute(name).setValue(value);
 			} else {
 				// Attribut du graphe inexistant pour le formalisme
@@ -61,8 +61,8 @@ public class CreateAttributeCommand implements ICommand {
 		} else if (graph.getObject(referenceId) != null) {
 			IAttribute attribute = graph.getObject(referenceId).getAttribute(name);
 			if (attribute != null) {
-				this.oldValue = graph.getAttribute(name).getValue();
-				if (concat) { value = oldValue + value; }
+				this.oldValue = attribute.getValue();
+				if (concat) { value = oldValue + "\n" + value; }
 				attribute.setValue(value);
 			} else {
 				// Attribut introuvable
