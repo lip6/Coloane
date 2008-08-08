@@ -130,17 +130,6 @@ public interface ISessionController {
 	void notifyEndCloseSession(IApiSession closed, String idSessionToResume) throws ApiException;
 
 	/**
-	 * Pas utiliser par l'ApiWS
-	 */
-	void notifyWaitingForModel();
-
-
-	/**
-	 * TODO A faire: définir la signature de la méthode notifyWaitingForResult
-	 */
-	void notifyWaitingForResult();
-
-	/**
 	 * Notifie la fin de l'exécution d'un service
 	 * @param sessionExecuted la session qui a exécuté le service
 	 * @param result le resultat du service exécuter

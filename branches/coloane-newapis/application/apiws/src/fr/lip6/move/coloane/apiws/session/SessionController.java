@@ -235,24 +235,8 @@ public class SessionController implements ISessionController {
 		((IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT)).notifyObservers(receptResult);
 
 		LOGGER.finest("Demande la notification de la récéption d'un menu suite à l'execution d'un service pour la session: " + sessionExecuted.getName());
-		ReceptMenu receptMenu = new ReceptMenu(result.getMenu(), result.getMenu().getLastModification());
+		ReceptMenu receptMenu = new ReceptMenu(result.getMenu());
 		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(receptMenu);
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void notifyWaitingForModel() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void notifyWaitingForResult() {
-		// TODO Auto-generated method stub
 
 	}
 
