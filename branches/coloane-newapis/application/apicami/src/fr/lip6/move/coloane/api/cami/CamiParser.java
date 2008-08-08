@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-08 18:31:56
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-08 19:49:40
 
 package fr.lip6.move.coloane.api.cami;
 	
@@ -2988,7 +2988,7 @@ public class CamiParser extends Parser {
                     value=(Token)input.LT(1);
                     match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1801); 
                     match(input,9,FOLLOW_9_in_attribute1803); 
-                     command = new CreateAttributeCommand(name.getText(), Integer.parseInt(id.getText()), value.getText(), true); 
+                     command = new CreateAttributeCommand(name.getText(), Integer.parseInt(id.getText()), value.getText(), (Integer.parseInt(line.getText()) != 1)); 
 
                     }
                     break;

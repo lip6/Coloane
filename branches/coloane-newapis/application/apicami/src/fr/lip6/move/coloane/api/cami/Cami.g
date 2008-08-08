@@ -631,7 +631,7 @@ arc returns [ICommand command]
 attribute returns [ICommand command]
 	:	'CT(' name=CAMI_STRING ',' id=NUMBER ','value=CAMI_STRING ')' { command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, false); }
 	|	'CM(' name=CAMI_STRING ',' id=NUMBER ',' line=NUMBER ',' deprecated=NUMBER ',' value=CAMI_STRING ')'
-		{ command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, true); }
+		{ command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, (Integer.parseInt($line.text) != 1)); }
 	;
 
 /* Description esthétique */
