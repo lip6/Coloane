@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-07 18:13:32
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-08 17:59:47
 
 package fr.lip6.move.coloane.api.cami;
 	
@@ -1895,7 +1895,7 @@ public class CamiParser extends Parser {
                 int alt23=2;
                 int LA23_0 = input.LA(1);
 
-                if ( ((LA23_0>=38 && LA23_0<=39)||(LA23_0>=41 && LA23_0<=47)||(LA23_0>=55 && LA23_0<=65)) ) {
+                if ( ((LA23_0>=38 && LA23_0<=39)||(LA23_0>=41 && LA23_0<=47)||LA23_0==49||(LA23_0>=55 && LA23_0<=65)) ) {
                     alt23=1;
                 }
 
@@ -1940,7 +1940,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start result_body
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:507:1: result_body : ( one_result | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:507:1: result_body : ( one_result | tip_description | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion );
     public final void result_body() throws RecognitionException {
         ICommand object_creation11 = null;
 
@@ -1948,8 +1948,8 @@ public class CamiParser extends Parser {
 
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:508:2: ( one_result | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion )
-            int alt24=8;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:508:2: ( one_result | tip_description | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion )
+            int alt24=9;
             switch ( input.LA(1) ) {
             case 38:
             case 39:
@@ -1957,29 +1957,34 @@ public class CamiParser extends Parser {
                 alt24=1;
                 }
                 break;
-            case 41:
+            case 49:
                 {
                 alt24=2;
                 }
                 break;
-            case 42:
+            case 41:
                 {
                 alt24=3;
                 }
                 break;
-            case 44:
+            case 42:
                 {
                 alt24=4;
                 }
                 break;
-            case 45:
+            case 44:
                 {
                 alt24=5;
                 }
                 break;
-            case 43:
+            case 45:
                 {
                 alt24=6;
+                }
+                break;
+            case 43:
+                {
+                alt24=7;
                 }
                 break;
             case 55:
@@ -1994,18 +1999,18 @@ public class CamiParser extends Parser {
             case 64:
             case 65:
                 {
-                alt24=7;
+                alt24=8;
                 }
                 break;
             case 46:
             case 47:
                 {
-                alt24=8;
+                alt24=9;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("507:1: result_body : ( one_result | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion );", 24, 0, input);
+                    new NoViableAltException("507:1: result_body : ( one_result | tip_description | textual_result | attribute_change | object_designation | object_outline | attribute_outline | object_creation | object_deletion );", 24, 0, input);
 
                 throw nvae;
             }
@@ -2022,59 +2027,69 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:509:4: textual_result
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:509:4: tip_description
                     {
-                    pushFollow(FOLLOW_textual_result_in_result_body1084);
-                    textual_result();
+                    pushFollow(FOLLOW_tip_description_in_result_body1084);
+                    tip_description();
                     _fsp--;
 
 
                     }
                     break;
                 case 3 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:510:4: attribute_change
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:510:4: textual_result
                     {
-                    pushFollow(FOLLOW_attribute_change_in_result_body1089);
-                    attribute_change();
+                    pushFollow(FOLLOW_textual_result_in_result_body1089);
+                    textual_result();
                     _fsp--;
 
 
                     }
                     break;
                 case 4 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:511:4: object_designation
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:511:4: attribute_change
                     {
-                    pushFollow(FOLLOW_object_designation_in_result_body1094);
-                    object_designation();
+                    pushFollow(FOLLOW_attribute_change_in_result_body1094);
+                    attribute_change();
                     _fsp--;
 
 
                     }
                     break;
                 case 5 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:512:4: object_outline
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:512:4: object_designation
                     {
-                    pushFollow(FOLLOW_object_outline_in_result_body1099);
-                    object_outline();
+                    pushFollow(FOLLOW_object_designation_in_result_body1099);
+                    object_designation();
                     _fsp--;
 
 
                     }
                     break;
                 case 6 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:513:4: attribute_outline
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:513:4: object_outline
                     {
-                    pushFollow(FOLLOW_attribute_outline_in_result_body1104);
-                    attribute_outline();
+                    pushFollow(FOLLOW_object_outline_in_result_body1104);
+                    object_outline();
                     _fsp--;
 
 
                     }
                     break;
                 case 7 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:514:4: object_creation
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:514:4: attribute_outline
                     {
-                    pushFollow(FOLLOW_object_creation_in_result_body1109);
+                    pushFollow(FOLLOW_attribute_outline_in_result_body1109);
+                    attribute_outline();
+                    _fsp--;
+
+
+                    }
+                    break;
+                case 8 :
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:515:4: object_creation
+                    {
+                    pushFollow(FOLLOW_object_creation_in_result_body1114);
                     object_creation11=object_creation();
                     _fsp--;
 
@@ -2082,10 +2097,10 @@ public class CamiParser extends Parser {
 
                     }
                     break;
-                case 8 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:515:4: object_deletion
+                case 9 :
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:516:4: object_deletion
                     {
-                    pushFollow(FOLLOW_object_deletion_in_result_body1116);
+                    pushFollow(FOLLOW_object_deletion_in_result_body1121);
                     object_deletion12=object_deletion();
                     _fsp--;
 
@@ -2108,18 +2123,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start textual_result
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:519:1: textual_result : 'RT(' text= CAMI_STRING ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:520:1: textual_result : 'RT(' text= CAMI_STRING ')' ;
     public final void textual_result() throws RecognitionException {
         Token text=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:520:2: ( 'RT(' text= CAMI_STRING ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:521:2: 'RT(' text= CAMI_STRING ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:521:2: ( 'RT(' text= CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:522:2: 'RT(' text= CAMI_STRING ')'
             {
-            match(input,41,FOLLOW_41_in_textual_result1133); 
+            match(input,41,FOLLOW_41_in_textual_result1138); 
             text=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_textual_result1137); 
-            match(input,9,FOLLOW_9_in_textual_result1139); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_textual_result1142); 
+            match(input,9,FOLLOW_9_in_textual_result1144); 
              ((SubResult) ((one_result_scope)one_result_stack.peek()).current).addTextualResult(text.getText()); 
 
             }
@@ -2137,26 +2152,26 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start attribute_change
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:525:1: attribute_change : 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:526:1: attribute_change : 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')' ;
     public final void attribute_change() throws RecognitionException {
         Token id=null;
         Token attribute_name=null;
         Token new_value=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:526:2: ( 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:527:2: 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:527:2: ( 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:528:2: 'WE(' id= NUMBER ',' attribute_name= CAMI_STRING ',' new_value= CAMI_STRING ')'
             {
-            match(input,42,FOLLOW_42_in_attribute_change1156); 
+            match(input,42,FOLLOW_42_in_attribute_change1161); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_attribute_change1160); 
-            match(input,11,FOLLOW_11_in_attribute_change1162); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_attribute_change1165); 
+            match(input,11,FOLLOW_11_in_attribute_change1167); 
             attribute_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_change1166); 
-            match(input,11,FOLLOW_11_in_attribute_change1168); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_change1171); 
+            match(input,11,FOLLOW_11_in_attribute_change1173); 
             new_value=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_change1172); 
-            match(input,9,FOLLOW_9_in_attribute_change1174); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_change1177); 
+            match(input,9,FOLLOW_9_in_attribute_change1179); 
 
             }
 
@@ -2173,7 +2188,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start attribute_outline
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:531:1: attribute_outline : 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:532:1: attribute_outline : 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' ;
     public final void attribute_outline() throws RecognitionException {
         Token id=null;
         Token attribute_name=null;
@@ -2181,17 +2196,17 @@ public class CamiParser extends Parser {
         Token end=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:532:2: ( 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:2: 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:2: ( 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:534:2: 'MT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' (begin= NUMBER )? ',' (end= NUMBER )? ')'
             {
-            match(input,43,FOLLOW_43_in_attribute_outline1189); 
+            match(input,43,FOLLOW_43_in_attribute_outline1194); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1193); 
-            match(input,11,FOLLOW_11_in_attribute_outline1195); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1198); 
+            match(input,11,FOLLOW_11_in_attribute_outline1200); 
             attribute_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_outline1199); 
-            match(input,11,FOLLOW_11_in_attribute_outline1201); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:58: (begin= NUMBER )?
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_outline1204); 
+            match(input,11,FOLLOW_11_in_attribute_outline1206); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:534:58: (begin= NUMBER )?
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -2200,18 +2215,18 @@ public class CamiParser extends Parser {
             }
             switch (alt25) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:58: begin= NUMBER
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:534:58: begin= NUMBER
                     {
                     begin=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1205); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1210); 
 
                     }
                     break;
 
             }
 
-            match(input,11,FOLLOW_11_in_attribute_outline1208); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:74: (end= NUMBER )?
+            match(input,11,FOLLOW_11_in_attribute_outline1213); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:534:74: (end= NUMBER )?
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -2220,17 +2235,17 @@ public class CamiParser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:533:74: end= NUMBER
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:534:74: end= NUMBER
                     {
                     end=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1212); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_outline1217); 
 
                     }
                     break;
 
             }
 
-            match(input,9,FOLLOW_9_in_attribute_outline1215); 
+            match(input,9,FOLLOW_9_in_attribute_outline1220); 
              ((SubResult) ((one_result_scope)one_result_stack.peek()).current).addAttributeOutline(Integer.parseInt(id.getText()), attribute_name.getText()); 
 
             }
@@ -2248,18 +2263,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_designation
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:538:1: object_designation : 'RO(' id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:539:1: object_designation : 'RO(' id= NUMBER ')' ;
     public final void object_designation() throws RecognitionException {
         Token id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:539:2: ( 'RO(' id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:540:2: 'RO(' id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:540:2: ( 'RO(' id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:541:2: 'RO(' id= NUMBER ')'
             {
-            match(input,44,FOLLOW_44_in_object_designation1233); 
+            match(input,44,FOLLOW_44_in_object_designation1238); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_object_designation1237); 
-            match(input,9,FOLLOW_9_in_object_designation1239); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_object_designation1242); 
+            match(input,9,FOLLOW_9_in_object_designation1244); 
              ((SubResult) ((one_result_scope)one_result_stack.peek()).current).addObjectDesignation(Integer.parseInt(id.getText())); 
 
             }
@@ -2277,18 +2292,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_outline
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:544:1: object_outline : 'ME(' id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:545:1: object_outline : 'ME(' id= NUMBER ')' ;
     public final void object_outline() throws RecognitionException {
         Token id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:545:2: ( 'ME(' id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:546:2: 'ME(' id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:546:2: ( 'ME(' id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:547:2: 'ME(' id= NUMBER ')'
             {
-            match(input,45,FOLLOW_45_in_object_outline1257); 
+            match(input,45,FOLLOW_45_in_object_outline1262); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_object_outline1261); 
-            match(input,9,FOLLOW_9_in_object_outline1263); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_object_outline1266); 
+            match(input,9,FOLLOW_9_in_object_outline1268); 
              ((SubResult) ((one_result_scope)one_result_stack.peek()).current).addObjectOutline(Integer.parseInt(id.getText())); 
 
             }
@@ -2306,7 +2321,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_creation
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:550:1: object_creation returns [ICommand command] : ( syntactic | aestetic );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:551:1: object_creation returns [ICommand command] : ( syntactic | aestetic );
     public final ICommand object_creation() throws RecognitionException {
         ICommand command = null;
 
@@ -2316,7 +2331,7 @@ public class CamiParser extends Parser {
 
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:551:2: ( syntactic | aestetic )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:552:2: ( syntactic | aestetic )
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -2328,15 +2343,15 @@ public class CamiParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("550:1: object_creation returns [ICommand command] : ( syntactic | aestetic );", 27, 0, input);
+                    new NoViableAltException("551:1: object_creation returns [ICommand command] : ( syntactic | aestetic );", 27, 0, input);
 
                 throw nvae;
             }
             switch (alt27) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:551:4: syntactic
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:552:4: syntactic
                     {
-                    pushFollow(FOLLOW_syntactic_in_object_creation1282);
+                    pushFollow(FOLLOW_syntactic_in_object_creation1287);
                     syntactic13=syntactic();
                     _fsp--;
 
@@ -2345,9 +2360,9 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:552:4: aestetic
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:553:4: aestetic
                     {
-                    pushFollow(FOLLOW_aestetic_in_object_creation1289);
+                    pushFollow(FOLLOW_aestetic_in_object_creation1294);
                     aestetic14=aestetic();
                     _fsp--;
 
@@ -2370,7 +2385,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_deletion
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:556:1: object_deletion returns [ICommand command] : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:557:1: object_deletion returns [ICommand command] : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );
     public final ICommand object_deletion() throws RecognitionException {
         ICommand command = null;
 
@@ -2378,7 +2393,7 @@ public class CamiParser extends Parser {
         Token page_id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:557:2: ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:558:2: ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' )
             int alt28=2;
             int LA28_0 = input.LA(1);
 
@@ -2390,32 +2405,32 @@ public class CamiParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("556:1: object_deletion returns [ICommand command] : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );", 28, 0, input);
+                    new NoViableAltException("557:1: object_deletion returns [ICommand command] : ( 'SU(' id= NUMBER ')' | 'SI(' page_id= NUMBER ',' id= NUMBER ')' );", 28, 0, input);
 
                 throw nvae;
             }
             switch (alt28) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:557:4: 'SU(' id= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:558:4: 'SU(' id= NUMBER ')'
                     {
-                    match(input,46,FOLLOW_46_in_object_deletion1309); 
+                    match(input,46,FOLLOW_46_in_object_deletion1314); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1313); 
-                    match(input,9,FOLLOW_9_in_object_deletion1315); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1318); 
+                    match(input,9,FOLLOW_9_in_object_deletion1320); 
                      command = new DeleteObjectCommand(Integer.parseInt(id.getText())); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:558:5: 'SI(' page_id= NUMBER ',' id= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:559:5: 'SI(' page_id= NUMBER ',' id= NUMBER ')'
                     {
-                    match(input,47,FOLLOW_47_in_object_deletion1323); 
+                    match(input,47,FOLLOW_47_in_object_deletion1328); 
                     page_id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1327); 
-                    match(input,11,FOLLOW_11_in_object_deletion1329); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1332); 
+                    match(input,11,FOLLOW_11_in_object_deletion1334); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1333); 
-                    match(input,9,FOLLOW_9_in_object_deletion1335); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_deletion1338); 
+                    match(input,9,FOLLOW_9_in_object_deletion1340); 
 
                      			if ((id.getText()).equals("-1")) { command = new DeleteInflexPointsCommand(); } 
                      			else { command = new DeleteObjectCommand(Integer.parseInt(id.getText())); }
@@ -2438,19 +2453,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start model_changes
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:565:2: model_changes returns [ITip tip] : ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:566:2: model_changes returns [ITip tip] : ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? tip_description ;
     public final ITip model_changes() throws RecognitionException {
         ITip tip = null;
 
-        Token id_object=null;
-        Token attribute_name=null;
-        Token attribute_value=null;
+        ITip tip_description15 = null;
+
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:566:3: ( ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:567:3: ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:567:3: ( ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? tip_description )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:568:3: ( attribute_table )? ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )? tip_description
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:567:3: ( attribute_table )?
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:568:3: ( attribute_table )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -2459,9 +2473,9 @@ public class CamiParser extends Parser {
             }
             switch (alt29) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:567:3: attribute_table
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:568:3: attribute_table
                     {
-                    pushFollow(FOLLOW_attribute_table_in_model_changes1362);
+                    pushFollow(FOLLOW_attribute_table_in_model_changes1367);
                     attribute_table();
                     _fsp--;
 
@@ -2471,7 +2485,7 @@ public class CamiParser extends Parser {
 
             }
 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:568:3: ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )?
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:569:3: ( 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' )?
             int alt30=2;
             int LA30_0 = input.LA(1);
 
@@ -2480,36 +2494,30 @@ public class CamiParser extends Parser {
             }
             switch (alt30) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:568:5: 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:569:5: 'ZA(' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')'
                     {
-                    match(input,48,FOLLOW_48_in_model_changes1369); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1370); 
-                    match(input,11,FOLLOW_11_in_model_changes1372); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1374); 
-                    match(input,11,FOLLOW_11_in_model_changes1376); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1378); 
-                    match(input,11,FOLLOW_11_in_model_changes1380); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1382); 
-                    match(input,11,FOLLOW_11_in_model_changes1384); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1386); 
-                    match(input,9,FOLLOW_9_in_model_changes1388); 
+                    match(input,48,FOLLOW_48_in_model_changes1374); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1375); 
+                    match(input,11,FOLLOW_11_in_model_changes1377); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1379); 
+                    match(input,11,FOLLOW_11_in_model_changes1381); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1383); 
+                    match(input,11,FOLLOW_11_in_model_changes1385); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1387); 
+                    match(input,11,FOLLOW_11_in_model_changes1389); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1391); 
+                    match(input,9,FOLLOW_9_in_model_changes1393); 
 
                     }
                     break;
 
             }
 
-            match(input,49,FOLLOW_49_in_model_changes1396); 
-            id_object=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_model_changes1400); 
-            match(input,11,FOLLOW_11_in_model_changes1402); 
-            attribute_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_model_changes1406); 
-            match(input,11,FOLLOW_11_in_model_changes1408); 
-            attribute_value=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_model_changes1412); 
-            match(input,9,FOLLOW_9_in_model_changes1414); 
-             tip = new Tip(Integer.parseInt(id_object.getText()), attribute_name.getText(), attribute_value.getText()); 
+            pushFollow(FOLLOW_tip_description_in_model_changes1400);
+            tip_description15=tip_description();
+            _fsp--;
+
+             tip = tip_description15; 
 
             }
 
@@ -2525,17 +2533,56 @@ public class CamiParser extends Parser {
     // $ANTLR end model_changes
 
 
+    // $ANTLR start tip_description
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:574:2: tip_description returns [ITip tip] : 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')' ;
+    public final ITip tip_description() throws RecognitionException {
+        ITip tip = null;
+
+        Token id_object=null;
+        Token attribute_name=null;
+        Token attribute_value=null;
+
+        try {
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:575:3: ( 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:576:3: 'XA(' id_object= NUMBER ',' attribute_name= CAMI_STRING ',' attribute_value= CAMI_STRING ')'
+            {
+            match(input,49,FOLLOW_49_in_tip_description1426); 
+            id_object=(Token)input.LT(1);
+            match(input,NUMBER,FOLLOW_NUMBER_in_tip_description1430); 
+            match(input,11,FOLLOW_11_in_tip_description1432); 
+            attribute_name=(Token)input.LT(1);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_tip_description1436); 
+            match(input,11,FOLLOW_11_in_tip_description1438); 
+            attribute_value=(Token)input.LT(1);
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_tip_description1442); 
+            match(input,9,FOLLOW_9_in_tip_description1444); 
+             tip = new Tip(Integer.parseInt(id_object.getText()), attribute_name.getText(), attribute_value.getText()); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+        }
+        return tip;
+    }
+    // $ANTLR end tip_description
+
+
     // $ANTLR start attribute_table
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:574:2: attribute_table : 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:581:2: attribute_table : 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()' ;
     public final void attribute_table() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:575:3: ( 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:576:3: 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:582:3: ( 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:583:3: 'TD(' CAMI_STRING ')' ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )* 'FA()'
             {
-            match(input,50,FOLLOW_50_in_attribute_table1440); 
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1442); 
-            match(input,9,FOLLOW_9_in_attribute_table1444); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:577:3: ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )*
+            match(input,50,FOLLOW_50_in_attribute_table1470); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1472); 
+            match(input,9,FOLLOW_9_in_attribute_table1474); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:584:3: ( 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')' | 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )*
             loop31:
             do {
                 int alt31=3;
@@ -2551,32 +2598,32 @@ public class CamiParser extends Parser {
 
                 switch (alt31) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:577:5: 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:584:5: 'OB(' NUMBER ',' NUMBER ',' CAMI_STRING ')'
             	    {
-            	    match(input,51,FOLLOW_51_in_attribute_table1450); 
-            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1452); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1454); 
-            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1456); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1458); 
-            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1460); 
-            	    match(input,9,FOLLOW_9_in_attribute_table1462); 
+            	    match(input,51,FOLLOW_51_in_attribute_table1480); 
+            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1482); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1484); 
+            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1486); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1488); 
+            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1490); 
+            	    match(input,9,FOLLOW_9_in_attribute_table1492); 
 
             	    }
             	    break;
             	case 2 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:577:51: 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:584:51: 'AT(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
             	    {
-            	    match(input,52,FOLLOW_52_in_attribute_table1466); 
-            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1468); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1470); 
-            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1472); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1474); 
-            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1476); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1478); 
-            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1480); 
-            	    match(input,11,FOLLOW_11_in_attribute_table1482); 
-            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1484); 
-            	    match(input,9,FOLLOW_9_in_attribute_table1486); 
+            	    match(input,52,FOLLOW_52_in_attribute_table1496); 
+            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1498); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1500); 
+            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1502); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1504); 
+            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1506); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1508); 
+            	    match(input,NUMBER,FOLLOW_NUMBER_in_attribute_table1510); 
+            	    match(input,11,FOLLOW_11_in_attribute_table1512); 
+            	    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute_table1514); 
+            	    match(input,9,FOLLOW_9_in_attribute_table1516); 
 
             	    }
             	    break;
@@ -2586,7 +2633,7 @@ public class CamiParser extends Parser {
                 }
             } while (true);
 
-            match(input,15,FOLLOW_15_in_attribute_table1492); 
+            match(input,15,FOLLOW_15_in_attribute_table1522); 
 
             }
 
@@ -2603,22 +2650,22 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start model_definition
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:586:1: model_definition returns [List<ICommand> commandsList] : 'DB()' ( syntactic | aestetic )* 'FB()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:593:1: model_definition returns [List<ICommand> commandsList] : 'DB()' ( syntactic | aestetic )* 'FB()' ;
     public final List<ICommand> model_definition() throws RecognitionException {
         List<ICommand> commandsList = null;
 
-        ICommand syntactic15 = null;
+        ICommand syntactic16 = null;
 
-        ICommand aestetic16 = null;
+        ICommand aestetic17 = null;
 
 
          commandsList = new ArrayList<ICommand>(); 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:588:2: ( 'DB()' ( syntactic | aestetic )* 'FB()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:589:2: 'DB()' ( syntactic | aestetic )* 'FB()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:595:2: ( 'DB()' ( syntactic | aestetic )* 'FB()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:596:2: 'DB()' ( syntactic | aestetic )* 'FB()'
             {
-            match(input,53,FOLLOW_53_in_model_definition1526); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:590:2: ( syntactic | aestetic )*
+            match(input,53,FOLLOW_53_in_model_definition1556); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:597:2: ( syntactic | aestetic )*
             loop32:
             do {
                 int alt32=3;
@@ -2634,24 +2681,24 @@ public class CamiParser extends Parser {
 
                 switch (alt32) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:590:5: syntactic
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:597:5: syntactic
             	    {
-            	    pushFollow(FOLLOW_syntactic_in_model_definition1532);
-            	    syntactic15=syntactic();
+            	    pushFollow(FOLLOW_syntactic_in_model_definition1562);
+            	    syntactic16=syntactic();
             	    _fsp--;
 
-            	     commandsList.add(syntactic15); 
+            	     commandsList.add(syntactic16); 
 
             	    }
             	    break;
             	case 2 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:591:5: aestetic
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:598:5: aestetic
             	    {
-            	    pushFollow(FOLLOW_aestetic_in_model_definition1541);
-            	    aestetic16=aestetic();
+            	    pushFollow(FOLLOW_aestetic_in_model_definition1571);
+            	    aestetic17=aestetic();
             	    _fsp--;
 
-            	     commandsList.add(aestetic16); 
+            	     commandsList.add(aestetic17); 
 
             	    }
             	    break;
@@ -2661,7 +2708,7 @@ public class CamiParser extends Parser {
                 }
             } while (true);
 
-            match(input,54,FOLLOW_54_in_model_definition1551); 
+            match(input,54,FOLLOW_54_in_model_definition1581); 
 
             }
 
@@ -2678,19 +2725,19 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start syntactic
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:597:1: syntactic returns [ICommand command] : ( node | box | arc | attribute );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:604:1: syntactic returns [ICommand command] : ( node | box | arc | attribute );
     public final ICommand syntactic() throws RecognitionException {
         ICommand command = null;
 
-        ICommand node17 = null;
+        ICommand node18 = null;
 
-        ICommand arc18 = null;
+        ICommand arc19 = null;
 
-        ICommand attribute19 = null;
+        ICommand attribute20 = null;
 
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:598:2: ( node | box | arc | attribute )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:605:2: ( node | box | arc | attribute )
             int alt33=4;
             switch ( input.LA(1) ) {
             case 55:
@@ -2716,27 +2763,27 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("597:1: syntactic returns [ICommand command] : ( node | box | arc | attribute );", 33, 0, input);
+                    new NoViableAltException("604:1: syntactic returns [ICommand command] : ( node | box | arc | attribute );", 33, 0, input);
 
                 throw nvae;
             }
 
             switch (alt33) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:598:4: node
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:605:4: node
                     {
-                    pushFollow(FOLLOW_node_in_syntactic1568);
-                    node17=node();
+                    pushFollow(FOLLOW_node_in_syntactic1598);
+                    node18=node();
                     _fsp--;
 
-                     command = node17; 
+                     command = node18; 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:599:4: box
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:606:4: box
                     {
-                    pushFollow(FOLLOW_box_in_syntactic1577);
+                    pushFollow(FOLLOW_box_in_syntactic1607);
                     box();
                     _fsp--;
 
@@ -2744,24 +2791,24 @@ public class CamiParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:600:5: arc
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:607:5: arc
                     {
-                    pushFollow(FOLLOW_arc_in_syntactic1584);
-                    arc18=arc();
+                    pushFollow(FOLLOW_arc_in_syntactic1614);
+                    arc19=arc();
                     _fsp--;
 
-                     command = arc18; 
+                     command = arc19; 
 
                     }
                     break;
                 case 4 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:601:5: attribute
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:608:5: attribute
                     {
-                    pushFollow(FOLLOW_attribute_in_syntactic1594);
-                    attribute19=attribute();
+                    pushFollow(FOLLOW_attribute_in_syntactic1624);
+                    attribute20=attribute();
                     _fsp--;
 
-                     command = attribute19; 
+                     command = attribute20; 
 
                     }
                     break;
@@ -2780,7 +2827,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start node
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:605:1: node returns [ICommand command] : 'CN(' type= CAMI_STRING ',' id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:612:1: node returns [ICommand command] : 'CN(' type= CAMI_STRING ',' id= NUMBER ')' ;
     public final ICommand node() throws RecognitionException {
         ICommand command = null;
 
@@ -2788,16 +2835,16 @@ public class CamiParser extends Parser {
         Token id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:606:2: ( 'CN(' type= CAMI_STRING ',' id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:607:2: 'CN(' type= CAMI_STRING ',' id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:613:2: ( 'CN(' type= CAMI_STRING ',' id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:614:2: 'CN(' type= CAMI_STRING ',' id= NUMBER ')'
             {
-            match(input,55,FOLLOW_55_in_node1615); 
+            match(input,55,FOLLOW_55_in_node1645); 
             type=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_node1619); 
-            match(input,11,FOLLOW_11_in_node1621); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_node1649); 
+            match(input,11,FOLLOW_11_in_node1651); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_node1625); 
-            match(input,9,FOLLOW_9_in_node1627); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_node1655); 
+            match(input,9,FOLLOW_9_in_node1657); 
              command = new CreateNodeCommand(Integer.parseInt(id.getText()), type.getText()); 
 
             }
@@ -2815,19 +2862,19 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start box
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:611:1: box : 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:618:1: box : 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' ;
     public final void box() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:612:2: ( 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:613:2: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:619:2: ( 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:620:2: 'CB(' CAMI_STRING ',' NUMBER ',' NUMBER ')'
             {
-            match(input,56,FOLLOW_56_in_box1644); 
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_box1646); 
-            match(input,11,FOLLOW_11_in_box1648); 
-            match(input,NUMBER,FOLLOW_NUMBER_in_box1650); 
-            match(input,11,FOLLOW_11_in_box1652); 
-            match(input,NUMBER,FOLLOW_NUMBER_in_box1654); 
-            match(input,9,FOLLOW_9_in_box1656); 
+            match(input,56,FOLLOW_56_in_box1674); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_box1676); 
+            match(input,11,FOLLOW_11_in_box1678); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_box1680); 
+            match(input,11,FOLLOW_11_in_box1682); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_box1684); 
+            match(input,9,FOLLOW_9_in_box1686); 
              LOGGER.warning("BOX support is deprecated"); 
 
             }
@@ -2845,7 +2892,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start arc
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:617:1: arc returns [ICommand command] : 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:624:1: arc returns [ICommand command] : 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')' ;
     public final ICommand arc() throws RecognitionException {
         ICommand command = null;
 
@@ -2855,22 +2902,22 @@ public class CamiParser extends Parser {
         Token target=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:618:2: ( 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:619:2: 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:625:2: ( 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:626:2: 'CA(' type= CAMI_STRING ',' id= NUMBER ',' source= NUMBER ',' target= NUMBER ')'
             {
-            match(input,57,FOLLOW_57_in_arc1676); 
+            match(input,57,FOLLOW_57_in_arc1706); 
             type=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_arc1680); 
-            match(input,11,FOLLOW_11_in_arc1682); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_arc1710); 
+            match(input,11,FOLLOW_11_in_arc1712); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_arc1686); 
-            match(input,11,FOLLOW_11_in_arc1688); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_arc1716); 
+            match(input,11,FOLLOW_11_in_arc1718); 
             source=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_arc1692); 
-            match(input,11,FOLLOW_11_in_arc1694); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_arc1722); 
+            match(input,11,FOLLOW_11_in_arc1724); 
             target=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_arc1698); 
-            match(input,9,FOLLOW_9_in_arc1700); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_arc1728); 
+            match(input,9,FOLLOW_9_in_arc1730); 
              command = new CreateArcCommand(Integer.parseInt(id.getText()), type.getText(), Integer.parseInt(source.getText()), Integer.parseInt(target.getText())); 
 
             }
@@ -2888,16 +2935,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start attribute
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:624:1: attribute returns [ICommand command] : ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:631:1: attribute returns [ICommand command] : ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' name= CAMI_STRING ',' id= NUMBER ',' line= NUMBER ',' deprecated= NUMBER ',' value= CAMI_STRING ')' );
     public final ICommand attribute() throws RecognitionException {
         ICommand command = null;
 
         Token name=null;
         Token id=null;
         Token value=null;
+        Token line=null;
+        Token deprecated=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:625:2: ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:632:2: ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' name= CAMI_STRING ',' id= NUMBER ',' line= NUMBER ',' deprecated= NUMBER ',' value= CAMI_STRING ')' )
             int alt34=2;
             int LA34_0 = input.LA(1);
 
@@ -2909,42 +2958,47 @@ public class CamiParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("624:1: attribute returns [ICommand command] : ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')' );", 34, 0, input);
+                    new NoViableAltException("631:1: attribute returns [ICommand command] : ( 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')' | 'CM(' name= CAMI_STRING ',' id= NUMBER ',' line= NUMBER ',' deprecated= NUMBER ',' value= CAMI_STRING ')' );", 34, 0, input);
 
                 throw nvae;
             }
             switch (alt34) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:625:4: 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:632:4: 'CT(' name= CAMI_STRING ',' id= NUMBER ',' value= CAMI_STRING ')'
                     {
-                    match(input,58,FOLLOW_58_in_attribute1721); 
+                    match(input,58,FOLLOW_58_in_attribute1751); 
                     name=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1725); 
-                    match(input,11,FOLLOW_11_in_attribute1727); 
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1755); 
+                    match(input,11,FOLLOW_11_in_attribute1757); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1731); 
-                    match(input,11,FOLLOW_11_in_attribute1733); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1761); 
+                    match(input,11,FOLLOW_11_in_attribute1763); 
                     value=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1736); 
-                    match(input,9,FOLLOW_9_in_attribute1738); 
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1766); 
+                    match(input,9,FOLLOW_9_in_attribute1768); 
                      command = new CreateAttributeCommand(name.getText(), Integer.parseInt(id.getText()), value.getText()); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:626:4: 'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:633:4: 'CM(' name= CAMI_STRING ',' id= NUMBER ',' line= NUMBER ',' deprecated= NUMBER ',' value= CAMI_STRING ')'
                     {
-                    match(input,59,FOLLOW_59_in_attribute1745); 
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1747); 
-                    match(input,11,FOLLOW_11_in_attribute1749); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1751); 
-                    match(input,11,FOLLOW_11_in_attribute1753); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1755); 
-                    match(input,11,FOLLOW_11_in_attribute1757); 
-                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1759); 
-                    match(input,11,FOLLOW_11_in_attribute1761); 
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1763); 
-                    match(input,9,FOLLOW_9_in_attribute1765); 
+                    match(input,59,FOLLOW_59_in_attribute1775); 
+                    name=(Token)input.LT(1);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1779); 
+                    match(input,11,FOLLOW_11_in_attribute1781); 
+                    id=(Token)input.LT(1);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1785); 
+                    match(input,11,FOLLOW_11_in_attribute1787); 
+                    line=(Token)input.LT(1);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1791); 
+                    match(input,11,FOLLOW_11_in_attribute1793); 
+                    deprecated=(Token)input.LT(1);
+                    match(input,NUMBER,FOLLOW_NUMBER_in_attribute1797); 
+                    match(input,11,FOLLOW_11_in_attribute1799); 
+                    value=(Token)input.LT(1);
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_attribute1803); 
+                    match(input,9,FOLLOW_9_in_attribute1805); 
 
                     }
                     break;
@@ -2963,19 +3017,19 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start aestetic
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:630:1: aestetic returns [ICommand command] : ( object_position | text_position | inflex_point );
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:637:1: aestetic returns [ICommand command] : ( object_position | text_position | inflex_point );
     public final ICommand aestetic() throws RecognitionException {
         ICommand command = null;
 
-        ICommand object_position20 = null;
+        ICommand object_position21 = null;
 
-        ICommand text_position21 = null;
+        ICommand text_position22 = null;
 
-        ICommand inflex_point22 = null;
+        ICommand inflex_point23 = null;
 
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:631:2: ( object_position | text_position | inflex_point )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:638:2: ( object_position | text_position | inflex_point )
             int alt35=3;
             switch ( input.LA(1) ) {
             case 60:
@@ -2998,42 +3052,42 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("630:1: aestetic returns [ICommand command] : ( object_position | text_position | inflex_point );", 35, 0, input);
+                    new NoViableAltException("637:1: aestetic returns [ICommand command] : ( object_position | text_position | inflex_point );", 35, 0, input);
 
                 throw nvae;
             }
 
             switch (alt35) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:631:4: object_position
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:638:4: object_position
                     {
-                    pushFollow(FOLLOW_object_position_in_aestetic1782);
-                    object_position20=object_position();
+                    pushFollow(FOLLOW_object_position_in_aestetic1822);
+                    object_position21=object_position();
                     _fsp--;
 
-                     command = object_position20; 
+                     command = object_position21; 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:632:5: text_position
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:639:5: text_position
                     {
-                    pushFollow(FOLLOW_text_position_in_aestetic1790);
-                    text_position21=text_position();
+                    pushFollow(FOLLOW_text_position_in_aestetic1830);
+                    text_position22=text_position();
                     _fsp--;
 
-                     command = text_position21; 
+                     command = text_position22; 
 
                     }
                     break;
                 case 3 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:633:5: inflex_point
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:640:5: inflex_point
                     {
-                    pushFollow(FOLLOW_inflex_point_in_aestetic1798);
-                    inflex_point22=inflex_point();
+                    pushFollow(FOLLOW_inflex_point_in_aestetic1838);
+                    inflex_point23=inflex_point();
                     _fsp--;
 
-                     command = inflex_point22; 
+                     command = inflex_point23; 
 
                     }
                     break;
@@ -3052,7 +3106,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start object_position
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:637:1: object_position returns [ICommand command] : ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' ) ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:644:1: object_position returns [ICommand command] : ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' ) ;
     public final ICommand object_position() throws RecognitionException {
         ICommand command = null;
 
@@ -3063,10 +3117,10 @@ public class CamiParser extends Parser {
         Token bottom=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:638:2: ( ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' ) )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:639:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:645:2: ( ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' ) )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:646:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:639:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:646:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )
             int alt36=3;
             switch ( input.LA(1) ) {
             case 60:
@@ -3086,63 +3140,63 @@ public class CamiParser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("639:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )", 36, 0, input);
+                    new NoViableAltException("646:2: ( 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')' )", 36, 0, input);
 
                 throw nvae;
             }
 
             switch (alt36) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:639:4: 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:646:4: 'PO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
                     {
-                    match(input,60,FOLLOW_60_in_object_position1821); 
+                    match(input,60,FOLLOW_60_in_object_position1861); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1825); 
-                    match(input,11,FOLLOW_11_in_object_position1827); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1865); 
+                    match(input,11,FOLLOW_11_in_object_position1867); 
                     x=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1831); 
-                    match(input,11,FOLLOW_11_in_object_position1833); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1871); 
+                    match(input,11,FOLLOW_11_in_object_position1873); 
                     y=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1837); 
-                    match(input,9,FOLLOW_9_in_object_position1839); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1877); 
+                    match(input,9,FOLLOW_9_in_object_position1879); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:640:4: 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:647:4: 'pO(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
                     {
-                    match(input,61,FOLLOW_61_in_object_position1844); 
+                    match(input,61,FOLLOW_61_in_object_position1884); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1848); 
-                    match(input,11,FOLLOW_11_in_object_position1850); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1888); 
+                    match(input,11,FOLLOW_11_in_object_position1890); 
                     x=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1854); 
-                    match(input,11,FOLLOW_11_in_object_position1856); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1894); 
+                    match(input,11,FOLLOW_11_in_object_position1896); 
                     y=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1860); 
-                    match(input,9,FOLLOW_9_in_object_position1862); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1900); 
+                    match(input,9,FOLLOW_9_in_object_position1902); 
 
                     }
                     break;
                 case 3 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:641:4: 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:648:4: 'PO(-1,' id= NUMBER ',' x= NUMBER ',' y= NUMBER ',' top= NUMBER ',' bottom= NUMBER ')'
                     {
-                    match(input,62,FOLLOW_62_in_object_position1867); 
+                    match(input,62,FOLLOW_62_in_object_position1907); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1871); 
-                    match(input,11,FOLLOW_11_in_object_position1873); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1911); 
+                    match(input,11,FOLLOW_11_in_object_position1913); 
                     x=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1877); 
-                    match(input,11,FOLLOW_11_in_object_position1879); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1917); 
+                    match(input,11,FOLLOW_11_in_object_position1919); 
                     y=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1883); 
-                    match(input,11,FOLLOW_11_in_object_position1885); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1923); 
+                    match(input,11,FOLLOW_11_in_object_position1925); 
                     top=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1889); 
-                    match(input,11,FOLLOW_11_in_object_position1891); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1929); 
+                    match(input,11,FOLLOW_11_in_object_position1931); 
                     bottom=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1895); 
-                    match(input,9,FOLLOW_9_in_object_position1896); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_object_position1935); 
+                    match(input,9,FOLLOW_9_in_object_position1936); 
 
                     }
                     break;
@@ -3166,7 +3220,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start text_position
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:647:1: text_position returns [ICommand command] : 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:654:1: text_position returns [ICommand command] : 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')' ;
     public final ICommand text_position() throws RecognitionException {
         ICommand command = null;
 
@@ -3176,22 +3230,22 @@ public class CamiParser extends Parser {
         Token y=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:648:2: ( 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:649:2: 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:655:2: ( 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:656:2: 'PT(' id= NUMBER ',' attribute_name= CAMI_STRING ',' x= NUMBER ',' y= NUMBER ')'
             {
-            match(input,63,FOLLOW_63_in_text_position1922); 
+            match(input,63,FOLLOW_63_in_text_position1962); 
             id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1926); 
-            match(input,11,FOLLOW_11_in_text_position1928); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1966); 
+            match(input,11,FOLLOW_11_in_text_position1968); 
             attribute_name=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_text_position1932); 
-            match(input,11,FOLLOW_11_in_text_position1934); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_text_position1972); 
+            match(input,11,FOLLOW_11_in_text_position1974); 
             x=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1938); 
-            match(input,11,FOLLOW_11_in_text_position1940); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1978); 
+            match(input,11,FOLLOW_11_in_text_position1980); 
             y=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1944); 
-            match(input,9,FOLLOW_9_in_text_position1946); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_text_position1984); 
+            match(input,9,FOLLOW_9_in_text_position1986); 
              command = new AttributePositionCommand(Integer.parseInt(id.getText()), attribute_name.getText(), Integer.parseInt(x.getText()), Integer.parseInt(y.getText())); 
 
             }
@@ -3209,7 +3263,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start inflex_point
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:654:1: inflex_point returns [ICommand command] : ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' ) ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:661:1: inflex_point returns [ICommand command] : ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' ) ;
     public final ICommand inflex_point() throws RecognitionException {
         ICommand command = null;
 
@@ -3218,10 +3272,10 @@ public class CamiParser extends Parser {
         Token y=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:655:2: ( ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' ) )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:656:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:662:2: ( ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' ) )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:663:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )
             {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:656:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:663:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )
             int alt37=2;
             int LA37_0 = input.LA(1);
 
@@ -3233,40 +3287,40 @@ public class CamiParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("656:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )", 37, 0, input);
+                    new NoViableAltException("663:2: ( 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' | 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')' )", 37, 0, input);
 
                 throw nvae;
             }
             switch (alt37) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:656:4: 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:663:4: 'PI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
                     {
-                    match(input,64,FOLLOW_64_in_inflex_point1970); 
+                    match(input,64,FOLLOW_64_in_inflex_point2010); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point1974); 
-                    match(input,11,FOLLOW_11_in_inflex_point1976); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2014); 
+                    match(input,11,FOLLOW_11_in_inflex_point2016); 
                     x=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point1980); 
-                    match(input,11,FOLLOW_11_in_inflex_point1982); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2020); 
+                    match(input,11,FOLLOW_11_in_inflex_point2022); 
                     y=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point1986); 
-                    match(input,9,FOLLOW_9_in_inflex_point1988); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2026); 
+                    match(input,9,FOLLOW_9_in_inflex_point2028); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:657:4: 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:664:4: 'pI(' id= NUMBER ',' x= NUMBER ',' y= NUMBER ')'
                     {
-                    match(input,65,FOLLOW_65_in_inflex_point1994); 
+                    match(input,65,FOLLOW_65_in_inflex_point2034); 
                     id=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point1998); 
-                    match(input,11,FOLLOW_11_in_inflex_point2000); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2038); 
+                    match(input,11,FOLLOW_11_in_inflex_point2040); 
                     x=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2004); 
-                    match(input,11,FOLLOW_11_in_inflex_point2006); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2044); 
+                    match(input,11,FOLLOW_11_in_inflex_point2046); 
                     y=(Token)input.LT(1);
-                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2010); 
-                    match(input,9,FOLLOW_9_in_inflex_point2012); 
+                    match(input,NUMBER,FOLLOW_NUMBER_in_inflex_point2050); 
+                    match(input,9,FOLLOW_9_in_inflex_point2052); 
 
                     }
                     break;
@@ -3290,25 +3344,25 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_definition
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:667:1: dialog_definition returns [IDialog dialog] : 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:674:1: dialog_definition returns [IDialog dialog] : 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()' ;
     public final IDialog dialog_definition() throws RecognitionException {
         IDialog dialog = null;
 
-        IDialog dialog_creation23 = null;
+        IDialog dialog_creation24 = null;
 
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:669:2: ( 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:670:2: 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:676:2: ( 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:677:2: 'DC()' dialog_creation ( dialog_next[dialog] )* 'FF()'
             {
-            match(input,66,FOLLOW_66_in_dialog_definition2045); 
+            match(input,66,FOLLOW_66_in_dialog_definition2085); 
              LOGGER.finest("Reception d'une definition d'une boite de dialogue"); 
-            pushFollow(FOLLOW_dialog_creation_in_dialog_definition2050);
-            dialog_creation23=dialog_creation();
+            pushFollow(FOLLOW_dialog_creation_in_dialog_definition2090);
+            dialog_creation24=dialog_creation();
             _fsp--;
 
-             dialog = dialog_creation23; 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:672:2: ( dialog_next[dialog] )*
+             dialog = dialog_creation24; 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:679:2: ( dialog_next[dialog] )*
             loop38:
             do {
                 int alt38=2;
@@ -3321,9 +3375,9 @@ public class CamiParser extends Parser {
 
                 switch (alt38) {
             	case 1 :
-            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:672:2: dialog_next[dialog]
+            	    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:679:2: dialog_next[dialog]
             	    {
-            	    pushFollow(FOLLOW_dialog_next_in_dialog_definition2055);
+            	    pushFollow(FOLLOW_dialog_next_in_dialog_definition2095);
             	    dialog_next(dialog);
             	    _fsp--;
 
@@ -3336,7 +3390,7 @@ public class CamiParser extends Parser {
                 }
             } while (true);
 
-            match(input,67,FOLLOW_67_in_dialog_definition2060); 
+            match(input,67,FOLLOW_67_in_dialog_definition2100); 
              LOGGER.finest("Fin de reception des boites de dialogue"); 
 
             }
@@ -3354,7 +3408,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_creation
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:677:1: dialog_creation returns [IDialog dialog] : 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:684:1: dialog_creation returns [IDialog dialog] : 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' ;
     public final IDialog dialog_creation() throws RecognitionException {
         IDialog dialog = null;
 
@@ -3370,35 +3424,35 @@ public class CamiParser extends Parser {
 
          List<String> ce = new ArrayList<String>();
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:680:2: ( 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:681:2: 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:687:2: ( 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:688:2: 'CE(' dialog_id= NUMBER ',' dialog_type= NUMBER ',' buttons_type= NUMBER ',' window_title= CAMI_STRING ',' help= CAMI_STRING ',' title_or_message= CAMI_STRING ',' input_type= NUMBER ',' line_type= NUMBER ',' (default_value= CAMI_STRING )? ')'
             {
-            match(input,68,FOLLOW_68_in_dialog_creation2087); 
+            match(input,68,FOLLOW_68_in_dialog_creation2127); 
             dialog_id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2091); 
-            match(input,11,FOLLOW_11_in_dialog_creation2093); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2131); 
+            match(input,11,FOLLOW_11_in_dialog_creation2133); 
             dialog_type=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2097); 
-            match(input,11,FOLLOW_11_in_dialog_creation2099); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2137); 
+            match(input,11,FOLLOW_11_in_dialog_creation2139); 
             buttons_type=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2103); 
-            match(input,11,FOLLOW_11_in_dialog_creation2105); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2143); 
+            match(input,11,FOLLOW_11_in_dialog_creation2145); 
             window_title=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2110); 
-            match(input,11,FOLLOW_11_in_dialog_creation2112); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2150); 
+            match(input,11,FOLLOW_11_in_dialog_creation2152); 
             help=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2118); 
-            match(input,11,FOLLOW_11_in_dialog_creation2120); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2158); 
+            match(input,11,FOLLOW_11_in_dialog_creation2160); 
             title_or_message=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2124); 
-            match(input,11,FOLLOW_11_in_dialog_creation2126); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2164); 
+            match(input,11,FOLLOW_11_in_dialog_creation2166); 
             input_type=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2130); 
-            match(input,11,FOLLOW_11_in_dialog_creation2132); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2170); 
+            match(input,11,FOLLOW_11_in_dialog_creation2172); 
             line_type=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2136); 
-            match(input,11,FOLLOW_11_in_dialog_creation2138); 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:683:15: (default_value= CAMI_STRING )?
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_creation2176); 
+            match(input,11,FOLLOW_11_in_dialog_creation2178); 
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:690:15: (default_value= CAMI_STRING )?
             int alt39=2;
             int LA39_0 = input.LA(1);
 
@@ -3407,17 +3461,17 @@ public class CamiParser extends Parser {
             }
             switch (alt39) {
                 case 1 :
-                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:683:15: default_value= CAMI_STRING
+                    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:690:15: default_value= CAMI_STRING
                     {
                     default_value=(Token)input.LT(1);
-                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2144); 
+                    match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_creation2184); 
 
                     }
                     break;
 
             }
 
-            match(input,9,FOLLOW_9_in_dialog_creation2147); 
+            match(input,9,FOLLOW_9_in_dialog_creation2187); 
 
             	
             		ce.add(dialog_id.getText());
@@ -3449,22 +3503,22 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_next
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:701:1: dialog_next[IDialog dialog] : 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:708:1: dialog_next[IDialog dialog] : 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')' ;
     public final void dialog_next(IDialog dialog) throws RecognitionException {
         Token dialog_id=null;
         Token line=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:702:2: ( 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:703:2: 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:709:2: ( 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:710:2: 'DS(' dialog_id= NUMBER ',' line= CAMI_STRING ')'
             {
-            match(input,69,FOLLOW_69_in_dialog_next2164); 
+            match(input,69,FOLLOW_69_in_dialog_next2204); 
             dialog_id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_next2168); 
-            match(input,11,FOLLOW_11_in_dialog_next2170); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_next2208); 
+            match(input,11,FOLLOW_11_in_dialog_next2210); 
             line=(Token)input.LT(1);
-            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_next2174); 
-            match(input,9,FOLLOW_9_in_dialog_next2176); 
+            match(input,CAMI_STRING,FOLLOW_CAMI_STRING_in_dialog_next2214); 
+            match(input,9,FOLLOW_9_in_dialog_next2216); 
              ((Dialog) dialog).addLine(line.getText()); 
 
             }
@@ -3482,18 +3536,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_display
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:707:1: dialog_display : 'AD(' dialog_id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:714:1: dialog_display : 'AD(' dialog_id= NUMBER ')' ;
     public final void dialog_display() throws RecognitionException {
         Token dialog_id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:708:2: ( 'AD(' dialog_id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:709:2: 'AD(' dialog_id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:715:2: ( 'AD(' dialog_id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:716:2: 'AD(' dialog_id= NUMBER ')'
             {
-            match(input,70,FOLLOW_70_in_dialog_display2192); 
+            match(input,70,FOLLOW_70_in_dialog_display2232); 
             dialog_id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_display2196); 
-            match(input,9,FOLLOW_9_in_dialog_display2198); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_display2236); 
+            match(input,9,FOLLOW_9_in_dialog_display2238); 
             	// Demande l'affichage au core
             		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers(dialogs.get(Integer.parseInt(dialog_id.getText())));
             		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y répondre
@@ -3515,18 +3569,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_hide
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:718:1: dialog_hide : 'HD(' dialog_id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:725:1: dialog_hide : 'HD(' dialog_id= NUMBER ')' ;
     public final void dialog_hide() throws RecognitionException {
         Token dialog_id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:719:2: ( 'HD(' dialog_id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:720:2: 'HD(' dialog_id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:726:2: ( 'HD(' dialog_id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:727:2: 'HD(' dialog_id= NUMBER ')'
             {
-            match(input,71,FOLLOW_71_in_dialog_hide2215); 
+            match(input,71,FOLLOW_71_in_dialog_hide2255); 
             dialog_id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_hide2219); 
-            match(input,9,FOLLOW_9_in_dialog_hide2221); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_hide2259); 
+            match(input,9,FOLLOW_9_in_dialog_hide2261); 
 
             }
 
@@ -3543,18 +3597,18 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start dialog_destroy
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:724:1: dialog_destroy : 'DG(' dialog_id= NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:731:1: dialog_destroy : 'DG(' dialog_id= NUMBER ')' ;
     public final void dialog_destroy() throws RecognitionException {
         Token dialog_id=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:725:2: ( 'DG(' dialog_id= NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:726:2: 'DG(' dialog_id= NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: ( 'DG(' dialog_id= NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:733:2: 'DG(' dialog_id= NUMBER ')'
             {
-            match(input,72,FOLLOW_72_in_dialog_destroy2236); 
+            match(input,72,FOLLOW_72_in_dialog_destroy2276); 
             dialog_id=(Token)input.LT(1);
-            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_destroy2240); 
-            match(input,9,FOLLOW_9_in_dialog_destroy2242); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_dialog_destroy2280); 
+            match(input,9,FOLLOW_9_in_dialog_destroy2282); 
              LOGGER.finest("Destruction de la boite de dialogue " + dialog_id.getText()); 
 
             }
@@ -3572,17 +3626,17 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start interactive_response
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:730:1: interactive_response : 'MI(' NUMBER ',' NUMBER ')' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:737:1: interactive_response : 'MI(' NUMBER ',' NUMBER ')' ;
     public final void interactive_response() throws RecognitionException {
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:731:2: ( 'MI(' NUMBER ',' NUMBER ')' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:732:2: 'MI(' NUMBER ',' NUMBER ')'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:738:2: ( 'MI(' NUMBER ',' NUMBER ')' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:739:2: 'MI(' NUMBER ',' NUMBER ')'
             {
-            match(input,73,FOLLOW_73_in_interactive_response2259); 
-            match(input,NUMBER,FOLLOW_NUMBER_in_interactive_response2261); 
-            match(input,11,FOLLOW_11_in_interactive_response2263); 
-            match(input,NUMBER,FOLLOW_NUMBER_in_interactive_response2265); 
-            match(input,9,FOLLOW_9_in_interactive_response2267); 
+            match(input,73,FOLLOW_73_in_interactive_response2299); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_interactive_response2301); 
+            match(input,11,FOLLOW_11_in_interactive_response2303); 
+            match(input,NUMBER,FOLLOW_NUMBER_in_interactive_response2305); 
+            match(input,9,FOLLOW_9_in_interactive_response2307); 
 
             }
 
@@ -3827,237 +3881,239 @@ public class CamiParser extends Parser {
     public static final BitSet FOLLOW_37_in_results998 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_results1000 = new BitSet(new long[]{0x0000000000000200L});
     public static final BitSet FOLLOW_9_in_results1002 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_one_result1033 = new BitSet(new long[]{0xFF80FEC000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_38_in_one_result1033 = new BitSet(new long[]{0xFF82FEC000000000L,0x0000000000000003L});
     public static final BitSet FOLLOW_39_in_one_result1040 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_CAMI_STRING_in_one_result1044 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_11_in_one_result1046 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_one_result1050 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_one_result1052 = new BitSet(new long[]{0xFF80FEC000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_result_body_in_one_result1060 = new BitSet(new long[]{0xFF80FFC000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_9_in_one_result1052 = new BitSet(new long[]{0xFF82FEC000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_result_body_in_one_result1060 = new BitSet(new long[]{0xFF82FFC000000000L,0x0000000000000003L});
     public static final BitSet FOLLOW_40_in_one_result1064 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_one_result_in_result_body1079 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_textual_result_in_result_body1084 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_attribute_change_in_result_body1089 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_object_designation_in_result_body1094 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_object_outline_in_result_body1099 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_attribute_outline_in_result_body1104 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_object_creation_in_result_body1109 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_object_deletion_in_result_body1116 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_41_in_textual_result1133 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_textual_result1137 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_textual_result1139 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_42_in_attribute_change1156 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_change1160 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_change1162 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_change1166 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_change1168 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_change1172 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute_change1174 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_43_in_attribute_outline1189 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1193 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_outline1195 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_outline1199 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_outline1201 = new BitSet(new long[]{0x0000000000000820L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1205 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_outline1208 = new BitSet(new long[]{0x0000000000000220L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1212 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute_outline1215 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_44_in_object_designation1233 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_designation1237 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_designation1239 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_45_in_object_outline1257 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_outline1261 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_outline1263 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_syntactic_in_object_creation1282 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_aestetic_in_object_creation1289 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_46_in_object_deletion1309 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_deletion1313 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_deletion1315 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_object_deletion1323 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_deletion1327 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_deletion1329 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_deletion1333 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_deletion1335 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_attribute_table_in_model_changes1362 = new BitSet(new long[]{0x0003000000000000L});
-    public static final BitSet FOLLOW_48_in_model_changes1369 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1370 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1372 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1374 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1376 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1378 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1380 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1382 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1384 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1386 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_model_changes1388 = new BitSet(new long[]{0x0002000000000000L});
-    public static final BitSet FOLLOW_49_in_model_changes1396 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_model_changes1400 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1402 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_model_changes1406 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_model_changes1408 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_model_changes1412 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_model_changes1414 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_50_in_attribute_table1440 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1442 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute_table1444 = new BitSet(new long[]{0x0018000000008000L});
-    public static final BitSet FOLLOW_51_in_attribute_table1450 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_table1452 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1454 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_table1456 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1458 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1460 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute_table1462 = new BitSet(new long[]{0x0018000000008000L});
-    public static final BitSet FOLLOW_52_in_attribute_table1466 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1468 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1470 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_table1472 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1474 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_table1476 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1478 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute_table1480 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute_table1482 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1484 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute_table1486 = new BitSet(new long[]{0x0018000000008000L});
-    public static final BitSet FOLLOW_15_in_attribute_table1492 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_53_in_model_definition1526 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_syntactic_in_model_definition1532 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_aestetic_in_model_definition1541 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_54_in_model_definition1551 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_node_in_syntactic1568 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_box_in_syntactic1577 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arc_in_syntactic1584 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_attribute_in_syntactic1594 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_55_in_node1615 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_node1619 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_node1621 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_node1625 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_node1627 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_56_in_box1644 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_box1646 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_box1648 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_box1650 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_box1652 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_box1654 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_box1656 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_57_in_arc1676 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_arc1680 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_arc1682 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_arc1686 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_arc1688 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_arc1692 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_arc1694 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_arc1698 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_arc1700 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_58_in_attribute1721 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1725 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute1727 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute1731 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute1733 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1736 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute1738 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_59_in_attribute1745 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1747 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute1749 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute1751 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute1753 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute1755 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_tip_description_in_result_body1084 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_textual_result_in_result_body1089 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attribute_change_in_result_body1094 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_object_designation_in_result_body1099 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_object_outline_in_result_body1104 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attribute_outline_in_result_body1109 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_object_creation_in_result_body1114 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_object_deletion_in_result_body1121 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_41_in_textual_result1138 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_textual_result1142 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_textual_result1144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_42_in_attribute_change1161 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_change1165 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_change1167 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_change1171 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_change1173 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_change1177 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute_change1179 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_43_in_attribute_outline1194 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1198 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_outline1200 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_outline1204 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_outline1206 = new BitSet(new long[]{0x0000000000000820L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1210 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_outline1213 = new BitSet(new long[]{0x0000000000000220L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_outline1217 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute_outline1220 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_44_in_object_designation1238 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_designation1242 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_designation1244 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_45_in_object_outline1262 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_outline1266 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_outline1268 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_syntactic_in_object_creation1287 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_aestetic_in_object_creation1294 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_46_in_object_deletion1314 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_deletion1318 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_deletion1320 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_47_in_object_deletion1328 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_deletion1332 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_deletion1334 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_deletion1338 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_deletion1340 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attribute_table_in_model_changes1367 = new BitSet(new long[]{0x0003000000000000L});
+    public static final BitSet FOLLOW_48_in_model_changes1374 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_model_changes1375 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_model_changes1377 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_model_changes1379 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_model_changes1381 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_model_changes1383 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_model_changes1385 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_model_changes1387 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_model_changes1389 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_model_changes1391 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_model_changes1393 = new BitSet(new long[]{0x0002000000000000L});
+    public static final BitSet FOLLOW_tip_description_in_model_changes1400 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_49_in_tip_description1426 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_tip_description1430 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_tip_description1432 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_tip_description1436 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_tip_description1438 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_tip_description1442 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_tip_description1444 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_50_in_attribute_table1470 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1472 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute_table1474 = new BitSet(new long[]{0x0018000000008000L});
+    public static final BitSet FOLLOW_51_in_attribute_table1480 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_table1482 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1484 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_table1486 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1488 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1490 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute_table1492 = new BitSet(new long[]{0x0018000000008000L});
+    public static final BitSet FOLLOW_52_in_attribute_table1496 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1498 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1500 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_table1502 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1504 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_table1506 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1508 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute_table1510 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute_table1512 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute_table1514 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute_table1516 = new BitSet(new long[]{0x0018000000008000L});
+    public static final BitSet FOLLOW_15_in_attribute_table1522 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_53_in_model_definition1556 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_syntactic_in_model_definition1562 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_aestetic_in_model_definition1571 = new BitSet(new long[]{0xFFC0000000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_54_in_model_definition1581 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_node_in_syntactic1598 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_box_in_syntactic1607 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arc_in_syntactic1614 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_attribute_in_syntactic1624 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_55_in_node1645 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_node1649 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_node1651 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_node1655 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_node1657 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_56_in_box1674 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_box1676 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_box1678 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_box1680 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_box1682 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_box1684 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_box1686 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_57_in_arc1706 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_arc1710 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_arc1712 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_arc1716 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_arc1718 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_arc1722 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_arc1724 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_arc1728 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_arc1730 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_58_in_attribute1751 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1755 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_11_in_attribute1757 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_attribute1759 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_attribute1761 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1763 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_attribute1765 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_object_position_in_aestetic1782 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_text_position_in_aestetic1790 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_inflex_point_in_aestetic1798 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_60_in_object_position1821 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1825 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1827 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1831 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1833 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1837 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_position1839 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_61_in_object_position1844 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1848 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1850 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1854 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1856 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1860 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_position1862 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_object_position1867 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute1761 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute1763 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1766 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute1768 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_59_in_attribute1775 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1779 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute1781 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute1785 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute1787 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute1791 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute1793 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_attribute1797 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_attribute1799 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_attribute1803 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_attribute1805 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_object_position_in_aestetic1822 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_text_position_in_aestetic1830 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_inflex_point_in_aestetic1838 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_60_in_object_position1861 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1865 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1867 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_object_position1871 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_11_in_object_position1873 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1877 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1879 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1883 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1885 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1889 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_object_position1891 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_object_position1895 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_object_position1896 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_63_in_text_position1922 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_text_position1926 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_text_position1928 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_text_position1932 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_text_position1934 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_text_position1938 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_text_position1940 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_text_position1944 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_text_position1946 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_64_in_inflex_point1970 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point1974 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_inflex_point1976 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point1980 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_inflex_point1982 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point1986 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_inflex_point1988 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_65_in_inflex_point1994 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point1998 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_inflex_point2000 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point2004 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_inflex_point2006 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_inflex_point2010 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_inflex_point2012 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_66_in_dialog_definition2045 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000010L});
-    public static final BitSet FOLLOW_dialog_creation_in_dialog_definition2050 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000028L});
-    public static final BitSet FOLLOW_dialog_next_in_dialog_definition2055 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000028L});
-    public static final BitSet FOLLOW_67_in_dialog_definition2060 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_68_in_dialog_creation2087 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2091 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2093 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2097 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2099 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2103 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2105 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2110 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2112 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2118 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2120 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2124 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2126 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2130 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2132 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2136 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_creation2138 = new BitSet(new long[]{0x0000000000000210L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2144 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_dialog_creation2147 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_dialog_next2164 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_next2168 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_dialog_next2170 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_next2174 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_dialog_next2176 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_70_in_dialog_display2192 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_display2196 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_dialog_display2198 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_71_in_dialog_hide2215 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_hide2219 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_dialog_hide2221 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_72_in_dialog_destroy2236 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_dialog_destroy2240 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_dialog_destroy2242 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_73_in_interactive_response2259 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_interactive_response2261 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_11_in_interactive_response2263 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_NUMBER_in_interactive_response2265 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_interactive_response2267 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1877 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_position1879 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_61_in_object_position1884 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1888 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1890 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1894 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1896 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1900 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_position1902 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_62_in_object_position1907 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1911 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1913 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1917 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1919 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1923 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1925 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1929 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_object_position1931 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_object_position1935 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_object_position1936 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_63_in_text_position1962 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_text_position1966 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_text_position1968 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_text_position1972 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_text_position1974 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_text_position1978 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_text_position1980 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_text_position1984 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_text_position1986 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_64_in_inflex_point2010 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2014 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_inflex_point2016 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2020 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_inflex_point2022 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2026 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_inflex_point2028 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_65_in_inflex_point2034 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2038 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_inflex_point2040 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2044 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_inflex_point2046 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_inflex_point2050 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_inflex_point2052 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_66_in_dialog_definition2085 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000010L});
+    public static final BitSet FOLLOW_dialog_creation_in_dialog_definition2090 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000028L});
+    public static final BitSet FOLLOW_dialog_next_in_dialog_definition2095 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000028L});
+    public static final BitSet FOLLOW_67_in_dialog_definition2100 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_68_in_dialog_creation2127 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2131 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2133 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2137 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2139 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2143 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2145 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2150 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2152 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2158 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2160 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2164 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2166 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2170 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2172 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_creation2176 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_creation2178 = new BitSet(new long[]{0x0000000000000210L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_creation2184 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_dialog_creation2187 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_69_in_dialog_next2204 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_next2208 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_dialog_next2210 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_CAMI_STRING_in_dialog_next2214 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_dialog_next2216 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_70_in_dialog_display2232 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_display2236 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_dialog_display2238 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_71_in_dialog_hide2255 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_hide2259 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_dialog_hide2261 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_72_in_dialog_destroy2276 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_dialog_destroy2280 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_dialog_destroy2282 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_73_in_interactive_response2299 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_interactive_response2301 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_11_in_interactive_response2303 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_NUMBER_in_interactive_response2305 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_interactive_response2307 = new BitSet(new long[]{0x0000000000000002L});
 
 }

@@ -506,6 +506,7 @@ one_result
 /* Corps d'un résultat */
 result_body
 	:	one_result
+	|	tip_description
 	|	textual_result
 	|	attribute_change
 	|	object_designation
@@ -566,6 +567,12 @@ object_deletion returns [ICommand command]
  	:	
  	attribute_table?
  	( 'ZA('NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ')' ) ?
+	tip_description { tip = $tip_description.tip; }
+ 	;
+ 
+ /* Une information sur un attribut particulier */
+ tip_description returns [ITip tip]
+ 	:
  	'XA(' id_object=NUMBER ',' attribute_name=CAMI_STRING ',' attribute_value=CAMI_STRING ')' 
  	{ tip = new Tip(Integer.parseInt($id_object.text), $attribute_name.text, $attribute_value.text); }
  	;
@@ -623,7 +630,7 @@ arc returns [ICommand command]
 /* Description d'un attribut */
 attribute returns [ICommand command]
 	:	'CT(' name=CAMI_STRING ',' id=NUMBER ','value=CAMI_STRING ')' { command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text); }
-	|	'CM(' CAMI_STRING ',' NUMBER ',' NUMBER ',' NUMBER ',' CAMI_STRING ')'
+	|	'CM(' name=CAMI_STRING ',' id=NUMBER ',' line=NUMBER ',' deprecated=NUMBER ',' value=CAMI_STRING ')'
 	;
 
 /* Description esthétique */
