@@ -8,11 +8,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe définie un sous-menu.
  */
 public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IServiceMenu> services;
 
@@ -27,6 +31,8 @@ public class SubMenuImpl extends ItemMenuImpl implements ISubMenu {
 	 */
 	public SubMenuImpl(Question subMenu, String root) {
 		super(subMenu);
+
+		LOGGER.finest("Construction d'un sous-menu: " + this.getName());
 
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();

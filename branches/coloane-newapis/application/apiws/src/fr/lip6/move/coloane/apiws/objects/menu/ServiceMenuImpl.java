@@ -3,10 +3,15 @@ package fr.lip6.move.coloane.apiws.objects.menu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe définie un service dans un menu.
  */
 public class ServiceMenuImpl extends ItemMenuImpl implements IServiceMenu {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private String associatedService;
 
@@ -17,6 +22,8 @@ public class ServiceMenuImpl extends ItemMenuImpl implements IServiceMenu {
 	 */
 	public ServiceMenuImpl(Question service, String root) {
 		super(service);
+
+		LOGGER.finest("Construction d'un ServiceMenu: " + service.getName());
 		this.associatedService = root + "_" + service.getName();
 	}
 

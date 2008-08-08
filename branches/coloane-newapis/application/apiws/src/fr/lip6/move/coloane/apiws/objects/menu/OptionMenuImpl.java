@@ -3,10 +3,15 @@ package fr.lip6.move.coloane.apiws.objects.menu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe définie une option.
  */
 public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private boolean validated;
 
@@ -18,6 +23,8 @@ public class OptionMenuImpl extends ItemMenuImpl implements IOptionMenu {
 	 */
 	public OptionMenuImpl(Question option) {
 		super(option);
+
+		LOGGER.finest("Construction d'un option: " + option.getName());
 		this.validated = option.getValidation();
 		this.type = IOptionMenu.TYPE_CHECKBOX;
 	}
