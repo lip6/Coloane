@@ -46,6 +46,8 @@ public class AttributePositionCommand implements ICommand {
 		// Recherche de l'attribut concerne
 		attribute = graph.getObject(referenceId).getAttribute(name);
 		if (attribute != null) {
+			this.oldX = attribute.getGraphicInfo().getLocation().x;
+			this.oldY = attribute.getGraphicInfo().getLocation().y;
 			attribute.getGraphicInfo().setLocation(new Point(x, y));
 		} else {
 			throw new ModelException("The attribute " + name + " cannot be found for element " + referenceId);
