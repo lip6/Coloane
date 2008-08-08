@@ -135,7 +135,7 @@ public class Result implements IResult {
 		try {
 			for (ICommand command : this.outputCommandsList) {
 				if (command == null) { continue; }
-				command.execute(this.outputGraph); 
+				command.execute(this.outputGraph);
 			}
 		} catch (ModelException me) {
 			// TODO
