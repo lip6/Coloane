@@ -3,10 +3,15 @@ package fr.lip6.move.coloane.apiws.objects.result;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.wrapper.ws.WrapperStub.IgnoreCommand;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe représent les informations sur un objet
  */
 public class TipImpl implements ITip {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private int idObject;
 
@@ -19,6 +24,8 @@ public class TipImpl implements ITip {
 	 * @param ignoreCommand la commande ignorée
 	 */
 	public TipImpl(IgnoreCommand ignoreCommand) {
+		LOGGER.finest("Construction d'une commande ignorée");
+
 		this.idObject = ignoreCommand.getId();
 		this.name = ignoreCommand.getName1();
 		this.value = ignoreCommand.getName2();

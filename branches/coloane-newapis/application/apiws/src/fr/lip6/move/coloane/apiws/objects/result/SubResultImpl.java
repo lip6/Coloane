@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Cette classe définie un sous résultat
  */
 public class SubResultImpl implements ISubResult {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private String name;
 
@@ -32,6 +36,7 @@ public class SubResultImpl implements ISubResult {
 	 * @param ensemble l'ensemble des sous-resultat reçu de la part du wrapper
 	 */
 	public SubResultImpl(Ensemble ensemble) {
+		LOGGER.finest("Construction d'un sous-résultat");
 
 		this.name = ensemble.getName();
 

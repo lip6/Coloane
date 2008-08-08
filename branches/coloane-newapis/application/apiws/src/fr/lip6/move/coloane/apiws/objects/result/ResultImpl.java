@@ -53,10 +53,13 @@ public class ResultImpl implements IResult {
 	 * @param newGraph le nouveeau graph
 	 */
 	public ResultImpl(RService result, IService service, IGraph newGraph) {
+		LOGGER.finer("Construction du résultat pour le service: " + result.getAnswerToquestion().getName());
+
 		this.rootName = service.getRoot();
 		this.serviceName = result.getAnswerToquestion().getName();
 
 		// Création de la liste des sous-resultats
+		LOGGER.finer("Création de la liste des sous-résultats");
 		this.subResult = new ArrayList<ISubResult>();
 		if (result.getEnsemble().getEnsembles() != null) {
 			for (int i = 0; i < result.getEnsemble().getEnsembles().length; i++) {
@@ -69,6 +72,7 @@ public class ResultImpl implements IResult {
 		}
 
 		// Création de la liste des modification à ignorer
+		LOGGER.finer("Création de la liste des commandes ignorée");
 		this.tipsList = new ArrayList<ITip>();
 		if (result.getCurrentModel() != null) {
 			if (result.getCurrentModel().getModification() != null) {
@@ -87,11 +91,13 @@ public class ResultImpl implements IResult {
 		// Construit le nouveau graph
 		if (result.getNewModels() != null) {
 			if (result.getNewModels()[0] != null) {
+				LOGGER.finer("Création d'un nouveau graph");
 				this.newGraph = createGraph(result.getNewModels()[0], newGraph);
 			}
 		}
 
 		// Création de la liste des modifications à apporter sur le graph courrant
+		LOGGER.finer("Création de la liste des commandes pour modifié le graph courrant");
 		this.modificationsOnCurrentGraph = new ArrayList<ICommand>();
 		if (result.getModelModification()) {
 			Model theCurrentModel = result.getCurrentModel();
