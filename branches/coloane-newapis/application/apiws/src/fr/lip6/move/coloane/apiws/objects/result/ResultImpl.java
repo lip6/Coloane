@@ -110,10 +110,7 @@ public class ResultImpl implements IResult {
 							break;
 						}
 
-						ICommand cmd = createCommand(theModificationModel.getModifications()[i], theCurrentModel);
-						if (cmd != null) {
-							this.modificationsOnCurrentGraph.add(cmd);
-						}
+						createCommand(theModificationModel.getModifications()[i], theCurrentModel, this.modificationsOnCurrentGraph);
 					}
 				}
 			}
@@ -181,61 +178,124 @@ public class ResultImpl implements IResult {
 	}
 
 	/**
-	 * Créé une commande pour modifier l'ancien model
+	 * Remplie une liste de commande pour modifier l'ancien model
 	 * @param modification la modification a apporter sur le model
 	 * @param model le model courrant modifié
-	 * @return la commande pour modifier l'ancien model
+	 * @param listeCommand la liste de commande à remplire
 	 */
-	private ICommand createCommand(ModelModification modification, Model model) {
+	private void createCommand(ModelModification modification, Model model, List<ICommand> listeCommand) {
 
 		switch (modification.getType()) {
 			// Suppresion d'un element
 			case 0:
 				LOGGER.finest("Suppression de l'objet: id:" + modification.getId());
-				return new DeleteObjectCommand(modification.getId());
+				listeCommand.add(new DeleteObjectCommand(modification.getId()));
+				return;
+
 			// Ajout d'un element
-			case 1 :
-				for (int i = 0; i < model.getArcs().length; i++) {
-					if (model.getArcs()[i].getId() == modification.getId()) {
-						LOGGER.finest(
-								"Ajout d'un arc: id:" + modification.getId()
-								+ " type:" + model.getArcs()[i].getType()
-								+ " idSource:" + model.getArcs()[i].getSource()
-								+ " idTarget:" + model.getArcs()[i].getDestination());
-						return new CreateArcCommand(
-								modification.getId(),
-								model.getArcs()[i].getType(),
-								model.getArcs()[i].getSource(),
-								model.getArcs()[i].getDestination());
+			case 1:
+				if (model.getNodes() != null) {
+					for (int i = 0; i < model.getNodes().length; i++) {
+						if (model.getNodes()[i] == null) {
+							break;
+						}
+						if (model.getNodes()[i].getId() == modification.getId()) {
+							LOGGER.finest("Ajout d'un noeud: id:" + modification.getId() + " type:" + model.getNodes()[i].getType());
+							listeCommand.add(new CreateNodeCommand(modification.getId(), model.getNodes()[i].getType()));
+
+							LOGGER.finest(
+									"Ajout la position d'un noeud: id:" + modification.getId()
+									+ " x:" + model.getNodes()[i].getPosition().getXx()
+									+ " y:" + model.getNodes()[i].getPosition().getYy());
+							listeCommand.add(new ObjectPositionCommand(modification.getId(), model.getNodes()[i].getPosition().getXx(), model.getNodes()[i].getPosition().getYy()));
+
+							for (int j = 0; j < model.getNodes()[i].getAtts().length; i++) {
+								if (model.getNodes()[i].getAtts()[j] == null) {
+									break;
+								}
+								LOGGER.finest(
+										"Ajout l'attribut d'un noeud: id:" + modification.getId()
+										+ " nameAtt:" + model.getNodes()[i].getAtts()[j].getAttName()
+										+ " valueAtt:" + myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n"));
+								listeCommand.add(new CreateAttributeCommand(
+										model.getNodes()[i].getAtts()[j].getAttName(),
+										model.getNodes()[i].getId(),
+										myJoin(model.getNodes()[i].getAtts()[j].getValues(), "\n")));
+							}
+						}
 					}
 				}
-				for (int i = 0; i < model.getNodes().length; i++) {
-					if (model.getNodes()[i].getId() == modification.getId()) {
-						LOGGER.finest("Ajout d'un noeud: id:" + modification.getId() + " type:" + model.getNodes()[i].getType());
-						return new CreateNodeCommand(modification.getId(), model.getNodes()[i].getType());
+				if (model.getArcs() != null) {
+					for (int i = 0; i < model.getArcs().length; i++) {
+						if (model.getArcs()[i] == null) {
+							break;
+						}
+						if (model.getArcs()[i].getId() == modification.getId()) {
+							LOGGER.finest(
+									"Ajout d'un arc: id:" + modification.getId()
+									+ " type:" + model.getArcs()[i].getType()
+									+ " idSource:" + model.getArcs()[i].getSource()
+									+ " idTarget:" + model.getArcs()[i].getDestination());
+							listeCommand.add(new CreateArcCommand(
+									modification.getId(),
+									model.getArcs()[i].getType(),
+									model.getArcs()[i].getSource(),
+									model.getArcs()[i].getDestination()));
+
+							for (int j = 0; j < model.getArcs()[i].getAtts().length; j++) {
+								if (model.getArcs()[i].getAtts()[j] == null) {
+									break;
+								}
+								LOGGER.finest(
+										"Ajout l'attribut d'un arc: id:" + modification.getId()
+										+ " nameAtt:" + model.getArcs()[i].getAtts()[j].getAttName()
+										+ " valueAtt:" + myJoin(model.getArcs()[i].getAtts()[j].getValues(), "\n"));
+								listeCommand.add(new CreateAttributeCommand(
+										model.getArcs()[i].getAtts()[j].getAttName(),
+										model.getArcs()[i].getId(),
+										myJoin(model.getArcs()[i].getAtts()[j].getValues(), "\n")));
+							}
+
+							for (int j = 0; j < model.getArcs()[i].getPoints().length; j++) {
+								if (model.getArcs()[i].getPoints()[j] == null) {
+									break;
+								}
+								LOGGER.finest(
+										"Ajout un point d'inflexion pour l'arc: id:" + modification.getId()
+										+ " x:" + model.getArcs()[i].getPoints()[j].getXx()
+										+ " y:" + model.getArcs()[i].getPoints()[j].getYy());
+								listeCommand.add(new CreateInflexPointCommand(
+										model.getArcs()[i].getId(),
+										model.getArcs()[i].getPoints()[j].getXx(),
+										model.getArcs()[i].getPoints()[j].getYy()));
+							}
+						}
 					}
 				}
-				return null;
+				return;
+
 			// Modification d'un element
-			case 2 :
+			case 2:
 				LOGGER.finest(
 						"Ajout d'un attribut: idReferenced:" + modification.getId()
 						+ " nameAtt:" + modification.getNameAtt()
 						+ " valueAtt:" + modification.getValue());
-				return new CreateAttributeCommand(modification.getNameAtt(), modification.getId(), modification.getValue());
+				listeCommand.add(new CreateAttributeCommand(modification.getNameAtt(), modification.getId(), modification.getValue()));
+				return;
 
 			// Modification de la position d'un objet
-			case 3 :
+			case 3:
 				LOGGER.finest(
 						"Modification de la position d'un objet: id:" + modification.getId()
 						+ " x:" + modification.getPos().getXx()
 						+ " y:" + modification.getPos().getYy());
-				return new ObjectPositionCommand(modification.getId(), modification.getPos().getXx(), modification.getPos().getYy());
+				listeCommand.add(new ObjectPositionCommand(modification.getId(), modification.getPos().getXx(), modification.getPos().getYy()));
+				return;
 
 			// Modification de la taille d'un objet
 			case 4 :
 				LOGGER.warning("Modification de la taille d'un objet non pris en compte: id:" + modification.getId());
-				return null;
+				return;
 
 			// Modification de la position d'un attribut
 			case 5 :
@@ -244,32 +304,35 @@ public class ResultImpl implements IResult {
 						+ "nameAtt:" + modification.getNameAtt()
 						+ " x:" + modification.getPos().getXx()
 						+ " y:" + modification.getPos().getYy());
-				return new AttributePositionCommand(
+				listeCommand.add(new AttributePositionCommand(
 						modification.getId(),
 						modification.getNameAtt(),
 						modification.getPos().getXx(),
-						modification.getPos().getYy());
+						modification.getPos().getYy()));
+				return;
 
 			// Ajout d'un point d'inflexion
 			case 6 :
 				LOGGER.finest(
-						"Suppression d'un points d'inflexion: id:" + modification.getId()
+						"Création d'un points d'inflexion: id:" + modification.getId()
 						+ " x:" + modification.getPos().getXx()
 						+ " y:" + modification.getPos().getYy());
-				return new CreateInflexPointCommand(
+				listeCommand.add(new CreateInflexPointCommand(
 						modification.getId(),
 						modification.getPos().getXx(),
-						modification.getPos().getYy());
+						modification.getPos().getYy()));
+				return;
 
 			// Supprimer tous les points d'inflexions
 			case 7 :
 				LOGGER.finest("Suppression de tous les points d'inflexions");
-				return new DeleteInflexPointsCommand();
+				listeCommand.add(new DeleteInflexPointsCommand());
+				return;
 
 			// Sinon
 			default:
 				LOGGER.warning("Modification inconnu sur l'objet: id:" + modification.getId());
-				return null;
+				return;
 		}
 	}
 
