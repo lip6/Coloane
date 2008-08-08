@@ -366,13 +366,6 @@ public class ApiSession implements IApiSession {
 			Model theModel = WrapperModelTranslator.translateModel(inputModel);
 
 
-			/////////////////////////      Pour envoyer un model en CAMI    ////////////////////////////
-			//Model theModel = new Model();
-			//theModel.setCami(join(CamiModelTranslator.translateModel(inputModel), "\n"));
-			//theModel.setParsing(true);
-			////////////////////////////////////////////////////////////////////////////////////////////
-
-
 			// Détérmine le menu principal et le service demander à envoyer au wrapper
 			LOGGER.finer("Recherche pour la session '" + sessionName + "' le service demander: " + serviceName);
 			for (int i = 0; i < menus.getRoots().length; i++) {
