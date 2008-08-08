@@ -1,8 +1,7 @@
-package fr.lip6.move.coloane.core.ui.dialogs;
+package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.ModifyWorkspace;
+import fr.lip6.move.coloane.core.ui.dialogs.Messages;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.lang.reflect.InvocationTargetException;

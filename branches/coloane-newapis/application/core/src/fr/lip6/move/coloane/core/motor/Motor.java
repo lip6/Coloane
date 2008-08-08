@@ -7,9 +7,10 @@ import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.ModifyCurrentModel;
+import fr.lip6.move.coloane.core.ui.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
-import fr.lip6.move.coloane.core.ui.dialogs.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -17,10 +18,12 @@ import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -308,6 +311,15 @@ public final class Motor {
 	}
 
 	/**
+	 *
+	 * @param commands La liste des commandes à appliquer sur le modèle courant
+	 */
+	public void modifyCurrentModel(List<ICommand> commands) {
+		LOGGER.fine("Prise en compte des modifications sur le modele courant"); //$NON-NLS-1$
+		Display.getDefault().asyncExec(new ModifyCurrentModel(commands));
+	}
+
+	/**
 	 * Suspend la session designee
 	 * @param name Le nom de la session a suspendre
 	 */
@@ -446,10 +458,17 @@ public final class Motor {
 			protected IStatus run(IProgressMonitor monitor) {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession != null) {
+					// Si un graphe est disponible en tant que resultat
 					if (result.getNewGraph() != null) {
 						LOGGER.fine("Detection d'un modèle sortant");  //$NON-NLS-1$
 						Motor.this.setNewModel(result.getNewGraph());
 					}
+
+					// Si le graphe courant doit être modifié
+					if (result.getModificationsOnCurrentGraph().size() > 0) {
+						Motor.this.modifyCurrentModel(result.getModificationsOnCurrentGraph());
+					}
+
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
 					currentSession.getServiceResults().add(result.getServiceName(), result);
 					return Status.OK_STATUS;

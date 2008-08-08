@@ -281,7 +281,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		if (node != null) { this.deleteNode(node); return; }
 		IArc arc = this.getArc(id);
 		if (arc != null) { this.deleteArc(arc); return; }
-		throw new ModelException("Object id=" + id + " does not exist in the model");
+		LOGGER.warning("L'object id=" + id + " n'existe pas dans le modele... Aucune suppression effectuee"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/** {@inheritDoc} */
