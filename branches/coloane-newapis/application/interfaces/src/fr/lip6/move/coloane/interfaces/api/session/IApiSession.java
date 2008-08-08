@@ -92,4 +92,9 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	 * @throws ApiException en cas de problème réseau
 	 */
 	void invalidModel() throws ApiException;
+
+	/**
+	 * Arrête l'exécution d'un service
+	 */
+	void stopService();
 }
