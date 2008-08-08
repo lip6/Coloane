@@ -15,11 +15,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'objet (qui définie des menus) à envoyer aux observateurs d'événements: réception de menus.
  */
 public class ReceptMenu implements IReceptMenu {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<ISubMenu> menus;
 
@@ -33,6 +37,8 @@ public class ReceptMenu implements IReceptMenu {
 	 * pour être comprehensible par le core de Coloane.
 	 */
 	public ReceptMenu(MMenu menus) {
+		LOGGER.finer("Construction d'un ensemble de menus pour le core");
+
 		this.menus = new ArrayList<ISubMenu>();
 		if (menus != null) {
 			for (int i = 0; i < menus.getRoots().length; i++) {

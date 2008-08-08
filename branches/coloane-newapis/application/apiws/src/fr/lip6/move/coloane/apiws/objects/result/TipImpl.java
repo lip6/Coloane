@@ -24,7 +24,7 @@ public class TipImpl implements ITip {
 	 * @param ignoreCommand la commande ignorée
 	 */
 	public TipImpl(IgnoreCommand ignoreCommand) {
-		LOGGER.finest("Construction d'une commande ignorée");
+		LOGGER.finer("Construction d'une commande ignorée");
 
 		this.idObject = ignoreCommand.getId();
 		this.name = ignoreCommand.getName1();

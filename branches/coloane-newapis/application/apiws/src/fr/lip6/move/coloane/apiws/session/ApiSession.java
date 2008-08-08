@@ -176,7 +176,7 @@ public class ApiSession implements IApiSession {
 		}
 
 		// Retourne les informations de la session
-		LOGGER.fine("Ouverture de la session: " + this.sessionName);
+		LOGGER.finest("Fin de l'ouverture de la session: " + this.sessionName);
 		return new SessionInfo(sessionOpened);
 	}
 
@@ -184,6 +184,7 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void suspend() throws ApiException {
+		LOGGER.fine("Demande la suspension de la session: " + sessionName);
 
 		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {
@@ -196,7 +197,7 @@ public class ApiSession implements IApiSession {
 			// Notifie la fin de la suspension de la session
 			sessionController.notifyEndSuspendSession(this);
 		}
-		LOGGER.fine("Suspension de la session: " + sessionName);
+		LOGGER.finest("Fin de la suspension de la session: " + sessionName);
 	}
 
 	/**
@@ -233,7 +234,7 @@ public class ApiSession implements IApiSession {
 			sessionController.notifyEndResumeSession(this);
 		}
 
-		LOGGER.fine("Restauration de la session: " + sessionName);
+		LOGGER.finest("Fin de la restauration de la session: " + sessionName);
 		return;
 	}
 
@@ -279,7 +280,7 @@ public class ApiSession implements IApiSession {
 
 		}
 
-		LOGGER.fine("Fermeture de la session: " + sessionName);
+		LOGGER.finest("Fin de la fermeture de la session: " + sessionName);
 		return;
 	}
 
@@ -326,7 +327,7 @@ public class ApiSession implements IApiSession {
 		LOGGER.finer("Demande l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		speaker.answerToDialogBox(answer);
 
-		LOGGER.fine("Fin de l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
+		LOGGER.finest("Fin de l'envoi d'une boîte de dialogue réponse pour la session: " + sessionName);
 		return true;
 	}
 
@@ -466,7 +467,7 @@ public class ApiSession implements IApiSession {
 				throw e;
 			}
 
-			LOGGER.finer("Fin de l'exécution du service: " + serviceName);
+			LOGGER.finest("Fin de l'exécution du service: " + serviceName);
 
 			// Réinitialise le boolean sur l'invalidation du model à false
 			LOGGER.finer("Réinitialise invalidateTheModel à false");
@@ -477,7 +478,6 @@ public class ApiSession implements IApiSession {
 
 		}
 
-		LOGGER.finer("Exécution du service: " + service.getName());
 		return;
 	}
 
@@ -485,9 +485,10 @@ public class ApiSession implements IApiSession {
 	 * {@inheritDoc}
 	 */
 	public final void invalidModel() {
-		LOGGER.finer("Invalidation du model de la session: " + sessionName);
+		LOGGER.finer("Demande l'invalidation du model de la session: " + sessionName);
 		this.invalidateTheModel = true;
 		sessionController.notifyEndInvalidate(this, menus);
+		LOGGER.finest("Fin de l'invalidation du model de la session: " + sessionName);
 	}
 
 	/**

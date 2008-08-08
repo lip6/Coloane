@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.apiws.objects.api;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe représent les informations liée a la connection ouverte: <br>
  * <ul>
@@ -12,6 +14,9 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
  * </ul>
  */
 public class ConnectionInfo implements IConnectionInfo {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private String fkName;
 
@@ -24,6 +29,7 @@ public class ConnectionInfo implements IConnectionInfo {
 	 * @param a l'objet Authentification reçu de la part du wrapper
 	 */
 	public ConnectionInfo(Authentification a) {
+		LOGGER.finer("Construction de l'objet ConnectionInfo");
 		this.fkName = a.getAckSC().getHostInformation();
 		this.major = a.getAckOC().getMajor();
 		this.minor = a.getAckOC().getMinor();

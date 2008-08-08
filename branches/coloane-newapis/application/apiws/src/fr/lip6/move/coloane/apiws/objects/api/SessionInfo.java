@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.apiws.objects.api;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe représentent les informations liée à la session ouverte:<br>
  * <ul>
@@ -13,6 +15,9 @@ import fr.lip6.move.wrapper.ws.WrapperStub.Session;
  * </ul>
  */
 public class SessionInfo implements ISessionInfo {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private String aboutService;
 
@@ -28,6 +33,7 @@ public class SessionInfo implements ISessionInfo {
 	 */
 	public SessionInfo(Session s) {
 		// TODO Voir avec J-B et Silien comment recuperer ces elements.
+		LOGGER.finer("Construction de l'objet SessionInfo");
 		this.aboutService = null;
 		this.incremental = null;
 		this.nameService = null;

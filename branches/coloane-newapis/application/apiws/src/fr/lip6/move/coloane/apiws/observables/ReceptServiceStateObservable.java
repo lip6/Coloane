@@ -6,11 +6,15 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'informations le service en cours d'exécution.
  */
 public class ReceptServiceStateObservable implements IReceptServiceStateObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IReceptServiceStateObserver> listObservers;
 
@@ -44,6 +48,7 @@ public class ReceptServiceStateObservable implements IReceptServiceStateObservab
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(IReceptServiceState e) {
+		LOGGER.finest("Notification de la récéption d'une information sur l'execution d'un service aux observateurs");
 		if (!createThread) {
 			for (IReceptServiceStateObserver o : listObservers) {
 				o.update(e);

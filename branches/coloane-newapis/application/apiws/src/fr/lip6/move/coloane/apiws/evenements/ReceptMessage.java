@@ -2,10 +2,15 @@ package fr.lip6.move.coloane.apiws.evenements;
 
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 
+import java.util.logging.Logger;
+
 /**
  * Cette classe représent l'objet (qui définie un message) à envoyer aux observateurs d'événements: réception de messages.
  */
 public class ReceptMessage implements IReceptMessage {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private int type;
 
@@ -17,6 +22,7 @@ public class ReceptMessage implements IReceptMessage {
 	 * @param message Le contenu du message reçu.
 	 */
 	public ReceptMessage(int type, String message) {
+		LOGGER.finest("Construction d'un message pour le core");
 		this.type = type;
 		this.message = message;
 	}

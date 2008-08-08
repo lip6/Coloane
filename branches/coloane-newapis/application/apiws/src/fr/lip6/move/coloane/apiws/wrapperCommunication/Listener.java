@@ -93,6 +93,7 @@ public class Listener extends Thread implements IListener {
 					// Parcours tous les messages et notifie l'observateur adéquat
 					for (int i = 0; i < message.getTraces().length; i++) {
 						LOGGER.fine("Récéption d'un message : " + message.getTraces()[i].getType() + " : " + message.getTraces()[i].getMessage());
+						LOGGER.finest("Demande la notification de la récéption d'un message");
 						ReceptMessage m = new ReceptMessage(getMyType(message.getTraces()[i].getNtype()), message.getTraces()[i].getMessage());
 						((IReceptMessageObservable)  listObservable.get(IObservables.RECEPT_MESSAGE)).notifyObservers(m);
 
@@ -104,8 +105,10 @@ public class Listener extends Thread implements IListener {
 							} else { // Sinon c'est une erreur grave "asynchronne" du wrapper
 								LOGGER.fine("Récéption d'une erreur via le listener qui est non traité" + message.getTraces()[i].getType() + " : " + message.getTraces()[i].getMessage());
 								// En force la fermeture de la connexion
+								LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");
 								connection.closeConnectionError();
 								// Notifie les observateurs d'événement: récéption d'une erreur.
+								LOGGER.finest("Demande la notification de la récéption d'un erreur grave");
 								((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(message.getTraces()[i].getMessage());
 								// On stoppe le Listener
 								stopper();
@@ -119,6 +122,7 @@ public class Listener extends Thread implements IListener {
 					// Parcours tous les boîtes de dialogue et notifie l'observateur adéquat
 					for (int i = 0; i < message.getDbs().length; i++) {
 						LOGGER.fine("Récéption d'une boîte de dialogue: TYPE = " + message.getDbs()[i].getType() + " TITRE = " + message.getDbs()[i].getTitle() + " MESSAGE = " + message.getDbs()[i].getMessage());
+						LOGGER.finest("Demande la notification de la récéption d'une boîte de dialogue");
 						Dialog dialog = new Dialog(message.getDbs()[i]);
 						((IReceptDialogObservable) listObservable.get(IObservables.RECEPT_DIALOG)).notifyObservers(dialog);
 					}
@@ -129,6 +133,7 @@ public class Listener extends Thread implements IListener {
 					// Parcours tous les informations sur l'exécution d'un service et notifie l'observateur adéquat
 					for (int i = 0; i < message.getQts().length; i++) {
 						LOGGER.fine("Récéption d'une information sur un service: " + message.getQts()[i].getNameQuestion() + " : " + message.getQts()[i].getMessage());
+						LOGGER.finest("Demande la notification de la récéption d'une information sur l'exécution d'un service");
 						ReceptServiceState serviceState = new ReceptServiceState(message.getQts()[i]);
 						((IReceptServiceStateObservable) listObservable.get(IObservables.RECEPT_SERVICE_STATE)).notifyObservers(serviceState);
 					}
@@ -137,8 +142,10 @@ public class Listener extends Thread implements IListener {
 			} catch (RemoteException e) {
 				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
 				// En force la fermeture de la connexion
+				LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");
 				connection.closeConnectionError();
 				// Notifie les observateurs d'événement: récéption d'une erreur.
+				LOGGER.finest("Demande la notification de la récéption d'un erreur grave");
 				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
 				// On stoppe le Listener
 				stopper();
@@ -146,8 +153,10 @@ public class Listener extends Thread implements IListener {
 			} catch (GException e) {
 				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
 				// En force la fermeture de la connexion
+				LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");
 				connection.closeConnectionError();
 				// Notifie les observateurs d'événement: récéption d'une erreur.
+				LOGGER.finest("Demande la notification de la récéption d'un erreur grave");
 				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
 				// On stoppe le Listener
 				stopper();
@@ -155,8 +164,10 @@ public class Listener extends Thread implements IListener {
 			} catch (ApiException e) {
 				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
 				// En force la fermeture de la connexion
+				LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");
 				connection.closeConnectionError();
 				// Notifie les observateurs d'événement: récéption d'une erreur.
+				LOGGER.finest("Demande la notification de la récéption d'un erreur grave");
 				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
 				// On stoppe le Listener
 				stopper();
@@ -164,8 +175,10 @@ public class Listener extends Thread implements IListener {
 			} catch (InterruptedException e) {
 				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
 				// En force la fermeture de la connexion
+				LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");
 				connection.closeConnectionError();
 				// Notifie les observateurs d'événement: récéption d'une erreur.
+				LOGGER.finest("Demande la notification de la récéption d'un erreur grave");
 				((IBrutalInterruptObservable) listObservable.get(IObservables.BRUTAL_INTERRUPT)).notifyObservers(e.getMessage());
 				// On stoppe le Listener
 				stopper();

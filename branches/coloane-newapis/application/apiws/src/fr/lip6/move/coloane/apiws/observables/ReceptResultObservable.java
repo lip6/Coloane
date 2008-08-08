@@ -6,11 +6,15 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption de résultats.
  */
 public class ReceptResultObservable implements IReceptResultObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IReceptResultObserver> listObservers;
 
@@ -44,6 +48,7 @@ public class ReceptResultObservable implements IReceptResultObservable {
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(IResult e) {
+		LOGGER.finest("Notification de la récéption d'un résultat aux observateurs");
 		if (!createThread) {
 			for (IReceptResultObserver o : listObservers) {
 				o.update(e);

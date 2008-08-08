@@ -18,11 +18,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent le gestionnaire de sessions.
  */
 public class SessionController implements ISessionController {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	/** Représent la session active */
 	private IApiSession activeSession;
@@ -153,6 +157,8 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndOpenSession(IApiSession opened, MMenu menu) throws ApiException {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de l'ouverture de la session: " + opened.getName());
+
 		if (activeSession != null) {
 			notifyEndSuspendSession(activeSession);
 		}
@@ -163,6 +169,7 @@ public class SessionController implements ISessionController {
 			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
 
+		LOGGER.finest("Demande la notification de la récéption d'un menu pour l'ouverture de la session: " + opened.getName());
 		ReceptMenu m = new ReceptMenu(menu);
 		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(m);
 	}
@@ -171,6 +178,8 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndSuspendSession(IApiSession suspended) throws ApiException  {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de la suspension de la session: " + suspended.getName());
+
 		if (!((ApiSession) suspended).getSessionStateMachine().goToSuspendSessionState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat SUSPEND_SESSION_STATE");
 		}
@@ -181,6 +190,7 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndResumeSession(IApiSession resumed) throws ApiException  {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de la restauration de la session: " + resumed.getName());
 
 		if (activeSession != null) {
 			((ApiSession) activeSession).suspend();
@@ -195,6 +205,8 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndCloseSession(IApiSession closed, String idSessionToResume) throws ApiException  {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de la fermeture de la session: " + closed.getName());
+
 		if (!((ApiSession) closed).getSessionStateMachine().goToCloseSessionState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat CLOSE_SESSION_STATE");
 		}
@@ -212,13 +224,17 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndResult(IApiSession sessionExecuted, RService result, IService service, IGraph outputGraph) throws ApiException {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de l'execution d'un service: " + sessionExecuted.getName());
+
 		if (!((ApiSession) sessionExecuted).getSessionStateMachine().goToIdleState()) {
 			throw new ApiException("Impossible d'aller vers a l'etat IDLE_STATE");
 		}
 
+		LOGGER.finest("Demande la notification de la récéption d'un résultat pour la session: " + sessionExecuted.getName());
 		ResultImpl receptResult = new ResultImpl(result, service, outputGraph);
 		((IReceptResultObservable) listObservables.get(IObservables.RECEPT_RESULT)).notifyObservers(receptResult);
 
+		LOGGER.finest("Demande la notification de la récéption d'un menu suite à l'execution d'un service pour la session: " + sessionExecuted.getName());
 		ReceptMenu receptMenu = new ReceptMenu(result.getMenu(), result.getMenu().getLastModification());
 		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(receptMenu);
 
@@ -257,6 +273,7 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void closeAllSessions() throws ApiException {
+		LOGGER.finer("Fermeture de toutes les sessions par le Gestionnaire de Sessions");
 
 		/** Détérmine s'il y a eu une erreur lors de la fermeture d'une session */
 		boolean isError = false;
@@ -286,6 +303,9 @@ public class SessionController implements ISessionController {
 	 * {@inheritDoc}
 	 */
 	public final void notifyEndInvalidate(IApiSession session, MMenu menu) {
+		LOGGER.finer("Notification au Gestionnaire de Sessions de la fin de l'invalidation de la session: " + session.getName());
+
+		LOGGER.finest("Demande la notification de la récéption du menu par défaut suite à l'invalidation de la session: " + session.getName());
 		ReceptMenu receptMenu = new ReceptMenu(menu);
 		((IReceptMenuObservable) listObservables.get(IObservables.RECEPT_MENU)).notifyObservers(receptMenu);
 	}

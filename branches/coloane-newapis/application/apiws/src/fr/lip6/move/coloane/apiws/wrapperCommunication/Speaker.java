@@ -120,13 +120,15 @@ public class Speaker implements ISpeaker {
 			}
 
 			// Construction d'une requête pour l'ouverture de la connexion
+            LOGGER.finest("Construction de la requête pour l'ouverture de la connexion");
 			Connect req = new Connect();
 			req.setLogin(login);
 			req.setMdp(pass);
 
-			LOGGER.finer("Envoie de la requête pour l'ouverture de la connexion");
+			LOGGER.finest("Envoie de la requête au wrapper pour l'ouverture de la connexion");
 			ConnectResponse res = stub.connect(req);
 			auth = res.get_return();
+			LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'ouverture de la connexion");
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
@@ -164,13 +166,15 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'une requête pour l'ouverture d'une session
+            LOGGER.finest("Construction de la requête pour l'ouverture d'une session");
             CreateSession req = new CreateSession();
             req.setNameFormalism(nameFormalism);
             req.setUid(auth);
 
-            LOGGER.finer("Envoie de la requête pour l'ouverture d'une session");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'ouverture d'une session");
             CreateSessionResponse res = stub.createSession(req);
             session = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'ouverture d'une session");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
@@ -209,13 +213,15 @@ public class Speaker implements ISpeaker {
 			}
 
 			// Construction d'une requête pour le changement de session i.e. restauration d'une session
+			LOGGER.finest("Construction de la requête pour le changement de session");
 			ChangeSession req = new ChangeSession();
 			req.setUid(auth);
 			req.setIdSession(idSession);
 
-			LOGGER.finer("Envoie de la requête pour le changement de session");
+			LOGGER.finest("Envoie de la requête au wrapper pour le changement de session");
 			ChangeSessionResponse res = stub.changeSession(req);
 			session = res.get_return();
+			LOGGER.finest("Fin de l'envoie de la requête au wrapper pour le changement de session");
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
@@ -254,13 +260,15 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'une requête pour la fermeture d'une session
+            LOGGER.finest("Construction de la requête pour la fermeture d'une session");
             CloseSession req = new CloseSession();
             req.setUid(auth);
             req.setIdSession(idSession);
 
-            LOGGER.finer("Envoie de la requête pour la fermeture d'une session");
+            LOGGER.finest("Envoie de la requête au wrapper pour la fermeture d'une session");
             CloseSessionResponse res = stub.closeSession(req);
             session = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour la fermeture d'une session");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
@@ -300,12 +308,14 @@ public class Speaker implements ISpeaker {
 			}
 
 			// Construction d'une requête pour la fermeture de la connexion
+			LOGGER.finest("Construction de la requête pour la fermeture d'une conexion");
             Disconnect req = new Disconnect();
             req.setId(auth);
 
-            LOGGER.finer("Envoie de la requête pour la fermeture d'une conexion");
+            LOGGER.finest("Envoie de la requête au wrapper pour la fermeture d'une conexion");
             DisconnectResponse res = stub.disconnect(req);
             unauth = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour la fermeture d'une conexion");
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
@@ -344,13 +354,15 @@ public class Speaker implements ISpeaker {
 			}
 
 			// Construction d'une requête pour la réponse à une boîte de dialogue
+			LOGGER.finest("Construction de la requête pour l'envoie d'une boîte de dialogue");
 			AnswerDb req = new AnswerDb();
 			req.setAuth(auth);
 			req.setDialog(answer);
 
-            LOGGER.finer("Envoie de la requête pour la réponse à une boîte de dialogue");
+            LOGGER.finest("Envoie de la requête au wrapper pour la réponse à une boîte de dialogue");
 			AnswerDbResponse res = stub.answerDb(req);
 			toReturn = res.get_return();
+			LOGGER.finest("Fin de l'envoie de la requête au wrapper pour la réponse à une boîte de dialogue");
 
 		} catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
@@ -390,6 +402,7 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'un requête pour l'exécution d'un service simple
+            LOGGER.finest("Construction de la requête pour l'exécution d'un service simple");
             ExecuteService req = new ExecuteService();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -409,9 +422,10 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service simple");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'exécution d'un service simple");
             ExecuteServiceResponse res = stub.executeService(req);
             toReturn = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'exécution d'un service simple");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
@@ -452,6 +466,7 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'un requête pour l'exécution d'un service sur des objects
+            LOGGER.finest("Construction de la requête pour l'exécution d'un service sur des objects");
             ExecuteServiceWithObjects req = new ExecuteServiceWithObjects();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -471,9 +486,10 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur des objects");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'exécution d'un service sur des objects");
             ExecuteServiceWithObjectsResponse res = stub.executeServiceWithObjects(req);
             toReturn = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'exécution d'un service sur des objects");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
@@ -514,6 +530,7 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'un requête pour l'exécution d'un service sur un objet
+            LOGGER.finest("Construction de la requête pour l'exécution d'un service sur un objet");
             ExecuteServiceWithOneObject req = new ExecuteServiceWithOneObject();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -533,9 +550,10 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur un objet");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'exécution d'un service sur un objet");
             ExecuteServiceWithOneObjectResponse res = stub.executeServiceWithOneObject(req);
             toReturn = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'exécution d'un service sur un objet");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
@@ -576,6 +594,7 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'un requête pour l'exécution d'un service sur un texte
+            LOGGER.finest("Construction de la requête pour l'exécution d'un service sur un texte");
             ExecuteServiceWithOneText req = new ExecuteServiceWithOneText();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -595,9 +614,10 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur un texte");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'exécution d'un service sur un texte");
             ExecuteServiceWithOneTextResponse res = stub.executeServiceWithOneText(req);
             toReturn = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'exécution d'un service sur un texte");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
@@ -638,6 +658,7 @@ public class Speaker implements ISpeaker {
             }
 
             // Construction d'un requête pour l'exécution d'un service sur du texte
+            LOGGER.finest("Construction de la requête pour l'exécution d'un service sur du texte");
             ExecuteServiceWithTexts req = new ExecuteServiceWithTexts();
             req.setUid(auth);
             req.setIdSession(idSession);
@@ -657,9 +678,10 @@ public class Speaker implements ISpeaker {
             }
             req.setOptions(ops);
 
-            LOGGER.finer("Envoie de la requête pour l'exécution d'un service sur du texte");
+            LOGGER.finest("Envoie de la requête au wrapper pour l'exécution d'un service sur du texte");
             ExecuteServiceWithTextsResponse res = stub.executeServiceWithTexts(req);
             toReturn = res.get_return();
+            LOGGER.finest("Fin de l'envoie de la requête au wrapper pour l'exécution d'un service sur du texte");
 
         } catch (RemoteException e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());

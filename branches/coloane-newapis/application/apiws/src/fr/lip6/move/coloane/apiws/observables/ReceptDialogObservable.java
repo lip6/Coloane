@@ -6,11 +6,15 @@ import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'une boîte de dialogue.
  */
 public class ReceptDialogObservable implements IReceptDialogObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IReceptDialogObserver> listObservers;
 
@@ -44,6 +48,7 @@ public class ReceptDialogObservable implements IReceptDialogObservable {
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(IDialog dialog) {
+		LOGGER.finest("Notification de la récéption d'une boîte de dialogue aux observateurs");
 		if (!createThread) {
 			for (IReceptDialogObserver o : listObservers) {
 				o.update(dialog);

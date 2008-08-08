@@ -36,7 +36,7 @@ public class SubResultImpl implements ISubResult {
 	 * @param ensemble l'ensemble des sous-resultat reçu de la part du wrapper
 	 */
 	public SubResultImpl(Ensemble ensemble) {
-		LOGGER.finest("Construction d'un sous-résultat");
+		LOGGER.finer("Construction d'un sous-résultat");
 
 		this.name = ensemble.getName();
 

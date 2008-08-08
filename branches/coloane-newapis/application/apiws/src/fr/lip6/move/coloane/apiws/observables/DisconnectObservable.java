@@ -5,11 +5,15 @@ import fr.lip6.move.coloane.interfaces.api.observers.IDisconnectObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption de messages.
  */
 public class DisconnectObservable implements IDisconnectObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IDisconnectObserver> listObservers;
 
@@ -43,6 +47,7 @@ public class DisconnectObservable implements IDisconnectObservable {
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers() {
+		LOGGER.finest("Notification de la récéption d'une demande de deconnexion aux observateurs");
 		if (!createThread) {
 			for (IDisconnectObserver o : listObservers) {
 				o.update();

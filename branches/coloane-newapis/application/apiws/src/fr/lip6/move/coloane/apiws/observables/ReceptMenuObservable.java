@@ -6,11 +6,15 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption de menus.
  */
 public class ReceptMenuObservable implements IReceptMenuObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IReceptMenuObserver> listObservers;
 
@@ -44,6 +48,7 @@ public class ReceptMenuObservable implements IReceptMenuObservable {
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(IReceptMenu e) {
+		LOGGER.finest("Notification de la récéption d'un menu aux observateurs");
 		if (!createThread) {
 			for (IReceptMenuObserver o : listObservers) {
 				o.update(e);

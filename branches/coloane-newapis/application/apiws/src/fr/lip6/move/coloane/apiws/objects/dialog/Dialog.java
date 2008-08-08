@@ -5,11 +5,15 @@ import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent un boîte de dialogue pour le core de Coloane.
  */
 public class Dialog implements IDialog {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private int id;
 
@@ -36,6 +40,7 @@ public class Dialog implements IDialog {
      * @param dialog la boîte de dialogue reçu de la part du wrapper
      */
 	public Dialog(DialogBox dialog) {
+		LOGGER.finer("Construction d'une boite de dialogue pour le core");
     	this.id = dialog.getId();
         this.type = dialog.getType();
         this.typeButton = dialog.getTypeButton();

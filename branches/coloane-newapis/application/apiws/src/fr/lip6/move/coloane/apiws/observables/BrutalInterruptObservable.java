@@ -5,11 +5,15 @@ import fr.lip6.move.coloane.interfaces.api.observers.IBrutalInterruptObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Cette classe représent l'événement observable: récéption d'une erreur.
  */
 public class BrutalInterruptObservable implements IBrutalInterruptObservable {
+
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apiws");
 
 	private List<IBrutalInterruptObserver> listObservers;
 
@@ -43,6 +47,7 @@ public class BrutalInterruptObservable implements IBrutalInterruptObservable {
 	 * {@inheritDoc}
 	 */
 	public final void notifyObservers(String e) {
+		LOGGER.finest("Notification de la récéption d'une erreur grave aux observateurs");
 		if (!createThread) {
 			for (IBrutalInterruptObserver o : listObservers) {
 				o.update(e);
