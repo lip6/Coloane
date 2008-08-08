@@ -8,6 +8,11 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 
+/**
+ * Commande GEF qui permet d'executer un set de commandes en provenance d'une plate-forme
+ *
+ * @author Jean-Baptiste Voron
+ */
 public class ModificationResultCommand extends Command {
 	/** La liste des commandes de modification du modèle courant */
 	private List<ICommand> commands;
@@ -39,10 +44,34 @@ public class ModificationResultCommand extends Command {
 	@Override
 	public final void execute() {
 		try {
-			for (ICommand command : commands) {
-				command.execute(currentModel);
+			// Parcours de toutes les commandes et execution de celles-ci
+			for (ICommand command : commands) { command.execute(currentModel); }
+		} catch (ModelException me) {
+			System.err.println("Erreur lors de l'application des modifications " + me.getMessage()); //$NON-NLS-1$
+			me.printStackTrace();
+			// TODO : Undo ?
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void redo() {
+		this.execute();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void undo() {
+		try {
+			for (int i = this.commands.size() - 1; i >= 0; i--) {
+				this.commands.get(i).undo(this.currentModel);
 			}
 		} catch (ModelException me) {
+			System.err.println("Erreur lors de l'annulation des modifications " + me.getMessage()); //$NON-NLS-1$
 			me.printStackTrace();
 			// TODO : Undo ?
 		}
