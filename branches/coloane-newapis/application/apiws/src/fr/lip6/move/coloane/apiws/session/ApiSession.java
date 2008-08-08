@@ -570,4 +570,12 @@ public class ApiSession implements IApiSession {
 		return buffer.toString();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void stopService() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
