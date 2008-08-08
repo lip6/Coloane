@@ -456,7 +456,7 @@ public final class Motor {
 		Job job = new InterruptedJob("Add result") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				ISession currentSession = SessionManager.getInstance().getCurrentSession();
+				final ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession != null) {
 					// Si un graphe est disponible en tant que resultat
 					if (result.getNewGraph() != null) {
@@ -470,7 +470,11 @@ public final class Motor {
 					}
 
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
-					currentSession.getServiceResults().add(result.getServiceName(), result);
+					Display.getDefault().asyncExec(new Runnable() {
+						public void run() {
+							currentSession.getServiceResults().add(result.getServiceName(), result);
+						}
+					});
 					return Status.OK_STATUS;
 				} else {
 					return new Status(IStatus.ERROR, "coloane", "Current session not found"); //$NON-NLS-1$ //$NON-NLS-2$

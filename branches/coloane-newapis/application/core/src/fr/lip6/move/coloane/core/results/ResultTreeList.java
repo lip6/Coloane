@@ -8,11 +8,11 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
@@ -35,7 +35,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 
-	private final ConcurrentHashMap<String, IResultTree> map;
+	private final Map<String, IResultTree> map;
 	private final List<Integer> highlights;
 	private Map<String, IReport> services;
 	private final IReport generic;
@@ -44,7 +44,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * Constructeur
 	 */
 	public ResultTreeList() {
-		map = new ConcurrentHashMap<String, IResultTree>();
+		map = new LinkedHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
 		generic = new GenericReport();
 	}
@@ -89,6 +89,11 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		// Si aucun report specialise n'est disponible, on utilise le GenericReport
 		if (newResult == null) {
 			newResult = generic.build(result);
+		}
+
+		// Si un résultat pour ce service existait déjà ou le supprime
+		if (map.containsKey(serviceName)) {
+			map.remove(serviceName);
 		}
 
 		newResult.setParent(this);
