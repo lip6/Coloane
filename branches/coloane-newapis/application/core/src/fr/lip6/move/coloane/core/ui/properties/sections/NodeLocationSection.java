@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
@@ -60,8 +62,8 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 				location[1] = graphicInfo.getLocation().y;
 				if (spinner.getSelection() != location[i]) {
 					location[i] = spinner.getSelection();
-					cc.add(new NodeSetConstraintCmd(
-							node,
+					cc.add(new LocatedElementSetConstraintCmd(
+							(ILocatedElement) node,
 							new Rectangle(new Point(location[0], location[1]), graphicInfo.getSize()))
 					);
 				}
@@ -125,7 +127,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-		if (INode.LOCATION_PROP.equals(evt.getPropertyName())) {
+		if (ILocationInfo.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refresh();
 		}
 	}

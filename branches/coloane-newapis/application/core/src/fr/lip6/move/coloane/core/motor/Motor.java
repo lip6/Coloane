@@ -298,20 +298,20 @@ public final class Motor {
 	}
 
 	/**
-	 * Creation d'un nouveau modele et affichage dans l'editeur
+	 * Creation d'un nouveau modèle et affichage dans l'editeur
 	 * Cette creation implique la creation d'un nouveau fichier dans le workspace.
-	 * Cette action est particulierement utile lors de la generation d'un modele par FK
+	 * Cette action est particulièrement utile lors de la generation d'un modèle par FK
 	 * @param graph le model brut
 	 */
 	public void setNewModel(IGraph graph) {
 		LOGGER.fine("Sauvegarde du modele en provenance de la plateforme"); //$NON-NLS-1$
 
-		// Affichage de la boite de dialogue pour demander la sauvegarde du modele
+		// Affichage de la boite de dialogue pour demander la sauvegarde du modèle
 		Display.getDefault().asyncExec(new SaveReceivedModel(graph, window));
 	}
 
 	/**
-	 *
+	 * Modification du modèle courant
 	 * @param commands La liste des commandes à appliquer sur le modèle courant
 	 */
 	public void modifyCurrentModel(List<ICommand> commands) {
@@ -320,7 +320,7 @@ public final class Motor {
 	}
 
 	/**
-	 * Suspend la session designee
+	 * Suspend la session désignée
 	 * @param name Le nom de la session a suspendre
 	 */
 	public void resumeSession(final String name) {
@@ -460,13 +460,12 @@ public final class Motor {
 				if (currentSession != null) {
 					// Si un graphe est disponible en tant que resultat
 					if (result.getNewGraph() != null) {
-						LOGGER.fine("Detection d'un modèle sortant");  //$NON-NLS-1$
-						Motor.this.setNewModel(result.getNewGraph());
+						Motor.getInstance().setNewModel(result.getNewGraph());
 					}
 
 					// Si le graphe courant doit être modifié
 					if (result.getModificationsOnCurrentGraph().size() > 0) {
-						Motor.this.modifyCurrentModel(result.getModificationsOnCurrentGraph());
+						Motor.getInstance().modifyCurrentModel(result.getModificationsOnCurrentGraph());
 					}
 
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$

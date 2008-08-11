@@ -1,15 +1,18 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.GraphEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.StickyEditPart;
+import fr.lip6.move.coloane.core.ui.editpart.TipArcEditPart;
+import fr.lip6.move.coloane.core.ui.editpart.TipEditPart;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.logging.Logger;
 
@@ -55,16 +58,18 @@ public class PartFactory implements EditPartFactory {
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof INode) {
 			return new NodeEditPart();
-		} else if (modelElement instanceof IArc) {
-			return new ArcEditPart();
-		} else if (modelElement instanceof IGraph) {
-			return new GraphEditPart();
 		} else if (modelElement instanceof IAttribute) {
 			return new AttributeEditPart();
-		} else if (modelElement instanceof StickyNote) {
+		} else if (modelElement instanceof IArc) {
+			return new ArcEditPart();
+		} else if (modelElement instanceof StickyNoteModel) {
 			return new StickyEditPart();
+		} else if (modelElement instanceof ITip) {
+			return new TipEditPart();
+		} else if (modelElement instanceof IGraph) {
+			return new GraphEditPart();
 		}
 
-		return null;
+		return new TipArcEditPart();
 	}
 }

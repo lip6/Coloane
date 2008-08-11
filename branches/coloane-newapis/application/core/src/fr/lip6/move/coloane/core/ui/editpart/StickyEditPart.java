@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
@@ -56,8 +56,8 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 	/**
 	 * @return le modèle
 	 */
-	private StickyNote getStickyNote() {
-		return (StickyNote) getModel();
+	private StickyNoteModel getStickyNote() {
+		return (StickyNoteModel) getModel();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 	protected final void refreshVisuals() {
 		((StickyNoteFigure) getFigure()).setText(getStickyNote().getLabelContents());
 
-		StickyNote sticky = (StickyNote) getModel();
+		StickyNoteModel sticky = (StickyNoteModel) getModel();
 
 		Rectangle bounds = new Rectangle(sticky.getLocation(), sticky.getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);

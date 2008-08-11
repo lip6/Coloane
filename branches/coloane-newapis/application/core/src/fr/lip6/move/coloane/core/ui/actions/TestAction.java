@@ -1,19 +1,19 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.ArcModel;
+import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
-import fr.lip6.move.coloane.core.ui.panels.ResultsView;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,16 +24,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Classe de test pour les jobs ou n'importe quoi d'autre
@@ -41,6 +36,9 @@ import org.eclipse.ui.PlatformUI;
 public class TestAction implements IWorkbenchWindowActionDelegate {
 	private static int count = 0;
 	private Job job;
+
+	private List<ITip> tips = new ArrayList<ITip>();
+	private boolean tipsFlag = true;
 
 	/** {@inheritDoc} */
 	public final void dispose() {
@@ -52,23 +50,59 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-//		System.err.println(((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()));
-//		System.err.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("fr.lip6.move.coloane.views.ResultsView").getViewSite().);
-		printGraph();
+		testTips();
+//		printGraph();
 //		printSessionsState();
 //		testDialog();
 //		testJob();
 //		testJob2();
 	}
 
+	/**
+	 * test des tips
+	 */
+	private void testTips() {
+		final INode node = SessionManager.getInstance().getCurrentSession().getGraph().getNodes().iterator().next();
+		final IArc arc = SessionManager.getInstance().getCurrentSession().getGraph().getArcs().iterator().next();
+		if (tipsFlag) {
+			tips.add(new ITip() {
+				public int getIdObject() { return arc.getId(); }
+				public String getName() { return "label :"; } //$NON-NLS-1$
+//				public String getValue() { return node.getAttribute("name").getValue(); } //$NON-NLS-1$
+				public String getValue() { return "test arc"; } //$NON-NLS-1$
+			});
+			tips.add(new ITip() {
+				public int getIdObject() { return node.getId(); }
+				public String getName() { return "label :"; } //$NON-NLS-1$
+				public String getValue() { return node.getAttribute("name").getValue(); } //$NON-NLS-1$
+//				public String getValue() { return "test arc"; } //$NON-NLS-1$
+			});
+			System.err.println("ajout tip");
+			SessionManager.getInstance().getCurrentSession().addAll(tips);
+			((NodeModel) node).updateTips();
+			((ArcModel) arc).updateTips();
+		} else {
+			System.err.println("suppression tip");
+			SessionManager.getInstance().getCurrentSession().removeAll(tips);
+			tips.clear();
+			((NodeModel) node).updateTips();
+			((ArcModel) arc).updateTips();
+		}
+		tipsFlag = !tipsFlag;
+	}
+
+	/**
+	 * Affichage basique du graphe courant
+	 */
+	@SuppressWarnings("unused")
 	private void printGraph() {
 		IGraph g = SessionManager.getInstance().getCurrentSession().getGraph();
-		System.err.println("Graph(" + g.getId() + ")");
+		System.err.println("Graph(" + g.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		for (INode n : g.getNodes()) {
-			System.err.println("Node(" + n.getId() + ") " + (g.getNode(n.getId()) != null));
+			System.err.println("Node(" + n.getId() + ") " + (g.getNode(n.getId()) != null)); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		for (IArc a : g.getArcs()) {
-			System.err.println("Arc(" + a.getId() + ") " + (g.getArc(a.getId()) != null));
+			System.err.println("Arc(" + a.getId() + ") " + (g.getArc(a.getId()) != null)); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

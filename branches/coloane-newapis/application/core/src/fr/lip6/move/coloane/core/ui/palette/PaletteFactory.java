@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -147,7 +147,7 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
 				Messages.PaletteFactory_3,
 				Messages.PaletteFactory_2,
-				new SimpleFactory(StickyNote.class),
+				new SimpleFactory(StickyNoteModel.class),
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
 			);

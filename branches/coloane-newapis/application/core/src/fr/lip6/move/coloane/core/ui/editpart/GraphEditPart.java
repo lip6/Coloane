@@ -4,17 +4,22 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -52,6 +57,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	 * Permet d'écouter les changements de sélections, pour l'instant ne fait rien.
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub();
+
+	private ISession session;
 
 	/**
 	 * Creation des differentes regles d'edition pour le modele
@@ -135,17 +142,25 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	protected final List<Object> getModelChildren() {
 		IGraph graph = (IGraph) getModel();
 		List<Object> children = new ArrayList<Object>();
+
+		// Ajout des attributs du graphe
 		children.addAll(graph.getDrawableAttributes());
 
+		// Ajout des noeuds et de leurs attributs
 		children.addAll(graph.getNodes());
 		for (INode node : graph.getNodes()) {
 			children.addAll(node.getDrawableAttributes());
 		}
 
+		// Ajout des attributs des arcs
 		for (IArc arc : graph.getArcs()) {
 			children.addAll(arc.getDrawableAttributes());
 		}
 
+		// Ajout des tips
+		children.addAll(SessionManager.getInstance().getCurrentSession().getTips());
+
+		// Ajout des notes
 		for (IStickyNote sticky : ((GraphModel) graph).getStickyNotes()) {
 			children.add(sticky);
 		}
@@ -170,14 +185,17 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		// Ajout/Suppression
 		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
 			refreshChildren();
+		} else if (ISession.PROP_TIPS.equals(prop)) {
+			refreshChildren();
 		}
 
-		IFigure fig = getFigure();
-		while (fig.getParent() != null && fig != fig.getParent()) {
-			fig = fig.getParent();
+		if (LOGGER.isLoggable(Level.FINEST)) {
+			IFigure fig = getFigure();
+			while (fig.getParent() != null && fig != fig.getParent()) {
+				fig = fig.getParent();
+			}
+			LOGGER.finest(treeToString("*** ", fig)); //$NON-NLS-1$
 		}
-
-		LOGGER.finest(treeToString("*** ", fig)); //$NON-NLS-1$
 	}
 
 	/**
@@ -190,6 +208,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		if (!isActive()) {
 			super.activate();
 			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
+			session = SessionManager.getInstance().getCurrentSession();
+			session.addPropertyChangeListener(this);
 		}
 	}
 
@@ -202,6 +222,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		if (isActive()) {
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
+			session.removePropertyChangeListener(this);
 		}
 	}
 

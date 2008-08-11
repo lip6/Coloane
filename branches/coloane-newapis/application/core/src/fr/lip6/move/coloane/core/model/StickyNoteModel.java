@@ -13,7 +13,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'une note qui sera affichée sur l'éditeur
  */
-public class StickyNote extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
+public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -33,7 +33,7 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 	/**
 	 * Constructeur
 	 */
-	StickyNote() {
+	StickyNoteModel() {
 		LOGGER.finest("Création d'une StickyNote()"); //$NON-NLS-1$
 	}
 
@@ -76,7 +76,7 @@ public class StickyNote extends AbstractPropertyChange implements IStickyNote, I
 		this.y = location.y;
 
 		// Evénement
-		firePropertyChange(IStickyNote.LOCATION_PROP, oldLocation, getLocation());
+		firePropertyChange(LOCATION_PROP, oldLocation, getLocation());
 	}
 
 	/** {@inheritDoc} */

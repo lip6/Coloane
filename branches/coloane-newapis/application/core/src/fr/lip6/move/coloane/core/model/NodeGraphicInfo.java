@@ -86,7 +86,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 			}
 		}
 		// Lever un evenement
-		node.firePropertyChange(INode.LOCATION_PROP, oldLocation, new Point(x, y));
+		node.firePropertyChange(LOCATION_PROP, oldLocation, new Point(x, y));
 	}
 
 	/** {@inheritDoc} */
@@ -94,6 +94,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		Dimension delta = location.getDifference(getLocation());
 		setLocation(location.x, location.y);
 		node.updateAttributesPosition(delta.width, delta.height);
+		node.updateArcAttributesPosition();
 	}
 
 	/**

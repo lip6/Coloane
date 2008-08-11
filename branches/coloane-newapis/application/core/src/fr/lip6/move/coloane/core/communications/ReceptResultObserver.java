@@ -8,15 +8,17 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 /**
- * Permet d'être notifié de la fin de l'execution d'un service et on récupère le resultat.
+ * Permet d'être notifié de la fin de l'execution d'un service et on récupère le résultat.
  */
 public class ReceptResultObserver implements IReceptResultObserver {
 
 	/** {@inheritDoc} */
 	public final void update(IResult result) {
 		Motor.getInstance().addResult(result);
+
+		// Arrêt asynchrone du job d'éxecution de service
 		for (Job job : Job.getJobManager().find(null)) {
-			if (job.getName().equals(Motor.SERVICE_JOB)) {
+			if (job.getName().equals(Motor.SERVICE_JOB) && job.getState() == Job.RUNNING) {
 				job.done(Status.OK_STATUS);
 			}
 		}

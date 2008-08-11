@@ -9,9 +9,6 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public interface IStickyNote extends ILocationInfo {
 
-	/** ID pour la propriete lorsqu'un changement de la position */
-	String LOCATION_PROP = "Sticky.Location"; //$NON-NLS-1$
-
 	/** ID pour la propriete lorsqu'un changement de la valeur */
 	String VALUE_PROP = "Sticky.ValueUpdate"; //$NON-NLS-1$
 

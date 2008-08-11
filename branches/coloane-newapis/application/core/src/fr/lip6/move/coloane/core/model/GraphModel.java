@@ -159,7 +159,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final IStickyNote createStickyNote() {
 		LOGGER.fine("Création d'une nouvelle note"); //$NON-NLS-1$
-		IStickyNote note = new StickyNote();
+		IStickyNote note = new StickyNoteModel();
 		addSticky(note);
 
 		return note;

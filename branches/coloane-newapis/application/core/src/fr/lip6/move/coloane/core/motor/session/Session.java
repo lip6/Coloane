@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -10,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -48,27 +50,29 @@ public class Session implements ISession {
 	private MenuManager adminMenu;
 
 	/** Arborescence du menu et des services de la session */
-	private List<MenuManager> menus;
+	private List<MenuManager> menus = new ArrayList<MenuManager>();
 
 	/**	Liste des services disponibles */
-	private Map<String, IService> services;
+	private Map<String, IService> services = new HashMap<String, IService>();
 
 	/** Liste des options active */
-	private Set<String> options;
+	private Set<String> options = new HashSet<String>();
 
 	/** Status de la session */
-	private int status;
+	private int status = ISession.CLOSED;
 
 	/** Objet session de l'api */
 	private IApiSession apiSession;
 
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+	private Map<Integer, ITip> tips = new HashMap<Integer, ITip>();
+
 
 	/**
 	 * Constructeur<br>
 	 * Tous les champs sont initialisés.<br>
-	 * Le nom ne doit pas etre nul.
+	 * Le nom ne doit pas être nul.
 	 * @param name Nom de la session
 	 */
 	public Session(String name) {
@@ -76,13 +80,6 @@ public class Session implements ISession {
 			throw new NullPointerException("name cannot be null"); //$NON-NLS-1$
 		}
 		this.name = name;
-		this.graph = null;
-		this.status = ISession.CLOSED;
-		this.results = null;
-		this.adminMenu = null;
-		this.menus = new ArrayList<MenuManager>();
-		this.services = new HashMap<String, IService>();
-		this.options = new HashSet<String>();
 	}
 
 	/**
@@ -288,7 +285,7 @@ public class Session implements ISession {
 	}
 
 	/**
-	 * Previens l'api d'un changement majeur du modèle
+	 * Préviens l'api d'un changement majeur du modèle
 	 * @throws ApiException En cas d'erreur de l'api
 	 */
 	public final void invalidModel() throws ApiException {
@@ -341,5 +338,30 @@ public class Session implements ISession {
 	 */
 	public final void interruptService() {
 		apiSession.stopService();
+	}
+
+	/** {@inheritDoc} */
+	public final Collection<ITip> getTips() {
+		return tips.values();
+	}
+
+	public final ITip getTip(int id) {
+		return tips.get(id);
+	}
+
+	/** {@inheritDoc} */
+	public final void addAll(Collection<ITip> tips) {
+		for (ITip tip : tips) {
+			this.tips.put(tip.getIdObject(), new CoreTipModel(tip));
+		}
+		firePropertyChange(ISession.PROP_TIPS, null, tips);
+	}
+
+	/** {@inheritDoc} */
+	public final void removeAll(Collection<ITip> tips) {
+		for (ITip tip : tips) {
+			this.tips.remove(tip.getIdObject());
+		}
+		firePropertyChange(ISession.PROP_TIPS, null, tips);
 	}
 }

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.ui.commands.NodeSetConstraintCmd;
+import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -75,7 +76,7 @@ public class NodeMoveAction extends SelectionAction {
 			if (obj instanceof NodeEditPart) {
 				INode node = (INode) ((EditPart) obj).getModel();
 				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
-				cc.add(new NodeSetConstraintCmd(node, new Rectangle(
+				cc.add(new LocatedElementSetConstraintCmd((ILocatedElement) node, new Rectangle(
 						graphicInfo.getLocation().x + dx,
 						graphicInfo.getLocation().y + dy,
 						graphicInfo.getSize().width,

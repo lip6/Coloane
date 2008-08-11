@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
@@ -11,22 +13,30 @@ import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.AnchorListener;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.BendpointEditPolicy;
@@ -39,7 +49,7 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * EditPart pour les arcs (CONTROLEUR)
  */
-public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener, NodeEditPart {
 	/**
 	 * Logger 'fr.lip6.move.coloane.core'.
 	 */
@@ -72,6 +82,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			refreshVisuals();
 		}
 	};
+
+	private ConnectionAnchor connectionAnchor;
 
 	/**
 	 * Dessin de l'arc
@@ -196,9 +208,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		// Propriété de demande de création/suppression d'un AttributEditPart
 		if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getSource().getParent().refresh(); // demande de refresh sur le GraphEditPart
+			getSource().getParent().refresh();
+
+		// demande de refresh sur le GraphEditPart
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
+		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
+			refreshTargetConnections();
 		}
 
 		refreshVisuals();
@@ -230,5 +246,60 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	/** {@inheritDoc} */
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
+	}
+
+	private ConnectionAnchor getConnectionAnchor() {
+		if (connectionAnchor == null) {
+			connectionAnchor = new ConnectionAnchor() {
+				public void addAnchorListener(AnchorListener listener) { }
+				public Point getLocation(Point reference) {
+					return getReferencePoint();
+				}
+				public IFigure getOwner() {
+					return getFigure();
+				}
+				public Point getReferencePoint() {
+					return ((IArc) getModel()).getGraphicInfo().findMiddlePoint();
+				}
+				public void removeAnchorListener(AnchorListener listener) { }
+			};
+		}
+		return connectionAnchor;
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		return getConnectionAnchor();
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return getConnectionAnchor();
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return getConnectionAnchor();
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return getConnectionAnchor();
+	}
+
+	/**
+	 * Retourne la liste des arcs entrants du noeud considere
+	 * @return List of IArcImpl
+	 */
+	@Override
+	protected final List<Object> getModelTargetConnections() {
+		List<Object> targets = new ArrayList<Object>();
+		ITip tip = SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId());
+		if (tip != null && tip instanceof CoreTipModel) {
+			targets.add(((CoreTipModel) tip).getArcModel());
+		}
+		return targets;
 	}
 }

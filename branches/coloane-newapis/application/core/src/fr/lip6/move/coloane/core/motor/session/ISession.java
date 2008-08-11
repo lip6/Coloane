@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -13,14 +14,13 @@ import org.eclipse.jface.action.MenuManager;
 /**
  * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
  */
-/**
- * @author clement
- *
- */
 public interface ISession {
 
-	/** Propriété pour les changmenents d'état de la connection */
+	/** Propriété pour les changements d'état de la connection */
 	String PROP_CONNECTION = "Session.connection"; //$NON-NLS-1$
+
+	/** Propriété pour l'ajout ou la suppression de tips */
+	String PROP_TIPS = "Session.tips"; //$NON-NLS-1$
 
 	/** Les indicateurs de statuts */
 	int CLOSED = 0;
@@ -129,4 +129,25 @@ public interface ISession {
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * @param tips liste de tips à afficher
+	 */
+	void addAll(Collection<ITip> tips);
+
+	/**
+	 * @param tips liste de tips à enlever
+	 */
+	void removeAll(Collection<ITip> tips);
+
+	/**
+	 * @return liste des tips qui doivent être affiché
+	 */
+	Collection<ITip> getTips();
+
+	/**
+	 * @param id id d'un IElement
+	 * @return le tip correspondant à cet id ou <code>null</code>
+	 */
+	ITip getTip(int id);
 }

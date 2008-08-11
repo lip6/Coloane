@@ -171,4 +171,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
 	}
+
+	public final void updateTips() {
+		firePropertyChange(INCOMING_ARCS_PROP, null, null);
+	}
 }
