@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
@@ -11,7 +12,7 @@ import org.eclipse.draw2d.geometry.Point;
  * Modèle d'un tip utilisé par les editPart.<br>
  * Cette permet à un tip d'être déplacé et d'être collé à un guide.
  */
-public class CoreTipModel extends AbstractPropertyChange implements ILocatedElement, ITip, ILocationInfo {
+public class CoreTipModel extends AbstractPropertyChange implements ILocatedElement, ILocationInfo, ICoreTip {
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 	private Point location;
@@ -33,7 +34,8 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 		this.arcModel = new ArcTipModel();
 	}
 
-	public ArcTipModel getArcModel() {
+	/** {@inheritDoc} */
+	public final ArcTipModel getArcModel() {
 		return arcModel;
 	}
 

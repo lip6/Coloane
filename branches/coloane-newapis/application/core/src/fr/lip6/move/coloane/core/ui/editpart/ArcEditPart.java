@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.core.model.CoreTipModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
@@ -14,7 +14,6 @@ import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -296,9 +295,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
-		ITip tip = SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId());
-		if (tip != null && tip instanceof CoreTipModel) {
-			targets.add(((CoreTipModel) tip).getArcModel());
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId())) {
+			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;
 	}

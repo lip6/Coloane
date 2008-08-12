@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -133,21 +133,21 @@ public interface ISession {
 	/**
 	 * @param tips liste de tips à afficher
 	 */
-	void addAll(Collection<ITip> tips);
+	void addAllTips(Collection<ICoreTip> tips);
 
 	/**
 	 * @param tips liste de tips à enlever
 	 */
-	void removeAll(Collection<ITip> tips);
+	void removeAllTips(Collection<ICoreTip> tips);
 
 	/**
 	 * @return liste des tips qui doivent être affiché
 	 */
-	Collection<ITip> getTips();
+	Collection<ICoreTip> getTips();
 
 	/**
 	 * @param id id d'un IElement
-	 * @return le tip correspondant à cet id ou <code>null</code>
+	 * @return la liste des tips correspondant à cette id
 	 */
-	ITip getTip(int id);
+	Collection<ICoreTip> getTip(int id);
 }

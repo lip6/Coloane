@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.List;
 
@@ -79,11 +79,11 @@ public interface IResultTree {
 	/**
 	 * @return la liste des tips à afficher quand ce résultat est sélectionné
 	 */
-	List<ITip> getTips();
+	List<ICoreTip> getTips();
 
 	/**
 	 * Permet de spécifier la liste des tips pour de résultat
 	 * @param tips liste des tips
 	 */
-	void setTips(List<ITip> tips);
+	void setTips(List<ICoreTip> tips);
 }

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.CoreTipModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.figures.TipFigure;
@@ -8,7 +9,6 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -37,7 +37,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	/** {@inheritDoc} */
 	@Override
 	protected final IFigure createFigure() {
-		ITip tip = (ITip) getModel();
+		ICoreTip tip = (ICoreTip) getModel();
 		IFigure figure = new TipFigure(tip);
 		Point location = calculLocation(tip.getIdObject());
 		figure.setLocation(location);
@@ -93,8 +93,8 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	@Override
 	protected final List<Object> getModelSourceConnections() {
 		List<Object> sources = new ArrayList<Object>();
-		if (getModel() instanceof CoreTipModel) {
-			sources.add(((CoreTipModel) getModel()).getArcModel());
+		if (getModel() instanceof ICoreTip) {
+			sources.add(((ICoreTip) getModel()).getArcModel());
 		}
 		return sources;
 	}
@@ -132,7 +132,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	@Override
 	public final void activate() {
 		super.activate();
-		if (getModel() instanceof CoreTipModel) {
+		if (getModel() instanceof ICoreTip) {
 			((CoreTipModel) getModel()).addPropertyChangeListener(this);
 		}
 	}
@@ -141,7 +141,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	@Override
 	public final void deactivate() {
 		super.deactivate();
-		if (getModel() instanceof CoreTipModel) {
+		if (getModel() instanceof ICoreTip) {
 			((CoreTipModel) getModel()).removePropertyChangeListener(this);
 		}
 	}

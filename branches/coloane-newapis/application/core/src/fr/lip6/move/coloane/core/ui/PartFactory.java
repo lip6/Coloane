@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.GraphEditPart;
@@ -57,6 +58,7 @@ public class PartFactory implements EditPartFactory {
 	 * @return nouvelle EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
+		System.err.println(modelElement);
 		if (modelElement instanceof INode) {
 			return new NodeEditPart();
 		} else if (modelElement instanceof IAttribute) {
@@ -65,7 +67,7 @@ public class PartFactory implements EditPartFactory {
 			return new ArcEditPart();
 		} else if (modelElement instanceof StickyNoteModel) {
 			return new StickyEditPart();
-		} else if (modelElement instanceof ITip) {
+		} else if (modelElement instanceof ICoreTip) {
 			return new TipEditPart();
 		} else if (modelElement instanceof IGraph) {
 			return new GraphEditPart();

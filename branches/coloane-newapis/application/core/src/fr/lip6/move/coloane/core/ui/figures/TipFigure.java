@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Label;
@@ -21,7 +21,7 @@ public class TipFigure extends RoundedRectangle {
 	 * Create a tip with a unmodifiable text.
 	 * @param tip text of the tip
 	 */
-	public TipFigure(ITip tip) {
+	public TipFigure(ICoreTip tip) {
 		setBorder(new MarginBorder(MARGIN));
 		setCornerDimensions(new Dimension(10, 10));
 

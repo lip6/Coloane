@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.core.model.CoreTipModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
@@ -15,7 +15,6 @@ import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -294,7 +293,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs sortant du noeud considere
+	 * Retourne la liste des arcs sortant du noeud considéré
 	 * @return List of IArcImpl
 	 */
 	@Override
@@ -303,15 +302,14 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs entrants du noeud considere
+	 * Retourne la liste des arcs entrants du noeud considéré
 	 * @return List of IArcImpl
 	 */
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>(((INode) getModel()).getIncomingArcs());
-		ITip tip = SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId());
-		if (tip != null && tip instanceof CoreTipModel) {
-			targets.add(((CoreTipModel) tip).getArcModel());
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId())) {
+			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;
 	}

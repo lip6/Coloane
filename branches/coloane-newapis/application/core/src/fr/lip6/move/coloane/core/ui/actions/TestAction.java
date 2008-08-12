@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.model.ArcModel;
+import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.NodeModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
@@ -37,7 +39,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	private static int count = 0;
 	private Job job;
 
-	private List<ITip> tips = new ArrayList<ITip>();
+	private List<ICoreTip> tips = new ArrayList<ICoreTip>();
 	private boolean tipsFlag = true;
 
 	/** {@inheritDoc} */
@@ -65,25 +67,25 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 		final INode node = SessionManager.getInstance().getCurrentSession().getGraph().getNodes().iterator().next();
 		final IArc arc = SessionManager.getInstance().getCurrentSession().getGraph().getArcs().iterator().next();
 		if (tipsFlag) {
-			tips.add(new ITip() {
+			tips.add(new CoreTipModel(new ITip() {
 				public int getIdObject() { return arc.getId(); }
-				public String getName() { return "label :"; } //$NON-NLS-1$
+				public String getName() { return "label"; } //$NON-NLS-1$
 //				public String getValue() { return node.getAttribute("name").getValue(); } //$NON-NLS-1$
 				public String getValue() { return "test arc"; } //$NON-NLS-1$
-			});
-			tips.add(new ITip() {
+			}));
+			tips.add(new CoreTipModel(new ITip() {
 				public int getIdObject() { return node.getId(); }
-				public String getName() { return "label :"; } //$NON-NLS-1$
+				public String getName() { return "label"; } //$NON-NLS-1$
 				public String getValue() { return node.getAttribute("name").getValue(); } //$NON-NLS-1$
 //				public String getValue() { return "test arc"; } //$NON-NLS-1$
-			});
+			}));
 			System.err.println("ajout tip");
-			SessionManager.getInstance().getCurrentSession().addAll(tips);
+			SessionManager.getInstance().getCurrentSession().addAllTips(tips);
 			((NodeModel) node).updateTips();
 			((ArcModel) arc).updateTips();
 		} else {
 			System.err.println("suppression tip");
-			SessionManager.getInstance().getCurrentSession().removeAll(tips);
+			SessionManager.getInstance().getCurrentSession().removeAllTips(tips);
 			tips.clear();
 			((NodeModel) node).updateTips();
 			((ArcModel) arc).updateTips();

@@ -115,9 +115,9 @@ public class ResultsView extends ViewPart {
 					}
 				}
 				if (check) {
-					session.addAll(result.getTips());
+					session.addAllTips(result.getTips());
 				} else {
-					session.removeAll(result.getTips());
+					session.removeAllTips(result.getTips());
 				}
 				for (IResultTree child : result.getChildren()) {
 					checkResult(session, child, check);

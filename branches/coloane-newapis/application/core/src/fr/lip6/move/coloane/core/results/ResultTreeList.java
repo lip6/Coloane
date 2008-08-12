@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.model.CoreTipModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
@@ -99,7 +101,11 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 		newResult.setParent(this);
 		newResult.setServiceName(serviceName);
-		newResult.setTips(result.getTipsList());
+		List<ICoreTip> coreTips = new ArrayList<ICoreTip>(result.getTipsList().size());
+		for (ITip tip : result.getTipsList()) {
+			coreTips.add(new CoreTipModel(tip));
+		}
+		newResult.setTips(coreTips);
 		map.put(serviceName, newResult);
 		update(null, getWidth(newResult));
 	}
@@ -221,12 +227,12 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	}
 
 	/** {@inheritDoc} */
-	public final List<ITip> getTips() {
+	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();
 	}
 
 	/** {@inheritDoc} */
-	public final void setTips(List<ITip> tips) {
+	public final void setTips(List<ICoreTip> tips) {
 		throw new UnsupportedOperationException();
 	}
 }

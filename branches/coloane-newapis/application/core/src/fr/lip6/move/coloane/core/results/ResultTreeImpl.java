@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** List vide non modifiable */
-	private static final List<ITip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ITip>(0));
+	private static final List<ICoreTip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
 	private String serviceName;
 
@@ -29,7 +29,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private List<IResultTree> children;
 	private List<Object> elements;
 	private final List<Integer> highlights;
-	private List<ITip> tips = EMPTY_TIPS_LIST;
+	private List<ICoreTip> tips = EMPTY_TIPS_LIST;
 
 	/**
 	 * Le gestionnaire de session.<br>
@@ -175,14 +175,14 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
-	public final List<ITip> getTips() {
+	public final List<ICoreTip> getTips() {
 		return Collections.unmodifiableList(tips);
 	}
 
 	/** {@inheritDoc} */
-	public final void setTips(List<ITip> tips) {
+	public final void setTips(List<ICoreTip> tips) {
 		if (tips != null) {
-			this.tips = new ArrayList<ITip>(tips);
+			this.tips = new ArrayList<ICoreTip>(tips);
 		} else {
 			this.tips = EMPTY_TIPS_LIST;
 		}

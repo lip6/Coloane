@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
@@ -13,7 +13,6 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
-import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -38,6 +37,8 @@ import org.eclipse.swt.widgets.Display;
 public class Session implements ISession {
 	/** Le logger pour la classe */
 	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	private static final List<ICoreTip> EMPTY_TIP_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
 	/** Nom de la session */
 	private String name;
@@ -68,7 +69,7 @@ public class Session implements ISession {
 
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-	private Map<Integer, ITip> tips = new HashMap<Integer, ITip>();
+	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
 
 
 	/**
@@ -343,22 +344,30 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final Collection<ITip> getTips() {
-		return tips.values();
+	public final Collection<ICoreTip> getTips() {
+		List<ICoreTip> list = new ArrayList<ICoreTip>();
+		for (List<ICoreTip> values : tips.values()) {
+			list.addAll(values);
+		}
+		return list;
 	}
 
 	/** {@inheritDoc} */
-	public final ITip getTip(int id) {
-		return tips.get(id);
+	public final Collection<ICoreTip> getTip(int id) {
+		List<ICoreTip> list = tips.get(id);
+		if (list == null) {
+			list = EMPTY_TIP_LIST;
+		}
+		return list;
 	}
 
 	/**
 	 * Mise à jours des tips
 	 * @param tips listes des tips concernée par la mise à jours
 	 */
-	private void updateTips(Collection<ITip> tips) {
+	private void updateTips(Collection<ICoreTip> tips) {
 		firePropertyChange(ISession.PROP_TIPS, null, tips);
-		for (ITip tip : tips) {
+		for (ICoreTip tip : tips) {
 			INode node = graph.getNode(tip.getIdObject());
 			if (node != null) {
 				node.updateTips();
@@ -372,17 +381,26 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final void addAll(Collection<ITip> tips) {
-		for (ITip tip : tips) {
-			this.tips.put(tip.getIdObject(), new CoreTipModel(tip));
+	public final void addAllTips(Collection<ICoreTip> tips) {
+		for (ICoreTip tip : tips) {
+			List<ICoreTip> values = this.tips.get(tip.getIdObject());
+			if (values == null) {
+				values = new ArrayList<ICoreTip>();
+				this.tips.put(tip.getIdObject(), values);
+			}
+			values.add(tip);
 		}
 		updateTips(tips);
 	}
 
 	/** {@inheritDoc} */
-	public final void removeAll(Collection<ITip> tips) {
-		for (ITip tip : tips) {
-			this.tips.remove(tip.getIdObject());
+	public final void removeAllTips(Collection<ICoreTip> tips) {
+		for (ICoreTip tip : tips) {
+			List<ICoreTip> values = this.tips.get(tip.getIdObject());
+			values.remove(tip);
+			if (values.isEmpty()) {
+				this.tips.remove(tip.getIdObject());
+			}
 		}
 		updateTips(tips);
 	}
