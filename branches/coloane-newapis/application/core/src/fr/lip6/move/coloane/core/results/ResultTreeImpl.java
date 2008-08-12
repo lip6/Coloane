@@ -1,8 +1,10 @@
 package fr.lip6.move.coloane.core.results;
 
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
@@ -18,12 +20,16 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** List vide non modifiable */
+	private static final List<ITip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ITip>(0));
+
 	private String serviceName;
 
 	private IResultTree parent;
 	private List<IResultTree> children;
 	private List<Object> elements;
 	private final List<Integer> highlights;
+	private List<ITip> tips = EMPTY_TIPS_LIST;
 
 	/**
 	 * Le gestionnaire de session.<br>
@@ -166,5 +172,19 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	 */
 	public final void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
+	}
+
+	/** {@inheritDoc} */
+	public final List<ITip> getTips() {
+		return Collections.unmodifiableList(tips);
+	}
+
+	/** {@inheritDoc} */
+	public final void setTips(List<ITip> tips) {
+		if (tips != null) {
+			this.tips = new ArrayList<ITip>(tips);
+		} else {
+			this.tips = EMPTY_TIPS_LIST;
+		}
 	}
 }

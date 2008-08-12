@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui;
 
+import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
@@ -52,7 +53,7 @@ public class PartFactory implements EditPartFactory {
 
 	/**
 	 * Selon le type de l'element... on choisit sont EditPart
-	 * @param modelElement l'element du modele pour lequel on doit construire l'EditPart
+	 * @param modelElement l'element du modèle pour lequel on doit construire l'EditPart
 	 * @return nouvelle EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
@@ -68,8 +69,9 @@ public class PartFactory implements EditPartFactory {
 			return new TipEditPart();
 		} else if (modelElement instanceof IGraph) {
 			return new GraphEditPart();
+		} else if (modelElement instanceof CoreTipModel.ArcTipModel) {
+			return new TipArcEditPart();
 		}
-
-		return new TipArcEditPart();
+		return null;
 	}
 }

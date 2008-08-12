@@ -1,15 +1,17 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.CoreTipModel;
+import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
@@ -345,8 +347,28 @@ public class Session implements ISession {
 		return tips.values();
 	}
 
+	/** {@inheritDoc} */
 	public final ITip getTip(int id) {
 		return tips.get(id);
+	}
+
+	/**
+	 * Mise à jours des tips
+	 * @param tips listes des tips concernée par la mise à jours
+	 */
+	private void updateTips(Collection<ITip> tips) {
+		firePropertyChange(ISession.PROP_TIPS, null, tips);
+		for (ITip tip : tips) {
+			INode node = graph.getNode(tip.getIdObject());
+			if (node != null) {
+				node.updateTips();
+				continue;
+			}
+			IArc arc = graph.getArc(tip.getIdObject());
+			if (arc != null) {
+				arc.updateTips();
+			}
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -354,7 +376,7 @@ public class Session implements ISession {
 		for (ITip tip : tips) {
 			this.tips.put(tip.getIdObject(), new CoreTipModel(tip));
 		}
-		firePropertyChange(ISession.PROP_TIPS, null, tips);
+		updateTips(tips);
 	}
 
 	/** {@inheritDoc} */
@@ -362,6 +384,6 @@ public class Session implements ISession {
 		for (ITip tip : tips) {
 			this.tips.remove(tip.getIdObject());
 		}
-		firePropertyChange(ISession.PROP_TIPS, null, tips);
+		updateTips(tips);
 	}
 }

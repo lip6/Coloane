@@ -104,18 +104,30 @@ public class ResultsView extends ViewPart {
 			}
 		});
 		viewer.addCheckStateListener(new ICheckStateListener() {
-			public void checkStateChanged(CheckStateChangedEvent event) {
-				IGraph graph = MANAGER.getCurrentSession().getGraph();
-				IResultTree result = (IResultTree) event.getElement();
+			private void checkResult(ISession session, IResultTree result, boolean check) {
 				for (int id : result.getHighlighted()) {
-					ISpecialState element = (ISpecialState) graph.getNode(id);
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
 					if (element == null) {
-						element = (ISpecialState) graph.getArc(id);
+						element = (ISpecialState) session.getGraph().getArc(id);
 					}
 					if (element != null) {
-						element.setSpecialState(event.getChecked());
+						element.setSpecialState(check);
 					}
 				}
+				if (check) {
+					session.addAll(result.getTips());
+				} else {
+					session.removeAll(result.getTips());
+				}
+				for (IResultTree child : result.getChildren()) {
+					checkResult(session, child, check);
+				}
+			}
+
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				IResultTree result = (IResultTree) event.getElement();
+				viewer.setSubtreeChecked(event.getElement(), event.getChecked());
+				checkResult(MANAGER.getCurrentSession(), result, event.getChecked());
 			}
 		});
 
@@ -123,14 +135,24 @@ public class ResultsView extends ViewPart {
 		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
-					final ResultTreeList currentResult = ((ISession) evt.getNewValue()).getServiceResults();
-					parent.getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							viewer.setInput(currentResult);
-							currentResult.addObserver(resultObserver);
-							viewer.refresh();
-						}
-					});
+					if (evt.getOldValue() != null) {
+						final ResultTreeList previousResult = ((ISession) evt.getOldValue()).getServiceResults();
+						parent.getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								previousResult.deleteObserver(resultObserver);
+							}
+						});
+					}
+					if (evt.getNewValue() != null) {
+						final ResultTreeList currentResult = ((ISession) evt.getNewValue()).getServiceResults();
+						parent.getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								viewer.setInput(currentResult);
+								currentResult.addObserver(resultObserver);
+								viewer.refresh();
+							}
+						});
+					}
 				}
 			}
 		});

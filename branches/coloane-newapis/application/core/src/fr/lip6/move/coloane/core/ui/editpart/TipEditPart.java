@@ -58,10 +58,17 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	 */
 	private Point calculLocation(int id) {
 		Point location;
+		int dx = 10;
+		int dy = 10;
 		IGraph graph = SessionManager.getInstance().getCurrentSession().getGraph();
 		INode node = graph.getNode(id);
 		if (node != null) {
 			location = node.getGraphicInfo().getLocation();
+			location.translate(
+					node.getNodeFormalism().getGraphicalDescription().getWidth() / 2,
+					node.getNodeFormalism().getGraphicalDescription().getHeight() / 2);
+			dx += node.getNodeFormalism().getGraphicalDescription().getWidth() / 2;
+			dy += node.getNodeFormalism().getGraphicalDescription().getHeight() / 2;
 			return location.getTranslated(15, 15);
 		}
 		IArc arc = graph.getArc(id);

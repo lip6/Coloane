@@ -152,6 +152,7 @@ public class ArcModel extends AbstractElement implements IArc {
 		this.graphicInfo.updateMiddlePoint();
 	}
 
+	/** {@inheritDoc} */
 	public final void updateTips() {
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, null);
 	}

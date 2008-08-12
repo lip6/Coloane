@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -294,7 +295,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			refreshVisuals();
 
 		// Deplacement d'un attribut.
-		} else if (IAttribute.LOCATION_PROP.equals(prop)) {
+		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
 	}

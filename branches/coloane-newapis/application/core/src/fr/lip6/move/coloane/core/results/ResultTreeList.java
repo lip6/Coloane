@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
 import fr.lip6.move.coloane.core.results.reports.IReport;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +99,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 		newResult.setParent(this);
 		newResult.setServiceName(serviceName);
+		newResult.setTips(result.getTipsList());
 		map.put(serviceName, newResult);
 		update(null, getWidth(newResult));
 	}
@@ -216,5 +218,15 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	public final void removeAll() {
 		map.clear();
 		update(null, 0);
+	}
+
+	/** {@inheritDoc} */
+	public final List<ITip> getTips() {
+		throw new UnsupportedOperationException();
+	}
+
+	/** {@inheritDoc} */
+	public final void setTips(List<ITip> tips) {
+		throw new UnsupportedOperationException();
 	}
 }

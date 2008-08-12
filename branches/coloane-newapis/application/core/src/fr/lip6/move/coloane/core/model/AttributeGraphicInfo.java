@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.util.logging.Logger;
 
@@ -48,7 +49,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		Point newValue = new Point(this.x, this.y);
 
 		// Lever un evenement
-		((AttributeModel) this.attribute).firePropertyChange(IAttribute.LOCATION_PROP, oldValue, newValue);
+		((AttributeModel) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
 	}
 
 	/** {@inheritDoc} */

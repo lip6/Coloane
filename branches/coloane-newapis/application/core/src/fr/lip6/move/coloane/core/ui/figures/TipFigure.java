@@ -25,8 +25,9 @@ public class TipFigure extends RoundedRectangle {
 		setBorder(new MarginBorder(MARGIN));
 		setCornerDimensions(new Dimension(10, 10));
 
-		Label label = new Label(tip.getName() + "\n" + tip.getValue()); //$NON-NLS-1$
-		label.setFont(new Font(null, "arial", 10, SWT.NORMAL));
+		Label label = new Label(tip.getName() + " : " + tip.getValue()); //$NON-NLS-1$
+		// TODO : sortir la police dans les préférences
+		label.setFont(new Font(null, "arial", 10, SWT.NORMAL)); //$NON-NLS-1$
 
 		setSize(label.getTextBounds().getSize().expand(MARGIN * 2, MARGIN * 2));
 		setBackgroundColor(ColorConstants.lightGray);

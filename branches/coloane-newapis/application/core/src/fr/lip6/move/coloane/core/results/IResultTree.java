@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.results;
 
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.List;
 
@@ -74,4 +75,15 @@ public interface IResultTree {
 	 * @return le gestionnaire de session ou null si il est introuvable
 	 */
 	ISessionManager getSessionManager();
+
+	/**
+	 * @return la liste des tips à afficher quand ce résultat est sélectionné
+	 */
+	List<ITip> getTips();
+
+	/**
+	 * Permet de spécifier la liste des tips pour de résultat
+	 * @param tips liste des tips
+	 */
+	void setTips(List<ITip> tips);
 }

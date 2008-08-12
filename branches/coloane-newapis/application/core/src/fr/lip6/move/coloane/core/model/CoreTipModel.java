@@ -16,7 +16,13 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	private EditorGuide verticalGuide;
 	private Point location;
 	private ITip tip;
-	private Object arcModel;
+	private ArcTipModel arcModel;
+
+	/**
+	 * Modèle d'un arc reliant un IElement avec un CoreTipModel.<br>
+	 * Seul les méthodes d'Object sont utilisée donc la classe est vide.
+	 */
+	public static class ArcTipModel { }
 
 	/**
 	 * Construction d'un ITip amélioré pour une gestion graphique
@@ -24,10 +30,10 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	 */
 	public CoreTipModel(ITip tip) {
 		this.tip = tip;
-		this.arcModel = new Object();
+		this.arcModel = new ArcTipModel();
 	}
 
-	public Object getArcModel() {
+	public ArcTipModel getArcModel() {
 		return arcModel;
 	}
 
