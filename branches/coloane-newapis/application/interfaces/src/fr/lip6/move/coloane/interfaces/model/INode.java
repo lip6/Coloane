@@ -19,9 +19,6 @@ public interface INode extends IElement {
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String INCOMING_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsqu'un changement de la position */
-	String LOCATION_PROP = "Node.Location"; //$NON-NLS-1$
-
 	/** ID pour la propriete lorsqu'un changement de la valeur */
 	String VALUE_PROP = "Node.ValueUpdate"; //$NON-NLS-1$
 
@@ -80,4 +77,9 @@ public interface INode extends IElement {
 	 * attaches aux arcs sortant et entrants du noeud en question
 	 */
 	void updateArcAttributesPosition();
+
+	/**
+	 * Mettre à jours les tips attachés à cette élément
+	 */
+	void updateTips();
 }

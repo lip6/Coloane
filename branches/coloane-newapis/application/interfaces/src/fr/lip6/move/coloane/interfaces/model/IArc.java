@@ -99,4 +99,9 @@ public interface IArc extends IElement {
 	 * position des noeuds source et cible.
 	 */
 	void updateAttributesPosition();
+
+	/**
+	 * Mettre à jours les tips attachés à cette élément
+	 */
+	void updateTips();
 }

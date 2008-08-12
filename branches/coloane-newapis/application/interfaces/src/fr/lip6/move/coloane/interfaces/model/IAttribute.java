@@ -11,9 +11,6 @@ public interface IAttribute extends IAbstractPropertyChange {
 	/** ID de la propriété lors d'un changement de valeur */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
 
-	/** ID de la propriété lors d'un changement de la position */
-	String LOCATION_PROP = "Attribute.Location"; //$NON-NLS-1$
-
 	/** ID de la propriété lorsque l'attribut doit être sélectionne */
 	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$
 

@@ -7,6 +7,9 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public interface ILocationInfo {
 
+	/** ID pour la propriete lorsqu'un changement de la position */
+	String LOCATION_PROP = "Location.info"; //$NON-NLS-1$
+
 	/**
 	 * @return Les informations concernant le positionnement de l'objet
 	 * @see ILocationInfo
