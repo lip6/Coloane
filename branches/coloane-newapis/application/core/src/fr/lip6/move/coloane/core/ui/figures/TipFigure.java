@@ -2,13 +2,13 @@ package fr.lip6.move.coloane.core.ui.figures;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 /**
@@ -30,7 +30,9 @@ public class TipFigure extends RoundedRectangle {
 		label.setFont(new Font(null, "arial", 10, SWT.NORMAL)); //$NON-NLS-1$
 
 		setSize(label.getTextBounds().getSize().expand(MARGIN * 2, MARGIN * 2));
-		setBackgroundColor(ColorConstants.lightGray);
+		setBackgroundColor(new Color(null, 240, 185, 183));
+		setForegroundColor(new Color(null, 218, 80, 75));
+		setLineWidth(2);
 		setLayoutManager(new StackLayout());
 		add(label);
 	}

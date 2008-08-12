@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
-import org.eclipse.draw2d.AnchorListener;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
@@ -209,7 +208,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
 			getSource().getParent().refresh();
 
-		// demande de refresh sur le GraphEditPart
+			// demande de refresh sur le GraphEditPart
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
 		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
@@ -247,21 +246,12 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		return editPartListener;
 	}
 
+	/**
+	 * @return ArcConnectionAnchor
+	 */
 	private ConnectionAnchor getConnectionAnchor() {
 		if (connectionAnchor == null) {
-			connectionAnchor = new ConnectionAnchor() {
-				public void addAnchorListener(AnchorListener listener) { }
-				public Point getLocation(Point reference) {
-					return getReferencePoint();
-				}
-				public IFigure getOwner() {
-					return getFigure();
-				}
-				public Point getReferencePoint() {
-					return ((IArc) getModel()).getGraphicInfo().findMiddlePoint();
-				}
-				public void removeAnchorListener(AnchorListener listener) { }
-			};
+			connectionAnchor = new ArcConnectionAnchor(this);
 		}
 		return connectionAnchor;
 	}

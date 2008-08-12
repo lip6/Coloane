@@ -58,7 +58,6 @@ public class PartFactory implements EditPartFactory {
 	 * @return nouvelle EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
-		System.err.println(modelElement);
 		if (modelElement instanceof INode) {
 			return new NodeEditPart();
 		} else if (modelElement instanceof IAttribute) {

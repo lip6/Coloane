@@ -111,7 +111,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Si le referent est un noeud, on agit sur la position de l'attribut
 		if (attribut.getReference() instanceof INode) {
 
-			// Deux possibilites :
+			// Deux possibilités :
 			// Pas d'information de positionnement -> on utilise les indication du noeud
 			// Information de positionnement -> on les utilise
 
@@ -134,7 +134,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-			// Si le referent est le modele lui-meme
+			// Si le referent est le modèle lui-même
 		} else if (attribut.getReference() instanceof IGraph) {
 			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 
@@ -146,13 +146,13 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Recupere la figure du graphe
 		GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
-		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
+		// On doit maintenant verifier qu'aucune autre figure ne se trouve a proximité
 
-		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
+		// Comme aucun texte n'est ajoute dans la figure pour le moment... vérifié que le point x+5 et y+5 est libre aussi
 		Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
 
 		while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
-			attributePosition.y = attributePosition.y + MINGAP; // Deplacement de 5 vers le bas si une figure est deja disposee
+			attributePosition.y = attributePosition.y + MINGAP; // Déplacement de 5 vers le bas si une figure est deja disposee
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
 		return attributePosition;
