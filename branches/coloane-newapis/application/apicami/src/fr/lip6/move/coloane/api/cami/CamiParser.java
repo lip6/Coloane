@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-08 19:49:40
+// $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-11 11:08:05
 
 package fr.lip6.move.coloane.api.cami;
 	
@@ -1847,7 +1847,7 @@ public class CamiParser extends Parser {
 
 
     // $ANTLR start one_result
-    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:496:1: one_result returns [ISubResult builtResult] : ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )+ 'FE()' ;
+    // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:496:1: one_result returns [ISubResult builtResult] : ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )* 'FE()' ;
     public final ISubResult one_result() throws RecognitionException {
         one_result_stack.push(new one_result_scope());
         ISubResult builtResult = null;
@@ -1856,8 +1856,8 @@ public class CamiParser extends Parser {
         Token set_type=null;
 
         try {
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:499:2: ( ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )+ 'FE()' )
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:500:2: ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )+ 'FE()'
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:499:2: ( ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )* 'FE()' )
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:500:2: ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' ) ( result_body )* 'FE()'
             {
             // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:500:2: ( 'DE()' | 'DE(' set_name= CAMI_STRING ',' set_type= NUMBER ')' )
             int alt22=2;
@@ -1901,8 +1901,7 @@ public class CamiParser extends Parser {
 
             }
 
-            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:503:2: ( result_body )+
-            int cnt23=0;
+            // /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g:503:2: ( result_body )*
             loop23:
             do {
                 int alt23=2;
@@ -1926,12 +1925,8 @@ public class CamiParser extends Parser {
             	    break;
 
             	default :
-            	    if ( cnt23 >= 1 ) break loop23;
-                        EarlyExitException eee =
-                            new EarlyExitException(23, input);
-                        throw eee;
+            	    break loop23;
                 }
-                cnt23++;
             } while (true);
 
             match(input,40,FOLLOW_40_in_one_result1070); 
@@ -3872,12 +3867,12 @@ public class CamiParser extends Parser {
     public static final BitSet FOLLOW_37_in_results1004 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_results1006 = new BitSet(new long[]{0x0000000000000200L});
     public static final BitSet FOLLOW_9_in_results1008 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_one_result1039 = new BitSet(new long[]{0xFF82FEC000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_38_in_one_result1039 = new BitSet(new long[]{0xFF82FFC000000000L,0x0000000000000003L});
     public static final BitSet FOLLOW_39_in_one_result1046 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_CAMI_STRING_in_one_result1050 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_11_in_one_result1052 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_NUMBER_in_one_result1056 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_one_result1058 = new BitSet(new long[]{0xFF82FEC000000000L,0x0000000000000003L});
+    public static final BitSet FOLLOW_9_in_one_result1058 = new BitSet(new long[]{0xFF82FFC000000000L,0x0000000000000003L});
     public static final BitSet FOLLOW_result_body_in_one_result1066 = new BitSet(new long[]{0xFF82FFC000000000L,0x0000000000000003L});
     public static final BitSet FOLLOW_40_in_one_result1070 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_one_result_in_result_body1085 = new BitSet(new long[]{0x0000000000000002L});
