@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

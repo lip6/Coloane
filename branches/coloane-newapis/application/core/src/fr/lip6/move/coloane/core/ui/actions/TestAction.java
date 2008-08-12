@@ -79,12 +79,12 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 				public String getValue() { return node.getAttribute("name").getValue(); } //$NON-NLS-1$
 //				public String getValue() { return "test arc"; } //$NON-NLS-1$
 			}));
-			System.err.println("ajout tip");
+			System.err.println("ajout tip"); //$NON-NLS-1$
 			SessionManager.getInstance().getCurrentSession().addAllTips(tips);
 			((NodeModel) node).updateTips();
 			((ArcModel) arc).updateTips();
 		} else {
-			System.err.println("suppression tip");
+			System.err.println("suppression tip"); //$NON-NLS-1$
 			SessionManager.getInstance().getCurrentSession().removeAllTips(tips);
 			tips.clear();
 			((NodeModel) node).updateTips();
