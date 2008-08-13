@@ -11,7 +11,6 @@
 	<groupId>fr.lip6.move.coloane.extensions</groupId>
 	<artifactId>extensions-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.2-SNAPSHOT</version>
 	<name>Extensions</name>
 	<description>Group of Coloane's dedicated extensions</description>
 
@@ -20,13 +19,14 @@
 		<module>exportToPGF</module>
 		<module>importExportCAMI</module>
 		<module>importExportPNML</module>
+		<module>PNexamples</module>
 	</modules>
 
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
 			<artifactId>core</artifactId>
-			<version>[0.13,)</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

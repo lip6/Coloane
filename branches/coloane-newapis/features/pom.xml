@@ -4,19 +4,19 @@
 
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
-		<artifactId>coloane</artifactId> 
-		<version>0.13.0-SNAPSHOT</version> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.14.0-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>features</artifactId>
+	<artifactId>features-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.4-SNAPSHOT</version>
 	<name>Features</name>
 	<description>All features related to Coloane project</description>
 
 	<modules>
 		<module>importExport</module>
+		<module>modelExamples</module>
 		<module>languagePack</module>
 		<module>coloaneMain</module>
 	</modules>

@@ -9,17 +9,16 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>languagePack</artifactId>
+	<artifactId>modelExamples</artifactId>
 	<packaging>jar</packaging>
-	<name>Features :: Language Pack</name>
-	<description>Language Pack feature for Coloane</description>
-
+	<name>Features :: Model Examples</name>
+	<description>Set of model examples</description>
+	
 	<dependencies>
 		<dependency>
-			<groupId>fr.lip6.move.coloane.fragments</groupId>
-			<artifactId>languagePack</artifactId>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
+			<artifactId>PNexamples</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-
 </project>
