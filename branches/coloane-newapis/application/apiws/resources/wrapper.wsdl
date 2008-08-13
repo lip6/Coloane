@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns12="http://ws.wrapper.move.lip6.fr" xmlns:ns11="http://dialog.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns10="http://rservice.output.cami.wrapper.move.lip6.fr/xsd" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns9="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns8="http://question.command.cami.wrapper.move.lip6.fr/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ns7="http://modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns6="http://command.cami.wrapper.move.lip6.fr/xsd" xmlns:ns5="http://exceptions.wrapper.move.lip6.fr/xsd" xmlns:ns4="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns3="http://authentification.output.cami.wrapper.move.lip6.fr/xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns2="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns1="http://asynchronous.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ns0="http://fkhight.wrapper.move.lip6.fr/xsd" targetNamespace="http://ws.wrapper.move.lip6.fr">
     <wsdl:types>
-        <xs:schema xmlns:ax219="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax218="http://fkhight.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fkhight.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax219="http://fkhight.wrapper.move.lip6.fr/xsd" xmlns:ax220="http://menu.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://fkhight.wrapper.move.lip6.fr/xsd">
             <xs:import namespace="http://menu.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="Session">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="formalism" nillable="true" type="xs:string"/>
-                    <xs:element minOccurs="0" name="menu" nillable="true" type="ax219:MMenu"/>
+                    <xs:element minOccurs="0" name="menu" nillable="true" type="ax220:MMenu"/>
                     <xs:element minOccurs="0" name="sessionId" nillable="true" type="xs:string"/>
                 </xs:sequence>
             </xs:complexType>
@@ -30,14 +30,15 @@
             <xs:complexType name="Message">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ntype" type="xs:int"/>
                     <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
                 </xs:sequence>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax213="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax214="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd">
             <xs:complexType name="LMenuModification">
                 <xs:sequence>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="lModification" nillable="true" type="ax213:MenuModification"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="lModification" nillable="true" type="ax214:MenuModification"/>
                 </xs:sequence>
             </xs:complexType>
             <xs:complexType name="MenuModification">
@@ -55,9 +56,7 @@
                     <xs:element minOccurs="0" name="ackSC" nillable="true" type="ns3:AckSC"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="id" nillable="true" type="xs:int"/>
                     <xs:element minOccurs="0" name="login" nillable="true" type="xs:string"/>
-                    <xs:element minOccurs="0" name="oC" nillable="true" type="ns3:AckOC"/>
                     <xs:element minOccurs="0" name="periodPing" type="xs:int"/>
-                    <xs:element minOccurs="0" name="sC" nillable="true" type="ns3:AckSC"/>
                 </xs:sequence>
             </xs:complexType>
             <xs:complexType name="AckOC">
@@ -77,16 +76,30 @@
                 </xs:sequence>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax28="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax29="http://modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax28="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd">
+            <xs:import namespace="http://modele.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="LModificationModel">
                 <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="ignores" nillable="true" type="ax28:IgnoreCommand"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="modifications" nillable="true" type="ax28:ModelModification"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="IgnoreCommand">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="id" type="xs:int"/>
+                    <xs:element minOccurs="0" name="name1" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="name2" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="type" type="xs:int"/>
                 </xs:sequence>
             </xs:complexType>
             <xs:complexType name="ModelModification">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="id" type="xs:int"/>
+                    <xs:element minOccurs="0" name="nameAtt" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="pos" nillable="true" type="ax29:Position"/>
+                    <xs:element minOccurs="0" name="size" nillable="true" type="ax29:ObjectSize"/>
                     <xs:element minOccurs="0" name="type" type="xs:int"/>
+                    <xs:element minOccurs="0" name="value" nillable="true" type="xs:string"/>
                 </xs:sequence>
             </xs:complexType>
         </xs:schema>
@@ -107,12 +120,12 @@
                 </xs:complexContent>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax216="http://command.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://command.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax217="http://command.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://command.cami.wrapper.move.lip6.fr/xsd">
             <xs:complexType name="CamiBuilder">
                 <xs:sequence/>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax29="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax27="http://modele.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modele.output.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax27="http://modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax210="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://modele.output.cami.wrapper.move.lip6.fr/xsd">
             <xs:import namespace="http://modification.modele.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="Model">
                 <xs:sequence>
@@ -120,7 +133,7 @@
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="boxes" nillable="true" type="ax27:BBox"/>
                     <xs:element minOccurs="0" name="cami" nillable="true" type="xs:string"/>
                     <xs:element minOccurs="0" name="invalidate" type="xs:boolean"/>
-                    <xs:element minOccurs="0" name="modification" nillable="true" type="ax29:LModificationModel"/>
+                    <xs:element minOccurs="0" name="modification" nillable="true" type="ax210:LModificationModel"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="nodes" nillable="true" type="ax27:BNode"/>
                     <xs:element minOccurs="0" name="parsing" type="xs:boolean"/>
                 </xs:sequence>
@@ -129,8 +142,8 @@
                 <xs:sequence>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="atts" nillable="true" type="ax27:Attribute"/>
                     <xs:element minOccurs="0" name="id" type="xs:int"/>
-                    <xs:element minOccurs="0" name="position_1" nillable="true" type="ax27:PO1"/>
-                    <xs:element minOccurs="0" name="position_2" nillable="true" type="ax27:PO2"/>
+                    <xs:element minOccurs="0" name="position" nillable="true" type="ax27:Position"/>
+                    <xs:element minOccurs="0" name="size" nillable="true" type="ax27:ObjectSize"/>
                     <xs:element minOccurs="0" name="sublight" type="xs:boolean"/>
                     <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
                 </xs:sequence>
@@ -138,18 +151,17 @@
             <xs:complexType name="Attribute">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="attName" nillable="true" type="xs:string"/>
-                    <xs:element minOccurs="0" name="pos" nillable="true" type="ax27:PO1"/>
+                    <xs:element minOccurs="0" name="pos" nillable="true" type="ax27:Position"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="values" nillable="true" type="ax27:AttributeValue"/>
                 </xs:sequence>
             </xs:complexType>
-            <xs:complexType name="PO1">
+            <xs:complexType name="Position">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="kind" type="xs:int"/>
                     <xs:element minOccurs="0" name="xx" type="xs:int"/>
                     <xs:element minOccurs="0" name="yy" type="xs:int"/>
                     <xs:element minOccurs="0" name="MIDDLE" type="xs:int"/>
                     <xs:element minOccurs="0" name="POINT" type="xs:int"/>
-                    <xs:element minOccurs="0" name="SIZE" type="xs:int"/>
                     <xs:element minOccurs="0" name="UP_LEFT" type="xs:int"/>
                 </xs:sequence>
             </xs:complexType>
@@ -159,17 +171,13 @@
                     <xs:element minOccurs="0" name="value" nillable="true" type="xs:string"/>
                 </xs:sequence>
             </xs:complexType>
-            <xs:complexType name="PO2">
+            <xs:complexType name="ObjectSize">
                 <xs:sequence>
                     <xs:element minOccurs="0" name="bottom" type="xs:int"/>
                     <xs:element minOccurs="0" name="kind" type="xs:int"/>
                     <xs:element minOccurs="0" name="left" type="xs:int"/>
                     <xs:element minOccurs="0" name="right" type="xs:int"/>
                     <xs:element minOccurs="0" name="top" type="xs:int"/>
-                    <xs:element minOccurs="0" name="MIDDLE" type="xs:int"/>
-                    <xs:element minOccurs="0" name="POINT" type="xs:int"/>
-                    <xs:element minOccurs="0" name="SIZE" type="xs:int"/>
-                    <xs:element minOccurs="0" name="UP_LEFT" type="xs:int"/>
                 </xs:sequence>
             </xs:complexType>
             <xs:complexType name="BArc">
@@ -177,7 +185,7 @@
                     <xs:extension base="ax27:AElement">
                         <xs:sequence>
                             <xs:element minOccurs="0" name="destination" type="xs:int"/>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="points" nillable="true" type="ax27:PO1"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="points" nillable="true" type="ax27:Position"/>
                             <xs:element minOccurs="0" name="source" type="xs:int"/>
                         </xs:sequence>
                     </xs:extension>
@@ -200,23 +208,27 @@
                 </xs:complexContent>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax215="http://question.command.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://question.command.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax216="http://question.command.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://question.command.cami.wrapper.move.lip6.fr/xsd">
             <xs:complexType name="QT">
                 <xs:complexContent>
                     <xs:extension base="ns6:CamiBuilder">
-                        <xs:sequence/>
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                        </xs:sequence>
                     </xs:extension>
                 </xs:complexContent>
             </xs:complexType>
             <xs:complexType name="QO">
                 <xs:complexContent>
                     <xs:extension base="ns6:CamiBuilder">
-                        <xs:sequence/>
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="id" type="xs:int"/>
+                        </xs:sequence>
                     </xs:extension>
                 </xs:complexContent>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax26="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax217="http://question.command.cami.wrapper.move.lip6.fr/xsd" xmlns:ax214="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://menu.output.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax26="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax218="http://question.command.cami.wrapper.move.lip6.fr/xsd" xmlns:ax215="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://menu.output.cami.wrapper.move.lip6.fr/xsd">
             <xs:import namespace="http://modification.menu.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:import namespace="http://question.command.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="Question">
@@ -231,6 +243,13 @@
                     <xs:element minOccurs="0" name="visibility" type="xs:boolean"/>
                 </xs:sequence>
             </xs:complexType>
+            <xs:complexType name="Service">
+                <xs:complexContent>
+                    <xs:extension base="ns9:Question">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
             <xs:complexType name="Option">
                 <xs:complexContent>
                     <xs:extension base="ns9:Question">
@@ -240,7 +259,7 @@
             </xs:complexType>
             <xs:complexType name="MMenu">
                 <xs:sequence>
-                    <xs:element minOccurs="0" name="lastModification" nillable="true" type="ax214:LMenuModification"/>
+                    <xs:element minOccurs="0" name="lastModification" nillable="true" type="ax215:LMenuModification"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="roots" nillable="true" type="ns9:RootMenu"/>
                 </xs:sequence>
             </xs:complexType>
@@ -270,7 +289,7 @@
                 <xs:complexContent>
                     <xs:extension base="ns9:Question">
                         <xs:sequence>
-                            <xs:element minOccurs="0" name="qT" nillable="true" type="ax217:QT"/>
+                            <xs:element minOccurs="0" name="text" nillable="true" type="ax218:QT"/>
                         </xs:sequence>
                     </xs:extension>
                 </xs:complexContent>
@@ -279,15 +298,8 @@
                 <xs:complexContent>
                     <xs:extension base="ns9:Question">
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="qT" nillable="true" type="ax217:QT"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="texts" nillable="true" type="ax218:QT"/>
                         </xs:sequence>
-                    </xs:extension>
-                </xs:complexContent>
-            </xs:complexType>
-            <xs:complexType name="Service">
-                <xs:complexContent>
-                    <xs:extension base="ns9:Question">
-                        <xs:sequence/>
                     </xs:extension>
                 </xs:complexContent>
             </xs:complexType>
@@ -295,7 +307,7 @@
                 <xs:complexContent>
                     <xs:extension base="ns9:Question">
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="qO" nillable="true" type="ax217:QO"/>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="objects" nillable="true" type="ax218:QO"/>
                         </xs:sequence>
                     </xs:extension>
                 </xs:complexContent>
@@ -304,29 +316,37 @@
                 <xs:complexContent>
                     <xs:extension base="ns9:Question">
                         <xs:sequence>
-                            <xs:element minOccurs="0" name="qO" nillable="true" type="ax217:QO"/>
+                            <xs:element minOccurs="0" name="object" nillable="true" type="ax218:QO"/>
                         </xs:sequence>
                     </xs:extension>
                 </xs:complexContent>
             </xs:complexType>
         </xs:schema>
-        <xs:schema xmlns:ax212="http://modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax211="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax210="http://rservice.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://rservice.output.cami.wrapper.move.lip6.fr/xsd">
+        <xs:schema xmlns:ax213="http://modele.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax212="http://menu.output.cami.wrapper.move.lip6.fr/xsd" xmlns:ax211="http://rservice.output.cami.wrapper.move.lip6.fr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://rservice.output.cami.wrapper.move.lip6.fr/xsd">
             <xs:import namespace="http://menu.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:import namespace="http://modele.output.cami.wrapper.move.lip6.fr/xsd"/>
             <xs:complexType name="RService">
                 <xs:sequence>
-                    <xs:element minOccurs="0" name="answerToquestion" nillable="true" type="ax211:Question"/>
+                    <xs:element minOccurs="0" name="answerToquestion" nillable="true" type="ax212:Question"/>
                     <xs:element minOccurs="0" name="catagorie" nillable="true" type="xs:string"/>
-                    <xs:element minOccurs="0" name="currentModel" nillable="true" type="ax212:Model"/>
-                    <xs:element minOccurs="0" name="menu" nillable="true" type="ax211:MMenu"/>
+                    <xs:element minOccurs="0" name="currentModel" nillable="true" type="ax213:Model"/>
+                    <xs:element minOccurs="0" name="ensemble" nillable="true" type="ax211:Ensemble"/>
+                    <xs:element minOccurs="0" name="menu" nillable="true" type="ax212:MMenu"/>
                     <xs:element minOccurs="0" name="modelModification" type="xs:boolean"/>
                     <xs:element minOccurs="0" name="modelSend" type="xs:boolean"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="newModels" nillable="true" type="ax212:Model"/>
-                    <xs:element minOccurs="0" name="objs" nillable="true" type="ax210:ObjResult"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="subLightAttribute" nillable="true" type="ax210:SubLightAttribute"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="subLightObject" nillable="true" type="ax210:SubLightObject"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="newModels" nillable="true" type="ax213:Model"/>
                     <xs:element minOccurs="0" name="timeExecution" type="xs:long"/>
-                    <xs:element minOccurs="0" name="txts" nillable="true" type="ax210:TextResult"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Ensemble">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="ensembles" nillable="true" type="ax211:Ensemble"/>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="objs" nillable="true" type="ax211:ObjResult"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="subLightAttribute" nillable="true" type="ax211:SubLightAttribute"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="subLightObject" nillable="true" type="ax211:SubLightObject"/>
+                    <xs:element minOccurs="0" name="txts" nillable="true" type="ax211:TextResult"/>
+                    <xs:element minOccurs="0" name="type" type="xs:int"/>
                 </xs:sequence>
             </xs:complexType>
             <xs:complexType name="ObjResult">
@@ -443,13 +463,89 @@
                         <xs:element minOccurs="0" name="uid" nillable="true" type="ns3:Authentification"/>
                         <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
                         <xs:element minOccurs="0" name="root" nillable="true" type="ns9:Question"/>
-                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:Question"/>
+                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:Service"/>
                         <xs:element maxOccurs="unbounded" minOccurs="0" name="options" nillable="true" type="ns9:Option"/>
                         <xs:element minOccurs="0" name="theModel" nillable="true" type="ns7:Model"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="executeServiceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ns10:RService"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithObjects">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ns3:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="root" nillable="true" type="ns9:Question"/>
+                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:ServiceWithObjects"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="options" nillable="true" type="ns9:Option"/>
+                        <xs:element minOccurs="0" name="theModel" nillable="true" type="ns7:Model"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithObjectsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ns10:RService"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithOneObject">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ns3:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="root" nillable="true" type="ns9:Question"/>
+                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:ServiceWithOneObject"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="options" nillable="true" type="ns9:Option"/>
+                        <xs:element minOccurs="0" name="theModel" nillable="true" type="ns7:Model"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithOneObjectResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ns10:RService"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithOneText">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ns3:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="root" nillable="true" type="ns9:Question"/>
+                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:ServiceWithOneText"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="options" nillable="true" type="ns9:Option"/>
+                        <xs:element minOccurs="0" name="theModel" nillable="true" type="ns7:Model"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithOneTextResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ns10:RService"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithTexts">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="uid" nillable="true" type="ns3:Authentification"/>
+                        <xs:element minOccurs="0" name="idSession" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="root" nillable="true" type="ns9:Question"/>
+                        <xs:element minOccurs="0" name="question" nillable="true" type="ns9:ServiceWithTexts"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="options" nillable="true" type="ns9:Option"/>
+                        <xs:element minOccurs="0" name="theModel" nillable="true" type="ns7:Model"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="executeServiceWithTextsResponse">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element minOccurs="0" name="return" nillable="true" type="ns10:RService"/>
@@ -564,6 +660,18 @@
     <wsdl:message name="mainRequest">
         <wsdl:part name="parameters" element="ns12:main"/>
     </wsdl:message>
+    <wsdl:message name="executeServiceWithOneObjectRequest">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithOneObject"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithOneObjectResponse">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithOneObjectResponse"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithOneTextRequest">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithOneText"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithOneTextResponse">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithOneTextResponse"/>
+    </wsdl:message>
     <wsdl:message name="changeSessionRequest">
         <wsdl:part name="parameters" element="ns12:changeSession"/>
     </wsdl:message>
@@ -582,6 +690,12 @@
     <wsdl:message name="pingResponse">
         <wsdl:part name="parameters" element="ns12:pingResponse"/>
     </wsdl:message>
+    <wsdl:message name="executeServiceWithTextsRequest">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithTexts"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithTextsResponse">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithTextsResponse"/>
+    </wsdl:message>
     <wsdl:message name="executeServiceRequest">
         <wsdl:part name="parameters" element="ns12:executeService"/>
     </wsdl:message>
@@ -599,6 +713,12 @@
     </wsdl:message>
     <wsdl:message name="connectResponse">
         <wsdl:part name="parameters" element="ns12:connectResponse"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithObjectsRequest">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithObjects"/>
+    </wsdl:message>
+    <wsdl:message name="executeServiceWithObjectsResponse">
+        <wsdl:part name="parameters" element="ns12:executeServiceWithObjectsResponse"/>
     </wsdl:message>
     <wsdl:portType name="WrapperPortType">
         <wsdl:operation name="answerDb">
@@ -619,6 +739,16 @@
         <wsdl:operation name="main">
             <wsdl:input message="ns12:mainRequest" wsaw:Action="urn:main"/>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneObject">
+            <wsdl:input message="ns12:executeServiceWithOneObjectRequest" wsaw:Action="urn:executeServiceWithOneObject"/>
+            <wsdl:output message="ns12:executeServiceWithOneObjectResponse" wsaw:Action="urn:executeServiceWithOneObjectResponse"/>
+            <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:executeServiceWithOneObjectGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneText">
+            <wsdl:input message="ns12:executeServiceWithOneTextRequest" wsaw:Action="urn:executeServiceWithOneText"/>
+            <wsdl:output message="ns12:executeServiceWithOneTextResponse" wsaw:Action="urn:executeServiceWithOneTextResponse"/>
+            <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:executeServiceWithOneTextGException"/>
+        </wsdl:operation>
         <wsdl:operation name="changeSession">
             <wsdl:input message="ns12:changeSessionRequest" wsaw:Action="urn:changeSession"/>
             <wsdl:output message="ns12:changeSessionResponse" wsaw:Action="urn:changeSessionResponse"/>
@@ -632,6 +762,11 @@
             <wsdl:input message="ns12:pingRequest" wsaw:Action="urn:ping"/>
             <wsdl:output message="ns12:pingResponse" wsaw:Action="urn:pingResponse"/>
             <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:pingGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithTexts">
+            <wsdl:input message="ns12:executeServiceWithTextsRequest" wsaw:Action="urn:executeServiceWithTexts"/>
+            <wsdl:output message="ns12:executeServiceWithTextsResponse" wsaw:Action="urn:executeServiceWithTextsResponse"/>
+            <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:executeServiceWithTextsGException"/>
         </wsdl:operation>
         <wsdl:operation name="executeService">
             <wsdl:input message="ns12:executeServiceRequest" wsaw:Action="urn:executeService"/>
@@ -647,6 +782,11 @@
             <wsdl:input message="ns12:connectRequest" wsaw:Action="urn:connect"/>
             <wsdl:output message="ns12:connectResponse" wsaw:Action="urn:connectResponse"/>
             <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:connectGException"/>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithObjects">
+            <wsdl:input message="ns12:executeServiceWithObjectsRequest" wsaw:Action="urn:executeServiceWithObjects"/>
+            <wsdl:output message="ns12:executeServiceWithObjectsResponse" wsaw:Action="urn:executeServiceWithObjectsResponse"/>
+            <wsdl:fault message="ns12:GException" name="GException" wsaw:Action="urn:executeServiceWithObjectsGException"/>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="WrapperSOAP11Binding" type="ns12:WrapperPortType">
@@ -693,6 +833,30 @@
                 <soap:body use="literal"/>
             </wsdl:input>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneObject">
+            <soap:operation soapAction="urn:executeServiceWithOneObject" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneText">
+            <soap:operation soapAction="urn:executeServiceWithOneText" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="changeSession">
             <soap:operation soapAction="urn:changeSession" style="document"/>
             <wsdl:input>
@@ -716,6 +880,18 @@
         </wsdl:operation>
         <wsdl:operation name="ping">
             <soap:operation soapAction="urn:ping" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithTexts">
+            <soap:operation soapAction="urn:executeServiceWithTexts" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -752,6 +928,18 @@
         </wsdl:operation>
         <wsdl:operation name="connect">
             <soap:operation soapAction="urn:connect" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithObjects">
+            <soap:operation soapAction="urn:executeServiceWithObjects" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -807,6 +995,30 @@
                 <soap12:body use="literal"/>
             </wsdl:input>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneObject">
+            <soap12:operation soapAction="urn:executeServiceWithOneObject" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneText">
+            <soap12:operation soapAction="urn:executeServiceWithOneText" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
         <wsdl:operation name="changeSession">
             <soap12:operation soapAction="urn:changeSession" style="document"/>
             <wsdl:input>
@@ -830,6 +1042,18 @@
         </wsdl:operation>
         <wsdl:operation name="ping">
             <soap12:operation soapAction="urn:ping" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithTexts">
+            <soap12:operation soapAction="urn:executeServiceWithTexts" style="document"/>
             <wsdl:input>
                 <soap12:body use="literal"/>
             </wsdl:input>
@@ -876,6 +1100,18 @@
                 <soap12:fault use="literal" name="GException"/>
             </wsdl:fault>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithObjects">
+            <soap12:operation soapAction="urn:executeServiceWithObjects" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GException">
+                <soap12:fault use="literal" name="GException"/>
+            </wsdl:fault>
+        </wsdl:operation>
     </wsdl:binding>
     <wsdl:binding name="WrapperHttpBinding" type="ns12:WrapperPortType">
         <http:binding verb="POST"/>
@@ -912,6 +1148,24 @@
                 <mime:content type="text/xml" part="main"/>
             </wsdl:input>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneObject">
+            <http:operation location="Wrapper/executeServiceWithOneObject"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="executeServiceWithOneObject"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="executeServiceWithOneObject"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithOneText">
+            <http:operation location="Wrapper/executeServiceWithOneText"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="executeServiceWithOneText"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="executeServiceWithOneText"/>
+            </wsdl:output>
+        </wsdl:operation>
         <wsdl:operation name="changeSession">
             <http:operation location="Wrapper/changeSession"/>
             <wsdl:input>
@@ -939,6 +1193,15 @@
                 <mime:content type="text/xml" part="ping"/>
             </wsdl:output>
         </wsdl:operation>
+        <wsdl:operation name="executeServiceWithTexts">
+            <http:operation location="Wrapper/executeServiceWithTexts"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="executeServiceWithTexts"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="executeServiceWithTexts"/>
+            </wsdl:output>
+        </wsdl:operation>
         <wsdl:operation name="executeService">
             <http:operation location="Wrapper/executeService"/>
             <wsdl:input>
@@ -964,6 +1227,15 @@
             </wsdl:input>
             <wsdl:output>
                 <mime:content type="text/xml" part="connect"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="executeServiceWithObjects">
+            <http:operation location="Wrapper/executeServiceWithObjects"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="executeServiceWithObjects"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="executeServiceWithObjects"/>
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
