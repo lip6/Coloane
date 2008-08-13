@@ -39,7 +39,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	protected final IFigure createFigure() {
 		ICoreTip tip = (ICoreTip) getModel();
 		IFigure figure = new TipFigure(tip);
-		Point location = calculLocation(tip.getIdObject());
+		Point location = calculLocation(tip.getIdObject(), figure);
 		figure.setLocation(location);
 		if (tip instanceof ILocatedElement) {
 			((ILocatedElement) tip).getLocationInfo().setLocation(location);
@@ -54,29 +54,53 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 
 	/**
 	 * @param id id of the IElement concerned
-	 * @return empty location around the IElement
+	 * @param figure figure pour laquelle on cherche une position
+	 * @return the "best" location around the IElement
 	 */
-	private Point calculLocation(int id) {
-		Point location;
-		int dx = 10;
-		int dy = 10;
+	private Point calculLocation(int id, IFigure figure) {
+		Point location = new Point(10, 10);
+		int tipWidth = figure.getSize().width;
+		int tipHeight = figure.getSize().height;
 		IGraph graph = SessionManager.getInstance().getCurrentSession().getGraph();
+
+		// Cas d'un noeud, on centre au dessus du noeud
 		INode node = graph.getNode(id);
 		if (node != null) {
-			location = node.getGraphicInfo().getLocation();
-			location.translate(
-					node.getNodeFormalism().getGraphicalDescription().getWidth() / 2,
-					node.getNodeFormalism().getGraphicalDescription().getHeight() / 2);
-			dx += node.getNodeFormalism().getGraphicalDescription().getWidth() / 2;
-			dy += node.getNodeFormalism().getGraphicalDescription().getHeight() / 2;
-			return location.getTranslated(15, 15);
+			location = node.getGraphicInfo().getLocation().getCopy();
+			int nodeWidth = node.getGraphicInfo().getSize().width;
+			location.translate(nodeWidth / 2 - tipWidth / 2, -(30 + tipHeight / 2));
 		}
+
+		// Cas d'un arc, on centre au dessus du milieu de l'arc
+		// le milieu de l'arc est calculé par le modèle
 		IArc arc = graph.getArc(id);
 		if (arc != null) {
-			location = arc.getGraphicInfo().findMiddlePoint();
-			return location.getTranslated(15, 15);
+			location = arc.getGraphicInfo().findMiddlePoint().getCopy();
+			location.translate(-tipWidth / 2, -(30 + tipHeight / 2));
 		}
-		return new Point(10, 10);
+
+		while (findFigureInto(new Rectangle(location, figure.getSize())) != null) {
+			location.translate(20, 0);
+		}
+		return location;
+	}
+
+	/**
+	 * @param rectangle zone de recherche
+	 * @return la première figure trouvée ou <code>null</code>
+	 */
+	private IFigure findFigureInto(Rectangle rectangle) {
+		List<IFigure> exclude = new ArrayList<IFigure>(1);
+		exclude.add(figure);
+		for (int x = 0; x < rectangle.width; x++) {
+			for (int y = 0; y < rectangle.height; y++) {
+				IFigure found = ((GraphEditPart) getParent()).getFigure().findFigureAt(rectangle.x + x, rectangle.y + y);
+				if (found != null) {
+					return found;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -93,9 +117,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	@Override
 	protected final List<Object> getModelSourceConnections() {
 		List<Object> sources = new ArrayList<Object>();
-		if (getModel() instanceof ICoreTip) {
-			sources.add(((ICoreTip) getModel()).getArcModel());
-		}
+		sources.add(((ICoreTip) getModel()).getArcModel());
 		return sources;
 	}
 

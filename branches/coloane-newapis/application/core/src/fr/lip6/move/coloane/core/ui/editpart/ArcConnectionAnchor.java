@@ -67,10 +67,12 @@ public class ArcConnectionAnchor extends AbstractConnectionAnchor implements Con
 		// Recherche du milieu de segment le plus proche du point de référence
 		int distance = Integer.MAX_VALUE;
 		Iterator<Point> it = points.iterator();
-		Point p0 = it.next(), p1 = null;
+		Point p0 = it.next().getCopy(), p1 = null;
+		getOwner().translateToAbsolute(p0);
 		location = p0;
 		while (it.hasNext()) {
-			p1 = it.next();
+			p1 = it.next().getCopy();
+			getOwner().translateToAbsolute(p1);
 			Point middle = p0.getTranslated(p1.getDifference(p0).scale(0.5));
 			int tmpDistance = (int) Math.round(reference.getDistance(middle));
 			if (tmpDistance < distance) {
@@ -79,7 +81,7 @@ public class ArcConnectionAnchor extends AbstractConnectionAnchor implements Con
 			}
 			p0 = p1;
 		}
-		return location;
+		return location.getCopy();
 	}
 
 }
