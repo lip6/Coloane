@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.lip6.move.coloane</groupId>
-	<artifactId>coloane</artifactId>
+	<artifactId>coloane-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.13.0-SNAPSHOT</version>
+	<version>0.14.0-SNAPSHOT</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
 	<url>http://coloane.lip6.fr</url>
@@ -240,14 +240,13 @@
 	</distributionManagement>
 
 	<build>
-		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 
 		<!-- Configuration des plugin de Maven -->
 		<plugins>
 
-			<!-- Pour compiler avec le jdk 1.5 -->
+			<!-- Pour compiler avec le JDK 1.5 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -257,7 +256,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Pour le checkstyle -->
+			<!-- Pour le Checkstyle -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -279,7 +278,7 @@
 			</plugin>
 
 			<plugin>
-				<!-- calcule la revision courante -->
+				<!-- Calcule la revision courante du dépôt de sources -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
 				<executions>
@@ -293,6 +292,7 @@
 				</executions>
 			</plugin>
 
+			<!-- Modification du MANIFEST.MF pour ajouter des informations supplémentaires -->
 			<plugin> 
 				<groupId>org.apache.maven.plugins</groupId> 
 				<artifactId>maven-jar-plugin</artifactId> 
@@ -315,7 +315,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					
-					<!-- modifications du manifest pour les snapshot -->
+					<!-- Modification du MANIFEST.MF pour les Night-Build -->
 					<execution>
 						<id>UpdateManifest</id>
 						<phase>generate-sources</phase>        
@@ -331,40 +331,7 @@
 						</configuration>
 					</execution>
 					
-					<!-- deploiement du jar au bon endroit (snapshot/release)-->
-					<execution>
-						<id>Deploy</id>
-						<phase>deploy</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>deployJar.sh</executable>
-							<arguments>
-								<argument>${project.version}</argument>
-								<argument>${build.finalName}.${project.packaging}</argument>
-								<argument>/data/coloane_deposit</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					
-					<!-- enregistrement des versions des plugins -->
-					<execution>
-						<id>ComputeVersion</id>
-						<phase>deploy</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>computeVersion.sh</executable>
-							<arguments>
-								<argument>${project.version}</argument>
-								<argument>/data/coloane_deposit</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					
-					<!-- nettoyage du manifest (retour a la revision de base) -->
+					<!-- Nettoyage du MANIFEST.MF (retour à la revision de base) -->
 					<execution>
 						<id>CleanManifest</id>
 						<phase>clean</phase>        
