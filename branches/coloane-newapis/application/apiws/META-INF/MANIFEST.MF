@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Coloane API (web-services)
 Bundle-SymbolicName: fr.lip6.move.coloane.apiws;singleton:=true
-Bundle-Version: 0.13.0
+Bundle-Version: 1.0.0
 Bundle-ClassPath: .,
  lib/activation-1.1.jar,
  lib/axiom-api-1.2.5.jar,
