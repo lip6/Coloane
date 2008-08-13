@@ -81,8 +81,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		}
 	};
 
-	private ConnectionAnchor connectionAnchor;
-
 	/**
 	 * Dessin de l'arc
 	 * @return IFigure
@@ -246,36 +244,26 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		return editPartListener;
 	}
 
-	/**
-	 * @return ArcConnectionAnchor
-	 */
-	private ConnectionAnchor getConnectionAnchor() {
-		if (connectionAnchor == null) {
-			connectionAnchor = new ArcConnectionAnchor(this);
-		}
-		return connectionAnchor;
-	}
-
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-		return getConnectionAnchor();
+		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return getConnectionAnchor();
+		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		return getConnectionAnchor();
+		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return getConnectionAnchor();
+		return new ArcConnectionAnchor(this);
 	}
 
 	/**
