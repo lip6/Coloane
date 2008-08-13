@@ -29,7 +29,6 @@
 							<packageName>fr.lip6.move.coloane.apiws.stubs</packageName>
 							<wsdlFile>resources/wrapper.wsdl</wsdlFile>
 							<databindingName>adb</databindingName>
-							<!-- <outputDirectory>${basedir}</outputDirectory> -->
 						</configuration>
 					</execution>
 				</executions>

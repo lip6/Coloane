@@ -22,7 +22,6 @@
 				<version>1.0</version>
 				<configuration>
 					<sourceDirectory>${basedir}/src/fr/lip6/move/coloane/apicami/parse</sourceDirectory>
-					<!-- <outputDirectory>${project.build.directory}/classes/fr/lip6/move/coloane/apicami/parse</outputDirectory> -->
 				</configuration>
 				<executions>
 					<execution>
