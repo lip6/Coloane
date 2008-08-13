@@ -10,10 +10,10 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservabl
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
+import fr.lip6.move.coloane.apiws.ws.GExceptionException0;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.AsyncMessage;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.GException;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
@@ -152,7 +152,7 @@ public class Listener extends Thread implements IListener {
 				// On stoppe le Listener
 				stopper();
 				e.printStackTrace();
-			} catch (GException e) {
+			} catch (GExceptionException0 e) {
 				LOGGER.warning("Erreur lors du ping: " + e.getMessage());
 				// En force la fermeture de la connexion
 				LOGGER.fine("Demande de deconnexion forcée suite a une erreur grave");

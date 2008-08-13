@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.apiws.ApiConnection;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IBrutalInterruptObservable;
 import fr.lip6.move.coloane.apiws.interfaces.observables.IObservables;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.ISpeaker;
+import fr.lip6.move.coloane.apiws.ws.GExceptionException0;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse;
@@ -29,7 +30,6 @@ import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.GException;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.Option;
 import fr.lip6.move.coloane.apiws.ws.WrapperStub.Question;
@@ -142,7 +142,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException("Imposible d'ouvrir une connexion: " + e.getMessage());
-		} catch (GException e) {
+		} catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur de l'ouverture de la connexion: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -188,7 +188,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException("Imposible d'ouvrir une session: " + e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur de l'ouverture d'une session: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -235,7 +235,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException("Imposible de changer de session: " + e.getMessage());
-		} catch (GException e) {
+		} catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors du changement de session: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -282,7 +282,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException("Imposible de fermer une session: " + e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de la fermeture d'une session: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -329,7 +329,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException("Imposible de fermer la connexion: " + e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de la fermeture de la connexion: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -376,7 +376,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-		} catch (GException e) {
+		} catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de la reponse à une boîte de dialogue: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -439,7 +439,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -503,7 +503,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -567,7 +567,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -631,7 +631,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
@@ -695,7 +695,7 @@ public class Speaker implements ISpeaker {
 			}
             e.printStackTrace();
             throw new ApiException(e.getMessage());
-        } catch (GException e) {
+        } catch (GExceptionException0 e) {
 			LOGGER.warning("Erreur lors de l'execution d'un service: " + e.getMessage());
 			// Si c'est une erreur grave alors en force la fermeture de la connexion et
 			// on notifie l'observateur de l'événement: BrutalInterupt
