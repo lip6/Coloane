@@ -4,14 +4,14 @@
 
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
-		<artifactId>coloane</artifactId> 
-		<version>0.13.0-SNAPSHOT</version> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.14.0-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.extensions</groupId>
-	<artifactId>extensions</artifactId>
+	<artifactId>extensions-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<name>Extensions</name>
 	<description>Group of Coloane's dedicated extensions</description>
 
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
 			<artifactId>core</artifactId>
-			<version>[0.11,)</version>
+			<version>[0.13,)</version>
 		</dependency>
 	</dependencies>
 
