@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.objects.api;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Authentification;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 
 import java.util.logging.Logger;

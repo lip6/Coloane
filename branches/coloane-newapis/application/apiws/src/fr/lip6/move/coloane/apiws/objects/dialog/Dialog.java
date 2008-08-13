@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.objects.dialog;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.DialogBox;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.DialogBox;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 import java.util.ArrayList;

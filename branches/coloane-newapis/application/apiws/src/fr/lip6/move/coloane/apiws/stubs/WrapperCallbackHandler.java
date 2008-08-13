@@ -6,7 +6,7 @@
  * by the Apache Axis2 version: 1.3  Built on : Aug 10, 2007 (04:45:47 LKT)
  */
 
-    package fr.lip6.move.coloane.apiws.ws;
+    package fr.lip6.move.coloane.apiws.stubs;
 
     /**
      *  WrapperCallbackHandler Callback class, Users can extend this class and implement
@@ -49,7 +49,7 @@
             * override this method for handling normal response from answerDb operation
             */
            public void receiveResultanswerDb(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse result
                         ) {
            }
 
@@ -65,7 +65,7 @@
             * override this method for handling normal response from closeSession operation
             */
            public void receiveResultcloseSession(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse result
                         ) {
            }
 
@@ -81,7 +81,7 @@
             * override this method for handling normal response from createSession operation
             */
            public void receiveResultcreateSession(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse result
                         ) {
            }
 
@@ -99,7 +99,7 @@
             * override this method for handling normal response from executeServiceWithOneObject operation
             */
            public void receiveResultexecuteServiceWithOneObject(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse result
                         ) {
            }
 
@@ -115,7 +115,7 @@
             * override this method for handling normal response from executeServiceWithOneText operation
             */
            public void receiveResultexecuteServiceWithOneText(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse result
                         ) {
            }
 
@@ -131,7 +131,7 @@
             * override this method for handling normal response from changeSession operation
             */
            public void receiveResultchangeSession(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse result
                         ) {
            }
 
@@ -147,7 +147,7 @@
             * override this method for handling normal response from disconnectAllUser operation
             */
            public void receiveResultdisconnectAllUser(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse result
                         ) {
            }
 
@@ -163,7 +163,7 @@
             * override this method for handling normal response from ping operation
             */
            public void receiveResultping(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse result
                         ) {
            }
 
@@ -179,7 +179,7 @@
             * override this method for handling normal response from executeServiceWithTexts operation
             */
            public void receiveResultexecuteServiceWithTexts(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse result
                         ) {
            }
 
@@ -195,7 +195,7 @@
             * override this method for handling normal response from executeService operation
             */
            public void receiveResultexecuteService(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse result
                         ) {
            }
 
@@ -211,7 +211,7 @@
             * override this method for handling normal response from disconnect operation
             */
            public void receiveResultdisconnect(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse result
                         ) {
            }
 
@@ -227,7 +227,7 @@
             * override this method for handling normal response from connect operation
             */
            public void receiveResultconnect(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse result
                         ) {
            }
 
@@ -243,7 +243,7 @@
             * override this method for handling normal response from executeServiceWithObjects operation
             */
            public void receiveResultexecuteServiceWithObjects(
-                    fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse result
+                    fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse result
                         ) {
            }
 

@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Ensemble;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ensemble;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
 import java.util.ArrayList;

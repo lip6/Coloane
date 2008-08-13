@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.evenements;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.QuestionState;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.QuestionState;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 
 import java.util.logging.Logger;

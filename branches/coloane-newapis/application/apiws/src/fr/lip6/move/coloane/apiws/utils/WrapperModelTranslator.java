@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.apiws.utils;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Attribute;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.AttributeValue;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.BArc;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.BNode;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Position;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Attribute;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.AttributeValue;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.BArc;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.BNode;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Model;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Position;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;

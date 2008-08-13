@@ -10,12 +10,12 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservabl
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
-import fr.lip6.move.coloane.apiws.ws.GExceptionException0;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.AsyncMessage;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse;
+import fr.lip6.move.coloane.apiws.stubs.GExceptionException0;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.AsyncMessage;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Authentification;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 

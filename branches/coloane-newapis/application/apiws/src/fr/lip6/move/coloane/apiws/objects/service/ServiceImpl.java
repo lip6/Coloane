@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apiws.objects.service;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Question;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Question;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 /**

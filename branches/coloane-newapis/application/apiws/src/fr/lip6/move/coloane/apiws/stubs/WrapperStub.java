@@ -5,7 +5,7 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.3  Built on : Aug 10, 2007 (04:45:47 LKT)
  */
-        package fr.lip6.move.coloane.apiws.ws;
+        package fr.lip6.move.coloane.apiws.stubs;
 
         
 
@@ -457,21 +457,21 @@
         
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#answerDb
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#answerDb
                      * @param answerDb0
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse answerDb(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse answerDb(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb answerDb0)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb answerDb0)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
@@ -516,11 +516,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -541,8 +541,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -577,15 +577,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startanswerDb
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startanswerDb
                     * @param answerDb0
                 
                 */
                 public  void startanswerDb(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb answerDb0,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb answerDb0,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -628,10 +628,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultanswerDb(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErroranswerDb(e);
@@ -658,8 +658,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErroranswerDb((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErroranswerDb((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -723,21 +723,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#closeSession
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#closeSession
                      * @param closeSession2
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse closeSession(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse closeSession(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession closeSession2)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession closeSession2)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
@@ -782,11 +782,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -807,8 +807,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -843,15 +843,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startcloseSession
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startcloseSession
                     * @param closeSession2
                 
                 */
                 public  void startcloseSession(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession closeSession2,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession closeSession2,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -894,10 +894,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultcloseSession(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorcloseSession(e);
@@ -924,8 +924,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorcloseSession((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorcloseSession((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -989,21 +989,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#createSession
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#createSession
                      * @param createSession4
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse createSession(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse createSession(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession createSession4)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession createSession4)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
@@ -1048,11 +1048,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -1073,8 +1073,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -1109,15 +1109,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startcreateSession
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startcreateSession
                     * @param createSession4
                 
                 */
                 public  void startcreateSession(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession createSession4,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession createSession4,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -1160,10 +1160,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultcreateSession(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorcreateSession(e);
@@ -1190,8 +1190,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorcreateSession((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorcreateSession((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -1255,7 +1255,7 @@
                  
                 
                 public void  main(
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.Main main6
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main main6
 
                 ) throws java.rmi.RemoteException
                 
@@ -1301,21 +1301,21 @@
             
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#executeServiceWithOneObject
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#executeServiceWithOneObject
                      * @param executeServiceWithOneObject7
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse executeServiceWithOneObject(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse executeServiceWithOneObject(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject executeServiceWithOneObject7)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject executeServiceWithOneObject7)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[4].getName());
@@ -1360,11 +1360,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -1385,8 +1385,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -1421,15 +1421,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startexecuteServiceWithOneObject
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startexecuteServiceWithOneObject
                     * @param executeServiceWithOneObject7
                 
                 */
                 public  void startexecuteServiceWithOneObject(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject executeServiceWithOneObject7,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject executeServiceWithOneObject7,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -1472,10 +1472,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultexecuteServiceWithOneObject(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorexecuteServiceWithOneObject(e);
@@ -1502,8 +1502,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorexecuteServiceWithOneObject((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorexecuteServiceWithOneObject((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -1567,21 +1567,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#executeServiceWithOneText
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#executeServiceWithOneText
                      * @param executeServiceWithOneText9
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse executeServiceWithOneText(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse executeServiceWithOneText(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText executeServiceWithOneText9)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText executeServiceWithOneText9)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[5].getName());
@@ -1626,11 +1626,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -1651,8 +1651,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -1687,15 +1687,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startexecuteServiceWithOneText
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startexecuteServiceWithOneText
                     * @param executeServiceWithOneText9
                 
                 */
                 public  void startexecuteServiceWithOneText(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText executeServiceWithOneText9,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText executeServiceWithOneText9,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -1738,10 +1738,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultexecuteServiceWithOneText(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorexecuteServiceWithOneText(e);
@@ -1768,8 +1768,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorexecuteServiceWithOneText((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorexecuteServiceWithOneText((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -1833,21 +1833,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#changeSession
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#changeSession
                      * @param changeSession11
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse changeSession(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse changeSession(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession changeSession11)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession changeSession11)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[6].getName());
@@ -1892,11 +1892,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -1917,8 +1917,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -1953,15 +1953,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startchangeSession
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startchangeSession
                     * @param changeSession11
                 
                 */
                 public  void startchangeSession(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession changeSession11,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession changeSession11,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -2004,10 +2004,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultchangeSession(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorchangeSession(e);
@@ -2034,8 +2034,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorchangeSession((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorchangeSession((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -2099,15 +2099,15 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#disconnectAllUser
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#disconnectAllUser
                      * @param disconnectAllUser13
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse disconnectAllUser(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse disconnectAllUser(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser disconnectAllUser13)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser disconnectAllUser13)
                         
 
                     throws java.rmi.RemoteException
@@ -2157,11 +2157,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -2214,15 +2214,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startdisconnectAllUser
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startdisconnectAllUser
                     * @param disconnectAllUser13
                 
                 */
                 public  void startdisconnectAllUser(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser disconnectAllUser13,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser disconnectAllUser13,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -2265,10 +2265,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultdisconnectAllUser(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrordisconnectAllUser(e);
@@ -2355,21 +2355,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#ping
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#ping
                      * @param ping15
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse ping(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse ping(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping ping15)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping ping15)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[8].getName());
@@ -2414,11 +2414,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -2439,8 +2439,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -2475,15 +2475,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startping
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startping
                     * @param ping15
                 
                 */
                 public  void startping(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping ping15,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping ping15,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -2526,10 +2526,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultping(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorping(e);
@@ -2556,8 +2556,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorping((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorping((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -2621,21 +2621,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#executeServiceWithTexts
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#executeServiceWithTexts
                      * @param executeServiceWithTexts17
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse executeServiceWithTexts(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse executeServiceWithTexts(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts executeServiceWithTexts17)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts executeServiceWithTexts17)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[9].getName());
@@ -2680,11 +2680,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -2705,8 +2705,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -2741,15 +2741,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startexecuteServiceWithTexts
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startexecuteServiceWithTexts
                     * @param executeServiceWithTexts17
                 
                 */
                 public  void startexecuteServiceWithTexts(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts executeServiceWithTexts17,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts executeServiceWithTexts17,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -2792,10 +2792,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultexecuteServiceWithTexts(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorexecuteServiceWithTexts(e);
@@ -2822,8 +2822,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorexecuteServiceWithTexts((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorexecuteServiceWithTexts((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -2887,21 +2887,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#executeService
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#executeService
                      * @param executeService19
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse executeService(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse executeService(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService executeService19)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService executeService19)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[10].getName());
@@ -2946,11 +2946,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -2971,8 +2971,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -3007,15 +3007,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startexecuteService
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startexecuteService
                     * @param executeService19
                 
                 */
                 public  void startexecuteService(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService executeService19,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService executeService19,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -3058,10 +3058,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultexecuteService(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorexecuteService(e);
@@ -3088,8 +3088,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorexecuteService((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorexecuteService((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -3153,21 +3153,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#disconnect
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#disconnect
                      * @param disconnect21
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse disconnect(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse disconnect(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect disconnect21)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect disconnect21)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[11].getName());
@@ -3212,11 +3212,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -3237,8 +3237,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -3273,15 +3273,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startdisconnect
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startdisconnect
                     * @param disconnect21
                 
                 */
                 public  void startdisconnect(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect disconnect21,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect disconnect21,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -3324,10 +3324,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultdisconnect(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrordisconnect(e);
@@ -3354,8 +3354,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrordisconnect((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrordisconnect((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -3419,21 +3419,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#connect
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#connect
                      * @param connect23
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse connect(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse connect(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect connect23)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect connect23)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[12].getName());
@@ -3478,11 +3478,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -3503,8 +3503,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -3539,15 +3539,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startconnect
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startconnect
                     * @param connect23
                 
                 */
                 public  void startconnect(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect connect23,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect connect23,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -3590,10 +3590,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultconnect(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorconnect(e);
@@ -3620,8 +3620,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorconnect((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorconnect((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -3685,21 +3685,21 @@
                 
                     /**
                      * Auto generated method signature
-                     * @see fr.lip6.move.coloane.apiws.ws.Wrapper#executeServiceWithObjects
+                     * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#executeServiceWithObjects
                      * @param executeServiceWithObjects25
                     
                      */
 
                     
-                            public  fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse executeServiceWithObjects(
+                            public  fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse executeServiceWithObjects(
 
-                            fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects executeServiceWithObjects25)
+                            fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects executeServiceWithObjects25)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,fr.lip6.move.coloane.apiws.ws.GExceptionException0{
+                        ,fr.lip6.move.coloane.apiws.stubs.GExceptionException0{
 
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[13].getName());
@@ -3744,11 +3744,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse.class,
+                                             fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
                                 _messageContext.getTransportOut().getSender().cleanup(_messageContext);
                                
-                                        return (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse)object;
+                                        return (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -3769,8 +3769,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-                          throw (fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex;
+                        if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+                          throw (fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex;
                         }
                         
 
@@ -3805,15 +3805,15 @@
             
                 /**
                 * Auto generated method signature for Asynchronous Invocations
-                * @see fr.lip6.move.coloane.apiws.ws.Wrapper#startexecuteServiceWithObjects
+                * @see fr.lip6.move.coloane.apiws.stubs.Wrapper#startexecuteServiceWithObjects
                     * @param executeServiceWithObjects25
                 
                 */
                 public  void startexecuteServiceWithObjects(
 
-                 fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects executeServiceWithObjects25,
+                 fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects executeServiceWithObjects25,
 
-                  final fr.lip6.move.coloane.apiws.ws.WrapperCallbackHandler callback)
+                  final fr.lip6.move.coloane.apiws.stubs.WrapperCallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -3856,10 +3856,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse.class,
+                                                                         fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultexecuteServiceWithObjects(
-                                        (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse)object);
+                                        (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorexecuteServiceWithObjects(e);
@@ -3886,8 +3886,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof fr.lip6.move.coloane.apiws.ws.GExceptionException0){
-														callback.receiveErrorexecuteServiceWithObjects((fr.lip6.move.coloane.apiws.ws.GExceptionException0)ex);
+													if (ex instanceof fr.lip6.move.coloane.apiws.stubs.GExceptionException0){
+														callback.receiveErrorexecuteServiceWithObjects((fr.lip6.move.coloane.apiws.stubs.GExceptionException0)ex);
 											            return;
 										            }
 										            
@@ -62238,12 +62238,12 @@
         }
            
           
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62252,12 +62252,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62266,12 +62266,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1 param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1 param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62280,12 +62280,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.Main param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Main.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62294,12 +62294,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62308,12 +62308,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62322,12 +62322,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62336,12 +62336,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62350,12 +62350,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62364,12 +62364,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62378,12 +62378,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62392,12 +62392,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62406,12 +62406,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62420,12 +62420,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62434,12 +62434,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62448,12 +62448,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62462,12 +62462,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62476,12 +62476,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62490,12 +62490,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62504,12 +62504,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62518,12 +62518,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62532,12 +62532,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62546,12 +62546,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62560,12 +62560,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62574,12 +62574,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62588,12 +62588,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62602,12 +62602,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62616,12 +62616,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse.MY_QNAME,
+                             return param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62631,14 +62631,14 @@
             }
         
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62652,14 +62652,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.Main param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Main.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62673,14 +62673,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62694,14 +62694,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62715,14 +62715,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62736,14 +62736,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62757,14 +62757,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62778,14 +62778,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62799,14 +62799,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62820,14 +62820,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62841,14 +62841,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62862,14 +62862,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62883,14 +62883,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62904,14 +62904,14 @@
 
                              
                             
-                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect param, boolean optimizeContent)
+                            private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect param, boolean optimizeContent)
                             throws org.apache.axis2.AxisFault{
 
                                  
                                         try{
 
                                                 org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect.MY_QNAME,factory));
+                                                emptyEnvelope.getBody().addChild(param.getOMElement(fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect.MY_QNAME,factory));
                                                 return emptyEnvelope;
                                             } catch(org.apache.axis2.databinding.ADBException e){
                                                 throw org.apache.axis2.AxisFault.makeFault(e);
@@ -62941,275 +62941,275 @@
 
         try {
         
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.Connect.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.Connect.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ConnectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.Main.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.Main.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.Main.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ChangeSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUser.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUser.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectAllUserResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.CloseSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjects.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjects.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithObjectsResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneText.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneText.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneTextResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSession.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.CreateSessionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.Ping.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.PingResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDb.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDb.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.AnswerDbResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTexts.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTexts.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithTextsResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObject.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObject.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceWithOneObjectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.ExecuteServiceResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.Disconnect.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.Disconnect.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.DisconnectResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.class.equals(type)){
+                if (fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.class.equals(type)){
                 
-                           return fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return fr.lip6.move.coloane.apiws.stubs.WrapperStub.GException1.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }

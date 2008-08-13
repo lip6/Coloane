@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.AttributeValue;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.LModificationModel;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.ModelModification;
-import fr.lip6.move.coloane.apiws.ws.WrapperStub.RService;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.AttributeValue;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.LModificationModel;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.Model;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.ModelModification;
+import fr.lip6.move.coloane.apiws.stubs.WrapperStub.RService;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
