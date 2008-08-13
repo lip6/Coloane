@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.apicami.communications;
 
-import fr.lip6.move.coloane.apicami.cami.CamiGenerator;
-import fr.lip6.move.coloane.apicami.cami.CamiModelTranslator;
 import fr.lip6.move.coloane.apicami.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;

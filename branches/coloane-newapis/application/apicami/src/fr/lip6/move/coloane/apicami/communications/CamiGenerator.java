@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.communications;
 
 import fr.lip6.move.coloane.apicami.session.SessionController;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;

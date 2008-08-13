@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.communications;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
