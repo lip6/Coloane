@@ -1,10 +1,14 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -26,6 +30,10 @@ public class NodeDeleteCmd extends Command {
 	/** Garder une copie des connexions entrantes vers le noeud */
 	private List<IArc> inArcs = null;
 
+	private List<ICoreTip> tips;
+
+	private ISession session;
+
 	/**
 	 * Constructeur
 	 * @param graph graphe contenant le noeud
@@ -35,20 +43,29 @@ public class NodeDeleteCmd extends Command {
 		super(Messages.NodeDeleteCmd_0);
 		this.graph = graph;
 		this.node = node;
+		this.session = SessionManager.getInstance().getCurrentSession();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
+		tips = new ArrayList<ICoreTip>(session.getTip(node.getId()));
 		outArcs = new ArrayList<IArc>(node.getOutcomingArcs());
+		for (IArc arc : outArcs) {
+			tips.addAll(session.getTip(arc.getId()));
+		}
 		inArcs = new ArrayList<IArc>(node.getIncomingArcs());
+		for (IArc arc : inArcs) {
+			tips.addAll(session.getTip(arc.getId()));
+		}
 		this.redo(); // Execute
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
+		session.removeAllTips(tips);
 		graph.deleteNode(node);
 	}
 
@@ -66,5 +83,7 @@ public class NodeDeleteCmd extends Command {
 		for (IArc arc : outArcs) {
 			graph.addArc(arc);
 		}
+
+		session.addAllTips(tips);
 	}
 }

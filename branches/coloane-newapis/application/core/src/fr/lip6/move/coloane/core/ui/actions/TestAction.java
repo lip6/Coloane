@@ -40,7 +40,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	private Job job;
 
 	private List<ICoreTip> tips = new ArrayList<ICoreTip>();
-	private boolean tipsFlag = true;
+	private boolean tipsFlag = false;
 
 	/** {@inheritDoc} */
 	public final void dispose() {
@@ -66,6 +66,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	private void testTips() {
 		final INode node = SessionManager.getInstance().getCurrentSession().getGraph().getNodes().iterator().next();
 		final IArc arc = SessionManager.getInstance().getCurrentSession().getGraph().getArcs().iterator().next();
+		tipsFlag = !tipsFlag;
 		if (tipsFlag) {
 			tips.add(new CoreTipModel(new ITip() {
 				public int getIdObject() { return arc.getId(); }
@@ -90,7 +91,6 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 			((NodeModel) node).updateTips();
 			((ArcModel) arc).updateTips();
 		}
-		tipsFlag = !tipsFlag;
 	}
 
 	/**
