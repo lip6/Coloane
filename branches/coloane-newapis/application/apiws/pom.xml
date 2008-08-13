@@ -26,7 +26,7 @@
 							<goal>wsdl2code</goal>
 						</goals>
 						<configuration>
-							<packageName>fr.lip6.move.coloane.apiws.ws</packageName>
+							<packageName>fr.lip6.move.coloane.apiws.stubs</packageName>
 							<wsdlFile>resources/wrapper.wsdl</wsdlFile>
 							<databindingName>adb</databindingName>
 							<outputDirectory>${basedir}</outputDirectory>
