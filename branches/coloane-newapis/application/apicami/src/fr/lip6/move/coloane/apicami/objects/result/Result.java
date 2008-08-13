@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.camiObject.result;
+package fr.lip6.move.coloane.apicami.objects.result;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;

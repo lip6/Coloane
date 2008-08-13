@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.apicami.cami;
 
-import fr.lip6.move.coloane.apicami.camiObject.CamiObjectFactory;
-import fr.lip6.move.coloane.apicami.camiObject.Dialog;
-import fr.lip6.move.coloane.apicami.camiObject.menu.IQuestion;
-import fr.lip6.move.coloane.apicami.camiObject.result.Result;
-import fr.lip6.move.coloane.apicami.camiObject.result.SubResult;
+import fr.lip6.move.coloane.apicami.objects.CamiObjectFactory;
+import fr.lip6.move.coloane.apicami.objects.Dialog;
+import fr.lip6.move.coloane.apicami.objects.menu.IQuestion;
+import fr.lip6.move.coloane.apicami.objects.result.Result;
+import fr.lip6.move.coloane.apicami.objects.result.SubResult;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;

@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.camiObject;
+package fr.lip6.move.coloane.apicami.objects;
 
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 

@@ -1,6 +1,6 @@
 // $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-11 11:08:05
 
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.parse;
 
 
 import org.antlr.runtime.*;

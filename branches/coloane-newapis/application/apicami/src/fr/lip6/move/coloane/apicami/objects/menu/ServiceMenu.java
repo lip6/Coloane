@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.camiObject.menu;
+package fr.lip6.move.coloane.apicami.objects.menu;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 

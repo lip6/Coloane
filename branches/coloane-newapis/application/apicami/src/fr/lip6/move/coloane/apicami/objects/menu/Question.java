@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.camiObject.menu;
+package fr.lip6.move.coloane.apicami.objects.menu;
 
 /**
  * Contenur d'information pour une question

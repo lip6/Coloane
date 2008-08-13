@@ -1,6 +1,6 @@
 // $ANTLR 3.0.1 /Users/jbvoron/Projets/coloane-newapis/fr.lip6.move.coloane.apicami/src/fr/lip6/move/coloane/api/cami/Cami.g 2008-08-11 11:08:05
 
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.parse;
 	
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
@@ -21,16 +21,18 @@ import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.coloane.apicami.camiObject.ConnectionInfo;
-import fr.lip6.move.coloane.apicami.camiObject.Dialog;
-import fr.lip6.move.coloane.apicami.camiObject.ReceptMessage;
-import fr.lip6.move.coloane.apicami.camiObject.ReceptServiceState;
-import fr.lip6.move.coloane.apicami.camiObject.menu.IQuestion;
-import fr.lip6.move.coloane.apicami.camiObject.menu.SubMenu;
-import fr.lip6.move.coloane.apicami.camiObject.result.Result;
-import fr.lip6.move.coloane.apicami.camiObject.result.SubResult;
-import fr.lip6.move.coloane.apicami.camiObject.result.Tip;
+import fr.lip6.move.coloane.apicami.cami.CamiObjectBuilder;
+import fr.lip6.move.coloane.apicami.cami.ICamiParserState;
 import fr.lip6.move.coloane.apicami.interfaces.ISessionController;
+import fr.lip6.move.coloane.apicami.objects.ConnectionInfo;
+import fr.lip6.move.coloane.apicami.objects.Dialog;
+import fr.lip6.move.coloane.apicami.objects.ReceptMessage;
+import fr.lip6.move.coloane.apicami.objects.ReceptServiceState;
+import fr.lip6.move.coloane.apicami.objects.menu.IQuestion;
+import fr.lip6.move.coloane.apicami.objects.menu.SubMenu;
+import fr.lip6.move.coloane.apicami.objects.result.Result;
+import fr.lip6.move.coloane.apicami.objects.result.SubResult;
+import fr.lip6.move.coloane.apicami.objects.result.Tip;
 import fr.lip6.move.coloane.apicami.observables.BrutalInterruptObservable;
 import fr.lip6.move.coloane.apicami.observables.ConnectionObservable;
 import fr.lip6.move.coloane.apicami.observables.DisconnectObservable;

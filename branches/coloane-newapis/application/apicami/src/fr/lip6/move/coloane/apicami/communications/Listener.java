@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.apicami.communications;
 
-import fr.lip6.move.coloane.apicami.cami.CamiLexer;
-import fr.lip6.move.coloane.apicami.cami.CamiParser;
 import fr.lip6.move.coloane.apicami.cami.ICamiParserState;
+import fr.lip6.move.coloane.apicami.parse.CamiLexer;
+import fr.lip6.move.coloane.apicami.parse.CamiParser;
 
 import java.io.IOException;
 import java.net.Socket;

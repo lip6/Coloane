@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apicami.observables;
 
-import fr.lip6.move.coloane.apicami.camiObject.ReceptMenu;
+import fr.lip6.move.coloane.apicami.objects.ReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMenuObserver;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;

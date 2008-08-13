@@ -1,9 +1,9 @@
-package fr.lip6.move.coloane.apicami.camiObject;
+package fr.lip6.move.coloane.apicami.objects;
 
-import fr.lip6.move.coloane.apicami.camiObject.menu.IQuestion;
-import fr.lip6.move.coloane.apicami.camiObject.menu.Question;
-import fr.lip6.move.coloane.apicami.camiObject.menu.SubMenu;
-import fr.lip6.move.coloane.apicami.camiObject.menu.UpdateMenu;
+import fr.lip6.move.coloane.apicami.objects.menu.IQuestion;
+import fr.lip6.move.coloane.apicami.objects.menu.Question;
+import fr.lip6.move.coloane.apicami.objects.menu.SubMenu;
+import fr.lip6.move.coloane.apicami.objects.menu.UpdateMenu;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
