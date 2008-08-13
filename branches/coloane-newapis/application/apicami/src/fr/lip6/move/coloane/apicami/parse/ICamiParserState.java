@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.parse;
 
 /**
  * Définition des états du parser<br>

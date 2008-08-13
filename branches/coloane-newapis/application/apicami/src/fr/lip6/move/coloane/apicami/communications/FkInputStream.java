@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.apicami.communications;
 
-import fr.lip6.move.coloane.apicami.cami.ICamiParserState;
+import fr.lip6.move.coloane.apicami.parse.ICamiParserState;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

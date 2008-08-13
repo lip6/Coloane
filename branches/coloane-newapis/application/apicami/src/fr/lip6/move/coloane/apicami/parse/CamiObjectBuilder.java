@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.apicami.cami;
+package fr.lip6.move.coloane.apicami.parse;
 
 import fr.lip6.move.coloane.apicami.objects.CamiObjectFactory;
 import fr.lip6.move.coloane.apicami.objects.Dialog;

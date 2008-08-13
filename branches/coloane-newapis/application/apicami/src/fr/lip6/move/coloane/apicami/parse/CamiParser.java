@@ -21,8 +21,6 @@ import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.coloane.apicami.cami.CamiObjectBuilder;
-import fr.lip6.move.coloane.apicami.cami.ICamiParserState;
 import fr.lip6.move.coloane.apicami.interfaces.ISessionController;
 import fr.lip6.move.coloane.apicami.objects.ConnectionInfo;
 import fr.lip6.move.coloane.apicami.objects.Dialog;
