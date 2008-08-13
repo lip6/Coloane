@@ -28,6 +28,11 @@
 		<name>LIP6 MoVe</name>
 		<url>http://move.lip6.fr</url>
 	</organization>
+	
+	<properties>
+		<!-- A changer lors du passage à Maven 2.1 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<!-- L'équipe de développement (actifs)--> 
 	<developers>
@@ -217,21 +222,19 @@
 	</reporting>
 
 	<distributionManagement> 
-		<!-- use the following if you're not using a snapshot version. --> 
 		<repository> 
 			<id>Coloane-Releases</id> 
 			<name>Coloane Releases</name> 
-			<url>file:///data/coloane_deposit/releases</url> 
+			<url>file:///Users/jbvoron/Projets/repository-coloane/releases</url> 
 		</repository> 
-		<!-- use the following if you ARE using a snapshot version. --> 
 		<snapshotRepository> 
 			<id>Coloane-Snapshots</id> 
 			<name>Coloane Snapshots</name> 
-			<url>file:///data/coloane_deposit/snapshots</url> 
+			<url>file:///Users/jbvoron/Projets/repository-coloane/snapshots</url> 
 		</snapshotRepository> 
 		<site> 
 			<id>Coloane-Reports</id> 
-			<url>file:///data/coloane_deposit/reports</url> 
+			<url>file:///Users/jbvoron/Projets/repository-coloane/reports</url> 
 		</site> 
 	</distributionManagement>
 
