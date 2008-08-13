@@ -17,22 +17,12 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/CamiParser.java</exclude>
-						<exclude>**/CamiLexer.java</exclude>
-					</excludes>	
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
 				<version>1.0</version>
 				<configuration>
-					<sourceDirectory>${basedir}/src/fr/lip6/move/coloane/api/cami</sourceDirectory>
-					<outputDirectory>${project.build.directory}/classes/fr/lip6/move/coloane/api/cami</outputDirectory>
+					<sourceDirectory>${basedir}/src/fr/lip6/move/coloane/apicami/parse</sourceDirectory>
+					<outputDirectory>${project.build.directory}/classes/fr/lip6/move/coloane/apicami/parse</outputDirectory>
 				</configuration>
 				<executions>
 					<execution>
