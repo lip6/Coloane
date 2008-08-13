@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.apiws.utils;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Attribute;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.AttributeValue;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.BArc;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.BNode;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Position;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.wrapper.ws.WrapperStub.Attribute;
-import fr.lip6.move.wrapper.ws.WrapperStub.AttributeValue;
-import fr.lip6.move.wrapper.ws.WrapperStub.BArc;
-import fr.lip6.move.wrapper.ws.WrapperStub.BNode;
-import fr.lip6.move.wrapper.ws.WrapperStub.Model;
-import fr.lip6.move.wrapper.ws.WrapperStub.Position;
 
 import java.util.ArrayList;
 import java.util.List;

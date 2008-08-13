@@ -10,14 +10,14 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptMessageObservabl
 import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptServiceStateObservable;
 import fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication.IListener;
 import fr.lip6.move.coloane.apiws.objects.dialog.Dialog;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.AsyncMessage;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.GException;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Ping;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
-import fr.lip6.move.wrapper.ws.GException;
-import fr.lip6.move.wrapper.ws.WrapperStub;
-import fr.lip6.move.wrapper.ws.WrapperStub.AsyncMessage;
-import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
-import fr.lip6.move.wrapper.ws.WrapperStub.Ping;
-import fr.lip6.move.wrapper.ws.WrapperStub.PingResponse;
 
 import java.rmi.RemoteException;
 import java.util.Map;

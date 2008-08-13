@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.apiws.observables.ObservableFactory;
 import fr.lip6.move.coloane.apiws.session.SessionFactory;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Listener;
 import fr.lip6.move.coloane.apiws.wrapperCommunication.Speaker;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
 import fr.lip6.move.coloane.interfaces.api.IApiConnection;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
@@ -27,7 +28,6 @@ import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptResultObserver;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
-import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
 
 import java.util.HashMap;
 import java.util.Map;

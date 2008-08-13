@@ -4,7 +4,21 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.3  Built on : Aug 10, 2007 (04:45:47 LKT)
  */
-package fr.lip6.move.wrapper.ws;
+package fr.lip6.move.coloane.apiws.ws;
+
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.AnswerDbResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ChangeSessionResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.CloseSessionResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ConnectResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.CreateSessionResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectAllUserResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.DisconnectResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithObjectsResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneObjectResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithOneTextResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ExecuteServiceWithTextsResponse;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.PingResponse;
 
 
 /**
@@ -43,7 +57,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from executeServiceWithObjects operation
      */
     public void receiveResultexecuteServiceWithObjects(
-        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithObjectsResponse result) {
+        ExecuteServiceWithObjectsResponse result) {
     }
 
     /**
@@ -58,7 +72,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from closeSession operation
      */
     public void receiveResultcloseSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.CloseSessionResponse result) {
+        CloseSessionResponse result) {
     }
 
     /**
@@ -73,7 +87,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from disconnectAllUser operation
      */
     public void receiveResultdisconnectAllUser(
-        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectAllUserResponse result) {
+        DisconnectAllUserResponse result) {
     }
 
     /**
@@ -88,7 +102,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from executeService operation
      */
     public void receiveResultexecuteService(
-        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceResponse result) {
+        ExecuteServiceResponse result) {
     }
 
     /**
@@ -103,7 +117,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from executeServiceWithOneObject operation
      */
     public void receiveResultexecuteServiceWithOneObject(
-        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneObjectResponse result) {
+        ExecuteServiceWithOneObjectResponse result) {
     }
 
     /**
@@ -118,7 +132,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from executeServiceWithOneText operation
      */
     public void receiveResultexecuteServiceWithOneText(
-        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithOneTextResponse result) {
+        ExecuteServiceWithOneTextResponse result) {
     }
 
     /**
@@ -133,7 +147,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from answerDb operation
      */
     public void receiveResultanswerDb(
-        fr.lip6.move.wrapper.ws.WrapperStub.AnswerDbResponse result) {
+        AnswerDbResponse result) {
     }
 
     /**
@@ -148,7 +162,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from ping operation
      */
     public void receiveResultping(
-        fr.lip6.move.wrapper.ws.WrapperStub.PingResponse result) {
+        PingResponse result) {
     }
 
     /**
@@ -163,7 +177,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from executeServiceWithTexts operation
      */
     public void receiveResultexecuteServiceWithTexts(
-        fr.lip6.move.wrapper.ws.WrapperStub.ExecuteServiceWithTextsResponse result) {
+        ExecuteServiceWithTextsResponse result) {
     }
 
     /**
@@ -178,7 +192,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from createSession operation
      */
     public void receiveResultcreateSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.CreateSessionResponse result) {
+        CreateSessionResponse result) {
     }
 
     /**
@@ -195,7 +209,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from connect operation
      */
     public void receiveResultconnect(
-        fr.lip6.move.wrapper.ws.WrapperStub.ConnectResponse result) {
+        ConnectResponse result) {
     }
 
     /**
@@ -210,7 +224,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from changeSession operation
      */
     public void receiveResultchangeSession(
-        fr.lip6.move.wrapper.ws.WrapperStub.ChangeSessionResponse result) {
+        ChangeSessionResponse result) {
     }
 
     /**
@@ -225,7 +239,7 @@ public abstract class WrapperCallbackHandler {
      * override this method for handling normal response from disconnect operation
      */
     public void receiveResultdisconnect(
-        fr.lip6.move.wrapper.ws.WrapperStub.DisconnectResponse result) {
+        DisconnectResponse result) {
     }
 
     /**

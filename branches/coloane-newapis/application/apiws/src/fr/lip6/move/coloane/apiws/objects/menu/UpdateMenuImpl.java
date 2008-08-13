@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.menu;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.MenuModification;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.wrapper.ws.WrapperStub.MenuModification;
 
 /**
  * Cette classe définie les modification sur un menu

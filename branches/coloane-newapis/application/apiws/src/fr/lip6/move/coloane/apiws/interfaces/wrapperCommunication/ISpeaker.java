@@ -1,20 +1,20 @@
 package fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Authentification;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.DialogBox;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Option;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Question;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.RService;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Service;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ServiceWithObjects;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ServiceWithOneObject;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ServiceWithOneText;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ServiceWithTexts;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Session;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Unauthentification;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
-import fr.lip6.move.wrapper.ws.WrapperStub;
-import fr.lip6.move.wrapper.ws.WrapperStub.Authentification;
-import fr.lip6.move.wrapper.ws.WrapperStub.DialogBox;
-import fr.lip6.move.wrapper.ws.WrapperStub.Model;
-import fr.lip6.move.wrapper.ws.WrapperStub.Option;
-import fr.lip6.move.wrapper.ws.WrapperStub.Question;
-import fr.lip6.move.wrapper.ws.WrapperStub.RService;
-import fr.lip6.move.wrapper.ws.WrapperStub.Service;
-import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithObjects;
-import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneObject;
-import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithOneText;
-import fr.lip6.move.wrapper.ws.WrapperStub.ServiceWithTexts;
-import fr.lip6.move.wrapper.ws.WrapperStub.Session;
-import fr.lip6.move.wrapper.ws.WrapperStub.Unauthentification;
 
 import java.util.List;
 

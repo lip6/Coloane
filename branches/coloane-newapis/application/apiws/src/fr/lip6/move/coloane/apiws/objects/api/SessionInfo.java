@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.api;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Session;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
-import fr.lip6.move.wrapper.ws.WrapperStub.Session;
 
 import java.util.logging.Logger;
 

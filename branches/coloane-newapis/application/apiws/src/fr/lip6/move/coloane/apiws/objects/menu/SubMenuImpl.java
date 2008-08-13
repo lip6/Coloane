@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.apiws.objects.menu;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Question;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.SubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
-import fr.lip6.move.wrapper.ws.WrapperStub.Question;
-import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 import java.util.ArrayList;
 import java.util.List;

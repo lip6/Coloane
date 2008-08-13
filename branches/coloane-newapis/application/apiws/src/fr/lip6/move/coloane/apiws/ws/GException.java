@@ -4,10 +4,12 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.3  Built on : Aug 10, 2007 (04:45:47 LKT)
  */
-package fr.lip6.move.wrapper.ws;
+package fr.lip6.move.coloane.apiws.ws;
+
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.GException1;
 
 public class GException extends java.lang.Exception {
-    private fr.lip6.move.wrapper.ws.WrapperStub.GException1 faultMessage;
+    private GException1 faultMessage;
 
     public GException() {
         super("GException");
@@ -22,11 +24,11 @@ public class GException extends java.lang.Exception {
     }
 
     public void setFaultMessage(
-        fr.lip6.move.wrapper.ws.WrapperStub.GException1 msg) {
+        GException1 msg) {
         faultMessage = msg;
     }
 
-    public fr.lip6.move.wrapper.ws.WrapperStub.GException1 getFaultMessage() {
+    public GException1 getFaultMessage() {
         return faultMessage;
     }
 }

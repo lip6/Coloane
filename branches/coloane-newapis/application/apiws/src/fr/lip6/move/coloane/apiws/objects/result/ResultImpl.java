@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.AttributeValue;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.LModificationModel;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Model;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.ModelModification;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.RService;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
@@ -15,11 +20,6 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.wrapper.ws.WrapperStub.AttributeValue;
-import fr.lip6.move.wrapper.ws.WrapperStub.LModificationModel;
-import fr.lip6.move.wrapper.ws.WrapperStub.Model;
-import fr.lip6.move.wrapper.ws.WrapperStub.ModelModification;
-import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.ArrayList;
 import java.util.List;

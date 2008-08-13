@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.service;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Question;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.wrapper.ws.WrapperStub.Question;
 
 /**
  * Cette classe définie un service

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.IgnoreCommand;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
-import fr.lip6.move.wrapper.ws.WrapperStub.IgnoreCommand;
 
 import java.util.logging.Logger;
 

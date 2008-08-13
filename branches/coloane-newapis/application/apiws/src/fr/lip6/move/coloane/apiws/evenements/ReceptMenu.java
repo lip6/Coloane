@@ -3,13 +3,13 @@ package fr.lip6.move.coloane.apiws.evenements;
 import fr.lip6.move.coloane.apiws.objects.menu.SubMenuImpl;
 import fr.lip6.move.coloane.apiws.objects.menu.UpdateMenuImpl;
 import fr.lip6.move.coloane.apiws.objects.service.ServiceImpl;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.LMenuModification;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.MMenu;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.SubMenu;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.wrapper.ws.WrapperStub.LMenuModification;
-import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
-import fr.lip6.move.wrapper.ws.WrapperStub.SubMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;

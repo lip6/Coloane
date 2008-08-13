@@ -8,12 +8,12 @@ import fr.lip6.move.coloane.apiws.interfaces.observables.IReceptResultObservable
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionController;
 import fr.lip6.move.coloane.apiws.interfaces.session.ISessionStateMachine;
 import fr.lip6.move.coloane.apiws.objects.result.ResultImpl;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.MMenu;
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.RService;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
-import fr.lip6.move.wrapper.ws.WrapperStub.MMenu;
-import fr.lip6.move.wrapper.ws.WrapperStub.RService;
 
 import java.util.HashMap;
 import java.util.Map;

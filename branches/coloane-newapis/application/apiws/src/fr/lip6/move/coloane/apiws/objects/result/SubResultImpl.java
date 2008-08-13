@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.apiws.objects.result;
 
+import fr.lip6.move.coloane.apiws.ws.WrapperStub.Ensemble;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
-import fr.lip6.move.wrapper.ws.WrapperStub.Ensemble;
 
 import java.util.ArrayList;
 import java.util.HashMap;
