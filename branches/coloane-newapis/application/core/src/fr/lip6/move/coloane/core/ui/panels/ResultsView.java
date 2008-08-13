@@ -134,24 +134,23 @@ public class ResultsView extends ViewPart {
 		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
-					if (evt.getOldValue() != null) {
-						final ResultTreeList previousResult = ((ISession) evt.getOldValue()).getServiceResults();
-						parent.getDisplay().asyncExec(new Runnable() {
-							public void run() {
-								previousResult.deleteObserver(resultObserver);
+					final ISession previous = (ISession) evt.getOldValue();
+					final ISession current = (ISession) evt.getNewValue();
+					parent.getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							if (previous != null) {
+								previous.getServiceResults().deleteObserver(resultObserver);
 							}
-						});
-					}
-					if (evt.getNewValue() != null) {
-						final ResultTreeList currentResult = ((ISession) evt.getNewValue()).getServiceResults();
-						parent.getDisplay().asyncExec(new Runnable() {
-							public void run() {
-								viewer.setInput(currentResult);
-								currentResult.addObserver(resultObserver);
+							if (current != null) {
+								viewer.setInput(current.getServiceResults());
+								current.getServiceResults().addObserver(resultObserver);
+								viewer.refresh();
+							} else {
+								viewer.setInput(null);
 								viewer.refresh();
 							}
-						});
-					}
+						}
+					});
 				}
 			}
 		});
@@ -178,14 +177,30 @@ public class ResultsView extends ViewPart {
 
 		// Suppression d'un résultat
 		delete = new Action(Messages.ResultsView_0) {
+			private void uncheckResult(ISession session, IResultTree result) {
+				for (int id : result.getHighlighted()) {
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
+					if (element == null) {
+						element = (ISpecialState) session.getGraph().getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(false);
+					}
+				}
+				session.removeAllTips(result.getTips());
+				for (IResultTree child : result.getChildren()) {
+					uncheckResult(session, child);
+				}
+			}
+
 			@Override
 			public void run() {
 				for (Object obj : ((ITreeSelection) viewer.getSelection()).toList()) {
 					IResultTree node = (IResultTree) obj;
-					if (node != null) {
-						node.remove();
-						this.setEnabled(false);
-					}
+					ISession session = MANAGER.getCurrentSession();
+					uncheckResult(session, node);
+					node.remove();
+					this.setEnabled(false);
 				}
 			}
 		};
@@ -195,9 +210,30 @@ public class ResultsView extends ViewPart {
 
 		// Suppression de tous les résultats
 		deleteAll = new Action(Messages.ResultsView_2) {
+			private void uncheckResult(ISession session, IResultTree result) {
+				for (int id : result.getHighlighted()) {
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
+					if (element == null) {
+						element = (ISpecialState) session.getGraph().getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(false);
+					}
+				}
+				session.removeAllTips(result.getTips());
+				for (IResultTree child : result.getChildren()) {
+					uncheckResult(session, child);
+				}
+			}
+
 			@Override
 			public void run() {
-				MANAGER.getCurrentSession().getServiceResults().removeAll();
+				ISession session = MANAGER.getCurrentSession();
+				ResultTreeList list = session.getServiceResults();
+				for (IResultTree result : list.getChildren()) {
+					uncheckResult(session, result);
+				}
+				list.removeAll();
 			}
 		};
 		deleteAll.setToolTipText(Messages.ResultsView_3);
