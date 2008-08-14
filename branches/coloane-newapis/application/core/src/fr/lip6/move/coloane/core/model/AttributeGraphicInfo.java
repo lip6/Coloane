@@ -45,15 +45,17 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	 * @param y La position sur l'axe des ordonnées
 	 */
 	private void setLocation(int x, int y) {
-		LOGGER.finest("setLocation(" + x + ", " + y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		Point oldValue = new Point(this.x, this.y);
-		this.x = x;
-		this.y = y;
-		Point newValue = new Point(this.x, this.y);
+		if (this.x != 0 || this.y != 0 || !attribute.getValue().equals(attribute.getAttributeFormalism().getDefaultValue())) {
+			LOGGER.finest("setLocation(" + x + ", " + y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Point oldValue = new Point(this.x, this.y);
+			this.x = x;
+			this.y = y;
+			Point newValue = new Point(this.x, this.y);
 
-		// Lever un evenement
-		((AttributeModel) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
-		lastMove = System.currentTimeMillis();
+			// Lever un evenement
+			((AttributeModel) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
+			lastMove = System.currentTimeMillis();
+		}
 	}
 
 	/**
