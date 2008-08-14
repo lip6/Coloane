@@ -73,14 +73,14 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		// des 2 noeuds d'un arc est inférieur à 256 ms.
 		for (IArc arc : node.getOutcomingArcs()) {
 			lastMove.put(arc, currentTime);
-			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
+			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove(arc) - currentTime) < 32) {
 				arc.modifyInflexPoints(dx, dy);
 				lastMove.put(arc, ZERO);
 			}
 		}
 		for (IArc arc : node.getIncomingArcs()) {
 			lastMove.put(arc, currentTime);
-			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove(arc) - currentTime) < 256) {
+			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove(arc) - currentTime) < 32) {
 				arc.modifyInflexPoints(dx, dy);
 				lastMove.put(arc, ZERO);
 			}

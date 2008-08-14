@@ -23,6 +23,9 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	private int x = 0;
 	private int y = 0;
 
+	/** Date du dernier déplacement */
+	private long lastMove = 0;
+
 	/**
 	 * Constructeur
 	 * @param attr L'attribut concerné par ces propriétés graphiques
@@ -50,6 +53,14 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 		// Lever un evenement
 		((AttributeModel) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
+		lastMove = System.currentTimeMillis();
+	}
+
+	/**
+	 * @return date du dernier déplacement de l'attribut
+	 */
+	final long getLastMove() {
+		return lastMove;
 	}
 
 	/** {@inheritDoc} */

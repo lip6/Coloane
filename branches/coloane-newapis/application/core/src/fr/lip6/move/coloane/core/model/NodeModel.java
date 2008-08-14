@@ -134,8 +134,10 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	public final void updateAttributesPosition(int deltaX, int deltaY) {
 		Collection<IAttribute> collection = this.getDrawableAttributes();
 		for (IAttribute att : collection) {
-			Point loc = att.getGraphicInfo().getLocation();
-			att.getGraphicInfo().setLocation(new Point(loc.x + deltaX, loc.y + deltaY));
+			if (System.currentTimeMillis() - ((AttributeGraphicInfo) att.getGraphicInfo()).getLastMove() > 32) {
+				Point loc = att.getGraphicInfo().getLocation();
+				att.getGraphicInfo().setLocation(new Point(loc.x + deltaX, loc.y + deltaY));
+			}
 		}
 	}
 
