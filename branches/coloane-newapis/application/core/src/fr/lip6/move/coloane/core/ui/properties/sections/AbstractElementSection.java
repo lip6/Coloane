@@ -64,8 +64,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 
 	/**
 	 * Change l'état (visible ou non) des propriétés du type nodeType
-	 * @param visible
-	 * @param nodeType
+	 * @param visible nouvelle état
+	 * @param nodeType type de noeud concerné par le changement d'état
 	 */
 	private void setVisible(boolean visible, String nodeType) {
 		for (LabelText lt : map.get(nodeType)) {
@@ -103,8 +103,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	}
 
 	/**
-	 * @param isMulti
-	 * @return le style SWT pour un élément simple ligne ou multi ligne.
+	 * @param isMulti <code>true</code> si on veut le style SWT multiligne
+	 * @return le style SWT pour un élément simple ligne ou multiligne.
 	 */
 	private int getSWTStyle(boolean isMulti) {
 		if (isMulti) {
@@ -117,8 +117,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/**
 	 * Affichage/Création des propriétés <i>attributes</i> du type <i>nodeType</i>
 	 *
-	 * @param nodeType
-	 * @param attributes
+	 * @param nodeType type qui doit être afficher
+	 * @param attributes attributs pour ce type de noeud
 	 */
 	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);

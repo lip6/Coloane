@@ -12,11 +12,22 @@ public class LabelTextFactory {
 
 	private LabelText last;
 
+	/**
+	 * @param parent parent fourni à tous les LabelText créé
+	 * @param factory factory fourni à tous les LabelText créé
+	 */
 	public LabelTextFactory(Composite parent, TabbedPropertySheetWidgetFactory factory) {
 		this.parent = parent;
 		this.factory = factory;
 	}
 
+	/**
+	 * Création de LabelText les uns en dessous des autres.
+	 * @param label label
+	 * @param value valeur
+	 * @param style style SWT
+	 * @return un nouveau LabelText
+	 */
 	public final LabelText create(String label, String value, int style) {
 		LabelText lt;
 		if (last == null) {
@@ -35,6 +46,7 @@ public class LabelTextFactory {
 					style,
 					last);
 		}
+		// On conserve le dernier LabelText créé pour que le suivant soient placé en dessous.
 		last = lt;
 		return lt;
 	}

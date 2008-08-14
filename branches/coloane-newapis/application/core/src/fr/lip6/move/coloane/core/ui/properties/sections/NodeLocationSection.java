@@ -42,9 +42,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 			this.i = i % 2; // pour être sur qu'on a 0 ou 1.
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-		 */
+		/** {@inheritDoc} */
 		public final void modifyText(ModifyEvent e) {
 			Spinner spinner = (Spinner) e.widget;
 
