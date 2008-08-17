@@ -2,41 +2,81 @@
 
 use strict;
 use diagnostics;
+use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
+use Archive::Zip::MemberRead;
+use XML::Twig;
+
 diagnostics::enable();
 
 #
 # Author : Jean-Baptiste Voron (LIP6/MoVe)
-# Description : Rewrite feature.xml to produce night-builds products
-#
-# Use : perl build_feature.pl <FEATURE FILE> <BUILD NUMBER> <PLUGIN DIR> <FEATURE DIR>
+# Description : Rewrite feature.xml to produce features products suitable for Eclipse deployement
+# Use : perl buildFeatureXML.pl <FEATURE FILE> <MAVEN NAME> <BUILD NUMBER> <PATH_TO_DEPLOY>
 
-use XML::Twig;
 
-# Debug state
 my $debug = 1;
 
-# Fetch parameters
+# Fetch all parameters
 my $featurefile = shift;
-my $buildnumber = shift;
 my $buildname = shift;
-my $publicdir = shift;
+my $buildnumber = shift;
+my $deploypath = shift;
 
+sub compute_version {
+	my $dir = shift; # Where to look for...
+	my $id = shift;  # What to look for...
+	
+	my @files; # All JAR files that match the ID
+
+	# Open the directory and look for matching file's name
+	opendir(DIR,$dir) or die "The directory $dir cannot be browsed --> FAILURE !";
+	while (my $file=readdir(DIR)) {
+		push(@files,$file) if ($file =~ /^$id/);
+	}
+	closedir(DIR);
+	
+	# Check that at least one file has been discovered
+	if (@files <= 0) { 
+		print "No file has been found for component $id \n" if ($debug);
+		exit 1;
+	}
+	
+	# Sort and extract the most recent file
+	my @sorted = sort { -M $a <=> -M $b } @files;
+	my $newest = pop(@sorted);
+	my $archive = Archive::Zip->new();
+	die "Read error on file $newest" if $archive->read($dir."/".$newest) != AZ_OK;
+	
+	# Return value must be composeb of file's size and file's version
+	my @return;
+	push(@return, (-s $dir."/".$newest));
+
+	my $fh  = Archive::Zip::MemberRead->new($archive, "META-INF/MANIFEST.MF");
+	while (defined($_ = $fh->getline())) {
+		if ($_ =~ /^Bundle-Version: (.*)\s+$/) { 
+			my $bundleversion = $1; 
+			push(@return, $bundleversion);
+			return @return;
+		}
+	}
+}
+
+
+# Check the file
 if (!(-e $featurefile)) {
 	print "No feature.xml file... Continue... \n";
 	exit;
 }
 
 my $release = 1;
-my $featuredir = $publicdir."/updates/features";
-my $plugindir = $publicdir."/updates/plugins";
-my $versiondir = $publicdir."/updates/last_versions";
+my $featuredir = $deploypath."/updates/features";
+my $plugindir = $deploypath."/updates/plugins";
 
 # Determine whether it's a release or a snapshost
 if ($buildname =~ /SNAPSHOT/) {
 	$release = 0;
-	$featuredir = $publicdir."/night-updates/features";
-	$plugindir = $publicdir."/night-updates/plugins";
-	$versiondir = $publicdir."/night-updates/last_versions";
+	$featuredir = $deploypath."/night-updates/features";
+	$plugindir  = $deploypath."/night-updates/plugins";
 	print "Building a Snapshot feature \n" if $debug;
 } else {
 	print "Building a Release feature \n" if $debug;
@@ -46,7 +86,7 @@ if ($buildname =~ /SNAPSHOT/) {
 my $xml = XML::Twig->new(); 
 $xml->parsefile($featurefile);
                 
-# Find the root and the 'version' element
+# Find the root and the "version" element
 my $root = $xml->root;
 my $version = $root->att('version');
 my $nameid = $root->att('id');
@@ -60,18 +100,16 @@ $root->set_att(version => $newversion);
 # Find version of associated features
 my @features = $root->children('includes');
 foreach my $feature (@features) {
-	my $id = $feature->att('id');
-	print "Processing associated feature : $id \n" if $debug;
+	my $featureid = $feature->att('id');
+	print "Processing associated feature : $featureid --> " if $debug;
 	
-	# Find, open and read the associated descriptor
-	my $filedesc = $versiondir."/last_".$id;
-	open (DESC, "<$filedesc") or die "The feature $id has not been built \nFAILURE !!! Unable to load the descriptor file: $filedesc\nPlease be sure to have packaged the feature";
-	my $lastversion = <DESC>;
-	chomp $lastversion;
-	print "Last version : $lastversion\n" if $debug;
-	close(DESC);
-	
-	$feature->set_att(version => $lastversion);
+	# Find the last version on he associated feature (identified by $id)
+	my @featureinfos = compute_version($featuredir, $featureid);
+	(my $featuresize, my $lastfeatureversion) = @featureinfos;
+	print "Last version : $lastfeatureversion (size: $featuresize Bytes)\n" if $debug;	
+	$feature->set_att(version => $lastfeatureversion);
+	$feature->set_att('install-size' => int($featuresize/1000));
+	$feature->set_att('download-size' => int($featuresize/1000));
 }
 
 # Comparison variable
@@ -80,57 +118,42 @@ my $tmpbuild = 0;
 # Find versions of plugins
 my @plugins = $root->children('plugin');
 foreach my $plugin (@plugins) {
-	my $id = $plugin->att('id');
-	print "Processing plugin : $id \n" if $debug;
+	my $pluginid = $plugin->att('id');
+	print "Processing plugin : $pluginid --> " if $debug;
 	
-	# Find, open and read the associated descriptor
-	my $filedesc = $versiondir."/last_".$id;
-	open (DESC, "<$filedesc") or die "The plugin $id has not been built \nFAILURE !!! Unable to load the descriptor file: $filedesc\nPlease be sure to have packaged the plugin";
-	my $lastversion = <DESC>;
-	chomp $lastversion;
-	print "Last version : $lastversion\n" if $debug;
-	
-	# Check whether all plugins have been released from the same revision
-	if ($lastversion =~ /^\d+\.\d+\.\d+\.r(\d+)$/) {
-		my $refbuild = $1;
-		
-		# Variable registration
-		if ($tmpbuild == 0) {
-			$tmpbuild = $refbuild;
-		# Version comparison
-		} elsif ($refbuild != $tmpbuild) {
-			print "The plugin $id was not correctly built (build number $refbuild)... Feature construction failed !\n" if $debug;
-			exit 1;
-		}
-	}
-	
-	close(DESC);
-	
-	$plugin->set_att(version => $lastversion);
-}   
+	# Find the last version on he associated feature (identified by $id)
+	my @plugininfos = compute_version($plugindir, $pluginid);
+	(my $pluginsize, my $lastpluginversion) = @plugininfos;
+	print "Last version : $lastpluginversion (size: $pluginsize Bytes)\n" if $debug;	
+	$plugin->set_att(version => $lastpluginversion);
+	$plugin->set_att('install-size' => int($pluginsize/1000));
+	$plugin->set_att('download-size' => int($pluginsize/1000));
+}
 
-#$xml->flush();
+# Find update site address.
+my $url = $root->first_child('url');
+my $updatesite = $url->first_child('update');
+if (!$release) {
+	$updatesite->set_att('label' => "Coloane Night-Updates");
+	$updatesite->set_att('url' => "http://coloane.lip6.fr/night-updates/");
+} else {
+	$updatesite->set_att('label' => "Coloane Updates");
+	$updatesite->set_att('url' => "http://coloane.lip6.fr/updates/");
+}
 
 # Openning feature.xml for writing
-print "Writing...\n" if $debug;
+print "Writing the feature.xml file...\n" if $debug;
 mkdir("resources", 0755);
 $xml->print_to_file("resources/".$featurefile,pretty_print => 'indented');
 
 # Print on MANIFEST the new version of feature (and its name)
-print STDOUT "Writing the MANIFEST file\n" if $debug;
+print STDOUT "Writing the manifest.mf file...\n" if $debug;
 
 mkdir("META-INF", 0755);
-open (LAST, ">META-INF/MANIFEST.MF") or die "FAILURE for MANIFEST !!!\n"; 
-print LAST "Manifest-Version: 1.0\n";
-print LAST "Bundle-SymbolicName: $nameid\n";
-print LAST "Bundle-Version: $newversion\n";
-close(LAST);
-
-# Update the feature version on last file
-print STDOUT "Writing the last_$nameid file\n" if $debug;
-
-open (UP, ">$versiondir/last_$nameid") or die "FAILURE for last_$nameid file !!!\n"; 
-print UP "$newversion\n";
-close(UP);
+open (META, ">META-INF/MANIFEST.MF") or die "FAILURE for MANIFEST !!!\n"; 
+print META "Manifest-Version: 1.0\n";
+print META "Bundle-SymbolicName: $nameid\n";
+print META "Bundle-Version: $newversion\n";
+close(META);
 
 0;

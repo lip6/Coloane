@@ -22,6 +22,7 @@ version=$1
 jar=$2
 directory=$3
 
+# Recherche du JAR
 if [ ! -f target/$jar ]; then 
 	echo "FAILURE: Jar file does not exist !"
 	exit 0 
@@ -52,7 +53,7 @@ else
 	branch=`echo updates`
 fi
 
-# Determine le chmine complet final pour deposer le nouveau JAR
+# Determine le chemin complet final pour deposer le nouveau JAR
 if [ `echo $newjar | grep "feature"` ]; then
 	directory=`echo $directory/$branch/features`
 else
