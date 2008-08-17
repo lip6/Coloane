@@ -20,8 +20,10 @@
 		<module>languagePack</module>
 		<module>coloaneMain</module>
 	</modules>
-	
+
 	<build>
+		<finalName>${project.artifactId}_${project.version}</finalName>
+		
 		<plugins>
 			<plugin>
 				<!-- Pour configurer le jar de sortie -->
@@ -34,14 +36,36 @@
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 						<manifestEntries>
-							<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
-							<Bundle-Version>${project.version}-r${buildNumber}</Bundle-Version>
 							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
 						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildFeatureXML</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>buildFeatureXML.pl</executable>
+							<arguments>
+								<argument>feature.xml</argument>
+								<argument>${build.finalName}</argument>
+								<argument>${buildNumber}</argument>
+								<argument>${project.deployPath}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+
 		<resources>
 			<resource>
 				<directory>resources</directory>

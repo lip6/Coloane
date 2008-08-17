@@ -35,6 +35,7 @@
 	</dependencies>
 	
 	<build>
+	
 		<!-- Ajouts des éléments dans le JAR -->
 		<resources>
 			<resource>

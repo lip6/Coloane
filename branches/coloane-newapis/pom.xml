@@ -32,6 +32,9 @@
 	<properties>
 		<!-- A changer lors du passage à Maven 2.1 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- Pour le déploiement -->
+		<project.deployPath>/Users/jbvoron/Projets/repository-coloane</project.deployPath>
 	</properties>
 
 	<!-- L'équipe de développement (actifs)--> 
@@ -239,6 +242,7 @@
 	</distributionManagement>
 
 	<build>
+		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 
@@ -326,6 +330,23 @@
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${buildNumber}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					
+					<!-- Déploiement du JAR au bon endroit (snapshot/release)-->
+					<execution>
+						<id>Deploy</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>deployJar.sh</executable>
+							<arguments>
+								<argument>${project.version}</argument>
+								<argument>${build.finalName}.${project.packaging}</argument>
+								<argument>${project.deployPath}</argument>
 							</arguments>
 						</configuration>
 					</execution>
