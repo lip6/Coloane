@@ -34,7 +34,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- Pour le déploiement -->
-		<project.deployPath>/Users/jbvoron/Projets/repository-coloane</project.deployPath>
+		<project.deployPath>/data/coloane_deposit</project.deployPath>
 	</properties>
 
 	<!-- L'équipe de développement (actifs)--> 
