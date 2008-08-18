@@ -17,6 +17,12 @@ public interface IGraph extends IElement {
 	/** ID de propriete lorsqu'un noeud est supprime du modele */
 	String NODE_REMOVED_PROP = "Model.RemovingNode"; //$NON-NLS-1$
 
+	/** ID de propriete lorsqu'un arc est ajoute au modele */
+	String ARC_ADDED_PROP = "Model.AddingArc"; //$NON-NLS-1$
+
+	/** ID de propriete lorsqu'un arc est supprime du modele */
+	String ARC_REMOVED_PROP = "Model.RemovingArc"; //$NON-NLS-1$
+
 	/** ID de propriété lorsqu'une note est ajoutée au modèle */
 	String STICKY_ADD_PROP = "Model.AddSticky"; //$NON-NLS-1$
 
@@ -143,13 +149,6 @@ public interface IGraph extends IElement {
 	 * @return le formalisme associé à ce graphe.
 	 */
 	IFormalism getFormalism();
-
-	/**
-	 * Modifie la date du modele (necessaire pour synchronisation avec FK)
-	 * Indique si l'envoi d'un message a FK est necessaire
-	 * @return boolean Indique si un message doit etre envoye a FK en donnant une datee
-	 */
-	int modifyDate();
 
 	/**
 	 * Retourne la date associee au modele
