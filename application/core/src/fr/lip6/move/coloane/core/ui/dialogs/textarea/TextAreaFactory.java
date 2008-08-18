@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -9,9 +11,12 @@ import org.eclipse.swt.widgets.Composite;
  * En fonction des parametres inputType et multiLine, la zone de texte differe
  *
  */
-public class TextAreaFactory {
+public final class TextAreaFactory {
 
-	protected TextAreaFactory() { }
+	/**
+	 * Classe statique
+	 */
+	private TextAreaFactory() { }
 
 	/**
 	 * Construction de la zone de texte
@@ -23,9 +28,9 @@ public class TextAreaFactory {
 	 */
 	public static TextArea create(Composite parent, int inputType, int multiLine, String defaultVal) {
 
-		if (inputType == TextArea.INPUT_FORBIDDEN && multiLine == TextArea.SINGLE_LINE) {
+		if (inputType == IDialog.INPUT_FORBIDDEN && multiLine == IDialog.SINGLE_LINE) {
 			return new DummyTextArea(parent);
-		} else if (inputType == TextArea.INPUT_FORBIDDEN && multiLine != TextArea.SINGLE_LINE) {
+		} else if (inputType == IDialog.INPUT_FORBIDDEN && multiLine != IDialog.SINGLE_LINE) {
 			return new ListTextArea(parent,	multiLine, defaultVal);
 		} else {
 			return new EditableTextArea(parent, multiLine, defaultVal);

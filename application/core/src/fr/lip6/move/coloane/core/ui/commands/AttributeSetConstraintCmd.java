@@ -22,16 +22,16 @@ public class AttributeSetConstraintCmd extends Command {
 
 	/**
 	 * Constructeur
-	 * @param node noeud
+	 * @param a attribut
 	 * @param newBounds Nouvelles limites
 	 */
-	public AttributeSetConstraintCmd(IAttribute a, Rectangle newB) {
+	public AttributeSetConstraintCmd(IAttribute a, Rectangle newBounds) {
 		super(Messages.AttributeSetConstraintCmd_0);
-		if (a == null || newB == null) {
+		if (a == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
 		this.attribute = a;
-		this.newBounds = newB.getCopy();
+		this.newBounds = newBounds.getCopy();
 	}
 
 	/**

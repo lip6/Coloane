@@ -7,20 +7,29 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
+/**
+ * Commande COUPER
+ */
 public class CutCommand extends Command {
 	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ColoaneEditor editor;
 	private GraphContainer container;
 
-	private ArrayList<INode> nodes = new ArrayList<INode>();
-	private HashSet<IArc> arcs = new HashSet<IArc>();
+	private List<INode> nodes = new ArrayList<INode>();
+	private Set<IArc> arcs = new HashSet<IArc>();
 
+	/**
+	 * Constructeur
+	 * @param editor L'éditeur responsable de cette commande
+	 */
 	public CutCommand(ColoaneEditor editor) {
 		this.editor = editor;
 		if (editor.getGraph() != null) {

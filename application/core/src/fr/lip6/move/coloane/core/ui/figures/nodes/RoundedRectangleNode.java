@@ -7,12 +7,24 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+/**
+ * Description d'une figure en forme de rectangle aux bords arrondis.<br>
+ * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ *
+ * @author Clément Demoulins
+ */
 public class RoundedRectangleNode extends AbstractNodeFigure {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
 		graphics.fillRectangle(getBounds());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		Rectangle r = getBounds();
@@ -25,6 +37,9 @@ public class RoundedRectangleNode extends AbstractNodeFigure {
 		graphics.drawRoundRectangle(fr, 4, 4);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}

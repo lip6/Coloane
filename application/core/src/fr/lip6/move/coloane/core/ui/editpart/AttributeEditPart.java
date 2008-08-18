@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -17,6 +18,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -34,6 +36,37 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
+
+	private boolean select = false;
+	private boolean elementSelect = false;
+	private boolean highlight = false;
+
+	/**
+	 * Permet d'écouter les changements de sélection de ses "parents"
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		@Override
+		public void selectedStateChanged(EditPart part) {
+			switch(part.getSelected()) {
+			case EditPart.SELECTED:
+			case EditPart.SELECTED_PRIMARY:
+				elementSelect = true;
+				break;
+			case EditPart.SELECTED_NONE:
+				elementSelect = false;
+				break;
+			case ISelectionEditPartListener.HIGHLIGHT:
+				highlight = true;
+				break;
+			case ISelectionEditPartListener.HIGHLIGHT_NONE:
+				highlight = false;
+				break;
+			default:
+				break;
+			}
+			refreshVisuals();
+		}
+	};
 
 	/**
 	 * Creation de la figure associee<br>
@@ -66,6 +99,11 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		return figure;
 	}
 
+	/**
+	 * Calcul la position d'un attribut suivant qu'il est attaché à un noeud, un arc
+	 * ou un graphe et si il avait déjà une position.
+	 * @return La position calculé de l'attribut
+	 */
 	private Point calculLocation() {
 		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;
@@ -73,7 +111,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Si le referent est un noeud, on agit sur la position de l'attribut
 		if (attribut.getReference() instanceof INode) {
 
-			// Deux possibilites :
+			// Deux possibilités :
 			// Pas d'information de positionnement -> on utilise les indication du noeud
 			// Information de positionnement -> on les utilise
 
@@ -96,7 +134,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-			// Si le referent est le modele lui-meme
+			// Si le referent est le modèle lui-même
 		} else if (attribut.getReference() instanceof IGraph) {
 			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 
@@ -108,13 +146,13 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Recupere la figure du graphe
 		GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
-		// On doit maintenant veririfer qu'aucune autre figure ne se trouve a proximite
+		// On doit maintenant verifier qu'aucune autre figure ne se trouve a proximité
 
-		// Comme aucun texte n'est ajoute dans la figure pour le moment... verifie que le point x+5 et y+5 est libre aussi
+		// Comme aucun texte n'est ajoute dans la figure pour le moment... vérifié que le point x+5 et y+5 est libre aussi
 		Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
 
 		while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
-			attributePosition.y = attributePosition.y + MINGAP; // Deplacement de 5 vers le bas si une figure est deja disposee
+			attributePosition.y = attributePosition.y + MINGAP; // Déplacement de 5 vers le bas si une figure est deja disposee
 			attributePositionZone.y = attributePositionZone.y + MINGAP;
 		}
 		return attributePosition;
@@ -126,6 +164,15 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		// Mise à jour de l'etat de l'attribut
+		getFigure().setForegroundColor(ColorConstants.black);
+		getFigure().setBackgroundColor(ColorConstants.white);
+		if (select || elementSelect) {
+			getFigure().setForegroundColor(ColorConstants.blue);
+		}
+		if (highlight) {
+			getFigure().setBackgroundColor(ColorConstants.lightGray);
+		}
 
 		IAttribute attribut = (IAttribute) getModel();
 		Label attributeFigure = (Label) getFigure();
@@ -156,23 +203,17 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-
-			// Comportement lorsque l'objet est selectionne
 			@Override
-			protected void setSelectedState(int state) {
-				super.setSelectedState(state);
-				if (state == SELECTED || state == SELECTED_PRIMARY) {
-					((Label) getFigure()).setForegroundColor(ColorConstants.blue);
-				} else {
-					((Label) getFigure()).setForegroundColor(ColorConstants.black);
-				}
+			protected void hideSelection() {
+				select = false;
+				refreshVisuals();
 			}
 
 			@Override
-			protected void hideSelection() { }
-
-			@Override
-			protected void showSelection() { }
+			protected void showSelection() {
+				select = true;
+				refreshVisuals();
+			}
 		});
 
 	}
@@ -189,8 +230,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				GraphEditPart graphEditPart = (GraphEditPart) getParent();
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
 				if (parent != null) {
-					addEditPartListener((ISelectionEditPartListener) parent);
-					parent.addEditPartListener(this);
+					addEditPartListener(((ISelectionEditPartListener) parent).getSelectionEditPartListener());
+					parent.addEditPartListener(editPartListener);
 				}
 			}
 		}
@@ -209,45 +250,16 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				EditPart parent = graphEditPart.getParentAttributeEditPart(this);
 				if (parent != null) {
 					setSelected(EditPart.SELECTED_NONE);
-					removeEditPartListener((ISelectionEditPartListener) parent);
-					parent.removeEditPartListener(this);
+					removeEditPartListener(((ISelectionEditPartListener) parent).getSelectionEditPartListener());
+					parent.removeEditPartListener(editPartListener);
 				}
 			}
 		}
 	}
 
-	public final void childAdded(EditPart child, int index) { }
-
-	public final void partActivated(EditPart editpart) { }
-
-	public final void partDeactivated(EditPart editpart) { }
-
-	public final void removingChild(EditPart child, int index) { }
-
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			getFigure().setForegroundColor(ColorConstants.blue);
-			break;
-		case EditPart.SELECTED_NONE:
-			getFigure().setForegroundColor(ColorConstants.black);
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			getFigure().setBackgroundColor(ColorConstants.lightGray);
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			getFigure().setBackgroundColor(ColorConstants.white);
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			break;
-		default:
-			break;
-		}
-	}
-
+	/**
+	 * Affiche une zone d'édition de l'attribut.
+	 */
 	private void performDirectEdit() {
 		Label label = (Label) getFigure();
 		IAttribute model = (IAttribute) getModel();
@@ -283,8 +295,13 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			refreshVisuals();
 
 		// Deplacement d'un attribut.
-		} else if (IAttribute.LOCATION_PROP.equals(prop)) {
+		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }

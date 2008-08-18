@@ -30,9 +30,7 @@ public class NodeFormalism extends ElementFormalism implements INodeFormalism {
 		super(name, formalism);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.INodeFormalism#isContainer()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isContainer() {
 		return container;
 	}

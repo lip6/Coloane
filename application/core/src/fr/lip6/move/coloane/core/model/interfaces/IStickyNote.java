@@ -1,12 +1,13 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
-public interface IStickyNote extends ILocationInfo, IElement {
+import org.eclipse.draw2d.geometry.Dimension;
 
-	/** ID pour la propriete lorsqu'un changement de la position */
-	String LOCATION_PROP = "Sticky.Location"; //$NON-NLS-1$
+/**
+ * Interface définissant une note, ses comportements publics et ses propriétés
+ */
+public interface IStickyNote extends ILocationInfo {
 
 	/** ID pour la propriete lorsqu'un changement de la valeur */
 	String VALUE_PROP = "Sticky.ValueUpdate"; //$NON-NLS-1$
@@ -24,4 +25,14 @@ public interface IStickyNote extends ILocationInfo, IElement {
 	 * @param newText Le nouveau contenu
 	 */
 	void setLabelContents(String newText);
+
+	/**
+	 * @return Taille de la note
+	 */
+	Dimension getSize();
+
+	/**
+	 * @param size nouvelle taille de la note
+	 */
+	void setSize(Dimension size);
 }

@@ -1,17 +1,11 @@
 package fr.lip6.move.coloane.core.main;
 
-import fr.lip6.move.coloane.core.communications.Com;
-import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.ui.UserInterface;
-import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
+import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
-import java.util.logging.Handler;
+import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Platform;
@@ -26,120 +20,78 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+/**
+ * Définition principale du plugin Coloane<br>
+ * Création des sous-composants :
+ * <ul>
+ * 	<li>Le module de communications</li>
+ * 	<li>Le module de gestion des sessions et formalismes</li>
+ * 	<li>Le module de gestion de l'interface graphique</li>
+ * </ul>
+ */
 public class Coloane extends AbstractUIPlugin {
 
 	/** L'instance du plugin */
-	private static Coloane plugin;
-
-	/** Le module de communication */
-	private Com com = null;
-
-	/** Le moteur de formalisme et de sessions */
-	private Motor motor = null;
-
-	/** L'interface utilisateur */
-	private UserInterface ui = null;
+	private static Coloane instance;
 
 	/** Journalisation du projet */
-	private static Logger coreLog;
+	private static Logger LOGGER;
 
-	public Coloane() { plugin = this; }
+	/**
+	 * Constructeur du plugin
+	 */
+	public Coloane() {
+		instance = this;
+//		throw new NullPointerException("test");
+	}
 
 	/**
 	 * Methode de lancement du plugin
 	 * C'est la premiere methode a etre appelee lors du chargement d'une classe du plugin
 	 * @param context Parametre systeme fourni par Eclipse
-	 * @throws Exception
+	 * @throws Exception Si quelque chose se passe mal lors de l'initialisation dans Eclipse
+	 * @see AbstractUIPlugin
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin
 	 */
 	@Override
 	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 
-		try {
-			// Initialisation du logger
-			this.initializeLogger();
-			coreLog.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
-
-			// Initialisation de l'interface graphique
-			ui = UserInterface.getInstance();
-			if (ui == null) {
-				coreLog.warning("Erreur lors du chargement de l'interface utilisateur"); //$NON-NLS-1$
-			}
-
-			// Initialisation du moteur
-			motor = Motor.getInstance();
-			if (motor == null) {
-				coreLog.warning("Erreur lors du chargement du module moteur"); //$NON-NLS-1$
-			}
-
-			// Initialisation du module de communications
-			com = Com.getInstance();
-			if (com == null) {
-				coreLog.warning("Erreur lors du chargement du module de communications"); //$NON-NLS-1$
-			}
-
-			// Creation des liens
-			com.setUi(ui);
-			com.setMotor(motor);
-			motor.setCom(com);
-			motor.setUi(ui);
-			ui.setCom(com);
-			ui.setMotor(motor);
-
-			// Pour afficher la version et le numero de build
-			ui.printHistoryMessage("Core Version : " + getVersion()); //$NON-NLS-1$
-		} catch (Exception e) {
-			System.err.println("Erreur : " + e.getMessage()); //$NON-NLS-1$
-			e.printStackTrace();
-		}
+		// Initialisation du logger
+		this.initializeLogger();
+		LOGGER.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Permet de recuperer le plugin
-	 * @return le plugin
+	 * @return une instance de Coloane
 	 */
-	public static Coloane getDefault() {
-		return plugin;
+	public static Coloane getInstance() {
+		return instance;
 	}
 
 	/**
-	 * Le methode de fin de vie du plugin
-	 * @param context Parametre systeme fourni par Eclipse
+	 * La méthode de fin de vie du plugin
+	 * @param context Parametre système fourni par Eclipse
+	 * @throws Exception si quelque chose se passe mal lors de l'arrêt du plugin
 	 */
 	@Override
 	public final void stop(BundleContext context) throws Exception {
 		super.stop(context);
-		coreLog.config("Arret du plugin"); //$NON-NLS-1$
-		plugin = null;
+		LOGGER.config("Arret du plugin"); //$NON-NLS-1$
+		instance = null;
 	}
 
 	/**
-	 * Recupere le parametre dans le fichier de configuration
+	 * Recupere la valeur d'un paramètre dans le fichier de configuration (plugin.properties)
 	 * @param key L'identifiant du parametre
-	 * @return String Le parametre demande
+	 * @return la valeur du paramètre demandé ou <code>null</code> si le paramètre n'existe pas
 	 */
 	public static String getParam(String key) {
-		return Platform.getResourceBundle(getDefault().getBundle()).getString(key);
-	}
-
-	/**
-	 * Notifier le changement du modele de la session courrante
-	 * @param element un element du graph
-	 */
-	public static void notifyModelChange(IElement element) {
-		IElement tmp = element;
-		while (tmp.getParent() != null) {
-			tmp = tmp.getParent();
-		}
-		IGraph graph = (IGraph) tmp;
-		if (graph != null) {
-			int dateUpdate = graph.modifyDate();
-			ISession currentSession = getDefault().getMotor().getSessionManager().getCurrentSession();
-			if (dateUpdate != 0 && currentSession != null && currentSession.getStatus() == ISession.CONNECTED) {
-				coreLog.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-				plugin.com.toUpdate(dateUpdate);
-			}
+		try {
+			return Platform.getResourceBundle(instance.getBundle()).getString(key);
+		} catch (NullPointerException ne) {
+			return null;
 		}
 	}
 
@@ -148,8 +100,8 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Le message a afficher
 	 */
 	public static void showErrorMsg(String msg) {
-		coreLog.fine("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
-		MessageDialog.openError(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
+		LOGGER.fine("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
+		MessageDialog.openError(instance.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
 	}
 
 	/**
@@ -157,68 +109,44 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg Message a afficher
 	 */
 	public static void showWarningMsg(String msg) {
-		coreLog.fine("Affichage d'un message de warning : " + msg); //$NON-NLS-1$
-		MessageDialog.openWarning(getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
-	}
-
-	/**
-	 * Donne la main sur le module de communication
-	 * @return Com le module de communication
-	 */
-	public final Com getCom() {
-		return com;
-	}
-
-	/**
-	 * Donne la main sur le module de communication
-	 * @return Motor le module de communication
-	 */
-	public final Motor getMotor() {
-		return motor;
+		LOGGER.fine("Affichage d'un message de warning : " + msg); //$NON-NLS-1$
+		MessageDialog.openWarning(instance.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
 	}
 
 	/**
 	 * Retourne le conteneur graphique de haut niveau
-	 * @return Composite Le conteneur parent
+	 * @return Composite Le conteneur parent ou null
 	 */
 	public static Composite getParent() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		} else {
+			return null;
+		}
 	}
 
 	/**
 	 * Initialisation du logger d'evenements
 	 */
 	private void initializeLogger() {
-		coreLog = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-		coreLog.setLevel(Level.ALL); // On loggue tout !
-		coreLog.addHandler(new Handler() {
-			@Override
-			public void close() throws SecurityException { }
-			@Override
-			public void flush() { }
+		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+		LOGGER.setLevel(Level.ALL); // On loggue tout !
 
-			@Override
-			public void publish(LogRecord record) {
-				System.out.println("[" + record.getLevel() + "] " + record.getMessage() + " - " + record.getSourceClassName() + "." + record.getSourceMethodName());   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-			}
-		});
+		// Les logs sont affichés dans la console
+		LOGGER.addHandler(new ConsoleHandler());
+
+		// Les logs sont enregistrés dans un fichier.
 		try {
 			ColoaneLogHandler handler = ColoaneLogHandler.getInstance();
 			ColoaneLogFormatter format = new ColoaneLogFormatter();
 			format.setVersion(getVersion());
 			handler.setFormatter(format);
-			coreLog.addHandler(handler);
-		} catch (Exception e) {
-			System.err.println("Impossible d'initialiser le gestionnaire de logs sur fichier"); //$NON-NLS-1$
+			LOGGER.addHandler(handler);
+		} catch (IOException ioe) {
+			System.err.println("FileHandler cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
+		} catch (SecurityException se) {
+			System.err.println("FileHandler cannot be instanciated... Please contact the dev team"); //$NON-NLS-1$
 		}
-	}
-
-	/**
-	 * Retourne le gestionnaire de logs
-	 * @return Le logger
-	 */
-	public static Logger getLogger() {
-		return coreLog;
 	}
 
 	/**
@@ -267,10 +195,10 @@ public class Coloane extends AbstractUIPlugin {
 	 * Remise a zero des preferences du plugin
 	 */
 	public final void setDefaultPreference() {
-		Coloane.getDefault().getPreferenceStore().setValue("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
-		Coloane.getDefault().getPreferenceStore().setValue("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
-		Coloane.getDefault().getPreferenceStore().setValue("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
-		Coloane.getDefault().getPreferenceStore().setValue("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
+		instance.getPreferenceStore().setValue("LOGIN", getParam("LOGIN")); //$NON-NLS-1$ //$NON-NLS-2$
+		instance.getPreferenceStore().setValue("SERVER", getParam("SERVER")); //$NON-NLS-1$ //$NON-NLS-2$
+		instance.getPreferenceStore().setValue("IP", getParam("IP")); //$NON-NLS-1$ //$NON-NLS-2$
+		instance.getPreferenceStore().setValue("PORT", getParam("PORT")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -279,7 +207,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param value La nouvelle valeur a attribuer
 	 */
 	public final void setPreference(String key, String value) {
-		Coloane.getDefault().getPreferenceStore().setValue(key, value);
+		instance.getPreferenceStore().setValue(key, value);
 	}
 
 	/**
@@ -288,7 +216,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @return La valeur de la prefrence choisie
 	 */
 	public final String getPreference(String key) {
-		return Coloane.getDefault().getPreferenceStore().getString(key);
+		return instance.getPreferenceStore().getString(key);
 	}
 
 	/**
@@ -296,6 +224,6 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param niveau le nouveau niveau du log
 	 */
 	public static void setVerbosity(Level niveau) {
-		coreLog.setLevel(niveau);
+		LOGGER.setLevel(niveau);
 	}
 }

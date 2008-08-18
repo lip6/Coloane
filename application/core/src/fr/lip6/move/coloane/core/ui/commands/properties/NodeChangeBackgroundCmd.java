@@ -32,21 +32,13 @@ public class NodeChangeBackgroundCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		try {
 		node.getGraphicInfo().setBackground(newColor);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		try {
 		node.getGraphicInfo().setBackground(oldColor);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

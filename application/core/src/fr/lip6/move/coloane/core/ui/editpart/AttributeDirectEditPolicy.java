@@ -9,11 +9,12 @@ import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
 
 
+/**
+ * Règles pour l'éditeur d'attribut
+ */
 public class AttributeDirectEditPolicy extends DirectEditPolicy {
 
-	/**
-	 * @see DirectEditPolicy#getDirectEditCommand(DirectEditRequest)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final Command getDirectEditCommand(DirectEditRequest edit) {
 		String labelText = (String) edit.getCellEditor().getValue();
@@ -22,9 +23,7 @@ public class AttributeDirectEditPolicy extends DirectEditPolicy {
 		return command;
 	}
 
-	/**
-	 * @see DirectEditPolicy#showCurrentEditValue(DirectEditRequest)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void showCurrentEditValue(DirectEditRequest request) {
 		String value = (String) request.getCellEditor().getValue();

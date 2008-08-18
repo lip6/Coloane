@@ -86,6 +86,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	/**
 	 * Cette methode ajoute les controles pour visualiser les projets ouverts
 	 * pour le control standard de WizardNewFileCreationPage
+	 * @param parent Le conteneur de la boite de dialogue
 	 */
 	@Override
 	public final void createControl(Composite parent) {
@@ -234,6 +235,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	/**
 	 * Calcule le nom du nouveau fichier et installe le nom dans la page du wizard<br>
 	 * Cette méthode est uniquement appelé lors d'un finish direct sur la première page de l'assistant
+	 * @return le premier nom par défaut disponible pour le nouveau modèle
 	 */
 	private String computeDefaultModelName() {
 		int counter = 0;

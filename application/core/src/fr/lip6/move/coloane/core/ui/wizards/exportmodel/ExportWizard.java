@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
@@ -18,10 +19,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 
 /**
- * Assistant (Wizard) generique d'export de fichier modele<br/>
+ * Assistant générique d'export de fichier modele<br/>
  * Le format d'export est defini par l'extension qui appelle l'assistant
- *
- * @author Jean-Baptiste Voron
  */
 public class ExportWizard extends FileSystemExportWizard implements IExecutableExtension {
 	/** Le logger pour la classe */
@@ -75,17 +74,21 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			try {
 				IGraph model = ModelLoader.loadFromXML(file);
 				IExportTo exportInstance = ExportToExtension.createConvertInstance(this.idWizard);
-				LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final");
+				LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final"); //$NON-NLS-1$
 
 				// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle
 				String newExtension = ExportToExtension.findExtension(this.idWizard);
 				String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
-				LOGGER.finer("Nom final : " + newName);
+				LOGGER.finer("Nom final : " + newName); //$NON-NLS-1$
 
-				if (exportInstance == null) { return false;	}
+				if (exportInstance == null) { return false; }
 				exportInstance.export(model, page.getSelectedDirectory() + "/" + newName); //$NON-NLS-1$
-			} catch (Exception e) {
-				LOGGER.warning("Echec de l'export..." + e.getMessage());
+			} catch (ColoaneException e) {
+				LOGGER.warning("Erreur lors de l'export du fichier...");  //$NON-NLS-1$
+				LOGGER.warning("Echec de l'export..." + e.getMessage()); //$NON-NLS-1$
+				return false;
+			} catch (CoreException ce) {
+				LOGGER.warning("Erreur lors de l'initialisation de l'extension chargee de l'export: " + ce);  //$NON-NLS-1$
 				return false;
 			}
 		}
@@ -94,7 +97,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 	/**
 	 * Indique le format d'export utilise dans cette instance d'assistant
-	 * @param exportFormat Le format a utiliser pour l'export
+	 * @param idWizard Le format a utiliser pour l'export
 	 */
 	protected final void setExportFormat(String idWizard) {
 		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$

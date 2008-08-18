@@ -22,10 +22,10 @@ public class StickyNoteDeleteCmd extends Command {
 	 * @param graph Le graphe qui contient la note
 	 * @param stickyNote La note concernée par la suppression
 	 */
-	public StickyNoteDeleteCmd(IGraph graph, IStickyNote n) {
+	public StickyNoteDeleteCmd(IGraph graph, IStickyNote stickyNote) {
 		super(Messages.StickyNoteDeleteCmd_0);
 		this.graph = (GraphModel) graph;
-		this.stickyNote = n;
+		this.stickyNote = stickyNote;
 	}
 
 	/** {@inheritDoc} */

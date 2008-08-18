@@ -3,10 +3,11 @@ package fr.lip6.move.coloane.core.ui.dialogs;
 import fr.lip6.move.coloane.core.ui.dialogs.textarea.ListTextArea;
 import fr.lip6.move.coloane.core.ui.dialogs.textarea.TextArea;
 import fr.lip6.move.coloane.core.ui.dialogs.textarea.TextAreaFactory;
-import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
@@ -28,7 +29,9 @@ import org.eclipse.ui.PlatformUI;
  * 	<li>Une zone de boutons</li>
  * </ul>
  */
-public class SimpleDialog extends IconAndMessageDialog implements IDialog {
+public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
+
+	private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
 	/** L'identifiant de la boite de dialogue */
 	private int id;
@@ -43,18 +46,16 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	private int inputType;
 
 	/** Est-ce que la saisie est multi-ligne ? */
-	private int multiLine;
+	private int lineType;
 
 	/** Valeur par defaut */
 	private String defaultValue;
 
 	/** L'objet de resultats */
-	private IDialogResult dialogResult;
+	private IDialogAnswer dialogAnswer;
 
 	/** Les choix de la boite de dialogue */
-	private ArrayList<String> choices = null;
-
-	private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	private List<String> choices = new ArrayList<String>();
 
 	private TextArea textArea = null;
 
@@ -62,7 +63,7 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	 * Constructeur de la boite de dialogue
 	 * @param dialog La boite de dialogue construite par la com
 	 */
-	public SimpleDialog(IDialogCom dialog) {
+	public SimpleDialog(IDialog dialog) {
 		super(parentShell);
 
 		// On recupere les informations de l'objet transmis par l'API
@@ -71,11 +72,13 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		buttonType = dialog.getButtonType();
 		message = dialog.getMessage();
 		inputType = dialog.getInputType();
-		multiLine = dialog.getMultiLine();
-		defaultValue = dialog.getDefault();
+		lineType = dialog.getLineType();
+		defaultValue = dialog.getDefaultValue();
 
 		// La liste des choix
-		choices = new ArrayList<String>();
+		if (dialog.getLines() != null) {
+			choices.addAll(dialog.getLines());
+		}
 	}
 
 
@@ -84,11 +87,11 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 	protected final void createButtonsForButtonBar(Composite parent) {
 		switch (buttonType) {
 			// 1 bouton
-			case IDialogCom.DLG_OK:
+			case IDialog.DLG_OK:
 				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
 			// 2 boutons
-			case IDialogCom.DLG_OK_CANCEL:
+			case IDialog.DLG_OK_CANCEL:
 				createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 				createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 				break;
@@ -110,9 +113,9 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		composite.setLayoutData(data);
 		composite.setLayout(new FillLayout());
 
-		textArea = TextAreaFactory.create(composite, inputType, multiLine, defaultValue);
+		textArea = TextAreaFactory.create(composite, inputType, lineType, defaultValue);
 		if (textArea instanceof ListTextArea) {
-			for (String choice : choices) { textArea.addChoice(choice); }
+			for (String choice : choices) { ((ListTextArea) textArea).addChoice(choice); }
 		}
 
 		return composite;
@@ -125,39 +128,34 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialog {
 		// Selon le type de retour
 		int answerType;
 		if (buttonId == OK) {
-			answerType = TERMINATED_OK;
+			answerType = IDialogAnswer.BUTTON_OK;
 		} else {
-			answerType = TERMINATED_CANCEL;
+			answerType = IDialogAnswer.BUTTON_CANCEL;
 		}
 
 		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?
-		boolean hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
+		boolean hasbeenmodified = false;
+		if (inputType != IDialog.INPUT_FORBIDDEN) {
+			hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
+		}
 
-		dialogResult = new DialogResult(id, answerType, hasbeenmodified, textArea.getText(), (multiLine != TextArea.SINGLE_LINE));
+		dialogAnswer = new DialogAnswer(id, answerType, hasbeenmodified, textArea.getText());
 
 		this.close();
 	}
 
 	/** {@inheritDoc} */
-	public final void addChoice(String choice) {
-		choices.add(choice);
-		if (textArea != null && textArea instanceof ListTextArea) {
-			textArea.addChoice(choice);
-		}
-	}
-
-	/** {@inheritDoc} */
-	public final IDialogResult getDialogResult() {
-		return dialogResult;
+	public final IDialogAnswer getDialogResult() {
+		return dialogAnswer;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected final Image getImage() {
 		switch (type) {
-		case IDialogCom.DLG_ERROR:	return getErrorImage();
-		case IDialogCom.DLG_WARNING: return getWarningImage();
-		case IDialogCom.DLG_STANDARD: return getInfoImage();
+		case IDialog.DLG_ERROR:	return getErrorImage();
+		case IDialog.DLG_WARNING: return getWarningImage();
+		case IDialog.DLG_STANDARD: return getInfoImage();
 		default: return getInfoImage();
 		}
 	}

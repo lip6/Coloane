@@ -1,8 +1,10 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
@@ -18,15 +20,19 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** List vide non modifiable */
+	private static final List<ICoreTip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
+
 	private String serviceName;
 
 	private IResultTree parent;
-	private ArrayList<IResultTree> children;
-	private ArrayList<Object> elements;
-	private final ArrayList<Integer> highlights;
+	private List<IResultTree> children;
+	private List<Object> elements;
+	private final List<Integer> highlights;
+	private List<ICoreTip> tips = EMPTY_TIPS_LIST;
 
 	/**
-	 * Le gestionnaire de session.</br>
+	 * Le gestionnaire de session.<br>
 	 * Doit être renseigné au moins une fois auprès du père
 	 * @see #setSessionManager(ISessionManager)
 	 */
@@ -93,7 +99,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		// Si le noeud est un fils... On demande au pere quel est le gestionnaire de sessions
 		if (this.parent != null) {
 			this.sessionManager = parent.getSessionManager();
-			return parent.getSessionManager();
+			return this.sessionManager;
 		}
 		// Si aucun resultat : null
 		return null;
@@ -140,12 +146,16 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/** {@inheritDoc} */
 	public final void remove() {
-		this.sessionManager = this.getSessionManager();
-		if (this.sessionManager != null) {
-			this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
+		if (serviceName != null) {
+			this.sessionManager = this.getSessionManager();
+			if (this.sessionManager != null) {
+				this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
+				setChanged();
+				notifyObservers();
+			}
+		} else {
+			parent.remove();
 		}
-		setChanged();
-		notifyObservers();
 	}
 
 	/**
@@ -158,9 +168,23 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/**
 	 * Champ initialisé par le ResultTreeList après la création par la méthode build du IReport.
-	 * @param serviceName
+	 * @param serviceName nom du service
 	 */
 	public final void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
+	}
+
+	/** {@inheritDoc} */
+	public final List<ICoreTip> getTips() {
+		return Collections.unmodifiableList(tips);
+	}
+
+	/** {@inheritDoc} */
+	public final void setTips(List<ICoreTip> tips) {
+		if (tips != null) {
+			this.tips = new ArrayList<ICoreTip>(tips);
+		} else {
+			this.tips = EMPTY_TIPS_LIST;
+		}
 	}
 }

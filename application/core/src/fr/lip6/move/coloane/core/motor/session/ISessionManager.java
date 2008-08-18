@@ -1,6 +1,18 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
+
+/**
+ * Gestionnaire de session, gère également l'état de la connection avec l'api.
+ */
 public interface ISessionManager {
+
+	/** Propriété pour le changement de la session courrante */
+	String PROP_CURRENT_SESSION = "SessionManager.currentSession"; //$NON-NLS-1$
+
+	/** Propriété pour le changement d'état de l'authentification */
+	String PROP_AUTHENTICATION = "SessionManager.authentication"; //$NON-NLS-1$
 
 	/**
 	 * Ajoute une session au manager<br>
@@ -25,30 +37,9 @@ public interface ISessionManager {
 	ISession getSession(String sessionName);
 
 	/**
-	 * Suspension d'une session.</br>
-	 * Si la session suspendue est la session courante, la session courante est NULL
-	 * @param sessionName Le nom de la session
-	 * @return booleen Un indicateur de deroulement
+	 * @return Liste de toutes les sessions
 	 */
-	boolean suspendSession(String sessionName);
-
-	/**
-	 * Reprendre, rendre active une session
-	 * @param sessionName nom de la session
-	 * @return booleen Un indicateur de deroulement
-	 */
-	boolean resumeSession(String sessionName);
-
-	/**
-	 * Destruction de la session courante
-	 * @param sessionName nom de la session
-	 */
-	boolean destroySession(String sessionName);
-
-	/**
-	 * Deconnexion brutale de tous les modeles
-	 */
-	void destroyAllSessions();
+	Collection<ISession> getSessions();
 
 	/**
 	 * Retourne le status d'authentification du client<br>
@@ -59,7 +50,19 @@ public interface ISessionManager {
 
 	/**
 	 * Positionne le status d'authentification du client
-	 * @param authenticated Le nouveau status du client
+	 * @param authStatus Le nouveau status du client
 	 */
 	void setAuthenticated(boolean authStatus);
+
+	/**
+	 * @param listener listener à ajouter
+	 * @see PropertyChangeSupport
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * @param listener listener à enlever
+	 * @see PropertyChangeSupport
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
+import fr.lip6.move.coloane.core.ui.ColoanePerspectiveFactory;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -11,9 +13,11 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
@@ -160,12 +164,16 @@ public class HistoryView extends ViewPart {
 	 * Inserer une nouvelle ligne a la fenetre de l'historique
 	 * @param text Texte a inserer
 	 */
-	public final void addLine(String text) {
+	public final void addLine(final String text) {
 		if (document != null) {
-			try {
-				viewer.setTopIndex(viewer.getBottomIndex());
-				document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
-			} catch (Exception e) { return; }
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					try {
+						viewer.setTopIndex(viewer.getBottomIndex());
+						document.replace(document.getLength(), 0, text + "\n"); //$NON-NLS-1$
+					} catch (Exception e) { return; }
+				}
+			});
 		}
 	}
 
@@ -173,12 +181,16 @@ public class HistoryView extends ViewPart {
 	 * Inserer du texte dans la fenetre de l'historique.
 	 * @param text Texte a afficher
 	 */
-	public final void addText(String text) {
+	public final void addText(final String text) {
 		if (document != null) {
-			try {
-				viewer.setTopIndex(viewer.getBottomIndex());
-				document.replace(document.getLength(), 0, text);
-			} catch (Exception e) { return; }
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					try {
+						viewer.setTopIndex(viewer.getBottomIndex());
+						document.replace(document.getLength(), 0, text);
+					} catch (Exception e) { return; }
+				}
+			});
 		}
 	}
 

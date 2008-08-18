@@ -2,13 +2,14 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
+/**
+ * Définition d'un attribut d'objet du modèle.<br>
+ * Un attribut peut-être attaché à de nombreux types d'objets (arc, noeud, graphe ...)
+ */
 public interface IAttribute extends IAbstractPropertyChange {
 
 	/** ID de la propriété lors d'un changement de valeur */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
-
-	/** ID de la propriété lors d'un changement de la position */
-	String LOCATION_PROP = "Attribute.Location"; //$NON-NLS-1$
 
 	/** ID de la propriété lorsque l'attribut doit être sélectionne */
 	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$

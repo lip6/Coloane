@@ -8,6 +8,9 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Définition d'un guide
+ */
 public class EditorGuide {
 	/** Property used to notify listeners when the parts attached to a guide are changed */
 	public static final String PROPERTY_CHILDREN = "elements changed"; //$NON-NLS-1$
@@ -43,7 +46,7 @@ public class EditorGuide {
 	/**
 	 * Attache l'EditPart considéré au guide.
 	 * L'Edit part est lui aussi modifié pour tenir compte de cet attachement
-	 * @param part L'editpart qui doit être attaché au guide. Si l'editpart est déjà attaché, son alignement est modifié
+	 * @param locatedElement L'editpart qui doit être attaché au guide. Si l'editpart est déjà attaché, son alignement est modifié
 	 * @param alignment -1 : gauche ou haut; 0 center; 1, droite ou bas
 	 */
 	public final void attachElement(ILocatedElement locatedElement, int alignment) {
@@ -139,13 +142,6 @@ public class EditorGuide {
 	}
 
 	/**
-	 * @see PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
-	public final void removePropertyChangeListener(PropertyChangeListener listener) {
-		listeners.removePropertyChangeListener(listener);
-	}
-
-	/**
 	 * Définit l'orientation du guide
 	 * @param isHorizontal <code>true</code> si le guide est positionné sur un règle verticale
 	 */
@@ -166,7 +162,18 @@ public class EditorGuide {
 	}
 
 	/**
-	 * @see PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+	 * Supprime le listener de modifications de propriétés
+	 * @param listener Le listener à supprimer
+	 * @see PropertyChangeSupport#removePropertyChangeListener(PropertyChangeListener)
+	 */
+	public final void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * Ajoute le listener de modifications de propriétés
+	 * @param listener Le listener à supprimer
+	 * @see PropertyChangeSupport#addPropertyChangeListener(PropertyChangeListener)
 	 */
 	public final void addPropertyChangeListener(PropertyChangeListener listener) {
 		listeners.addPropertyChangeListener(listener);

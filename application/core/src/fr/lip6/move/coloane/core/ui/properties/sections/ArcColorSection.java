@@ -72,7 +72,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 
 	/**
 	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
-	 * @param parent
+	 * @param parent parent utilisé pour la construction
 	 * @return le ColorFieldEditor, le composite peut être récupéré en faisant un
 	 * cfe.getColorSelector().getButton().getParent()
 	 */

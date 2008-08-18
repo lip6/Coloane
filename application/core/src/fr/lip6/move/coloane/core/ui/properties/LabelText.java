@@ -38,6 +38,15 @@ public class LabelText {
 		}
 	};
 
+	/**
+	 * Constructeur de LabelText, il est appelé par tous les constructeur public
+	 * @param parent Composite parent
+	 * @param factory factory utilisé pour la création des widget
+	 * @param label label
+	 * @param value valeur
+	 * @param style style SWT
+	 * @param top indicateur de positionnement utilisé par le FormLayout
+	 */
 	private LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, FormAttachment top) {
 		FormData data;
 		this.parent = parent;
@@ -66,30 +75,31 @@ public class LabelText {
 	}
 
 	/**
-	 * @param parent
-	 * @param factory
-	 * @param id
-	 * @param label
-	 * @param value
-	 * @param style
+	 * @param parent Composite parent
+	 * @param factory factory utilisé pour la création des widget
+	 * @param label label
+	 * @param value valeur
+	 * @param style style SWT
 	 */
 	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style) {
 		this(parent, factory, label, value, style, new FormAttachment(0, 0));
 	}
 
 	/**
-	 * @param parent
-	 * @param factory
-	 * @param id
-	 * @param label
-	 * @param value
-	 * @param style
-	 * @param top LabelText situé au dessus de ce LabelText
+	 * @param parent Composite parent
+	 * @param factory factory utilisé pour la création des widget
+	 * @param label label
+	 * @param value valeur
+	 * @param style style SWT
+	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
 	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, LabelText top) {
 		this(parent, factory, label, value, style, new FormAttachment(top.text, 0));
 	}
 
+	/**
+	 * Redessine le LabelText.
+	 */
 	public final void redraw() {
 		// En cas de texte multiligne, on limite l'agrandissement
 		int newNbDelimiters = text.getText().split(Text.DELIMITER, -1).length;
@@ -125,11 +135,18 @@ public class LabelText {
 		}
 	}
 
+	/**
+	 * @return <code>true</code> si le LabelText est visible
+	 */
 	public final boolean isVisible() {
 		Assert.isTrue(text.isVisible() == label.isVisible());
 		return text.isVisible();
 	}
 
+	/**
+	 * Change la visibilité du LabelText
+	 * @param visible nouvelle état
+	 */
 	public final void setVisible(boolean visible) {
 		text.setVisible(visible);
 		label.setVisible(visible);
@@ -137,22 +154,37 @@ public class LabelText {
 		label.redraw();
 	}
 
+	/**
+	 * @return la valeur du LabelText
+	 */
 	public final String getText() {
 		return text.getText();
 	}
 
+	/**
+	 * @param string nouvelle valeur du LabelText
+	 */
 	public final void setText(String string) {
 		text.setText(string);
 	}
 
+	/**
+	 * @return le nom du label
+	 */
 	public final String getLabel() {
 		return label.getText();
 	}
 
+	/**
+	 * @return le parent de ce pseudo-widget
+	 */
 	public final Composite getParent() {
 		return parent;
 	}
 
+	/**
+	 * @return le widget Text contenu dans ce LabelText
+	 */
 	public final Text getTextWidget() {
 		return text;
 	}

@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -14,6 +16,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -27,6 +31,7 @@ import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.CompoundSnapToHelper;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToGeometry;
@@ -47,6 +52,13 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
+	 * Permet d'écouter les changements de sélections, pour l'instant ne fait rien.
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub();
+
+	private ISession session;
+
+	/**
 	 * Creation des differentes regles d'edition pour le modele
 	 */
 	@Override
@@ -65,6 +77,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public final Object getAdapter(Class adapter) {
@@ -126,18 +139,26 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	@Override
 	protected final List<Object> getModelChildren() {
 		IGraph graph = (IGraph) getModel();
-		ArrayList<Object> children = new ArrayList<Object>();
+		List<Object> children = new ArrayList<Object>();
+
+		// Ajout des attributs du graphe
 		children.addAll(graph.getDrawableAttributes());
 
+		// Ajout des noeuds et de leurs attributs
 		children.addAll(graph.getNodes());
 		for (INode node : graph.getNodes()) {
 			children.addAll(node.getDrawableAttributes());
 		}
 
+		// Ajout des attributs des arcs
 		for (IArc arc : graph.getArcs()) {
 			children.addAll(arc.getDrawableAttributes());
 		}
 
+		// Ajout des tips
+		children.addAll(SessionManager.getInstance().getCurrentSession().getTips());
+
+		// Ajout des notes
 		for (IStickyNote sticky : ((GraphModel) graph).getStickyNotes()) {
 			children.add(sticky);
 		}
@@ -155,24 +176,26 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		getFigure().repaint();
 	}
 
-	/**
-	 * Changement de proprietes dans le modele.
-	 * Ces changements sont typiquement l'ajout ou la suppression d'un noeud
-	 */
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
+		LOGGER.finest("propertyChange(" + event.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = event.getPropertyName();
 
 		// Ajout/Suppression
-		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
+		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)
+				|| IGraph.ARC_ADDED_PROP.equals(prop) || IGraph.ARC_REMOVED_PROP.equals(prop)
+				|| IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)
+				|| ISession.PROP_TIPS.equals(prop)) {
 			refreshChildren();
 		}
 
-		IFigure fig = getFigure();
-		while (fig.getParent() != null && fig != fig.getParent()) {
-			fig = fig.getParent();
+		if (LOGGER.isLoggable(Level.FINEST)) {
+			IFigure fig = getFigure();
+			while (fig.getParent() != null && fig != fig.getParent()) {
+				fig = fig.getParent();
+			}
+			LOGGER.finest(treeToString("*** ", fig)); //$NON-NLS-1$
 		}
-
-		LOGGER.finest(treeToString("*** ", fig)); //$NON-NLS-1$
 	}
 
 	/**
@@ -185,6 +208,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		if (!isActive()) {
 			super.activate();
 			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
+			session = SessionManager.getInstance().getCurrentSession();
+			session.addPropertyChangeListener(this);
 		}
 	}
 
@@ -197,15 +222,17 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		if (isActive()) {
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
+			session.removePropertyChangeListener(this);
 		}
 	}
 
 	/**
-	 * @param attributeEditPart
+	 * Permet de récupérer l'editPart associé (graphe, noeud ou arc) à l'attributeEditPart
+	 * @param attributeEditPart AttributEditPart
 	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
 	 */
 	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
-		HashSet<Object> editParts = new HashSet<Object>();
+		Set<Object> editParts = new HashSet<Object>();
 		editParts.add(this);
 		editParts.addAll((List< ? >) getChildren());
 		for (Object obj : getChildren()) {
@@ -227,34 +254,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		return null;
 	}
 
-	public final void childAdded(EditPart child, int index) { }
-
-	public final void partActivated(EditPart editpart) { }
-
-	public final void partDeactivated(EditPart editpart) { }
-
-	public final void removingChild(EditPart child, int index) { }
-
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			break;
-		case EditPart.SELECTED_NONE:
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			break;
-		default:
-			break;
-		}
-	}
-
 	/**
 	 * Méthode récursive qui va afficher l'arbre d'une figure
 	 * @param s en tête de chaque ligne, une chaine convient très bien
@@ -274,5 +273,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 			sb.append(treeToString(s + "| ", (IFigure) obj)); //$NON-NLS-1$
 		}
 		return sb.toString();
+	}
+
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }

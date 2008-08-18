@@ -21,21 +21,17 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 	 * Instantiate a new menu context provider for the specified EditPartViewer and ActionRegistry.
 	 * @param viewer	the editor's graphical viewer
 	 * @param registry	the editor's action registry
-	 * @throws IllegalArgumentException if registry is <tt>null</tt>.
+	 * @throws NullPointerException if registry is <tt>null</tt>.
 	 */
-	public ColoaneContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
+	public ColoaneContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) throws NullPointerException {
 		super(viewer);
 		if (registry == null) {
-			throw new IllegalArgumentException();
+			throw new NullPointerException();
 		}
 		actionRegistry = registry;
 	}
 
-	/**
-	 * Called when the context menu is about to show. Actions,
-	 * whose state is enabled, will appear in the context menu.
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void buildContextMenu(final IMenuManager menu) {
 		// Add standard action groups to the menu
@@ -51,6 +47,10 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.SELECT_ALL.getId()));
 	}
 
+	/**
+	 * @param actionId id de l'action à récupérer
+	 * @return action correspondante à l'id ou <code>null</code>
+	 */
 	private IAction getAction(String actionId) {
 		return actionRegistry.getAction(actionId);
 	}

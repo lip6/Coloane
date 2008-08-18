@@ -30,11 +30,11 @@ public final class FormalismManager {
 	/** Le nom du point d'extension qui contient les definitions de formalismes */
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
 
-	/** Liste des formalismes disponibles. */
-	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
-
 	/** L'instance du singleton : FormalismManager */
 	private static FormalismManager instance = null;
+
+	/** Liste des formalismes disponibles. */
+	private List<IFormalism> formalisms = new ArrayList<IFormalism>();
 
 	/**
 	 * Constructeur de la classe FormalismsManager
@@ -50,8 +50,8 @@ public final class FormalismManager {
 	}
 
 	/**
-	 *
-	 * @param description
+	 * Construction du formalisme à partir de la description XML
+	 * @param description L'élément de haut niveau décrivant le formalisme
 	 */
 	private void buildFormalism(IConfigurationElement description) {
 		String name, fkname, xschema, image;
@@ -65,7 +65,7 @@ public final class FormalismManager {
 		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Creation et ajout du formalisme a la liste du manager
-		Formalism form = new Formalism(name, fkname, xschema, image);
+		Formalism form = new Formalism(name, fkname, image);
 
 		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 
@@ -169,6 +169,11 @@ public final class FormalismManager {
 		}
 	}
 
+	/**
+	 * Construction de la représentation graphique des éléments
+	 * @param element L'élément concerné par la description graphique
+	 * @param current L'élément XML en cours de parse
+	 */
 	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement current) {
 		// Ajout des considérations graphiques
 		IConfigurationElement[] graphicInfoTable = current.getChildren("GraphicInfo"); //$NON-NLS-1$
@@ -246,15 +251,41 @@ public final class FormalismManager {
 	/**
 	 * Cette methode retourne un formalisme à partir de son nom
 	 * @param name Le nom du formalism qu'on cherche
-	 * @return Le formalisme attendu ou <code>null</code> sinon
+	 * @return Le IFormalism
+	 * @throws IllegalArgumentException si le formalisme n'est pas connu
 	 */
-	public IFormalism getFormalismByName(String name) {
+	public IFormalism getFormalismByName(String name) throws IllegalArgumentException {
 		for (IFormalism form : formalisms) {
 			if (name.toLowerCase().equals(form.getName().toLowerCase())) {
 				return form;
 			}
 		}
-		return null;
+		LOGGER.warning("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Cette methode retourne un formalisme à partir de son nom
+	 * @param fkName Le nom du formalism qu'on cherche
+	 * @return Le IFormalism
+	 * @throws IllegalArgumentException si le formalisme n'est pas connu
+	 */
+	public IFormalism getFormalismByFkName(String fkName) throws IllegalArgumentException {
+		// TODO : meilleur gestion du lien formalisme/coloane <-> formalisme/framekit
+		if (fkName.toLowerCase().equals("ami-net")) { //$NON-NLS-1$
+			for (IFormalism form : formalisms) {
+				if ("Colored Petri Net".toLowerCase().equals(form.getName().toLowerCase())) { //$NON-NLS-1$
+					return form;
+				}
+			}
+		}
+		for (IFormalism form : formalisms) {
+			if (fkName.toLowerCase().equals(form.getFKName().toLowerCase())) {
+				return form;
+			}
+		}
+		LOGGER.warning("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -10,12 +9,18 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -26,9 +31,6 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Identifiant unique */
-	private int id;
-
 	/** Formalisme */
 	private IFormalism formalism;
 
@@ -36,21 +38,21 @@ public class GraphModel extends AbstractElement implements IGraph {
 	private IGraphFormalism graphFormalism;
 
 	/** Liste des noeuds rangé par id */
-	private HashMap<Integer, INode>	nodes = new HashMap<Integer, INode>();
+	private Map<Integer, INode>	nodes = new HashMap<Integer, INode>();
 
 	/** Liste des arcs rangé par id */
-	private HashMap<Integer, IArc> arcs = new HashMap<Integer, IArc>();
+	private Map<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
-	/** Liste des stickyNote rangées par id */
-	private HashMap<Integer, IStickyNote> sticky = new HashMap<Integer, IStickyNote>();
+	/** Liste des stickyNote */
+	private List<IStickyNote> stickys = new ArrayList<IStickyNote>();
 
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 2;
 
 	/** Date de derniere modification */
-	private int date;
+	private int date = (int) System.currentTimeMillis();
 
-	/** Etat du modele par rapport a FK (true -> pas a jour) */
+	/** Etat du modele par rapport a FK (<code>true</code> -> pas a jour) */
 	private boolean dirty = false;
 
 	/** Ensemble des propriétés de l'éditeur auquel est attaché ce graphe */
@@ -59,43 +61,55 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
-	 * @param formalismName
+	 * @param formalismName Le nom du formalisme du modèle
 	 */
 	public GraphModel(String formalismName) {
-		super(null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
+		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
+		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
-		this.id = 1;
-
-		LOGGER.fine("Création du GraphModel à partir du formalisme : " + formalismName); //$NON-NLS-1$
 
 		// Creation des propriétés de l'éditeur
 		this.editorProperties = new GraphEditorProperties();
+
+		this.addPropertyChangeListener(this);
 	}
 
 	/**
 	 * @return un identifiant unique.
 	 */
 	private int getNewId() {
-		return idCounter++;
+		int proposal = idCounter + 1;
+		while ((nodes.get(proposal) != null) || (arcs.get(proposal) != null)) {
+			proposal++;
+		}
+		idCounter = proposal;
+		return idCounter;
 	}
 
 	/** {@inheritDoc} */
 	public final INode createNode(String nodeFormalismName) throws ModelException {
+		return createNode(nodeFormalismName, getNewId());
+	}
+
+	/** {@inheritDoc} */
+	public final INode createNode(String nodeFormalismName, int id) throws ModelException {
+		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		IElementFormalism elementFormalism = graphFormalism.getElementFormalism(nodeFormalismName);
 		if (elementFormalism == null || !(elementFormalism instanceof INodeFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas de noeud du type " + nodeFormalismName); //$NON-NLS-1$
 		}
-		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, getNewId());
+
+		INode node = new NodeModel(this, (INodeFormalism) elementFormalism, id);
 		addNode(node);
 
-		LOGGER.fine("Création d'un nouveau noeud de type " + nodeFormalismName); //$NON-NLS-1$
 		return node;
 	}
 
 	/** {@inheritDoc} */
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
+			LOGGER.finest("deleteNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			for (IArc arc : node.getOutcomingArcs()) {
 				arcs.remove(arc.getId());
 			}
@@ -104,9 +118,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
-
-			// Il faut avertir FrameKit
-			Coloane.notifyModelChange(this);
+			node.removePropertyChangeListener(this);
 		}
 	}
 
@@ -131,8 +143,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/**
 	 * @return La liste des toutes les notes du graphe
 	 */
-	public final Collection<IStickyNote> getStickyNotes() {
-		return sticky.values();
+	public final List<IStickyNote> getStickyNotes() {
+		return Collections.unmodifiableList(stickys);
 	}
 
 	/** {@inheritDoc} */
@@ -141,40 +153,56 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
 			nodes.put(node.getId(), node);
+			node.addPropertyChangeListener(this);
+			LOGGER.finest("addNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(NODE_ADDED_PROP, null, node);
-
-			// Il faut avertir FrameKit
-			Coloane.notifyModelChange(this);
 		}
 	}
 
-
+	/**
+	 * Création d'une note
+	 * @return la note créée
+	 */
 	public final IStickyNote createStickyNote() {
-		IStickyNote note = new StickyNote(this, getNewId());
-		addSticky(note);
-		firePropertyChange(NODE_ADDED_PROP, null, note);
-
 		LOGGER.fine("Création d'une nouvelle note"); //$NON-NLS-1$
+		IStickyNote note = new StickyNoteModel();
+		addSticky(note);
+
 		return note;
 	}
 
+	/**
+	 * Ajoute la note au graphe courant
+	 * @param sticky La stickyNote à ajouter
+	 */
 	public final void addSticky(IStickyNote sticky) {
-		if (nodes.containsKey(sticky.getId())) {
-			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
-		} else {
-			this.sticky.put(sticky.getId(), sticky);
-			firePropertyChange(NODE_ADDED_PROP, null, sticky);
-		}
+		stickys.add(sticky);
+		LOGGER.finest("addSticky(" + sticky.getLocation() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		firePropertyChange(STICKY_ADD_PROP, null, sticky);
 	}
 
-	public final void deleteSticky(IStickyNote note) {
-		this.sticky.remove(note.getId());
-		firePropertyChange(STICKY_REMOVED_PROP, null, note);
+	/**
+	 * Supprime la note du graphe courante
+	 * @param note La StickyNote à supprimer
+	 * @return <tt>false</tt> si aucune note n'a été supprimée, <tt>true</tt> sinon
+	 */
+	public final boolean deleteSticky(IStickyNote note) {
+		boolean delete = stickys.remove(note);
+		if (delete) {
+			LOGGER.finest("deleteSticky(" + note.getLocation() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+			firePropertyChange(STICKY_REMOVED_PROP, null, note);
+		}
+		return delete;
 	}
 
 	/** {@inheritDoc} */
 	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
-		try {
+		return this.createArc(arcFormalismName, source, target, getNewId());
+	}
+
+	/** {@inheritDoc} */
+	public final IArc createArc(String arcFormalismName, INode source, INode target, int id) throws ModelException {
+		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Un des noeuds de connexion n'est pas connu"); //$NON-NLS-1$
 		}
@@ -183,25 +211,20 @@ public class GraphModel extends AbstractElement implements IGraph {
 		if (elementFormalism == null || !(elementFormalism instanceof IArcFormalism)) {
 			throw new ModelException("Ce formalisme ne contient pas d'arc du type " + arcFormalismName); //$NON-NLS-1$
 		}
-		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, getNewId(), source, target);
+		IArc arc = new ArcModel(this, (IArcFormalism) elementFormalism, id, source, target);
 		addArc(arc);
 
-		LOGGER.fine("Création d'un nouveau arc de type " + arcFormalismName); //$NON-NLS-1$
 		return arc;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	/** {@inheritDoc} */
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
+			LOGGER.finest("deleteArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
-
-			// Il faut avertir FrameKit
-			Coloane.notifyModelChange(this);
+			firePropertyChange(ARC_REMOVED_PROP, null, arc);
+			arc.removePropertyChangeListener(this);
 		}
 	}
 
@@ -232,18 +255,13 @@ public class GraphModel extends AbstractElement implements IGraph {
 		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
+			LOGGER.finest("addArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			arcs.put(arc.getId(), arc);
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
+			arc.addPropertyChangeListener(this);
+			firePropertyChange(ARC_ADDED_PROP, null, arc);
 		}
-
-		// Il faut avertir FrameKit
-		Coloane.notifyModelChange(this);
-	}
-
-	/** {@inheritDoc} */
-	public final int getId() {
-		return id;
 	}
 
 	/** {@inheritDoc} */
@@ -256,23 +274,27 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void deleteObject(int id) throws ModelException {
+		INode node = this.getNode(id);
+		if (node != null) { this.deleteNode(node); return; }
+		IArc arc = this.getArc(id);
+		if (arc != null) { this.deleteArc(arc); return; }
+		LOGGER.warning("L'object id=" + id + " n'existe pas dans le modele... Aucune suppression effectuee"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
 	/** {@inheritDoc} */
 	public final IFormalism getFormalism() {
 		return formalism;
 	}
 
-	/** {@inheritDoc} */
-	public final int modifyDate() {
-//		LOGGER.finest("Demande de mise a jour de la date du modele"); //$NON-NLS-1$
+	/**
+	 * Mise à jour de la date de dernière modification du modèle
+	 */
+	final void updateDate() {
 		date = (int) System.currentTimeMillis();
-		// Si le modele n'etait pas marque comme sale, on le marque
-		if (!dirty) {
-			setDirty(true);
-			return date;
-			// Sinon le modele etait deja sale (on a juste mis a jour la date)
-		} else {
-			return 0;
-		}
 	}
 
 	/** {@inheritDoc} */
@@ -287,12 +309,14 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final void setDirty(boolean state) {
-		if (state) {
-			LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
-		} else {
-			LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+		if (state != dirty) {
+			if (state) {
+				LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
+			} else {
+				LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+			}
+			this.dirty = state;
 		}
-		this.dirty = state;
 	}
 
 	/**
@@ -300,5 +324,21 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final GraphEditorProperties getEditorProperties() {
 		return editorProperties;
+	}
+
+	/** {@inheritDoc} */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (NODE_ADDED_PROP.equals(prop)
+				|| NODE_REMOVED_PROP.equals(prop)
+//				|| ARC_ADDED_PROP.equals(prop)
+//				|| ARC_REMOVED_PROP.equals(prop)
+				|| INode.INCOMING_ARCS_PROP.equals(prop)
+				|| INode.OUTCOMING_ARCS_PROP.equals(prop)
+				|| IAttribute.VALUE_PROP.equals(prop)) {
+			updateDate();
+			setDirty(true);
+		}
 	}
 }

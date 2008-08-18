@@ -15,9 +15,16 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+/**
+ * Action COUPER
+ */
 public class CutAction extends SelectionAction {
 	private ColoaneEditor editor;
 
+	/**
+	 * Constructeur
+	 * @param part Le workbench actif (en fait l'éditeur)
+	 */
 	public CutAction(IWorkbenchPart part) {
 		super(part);
 		if (part instanceof ColoaneEditor) {

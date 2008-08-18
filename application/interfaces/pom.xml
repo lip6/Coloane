@@ -4,27 +4,16 @@
 
 	<parent>
 		<groupId>fr.lip6.move.coloane.application</groupId>
-		<artifactId>application</artifactId>
-		<version>0.13.0-SNAPSHOT</version>
+		<artifactId>application-parent</artifactId>
+		<version>0.14.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>interfaces</artifactId>
-	<version>0.13.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Application - Interfaces</name>
-	<description>Interfaces and shared objects between Core and API</description>
+	<name>Application :: Interfaces</name>
+	<description>Interfaces and shared objects between Core and APIs</description>
 	
 	<dependencies>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>gef</artifactId>
-			<version>[3.2,)</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>draw2d</artifactId>
-			<version>[3.2,)</version>
-		</dependency>
 		<dependency>
 			<groupId>org.eclipse</groupId>
 			<artifactId>swt</artifactId>
@@ -36,5 +25,4 @@
 			<version>3.3.0-v3346</version>
 		</dependency>
 	</dependencies>
-
 </project>

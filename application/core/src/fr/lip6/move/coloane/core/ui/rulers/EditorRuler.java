@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.eclipse.gef.rulers.RulerProvider;
 
+/**
+ * Description d'un règle de l'éditeur
+ */
 public class EditorRuler {
 
 	/** Des propriétés nécessaire pour avertir les objets de changements */
@@ -56,11 +59,9 @@ public class EditorRuler {
 		}
 	}
 
-	public final void addPropertyChangeListener(PropertyChangeListener listener) {
-		listeners.addPropertyChangeListener(listener);
-	}
-
-	// the returned list should not be modified
+	/**
+	 * @return la liste des guide attachés à l'éditeur
+	 */
 	public final List<EditorGuide> getGuides() {
 		return guides;
 	}
@@ -96,13 +97,25 @@ public class EditorRuler {
 		}
 	}
 
+	/**
+	 * Ajoute un listener de modification de propriété
+	 * @param listener Le listener à ajouter
+	 */
+	public final void addPropertyChangeListener(PropertyChangeListener listener) {
+		listeners.addPropertyChangeListener(listener);
+	}
+
+	/**
+	 * Supprime un listener de modification de propriété
+	 * @param listener Le listener à supprimer
+	 */
 	public final void removePropertyChangeListener(PropertyChangeListener listener) {
 		listeners.removePropertyChangeListener(listener);
 	}
 
 	/**
 	 * Masquer la règle
-	 * @param isHidden
+	 * @param isHidden <code>true</code> si la règle doit être cachée
 	 */
 	public void setHidden(boolean isHidden) { }
 

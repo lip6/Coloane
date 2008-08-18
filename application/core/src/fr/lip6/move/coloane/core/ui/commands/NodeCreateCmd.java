@@ -30,10 +30,9 @@ public class NodeCreateCmd extends Command {
 
 	/**
 	 * Creer une commande qui ajoutera le noeud au graphe
-	 *
-	 * @param node Le nouveau noeud à ajouter
-	 * @param m Le modèle qui contiendra le noeud
-	 * @param bound Les limites du noeud; (la taille peut être (-1, -1))
+	 * @param graph graphe sur lequel doit être créé le noeud
+	 * @param nodeFormalismName nom du formalisme du noeud
+	 * @param b Rectangle
 	 */
 	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle b) {
 		super(Messages.NodeCreateCmd_0);
@@ -53,22 +52,26 @@ public class NodeCreateCmd extends Command {
 	public final void execute() {
 		try {
 			node = graph.createNode(nodeFormalismName);
+			node.getGraphicInfo().setLocation(location);
 		} catch (ModelException e) {
 			logger.warning(e.toString());
 			e.printStackTrace();
 		}
-		node.getGraphicInfo().setLocation(location);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		graph.addNode(node);
+		if (node != null) {
+			graph.addNode(node);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.deleteNode(node);
+		if (node != null) {
+			graph.deleteNode(node);
+		}
 	}
 }

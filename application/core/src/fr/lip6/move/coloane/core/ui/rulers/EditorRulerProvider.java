@@ -13,6 +13,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.rulers.RulerChangeListener;
 import org.eclipse.gef.rulers.RulerProvider;
 
+/**
+ * Le gestionnaire de règles et de guides
+ */
 public class EditorRulerProvider extends RulerProvider {
 
 	/** La regle concerné */
@@ -37,6 +40,7 @@ public class EditorRulerProvider extends RulerProvider {
 			}
 		}
 	};
+
 	private PropertyChangeListener guideListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(EditorGuide.PROPERTY_CHILDREN)) {
@@ -51,6 +55,10 @@ public class EditorRulerProvider extends RulerProvider {
 		}
 	};
 
+	/**
+	 * Constructeur
+	 * @param ruler La règle (horizontale ou verticale) concernée par ce gestionnaire
+	 */
 	public EditorRulerProvider(EditorRuler ruler) {
 		this.ruler = ruler;
 		this.ruler.addPropertyChangeListener(rulerListener);
@@ -60,9 +68,8 @@ public class EditorRulerProvider extends RulerProvider {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getAttachedModelObjects(java.lang.Object)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -70,36 +77,32 @@ public class EditorRulerProvider extends RulerProvider {
 		return new ArrayList(((EditorGuide) guide).getModelObjects());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final Command getCreateGuideCommand(int position) {
 		return new CreateGuideCommand(ruler, position);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getDeleteGuideCommand(java.lang.Object)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final Command getDeleteGuideCommand(Object guide) {
 		return new DeleteGuideCommand((EditorGuide) guide, ruler);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getMoveGuideCommand(java.lang.Object, int)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final Command getMoveGuideCommand(Object guide, int pDelta) {
 		return new MoveGuideCommand((EditorGuide) guide, pDelta);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final int[] getGuidePositions() {
@@ -111,45 +114,40 @@ public class EditorRulerProvider extends RulerProvider {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getRuler()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final Object getRuler() {
 		return ruler;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final int getUnit() {
 		return ruler.getUnit();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#setUnit(int)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void setUnit(int newUnit) {
 		ruler.setUnit(newUnit);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final int getGuidePosition(Object guide) {
 		return ((EditorGuide) guide).getPosition();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final List<EditorGuide> getGuides() {

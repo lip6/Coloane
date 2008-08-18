@@ -1,11 +1,17 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Zone de texte éditable
+ */
 public class EditableTextArea extends TextArea {
 
 	/**
@@ -15,10 +21,10 @@ public class EditableTextArea extends TextArea {
 	 * @param defaultValue Valeur par defaut
 	 */
 	public EditableTextArea(Composite parent, int multiLine, String defaultValue) {
-		super(parent, TextArea.INPUT_AUTHORIZED, multiLine, defaultValue);
+		super(parent, IDialog.INPUT_AUTHORIZED, multiLine, defaultValue);
 
-		if (multiLine == TextArea.SINGLE_LINE) {
-			setTextWidget(new Text(parent, SWT.SINGLE));
+		if (multiLine == IDialog.SINGLE_LINE) {
+			setTextWidget(new Text(parent, SWT.SINGLE | SWT.BORDER));
 		} else {
 			parent.getParent().setSize(400, 300);
 			setTextWidget(new Text(parent, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL));
@@ -29,8 +35,8 @@ public class EditableTextArea extends TextArea {
 
 	/** {@inheritDoc} */
 	@Override
-	public final ArrayList<String> getText() {
-		ArrayList<String> result = new ArrayList<String>();
+	public final List<String> getText() {
+		List<String> result = new ArrayList<String>();
 		String[] tokens = ((Text) getTextWidget()).getText().split("(\n\r)|(\r\n)|(\n)|(\r)"); //$NON-NLS-1$
 
 		for (String token : tokens) {
@@ -40,9 +46,7 @@ public class EditableTextArea extends TextArea {
 		return result;
 	}
 
-	/**
-	 * Add a choice in a DummyTextArea is a nonsense.
-	 */
+	/** {@inheritDoc} */
 	public final void addChoice(String choice) {
 		throw new UnsupportedOperationException();
 	}

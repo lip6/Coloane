@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.copypast;
 
-
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 
 import org.eclipse.gef.commands.Command;
@@ -10,9 +9,16 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+/**
+ * Action COLLER
+ */
 public class PasteAction extends SelectionAction {
 	private ColoaneEditor editor;
 
+	/**
+	 * Constructeur
+	 * @param part Le workbench actif (en fait l'éditeur)
+	 */
 	public PasteAction(IWorkbenchPart part) {
 		super(part);
 		if (part instanceof ColoaneEditor) {

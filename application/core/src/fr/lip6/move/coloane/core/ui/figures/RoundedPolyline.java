@@ -35,8 +35,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 
 /**
- * @author vineet
- *
+ * Ligne suportant les courbes de bézier au niveau des points d'inflexions
  */
 public class RoundedPolyline extends Polyline {
 
@@ -45,17 +44,21 @@ public class RoundedPolyline extends Polyline {
 	/**
 	 * Sets the length of the corner on each edge.
 	 *
-	 * @param d the dimensions of the corner
+	 * @param len the dimensions of the corner
 	 */
 	public final void setCornerLength(int len) {
 		cornerLen = len;
 	}
 
+	/**
+	 * scale the distance between the two points such that the distance is
+	 * equal to the cornerLen
+	 * @param pt1 point 1
+	 * @param pt2 point 2
+	 * @param twoCorners est ce qu'on a deux coins
+	 * @return taille
+	 */
 	private Dimension getCornerDimension(Point pt1, Point pt2, boolean twoCorners) {
-		/*
-		 * scale the distance between the two points such that the distance is
-		 * equal to the cornerLen
-		 */
 		double scale = ((double) cornerLen) / pt1.getDistance(pt2);
 		if (twoCorners) {
 			scale = Math.min(0.5, scale);
@@ -67,6 +70,7 @@ public class RoundedPolyline extends Polyline {
 
 	/**
 	 * @see Shape#outlineShape(Graphics)
+	 * {@inheritDoc}
 	 */
     @Override
 	protected final void outlineShape(Graphics g) {
@@ -114,22 +118,23 @@ public class RoundedPolyline extends Polyline {
 
 	}
 
+	/**
+	 * Classe qui va calculer les coordonnées de chaque point de la courbe
+	 */
 	static class BezierDimension {
 		private double a, b, c, d;
-		/* based on: http://www.moshplant.com/direct-or/bezier/math.html
-		 *
-		 * given (in dimension):
-		 *  p0 - start point
-		 *  p1 - start control point
-		 *  p2 - end control point
-		 *  p3 - end point
-		 *
-		 * based on the spec:
-		 *  value(t) = a.t.t.t + b.t.t + c.t + d
-		 *  p0 = d
-		 *  p1 = p0+c/3
-		 *  p2 = p1+(c+b)/3
-		 *  p3 = p0+c+b+a
+		/** based on: http://www.moshplant.com/direct-or/bezier/math.html<br>
+		 * <br>
+		 * based on the spec:<br>
+		 * value(t) = a.t.t.t + b.t.t + c.t + d<br>
+		 * p0 = d<br>
+		 * p1 = p0+c/3<br>
+		 * p2 = p1+(c+b)/3<br>
+		 * p3 = p0+c+b+a
+		 * @param p0 start point
+		 * @param p1 start control point
+		 * @param p2 end control point
+		 * @param p3 end point
 		 */
 		public BezierDimension(double p0, double p1, double p2, double p3) {
 			d = p0;
@@ -137,6 +142,11 @@ public class RoundedPolyline extends Polyline {
 			b = 3 * (p2 - p1) - c;
 			a = p3 - p0 - c - b;
 		}
+
+		/**
+		 * @param t pas compris dans l'interval [0,1]
+		 * @return la coordonnée calculée
+		 */
 		public int getValue(double t) {
 			return (int) Math.round((a * t * t * t) + (b * t * t) + (c * t) + d);
 		}
@@ -144,6 +154,13 @@ public class RoundedPolyline extends Polyline {
 
 	/**
 	 * Dessine une spline en utilisant l'algo dispo sur ce site : http://www.moshplant.com/direct-or/bezier/math.html
+	 *
+	 * @param g Graphics qui permet de dessiner
+	 * @param startPt point de départ
+	 * @param startCtrlPt premier point de control
+	 * @param endPt point d'arrivé
+	 * @param endCtrlPt deuxième point de control
+	 * @param step pas
 	 */
 	private static void drawBezier(Graphics g, Point startPt, Point startCtrlPt, Point endPt, Point endCtrlPt, double step) {
 		BezierDimension x = new BezierDimension(startPt.x, startCtrlPt.x, endCtrlPt.x, endPt.x);
@@ -162,6 +179,11 @@ public class RoundedPolyline extends Polyline {
 
 	/**
 	 * Dessine une courbe de bézier
+	 * @param g Graphics qui permet de dessiner
+	 * @param p0 point de départ
+	 * @param p1 point de control
+	 * @param p2 point d'arrivé
+	 * @param step pas
 	 */
 	@SuppressWarnings("unused")
 	private static void drawBezier(Graphics g, Point p0, Point p1, Point p2, double step) {

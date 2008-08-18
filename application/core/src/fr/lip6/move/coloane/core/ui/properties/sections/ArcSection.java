@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
  */
 public class ArcSection extends AbstractElementSection<IArc> {
 
+	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {

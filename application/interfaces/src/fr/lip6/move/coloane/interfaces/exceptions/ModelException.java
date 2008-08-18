@@ -1,25 +1,27 @@
 package fr.lip6.move.coloane.interfaces.exceptions;
 
 /**
- * Model Exception
- * Erreur lors de la manipulation du modele :
+ * Model Exception<br>
+ * Exception levée lors de la manipulation du modèle :
  * <ul>
  * 	<li>Ajout</li>
  *  <li>Modification</li>
  *  <li>Suppression</li>
+ *  <li>Déplacement</li>
+ *  <li>etc...</li>
  * </ul>
  */
 public class ModelException extends Exception {
 
-	/** Pour la conformite */
+	/** Pour la conformité */
 	private static final long serialVersionUID = 1L;
 
 	/** Message associee a l'exception */
-	private String msg;
+	private String message;
 
 	/** Constructeur */
 	public ModelException() {
-		this.msg = "Unknown Model Error"; //$NON-NLS-1$
+		this.message = "Unknown Model Error"; //$NON-NLS-1$
 	}
 
 	/**
@@ -27,20 +29,20 @@ public class ModelException extends Exception {
 	 * @param message Information sur l'exception
 	 */
 	public ModelException(final String message) {
-		this.msg = "Model Error : " + message; //$NON-NLS-1$
+		this.message = "Model Error : " + message; //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public String getMessage() {
-		return this.msg;		
-	}
-	
 	/**
-	 * Production d'une chaine de caractere depuis l'exception
-	 * @return string Le messaeg complet d'erreur
+	 * {@inheritDoc}
+	 */
+	public final String getMessage() {
+		return this.message;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public final String toString() {
-		return new String(msg);
+		return message;
 	}
 }

@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.draw2d.IFigure;
 
 /**
@@ -95,9 +97,20 @@ public class GraphicalDescription implements IGraphicalDescription {
 	public final IFigure getAssociatedFigure() {
 		try {
 			return (IFigure) associatedFigureClass.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
-		} catch (Exception e) {
-			return null;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 

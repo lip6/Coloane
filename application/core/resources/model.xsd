@@ -68,7 +68,6 @@
 	
 	<xs:complexType name="tsticky">
 		<xs:group ref="tstickydesc" minOccurs="1" maxOccurs="unbounded"></xs:group>
-		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:attributeGroup ref="graph" />
 		<xs:anyAttribute processContents="lax" />
 	</xs:complexType>

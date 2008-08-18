@@ -7,12 +7,24 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+/**
+ * Description d'une figure en forme de rectangle.<br>
+ * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ *
+ * @author Clément Demoulins
+ */
 public class RectangleNode extends AbstractNodeFigure {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
 		graphics.fillRectangle(getBounds());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		Rectangle r = getBounds();
@@ -23,6 +35,9 @@ public class RectangleNode extends AbstractNodeFigure {
 		graphics.drawRectangle(x, y, w, h);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}

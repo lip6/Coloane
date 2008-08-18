@@ -26,9 +26,9 @@ public class ChangeGuideCommand extends Command {
 	 * @param locatedElement L'élément de modèle concerné par ce changement
 	 * @param horizontal Indicateur de configuration du guide : <code>true</code> pour un guide horizontal
 	 */
-	public ChangeGuideCommand(ILocatedElement part, boolean horizontal) {
+	public ChangeGuideCommand(ILocatedElement locatedElement, boolean horizontal) {
 		super();
-		this.locatedElement = part;
+		this.locatedElement = locatedElement;
 		this.horizontal = horizontal;
 	}
 
@@ -60,10 +60,7 @@ public class ChangeGuideCommand extends Command {
 		newAlign = alignment;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		// Cache the old values
@@ -73,19 +70,13 @@ public class ChangeGuideCommand extends Command {
 		redo();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		changeGuide(oldGuide, newGuide, newAlign);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		changeGuide(newGuide, oldGuide, oldAlign);

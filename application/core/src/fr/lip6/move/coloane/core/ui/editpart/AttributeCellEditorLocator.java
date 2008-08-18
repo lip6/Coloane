@@ -7,14 +7,22 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Text;
 
 
+/**
+ * Classe utile à l'édition des attributs dans l'éditeur.
+ * Elle permet de déterminer la position du CellEditor par rapport à l'attribut.
+ */
 public final class AttributeCellEditorLocator implements CellEditorLocator {
 
 	private Label attributeFigure;
 
+	/**
+	 * @param attributeFigure figure de l'attribut associé
+	 */
 	public AttributeCellEditorLocator(Label attributeFigure) {
 		this.attributeFigure = attributeFigure;
 	}
 
+	/** {@inheritDoc} */
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Rectangle rect = attributeFigure.getTextBounds();
@@ -29,15 +37,15 @@ public final class AttributeCellEditorLocator implements CellEditorLocator {
 	}
 
 	/**
-	 * Returns the stickyNote figure.
+	 * @return the stickyNote figure.
 	 */
 	protected Label getLabel() {
 		return attributeFigure;
 	}
 
 	/**
-	 * Sets the Sticky note figure.
-	 * @param stickyNote The stickyNote to set
+	 * Sets the attribut figure.
+	 * @param attributeFigure the attribut figure to set
 	 */
 	protected void setLabel(Label attributeFigure) {
 		this.attributeFigure = attributeFigure;

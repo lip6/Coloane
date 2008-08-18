@@ -4,14 +4,13 @@
 
 	<parent>
 		<groupId>fr.lip6.move.coloane.application</groupId>
-		<artifactId>application</artifactId>
-		<version>0.13.0-SNAPSHOT</version>
+		<artifactId>application-parent</artifactId>
+		<version>0.14.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>core</artifactId>
-	<version>0.13.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Application - Core</name>
+	<name>Application :: Core</name>
 	<description>Coloane kernel plugin</description>
 
 	<!-- Les dépendances -->
@@ -20,25 +19,9 @@
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>interfaces</artifactId>
-			<version>[0.9,)</version>
+			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>apicami</artifactId>
-			<version>[0.9,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>gef</artifactId>
-			<version>[3.2,)</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>draw2d</artifactId>
-			<version>[3.2,)</version>
-		</dependency>
-		
+	
 		<!-- Waiting for another solution... -->
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
@@ -152,10 +135,5 @@
             <artifactId>navigator</artifactId>
             <version>3.3.0-I20070605-0010</version>
         </dependency>
-        <dependency>
-  			<groupId>org.jmock</groupId>
-  			<artifactId>jmock-junit4</artifactId>
-  			<version>2.4.0</version>
-		</dependency>
 	</dependencies>
 </project>
