@@ -190,15 +190,15 @@ public class ImportFromImpl implements IImportFrom {
 	private IGraph loadMAttribute(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String name = parser.parseString(",");
 		Integer ref = Integer.parseInt(parser.parseInt(","));
-		parser.parseInt(",");
-		parser.parseInt(",");
+		Integer line = Integer.parseInt(parser.parseInt(","));
+		parser.parseInt(","); // deprecated
 		String value = parser.parseString(")");
 
 		// Si le referent a comme identifiant 1, alors il faut attacher l'attribut au modele
 		if (ref == 1) {
 			IAttribute attribute = model.getAttribute(name);
 			if (attribute != null) {
-				attribute.setValue(attribute.getValue() + "\r" + value);
+				if (line == 1) { attribute.setValue(value); } else { attribute.setValue(attribute.getValue() + "\n" + value); }
 				LOGGER.finest("Attribut " + name + " = " + attribute.getValue() + " pour l'arc " + this.ids.get(ref));
 			} else {
 				LOGGER.fine("Attribut " + name + " inconnu... Ignore !");
@@ -211,7 +211,7 @@ public class ImportFromImpl implements IImportFrom {
 		if (arc != null) {
 			IAttribute attribute = arc.getAttribute(name);
 			if (attribute != null) {
-				attribute.setValue(attribute.getValue() + "\r" + value);
+				if (line == 1) { attribute.setValue(value); } else { attribute.setValue(attribute.getValue() + "\n" + value); }
 				LOGGER.finest("Attribut " + name + " = " + attribute.getValue() + " pour l'arc " + this.ids.get(ref));
 			} else {
 				LOGGER.fine("Attribut " + name + " inconnu... Ignore !");
@@ -224,7 +224,7 @@ public class ImportFromImpl implements IImportFrom {
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
 			if (attribute != null) {
-				attribute.setValue(attribute.getValue() + "\r" + value);
+				if (line == 1) { attribute.setValue(value); } else { attribute.setValue(attribute.getValue() + "\n" + value); }
 				LOGGER.finest("Attribut " + name + " = " + attribute.getValue() + " pour l'arc " + this.ids.get(ref));
 			} else {
 				LOGGER.fine("Attribut " + name + " inconnu... Ignore !");

@@ -4,43 +4,24 @@
 
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
-		<artifactId>coloane</artifactId> 
-		<version>0.13.0-SNAPSHOT</version> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.14.0-SNAPSHOT</version> 
 	</parent>
 
-	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>update-site</artifactId>
 	<packaging>pom</packaging>
-	<version>1.2-SNAPSHOT</version>
 	<name>Update Site</name>
 	<description>Eclipse Update Site or Coloane Project</description>
-
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>coloaneMain</artifactId>
-			<version>[0.12,)</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>importExport</artifactId>
-			<version>[1.0,)</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>languagePack</artifactId>
-			<version>[1.1,)</version>
-		</dependency>
-	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
+					<!-- Construction du fichier de description du site de mise à jour -->
 					<execution>
-						<id>BuildSite</id>
+						<id>BuildSiteXML</id>
 						<phase>generate-sources</phase>        
 						<goals>
 							<goal>exec</goal>
@@ -49,13 +30,14 @@
 							<executable>buildSiteXML.pl</executable>
 							<arguments>
 								<argument>site.xml</argument>
-								<argument>${project.version}</argument>
-								<argument>/data/coloane_deposit</argument>
+								<argument>${build.finalName}</argument>
+								<argument>${project.deployPath}</argument>
 							</arguments>
 						</configuration>
 					</execution>
+					<!-- Déploiement du JAR au bon endroit (snapshot/release)-->
 					<execution>
-						<id>DeploySite</id>
+						<id>Deploy</id>
 						<phase>deploy</phase>        
 						<goals>
 							<goal>exec</goal>
@@ -64,26 +46,31 @@
 							<executable>deployUpdateSite.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
-								<argument>/data/coloane_deposit</argument>
+								<argument>${project.deployPath}</argument>
 							</arguments>
 						</configuration>
 					</execution>
-					<execution>
-						<id>SynchronizeDeposits</id>
-						<phase>deploy</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>synchronize.sh</executable>
-							<arguments>
-								<argument>/data/coloane_deposit</argument>
-								<argument>/coloane/public</argument>
-							</arguments>
-						</configuration>
-					</execution>
+					
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>coloaneMain</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>importExport</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>languagePack</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>

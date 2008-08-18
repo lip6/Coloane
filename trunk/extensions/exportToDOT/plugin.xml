@@ -5,8 +5,8 @@
          point="fr.lip6.move.coloane.core.exports">
       <Export
             class="fr.lip6.move.coloane.extension.exportToDOT.ExportToImpl"
-            extension="dot"
             id="fr.lip6.move.coloane.extensions.exportdot"
+            extension="dot"
             reference="fr.lip6.move.coloane.wizard.export.dot">
          <AcceptedFormalism
                id="PT-Net">
