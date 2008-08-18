@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -177,5 +178,15 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final void updateTips() {
 		firePropertyChange(INCOMING_ARCS_PROP, null, null);
+	}
+
+	/** {@inheritDoc} */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (IAttribute.VALUE_PROP.equals(prop)) {
+			// On propage les changements de valeur des attributs au niveau supérieur
+			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
+		}
 	}
 }

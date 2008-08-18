@@ -401,7 +401,6 @@ public final class Motor {
 				ISession currentSession = SessionManager.getInstance().getCurrentSession();
 				if (currentSession != null) {
 					LOGGER.fine("Demande de mise a jour du modele sur la plateforme"); //$NON-NLS-1$
-					currentSession.getGraph().modifyDate();
 					try {
 						((Session) currentSession).invalidModel();
 					} catch (ApiException e) {

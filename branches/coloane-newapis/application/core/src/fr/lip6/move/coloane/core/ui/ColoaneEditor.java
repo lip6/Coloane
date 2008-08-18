@@ -410,7 +410,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			file.setContents(inputS, true, false, monitor);
 			file.setCharset("UTF-8", monitor); //$NON-NLS-1$
 
-			Motor.getInstance().notifyModelChange();
+			if (graph.isDirty()) {
+				Motor.getInstance().notifyModelChange();
+				graph.setDirty(false);
+			}
 		} catch (CoreException e) {
 			LOGGER.warning("Erreur lors de la sauvegarde du modele"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {

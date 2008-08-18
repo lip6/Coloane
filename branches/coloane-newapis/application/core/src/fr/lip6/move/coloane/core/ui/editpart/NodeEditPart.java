@@ -14,6 +14,7 @@ import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -139,6 +140,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @param property L'evenement qui a ete levee
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
+		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
 
 		// Propriete de connexion
@@ -152,8 +154,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		// Propriété de changement de couleur
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+			refreshVisuals();
 		} else if (INode.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
+			refreshVisuals();
 
 		// Propriété de changement de taille
 		} else if (INode.RESIZE_PROP.equalsIgnoreCase(prop)) {
@@ -161,13 +165,17 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
+			refreshVisuals();
 
 		// Propriété pour une demande de changement de l'état "special" (mise en valeur)
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
-		}
+			refreshVisuals();
 
-		refreshVisuals();
+		// Propriété de changement des coordonnées
+		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
+			refreshVisuals();
+		}
 	}
 
 	/**

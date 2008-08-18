@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +16,8 @@ import java.util.Map;
  * Manage the attributes of an IElement.
  * @see ICoreElement
  */
-public abstract class AbstractElement extends AbstractPropertyChange implements IElement, PropertyChangeListener, ISpecialState {
+public abstract class AbstractElement extends AbstractPropertyChange implements IElement, ISpecialState, PropertyChangeListener {
+
 	/**
 	 * Map of attributes, the key is the name of the attributes.
 	 */
@@ -80,23 +80,6 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/** {@inheritDoc} */
 	public final IElement getParent() {
 		return parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void propertyChange(PropertyChangeEvent evt) {
-		// La valeur d'un attribut a été modifié
-		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {
-			IAttribute attr = (IAttribute) evt.getSource();
-			String oldValue = (String) evt.getOldValue();
-			String newValue = (String) evt.getNewValue();
-
-			if (oldValue.equals(attr.getAttributeFormalism().getDefaultValue())
-					|| newValue.equals(attr.getAttributeFormalism().getDefaultValue())) {
-				firePropertyChange(IElement.ATTRIBUTE_CHANGE, null, attr);
-			}
-		}
 	}
 
 	/** {@inheritDoc} */

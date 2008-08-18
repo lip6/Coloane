@@ -178,12 +178,14 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
+		LOGGER.finest("propertyChange(" + event.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = event.getPropertyName();
 
 		// Ajout/Suppression
-		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop) || IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)) {
-			refreshChildren();
-		} else if (ISession.PROP_TIPS.equals(prop)) {
+		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)
+				|| IGraph.ARC_ADDED_PROP.equals(prop) || IGraph.ARC_REMOVED_PROP.equals(prop)
+				|| IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)
+				|| ISession.PROP_TIPS.equals(prop)) {
 			refreshChildren();
 		}
 

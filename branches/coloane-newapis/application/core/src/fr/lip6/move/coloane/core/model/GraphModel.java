@@ -9,10 +9,12 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +52,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** Date de derniere modification */
 	private int date = (int) System.currentTimeMillis();
 
-	/** Etat du modele par rapport a FK (true -> pas a jour) */
+	/** Etat du modele par rapport a FK (<code>true</code> -> pas a jour) */
 	private boolean dirty = false;
 
 	/** Ensemble des propriétés de l'éditeur auquel est attaché ce graphe */
@@ -69,6 +71,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 		// Creation des propriétés de l'éditeur
 		this.editorProperties = new GraphEditorProperties();
+
+		this.addPropertyChangeListener(this);
 	}
 
 	/**
@@ -114,6 +118,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
+			node.removePropertyChangeListener(this);
 		}
 	}
 
@@ -148,6 +153,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
 			nodes.put(node.getId(), node);
+			node.addPropertyChangeListener(this);
 			LOGGER.finest("addNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			firePropertyChange(NODE_ADDED_PROP, null, node);
 		}
@@ -217,6 +223,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 			LOGGER.finest("deleteArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
+			firePropertyChange(ARC_REMOVED_PROP, null, arc);
+			arc.removePropertyChangeListener(this);
 		}
 	}
 
@@ -251,6 +259,8 @@ public class GraphModel extends AbstractElement implements IGraph {
 			arcs.put(arc.getId(), arc);
 			((NodeModel) arc.getSource()).addOutcomingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
+			arc.addPropertyChangeListener(this);
+			firePropertyChange(ARC_ADDED_PROP, null, arc);
 		}
 	}
 
@@ -280,17 +290,11 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return formalism;
 	}
 
-	/** {@inheritDoc} */
-	public final int modifyDate() {
+	/**
+	 * Mise à jour de la date de dernière modification du modèle
+	 */
+	final void updateDate() {
 		date = (int) System.currentTimeMillis();
-		// Si le modele n'etait pas marque comme sale, on le marque
-		if (!dirty) {
-			setDirty(true);
-			return date;
-			// Sinon le modele etait deja sale (on a juste mis a jour la date)
-		} else {
-			return 0;
-		}
 	}
 
 	/** {@inheritDoc} */
@@ -305,12 +309,14 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** {@inheritDoc} */
 	public final void setDirty(boolean state) {
-		if (state) {
-			LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
-		} else {
-			LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+		if (state != dirty) {
+			if (state) {
+				LOGGER.fine("Le modele est maintenant considere comme : SALE"); //$NON-NLS-1$
+			} else {
+				LOGGER.fine("Le modele est maintenant considere comme : PROPRE"); //$NON-NLS-1$
+			}
+			this.dirty = state;
 		}
-		this.dirty = state;
 	}
 
 	/**
@@ -318,5 +324,21 @@ public class GraphModel extends AbstractElement implements IGraph {
 	 */
 	public final GraphEditorProperties getEditorProperties() {
 		return editorProperties;
+	}
+
+	/** {@inheritDoc} */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (NODE_ADDED_PROP.equals(prop)
+				|| NODE_REMOVED_PROP.equals(prop)
+//				|| ARC_ADDED_PROP.equals(prop)
+//				|| ARC_REMOVED_PROP.equals(prop)
+				|| INode.INCOMING_ARCS_PROP.equals(prop)
+				|| INode.OUTCOMING_ARCS_PROP.equals(prop)
+				|| IAttribute.VALUE_PROP.equals(prop)) {
+			updateDate();
+			setDirty(true);
+		}
 	}
 }

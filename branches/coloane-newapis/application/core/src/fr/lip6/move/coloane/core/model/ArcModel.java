@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -155,5 +156,15 @@ public class ArcModel extends AbstractElement implements IArc {
 	/** {@inheritDoc} */
 	public final void updateTips() {
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, null);
+	}
+
+	/** {@inheritDoc} */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (IAttribute.VALUE_PROP.equals(prop)) {
+			// On propage les changements de valeur des attributs au niveau supérieur
+			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
+		}
 	}
 }

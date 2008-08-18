@@ -12,7 +12,6 @@ import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -202,18 +201,13 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
 
-		// Propriété de demande de création/suppression d'un AttributEditPart
-		if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getSource().getParent().refresh();
-
-			// demande de refresh sur le GraphEditPart
-		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+		// demande de refresh sur le GraphEditPart
+		if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
+			refreshVisuals();
 		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
 		}
-
-		refreshVisuals();
 	}
 
 
