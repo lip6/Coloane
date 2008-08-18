@@ -6,6 +6,7 @@
       <Export
             class="fr.lip6.move.coloane.extension.importExportPNML.exportToPNML.ExportToImpl"
             id="fr.lip6.move.coloane.extensions.exportpnml"
+            extension="pnml"
             reference="fr.lip6.move.coloane.wizard.export.pnml">
          <AcceptedFormalism
                id="PT-Net">

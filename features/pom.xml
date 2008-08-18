@@ -4,76 +4,48 @@
 
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
-		<artifactId>coloane</artifactId> 
-		<version>0.13.0-SNAPSHOT</version> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.14.0-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>features</artifactId>
+	<artifactId>features-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.4-SNAPSHOT</version>
 	<name>Features</name>
 	<description>All features related to Coloane project</description>
 
 	<modules>
 		<module>importExport</module>
+		<module>modelExamples</module>
 		<module>languagePack</module>
 		<module>coloaneMain</module>
 	</modules>
-	
-	<build>
-		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 
+	<build>
+		<finalName>${project.artifactId}_${project.version}</finalName>
+		
 		<plugins>
 			<plugin>
-				<!-- Pour mettre le buildnumber au bout du jar ${buildNumber} -->
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-
-				<executions>
-					<execution>
-						<id>BuildNumber</id>
-						<phase>validate</phase>        
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin> 
-				<!-- Pour configurer le jar de sortie --> 
-				<groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-jar-plugin</artifactId> 
-				<configuration> 
-					<archive> 
-						<!-- Donne notre MANIFEST --> 
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
-						<manifest> 
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
-						</manifest> 
+				<!-- Pour configurer le jar de sortie -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> 
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
 						<manifestEntries>
 							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
 						</manifestEntries>
-					</archive> 
-				</configuration> 
+					</archive>
+				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>UpdateManifest</id>
-						<phase>generate-sources</phase>        
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</execution>
 					<execution>
 						<id>BuildFeatureXML</id>
 						<phase>generate-sources</phase>        
@@ -84,24 +56,9 @@
 							<executable>buildFeatureXML.pl</executable>
 							<arguments>
 								<argument>feature.xml</argument>
-								<argument>${buildNumber}</argument>
 								<argument>${build.finalName}</argument>
-								<argument>/data/coloane_deposit</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>Deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>deployJar.sh</executable>
-							<arguments>
-								<argument>${project.version}</argument>
-								<argument>${build.finalName}.${packaging}</argument>
-								<argument>/data/coloane_deposit</argument>
+								<argument>${buildNumber}</argument>
+								<argument>${project.deployPath}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -124,5 +81,5 @@
 			</resource>
 		</resources>
 	</build>
-	
+
 </project>

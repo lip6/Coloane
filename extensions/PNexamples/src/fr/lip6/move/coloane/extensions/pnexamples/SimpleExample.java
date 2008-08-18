@@ -8,7 +8,10 @@ public class SimpleExample implements IExample {
 	public SimpleExample() { }
 
 	public IGraph buildModel() {
+		
 		return null;
+		
+		
 	}
 	
 }

@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.pnml.framework.general.PnmlExport;
-import fr.lip6.move.pnml.framework.utils.IdRepository;
+import fr.lip6.move.pnml.framework.utils.ModelRepository;
 import fr.lip6.move.pnml.framework.utils.exception.InvalidIDException;
 import fr.lip6.move.pnml.framework.utils.exception.VoidRepositoryException;
 import fr.lip6.move.pnml.ptnet.hlapi.ArcHLAPI;
@@ -25,13 +25,15 @@ public class ExportToImpl implements IExportTo {
 	/**
 	 * Constructeur
 	 */
-	public ExportToImpl() { }
+	public ExportToImpl() { System.err.println("mayou"); }
 
 	/** {@inheritDoc} */
 	public final void export(IGraph graph, String filePath) throws ColoaneException {
 		PetriNetDocHLAPI doc;
 
 		try {
+			ModelRepository.reset();
+			ModelRepository.getInstance().createModelWorkspace("toto");
 			doc = new PetriNetDocHLAPI();
 			PetriNetHLAPI net = new PetriNetHLAPI("colo-export", PNTypeHLAPI.COREMODEL, new NameHLAPI("coloane"), doc);
 			PageHLAPI page = new PageHLAPI("main", new NameHLAPI("main"), null, net);
@@ -41,31 +43,34 @@ public class ExportToImpl implements IExportTo {
 				
 				// Les places
 				if (node.getNodeFormalism().getName().equalsIgnoreCase("place")) {
-					PlaceHLAPI place = new PlaceHLAPI(String.valueOf(node.getId()), page);
+					PlaceHLAPI place = new PlaceHLAPI(String.valueOf("colo" + node.getId()), page);
 					place.setName(new NameHLAPI(node.getAttribute("name").getValue()));
 					place.setInitialMarking(new PTMarkingHLAPI(Integer.valueOf(node.getAttribute("marking").getValue())));
 				}
 
 				// Les transitions
 				if (node.getNodeFormalism().getName().equalsIgnoreCase("transition")) {
-					TransitionHLAPI transition = new TransitionHLAPI(String.valueOf(node.getId()), page);
+					TransitionHLAPI transition = new TransitionHLAPI(String.valueOf("colo" + node.getId()), page);
 					transition.setName(new NameHLAPI(node.getAttribute("name").getValue()));
 				}
 			}
 
 			// Création des arcs
-			IdRepository repo = new IdRepository();
 			for (IArc arc : graph.getArcs()) {
-				NodeHLAPI source = (NodeHLAPI) repo.getObject(String.valueOf(arc.getSource().getId()));
-				NodeHLAPI target = (NodeHLAPI) repo.getObject(String.valueOf(arc.getTarget().getId()));
-				ArcHLAPI a = new ArcHLAPI(String.valueOf(arc.getId()), source, target);
+				NodeHLAPI source = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("colo" + String.valueOf(arc.getSource().getId()));
+				NodeHLAPI target = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("colo" + String.valueOf(arc.getTarget().getId()));
+				ArcHLAPI a = new ArcHLAPI(String.valueOf("colo" + arc.getId()), source, target);
 				a.setContainerPage(page);
 			}
+			
+	
 		} catch (InvalidIDException e) {
-			System.out.println("Double aie...");
+			System.out.println("Double aie..." + e);
+			e.printStackTrace();
 			return;
 		} catch (VoidRepositoryException vre) {
-			System.out.println("Triple aie...");
+			System.out.println("Triple aie..." + vre);
+			vre.printStackTrace();
 			return;
 		}
 

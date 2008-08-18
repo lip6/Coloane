@@ -4,22 +4,21 @@
 	
 	<parent> 
 		<groupId>fr.lip6.move.coloane.features</groupId> 
-		<artifactId>features</artifactId> 
-		<version>1.4-SNAPSHOT</version> 
+		<artifactId>features-parent</artifactId> 
+		<version>0.14.0-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
 	<artifactId>languagePack</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2-SNAPSHOT</version>
-	<name>Feature - Language Pack</name>
+	<name>Features :: Language Pack</name>
 	<description>Language Pack feature for Coloane</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.fragments</groupId>
 			<artifactId>languagePack</artifactId>
-			<version>[1.1,)</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
