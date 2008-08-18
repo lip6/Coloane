@@ -18,6 +18,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
+/**
+ * Classe permettant de contribuer à la toolbar
+ */
 public class ColoaneActionBarContributor extends ActionBarContributor {
 
 	/** {@inheritDoc} */

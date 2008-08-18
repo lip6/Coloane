@@ -8,6 +8,9 @@ import java.util.Iterator;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
+/**
+ * Commande utilisée pour le déplacement des guides
+ */
 public class MoveGuideCommand extends Command {
 
 	/** Déplacement appliqué au guide */
@@ -27,10 +30,7 @@ public class MoveGuideCommand extends Command {
 		this.delta = delta;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		guide.setPosition(guide.getPosition() + delta);
@@ -47,10 +47,7 @@ public class MoveGuideCommand extends Command {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		guide.setPosition(guide.getPosition() - delta);

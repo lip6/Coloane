@@ -1,35 +1,39 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.Motor;
+
+import java.util.logging.Logger;
 
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 
+/**
+ * Capture les évenements concernant les ouvertures/fermetures/changements d'onglets.
+ */
 public class TabListener implements IPartListener2 {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** {@inheritDoc} */
 	public final void partActivated(IWorkbenchPartReference partRef) {
-		Coloane.getLogger().finer("Activation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
+		LOGGER.finer("Activation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
 		Motor.getInstance().resumeSession(partRef.getPartName());
 	}
 
 	/** {@inheritDoc} */
 	public final void partClosed(IWorkbenchPartReference partRef) {
-		Coloane.getLogger().finer("Fermeture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		Motor.getInstance().destroySession(partRef.getPartName());
+		LOGGER.finer("Fermeture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
+		Motor.getInstance().deleteSession(partRef.getPartName());
 	}
 
 	/** {@inheritDoc} */
 	public final void partDeactivated(IWorkbenchPartReference partRef) {
-		Coloane.getLogger().finer("Desactivation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		//Motor.getInstance().suspendSession(partRef.getPartName());
+		LOGGER.finer("Desactivation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
 	public final void partOpened(IWorkbenchPartReference partRef) {
-		Coloane.getLogger().finer("Ouverture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		//Motor.getInstance().resumeSession(partRef.getPartName());
+		LOGGER.finer("Ouverture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */

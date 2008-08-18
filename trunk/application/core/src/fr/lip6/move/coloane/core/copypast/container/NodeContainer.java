@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
@@ -18,7 +19,7 @@ public class NodeContainer {
 
 	private String nodeFormalismName;
 
-	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
+	private List<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
 	private Point location;
 	private Color background;
@@ -26,7 +27,8 @@ public class NodeContainer {
 	private int scale;
 
 	/**
-	 * @param node
+	 * Constructeur
+	 * @param node Le noeur considéré
 	 */
 	public NodeContainer(INode node) {
 		node.getId();
@@ -41,7 +43,8 @@ public class NodeContainer {
 	}
 
 	/**
-	 * @param modelAdapter
+	 * Copie du noeud
+	 * @param graph Le graphe qui contient le noeud
 	 * @return une copie du INodeImpl passée au constructeur
 	 * @throws ModelException Si la création du noeud c'est mal passé.
 	 */

@@ -7,19 +7,13 @@ import java.util.List;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * Définition d'un arc
+ */
 public interface IArc extends IElement {
 
 	/** ID pour la propriete lors d'un changement des arcs entants */
 	String INFLEXPOINT_PROP = "Arc.InflexPoint"; //$NON-NLS-1$
-
-	/** ID pour la propriete lors d'un changement des arcs entants */
-	String SELECT_PROP = "Arc.Select"; //$NON-NLS-1$
-
-	/** ID pour la propriete lors d'un changement des arcs entants */
-	String UNSELECT_PROP = "Arc.Unselect"; //$NON-NLS-1$
-
-	/** ID pour la propriete lorsque le noeud est selectionne */
-	String SPECIAL_PROP = "Arc.SpecialUpdate"; //$NON-NLS-1$
 
 	/** ID pour le changement de couleur */
 	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
@@ -64,6 +58,11 @@ public interface IArc extends IElement {
 	void removeInflexPoint(int index);
 
 	/**
+	 * Suppression de tous les points d'inflexion
+	 */
+	void removeAllInflexPoints();
+
+	/**
 	 * Modification des coordonnées d'un point d'inflexion.
 	 * @param index index du point d'inflexion.
 	 * @param p nouvelles coordonnées.
@@ -72,13 +71,13 @@ public interface IArc extends IElement {
 
 	/**
 	 * Déplace tous les points d'inflexions.
-	 * @param dx
-	 * @param dy
+	 * @param dx Déplacement en abcisses
+	 * @param dy Déplacement en ordonnées
 	 */
 	void modifyInflexPoints(int dx, int dy);
 
 	/**
-	 * @param index
+	 * @param index Numéro d'index du point d'inflexion
 	 * @return Le point d'inflexion situé à l'index spécifié.
 	 */
 	AbsoluteBendpoint getInflexPoint(int index);
@@ -90,8 +89,8 @@ public interface IArc extends IElement {
 
 	/**
 	 * Reconnecte cet arc à deux nouveaux noeuds.
-	 * @param newSource
-	 * @param newTarget
+	 * @param newSource Nouvelle source de l'arc
+	 * @param newTarget Nouvelle cible de l'arc
 	 */
 	void reconnect(INode newSource, INode newTarget);
 
@@ -100,4 +99,9 @@ public interface IArc extends IElement {
 	 * position des noeuds source et cible.
 	 */
 	void updateAttributesPosition();
+
+	/**
+	 * Mettre à jours les tips attachés à cette élément
+	 */
+	void updateTips();
 }

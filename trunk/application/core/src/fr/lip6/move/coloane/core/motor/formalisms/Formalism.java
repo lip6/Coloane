@@ -22,9 +22,6 @@ public class Formalism implements IFormalism {
 	/** Parent du formalisme (identifiant historique). */
 	private String fkname;
 
-	/** Adresse du XSchema pour l'ecriture et la lecture des modeles enregistres */
-	private String xschema;
-
 	/** Liste des regles du formalisme concernant les liens entre objets. */
 	private List<IConstraintLink> linkconstraints;
 
@@ -41,22 +38,20 @@ public class Formalism implements IFormalism {
 	 * Création d'un formalisme
 	 *
 	 * @param name Nom du formalisme.
-	 * @param extension Extension associée au formalisme
-	 * @param xshema Le XSchema nécessaire à la lecture des instances de ce formalisme
+	 * @param fkname Le nom du formalisme à utiliser avec FrameKit
 	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	Formalism(String name, String parent, String xshema, String image) {
+	Formalism(String name, String fkname, String image) {
 		this.name = name;
-		this.fkname = parent;
+		this.fkname = fkname;
 		this.image = image;
-		this.xschema = xshema;
 
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#isLinkAllowed(fr.lip6.move.coloane.interfaces.formalism.IElementFormalism, fr.lip6.move.coloane.interfaces.formalism.IElementFormalism)
+	/**
+	 * {@inheritDoc}
 	 */
 	public final boolean isLinkAllowed(INode source, INode target) {
 		// Parcours de toutes les contraintes définies dans le formalisme
@@ -68,9 +63,8 @@ public class Formalism implements IFormalism {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#isActionAllowed(fr.lip6.move.coloane.interfaces.model.INode)
+	/**
+	 * {@inheritDoc}
 	 */
 	public final boolean isActionAllowed(INode node) {
 		// Parcours de toutes les contraintes définies dans le formalisme
@@ -104,37 +98,29 @@ public class Formalism implements IFormalism {
 		this.nodeconstraints.add(constraint);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getName()
+	/**
+	 * {@inheritDoc}
 	 */
 	public final String getName() {
 		return this.name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IFormalism#getParent()
+	/**
+	 * {@inheritDoc}
 	 */
 	public final String getFKName() {
 		return this.fkname;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getImageName()
+	/**
+	 * {@inheritDoc}
 	 */
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getSchema()
-	 */
-	public final String getSchema() {
-		return this.xschema;
-	}
-
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#getMasterGraph()
+	/**
+	 * {@inheritDoc}
 	 */
 	public final IGraphFormalism getMasterGraph() {
 		return this.master;
@@ -148,8 +134,8 @@ public class Formalism implements IFormalism {
 		this.master = master;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.IFormalism#toString()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final String toString() {

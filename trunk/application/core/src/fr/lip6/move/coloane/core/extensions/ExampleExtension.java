@@ -45,7 +45,7 @@ public final class ExampleExtension {
 
 	/**
 	 * Creer une instance de convertiseur
-	 * @param nomConvertiseur nom du convertiseur a instancier
+	 * @param name nom du convertiseur a instancier
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */

@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
  */
 public class ModelSection extends AbstractElementSection<IGraph> {
 
+	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {

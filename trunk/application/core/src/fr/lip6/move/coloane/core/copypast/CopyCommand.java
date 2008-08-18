@@ -10,18 +10,25 @@ import java.util.logging.Logger;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
+/**
+ * Commande COPIER
+ */
 public class CopyCommand extends Command {
 	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private GraphContainer container;
 
+	/**
+	 * Constructeur
+	 * @param editor L'éditeur de modèle concerné par la commande
+	 */
 	public CopyCommand(ColoaneEditor editor) {
 		container = new GraphContainer(editor.getGraph().getFormalism());
 	}
 
 	/**
 	 * Ajout d'un noeud à copier
-	 * @param node
+	 * @param node Le noeud à copier
 	 */
 	public final void addNode(INode node) {
 		container.addNode(node);
@@ -29,7 +36,7 @@ public class CopyCommand extends Command {
 
 	/**
 	 * Ajout d'un arc à copier
-	 * @param arc
+	 * @param arc L'arc à copier
 	 */
 	public final void addArc(IArc arc) {
 		container.addArc(arc);

@@ -143,12 +143,18 @@ public class RoundedPolylineConnection extends RoundedPolyline
 		return endArrow;
 	}
 
+	/**
+	 *
+	 */
 	private void hookSourceAnchor() {
 		if (getSourceAnchor() != null) {
 			getSourceAnchor().addAnchorListener(this);
 		}
 	}
 
+	/**
+	 *
+	 */
 	private void hookTargetAnchor() {
 		if (getTargetAnchor() != null) {
 			getTargetAnchor().addAnchorListener(this);
@@ -208,14 +214,15 @@ public class RoundedPolylineConnection extends RoundedPolyline
 	 * @param cr the connection router
 	 */
 	public final void setConnectionRouter(ConnectionRouter cr) {
-		if (cr == null) {
-			cr = ConnectionRouter.NULL;
+		ConnectionRouter router = cr;
+		if (router == null) {
+			router = ConnectionRouter.NULL;
 		}
-		if (connectionRouter != cr) {
+		if (connectionRouter != router) {
 			connectionRouter.remove(this);
 			Object old = connectionRouter;
-			connectionRouter = cr;
-			firePropertyChange(Connection.PROPERTY_CONNECTION_ROUTER, old, cr);
+			connectionRouter = router;
+			firePropertyChange(Connection.PROPERTY_CONNECTION_ROUTER, old, router);
 			revalidate();
 		}
 	}
@@ -291,12 +298,18 @@ public class RoundedPolylineConnection extends RoundedPolyline
 		}
 	}
 
+	/**
+	 *
+	 */
 	private void unhookSourceAnchor() {
 		if (getSourceAnchor() != null) {
 			getSourceAnchor().removeAnchorListener(this);
 		}
 	}
 
+	/**
+	 *
+	 */
 	private void unhookTargetAnchor() {
 		if (getTargetAnchor() != null) {
 			getTargetAnchor().removeAnchorListener(this);

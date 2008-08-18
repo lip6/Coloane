@@ -1,339 +1,150 @@
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.api.main.Api;
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.menus.RootMenu;
-import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
-import fr.lip6.move.coloane.core.ui.dialogs.DrawDialog;
-import fr.lip6.move.coloane.interfaces.IApi;
-import fr.lip6.move.coloane.interfaces.IComApi;
-import fr.lip6.move.coloane.interfaces.IDialogResult;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
-import fr.lip6.move.coloane.interfaces.objects.IMenuCom;
-import fr.lip6.move.coloane.interfaces.objects.IResultsCom;
-import fr.lip6.move.coloane.interfaces.objects.IRootMenuCom;
-import fr.lip6.move.coloane.interfaces.objects.IUpdateMenuCom;
+import fr.lip6.move.coloane.interfaces.api.IApi;
+import fr.lip6.move.coloane.interfaces.api.IApiConnection;
+import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
+import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
+import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.core.runtime.Platform;
 
-public final class Com implements IComApi {
-	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+/**
+ * Objet en charge de toutes les communications avec une API de communication.<br>
+ * Ces API sont connectées aux serveurs de services (type FrameKit)<br>
+ * <br>
+ * Cette est faite pour être manipulé uniquement par le package motor,
+ * pour accéder accéder au fonctionnalité de l'api de communication, il faut
+ * utilisé les méthodes de la classe Motor
+ */
+public final class Com implements ICom {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Une poignee sur l'API de communication avec la plateforme */
-	private IApi api = null;
+	/** L'identifiant du point d'extension définissant une API */
+	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.apis"; //$NON-NLS-1$
 
-	/** Une poignee sur le moteur */
-	private Motor motor = null;
+	/** L'instance de Com */
+	private static Com instance = null;
 
-	/** Une poignee sur l'interface utilisateur */
-	private UserInterface ui = null;
-
-	/** Le menu en cours de construction */
-	private RootMenu root = null;
-
-	/** L'ensemble de modifications qui doivent etre faites sur les menus */
-	private Vector<IUpdateMenuCom> updates = null;
-
-	/** Conteneur graphique de haut niveau */
-	private Composite parent;
-
-	/** L'instance du singleton : Com */
-	private static Com instance;
+	private IApiConnection connection;
 
 	/**
-	 * Le constructeur en private
-	 * Le module de communications doit creer un lien avec l'API de communications
-	 * Pour eviter les doublonson utilise le pattern <b>Singleton</b>
-	 * @see #getInstance()
+	 * Construteur de l'objet en charge des communication avec une API
 	 */
-	private Com() {
-		this.api = Api.getInstance(this);
-		this.parent = (Composite) Coloane.getParent();
-	}
+	private Com() {	}
 
 	/**
-	 * Retourne le module de communications
-	 * @return Com Le module de communications
+	 * Renvoie toujours le même objet Com
+	 * @return l'interface sur l'objet en charge des communication de Coloane avec une API
 	 */
-	public static synchronized Com getInstance() {
-		if (instance == null) { instance = new Com(); }
+	public static Com getInstance() {
+		if (instance == null) {
+			LOGGER.config("Creation de l'objet de communications"); //$NON-NLS-1$
+			instance = new Com();
+		}
 		return instance;
 	}
 
 	/**
-	 * Permet de rattacher le moteur au module de communications
-	 * @param theMotor Le module moteur
+	 * Créer une instance d'une API de communication
+	 * @param name Le nom de l'API qu'on souhaite instancier
+	 * @return une API fraîchement créée
+	 * @throws CoreException Exception lors de la creation d'une instance
 	 */
-	public void setMotor(Motor motor) {
-		this.motor = motor;
-	}
-
-	/**
-	 * Permet d'attacher l'interface utilisateur au module de communications
-	 * @param theUi L'interface utilisateur
-	 */
-	public void setUi(UserInterface ui) {
-		this.ui = ui;
-	}
-
-	/** {@inheritDoc} */
-	public boolean authentication(AuthenticationInformation authInformation, IProgressMonitor monitor) {
-		logger.fine("Demande d'authentification"); //$NON-NLS-1$
-
-		monitor.beginTask("Connecting...", 2);
-
-		// Connexion a la plateforme
-		boolean retour = this.api.openConnection(authInformation.getLogin(), authInformation.getPass(), authInformation.getIp(), authInformation.getPort(), Coloane.getParam("API_NAME"), Coloane.getParam("API_VERSION")); //$NON-NLS-1$ //$NON-NLS-2$
-
-		monitor.worked(1);
-		monitor.setTaskName("Logging...");
-
-		// Log du resultat
-		if (retour) { logger.fine("Authentification OK"); } else { logger.warning("Authentification KO"); } //$NON-NLS-1$ //$NON-NLS-2$
-
-		monitor.worked(1);
-		monitor.done(); // Pas d'asynchronisme... L'authentification est terminee
-		return retour;
-	}
-
-	/** {@inheritDoc} */
-	public boolean openSession(IGraph graph, IProgressMonitor monitor) {
-		logger.fine("Connexion d'un graphe"); //$NON-NLS-1$
-
-		monitor.beginTask("Connecting current graph...", 3);
-
-		// Si le modele est nul on ne peut rien faire
-		if (graph == null) {
-			logger.warning("Aucun graphe a connecter"); //$NON-NLS-1$
-			return false;
+	private IApi getApi(String name) throws CoreException {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		for (IConfigurationElement element : contributions) {
+			LOGGER.finest("Detection de l'API : " + element.getAttribute("name"));  //$NON-NLS-1$//$NON-NLS-2$
+			if (element.getAttribute("name").equals(name)) { //$NON-NLS-1$
+				return (IApi) element.createExecutableExtension("class"); //$NON-NLS-1$
+			}
 		}
-
-		monitor.worked(1);
-		monitor.setTaskName("Fetching information about the graph");
-
-		// Recuperation du nom de la session courante
-		String sessionName = motor.getSessionManager().getCurrentSession().getName();
-		// Recuperation du nom du formalime de la session courante
-		String formalismName = graph.getFormalism().getFKName();
-
-		// Demande de l'ouverture de session a l'API
-		boolean retour = api.openSession(sessionName, graph.getDate(), formalismName);
-
-		monitor.worked(1);
-		monitor.setTaskName("Receiving available services");
-
-		// Log du resultat
-		if (retour) { logger.fine("Connexion reussie !"); } else { logger.warning("Echec de la connexion"); } //$NON-NLS-1$ //$NON-NLS-2$
-
-		// Au commencement, un modele est toujours propre
-		graph.setDirty(false);
-
-		return retour;
-	}
-
-	/** {@inheritDoc} */
-	public boolean closeSession(IProgressMonitor monitor) {
-		// On verifie qu'il y a bien une sesssion courante
-		if (motor.getSessionManager().getCurrentSession() == null) { return false; }
-
-		monitor.beginTask("Disconnecting current model...", 2);
-
-		// Deconnexion du cote de l'API
-		boolean retour = api.closeCurrentSession();
-
-		monitor.worked(1);
-		return retour; // Pas de done puisque l'action est asynchrone
+		throw new IllegalArgumentException("l'API '" + name + "' n'est pas connue");  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
-	 * Deconnexion brutale de tous les modeles (a la demande de FrameKit)<br>
-	 * Cette deconnexion est provoquee par un KO ou un FC
+	 * @return liste des noms des APIs disponibles
 	 */
-	public void closeAllSessions() {
-		logger.fine("Framekit demande la deconnexion de tous les modeles");
-		motor.getSessionManager().destroyAllSessions();
+	public List<String> getApisName() {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		List<String> apis = new ArrayList<String>();
+		for (IConfigurationElement element : contributions) {
+			apis.add((String) element.getAttribute("name")); //$NON-NLS-1$
+		}
+		return apis;
 	}
 
 	/**
-	 * Demande de deconnexion brutale (initiee par le client)
+	 * Authentification
+	 * @param infos informations de connexion (contient login, pass etc...)
+	 * @param monitor le moniteur d'avancement
+	 * @return Les informations de connexions (résultat)
+	 * @throws ApiException En cas de problème
 	 */
-	public void breakConnection() {
-		api.closeConnexion();
-	}
-
-	/** {@inheritDoc} */
-	public void askForService(String rootMenuName, String referenceName, String serviceName, IProgressMonitor monitor) {
-		logger.fine("Demande de service : " + serviceName); //$NON-NLS-1$
-
-		// Requete a l'API
-		monitor.beginTask("Asking the platform...", IProgressMonitor.UNKNOWN);
-		api.askForService(rootMenuName, referenceName, serviceName);
-	}
-
-	/** {@inheritDoc} */
-	public void setTaskDescription(String service, String description) {
-		motor.setTaskDescription(service, description);
-	}
-
-	/**
-	 * Affichage d'un message dans l'interface utilisateur (Vue History)
-	 * @param message Message a afficher dans la console
-	 */
-	public void printHistoryMessage(String message) {
-		logger.finest("Affichage dans l'historique : " + message); //$NON-NLS-1$
-		this.ui.printHistoryMessage(message);
-	}
-
-	/**
-	 * Affichage des menus construit a partir des commandes CAMI
-	 * @param menu La racine du menu a afficher
-	 */
-	public void drawMenu(IRootMenuCom rootMenuCom) {
-		logger.fine("Affichage des menus"); //$NON-NLS-1$
-
+	public IConnectionInfo authentication(AuthenticationInformation infos, IProgressMonitor monitor) throws ApiException {
+		IApi api;
+		monitor.beginTask(Messages.Com_0, 4);
 		try {
-			// Transformation des menus
-			root = new RootMenu(rootMenuCom.getRootMenuName());
-			for (IMenuCom menuCom : rootMenuCom.getListMenu()) {
-				root.addMenu(menuCom.getServiceName(), menuCom.getFatherName(), menuCom.isEnabled());
-			}
-
-			// Demande d'affichage a l'UI
-			parent.getDisplay().asyncExec(new Runnable() {
-				public void run() { ui.drawMenu(root); }
-			});
-		} catch (Exception e) {
-			logger.warning("Unable to build the model"); //$NON-NLS-1$
+			api = getApi(infos.getApiType());
+		} catch (CoreException e) {
+			LOGGER.warning("Impossible d'instancier l'API désirée : " + infos.getApiType()); //$NON-NLS-1$
+			e.printStackTrace();
+			return null;
 		}
+		monitor.worked(1);
 
+		// Création d'un objet de connection
+		monitor.subTask(Messages.Com_1);
+		connection = api.createApiConnection();
+		monitor.worked(1);
+
+		// Observers pour tous les messages asynchrones
+		// TODO : dans un Thread ou pas ?
+		monitor.subTask(Messages.Com_2);
+		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
+		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
+		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
+		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
+		connection.setReceptResultObserver(new ReceptResultObserver(), false);
+		monitor.worked(1);
+
+		monitor.subTask(Messages.Com_3);
+		IConnectionInfo connectionInfo = connection.openConnection(infos.getLogin(), infos.getPass(), infos.getIp(), infos.getPort());
+		monitor.worked(1);
+		return connectionInfo;
 	}
 
 	/**
-	 * Affichage des menus construit a partir des commandes CAMI
-	 * @param updates La racine du menu a afficher
+	 * Déconnexion
+	 * @param softMode Le softMode détermine si les sessions connectées doivent être déconnectées proprement par l'API
 	 */
-	public void updateMenu(final Vector<IUpdateMenuCom> updates) {
-		logger.fine("Mise a jour des menus"); //$NON-NLS-1$
-		this.updates = updates;
-		parent.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				ui.updateMenu(motor.getConcernedSession(), updates);
-			}
-		});
+	public void breakConnection(boolean softMode) {
+		// On activele soft mode : Les sessions doivent être déconnectées d'abord
+		connection.closeConnection(softMode);
 	}
 
 	/**
-	 * Affichage d'une boite de dialogue
-	 * @param dialogCom La boite de dialogue entierement definie
+	 * @return une nouvelle IApiSession non connecté
+	 * @throws ApiException {@link IApiSession}
 	 */
-	public void drawDialog(IDialogCom dialog) {
-		/* Affichage de la boite de dialogue dans une thread dediee */
-		parent.getDisplay().asyncExec(new DrawDialog(dialog));
+	public IApiSession createApiSession() throws ApiException {
+		return connection.createApiSession();
 	}
 
 	/**
-	 * Recupere les informations de la boite de dialogue
-	 * @results Les resultats sous forme d'objets
+	 * Ajouter un observateur
+	 * @param o observateur de service
 	 */
-	public void sendDialogAnswers(IDialogResult results) {
-		this.api.getDialogAnswers((IDialogResult) results);
-	}
-
-	/**
-	 * Affichage des resultats d'un service
-	 * @param serviceName Le nom du service auquel sont rattaches les resultats
-	 * @param result L'objet contenant tous les resultats
-	 */
-	public void setResults(String serviceName, IResultsCom resultsCom) {
-		logger.fine("Preparation des resultats pour le service : " + serviceName); //$NON-NLS-1$
-		if ((serviceName != "") && (resultsCom != null)) { //$NON-NLS-1$
-			this.ui.setResults(serviceName, resultsCom);
-		} else {
-			this.ui.setResults(serviceName, null);
-			this.ui.printResults();
-		}
-	}
-
-	/**
-	 * Affichage des resultats transmis par l'API
-	 * Cette methode doit etre appelee apres la methode setResults
-	 */
-	public void printResults() {
-		logger.fine("Affichage des resultats"); //$NON-NLS-1$
-		this.ui.printResults();
-	}
-
-	/**
-	 * Recupere le modele pour le transmettre a l'API
-	 * @return IModel Le modele en cours
-	 * @see IModel
-	 */
-	public IGraph sendGraph() {
-		logger.fine("Transmission d'un modele a la plateforme"); //$NON-NLS-1$
-		return this.motor.getSessionManager().getCurrentSession().getGraph();
-	}
-
-
-	/**
-	 * Demande la creation d'un nouveau modele a partir des inputs de FK<br>
-	 * En general, l'API est responsable de cet appel !
-	 * @param Le modele construit par l'api de communication
-	 */
-	public void setNewGraph(IGraph graph) {
-		logger.fine("Reception d'un nouveau modele"); //$NON-NLS-1$
-		this.motor.setNewModel(graph);
-	}
-
-
-	/**
-	 * Informe FK que le modele a ete mis a jour
-	 * @param dateUpdate La date de derniere mise a jour du modele
-	 */
-	public void toUpdate(int dateUpdate) {
-		logger.fine("Le modele doit etre mis a jour du cote de la plateforme"); //$NON-NLS-1$
-		this.api.changeModeleDate(dateUpdate);
-	}
-
-	/**
-	 * Retourne l'etat de fraicheur actuel du modele
-	 * @return boolean Indicateur de fraicheur
-	 */
-	public boolean getDirtyState() {
-		boolean state = this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
-		if (state) { logger.fine("Le modele est actuellement SALE"); } else { logger.fine("Le modele est actuellement PROPRE"); } //$NON-NLS-1$ //$NON-NLS-2$
-		return this.motor.getSessionManager().getCurrentSession().getGraph().isDirty();
-	}
-
-	/**
-	 * Retourne la date de derniere modification du modele
-	 * @return int Date
-	 */
-	public int getDateModel() {
-		return this.motor.getSessionManager().getCurrentSession().getGraph().getDate();
-	}
-
-	/** {@inheritDoc} */
-	public void setEndOpenSession() {
-		logger.finer("Fin de la demande d'ouverture de session (connexion)");
-		motor.endService();
-	}
-
-	/** {@inheritDoc} */
-	public void setEndCloseSession() {
-		logger.finer("Fin de la demande de fermeture de session (deconnexion)");
-		motor.endService();
-	}
-
-	/** {@inheritDoc} */
-	public void setEndService() {
-		logger.finer("Fin du service recu et transmis par l'API");
-		motor.endService();
+	public void setReceptServiceStateObserver(IReceptServiceStateObserver o) {
+		connection.setReceptServiceStateObserver(o, false);
 	}
 }

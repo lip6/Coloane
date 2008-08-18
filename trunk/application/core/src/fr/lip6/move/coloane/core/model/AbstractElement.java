@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,15 +16,26 @@ import java.util.Map;
  * Manage the attributes of an IElement.
  * @see ICoreElement
  */
-public abstract class AbstractElement extends AbstractPropertyChange implements IElement, PropertyChangeListener {
+public abstract class AbstractElement extends AbstractPropertyChange implements IElement, ISpecialState, PropertyChangeListener {
+
 	/**
 	 * Map of attributes, the key is the name of the attributes.
 	 */
 	private Map<String, IAttribute> attributes = new HashMap<String, IAttribute>();
 
+	/** Identifiant unique */
+	private int id;
+
 	private IElement parent;
 
-	AbstractElement(IElement parent, List<IAttributeFormalism> attributes) {
+	/**
+	 * Constructeur
+	 * @param id id de cet élément
+	 * @param parent L'élément parent
+	 * @param attributes Les attribut de l'élément
+	 */
+	AbstractElement(int id, IElement parent, List<IAttributeFormalism> attributes) {
+		this.id = id;
 		this.parent = parent;
 		if (attributes != null) {
 			for (IAttributeFormalism attr : attributes) {
@@ -33,6 +44,11 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 				this.attributes.put(attr.getName(), attributeModel);
 			}
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final int getId() {
+		return id;
 	}
 
 	/** {@inheritDoc} */
@@ -47,7 +63,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 
 	/** {@inheritDoc} */
 	public final Collection<IAttribute> getDrawableAttributes() {
-		ArrayList<IAttribute> drawables = new ArrayList<IAttribute>();
+		List<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
 			if (attr.getAttributeFormalism().isDrawable()) {
 				drawables.add(attr);
@@ -66,17 +82,8 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		return parent;
 	}
 
-	public final void propertyChange(PropertyChangeEvent evt) {
-		// La valeur d'un attribut a été modifié
-		if (evt.getPropertyName().equals(IAttribute.VALUE_PROP)) {
-			IAttribute attr = (IAttribute) evt.getSource();
-			String oldValue = (String) evt.getOldValue();
-			String newValue = (String) evt.getNewValue();
-
-			if (oldValue.equals(attr.getAttributeFormalism().getDefaultValue())
-					|| newValue.equals(attr.getAttributeFormalism().getDefaultValue())) {
-				firePropertyChange(IElement.ATTRIBUTE_CHANGE, null, attr);
-			}
-		}
+	/** {@inheritDoc} */
+	public final void setSpecialState(boolean state) {
+		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
 }

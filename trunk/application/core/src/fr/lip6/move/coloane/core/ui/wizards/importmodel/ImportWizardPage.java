@@ -38,6 +38,15 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
+/**
+ * Page composant l'assistant d'import de fichier.<br/>
+ * Cette page est composée :
+ * <ul>
+ * 	<li>D'une sélection de formalismes</li>
+ * 	<li>D'un choix de projets</li>
+ * 	<li>D'un choix de nom de fichier</li>
+ * </ul>
+ */
 public class ImportWizardPage extends WizardNewFileCreationPage {
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -60,13 +69,13 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	 * @param selection La selection courante
 	 * @param importInstance L'instance de l'extension d'importation
 	 */
-	public ImportWizardPage(IWorkbench usedWorkbench, IStructuredSelection currentSelection, IImportFrom importInstance) {
-		super(Messages.ImportWizardPage_12, currentSelection);
+	public ImportWizardPage(IWorkbench workbench, IStructuredSelection selection, IImportFrom importInstance) {
+		super(Messages.ImportWizardPage_12, selection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
-		this.workbench = usedWorkbench;
+		this.workbench = workbench;
 		this.importInstance = importInstance;
 	}
 
@@ -131,9 +140,11 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Methode invoquee lorsque le bouton finish est pressee
-	 * @return true si ok
+	 * Action à effectuer lorsque le bouton finish est pressé
+	 * @return <code>true</code> si tout s'est bien passé
+	 * @throws ColoaneException si une erreur pendant l'import s'est produite
 	 * @see NewModelWizard#performFinish()
+	 * TODO : Beaucoup (trop) d'exceptions sont levées... A vérifier
 	 */
 	public final boolean finish() throws ColoaneException {
 		IFile newFile = null;
@@ -198,8 +209,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		return new Status(IStatus.OK, "fr.lip6.move.coloane.core", IStatus.OK, "", null); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-
-
+	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
 		if (fileSelect.getStringValue().equals("")) { //$NON-NLS-1$
@@ -222,12 +232,6 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			setErrorMessage(Messages.ImportWizardPage_13);
 			return false;
 		}
-
-//		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getContainerFullPath().segment(0));
-//		if (project.getFile(computeModelName(getFileName(), formSelect.getText())).exists()) {
-//			setErrorMessage(Messages.ImportWizardPage_15);
-//			return false;
-//		}
 
 		return super.isPageComplete();
 	}

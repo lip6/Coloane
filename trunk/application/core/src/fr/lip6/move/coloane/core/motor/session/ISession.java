@@ -1,51 +1,45 @@
 package fr.lip6.move.coloane.core.motor.session;
 
-import fr.lip6.move.coloane.core.menus.RootMenu;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.jface.action.MenuManager;
+
+/**
+ * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
+ */
 public interface ISession {
 
+	/** Propriété pour les changements d'état de la connection */
+	String PROP_CONNECTION = "Session.connection"; //$NON-NLS-1$
+
+	/** Propriété pour l'ajout ou la suppression de tips */
+	String PROP_TIPS = "Session.tips"; //$NON-NLS-1$
+
 	/** Les indicateurs de statuts */
-	int ERROR = -1;
 	int CLOSED = 0;
 	int CONNECTED = 1;
-	int SUSPENDED = 2;
 
 	/**
-	 * Suspension de la session
-	 */
-	void suspend();
-
-	/**
-	 * Reprise de la session
-	 */
-	void resume();
-
-	/**
-	 * Destruction de la session :
-	 * <ul>
-	 * 	<li>Suppression des menus admin / services</li>
-	 *  <li>Etat de la session positionne a CLOSED</li>
-	 * </ul>
-	 */
-	void destroy();
-
-	/**
-	 * Retoune le nom de la session
-	 * @return name
+	 * @return nom de la session
 	 */
 	String getName();
 
 	/**
 	 * Retoune le modele
-	 * @return IModelImpl Le modele de la session
+	 * @return IGraph Le modele de la session
 	 */
 	IGraph getGraph();
 
 	/**
 	 * Positionne le modele
-	 * @param model nouveau modele
+	 * @param graph nouveau modele
 	 */
 	void setModel(IGraph graph);
 
@@ -53,25 +47,30 @@ public interface ISession {
 	 * Retourne le menu d'administration
 	 * @return la racine du menu d'administration
 	 */
-	RootMenu getAdminMenu();
+	MenuManager getAdminMenu();
 
 	/**
 	 * Indique le menu d'administration attache a la session
-	 * @param adminMenu La racinde du menu d'administration
+	 * @param admin La racine du menu d'administration
 	 */
-	void setAdminMenu(RootMenu admin);
+	void setAdminMenu(MenuManager admin);
 
 	/**
 	 * Retourne le menu de service de la session
 	 * @return la racine du menu de services
 	 */
-	RootMenu getServicesMenu();
+	List<MenuManager> getServicesMenu();
 
 	/**
-	 * Indique le menu de services attache a la session
-	 * @param sessionMenu la racine du menu de services
+	 * Permet d'ajouter un menu à la liste des menus associés à cette session
+	 * @param menu racine du menu à ajouter
 	 */
-	void setServicesMenu(RootMenu root);
+	void addServicesMenu(MenuManager menu);
+
+	/**
+	 * Vide le menu pour cette session.
+	 */
+	void clearServicesMenu();
 
 	/**
 	 * Retourne la liste de resultats associee a la session
@@ -87,7 +86,68 @@ public interface ISession {
 
 	/**
 	 * Modifie le status courant de la session
-	 * @param sessionStatus Le status courant de la session
+	 * @param status Le status courant de la session
 	 */
 	void setStatus(int status);
+
+	/**
+	 * Ajout de tous les services passé en paramètre
+	 * @param services Collection de services
+	 */
+	void addAllServices(Collection<IService> services);
+
+	/**
+	 * @return liste des services disponibles
+	 */
+	Collection<IService> getServices();
+
+	/**
+	 * @param id id du service
+	 * @return IService correspondant ou <code>null</code>
+	 */
+	IService getService(String id);
+
+	/**
+	 * @param option nom de l'option
+	 * @param state état de l'option
+	 */
+	void setOption(String option, boolean state);
+
+	/**
+	 * @return la liste des options actives
+	 */
+	List<String> getActiveOptions();
+
+	/**
+	 * @param listener listener à ajouter
+	 * @see PropertyChangeSupport
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * @param listener listener à enlever
+	 * @see PropertyChangeSupport
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * @param tips liste de tips à afficher
+	 */
+	void addAllTips(Collection<ICoreTip> tips);
+
+	/**
+	 * @param tips liste de tips à enlever
+	 */
+	void removeAllTips(Collection<ICoreTip> tips);
+
+	/**
+	 * @return liste des tips qui doivent être affiché
+	 */
+	Collection<ICoreTip> getTips();
+
+	/**
+	 * @param id id d'un IElement
+	 * @return la liste des tips correspondant à cette id
+	 */
+	Collection<ICoreTip> getTip(int id);
 }

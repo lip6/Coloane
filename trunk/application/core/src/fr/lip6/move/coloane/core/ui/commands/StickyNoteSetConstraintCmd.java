@@ -24,13 +24,13 @@ public class StickyNoteSetConstraintCmd extends Command {
 	 * @param note Le modèle de la note manipulée
 	 * @param newBounds Nouvelle taille et position de la note
 	 */
-	public StickyNoteSetConstraintCmd(IStickyNote note, Rectangle bounds) {
-		if (note == null || bounds == null) {
+	public StickyNoteSetConstraintCmd(IStickyNote note, Rectangle newBounds) {
+		if (note == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
 
 		this.note = note;
-		this.newBounds = bounds.getCopy();
+		this.newBounds = newBounds.getCopy();
 		this.newBounds.x = Math.max(this.newBounds.x, 0);
 		this.newBounds.y = Math.max(this.newBounds.y, 0);
 	}

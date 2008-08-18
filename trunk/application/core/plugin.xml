@@ -6,6 +6,7 @@
    <extension-point id="reports" name="Reports" schema="schema/reports.exsd"/>
    <extension-point id="examples" name="Examples" schema="schema/examples.exsd"/>
    <extension-point id="formalisms" name="Formalisms" schema="schema/formalisms.exsd"/>
+   <extension-point id="apis" name="Api" schema="schema/api.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -25,63 +26,7 @@
       <actionSet
             id="fr.lip6.move.coloane.actionSets"
             label="%MENUBAR_ID"
-            visible="false">
-         <menu
-               id="coloaneServicesMenu"
-               label="%MENUBAR_LABEL">
-            <separator name="PlatformSeparator"/>
-            <separator name="OthersMenusSeparator"/>
-         </menu>
-         <menu
-               id="plateformMenu"
-               label="%PLATFORM_MENU"
-               path="coloaneServicesMenu/PlatformSeparator">
-            <separator name="group1"/>
-            <separator name="group2"/>
-         </menu>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.DisconnectModelAction"
-               icon="resources/icons/disconnect.png"
-               id="disconnect"
-               label="%DISCONNECT_ITEM"
-               menubarPath="coloaneServicesMenu/plateformMenu/group2"
-               state="false"
-               style="push"
-               toolbarPath="coloaneServicesToolbarButtons"
-               tooltip="%DISCONNECT_TIP">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.ConnectModelAction"
-               icon="resources/icons/connect.png"
-               id="connect"
-               label="%CONNECT_ITEM"
-               menubarPath="coloaneServicesMenu/plateformMenu/group2"
-               state="false"
-               style="push"
-               toolbarPath="coloaneServicesToolbarButtons"
-               tooltip="%CONNECT_TIP">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.BreakConnectionAction"
-               icon="resources/icons/unauthenticate.png"
-               id="breakconnection"
-               label="%BREAK_ITEM"
-               menubarPath="coloaneServicesMenu/plateformMenu/group1"
-               state="false"
-               style="push"
-               toolbarPath="coloaneServicesToolbarButtons">
-         </action>
-         <action
-               class="fr.lip6.move.coloane.core.ui.actions.AuthenticationAction"
-               icon="resources/icons/authenticate.png"
-               id="authentication"
-               label="%AUTHENTICATION_ITEM"
-               menubarPath="coloaneServicesMenu/plateformMenu/group1"
-               state="true"
-               style="push"
-               toolbarPath="coloaneServicesToolbarButtons"
-               tooltip="%AUTHENTICATION_TIP">
-         </action>
+            visible="true">
          <action
                class="fr.lip6.move.coloane.core.ui.actions.ExportImageAction"
                icon="resources/icons/picture_save.png"
@@ -94,6 +39,15 @@
                      name="fr.lip6.move.coloane.core.ui.editpart.GraphEditPart">
                </objectClass>
             </enablement>
+         </action>
+         <action
+               class="fr.lip6.move.coloane.core.ui.actions.TestAction"
+               icon="resources/icons/model_resource.png"
+               id="fr.lip6.move.coloane.core.actionTest"
+               label="Test"
+               style="push"
+               toolbarPath="coloaneServicesToolbarButtons"
+               tooltip="Pour faire des tests">
          </action>
       </actionSet>
    </extension>
@@ -178,11 +132,11 @@
        point="org.eclipse.ui.preferencePages">
         <page id="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
                 name="Coloane"
-                class="fr.lip6.move.coloane.core.ui.dialogs.ColoanePrefsPage">
+                class="fr.lip6.move.coloane.core.ui.prefs.ColoanePrefsPage">
         </page>
         <page id="org.eclipse.ui.articles.BadWordsColorPreference"
                 name="%PREF_COLORS"
-                class="fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs"
+                class="fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs"
                 category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
         </page>
     
@@ -654,6 +608,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
                       description="Create an arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"
@@ -671,6 +626,7 @@
              <Arc
                    name="inhibitor">
                 <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
                       icon16px="resources/formalisms/inhibitor_16.png"
@@ -725,7 +681,7 @@
                 name="ReachabilityGraph">
              <Node
                    container="false"
-                   name="initial state">
+                   name="initial_state">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create an initial state"
@@ -737,10 +693,15 @@
                       paletteName="Initial State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Node
                    container="true"
-                   name="terminal state">
+                   name="terminal_state">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                       description="Create a terminal state"
@@ -753,6 +714,11 @@
                       paletteName="Terminal State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Node
                    container="false"
@@ -769,6 +735,11 @@
                       paletteName="State"
                       width="15">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="true"
+                      name="value">
+                </Attribute>
              </Node>
              <Arc
                    name="event">
@@ -781,9 +752,143 @@
                       palettable="true"
                       paletteName="Event">
                 </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      multiline="false"
+                      name="label">
+                </Attribute>
              </Arc>
+             <Attribute
+                   drawable="true"
+                   multiline="false"
+                   name="type">
+             </Attribute>
+             <Attribute
+                   drawable="true"
+                   multiline="true"
+                   name="author(s)">
+             </Attribute>
+             <Attribute
+                   drawable="true"
+                   multiline="true"
+                   name="information">
+             </Attribute>
           </Graph>
        </XmlDescription>
     </Formalism>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.menus"
+       name="Menus"
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+       <menu
+             id="fr.lip6.move.coloane.core.menu"
+             label="%MENUBAR_LABEL"
+             mnemonic="S">
+          <menu
+                id="fr.lip6.move.coloane.core.menu.platform"
+                label="%PLATFORM_MENU">
+             <command
+                   commandId="%AUTHENTICATION"
+                   icon="resources/icons/authenticate.png"
+                   id="%AUTHENTICATION_ITEM"
+                   label="%AUTHENTICATION_ITEM"
+                   style="push"
+                   tooltip="%AUTHENTICATION_TIP">
+             </command>
+             <command
+                   commandId="%BREAK"
+                   icon="resources/icons/unauthenticate.png"
+                   id="%BREAK_ITEM"
+                   label="%BREAK_ITEM"
+                   style="push"
+                   tooltip="%BREAK_TIP">
+             </command>
+             <separator
+                   name="separator"
+                   visible="true">
+             </separator>
+             <command
+                   commandId="%CONNECT"
+                   icon="resources/icons/connect.png"
+                   id="%CONNECT_ITEM"
+                   label="%CONNECT_ITEM"
+                   style="push"
+                   tooltip="%CONNECT_TIP">
+             </command>
+             <command
+                   commandId="%DISCONNECT"
+                   icon="resources/icons/disconnect.png"
+                   id="%DISCONNECT_ITEM"
+                   label="%DISCONNECT_ITEM"
+                   style="push"
+                   tooltip="%DISCONNECT_TIP">
+             </command>
+          </menu>
+       </menu>
+    </menuContribution>
+    <menuContribution
+          locationURI="toolbar:org.eclipse.ui.workbench.file?after=additions">
+       <command
+             commandId="%AUTHENTICATION"
+             icon="resources/icons/authenticate.png"
+             id="%AUTHENTICATION_ITEM"
+             style="push"
+             tooltip="%AUTHENTICATION_TIP">
+       </command>
+       <command
+             commandId="%BREAK"
+             icon="resources/icons/unauthenticate.png"
+             id="%BREAK_ITEM"
+             style="push"
+             tooltip="%BREAK_TIP">
+       </command>
+       <command
+             commandId="%CONNECT"
+             icon="resources/icons/connect.png"
+             id="%CONNECT_ITEM"
+             label="%CONNECT_ITEM"
+             style="push"
+             tooltip="%CONNECT_TIP">
+       </command>
+       <command
+             commandId="%DISCONNECT"
+             icon="resources/icons/disconnect.png"
+             id="%DISCONNECT_ITEM"
+             label="%DISCONNECT_ITEM"
+             style="push"
+             tooltip="%DISCONNECT_TIP">
+       </command>
+    </menuContribution>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.handlers"
+       name="Handlers"
+       point="org.eclipse.ui.handlers">
+    <handler
+          class="fr.lip6.move.coloane.core.ui.handlers.AuthenticationHandler"
+          commandId="%AUTHENTICATION">
+    </handler>
+ </extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          id="%AUTHENTICATION"
+          name="authentication">
+    </command>
+    <command
+          id="%BREAK"
+          name="break">
+    </command>
+    <command
+          id="%CONNECT"
+          name="connect">
+    </command>
+    <command
+          id="%DISCONNECT"
+          name="disconnect">
+    </command>
  </extension>
 </plugin>

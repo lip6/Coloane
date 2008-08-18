@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -42,6 +42,7 @@ public final class PaletteFactory {
 	/**Le logger du core */
 	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** Constructeur */
 	protected PaletteFactory() { }
 
 	/**
@@ -66,8 +67,8 @@ public final class PaletteFactory {
 
 	/**
 	 * Creation du groupe des Noeuds de la palette
-	 * @param form : formalisme selectionne
-	 * @return : paletteContainer
+	 * @param formalism formalisme selectionne
+	 * @return Le conteneur d'outils à ajouter à la palette
 	 */
 	private static PaletteContainer createShapesNodeDrawer(IFormalism formalism) {
 
@@ -102,8 +103,8 @@ public final class PaletteFactory {
 
 	/**
 	 * Creation du groupe des Arcs de la palette
-	 * @param formalism : Le formalisme du modele en cours d'edition
-	 * @return PaletteContainer
+	 * @param formalism Le formalisme du modele en cours d'edition
+	 * @return Le conteneur d'outils à ajouter à la palette
 	 */
 	private static PaletteContainer createShapesArcDrawer(IFormalism formalism) {
 
@@ -136,7 +137,7 @@ public final class PaletteFactory {
 
 	/**
 	 * Creation du groupe des outils divers de la palette
-	 * @return PaletteContainer
+	 * @return Le conteneur d'outils à ajouter à la palette
 	 */
 	private static PaletteContainer createOthersDrawer() {
 
@@ -146,7 +147,7 @@ public final class PaletteFactory {
 		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
 				Messages.PaletteFactory_3,
 				Messages.PaletteFactory_2,
-				new SimpleFactory(StickyNote.class),
+				new SimpleFactory(StickyNoteModel.class),
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png"), //$NON-NLS-1$
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
 			);
@@ -158,7 +159,7 @@ public final class PaletteFactory {
 	/**
 	 * Creation du groupe des outils de la palette
 	 * @param palette La palette precedemment cree
-	 * @return PaletteContainer
+	 * @return Le conteneur d'outils à ajouter à la palette
 	 */
 	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
 		PaletteGroup toolGroup = new PaletteGroup(Messages.PaletteFactory_6);
@@ -189,7 +190,7 @@ public final class PaletteFactory {
 	public static FlyoutPreferences createPalettePreferences() {
 		return new FlyoutPreferences() {
 			private IPreferenceStore getPreferenceStore() {
-				return Coloane.getDefault().getPreferenceStore();
+				return Coloane.getInstance().getPreferenceStore();
 			}
 			public int getDockLocation() {
 				return getPreferenceStore().getInt(PALETTE_DOCK_LOCATION);

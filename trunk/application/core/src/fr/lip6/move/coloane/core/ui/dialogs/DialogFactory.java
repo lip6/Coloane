@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-import fr.lip6.move.coloane.core.exceptions.UIException;
-import fr.lip6.move.coloane.interfaces.objects.IDialogCom;
+import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
  * Usines a boites de dialogue
@@ -17,21 +16,20 @@ public class DialogFactory {
 	 * Creation d'une boite de dialogue suivant le type de IDialogCom
 	 * @param dialog La boite de dialogue
 	 * @return Une boite de dialogue Eclipse
-	 * @throws UIException Lorsque la boite de dialogue n'est pas trouvee
 	 */
-	public static IDialog create(IDialogCom dialog) throws UIException {
+	public static IDialogUI create(IDialog dialog) {
 
 		switch (dialog.getType()) {
-			case IDialogCom.DLG_INTERACTIVE:
-				throw new UIException(Messages.DialogFactory_0);
+			case IDialog.DLG_INTERACTIVE:
+				throw new UnsupportedOperationException(Messages.DialogFactory_0);
 
-			case IDialogCom.DLG_STANDARD:
-			case IDialogCom.DLG_WARNING:
-			case IDialogCom.DLG_ERROR:
+			case IDialog.DLG_STANDARD:
+			case IDialog.DLG_WARNING:
+			case IDialog.DLG_ERROR:
 				return new SimpleDialog(dialog);
 
 			default:
-				throw new UIException(Messages.DialogFactory_1);
+				throw new UnsupportedOperationException(Messages.DialogFactory_1);
 		}
 	}
 }

@@ -4,10 +4,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-
+/**
+ * Classe responsable des extensions d'export de modèles
+ */
 public final class ExportToExtension {
-
-	private ExportToExtension() { }
 
 	/**
 	 * Attributs du point d'extension 'exports'
@@ -16,6 +16,12 @@ public final class ExportToExtension {
 	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 	private static final String EXT_EXTENSION = "extension"; //$NON-NLS-1$
+
+	/**
+	 * Constructeur
+	 */
+	private ExportToExtension() { }
+
 
 	/**
 	 * Consulte le registre des extensions pour trouver l'extension de fichier associee au wizard invoque
@@ -34,7 +40,7 @@ public final class ExportToExtension {
 
 	/**
 	 * Creer une instance de convertiseur
-	 * @param nomConvertiseur nom du convertiseur a instancier
+	 * @param ref référence du convertiseur a instancier
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */

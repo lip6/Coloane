@@ -30,9 +30,9 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 	/**
 	 * Constructeur
 	 * <b>Attention !</b> Le fichier specifie sera ecrase s'il existe deja.
-	 * @param window Pour permettre l'affichage final du modele recu
-	 * @param file Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
-	 * @param model Le modele a sauvegarder (modele generique)
+	 * @param w Pour permettre l'affichage final du modele recu
+	 * @param f Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
+	 * @param graph Le modele a sauvegarder (modele generique)
 	 */
 	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IGraph graph) {
 		this.file = f;
@@ -58,8 +58,7 @@ public class ModifyWorkspace extends WorkspaceModifyOperation {
 				file.setContents(inputS, true, false, monitor);
 			}
 		} catch (CoreException e) {
-			// TODO : Faire quelque chose de mieux ?
-			LOGGER.warning(e.toString());
+			LOGGER.warning("Erreur lors de l'écriture du fichier : " + e); //$NON-NLS-1$
 		}
 
 		// Affichage du nouveau modele dans un nouvel onglet

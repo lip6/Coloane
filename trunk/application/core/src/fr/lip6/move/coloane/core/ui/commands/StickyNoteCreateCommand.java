@@ -26,7 +26,7 @@ public class StickyNoteCreateCommand extends Command {
 	/**
 	 * Creer une commande qui ajoutera la note au graphe
 	 *
-	 * @param note Le nouveau noeud à ajouter
+	 * @param graph graphe sur lequel doit être ajouté la note
 	 * @param b Les limites du noeud; (la taille peut être (-1, -1))
 	 */
 	public StickyNoteCreateCommand(IGraph graph, Rectangle b) {

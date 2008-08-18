@@ -1,23 +1,26 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
-import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -30,12 +33,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Gestion de la vue des resultats
  */
 public class ResultsView extends ViewPart {
-	private static ResultsView instance;
+	public static final String SELECTION_CHANGE = "ResultsView.SelectionChange"; //$NON-NLS-1$
+
 	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
-
 	/** Vue représentant l'arbre des résultats */
-	private TreeViewer viewer;
+	private CheckboxTreeViewer viewer;
 
 	/** Action pour supprimer un resultat de l'arbre */
 	private Action delete;
@@ -44,26 +47,17 @@ public class ResultsView extends ViewPart {
 	private Action deleteAll;
 
 	/**
-	 * Constructeur privé, ResultView est un singleton
+	 * Constructeur
 	 */
 	public ResultsView() {
 		super();
 		createActions();
 	}
 
-	/**
-	 * @return Instance du ResultView
-	 */
-	public static ResultsView getInstance() {
-		if (instance == null) {
-			instance = new ResultsView();
-		}
-		return instance;
-	}
-
+	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
-		viewer = new TreeViewer(parent);
+		viewer = new CheckboxTreeViewer(parent);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
 
@@ -89,7 +83,7 @@ public class ResultsView extends ViewPart {
 						}
 						updateColumnsWidth();
 
-						// Rafraichissement de la vue
+						// Rafraîchissement de la vue
 						viewer.refresh();
 					}
 				});
@@ -102,58 +96,69 @@ public class ResultsView extends ViewPart {
 			results.addObserver(resultObserver);
 		}
 
-		// Action quand on clic dans l'arbre : mettre en valeur les objets sélectionnés
+		// Action quand on clic dans l'arbre : activer la suppression des résultats
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				IGraph graph = MANAGER.getCurrentSession().getGraph();
-				if (graph == null) {
-					return;
-				}
-
-//				// Mise a zero de tous les objets (retour a leur apparence normale)
-//				for (IElement elt : graph.getNodes()) {
-//					elt.setSpecial(false);
-//				}
-//				for (IElement elt : graph.getArcs()) {
-//					elt.setSpecial(false);
-//				}
-//
-//				// Recuperation de l'arbre de sous-resultat (ou de resultat)
-//				IResultTree node = (IResultTree) ((TreeSelection) event.getSelection()).getFirstElement();
-//
-//				if (node != null) {
-//					// Selection des objets du modele
-//					for (Integer toHighlight : node.getHighlighted()) {
-//						if (toHighlight != -1) {
-//							IElement elt = graph.getNode(toHighlight);
-//							if (elt == null) {
-//								elt = graph.getArc(toHighlight);
-//							}
-//							if (elt != null) {
-//								elt.setSpecial(true);
-//							}
-//						}
-//					}
-//				}
 				delete.setEnabled(true);
+			}
+		});
+		viewer.addCheckStateListener(new ICheckStateListener() {
+			private void checkResult(ISession session, IResultTree result, boolean check) {
+				for (int id : result.getHighlighted()) {
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
+					if (element == null) {
+						element = (ISpecialState) session.getGraph().getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(check);
+					}
+				}
+				if (check) {
+					session.addAllTips(result.getTips());
+				} else {
+					session.removeAllTips(result.getTips());
+				}
+				for (IResultTree child : result.getChildren()) {
+					checkResult(session, child, check);
+				}
+			}
+
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				IResultTree result = (IResultTree) event.getElement();
+				viewer.setSubtreeChecked(event.getElement(), event.getChecked());
+				checkResult(MANAGER.getCurrentSession(), result, event.getChecked());
 			}
 		});
 
 		// Ajout d'un Observer sur les changements de sessions
-		((Observable) MANAGER).addObserver(new Observer() {
-			public void update(Observable o, Object arg) {
-				if (arg instanceof Session) {
-					final ResultTreeList currentResult = ((ISession) arg).getServiceResults();
+		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
+					final ISession previous = (ISession) evt.getOldValue();
+					final ISession current = (ISession) evt.getNewValue();
 					parent.getDisplay().asyncExec(new Runnable() {
 						public void run() {
-							viewer.setInput(currentResult);
-							currentResult.addObserver(resultObserver);
-							viewer.refresh();
+							if (previous != null) {
+								previous.getServiceResults().deleteObserver(resultObserver);
+							}
+							if (current != null) {
+								viewer.setInput(current.getServiceResults());
+								current.getServiceResults().addObserver(resultObserver);
+								viewer.refresh();
+							} else {
+								viewer.setInput(null);
+								viewer.refresh();
+							}
 						}
 					});
 				}
 			}
 		});
+//			public void update(Observable o, Object arg) {
+//				if (arg instanceof Session) {
+//				}
+//			}
+//		});
 
 		createToolbar();
 
@@ -161,20 +166,39 @@ public class ResultsView extends ViewPart {
 		Tree tree = viewer.getTree();
 		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-		instance = this;
 	}
 
+	/**
+	 * Création des actions associé à la vue des résultats
+	 */
 	private void createActions() {
 		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// Suppression d'un resultat
+		// Suppression d'un résultat
 		delete = new Action(Messages.ResultsView_0) {
+			private void uncheckResult(ISession session, IResultTree result) {
+				for (int id : result.getHighlighted()) {
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
+					if (element == null) {
+						element = (ISpecialState) session.getGraph().getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(false);
+					}
+				}
+				session.removeAllTips(result.getTips());
+				for (IResultTree child : result.getChildren()) {
+					uncheckResult(session, child);
+				}
+			}
+
 			@Override
 			public void run() {
-				IResultTree node = (IResultTree) ((ITreeSelection) viewer.getSelection()).getFirstElement();
-				if (node != null) {
+				for (Object obj : ((ITreeSelection) viewer.getSelection()).toList()) {
+					IResultTree node = (IResultTree) obj;
+					ISession session = MANAGER.getCurrentSession();
+					uncheckResult(session, node);
 					node.remove();
 					this.setEnabled(false);
 				}
@@ -186,9 +210,30 @@ public class ResultsView extends ViewPart {
 
 		// Suppression de tous les résultats
 		deleteAll = new Action(Messages.ResultsView_2) {
+			private void uncheckResult(ISession session, IResultTree result) {
+				for (int id : result.getHighlighted()) {
+					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
+					if (element == null) {
+						element = (ISpecialState) session.getGraph().getArc(id);
+					}
+					if (element != null) {
+						element.setSpecialState(false);
+					}
+				}
+				session.removeAllTips(result.getTips());
+				for (IResultTree child : result.getChildren()) {
+					uncheckResult(session, child);
+				}
+			}
+
 			@Override
 			public void run() {
-				MANAGER.getCurrentSession().getServiceResults().removeAll();
+				ISession session = MANAGER.getCurrentSession();
+				ResultTreeList list = session.getServiceResults();
+				for (IResultTree result : list.getChildren()) {
+					uncheckResult(session, result);
+				}
+				list.removeAll();
 			}
 		};
 		deleteAll.setToolTipText(Messages.ResultsView_3);

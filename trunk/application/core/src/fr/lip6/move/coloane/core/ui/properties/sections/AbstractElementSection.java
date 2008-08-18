@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -29,16 +30,14 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	private Composite composite;
 
 	/** Structure sauvegardant les listes de propriétés. */
-	private HashMap<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
+	private Map<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
 
 	/** Nom de la propriété courrante. */
 	private String currentType;
 
 	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-		 */
+		/** {@inheritDoc} */
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
 
@@ -63,8 +62,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 
 	/**
 	 * Change l'état (visible ou non) des propriétés du type nodeType
-	 * @param visible
-	 * @param nodeType
+	 * @param visible nouvelle état
+	 * @param nodeType type de noeud concerné par le changement d'état
 	 */
 	private void setVisible(boolean visible, String nodeType) {
 		for (LabelText lt : map.get(nodeType)) {
@@ -72,11 +71,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -106,8 +101,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	}
 
 	/**
-	 * @param isMulti
-	 * @return le style SWT pour un élément simple ligne ou multi ligne.
+	 * @param isMulti <code>true</code> si on veut le style SWT multiligne
+	 * @return le style SWT pour un élément simple ligne ou multiligne.
 	 */
 	private int getSWTStyle(boolean isMulti) {
 		if (isMulti) {
@@ -120,8 +115,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/**
 	 * Affichage/Création des propriétés <i>attributes</i> du type <i>nodeType</i>
 	 *
-	 * @param nodeType
-	 * @param attributes
+	 * @param nodeType type qui doit être afficher
+	 * @param attributes attributs pour ce type de noeud
 	 */
 	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
 		List<LabelText> list = map.get(nodeType);
@@ -169,7 +164,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/**
 	 * @return map associant le nom d'une propriété avec un LabelText
 	 */
-	public final HashMap<String, List<LabelText>> getMap() {
+	public final Map<String, List<LabelText>> getMap() {
 		return map;
 	}
 

@@ -7,13 +7,25 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+/**
+ * Description d'une figure en forme d'ellipse.<br>
+ * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ *
+ * @author Clément Demoulins
+ */
 public class EllipseNode extends AbstractNodeFigure {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
 		graphics.fillOval(getBounds());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		Rectangle r = Rectangle.SINGLETON;
@@ -24,6 +36,9 @@ public class EllipseNode extends AbstractNodeFigure {
 		graphics.drawOval(r);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new EllipseAnchor(this);
 	}

@@ -45,7 +45,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 
 	/**
 	 * Creates a new <code>ExportImageAction</code>.
-	 * @param part The workbench part (must not be <code>null</code>)
+	 * @param w The workbench part (must not be <code>null</code>)
 	 */
 	public final void init(IWorkbenchWindow w) {
 		this.window = w;

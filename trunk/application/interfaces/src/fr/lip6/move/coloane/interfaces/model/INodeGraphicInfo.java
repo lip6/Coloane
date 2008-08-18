@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -16,6 +17,7 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	boolean isFilled();
 
 	/**
+	 * @param key L'arc considéré
 	 * @return heure du dernier deplacement de l'arc passé en paramètre ou 0 si l'arc n'a jamais été déplacé.
 	 */
 	Long getLastMove(IArc key);
@@ -26,7 +28,7 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	Color getBackground();
 
 	/**
-	 * @param background
+	 * @param background La couleur de fond souhaitée
 	 */
 	void setBackground(Color background);
 
@@ -36,13 +38,13 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	Color getForeground();
 
 	/**
-	 * @param foreground
+	 * @param foreground La couleur d'avant plan souhaitée
 	 */
 	void setForeground(Color foreground);
 
 	/**
 	 * Permet de définir la taille du noeud
-	 * @param zoom pourcentage
+	 * @param scale pourcentage d'agrandissement
 	 */
 	void setScale(int scale);
 
@@ -50,4 +52,9 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	 * @return pourcentage
 	 */
 	int getScale();
+
+	/**
+	 * @return Dimension du noeud
+	 */
+	Dimension getSize();
 }

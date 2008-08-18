@@ -1,20 +1,25 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
-import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
+import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,6 +32,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -49,8 +55,35 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private boolean isSelected = false;
+	private boolean select = false;
+	private boolean special = false;
+	private boolean highlight = false;
+	private boolean attributSelect = false;
+
 	private ConnectionAnchor connectionAnchor;
+
+	/**
+	 * Permet d'écouter les changements de sélections des attributs
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		/** {@inheritDoc} */
+		@Override
+		public void selectedStateChanged(EditPart editPart) {
+			switch(editPart.getSelected()) {
+			case EditPart.SELECTED:
+			case EditPart.SELECTED_PRIMARY:
+				attributSelect = true;
+				refreshVisuals();
+				break;
+			case EditPart.SELECTED_NONE:
+				attributSelect = false;
+				refreshVisuals();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	/**
 	 * Creation de la figure associee (VUE)
@@ -77,6 +110,25 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		// Mise à jour de la figure (couleurs et taille)
+		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
+		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
+		((INodeFigure) getFigure()).setLineWidth(1);
+		if (special) {
+			getFigure().setForegroundColor(ColorConstants.red);
+			((INodeFigure) getFigure()).setLineWidth(3);
+		}
+		if (attributSelect) {
+			getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+		}
+		if (select) {
+			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
+			((INodeFigure) getFigure()).setLineWidth(3);
+		}
+		if (highlight) {
+			figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+		}
+
 		INode nodeModel = (INode) getModel();
 
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(), nodeModel.getGraphicInfo().getSize());
@@ -88,6 +140,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @param property L'evenement qui a ete levee
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
+		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
 
 		// Propriete de connexion
@@ -101,8 +154,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		// Propriété de changement de couleur
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+			refreshVisuals();
 		} else if (INode.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
+			refreshVisuals();
 
 		// Propriété de changement de taille
 		} else if (INode.RESIZE_PROP.equalsIgnoreCase(prop)) {
@@ -110,9 +165,17 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
-		}
+			refreshVisuals();
 
-		refreshVisuals();
+		// Propriété pour une demande de changement de l'état "special" (mise en valeur)
+		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+			special = (Boolean) property.getNewValue();
+			refreshVisuals();
+
+		// Propriété de changement des coordonnées
+		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
+			refreshVisuals();
+		}
 	}
 
 	/**
@@ -122,27 +185,18 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final void createEditPolicies() {
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				if (getSelected() == SELECTED_NONE) {
-					setUnselect();
-				}
+				select = false;
+				refreshVisuals();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				if (getSelected() == SELECTED || getSelected() == SELECTED_PRIMARY) {
-					setSelect();
-				}
-			}
-
-			// Comportement lorsque l'objet est selectionne
-			@Override
-			protected void setSelectedState(int state) {
-				super.setSelectedState(state);
+				select = true;
+				refreshVisuals();
 			}
 		});
 
@@ -215,12 +269,9 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		});
 
 		getFigure().addMouseMotionListener(new MouseMotionListener.Stub() {
-			private Color previous;
 			@Override
 			public void mouseEntered(MouseEvent me) {
-				IFigure figure = (IFigure) me.getSource();
-				previous = figure.getBackgroundColor();
-				figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+				highlight = true;
 				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT);
 				setSelected(previousState);
@@ -228,8 +279,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 			@Override
 			public void mouseExited(MouseEvent me) {
-				IFigure figure = (IFigure) me.getSource();
-				figure.setBackgroundColor(previous);
+				highlight = false;
 				int previousState = getSelected();
 				setSelected(ISelectionEditPartListener.HIGHLIGHT_NONE);
 				setSelected(previousState);
@@ -251,7 +301,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs sortant du noeud considere
+	 * Retourne la liste des arcs sortant du noeud considéré
 	 * @return List of IArcImpl
 	 */
 	@Override
@@ -260,26 +310,34 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs entrants du noeud considere
+	 * Retourne la liste des arcs entrants du noeud considéré
 	 * @return List of IArcImpl
 	 */
 	@Override
-	protected final List<IArc> getModelTargetConnections() {
-		return ((INode) getModel()).getIncomingArcs();
+	protected final List<Object> getModelTargetConnections() {
+		List<Object> targets = new ArrayList<Object>(((INode) getModel()).getIncomingArcs());
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId())) {
+			targets.add(((ICoreTip) tip).getArcModel());
+		}
+		return targets;
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
+	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
@@ -303,73 +361,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		}
 	}
 
-	/**
-	 * Mise en valeur du noeud (selection d'un attribut referent)
-	 */
-	public final void setHighlight() {
-		isSelected = true;
-		getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est selectionee
-	 * On definit ici le feedback visuel lors de la selection d'un objet Noeud
-	 */
-	public final void setSelect() {
-		isSelected = true;
-		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
-		((INodeFigure) getFigure()).setLineWidth(3);
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est mise en valeur par des retours de services
-	 * On definit ici le feedback visuel lors de la selection d'un resultat qui met en valeur le noeud
-	 */
-	public final void setSelectSpecial() {
-		isSelected = true;
-		getFigure().setForegroundColor(ColorConstants.red);
-		((INodeFigure) getFigure()).setLineWidth(3);
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est deselectionee
-	 * Annulation du feedback visuel du a la selection d'un objet Noeud
-	 */
-	public final void setUnselect() {
-		if (!isSelected) {
-			return;
-		}
-		isSelected = false;
-		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
-		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
-		((INodeFigure) getFigure()).setLineWidth(1);
-	}
-
-	public final void childAdded(EditPart child, int index) { }
-
-	public final void partActivated(EditPart editpart) { }
-
-	public final void partDeactivated(EditPart editpart) { }
-
-	public final void removingChild(EditPart child, int index) { }
-
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			setHighlight();
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case EditPart.SELECTED_NONE:
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			setUnselect();
-			break;
-		default:
-			break;
-		}
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
 	}
 }

@@ -60,8 +60,8 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Donner une valeur au nom du formalisme
-	 * @param formalismName la valeur
+	 * Indique quel formalisme va être utilisé pour la création du modèle
+	 * @param name Le nom du formalisme
 	 */
 	public final void setFormalismName(String name) {
 		this.formalismName = name;

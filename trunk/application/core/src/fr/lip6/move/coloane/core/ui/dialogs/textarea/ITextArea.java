@@ -1,20 +1,17 @@
 package fr.lip6.move.coloane.core.ui.dialogs.textarea;
 
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Interface définissant une zone de texte pour une boite de dialogue
+ */
 public interface ITextArea {
-
-	/**
-	 * Ajout d'un choix dans la liste des items
-	 * @param choice Le nouveau choix a ajouter
-	 */
-	void addChoice(String choice);
 
 	/**
 	 * Retourne le texte de la zone de texte
 	 * @return Un ensemble de chaines de caracteres
 	 */
-	ArrayList<String> getText();
+	List<String> getText();
 
 	/**
 	 * Retourne la valeur par defaut de la zone de texte

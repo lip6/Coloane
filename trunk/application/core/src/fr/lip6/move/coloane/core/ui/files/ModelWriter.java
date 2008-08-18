@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -15,12 +15,14 @@ import org.eclipse.swt.graphics.Color;
  * Classe regroupant les outils pour ecrire un modele sous forme XML
  */
 public final class ModelWriter {
-
+	/**
+	 * Classe ne contenant que des méthodes statique.
+	 */
 	private ModelWriter() {	}
 
 	/**
 	 * Retourne une chaine contenant tout le modele en XML
-	 * @param model Le model sous forme d'objet JAVA
+	 * @param graph Le model sous forme d'objet JAVA
 	 * @return String
 	 */
 	public static String translateToXML(IGraph graph) {
@@ -79,7 +81,7 @@ public final class ModelWriter {
 
 	/**
 	 * Traduction des noeuds du modele en format XML
-	 * @param model Le modele
+	 * @param graph Le modele
 	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
 	 */
 	private static String translateNodesToXML(IGraph graph) {
@@ -106,6 +108,10 @@ public final class ModelWriter {
 		return sb.toString();
 	}
 
+	/**
+	 * @param graph Le modèle
+	 * @return Une chaine de caractères décrivant en XML les notes.
+	 */
 	private static String translateStickyNotesToXML(IGraph graph) {
 		StringBuilder sb = new StringBuilder();
 
@@ -113,7 +119,7 @@ public final class ModelWriter {
 		for (IStickyNote note : ((GraphModel) graph).getStickyNotes()) {
 
 			// Début de la note
-			sb.append("<sticky id='").append(note.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append("<sticky"); //$NON-NLS-1$
 			sb.append(" xposition='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" yposition='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" width='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -130,7 +136,7 @@ public final class ModelWriter {
 
 	/**
 	 * Traduction des arcs du modele en format XML
-	 * @param model Le modele en objet JAVA contenant des arcs
+	 * @param graph Le modele en objet JAVA contenant des arcs
 	 * @return Une chaine de caracteres decrivant en XML les arcs du modele
 	 */
 	private static String translateArcsToXML(IGraph graph) {
@@ -177,11 +183,11 @@ public final class ModelWriter {
 	}
 
 	/**
-	 * Traduction des attributs des objets du modele en format XML
-	 * @param model Le modele en objet JAVA contenant des attributs d'objet
-	 * @return Une chaine de caracteres decrivant en XML les attributs du modele
+	 * Traduction des attributs d'un élement du modèle en format XML
+	 * @param elt IElement
+	 * @return Une chaine de caracteres decrivant en XML les attributs de l'élement passé en parametre
 	 */
-	private static String translateAttributesToXML(fr.lip6.move.coloane.interfaces.model.IElement elt) {
+	private static String translateAttributesToXML(IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<attributes>\n"); //$NON-NLS-1$
@@ -214,23 +220,26 @@ public final class ModelWriter {
 	 * @return Le texte transforme et protege
 	 */
 	private static String format(String txt) {
-		txt = txt.replaceAll("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$
-		txt = txt.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
-		txt = txt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
-		return txt;
+		String protectedTxt = txt;
+		protectedTxt = protectedTxt.replaceAll("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$
+		protectedTxt = protectedTxt.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
+		protectedTxt = protectedTxt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
+		return protectedTxt;
 	}
 
 
+	/**
+	 * Création d'une chaine XML représentant un modèle vide
+	 * @param formalismName Nom du formalisme
+	 * @return représentation XML
+	 */
 	public static String createDefault(String formalismName) {
 		// L'entete XML
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-		String schema = Coloane.getDefault().getMotor().getFormalismManager().getFormalismByName(formalismName).getSchema();
-
-		Coloane.getLogger().finer("Choix du schema de validation : " + schema); //$NON-NLS-1$
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/").append(schema).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
 		line.append(" formalism='").append(formalismName).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(">\n"); //$NON-NLS-1$
 

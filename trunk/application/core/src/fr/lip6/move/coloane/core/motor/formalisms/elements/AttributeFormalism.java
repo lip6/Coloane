@@ -54,24 +54,16 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#getName()
-	 */
+	/** {@inheritDoc} */
 	public final String getName() { return this.name; }
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#isDrawable()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isDrawable() { return drawable; }
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#isMultiLine()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isMultiLine() { return multiline; }
 
-	/* (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.motor.formalisms.elements.IAttributeFormalism#getDefaultValue()
-	 */
+	/** {@inheritDoc} */
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
@@ -85,10 +77,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 		this.defaultValue = defaultValue;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isBold()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isBold() {
 		return bold;
 	}
@@ -101,28 +90,22 @@ public class AttributeFormalism implements IAttributeFormalism {
 		this.bold = bold;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#isItalic()
-	 */
+	/** {@inheritDoc} */
 	public final boolean isItalic() {
 		return italic;
 	}
 
 	/**
 	 * Indique si l'attribut doit être affiché en italique
-	 * @param bold <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
+	 * @param italic <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
 	 */
 	public final void setItalic(boolean italic) {
 		this.italic = italic;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism#getSize()
-	 */
+	/** {@inheritDoc} */
 	public final Integer getSize() {
-		// TODO: Sortir la valeur dans un préférence : Taille par défaut des attributs
+		// TODO : Sortir la valeur dans un préférence : Taille par défaut des attributs
 		return this.size;
 	}
 

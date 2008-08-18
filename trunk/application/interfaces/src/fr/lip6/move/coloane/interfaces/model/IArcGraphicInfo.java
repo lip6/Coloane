@@ -4,10 +4,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Interface pour l'information graphique d'un noeud
- * @see IARC
+ * Définition des propriétés et comportements graphique d'un objet arc
+ * @see IArc
  */
-
 public interface IArcGraphicInfo {
 
 	// Style de l'arc

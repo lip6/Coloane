@@ -4,22 +4,50 @@
 
 	<parent>
 		<groupId>fr.lip6.move.coloane.application</groupId>
-		<artifactId>application</artifactId>
-		<version>0.13.0-SNAPSHOT</version>
+		<artifactId>application-parent</artifactId>
+		<version>0.14.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>apicami</artifactId>
-	<version>0.13.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Application - Apicami</name>
-	<description>Coloane communication API. This plugin enables the communication with FrameKit platform</description>
+	<name>Application :: API Cami</name>
+	<description>Communication API using CAMI protocol</description>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<sourceDirectory>${basedir}/src/fr/lip6/move/coloane/apicami/parse</sourceDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>interfaces</artifactId>
-			<version>[0.9,)</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
-
 </project>

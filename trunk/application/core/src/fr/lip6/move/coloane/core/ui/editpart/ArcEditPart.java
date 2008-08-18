@@ -1,19 +1,22 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
-import fr.lip6.move.coloane.core.ui.dialogs.ColorsPrefs;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
+import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,11 +24,16 @@ import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.BendpointEditPolicy;
@@ -34,13 +42,11 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.requests.GroupRequest;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
  */
-
-public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+public class ArcEditPart extends AbstractConnectionEditPart implements ISelectionEditPartListener, PropertyChangeListener, NodeEditPart {
 	/**
 	 * Logger 'fr.lip6.move.coloane.core'.
 	 */
@@ -48,7 +54,31 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 	private static final ConnectionRouter CONNECTION_ROUTER = new BendpointConnectionRouter();
 
-	private boolean isSelected = false;
+	private boolean select = false;
+	private boolean special = false;
+	private boolean attributSelect = false;
+
+	/**
+	 * Permet d'écouter les changements de sélections des attributs
+	 */
+	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		/** {@inheritDoc} */
+		@Override
+		public void selectedStateChanged(EditPart editpart) {
+			switch(editpart.getSelected()) {
+			case EditPart.SELECTED:
+			case EditPart.SELECTED_PRIMARY:
+				attributSelect = true;
+				break;
+			case EditPart.SELECTED_NONE:
+				attributSelect = false;
+				break;
+			default:
+				break;
+			}
+			refreshVisuals();
+		}
+	};
 
 	/**
 	 * Dessin de l'arc
@@ -73,7 +103,22 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 */
 	@Override
 	protected final void refreshVisuals() {
-		super.refreshVisuals();
+		// Mise à jour de la figure (couleurs et taille)
+		getFigure().setForegroundColor(((IArc) getModel()).getGraphicInfo().getColor());
+		((IArcFigure) getFigure()).setLineWidth(1);
+		if (special) {
+			getFigure().setForegroundColor(ColorConstants.red);
+			((IArcFigure) getFigure()).setLineWidth(2);
+		}
+		if (attributSelect) {
+			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+			((IArcFigure) getFigure()).setLineWidth(2);
+		}
+		if (select) {
+			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+			((IArcFigure) getFigure()).setLineWidth(2);
+		}
+
 		IArc arcModel = (IArc) getModel();
 
 		Connection connection = (Connection) getFigure();
@@ -84,6 +129,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	}
 
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void createEditPolicies() {
 		// Selection handle edit policy.
@@ -93,7 +139,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicy() {
 			@Override
 			protected Command getCreateBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				LOGGER.finest("Creation du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexCreateCmd com = new InflexCreateCmd((IArc) getModel(), request.getLocation(), request.getIndex());
@@ -102,7 +148,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 			@Override
 			protected Command getDeleteBendpointCommand(BendpointRequest request) {
-				Coloane.getLogger().finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
+				LOGGER.finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
 				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getLocation(), request.getIndex());
@@ -111,9 +157,9 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			@Override
 			protected Command getMoveBendpointCommand(BendpointRequest request) {
 				Point p = request.getLocation();
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finest("Mouvement de point d'inflexion (workspace) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				getConnection().translateToRelative(p);
-				Coloane.getLogger().finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finest("Mouvement de point d'inflexion (univers) : " + p.x + "," + p.y); //$NON-NLS-1$ //$NON-NLS-2$
 				InflexMoveCmd com = new InflexMoveCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
@@ -121,28 +167,18 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		/* Ensemble de regles concernant la selection/deselection de l'objet */
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-
-			@Override
-			protected void setSelectedState(int state) {
-				super.setSelectedState(state);
-				if (state != 0) {
-					setSelect();
-				} else {
-					setUnselect();
-				}
-//				fireSelectionChanged();
-			}
-
 			// Comportement lors de la deselection de l'objet
 			@Override
 			protected void hideSelection() {
-				setUnselect();
+				select = false;
+				refreshVisuals();
 			}
 
 			// Comportement lors de la selection de l'objet
 			@Override
 			protected void showSelection() {
-				setSelect();
+				select = true;
+				refreshVisuals();
 			}
 		});
 
@@ -162,24 +198,15 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 * @param property L'evenement qui a ete levee
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
-
+		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
 
-		// Propriete de modification/suppression/ajout de point d'inflexion
-		if (IArc.INFLEXPOINT_PROP.equals(prop)) {
+		// demande de refresh sur le GraphEditPart
+		if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+			special = (Boolean) property.getNewValue();
 			refreshVisuals();
-		} else if (IArc.SELECT_PROP.equals(prop)) {
-			setHighlight();
-		} else if (IArc.SPECIAL_PROP.equals(prop)) {
-			setSelectSpecial();
-		} else if (IArc.UNSELECT_PROP.equals(prop)) {
-			setUnselect();
-		} else if (IArc.COLOR_PROP.equals(prop) && !isSelected) {
-			((IArcFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
-
-		// Propriété de demande de création/suppression d'un AttributEditPart
-		} else if (IElement.ATTRIBUTE_CHANGE.equals(prop)) {
-			getSource().getParent().refresh(); // demande de refresh sur le GraphEditPart
+		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
+			refreshTargetConnections();
 		}
 	}
 
@@ -206,73 +233,43 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		}
 	}
 
-	/**
-	 * Mise en valeur du noeud (selection d'un attribut referent)
-	 */
-	public final void setHighlight() {
-		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
-		((IArcFigure) getFigure()).setLineWidth(2);
-		isSelected = true;
+	/** {@inheritDoc} */
+	public final EditPartListener getSelectionEditPartListener() {
+		return editPartListener;
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new ArcConnectionAnchor(this);
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return new ArcConnectionAnchor(this);
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return new ArcConnectionAnchor(this);
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return new ArcConnectionAnchor(this);
 	}
 
 	/**
-	 * Modifie la figure lorsqu'elle est selectionee
-	 * On definit ici le feedback visuel lors de la selection d'un objet Noeud
+	 * Retourne la liste des arcs entrants du noeud considere
+	 * @return List of IArcImpl
 	 */
-	public final void setSelect() {
-		getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
-		((IArcFigure) getFigure()).setLineWidth(2);
-		isSelected = true;
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est mise en valeur par des retours de services
-	 * On definit ici le feedback visuel lors de la selection d'un resultat qui met en valeur le noeud
-	 */
-	public final void setSelectSpecial() {
-		getFigure().setForegroundColor(ColorConstants.red);
-		((IArcFigure) getFigure()).setLineWidth(2);
-		isSelected = true;
-	}
-
-	/**
-	 * Modifie la figure lorsqu'elle est deselectionee
-	 * Annulation du feedback visuel du a la selection d'un objet Noeud
-	 */
-	public final void setUnselect() {
-		if (!isSelected) {
-			return;
+	@Override
+	protected final List<Object> getModelTargetConnections() {
+		List<Object> targets = new ArrayList<Object>();
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId())) {
+			targets.add(((ICoreTip) tip).getArcModel());
 		}
-		isSelected = false;
-		getFigure().setForegroundColor(((IArc) getModel()).getGraphicInfo().getColor());
-		((IArcFigure) getFigure()).setLineWidth(1);
-	}
-
-	public final void childAdded(EditPart child, int index) { }
-
-	public final void partActivated(EditPart editpart) { }
-
-	public final void partDeactivated(EditPart editpart) { }
-
-	public final void removingChild(EditPart child, int index) { }
-
-	public final void selectedStateChanged(EditPart editpart) {
-		switch(editpart.getSelected()) {
-		case EditPart.SELECTED:
-		case EditPart.SELECTED_PRIMARY:
-			setHighlight();
-			break;
-		case ISelectionEditPartListener.HIGHLIGHT:
-			break;
-		case ISelectionEditPartListener.SPECIAL:
-			break;
-		case EditPart.SELECTED_NONE:
-		case ISelectionEditPartListener.HIGHLIGHT_NONE:
-		case ISelectionEditPartListener.SPECIAL_NONE:
-			setUnselect();
-			break;
-		default:
-			break;
-		}
+		return targets;
 	}
 }

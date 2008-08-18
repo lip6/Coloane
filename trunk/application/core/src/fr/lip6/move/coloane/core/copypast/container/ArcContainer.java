@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.geometry.Point;
@@ -22,13 +23,14 @@ public class ArcContainer {
 	private int idTarget;
 	private String arcFormalismName;
 
-	private ArrayList<AttributContainer> attributs = new ArrayList<AttributContainer>();
+	private List<AttributContainer> attributs = new ArrayList<AttributContainer>();
 
 	private Color color;
-	private ArrayList<Point> pis = new ArrayList<Point>();
+	private List<Point> pis = new ArrayList<Point>();
 
 	/**
-	 * @param arc
+	 * Constructeur
+	 * @param arc L'arc considéré
 	 * @param idSource id du NodeContainer source
 	 * @param idTarget id du NodeContainer cible
 	 */
@@ -50,9 +52,10 @@ public class ArcContainer {
 	}
 
 	/**
-	 * @param model
-	 * @param source
-	 * @param target
+	 * Copier un arc
+	 * @param graph Le graphe qui contient l'arc
+	 * @param source La source de l'arc
+	 * @param target La cible de l'arc
 	 * @return une copie de l'IArcImpl passée au constructeur
 	 * @throws ModelException Si la création de l'arc c'est mal passé.
 	 */

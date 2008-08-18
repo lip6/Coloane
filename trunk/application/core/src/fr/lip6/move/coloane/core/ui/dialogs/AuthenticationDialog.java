@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.logging.Logger;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -28,20 +29,6 @@ import org.eclipse.swt.widgets.Widget;
  * FrameKit (login, passwd, ip, port)
  */
 public class AuthenticationDialog extends Dialog {
-
-	/* Initialisation a la chaine */
-	private Text login = null;
-	private Text password = null;
-	private Text framekitIp = null;
-	private Text framekitPort = null;
-	private Combo comboServer = null;
-	private Label framekitIpLabel = null;
-	private Label framekitPortLabel = null;
-	private Composite compo = null;
-	private Button detailsButton = null;
-
-	private AuthenticationInformation results;
-
 	/** Tag pour le champ homonyme */
 	public static final String PASSWORD_TAG = "password"; //$NON-NLS-1$
 
@@ -74,6 +61,25 @@ public class AuthenticationDialog extends Dialog {
 
 	private static final String HIDE_DETAILS_LABEL = Messages.AuthenticationDialog_5;
 
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/* Initialisation a la chaine */
+	private Text login = null;
+	private Text password = null;
+	private Text framekitIp = null;
+	private Text framekitPort = null;
+	private Text apiType = null;
+	private Combo comboServer = null;
+	private Label framekitIpLabel = null;
+	private Label framekitPortLabel = null;
+	private Label apiTypeLabel = null;
+	private Composite compo = null;
+	private Button detailsButton = null;
+
+	private AuthenticationInformation results;
+
+
 	/**Pour masquer/demasquer les composants a ajouter*/
 	private boolean visibility = true;
 
@@ -83,6 +89,8 @@ public class AuthenticationDialog extends Dialog {
 	/** Le port de Framekit */
 	private String port = ""; //$NON-NLS-1$
 
+	/** Le type de l'application **/
+	private String type = ""; //$NON-NLS-1$
 
 	/**
 	 * Constructeur
@@ -126,8 +134,8 @@ public class AuthenticationDialog extends Dialog {
 		tag(login, LOGIN_TAG);
 		login.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		login.setTextLimit(TXT_LIMIT);
-		if (Coloane.getDefault().getPreference("LOGIN_DEFAULT") != "") { //$NON-NLS-1$ //$NON-NLS-2$
-			login.setText(Coloane.getDefault().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
+		if (!Coloane.getInstance().getPreference("LOGIN_DEFAULT").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+			login.setText(Coloane.getInstance().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
 		}
 
 		// PASSWORD
@@ -155,10 +163,11 @@ public class AuthenticationDialog extends Dialog {
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		comboServer.setItems(serversList);
 
-		if (!(Coloane.getDefault().getPreference("SERVER_DEFAULT").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
-			comboServer.setText(Coloane.getDefault().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
-			ip = Coloane.getDefault().getPreference("IP_DEFAULT"); //$NON-NLS-1$
-			port = Coloane.getDefault().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
+		if (!(Coloane.getInstance().getPreference("SERVER_DEFAULT").equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+			comboServer.setText(Coloane.getInstance().getPreference("SERVER_DEFAULT")); //$NON-NLS-1$
+			ip = Coloane.getInstance().getPreference("IP_DEFAULT"); //$NON-NLS-1$
+			port = Coloane.getInstance().getPreference("PORT_DEFAULT"); //$NON-NLS-1$
+			type = Coloane.getInstance().getPreference("TYPE_DEFAULT"); //$NON-NLS-1$
 		}
 
 		comboServer.addSelectionListener(new SelectionAdapter() {
@@ -174,35 +183,41 @@ public class AuthenticationDialog extends Dialog {
 					if (i < Integer.parseInt(Coloane.getParam("NB_SERVERS"))) { //$NON-NLS-1$
 						ip = Coloane.getParam("IP" + (i + 1)); //$NON-NLS-1$
 						port = Coloane.getParam("PORT" + (i + 1)); //$NON-NLS-1$
+						type = Coloane.getParam("TYPE" + (i + 1)); //$NON-NLS-1$
 
 						if (!visibility) {
 							setFrameKitIp(ip);
 							setFrameKitPort(port);
+							setApiType(type);
 							enableFields(false);
 						}
 
 					} else if (comboServer.getText().equals("Localhost")) { //$NON-NLS-1$
 						ip = InetAddress.getByName("localhost").getHostAddress(); //$NON-NLS-1$
 						port = String.valueOf("7001"); //$NON-NLS-1$
+						type = "API-CAMI"; //$NON-NLS-1$
 
 						if (!visibility) {
 							setFrameKitIp(ip);
 							setFrameKitPort(port);
+							setApiType(type);
 							enableFields(false);
 						}
 					} else { // Autre ..
 						ip = ""; //$NON-NLS-1$
 						port = ""; //$NON-NLS-1$
+						type = "API-CAMI"; //$NON-NLS-1$
 						if (visibility) {
 							changeVisibility();
 						} else {
 							setFrameKitIp(""); //$NON-NLS-1$
 							setFrameKitPort(""); //$NON-NLS-1$
+							setApiType("API-CAMI"); //$NON-NLS-1$
 							enableFields(true);
 						}
 					}
 				} catch (IOException ef) {
-					Coloane.getLogger().warning("IP introuvable"); //$NON-NLS-1$
+					LOGGER.warning("IP introuvable"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -219,10 +234,6 @@ public class AuthenticationDialog extends Dialog {
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(MSG_TITLE);
-	}
-
-	public final String getItem(String server) {
-		return (String) comboServer.getData(server);
 	}
 
 	/**
@@ -242,14 +253,13 @@ public class AuthenticationDialog extends Dialog {
 	 * Donner une valeur au login
 	 * @param login le login
 	 */
-	public final void setLogin(String log) {
-		this.login.setText(log);
+	public final void setLogin(String login) {
+		this.login.setText(login);
 	}
 
 	/**
-	 * Obtenir le mot de passe
-	 * @return String Retourne le mot de passe
-	 * @throws UIException si le pass est vide
+	 * @return le mot de passe
+	 * @throws UIException si le mot de passe est vide
 	 */
 	public final String getPassword() throws UIException {
 		String passTemp = password.getText();
@@ -268,8 +278,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-	 * Obtenir l'IP de la plateforme FrameKit
-	 * @return Retourne l'IP fournie de la plateforme FrameKit
+	 * @return l'IP fournie de la plateforme FrameKit
 	 */
 	public final String getFrameKitIp() {
 		//si l'ip et le port ne sont pas recuperable via les champs Text
@@ -288,8 +297,7 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
-	 * Obtenir le port de la plateforme FrameKit tel qu'indique par l'utilisateur
-	 * @return Retourne le port fourni de la plateforme FrameKit
+	 * @return le port fourni de la plateforme FrameKit
 	 */
 	public final int getFrameKitPort() {
 		//si l'ip et le port ne sont pas recuperable via les champs Text
@@ -308,6 +316,25 @@ public class AuthenticationDialog extends Dialog {
 	}
 
 	/**
+	 * Donner une valeur au type de la plate-forme
+	 * @param type l'ip de la plateforme Framekit
+	 */
+	public final void setApiType(String type) {
+		this.apiType.setText(type);
+	}
+
+	/**
+	 * @return le type de l'API sélectionnée
+	 */
+	public final String getApiType() {
+		//si l'ip et le port ne sont pas recuperable via les champs Text
+		if (visibility) {
+			return type;
+		}
+		return apiType.getText();
+	}
+
+	/**
 	 * Donner une valeur au tag pour le widget a tester
 	 * Set tag for widget for testing
 	 * @param tagged widget to set tag
@@ -317,10 +344,13 @@ public class AuthenticationDialog extends Dialog {
 		tagged.setData("name", data); //$NON-NLS-1$
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void okPressed() {
 		try {
-			this.results = new AuthenticationInformation(getLogin(), getPassword(), getFrameKitIp(), getFrameKitPort());
+			this.results = new AuthenticationInformation(getLogin(), getPassword(), getFrameKitIp(), getFrameKitPort(), getApiType());
 		} catch (UIException e) {
 			this.results = null;
 		}
@@ -329,8 +359,9 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Methode qui affiche les details concernant le serveur Framekit
+	 * @param server Le serveur sélectionné
 	 */
-	private void showDetails(String serveur) {
+	private void showDetails(String server) {
 		//Invisible a la creation de la boite
 		framekitIpLabel = new Label(compo, SWT.NULL);
 		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
@@ -346,10 +377,18 @@ public class AuthenticationDialog extends Dialog {
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekitPort.setTextLimit(TXT_LIMIT);
 
+		apiTypeLabel = new Label(compo, SWT.NULL);
+		apiTypeLabel.setText(Messages.AuthenticationDialog_28);
+
+		apiType = new Text(compo, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		apiType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		apiType.setTextLimit(TXT_LIMIT);
+
 		setFrameKitIp(ip);
 		setFrameKitPort(port);
+		setApiType(type);
 
-		if (!serveur.equals(Messages.AuthenticationDialog_14)) {
+		if (!server.equals(Messages.AuthenticationDialog_14)) {
 			enableFields(false);
 		}
 	}
@@ -360,12 +399,15 @@ public class AuthenticationDialog extends Dialog {
 	private void hideDetails() {
 		framekitIp.dispose();
 		framekitPort.dispose();
+		apiType.dispose();
+
 		framekitIpLabel.dispose();
 		framekitPortLabel.dispose();
+		apiTypeLabel.dispose();
 	}
 
-	/** Methode de service qui permet de masquer les labels et les zones de texte a ajouter
-	 * @param boolean v determine si ces composants sont visibles
+	/**
+	 * Methode de service qui permet de masquer les labels et les zones de texte a ajouter
 	 */
 	private void changeVisibility() {
 		if (this.visibility) {
@@ -383,10 +425,12 @@ public class AuthenticationDialog extends Dialog {
 
 	/**
 	 * Enable or Disable IP/Port fields in preference page
+	 * @param visibility indicates whether fields must be visible or not
 	 */
-	public final void enableFields(boolean view) {
-			framekitIp.setEnabled(view);
-			framekitPort.setEnabled(view);
+	private void enableFields(boolean visibility) {
+			framekitIp.setEnabled(visibility);
+			framekitPort.setEnabled(visibility);
+			apiType.setEnabled(visibility);
 	}
 
 	/**

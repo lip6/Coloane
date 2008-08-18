@@ -16,8 +16,12 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
-public class NewProjectWizard extends Wizard implements INewWizard {
 
+/**
+ * Assistant pour la création de nouveaux fichiers modèle
+ */
+public class NewProjectWizard extends Wizard implements INewWizard {
+	/** L'unique page constituante de cet assistant */
 	private ProjectCreationPage projectCreationPage;
 
 	/** {@inheritDoc} */
@@ -66,7 +70,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 		// Select and reveal the project in the workbench window
 		BasicNewProjectResourceWizard.updatePerspective(null);
-		BasicNewResourceWizard.selectAndReveal(newProject, Coloane.getDefault().getWorkbench().getActiveWorkbenchWindow());
+		BasicNewResourceWizard.selectAndReveal(newProject, Coloane.getInstance().getWorkbench().getActiveWorkbenchWindow());
 		return true;
 	}
 

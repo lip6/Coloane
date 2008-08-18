@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
-import fr.lip6.move.coloane.core.model.StickyNote;
+import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
@@ -21,8 +21,12 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
+/**
+ * EditPart pour la gestion des notes.
+ */
 public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void createEditPolicies() {
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
@@ -49,14 +53,21 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		return label;
 	}
 
-	private StickyNote getStickyNote() {
-		return (StickyNote) getModel();
+	/**
+	 * @return le modèle
+	 */
+	private StickyNoteModel getStickyNote() {
+		return (StickyNoteModel) getModel();
 	}
 
+	/**
+	 * Affiche une zone d'édition de l'attribut.
+	 */
 	private void performDirectEdit() {
 		new StickyEditManager(this, new StickyCellEditorLocator((StickyNoteFigure) getFigure())).show();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
@@ -64,20 +75,25 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		}
 	}
 
+	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
-//		if (evt.getPropertyName().equalsIgnoreCase("labelContents")) { //$NON-NLS-1$
-//			refreshVisuals();
-//		} else {
-//			// super.propertyChange(evt);
-//		}
-		refreshVisuals();
+		String prop = evt.getPropertyName();
+
+		if (prop.equals(IStickyNote.VALUE_PROP)) {
+			refreshVisuals();
+		} else if (prop.equals(IStickyNote.LOCATION_PROP)) {
+			refreshVisuals();
+		} else if (prop.equals(IStickyNote.RESIZE_PROP)) {
+			refreshVisuals();
+		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final void refreshVisuals() {
 		((StickyNoteFigure) getFigure()).setText(getStickyNote().getLabelContents());
 
-		StickyNote sticky = (StickyNote) getModel();
+		StickyNoteModel sticky = (StickyNoteModel) getModel();
 
 		Rectangle bounds = new Rectangle(sticky.getLocation(), sticky.getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);

@@ -12,12 +12,14 @@ public final class Messages extends NLS {
 	public static String AuthenticationDialog_2;
 	public static String AuthenticationDialog_26;
 	public static String AuthenticationDialog_27;
+	public static String AuthenticationDialog_28;
 	public static String AuthenticationDialog_3;
 	public static String AuthenticationDialog_4;
 	public static String AuthenticationDialog_5;
 	public static String AuthenticationDialog_8;
 	public static String AuthenticationDialog_9;
 	public static String ColoanePrefsPage_10;
+	public static String ColoanePrefsPage_3;
 	public static String ColoanePrefsPage_4;
 	public static String ColoanePrefsPage_5;
 	public static String ColoanePrefsPage_6;

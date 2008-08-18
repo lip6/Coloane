@@ -4,6 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+/**
+ * Classe responsable des extensions d'import de modèles
+ */
 public final class ImportFromExtension {
 	/**
 	 * Attributs du point d'extension
@@ -12,11 +15,14 @@ public final class ImportFromExtension {
 	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 
+	/**
+	 * Constructeur
+	 */
 	private ImportFromExtension() {	}
 
 	/**
 	 * Creer une instance de convertiseur.
-	 * @param nomConvertiseur nom du convertiseur a instancier
+	 * @param ref référence du convertiseur a instancier
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
 	 */

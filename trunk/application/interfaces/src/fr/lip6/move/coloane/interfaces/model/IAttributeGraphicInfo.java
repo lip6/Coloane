@@ -2,6 +2,10 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import org.eclipse.swt.graphics.Color;
 
+/**
+ * Définition des propriétés et comportements graphique d'un objet attribut
+ * @see IAttribute
+ */
 public interface IAttributeGraphicInfo extends ILocationInfo {
 
 	/**
@@ -10,7 +14,7 @@ public interface IAttributeGraphicInfo extends ILocationInfo {
 	Color getBackground();
 
 	/**
-	 * @param background
+	 * @param background La couleur d'arrière plan
 	 */
 	void setBackground(Color background);
 
@@ -20,7 +24,7 @@ public interface IAttributeGraphicInfo extends ILocationInfo {
 	Color getForeground();
 
 	/**
-	 * @param foreground
+	 * @param foreground La couleur d'avant plan
 	 */
 	void setForeground(Color foreground);
 
