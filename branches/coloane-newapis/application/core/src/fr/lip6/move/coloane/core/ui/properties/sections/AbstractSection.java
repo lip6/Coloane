@@ -48,6 +48,9 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 			oldElement.removePropertyChangeListener(this);
 		}
 
+		// On réinitialise la liste des éléments sélectionnés.
+		elements.clear();
+
 		Iterator<Object> it = (Iterator<Object>) ((IStructuredSelection) getSelection()).iterator();
 		while (it.hasNext()) {
 			EditPart editPart = (EditPart) it.next();

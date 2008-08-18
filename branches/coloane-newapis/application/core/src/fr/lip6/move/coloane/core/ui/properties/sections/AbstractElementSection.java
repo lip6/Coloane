@@ -37,9 +37,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 
 	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-		 */
+		/** {@inheritDoc} */
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
 
