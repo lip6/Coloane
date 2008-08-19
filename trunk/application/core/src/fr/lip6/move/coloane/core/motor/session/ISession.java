@@ -44,18 +44,6 @@ public interface ISession {
 	void setModel(IGraph graph);
 
 	/**
-	 * Retourne le menu d'administration
-	 * @return la racine du menu d'administration
-	 */
-	MenuManager getAdminMenu();
-
-	/**
-	 * Indique le menu d'administration attache a la session
-	 * @param admin La racine du menu d'administration
-	 */
-	void setAdminMenu(MenuManager admin);
-
-	/**
 	 * Retourne le menu de service de la session
 	 * @return la racine du menu de services
 	 */
@@ -150,4 +138,10 @@ public interface ISession {
 	 * @return la liste des tips correspondant à cette id
 	 */
 	Collection<ICoreTip> getTip(int id);
+
+	/**
+	 * @param message message à afficher dans la console
+	 * @param type type du message (des constantes sont définies dans la classe MessageType)
+	 */
+	void printConsoleMessage(String message, MessageType type);
 }

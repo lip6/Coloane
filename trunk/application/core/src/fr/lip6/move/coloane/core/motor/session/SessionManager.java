@@ -194,4 +194,11 @@ public final class SessionManager implements ISessionManager {
 			}
 		});
 	}
+
+	/** {@inheritDoc} */
+	public void printConsoleMessage(String message, MessageType type) {
+		for (ISession session : sessions.values()) {
+			session.printConsoleMessage(message, type);
+		}
+	}
 }

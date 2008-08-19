@@ -5,13 +5,13 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.MessageType;
 import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ModifyCurrentModel;
 import fr.lip6.move.coloane.core.ui.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
-import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
@@ -98,8 +98,8 @@ public final class Motor {
 					IConnectionInfo connectionInfo = Com.getInstance().authentication(authInformation, monitor);
 
 					// Affichage dans la zone d'historique
-					HistoryView.getInstance().addLine(Messages.Motor_15 + Messages.Motor_3);
-					HistoryView.getInstance().addLine("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					sessionManager.printConsoleMessage(Messages.Motor_15 + Messages.Motor_3, MessageType.INFO);
+					sessionManager.printConsoleMessage("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor(), MessageType.INFO); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
@@ -161,7 +161,7 @@ public final class Motor {
 					monitor.subTask(Messages.Motor_17);
 
 					// Affichage dans la zone d'historique
-					HistoryView.getInstance().addText(info.getNameService());
+					session.printConsoleMessage(info.getNameService(), MessageType.INFO);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}

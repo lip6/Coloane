@@ -30,7 +30,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * Gestion de la vue des resultats
+ * Gestion de la vue des résultats
  */
 public class ResultsView extends ViewPart {
 	public static final String SELECTION_CHANGE = "ResultsView.SelectionChange"; //$NON-NLS-1$
@@ -40,10 +40,10 @@ public class ResultsView extends ViewPart {
 	/** Vue représentant l'arbre des résultats */
 	private CheckboxTreeViewer viewer;
 
-	/** Action pour supprimer un resultat de l'arbre */
+	/** Action pour supprimer un résultat de l'arbre */
 	private Action delete;
 
-	/** Action pour supprimer tous les resultats de l'arbre */
+	/** Action pour supprimer tous les résultats de l'arbre */
 	private Action deleteAll;
 
 	/**
@@ -154,11 +154,6 @@ public class ResultsView extends ViewPart {
 				}
 			}
 		});
-//			public void update(Observable o, Object arg) {
-//				if (arg instanceof Session) {
-//				}
-//			}
-//		});
 
 		createToolbar();
 
