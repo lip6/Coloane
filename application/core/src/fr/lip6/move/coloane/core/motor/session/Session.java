@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,6 +31,10 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * Definition d'une session
@@ -49,8 +54,8 @@ public class Session implements ISession {
 	/** Le ResultTreeList associé */
 	private ResultTreeList results;
 
-	/** Arborescence du menu administration */
-	private MenuManager adminMenu;
+	/** Console pour cette session, elle est créée à la première utilisation */
+	private MessageConsole console;
 
 	/** Arborescence du menu et des services de la session */
 	private List<MenuManager> menus = new ArrayList<MenuManager>();
@@ -67,9 +72,11 @@ public class Session implements ISession {
 	/** Objet session de l'api */
 	private IApiSession apiSession;
 
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+	/** Liste des tips rangés par id des éléments sur lesquels ils pointent */
 	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
+
+	/** La gestion des listeners est déléguée a cette classe */
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
 	/**
@@ -109,6 +116,9 @@ public class Session implements ISession {
 	 * @throws ApiException En cas d'echec
 	 */
 	public final void destroy() throws ApiException {
+		if (console != null) {
+			ConsolePlugin.getDefault().getConsoleManager().removeConsoles(new IConsole[] {console});
+		}
 		if (apiSession != null) {
 			disconnect();
 		}
@@ -127,16 +137,6 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final void setModel(IGraph model) {
 		this.graph = model;
-	}
-
-	/** {@inheritDoc} */
-	public final MenuManager getAdminMenu() {
-		return adminMenu;
-	}
-
-	/** {@inheritDoc} */
-	public final void setAdminMenu(MenuManager admin) {
-		this.adminMenu = admin;
 	}
 
 	/** {@inheritDoc} */
@@ -220,7 +220,6 @@ public class Session implements ISession {
 		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
 		monitor.subTask(Messages.Session_2);
 		menus.clear();
-		adminMenu = null;
 		monitor.worked(1);
 		monitor.subTask(Messages.Session_3);
 		if (apiSession != null) {
@@ -407,5 +406,30 @@ public class Session implements ISession {
 			}
 		}
 		updateTips(tips);
+	}
+
+	/**
+	 * @return la console
+	 */
+	private MessageConsole getConsole() {
+		if (console == null) {
+			console = new MessageConsole(name, null); // TODO : ajouter une icône
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {console});
+		}
+		return console;
+	}
+
+	/** {@inheritDoc} */
+	public final void printConsoleMessage(String message, MessageType type) {
+		MessageConsoleStream mcs = getConsole().newMessageStream();
+		type.applyType(mcs);
+		mcs.println(message);
+		try {
+			mcs.flush();
+			mcs.close();
+		} catch (IOException e) {
+			// Si il y a un problème à ce niveau, c'est qu'il y a vraiment un problème.
+			throw new AssertionError(e);
+		}
 	}
 }

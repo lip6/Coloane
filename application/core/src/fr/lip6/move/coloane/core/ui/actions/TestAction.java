@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.MessageType;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
@@ -48,11 +49,13 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbenchWindow window) {
+//		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {myConsole});
 	}
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		testTips();
+		testConsole();
+//		testTips();
 //		printGraph();
 //		printSessionsState();
 //		testDialog();
@@ -61,8 +64,20 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	/**
+	 * test l'affichage de messages dans la console pour tous les types.
+	 */
+	private void testConsole() {
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage("debug", MessageType.DEBUG); //$NON-NLS-1$
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage("error", MessageType.ERROR); //$NON-NLS-1$
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage("fine", MessageType.FINE); //$NON-NLS-1$
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage("info", MessageType.INFO); //$NON-NLS-1$
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage("warning", MessageType.WARNING); //$NON-NLS-1$
+	}
+
+	/**
 	 * test des tips
 	 */
+	@SuppressWarnings("unused")
 	private void testTips() {
 		final INode node = SessionManager.getInstance().getCurrentSession().getGraph().getNodes().iterator().next();
 		final IArc arc = SessionManager.getInstance().getCurrentSession().getGraph().getArcs().iterator().next();

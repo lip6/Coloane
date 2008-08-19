@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.core.ui.panels.HistoryView;
+import fr.lip6.move.coloane.core.motor.session.MessageType;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
@@ -16,17 +17,6 @@ public class ReceptMessageObserver implements IReceptMessageObserver {
 	/** {@inheritDoc} */
 	public final void update(IReceptMessage e) {
 		LOGGER.finer("Réception d'un message : " + e.getMessage()); //$NON-NLS-1$
-
-		switch(e.getTypeMessage()) {
-		case IReceptMessage.ADMINISTRATOR_MESSAGE :
-		case IReceptMessage.COPYRIGHT_MESSAGE :
-		case IReceptMessage.ERROR_MESSAGE :
-		case IReceptMessage.TRACE_MESSAGE :
-		case IReceptMessage.WARRNING_MESSAGE :
-			HistoryView.getInstance().addLine(e.getMessage());
-			break;
-		default :
-			break;
-		}
+		SessionManager.getInstance().getCurrentSession().printConsoleMessage(e.getMessage(), MessageType.getAssociatedType(e.getTypeMessage()));
 	}
 }

@@ -17,9 +17,6 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 	/** ID for action sets Platform */
 	public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSets"; //$NON-NLS-1$
 
-	/** ID for history view */
-	public static final String HISTORY_VIEW = "fr.lip6.move.coloane.views.HistoricView"; //$NON-NLS-1$
-
 	/** ID for the "Coloane results" view */
 	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView"; //$NON-NLS-1$
 
@@ -44,6 +41,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 
 	/**
 	 * Defines the initial actions for a page.
+	 * @param layout layout
 	 */
 	public final void defineActions(IPageLayout layout) {
 
@@ -55,7 +53,6 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		layout.addActionSet(ACT_PLATFORM);
 
 		//  Add "show views". They will be present in "show view" menu
-		layout.addShowViewShortcut(HISTORY_VIEW);
 		layout.addShowViewShortcut(RESULTS_VIEW);
 
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
@@ -66,6 +63,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 
 	/**
 	 * Defines the initial layout for a page.
+	 * @param layout layout
 	 */
 	public final void defineLayout(IPageLayout layout) {
 		// Some ratios for layout
@@ -82,10 +80,9 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		// Outline view is just after
 		layout.createFolder("OUTLINE", IPageLayout.BOTTOM, outlineRatio, "TOPLEFT").addView(IPageLayout.ID_OUTLINE); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// Bottom right: History, Property and Problem
+		// Bottom right: Property and Result
 		IFolderLayout bottom = layout.createFolder("BOTTOM", IPageLayout.BOTTOM, bottomRatio, editorArea); //$NON-NLS-1$
 
-		bottom.addView(HISTORY_VIEW);
 		bottom.addView(RESULTS_VIEW);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
 	}

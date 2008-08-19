@@ -65,4 +65,11 @@ public interface ISessionManager {
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Demande à toutes les sessions d'afficher ce message.
+	 * @param message message à afficher dans les consoles
+	 * @param type type du message (des constantes sont définies dans la classe MessageType)
+	 */
+	void printConsoleMessage(String message, MessageType type);
 }

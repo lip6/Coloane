@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
-import fr.lip6.move.coloane.core.ui.panels.HistoryView;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
@@ -52,22 +51,6 @@ public final class UserInterface {
 			instance = new UserInterface();
 		}
 		return instance;
-	}
-
-	/**
-	 * Affichage d'un message sur la vue historique
-	 * @param message a afficher
-	 */
-	public void printHistoryMessage(String message) {
-		final String msg = message;
-
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				if (HistoryView.getInstance() != null) {
-					HistoryView.getInstance().addLine(msg);
-				}
-			}
-		});
 	}
 
 	/**
