@@ -214,7 +214,7 @@ public class Listener extends Thread implements IListener {
 			case 0 : return IReceptMessage.ADMINISTRATOR_MESSAGE;
 			case 1 : return IReceptMessage.COPYRIGHT_MESSAGE;
 			case 2 : return IReceptMessage.TRACE_MESSAGE;
-			case 3 : return IReceptMessage.WARRNING_MESSAGE;
+			case 3 : return IReceptMessage.WARNING_MESSAGE;
 			case 4 : return IReceptMessage.ERROR_MESSAGE;
 			default : return -1;
 		}
