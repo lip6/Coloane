@@ -71,15 +71,15 @@ public void setObservers(Map<String, Object> hash) {
 /** Le logger des evenements */
 private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.apicami");
 
-/** Un indicateur d'état */
+/** Un indicateur d'etat */
 private static int state = ICamiParserState.DEFAULT_STATE;
 
-/** Permet de consulter l'état en cours du parser */
+/** Permet de consulter l'etat en cours du parser */
 public int getState() {
 	return state;
 }
 
-/** L'objet résultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
+/** L'objet resultat : STATIQUE pour pouvoir le remplir en plusieurs passes */
 private static IResult result;
 
 private static List<IUpdateMenu> updates;
@@ -102,9 +102,9 @@ main
 	|	resume_session
 	/* Pour les services */
 	|	invalid_model
-	/* Messages spéciaux */
+	/* Messages speciaux */
 	|	message_to_user
-	/* Pour les résultats */
+	/* Pour les resultats */
 	|	ask_for_model
 	|	receive_results
 	/* Les messages KO */
@@ -115,7 +115,7 @@ main
 /* Gestion de la connexion                 */
 /* --------------------------------------- */
 
-/* Ouverture de la communication avec la plte-forme */
+/* Ouverture de la communication avec la plate-forme */
 open_communication
 	scope { IConnectionInfo connectionInfo;	}
 	:
@@ -214,7 +214,7 @@ close_session
 /* Gestion des services                    */
 /* --------------------------------------- */
 
-/* Réception des services */
+/* Reception des services */
 receive_services
 	scope { List<IService> services; }
 	@init { 
@@ -278,7 +278,7 @@ service_description
 	}
 	;
 
-/* Description de l'état d'un services */
+/* Description de l'etat d'un services */
 state_service
 	returns [IUpdateMenu builtUpdate]
 	@init { List<String> tq = new ArrayList<String>(); }
@@ -380,7 +380,7 @@ ko_message
 	}
 	;
 
-/* Réception d'un message utilisateur */
+/* Reception d'un message utilisateur */
 message_to_user
 	:	trace_message
 	|	warning_message
@@ -407,7 +407,7 @@ warning_message
 	}
 	;
 
-/* Message spécial */
+/* Message special */
 special_message
 	:
 	'MO(' type=NUMBER ',' message=CAMI_STRING ')' {
@@ -439,7 +439,7 @@ special_message
 	;
 
 /* --------------------------------------- */
-/* Gestion des résultats                   */
+/* Gestion des resultats                   */
 /* --------------------------------------- */
 
 ask_for_model
@@ -450,7 +450,7 @@ ask_for_model
 	}
 	;
 
-/* Réception des résultats */
+/* Reception des resultats */
 receive_results
 	@init { 
 		state = ICamiParserState.RESULT_STATE;
@@ -490,7 +490,7 @@ results
 	)?
 	;
 
-/* Description d'un résultats */
+/* Description d'un resultats */
 one_result
 	returns[ISubResult builtResult]
 	scope { ISubResult current; }
@@ -502,7 +502,7 @@ one_result
 	'FE()' { builtResult = $one_result::current; }
 	;
 
-/* Corps d'un résultat */
+/* Corps d'un resultat */
 result_body
 	:	one_result
 	|	textual_result
@@ -515,7 +515,7 @@ result_body
 	| 	tip_description { ((Result) result).addTip($tip_description.tip); }
 	;
 
-/* Résultat textuel */
+/* Resultat textuel */
 textual_result
 	:	
 	'RT(' text=CAMI_STRING ')' { ((SubResult) $one_result::current).addTextualResult($text.text); }
@@ -534,7 +534,7 @@ attribute_outline
 	{ ((SubResult) $one_result::current).addAttributeOutline(Integer.parseInt($id.text), $attribute_name.text); }
 	;
 
-/* Désignation d'un objet */
+/* Designation d'un objet */
 object_designation
 	:
 	'RO(' id=NUMBER ')' { ((SubResult) $one_result::current).addObjectDesignation(Integer.parseInt($id.text)); }		
@@ -546,7 +546,7 @@ object_outline
 	'ME(' id=NUMBER ')' { ((SubResult) $one_result::current).addObjectOutline(Integer.parseInt($id.text)); }
 	;
 
-/* Création d'un objet */
+/* Creation d'un objet */
 object_creation returns [ICommand command]
 	:	syntactic { command = $syntactic.command; }
 	|	aestetic  { command = $aestetic.command;  }
@@ -561,7 +561,7 @@ object_deletion returns [ICommand command]
  		}
  	;
  
- /* Description des changements à apporter au modèle pour ces résultats */
+ /* Description des changements a apporter au modele pour ces resultats */
  formalism_change
  	:	
  	attribute_table
@@ -584,10 +584,10 @@ object_deletion returns [ICommand command]
  	;
  
 /* --------------------------------------- */
-/* Définition d'un modèle		   */
+/* Definition d'un modele		   */
 /* --------------------------------------- */
 
-/* En-tête d'un modèle */
+/* En-tete d'un modele */
 model_definition returns [List<ICommand> commandsList]
 	@init { commandsList = new ArrayList<ICommand>(); }
 	:	
@@ -598,7 +598,7 @@ model_definition returns [List<ICommand> commandsList]
 	'FB()'
 	;
 
-/* Définition des composants */
+/* Definition des composants */
 syntactic returns [ICommand command]
 	:	node 		{ command = $node.command; }
 	|	box 
@@ -632,7 +632,7 @@ attribute returns [ICommand command]
 		{ command = new CreateAttributeCommand($name.text, Integer.parseInt($id.text), $value.text, (Integer.parseInt($line.text) != 1)); }
 	;
 
-/* Description esthétique */
+/* Description esthetique */
 aestetic returns [ICommand command]
 	:	object_position	{ command = $object_position.command; }
 	| 	text_position	{ command = $text_position.command; }
@@ -666,7 +666,7 @@ inflex_point returns [ICommand command]
 	;
 	
 /* --------------------------------------- */
-/* Définition d'une boite de dialogue      */
+/* Definition d'une boite de dialogue      */
 /* --------------------------------------- */
 
 /* Description d'une boite de dialogue */
@@ -715,7 +715,7 @@ dialog_display
 	'AD(' dialog_id=NUMBER ')'
 	{	// Demande l'affichage au core
 		((ReceptDialogObservable) hash.get("IReceptDialog")).notifyObservers(dialogs.get(Integer.parseInt($dialog_id.text)));
-		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y répondre
+		// Permet de stocker la boite de dialogue dans l'API pour pouvoir y repondre
 		sessionController.notifyReceptDialog(dialogs.get(Integer.parseInt($dialog_id.text)));
 	}
 	;
