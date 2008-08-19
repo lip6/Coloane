@@ -392,7 +392,7 @@ trace_message
 	:
 	'TR(' message=CAMI_STRING ')' {
 		LOGGER.finest("Reception d'un message de trace");
-		IReceptMessage msg = (IReceptMessage) new ReceptMessage(4, $message.text);
+		IReceptMessage msg = (IReceptMessage) new ReceptMessage(IReceptMessage.TRACE_MESSAGE, $message.text);
 		((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
@@ -402,7 +402,7 @@ warning_message
 	:
 	'WN(' message=CAMI_STRING ')' {
 		LOGGER.finest("Reception d'un message de trace");
-		IReceptMessage msg = (IReceptMessage) new ReceptMessage(2, $message.text);
+		IReceptMessage msg = (IReceptMessage) new ReceptMessage(IReceptMessage.WARNING_MESSAGE, $message.text);
 		((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg);
 	}
 	;
@@ -413,26 +413,26 @@ special_message
 	'MO(' type=NUMBER ',' message=CAMI_STRING ')' {
 		if($type.text.equals("1")) { 
 			LOGGER.finest("Reception d'un message de l'administrateur"); 
-			IReceptMessage msg =(IReceptMessage) new ReceptMessage(1,$message.text); 
+			IReceptMessage msg =(IReceptMessage) new ReceptMessage(IReceptMessage.ADMINISTRATOR_MESSAGE,$message.text); 
 			((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg); 
 		}
     
 		if($type.text.equals("2")) {
 			//TODO :Verifier qu'il faut traiter ce message comme un KO
 			LOGGER.finest("Reception d'un message court et urgent");
-			IReceptMessage msg =(IReceptMessage) new ReceptMessage(2,$message.text); 
+			IReceptMessage msg =(IReceptMessage) new ReceptMessage(IReceptMessage.ERROR_MESSAGE,$message.text); 
 			((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg); 
 		}
 
 		if($type.text.equals("3")) { 
 			LOGGER.finest("Reception d'un message copyright"); 
-			IReceptMessage msg =(IReceptMessage) new ReceptMessage(3,$message.text); 
+			IReceptMessage msg =(IReceptMessage) new ReceptMessage(IReceptMessage.COPYRIGHT_MESSAGE,$message.text); 
 			((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg); 
 		}
     
 		if($type.text.equals("4")) { 
 			LOGGER.finest("Reception d'un message a propos des statistiques d'execution"); 
-			IReceptMessage msg =(IReceptMessage) new ReceptMessage(4,$message.text); 
+			IReceptMessage msg =(IReceptMessage) new ReceptMessage(IReceptMessage.TRACE_MESSAGE,$message.text); 
 			((ReceptMessageObservable) hash.get("IReceptMessage")).notifyObservers(msg); 
 		}
 	}
