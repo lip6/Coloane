@@ -397,9 +397,13 @@ public class Session implements ISession {
 	public final void removeAllTips(Collection<ICoreTip> tips) {
 		for (ICoreTip tip : tips) {
 			List<ICoreTip> values = this.tips.get(tip.getIdObject());
-			values.remove(tip);
-			if (values.isEmpty()) {
-				this.tips.remove(tip.getIdObject());
+
+			// On supprime le tip sauf si il n'existe plus.
+			if (values != null) {
+				values.remove(tip);
+				if (values.isEmpty()) {
+					this.tips.remove(tip.getIdObject());
+				}
 			}
 		}
 		updateTips(tips);
