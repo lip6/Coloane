@@ -10,4 +10,9 @@ if [ -d META-INF/.svn ]; then
 	svn revert META-INF/MANIFEST.MF
 fi
 
+if [ -d resources/.svn ]; then
+	echo "Suppression des descripteurs XML"
+	svn revert --recursive resources
+fi
+
 echo "Cleaning complete..."
