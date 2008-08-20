@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.console.IConsoleConstants;
 
 /**
 * Classe decrivantt la configuration de la perspective Coloane
@@ -70,6 +71,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		final float topLeftRatio = 0.25f;
 		final float bottomRatio = 0.75f;
 		final float outlineRatio = 0.5f;
+		final float consoleRatio = 0.6f;
 
 		// Get the editor area.
 		String editorArea = layout.getEditorArea();
@@ -80,10 +82,13 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		// Outline view is just after
 		layout.createFolder("OUTLINE", IPageLayout.BOTTOM, outlineRatio, "TOPLEFT").addView(IPageLayout.ID_OUTLINE); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// Bottom right: Property and Result
+		// Bottom : Property and Result
 		IFolderLayout bottom = layout.createFolder("BOTTOM", IPageLayout.BOTTOM, bottomRatio, editorArea); //$NON-NLS-1$
 
-		bottom.addView(RESULTS_VIEW);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
+		bottom.addView(RESULTS_VIEW);
+
+		// Right of bottom folder : Console
+		layout.createFolder("CONSOLE", IPageLayout.RIGHT, consoleRatio, "BOTTOM").addView(IConsoleConstants.ID_CONSOLE_VIEW); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
