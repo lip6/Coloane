@@ -53,7 +53,7 @@
 					<!-- Synchronisation avec le serveur HTTP de Coloane -->
 					<execution>
 						<id>Synchronize</id>
-						<phase>site-deploy</phase>        
+						<phase>deploy</phase>        
 						<goals>
 							<goal>exec</goal>
 						</goals>
