@@ -226,20 +226,120 @@
 
 	<distributionManagement> 
 		<repository> 
-			<id>Coloane-Releases</id> 
-			<name>Coloane Releases</name> 
-			<url>file:///data/coloane_deposit/releases</url> 
+			<id>coloane.internal</id> 
+			<name>Internal Release Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.internal</url> 
 		</repository> 
 		<snapshotRepository> 
-			<id>Coloane-Snapshots</id> 
-			<name>Coloane Snapshots</name> 
-			<url>file:///data/coloane_deposit/snapshots</url> 
+			<id>coloane.snapshots</id> 
+			<name>Internal Snapshot Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots</url> 
 		</snapshotRepository> 
 		<site> 
 			<id>Coloane-Reports</id> 
 			<url>file:///data/coloane_deposit/reports</url> 
 		</site> 
 	</distributionManagement>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency> 
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>gef</artifactId> 
+				<version>3.2.100-v20070620</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>draw2d</artifactId> 
+				<version>3.2.100-v20070529</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId> 
+			    <artifactId>app</artifactId> 
+				<version>1.0.0-v20070606</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId> 
+			    <artifactId>expressions</artifactId> 
+				<version>3.3.0-v20070606-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>jface</artifactId> 
+				<version>3.3.0-I20070606-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>swt</artifactId> 
+				<version>3.3.0-v3346</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>commands</artifactId>
+				<version>3.3.0-I20070605-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jface</groupId>
+				<artifactId>databinding</artifactId>
+				<version>1.1.0-I20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>databinding</artifactId>
+				<version>1.0.0-I20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>text</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId>
+				<artifactId>common</artifactId>
+				<version>3.3.0-v20070426</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>workbench</artifactId>
+				<version>3.3.0-I20070608-1100</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>ui</artifactId>
+				<version>3.3.0-I20070614-0800</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>net</artifactId>
+				<version>1.0.0-I20070531</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>forms</artifactId>
+				<version>3.3.0-v20070511</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jface</groupId>
+				<artifactId>text</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui.workbench</groupId>
+				<artifactId>texteditor</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>filesystem</artifactId>
+				<version>1.1.0-v20070606</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>variables</artifactId>
+				<version>3.2.0-v20070426</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
@@ -381,9 +481,31 @@
 	<!-- Depots (Repositories) -->
 	<repositories>
 		<repository>
-			<id>Maven1</id>
-			<name>Official Maven Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
+			<id>internal</id>
+			<name>Archiva Managed Internal Repository</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/internal/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>snapshots</id>
+			<name>Archiva Managed Snapshot Repository</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>third.party.repo</id>
+			<name>Third party plugin repository</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/third.party.repo/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -392,35 +514,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>codehaus</id>
-			<name>Codehaus Releases</name>
-			<url>http://repository.codehaus.org/</url>      
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<layout>default</layout>
-		</pluginRepository>
-		<pluginRepository>
-			<id>codehaus-snap</id>
-			<name>Codehaus Snapshots</name>
-			<url>http://snapshots.repository.codehaus.org/</url>      
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
-			<layout>default</layout>
-		</pluginRepository>
-	</pluginRepositories>
 </project>

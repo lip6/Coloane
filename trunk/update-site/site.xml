@@ -6,9 +6,9 @@
    <feature url="features/fr.lip6.move.coloane.feature.main_0.11.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.11.0">
       <category name="Modeling Tools"/>
    </feature>
-   <!-- <feature url="features/fr.lip6.move.coloane.feature.importexport_1.0.0.jar" id="fr.lip6.move.coloane.feature.importexport" version="1.0.0">
+   <feature url="features/fr.lip6.move.coloane.feature.importexport_1.0.0.jar" id="fr.lip6.move.coloane.feature.importexport" version="1.0.0">
       <category name="Plugins"/>
-   </feature> -->
+   </feature>
    <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.0.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.0.0">
       <category name="Plugins"/>
    </feature>

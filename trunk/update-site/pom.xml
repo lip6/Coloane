@@ -35,7 +35,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<!-- Déploiement du JAR au bon endroit (snapshot/release)-->
+					<!-- Déploiement du JAR au bon endroit (snapshot/release) -->
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
@@ -50,7 +50,21 @@
 							</arguments>
 						</configuration>
 					</execution>
-					
+					<!-- Synchronisation avec le serveur HTTP de Coloane -->
+					<execution>
+						<id>Synchronize</id>
+						<phase>site-deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>synchronize.sh</executable>
+							<arguments>
+								<argument>${project.deployPath}</argument>
+								<argument>/coloane/public</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

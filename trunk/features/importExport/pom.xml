@@ -20,11 +20,11 @@
 			<artifactId>importExportCAMI</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportPNML</artifactId>
 			<version>${project.version}</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>exportToDOT</artifactId>
