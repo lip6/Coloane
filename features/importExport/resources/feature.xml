@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="fr.lip6.move.coloane.feature.modelexamples" label="Model Examples" provider-name="LIP6 / MoVe" version="1.2.0.r4018">
-  <description url="http://coloane.lip6.fr"></description>
+<feature id="fr.lip6.move.coloane.feature.importexport" label="Import Export extensions" provider-name="LIP6 / MoVe" version="1.1.0.r4018">
+  <description url="http://coloane.lip6.fr">
+      Coloane is a tool designed to model complex systems using various formalisms. 
+More then a simple editor, Coloane gives you the ability to use the FrameKit platform.
+Thanks to a simple UI, you can invoke a large collection of tools on your model without any efforts.
+
+The import/export feature provides following new actions :
+- import from CAMI format
+- import from PNML format
+- export to CAMI format
+- export to PNML format
+- export to DOT format
+   </description>
   <copyright url="http://coloane.lip6.fr/">
       Copyright (c) 2006-2008 LIP6/MoVe.
 All rights reserved. This program and the accompanying materials
@@ -141,5 +152,8 @@ Inc. in the United States, other countries, or both.
   <requires>
     <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
   </requires>
-  <plugin download-size="4" id="fr.lip6.move.coloane.extensions.PNexamples" install-size="4" unpack="false" version="0.8.0.r4018"/>
+  <plugin download-size="7" id="fr.lip6.move.coloane.extensions.exportToDOT" install-size="7" unpack="false" version="1.2.0.r4018"/>
+  <plugin download-size="15" id="fr.lip6.move.coloane.extensions.importExportCAMI" install-size="15" unpack="false" version="1.2.0.r4018"/>
+  <plugin download-size="9007" id="fr.lip6.move.coloane.extensions.importExportPNML" install-size="9007" unpack="false" version="2.0.0.r4018"/>
+  <plugin download-size="8" id="fr.lip6.move.coloane.extensions.exportToPGF" install-size="8" unpack="false" version="1.2.0.r4018"/>
 </feature>

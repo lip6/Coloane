@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="fr.lip6.move.coloane.feature.languagepack" label="Language Pack" provider-name="LIP6 / MoVe" version="1.2.0.r3998">
+<feature id="fr.lip6.move.coloane.feature.languagepack" label="Language Pack" provider-name="LIP6 / MoVe" version="1.2.0.r4018">
   <description url="http://coloane.lip6.fr">
       Coloane is a tool designed to model complex systems using various formalisms. 
 More then a simple editor, Coloane gives you the ability to use the FrameKit platform.
@@ -146,10 +146,10 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems,
 Inc. in the United States, other countries, or both.
    </license>
   <url>
-    <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+    <update label="Coloane Night-Updates" url="http://coloane.lip6.fr/night-updates/"/>
   </url>
   <requires>
     <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
   </requires>
-  <plugin download-size="21" fragment="true" id="fr.lip6.move.coloane.fragments.languagepack" install-size="21" unpack="false" version="1.2.0.r3998"/>
+  <plugin download-size="21" fragment="true" id="fr.lip6.move.coloane.fragments.languagepack" install-size="21" unpack="false" version="1.2.0.r4018"/>
 </feature>
