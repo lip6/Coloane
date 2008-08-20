@@ -481,36 +481,14 @@
 	<!-- Depots (Repositories) -->
 	<repositories>
 		<repository>
-			<id>internal</id>
-			<name>Archiva Managed Internal Repository</name>
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/internal/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<name>Archiva Managed Snapshot Repository</name>
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/snapshots/</url>
+			<id>coloane.snapshots</id>
+			<name>Archiva Managed Snapshot Repository for Coloane</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>third.party.repo</id>
-			<name>Third party plugin repository</name>
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/third.party.repo/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
