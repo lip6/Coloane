@@ -31,7 +31,11 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformLayeredPane;
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
@@ -213,6 +217,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			thumbnail.setVisible(true);
 		}
 
+		/** TODO */
 		protected void unhookOutlineViewer() {
 			getSelectionSynchronizer().removeViewer(getViewer());
 			if (disposeListener != null && getEditor() != null
@@ -258,7 +263,22 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		super.configureGraphicalViewer();
 		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
 
-		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart() {
+			/**
+			 * Cette méthode est redéfinie pour que les arcs ne soient plus au
+			 * dessus des noeuds/attributs/notes/tips.<br>
+			 *
+			 * Le seul changement par rapport à la méthode d'origine est l'ordre d'ajout de CONNECTION_LAYER
+			 * et de PRIMARY_LAYER.
+			 */
+			@Override
+			protected LayeredPane createPrintableLayers() {
+				FreeformLayeredPane layeredPane = new FreeformLayeredPane();
+				layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
+				layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
+				return layeredPane;
+			}
+		};
 
 		viewer.setEditPartFactory(new PartFactory());
 		viewer.setRootEditPart(rootEditPart);

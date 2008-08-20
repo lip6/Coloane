@@ -260,7 +260,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	 * @param fig figure qui doit être afficher
 	 * @return String de l'arbre
 	 */
-	@SuppressWarnings("unused")
 	private static String treeToString(String s, IFigure fig) {
 		StringBuilder sb = new StringBuilder();
 
