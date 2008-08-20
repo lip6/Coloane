@@ -16,9 +16,9 @@ import org.eclipse.ui.console.MessageConsoleStream;
 public final class MessageType {
 	/** Liste des constantes */
 	public static final MessageType FINE = new MessageType("fine", true, ColorConstants.lightGray, SWT.NORMAL); //$NON-NLS-1$
-	public static final MessageType DEBUG = new MessageType("debug", true, ColorConstants.gray, SWT.NORMAL); //$NON-NLS-1$
+	public static final MessageType DEBUG = new MessageType("debug", true, ColorConstants.blue, SWT.NORMAL); //$NON-NLS-1$
 	public static final MessageType INFO = new MessageType("info", true, ColorConstants.black, SWT.BOLD); //$NON-NLS-1$
-	public static final MessageType WARNING = new MessageType("warning", true, ColorConstants.orange, SWT.BOLD); //$NON-NLS-1$
+	public static final MessageType WARNING = new MessageType("warning", true, new Color(null, 255, 124, 10), SWT.BOLD); //$NON-NLS-1$
 	public static final MessageType ERROR = new MessageType("error", true, ColorConstants.red, SWT.BOLD); //$NON-NLS-1$
 	/*************************/
 
