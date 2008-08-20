@@ -106,6 +106,9 @@ public class Session implements ISession {
 				// TODO : désactiver les services du menu
 			}
 		}
+		if (console != null) {
+			ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
+		}
 	}
 
 	/**
