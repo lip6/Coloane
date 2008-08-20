@@ -1,4 +1,4 @@
- package fr.lip6.move.coloane.core.ui.editpart;
+package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -25,7 +25,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 
 /**
@@ -40,6 +40,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private boolean select = false;
 	private boolean elementSelect = false;
 	private boolean highlight = false;
+
+	private Font font;
 
 	/**
 	 * Permet d'écouter les changements de sélection de ses "parents"
@@ -177,14 +179,19 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		IAttribute attribut = (IAttribute) getModel();
 		Label attributeFigure = (Label) getFigure();
 
-		// Affichage du texte dans le Label
-		int type = SWT.NORMAL;
-		if (attribut.getAttributeFormalism().isBold()) { type = type & SWT.BOLD; }
-		if (attribut.getAttributeFormalism().isItalic()) { type = type & SWT.ITALIC; }
-		Font f = new Font(null, "arial", attribut.getAttributeFormalism().getSize(), type); //$NON-NLS-1$
+		// Mise à jour de la police
+		if (font == null || font.isDisposed()) {
+			font = JFaceResources.getDefaultFont();
+			if (attribut.getAttributeFormalism().isBold()) {
+				font = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
+			}
+			if (attribut.getAttributeFormalism().isItalic()) {
+				font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+			}
+			attributeFigure.setFont(font);
+		}
 
 		attributeFigure.setText(attribut.getValue());
-		attributeFigure.setFont(f);
 
 		// On doit creer l'espace pour l'attribut
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
@@ -237,9 +244,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 	}
 
-	/**
-	 * Mise en veille des ecouteurs de l'objet
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void deactivate() {
 		if (isActive()) {
@@ -294,7 +299,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			}
 			refreshVisuals();
 
-		// Deplacement d'un attribut.
+			// Deplacement d'un attribut.
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
