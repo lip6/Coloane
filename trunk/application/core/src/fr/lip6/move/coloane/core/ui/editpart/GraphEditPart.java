@@ -14,9 +14,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -232,26 +230,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
 	 */
 	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
-		Set<Object> editParts = new HashSet<Object>();
-		editParts.add(this);
-		editParts.addAll((List< ? >) getChildren());
-		for (Object obj : getChildren()) {
-			if (obj instanceof NodeEditPart) {
-				NodeEditPart nodeEditPart = (NodeEditPart) obj;
-				editParts.addAll((List< ? >) nodeEditPart.getSourceConnections());
-				editParts.addAll((List< ? >) nodeEditPart.getTargetConnections());
-			}
-		}
-		for (Object obj : editParts) {
-			if (obj instanceof GraphEditPart || obj instanceof NodeEditPart || obj instanceof ArcEditPart) {
-				EditPart parent = (EditPart) obj;
-				IAttribute attributeModel = (IAttribute) attributeEditPart.getModel();
-				if (parent.getModel().equals(attributeModel.getReference())) {
-					return parent;
-				}
-			}
-		}
-		return null;
+		return (EditPart) getViewer().getEditPartRegistry().get(((IAttribute) attributeEditPart.getModel()).getReference());
 	}
 
 	/**
