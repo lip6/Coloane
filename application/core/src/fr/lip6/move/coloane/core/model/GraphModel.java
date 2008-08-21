@@ -267,11 +267,10 @@ public class GraphModel extends AbstractElement implements IGraph {
 	/** {@inheritDoc} */
 	public final IElement getObject(int id) {
 		IElement obj = this.getNode(id);
-		if (obj != null) {
-			return this.getNode(id);
-		} else {
-			return this.getArc(id);
+		if (obj == null) {
+			obj = this.getArc(id);
 		}
+		return obj;
 	}
 
 	/**

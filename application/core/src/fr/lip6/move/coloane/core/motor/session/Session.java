@@ -422,7 +422,10 @@ public class Session implements ISession {
 		return console;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * @param message message à afficher dans la console
+	 * @param type type du message (des constantes sont définies dans la classe MessageType)
+	 */
 	public final void printConsoleMessage(String message, MessageType type) {
 		MessageConsoleStream mcs = getConsole().newMessageStream();
 		type.applyType(mcs);

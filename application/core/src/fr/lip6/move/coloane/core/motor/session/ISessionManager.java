@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
@@ -32,9 +34,15 @@ public interface ISessionManager {
 	/**
 	 * Retourne la session dont le nom est indique en parametre
 	 * @param sessionName nom de la session
-	 * @return la session designe ou NULL si on ne trouve pas la session
+	 * @return la session designe ou <code>null</code> si on ne trouve pas la session
 	 */
 	ISession getSession(String sessionName);
+
+	/**
+	 * @param graph IGraph
+	 * @return la session contenant ce graphe ou <code>null</code> si aucune session ne correspond.
+	 */
+	ISession getSession(IGraph graph);
 
 	/**
 	 * @return Liste de toutes les sessions
@@ -65,11 +73,4 @@ public interface ISessionManager {
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
-
-	/**
-	 * Demande à toutes les sessions d'afficher ce message.
-	 * @param message message à afficher dans les consoles
-	 * @param type type du message (des constantes sont définies dans la classe MessageType)
-	 */
-	void printConsoleMessage(String message, MessageType type);
 }

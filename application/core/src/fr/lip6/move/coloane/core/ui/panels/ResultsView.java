@@ -9,6 +9,8 @@ import fr.lip6.move.coloane.core.results.ResultTreeList;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -103,14 +105,26 @@ public class ResultsView extends ViewPart {
 			}
 		});
 		viewer.addCheckStateListener(new ICheckStateListener() {
+			private Map<ISpecialState, Integer> map = new HashMap<ISpecialState, Integer>();
+
 			private void checkResult(ISession session, IResultTree result, boolean check) {
 				for (int id : result.getHighlighted()) {
-					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
-					if (element == null) {
-						element = (ISpecialState) session.getGraph().getArc(id);
-					}
+					ISpecialState element = (ISpecialState) session.getGraph().getObject(id);
 					if (element != null) {
-						element.setSpecialState(check);
+						Integer value = map.get(element);
+						if (check) {
+							if (value == null) {
+								value = 0;
+							}
+							value++;
+							element.setSpecialState(check);
+						} else {
+							value--;
+							if (value == 0) {
+								element.setSpecialState(check);
+							}
+						}
+						map.put(element, value);
 					}
 				}
 				if (check) {

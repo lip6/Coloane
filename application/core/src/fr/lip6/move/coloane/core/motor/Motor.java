@@ -98,8 +98,8 @@ public final class Motor {
 					IConnectionInfo connectionInfo = Com.getInstance().authentication(authInformation, monitor);
 
 					// Affichage dans la zone d'historique
-					sessionManager.printConsoleMessage(Messages.Motor_15 + Messages.Motor_3, MessageType.INFO);
-					sessionManager.printConsoleMessage("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor(), MessageType.INFO); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					UserInterface.getInstance().printAllConsoleMessage(Messages.Motor_15 + Messages.Motor_3, MessageType.INFO);
+					UserInterface.getInstance().printAllConsoleMessage("You are connected on " + connectionInfo.getFkName() + " - " + connectionInfo.getFkMajor() + "." + connectionInfo.getFkMinor(), MessageType.INFO); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					sessionManager.setAuthenticated(true);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", e.getMessage()); //$NON-NLS-1$
@@ -161,7 +161,7 @@ public final class Motor {
 					monitor.subTask(Messages.Motor_17);
 
 					// Affichage dans la zone d'historique
-					session.printConsoleMessage(info.getNameService(), MessageType.INFO);
+					UserInterface.getInstance().printConsoleMessage(info.getNameService(), MessageType.INFO);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", "Connect model failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
@@ -473,6 +473,7 @@ public final class Motor {
 							currentSession.getServiceResults().add(result.getServiceName(), result);
 						}
 					});
+					UserInterface.getInstance().displayResults();
 					return Status.OK_STATUS;
 				} else {
 					return new Status(IStatus.ERROR, "coloane", "Current session not found"); //$NON-NLS-1$ //$NON-NLS-2$
