@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.MessageType;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.UserInterface;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -67,11 +68,11 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	 * test l'affichage de messages dans la console pour tous les types.
 	 */
 	private void testConsole() {
-		SessionManager.getInstance().getCurrentSession().printConsoleMessage("debug", MessageType.DEBUG); //$NON-NLS-1$
-		SessionManager.getInstance().getCurrentSession().printConsoleMessage("error", MessageType.ERROR); //$NON-NLS-1$
-		SessionManager.getInstance().getCurrentSession().printConsoleMessage("fine", MessageType.FINE); //$NON-NLS-1$
-		SessionManager.getInstance().getCurrentSession().printConsoleMessage("info", MessageType.INFO); //$NON-NLS-1$
-		SessionManager.getInstance().getCurrentSession().printConsoleMessage("warning", MessageType.WARNING); //$NON-NLS-1$
+		UserInterface.getInstance().printConsoleMessage("debug", MessageType.DEBUG); //$NON-NLS-1$
+		UserInterface.getInstance().printConsoleMessage("error", MessageType.ERROR); //$NON-NLS-1$
+		UserInterface.getInstance().printConsoleMessage("fine", MessageType.FINE); //$NON-NLS-1$
+		UserInterface.getInstance().printConsoleMessage("info", MessageType.INFO); //$NON-NLS-1$
+		UserInterface.getInstance().printConsoleMessage("warning", MessageType.WARNING); //$NON-NLS-1$
 	}
 
 	/**

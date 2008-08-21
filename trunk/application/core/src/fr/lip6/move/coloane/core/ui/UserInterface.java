@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.motor.session.MessageType;
+import fr.lip6.move.coloane.core.motor.session.Session;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.dialogs.DialogFactory;
 import fr.lip6.move.coloane.core.ui.dialogs.IDialogUI;
@@ -16,7 +18,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -27,20 +28,8 @@ public final class UserInterface {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** La fenetre de travail */
-	private static IWorkbenchWindow fenetreTravail;
-
 	/** L'instance du singlaton : UserInterface */
 	private static UserInterface instance;
-
-	/**
-	 * Constructeur de la classe
-	 */
-	private UserInterface() {
-		fenetreTravail = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-//		IHandlerService service = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-//		service.activateHandler("", new AuthenticationHandler());
-	}
 
 	/**
 	 * Retourne le module moteur
@@ -132,15 +121,44 @@ public final class UserInterface {
 	/**
 	 * Affichage des resultats dans la vue resultats
 	 */
-	public void printResults() {
+	public void displayResults() {
 		LOGGER.fine("Affichage des resultats du service"); //$NON-NLS-1$
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-					fenetreTravail.getActivePage().showView(ColoanePerspectiveFactory.RESULTS_VIEW);
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ColoanePerspectiveFactory.RESULTS_VIEW);
 				} catch (PartInitException e) {
 					LOGGER.warning("Erreur lors de l'affichage des resultats"); //$NON-NLS-1$
 				}
+			}
+		});
+	}
+
+	/**
+	 * Affiche sur la console de la session courante le message
+	 * @param message message
+	 * @param type type du message
+	 */
+	public void printConsoleMessage(final String message, final MessageType type) {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				ISession session = SessionManager.getInstance().getCurrentSession();
+				if (session != null) {
+					((Session) session).printConsoleMessage(message, type);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Affiche sur toutes les consoles existantes le message
+	 * @param message message
+	 * @param type type du message
+	 */
+	public void printAllConsoleMessage(final String message, final MessageType type) {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				((SessionManager) SessionManager.getInstance()).printConsoleMessage(message, type);
 			}
 		});
 	}

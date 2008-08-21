@@ -138,10 +138,4 @@ public interface ISession {
 	 * @return la liste des tips correspondant à cette id
 	 */
 	Collection<ICoreTip> getTip(int id);
-
-	/**
-	 * @param message message à afficher dans la console
-	 * @param type type du message (des constantes sont définies dans la classe MessageType)
-	 */
-	void printConsoleMessage(String message, MessageType type);
 }

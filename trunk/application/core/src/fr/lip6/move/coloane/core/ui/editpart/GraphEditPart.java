@@ -206,7 +206,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		if (!isActive()) {
 			super.activate();
 			((AbstractPropertyChange) getModel()).addPropertyChangeListener(this);
-			session = SessionManager.getInstance().getCurrentSession();
+			session = SessionManager.getInstance().getSession((IGraph) getModel());
 			session.addPropertyChangeListener(this);
 		}
 	}

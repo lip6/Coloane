@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -57,6 +58,16 @@ public final class SessionManager implements ISessionManager {
 	/** {@inheritDoc} */
 	public ISession getSession(String sessionName) {
 		return sessions.get(sessionName);
+	}
+
+	/** {@inheritDoc} */
+	public ISession getSession(IGraph graph) {
+		for (ISession session : sessions.values()) {
+			if (session.getGraph().equals(graph)) {
+				return session;
+			}
+		}
+		return null;
 	}
 
 	/** {@inheritDoc} */
@@ -195,10 +206,14 @@ public final class SessionManager implements ISessionManager {
 		});
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * Demande à toutes les sessions d'afficher ce message.
+	 * @param message message à afficher dans les consoles
+	 * @param type type du message (des constantes sont définies dans la classe MessageType)
+	 */
 	public void printConsoleMessage(String message, MessageType type) {
 		for (ISession session : sessions.values()) {
-			session.printConsoleMessage(message, type);
+			((Session) session).printConsoleMessage(message, type);
 		}
 	}
 }
