@@ -23,24 +23,23 @@ public class InhibitorArc extends RoundedPolylineConnection {
 		PolygonDecoration decoration = new PolygonDecoration();
 
 		PointList decorationPointList = new PointList();
-		decorationPointList.addPoint(3, 3);
-		decorationPointList.addPoint(4, 1);
-		decorationPointList.addPoint(4, -1);
-		decorationPointList.addPoint(3, -3);
-		decorationPointList.addPoint(1, -4);
-		decorationPointList.addPoint(-1, -4);
-		decorationPointList.addPoint(-3, -3);
-		decorationPointList.addPoint(-4, -1);
-		decorationPointList.addPoint(-4, 1);
-		decorationPointList.addPoint(-3, 3);
-		decorationPointList.addPoint(-1, 4);
-		decorationPointList.addPoint(1, 4);
+		decorationPointList.addPoint(-1, 3);
+		decorationPointList.addPoint(0, 1);
+		decorationPointList.addPoint(0, -1);
+		decorationPointList.addPoint(-1, -3);
+		decorationPointList.addPoint(-3, -4);
+		decorationPointList.addPoint(-5, -4);
+		decorationPointList.addPoint(-7, -3);
+		decorationPointList.addPoint(-8, -1);
+		decorationPointList.addPoint(-8, 1);
+		decorationPointList.addPoint(-7, 3);
+		decorationPointList.addPoint(-5, 4);
+		decorationPointList.addPoint(-3, 4);
 
 		decoration.setTemplate(decorationPointList);
 		decoration.setFill(true);
 		decoration.setBackgroundColor(ColorConstants.white);
 		decoration.setScale(SCALE1, SCALE2);
-		decoration.translate(-4, 0);
 
 		setTargetDecoration(decoration);
 	}
