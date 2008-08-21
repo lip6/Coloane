@@ -243,9 +243,15 @@ public final class CamiGenerator {
 
 		// Si la réponse tient sur une ligne
 		if ((original.getLineType() == IDialog.SINGLE_LINE) || ((original.getLineType() == IDialog.MULTI_LINE_WITH_SINGLE_SELECTION) && (original.getInputType() == IDialog.INPUT_FORBIDDEN))) {
-			String value = dialog.getAllValue().get(0);
-			if (value == null) { value = ""; }
-			String command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + "," + freshStatus + "," + value.length() + ":" + value + ")");
+			String command;
+			if (dialog.getAllValue().size() > 0) {
+				String value = dialog.getAllValue().get(0);
+				if (value == null) { value = ""; }
+				command = new String("RD(" + dialog.getIdDialog() + "," + dialog.getButtonType() + "," + freshStatus + "," + value.length() + ":" + value + ")");
+			} else {
+				// Dans le cas où on clique sur OK et rien n'est selectionne
+				command = new String("RD(" + dialog.getIdDialog() + ",2,2,)");
+			}
 			camiDialog.add(command);
 
 			// Sinon la réponse est multi-lignes
