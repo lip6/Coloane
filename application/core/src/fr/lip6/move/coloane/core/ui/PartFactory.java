@@ -48,6 +48,7 @@ public class PartFactory implements EditPartFactory {
 				LOGGER.warning("L'element n'est pas supporte par la factory"); //$NON-NLS-1$
 			}
 		}
+		LOGGER.fine("Création d'un " + part.getClass().getSimpleName()); //$NON-NLS-1$
 		return part;
 	}
 
