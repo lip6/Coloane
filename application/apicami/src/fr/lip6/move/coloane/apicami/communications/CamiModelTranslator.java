@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,10 +103,12 @@ public final class CamiModelTranslator {
 
 		// Si la tableau obtenu est de taille 1 et que la ligne est de taille < a 255, on a un attribut d'une ligne
 		if (valueTable.length == 1 && valueTable[0].length() > 0 && valueTable[0].length() <= MAXLENGHT) {
+			// Suppression des accents
+			String value = StringUtils.removeStresses(valueTable[0]);
 
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("CT(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			buffer.append(valueTable[0].length() + ":" + valueTable[0]); //$NON-NLS-1$
+			buffer.append(value.length() + ":" + value); //$NON-NLS-1$
 			buffer.append(")"); //$NON-NLS-1$
 			toReturn.add(buffer.toString());
 
@@ -121,7 +124,8 @@ public final class CamiModelTranslator {
 					buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					buffer.append(lineCounter++ + ","); //$NON-NLS-1$
 					buffer.append(1 + ","); // Archaisme de Framekit //$NON-NLS-1$
-					buffer.append(valueTable[i].length() + ":" + valueTable[i]); //$NON-NLS-1$
+					String value = StringUtils.removeStresses(valueTable[i]);
+					buffer.append(value.length() + ":" + value); //$NON-NLS-1$
 					buffer.append(")"); //$NON-NLS-1$
 					toReturn.add(buffer.toString());
 				} else {
@@ -130,7 +134,7 @@ public final class CamiModelTranslator {
 
 					// Traduction des n*255 premiers caracteres
 					while (end < valueTable[i].length()) {
-						String sub = valueTable[i].substring(start, end);
+						String sub = StringUtils.removeStresses(valueTable[i].substring(start, end));
 						StringBuffer buffer = new StringBuffer();
 						buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 						buffer.append(lineCounter++ + ","); //$NON-NLS-1$
@@ -144,7 +148,7 @@ public final class CamiModelTranslator {
 					}
 
 					// Traduction des caracteres restants
-					String sub = valueTable[i].substring(start, valueTable[i].length());
+					String sub = StringUtils.removeStresses(valueTable[i].substring(start, valueTable[i].length()));
 					StringBuffer buffer = new StringBuffer();
 					buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 					buffer.append(lineCounter++ + ","); //$NON-NLS-1$
