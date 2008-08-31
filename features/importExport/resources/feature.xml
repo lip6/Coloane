@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="fr.lip6.move.coloane.feature.importexport" label="Import Export extensions" provider-name="LIP6 / MoVe" version="1.1.0.r4018">
+<feature id="fr.lip6.move.coloane.feature.importexport" label="Import Export extensions" provider-name="LIP6 / MoVe" version="1.1.0">
   <description url="http://coloane.lip6.fr">
       Coloane is a tool designed to model complex systems using various formalisms. 
 More then a simple editor, Coloane gives you the ability to use the FrameKit platform.
@@ -147,13 +147,13 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems,
 Inc. in the United States, other countries, or both.
    </license>
   <url>
-    <update label="Coloane Night-Updates" url="http://coloane.lip6.fr/night-updates/"/>
+    <update label="Coloane Updates" url="http://coloane.lip6.fr/updates/"/>
   </url>
   <requires>
     <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
   </requires>
-  <plugin download-size="7" id="fr.lip6.move.coloane.extensions.exportToDOT" install-size="7" unpack="false" version="1.2.0.r4018"/>
-  <plugin download-size="15" id="fr.lip6.move.coloane.extensions.importExportCAMI" install-size="15" unpack="false" version="1.2.0.r4018"/>
-  <plugin download-size="9007" id="fr.lip6.move.coloane.extensions.importExportPNML" install-size="9007" unpack="false" version="2.0.0.r4018"/>
-  <plugin download-size="8" id="fr.lip6.move.coloane.extensions.exportToPGF" install-size="8" unpack="false" version="1.2.0.r4018"/>
+  <plugin download-size="7" id="fr.lip6.move.coloane.extensions.exportToDOT" install-size="7" unpack="false" version="1.2.0"/>
+  <plugin download-size="15" id="fr.lip6.move.coloane.extensions.importExportCAMI" install-size="15" unpack="false" version="1.2.0"/>
+  <plugin download-size="9007" id="fr.lip6.move.coloane.extensions.importExportPNML" install-size="9007" unpack="false" version="2.0.0"/>
+  <plugin download-size="8" id="fr.lip6.move.coloane.extensions.exportToPGF" install-size="8" unpack="false" version="1.2.0"/>
 </feature>
