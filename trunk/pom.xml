@@ -472,7 +472,7 @@
 				<configuration>
 					<goals>clean deploy</goals>
 					<scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
-					<!-- <preparationGoals>clean</preparationGoals> -->
+					<preparationGoals>clean verify deploy</preparationGoals>
 				</configuration>
 			</plugin>
 		</plugins>
