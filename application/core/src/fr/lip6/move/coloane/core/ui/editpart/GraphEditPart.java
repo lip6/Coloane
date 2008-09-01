@@ -116,9 +116,11 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	@Override
 	protected final IFigure createFigure() {
 		Figure root = new FreeformLayer() {
+			private Image palm = new Image(Coloane.getParent().getDisplay(), Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")); //$NON-NLS-1$
+
 			@Override
 			protected void paintFigure(Graphics graphics) {
-				graphics.drawImage(new Image(Coloane.getParent().getDisplay(), Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")), new Point(10, 10)); //$NON-NLS-1$
+				graphics.drawImage(palm, new Point(10, 10));
 			}
 		};
 

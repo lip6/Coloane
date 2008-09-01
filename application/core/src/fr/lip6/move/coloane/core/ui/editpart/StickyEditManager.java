@@ -161,8 +161,9 @@ public class StickyEditManager extends DirectEditManager {
 			text.setFont(font);
 		} else {
 			FontData fd = font.getFontData()[0];
+			font.dispose();
 			fd.setHeight((int) (fd.getHeight() * zoom));
-			scaledFont = new Font(null, fd);
+			scaledFont = new Font(font.getDevice(), fd);
 			text.setFont(scaledFont);
 		}
 	}

@@ -122,10 +122,9 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		// Dans le cas d'un ILocatedElement (INode, IAttribute, TipModel)
 		if (child.getModel() instanceof ILocatedElement && constraint instanceof Rectangle) {
 			result = new LocatedElementSetConstraintCmd((ILocatedElement) child.getModel(), (Rectangle) constraint);
-		}
 
 		// Dans le cas d'une note
-		if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
+		} else if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
 			result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), (Rectangle) constraint);
 		}
 

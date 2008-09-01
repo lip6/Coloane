@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -206,11 +208,16 @@ public class ModelHandler extends DefaultHandler {
 		if (value == null || !value.matches("#\\p{XDigit}{6}")) { //$NON-NLS-1$
 			throw new NumberFormatException("This value : " + value + " is not a valid color.");  //$NON-NLS-1$//$NON-NLS-2$
 		}
-
-		return new Color(null,
+		Color color = JFaceResources.getColorRegistry().get(value);
+		if (color == null) {
+			RGB rgb = new RGB(
 				Integer.parseInt(value.substring(1, 3), 16),
 				Integer.parseInt(value.substring(3, 5), 16),
 				Integer.parseInt(value.substring(5, 7), 16));
+			JFaceResources.getColorRegistry().put(value, rgb);
+			color = JFaceResources.getColorRegistry().get(value);
+		}
+		return color;
 	}
 
 	/**

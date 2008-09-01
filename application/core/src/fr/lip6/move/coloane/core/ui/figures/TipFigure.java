@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
@@ -8,7 +9,6 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * A rounded rectangle with text inside.
@@ -29,8 +29,8 @@ public class TipFigure extends RoundedRectangle {
 		label.setFont(JFaceResources.getDefaultFont());
 
 		setSize(label.getTextBounds().getSize().expand(MARGIN * 2, MARGIN * 2));
-		setBackgroundColor(new Color(null, 240, 185, 183));
-		setForegroundColor(new Color(null, 218, 80, 75));
+		setBackgroundColor(ColorsPrefs.getColor("COLORTIP_BACKGROUND")); //$NON-NLS-1$
+		setForegroundColor(ColorsPrefs.getColor("COLORTIP_FOREGROUND")); //$NON-NLS-1$
 		setLineWidth(2);
 		setLayoutManager(new StackLayout());
 		add(label);

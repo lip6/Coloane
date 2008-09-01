@@ -111,11 +111,11 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			((IArcFigure) getFigure()).setLineWidth(2);
 		}
 		if (attributSelect) {
-			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
+			getFigure().setForegroundColor(ColorsPrefs.getColor("COLORARC_HIGHLIGHT")); //$NON-NLS-1$
 			((IArcFigure) getFigure()).setLineWidth(2);
 		}
 		if (select) {
-			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORARC")); //$NON-NLS-1$
+			getFigure().setForegroundColor(ColorsPrefs.getColor("COLORARC")); //$NON-NLS-1$
 			((IArcFigure) getFigure()).setLineWidth(2);
 		}
 

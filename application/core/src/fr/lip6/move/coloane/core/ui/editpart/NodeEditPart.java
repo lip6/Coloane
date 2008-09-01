@@ -119,14 +119,14 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			((INodeFigure) getFigure()).setLineWidth(3);
 		}
 		if (attributSelect) {
-			getFigure().setBackgroundColor(ColorsPrefs.setColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+			getFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
 		}
 		if (select) {
-			getFigure().setForegroundColor(ColorsPrefs.setColor("COLORNODE")); //$NON-NLS-1$
+			getFigure().setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
 			((INodeFigure) getFigure()).setLineWidth(3);
 		}
 		if (highlight) {
-			figure.setBackgroundColor(ColorsPrefs.setColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+			figure.setBackgroundColor(ColorsPrefs.getColor("COLORNODE_MOUSE")); //$NON-NLS-1$
 		}
 
 		INode nodeModel = (INode) getModel();
