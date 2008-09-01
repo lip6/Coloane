@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.main"
       label="Coloane"
-      version="0.14.1"
+      version="0.16.0"
       provider-name="LIP6 / MoVe"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
