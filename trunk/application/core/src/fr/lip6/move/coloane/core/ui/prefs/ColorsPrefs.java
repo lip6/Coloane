@@ -4,17 +4,17 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.dialogs.Messages;
 
 import org.eclipse.jface.preference.ColorFieldEditor;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-
-
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -117,8 +117,12 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 	 * @return Color object Color
 	 */
 	public static Color setColor(String key) {
-		String s = Coloane.getInstance().getPreference(key);
-		String[] rgb = s.split(","); //$NON-NLS-1$
-		return new Color(null, Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
+		Color color = JFaceResources.getColorRegistry().get(key);
+		if (color == null) {
+			RGB rgb = PreferenceConverter.getColor(Coloane.getInstance().getPreferenceStore(), key);
+			JFaceResources.getColorRegistry().put(key, rgb);
+			color = JFaceResources.getColorRegistry().get(key);
+		}
+		return color;
 	}
 }
