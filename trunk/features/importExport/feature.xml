@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.importexport"
       label="Import Export extensions"
-      version="1.1.0"
+      version="1.2.0"
       provider-name="LIP6 / MoVe">
 
    <description url="http://coloane.lip6.fr">
