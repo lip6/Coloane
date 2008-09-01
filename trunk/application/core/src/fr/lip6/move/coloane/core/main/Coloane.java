@@ -14,6 +14,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -189,6 +190,14 @@ public class Coloane extends AbstractUIPlugin {
 		//Arc highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
 		PreferenceConverter.setDefault(store, "COLORARC_HIGHLIGHT", color.getRGB()); //$NON-NLS-1$
+
+		//Tip foreground
+		RGB rgb = new RGB(240, 185, 183);
+		PreferenceConverter.setDefault(store, "COLORTIP_FOREGROUND", rgb); //$NON-NLS-1$
+
+		//Tip background
+		rgb = new RGB(218, 80, 75);
+		PreferenceConverter.setDefault(store, "COLORTIP_BACKGROUND", rgb); //$NON-NLS-1$
 	}
 
 	/**

@@ -116,7 +116,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 	 * @param key color
 	 * @return Color object Color
 	 */
-	public static Color setColor(String key) {
+	public static Color getColor(String key) {
 		Color color = JFaceResources.getColorRegistry().get(key);
 		if (color == null) {
 			RGB rgb = PreferenceConverter.getColor(Coloane.getInstance().getPreferenceStore(), key);

@@ -30,7 +30,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 			throw new NullPointerException();
 		}
 		this.element = element;
-		this.newLocation = newBounds.getCopy().getLocation();
+		this.newLocation = newBounds.getLocation().getCopy();
 		this.newLocation.x = Math.max(this.newLocation.x, 0);
 		this.newLocation.y = Math.max(this.newLocation.y, 0);
 	}
