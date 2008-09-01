@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="fr.lip6.move.coloane.feature.modelexamples" label="Model Examples" provider-name="LIP6 / MoVe" version="1.2.0.r4018">
+<feature id="fr.lip6.move.coloane.feature.modelexamples" label="Model Examples" provider-name="LIP6 / MoVe" version="0.8.0">
   <description url="http://coloane.lip6.fr"></description>
   <copyright url="http://coloane.lip6.fr/">
       Copyright (c) 2006-2008 LIP6/MoVe.
@@ -136,10 +136,10 @@ Java and all Java-based trademarks are trademarks of Sun Microsystems,
 Inc. in the United States, other countries, or both.
    </license>
   <url>
-    <update label="Coloane Night-Updates" url="http://coloane.lip6.fr/night-updates/"/>
+    <update label="Coloane Updates" url="http://coloane.lip6.fr/updates/"/>
   </url>
   <requires>
     <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
   </requires>
-  <plugin download-size="4" id="fr.lip6.move.coloane.extensions.PNexamples" install-size="4" unpack="false" version="0.8.0.r4018"/>
+  <plugin download-size="4" id="fr.lip6.move.coloane.extensions.PNexamples" install-size="4" unpack="false" version="0.8.0"/>
 </feature>
