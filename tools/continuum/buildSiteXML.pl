@@ -27,7 +27,7 @@ sub compute_version {
 	while (my $file=readdir(DIR)) {
 		if ($file =~ /^$id/) {
 			push(@files,$file) ;
-			print "Found : $file \n" if $debug;
+			print "Found : $file -> ".(stat($file))[9]."\n" if $debug;
 		}
 	}
 	closedir(DIR);
