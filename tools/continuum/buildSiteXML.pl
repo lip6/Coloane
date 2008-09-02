@@ -39,7 +39,7 @@ sub compute_version {
 	}
 	
 	# Sort and extract the most recent file
-	my @sorted = sort { (-C $a) <=> (-C $b) } @files;
+	my @sorted = sort { (stat($a))[9] <=> (stat($b))[9] } @files;
 	my $newest = pop(@sorted);
 	my $archive = Archive::Zip->new();
 	die "Read error on file $newest" if $archive->read($dir."/".$newest) != AZ_OK;
