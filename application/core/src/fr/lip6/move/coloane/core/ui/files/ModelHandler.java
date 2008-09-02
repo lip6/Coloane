@@ -269,9 +269,10 @@ public class ModelHandler extends DefaultHandler {
 		IAttribute attribute = element.getAttribute(name);
 		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$
 		int y = Integer.parseInt(attributes.getValue("yposition")); //$NON-NLS-1$
-		attribute.getGraphicInfo().setLocation(new Point(x, y));
+		Point location = new Point(x, y);
 
 		stack.push(attribute);
+		stack.push(location);
 	}
 
 	/**
@@ -315,9 +316,11 @@ public class ModelHandler extends DefaultHandler {
 	 * L'attribut est dépilé et on défini sa valeur.
 	 */
 	private void endAttribute() {
+		Point location = (Point) stack.pop();
 		IAttribute attribute = (IAttribute) stack.pop();
 		String value = data.toString();
 		attribute.setValue(value);
+		attribute.getGraphicInfo().setLocation(location);
 	}
 
 	/**

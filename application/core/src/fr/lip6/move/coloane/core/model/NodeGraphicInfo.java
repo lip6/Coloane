@@ -60,6 +60,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @param yPos La position en ordonnée
 	 */
 	private void setLocation(int xPos, int yPos) {
+		LOGGER.finest("setLocation(" + xPos + ", " + yPos + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
 		int dx = xPos - this.x;
 		int dy = yPos - this.y;
