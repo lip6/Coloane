@@ -25,7 +25,10 @@ sub compute_version {
 	# Open the directory and look for matching file's name
 	opendir(DIR,$dir) or die "The directory $dir cannot be browsed --> FAILURE !";
 	while (my $file=readdir(DIR)) {
-		push(@files,$file) if ($file =~ /^$id/);
+		if ($file =~ /^$id/) {
+			push(@files,$file) ;
+			print "Found : $file \n" if $debug;
+		}
 	}
 	closedir(DIR);
 	
@@ -36,7 +39,7 @@ sub compute_version {
 	}
 	
 	# Sort and extract the most recent file
-	my @sorted = sort { -M $a <=> -M $b } @files;
+	my @sorted = sort { (-M $a) <=> (-M $b) } @files;
 	my $newest = pop(@sorted);
 	my $archive = Archive::Zip->new();
 	die "Read error on file $newest" if $archive->read($dir."/".$newest) != AZ_OK;
