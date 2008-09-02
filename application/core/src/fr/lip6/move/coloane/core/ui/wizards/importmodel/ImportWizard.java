@@ -1,9 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
-import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.util.logging.Logger;
 
@@ -59,14 +57,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
-		try {
-			selectFilePage.finish();
-			return true;
-		} catch (ColoaneException e) {
-			LOGGER.warning("Echec de l'import : " + e.getMessage()); //$NON-NLS-1$
-			Coloane.showErrorMsg(Messages.ImportWizard_3);
-			return false;
-		}
+		return selectFilePage.finish();
 	}
 
 	/**

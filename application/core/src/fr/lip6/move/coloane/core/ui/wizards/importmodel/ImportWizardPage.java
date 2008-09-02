@@ -1,28 +1,25 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
-import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -32,6 +29,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -58,7 +56,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	private Combo formSelect;
 
 	/** Le workbench */
-	private IWorkbench workbench;
+	private final IWorkbench workbench;
 
 	/** L'instance de conversion */
 	private IImportFrom importInstance;
@@ -142,58 +140,74 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/**
 	 * Action à effectuer lorsque le bouton finish est pressé
 	 * @return <code>true</code> si tout s'est bien passé
-	 * @throws ColoaneException si une erreur pendant l'import s'est produite
 	 * @see NewModelWizard#performFinish()
 	 * TODO : Beaucoup (trop) d'exceptions sont levées... A vérifier
 	 */
-	public final boolean finish() throws ColoaneException {
-		IFile newFile = null;
-
-		try {
-			if (importInstance == null) {
-				return false;
-			}
-
-			// Importe le modele, via l'instance precedement creee
-			String path = fileSelect.getStringValue();
-			IGraph model = importInstance.importFrom(path, this.formSelect.getText());
-
-			// Traduction du modele au format xml
-			String xmlString = ModelWriter.translateToXML(model);
-			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
-
-			// Tentative de creation de fichier
-			newFile = createNewFile();
-			LOGGER.fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
-
-			// Verification que tout est OK
-			if (newFile == null) {
-				setErrorMessage(Messages.ImportWizardPage_14);
-				return false;
-			}
-			newFile.setContents(inputS, true, false, null);
-
-		} catch (CoreException e) {
-			LOGGER.warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
-			e.printStackTrace();
-			return false;
-		} catch (UnsupportedEncodingException e) {
-			LOGGER.warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
-			e.printStackTrace();
+	public final boolean finish() {
+		if (importInstance == null) {
 			return false;
 		}
+
+		// Importe le modele, via l'instance precedement creee
+		String path = fileSelect.getStringValue();
+
+		// Tentative de creation de fichier
+		final IFile newFile = createNewFile();
+		LOGGER.fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
+
+		// Verification que tout est OK
+		if (newFile == null) {
+			setErrorMessage(Messages.ImportWizardPage_14);
+			return false;
+		}
+
+		Job job = new ImportJob("Import " + path, //$NON-NLS-1$
+						importInstance,
+						formSelect.getText(),
+						fileSelect.getStringValue(),
+						newFile);
+
+		job.setPriority(Job.LONG);
+		job.setRule(newFile);
+		job.setUser(true);
+		job.schedule();
+
+		//		} catch (CoreException e) {
+		//			LOGGER.warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
+		//			e.printStackTrace();
+		//			return false;
+		//		} catch (UnsupportedEncodingException e) {
+		//			LOGGER.warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
+		//			e.printStackTrace();
+		//			return false;
+		//		}
+
+//		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 
 		// Ouverture du nouveau fichier
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-		if (newFile != null && page != null) {
-			try {
-				IDE.openEditor(page, newFile, true);
-			} catch (CoreException ce) {
-				LOGGER.warning(ce.getMessage());
-				Coloane.showErrorMsg(ce.getMessage());
-				return false;
+		job = new Job("Open editor") { //$NON-NLS-1$
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+//				System.err.println(page);
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+						if (newFile != null && page != null) {
+							try {
+								IDE.openEditor(page, newFile, true);
+							} catch (CoreException ce) {
+								LOGGER.warning(ce.getMessage());
+							}
+						}
+					}
+				});
+				return Status.OK_STATUS;
 			}
-		}
+		};
+		job.setPriority(Job.LONG);
+		job.setRule(newFile);
+		job.setSystem(true);
+		job.schedule();
 		return true;
 	}
 

@@ -390,6 +390,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Construction d'un modele en memoire a partir de se representation en XML
 		graph = ModelLoader.loadFromXML(file);
+
+		// Si le chargement a échoué, on annule l'ouverture de l'éditeur
 		if (graph == null) {
 			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
 			setEditDomain(new DefaultEditDomain(this));
