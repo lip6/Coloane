@@ -5,14 +5,13 @@ use diagnostics;
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Archive::Zip::MemberRead;
 use XML::Twig;
+use File::stat;
 
 #
 # Author : Jean-Baptiste Voron (LIP6/MoVe)
 # Description : Rewrite site.xml to produce update site products
 #
 # Use : perl build_site.pl <SITE FILE> <FEATURE DIR>
-
-use XML::Twig;
 
 my $debug = 1;
 
@@ -27,7 +26,7 @@ sub compute_version {
 	while (my $file=readdir(DIR)) {
 		if ($file =~ /^$id/) {
 			push(@files,$file) ;
-			print "Found : $file - ".(stat($file))[9]." ".(stat($file))[2]."\n" if $debug;
+			print "Found : $file \n";
 		}
 	}
 	closedir(DIR);
@@ -39,7 +38,7 @@ sub compute_version {
 	}
 	
 	# Sort and extract the most recent file
-	my @sorted = sort { (stat($a))[9] <=> (stat($b))[9] } @files;
+	my @sorted = sort { (stat($dir."/".$a))->ctime <=> (stat($dir."/".$b))->ctime } @files;
 	my $newest = pop(@sorted);
 	my $archive = Archive::Zip->new();
 	die "Read error on file $newest" if $archive->read($dir."/".$newest) != AZ_OK;
