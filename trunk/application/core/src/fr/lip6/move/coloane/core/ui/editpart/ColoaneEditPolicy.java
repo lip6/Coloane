@@ -119,13 +119,14 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	protected final Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 		Command result = null;
 
-		// Dans le cas d'un ILocatedElement (INode, IAttribute, TipModel)
-		if (child.getModel() instanceof ILocatedElement && constraint instanceof Rectangle) {
+		// Dans le cas d'une note
+		if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
+			result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), (Rectangle) constraint);		// Dans le cas d'un ILocatedElement (INode, IAttribute, TipModel)
+
+		// Dans le cas d'un LocatedElement
+		} else if (child.getModel() instanceof ILocatedElement && constraint instanceof Rectangle) {
 			result = new LocatedElementSetConstraintCmd((ILocatedElement) child.getModel(), (Rectangle) constraint);
 
-		// Dans le cas d'une note
-		} else if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
-			result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), (Rectangle) constraint);
 		}
 
 		if (child.getModel() instanceof ILocatedElement && (request.getType().equals(REQ_MOVE_CHILDREN) || request.getType().equals(REQ_ALIGN_CHILDREN))) {
