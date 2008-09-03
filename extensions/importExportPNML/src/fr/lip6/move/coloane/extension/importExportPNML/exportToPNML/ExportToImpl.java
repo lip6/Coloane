@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.extension.importExportPNML.exportToPNML;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -28,8 +30,11 @@ public class ExportToImpl implements IExportTo {
 	public ExportToImpl() { System.err.println("mayou"); }
 
 	/** {@inheritDoc} */
-	public final void export(IGraph graph, String filePath) throws ColoaneException {
+	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ColoaneException {
 		PetriNetDocHLAPI doc;
+
+		int totalWork = graph.getNodes().size() + graph.getArcs().size();
+		monitor.beginTask("Export to PNML", totalWork);
 
 		try {
 			ModelRepository.reset();
@@ -39,6 +44,7 @@ public class ExportToImpl implements IExportTo {
 			PageHLAPI page = new PageHLAPI("main", new NameHLAPI("main"), null, net);
 
 			// Création des noeuds
+			monitor.subTask("Export nodes");
 			for (INode node : graph.getNodes()) {
 				
 				// Les places
@@ -53,14 +59,17 @@ public class ExportToImpl implements IExportTo {
 					TransitionHLAPI transition = new TransitionHLAPI(String.valueOf("colo" + node.getId()), page);
 					transition.setName(new NameHLAPI(node.getAttribute("name").getValue()));
 				}
+				monitor.worked(1);
 			}
 
 			// Création des arcs
+			monitor.subTask("Export arcs");
 			for (IArc arc : graph.getArcs()) {
 				NodeHLAPI source = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("colo" + String.valueOf(arc.getSource().getId()));
 				NodeHLAPI target = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("colo" + String.valueOf(arc.getTarget().getId()));
 				ArcHLAPI a = new ArcHLAPI(String.valueOf("colo" + arc.getId()), source, target);
 				a.setContainerPage(page);
+				monitor.worked(1);
 			}
 			
 	
@@ -80,5 +89,6 @@ public class ExportToImpl implements IExportTo {
 		} catch (Exception e) {
 			System.out.println("Echec...");
 		}
+		monitor.done();
 	}
 }

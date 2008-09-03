@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
@@ -34,7 +35,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param filePath nom du fichier de destination
 	 * @throws ColoaneException
 	 */
-	public void export(IGraph model, String filePath) throws ColoaneException {
+	public void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
 		FileOutputStream writer;
 		
 		// Controle sur le nom du fichier
@@ -42,13 +43,16 @@ public class ExportToImpl implements IExportTo {
 			throw new ColoaneException("The filename is not correct. Please provide a valid filename");
 		}
 
+		int totalWork = model.getNodes().size() + model.getArcs().size();
+		monitor.beginTask("Export to CAMI", totalWork);
+
 		try {
 			// Creation du fichier
 			writer = new FileOutputStream(new File(filePath)); //$NON-NLS-1$
 			BufferedWriter writerBuffer = new BufferedWriter(new OutputStreamWriter(writer));
 			
 			// Traduction et écriture
-			Vector<String> cami = translateModel(model);
+			Vector<String> cami = translateModel(model, monitor);
 			for (String line : cami) {
 				writerBuffer.write(line);
 				writerBuffer.newLine();
@@ -66,14 +70,16 @@ public class ExportToImpl implements IExportTo {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur lors de l'écriture dans le fichier");
 			throw new ColoaneException("Write error :" + ioe.getMessage());
 		}
+		monitor.done();
 	}
 	
 	/**
 	 * Traduction d'un modèle en vecteur de commandes CAMI
 	 * @param model Le modèle à convertir
+	 * @param monitor 
 	 * @return Un vecteur de chaines de caractères (commandes CAMI)
 	 */
-	private final Vector<String> translateModel(IGraph model) {
+	private final Vector<String> translateModel(IGraph model, IProgressMonitor monitor) {
 		Vector<String> toReturn = new Vector<String>();
 
 		// Ajout du noeud du modele
@@ -85,13 +91,17 @@ public class ExportToImpl implements IExportTo {
 		}
 
 		// Ajout des noeuds
+		monitor.subTask("Export nodes");
 		for (INode node : model.getNodes()) {
 			toReturn.addAll(this.translateNode(node));
+			monitor.worked(1);
 		}
 
 		// Ajout des arcs
+		monitor.subTask("Export arcs");
 		for (IArc arc : model.getArcs()) {
 			toReturn.addAll(this.translateArc(arc));
+			monitor.worked(1);
 		}
 
 		return toReturn;

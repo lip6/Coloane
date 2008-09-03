@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
@@ -52,13 +53,19 @@ public class ImportJob extends Job {
 	@Override
 	protected final IStatus run(IProgressMonitor monitor) {
 		try {
-			IGraph model = importInstance.importFrom(path, formalism);
+			int totalWork = new Long(new File(path).length()).intValue();
+			monitor.beginTask("Import " + path, totalWork + 100); //$NON-NLS-1$
+
+			monitor.subTask("Create graph"); //$NON-NLS-1$
+			IGraph model = importInstance.importFrom(path, formalism, monitor);
 
 			// Traduction du modele au format xml
+			monitor.subTask("Convert to XML"); //$NON-NLS-1$
 			String xmlString = ModelWriter.translateToXML(model);
 			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
 
 			newFile.setContents(inputS, true, false, null);
+			monitor.done();
 		} catch (CoreException e) {
 			LOGGER.warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
 			return e.getStatus();

@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -22,9 +24,12 @@ public class ExportToImpl implements IExportTo {
 	public ExportToImpl() {	}
 
 	/** {@inheritDoc} */
-	public void export(IGraph modeleCourant, String filePath) throws ColoaneException {
+	public void export(IGraph modeleCourant, String filePath, IProgressMonitor monitor) throws ColoaneException {
+		int totalWork = modeleCourant.getNodes().size() + modeleCourant.getArcs().size();
+		monitor.beginTask("Export to PGF", totalWork);
+
 		PGFTranslator translator = new PGFTranslator();
-		String model = translator.translateModel(modeleCourant);
+		String model = translator.translateModel(modeleCourant, monitor);
 
 		
 		FileOutputStream writer;
@@ -49,5 +54,6 @@ public class ExportToImpl implements IExportTo {
 			throw new ColoaneException("Write error :" + ioe.getMessage());
 		}
 		
+		monitor.done();
 	}
 }
