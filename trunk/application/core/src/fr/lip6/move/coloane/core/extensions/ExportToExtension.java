@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -16,12 +18,31 @@ public final class ExportToExtension {
 	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 	private static final String EXT_EXTENSION = "extension"; //$NON-NLS-1$
+	private static final String FORMALISMS_EXTENSION = "id"; //$NON-NLS-1$
 
 	/**
 	 * Constructeur
 	 */
 	private ExportToExtension() { }
 
+	/**
+	 * @param idWizard nom de l'extension d'export
+	 * @param formalism formalisme du modèle à exporter
+	 * @return <code>true</code> si export accepte ce formalisme
+	 */
+	public static boolean canPerform(String idWizard, IFormalism formalism) {
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		for (IConfigurationElement contribution : contributions) {
+			if (contribution.getAttribute(WIZREF_EXTENSION).equals(idWizard)) {
+				for (IConfigurationElement child : contribution.getChildren()) {
+					if (child.getAttribute(FORMALISMS_EXTENSION).equals(formalism.getId())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Consulte le registre des extensions pour trouver l'extension de fichier associee au wizard invoque

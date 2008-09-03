@@ -54,7 +54,8 @@ public final class FormalismManager {
 	 * @param description L'élément de haut niveau décrivant le formalisme
 	 */
 	private void buildFormalism(IConfigurationElement description) {
-		String name, fkname, xschema, image;
+		String id, name, fkname, xschema, image;
+		id = description.getAttribute("id"); //$NON-NLS-1$
 		name = description.getAttribute("name");  //$NON-NLS-1$
 		fkname = description.getAttribute("fkname");  //$NON-NLS-1$
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
@@ -65,7 +66,7 @@ public final class FormalismManager {
 		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Creation et ajout du formalisme a la liste du manager
-		Formalism form = new Formalism(name, fkname, image);
+		Formalism form = new Formalism(id, name, fkname, image);
 
 		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
 

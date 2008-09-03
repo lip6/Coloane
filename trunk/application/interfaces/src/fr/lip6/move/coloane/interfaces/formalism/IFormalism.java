@@ -23,6 +23,11 @@ public interface IFormalism {
 	boolean isActionAllowed(INode node);
 
 	/**
+	 * @return l'id du formalisme
+	 */
+	String getId();
+
+	/**
 	 * @return Le nom du formalisme
 	 */
 	String getName();

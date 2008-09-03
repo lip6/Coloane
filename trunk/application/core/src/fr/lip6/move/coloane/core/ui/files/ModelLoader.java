@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
@@ -73,5 +74,49 @@ public final class ModelLoader {
 		}
 
 		return modelHandler.getGraph();
+	}
+
+	/**
+	 * @param file fichier xml
+	 * @return le formalisme ou <code>null</code> en cas de problème.
+	 */
+	public static IFormalism loadFormalismFromXml(IFile file) {
+		FormalismHandler formalismHandler = new FormalismHandler();
+
+		// Declaration de quelques variables utiles ;o)
+		Schema schema;
+		SAXParserFactory factory;
+
+		try {
+			factory = SAXParserFactory.newInstance();
+			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/model.xsd")); //$NON-NLS-1$
+			schema = schemaFactory.newSchema(schemaSource);
+		} catch (SAXException e) {
+			LOGGER.warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
+			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
+			return null;
+		}
+
+		// Phase de validation du fichier par rapport au modele global
+		Validator validator = schema.newValidator();
+		try {
+			validator.validate(new StreamSource(file.getContents()));
+
+			SAXParser saxParser = factory.newSAXParser();
+			long debut = System.currentTimeMillis();
+			saxParser.parse(file.getLocationURI().toString(), formalismHandler);
+			LOGGER.info("Temps de chargement : " + (System.currentTimeMillis() - debut) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (SAXException e) {
+			LOGGER.warning("Impossible de parser le fichier. " + e.getMessage()); //$NON-NLS-1$
+		} catch (IOException e) {
+			LOGGER.warning("Erreur d'E/S : " + e.getMessage()); //$NON-NLS-1$
+		} catch (CoreException e) {
+			LOGGER.warning("Erreur lors de la lecture du fichier xml : " + e.getMessage()); //$NON-NLS-1$
+		} catch (ParserConfigurationException e) {
+			LOGGER.warning("Erreur lors de la création du parser. " + e.getMessage()); //$NON-NLS-1$
+		}
+
+		return formalismHandler.getFormalism();
 	}
 }

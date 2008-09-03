@@ -78,7 +78,6 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	/** {@inheritDoc} */
 	public final void handleEvent(Event e) {
 		Widget source = e.widget;
-
 		// Detecte le clic sur le bouton BROWSE
 		if (source == destinationBrowseButton) {
 			handleDestinationBrowseButtonPressed();

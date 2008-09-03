@@ -55,7 +55,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 
 	/** {@inheritDoc} */
 	public final void run(IAction action) {
-		testConsole();
+//		testConsole();
 //		testTips();
 //		printGraph();
 //		printSessionsState();
@@ -67,6 +67,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * test l'affichage de messages dans la console pour tous les types.
 	 */
+	@SuppressWarnings("unused")
 	private void testConsole() {
 		UserInterface.getInstance().printConsoleMessage("debug", MessageType.DEBUG); //$NON-NLS-1$
 		UserInterface.getInstance().printConsoleMessage("error", MessageType.ERROR); //$NON-NLS-1$
