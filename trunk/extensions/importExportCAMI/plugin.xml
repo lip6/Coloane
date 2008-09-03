@@ -25,6 +25,15 @@
             class="fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importcami"
             reference="fr.lip6.move.coloane.wizard.import.cami">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="RG">
+         </AcceptedFormalism>
       </Import>
    </extension>
    <extension

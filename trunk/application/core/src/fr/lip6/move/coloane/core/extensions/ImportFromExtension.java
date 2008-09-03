@@ -1,5 +1,11 @@
 package fr.lip6.move.coloane.core.extensions;
 
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -14,6 +20,7 @@ public final class ImportFromExtension {
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.imports"; //$NON-NLS-1$
 	private static final String WIZREF_EXTENSION = "reference"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
+	private static final String FORMALISMS_EXTENSION = "id"; //$NON-NLS-1$
 
 	/**
 	 * Constructeur
@@ -43,5 +50,24 @@ public final class ImportFromExtension {
 		}
 
 		return convertInstance;
+	}
+
+	/**
+	 * @param idWizard Id d'une extension d'import
+	 * @return Liste des formalismes supportés par cette extension
+	 */
+	public static List<IFormalism> getFormalisms(String idWizard) {
+		List<IFormalism> formalisms = new ArrayList<IFormalism>();
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+
+		for (IConfigurationElement contribution : contributions) {
+			if (contribution.getAttribute(WIZREF_EXTENSION).equals(idWizard)) {
+				for (IConfigurationElement child : contribution.getChildren()) {
+					formalisms.add(FormalismManager.getInstance().getFormalismById(child.getAttribute(FORMALISMS_EXTENSION)));
+				}
+			}
+		}
+
+		return formalisms;
 	}
 }

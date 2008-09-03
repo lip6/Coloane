@@ -33,7 +33,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportWizard_0);
-		selectFilePage = new ImportWizardPage(workbench, selection, instance);
+		selectFilePage = new ImportWizardPage(workbench, selection, instance, idWizard);
 		setNeedsProgressMonitor(true);
 	}
 
