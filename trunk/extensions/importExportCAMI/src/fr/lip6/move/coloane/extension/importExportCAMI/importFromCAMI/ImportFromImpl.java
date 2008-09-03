@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
@@ -37,20 +37,24 @@ public class ImportFromImpl implements IImportFrom {
 	 * @return le model adapte correspondant
 	 * @throws ColoaneException si le fichier n'est pas valide
 	 */
-	public IGraph importFrom(String filePath, String formalism) throws ColoaneException {
+	public IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
 		this.ids = new HashMap<Integer, Integer>();
 		IGraph model = null;
 
 		File toImport = new File(filePath);
 
-		// Un vecteur de commandes de construction
-		Vector<String> commands = new Vector<String>();
-
 		try {
 			// Lecture du fichier et stockage des lignes CAMI dans un buffer de commandes
 			BufferedReader buffer = new BufferedReader(new FileReader(toImport));
-			while (buffer.ready()) {
-				commands.add(buffer.readLine());
+
+			try {
+				// Construction du modele
+				model = this.loadModel(buffer, formalism, monitor);
+				LOGGER.fine("Le modele importe est identifie comme instance du formalisme :"+formalism);
+			} catch (SyntaxErrorException se) {
+				throw new ColoaneException("Error while parsing the model : " + se.getMessage());
+			} catch (ModelException me) {
+				throw new ColoaneException("Error while building the model : " + me.getMessage());
 			}
 			buffer.close();
 		} catch (FileNotFoundException fe) {
@@ -60,17 +64,6 @@ public class ImportFromImpl implements IImportFrom {
 			LOGGER.warning("Erreur lors de la lecture du fichier");
 			throw new ColoaneException("An error has occured during the file reading.");
 		}
-
-		try {
-			// Construction du modele
-			model = this.loadModel(commands, formalism);
-			LOGGER.fine("Le modele importe est identifie comme instance du formalisme :"+formalism);
-		} catch (SyntaxErrorException se) {
-			throw new ColoaneException("Error while parsing the model : " + se.getMessage());
-		} catch (ModelException me) {
-			throw new ColoaneException("Error while building the model : " + me.getMessage());
-		}
-
 		return model;
 	}
 	
@@ -358,66 +351,74 @@ public class ImportFromImpl implements IImportFrom {
 
 
 
-	private final IGraph loadModel(Vector<String> commands, String formalism) throws SyntaxErrorException, ModelException {
+	private final IGraph loadModel(BufferedReader buffer, String formalism, IProgressMonitor monitor) throws SyntaxErrorException, ModelException, ColoaneException {
 		IGraph model = new GraphModel(formalism);
 
 		StringTokenizer tokenizer;
 		CamiParser parser;
 
-		for (String line : commands) {
-			if (line.length() <= 3) {
-				continue;
+		try {
+			while (buffer.ready()) {
+				String line = buffer.readLine();
+				monitor.worked(line.getBytes().length);
+
+				if (line.length() <= 3) {
+					continue;
+				}
+
+				tokenizer = new StringTokenizer(line);
+				parser = new CamiParser(line);
+
+				// Type de la commande
+				String type = tokenizer.nextToken("(");
+
+				// Decouverte d'un noeud
+				if (type.equals("CN")) {
+					model = this.loadNode(model, parser);
+					continue; // Prochaine commande
+				}
+
+				// Decouverte d'un arc
+				if (type.equals("CA")) {
+					model = this.loadArc(model, parser);
+					continue; // Prochaine commande
+				}
+
+				// Decouverte d'attribut sur une ligne
+				if (type.equals("CT")) {
+					model = this.loadAttribute(model, parser);
+					continue;
+				}
+
+				// Creation d'une ligne dans un attribut multi-ligne
+				if (type.equals("CM")) {
+					model = this.loadMAttribute(model, parser);
+					continue;
+				}
+
+				// Decouverte d'une position de noeud
+				if (type.equals("PO") || type.equals("pO")) {
+					model = this.loadPosition(model, parser);
+					continue;
+				}
+
+				// Decouverte d'une position intermediaire
+				if (type.equals("PI")) {
+					model = this.loadInflexPoint(model, parser);
+					continue;
+				}
+
+				// Decouverte d'une position de texte
+				if (type.equals("PT")) {
+					model = this.loadTextPosition(model, parser);
+					continue;
+				}
+
+				LOGGER.warning("Commande inconue : " + type);
 			}
-
-			tokenizer = new StringTokenizer(line);
-			parser = new CamiParser(line);
-
-			// Type de la commande
-			String type = tokenizer.nextToken("(");
-
-			// Decouverte d'un noeud
-			if (type.equals("CN")) {
-				model = this.loadNode(model, parser);
-				continue; // Prochaine commande
-			}
-
-			// Decouverte d'un arc
-			if (type.equals("CA")) {
-				model = this.loadArc(model, parser);
-				continue; // Prochaine commande
-			}
-
-			// Decouverte d'attribut sur une ligne
-			if (type.equals("CT")) {
-				model = this.loadAttribute(model, parser);
-				continue;
-			}
-
-			// Creation d'une ligne dans un attribut multi-ligne
-			if (type.equals("CM")) {
-				model = this.loadMAttribute(model, parser);
-				continue;
-			}
-
-			// Decouverte d'une position de noeud
-			if (type.equals("PO") || type.equals("pO")) {
-				model = this.loadPosition(model, parser);
-				continue;
-			}
-
-			// Decouverte d'une position intermediaire
-			if (type.equals("PI")) {
-				model = this.loadInflexPoint(model, parser);
-				continue;
-			}
-
-			// Decouverte d'une position de texte
-			if (type.equals("PT")) {
-				model = this.loadTextPosition(model, parser);
-				continue;
-			}
-
-			LOGGER.warning("Commande inconue : " + type);
+		} catch (IOException e) {
+			LOGGER.warning("Erreur lors de la lecture du fichier");
+			throw new ColoaneException("An error has occured during the file reading.");
 		}
 
 		return model;

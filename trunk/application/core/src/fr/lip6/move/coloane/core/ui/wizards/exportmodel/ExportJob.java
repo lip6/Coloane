@@ -60,7 +60,7 @@ public class ExportJob extends Job {
 
 		try {
 			// TODO : les extensions devrais prendre en paramètre le monitor pour faire gérer la barre de progression
-			exportInstance.export(model, outputDirectory + "/" + newName); //$NON-NLS-1$
+			exportInstance.export(model, outputDirectory + "/" + newName, monitor); //$NON-NLS-1$
 		} catch (ColoaneException e) {
 			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + outputDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}

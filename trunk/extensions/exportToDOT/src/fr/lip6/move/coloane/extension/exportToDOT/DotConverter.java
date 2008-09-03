@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.extension.exportToDOT;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -8,7 +10,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class DotConverter {
 
-	public static String translateModel(IGraph model) {
+	public static String translateModel(IGraph model, IProgressMonitor monitor) {
 		StringBuffer res = new StringBuffer();
 
 		// Entête du fichier DOT
@@ -20,10 +22,10 @@ public class DotConverter {
 		res.append("digraph G {\n");
 
 		// Parcours des noeuds
-		res.append(translateNodes(model));
+		res.append(translateNodes(model, monitor));
 
 		// Parcours des arcs
-		res.append(translateArcs(model));
+		res.append(translateArcs(model, monitor));
 
 		// Pied du fichier DOT
 		res.append("}");
@@ -33,12 +35,14 @@ public class DotConverter {
 	/**
 	 * Traduction de tous les noeuds du modèle en format DOT
 	 * @param model Le modèle qui contient les noeuds à traduire
+	 * @param monitor 
 	 * @return Une chaine de caractères DOT
 	 */
-	private static String translateNodes(IGraph model) {
+	private static String translateNodes(IGraph model, IProgressMonitor monitor) {
 		StringBuffer nodes = new StringBuffer();
 
 		// Parcours de tous les noeuds du modèle
+		monitor.subTask("Export nodes");
 		for (INode node : model.getNodes()) {
 			
 			// Dans le cas d'une place
@@ -56,6 +60,8 @@ public class DotConverter {
 			
 			// Traitement des attributs
 			nodes.append(translateAttributes(node));
+
+			monitor.worked(1);
 		}
 		return nodes.toString();
 	}
@@ -63,12 +69,14 @@ public class DotConverter {
 	/**
 	 * Traduction de tous les arcs du modèle en format DOT
 	 * @param model Le modèle qui contient les arcs à traduire
+	 * @param monitor 
 	 * @return Une chaine de caractères DOT
 	 */
-	private static String translateArcs(IGraph model) {
+	private static String translateArcs(IGraph model, IProgressMonitor monitor) {
 		StringBuffer arcs = new StringBuffer();
 		
 		// Parcours de tous les arcs du modèle
+		monitor.subTask("Export arcs");
 		for (IArc arc : model.getArcs()) {
 			// Dans le cas d'un arc simple
 			if ("arc".equals(arc.getArcFormalism().getName())) {
@@ -79,6 +87,8 @@ public class DotConverter {
 			} else {
 				continue;
 			}
+
+			monitor.worked(1);
 		}
 		return arcs.toString();
 	}

@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.extensions.exportToPGF;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -17,9 +19,10 @@ public class PGFTranslator {
 	 * Creer un tableau de string correspondant au contenu du fichier pgf, pour
 	 * le model passer en parametres.
 	 * @param model Model du fichier à exporter. 
+	 * @param monitor 
 	 * @return Le contenu du fichier pgf correspondant au model.
 	 */
-	public final String translateModel(IGraph model) {
+	public final String translateModel(IGraph model, IProgressMonitor monitor) {
 		StringBuffer r = new StringBuffer();
 		
 		// Debut du document
@@ -36,7 +39,7 @@ public class PGFTranslator {
 		r.append("]");
 
 		// Traduction du modèle
-		r.append(translate(model));
+		r.append(translate(model, monitor));
 		
 		// Fin du document
 		r.append("\\end{tikzpicture}\n\n");
@@ -48,16 +51,17 @@ public class PGFTranslator {
 	/**
 	 * Traduction d'un modèle RdP en PGF
 	 * @param model Le modèle à traduire
+	 * @param monitor 
 	 * @return Une chaine de caractères contenant les commandes PGF
 	 */
-	private final String translate(IGraph model){
+	private final String translate(IGraph model, IProgressMonitor monitor){
 		StringBuffer r = new StringBuffer();
 		r.append(translateAttributes(model));
 		
 		// Tous les noeuds du modèle doivent être traduits
-		r.append(translateNodes(model.getNodes()));
+		r.append(translateNodes(model.getNodes(), monitor));
 		// Tous les arcs doivent subir le même traitement
-		r.append(translateArcs(model.getArcs()));
+		r.append(translateArcs(model.getArcs(), monitor));
 		
 		return r.toString();
 	}
@@ -65,32 +69,38 @@ public class PGFTranslator {
 	/**
 	 * Traduction d'un groupe de noeuds du modèle en commandes PGF
 	 * @param nodes L'ensemble de noeuds à traduire
+	 * @param monitor 
 	 * @return Une chaine de caractères contenant les commandes PGF
 	 */
-	private final String translateNodes(Collection<INode> nodes) {
+	private final String translateNodes(Collection<INode> nodes, IProgressMonitor monitor) {
 		StringBuffer r = new StringBuffer();
+		monitor.subTask("Export nodes");
 		for (INode node : nodes) {
 			r.append("\\node[" + node.getNodeFormalism().getName() + "]");
 			r.append(" (" + node.getId() + ")");
 			r.append(" at (" + node.getGraphicInfo().getLocation().x * 0.05 + ", " + node.getGraphicInfo().getLocation().y * 0.05 + ")");
 			r.append(" ").append(this.translateAttributes(node));
 			r.append(" {};\n");
+			monitor.worked(1);
 		}
 		return r.toString();
 	}
 	
 	/**
 	 * Traduction d'un groupe d'arcs du modèle en commandes PGF
+	 * @param monitor 
 	 * @param nodes L'ensemble des arcs à traduire
 	 * @return Une chaine de caractères contenant les commandes PGF
 	 */
-	private final String translateArcs(Collection<IArc> arcs) {
+	private final String translateArcs(Collection<IArc> arcs, IProgressMonitor monitor) {
 		StringBuffer r = new StringBuffer();
+		monitor.subTask("Export arcs");
 		for (IArc arc : arcs){
 			r.append("\\draw[" + arc.getArcFormalism().getName() + "]");
 			r.append(" (" + arc.getSource().getId() + ")");
 			r.append(" ").append(this.translateAttributes(arc));
 			r.append(" (" + arc.getTarget().getId() + ");\n");
+			monitor.worked(1);
 		}
 		return r.toString();
 	}
