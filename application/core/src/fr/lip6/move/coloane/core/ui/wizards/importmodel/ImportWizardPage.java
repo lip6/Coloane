@@ -1,8 +1,9 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.core.ui.wizards.newmodel.NewModelWizard;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.File;
@@ -61,13 +62,16 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/** L'instance de conversion */
 	private IImportFrom importInstance;
 
+	private String idWizard;
+
 	/**
 	 * Constructeur de la page d'assistant
 	 * @param workbench Le workbench courant
 	 * @param selection La selection courante
 	 * @param importInstance L'instance de l'extension d'importation
+	 * @param idWizard Id de l'extension
 	 */
-	public ImportWizardPage(IWorkbench workbench, IStructuredSelection selection, IImportFrom importInstance) {
+	public ImportWizardPage(IWorkbench workbench, IStructuredSelection selection, IImportFrom importInstance, String idWizard) {
 		super(Messages.ImportWizardPage_12, selection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
@@ -75,6 +79,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		this.workbench = workbench;
 		this.importInstance = importInstance;
+		this.idWizard = idWizard;
 	}
 
 	/** {@inheritDoc} */
@@ -109,7 +114,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		formSelect.addListener(SWT.Modify, this);
 
 		// On recupere la liste des formalismes
-		List<IFormalism> listOfFormalisms = FormalismManager.getInstance().getListOfFormalisms();
+		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(idWizard);
 		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}

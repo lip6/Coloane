@@ -266,6 +266,22 @@ public final class FormalismManager {
 	}
 
 	/**
+	 * Cette methode retourne un formalisme à partir de son id
+	 * @param id L'id du formalism qu'on cherche
+	 * @return Le IFormalism
+	 * @throws IllegalArgumentException si le formalisme n'est pas connu
+	 */
+	public IFormalism getFormalismById(String id) throws IllegalArgumentException {
+		for (IFormalism form : formalisms) {
+			if (form.getId().equals(id)) {
+				return form;
+			}
+		}
+		LOGGER.warning("Ce formalisme n'est pas connu : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
 	 * Cette methode retourne un formalisme à partir de son nom
 	 * @param fkName Le nom du formalism qu'on cherche
 	 * @return Le IFormalism

@@ -19,6 +19,12 @@
             class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importpnml"
             reference="fr.lip6.move.coloane.wizard.import.pnml">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
       </Import>
    </extension>
       <extension
