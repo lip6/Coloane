@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class Formalism implements IFormalism {
 
+	/** Id du formalisme. */
+	private String id;
+
 	/** Nom du formalisme. */
 	private String name;
 
@@ -37,11 +40,13 @@ public class Formalism implements IFormalism {
 	/**
 	 * Création d'un formalisme
 	 *
+	 * @param id Id du formalisme
 	 * @param name Nom du formalisme.
 	 * @param fkname Le nom du formalisme à utiliser avec FrameKit
 	 * @param image L'image associé à toutes les instances de ce formalisme
 	 */
-	Formalism(String name, String fkname, String image) {
+	Formalism(String id, String name, String fkname, String image) {
+		this.id = id;
 		this.name = name;
 		this.fkname = fkname;
 		this.image = image;
@@ -96,6 +101,11 @@ public class Formalism implements IFormalism {
 	public final void addConstraintNode(IConstraintNode constraint) {
 		if (constraint == null) { return; }
 		this.nodeconstraints.add(constraint);
+	}
+
+	/** {@inheritDoc} */
+	public final String getId() {
+		return this.id;
 	}
 
 	/**

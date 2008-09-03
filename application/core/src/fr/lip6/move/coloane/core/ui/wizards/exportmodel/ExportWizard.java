@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
+import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -41,7 +43,18 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	/** {@inheritDoc} */
 	@Override
 	public final boolean canFinish() {
-		if ((this.idWizard != null) && (!page.getSelectedDirectory().equals("")) && (page.getSelectedRessource().size() > 0)) { //$NON-NLS-1$
+		boolean canPerform = true;
+		for (IResource res : page.getSelectedRessource()) {
+			IFormalism formalism = ModelLoader.loadFormalismFromXml((IFile) res);
+			if (formalism == null || !ExportToExtension.canPerform(idWizard, formalism)) {
+				canPerform = false;
+			}
+		}
+		if (idWizard != null
+//				&& ExportToExtension.canPerform(idWizard, session.getGraph().getFormalism())
+				&& canPerform
+				&& !page.getSelectedDirectory().equals("") //$NON-NLS-1$
+				&& page.getSelectedRessource().size() > 0) {
 			return super.canFinish();
 		}
 		return false;
