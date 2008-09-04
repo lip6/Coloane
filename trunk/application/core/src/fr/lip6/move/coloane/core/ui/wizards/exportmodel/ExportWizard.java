@@ -44,14 +44,16 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	@Override
 	public final boolean canFinish() {
 		boolean canPerform = true;
+
+		// On vérifie que chaque fichier peut être exporté
 		for (IResource res : page.getSelectedRessource()) {
 			IFormalism formalism = ModelLoader.loadFormalismFromXml((IFile) res);
 			if (formalism == null || !ExportToExtension.canPerform(idWizard, formalism)) {
 				canPerform = false;
+				page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
 		if (idWizard != null
-//				&& ExportToExtension.canPerform(idWizard, session.getGraph().getFormalism())
 				&& canPerform
 				&& !page.getSelectedDirectory().equals("") //$NON-NLS-1$
 				&& page.getSelectedRessource().size() > 0) {

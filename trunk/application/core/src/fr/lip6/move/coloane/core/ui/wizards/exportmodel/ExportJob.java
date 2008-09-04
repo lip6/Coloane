@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
@@ -56,10 +57,16 @@ public class ExportJob extends Job {
 
 		// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle
 		String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
+		File outputFile = new File(outputDirectory + "/" + newName); //$NON-NLS-1$
+
+		// Si le fichier existe déjà on ajoute un numéro de version au fichier : name.version.extension
+		for (int version = 1; outputFile.exists(); version++) {
+			newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + version + "." + newExtension; //$NON-NLS-1$
+			outputFile = new File(outputDirectory + "/" + newName); //$NON-NLS-1$
+		}
 		LOGGER.finer("Nom final : " + newName); //$NON-NLS-1$
 
 		try {
-			// TODO : les extensions devrais prendre en paramètre le monitor pour faire gérer la barre de progression
 			exportInstance.export(model, outputDirectory + "/" + newName, monitor); //$NON-NLS-1$
 		} catch (ColoaneException e) {
 			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + outputDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
