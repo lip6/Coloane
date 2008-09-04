@@ -37,6 +37,7 @@ public final class Messages extends NLS {
 	public static String FileBrowserDialog_2;
 	public static String SaveReceivedModel_0;
 	public static String SaveReceivedModel_1;
+	public static String SimpleDialog_0;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

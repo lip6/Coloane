@@ -6,18 +6,31 @@ import fr.lip6.move.coloane.core.ui.dialogs.textarea.TextAreaFactory;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -30,6 +43,8 @@ import org.eclipse.ui.PlatformUI;
  * </ul>
  */
 public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
+	/** Le logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private static Shell parentShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
@@ -84,7 +99,47 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 
 	/** {@inheritDoc} */
 	@Override
-	protected final void createButtonsForButtonBar(Composite parent) {
+	protected final void createButtonsForButtonBar(final Composite parent) {
+
+		// Dans le cas d'une boite de dialogue avec un zone de texte, on ajoute
+		// un bouton permettant de charger le contenu d'un fichier
+		if (inputType == IDialog.INPUT_AUTHORIZED && lineType != IDialog.SINGLE_LINE) {
+			((GridLayout) parent.getLayout()).numColumns++;
+			Button open = new Button(parent, SWT.PUSH);
+			open.setText(Messages.SimpleDialog_0);
+			open.setFont(JFaceResources.getDialogFont());
+			open.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// Boite de dialogue pour choisir le fichier
+					FileDialog fd = new FileDialog(parentShell, SWT.OPEN);
+					fd.open();
+					File in = new File(fd.getFilterPath() + "/" + fd.getFileName()); //$NON-NLS-1$
+
+					// On vérifie un minimum que le fichier peut être lu
+					if (in.exists() && in.canRead()) {
+						try {
+							BufferedReader reader = new BufferedReader(new FileReader(in));
+							try {
+								StringBuilder sb = new StringBuilder();
+								while (reader.ready()) {
+									sb.append(reader.readLine()).append("\n"); //$NON-NLS-1$
+								}
+								((Text) textArea.getTextWidget()).setText(sb.toString());
+							} catch (IOException e1) {
+								LOGGER.warning(e1.getMessage());
+								e1.printStackTrace();
+							}
+						} catch (FileNotFoundException e1) {
+							throw new AssertionError();
+						}
+					}
+				}
+			});
+			setButtonLayoutData(open);
+		}
+
+		// Affichage des boutons classiques
 		switch (buttonType) {
 			// 1 bouton
 			case IDialog.DLG_OK:
