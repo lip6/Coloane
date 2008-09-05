@@ -7,18 +7,24 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+/**
+ * Description d'une figure en forme d'ellipse avec une seconde ellipse à l'intérieur.<br>
+ * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ */
 public class DoubleEllipseNode extends AbstractNodeFigure {
-	private static final int margin = 2;
+	/**
+	 * Marge entre les deux ellipses.
+	 */
+	private static final int MARGIN = 2;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
-//		graphics.fillOval(getBounds());
 		Rectangle r = Rectangle.SINGLETON;
 		r.setBounds(getBounds());
-		r.shrink(margin, margin);
+		r.shrink(MARGIN, MARGIN);
 		graphics.fillOval(r);
 	}
 
@@ -33,7 +39,7 @@ public class DoubleEllipseNode extends AbstractNodeFigure {
 		r.height--;
 		r.shrink((lineWidth - 1) / 2, (lineWidth - 1) / 2);
 		graphics.drawOval(r);
-		r.shrink(margin, margin);
+		r.shrink(MARGIN, MARGIN);
 		graphics.drawOval(r);
 	}
 
