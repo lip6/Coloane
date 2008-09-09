@@ -2,11 +2,16 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
@@ -151,7 +156,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			LOGGER.finest("Mise à jour des arcs sortants."); //$NON-NLS-1$
 			refreshSourceConnections();
 
-		// Propriété de changement de couleur
+			// Propriété de changement de couleur
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
 			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
 			refreshVisuals();
@@ -159,7 +164,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
 			refreshVisuals();
 
-		// Propriété de changement de taille
+			// Propriété de changement de taille
 		} else if (INode.RESIZE_PROP.equalsIgnoreCase(prop)) {
 			INodeFigure nodeFigure = (INodeFigure) getFigure();
 			Rectangle oldRect = nodeFigure.getClientArea();
@@ -167,12 +172,12 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
 			refreshVisuals();
 
-		// Propriété pour une demande de changement de l'état "special" (mise en valeur)
+			// Propriété pour une demande de changement de l'état "special" (mise en valeur)
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
 			refreshVisuals();
 
-		// Propriété de changement des coordonnées
+			// Propriété de changement des coordonnées
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
@@ -218,32 +223,53 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 
 			/**
-			 * Premiere etape de la creation d'un lien.<br>
+			 * Première étape de la creation d'un lien.<br>
 			 * Lorsque l'utilisateur clique sur le noeud de depart, la commande CREATE est appelee.
+			 * @return la commande ou <code>null</code> si la création de l'arc n'est pas possible.
 			 * @see getConnectionCompleteCommand
 			 */
 			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 				INode source = (INode) getHost().getModel();
+				Command cmd = null;
 
-				// Demande la creation d'un arc (1ere etape)
-				ArcCreateCmd cmd = new ArcCreateCmd(source, (IArcFormalism) request.getNewObjectType());
+
+				// Les commandes de créations ne font que du stockage d'information.
+				if (request.getNewObjectType() == IArc.class) {
+					cmd = new ArcCreateCmd(source, (IArcFormalism) request.getNewObject());
+				} else if (request.getNewObjectType() == ILink.class && source instanceof ILinkableElement) {
+					cmd = new LinkCreateCommand((ILinkableElement) source);
+				}
+
 				request.setStartCommand(cmd);
 				return cmd;
 			}
 
 			/**
-			 * Deuxieme etape de la creation d'un lien.<br>
+			 * Deuxième étape de la creation d'un lien.<br>
 			 * Lorsque l'utilisateur clique sur le noeud d'arrivee, la commande COMPLETE est appelee.
+			 * @return la commande ou <code>null</code> si la création de l'arc n'est pas possible.
 			 */
 			@Override
 			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
+				Command cmd = null;
 
-				// !! Recupere le noeud source depuis la premiere phase !!
-				ArcCreateCmd createCmd = (ArcCreateCmd) request.getStartCommand();
+				if (request.getStartCommand() instanceof ArcCreateCmd) {
+					INode source = ((ArcCreateCmd) request.getStartCommand()).getSource();
+					INode target = (INode) getHost().getModel();
+					IArcFormalism arcFormalism = ((ArcCreateCmd) request.getStartCommand()).getArcFormalism();
 
-				// Autorise la connexion d'un arc
-				ArcCompleteCmd cmd = new ArcCompleteCmd(createCmd.getSource(), (INode) getHost().getModel(), createCmd.getArcFormalism());
+					cmd = new ArcCompleteCmd(source, target, arcFormalism);
+				} else if (request.getStartCommand() instanceof LinkCreateCommand) {
+					ILinkableElement source = ((LinkCreateCommand) request.getStartCommand()).getSource();
+					if (source instanceof IStickyNote) {
+						IGraph graph = (IGraph) ((INode) getHost().getModel()).getParent();
+						ILinkableElement target = (ILinkableElement) getHost().getModel();
+
+						cmd = new LinkCompleteCommand(graph, source, target);
+					}
+				}
+
 				return cmd;
 			}
 
@@ -315,7 +341,9 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	@Override
 	protected final List<Object> getModelTargetConnections() {
-		List<Object> targets = new ArrayList<Object>(((INode) getModel()).getIncomingArcs());
+		List<Object> targets = new ArrayList<Object>();
+		targets.addAll(((INode) getModel()).getIncomingArcs());
+		targets.addAll(((ILinkableElement) getModel()).getLinks());
 		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}

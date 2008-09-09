@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
@@ -22,7 +24,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'un noeud du modele
  */
-public class NodeModel extends AbstractElement implements INode, ILocatedElement {
+public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -37,6 +39,9 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	private List<IArc> outcomingArcs = new ArrayList<IArc>();
 	private List<IArc> incomingArcs = new ArrayList<IArc>();
+
+	/** Liste des liens */
+	private List<ILink> links = new ArrayList<ILink>();
 
 	/**
 	 * Constructeur d'un noeud de modèle
@@ -188,5 +193,23 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			// On propage les changements de valeur des attributs au niveau supérieur
 			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final void addLink(ILink link) {
+		links.add(link);
+		firePropertyChange(INCOMING_ARCS_PROP, null, link);
+	}
+
+	/** {@inheritDoc} */
+	public final List<ILink> getLinks() {
+		return Collections.unmodifiableList(links);
+	}
+
+	/** {@inheritDoc} */
+	public final boolean removeLink(ILink link) {
+		boolean res = links.remove(link);
+		firePropertyChange(INCOMING_ARCS_PROP, null, link);
+		return res;
 	}
 }

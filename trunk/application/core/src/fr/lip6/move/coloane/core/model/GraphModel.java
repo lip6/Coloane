@@ -1,5 +1,8 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -27,7 +30,7 @@ import java.util.logging.Logger;
  * Modèle d'un graphe avec des méthodes permettant de gérer (création/suppression)
  * de noeuds et d'arcs.
  */
-public class GraphModel extends AbstractElement implements IGraph {
+public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -45,6 +48,9 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 	/** Liste des stickyNote */
 	private List<IStickyNote> stickys = new ArrayList<IStickyNote>();
+
+	/** Liste des liens */
+	private List<ILink> links = new ArrayList<ILink>();
 
 	/** variable locale pour la construction des identifiants */
 	private int idCounter = 2;
@@ -140,9 +146,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return nodes.values();
 	}
 
-	/**
-	 * @return La liste des toutes les notes du graphe
-	 */
+	/** {@inheritDoc} */
 	public final List<IStickyNote> getStickyNotes() {
 		return Collections.unmodifiableList(stickys);
 	}
@@ -159,10 +163,7 @@ public class GraphModel extends AbstractElement implements IGraph {
 		}
 	}
 
-	/**
-	 * Création d'une note
-	 * @return la note créée
-	 */
+	/** {@inheritDoc} */
 	public final IStickyNote createStickyNote() {
 		LOGGER.fine("Création d'une nouvelle note"); //$NON-NLS-1$
 		IStickyNote note = new StickyNoteModel();
@@ -171,21 +172,14 @@ public class GraphModel extends AbstractElement implements IGraph {
 		return note;
 	}
 
-	/**
-	 * Ajoute la note au graphe courant
-	 * @param sticky La stickyNote à ajouter
-	 */
+	/** {@inheritDoc} */
 	public final void addSticky(IStickyNote sticky) {
 		stickys.add(sticky);
 		LOGGER.finest("addSticky(" + sticky.getLocation() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		firePropertyChange(STICKY_ADD_PROP, null, sticky);
 	}
 
-	/**
-	 * Supprime la note du graphe courante
-	 * @param note La StickyNote à supprimer
-	 * @return <tt>false</tt> si aucune note n'a été supprimée, <tt>true</tt> sinon
-	 */
+	/** {@inheritDoc} */
 	public final boolean deleteSticky(IStickyNote note) {
 		boolean delete = stickys.remove(note);
 		if (delete) {
@@ -331,13 +325,42 @@ public class GraphModel extends AbstractElement implements IGraph {
 
 		if (NODE_ADDED_PROP.equals(prop)
 				|| NODE_REMOVED_PROP.equals(prop)
-//				|| ARC_ADDED_PROP.equals(prop)
-//				|| ARC_REMOVED_PROP.equals(prop)
 				|| INode.INCOMING_ARCS_PROP.equals(prop)
 				|| INode.OUTCOMING_ARCS_PROP.equals(prop)
 				|| IAttribute.VALUE_PROP.equals(prop)) {
 			updateDate();
 			setDirty(true);
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final void addLink(ILink link) {
+		links.add(link);
+		link.getSource().addLink(link);
+		link.getTarget().addLink(link);
+		firePropertyChange(LINK_ADD_PROP, null, link);
+	}
+
+	/** {@inheritDoc} */
+	public final ILink createLink(ILinkableElement source, ILinkableElement target) {
+		ILink link = new LinkModel(source, target);
+		addLink(link);
+		return link;
+	}
+
+	/** {@inheritDoc} */
+	public final boolean deleteLink(ILink link) {
+		boolean res = links.remove(link);
+		if (res) {
+			link.getSource().removeLink(link);
+			link.getTarget().removeLink(link);
+			firePropertyChange(LINK_REMOVED_PROP, null, link);
+		}
+		return res;
+	}
+
+	/** {@inheritDoc} */
+	public final List<ILink> getLinks() {
+		return Collections.unmodifiableList(links);
 	}
 }

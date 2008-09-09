@@ -3,9 +3,11 @@ package fr.lip6.move.coloane.core.ui;
 import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.GraphEditPart;
+import fr.lip6.move.coloane.core.ui.editpart.LinkEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.StickyEditPart;
 import fr.lip6.move.coloane.core.ui.editpart.TipArcEditPart;
@@ -68,6 +70,8 @@ public class PartFactory implements EditPartFactory {
 			return new StickyEditPart();
 		} else if (modelElement instanceof ICoreTip) {
 			return new TipEditPart();
+		} else if (modelElement instanceof ILink) {
+			return new LinkEditPart();
 		} else if (modelElement instanceof IGraph) {
 			return new GraphEditPart();
 		} else if (modelElement instanceof CoreTipModel.ArcTipModel) {

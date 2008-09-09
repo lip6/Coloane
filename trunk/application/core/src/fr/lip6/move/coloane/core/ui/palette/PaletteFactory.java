@@ -1,11 +1,14 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.logging.Logger;
@@ -124,8 +127,8 @@ public final class PaletteFactory {
 						arc.getGraphicalDescription().getPaletteName(), // Nom de l'arc
 						arc.getGraphicalDescription().getDescription(), // Description de l'arc
 						new CreationFactory() {
-							public Object getNewObject() { return null; }
-							public Object getObjectType() { return arc; }
+							public Object getNewObject() { return arc; }
+							public Object getObjectType() { return IArc.class; }
 						},
 						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon16px()),
 						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon24px()));
@@ -144,6 +147,7 @@ public final class PaletteFactory {
 		// Nouveau groupe d'outils de dessin
 		PaletteDrawer componentsOthersDrawer = new PaletteDrawer(Messages.PaletteFactory_1);
 
+		// Notes
 		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
 				Messages.PaletteFactory_3,
 				Messages.PaletteFactory_2,
@@ -152,6 +156,19 @@ public final class PaletteFactory {
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/sticky.png")//$NON-NLS-1$
 			);
 		componentsOthersDrawer.add(combined);
+
+		// Lien entre une note et un élément du graphe
+		ConnectionCreationToolEntry connection = new ConnectionCreationToolEntry(
+				"Link",
+				"Link between a note and graph's element",
+				new CreationFactory() { 	// Object Template
+					public Object getNewObject() { return null;	}
+					public Object getObjectType() {	return ILink.class; }
+				},
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/formalisms/link_16.png"), //$NON-NLS-1$
+				ImageDescriptor.createFromFile(Coloane.class, "/resources/formalisms/link_24.png") //$NON-NLS-1$
+			);
+		componentsOthersDrawer.add(connection);
 
 		return componentsOthersDrawer;
 	}

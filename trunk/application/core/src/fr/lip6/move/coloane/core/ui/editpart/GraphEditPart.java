@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
@@ -184,7 +185,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		// Ajout/Suppression
 		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)
 				|| IGraph.ARC_ADDED_PROP.equals(prop) || IGraph.ARC_REMOVED_PROP.equals(prop)
-				|| IGraph.STICKY_ADD_PROP.equals(prop) || IGraph.STICKY_REMOVED_PROP.equals(prop)
+				|| ICoreGraph.STICKY_ADD_PROP.equals(prop) || ICoreGraph.STICKY_REMOVED_PROP.equals(prop)
 				|| ISession.PROP_TIPS.equals(prop)) {
 			refreshChildren();
 		}
