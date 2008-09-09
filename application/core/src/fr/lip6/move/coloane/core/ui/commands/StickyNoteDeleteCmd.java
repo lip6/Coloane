@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -15,7 +15,7 @@ public class StickyNoteDeleteCmd extends Command {
 	private final IStickyNote stickyNote;
 
 	/** Graphe contenant le noeud */
-	private final GraphModel graph;
+	private final ICoreGraph graph;
 
 	/**
 	 * Constructeur
@@ -24,7 +24,7 @@ public class StickyNoteDeleteCmd extends Command {
 	 */
 	public StickyNoteDeleteCmd(IGraph graph, IStickyNote stickyNote) {
 		super(Messages.StickyNoteDeleteCmd_0);
-		this.graph = (GraphModel) graph;
+		this.graph = (ICoreGraph) graph;
 		this.stickyNote = stickyNote;
 	}
 

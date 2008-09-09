@@ -2,29 +2,46 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
+import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * EditPart pour la gestion des notes.
  */
-public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
+public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
+
+	private static ChopboxAnchor CONNECTION_ANCHOR;
 
 	/** {@inheritDoc} */
 	@Override
@@ -42,6 +59,52 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			}
 
 		});
+
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
+			@Override
+			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
+				Command cmd = null;
+				if (request.getStartCommand() instanceof LinkCreateCommand) {
+					ILinkableElement source = ((LinkCreateCommand) request.getStartCommand()).getSource();
+					if (!(source instanceof IStickyNote)) {
+						// On cherche le graph
+						IGraph graph;
+						if (source instanceof IElement) {
+							graph = (IGraph) ((IElement) source).getParent();
+						} else if (source instanceof IAttribute) {
+							graph = (IGraph) ((IAttribute) source).getReference().getParent();
+						} else {
+							return null; // si on a aucun moyen de récupérer le graph on annule tout
+						}
+
+						ILinkableElement target = (ILinkableElement) getHost().getModel();
+						cmd = new LinkCompleteCommand(graph, source, target);
+					}
+				}
+				return cmd;
+			}
+
+			@Override
+			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+				Command cmd = null;
+				if (request.getNewObjectType() == ILink.class) {
+					cmd = new LinkCreateCommand((ILinkableElement) getHost().getModel());
+				}
+				request.setStartCommand(cmd);
+				return cmd;
+			}
+
+			@Override
+			protected Command getReconnectSourceCommand(ReconnectRequest request) {
+				return null;
+			}
+
+			@Override
+			protected Command getReconnectTargetCommand(ReconnectRequest request) {
+				return null;
+			}
+		});
+
 	}
 
 	/** {@inheritDoc} */
@@ -50,6 +113,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		StickyNoteFigure label = new StickyNoteFigure();
 		label.setSize(getStickyNote().getSize());
 		label.setLocation(getStickyNote().getLocation());
+		CONNECTION_ANCHOR  = new ChopboxAnchor(label);
 		return label;
 	}
 
@@ -85,6 +149,8 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			refreshVisuals();
 		} else if (prop.equals(IStickyNote.RESIZE_PROP)) {
 			refreshVisuals();
+		} else if (prop.equals(INode.OUTCOMING_ARCS_PROP)) {
+			refreshSourceConnections();
 		}
 	}
 
@@ -117,5 +183,31 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			super.deactivate();
 			((AbstractPropertyChange) getModel()).removePropertyChangeListener(this);
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+		return CONNECTION_ANCHOR;
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return CONNECTION_ANCHOR;
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+		return CONNECTION_ANCHOR;
+	}
+
+	/** {@inheritDoc} */
+	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return CONNECTION_ANCHOR;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected final List<ILink> getModelSourceConnections() {
+		return ((ILinkableElement) getModel()).getLinks();
 	}
 }

@@ -1,10 +1,16 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -13,7 +19,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'une note qui sera affichée sur l'éditeur
  */
-public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
+public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement, ILinkableElement {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -29,6 +35,9 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** Le texte par défaut de la note */
 	private String text = "Sticky"; //$NON-NLS-1$
+
+	/** Liste des liens */
+	private List<ILink> links = new ArrayList<ILink>();
 
 	/**
 	 * Constructeur
@@ -116,5 +125,23 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	/** {@inheritDoc} */
 	public final void setVerticalGuide(EditorGuide guide) {
 		this.verticalGuide = guide;
+	}
+
+	/** {@inheritDoc} */
+	public final void addLink(ILink link) {
+		links.add(link);
+		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, link);
+	}
+
+	/** {@inheritDoc} */
+	public final List<ILink> getLinks() {
+		return Collections.unmodifiableList(links);
+	}
+
+	/** {@inheritDoc} */
+	public final boolean removeLink(ILink link) {
+		boolean res = links.remove(link);
+		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, link);
+		return res;
 	}
 }

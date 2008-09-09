@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -183,7 +184,7 @@ public class ModelHandler extends DefaultHandler {
 	 * @param attributes Les attributs attachée à la balise
 	 */
 	private void startStickyNote(Attributes attributes) {
-		GraphModel graph = (GraphModel) stack.peek();
+		ICoreGraph graph = (ICoreGraph) stack.peek();
 
 		// Recuperation des infos concernant le noeud.
 		int x = Integer.parseInt(attributes.getValue("xposition")); //$NON-NLS-1$

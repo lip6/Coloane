@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -18,7 +18,7 @@ public class StickyNoteCreateCommand extends Command {
 	private IStickyNote note;
 
 	/** Graphe */
-	private final GraphModel graph;
+	private final ICoreGraph graph;
 
 	private Point location;
 	private Dimension dimension;
@@ -31,7 +31,7 @@ public class StickyNoteCreateCommand extends Command {
 	 */
 	public StickyNoteCreateCommand(IGraph graph, Rectangle b) {
 		super(Messages.StickyNoteCreateCommand_0);
-		this.graph = (GraphModel) graph;
+		this.graph = (ICoreGraph) graph;
 		this.location = b.getLocation();
 		this.dimension = b.getSize();
 	}
