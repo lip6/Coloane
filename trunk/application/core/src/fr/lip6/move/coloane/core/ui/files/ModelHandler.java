@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -79,6 +80,8 @@ public class ModelHandler extends DefaultHandler {
 		// Balise ATTRIBUT
 		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$
 			startAttribute(attributes.getValue("name"), attributes);  //$NON-NLS-1$
+		} else if ("link".equals(baliseName)) { //$NON-NLS-1$
+			startLink(attributes);
 		}
 	}
 
@@ -198,6 +201,22 @@ public class ModelHandler extends DefaultHandler {
 		IStickyNote note = graph.createStickyNote();
 		note.setLocation(new Point(x, y));
 		note.setSize(new Dimension(width, height));
+		stack.push(note);
+	}
+
+	/**
+	 * Création d'un lien pour la note se trouvant au sommet de la pile vers l'élément linkId.
+	 * @param attributes Les attributs attachée à la balise
+	 */
+	private void startLink(Attributes attributes) {
+		IStickyNote note = (IStickyNote) stack.pop();
+		ICoreGraph graph = (ICoreGraph) stack.peek();
+		int linkId = Integer.parseInt(attributes.getValue("linkId")); //$NON-NLS-1$
+		IElement element = graph.getObject(linkId);
+
+		// Création du lien
+		graph.createLink(note, (ILinkableElement) element);
+
 		stack.push(note);
 	}
 

@@ -18,10 +18,10 @@
 	<!-- Definition du type d'un modele -->
 	<xs:complexType name="tmodel">
 		<xs:all>
-			<xs:element name="stickys" type="tstickys" minOccurs="0"/>
 			<xs:element name="nodes" type="tnodes" minOccurs="1"/>
 			<xs:element name="arcs" type="tarcs" minOccurs="1"/>
 			<xs:element name="attributes" type="tattributes" minOccurs="0" />
+			<xs:element name="stickys" type="tstickys" minOccurs="0"/>
 		</xs:all>
 		<xs:attribute name="formalism" type="xs:string" use="required" />
 		<xs:attributeGroup ref="graph" />
@@ -57,12 +57,17 @@
 		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:anyAttribute processContents="lax" />
 	</xs:complexType>
+
+	<!-- Definition d'un lien -->
+	<xs:complexType name="tlink">
+		<xs:attribute name="linkId" type="xs:string" use="required" />
+	</xs:complexType>
 	
 	<!-- Definition d'une note -->
 	<xs:group name="tstickydesc">
 		<xs:choice>
 			<xs:element name="value" type="xs:string" minOccurs="1" />
-			<xs:element name="attributes" type="tattributes" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="link" type="tlink" minOccurs="0" maxOccurs="unbounded" />
 		</xs:choice>
 	</xs:group>
 	
