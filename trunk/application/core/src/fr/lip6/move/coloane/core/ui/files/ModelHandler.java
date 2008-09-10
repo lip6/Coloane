@@ -38,13 +38,13 @@ public class ModelHandler extends DefaultHandler {
 	private IGraph graph;
 
 	// Donnees contenues dans les balises
-	private StringBuilder data;
+	private StringBuilder data = new StringBuilder();
 
 
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
-		data = new StringBuilder();
+		data.setLength(0);
 
 		// Balise MODEL
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
@@ -104,6 +104,8 @@ public class ModelHandler extends DefaultHandler {
 			endInflexPoint();
 		} else if ("attribute".equals(baliseName)) { //$NON-NLS-1$
 			endAttribute();
+		} else if ("value".equals(baliseName)) { //$NON-NLS-1$
+			endValue();
 		}
 	}
 
@@ -308,9 +310,7 @@ public class ModelHandler extends DefaultHandler {
 	 * La note est dépilée et on défini sa valeur.
 	 */
 	private void endStickyNote() {
-		IStickyNote note = (IStickyNote) stack.pop();
-		String value = data.toString();
-		note.setLabelContents(value);
+		stack.pop();
 	}
 
 	/**
@@ -322,6 +322,15 @@ public class ModelHandler extends DefaultHandler {
 		String value = data.toString();
 		attribute.setValue(value);
 		attribute.getGraphicInfo().setLocation(location);
+	}
+
+	/**
+	 * Initialise la valeur de la note situé au sommet de la pile
+	 */
+	private void endValue() {
+		IStickyNote note = (IStickyNote) stack.peek();
+		String value = data.toString();
+		note.setLabelContents(value);
 	}
 
 	/**
