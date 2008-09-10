@@ -7,7 +7,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Interface définissant une note, ses comportements publics et ses propriétés
  */
-public interface IStickyNote extends ILocationInfo {
+public interface IStickyNote extends ILocationInfo, ILinkableElement {
 
 	/** ID pour la propriete lorsqu'un changement de la valeur */
 	String VALUE_PROP = "Sticky.ValueUpdate"; //$NON-NLS-1$

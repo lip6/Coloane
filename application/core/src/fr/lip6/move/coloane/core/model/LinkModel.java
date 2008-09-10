@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 
 import java.util.logging.Logger;
 
@@ -12,7 +13,7 @@ public class LinkModel implements ILink {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private ILinkableElement source;
+	private IStickyNote source;
 	private ILinkableElement target;
 
 	/**
@@ -24,14 +25,14 @@ public class LinkModel implements ILink {
 	 * @param source source du lien
 	 * @param target cible du lien
 	 */
-	LinkModel(ILinkableElement source, ILinkableElement target) {
+	LinkModel(IStickyNote source, ILinkableElement target) {
 		LOGGER.fine("Création d'un link : " + source + "--" + target); //$NON-NLS-1$ //$NON-NLS-2$
 		this.source = source;
 		this.target = target;
 	}
 
 	/** {@inheritDoc} */
-	public final ILinkableElement getSource() {
+	public final IStickyNote getSource() {
 		return source;
 	}
 
@@ -41,7 +42,7 @@ public class LinkModel implements ILink {
 	}
 
 	/** {@inheritDoc} */
-	public final void reconnect(ILinkableElement newSource, ILinkableElement newTarget) {
+	public final void reconnect(IStickyNote newSource, ILinkableElement newTarget) {
 		source.removeLink(this);
 		target.removeLink(this);
 		source = newSource;

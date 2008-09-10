@@ -342,7 +342,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
-	public final ILink createLink(ILinkableElement source, ILinkableElement target) {
+	public final ILink createLink(IStickyNote source, ILinkableElement target) {
 		ILink link = new LinkModel(source, target);
 		addLink(link);
 		return link;

@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
-import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
@@ -19,7 +18,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'une note qui sera affichée sur l'éditeur
  */
-public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement, ILinkableElement {
+public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
