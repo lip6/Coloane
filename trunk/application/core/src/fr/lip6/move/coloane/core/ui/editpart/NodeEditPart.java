@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
 import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
@@ -275,20 +276,34 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
-				IArc arc = (IArc) request.getConnectionEditPart().getModel();
-				INode newSource = (INode) getHost().getModel();
-				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
-				cmd.setNewSource(newSource);
+				Command cmd = null;
+
+				if (request.getConnectionEditPart() instanceof ArcEditPart) {
+					IArc arc = (IArc) request.getConnectionEditPart().getModel();
+					INode newSource = (INode) getHost().getModel();
+					ArcReconnectCmd reconnectCmd = new ArcReconnectCmd(arc);
+					reconnectCmd.setNewSource(newSource);
+					cmd = reconnectCmd;
+				}
 
 				return cmd;
 			}
 
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
-				IArc arc = (IArc) request.getConnectionEditPart().getModel();
-				INode newTarget = (INode) getHost().getModel();
-				ArcReconnectCmd cmd = new ArcReconnectCmd(arc);
-				cmd.setNewTarget(newTarget);
+				Command cmd = null;
+
+				if (request.getConnectionEditPart() instanceof ArcEditPart) {
+					IArc arc = (IArc) request.getConnectionEditPart().getModel();
+					INode newTarget = (INode) getHost().getModel();
+					ArcReconnectCmd reconnectCmd = new ArcReconnectCmd(arc);
+					reconnectCmd.setNewTarget(newTarget);
+					cmd = reconnectCmd;
+				} else if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					ILinkableElement newTarget = (ILinkableElement) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, link.getSource(), newTarget);
+				}
 
 				return cmd;
 			}

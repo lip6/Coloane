@@ -54,7 +54,7 @@ public interface ICoreGraph {
 	 * @param target cible
 	 * @return le lien créé
 	 */
-	ILink createLink(ILinkableElement source, ILinkableElement target);
+	ILink createLink(IStickyNote source, ILinkableElement target);
 
 	/**
 	 * @param link Lien à supprimer

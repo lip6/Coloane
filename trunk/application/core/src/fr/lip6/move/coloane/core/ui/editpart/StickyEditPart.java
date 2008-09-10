@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
 import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -41,7 +42,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  */
 public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
 
-	private static ChopboxAnchor CONNECTION_ANCHOR;
+	private ChopboxAnchor connectionAnchor;
 
 	/** {@inheritDoc} */
 	@Override
@@ -96,7 +97,13 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
-				return null;
+				Command cmd = null;
+				if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					IStickyNote newSource = (IStickyNote) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, newSource, link.getTarget());
+				}
+				return cmd;
 			}
 
 			@Override
@@ -113,7 +120,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		StickyNoteFigure label = new StickyNoteFigure();
 		label.setSize(getStickyNote().getSize());
 		label.setLocation(getStickyNote().getLocation());
-		CONNECTION_ANCHOR  = new ChopboxAnchor(label);
+		connectionAnchor  = new ChopboxAnchor(label);
 		return label;
 	}
 
@@ -187,22 +194,22 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-		return CONNECTION_ANCHOR;
+		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return CONNECTION_ANCHOR;
+		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-		return CONNECTION_ANCHOR;
+		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return CONNECTION_ANCHOR;
+		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */

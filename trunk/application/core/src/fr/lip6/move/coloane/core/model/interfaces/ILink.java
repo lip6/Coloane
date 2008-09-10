@@ -7,15 +7,15 @@ public interface ILink {
 
 	/**
 	 * Reconnection du lien
-	 * @param newSource nouvelle source
+	 * @param newSource nouvelle note source
 	 * @param newTarget nouvelle cible
 	 */
-	void reconnect(ILinkableElement newSource, ILinkableElement newTarget);
+	void reconnect(IStickyNote newSource, ILinkableElement newTarget);
 
 	/**
 	 * @return source du lien
 	 */
-	ILinkableElement getSource();
+	IStickyNote getSource();
 
 	/**
 	 * @return cible du lien
