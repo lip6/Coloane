@@ -1,11 +1,13 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 import java.util.List;
 
 /**
  * Interface "privé" (réservé au core) d'un graphe.
  */
-public interface ICoreGraph {
+public interface ICoreGraph extends IGraph {
 	/** ID de propriété lorsqu'une note est ajoutée au modèle */
 	String STICKY_ADD_PROP = "Model.AddSticky"; //$NON-NLS-1$
 

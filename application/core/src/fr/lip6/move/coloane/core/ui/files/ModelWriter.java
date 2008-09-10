@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -39,11 +40,6 @@ public final class ModelWriter {
 		// Ecriture des attributs du modele
 		line.append(translateAttributesToXML(graph));
 
-		// Création des noeuds
-		line.append("<stickys>\n"); //$NON-NLS-1$
-		line.append(translateStickyNotesToXML(graph));
-		line.append("</stickys>\n"); //$NON-NLS-1$
-
 		// Creation des noeuds
 		line.append("<nodes>\n"); //$NON-NLS-1$
 		line.append(translateNodesToXML(graph));
@@ -53,6 +49,11 @@ public final class ModelWriter {
 		line.append("<arcs>\n"); //$NON-NLS-1$
 		line.append(translateArcsToXML(graph));
 		line.append("</arcs>\n"); //$NON-NLS-1$
+
+		// Création des noeuds
+		line.append("<stickys>\n"); //$NON-NLS-1$
+		line.append(translateStickyNotesToXML(graph));
+		line.append("</stickys>\n"); //$NON-NLS-1$
 
 		line.append("</model>"); //$NON-NLS-1$
 		return line.toString();
@@ -127,6 +128,14 @@ public final class ModelWriter {
 
 			// Ecriture de la valeur de la note
 			sb.append("<value>").append(format(note.getLabelContents())).append("</value>\n");  //$NON-NLS-1$//$NON-NLS-2$
+
+			// Ajout des liens
+			for (ILink link : note.getLinks()) {
+				if (link.getTarget() instanceof IElement) {
+					int linkId = ((IElement) link.getTarget()).getId();
+					sb.append("<link linkId='").append(linkId).append("' />\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
 
 			// Fin de la note
 			sb.append("</sticky>\n"); //$NON-NLS-1$
