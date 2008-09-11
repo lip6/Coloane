@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
@@ -19,7 +21,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Description d'un arc
  */
-public class ArcModel extends AbstractElement implements IArc {
+public class ArcModel extends AbstractElement implements IArc, ILinkableElement {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -29,6 +31,9 @@ public class ArcModel extends AbstractElement implements IArc {
 	private INode source;
 	private INode target;
 	private List<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
+
+	/** Liste des liens */
+	private List<ILink> links = new ArrayList<ILink>();
 
 	/**
 	 * Constructeur
@@ -166,5 +171,23 @@ public class ArcModel extends AbstractElement implements IArc {
 			// On propage les changements de valeur des attributs au niveau supérieur
 			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
 		}
+	}
+
+	/** {@inheritDoc} */
+	public final void addLink(ILink link) {
+		links.add(link);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
+	}
+
+	/** {@inheritDoc} */
+	public final List<ILink> getLinks() {
+		return Collections.unmodifiableList(links);
+	}
+
+	/** {@inheritDoc} */
+	public final boolean removeLink(ILink link) {
+		boolean res = links.remove(link);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
+		return res;
 	}
 }

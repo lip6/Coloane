@@ -29,22 +29,17 @@ public class ArcConnectionAnchor extends AbstractConnectionAnchor implements Con
 	 */
 	private Point location;
 
-	private Point source;
-
-	private Point target;
-
 	/**
 	 * Constructeur
 	 * @param arc EditPart de l'arc
 	 */
 	public ArcConnectionAnchor(ArcEditPart arc) {
 		super(arc.getFigure());
-		if (!(arc.getSource() instanceof NodeEditPart) || !(arc.getTarget() instanceof NodeEditPart)) {
+		if ((arc.getSource() != null && !(arc.getSource() instanceof NodeEditPart))
+			|| (arc.getTarget() != null && !(arc.getTarget() instanceof NodeEditPart))) {
 			throw new IllegalArgumentException("source or target editParts doesn't implement org.eclipse.gef.NodeEditPart"); //$NON-NLS-1$
 		}
 		this.arc = arc;
-		this.source = ((NodeEditPart) arc.getSource()).getSourceConnectionAnchor(arc).getReferencePoint();
-		this.target = ((NodeEditPart) arc.getTarget()).getTargetConnectionAnchor(arc).getReferencePoint();
 	}
 
 	/** {@inheritDoc} */
@@ -60,9 +55,9 @@ public class ArcConnectionAnchor extends AbstractConnectionAnchor implements Con
 	public final Point getLocation(Point reference) {
 		// Création de la liste des points de l'arc
 		List<Point> points = new ArrayList<Point>();
-		points.add(source);
+		points.add(((NodeEditPart) arc.getSource()).getSourceConnectionAnchor(arc).getReferencePoint());
 		points.addAll(((IArc) arc.getModel()).getInflexPoints());
-		points.add(target);
+		points.add(((NodeEditPart) arc.getTarget()).getTargetConnectionAnchor(arc).getReferencePoint());
 
 		// Recherche du milieu de segment le plus proche du point de référence
 		int distance = Integer.MAX_VALUE;
