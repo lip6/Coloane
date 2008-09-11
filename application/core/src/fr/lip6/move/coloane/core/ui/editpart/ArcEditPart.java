@@ -2,16 +2,23 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.InflexMoveCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -39,9 +46,12 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.BendpointEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
+import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
+import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * EditPart pour les arcs (CONTROLEUR)
@@ -191,6 +201,49 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 				return new ArcDeleteCmd((IArc) getModel());
 			}
 		});
+
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
+			@Override
+			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
+				Command cmd = null;
+				if (request.getStartCommand() instanceof LinkCreateCommand) {
+					ILinkableElement source = ((LinkCreateCommand) request.getStartCommand()).getSource();
+					if (source instanceof IStickyNote) {
+						IGraph graph = (IGraph) ((IArc) getHost().getModel()).getParent();
+						ILinkableElement target = (ILinkableElement) getHost().getModel();
+
+						cmd = new LinkCompleteCommand(graph, source, target);
+					}
+				}
+				return cmd;
+			}
+
+			@Override
+			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+				Command cmd = null;
+				if (request.getNewObjectType() == ILink.class) {
+					cmd = new LinkCreateCommand((ILinkableElement) getHost().getModel());
+				}
+				request.setStartCommand(cmd);
+				return cmd;
+			}
+
+			@Override
+			protected Command getReconnectSourceCommand(ReconnectRequest request) {
+				return null;
+			}
+
+			@Override
+			protected Command getReconnectTargetCommand(ReconnectRequest request) {
+				Command cmd = null;
+				if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					ILinkableElement newTarget = (ILinkableElement) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, link.getSource(), newTarget);
+				}
+				return cmd;
+			}
+		});
 	}
 
 	/**
@@ -267,6 +320,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
+		targets.addAll(((ILinkableElement) getModel()).getLinks());
 		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
