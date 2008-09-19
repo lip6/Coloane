@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Coloane API (web-services)
+Bundle-SymbolicName: fr.lip6.move.coloane.apiws;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .,
+ lib/activation-1.1.jar,
+ lib/axiom-api-1.2.5.jar,
+ lib/axiom-dom-1.2.5.jar,
+ lib/axiom-impl-1.2.5.jar,
+ lib/axis2-adb-1.3.jar,
+ lib/axis2-kernel-1.3.jar,
+ lib/commons-codec-1.3.jar,
+ lib/commons-httpclient-3.0.1.jar,
+ lib/commons-logging-1.1.jar,
+ lib/stax-api-1.0.1.jar,
+ lib/wsdl4j-1.6.2.jar,
+ lib/XmlSchema-1.3.2.jar
+Require-Bundle: fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.coloane.core
+Export-Package: fr.lip6.move.coloane.apiws,
+ fr.lip6.move.coloane.apiws.evenements,
+ fr.lip6.move.coloane.apiws.interfaces.observables,
+ fr.lip6.move.coloane.apiws.interfaces.session,
+ fr.lip6.move.coloane.apiws.interfaces.wrapperCommunication,
+ fr.lip6.move.coloane.apiws.objects.api,
+ fr.lip6.move.coloane.apiws.objects.dialog,
+ fr.lip6.move.coloane.apiws.observables,
+ fr.lip6.move.coloane.apiws.session,
+ fr.lip6.move.coloane.apiws.wrapperCommunication
+Bundle-Vendor: LIP6 / MoVe

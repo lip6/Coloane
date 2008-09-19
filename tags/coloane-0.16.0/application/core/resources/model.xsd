@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+	<xs:annotation>
+  		<xs:documentation xml:lang="en">
+   			Model description schema for Coloane.
+   			LIP6 / MoVe - Jean-Baptiste Voron
+   			http://coloane.lip6.fr
+  		</xs:documentation>
+ 	</xs:annotation>
+
+	<!-- Definition du type d'un attribut graphique -->
+	<xs:attributeGroup name="graph">
+		<xs:attribute name="xposition" type="xs:string" />
+		<xs:attribute name="yposition" type="xs:string" />
+	</xs:attributeGroup>
+
+	<!-- Definition du type d'un modele -->
+	<xs:complexType name="tmodel">
+		<xs:all>
+			<xs:element name="nodes" type="tnodes" minOccurs="1"/>
+			<xs:element name="arcs" type="tarcs" minOccurs="1"/>
+			<xs:element name="attributes" type="tattributes" minOccurs="0" />
+			<xs:element name="stickys" type="tstickys" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="formalism" type="xs:string" use="required" />
+		<xs:attributeGroup ref="graph" />
+	</xs:complexType>
+	
+	<!-- =========================================== = -->
+
+	<!-- Definition d'un noeud -->
+	<xs:complexType name="tnode">
+		<xs:sequence>
+			<xs:element name="attributes" type="tattributes" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="graph" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+	
+	<!-- Definition d'un point d'inflexion -->
+	<xs:complexType name="tpi">
+		<xs:attributeGroup ref="graph" />
+	</xs:complexType>
+
+	<!-- Definition d'un arc -->
+	<xs:group name="tarcdesc">
+		<xs:choice>
+			<xs:element name="pi" type="tpi" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="attributes" type="tattributes" minOccurs="0" maxOccurs="1"/>
+		</xs:choice>
+	</xs:group>
+	
+	<xs:complexType name="tarc">
+		<xs:group ref="tarcdesc" minOccurs="0" maxOccurs="unbounded"></xs:group>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<!-- Definition d'un lien -->
+	<xs:complexType name="tlink">
+		<xs:attribute name="linkId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Definition d'une note -->
+	<xs:group name="tstickydesc">
+		<xs:choice>
+			<xs:element name="value" type="xs:string" minOccurs="1" />
+			<xs:element name="link" type="tlink" minOccurs="0" maxOccurs="unbounded" />
+		</xs:choice>
+	</xs:group>
+	
+	<xs:complexType name="tsticky">
+		<xs:group ref="tstickydesc" minOccurs="1" maxOccurs="unbounded"></xs:group>
+		<xs:attributeGroup ref="graph" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+	
+	<!-- Definition d'un attribut -->
+	<xs:complexType name="tattribute">
+		<xs:simpleContent>
+	 		<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attributeGroup ref="graph" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<!-- ============================================ -->
+
+	<!-- Definition d'un ensemble de noeuds -->
+	<xs:complexType name="tnodes">
+		<xs:sequence> 
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="node" type="tnode"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Definition d'un ensemble d'arcs -->
+	<xs:complexType name="tarcs">
+		<xs:sequence> 
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="arc" type="tarc"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Definition d'un ensemble de notes -->
+	<xs:complexType name="tstickys">
+		<xs:sequence> 
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="sticky" type="tsticky"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Definition d'un groupe d'attributs -->
+	<xs:complexType name="tattributes">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="tattribute" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ============================================ -->
+
+	<!-- Definition d'un noeud -->
+	<xs:element name="node" type="tnode"/>
+
+	<!-- Definition d'un arc -->
+	<xs:element name="arc" type="tarc"/>
+	
+	<!-- Definition d'une note -->
+	<xs:element name="sticky" type="tsticky"/>
+	
+	<!-- ============================================ -->
+
+	<!-- Definition des groupes de noeuds-->
+	<xs:element name="nodes" type="tnodes"/>
+
+	<!-- Definition d'un groupe d'arcs -->
+	<xs:element name="arcs" type="tarc"/>
+	
+	<!-- Definition des groupes de noeuds-->
+	<xs:element name="stickys" type="tstickys"/>
+
+	<!-- Definition d'un modele -->
+	<xs:element name="model" type="tmodel"/>
+</xs:schema>
