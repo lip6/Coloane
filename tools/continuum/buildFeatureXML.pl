@@ -5,6 +5,8 @@ use diagnostics;
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Archive::Zip::MemberRead;
 use XML::Twig;
+use File::stat;
+
 
 diagnostics::enable();
 
