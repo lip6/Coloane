@@ -61,8 +61,8 @@ sub compute_version {
 	}
 }
 
-if (undef($featurefile)) {
-	print "Bad invocation";
+if (!defined($featurefile)) {
+	print "Bad invocation :: <FEATURE FILE> <MAVEN NAME> <BUILD NUMBER> <PATH_TO_DEPLOY>\n";
 	exit;
 }
 
