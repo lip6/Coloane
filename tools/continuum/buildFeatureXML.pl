@@ -42,7 +42,7 @@ sub compute_version {
 	}
 	
 	# Sort and extract the most recent file
-	my @sorted = sort { -M $a <=> -M $b } @files;
+	my @sorted = sort { (stat($dir."/".$a))->ctime <=> (stat($dir."/".$b))->ctime } @files;
 	my $newest = pop(@sorted);
 	my $archive = Archive::Zip->new();
 	die "Read error on file $newest" if $archive->read($dir."/".$newest) != AZ_OK;
@@ -61,6 +61,10 @@ sub compute_version {
 	}
 }
 
+if (undef($featurefile)) {
+	print "Bad invocation";
+	exit;
+}
 
 # Check the file
 if (!(-e $featurefile)) {
