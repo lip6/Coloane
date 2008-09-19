@@ -75,6 +75,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
 
 		this.instance = (IImportFrom) ImportFromExtension.createConvertInstance(this.idWizard);
+		LOGGER.finer("Instanciation de l'extension OK !"); //$NON-NLS-1$
 
 		if (this.instance == null) {
 			LOGGER.warning("Erreur lors de la creation de l'instance de conversion"); //$NON-NLS-1$

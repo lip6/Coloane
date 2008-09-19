@@ -152,10 +152,13 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			return false;
 		}
 
+		LOGGER.fine("Traitement de l'assistant"); //$NON-NLS-1$
+
 		// Importe le modele, via l'instance precedement creee
 		String path = fileSelect.getStringValue();
 
 		// Tentative de creation de fichier
+		LOGGER.fine("Creation du nouveau fichier"); //$NON-NLS-1$
 		final IFile newFile = createNewFile();
 		LOGGER.fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
 
