@@ -41,6 +41,7 @@ public class ImportFromImpl implements IImportFrom {
 		this.ids = new HashMap<Integer, Integer>();
 		IGraph model = null;
 
+		LOGGER.finer("Creation du fichier..."); ////$NON-NLS-1$
 		File toImport = new File(filePath);
 
 		try {
