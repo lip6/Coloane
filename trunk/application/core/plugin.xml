@@ -534,7 +534,6 @@
                       name="domain">
                 </Attribute>
                 <Attribute
-                      default="0"
                       drawable="true"
                       multiline="true"
                       name="marking">
