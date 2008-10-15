@@ -212,4 +212,15 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		firePropertyChange(INCOMING_ARCS_PROP, null, link);
 		return res;
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		IAttribute attrName = getAttribute("name"); //$NON-NLS-1$
+		String name = ""; //$NON-NLS-1$
+		if (attrName != null) {
+			name = attrName.getValue();
+		}
+		return "Node(" + getId() + ", " + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 }
