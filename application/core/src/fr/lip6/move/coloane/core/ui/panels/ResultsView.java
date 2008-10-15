@@ -104,6 +104,8 @@ public class ResultsView extends ViewPart {
 				delete.setEnabled(true);
 			}
 		});
+		
+		// Action quand on check un des résultats : mise en valeur dans l'éditeur
 		viewer.addCheckStateListener(new ICheckStateListener() {
 			private Map<ISpecialState, Integer> map = new HashMap<ISpecialState, Integer>();
 
