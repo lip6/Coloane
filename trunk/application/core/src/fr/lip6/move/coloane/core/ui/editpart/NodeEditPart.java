@@ -116,6 +116,12 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		// Si le noeud n'a plus de parent c'est qu'il a été supprimé, il n'y a
+		// donc aucune raison de le redessiner.
+		if (getParent() == null) {
+			return;
+		}
+		
 		// Mise à jour de la figure (couleurs et taille)
 		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
 		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
