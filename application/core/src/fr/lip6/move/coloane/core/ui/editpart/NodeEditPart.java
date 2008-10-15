@@ -121,7 +121,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		if (getParent() == null) {
 			return;
 		}
-		
+
 		// Mise à jour de la figure (couleurs et taille)
 		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
 		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
