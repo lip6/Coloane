@@ -104,45 +104,60 @@ public class ResultsView extends ViewPart {
 				delete.setEnabled(true);
 			}
 		});
-		
+
 		// Action quand on check un des résultats : mise en valeur dans l'éditeur
 		viewer.addCheckStateListener(new ICheckStateListener() {
 			private Map<ISpecialState, Integer> map = new HashMap<ISpecialState, Integer>();
 
-			private void checkResult(ISession session, IResultTree result, boolean check) {
-				for (int id : result.getHighlighted()) {
-					ISpecialState element = (ISpecialState) session.getGraph().getObject(id);
-					if (element != null) {
-						Integer value = map.get(element);
-						if (check) {
-							if (value == null) {
-								value = 0;
+			/**
+			 * Mise a jour de l'état check d'une ligne de résultat ainsi que de
+			 * tous les fils (récursivement)
+			 * @param session session courante
+			 * @param result sous arbre de résultat
+			 * @param wasCheck ancienne état de result
+			 * @param toCheck nouvel état
+			 */
+			private void checkResult(ISession session, IResultTree result, boolean wasCheck, boolean toCheck) {
+				// On vérifie qu'on passe de true à false ou inversement
+				if (wasCheck != toCheck) {
+					// On traite tous les éléments devant être mis en valeur
+					for (int id : result.getHighlighted()) {
+						ISpecialState element = (ISpecialState) session.getGraph().getObject(id);
+						if (element != null) {
+							// On compte le nombre de fois qu'un élément a été
+							// demandé a être mis en valeur.
+							Integer value = map.get(element);
+							if (toCheck) {
+								if (value == null) {
+									value = 0;
+								}
+								element.setSpecialState(toCheck);
+							} else {
+								if (value == 0) {
+									element.setSpecialState(toCheck);
+								}
 							}
-							value++;
-							element.setSpecialState(check);
-						} else {
-							value--;
-							if (value == 0) {
-								element.setSpecialState(check);
-							}
+							map.put(element, value);
 						}
-						map.put(element, value);
 					}
 				}
-				if (check) {
+				// Gestion des Tips
+				if (toCheck) {
 					session.addAllTips(result.getTips());
 				} else {
 					session.removeAllTips(result.getTips());
 				}
+				// Appel récursif sur tous les fils
 				for (IResultTree child : result.getChildren()) {
-					checkResult(session, child, check);
+					checkResult(session, child, viewer.getChecked(child), toCheck);
 				}
 			}
 
+			/** {@inheritDoc} */
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				IResultTree result = (IResultTree) event.getElement();
+				checkResult(MANAGER.getCurrentSession(), result, !event.getChecked(), event.getChecked());
 				viewer.setSubtreeChecked(event.getElement(), event.getChecked());
-				checkResult(MANAGER.getCurrentSession(), result, event.getChecked());
 			}
 		});
 
