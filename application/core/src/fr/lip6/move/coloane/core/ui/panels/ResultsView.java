@@ -107,6 +107,11 @@ public class ResultsView extends ViewPart {
 
 		// Action quand on check un des résultats : mise en valeur dans l'éditeur
 		viewer.addCheckStateListener(new ICheckStateListener() {
+
+			/**
+			 * Map conservant pour chaque noeud mis en valeur, le nombre de résultat
+			 * coché dans la vue le concernant (le noeud).
+			 * */
 			private Map<ISpecialState, Integer> map = new HashMap<ISpecialState, Integer>();
 
 			/**
@@ -131,10 +136,12 @@ public class ResultsView extends ViewPart {
 								if (value == null) {
 									value = 0;
 								}
-								element.setSpecialState(toCheck);
+								element.setSpecialState(true);
+								value++;
 							} else {
+								value--;
 								if (value == 0) {
-									element.setSpecialState(toCheck);
+									element.setSpecialState(false);
 								}
 							}
 							map.put(element, value);
