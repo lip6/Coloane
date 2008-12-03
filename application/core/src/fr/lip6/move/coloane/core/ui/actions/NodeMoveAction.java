@@ -3,9 +3,8 @@ package fr.lip6.move.coloane.core.ui.actions;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
-import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -73,14 +72,14 @@ public class NodeMoveAction extends SelectionAction {
 	public final void run() {
 		CompoundCommand cc = new CompoundCommand();
 		for (Object obj : getSelectedObjects()) {
-			if (obj instanceof NodeEditPart) {
-				INode node = (INode) ((EditPart) obj).getModel();
-				INodeGraphicInfo graphicInfo = node.getGraphicInfo();
+			if (obj instanceof EditPart) {
+				ILocatedElement node = (ILocatedElement) ((EditPart) obj).getModel();
+				Point location = node.getLocationInfo().getLocation();
 				cc.add(new LocatedElementSetConstraintCmd((ILocatedElement) node, new Rectangle(
-						graphicInfo.getLocation().x + dx,
-						graphicInfo.getLocation().y + dy,
-						graphicInfo.getSize().width,
-						graphicInfo.getSize().height)));
+						location.x + dx,
+						location.y + dy,
+						0,
+						0)));
 			}
 		}
 		execute(cc);

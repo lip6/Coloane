@@ -1,11 +1,8 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -20,16 +17,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** Logger 'fr.lip6.move.coloane.core'. */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private static final Long ZERO = new Long(0);
-
 	/** Le noeud enrichi */
 	private final NodeModel node;
 
 	/** Les coordonees */
 	private int x;
 	private int y;
-
-	private Map<IArc, Long> lastMove = new HashMap<IArc, Long>();
 
 	/** Taille */
 	private int scale = 100;
@@ -54,48 +47,15 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		return new Point(this.x, this.y);
 	}
 
-	/**
-	 * Positionne le noeud en tenant compte des points d'inflexion
-	 * @param xPos La position en abcisse
-	 * @param yPos La position en ordonnée
-	 */
-	private void setLocation(int xPos, int yPos) {
-		LOGGER.finest("setLocation(" + xPos + ", " + yPos + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		Point oldLocation = new Point(this.x, this.y);
-		int dx = xPos - this.x;
-		int dy = yPos - this.y;
-		this.x = xPos;
-		this.y = yPos;
-
-		// Mise a jour de la date de dernier mouvement
-		Long currentTime = System.currentTimeMillis();
-
-		// Déplacement des points d'inflexion si la différence de temps entre le déplacement
-		// des 2 noeuds d'un arc est inférieur à 256 ms.
-		for (IArc arc : node.getOutcomingArcs()) {
-			lastMove.put(arc, currentTime);
-			if (Math.abs(arc.getTarget().getGraphicInfo().getLastMove(arc) - currentTime) < 32) {
-				arc.modifyInflexPoints(dx, dy);
-				lastMove.put(arc, ZERO);
-			}
-		}
-		for (IArc arc : node.getIncomingArcs()) {
-			lastMove.put(arc, currentTime);
-			if (Math.abs(arc.getSource().getGraphicInfo().getLastMove(arc) - currentTime) < 32) {
-				arc.modifyInflexPoints(dx, dy);
-				lastMove.put(arc, ZERO);
-			}
-		}
-		// Lever un evenement
-		node.firePropertyChange(LOCATION_PROP, oldLocation, new Point(x, y));
-	}
-
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		Dimension delta = location.getDifference(getLocation());
-		setLocation(location.x, location.y);
-		node.updateAttributesPosition(delta.width, delta.height);
-		node.updateArcAttributesPosition();
+		LOGGER.finest("setLocation(" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		Point oldLocation = new Point(this.x, this.y);
+		this.x = location.x;
+		this.y = location.y;
+
+		// Lever un evenement
+		node.firePropertyChange(LOCATION_PROP, oldLocation, location.getCopy());
 	}
 
 	/**
@@ -122,15 +82,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	/** {@inheritDoc} */
 	public final boolean isFilled() {
 		return this.node.getNodeFormalism().getGraphicalDescription().isFilled();
-	}
-
-	/** {@inheritDoc} */
-	public final Long getLastMove(IArc key) {
-		Long time = lastMove.get(key);
-		if (time == null) {
-			return ZERO;
-		}
-		return time;
 	}
 
 	/** {@inheritDoc} */

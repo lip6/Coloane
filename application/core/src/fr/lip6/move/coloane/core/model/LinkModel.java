@@ -27,6 +27,9 @@ public class LinkModel implements ILink {
 	 */
 	LinkModel(IStickyNote source, ILinkableElement target) {
 		LOGGER.fine("Création d'un link : " + source + "--" + target); //$NON-NLS-1$ //$NON-NLS-2$
+		if (source == null || target == null) {
+			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
+		}
 		this.source = source;
 		this.target = target;
 	}
