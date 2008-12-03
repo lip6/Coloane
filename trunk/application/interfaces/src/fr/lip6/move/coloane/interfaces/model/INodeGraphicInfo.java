@@ -17,12 +17,6 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	boolean isFilled();
 
 	/**
-	 * @param key L'arc considéré
-	 * @return heure du dernier deplacement de l'arc passé en paramètre ou 0 si l'arc n'a jamais été déplacé.
-	 */
-	Long getLastMove(IArc key);
-
-	/**
 	 * @return couleur de fond
 	 */
 	Color getBackground();

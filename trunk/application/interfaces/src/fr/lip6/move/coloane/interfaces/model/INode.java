@@ -66,19 +66,6 @@ public interface INode extends IElement {
 	List<IArc> getIncomingArcs();
 
 	/**
-	 * Positionne tous les attributs attaches a ce noeud en fonction du deplacement du noeud lui-meme
-	 * @param deltaX Deplacement horizontal
-	 * @param deltaY Deplacement vertical
-	 */
-	void updateAttributesPosition(int deltaX, int deltaY);
-
-	/**
-	 * Lors du deplacement d'un noeud, il est necessaire de faire suivre les attributs
-	 * attaches aux arcs sortant et entrants du noeud en question
-	 */
-	void updateArcAttributesPosition();
-
-	/**
 	 * Mettre à jours les tips attachés à cette élément
 	 */
 	void updateTips();
