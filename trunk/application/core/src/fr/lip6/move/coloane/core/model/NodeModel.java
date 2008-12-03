@@ -14,12 +14,9 @@ import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Description d'un noeud du modele
@@ -134,30 +131,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final List<IArc> getIncomingArcs() {
 		return Collections.unmodifiableList(incomingArcs);
-	}
-
-	/** {@inheritDoc} */
-	public final void updateAttributesPosition(int deltaX, int deltaY) {
-		Collection<IAttribute> collection = this.getDrawableAttributes();
-		for (IAttribute att : collection) {
-			if (System.currentTimeMillis() - ((AttributeGraphicInfo) att.getGraphicInfo()).getLastMove() > 32) {
-				Point loc = att.getGraphicInfo().getLocation();
-				att.getGraphicInfo().setLocation(new Point(loc.x + deltaX, loc.y + deltaY));
-			}
-		}
-	}
-
-	/** {@inheritDoc} */
-	public final void updateArcAttributesPosition() {
-		// Parcours des arcs sortants
-		for (IArc arc : this.outcomingArcs) {
-			arc.updateAttributesPosition();
-		}
-
-		// Parcours des arcs entrants
-		for (IArc arc : this.incomingArcs) {
-			arc.updateAttributesPosition();
-		}
 	}
 
 	/** {@inheritDoc} */

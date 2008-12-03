@@ -1,10 +1,22 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Commande pour deplacer un ILocatedElement
@@ -15,24 +27,60 @@ public class LocatedElementSetConstraintCmd extends Command {
 	private final Point newLocation;
 	/** Enregistre l'ancienne taille et le nouvel endroit */
 	private Point oldLocation;
+	private Dimension delta;
 
 	/** Noeud a manipuler */
-	private final ILocatedElement element;
+	private final ILocatedElement locElement;
+
+	/** Arcs sur lesquels ont doit déplacer les points d'inflexion */
+	private final List<IArc> arcs = new ArrayList<IArc>();
+
+	/** Attributs devant être déplacé */
+	private final List<IAttribute> attributes = new ArrayList<IAttribute>();
 
 	/**
 	 * Constructeur
-	 * @param element élément à déplacer
+	 * @param locElement élément à déplacer
 	 * @param newBounds Nouvelles limites
 	 */
-	public LocatedElementSetConstraintCmd(ILocatedElement element, Rectangle newBounds) {
+	public LocatedElementSetConstraintCmd(ILocatedElement locElement, Rectangle newBounds) {
 		super(Messages.NodeSetConstraintCmd_0);
-		if (element == null || newBounds == null) {
+		if (locElement == null || newBounds == null) {
 			throw new NullPointerException();
 		}
-		this.element = element;
+		this.locElement = locElement;
 		this.newLocation = newBounds.getLocation().getCopy();
 		this.newLocation.x = Math.max(this.newLocation.x, 0);
 		this.newLocation.y = Math.max(this.newLocation.y, 0);
+
+		ColoaneEditor ce = (ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		GraphicalViewer viewer = (GraphicalViewer) ce.getAdapter(GraphicalViewer.class);
+
+		StructuredSelection s = (StructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getSite().getSelectionProvider().getSelection();
+		List< ? > selection = s.toList();
+
+		// Création de la liste d'arcs devant être déplacé (les points d'inflexions)
+		if (locElement instanceof INode) {
+			INode node = (INode) locElement;
+
+			for (IArc in : node.getIncomingArcs()) {
+				INode src = in.getSource();
+				if (selection.contains(viewer.getEditPartRegistry().get(src))) {
+					arcs.add(in);
+				}
+			}
+		}
+
+		// Création de la liste des attributs devant être déplacé
+		if (locElement instanceof IElement) {
+			IElement element = (IElement) locElement;
+
+			for (IAttribute attr : element.getDrawableAttributes()) {
+				if (!selection.contains(viewer.getEditPartRegistry().get(attr))) {
+					attributes.add(attr);
+				}
+			}
+		}
 	}
 
 	/**
@@ -48,20 +96,34 @@ public class LocatedElementSetConstraintCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldLocation = new Point(element.getLocationInfo().getLocation());
+		oldLocation = new Point(locElement.getLocationInfo().getLocation());
+		delta = newLocation.getDifference(oldLocation);
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		element.getLocationInfo().setLocation(newLocation);
+		locElement.getLocationInfo().setLocation(newLocation);
+		for (IArc arc : arcs) {
+			arc.modifyInflexPoints(delta.width, delta.height);
+			arc.updateAttributesPosition();
+		}
+		for (IAttribute attr : attributes) {
+			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta));
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		element.getLocationInfo().setLocation(oldLocation);
+		locElement.getLocationInfo().setLocation(oldLocation);
+		for (IArc arc : arcs) {
+			arc.modifyInflexPoints(-delta.width, -delta.height);
+		}
+		for (IAttribute attr : attributes) {
+			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta.getNegated()));
+		}
 	}
 
 }

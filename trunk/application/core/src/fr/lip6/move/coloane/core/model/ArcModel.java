@@ -46,6 +46,9 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
 		super(id, parent, arcFormalism.getAttributes());
 		LOGGER.finest("Création d'un ArcModel(" + arcFormalism.getName() + ", " + source.getId() + " -> " + target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		if (source == null || target == null) {
+			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
+		}
 		this.arcFormalism = arcFormalism;
 		this.source = source;
 		this.target = target;
