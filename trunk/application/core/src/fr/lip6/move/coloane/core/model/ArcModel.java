@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
@@ -79,6 +80,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	public final void addInflexPoint(Point p, int index) {
 		LOGGER.finest("addInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
+		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
@@ -86,6 +88,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	public final void addInflexPoint(Point p) {
 		LOGGER.finest("addInflexPoint(" + p + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.add(new AbsoluteBendpoint(p));
+		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
@@ -93,6 +96,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	public final void removeInflexPoint(int index) {
 		LOGGER.finest("removeInflexPoint(" + index + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.remove(index);
+		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
@@ -100,6 +104,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	public final void removeAllInflexPoints() {
 		LOGGER.finest("removeAllInflexPoints()");  //$NON-NLS-1$
 		inflexPoints.clear();
+		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
@@ -107,6 +112,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	public final void modifyInflexPoint(int index, Point p) {
 		LOGGER.finest("modifyInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		inflexPoints.get(index).setLocation(p);
+		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
@@ -116,6 +122,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
 			inflexPoint.translate(dx, dy);
 		}
+		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
 	}
 
 	/** {@inheritDoc} */
@@ -142,20 +149,19 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void updateAttributesPosition() {
-		// Calcul du nouveau point milieu
-		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
-
 		// Position actuelle
 		Point oldMiddlePoint = this.graphicInfo.getMiddlePoint();
 
+		// Calcul du nouveau point milieu
+		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
+
 		// Calcul du decalage
-		int deltaX = newMiddlePoint.x - oldMiddlePoint.x;
-		int deltaY = newMiddlePoint.y - oldMiddlePoint.y;
+		Dimension delta = newMiddlePoint.getDifference(oldMiddlePoint);
 
 		// Mise a jour des coordonnees des attributs
 		for (IAttribute attr : this.getDrawableAttributes()) {
-			Point attrLocation = attr.getGraphicInfo().getLocation();
-			attr.getGraphicInfo().setLocation(new Point(attrLocation.x + deltaX, attrLocation.y + deltaY));
+			Point newAttrLocation = attr.getGraphicInfo().getLocation().getTranslated(delta);
+			attr.getGraphicInfo().setLocation(newAttrLocation);
 		}
 
 		this.graphicInfo.updateMiddlePoint();
