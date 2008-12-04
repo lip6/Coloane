@@ -34,7 +34,9 @@ public class ModelHandler extends DefaultHandler {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private Stack<Object> stack = new Stack<Object>();
-	private Map<Integer, Integer> nodesId = new HashMap<Integer, Integer>();
+
+	// Correspondance entre les id du document xml et celle des nouveaux objets créés.
+	private Map<Integer, Integer> ids = new HashMap<Integer, Integer>();
 
 	private IGraph graph;
 
@@ -155,7 +157,7 @@ public class ModelHandler extends DefaultHandler {
 
 		// Creation du noeud
 		INode node = graph.createNode(nodeFormalismName);
-		nodesId.put(id, node.getId());
+		ids.put(id, node.getId());
 		node.getGraphicInfo().setLocation(new Point(x, y));
 
 		// Taille du noeud
@@ -212,7 +214,7 @@ public class ModelHandler extends DefaultHandler {
 		IStickyNote note = (IStickyNote) stack.pop();
 		ICoreGraph graph = (ICoreGraph) stack.peek();
 		int linkId = Integer.parseInt(attributes.getValue("linkId")); //$NON-NLS-1$
-		IElement element = graph.getObject(linkId);
+		IElement element = graph.getObject(ids.get(linkId));
 
 		// Création du lien
 		graph.createLink(note, (ILinkableElement) element);
@@ -251,14 +253,16 @@ public class ModelHandler extends DefaultHandler {
 		IGraph graph = (IGraph) stack.peek();
 
 		// Recuperation des infos concernant l'arc
+		int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 		int startid = Integer.parseInt(attributes.getValue("startid")); //$NON-NLS-1$
 		int endid = Integer.parseInt(attributes.getValue("endid")); //$NON-NLS-1$
 		String arcFormalismName = attributes.getValue("arctype"); //$NON-NLS-1$
 
 		// Creation de l'arc
 		IArc arc = graph.createArc(arcFormalismName,
-				graph.getNode(nodesId.get(startid)),
-				graph.getNode(nodesId.get(endid)));
+				graph.getNode(ids.get(startid)),
+				graph.getNode(ids.get(endid)));
+		ids.put(id, arc.getId());
 
 		// Couleur de l'arc
 		try {
