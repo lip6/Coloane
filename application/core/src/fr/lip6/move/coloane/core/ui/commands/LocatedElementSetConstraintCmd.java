@@ -33,7 +33,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 	private final ILocatedElement locElement;
 
 	/** Arcs sur lesquels ont doit déplacer les points d'inflexion */
-	private final List<IArc> arcs = new ArrayList<IArc>();
+	private final List<IArc> arcsForPI = new ArrayList<IArc>();
 
 	/** Attributs devant être déplacé */
 	private final List<IAttribute> attributes = new ArrayList<IAttribute>();
@@ -66,7 +66,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 			for (IArc in : node.getIncomingArcs()) {
 				INode src = in.getSource();
 				if (selection.contains(viewer.getEditPartRegistry().get(src))) {
-					arcs.add(in);
+					arcsForPI.add(in);
 				}
 			}
 		}
@@ -78,6 +78,18 @@ public class LocatedElementSetConstraintCmd extends Command {
 			for (IAttribute attr : element.getDrawableAttributes()) {
 				if (!selection.contains(viewer.getEditPartRegistry().get(attr))) {
 					attributes.add(attr);
+				}
+			}
+		}
+
+		// Cas un peu particulier pour le déplacement des attributs d'arc
+		if (locElement instanceof IAttribute) {
+			IAttribute attr = (IAttribute) locElement;
+			if (attr.getReference() instanceof IArc) {
+				IArc arc = (IArc) attr.getReference();
+				if (selection.contains(viewer.getEditPartRegistry().get(arc.getSource()))
+						&& selection.contains(viewer.getEditPartRegistry().get(arc.getTarget()))) {
+					delta = new Dimension();
 				}
 			}
 		}
@@ -105,7 +117,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 	@Override
 	public final void redo() {
 		locElement.getLocationInfo().setLocation(newLocation);
-		for (IArc arc : arcs) {
+		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(delta.width, delta.height);
 			arc.updateAttributesPosition();
 		}
@@ -118,8 +130,9 @@ public class LocatedElementSetConstraintCmd extends Command {
 	@Override
 	public final void undo() {
 		locElement.getLocationInfo().setLocation(oldLocation);
-		for (IArc arc : arcs) {
+		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(-delta.width, -delta.height);
+			arc.updateAttributesPosition();
 		}
 		for (IAttribute attr : attributes) {
 			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta.getNegated()));
