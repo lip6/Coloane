@@ -101,4 +101,10 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
 }

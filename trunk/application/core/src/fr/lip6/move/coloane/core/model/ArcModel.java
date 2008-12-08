@@ -199,4 +199,10 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 		return res;
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return "Arc(" + getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }
