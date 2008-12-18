@@ -262,6 +262,18 @@
           class="fr.lip6.move.coloane.core.results.reports.MinimalSyphonTrapReport"
           service_name="Minimal traps">
     </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.ComputeBoundsReport"
+          service_name="Compute structural bounds by unfolding">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the colored net structurally bounded?">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the colored structurally net safe (by unfolding)?">
+    </report>
  </extension>
  <extension
        point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
