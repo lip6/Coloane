@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.palette;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -159,8 +158,8 @@ public final class PaletteFactory {
 
 		// Lien entre une note et un élément du graphe
 		ConnectionCreationToolEntry connection = new ConnectionCreationToolEntry(
-				"Link",
-				"Link between a note and graph's element",
+				Messages.PaletteFactory_7,
+				Messages.PaletteFactory_8,
 				new CreationFactory() { 	// Object Template
 					public Object getNewObject() { return null;	}
 					public Object getObjectType() {	return ILink.class; }
