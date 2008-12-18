@@ -84,7 +84,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 
 		ResultTreeImpl newResult = null;
 
-		IReport report = services.get(serviceName);
+		IReport report = services.get(serviceName.trim());
 		if (report != null) {
 			newResult = report.build(result);
 		}
