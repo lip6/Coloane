@@ -24,9 +24,9 @@ public class SyntaxCheckerReport implements IReport {
 		// Sinon on affiche le nombre de messages dans la 2eme colonne
 		int errors = result.getSubResults().size();
 		if (errors == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), "1 message");
+			root = new ResultTreeImpl(result.getServiceName(), Messages.SyntaxCheckerReport_1);
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), errors + " messages");
+			root = new ResultTreeImpl(result.getServiceName(), errors + Messages.SyntaxCheckerReport_2);
 		}
 		root.setSessionManager(SessionManager.getInstance());
 

@@ -17,14 +17,14 @@ public class ComputeBoundsReport implements IReport {
 
 		// Si aucun resultat... On retourne un root vide
 		if (nbSubResult <= 0) {
-			root = new ResultTreeImpl(result.getServiceName(), "no result");
+			root = new ResultTreeImpl(result.getServiceName(), Messages.ComputeBoundsReport_0);
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		} else if (nbSubResult == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), "1 result");
+			root = new ResultTreeImpl(result.getServiceName(), Messages.ComputeBoundsReport_1);
 			root.setSessionManager(SessionManager.getInstance());			
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), nbSubResult +" results");
+			root = new ResultTreeImpl(result.getServiceName(), nbSubResult +Messages.ComputeBoundsReport_2);
 			root.setSessionManager(SessionManager.getInstance());						
 		}
 

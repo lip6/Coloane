@@ -37,7 +37,7 @@ public class IsTheNetQuestionReport implements IReport {
 			
 			// Pour le details des places et transitions problematiques
 			String firstPart = res.substring(0, res.indexOf(':')).trim();
-			String secondPart = "bounds: " + res.substring(res.indexOf(':') + 1).trim();
+			String secondPart = Messages.IsTheNetQuestionReport_0 + res.substring(res.indexOf(':') + 1).trim();
 			ResultTreeImpl node = new ResultTreeImpl(firstPart, secondPart);
 			
 			// On ajoute ce noeud au resultat de service
