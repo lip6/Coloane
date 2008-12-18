@@ -79,8 +79,14 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 			location.translate(-tipWidth / 2, -(30 + tipHeight / 2));
 		}
 
+		// Ici on utilise la variable bound pour limiter la migration des rectangles dans les grands reseaux
+		// AU bout de 2 déplacements, on arrete et on pose la tip
+		int bound = 2;
 		while (findFigureInto(new Rectangle(location, figure.getSize())) != null) {
 			location.translate(20, 0);
+			if (--bound == 0) {
+				break;
+			}
 		}
 		return location;
 	}
