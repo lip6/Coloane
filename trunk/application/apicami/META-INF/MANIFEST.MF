@@ -12,3 +12,4 @@ Bundle-ManifestVersion: 2
 Export-Package: fr.lip6.move.coloane.apicami
 Bundle-ClassPath: .,
  lib/antlrworks-1.1.7.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
