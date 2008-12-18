@@ -24,7 +24,7 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	private String element;
 
 	/** Le nombre maximum d'objets contenu dans le graphe fils du noeud */
-	private int max;
+	//private int max;
 
 	/**
 	 * Constructeur utilisé par le <i>formalisme builder</i>
@@ -41,7 +41,7 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 */
 	public CapacityConstraint(String element, int max) {
 		this.element = element;
-		this.max = max;
+		//this.max = max;
 	}
 
 	/** {@inheritDoc} */
@@ -80,6 +80,6 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 		}
 
 		this.element = myParams.get("element"); //$NON-NLS-1$
-		this.max = Integer.valueOf(myParams.get("maxIn")); //$NON-NLS-1$
+		//this.max = Integer.valueOf(myParams.get("maxIn")); //$NON-NLS-1$
 	}
 }
