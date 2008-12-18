@@ -11,6 +11,8 @@ public final class Messages extends NLS {
 	public static String PaletteFactory_4;
 	public static String PaletteFactory_5;
 	public static String PaletteFactory_6;
+	public static String PaletteFactory_7;
+	public static String PaletteFactory_8;
 
 	static {
 		// initialize resource bundle
