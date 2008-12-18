@@ -6,29 +6,27 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
 /**
- * Générateur de résultat pour le syntax check
+ * Générateur de résultat pour les P-invariants
  */
-public class SyntaxCheckerReport implements IReport {
+public class PInvariantsReport implements IReport {
 
 	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResult result) {
 		ResultTreeImpl root;
+		int nbSubResult = result.getSubResults().size();
 
-		// Si aucun message (pas d'erreur)... Alors on affiche un message standard
-		if (result.getSubResults().size() == 0) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.SyntaxCheckerReport_0);
+		// Si aucun resultat... On retourne un root vide
+		if (nbSubResult <= 0) {
+			root = new ResultTreeImpl(result.getServiceName(), "no result");
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
-		}
-		
-		// Sinon on affiche le nombre de messages dans la 2eme colonne
-		int errors = result.getSubResults().size();
-		if (errors == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), "1 message");
+		} else if (nbSubResult == 1) {
+			root = new ResultTreeImpl(result.getServiceName(), "1 result");
+			root.setSessionManager(SessionManager.getInstance());			
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), errors + " messages");
+			root = new ResultTreeImpl(result.getServiceName(), nbSubResult +" results");
+			root.setSessionManager(SessionManager.getInstance());						
 		}
-		root.setSessionManager(SessionManager.getInstance());
 
 		for (ISubResult sub : result.getSubResults()) {
 			ResultTreeImpl node = new ResultTreeImpl(sub.getTextualResults().get(0));
