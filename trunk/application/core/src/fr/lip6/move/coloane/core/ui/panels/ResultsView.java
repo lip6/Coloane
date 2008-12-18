@@ -150,9 +150,19 @@ public class ResultsView extends ViewPart {
 				}
 				// Gestion des Tips
 				if (toCheck) {
-					session.addAllTips(result.getTips());
+					if (result.getHighlighted().size() > 0) {
+						session.removeAllTips(result.getTips(result.getHighlighted()));
+						session.addAllTips(result.getTips(result.getHighlighted()));
+					} else {
+						session.removeAllTips(result.getTips());
+						session.addAllTips(result.getTips());
+					}
 				} else {
-					session.removeAllTips(result.getTips());
+					if (result.getHighlighted().size() > 0) {
+						session.removeAllTips(result.getTips(result.getHighlighted()));
+					} else {
+						session.removeAllTips(result.getTips());
+					}
 				}
 				// Appel récursif sur tous les fils
 				for (IResultTree child : result.getChildren()) {
