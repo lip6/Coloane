@@ -80,7 +80,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/**
 	 * Constructeur d'un sous-arbre de resultats sans mise en valeur particulière
-	 * @param elements Les elements (colonnes) composant le resultat
+	 * @param elements Les éléments (colonnes) composant le résultat
 	 */
 	public ResultTreeImpl(String... elements) {
 		this(null, elements);
@@ -177,6 +177,25 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/** {@inheritDoc} */
 	public final List<ICoreTip> getTips() {
 		return Collections.unmodifiableList(tips);
+	}
+	
+	/** {@inheritDoc} */
+	public List<ICoreTip> getTips(List<Integer> haveTips) {
+		List<ICoreTip> toReturn = new ArrayList<ICoreTip>();
+		
+		List<ICoreTip> toBrowse = new ArrayList<ICoreTip>();
+		toBrowse.addAll(parent.getTips());
+		toBrowse.addAll(tips);
+		
+		for (ICoreTip tip: toBrowse) {
+			for (int num: haveTips) {
+				if (num == tip.getIdObject()) {
+					toReturn.add(tip);
+					break;
+				}
+			}
+		}
+		return toReturn;
 	}
 
 	/** {@inheritDoc} */

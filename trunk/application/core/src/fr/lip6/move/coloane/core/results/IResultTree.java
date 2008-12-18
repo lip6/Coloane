@@ -82,6 +82,11 @@ public interface IResultTree {
 	List<ICoreTip> getTips();
 
 	/**
+	 * @return la liste des tips en fonction des identifiants d'objets
+	 */
+	List<ICoreTip> getTips(List<Integer> mayHaveTips);
+
+	/**
 	 * Permet de spécifier la liste des tips pour de résultat
 	 * @param tips liste des tips
 	 */
