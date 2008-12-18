@@ -10,3 +10,5 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.coloane.interfaces
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
