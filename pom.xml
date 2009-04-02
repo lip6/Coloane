@@ -481,6 +481,17 @@
 	<!-- Depots (Repositories) -->
 	<repositories>
 		<repository>
+			<id>archiva.internal</id>
+			<name>Archiva Managed Repository for LIP6/MoVe</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/internal/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>coloane.snapshots</id>
 			<name>Archiva Managed Snapshot Repository for Coloane</name>
 			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots/</url>
