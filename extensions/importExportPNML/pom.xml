@@ -15,12 +15,12 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>fr.lip6.move.pnml</groupId>
+			<groupId>fr.lip6.move.pnml.framework</groupId>
 			<artifactId>utils</artifactId>
 			<version>2.1.6</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.lip6.move.pnml</groupId>
+			<groupId>fr.lip6.move.pnml.framework</groupId>
 			<artifactId>ptnet</artifactId>
 			<version>2.1.6</version>
 		</dependency>
