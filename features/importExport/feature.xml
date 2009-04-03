@@ -156,6 +156,7 @@ Inc. in the United States, other countries, or both.
 
    <url>
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+      <discovery label="PNML Framework Update Site" url="http://pnml.lip6.fr/pnmlframework/updatesite/"/>
    </url>
 
    <requires>
