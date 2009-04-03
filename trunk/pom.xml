@@ -186,7 +186,17 @@
 				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>true</sendOnWarning>
 				<configuration>
-					<address>Jean-Baptiste.Voron@lip6.fr</address>
+					<address>jean-baptiste.voron@lip6.fr</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
+					<address>clement.demoulins@systeme.lip6.fr</address>
 				</configuration>
 			</notifier>
 		</notifiers>
