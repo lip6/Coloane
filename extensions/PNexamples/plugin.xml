@@ -6,7 +6,7 @@
       <example
             build="fr.lip6.move.coloane.extensions.pnexamples.SimpleExample"
             description="Simple PetriNet example"
-            formalism="AMI-NET"
+            formalism="Place/Transition Net"
             name="SimpleOne">
       </example>
    </extension>
