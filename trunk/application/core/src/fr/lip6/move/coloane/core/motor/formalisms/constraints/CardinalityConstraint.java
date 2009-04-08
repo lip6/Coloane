@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IExecutableExtension;
  * 	<li>plus de <code>maxOut</code> arcs en sortie (arcs sources)</li>
  * </ul>
  */
-public class CardinalityConstraint implements IConstraint, IExecutableExtension {
+public class CardinalityConstraint implements IConstraint, IConstraintLink, IExecutableExtension {
 
 	/** Une instance du logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -58,14 +58,8 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 
 		// Pour le noeud source on verifie le formalisme pour appliquer la contrainte
 		if (source.getNodeFormalism().getName().equals(element)) {
-
-			// Le nombre d'arcs entrant du noeud doit etre strictement inférieur a maxIn
-			if (source.getIncomingArcs().size() >= this.maxIn) {
-				return false;
-			}
-
 			// Le nombre d'arcs sortant du noeud doit etre strictement inférieur a maxOut
-			if (source.getOutcomingArcs().size() >= this.maxOut) {
+			if ((this.maxOut >= 0) && (source.getOutcomingArcs().size() >= this.maxOut)) {
 				return false;
 			}
 		}
@@ -74,12 +68,7 @@ public class CardinalityConstraint implements IConstraint, IExecutableExtension 
 		if (target.getNodeFormalism().getName().equals(element)) {
 
 			// Le nombre d'arcs entrant du noeud doit etre strictement inférieur a maxIn
-			if (target.getIncomingArcs().size() >= this.maxIn) {
-				return false;
-			}
-
-			// Le nombre d'arcs sortant du noeud doit etre strictement inférieur a maxOut
-			if (target.getOutcomingArcs().size() >= this.maxOut) {
+			if ((this.maxIn >= 0) && (target.getIncomingArcs().size() >= this.maxIn)) {
 				return false;
 			}
 		}

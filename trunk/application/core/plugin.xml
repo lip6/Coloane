@@ -807,6 +807,93 @@
           </Graph>
        </XmlDescription>
     </Formalism>
+    <Formalism
+          extension="dd"
+          fkname="DD"
+          id="DD"
+          image="resources/icons/dd.png"
+          name="Decision Diagram">
+       <XmlDescription>
+          <Graph
+                name="DecisionDiagram">
+             <Node
+                   container="false"
+                   name="node">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Node"
+                      drawable="true"
+                      height="22"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
+                      palettable="true"
+                      paletteName="Node"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="variable">
+                </Attribute>
+             </Node>
+             <Node
+                   container="false"
+                   name="terminal">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                      description="Terminal Node"
+                      drawable="true"
+                      height="22"
+                      palettable="true"
+                      paletteName="Terminal"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="value">
+                </Attribute>
+             </Node>
+             <Arc
+                   name="arc">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      description="Arc"
+                      drawable="true"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
+                      palettable="true"
+                      paletteName="Arc">
+                </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      italic="true"
+                      multiline="false"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+          </Graph>
+          <Constraint
+                link="true"
+                name="Terminal (No output arc)"
+                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
+             <parameter
+                   name="maxIn"
+                   value="-1">
+             </parameter>
+             <parameter
+                   name="maxOut"
+                   value="0">
+             </parameter>
+             <parameter
+                   name="element"
+                   value="terminal">
+             </parameter>
+          </Constraint>
+       </XmlDescription>
+    </Formalism>
  </extension>
  <extension
        id="fr.lip6.move.coloane.menus"
