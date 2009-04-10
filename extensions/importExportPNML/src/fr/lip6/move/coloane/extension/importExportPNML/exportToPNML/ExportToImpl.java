@@ -43,7 +43,7 @@ public class ExportToImpl implements IExportTo {
 			
 			// Creation de l'interface de haut-niveau
 			doc = new PetriNetDocHLAPI();
-			PetriNetHLAPI net = new PetriNetHLAPI("colo-export", PNTypeHLAPI.COREMODEL, new NameHLAPI("coloane"), doc);
+			PetriNetHLAPI net = new PetriNetHLAPI("colo-export", PNTypeHLAPI.PTNET, new NameHLAPI("coloane"), doc);
 			PageHLAPI page = new PageHLAPI("main-page", new NameHLAPI("main-page"), null, net);
 
 			// Création des noeuds
@@ -70,7 +70,7 @@ public class ExportToImpl implements IExportTo {
 			for (IArc arc : graph.getArcs()) {
 				NodeHLAPI source = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getSource().getId()));
 				NodeHLAPI target = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getTarget().getId()));
-				ArcHLAPI a = new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
+				new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
 				monitor.worked(1);
 			}
 			
