@@ -16,6 +16,7 @@ Export-Package: fr.lip6.move.coloane.core.exceptions,
  fr.lip6.move.coloane.core.results.reports,
  fr.lip6.move.coloane.core.ui.figures.arcs,
  fr.lip6.move.coloane.core.ui.figures.nodes,
+ fr.lip6.move.coloane.core.ui.files,
  fr.lip6.move.coloane.core.ui.wizards.exportmodel,
  fr.lip6.move.coloane.core.ui.wizards.importmodel
 Require-Bundle: fr.lip6.move.coloane.interfaces,
