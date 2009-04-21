@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
@@ -33,42 +34,54 @@ public final class ModelLoader {
 	private ModelLoader() {	}
 
 	/**
-	 * @param xmlFile fichier xml représentant le modèle
-	 * @return IGraph construit à partir du fichier xml
+	 * Charge le schema WML de haut niveau pour vérifier que le modèle est un modèle de graphe supporté
+	 * @return Le schéma ou <code>null</code> si le XSD n'a pas été trouvé
 	 */
-	public static IGraph loadFromXML(IFile xmlFile) {
-		ModelHandler modelHandler = new ModelHandler();
-
-		// Declaration de quelques variables utiles ;o)
-		Schema schema;
-		SAXParserFactory factory;
+	private static Schema loadSchema() {
+		Schema schema = null;
 
 		try {
-			factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/model.xsd")); //$NON-NLS-1$
 			schema = schemaFactory.newSchema(schemaSource);
+			return schema;
 		} catch (SAXException e) {
 			LOGGER.warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
 			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
 			return null;
 		}
+	}
+
+	/**
+	 * @param xmlFile fichier xml représentant le modèle
+	 * @return IGraph construit à partir du fichier XML
+	 */
+	public static IGraph loadFromXML(IFile xmlFile) {
+		return loadFromXML(xmlFile.getLocationURI());
+	}
+
+	/**
+	 * @param xmlURI URI du fichier XML contenant le modèle à charger
+	 * @return IGraph construit à partir du fichier XML
+	 */
+	public static IGraph loadFromXML(URI xmlURI) {
+		ModelHandler modelHandler = new ModelHandler();
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		Schema schema = loadSchema();
 
 		// Phase de validation du fichier par rapport au modele global
 		Validator validator = schema.newValidator();
 		try {
-			validator.validate(new StreamSource(xmlFile.getContents()));
+			validator.validate(new StreamSource(xmlURI.toURL().openStream()));
 
 			SAXParser saxParser = factory.newSAXParser();
 			long debut = System.currentTimeMillis();
-			saxParser.parse(xmlFile.getLocationURI().toString(), modelHandler);
+			saxParser.parse(xmlURI.toString(), modelHandler);
 			LOGGER.info("Temps de chargement : " + (System.currentTimeMillis() - debut) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (SAXException e) {
 			LOGGER.warning("Impossible de parser le fichier. " + e.getMessage()); //$NON-NLS-1$
 		} catch (IOException e) {
 			LOGGER.warning("Erreur d'E/S : " + e.getMessage()); //$NON-NLS-1$
-		} catch (CoreException e) {
-			LOGGER.warning("Erreur lors de la lecture du fichier xml : " + e.getMessage()); //$NON-NLS-1$
 		} catch (ParserConfigurationException e) {
 			LOGGER.warning("Erreur lors de la création du parser. " + e.getMessage()); //$NON-NLS-1$
 		}
