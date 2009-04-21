@@ -121,12 +121,12 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 
 			@Override
 			protected void paintFigure(Graphics graphics) {
-				graphics.drawImage(palm, new Point(10, 10));
+				graphics.drawImage(palm, new Point(5, 5));
 			}
 		};
 
 		root.setLayoutManager(new FreeformLayout());
-		root.setBorder(new MarginBorder(5));
+		root.setBorder(new MarginBorder(0));
 		((ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER)).setAntialias(SWT.ON);
 		return root;
 	}
