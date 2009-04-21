@@ -20,7 +20,7 @@ public class SyntaxCheckerReport implements IReport {
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		}
-		
+
 		// Sinon on affiche le nombre de messages dans la 2eme colonne
 		int errors = result.getSubResults().size();
 		if (errors == 1) {
