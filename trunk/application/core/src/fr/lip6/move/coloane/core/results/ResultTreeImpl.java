@@ -178,17 +178,17 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	public final List<ICoreTip> getTips() {
 		return Collections.unmodifiableList(tips);
 	}
-	
+
 	/** {@inheritDoc} */
-	public List<ICoreTip> getTips(List<Integer> haveTips) {
+	public final List<ICoreTip> getTips(List<Integer> haveTips) {
 		List<ICoreTip> toReturn = new ArrayList<ICoreTip>();
-		
 		List<ICoreTip> toBrowse = new ArrayList<ICoreTip>();
+
 		toBrowse.addAll(parent.getTips());
 		toBrowse.addAll(tips);
-		
-		for (ICoreTip tip: toBrowse) {
-			for (int num: haveTips) {
+
+		for (ICoreTip tip : toBrowse) {
+			for (int num : haveTips) {
 				if (num == tip.getIdObject()) {
 					toReturn.add(tip);
 					break;

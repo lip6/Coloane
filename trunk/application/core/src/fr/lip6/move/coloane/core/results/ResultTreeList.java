@@ -230,9 +230,9 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/** {@inheritDoc} */
-	public List<ICoreTip> getTips(List<Integer> haveTips) {
+	public final List<ICoreTip> getTips(List<Integer> haveTips) {
 		throw new UnsupportedOperationException();
 	}
 

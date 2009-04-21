@@ -22,10 +22,10 @@ public class PInvariantsReport implements IReport {
 			return root;
 		} else if (nbSubResult == 1) {
 			root = new ResultTreeImpl(result.getServiceName(), Messages.PInvariantsReport_1);
-			root.setSessionManager(SessionManager.getInstance());			
+			root.setSessionManager(SessionManager.getInstance());
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), nbSubResult +Messages.PInvariantsReport_2);
-			root.setSessionManager(SessionManager.getInstance());						
+			root = new ResultTreeImpl(result.getServiceName(), nbSubResult + Messages.PInvariantsReport_2);
+			root.setSessionManager(SessionManager.getInstance());
 		}
 
 		for (ISubResult sub : result.getSubResults()) {

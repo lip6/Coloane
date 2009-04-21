@@ -5,6 +5,10 @@ import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
+/**
+ * Rapport pour le service LTL
+ * @author jbvoron
+ */
 public class LTLModCheck implements IReport {
 
 	/** {@inheritDoc} */

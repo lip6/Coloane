@@ -13,6 +13,7 @@ public interface IImportFrom {
 	 * Permet de recuperer un modele correspendant a la represention interne de Coloane
 	 * @param filePath chemin du fichier a importer
 	 * @param formalism Le formalisme du modèle à importer
+	 * @param monitor Le moniteru de progression
 	 * @return un modele correspendant a la represention interne de Coloane
 	 * @throws ColoaneException toutes les exceptions susceptiblent d'etre engendrees et a afficher
 	 */

@@ -22,10 +22,10 @@ public class ComputeBoundsReport implements IReport {
 			return root;
 		} else if (nbSubResult == 1) {
 			root = new ResultTreeImpl(result.getServiceName(), Messages.ComputeBoundsReport_1);
-			root.setSessionManager(SessionManager.getInstance());			
+			root.setSessionManager(SessionManager.getInstance());
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), nbSubResult +Messages.ComputeBoundsReport_2);
-			root.setSessionManager(SessionManager.getInstance());						
+			root = new ResultTreeImpl(result.getServiceName(), nbSubResult + Messages.ComputeBoundsReport_2);
+			root.setSessionManager(SessionManager.getInstance());
 		}
 
 		// Sinon on parcours les resultats
@@ -35,7 +35,8 @@ public class ComputeBoundsReport implements IReport {
 			String secondPart = res.substring(res.indexOf(':') + 1).trim();
 			ResultTreeImpl node = new ResultTreeImpl(firstPart, secondPart);
 
-			// On utilise l'object designation pour mettre en valeur l'objet dont on recoit les bornes
+			// On utilise l'object designation pour mettre en valeur l'objet
+			// dont on recoit les bornes
 			for (int id : sub.getObjectsDesignation()) {
 				node.addHighlighted(id);
 			}
