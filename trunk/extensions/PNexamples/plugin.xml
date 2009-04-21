@@ -9,6 +9,12 @@
             formalism="Place/Transition Net"
             name="SimpleOne">
       </example>
+      <example
+            build="fr.lip6.move.coloane.extensions.pnexamples.Philosophers"
+            description="Classical Philosopher Problem (colored)"
+            formalism="Colored Petri Net"
+            name="Philosophers">
+      </example>
    </extension>
 
 </plugin>
