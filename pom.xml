@@ -219,7 +219,6 @@
 				<!-- Pour le checkstyle -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.2</version>
 			</plugin>
 			<plugin>
 				<!-- Pour la javadoc -->
@@ -356,6 +355,16 @@
 		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
 		<!-- Configuration des plugin de Maven -->
 		<plugins>
