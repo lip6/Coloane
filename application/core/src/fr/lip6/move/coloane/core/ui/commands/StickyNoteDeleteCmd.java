@@ -1,8 +1,12 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 
@@ -16,6 +20,9 @@ public class StickyNoteDeleteCmd extends Command {
 
 	/** Graphe contenant le noeud */
 	private final ICoreGraph graph;
+
+	/** Liens reliés à cette note */
+	private List<ILink> links;
 
 	/**
 	 * Constructeur
@@ -31,6 +38,7 @@ public class StickyNoteDeleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
+		links = new ArrayList<ILink>(stickyNote.getLinks());
 		this.redo(); // Execute
 	}
 
@@ -38,11 +46,17 @@ public class StickyNoteDeleteCmd extends Command {
 	@Override
 	public final void redo() {
 		graph.deleteSticky(stickyNote);
+		for (ILink link : links) {
+			graph.deleteLink(link);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
 		graph.addSticky(stickyNote);
+		for (ILink link : links) {
+			graph.addLink(link);
+		}
 	}
 }
