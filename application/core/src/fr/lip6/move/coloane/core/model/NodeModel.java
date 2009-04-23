@@ -54,18 +54,24 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/**
-	 * Supprime les arcs attachés au noeud
+	 * Supprime les arcs et les liens attachés au noeud
 	 */
 	final void delete() {
 		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		for (IArc arc : outcomingArcs) {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
+			((ArcModel) arc).delete();
 		}
 		for (IArc arc : incomingArcs) {
 			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
+			((ArcModel) arc).delete();
+		}
+		for (ILink link : links) {
+			link.getSource().removeLink(link);
 		}
 		outcomingArcs.clear();
 		incomingArcs.clear();
+		links.clear();
 	}
 
 	/** {@inheritDoc} */

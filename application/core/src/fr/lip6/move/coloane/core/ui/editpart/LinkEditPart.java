@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
@@ -28,6 +29,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	protected final IFigure createFigure() {
 		PolylineConnection arc = new PolylineConnection();
 		arc.setLineStyle(Graphics.LINE_DOT);
+		arc.setForegroundColor(ColorConstants.gray);
 		return arc;
 	}
 
