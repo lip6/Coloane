@@ -122,6 +122,9 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			for (IArc arc : node.getIncomingArcs()) {
 				arcs.remove(arc.getId());
 			}
+			for (ILink link : ((ILinkableElement) node).getLinks()) {
+				links.remove(link);
+			}
 			((NodeModel) node).delete();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
 			node.removePropertyChangeListener(this);
@@ -219,6 +222,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 			firePropertyChange(ARC_REMOVED_PROP, null, arc);
 			arc.removePropertyChangeListener(this);
+			((ArcModel) arc).delete();
 		}
 	}
 

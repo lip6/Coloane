@@ -56,6 +56,16 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		this.graphicInfo = new ArcGraphicInfo(this);
 	}
 
+	/**
+	 * Supprime les liens attachés à cet arc.
+	 */
+	final void delete() {
+		for (ILink link : links) {
+			link.getSource().removeLink(link);
+		}
+		links.clear();
+	}
+
 	/** {@inheritDoc} */
 	public final INode getSource() {
 		return source;
