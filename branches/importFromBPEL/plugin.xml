@@ -4,9 +4,9 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extensions.importfrombpel.ImportFrom1"
-            id="fr.lip6.move.coloane.extensions.importFromBPEL.Import1"
-            reference="fr.lip6.move.coloane.extensions.importFromBPEL.Import1">
+            class="fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL.ImportFromImpl"
+            id="fr.lip6.move.coloane.extensions.importbpel"
+            reference="fr.lip6.move.coloane.wizard.import.bpel">
          <AcceptedFormalism
                id="fr.lip6.move.coloane.extensions.importFromBPEL.AcceptedFormalism1">
          </AcceptedFormalism>
