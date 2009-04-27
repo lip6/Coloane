@@ -149,16 +149,4 @@ public interface IGraph extends IElement {
 	 * @return int
 	 */
 	int getDate();
-
-	/**
-	 * Indicateur de fraicheur du modele
-	 * @return boolean
-	 */
-	boolean isDirty();
-
-	/**
-	 * Permet de rendre obsolete (ou a jour) le modele (pour demande une maj ou signifier une maj)
-	 * @param dirty (true = necessite de mise a jour)
-	 */
-	void setDirty(boolean dirty);
 }
