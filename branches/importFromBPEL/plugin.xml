@@ -8,7 +8,7 @@
             id="fr.lip6.move.coloane.extensions.importbpel"
             reference="fr.lip6.move.coloane.wizard.import.bpel">
          <AcceptedFormalism
-               id="fr.lip6.move.coloane.extensions.importFromBPEL.AcceptedFormalism1">
+               id="CPN">
          </AcceptedFormalism>
       </Import>
    </extension>
@@ -17,6 +17,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
+            icon="resource/icon/bpel_logo.gif"
             id="fr.lip6.move.coloane.wizard.import.bpel"
             name="Bpel File">
          <description>
