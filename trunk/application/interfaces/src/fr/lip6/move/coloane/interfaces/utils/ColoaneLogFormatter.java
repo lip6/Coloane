@@ -38,7 +38,7 @@ public class ColoaneLogFormatter extends Formatter {
 		StringBuffer l = new StringBuffer();
 
 		l.append(c.get(Calendar.DAY_OF_MONTH) + "/"); //$NON-NLS-1$
-		l.append(c.get(Calendar.MONTH) + "/"); //$NON-NLS-1$
+		l.append((c.get(Calendar.MONTH) + 1) + "/"); //$NON-NLS-1$
 		l.append(c.get(Calendar.YEAR) + " "); //$NON-NLS-1$
 
 		l.append(c.get(Calendar.HOUR) + ":"); //$NON-NLS-1$
