@@ -140,6 +140,12 @@ public interface IGraph extends IElement {
 	void deleteObject(int id) throws ModelException;
 
 	/**
+	 * Ajoute tous les éléments du graphe.
+	 * @param graph IGraph
+	 */
+	void addGraph(IGraph graph);
+
+	/**
 	 * @return le formalisme associé à ce graphe.
 	 */
 	IFormalism getFormalism();
