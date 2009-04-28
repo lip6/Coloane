@@ -156,7 +156,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	/** {@inheritDoc} */
 	public final void addNode(INode node) {
-		if (nodes.containsKey(node.getId())) {
+		if (arcs.containsKey(node.getId()) || nodes.containsKey(node.getId())) {
 			LOGGER.warning("Ce noeud existe déjà."); //$NON-NLS-1$
 		} else {
 			nodes.put(node.getId(), node);
@@ -246,8 +246,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	/** {@inheritDoc} */
 	public final void addArc(IArc arc) {
-		if (arcs.containsKey(arc.getId())) {
-			LOGGER.warning("Cet arc existe déjà."); //$NON-NLS-1$
+		if (arcs.containsKey(arc.getId()) || nodes.containsKey(arc.getId())) {
+			LOGGER.warning("Cet id existe déjà."); //$NON-NLS-1$
 		} else if (!nodes.containsKey(arc.getSource().getId()) || !nodes.containsKey(arc.getTarget().getId())) {
 			LOGGER.warning("La source et/ou la cible de cet arc n'existe pas."); //$NON-NLS-1$
 		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
@@ -366,5 +366,25 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final List<ILink> getLinks() {
 		return Collections.unmodifiableList(links);
+	}
+
+	/** {@inheritDoc} */
+	public final void addGraph(IGraph graph) {
+		if (!formalism.getId().equals(graph.getFormalism().getId())) {
+			LOGGER.warning("Les formalismes sont différents [" + formalism.getId() + " ≠ " + graph.getFormalism().getId() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return;
+		}
+		LOGGER.fine("Ajout de tous les éléments du graphe " + graph.getId()); //$NON-NLS-1$
+		for (INode node : graph.getNodes()) {
+			((AbstractElement) node).setId(getNewId());
+			addNode(node);
+		}
+		for (IArc arc : graph.getArcs()) {
+			((AbstractElement) arc).setId(getNewId());
+			addArc(arc);
+		}
+		for (IStickyNote sticky : stickys) {
+			addSticky(sticky);
+		}
 	}
 }
