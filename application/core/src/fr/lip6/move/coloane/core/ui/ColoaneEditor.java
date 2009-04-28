@@ -274,6 +274,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			@Override
 			protected LayeredPane createPrintableLayers() {
 				FreeformLayeredPane layeredPane = new FreeformLayeredPane();
+				layeredPane.add(new BackgroundLayer(), BackgroundLayer.BACKGROUND_LAYER);
 				layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
 				layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
 				return layeredPane;
