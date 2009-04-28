@@ -226,10 +226,10 @@ public class ImportFromImpl implements IImportFrom {
 		    	/**
 		    	 * Recursion
 		    	 */
-		    	
 
 		    	IGraph graph = new GraphModel(formalism);
 		    	IGraph tempGraph = new GraphModel(formalism);
+		    	IGraph tempGraphA = new GraphModel(formalism);
 		    	Iterator iter = element.elementIterator();
 		    	String tempString, nodeName;
 		    	IAttribute attribute,tempAttr;
@@ -272,6 +272,107 @@ public class ImportFromImpl implements IImportFrom {
 					    	   else if((tempString.equalsIgnoreCase("assign"))){
 					    		   tempGraph = GenerateAssign(formalism, level+1);
 					    	   }
+					    	   else if((tempString.equalsIgnoreCase("sequence"))){
+					    		   tempGraph = GenerateAssign(formalism, level+1);
+					    	   }
+//					    	   else if((tempString.equalsIgnoreCase("if"))){
+//					    		   tempGraph = GenerateAssign(formalism, level+1);
+//					    	   }
+					    	   else if((tempString.equalsIgnoreCase("flow"))){
+
+					    		   tempGraph = new GraphModel(formalism);
+					    		   tempGraphA = new GraphModel(formalism);
+					    		   
+					    		   INode nodeStartFlow, nodeEndFlow;
+					    		   
+					    		   // The first input place of 'flow' sub model
+									INode P_Start_Flow = tempGraph.createNode("place");
+
+							    	
+						    		// The following transition after the first input place
+							    	// of 'flow' sub model
+									INode T_Start_Flow = tempGraph.createNode("transition");
+									// Set the name of place 'P_Start'
+							    	attribute = T_Start_Flow.getAttribute("name");
+							    	attribute.setValue("T_"+level+"_Flow_In");
+							    	
+							    	// Add arc between P_Start and T_Start
+							    	IArc arc = tempGraph.createArc("arc", P_Start_Flow, T_Start_Flow);		    	
+							    	attribute = arc.getAttribute("valuation");
+							    	attribute.setValue("Arc_"+level+"_Flow_In");
+							    	
+							    	
+						    		// The last place of 'flow' sub model
+									INode P_End_Flow = tempGraph.createNode("place");
+
+							    	
+							    	// The last transition of 'flow' sub model
+									INode T_End_Flow = tempGraph.createNode("transition");
+									// Set the name of place 'P_Start'
+							    	attribute = T_End_Flow.getAttribute("name");
+							    	attribute.setValue("T_"+level+"_Flow_Out");
+							    	
+							    	// Add arc between P_Start and T_Start
+							    	arc = tempGraph.createArc("arc", T_End_Flow, P_End_Flow);		    	
+							    	attribute = arc.getAttribute("valuation");
+							    	attribute.setValue("Arc_"+level+"_Flow_Out");
+							    	
+							    	// Initialization
+							    	nodeStartFlow = P_Start_Flow;
+							    	nodeEndFlow = P_End_Flow;
+							    	
+							    	Iterator iterTemp = elem.elementIterator();
+							    	while(iterTemp.hasNext()){
+					    			   Element elemTemp =(Element)iterTemp.next();
+					    			   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level+1);
+					    			   tempGraph.addGraph(tempGraphA);
+					    			   
+					    			   // Add the connection between the sub model and parent model.
+							    	   Iterator iterNodeFlow = tempGraph.getNodes().iterator();
+//							    	   System.out.println("@@@@@ begin to show model of Graph!!!");
+							    	   while(iterNodeFlow.hasNext()){
+							    		   INode nodeFlow = (INode) iterNodeFlow.next();
+							    		   tempAttr = nodeFlow.getAttribute("name");
+							    		   nodeName = tempAttr.getValue();
+							    		   System.out.println("name is "+nodeName);
+							    		   if (nodeName.endsWith("Start")){
+							    			   nodeStartFlow = nodeFlow;
+							    			   tempAttr.setValue(nodeName+"_0");
+							    			   System.out.println("Start is "+nodeName);
+							    		   }
+							    		   else if (nodeName.endsWith("End")){
+							    			   nodeEndFlow = nodeFlow;
+							    			   tempAttr.setValue(nodeName+"_0");
+							    			   System.out.println("End is "+nodeName);
+							    		   }
+							    		   else{
+							    			   // do nothing
+							    		   }
+							    	   }
+							    	   tempGraph.createArc("arc", T_Start_Flow, nodeStartFlow);
+							    	   tempGraph.createArc("arc", nodeEndFlow, T_End_Flow);
+							    	   
+					    		   }
+							    	// ***********************************************
+							    	// In order to implement the conncection of submodels
+							    	// by identifying the name of places or transitions.
+							    	// Check whether they end with "start" or "end".
+							    	// ************************************************
+									// Set the name of place 'P_Start'
+							    	attribute = P_Start_Flow.getAttribute("name");
+							    	attribute.setValue("P_"+level+"_Flow_Start");
+							    	
+									// Set the name of place 'P_Start'
+							    	attribute = P_End_Flow.getAttribute("name");
+							    	attribute.setValue("P_"+level+"_Flow_End");
+							    	
+					    	   }
+//					    	   else if((tempString.equalsIgnoreCase("pick"))){
+//					    		   tempGraph = GenerateAssign(formalism, level+1);
+//					    	   }
+//					    	   else if((tempString.equalsIgnoreCase("while"))){
+//					    		   tempGraph = GenerateAssign(formalism, level+1);
+//					    	   }
 					    	   else
 					    	   {
 					    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
@@ -293,10 +394,12 @@ public class ImportFromImpl implements IImportFrom {
 					    		   System.out.println("name is "+nodeName);
 					    		   if (nodeName.endsWith("Start")){
 					    			   nodeTemp = node;
+					    			   tempAttr.setValue(nodeName+"_0");
 					    			   System.out.println("Start is "+nodeName);
 					    		   }
 					    		   else if (nodeName.endsWith("End")){
 					    			   P_End = node;
+					    			   tempAttr.setValue(nodeName+"_0");
 					    			   System.out.println("End is "+nodeName);
 					    		   }
 					    		   else{
@@ -308,65 +411,6 @@ public class ImportFromImpl implements IImportFrom {
 			    			   graph.createArc("arc", T_temp, nodeTemp);
 			    			   P_temp = P_End;
 			    			   // *******************************************
-					    	   
-//					    	   Iterator iterNode = graph.getNodes().iterator();
-//					    	   System.out.println("@@@@@ begin to copy model!!!");
-//					    	   while(iterNode.hasNext()){
-//					    		   node = (INode) iterNode.next();
-//					    		   tempAttr = node.getAttribute("name");
-//					    		   nodeName = tempAttr.getValue();
-//					    		   System.out.println("name is "+nodeName);
-//					    		   if (nodeName.endsWith("Start")){
-//					    			   INode T_temp = graph.createNode("transition");
-//					    			   graph.createArc("arc", P_temp, T_temp);
-//					    			   graph.createArc("arc", T_temp, node);
-//					    		   }
-//					    		   else if (nodeName.endsWith("End")){
-//					    			   P_End = node;
-//					    		   }
-//					    		   else{
-//					    			   // do nothing
-//					    		   }
-					    		   
-//					    		   // Here, try to set up the connection between
-//					    		   //graph and the tempGraph (copy the tempGrahp into graph)
-////					    		   graph = MergeGraph(graph, tempGraph);
-//					    		   Iterator iterNode = tempGraph.getNodes().iterator();
-//					    		   System.out.println("@@@@@ begin to copy model!!!");
-//					    		   while(iterNode.hasNext()){
-//					    			   node = (INode) iterNode.next();
-//					    			   graph.addNode(node);
-//					    			   tempAttr = node.getAttribute("name");
-//					    			   nodeName = tempAttr.getValue();
-//					    			   if (nodeName.endsWith("Start")){
-//					    				   INode T_temp = graph.createNode("transition");
-//					    				   graph.createArc("arc", P_temp, T_temp);
-//					    				   graph.createArc("arc", T_temp, node);
-//					    			   }
-//					    			   else if (nodeName.endsWith("End")){
-//					    				   P_End = node;
-//					    			   }
-//					    			   else{
-//					    				   // do nothing
-//					    			   }
-//					    			   				    			   
-//					    		   }
-//					    		   P_temp = P_End;
-//					    		   Iterator iterArc = tempGraph.getArcs().iterator();
-//					    		   while(iterArc.hasNext()){
-//					    			   IArc arc = (IArc) iterArc.next();
-//					    			   
-//					    			   // There is something wrong with the following method
-//					    			   // addArc() will use the original ID of Arc.
-//					    			   // So the conflict happens.
-//					    			   graph.addArc(arc);
-////					    			   IArc tempArc = graph.createArc("arc", arc.getSource(), arc.getTarget());
-////					    			   tempAttr = tempArc.getAttribute("name");
-////					    			   tempAttr.setValue(arc.getAttribute("name").getValue());
-//					    		   }
-					    		   
-//					    	   }
-//					    	   P_temp = P_End;
 					    	   
 					       }
 					       else{
@@ -384,6 +428,8 @@ public class ImportFromImpl implements IImportFrom {
 					attribute.setValue("P_"+level+"_"+element.getName()+"_End");
 					
  				   	INode T_temp = graph.createNode("transition");
+ 				   	System.out.println("P_temp is "+P_temp.getAttribute("name").getValue());
+ 				   	System.out.println("P_End is "+P_End.getAttribute("name").getValue());
  				   	graph.createArc("arc", P_temp, T_temp);
  				   	graph.createArc("arc", T_temp, P_End);
 			    	
@@ -395,29 +441,6 @@ public class ImportFromImpl implements IImportFrom {
 		    	return graph;
 		    	
 		    }
-	    
-	    
-//	    	   String elemName = elem.getName().toString();
-//	    	   if(elemName == "Receive"){
-//	    		   
-//	    	   }else if(elemName == "Reply"){
-//	    		   
-//	    	   }else if(elemName == "Invoke"){
-//	    		   
-//	    	   }else if(elemName == "Wait"){
-//	    		   
-//	    	   }else if(elemName == "Exit"){
-//	    		   
-//	    	   }else if(elemName == "Throw"){
-//	    		   
-//	    	   }else if(elemName == "ReThrow"){
-//	    		   
-//	    	   } else{
-//	    	   			    		   
-//	    	   }
-//	    		 
-	    
-	    
 	    
 	    
 	    
