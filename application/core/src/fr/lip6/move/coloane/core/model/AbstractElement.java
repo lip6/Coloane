@@ -51,6 +51,13 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
+	final void setId(int id) {
+		this.id = id;
+	}
+
 	/** {@inheritDoc} */
 	public final IAttribute getAttribute(String name) {
 		return attributes.get(name);
