@@ -959,12 +959,22 @@ public class ImportFromImpl implements IImportFrom {
 			    	tempGraph.createArc("arc", T_Pick_B_Down, P_End_Pick);
 			    	
 			    	// Create the inhibitor arc in Branch A
-			    	IArc T_Pick_A_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[0], T_Pick_B_Up);
-			    	T_Pick_A_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_A");
+			    	// ********************************************
+			    	// * For BPEL Process, it is not necessary to use inhibitor ARC.
+			    	// * It depends on the token
+			    	// * If needed, just delete the "//" of the following 2 liens.
+			    	// ********************************************
+//			    	IArc T_Pick_A_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[0], T_Pick_B_Up);
+//			    	T_Pick_A_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_A");
 			    	
 			    	// Create the inhibitor arc in Branch A
-			    	IArc T_Pick_B_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[1], T_Pick_A_Up);
-			    	T_Pick_B_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_B");
+			    	// ********************************************
+			    	// * For BPEL Process, it is not necessary to use inhibitor ARC.
+			    	// * It depends on the token
+			    	// * If needed, just delete the "//" of the following 2 liens.
+			    	// ********************************************
+//			    	IArc T_Pick_B_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[1], T_Pick_A_Up);
+//			    	T_Pick_B_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_B");
 			    	
 		    	   	}catch (ModelException e) {
 		    	   	// TODO Auto-generated catch block
