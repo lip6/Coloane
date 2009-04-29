@@ -227,6 +227,11 @@ public class ImportFromImpl implements IImportFrom {
 		    	 * Recursion
 		    	 */
 
+		    	// Arrange the location of every places and transitions.
+		    	int x = 150;
+		    	int y = 150;
+		    	Point point = new Point(x,y);
+		    	
 		    	IGraph graph = new GraphModel(formalism);
 		    	IGraph tempGraph = new GraphModel(formalism);
 		    	IGraph tempGraphA = new GraphModel(formalism);
@@ -281,9 +286,9 @@ public class ImportFromImpl implements IImportFrom {
 					    	   else if((tempString.equalsIgnoreCase("flow"))){
 					    		   tempGraph = GenerateFlow(elem,formalism, level+1);
 					    	   }
-//					    	   else if((tempString.equalsIgnoreCase("pick"))){
-//					    		   tempGraph = GenerateAssign(formalism, level+1);
-//					    	   }
+					    	   else if((tempString.equalsIgnoreCase("pick"))){
+					    		   tempGraph = GeneratePick(elem, formalism, level+1);
+					    	   }
 //					    	   else if((tempString.equalsIgnoreCase("while"))){
 //					    		   tempGraph = GenerateAssign(formalism, level+1);
 //					    	   }
@@ -334,12 +339,21 @@ public class ImportFromImpl implements IImportFrom {
 					       i++;
 					}
 			    	
+			    	// Set the name of the first place in this element
 					attribute = P_Start.getAttribute("name");
 					attribute.setValue("P_"+level+"_"+element.getName()+"_Start");
+					// Manage the localization of the place 
+			    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
+			    	nodeGraphInfo.setLocation(point);
 			    	
+			    	// Create the last node (place)
 					P_End = graph.createNode("place");
 					attribute = P_End.getAttribute("name");
 					attribute.setValue("P_"+level+"_"+element.getName()+"_End");
+			    	nodeGraphInfo = P_End.getGraphicInfo();
+			    	point.setLocation(x, y+300);
+			    	nodeGraphInfo.setLocation(point);
+					
 					
  				   	INode T_temp = graph.createNode("transition");
  				   	System.out.println("P_temp is "+P_temp.getAttribute("name").getValue());
@@ -854,6 +868,7 @@ public class ImportFromImpl implements IImportFrom {
 		  /**
 		   * Generate the IGraph Petri model of structured activity 'Pick' 
 		   * according to the transformation rule of 'Pick' activity
+		   * There are Branch A and Branch B.
 		   * 
 		   * @param elem element in xml document
 		   * @param formalism the formalism of the Graph 
@@ -865,96 +880,101 @@ public class ImportFromImpl implements IImportFrom {
 	    	IGraph tempGraph = new GraphModel(formalism);
 	    	IGraph tempGraphA = new GraphModel(formalism);
 		   
-		   	INode nodeStartFlow, nodeEndFlow;
+		   	INode nodeStartPick[] = new INode[2];
+		   	INode nodeEndPick[] = new INode[2];
+		   	int countBranch = 0;
+		   	
+		   	IAttribute attribute;
 		   	try {
 		   			// The first input place of 'flow' sub model
-					INode P_Start_Flow = tempGraph.createNode("place");
-	
-			    	
-		    		// The following transition after the first input place
-			    	// of 'flow' sub model
-					INode T_Start_Flow = tempGraph.createNode("transition");
-					// Set the name of place 'P_Start'
-			    	IAttribute attribute = T_Start_Flow.getAttribute("name");
-			    	attribute.setValue("T_"+level+"_Flow_In");
-			    	
-			    	// Add arc between P_Start and T_Start
-			    	IArc arc = tempGraph.createArc("arc", P_Start_Flow, T_Start_Flow);		    	
-			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+level+"_Flow_In");
-			    	
+					INode P_Start_Pick = tempGraph.createNode("place");
 			    	
 		    		// The last place of 'flow' sub model
-					INode P_End_Flow = tempGraph.createNode("place");
-	
-			    	
-			    	// The last transition of 'flow' sub model
-					INode T_End_Flow = tempGraph.createNode("transition");
-					// Set the name of place 'P_Start'
-			    	attribute = T_End_Flow.getAttribute("name");
-			    	attribute.setValue("T_"+level+"_Flow_Out");
-			    	
-			    	// Add arc between P_Start and T_Start
-			    	arc = tempGraph.createArc("arc", T_End_Flow, P_End_Flow);		    	
-			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+level+"_Flow_Out");
-			    	
-			    	// Initialization
-			    	nodeStartFlow = P_Start_Flow;
-			    	nodeEndFlow = P_End_Flow;
+					INode P_End_Pick = tempGraph.createNode("place");
 			    	
 			    	Iterator iterTemp = elem.elementIterator();
 			    	while(iterTemp.hasNext()){
-	 			   Element elemTemp =(Element)iterTemp.next();
-	 			   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level+1);
-	 			   tempGraph.addGraph(tempGraphA);
-	 			   
-	 			   // Add the connection between the sub model and parent model.
-			    	   Iterator iterNodeFlow = tempGraph.getNodes().iterator();
-	//		    	   System.out.println("@@@@@ begin to show model of Graph!!!");
-			    	   while(iterNodeFlow.hasNext()){
-			    		   INode nodeFlow = (INode) iterNodeFlow.next();
-			    		   IAttribute tempAttr = nodeFlow.getAttribute("name");
-			    		   String nodeName = tempAttr.getValue();
-			    		   System.out.println("name is "+nodeName);
-			    		   if (nodeName.endsWith("Start")){
-			    			   nodeStartFlow = nodeFlow;
-			    			   tempAttr.setValue(nodeName+"_0");
-			    			   System.out.println("Start is "+nodeName);
-			    		   }
-			    		   else if (nodeName.endsWith("End")){
-			    			   nodeEndFlow = nodeFlow;
-			    			   tempAttr.setValue(nodeName+"_0");
-			    			   System.out.println("End is "+nodeName);
-			    		   }
-			    		   else{
-			    			   // do nothing
-			    		   }
-			    	   }
+				    	Element elemTemp =(Element)iterTemp.next();
+				    	tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level+1);
+				    	tempGraph.addGraph(tempGraphA);
+		 			   
+		 			   // Add the connection between the sub model and parent model.
+				    	Iterator iterNodePick = tempGraph.getNodes().iterator();
+				    	while(iterNodePick.hasNext()){
+				    		   INode nodePick = (INode) iterNodePick.next();
+				    		   IAttribute tempAttr = nodePick.getAttribute("name");
+				    		   String nodeName = tempAttr.getValue();
+				    		   
+				    		   LOGGER.fine("nodeName is " + nodeName); 
+				    		   
+				    		   if (nodeName.endsWith("Start")){
+				    			   nodeStartPick[countBranch] = nodePick;
+				    			   tempAttr.setValue(nodeName+"_0");
+				    			   System.out.println("Start is "+nodeName);
+				    		   }
+				    		   else if (nodeName.endsWith("End")){
+				    			   nodeEndPick[countBranch] = nodePick;
+				    			   tempAttr.setValue(nodeName+"_0");
+				    			   System.out.println("End is "+nodeName);
+				    		   }
+				    		   else{
+				    			   // do nothing
+				    		   }
 
-		    		   tempGraph.createArc("arc", T_Start_Flow, nodeStartFlow);
-			    	   tempGraph.createArc("arc", nodeEndFlow, T_End_Flow);
 				    	}
-	
-				    	// ***********************************************
-				    	// In order to implement the conncection of submodels
-				    	// by identifying the name of places or transitions.
-				    	// Check whether they end with "start" or "end".
-				    	// ************************************************
-						// Set the name of place 'P_Start'
-				    	attribute = P_Start_Flow.getAttribute("name");
-				    	attribute.setValue("P_"+level+"_Flow_Start");
-				    	
-						// Set the name of place 'P_Start'
-				    	attribute = P_End_Flow.getAttribute("name");
-				    	attribute.setValue("P_"+level+"_Flow_End");
-		    	   } catch (ModelException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				    	countBranch++;
+			    	}
+			    	
+			    	// ***********************************************
+			    	// In order to implement the conncection of submodels
+			    	// by identifying the name of places or transitions.
+			    	// Check whether they end with "start" or "end".
+			    	// ************************************************
+			    	// Set the name of place 'P_Start_Pick'
+			    	attribute = P_Start_Pick.getAttribute("name");
+			    	attribute.setValue("P_"+level+"_Pick_Start");
+			    	
+			    	// Set the name of place 'P_End_Pick'
+			    	attribute = P_End_Pick.getAttribute("name");
+			    	attribute.setValue("P_"+level+"_Pick_End");
+			    	
+			    	// Connect Pick branch A with Pick self (up)
+			    	INode T_Pick_A_Up = tempGraph.createNode("transition");
+			    	tempGraph.createArc("arc", P_Start_Pick, T_Pick_A_Up);
+			    	tempGraph.createArc("arc", T_Pick_A_Up, nodeStartPick[0]);
+			    	
+			    	// Connect Pick branch A with Pick self (down)
+			    	INode T_Pick_A_Down = tempGraph.createNode("transition");
+			    	tempGraph.createArc("arc", nodeEndPick[0], T_Pick_A_Down);
+			    	tempGraph.createArc("arc", T_Pick_A_Down, P_End_Pick);
+			    	
+			    	// Connect Pick branch B with Pick self (up)
+			    	INode T_Pick_B_Up = tempGraph.createNode("transition");
+			    	tempGraph.createArc("arc", P_Start_Pick, T_Pick_B_Up);
+			    	tempGraph.createArc("arc", T_Pick_B_Up, nodeStartPick[1]);
+			    	
+			    	// Connect Pick branch B with Pick self (down)
+			    	INode T_Pick_B_Down = tempGraph.createNode("transition");
+			    	tempGraph.createArc("arc", nodeEndPick[1], T_Pick_B_Down);
+			    	tempGraph.createArc("arc", T_Pick_B_Down, P_End_Pick);
+			    	
+			    	// Create the inhibitor arc in Branch A
+			    	IArc T_Pick_A_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[0], T_Pick_B_Up);
+			    	T_Pick_A_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_A");
+			    	
+			    	// Create the inhibitor arc in Branch A
+			    	IArc T_Pick_B_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[1], T_Pick_A_Up);
+			    	T_Pick_B_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_B");
+			    	
+		    	   	}catch (ModelException e) {
+		    	   	// TODO Auto-generated catch block
+		    	   		e.printStackTrace();
 		    	   }
 
-		    	   return tempGraph;
-		    	}
+		    	return tempGraph;
+		    }
+	    
+	    
 //		  public IGraph MergeGraph(IGraph graphA, IGraph graphB) {
 //   		   INode P_temp, P_End, T_temp;
 //   		   
