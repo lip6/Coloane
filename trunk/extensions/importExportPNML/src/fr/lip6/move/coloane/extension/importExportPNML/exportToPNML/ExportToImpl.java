@@ -15,6 +15,7 @@ import fr.lip6.move.pnml.ptnet.hlapi.ArcHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.NameHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.NodeHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PNTypeHLAPI;
+import fr.lip6.move.pnml.ptnet.hlapi.PTArcAnnotationHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PTMarkingHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PageHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PetriNetDocHLAPI;
@@ -70,7 +71,8 @@ public class ExportToImpl implements IExportTo {
 			for (IArc arc : graph.getArcs()) {
 				NodeHLAPI source = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getSource().getId()));
 				NodeHLAPI target = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getTarget().getId()));
-				new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
+				ArcHLAPI PNMLarc = new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
+				new PTArcAnnotationHLAPI(Integer.valueOf(arc.getAttribute("valuation").getValue()), PNMLarc);
 				monitor.worked(1);
 			}
 			
