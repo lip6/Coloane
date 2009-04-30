@@ -19,6 +19,7 @@ import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -239,11 +240,13 @@ public class ImportFromImpl implements IImportFrom {
 		    	String tempString, nodeName;
 		    	IAttribute attribute,tempAttr;
 		    	int i = 0;
-		    	INode P_Start, P_End, nodeTemp, node, P_temp; 
+		    	INode P_Start, P_End, nodeTemp, node, P_temp, P_Strat_New;
+		    	boolean hasFirstStartNode = false;
 		    	
 		    	try {
 					P_Start = graph.createNode("place");
 
+					P_Strat_New = P_Start;
 					P_temp = P_Start;
 					P_End = P_Start;
 					nodeTemp = P_Start;
@@ -278,7 +281,7 @@ public class ImportFromImpl implements IImportFrom {
 					    		   tempGraph = GenerateAssign(formalism, level+1);
 					    	   }
 					    	   else if((tempString.equalsIgnoreCase("sequence"))){
-					    		   tempGraph = GenerateAssign(formalism, level+1);
+					    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
 					    	   }
 //					    	   else if((tempString.equalsIgnoreCase("if"))){
 //					    		   tempGraph = GenerateAssign(formalism, level+1);
@@ -315,6 +318,10 @@ public class ImportFromImpl implements IImportFrom {
 					    			   nodeTemp = node;
 					    			   tempAttr.setValue(nodeName+"_0");
 					    			   System.out.println("Start is "+nodeName);
+					    			   if (hasFirstStartNode == false){
+					    				   P_Strat_New = node;
+					    				   hasFirstStartNode = true;
+					    			   }
 					    		   }
 					    		   else if (nodeName.endsWith("End")){
 					    			   P_End = node;
@@ -325,11 +332,29 @@ public class ImportFromImpl implements IImportFrom {
 					    			   // do nothing
 					    		   }
 					    	   }
-			    			   INode T_temp = graph.createNode("transition");
+					    	   
+					    	   // ***
+					    	   // Use transition to connect two different submodels
+					    	   // For the reason of reducing the number of place and transitions
+					    	   // and scale of model, delete the 3 lines code.
+					    	   // ***
+//					    	   INode T_temp = graph.createNode("transition");
+//			    			   graph.createArc("arc", P_temp, T_temp);
+//			    			   graph.createArc("arc", T_temp, nodeTemp);
+			    			   
+					    	   // ***
+			    			   // merge 2 submodel by merging 2 places 
+					    	   // (P_end of one submodel and P_start of another submodel)
+					    	   // create Arc and delete the place
+					    	   // ***
+			    			   INode T_temp = nodeTemp.getOutcomingArcs().get(0).getTarget();
 			    			   graph.createArc("arc", P_temp, T_temp);
-			    			   graph.createArc("arc", T_temp, nodeTemp);
+			    			   graph.deleteNode(nodeTemp);
+			    			   
 			    			   P_temp = P_End;
 			    			   // *******************************************
+			    			   
+
 					    	   
 					       }
 					       else{
@@ -339,27 +364,45 @@ public class ImportFromImpl implements IImportFrom {
 					       i++;
 					}
 			    	
-			    	// Set the name of the first place in this element
+			    	// Delete the temp start node P_Start
+			    	// in order to reduce the scale of model.
+			    	
+			    	// Set the name of the first place 
+			    	// Rename the first start node of model
 					attribute = P_Start.getAttribute("name");
 					attribute.setValue("P_"+level+"_"+element.getName()+"_Start");
 					// Manage the localization of the place 
 			    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
 			    	nodeGraphInfo.setLocation(point);
 			    	
-			    	// Create the last node (place)
-					P_End = graph.createNode("place");
+			    	// P_End 
+			    	// Set the name of the last place
+			    	// Rename the last end node of model
 					attribute = P_End.getAttribute("name");
 					attribute.setValue("P_"+level+"_"+element.getName()+"_End");
+					// Manage the localization of the place 
 			    	nodeGraphInfo = P_End.getGraphicInfo();
 			    	point.setLocation(x, y+300);
 			    	nodeGraphInfo.setLocation(point);
-					
-					
- 				   	INode T_temp = graph.createNode("transition");
- 				   	System.out.println("P_temp is "+P_temp.getAttribute("name").getValue());
- 				   	System.out.println("P_End is "+P_End.getAttribute("name").getValue());
- 				   	graph.createArc("arc", P_temp, T_temp);
- 				   	graph.createArc("arc", T_temp, P_End);
+			    	
+			    	// *******************************************************
+			    	// * in order to reduce the scale of model
+			    	// * do not generate any unnecessary places and transitions
+			    	// * which are used for connecting different submodels
+			    	// *******************************************************
+			    	// Create the last node (place)
+//					P_End = graph.createNode("place");
+//					attribute = P_End.getAttribute("name");
+//					attribute.setValue("P_"+level+"_"+element.getName()+"_End");
+//			    	nodeGraphInfo = P_End.getGraphicInfo();
+//			    	point.setLocation(x, y+300);
+//			    	nodeGraphInfo.setLocation(point);
+//					
+// 				   	INode T_temp = graph.createNode("transition");
+// 				   	System.out.println("P_temp is "+P_temp.getAttribute("name").getValue());
+// 				   	System.out.println("P_End is "+P_End.getAttribute("name").getValue());
+// 				   	graph.createArc("arc", P_temp, T_temp);
+// 				   	graph.createArc("arc", T_temp, P_End);
 			    	
 				} catch (ModelException e) {
 					// TODO Auto-generated catch block
@@ -845,7 +888,7 @@ public class ImportFromImpl implements IImportFrom {
 				    	}
 	
 				    	// ***********************************************
-				    	// In order to implement the conncection of submodels
+				    	// In order to implement the connection of submodels
 				    	// by identifying the name of places or transitions.
 				    	// Check whether they end with "start" or "end".
 				    	// ************************************************
