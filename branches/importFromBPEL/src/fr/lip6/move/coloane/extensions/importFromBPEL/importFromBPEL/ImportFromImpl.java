@@ -220,8 +220,12 @@ public class ImportFromImpl implements IImportFrom {
 		  
 		  /**
 		   * Generate the Petri net model (recursion)
+		   * Activity "sequence" (Process)
+		   * It should be firstly called, because the entire process
+		   * is enclosed with "sequence"
 		   * 
 		   * @param element the xml document source
+		   * @return IGraph part graph of BPEL.
 		   */
 		    public IGraph BPELPNModelGenerator(Element element, String formalism, int level) {
 		    	/**
@@ -255,52 +259,7 @@ public class ImportFromImpl implements IImportFrom {
 			    	while(iter.hasNext()){
 					       Element elem=(Element)iter.next();
 					       if(elem instanceof Element){
-					    	   System.out.println(elem.getName());
-					    	   //do something 
-					    	   tempString = elem.getName();
-					    	   if ((tempString.equalsIgnoreCase("receive"))){
-					    		   tempGraph = GenerateReceive(formalism, level+1);
-					    		   
-					    	   }
-					    	   else if((tempString.equalsIgnoreCase("invoke"))){
-					    		   if(elem.attribute("outputVariable") == null){
-					    			   // One-way invoke
-					    			   System.out.println("One-Way invoke");
-					    			   tempGraph = GenerateInvokeOneway(formalism, level+1);
-					    		   }
-					    		   else{
-					    			   // Request-Response invoke
-					    			   System.out.println("Request-Response invoke");
-					    			   tempGraph = GenerateInvokeReqrep(formalism, level+1);
-					    		   }
-					    	   }
-					    	   else if((tempString.equalsIgnoreCase("reply"))){
-					    		   tempGraph = GenerateReply(formalism, level+1);
-					    	   }
-					    	   else if((tempString.equalsIgnoreCase("assign"))){
-					    		   tempGraph = GenerateAssign(formalism, level+1);
-					    	   }
-					    	   else if((tempString.equalsIgnoreCase("sequence"))){
-					    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
-					    	   }
-//					    	   else if((tempString.equalsIgnoreCase("if"))){
-//					    		   tempGraph = GenerateAssign(formalism, level+1);
-//					    	   }
-					    	   else if((tempString.equalsIgnoreCase("flow"))){
-					    		   tempGraph = GenerateFlow(elem,formalism, level+1);
-					    	   }
-					    	   else if((tempString.equalsIgnoreCase("pick"))){
-					    		   tempGraph = GeneratePick(elem, formalism, level+1);
-					    	   }
-//					    	   else if((tempString.equalsIgnoreCase("while"))){
-//					    		   tempGraph = GenerateAssign(formalism, level+1);
-//					    	   }
-					    	   else
-					    	   {
-					    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
-					    		   
-					    		   //for test
-					    	   }
+					    	   tempGraph = BPELPNModelGeneratorEach(elem, formalism, level);
 					    	   
 					    	   // *******************************************
 					    	   // The following codes is for merging two graphs.
@@ -347,15 +306,19 @@ public class ImportFromImpl implements IImportFrom {
 					    	   // (P_end of one submodel and P_start of another submodel)
 					    	   // create Arc and delete the place
 					    	   // ***
-			    			   INode T_temp = nodeTemp.getOutcomingArcs().get(0).getTarget();
-			    			   graph.createArc("arc", P_temp, T_temp);
-			    			   graph.deleteNode(nodeTemp);
+					    	   
+					    	   if (nodeTemp.getOutcomingArcs().size()!= 0)
+					    	   {
+					    		   for (int count = 0; count<nodeTemp.getOutcomingArcs().size(); count++){
+					    			   INode T_temp = nodeTemp.getOutcomingArcs().get(count).getTarget();
+					    			   graph.createArc("arc", P_temp, T_temp);
+					    		   }
+				    			   graph.deleteNode(nodeTemp);
+					    	   }
 			    			   
 			    			   P_temp = P_End;
 			    			   // *******************************************
 			    			   
-
-					    	   
 					       }
 					       else{
 				    	   
@@ -414,6 +377,70 @@ public class ImportFromImpl implements IImportFrom {
 		    }
 	    
 	    
+			  /**
+			   * Generate the every activity of the Petri net model (recursion)
+			   * According to different activity,
+			   * this function will call related function to generate
+			   * the submodel. 
+			   * 
+			   * @param element the xml document source
+			   * @return IGraph part graph of BPEL.
+			   */
+		    public IGraph BPELPNModelGeneratorEach(Element elem, String formalism, int level){
+		    	
+		    	IGraph tempGraph = new GraphModel(formalism);
+		    	String tempString;
+		    	System.out.println(elem.getName());
+		    	   //do something 
+		    	   tempString = elem.getName();
+		    	   if ((tempString.equalsIgnoreCase("receive"))){
+		    		   tempGraph = GenerateReceive(formalism, level+1);
+		    		   
+		    	   }
+		    	   else if((tempString.equalsIgnoreCase("invoke"))){
+		    		   if(elem.attribute("outputVariable") == null){
+		    			   // One-way invoke
+		    			   System.out.println("One-Way invoke");
+		    			   tempGraph = GenerateInvokeOneway(formalism, level+1);
+		    		   }
+		    		   else{
+		    			   // Request-Response invoke
+		    			   System.out.println("Request-Response invoke");
+		    			   tempGraph = GenerateInvokeReqrep(formalism, level+1);
+		    		   }
+		    	   }
+		    	   else if((tempString.equalsIgnoreCase("reply"))){
+		    		   tempGraph = GenerateReply(formalism, level+1);
+		    	   }
+		    	   else if((tempString.equalsIgnoreCase("assign"))){
+		    		   tempGraph = GenerateAssign(formalism, level+1);
+		    	   }
+		    	   else if((tempString.equalsIgnoreCase("sequence"))){
+		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
+		    	   }
+//		    	   else if((tempString.equalsIgnoreCase("if"))){
+//		    		   tempGraph = GenerateAssign(formalism, level+1);
+//		    	   }
+		    	   else if((tempString.equalsIgnoreCase("flow"))){
+		    		   tempGraph = GenerateFlow(elem,formalism, level+1);
+		    	   }
+		    	   else if((tempString.equalsIgnoreCase("pick"))){
+		    		   tempGraph = GeneratePick(elem, formalism, level+1);
+		    	   }
+//		    	   else if((tempString.equalsIgnoreCase("while"))){
+//		    		   tempGraph = GenerateAssign(formalism, level+1);
+//		    	   }
+		    	   else if((tempString.equalsIgnoreCase("switch"))){
+		    		   tempGraph = GenerateSwitch(elem, formalism, level+1);
+		    	   }
+		    	   else
+		    	   {
+		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
+		    		   //return null;
+		    		   //for test
+		    	   }
+		    	   return tempGraph;
+		    }
 	    
 		  /**
 		   * Generate the IGraph Petri model of 'Receive' activity
@@ -758,7 +785,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	Point point = new Point(x,y);
 	    	
 			try {
-				// The first input place of 'Reply' sub model
+				// The first input place of 'Assign' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
@@ -908,6 +935,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	}
 	    
 	    
+	    // It seems to be a bit complex.
 		  /**
 		   * Generate the IGraph Petri model of structured activity 'Pick' 
 		   * according to the transformation rule of 'Pick' activity
@@ -1028,46 +1056,143 @@ public class ImportFromImpl implements IImportFrom {
 		    }
 	    
 	    
-//		  public IGraph MergeGraph(IGraph graphA, IGraph graphB) {
-//   		   INode P_temp, P_End, T_temp;
-//   		   
-//
-//				   try {
-//						  Iterator iterNode = graphB.getNodes().iterator();
-//						   while(iterNode.hasNext()){
-//							   INode node = (INode) iterNode.next();
-//							   graphA.addNode(node);
-//							   IAttribute tempAttr = node.getAttribute("name");
-//							   String nodeName = tempAttr.getValue();
-//							   if (nodeName.endsWith("Start")){					   
-//					   
-//					   
-//					T_temp = graphA.createNode("transition");
-//					   graphA.createArc("arc", P_temp, T_temp);
-//					   graphA.createArc("arc", T_temp, node);
-//				   }
-//				   else if (nodeName.endsWith("End")){
-//					   P_End = node;
-//				   }
-//				   else{
-//					   // do nothing
-//				   }
-//				   				    			   
-//			   }
-//			   P_temp = P_End;
-//			   Iterator iterArc = graphB.getArcs().iterator();
-//			   while(iterNode.hasNext()){
-//				   IArc arc = (IArc) iterNode.next();
-//				   graphA.addArc(arc);
-//			   }
-//				} catch (ModelException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//
-//				
-//				return graphA;
-//				
-//			  
-//		  }
+		  /**
+		   * Generate the IGraph Petri model of structured activity 'Switch' 
+		   * according to the transformation rule of 'Switch' activity
+		   * 
+		   * @param elem element in xml document
+		   * @param formalism the formalism of the Graph 
+		   * @param  level show the level of node (activity) 
+		   * @return IGraph
+		   */
+	    public IGraph GenerateSwitch(Element elem,String formalism, int level){
+
+	    	IGraph tempGraph = new GraphModel(formalism);
+	    	IGraph tempGraphA = new GraphModel(formalism);
+		   
+		   	INode nodeStartSwitch;//[] = new INode[2];
+		   	INode nodeEndSwitch;//[] = new INode[2];
+		   	int countBranch = 0;
+		   	
+		   	IAttribute attribute;
+		   	try {
+		   			// The first input place of 'flow' sub model
+					INode P_Start_Switch = tempGraph.createNode("place");
+			    	
+		    		// The last place of 'flow' sub model
+					INode P_End_Switch = tempGraph.createNode("place");
+					
+					nodeStartSwitch = P_Start_Switch;
+					nodeEndSwitch = P_End_Switch;
+			    	
+			    	Iterator iterTemp = elem.elementIterator();
+			    	while(iterTemp.hasNext()){
+				    	Element elemTemp =(Element)iterTemp.next();
+//				    	Iterator iterTempNext = elemTemp.elementIterator();
+//				    	Element elemTempNext = (Element)iterTempNext.next();
+				    	LOGGER.fine("elemTempNext is " + elemTemp.getName()); 
+				    	
+				    	tempGraphA = BPELPNModelGeneratorEach(elemTemp, formalism, level+1);
+				    	tempGraph.addGraph(tempGraphA);
+		 			   
+		 			   // Add the connection between the sub model and parent model.
+				    	Iterator iterNodeSwitch = tempGraph.getNodes().iterator();
+				    	while(iterNodeSwitch.hasNext()){
+				    		   INode nodePick = (INode) iterNodeSwitch.next();
+				    		   IAttribute tempAttr = nodePick.getAttribute("name");
+				    		   String nodeName = tempAttr.getValue();
+				    		   
+				    		   if (nodeName.endsWith("Start")){
+				    			   nodeStartSwitch = nodePick;
+				    			   tempAttr.setValue(nodeName+"_0");
+				    			   System.out.println("Start is "+nodeName);
+				    		   }
+				    		   else if (nodeName.endsWith("End")){
+				    			   nodeEndSwitch = nodePick;
+				    			   tempAttr.setValue(nodeName+"_0");
+				    			   System.out.println("End is "+nodeName);
+				    		   }
+				    		   else{
+				    			   // do nothing
+				    		   }
+				    	}
+				    	
+
+				    	
+				    	// Create Branch up transition and related arc
+				    	INode T_Switch_Up = tempGraph.createNode("transition");
+				    	if (elemTemp.getName().equalsIgnoreCase("case")){
+				    		T_Switch_Up.getAttribute("name").setValue("CASE: " + elemTemp.attributeValue("condition"));
+				    	}
+				    	else
+				    	{
+				    		T_Switch_Up.getAttribute("name").setValue("OTHERWISE:");
+				    	}
+				    	tempGraph.createArc("arc", P_Start_Switch, T_Switch_Up);
+				    	tempGraph.createArc("arc", T_Switch_Up, nodeStartSwitch);
+				    	
+				    				    	
+				    	LOGGER.fine("T_Switch_Up is " + T_Switch_Up.getAttribute("name").getValue()); 
+				    	LOGGER.fine("P_Start_Switch is " + P_Start_Switch.getAttribute("name").getValue()); 
+				    	LOGGER.fine("nodeStartSwitch is " + nodeStartSwitch.getAttribute("name").getValue()); 
+				    	
+				    	
+
+				    	// Create Branch down transition and related arc
+				    	INode T_Switch_Down = tempGraph.createNode("transition");
+				    	if (elemTemp.getName().equalsIgnoreCase("case")){
+				    		T_Switch_Down.getAttribute("name").setValue("T_" + level + "_Switch_EndCase");
+				    	}
+				    	else
+				    	{
+				    		T_Switch_Down.getAttribute("name").setValue("T_" + level + "_Switch_EndOtherwise");
+				    	}
+				    	tempGraph.createArc("arc", nodeEndSwitch, T_Switch_Down);
+				    	tempGraph.createArc("arc", T_Switch_Down, P_End_Switch);
+				    	LOGGER.fine("T_Switch_Down is " + T_Switch_Down.getAttribute("name").getValue()); 
+				    	LOGGER.fine("nodeEndSwitch is " + nodeEndSwitch.getAttribute("name").getValue()); 
+				    	LOGGER.fine("P_End_Switch is " + P_End_Switch.getAttribute("name").getValue()); 
+				    	countBranch++;
+			    	}
+			    	
+			    	// ***********************************************
+			    	// In order to implement the conncection of submodels
+			    	// by identifying the name of places or transitions.
+			    	// Check whether they end with "start" or "end".
+			    	// ************************************************
+			    	// Set the name of place 'P_Start_Pick'
+			    	attribute = P_Start_Switch.getAttribute("name");
+			    	attribute.setValue("P_"+level+"_Switch_Start");
+			    	
+			    	// Set the name of place 'P_End_Pick'
+			    	attribute = P_End_Switch.getAttribute("name");
+			    	attribute.setValue("P_"+level+"_Switch_End");
+			    	
+			    	
+			    	// Create the inhibitor arc in Branch A
+			    	// ********************************************
+			    	// * For BPEL Process, it is not necessary to use inhibitor ARC.
+			    	// * It depends on the token
+			    	// * If needed, just delete the "//" of the following 2 liens.
+			    	// ********************************************
+//			    	IArc T_Pick_A_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[0], T_Pick_B_Up);
+//			    	T_Pick_A_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_A");
+			    	
+			    	// Create the inhibitor arc in Branch A
+			    	// ********************************************
+			    	// * For BPEL Process, it is not necessary to use inhibitor ARC.
+			    	// * It depends on the token
+			    	// * If needed, just delete the "//" of the following 2 liens.
+			    	// ********************************************
+//			    	IArc T_Pick_B_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[1], T_Pick_A_Up);
+//			    	T_Pick_B_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_B");
+			    	
+		    	   	}catch (ModelException e) {
+		    	   	// TODO Auto-generated catch block
+		    	   		e.printStackTrace();
+		    	   }
+			    	return tempGraph;
+		    	}
+	    
+	    
 }
