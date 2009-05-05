@@ -215,13 +215,19 @@ public class ImportFromImpl implements IImportFrom {
 			 **/
 			  
 			  IGraph graph = new GraphModel(formalism);
+			  int Level_Max = 100;
+			  int [] numArray = new int[Level_Max];
+			  
+			  for(int i=0; i<Level_Max; i++){
+				  numArray[i] = 0;
+			  }
 			  
 			  //the first method  partnerLinks
 			  //TAKE CARE "//process/sequence"
 			  String SelectElement = "sequence";
 			  try {			  
 				  	Element element = doc.getRootElement().element(SelectElement);
-				  	graph = BPELPNModelGenerator(element, formalism, 0);
+				  	graph = BPELPNModelGenerator(element, formalism, 0, numArray);
 
 			  } catch (Exception e) {
 	        		e.printStackTrace();
@@ -239,7 +245,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param element the xml document source
 		   * @return IGraph part graph of BPEL.
 		   */
-		    public IGraph BPELPNModelGenerator(Element element, String formalism, int level) {
+		    public IGraph BPELPNModelGenerator(Element element, String formalism, int level, int[] numArray) {
 		    	/**
 		    	 * Recursion
 		    	 */
@@ -254,6 +260,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	IGraph tempGraphA = new GraphModel(formalism);
 		    	Iterator iter = element.elementIterator();
 		    	String tempString, nodeName;
+		    	String StrPrint = "";
 		    	IAttribute attribute,tempAttr;
 		    	int i = 0;
 		    	INode P_Start, P_End, nodeTemp, node, P_temp, P_Strat_New;
@@ -267,11 +274,19 @@ public class ImportFromImpl implements IImportFrom {
 					P_End = P_Start;
 					nodeTemp = P_Start;
 					
+			    	// Calculate the UNIQUE ID of Place and Transition.
+					StrPrint = "";
+					for(int n=0; n<=level; n++){
+						StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+					}
+					LOGGER.fine("StrPrint is "+StrPrint);
 					
+					level++;
 			    	while(iter.hasNext()){
 					       Element elem=(Element)iter.next();
 					       if(elem instanceof Element){
-					    	   tempGraph = BPELPNModelGeneratorEach(elem, formalism, level);
+					    	   tempGraph = BPELPNModelGeneratorEach(elem, formalism, level, numArray);
+					    	   numArray[level]++;
 					    	   
 					    	   // *******************************************
 					    	   // The following codes is for merging two graphs.
@@ -324,6 +339,7 @@ public class ImportFromImpl implements IImportFrom {
 					    		   for (int count = 0; count<nodeTemp.getOutcomingArcs().size(); count++){
 					    			   INode T_temp = nodeTemp.getOutcomingArcs().get(count).getTarget();
 					    			   graph.createArc("arc", P_temp, T_temp);
+					    			   graph.deleteArc(nodeTemp.getOutcomingArcs().get(count));
 					    		   }
 				    			   graph.deleteNode(nodeTemp);
 					    	   }
@@ -342,10 +358,11 @@ public class ImportFromImpl implements IImportFrom {
 			    	// Delete the temp start node P_Start
 			    	// in order to reduce the scale of model.
 			    	
+
 			    	// Set the name of the first place 
 			    	// Rename the first start node of model
 					attribute = P_Start.getAttribute("name");
-					attribute.setValue("P_"+level+"_"+element.getName()+"_Start");
+					attribute.setValue("P_"+StrPrint+element.getName()+"_Start");
 					// Manage the localization of the place 
 			    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
 			    	nodeGraphInfo.setLocation(point);
@@ -354,7 +371,7 @@ public class ImportFromImpl implements IImportFrom {
 			    	// Set the name of the last place
 			    	// Rename the last end node of model
 					attribute = P_End.getAttribute("name");
-					attribute.setValue("P_"+level+"_"+element.getName()+"_End");
+					attribute.setValue("P_"+StrPrint+element.getName()+"_End");
 					// Manage the localization of the place 
 			    	nodeGraphInfo = P_End.getGraphicInfo();
 			    	point.setLocation(x, y+300);
@@ -398,56 +415,59 @@ public class ImportFromImpl implements IImportFrom {
 			   * @param element the xml document source
 			   * @return IGraph part graph of BPEL.
 			   */
-		    public IGraph BPELPNModelGeneratorEach(Element elem, String formalism, int level){
+		    public IGraph BPELPNModelGeneratorEach(Element elem, String formalism, int level, int []numArray){
 		    	
 		    	IGraph tempGraph = new GraphModel(formalism);
 		    	String tempString;
 		    	System.out.println(elem.getName());
+		    	
 		    	   //do something 
+	    		   
 		    	   tempString = elem.getName();
 		    	   if ((tempString.equalsIgnoreCase("receive"))){
-		    		   tempGraph = GenerateReceive(formalism, level+1);
+
+		    		   tempGraph = GenerateReceive(formalism, level, numArray);
 		    		   
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("invoke"))){
 		    		   if(elem.attribute("outputVariable") == null){
 		    			   // One-way invoke
 		    			   System.out.println("One-Way invoke");
-		    			   tempGraph = GenerateInvokeOneway(formalism, level+1);
+		    			   tempGraph = GenerateInvokeOneway(formalism, level, numArray);
 		    		   }
 		    		   else{
 		    			   // Request-Response invoke
 		    			   System.out.println("Request-Response invoke");
-		    			   tempGraph = GenerateInvokeReqrep(formalism, level+1);
+		    			   tempGraph = GenerateInvokeReqrep(formalism, level, numArray);
 		    		   }
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("reply"))){
-		    		   tempGraph = GenerateReply(formalism, level+1);
+		    		   tempGraph = GenerateReply(formalism, level, numArray);
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("assign"))){
-		    		   tempGraph = GenerateAssign(formalism, level+1);
+		    		   tempGraph = GenerateAssign(formalism, level, numArray);
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("sequence"))){
-		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
+		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level, numArray);
 		    	   }
 //		    	   else if((tempString.equalsIgnoreCase("if"))){
 //		    		   tempGraph = GenerateAssign(formalism, level+1);
 //		    	   }
 		    	   else if((tempString.equalsIgnoreCase("flow"))){
-		    		   tempGraph = GenerateFlow(elem,formalism, level+1);
+		    		   tempGraph = GenerateFlow(elem,formalism, level, numArray);
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("pick"))){
-		    		   tempGraph = GeneratePick(elem, formalism, level+1);
+		    		   tempGraph = GeneratePick(elem, formalism, level, numArray);
 		    	   }
 //		    	   else if((tempString.equalsIgnoreCase("while"))){
 //		    		   tempGraph = GenerateAssign(formalism, level+1);
 //		    	   }
 		    	   else if((tempString.equalsIgnoreCase("switch"))){
-		    		   tempGraph = GenerateSwitch(elem, formalism, level+1);
+		    		   tempGraph = GenerateSwitch(elem, formalism, level, numArray);
 		    	   }
 		    	   else
 		    	   {
-		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level+1);
+		    		   tempGraph = BPELPNModelGenerator(elem, formalism, level, numArray);
 		    		   //return null;
 		    		   //for test
 		    	   }
@@ -460,7 +480,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateReceive(String formalism, int level){
+	    public IGraph GenerateReceive(String formalism, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -469,12 +489,18 @@ public class ImportFromImpl implements IImportFrom {
 	    	int y = 200;
 	    	Point point = new Point(x,y);
 	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
 			try {
 				// The first input place of 'Receive' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Reveive_Start");	
+		    	attribute.setValue("P_"+StrPrint+"Reveive_Start");	
 		    	
 		    	// Set the location of the place 'P_Start' in Coloane
 		    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
@@ -483,7 +509,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The last output place of 'Receive' sub model
 				INode P_End = graph.createNode("place");
 		    	attribute = P_End.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Reveive_End");
+		    	attribute.setValue("P_"+StrPrint+"Reveive_End");
 		    	nodeGraphInfo = P_End.getGraphicInfo();
 		    	point.setLocation(x, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -491,30 +517,29 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The transition between place P_Start and P_End
 		    	INode T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"Receive");
+		    	attribute.setValue("T_"+StrPrint+"Receive");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Receive_In");
+		    	attribute.setValue("Arc_"+StrPrint+"Receive_In");
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Receive_Out");
+		    	attribute.setValue("Arc_"+StrPrint+"Receive_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Receive_MSG");
+		    	attribute.setValue("P_"+StrPrint+"Receive_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 				arc = graph.createArc("arc", P_Msg_Rec, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Receive_MSG");
-		    	
+		    	attribute.setValue("Arc_"+StrPrint+"Receive_MSG");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -531,7 +556,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateInvokeOneway(String formalism, int level){
+	    public IGraph GenerateInvokeOneway(String formalism, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -540,12 +565,18 @@ public class ImportFromImpl implements IImportFrom {
 	    	int y = 200;
 	    	Point point = new Point(x,y);
 	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
 			try {
 				// The first input place of 'Receive' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeOneWay_Start");	
+		    	attribute.setValue("P_"+StrPrint+"InvokeOneWay_Start");	
 		    	
 		    	// Set the location of the place 'P_Start' in Coloane
 		    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
@@ -554,7 +585,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The last output place of 'Receive' sub model
 				INode P_End = graph.createNode("place");
 		    	attribute = P_End.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeOneWay_End");
+		    	attribute.setValue("P_"+StrPrint+"InvokeOneWay_End");
 		    	nodeGraphInfo = P_End.getGraphicInfo();
 		    	point.setLocation(x, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -562,30 +593,30 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The transition between place P_Start and P_End
 		    	INode T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"_InvokeOneWay");
+		    	attribute.setValue("T_"+StrPrint+"InvokeOneWay");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeOneWay_In");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_In");
 		    	
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeOneWay_Out");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeOneWay_MSG");
+		    	attribute.setValue("P_"+StrPrint+"InvokeOneWay_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 				arc = graph.createArc("arc", T_transition, P_Msg_Rec);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeOneWay_MSG");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_MSG");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -602,7 +633,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateInvokeReqrep(String formalism, int level){
+	    public IGraph GenerateInvokeReqrep(String formalism, int level, int[] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -611,12 +642,18 @@ public class ImportFromImpl implements IImportFrom {
 	    	int y = 200;
 	    	Point point = new Point(x,y);
 	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
 			try {
 				// The first input place of 'Invoke' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeReqRep_Start");			    	
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Start");			    	
 		    	// Set the location of the place 'P_Start' in Coloane
 		    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
 		    	nodeGraphInfo.setLocation(point);
@@ -624,7 +661,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The transition between place P_Start and P_Middle
 		    	INode T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"_InvokeReqRep_Req");
+		    	attribute.setValue("T_"+StrPrint+"InvokeReqRep_Req");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -632,12 +669,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between P_Start and transition(req)
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_In");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_In");
 		    	
 		    	//Node Msg Req
 		    	INode P_Msg_Req = graph.createNode("place");
 		    	attribute = P_Msg_Req.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeReqRep_MSG_Req");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_MSG_Req");
 		    	nodeGraphInfo = P_Msg_Req.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -645,12 +682,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between transition(req) and MSG(req)
 		    	arc = graph.createArc("arc", T_transition, P_Msg_Req);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_MSG_Req");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_MSG_Req");
 		    	
 		    	// Node middle
 		    	INode P_Middle = graph.createNode("place");
 		    	attribute = P_Middle.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeReqRep_Mid");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Mid");
 		    	nodeGraphInfo = P_Middle.getGraphicInfo();
 		    	point.setLocation(x+50, y+75);
 		    	nodeGraphInfo.setLocation(point);
@@ -658,12 +695,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between transition(req) and place P_Middle
 		    	arc = graph.createArc("arc", T_transition, P_Middle);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_P_Mid");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
 		    	
 		    	// Transition (Response) between P_Middle and P_End
 		    	T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"_InvokeReqRep_Res");
+		    	attribute.setValue("T_"+StrPrint+"InvokeReqRep_Res");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -671,12 +708,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between P_Middle and transition (Response)
 		    	arc = graph.createArc("arc", P_Middle, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_P_Mid");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
 		    	
 		    	// Msg (Response)
 		    	INode P_Msg_Res = graph.createNode("place");
 		    	attribute = P_Msg_Res.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeReqRep_MSG_Res");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_MSG_Res");
 		    	nodeGraphInfo = P_Msg_Res.getGraphicInfo();
 		    	point.setLocation(x+100, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -684,12 +721,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between transition (Response) and Msg (Response)
 		    	arc = graph.createArc("arc", P_Msg_Res, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_MSG_Res");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_MSG_Res");
 		    	
 		    	// The last output place of 'Invoke' sub model
 				INode P_End = graph.createNode("place");
 		    	attribute = P_End.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_InvokeReqRep_End");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_End");
 		    	nodeGraphInfo = P_End.getGraphicInfo();
 		    	point.setLocation(x, y+150);
 		    	nodeGraphInfo.setLocation(point);
@@ -697,7 +734,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between transition (Response) and last place
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_InvokeReqRep_Out");
+		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Out");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -714,7 +751,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateReply(String formalism, int level){
+	    public IGraph GenerateReply(String formalism, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -723,12 +760,18 @@ public class ImportFromImpl implements IImportFrom {
 	    	int y = 200;
 	    	Point point = new Point(x,y);
 	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
 			try {
 				// The first input place of 'Reply' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Reply_Start");	
+		    	attribute.setValue("P_"+StrPrint+"_Reply_Start");	
 		    	
 		    	// Set the location of the place 'P_Start' in Coloane
 		    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
@@ -737,7 +780,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The last output place of 'Receive' sub model
 				INode P_End = graph.createNode("place");
 		    	attribute = P_End.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Reply_End");
+		    	attribute.setValue("P_"+StrPrint+"Reply_End");
 		    	nodeGraphInfo = P_End.getGraphicInfo();
 		    	point.setLocation(x, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -745,29 +788,29 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The transition between place P_Start and P_End
 		    	INode T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"_Reply");
+		    	attribute.setValue("T_"+StrPrint+"Reply");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Reply_In");
+		    	attribute.setValue("Arc_"+StrPrint+"Reply_In");
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Reply_Out");
+		    	attribute.setValue("Arc_"+StrPrint+"Reply_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Reply_MSG");
+		    	attribute.setValue("P_"+StrPrint+"Reply_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
 		    	
 				arc = graph.createArc("arc", T_transition, P_Msg_Rec);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Reply_MSG");
+		    	attribute.setValue("Arc_"+StrPrint+"Reply_MSG");
 		    	
 		    	
 			} catch (ModelException e) {
@@ -787,7 +830,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param  level show the level of node (activity) 
 		   * @return IGraph
 		   */
-	    public IGraph GenerateAssign(String formalism, int level){
+	    public IGraph GenerateAssign(String formalism, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -796,12 +839,18 @@ public class ImportFromImpl implements IImportFrom {
 	    	int y = 200;
 	    	Point point = new Point(x,y);
 	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
 			try {
 				// The first input place of 'Assign' sub model
 				P_Start = graph.createNode("place");
 				// Set the name of place 'P_Start'
 		    	IAttribute attribute = P_Start.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Assign_Start");	
+		    	attribute.setValue("P_"+StrPrint+"Assign_Start");	
 		    	
 		    	// Set the location of the place 'P_Start' in Coloane
 		    	INodeGraphicInfo nodeGraphInfo = P_Start.getGraphicInfo();
@@ -810,7 +859,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The last output place of 'Receive' sub model
 				INode P_End = graph.createNode("place");
 		    	attribute = P_End.getAttribute("name");
-		    	attribute.setValue("P_"+level+"_Assign_End");
+		    	attribute.setValue("P_"+StrPrint+"Assign_End");
 		    	nodeGraphInfo = P_End.getGraphicInfo();
 		    	point.setLocation(x, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -818,7 +867,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// The transition between place P_Start and P_End
 		    	INode T_transition = graph.createNode("transition");
 		    	attribute = T_transition.getAttribute("name");
-		    	attribute.setValue("T_"+level+"_Assign");
+		    	attribute.setValue("T_"+StrPrint+"Assign");
 		    	nodeGraphInfo = T_transition.getGraphicInfo();
 		    	point.setLocation(x, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -826,12 +875,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between P_Start and T_transition
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Assign_In");
+		    	attribute.setValue("Arc_"+StrPrint+"Assign_In");
 		    	
 		    	// Arc between T_transition and P_End
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+level+"_Assign_Out");
+		    	attribute.setValue("Arc_"+StrPrint+"Assign_Out");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -850,11 +899,17 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param  level show the level of node (activity) 
 		   * @return IGraph
 		   */
-	    public IGraph GenerateFlow(Element elem,String formalism, int level){
+	    public IGraph GenerateFlow(Element elem,String formalism, int level, int[] numArray){
 
 	    	IGraph tempGraph = new GraphModel(formalism);
 	    	IGraph tempGraphA = new GraphModel(formalism);
- 		   
+	    	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
  		   	INode nodeStartFlow, nodeEndFlow;
  		   	try {
  		   			// The first input place of 'flow' sub model
@@ -866,12 +921,12 @@ public class ImportFromImpl implements IImportFrom {
 					INode T_Start_Flow = tempGraph.createNode("transition");
 					// Set the name of place 'P_Start'
 			    	IAttribute attribute = T_Start_Flow.getAttribute("name");
-			    	attribute.setValue("T_"+level+"_Flow_In");
+			    	attribute.setValue("T_"+StrPrint+"Flow_In");
 			    	
 			    	// Add arc between P_Start and T_Start
 			    	IArc arc = tempGraph.createArc("arc", P_Start_Flow, T_Start_Flow);		    	
 			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+level+"_Flow_In");
+			    	attribute.setValue("Arc_"+StrPrint+"Flow_In");
 			    	
 			    	
 		    		// The last place of 'flow' sub model
@@ -882,24 +937,28 @@ public class ImportFromImpl implements IImportFrom {
 					INode T_End_Flow = tempGraph.createNode("transition");
 					// Set the name of place 'P_Start'
 			    	attribute = T_End_Flow.getAttribute("name");
-			    	attribute.setValue("T_"+level+"_Flow_Out");
+			    	attribute.setValue("T_"+StrPrint+"Flow_Out");
 			    	
 			    	// Add arc between P_Start and T_Start
 			    	arc = tempGraph.createArc("arc", T_End_Flow, P_End_Flow);		    	
 			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+level+"_Flow_Out");
+			    	attribute.setValue("Arc_"+StrPrint+"Flow_Out");
 			    	
 			    	// Initialization
 			    	nodeStartFlow = P_Start_Flow;
 			    	nodeEndFlow = P_End_Flow;
 			    	
+		 			level++;
+		 				   
 			    	Iterator iterTemp = elem.elementIterator();
 			    	while(iterTemp.hasNext()){
-	 			   Element elemTemp =(Element)iterTemp.next();
-	 			   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level+1);
-	 			   tempGraph.addGraph(tempGraphA);
+		 			   Element elemTemp =(Element)iterTemp.next();
+
+		 			   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level, numArray);
+		 			   tempGraph.addGraph(tempGraphA);
+		 			   numArray[level]++;
 	 			   
-	 			   // Add the connection between the sub model and parent model.
+		 			   // Add the connection between the sub model and parent model.
 			    	   Iterator iterNodeFlow = tempGraph.getNodes().iterator();
 	//		    	   System.out.println("@@@@@ begin to show model of Graph!!!");
 			    	   while(iterNodeFlow.hasNext()){
@@ -933,11 +992,11 @@ public class ImportFromImpl implements IImportFrom {
 				    	// ************************************************
 						// Set the name of place 'P_Start'
 				    	attribute = P_Start_Flow.getAttribute("name");
-				    	attribute.setValue("P_"+level+"_Flow_Start");
+				    	attribute.setValue("P_"+StrPrint+"_Flow_Start");
 				    	
 						// Set the name of place 'P_Start'
 				    	attribute = P_End_Flow.getAttribute("name");
-				    	attribute.setValue("P_"+level+"_Flow_End");
+				    	attribute.setValue("P_"+StrPrint+"_Flow_End");
 		    	   } catch (ModelException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -958,11 +1017,19 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param  level show the level of node (activity) 
 		   * @return IGraph
 		   */
-	    public IGraph GeneratePick(Element elem, String formalism, int level){
+	    public IGraph GeneratePick(Element elem, String formalism, int level, int [] numArray){
 
 	    	IGraph tempGraph = new GraphModel(formalism);
 	    	IGraph tempGraphA = new GraphModel(formalism);
 		   
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
+	    	
+	    	int num_count = 0;
+	    	
 		   	INode nodeStartPick[] = new INode[2];
 		   	INode nodeEndPick[] = new INode[2];
 		   	int countBranch = 0;
@@ -975,11 +1042,14 @@ public class ImportFromImpl implements IImportFrom {
 		    		// The last place of 'flow' sub model
 					INode P_End_Pick = tempGraph.createNode("place");
 			    	
+					level++;
+					
 			    	Iterator iterTemp = elem.elementIterator();
 			    	while(iterTemp.hasNext()){
 				    	Element elemTemp =(Element)iterTemp.next();
-				    	tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level+1);
+				    	tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level, numArray);
 				    	tempGraph.addGraph(tempGraphA);
+				    	numArray[level]++;
 		 			   
 		 			   // Add the connection between the sub model and parent model.
 				    	Iterator iterNodePick = tempGraph.getNodes().iterator();
@@ -1003,7 +1073,6 @@ public class ImportFromImpl implements IImportFrom {
 				    		   else{
 				    			   // do nothing
 				    		   }
-
 				    	}
 				    	countBranch++;
 			    	}
@@ -1015,11 +1084,11 @@ public class ImportFromImpl implements IImportFrom {
 			    	// ************************************************
 			    	// Set the name of place 'P_Start_Pick'
 			    	attribute = P_Start_Pick.getAttribute("name");
-			    	attribute.setValue("P_"+level+"_Pick_Start");
+			    	attribute.setValue("P_"+StrPrint+"_Pick_Start");
 			    	
 			    	// Set the name of place 'P_End_Pick'
 			    	attribute = P_End_Pick.getAttribute("name");
-			    	attribute.setValue("P_"+level+"_Pick_End");
+			    	attribute.setValue("P_"+StrPrint+"_Pick_End");
 			    	
 			    	// Connect Pick branch A with Pick self (up)
 			    	INode T_Pick_A_Up = tempGraph.createNode("transition");
@@ -1078,14 +1147,22 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param  level show the level of node (activity) 
 		   * @return IGraph
 		   */
-	    public IGraph GenerateSwitch(Element elem,String formalism, int level){
+	    public IGraph GenerateSwitch(Element elem,String formalism, int level, int [] numArray){
 
 	    	IGraph tempGraph = new GraphModel(formalism);
 	    	IGraph tempGraphA = new GraphModel(formalism);
 		   
+	    	int num_count = 0;
+	    	
 		   	INode nodeStartSwitch;//[] = new INode[2];
 		   	INode nodeEndSwitch;//[] = new INode[2];
 		   	int countBranch = 0;
+		   	
+	    	// Calculate the UNIQUE ID of Place and Transition.
+			String StrPrint = "";
+			for(int n=0; n<=level; n++){
+				StrPrint = StrPrint.concat(Integer.toString(numArray[n])+"_");
+			}
 		   	
 		   	IAttribute attribute;
 		   	try {
@@ -1098,6 +1175,8 @@ public class ImportFromImpl implements IImportFrom {
 					nodeStartSwitch = P_Start_Switch;
 					nodeEndSwitch = P_End_Switch;
 			    	
+		 			level++;
+					
 			    	Iterator iterTemp = elem.elementIterator();
 			    	while(iterTemp.hasNext()){
 				    	Element elemTemp =(Element)iterTemp.next();
@@ -1105,8 +1184,9 @@ public class ImportFromImpl implements IImportFrom {
 //				    	Element elemTempNext = (Element)iterTempNext.next();
 				    	LOGGER.fine("elemTempNext is " + elemTemp.getName()); 
 				    	
-				    	tempGraphA = BPELPNModelGeneratorEach(elemTemp, formalism, level+1);
+				    	tempGraphA = BPELPNModelGeneratorEach(elemTemp, formalism, level, numArray);
 				    	tempGraph.addGraph(tempGraphA);
+				    	numArray[level]++;
 		 			   
 		 			   // Add the connection between the sub model and parent model.
 				    	Iterator iterNodeSwitch = tempGraph.getNodes().iterator();
@@ -1175,11 +1255,11 @@ public class ImportFromImpl implements IImportFrom {
 			    	// ************************************************
 			    	// Set the name of place 'P_Start_Pick'
 			    	attribute = P_Start_Switch.getAttribute("name");
-			    	attribute.setValue("P_"+level+"_Switch_Start");
+			    	attribute.setValue("P_"+StrPrint+"_Switch_Start");
 			    	
 			    	// Set the name of place 'P_End_Pick'
 			    	attribute = P_End_Switch.getAttribute("name");
-			    	attribute.setValue("P_"+level+"_Switch_End");
+			    	attribute.setValue("P_"+StrPrint+"_Switch_End");
 			    	
 			    	
 			    	// Create the inhibitor arc in Branch A
@@ -1222,6 +1302,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	int num_T_Max = 1000;
 	    	int num_P_Max = 1000;
 	    	
+	    	int num_A = 0;
 	    	// Define the Matrix
 	    	// Use array as incidence matrix,
 	    	// for the consideration of runtime monitor efficiency. 
@@ -1295,6 +1376,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	LOGGER.fine("The number of nodes in this graph is " + size_graph);
 	    	LOGGER.fine("The number of places in this graph is " + num_P);
 	    	LOGGER.fine("The number of transitions in this graph is " + num_T);
+	    	LOGGER.fine("The number of arcs in this graph is " + graph.getArcs().size());
 	    	
 	    	System.out.print("Matrix Pre\t");
 	    	for (int m=0; m<num_P; m++){
