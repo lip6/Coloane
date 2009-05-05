@@ -29,6 +29,18 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+
+/**
+ * Import the BPEL process XML files into coloane
+ * During the import, the BPEL process will be automatically
+ * transformed into Petri Net models, which can be displayed 
+ * in coloane. And the model can also be used to do any verification,
+ * which are provided by coloane.
+ * 
+ * author: Jun ZHU (LIP6,UPMC, France & School of Computer Science, NUDT, China)
+ * e-mail: mail.zhujun@gmail.com
+ * create date: 26-04-2009
+ */
 public class ImportFromImpl implements IImportFrom {
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -57,11 +69,11 @@ public class ImportFromImpl implements IImportFrom {
 
 		try {
 			Document docment = parseWithSAX(BPELfile);
-			BPELProcessParser(docment);
 		  
 			// The basic utility of Class IGraph and other related class
-
 			graph = BPELPNModelGenerator(docment,formalism);
+			GenerateIncidenceMatrix(graph);
+
 		  
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -1047,6 +1059,7 @@ public class ImportFromImpl implements IImportFrom {
 //			    	IArc T_Pick_B_Inhib = tempGraph.createArc("inhibitor", nodeStartPick[1], T_Pick_A_Up);
 //			    	T_Pick_B_Inhib.getAttribute("valuation").setValue("Inhib_" + level + "_Pick_Branch_B");
 			    	
+			    	
 		    	   	}catch (ModelException e) {
 		    	   	// TODO Auto-generated catch block
 		    	   		e.printStackTrace();
@@ -1194,5 +1207,153 @@ public class ImportFromImpl implements IImportFrom {
 			    	return tempGraph;
 		    	}
 	    
+		  /**
+		   * Generate the Incidence Matrix from IGraph
+		   * Matrix consists of Pre Matrix and Post Matrix.
+		   * 
+		   * @param graph The graph (petri net)
+		   * @return Incidence Matrix
+		   */
+	    public String[][] GenerateIncidenceMatrix(IGraph graph){
+	    	int num_P = 0;
+	    	int num_T = 0;
+	    	
+	    	// Define the maximum length of incidence matrix
+	    	int num_T_Max = 1000;
+	    	int num_P_Max = 1000;
+	    	
+	    	// Define the Matrix
+	    	// Use array as incidence matrix,
+	    	// for the consideration of runtime monitor efficiency. 
+	    	String[][] MatrixPre = new String[num_T_Max][num_P_Max];
+	    	String[][] MatrixPost = new String[num_T_Max][num_P_Max];
+	    	String [] Matrix_T_Name = new String[num_T_Max];
+	    	String [] Matrix_P_Name = new String[num_P_Max];
+	    	
+	    	String tempName = null;
+	    	
+	    	int size_graph = graph.getNodes().size();
+	    	Iterator iterNode = graph.getNodes().iterator();
+	    	
+	    	// As for every transition,
+	    	// calculate every arc of this transition.
+	    	// And add to the incidence matrix.
+	    	while(iterNode.hasNext()){
+	    		INode nodeTemp = (INode) iterNode.next();
+	    		if(nodeTemp.getNodeFormalism().getName().equalsIgnoreCase("transition")){
+	    			Matrix_T_Name[num_T] = nodeTemp.getAttribute("name").getValue();
+	    			Iterator incomingArc = nodeTemp.getIncomingArcs().iterator();
+	    			
+	    			// Every incoming arc of related transition
+	    			while(incomingArc.hasNext()){
+	    				IArc tempArc = (IArc)incomingArc.next();
+	    				INode tempPlace = tempArc.getSource();
+	    				tempName = tempPlace.getAttribute("name").getValue();
+	    				boolean is_P_Exist = false;
+	    				for(int n=0; n<num_P; n++){
+	    					// 如果用名字来区分不同的place，那么就要求转换的过程中，
+	    					// 产生的place的命名必须不同，否则就会出现遗漏某些place的问题。
+	    					if(Matrix_P_Name[n].equalsIgnoreCase(tempName)){
+	    						is_P_Exist=true;
+	    						MatrixPre[num_T][n] = tempArc.getAttribute("valuation").getValue();
+	    						break;
+	    					}
+	    				}
+	    				// Find new place (is_P_Exist == false)
+	    				if(is_P_Exist == false){
+	    					Matrix_P_Name[num_P] = tempName;
+	    					MatrixPre[num_T][num_P] = tempArc.getAttribute("valuation").getValue();
+	    					num_P++;
+	    				}
+	    			}
+	    			
+	    			// Every outcoming arc of related transition
+	    			Iterator OutcomingArc = nodeTemp.getOutcomingArcs().iterator();
+	    			while(OutcomingArc.hasNext()){
+	    				IArc tempArc = (IArc)OutcomingArc.next();
+	    				INode tempPlace = tempArc.getTarget();
+	    				tempName = tempPlace.getAttribute("name").getValue();
+	    				boolean is_P_Exist = false;
+	    				for(int n=0; n<num_P; n++){
+	    					if(Matrix_P_Name[n].equalsIgnoreCase(tempName)){
+	    						is_P_Exist=true;
+	    						MatrixPost[num_T][n] = tempArc.getAttribute("valuation").getValue();
+	    						break;
+	    					}
+	    				}
+	    				// Find new place (is_P_Exist == false)
+	    				if(is_P_Exist == false){
+	    					Matrix_P_Name[num_P] = tempName;
+	    					MatrixPost[num_T][num_P] = tempArc.getAttribute("valuation").getValue();
+	    					num_P++;
+	    				}
+	    			}
+	    			num_T++;
+	    		}
+	    	}
+//	    	num_P = size_graph - num_T;
+	    	LOGGER.fine("The number of nodes in this graph is " + size_graph);
+	    	LOGGER.fine("The number of places in this graph is " + num_P);
+	    	LOGGER.fine("The number of transitions in this graph is " + num_T);
+	    	
+	    	System.out.print("Matrix Pre\t");
+	    	for (int m=0; m<num_P; m++){
+	    		System.out.print("\t\t" + Matrix_P_Name[m]);
+	    	}
+	    	System.out.println("");
+	    	for (int m=0; m<num_T; m++){
+	    		System.out.print(Matrix_T_Name[m]+"\t\t");
+		    	for (int n=0; n<num_P; n++){
+		    		System.out.print(MatrixPre[m][n]+"\t\t");
+		    	}
+		    	System.out.println("");
+	    	}
+	    	
+	    	System.out.print("\nMatrix Post\t");
+	    	for (int m=0; m<num_P; m++){
+	    		System.out.print("\t\t" + Matrix_P_Name[m]);
+	    	}
+	    	System.out.println("");
+	    	for (int m=0; m<num_T; m++){
+	    		System.out.print(Matrix_T_Name[m]+"\t\t");
+		    	for (int n=0; n<num_P; n++){
+		    		System.out.print(MatrixPost[m][n]+"\t\t");
+		    	}
+		    	System.out.println("");
+	    	}
+	    	
+	    	return MatrixPre;	
+	    }
+	    
+	    
+	    // If want to use IGraph,
+	    // it is required to run the application as Eclipse Application.
+//		  public static void main(String[] args) {
+//				/**
+//				 * 测试文件列表： Test case list:
+//				 * catalog2.xml
+//				 * Travel.bpel
+//				 */
+//			  
+//			  	ImportFromImpl  TestCase = new ImportFromImpl();
+//			  	String formalism = "CPN";
+//			  	String filePath = "D:/WorkSpace/Cases/BPEL2PN/DemoTestCase/DemoTestCase(Sequence).bpel";
+//				File BPELfile = new File(filePath);
+//				System.out.println("The import BPEL XMLfiles is " + filePath);
+//				IGraph graph = new GraphModel(formalism);
+//				  
+//				try {
+//					Document docment = TestCase.parseWithSAX(BPELfile);
+//				  
+//					// The basic utility of Class IGraph and other related class
+//					graph = TestCase.BPELPNModelGenerator(docment,formalism);
+//
+//				} catch (DocumentException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				String [][] matrix = TestCase.GenerateIncidenceMatrix(graph);
+//				System.out.println("matrix[0][0] is "+matrix[0][0]);
+//	    }
 	    
 }
