@@ -73,6 +73,7 @@ public class ImportFromImpl implements IImportFrom {
 			// The basic utility of Class IGraph and other related class
 			graph = BPELPNModelGenerator(docment,formalism);
 			GenerateIncidenceMatrix(graph);
+//			GraphReduction(graph);
 
 		  
 		} catch (DocumentException e) {
@@ -336,12 +337,27 @@ public class ImportFromImpl implements IImportFrom {
 					    	   
 					    	   if (nodeTemp.getOutcomingArcs().size()!= 0)
 					    	   {
-					    		   for (int count = 0; count<nodeTemp.getOutcomingArcs().size(); count++){
+					    		   // ********************************************************
+					    		   // * This is a very strange problem
+					    		   // * numOutcomingArc = nodeTemp.getOutcomingArcs().size()/2
+					    		   // * why size()/2 is right?????
+					    		   // ********************************************************
+					    		   int numOutcomingArc = nodeTemp.getOutcomingArcs().size()/2;
+//					    		   System.out.println(nodeTemp.getAttribute("name").getValue() + " nodeTemp.getOutcomingArcs().size() is " + numOutcomingArc);
+					    		   
+					    		   for (int count = 0; count<numOutcomingArc; count++){
 					    			   INode T_temp = nodeTemp.getOutcomingArcs().get(count).getTarget();
-					    			   graph.createArc("arc", P_temp, T_temp);
-					    			   // delete the original arcs
+					    			   IArc A_temp = graph.createArc("arc", P_temp, T_temp);
+					    			   A_temp.getAttribute("valuation").setValue("Reduce_" + StrPrint + "_" + nodeTemp.getAttribute("name").getValue());
+//					    			   System.out.println("getTarget() times-" + count + " "+T_temp.getAttribute("name").getValue());
+					    		   }
+					    		   
+					    		   // delete the original arcs
+					    		   for (int count = 0; count<numOutcomingArc; count++){
+//					    			   System.out.println("Delete Arc times-" + count);
 					    			   graph.deleteArc(nodeTemp.getOutcomingArcs().get(count));
 					    		   }
+					    		   
 				    			   graph.deleteNode(nodeTemp);
 					    	   }
 			    			   P_temp = P_End;
@@ -1031,10 +1047,10 @@ public class ImportFromImpl implements IImportFrom {
 	    	
 		   	IAttribute attribute;
 		   	try {
-		   			// The first input place of 'flow' sub model
+		   			// The first input place of 'PICK' sub model
 					INode P_Start_Pick = tempGraph.createNode("place");
 			    	
-		    		// The last place of 'flow' sub model
+		    		// The last place of 'PICK' sub model
 					INode P_End_Pick = tempGraph.createNode("place");
 			    	
 				   	INode nodeStartPick = P_Start_Pick;
@@ -1047,7 +1063,12 @@ public class ImportFromImpl implements IImportFrom {
 				    	elemTemp =(Element)iterTemp.next();
 				    	LOGGER.fine("elemTempNext is " + elemTemp.getName()); 
 				    	
-				    	tempGraphA = BPELPNModelGeneratorEach(elemTemp, formalism, level, numArray);
+				    	
+				    	Iterator iterTemp1 = elemTemp.elementIterator();
+				    	Element e1 = (Element)iterTemp1.next();
+				    	System.out.println("iterTemp1 is " + e1.getName());
+				    	
+				    	tempGraphA = BPELPNModelGeneratorEach(e1, formalism, level, numArray);
 				    	tempGraph.addGraph(tempGraphA);
 				    	numArray[level]++;
 			    		
@@ -1063,12 +1084,12 @@ public class ImportFromImpl implements IImportFrom {
 				    		   if (nodeName.endsWith("Start")){
 				    			   nodeStartPick = nodePick;
 				    			   tempAttr.setValue(nodeName+"_0");
-				    			   System.out.println("Start is "+nodeName);
+//				    			   System.out.println("Start is "+nodeName);
 				    		   }
 				    		   else if (nodeName.endsWith("End")){
 				    			   nodeEndPick = nodePick;
 				    			   tempAttr.setValue(nodeName+"_0");
-				    			   System.out.println("End is "+nodeName);
+//				    			   System.out.println("End is "+nodeName);
 				    		   }
 				    		   else{
 				    			   // do nothing
@@ -1079,38 +1100,31 @@ public class ImportFromImpl implements IImportFrom {
 				    	INode T_Pick_A_Up = tempGraph.createNode("transition");
 				    	tempGraph.createArc("arc", P_Start_Pick, T_Pick_A_Up);
 				    	tempGraph.createArc("arc", T_Pick_A_Up, nodeStartPick);
+//				    	System.out.println("T_Pick_A_Up 2 arc! " + nodeStartPick.getAttribute("name").getValue());
 				    	
 				    	// Connect Pick branch A with Pick self (down)
 				    	INode T_Pick_A_Down = tempGraph.createNode("transition");
 				    	tempGraph.createArc("arc", nodeEndPick, T_Pick_A_Down);
 				    	tempGraph.createArc("arc", T_Pick_A_Down, P_End_Pick);
+//				    	System.out.println("T_Pick_A_Down 2 arc! " + nodeStartPick.getAttribute("name").getValue());
 				    	
 				    	T_Pick_A_Up.getAttribute("name").setValue("T_" + StrPrint + "Start" + elemTemp.getName());
 				    	T_Pick_A_Down.getAttribute("name").setValue("T_" + StrPrint + "End" + elemTemp.getName());
 			    	}
 			    	
 			    	// ***********************************************
-			    	// In order to implement the conncection of submodels
+			    	// In order to implement the connection of submodels
 			    	// by identifying the name of places or transitions.
 			    	// Check whether they end with "start" or "end".
 			    	// ************************************************
 			    	// Set the name of place 'P_Start_Pick'
 			    	attribute = P_Start_Pick.getAttribute("name");
 			    	attribute.setValue("P_"+StrPrint+"_Pick_Start");
+			    	System.out.println("P_Start_Pick has " + P_Start_Pick.getOutcomingArcs().size());
 			    	
 			    	// Set the name of place 'P_End_Pick'
 			    	attribute = P_End_Pick.getAttribute("name");
 			    	attribute.setValue("P_"+StrPrint+"_Pick_End");
-			    	
-//			    	// Connect Pick branch B with Pick self (up)
-//			    	INode T_Pick_B_Up = tempGraph.createNode("transition");
-//			    	tempGraph.createArc("arc", P_Start_Pick, T_Pick_B_Up);
-//			    	tempGraph.createArc("arc", T_Pick_B_Up, nodeStartPick[1]);
-//			    	
-//			    	// Connect Pick branch B with Pick self (down)
-//			    	INode T_Pick_B_Down = tempGraph.createNode("transition");
-//			    	tempGraph.createArc("arc", nodeEndPick[1], T_Pick_B_Down);
-//			    	tempGraph.createArc("arc", T_Pick_B_Down, P_End_Pick);
 			    	
 			    	// Create the inhibitor arc in Branch A
 			    	// ********************************************
@@ -1158,7 +1172,6 @@ public class ImportFromImpl implements IImportFrom {
 	    	
 		   	INode nodeStartSwitch;//[] = new INode[2];
 		   	INode nodeEndSwitch;//[] = new INode[2];
-		   	int countBranch = 0;
 		   	
 	    	// Calculate the UNIQUE ID of Place and Transition.
 			String StrPrint = "";
@@ -1247,7 +1260,6 @@ public class ImportFromImpl implements IImportFrom {
 				    	LOGGER.fine("T_Switch_Down is " + T_Switch_Down.getAttribute("name").getValue()); 
 				    	LOGGER.fine("nodeEndSwitch is " + nodeEndSwitch.getAttribute("name").getValue()); 
 				    	LOGGER.fine("P_End_Switch is " + P_End_Switch.getAttribute("name").getValue()); 
-				    	countBranch++;
 			    	}
 			    	
 			    	// ***********************************************
@@ -1409,6 +1421,144 @@ public class ImportFromImpl implements IImportFrom {
 	    	return MatrixPre;	
 	    }
 	    
+	    
+		  /**
+		   * Reduce the graph (petri net model)
+		   * Try to eliminate the redundant places and transitions like,
+		   * P->T->P->T  reduce to P->T
+		   * 
+		   * @param graph The original graph (petri net model)
+		   * @return graph, which is ruduced
+		   */
+	    public void GraphReduction(IGraph graph){
+	    	
+	    	Iterator iterNode = graph.getNodes().iterator();
+	    	
+	    	// Find the entry of petri net.
+	    	// Usually it is the node of sequence start.
+	    	// Ex. P_0_sequence_Start
+	    	System.out.println("Entry of GraphReduction!");
+	    	while(iterNode.hasNext()){
+	    		INode nodeTemp = (INode) iterNode.next();
+	    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
+	    	    	GraphReduction(graph, nodeTemp);
+	    			break;
+	    		}
+	    	}
+	    	
+//	    	return graph;
+	    }
+	    
+		  /**
+		   * Reduce the graph (petri net model)
+		   * Try to eliminate the redundant places and transitions like,
+		   * P->T->P->T  reduce to P->T
+		   * 
+		   * @param graph The original graph (petri net model)
+		   * @return graph, which is ruduced
+		   */
+	    public void GraphReduction(IGraph graph, INode node){
+	    	
+	    	INode nodeCurrent = node;
+	    	INode nodeTemp = node;
+	    	INode nodeTempPrevious = node;
+	    	
+	    	int lengthReduce = 0;
+	    	int numOutcomingArcs = 0;
+	    	int numIncomingArcs = 0;
+	    	// Check Next Node
+	    	
+	    	numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
+	    	System.out.println("Entry of GraphReduction(IGraph graph, INode node)! OutcomingArc size - " + numOutcomingArcs);
+		    	
+		    	if(numOutcomingArcs == 0)
+		    	{
+		    		return;// graph;
+		    	}
+		    	else if(numOutcomingArcs == 1)
+		    	{
+		    		//nodeTemp = node.getOutcomingArcs().get(0).getTarget();
+		    		while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
+		    		{
+		    			nodeTempPrevious = nodeTemp;
+		    			nodeTemp = nodeTemp.getOutcomingArcs().get(0).getTarget();
+		    			lengthReduce++;
+		    		}
+		    		// When lengthReduce > 1,
+		    		// some places and transitions can be reduced.
+		    		
+		    		System.out.println("GraphReduction(IGraph graph, INode node): lengthReduce is " + lengthReduce);
+		    		if(lengthReduce > 1)
+		    		{
+		    			System.out.println("Find redundant places and transitions!");
+			    		if(lengthReduce%2==0){
+			    			// Even integer
+			    			IArc arcTemp;
+							try {
+								arcTemp = graph.createArc("arc", nodeCurrent, nodeTemp);
+								arcTemp.getAttribute("name").setValue("Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+							} catch (ModelException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    			
+			    			
+			    			// Delete Redundant Arcs and Nodes.
+			    			IArc arcNext = nodeCurrent.getOutcomingArcs().get(0);
+			    			// i<=lengthReduce
+			    			for (int i=0;i<=lengthReduce;i++){
+			    				IArc arcDelete = arcNext;
+			    				INode nodeDelete = arcDelete.getTarget();
+			    				arcNext = nodeDelete.getOutcomingArcs().get(0);
+			    				
+			    				graph.deleteArc(arcDelete);
+			    				graph.deleteNode(nodeDelete);
+			    			}
+			    			graph.deleteArc(arcNext);
+			    		}
+			    		else
+			    		{
+			    			IArc arcTemp;
+							try {
+								arcTemp = graph.createArc("arc", nodeCurrent, nodeTempPrevious);
+								arcTemp.getAttribute("name").setValue("Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
+					    		
+							} catch (ModelException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    			
+			    			// Delete Redundant Arcs and Nodes.
+			    			IArc arcNext = nodeCurrent.getOutcomingArcs().get(0);
+			    			// i<lengthReduce
+			    			for (int i=0;i<lengthReduce;i++){
+			    				IArc arcDelete = arcNext;
+			    				INode nodeDelete = arcDelete.getTarget();
+			    				arcNext = nodeDelete.getOutcomingArcs().get(0);
+			    				
+			    				graph.deleteArc(arcDelete);
+			    				graph.deleteNode(nodeDelete);
+			    			}
+			    			graph.deleteArc(arcNext);
+			    		}
+		    		}
+		    		nodeCurrent = nodeTemp;
+		    		GraphReduction(graph, nodeCurrent);
+		    	}
+		    	else
+		    	{
+		    		Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
+		    		while(iterArc.hasNext()){
+		    			IArc arcTemp = (IArc) iterArc.next();
+		    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
+		    			{
+		    				GraphReduction(graph, arcTemp.getTarget());
+		    			}
+		    		}
+		    	}
+	    	
+//	    	return graph;
+	    }
 	    
 	    // If want to use IGraph,
 	    // it is required to run the application as Eclipse Application.
