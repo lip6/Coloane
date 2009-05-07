@@ -1482,6 +1482,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	// Check Next Node
 	    	
 	    	numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
+	    	LOGGER.fine("nodeCurrent is " + nodeCurrent.getAttribute("name").getValue());
 	    	LOGGER.fine("GraphReduction(IGraph graph, INode node): getOutcomingArcs is " + numOutcomingArcs);
 	    	
 //		    while(numOutcomingArcs!=0)	
@@ -1493,7 +1494,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	else if(numOutcomingArcs == 1)
 		    	{
 		    		nodeTemp = nodeCurrent.getOutcomingArcs().get(0).getTarget();
-		    		lengthReduce++;
+//		    		lengthReduce++;
 		    		while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
 		    		{
 		    			nodeTempPrevious = nodeTemp;
@@ -1513,6 +1514,7 @@ public class ImportFromImpl implements IImportFrom {
 							try {
 								arcTemp = graph.createArc("arc", nodeCurrent, nodeTemp);
 								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 							} catch (ModelException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -1521,20 +1523,19 @@ public class ImportFromImpl implements IImportFrom {
 			    			
 			    			// Delete Redundant Arcs and Nodes.
 			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
+			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
 			    			LOGGER.fine("begin to delete arc and node!");
 			    			// i<=lengthReduce
 			    			for (int i=0;i<lengthReduce;i++){
 			    				IArc arcDelete = arcNext;
 			    				INode nodeDelete = arcDelete.getTarget();
-			    				//
+			    				listNodeDelete.add(nodeDelete);
 			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
-			    				
-			    				LOGGER.fine("begin to delete arc and node!");
-			    				graph.deleteArc(arcDelete);
-			    				graph.deleteNode(nodeDelete);
-			    				LOGGER.fine("delete arc and node successfully!");
 			    			}
-			    			graph.deleteArc(arcNext);
+			    			for (int i=0;i<listNodeDelete.size();i++){
+			    				graph.deleteNode(listNodeDelete.get(i));
+			    			}
+//			    			graph.deleteArc(arcNext);
 			    		}
 			    		else
 			    		{
@@ -1542,24 +1543,26 @@ public class ImportFromImpl implements IImportFrom {
 							try {
 								arcTemp = graph.createArc("arc", nodeCurrent, nodeTempPrevious);
 								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
-					    		
+								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 							} catch (ModelException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 			    			
 			    			// Delete Redundant Arcs and Nodes.
-			    			IArc arcNext = nodeCurrent.getOutcomingArcs().get(0);
+			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
+			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
 			    			// i<lengthReduce
 			    			for (int i=0;i<lengthReduce-1;i++){
 			    				IArc arcDelete = arcNext;
 			    				INode nodeDelete = arcDelete.getTarget();
-			    				arcNext = nodeDelete.getOutcomingArcs().get(0);
-			    				
-			    				graph.deleteArc(arcDelete);
-			    				graph.deleteNode(nodeDelete);
+			    				listNodeDelete.add(nodeDelete);
+			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
 			    			}
-			    			graph.deleteArc(arcNext);
+			    			for (int i=0;i<listNodeDelete.size();i++){
+			    				graph.deleteNode(listNodeDelete.get(i));
+			    			}
+//			    			graph.deleteArc(arcNext);
 			    		}
 		    		}
 		    		if (nodeTemp.getIncomingArcs().size()>1)
