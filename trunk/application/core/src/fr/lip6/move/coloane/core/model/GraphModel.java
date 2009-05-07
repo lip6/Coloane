@@ -376,6 +376,13 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		}
 		LOGGER.fine("Ajout de tous les éléments du graphe " + graph.getId()); //$NON-NLS-1$
 		for (INode node : graph.getNodes()) {
+			NodeModel nodeModel = (NodeModel) node;
+			for (IArc arc : new ArrayList<IArc>(node.getIncomingArcs())) {
+				nodeModel.removeIncomingArc(arc);
+			}
+			for (IArc arc : new ArrayList<IArc>(node.getOutcomingArcs())) {
+				nodeModel.removeOutcomingArc(arc);
+			}
 			((AbstractElement) node).setId(getNewId());
 			addNode(node);
 		}
