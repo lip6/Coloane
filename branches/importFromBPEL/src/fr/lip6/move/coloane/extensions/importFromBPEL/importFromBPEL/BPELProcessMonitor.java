@@ -20,4 +20,34 @@ public class BPELProcessMonitor {
 	// ## Monitor Generation ##
 	int[][] Matrix = new int[10][15];
 	
+	// Define ProcessAnalyzer return Event type
+	final   int  E_Normal = 0;		// Event: Normal Execution
+	final 	int  E_Exception = 1;	// Event: Exception happens
+	
+
+	
+	
+	public int ProcessAnalyzer(int msgID){
+		int EventType = E_Normal;
+		
+		
+//		switch (stateCurrent) {
+//		  case 0:
+//		        statements // do these if expr == c1
+//		        break;
+//		  case 1: 
+//		        statements // do these if expr == c2
+//		        break;
+//		  case 2:
+//		        statements // do these if expr ==  any of c's
+//		        break;
+//		  case 3:
+//			  
+//		  default:
+//		        statements // do these if expr != any above
+//		}
+		
+		return EventType;
+	}
+	
 }
