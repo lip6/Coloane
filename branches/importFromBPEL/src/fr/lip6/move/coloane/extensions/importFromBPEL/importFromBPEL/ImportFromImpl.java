@@ -75,8 +75,14 @@ public class ImportFromImpl implements IImportFrom {
 			// The basic utility of Class IGraph and other related class
 			graph = BPELPNModelGenerator(docment,formalism);
 			GenerateIncidenceMatrix(graph);
-//			GraphReduction(graph);
-//			TreeWalkReduction(graph);
+			
+			// Graph Reduction in level 1 
+//			GraphReductionLevel1(graph);
+			
+			// Graph Reduction in level 2 
+			// Level 2 is much better than level 1
+			// make the model much smaller.
+			GraphReductionLevel2(graph);
 			
 			
 		  
@@ -1435,14 +1441,13 @@ public class ImportFromImpl implements IImportFrom {
 	    
 	    
 		  /**
-		   * Reduce the graph (petri net model)
+		   * Reduce the graph (petri net model) LEVEL 1
 		   * Try to eliminate the redundant places and transitions like,
 		   * P->T->P->T  reduce to P->T
 		   * 
 		   * @param graph The original graph (petri net model)
-		   * @return graph, which is reduced
 		   */
-	    public void GraphReduction(IGraph graph){
+	    public void GraphReductionLevel1(IGraph graph){
 	    	
 	    	Iterator iterNode = graph.getNodes().iterator();
 	    	
@@ -1454,7 +1459,7 @@ public class ImportFromImpl implements IImportFrom {
 	    		INode nodeTemp = (INode) iterNode.next();
 	    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
 //	    			System.out.println("GraphReduction() "+ nodeTemp.getAttribute("name").getValue() + " OutComingArc Size " + nodeTemp.getOutcomingArcs().size());
-	    	    	GraphReduction(graph, nodeTemp);
+	    			GraphReductionLevel1(graph, nodeTemp);
 	    			break;
 	    		}
 	    	}
@@ -1463,14 +1468,13 @@ public class ImportFromImpl implements IImportFrom {
 	    }
 	    
 		  /**
-		   * Reduce the graph (petri net model)
+		   * Reduce the graph (petri net model) LEVEL 1
 		   * Try to eliminate the redundant places and transitions like,
 		   * P->T->P->T  reduce to P->T
 		   * 
 		   * @param graph The original graph (petri net model)
-		   * @return graph, which is ruduced
 		   */
-	    public void GraphReduction(IGraph graph, INode node){
+	    public void GraphReductionLevel1(IGraph graph, INode node){
 	    	
 	    	INode nodeCurrent = node;
 	    	INode nodeTemp = node;
@@ -1572,7 +1576,7 @@ public class ImportFromImpl implements IImportFrom {
 		    		else if(nodeTemp.getOutcomingArcs().size()>1)
 		    		{
 		    			nodeCurrent = nodeTemp;
-		    			GraphReduction(graph, nodeCurrent);
+		    			GraphReductionLevel1(graph, nodeCurrent);
 			    		numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
 		    		}
 		    		else
@@ -1588,7 +1592,7 @@ public class ImportFromImpl implements IImportFrom {
 		    			IArc arcTemp = (IArc) iterArc.next();
 		    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
 		    			{
-		    				GraphReduction(graph, arcTemp.getTarget());
+		    				GraphReductionLevel1(graph, arcTemp.getTarget());
 		    			}
 		    		}
 		    	}
@@ -1596,6 +1600,294 @@ public class ImportFromImpl implements IImportFrom {
 	    	
 //	    	return graph;
 	    }
+	    
+	    
+	    /**
+		   * Reduce the graph (petri net model) LEVEL 2
+		   * Try to eliminate the redundant places and transitions like,
+		   * P->T->P->T  reduce to P->T
+		   * [THE Differences between LEVEL1 and LEVEL2 is that LEVEL2 start from ARC,
+		   * Make the reduction; while LEVEL 1 from node.
+		   * AS A RESULT, LEVEL2 can reduce the first node, which is stronger in reduction]
+		   * 
+		   * @param graph The original graph (petri net model)
+		   */
+	    public void GraphReductionLevel2(IGraph graph){
+	    	
+	    	Iterator iterNode = graph.getNodes().iterator();
+	    	
+	    	// Find the entry of petri net.
+	    	// Usually it is the node of sequence start.
+	    	// Ex. P_0_sequence_Start
+	    	LOGGER.fine("GraphReductionLevel2():Entry of GraphReduction!");
+	    	while(iterNode.hasNext()){
+	    		INode nodeTemp = (INode) iterNode.next();
+	    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
+//	    			System.out.println("GraphReduction() "+ nodeTemp.getAttribute("name").getValue() + " OutComingArc Size " + nodeTemp.getOutcomingArcs().size());
+	    			Iterator iterArc = nodeTemp.getOutcomingArcs().iterator();
+	    			LOGGER.fine("Node Start Arc num is " + nodeTemp.getOutcomingArcs().size());
+	    			
+	    			ArrayList<IArc> listNodeStartArc = new ArrayList<IArc>();
+	    			LOGGER.fine("begin to record arc into ArrayList!");
+	    			// i<=lengthReduce
+	    			
+	    			while(iterArc.hasNext()){
+	    				IArc arcTemp = (IArc) iterArc.next();
+	    				listNodeStartArc.add(arcTemp);
+	    				
+	    			}
+	    			for (int i=0;i<listNodeStartArc.size();i++){
+	    				GraphReductionLevel2(graph, listNodeStartArc.get(i));
+	    			}
+	    			break;
+	    		}
+	    	}
+	    	
+//	    	return graph;
+	    }
+	    
+		  /**
+		   * Reduce the graph (petri net model) LEVEL 2
+		   * Try to eliminate the redundant places and transitions like,
+		   * P->T->P->T  reduce to P->T
+		   * 
+		   * @param graph The original graph (petri net model)
+		   */
+	    public void GraphReductionLevel2(IGraph graph, IArc arc){
+	    	
+	    	INode nodeCurrent = arc.getTarget();
+	    	INode nodeTemp = nodeCurrent;
+	    	INode nodeTempPrevious = nodeCurrent;
+	    	
+	    	int lengthReduce = 0;
+	    	int numOutcomingArcs = 0;
+	    	int numIncomingArcs = 0;
+	    	// Check Next Node
+	    	
+//	    	numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
+//	    	LOGGER.fine("nodeCurrent is " + nodeCurrent.getAttribute("name").getValue());
+	    	LOGGER.fine("GraphReductionLevel2(IGraph graph, IArc arc): Entry!" + arc.getTarget().toString());
+	    	
+	    	while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
+    		{
+    			nodeTempPrevious = nodeTemp;
+    			nodeTemp = nodeTemp.getOutcomingArcs().get(0).getTarget();
+    			lengthReduce++;
+    		}
+    		// When lengthReduce > 1,
+    		// some places and transitions can be reduced.
+    		
+    		LOGGER.fine("GraphReduction(IGraph graph, INode node): lengthReduce is " + lengthReduce);
+//    		if(lengthReduce<=1)
+//    		{
+//    			
+//    		}
+//    		else 
+    		if(lengthReduce > 1)
+    		{
+    			LOGGER.fine("Find redundant places and transitions!");
+	    		if(lengthReduce%2==0){
+	    			// Even integer
+	    			IArc arcTemp;
+					try {
+						arcTemp = graph.createArc("arc", arc.getSource(), nodeTemp);
+						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+						LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
+					} catch (ModelException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    			// Delete Redundant Arcs and Nodes.
+	    			IArc arcNext = arc;
+	    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
+	    			LOGGER.fine("begin to delete arc and node!");
+	    			// i<=lengthReduce
+	    			for (int i=1;i<=lengthReduce;i++){
+	    				IArc arcDelete = arcNext;
+	    				INode nodeDelete = arcDelete.getTarget();
+	    				listNodeDelete.add(nodeDelete);
+	    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
+	    				LOGGER.fine("nodeDelete " +  nodeDelete.getAttribute("name").getValue());
+	    			}
+	    			for (int i=0;i<listNodeDelete.size();i++){
+	    				graph.deleteNode(listNodeDelete.get(i));
+	    			}
+//	    			graph.deleteArc(arcNext);
+	    		}
+	    		else
+	    		{
+	    			IArc arcTemp;
+					try {
+						arcTemp = graph.createArc("arc", arc.getSource(), nodeTempPrevious);
+						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
+						LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
+					} catch (ModelException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    			// Delete Redundant Arcs and Nodes.
+	    			IArc arcNext = arc;
+	    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
+	    			// i<lengthReduce
+	    			for (int i=1;i<lengthReduce;i++){
+	    				IArc arcDelete = arcNext;
+	    				INode nodeDelete = arcDelete.getTarget();
+	    				listNodeDelete.add(nodeDelete);
+	    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
+	    				LOGGER.fine("nodeDelete " +  nodeDelete.getAttribute("name").getValue());
+	    			}
+	    			for (int i=0;i<listNodeDelete.size();i++){
+	    				graph.deleteNode(listNodeDelete.get(i));
+	    			}
+//	    			graph.deleteArc(arcNext);
+	    		}
+    		}
+    		
+			if(nodeTemp.getOutcomingArcs().size()>1 || nodeTemp.getIncomingArcs().size()>1)
+			{
+				nodeCurrent = nodeTemp;
+				Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
+				ArrayList<IArc> listArc = new ArrayList<IArc>();
+				LOGGER.fine("begin to record arc into ArrayList!");
+	    		while(iterArc.hasNext()){
+	    			IArc arcTemp = (IArc) iterArc.next();
+	    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
+	    			{
+	    				listArc.add(arcTemp);
+	    			}
+	    		}
+	    		
+				for (int i=0;i<listArc.size();i++){
+					GraphReductionLevel2(graph, listArc.get(i));
+				}
+			}
+			else
+			{
+				return;
+			}
+	    		
+    		
+    		
+    		
+    		
+    		
+    		
+	    	
+	    	
+	    	
+	    	
+//	    	
+//		    	if(numOutcomingArcs == 0)
+//		    	{
+//		    		return;// graph;
+//		    	}
+//		    	else if(numOutcomingArcs == 1)
+//		    	{
+//		    		nodeTemp = nodeCurrent.getOutcomingArcs().get(0).getTarget();
+////		    		lengthReduce++;
+//		    		while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
+//		    		{
+//		    			nodeTempPrevious = nodeTemp;
+//		    			nodeTemp = nodeTemp.getOutcomingArcs().get(0).getTarget();
+//		    			lengthReduce++;
+//		    		}
+//		    		// When lengthReduce > 1,
+//		    		// some places and transitions can be reduced.
+//		    		
+//		    		LOGGER.fine("GraphReduction(IGraph graph, INode node): lengthReduce is " + lengthReduce);
+//		    		if(lengthReduce > 1)
+//		    		{
+//		    			LOGGER.fine("Find redundant places and transitions!");
+//			    		if(lengthReduce%2==0){
+//			    			// Even integer
+//			    			IArc arcTemp;
+//							try {
+//								arcTemp = graph.createArc("arc", nodeCurrent, nodeTemp);
+//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+//								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
+//							} catch (ModelException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//			    			
+//			    			
+//			    			// Delete Redundant Arcs and Nodes.
+//			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
+//			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
+//			    			LOGGER.fine("begin to delete arc and node!");
+//			    			// i<=lengthReduce
+//			    			for (int i=0;i<lengthReduce;i++){
+//			    				IArc arcDelete = arcNext;
+//			    				INode nodeDelete = arcDelete.getTarget();
+//			    				listNodeDelete.add(nodeDelete);
+//			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
+//			    			}
+//			    			for (int i=0;i<listNodeDelete.size();i++){
+//			    				graph.deleteNode(listNodeDelete.get(i));
+//			    			}
+////			    			graph.deleteArc(arcNext);
+//			    		}
+//			    		else
+//			    		{
+//			    			IArc arcTemp;
+//							try {
+//								arcTemp = graph.createArc("arc", nodeCurrent, nodeTempPrevious);
+//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
+//								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
+//							} catch (ModelException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//			    			
+//			    			// Delete Redundant Arcs and Nodes.
+//			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
+//			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
+//			    			// i<lengthReduce
+//			    			for (int i=0;i<lengthReduce-1;i++){
+//			    				IArc arcDelete = arcNext;
+//			    				INode nodeDelete = arcDelete.getTarget();
+//			    				listNodeDelete.add(nodeDelete);
+//			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
+//			    			}
+//			    			for (int i=0;i<listNodeDelete.size();i++){
+//			    				graph.deleteNode(listNodeDelete.get(i));
+//			    			}
+////			    			graph.deleteArc(arcNext);
+//			    		}
+//		    		}
+//		    		if (nodeTemp.getIncomingArcs().size()>1)
+//		    		{
+//		    			return;
+//		    		}
+//		    		else if(nodeTemp.getOutcomingArcs().size()>1)
+//		    		{
+//		    			nodeCurrent = nodeTemp;
+//		    			GraphReductionLevel1(graph, nodeCurrent);
+//			    		numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
+//		    		}
+//		    		else
+//		    		{
+//		    			// do nothing;
+//		    		}
+////		    		GraphReduction(graph, nodeCurrent);
+//		    	}
+//		    	else
+//		    	{
+//		    		Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
+//		    		while(iterArc.hasNext()){
+//		    			IArc arcTemp = (IArc) iterArc.next();
+//		    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
+//		    			{
+//		    				GraphReductionLevel1(graph, arcTemp.getTarget());
+//		    			}
+//		    		}
+//		    	}
+	    	
+	    }
+	    
+	    
 	    
 	    // If want to use IGraph,
 	    // it is required to run the application as Eclipse Application.
