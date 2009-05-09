@@ -18,36 +18,151 @@ public class BPELProcessMonitor {
 	// It is required to define the incidence matrix 
 	// with varibles m and n to define the matrix.
 	// ## Monitor Generation ##
-	int[][] Matrix = new int[10][15];
+//	int[][] Matrix = new int[10][15];
 	
 	// Define ProcessAnalyzer return Event type
-	final   int  E_Normal = 0;		// Event: Normal Execution
+	final   static	int  E_Normal = -1;		// Event: Normal Execution
 	final 	int  E_Exception = 1;	// Event: Exception happens
 	
-
+	final	static	int  MSG_Receive = 0;
+	final	static	int  MSG_InvokeOneWay = 1;
+	final	static	int  MSG_2_Receive = 2;
+	final	static	int  MSG_InvokeReqRep_Req =3;
+	final	static	int  MSG_InvokeReqRep_Res = 4;
+	
+	int	num_P = 14;
+//	int[] stateCurrent = new int[num_P];
+	int stateCurrent = 0;
 	
 	
+	/**
+	 * The method ProcessAnalyzer() is coded,
+	 * according to DemoTestCase "DemoTestCase(Mixed).bpel".
+	 * It is used to make out how to generate a monitor from
+	 * Petri net model.
+	 * 
+	 * @param msgID
+	 * @return
+	 */
 	public int ProcessAnalyzer(int msgID){
 		int EventType = E_Normal;
 		
 		
-//		switch (stateCurrent) {
-//		  case 0:
-//		        statements // do these if expr == c1
-//		        break;
-//		  case 1: 
-//		        statements // do these if expr == c2
-//		        break;
-//		  case 2:
-//		        statements // do these if expr ==  any of c's
-//		        break;
-//		  case 3:
-//			  
-//		  default:
-//		        statements // do these if expr != any above
-//		}
+		System.out.println("Current State: " + stateCurrent + " and msgID:" + msgID);
+		switch (stateCurrent) {
+		  case 0:
+		  {
+		        if(msgID == MSG_Receive)
+		        {
+		        	stateCurrent = 4;
+		        	System.out.println("Change Current State into " + stateCurrent);
+		        	break;
+		        }
+		        else
+		        {
+		        	return stateCurrent;
+		        }
+		        
+		  }
+		  case 4:
+		  {
+		        if(msgID == MSG_InvokeOneWay)
+		        {
+		        	stateCurrent = 6;
+		        	System.out.println("Change Current State into " + stateCurrent);
+		        	break;
+		        }
+		        else
+		        {
+		        	return stateCurrent;
+		        }
+		        
+		  }
+		  case 6:
+		  {
+		        if(msgID == MSG_2_Receive)
+		        {
+		        	stateCurrent = 9;
+		        	System.out.println("Change Current State into " + stateCurrent);
+		        	break;
+		        }
+		        else
+		        {
+		        	return stateCurrent;
+		        }
+		        
+		  }
+		  case 9:
+		  {
+		        if(msgID == MSG_InvokeReqRep_Req)
+		        {
+		        	stateCurrent = 11;
+		        	System.out.println("Change Current State into " + stateCurrent);
+		        	break;
+		        }
+		        else
+		        {
+		        	return stateCurrent;
+		        }
+		        
+		  }  
+		  
+		  case 11:
+		  {
+		        if(msgID == MSG_InvokeReqRep_Res)
+		        {
+		        	stateCurrent = 0;
+		        	System.out.println("Change Current State into " + stateCurrent);
+		        	break;
+		        }
+		        else
+		        {
+		        	return stateCurrent;
+		        }
+		        
+		  } 
+		  default:
+			  return stateCurrent;
+		}
 		
-		return EventType;
+		return E_Normal;
+	}
+	
+	public void monitor(int msgID){
+		int checkResult = 0;
+		
+		checkResult = ProcessAnalyzer(msgID);
+		
+		if(checkResult!=E_Normal){
+			System.out.println("ALARM: Process Error!" );
+			System.out.println("Monitor: error happens in state " + checkResult +" with received event " + msgID);
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		BPELProcessMonitor testCase = new BPELProcessMonitor();
+		
+		// Correct 
+		for(int i=0;i<10;i++){
+			testCase.monitor(MSG_Receive);
+			testCase.monitor(MSG_InvokeOneWay);
+			testCase.monitor(MSG_2_Receive);
+			testCase.monitor(MSG_InvokeReqRep_Req);
+			testCase.monitor(MSG_InvokeReqRep_Res);
+		}
+		
+		// Incorrect 
+		for(int i=0;i<2;i++){
+			testCase.monitor(MSG_Receive);
+			testCase.monitor(MSG_InvokeReqRep_Req);
+			testCase.monitor(MSG_2_Receive);
+			testCase.monitor(MSG_InvokeReqRep_Req);
+			testCase.monitor(MSG_InvokeReqRep_Res);
+		}
+		
+		
 	}
 	
 }
