@@ -32,7 +32,7 @@ public class BPELProcessMonitor {
 	
 	int	num_P = 14;
 //	int[] stateCurrent = new int[num_P];
-	int stateCurrent = 0;
+	int stateCurrent = 3;
 	
 	
 	/**
@@ -45,8 +45,7 @@ public class BPELProcessMonitor {
 	 * @return
 	 */
 	public int ProcessAnalyzer(int msgID){
-		int EventType = E_Normal;
-		
+//		int EventType = E_Normal;
 		
 		System.out.println("Current State: " + stateCurrent + " and msgID:" + msgID);
 		switch (stateCurrent) {
@@ -131,7 +130,7 @@ public class BPELProcessMonitor {
 	public void monitor(int msgID){
 		int checkResult = 0;
 		
-		checkResult = ProcessAnalyzer(msgID);
+		checkResult = ProcessAnalyzer1(msgID);
 		
 		if(checkResult!=E_Normal){
 			System.out.println("ALARM: Process Error!" );
@@ -144,25 +143,133 @@ public class BPELProcessMonitor {
 		
 		BPELProcessMonitor testCase = new BPELProcessMonitor();
 		
+//		// ****************************************
+//		// For test ProcessAnalyzer()
+		// for Test case "DemoTestCase(Mixed).bpel"
+//		// Correct 
+//		for(int i=0;i<10;i++){
+//			testCase.monitor(MSG_Receive);
+//			testCase.monitor(MSG_InvokeOneWay);
+//			testCase.monitor(MSG_2_Receive);
+//			testCase.monitor(MSG_InvokeReqRep_Req);
+//			testCase.monitor(MSG_InvokeReqRep_Res);
+//		}
+//		
+//		// Incorrect 
+//		for(int i=0;i<2;i++){
+//			testCase.monitor(MSG_Receive);
+//			testCase.monitor(MSG_InvokeReqRep_Req);
+//			testCase.monitor(MSG_2_Receive);
+//			testCase.monitor(MSG_InvokeReqRep_Req);
+//			testCase.monitor(MSG_InvokeReqRep_Res);
+//		}
+//		// **********************************************
+		
+		
+		
+		// ****************************************
+		// For test ProcessAnalyzer1()
+		// Test case "DemoTestCase(Mixed-Switch).bpel"
 		// Correct 
-		for(int i=0;i<10;i++){
-			testCase.monitor(MSG_Receive);
-			testCase.monitor(MSG_InvokeOneWay);
-			testCase.monitor(MSG_2_Receive);
-			testCase.monitor(MSG_InvokeReqRep_Req);
-			testCase.monitor(MSG_InvokeReqRep_Res);
-		}
+//		for(int i=0;i<10;i++){
+			testCase.monitor(1);
+			testCase.monitor(3);
+			testCase.monitor(4);
+			testCase.monitor(5);
+			testCase.monitor(6);
+//		}
 		
 		// Incorrect 
-		for(int i=0;i<2;i++){
-			testCase.monitor(MSG_Receive);
-			testCase.monitor(MSG_InvokeReqRep_Req);
-			testCase.monitor(MSG_2_Receive);
-			testCase.monitor(MSG_InvokeReqRep_Req);
-			testCase.monitor(MSG_InvokeReqRep_Res);
-		}
+//		for(int i=0;i<2;i++){
+//			testCase.monitor(1);
+//			testCase.monitor(3);
+//			testCase.monitor(2);
+//			testCase.monitor(5);
+//			testCase.monitor(6);
+//		}
+		// **********************************************
 		
 		
 	}
+	
+	
+	public int ProcessAnalyzer1(int msgID){
+		System.out.println("Current State: " + stateCurrent + " and msgID:" + msgID);
+		int P_0_0_Receive_MSG = 1;
+		int P_0_1_0_0_InvokeOneWay_MSG = 2;
+		int P_0_1_1_1_Receive_MSG = 3;
+		int P_0_1_1_2_Reply_MSG = 4;
+		int P_0_2_InvokeReqRep_Req_MSG = 5;
+		int P_0_2_InvokeReqRep_Res_MSG = 6;
+		switch (stateCurrent) {
+		case 3:
+
+		 { if(msgID == P_0_0_Receive_MSG){
+		stateCurrent = 5;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else
+		{
+		return stateCurrent;
+		}
+		}
+
+		case 5:
+
+		 { if(msgID == P_0_1_0_0_InvokeOneWay_MSG){
+		stateCurrent = 13;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else if(msgID == P_0_1_1_1_Receive_MSG){
+		stateCurrent = 20;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		}
+
+		case 20:
+
+		 { if(msgID == P_0_1_1_2_Reply_MSG){
+		stateCurrent = 13;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else
+		{
+		return stateCurrent;
+		}
+		}
+
+		case 13:
+
+		 { if(msgID == P_0_2_InvokeReqRep_Req_MSG){
+		stateCurrent = 48;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else
+		{
+		return stateCurrent;
+		}
+		}
+
+		case 48:
+
+		 { if(msgID == P_0_2_InvokeReqRep_Res_MSG){
+		stateCurrent = 51;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else
+		{
+		return stateCurrent;
+		}
+		}
+
+		default:
+		{
+		return stateCurrent;
+		}
+		}
+		return E_Normal;
+		}
+	
 	
 }

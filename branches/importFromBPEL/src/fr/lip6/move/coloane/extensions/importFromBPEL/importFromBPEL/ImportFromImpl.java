@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -85,6 +88,10 @@ public class ImportFromImpl implements IImportFrom {
 			GraphReductionLevel2(graph);
 			
 			
+			// Test the monitor generation
+			PrintGraphNodeID(graph);
+//			GenerateMonitor(graph);
+			GenerateMonitorMSGCentred(graph);
 		  
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -100,6 +107,23 @@ public class ImportFromImpl implements IImportFrom {
 		return graph;
 	}
 	
+	
+	/**
+	 * The method is used to print the IDs of all the place
+	 * 
+	 * @param graph
+	 */
+	public void PrintGraphNodeID(IGraph graph){
+		
+		Iterator iterNode = graph.getNodes().iterator();
+		while(iterNode.hasNext()){
+			INode node = (INode) iterNode.next();
+			if(node.getNodeFormalism().getName().equalsIgnoreCase("place")){
+				LOGGER.fine(node.getAttribute("name").getValue() + " ID is" + node.getId());
+			}
+		}
+
+	}
 
 	  /**
 	   * Loads a document from a XML file.
@@ -1664,8 +1688,6 @@ public class ImportFromImpl implements IImportFrom {
 	    	int numIncomingArcs = 0;
 	    	// Check Next Node
 	    	
-//	    	numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
-//	    	LOGGER.fine("nodeCurrent is " + nodeCurrent.getAttribute("name").getValue());
 	    	LOGGER.fine("GraphReductionLevel2(IGraph graph, IArc arc): Entry!" + arc.getTarget().toString());
 	    	
 	    	while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
@@ -1678,11 +1700,6 @@ public class ImportFromImpl implements IImportFrom {
     		// some places and transitions can be reduced.
     		
     		LOGGER.fine("GraphReduction(IGraph graph, INode node): lengthReduce is " + lengthReduce);
-//    		if(lengthReduce<=1)
-//    		{
-//    			
-//    		}
-//    		else 
     		if(lengthReduce > 1)
     		{
     			LOGGER.fine("Find redundant places and transitions!");
@@ -1767,157 +1784,9 @@ public class ImportFromImpl implements IImportFrom {
 			{
 				return;
 			}
-	    		
-    		
-    		
-    		
-    		
-    		
-    		
-	    	
-	    	
-	    	
-	    	
-//	    	
-//		    	if(numOutcomingArcs == 0)
-//		    	{
-//		    		return;// graph;
-//		    	}
-//		    	else if(numOutcomingArcs == 1)
-//		    	{
-//		    		nodeTemp = nodeCurrent.getOutcomingArcs().get(0).getTarget();
-////		    		lengthReduce++;
-//		    		while(nodeTemp.getOutcomingArcs().size()==1 && nodeTemp.getIncomingArcs().size()==1)
-//		    		{
-//		    			nodeTempPrevious = nodeTemp;
-//		    			nodeTemp = nodeTemp.getOutcomingArcs().get(0).getTarget();
-//		    			lengthReduce++;
-//		    		}
-//		    		// When lengthReduce > 1,
-//		    		// some places and transitions can be reduced.
-//		    		
-//		    		LOGGER.fine("GraphReduction(IGraph graph, INode node): lengthReduce is " + lengthReduce);
-//		    		if(lengthReduce > 1)
-//		    		{
-//		    			LOGGER.fine("Find redundant places and transitions!");
-//			    		if(lengthReduce%2==0){
-//			    			// Even integer
-//			    			IArc arcTemp;
-//							try {
-//								arcTemp = graph.createArc("arc", nodeCurrent, nodeTemp);
-//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
-//								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
-//							} catch (ModelException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//			    			
-//			    			
-//			    			// Delete Redundant Arcs and Nodes.
-//			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
-//			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
-//			    			LOGGER.fine("begin to delete arc and node!");
-//			    			// i<=lengthReduce
-//			    			for (int i=0;i<lengthReduce;i++){
-//			    				IArc arcDelete = arcNext;
-//			    				INode nodeDelete = arcDelete.getTarget();
-//			    				listNodeDelete.add(nodeDelete);
-//			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
-//			    			}
-//			    			for (int i=0;i<listNodeDelete.size();i++){
-//			    				graph.deleteNode(listNodeDelete.get(i));
-//			    			}
-////			    			graph.deleteArc(arcNext);
-//			    		}
-//			    		else
-//			    		{
-//			    			IArc arcTemp;
-//							try {
-//								arcTemp = graph.createArc("arc", nodeCurrent, nodeTempPrevious);
-//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
-//								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
-//							} catch (ModelException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//			    			
-//			    			// Delete Redundant Arcs and Nodes.
-//			    			IArc arcNext = nodeCurrent.getOutcomingArcs().iterator().next();
-//			    			ArrayList<INode> listNodeDelete = new ArrayList<INode>();
-//			    			// i<lengthReduce
-//			    			for (int i=0;i<lengthReduce-1;i++){
-//			    				IArc arcDelete = arcNext;
-//			    				INode nodeDelete = arcDelete.getTarget();
-//			    				listNodeDelete.add(nodeDelete);
-//			    				arcNext = nodeDelete.getOutcomingArcs().iterator().next();
-//			    			}
-//			    			for (int i=0;i<listNodeDelete.size();i++){
-//			    				graph.deleteNode(listNodeDelete.get(i));
-//			    			}
-////			    			graph.deleteArc(arcNext);
-//			    		}
-//		    		}
-//		    		if (nodeTemp.getIncomingArcs().size()>1)
-//		    		{
-//		    			return;
-//		    		}
-//		    		else if(nodeTemp.getOutcomingArcs().size()>1)
-//		    		{
-//		    			nodeCurrent = nodeTemp;
-//		    			GraphReductionLevel1(graph, nodeCurrent);
-//			    		numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
-//		    		}
-//		    		else
-//		    		{
-//		    			// do nothing;
-//		    		}
-////		    		GraphReduction(graph, nodeCurrent);
-//		    	}
-//		    	else
-//		    	{
-//		    		Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
-//		    		while(iterArc.hasNext()){
-//		    			IArc arcTemp = (IArc) iterArc.next();
-//		    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
-//		    			{
-//		    				GraphReductionLevel1(graph, arcTemp.getTarget());
-//		    			}
-//		    		}
-//		    	}
 	    	
 	    }
 	    
-	    
-	    
-	    // If want to use IGraph,
-	    // it is required to run the application as Eclipse Application.
-//		  public static void main(String[] args) {
-//				/**
-//				 * 测试文件列表： Test case list:
-//				 * catalog2.xml
-//				 * Travel.bpel
-//				 */
-//			  
-//			  	ImportFromImpl  TestCase = new ImportFromImpl();
-//			  	String formalism = "CPN";
-//			  	String filePath = "D:/WorkSpace/Cases/BPEL2PN/DemoTestCase/DemoTestCase(Sequence).bpel";
-//				File BPELfile = new File(filePath);
-//				System.out.println("The import BPEL XMLfiles is " + filePath);
-//				IGraph graph = new GraphModel(formalism);
-//				  
-//				try {
-//					Document docment = TestCase.parseWithSAX(BPELfile);
-//				  
-//					// The basic utility of Class IGraph and other related class
-//					graph = TestCase.BPELPNModelGenerator(docment,formalism);
-//
-//				} catch (DocumentException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				String [][] matrix = TestCase.GenerateIncidenceMatrix(graph);
-//				System.out.println("matrix[0][0] is "+matrix[0][0]);
-//	    }
 	    
 	    public void TreeWalkReduction(IGraph graph){
 	    	
@@ -1970,6 +1839,400 @@ public class ImportFromImpl implements IImportFrom {
 //			        }
 //			    }
 	    	
+	    }
+	    
+	    
+	    /**
+	     * Generate the Process Analyzer in monitor
+	     * using SOAP MSG centred way.
+	     * The method can not process the activity flow (fork)
+	     * The problem should be solved A.S.A.P
+	     * 
+	     * @param graph
+	     * The method will generate the method called ProcessAnalyzer(int MSGID),
+	     * which is only part of the monitor. HOWEVER, it is the core of 
+	     * process monitor.
+	     */
+	    public void GenerateMonitorMSGCentred(IGraph graph){
+	    	int	num_P = 0;
+	    	int num_T = 0;
+	    	int num_Node = 0;
+	    	
+	    	String filePath ="D:/WorkSpace/Cases/BPEL2PN/Monitor.java";
+			File Monitorfile = new File(filePath);			
+			LOGGER.fine("The generated java file of monitor is " + filePath);
+			
+		    BufferedWriter output;
+			try {
+				output = new BufferedWriter(new FileWriter(Monitorfile));
+				
+				// *******************************
+				// Code generation
+				// *******************************
+			    output.write("public int ProcessAnalyzer(int msgID){\n");
+//			    output.write("int EventType = E_Normal;\n");
+			    output.write("System.out.println(\"Current State: \" + stateCurrent + \" and msgID:\" + msgID);\n");
+
+			    //output.write(s1);
+	    	
+	    	
+		    	// Find the entry of petri net.
+		    	// Usually it is the node of sequence start.
+		    	// Ex. P_0_sequence_Start
+		    	INode nodeStart = graph.getNode(0);
+		    	INode nodeEnd = nodeStart;
+	    		int IDMax = 0;
+	    		
+	    		ArrayList <INode> List_MSG = new ArrayList<INode>();
+		    	Iterator iterNode = graph.getNodes().iterator();
+		    	LOGGER.fine("GenerateMonitor():Entry!");
+		    	num_Node = graph.getNodes().size();
+
+		    	// Do some statistic for the model, in order to generate the monitor 
+		    	// Find out the start node and end node
+		    	// Calculate the number of place and transition
+		    	// And find out the maximum ID of node.
+		    	while(iterNode.hasNext()){
+		    		INode nodeTemp = (INode) iterNode.next();
+		    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
+		    	    	nodeStart = nodeTemp;
+	//	    			System.out.println("GraphReduction() "+ nodeTemp.getAttribute("name").getValue() + " OutComingArc Size " + nodeTemp.getOutcomingArcs().size());
+	//	    			break;
+		    		}
+		    		else if(nodeTemp.getAttribute("name").getValue().endsWith("Start"))
+		    		{
+		    			nodeEnd = nodeTemp;
+		    		}
+		    		else
+		    		{
+		    			// do nothing;
+		    		}
+		    		if (nodeTemp.getNodeFormalism().getName().equalsIgnoreCase("place")){
+		    			if(nodeTemp.getAttribute("name").getValue().endsWith("MSG")){
+		    				List_MSG.add(nodeTemp);
+		    				// *******************************
+		    				// Code generation
+		    				// *******************************
+		    				output.write("int " + nodeTemp.getAttribute("name").getValue() + " = " + List_MSG.size()+ ";\n");
+		    			}
+		    			else
+		    			{
+		    				num_P++;
+		    			}
+		    		}
+		    		
+		    		if(IDMax < nodeTemp.getId())
+		    		{
+		    			IDMax = nodeTemp.getId();
+		    		}
+		    		
+		    	}
+//		    	num_T = num_Node - num_P;
+		    	
+		    	int [] mapNode = new int[IDMax];
+		    	int [] stateVector = new int[num_P];
+		    	
+		    	// Initialize stateVector
+		    	for (int i = 0; i < num_P; i++){
+		    		stateVector[i] = 0;
+		    	}
+		    	
+				// *******************************
+				// Code generation
+				// *******************************
+			    output.write("switch (stateCurrent) {");
+		    	
+		    	INode t_MSG = nodeStart;
+		    	INode p_Succeeding = nodeStart;
+		    	INode p_Preceding = nodeStart;
+		    	boolean isProcessed = false;
+		    	ArrayList<INode> ListProcessNode = new ArrayList<INode>();
+		    	for (int i = 0; i < List_MSG.size(); i++){
+		    		INode p_MSG = List_MSG.get(i);
+		    		
+		    		isProcessed = false;
+		    		for (int m = 0; m < ListProcessNode.size(); m++)
+		    		{
+		    			if (ListProcessNode.get(m).equals(p_MSG))
+		    			{
+		    				isProcessed = true;
+		    			}
+		    		}
+		    		
+		    		if (isProcessed == false){
+		    			// Find out the transition, which is connected to 
+			    		// 
+			    		if (p_MSG.getIncomingArcs().size() ==1)
+			    		{
+			    			t_MSG = p_MSG.getIncomingArcs().get(0).getSource();
+			    		}
+			    		else
+			    		{
+			    			t_MSG = p_MSG.getOutcomingArcs().get(0).getTarget();
+			    		}
+			    		
+			    		// Localize the preceding place
+			    		
+			    		boolean isT_MSG = false;
+			    		INode t_temp =t_MSG;
+			    		while(isT_MSG == false)
+			    		{
+				    		p_Preceding = t_temp.getIncomingArcs().get(0).getSource();
+				    		if (p_Preceding.getAttribute("name").getValue().endsWith("MSG"))
+				    		{
+				    			p_Preceding = t_temp.getIncomingArcs().get(1).getSource();
+				    		}
+				    		if (p_Preceding.getIncomingArcs().size() == 0)
+				    		{
+				    			// It should be the start node
+				    			isT_MSG = true;
+				    		}
+				    		else
+				    		{
+				    			t_temp = p_Preceding.getIncomingArcs().get(0).getSource();
+				    			if (t_temp.getIncomingArcs().size() > 1 || t_temp.getOutcomingArcs().size() > 1)
+				    			{
+				    				// Incoming Arcs
+				    				if (t_temp.getIncomingArcs().size() > 1){
+				    					Iterator iter = t_temp.getIncomingArcs().iterator();
+				    					while(iter.hasNext())
+				    					{
+				    						IArc a_temp = (IArc) iter.next();
+				    						if (a_temp.getSource().getAttribute("name").getValue().endsWith("MSG"))
+				    						{
+				    							isT_MSG = true;
+				    						}
+				    						else
+				    						{
+				    							isT_MSG = true;
+				    							// do something special for 2P --> T --> P
+				    						}
+				    					}
+				    				}
+				    				
+				    				// Outcoming Arcs
+				    				if (t_temp.getOutcomingArcs().size() > 1){
+				    					Iterator iter = t_temp.getOutcomingArcs().iterator();
+				    					while(iter.hasNext())
+				    					{
+				    						IArc a_temp = (IArc) iter.next();
+				    						if (a_temp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
+				    						{
+				    							isT_MSG = true;
+				    						}
+				    					}
+				    				}
+				    			}
+				    		}
+			    		}
+			    		
+			    		// Localize the succeeding place
+			    		p_Succeeding = t_MSG.getOutcomingArcs().get(0).getTarget();
+			    		if (p_Succeeding.getAttribute("name").getValue().endsWith("MSG"))
+			    		{
+			    			p_Succeeding = t_MSG.getOutcomingArcs().get(1).getTarget();
+			    		}
+			    		
+			    		LOGGER.fine(t_MSG.toString() + "p_Preceding " + p_Preceding.toString());
+			    		LOGGER.fine(t_MSG.toString() + "p_Succeeding " + p_Succeeding.toString());
+			    		
+			    		// *******************************
+						// Code generation
+						// *******************************
+			    		output.write("\ncase " + p_Preceding.getId() + ":\n");
+			    		output.write("\n { if(msgID == " + p_MSG.getAttribute("name").getValue()+ "){\n");
+			    		output.write("stateCurrent = " + p_Succeeding.getId() + ";\n");
+			    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
+			    		output.write("break;\n}");
+			    		
+			    		if (p_Preceding.getOutcomingArcs().size()>1)
+			    		{
+			    			Iterator iterator = p_Preceding.getOutcomingArcs().iterator();
+			    			while(iterator.hasNext()){
+			    				IArc a_temp = (IArc) iterator.next();
+			    				INode nodeTemp = a_temp.getTarget();
+			    				String nameMSG = "";
+			    				int IDtemp = 0;
+			    				if (!nodeTemp.equals(t_MSG)){
+			    					if(nodeTemp.getOutcomingArcs().size()==1){
+			    						IDtemp = nodeTemp.getOutcomingArcs().get(0).getTarget().getId();
+			    						Iterator it = nodeTemp.getIncomingArcs().iterator();
+			    						while(it.hasNext()){
+			    							IArc a_t = (IArc) it.next();
+			    							if (!a_t.getSource().equals(p_Preceding))
+			    							{
+			    								nameMSG = a_t.getSource().getAttribute("name").getValue();
+			    								ListProcessNode.add(a_t.getSource());
+			    							}
+			    						}
+			    					}
+			    					else
+			    					{
+			    						nameMSG = nodeTemp.getIncomingArcs().get(0).getSource().getAttribute("name").getValue();
+			    						ListProcessNode.add(nodeTemp.getIncomingArcs().get(0).getSource());
+			    						Iterator it1 = nodeTemp.getOutcomingArcs().iterator();
+			    						while(it1.hasNext())
+			    						{
+			    							IArc a_t1 = (IArc)it1.next();
+			    							if (!a_t1.getTarget().getAttribute("name").getValue().endsWith("MSG"))
+			    							{
+			    								IDtemp = a_t1.getTarget().getId();
+			    							}
+			    						}
+			    					}
+			    					output.write("else if(msgID == " + nameMSG+ "){\n");
+			    					output.write("stateCurrent = " + IDtemp + ";\n");
+			    		    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
+			    		    		output.write("break;\n}\n}\n");
+			    		    		
+			    				}
+			    			}
+			    			
+			    		}
+			    		else
+			    		{
+				    		// *******************************
+							// Code generation
+							// *******************************
+				    		output.write("else\n{\n");
+				    		output.write("return stateCurrent;\n}\n}\n");
+			    		}
+		    		}
+		    	}
+		    	
+		    	// *******************************
+				// Code generation
+				// *******************************
+		    	output.write("\ndefault:\n{\nreturn stateCurrent;\n}\n}\nreturn E_Normal;\n}");
+		    	
+			    output.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	    }
+	    
+	    public void GenerateMonitor1(IGraph graph){
+	    	int	num_P = 0;
+	    	int num_T = 0;
+	    	int num_Node = 0;
+	    	
+	    	String filePath ="D:/WorkSpace/Cases/BPEL2PN/Monitor.java";
+			File Monitorfile = new File(filePath);			
+			LOGGER.fine("The generated java file of monitor is " + filePath);
+			
+		    BufferedWriter output;
+			try {
+				output = new BufferedWriter(new FileWriter(Monitorfile));
+				
+			    output.write("hello");
+			    //output.write(s1);
+	    	
+	    	
+		    	// Find the entry of petri net.
+		    	// Usually it is the node of sequence start.
+		    	// Ex. P_0_sequence_Start
+		    	INode nodeStart = graph.getNode(0);
+		    	INode nodeEnd = nodeStart;
+	    		int IDMax = 0;
+		    	Iterator iterNode = graph.getNodes().iterator();
+		    	LOGGER.fine("GenerateMonitor():Entry!");
+		    	num_Node = graph.getNodes().size();
+
+		    	// Do some statistic for the model, in order to generate the monitor 
+		    	// Find out the start node and end node
+		    	// Calculate the number of place and transition
+		    	// And find out the maximum ID of node.
+		    	while(iterNode.hasNext()){
+		    		INode nodeTemp = (INode) iterNode.next();
+		    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
+		    	    	nodeStart = nodeTemp;
+	//	    			System.out.println("GraphReduction() "+ nodeTemp.getAttribute("name").getValue() + " OutComingArc Size " + nodeTemp.getOutcomingArcs().size());
+	//	    			break;
+		    		}
+		    		else if(nodeTemp.getAttribute("name").getValue().endsWith("Start"))
+		    		{
+		    			nodeEnd = nodeTemp;
+		    		}
+		    		else
+		    		{
+		    			// do nothing;
+		    		}
+		    		if (nodeTemp.getNodeFormalism().getName().equalsIgnoreCase("place")){
+		    			num_P++;
+		    		}
+		    		
+		    		if(IDMax < nodeTemp.getId())
+		    		{
+		    			IDMax = nodeTemp.getId();
+		    		}
+		    		
+		    	}
+		    	num_T = num_Node - num_P;
+		    	
+		    	int [] mapNode = new int[IDMax];
+		    	int [] stateVector = new int[num_P];
+		    	
+		    	// Initialize stateVector
+		    	for (int i = 0; i < num_P; i++){
+		    		stateVector[i] = 0;
+		    	}
+		    	
+		    	int state = 0;
+		    	int stateNext = 0;
+		    	int countNode = 0;
+		    	
+		    	INode temp = nodeStart;
+	    		// record current state
+		    	mapNode[nodeStart.getId()] = 0;
+		    	stateVector[countNode] = 1;
+		    	countNode++;
+		    	int num_outcomingArc = temp.getOutcomingArcs().size();
+		    	while(num_outcomingArc != 0)
+		    	{
+		    		if(num_outcomingArc == 1)
+		    		{
+		    			INode temp_T = temp.getOutcomingArcs().get(0).getTarget();
+		    			if (temp_T.getOutcomingArcs().size() == 1)
+		    			{
+		    				
+		    			}
+		    			else if (temp_T.getOutcomingArcs().size() > 1)
+		    			{
+		    				output.write("case "+ BinaryToLong(stateVector, num_P) + ":");
+		    			}
+		    			else
+		    			{
+		    				//do nothing;
+		    			}
+		    		}
+		    		else if(num_outcomingArc > 1)
+		    		{
+		    			output.write("// ");
+		    			output.write("case "+ BinaryToLong(stateVector, num_P) + ":");
+		    		}
+
+		    	}
+	    	
+			    
+			    
+			    output.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    
+	    public long BinaryToLong(int[] bin, int len){
+	    	double tempResult = 0;
+	    	for (int i = 0; i < len; i++){
+	    		tempResult= tempResult + Math.pow(2, i);
+	    	}
+	    	return (long)tempResult;
 	    }
 	    
 }
