@@ -173,7 +173,7 @@ public class BPELProcessMonitor {
 		// Correct 
 //		for(int i=0;i<10;i++){
 			testCase.monitor(1);
-			testCase.monitor(3);
+			testCase.monitor(6);
 			testCase.monitor(4);
 			testCase.monitor(5);
 			testCase.monitor(6);
@@ -201,10 +201,91 @@ public class BPELProcessMonitor {
 		int P_0_1_1_2_Reply_MSG = 4;
 		int P_0_2_InvokeReqRep_Req_MSG = 5;
 		int P_0_2_InvokeReqRep_Res_MSG = 6;
+		switch (stateCurrent) {case 3:
+		{ if(msgID == P_0_0_Receive_MSG){
+		stateCurrent = 5;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		else
+		{
+		return stateCurrent;
+		}
+		}
+		case 5:
+		{ if(msgID == P_0_1_0_0_InvokeOneWay_MSG){
+		stateCurrent = 13;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else if(msgID == P_0_1_1_1_Receive_MSG){
+		stateCurrent = 20;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		}
+		case 20:
+		{ if(msgID == P_0_1_1_2_Reply_MSG){
+		stateCurrent = 13;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		else
+		{
+		return stateCurrent;
+		}
+		}
+		case 13:
+		{ if(msgID == P_0_2_InvokeReqRep_Req_MSG){
+		stateCurrent = 48;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		else
+		{
+		return stateCurrent;
+		}
+		}
+		case 48:
+		{ if(msgID == P_0_2_InvokeReqRep_Res_MSG){
+		stateCurrent = 51;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}
+		else
+		{
+		return stateCurrent;
+		}
+		}
+
+		default:
+		{
+		return stateCurrent;
+		}
+		}
+		return E_Normal;
+		}
+	
+	public int ProcessAnalyzer2(int msgID){
+		System.out.println("Current State: " + stateCurrent + " and msgID:" + msgID);
+		int P_0_2_Reply_MSG = 1;
+		int P_0_0_InvokeOneWay_MSG = 2;
+		int P_0_1_Receive_MSG = 3;
 		switch (stateCurrent) {
+		case 12:
+
+		 { if(msgID == P_0_2_Reply_MSG){
+		stateCurrent = 19;
+		System.out.println("Change Current State into " + stateCurrent);
+		break;
+		}else
+		{
+		return stateCurrent;
+		}
+		}
+
 		case 3:
 
-		 { if(msgID == P_0_0_Receive_MSG){
+		 { if(msgID == P_0_0_InvokeOneWay_MSG){
 		stateCurrent = 5;
 		System.out.println("Change Current State into " + stateCurrent);
 		break;
@@ -216,45 +297,8 @@ public class BPELProcessMonitor {
 
 		case 5:
 
-		 { if(msgID == P_0_1_0_0_InvokeOneWay_MSG){
-		stateCurrent = 13;
-		System.out.println("Change Current State into " + stateCurrent);
-		break;
-		}else if(msgID == P_0_1_1_1_Receive_MSG){
-		stateCurrent = 20;
-		System.out.println("Change Current State into " + stateCurrent);
-		break;
-		}
-		}
-
-		case 20:
-
-		 { if(msgID == P_0_1_1_2_Reply_MSG){
-		stateCurrent = 13;
-		System.out.println("Change Current State into " + stateCurrent);
-		break;
-		}else
-		{
-		return stateCurrent;
-		}
-		}
-
-		case 13:
-
-		 { if(msgID == P_0_2_InvokeReqRep_Req_MSG){
-		stateCurrent = 48;
-		System.out.println("Change Current State into " + stateCurrent);
-		break;
-		}else
-		{
-		return stateCurrent;
-		}
-		}
-
-		case 48:
-
-		 { if(msgID == P_0_2_InvokeReqRep_Res_MSG){
-		stateCurrent = 51;
+		 { if(msgID == P_0_1_Receive_MSG){
+		stateCurrent = 12;
 		System.out.println("Change Current State into " + stateCurrent);
 		break;
 		}else
@@ -270,6 +314,4 @@ public class BPELProcessMonitor {
 		}
 		return E_Normal;
 		}
-	
-	
 }

@@ -7,29 +7,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.Stack;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.dom4j.Attribute;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
 
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
-import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.GraphModel;
-import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -115,7 +108,7 @@ public class ImportFromImpl implements IImportFrom {
 	 */
 	public void PrintGraphNodeID(IGraph graph){
 		
-		Iterator iterNode = graph.getNodes().iterator();
+		Iterator<INode> iterNode = graph.getNodes().iterator();
 		while(iterNode.hasNext()){
 			INode node = (INode) iterNode.next();
 			if(node.getNodeFormalism().getName().equalsIgnoreCase("place")){
@@ -292,9 +285,9 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 		    	IGraph graph = new GraphModel(formalism);
 		    	IGraph tempGraph = new GraphModel(formalism);
-		    	IGraph tempGraphA = new GraphModel(formalism);
+//		    	IGraph tempGraphA = new GraphModel(formalism);
 		    	Iterator iter = element.elementIterator();
-		    	String tempString, nodeName;
+		    	String nodeName;
 		    	String StrPrint = "";
 		    	IAttribute attribute,tempAttr;
 		    	int i = 0;
@@ -1018,7 +1011,7 @@ public class ImportFromImpl implements IImportFrom {
 		 			   numArray[level]++;
 	 			   
 		 			   // Add the connection between the sub model and parent model.
-			    	   Iterator iterNodeFlow = tempGraph.getNodes().iterator();
+			    	   Iterator<INode> iterNodeFlow = tempGraph.getNodes().iterator();
 	//		    	   System.out.println("@@@@@ begin to show model of Graph!!!");
 			    	   while(iterNodeFlow.hasNext()){
 			    		   INode nodeFlow = (INode) iterNodeFlow.next();
@@ -1115,7 +1108,7 @@ public class ImportFromImpl implements IImportFrom {
 				    	numArray[level]++;
 			    		
 		 			   // Add the connection between the sub model and parent model.
-				    	Iterator iterNodePick = tempGraph.getNodes().iterator();
+				    	Iterator<INode> iterNodePick = tempGraph.getNodes().iterator();
 				    	while(iterNodePick.hasNext()){
 				    		   INode nodePick = (INode) iterNodePick.next();
 				    		   IAttribute tempAttr = nodePick.getAttribute("name");
@@ -1210,7 +1203,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	IGraph tempGraph = new GraphModel(formalism);
 	    	IGraph tempGraphA = new GraphModel(formalism);
 		   
-	    	int num_count = 0;
+//	    	int num_count = 0;
 	    	
 		   	INode nodeStartSwitch;//[] = new INode[2];
 		   	INode nodeEndSwitch;//[] = new INode[2];
@@ -1246,7 +1239,7 @@ public class ImportFromImpl implements IImportFrom {
 				    	numArray[level]++;
 		 			   
 		 			   // Add the connection between the sub model and parent model.
-				    	Iterator iterNodeSwitch = tempGraph.getNodes().iterator();
+				    	Iterator<INode> iterNodeSwitch = tempGraph.getNodes().iterator();
 				    	while(iterNodeSwitch.hasNext()){
 				    		   INode nodePick = (INode) iterNodeSwitch.next();
 				    		   IAttribute tempAttr = nodePick.getAttribute("name");
@@ -1358,7 +1351,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	int num_T_Max = 1000;
 	    	int num_P_Max = 1000;
 	    	
-	    	int num_A = 0;
+//	    	int num_A = 0;
 	    	// Define the Matrix
 	    	// Use array as incidence matrix,
 	    	// for the consideration of runtime monitor efficiency. 
@@ -1370,7 +1363,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	String tempName = null;
 	    	
 	    	int size_graph = graph.getNodes().size();
-	    	Iterator iterNode = graph.getNodes().iterator();
+	    	Iterator<INode> iterNode = graph.getNodes().iterator();
 	    	
 	    	// As for every transition,
 	    	// calculate every arc of this transition.
@@ -1379,7 +1372,7 @@ public class ImportFromImpl implements IImportFrom {
 	    		INode nodeTemp = (INode) iterNode.next();
 	    		if(nodeTemp.getNodeFormalism().getName().equalsIgnoreCase("transition")){
 	    			Matrix_T_Name[num_T] = nodeTemp.getAttribute("name").getValue();
-	    			Iterator incomingArc = nodeTemp.getIncomingArcs().iterator();
+	    			Iterator<IArc> incomingArc = nodeTemp.getIncomingArcs().iterator();
 	    			
 	    			// Every incoming arc of related transition
 	    			while(incomingArc.hasNext()){
@@ -1405,7 +1398,7 @@ public class ImportFromImpl implements IImportFrom {
 	    			}
 	    			
 	    			// Every outcoming arc of related transition
-	    			Iterator OutcomingArc = nodeTemp.getOutcomingArcs().iterator();
+	    			Iterator<IArc> OutcomingArc = nodeTemp.getOutcomingArcs().iterator();
 	    			while(OutcomingArc.hasNext()){
 	    				IArc tempArc = (IArc)OutcomingArc.next();
 	    				INode tempPlace = tempArc.getTarget();
@@ -1473,7 +1466,7 @@ public class ImportFromImpl implements IImportFrom {
 		   */
 	    public void GraphReductionLevel1(IGraph graph){
 	    	
-	    	Iterator iterNode = graph.getNodes().iterator();
+	    	Iterator<INode> iterNode = graph.getNodes().iterator();
 	    	
 	    	// Find the entry of petri net.
 	    	// Usually it is the node of sequence start.
@@ -1506,7 +1499,7 @@ public class ImportFromImpl implements IImportFrom {
 	    	
 	    	int lengthReduce = 0;
 	    	int numOutcomingArcs = 0;
-	    	int numIncomingArcs = 0;
+//	    	int numIncomingArcs = 0;
 	    	// Check Next Node
 	    	
 	    	numOutcomingArcs = nodeCurrent.getOutcomingArcs().size();
@@ -1590,7 +1583,6 @@ public class ImportFromImpl implements IImportFrom {
 			    			for (int i=0;i<listNodeDelete.size();i++){
 			    				graph.deleteNode(listNodeDelete.get(i));
 			    			}
-//			    			graph.deleteArc(arcNext);
 			    		}
 		    		}
 		    		if (nodeTemp.getIncomingArcs().size()>1)
@@ -1607,11 +1599,10 @@ public class ImportFromImpl implements IImportFrom {
 		    		{
 		    			// do nothing;
 		    		}
-//		    		GraphReduction(graph, nodeCurrent);
 		    	}
 		    	else
 		    	{
-		    		Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
+		    		Iterator<IArc> iterArc = nodeCurrent.getOutcomingArcs().iterator();
 		    		while(iterArc.hasNext()){
 		    			IArc arcTemp = (IArc) iterArc.next();
 		    			if(!arcTemp.getTarget().getAttribute("name").getValue().endsWith("MSG"))
@@ -1620,9 +1611,6 @@ public class ImportFromImpl implements IImportFrom {
 		    			}
 		    		}
 		    	}
-//		    }
-	    	
-//	    	return graph;
 	    }
 	    
 	    
@@ -1638,7 +1626,7 @@ public class ImportFromImpl implements IImportFrom {
 		   */
 	    public void GraphReductionLevel2(IGraph graph){
 	    	
-	    	Iterator iterNode = graph.getNodes().iterator();
+	    	Iterator<INode> iterNode = graph.getNodes().iterator();
 	    	
 	    	// Find the entry of petri net.
 	    	// Usually it is the node of sequence start.
@@ -1648,7 +1636,7 @@ public class ImportFromImpl implements IImportFrom {
 	    		INode nodeTemp = (INode) iterNode.next();
 	    		if (nodeTemp.getAttribute("name").getValue().endsWith("Start")){
 //	    			System.out.println("GraphReduction() "+ nodeTemp.getAttribute("name").getValue() + " OutComingArc Size " + nodeTemp.getOutcomingArcs().size());
-	    			Iterator iterArc = nodeTemp.getOutcomingArcs().iterator();
+	    			Iterator<IArc> iterArc = nodeTemp.getOutcomingArcs().iterator();
 	    			LOGGER.fine("Node Start Arc num is " + nodeTemp.getOutcomingArcs().size());
 	    			
 	    			ArrayList<IArc> listNodeStartArc = new ArrayList<IArc>();
@@ -1684,8 +1672,6 @@ public class ImportFromImpl implements IImportFrom {
 	    	INode nodeTempPrevious = nodeCurrent;
 	    	
 	    	int lengthReduce = 0;
-	    	int numOutcomingArcs = 0;
-	    	int numIncomingArcs = 0;
 	    	// Check Next Node
 	    	
 	    	LOGGER.fine("GraphReductionLevel2(IGraph graph, IArc arc): Entry!" + arc.getTarget().toString());
@@ -1758,14 +1744,13 @@ public class ImportFromImpl implements IImportFrom {
 	    			for (int i=0;i<listNodeDelete.size();i++){
 	    				graph.deleteNode(listNodeDelete.get(i));
 	    			}
-//	    			graph.deleteArc(arcNext);
 	    		}
     		}
     		
 			if(nodeTemp.getOutcomingArcs().size()>1 || nodeTemp.getIncomingArcs().size()>1)
 			{
 				nodeCurrent = nodeTemp;
-				Iterator iterArc = nodeCurrent.getOutcomingArcs().iterator();
+				Iterator<IArc> iterArc = nodeCurrent.getOutcomingArcs().iterator();
 				ArrayList<IArc> listArc = new ArrayList<IArc>();
 				LOGGER.fine("begin to record arc into ArrayList!");
 	    		while(iterArc.hasNext()){
@@ -1838,7 +1823,6 @@ public class ImportFromImpl implements IImportFrom {
 //			            NodeStack.push(pNode->pRight);                // 当前结点的右子树根结点入栈
 //			        }
 //			    }
-	    	
 	    }
 	    
 	    
@@ -1855,7 +1839,7 @@ public class ImportFromImpl implements IImportFrom {
 	     */
 	    public void GenerateMonitorMSGCentred(IGraph graph){
 	    	int	num_P = 0;
-	    	int num_T = 0;
+//	    	int num_T = 0;
 	    	int num_Node = 0;
 	    	
 	    	String filePath ="D:/WorkSpace/Cases/BPEL2PN/Monitor.java";
@@ -1884,7 +1868,7 @@ public class ImportFromImpl implements IImportFrom {
 	    		int IDMax = 0;
 	    		
 	    		ArrayList <INode> List_MSG = new ArrayList<INode>();
-		    	Iterator iterNode = graph.getNodes().iterator();
+		    	Iterator<INode> iterNode = graph.getNodes().iterator();
 		    	LOGGER.fine("GenerateMonitor():Entry!");
 		    	num_Node = graph.getNodes().size();
 
@@ -2012,7 +1996,7 @@ public class ImportFromImpl implements IImportFrom {
 				    				
 				    				// Outcoming Arcs
 				    				if (t_temp.getOutcomingArcs().size() > 1){
-				    					Iterator iter = t_temp.getOutcomingArcs().iterator();
+				    					Iterator<IArc> iter = t_temp.getOutcomingArcs().iterator();
 				    					while(iter.hasNext())
 				    					{
 				    						IArc a_temp = (IArc) iter.next();
@@ -2039,15 +2023,15 @@ public class ImportFromImpl implements IImportFrom {
 			    		// *******************************
 						// Code generation
 						// *******************************
-			    		output.write("\ncase " + p_Preceding.getId() + ":\n");
-			    		output.write("\n { if(msgID == " + p_MSG.getAttribute("name").getValue()+ "){\n");
+			    		output.write("case " + p_Preceding.getId() + ":\n");
+			    		output.write("{ if(msgID == " + p_MSG.getAttribute("name").getValue()+ "){\n");
 			    		output.write("stateCurrent = " + p_Succeeding.getId() + ";\n");
 			    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
 			    		output.write("break;\n}");
 			    		
 			    		if (p_Preceding.getOutcomingArcs().size()>1)
 			    		{
-			    			Iterator iterator = p_Preceding.getOutcomingArcs().iterator();
+			    			Iterator<IArc> iterator = p_Preceding.getOutcomingArcs().iterator();
 			    			while(iterator.hasNext()){
 			    				IArc a_temp = (IArc) iterator.next();
 			    				INode nodeTemp = a_temp.getTarget();
@@ -2056,7 +2040,7 @@ public class ImportFromImpl implements IImportFrom {
 			    				if (!nodeTemp.equals(t_MSG)){
 			    					if(nodeTemp.getOutcomingArcs().size()==1){
 			    						IDtemp = nodeTemp.getOutcomingArcs().get(0).getTarget().getId();
-			    						Iterator it = nodeTemp.getIncomingArcs().iterator();
+			    						Iterator<IArc> it = nodeTemp.getIncomingArcs().iterator();
 			    						while(it.hasNext()){
 			    							IArc a_t = (IArc) it.next();
 			    							if (!a_t.getSource().equals(p_Preceding))
@@ -2070,7 +2054,7 @@ public class ImportFromImpl implements IImportFrom {
 			    					{
 			    						nameMSG = nodeTemp.getIncomingArcs().get(0).getSource().getAttribute("name").getValue();
 			    						ListProcessNode.add(nodeTemp.getIncomingArcs().get(0).getSource());
-			    						Iterator it1 = nodeTemp.getOutcomingArcs().iterator();
+			    						Iterator<IArc> it1 = nodeTemp.getOutcomingArcs().iterator();
 			    						while(it1.hasNext())
 			    						{
 			    							IArc a_t1 = (IArc)it1.next();
@@ -2094,7 +2078,7 @@ public class ImportFromImpl implements IImportFrom {
 				    		// *******************************
 							// Code generation
 							// *******************************
-				    		output.write("else\n{\n");
+				    		output.write("\nelse\n{\n");
 				    		output.write("return stateCurrent;\n}\n}\n");
 			    		}
 		    		}
@@ -2137,7 +2121,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	INode nodeStart = graph.getNode(0);
 		    	INode nodeEnd = nodeStart;
 	    		int IDMax = 0;
-		    	Iterator iterNode = graph.getNodes().iterator();
+		    	Iterator<INode> iterNode = graph.getNodes().iterator();
 		    	LOGGER.fine("GenerateMonitor():Entry!");
 		    	num_Node = graph.getNodes().size();
 
@@ -2180,8 +2164,8 @@ public class ImportFromImpl implements IImportFrom {
 		    		stateVector[i] = 0;
 		    	}
 		    	
-		    	int state = 0;
-		    	int stateNext = 0;
+//		    	int state = 0;
+//		    	int stateNext = 0;
 		    	int countNode = 0;
 		    	
 		    	INode temp = nodeStart;
