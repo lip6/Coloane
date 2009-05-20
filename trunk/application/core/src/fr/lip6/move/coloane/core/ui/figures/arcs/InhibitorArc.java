@@ -1,25 +1,37 @@
 package fr.lip6.move.coloane.core.ui.figures.arcs;
 
+import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 /**
- * Description d'un arc avec une pointe arrondie (en forme de rond).<br>
- * Cette figure peut être utilisée pour représenter un arc inhibiteur sur un modèle.
+ * Inhibitor arc definition.<br>
+ * This arc defines is graphically terminated by a small round.
  *
  * @author Clément Demoulins
+ * @author Jean-Baptiste Voron
  */
-public class InhibitorArc extends RoundedPolylineConnection {
-	// On réduit légerement la taille du cercle
+public class InhibitorArc extends RoundedPolylineConnection implements IArcFigure {
+
+	// Scale factor to make the round figure smaller
 	private static final double SCALE1 = 0.8;
 	private static final double SCALE2 = 0.8;
 
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	public InhibitorArc() {
+		super();
+		setTargetDecoration(buildDecoration());
+	}
+
+	/**
+	 * Create the decoration that will be used for the target-side of the arc
+	 * @return the decoration
+	 */
+	private PolygonDecoration buildDecoration() {
 		PolygonDecoration decoration = new PolygonDecoration();
 
 		PointList decorationPointList = new PointList();
@@ -40,8 +52,6 @@ public class InhibitorArc extends RoundedPolylineConnection {
 		decoration.setFill(true);
 		decoration.setBackgroundColor(ColorConstants.white);
 		decoration.setScale(SCALE1, SCALE2);
-
-		setTargetDecoration(decoration);
+		return decoration;
 	}
-
 }

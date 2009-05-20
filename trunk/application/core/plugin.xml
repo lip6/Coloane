@@ -461,7 +461,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"
@@ -639,7 +639,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"
@@ -775,7 +775,7 @@
              <Arc
                    name="event">
                 <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an event"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"
@@ -859,7 +859,7 @@
              <Arc
                    name="arc">
                 <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc"
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Arc"
                       drawable="true"
                       icon16px="resources/formalisms/arc_16.png"

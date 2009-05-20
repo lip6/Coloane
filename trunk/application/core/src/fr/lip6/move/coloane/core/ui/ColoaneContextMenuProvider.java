@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
+import fr.lip6.move.coloane.core.ui.actions.CurveAction;
+
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -39,12 +41,15 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO, getAction(ActionFactory.UNDO.getId())); // action to add
 		menu.prependToGroup(GEFActionConstants.GROUP_UNDO, getAction(ActionFactory.REDO.getId()));
-		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.DELETE.getId()));
 
+		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.DELETE.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.PASTE.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.COPY.getId()));
         menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.CUT.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.SELECT_ALL.getId()));
+
+		// Curve or Straight arcs
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, getAction(CurveAction.ID));
 	}
 
 	/**

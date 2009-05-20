@@ -233,7 +233,7 @@ public final class FormalismManager {
 				gd.setAssociatedFigure(associatedFigure.getClass());
 				LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
 			} catch (CoreException e) {
-				LOGGER.finest("Echec lors de l'association de la figure a l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.warning("Echec lors de l'association de la figure a l'element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 
