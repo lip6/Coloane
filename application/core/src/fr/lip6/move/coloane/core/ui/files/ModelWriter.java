@@ -160,6 +160,7 @@ public final class ModelWriter {
 			sb.append(" startid='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" endid='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" color='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" curved='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(">\n"); //$NON-NLS-1$
 
 			// Ecriture des PI

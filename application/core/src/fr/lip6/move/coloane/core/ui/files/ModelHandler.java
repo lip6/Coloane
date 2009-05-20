@@ -256,6 +256,7 @@ public class ModelHandler extends DefaultHandler {
 		int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 		int startid = Integer.parseInt(attributes.getValue("startid")); //$NON-NLS-1$
 		int endid = Integer.parseInt(attributes.getValue("endid")); //$NON-NLS-1$
+		boolean curved = Boolean.parseBoolean(attributes.getValue("curved")); //$NON-NLS-1$
 		String arcFormalismName = attributes.getValue("arctype"); //$NON-NLS-1$
 
 		// Creation de l'arc
@@ -271,6 +272,10 @@ public class ModelHandler extends DefaultHandler {
 		} catch (NumberFormatException e) {
 			logger.fine("attribut color absent ou incorrecte"); //$NON-NLS-1$
 		}
+
+		// Courbure
+		arc.getGraphicInfo().setCurve(curved);
+
 		stack.push(arc);
 	}
 
