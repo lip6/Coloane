@@ -15,7 +15,8 @@ import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
 import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
 import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.arcs.SimpleArc;
+import fr.lip6.move.coloane.core.ui.figures.RoundedPolyline;
+import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -100,7 +101,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		IArcFigure arcFigure = (IArcFigure) arc.getArcFormalism().getGraphicalDescription().getAssociatedFigure();
 		if (arcFigure == null) {
 			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
-			arcFigure = new SimpleArc();
+			arcFigure = new DirectedArc();
 		}
 		arcFigure.setForegroundColor(arc.getGraphicInfo().getColor());
 		arcFigure.setConnectionRouter(CONNECTION_ROUTER);
@@ -133,6 +134,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		Connection connection = (Connection) getFigure();
 		connection.getConnectionRouter();
+		((RoundedPolyline) connection).setCurved(arcModel.getGraphicInfo().getCurve());
 
 		List<AbsoluteBendpoint> modelConstraint = arcModel.getInflexPoints();
 		getConnectionFigure().setRoutingConstraint(modelConstraint);
@@ -260,6 +262,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			refreshVisuals();
 		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
 			refreshTargetConnections();
+
+		// If the user has curved an arc, visuals must be refreshed
+		} else if (IArc.CURVE_PROP.equals(prop)) {
+			refreshVisuals();
 		}
 	}
 

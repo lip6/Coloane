@@ -10,26 +10,31 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Description graphique d'un arcs
+ * Graphical definition of an arc {@link ArcModel}
  */
 public class ArcGraphicInfo implements IArcGraphicInfo {
-	/** Le logger */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Il faut conserver le dernier middle point */
-	private Point oldMiddlePoint = null;
+	/** The last middle point has te be stored */
+	private Point middlePoint = null;
 
+	/** The foreground color */
 	private Color color = ColorConstants.black;
 
+	/** Is the arc curved ? */
+	private boolean curve = false;
+
+	/** The model object reference */
 	private IArc arc;
 
 	/**
-	 * Constructeur
-	 * @param arc L'arc à considérer
+	 * Constructor
+	 * @param arc The arc model object to wich this graphical definition is associated to
 	 */
 	public ArcGraphicInfo(IArc arc) {
 		this.arc = arc;
-		this.oldMiddlePoint = this.findMiddlePoint();
+		this.middlePoint = this.findMiddlePoint();
 	}
 
 	/** {@inheritDoc} */
@@ -55,12 +60,12 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/** {@inheritDoc} */
 	public final void updateMiddlePoint() {
 		LOGGER.finest("updateMiddlePoint"); //$NON-NLS-1$
-		this.oldMiddlePoint = findMiddlePoint();
+		this.middlePoint = findMiddlePoint();
 	}
 
 	/** {@inheritDoc} */
 	public final Point getMiddlePoint() {
-		return this.oldMiddlePoint;
+		return this.middlePoint;
 	}
 
 	/** {@inheritDoc} */
@@ -74,5 +79,20 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 		Color oldValue = this.color;
 		this.color = color;
 		((ArcModel) arc).firePropertyChange(IArc.COLOR_PROP, oldValue, color);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean getCurve() {
+		return this.curve;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setCurve(boolean flag) {
+		this.curve = flag;
+		((ArcModel) arc).firePropertyChange(IArc.CURVE_PROP, !flag, flag);
 	}
 }

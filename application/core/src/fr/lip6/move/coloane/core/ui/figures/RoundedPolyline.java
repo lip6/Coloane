@@ -35,15 +35,22 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 
 /**
- * Ligne suportant les courbes de bézier au niveau des points d'inflexions
+ * Renders a line that can be curved if necessary<br>
+ * The cruve is compute thanks to a bezier algorithm.
+ *
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public class RoundedPolyline extends Polyline {
 
+	/** Is the arc curved ? */
+	private boolean rounded = false;
+
+	/** Width of the rounded corner */
 	private int cornerLen = 64;
 
 	/**
 	 * Sets the length of the corner on each edge.
-	 *
 	 * @param len the dimensions of the corner
 	 */
 	public final void setCornerLength(int len) {
@@ -51,8 +58,15 @@ public class RoundedPolyline extends Polyline {
 	}
 
 	/**
-	 * scale the distance between the two points such that the distance is
-	 * equal to the cornerLen
+	 * Set a flag to indicate wether the arc must be curved or not
+	 * @param flag <code>true</code> for a curved arc
+	 */
+	public final void setCurved(boolean flag) {
+		this.rounded = flag;
+	}
+
+	/**
+	 * Scale the distance between the two points such that the distance is equal to the cornerLen
 	 * @param pt1 point 1
 	 * @param pt2 point 2
 	 * @param twoCorners est ce qu'on a deux coins
@@ -74,7 +88,15 @@ public class RoundedPolyline extends Polyline {
 	 */
     @Override
 	protected final void outlineShape(Graphics g) {
-		PointList pointList = getPoints();
+
+    	// If the arc must not be curved... Just render a polyline
+    	if (!rounded) {
+			super.outlineShape(g);
+			return;
+		}
+
+    	// If not... Render a RoundedPolyline
+    	PointList pointList = getPoints();
 
 		int sz = pointList.size();
 		Point prevPt = pointList.getPoint(0);
@@ -95,7 +117,7 @@ public class RoundedPolyline extends Polyline {
 				tmp.addPoint(prevPtBendEnd);
 				if (cornerLen > 2) {
 					drawBezier(g, prevPtBendBeg, prevPt, prevPtBendEnd, prevPt, 6.0 / cornerLen);
-//					drawBezier(g, prevPtBendBeg, prevPt, prevPtBendEnd, 2.0 / cornerLen);
+					// drawBezier(g, prevPtBendBeg, prevPt, prevPtBendEnd, 2.0 / cornerLen);
 				} else {
 					g.drawLine(prevPtBendBeg, prevPtBendEnd);
 				}

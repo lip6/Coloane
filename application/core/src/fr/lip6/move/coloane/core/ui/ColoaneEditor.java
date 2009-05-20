@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.motor.Motor;
+import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
@@ -675,6 +676,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
+		// Création de l'action pour le changement de courbure des arcs
+        action = new CurveAction((IWorkbenchPart) this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+
+		// Création des actions pour les alignements
 		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());

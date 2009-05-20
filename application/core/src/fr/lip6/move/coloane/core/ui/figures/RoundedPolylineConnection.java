@@ -40,8 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * </UL>
  * <P>
  */
-public class RoundedPolylineConnection extends RoundedPolyline
-				implements Connection, AnchorListener, IArcFigure {
+public class RoundedPolylineConnection extends RoundedPolyline implements Connection, AnchorListener {
 
 	private ConnectionAnchor startAnchor, endAnchor;
 	private ConnectionRouter connectionRouter = ConnectionRouter.NULL;
