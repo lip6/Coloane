@@ -4,43 +4,45 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Définition des propriétés et comportements graphique d'un objet arc
- * @see IArc
+ * This interface defines the properties and the graphical behavior associated to an arc {@link IArc}.
  */
 public interface IArcGraphicInfo {
-
-	// Style de l'arc
-	/** ID pour fleche normale */
-	int FIG_ARC_SIMPLE = 0;
-
-	/** Losange au bout de la fleche */
-	int FIG_ARC_INHIBITOR = 1;
-
 	/**
-	 * Retourne le point central de l'arc
-	 * @return le point milieu
+	 * @return The point located in the middle of the arc
+	 * TODO: Tourver la différence avec la méthode {@link #getMiddlePoint()}
 	 */
 	Point findMiddlePoint();
 
-
 	/**
-	 * Met a jour l'indicateur de point milieu pour l'arc
+	 * Update the location of the middle point.<br>
+	 * This method must be called every time you add, delete or modifiy an existing bendpoint.
 	 */
 	void updateMiddlePoint();
 
 	/**
-	 * Retourne le point de milieu de l'arc
-	 * @return Le point de milieu
+	 * @return The point located in the middle of the arc.
 	 */
 	Point getMiddlePoint();
 
 	/**
-	 * @return couleur de l'arc
+	 * @return The arc color
 	 */
 	Color getColor();
 
 	/**
-	 * @param color couleur de l'arc
+	 * Set the arc color (front color)
+	 * @param color The arc color
 	 */
 	void setColor(Color color);
+
+	/**
+	 * @return The current arc curvature status
+	 */
+	boolean getCurve();
+
+	/**
+	 * Set the arc curvature status
+	 * @param flag <code>true</code> if the arc has to be curved; <code>false</code> if straight.
+	 */
+	void setCurve(boolean flag);
 }
