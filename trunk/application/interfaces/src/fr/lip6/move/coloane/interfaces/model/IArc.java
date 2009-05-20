@@ -18,6 +18,9 @@ public interface IArc extends IElement {
 	/** ID pour le changement de couleur */
 	String COLOR_PROP = "Arc.Color"; //$NON-NLS-1$
 
+	/** ID pour le changement de courbure de l'arc */
+	String CURVE_PROP = "Arc.Curve"; //$NON-NLS-1$
+
 	/**
 	 * @return source de l'arc.
 	 */
