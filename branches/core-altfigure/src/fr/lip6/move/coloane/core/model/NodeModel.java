@@ -19,46 +19,51 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Description d'un noeud du modele
+ * This class defines a node according to model considerations.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {
-	/** Logger 'fr.lip6.move.coloane.core'. */
+	/** Core Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Formalisme associé au noeud */
+	/** The node formalism */
 	private final INodeFormalism nodeFormalism;
 
-	/** Information graphique associé au noeud */
-	private final INodeGraphicInfo graphicInfo;
+	/** Graphical information associated to the node */
+	private final INodeGraphicInfo graphicInfos;
 
+	/** Guides where the node is stuck */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 
-	private List<IArc> outcomingArcs = new ArrayList<IArc>();
+	/** List of incoming and outgoing arcs */
+	private List<IArc> outgoingArcs = new ArrayList<IArc>();
 	private List<IArc> incomingArcs = new ArrayList<IArc>();
 
-	/** Liste des liens */
+	/** Links (comments) associated to this node */
 	private List<ILink> links = new ArrayList<ILink>();
 
 	/**
-	 * Constructeur d'un noeud de modèle
-	 * @param parent Le parent du noeud
-	 * @param nodeFormalism Le formalisme associé au noeud
-	 * @param id L'identifiant du noeud dans le modèle
+	 * Constructor
+	 * @param parent The parent of this node (often the graph itself)
+	 * @param nodeFormalism The formalism description of the node
+	 * @param id The identifier (unique) of the node
+	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(id, parent, nodeFormalism.getAttributes());
 		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
-		this.graphicInfo = new NodeGraphicInfo(this);
+		this.graphicInfos = new NodeGraphicInfo(this);
 	}
 
 	/**
-	 * Supprime les arcs et les liens attachés au noeud
+	 * Delete all input or output arcs and links from the node 
 	 */
-	final void delete() {
+	final void deleteArcsLinks() {
 		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		for (IArc arc : outcomingArcs) {
+		for (IArc arc : outgoingArcs) {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 			((ArcModel) arc).delete();
 		}
@@ -69,19 +74,19 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		for (ILink link : links) {
 			link.getSource().removeLink(link);
 		}
-		outcomingArcs.clear();
+		outgoingArcs.clear();
 		incomingArcs.clear();
 		links.clear();
 	}
 
 	/** {@inheritDoc} */
 	public final INodeFormalism getNodeFormalism() {
-		return nodeFormalism;
+		return this.nodeFormalism;
 	}
 
 	/** {@inheritDoc} */
 	public final INodeGraphicInfo getGraphicInfo() {
-		return graphicInfo;
+		return this.graphicInfos;
 	}
 
 	/** {@inheritDoc} */
@@ -90,18 +95,18 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/**
-	 * Ajoute un arc à la liste des arcs sortants.
-	 * @param outArc L'arc sortant à ajouter à la liste
+	 * Add an outgoing arc for the considered node
+	 * @param outArc The arc to add to the list
 	 */
-	final void addOutcomingArc(IArc outArc) {
-		LOGGER.finest("addOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		outcomingArcs.add(outArc);
-		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
+	final void addOutgoingArc(IArc outArc) {
+		LOGGER.finest("addOutgoingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		outgoingArcs.add(outArc);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
 
 	/**
-	 * Ajoute un arc à la liste des arcs entrants.
-	 * @param inArc L'arc à ajouter à la liste
+	 * Add an incoming arc for the considered node
+	 * @param inArc The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
 		LOGGER.finest("addIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -110,18 +115,18 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/**
-	 * Enlève un arc à la liste des arcs sortants.
-	 * @param outArc L'arc sortant à supprimer de la liste
+	 * Remove an outgoing arc from the node
+	 * @param outArc The arc to remove from the list
 	 */
 	final void removeOutcomingArc(IArc outArc) {
 		LOGGER.finest("removeOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		outcomingArcs.remove(outArc);
-		firePropertyChange(INode.OUTCOMING_ARCS_PROP, null, outArc);
+		outgoingArcs.remove(outArc);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
 
 	/**
-	 * Enlève un arc à la liste des arcs entrants.
-	 * @param inArc L'arc entrant à supprimer de la liste
+	 * Remove an incoming arc from the node
+	 * @param inArc The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {
 		LOGGER.finest("removeIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -130,8 +135,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
-	public final List<IArc> getOutcomingArcs() {
-		return Collections.unmodifiableList(outcomingArcs);
+	public final List<IArc> getOutgoingArcs() {
+		return Collections.unmodifiableList(outgoingArcs);
 	}
 
 	/** {@inheritDoc} */
@@ -167,9 +172,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-
 		if (IAttribute.VALUE_PROP.equals(prop)) {
-			// On propage les changements de valeur des attributs au niveau supérieur
+			// Value changes are sent to the parent level
 			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
 		}
 	}

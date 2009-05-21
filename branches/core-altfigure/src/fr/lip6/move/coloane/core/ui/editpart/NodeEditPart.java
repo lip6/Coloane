@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
@@ -15,13 +16,15 @@ import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
 import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
-import fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode;
+import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -31,9 +34,11 @@ import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
@@ -53,23 +58,27 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * EditPart pour les noeuds
+ * EditPart in charge of nodes management
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener, org.eclipse.gef.NodeEditPart {
-	/**
-	 * Logger 'fr.lip6.move.coloane.core'.
-	 */
+	/** Core Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private boolean select = false;
 	private boolean special = false;
 	private boolean highlight = false;
-	private boolean attributSelect = false;
+	private boolean attributeSelect = false;
 
 	private ConnectionAnchor connectionAnchor;
+	
+	/** The list of all alternative figures for this node */
+	private List<INodeFigure> alternativeFigures = new ArrayList<INodeFigure>();
 
-	/**
-	 * Permet d'écouter les changements de sélections des attributs
+	/** Listen to changes in attributes selection state.<br>
+	 *  If an attribute is selected, the parent node is highlighted !
+	 *  @see AttributeEditPart
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
 		/** {@inheritDoc} */
@@ -78,11 +87,11 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			switch(editPart.getSelected()) {
 			case EditPart.SELECTED:
 			case EditPart.SELECTED_PRIMARY:
-				attributSelect = true;
+				attributeSelect = true;
 				refreshVisuals();
 				break;
 			case EditPart.SELECTED_NONE:
-				attributSelect = false;
+				attributeSelect = false;
 				refreshVisuals();
 				break;
 			default:
@@ -92,101 +101,147 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	};
 
 	/**
-	 * Creation de la figure associee (VUE)
+	 * Create the figure associated to the node.<br>
+	 * The figure is defined in a graphical description object {@link GraphicalDescription}.<br>
+	 * A node can define several graphical descriptions. The first one is considered as default one.<br>
+	 * Other are stacked to the first one waiting for to be set to visible state.
 	 * @return IFigure
 	 */
 	@Override
 	protected final IFigure createFigure() {
+		// In fact, the figure is a container with a stacklayout manager to be able to switch between alternate figures
+		IFigure nodeContainer = new Figure();
+		nodeContainer.setLayoutManager(new StackLayout());
+		
 		INode node = (INode) getModel();
-		INodeFigure nodeFigure = (INodeFigure) node.getNodeFormalism().getGraphicalDescription().getAssociatedFigure();
-		if (nodeFigure == null) {
-			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
-			nodeFigure = new RectangleNode();
+		INodeGraphicInfo nodeGraphicalInfo = node.getGraphicInfo();
+		
+		for (IGraphicalDescription graphicalDescription : nodeGraphicalInfo.getAllNodeFormalismGraphicalDescriptions()) {
+			INodeFigure nodeFigure;
+
+			// Check whether this figure is the default one (the first) 
+			if (this.alternativeFigures.isEmpty()) {
+				nodeFigure = (INodeFigure) graphicalDescription.getAssociatedFigure();
+				if (nodeFigure == null) {
+					LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
+					// TODO: Change the default figure (by a big point ?)
+					nodeFigure = new EllipseNode();
+				}
+				nodeFigure.setVisible(true);
+			} else {
+				nodeFigure = (INodeFigure) graphicalDescription.getAssociatedFigure();
+				nodeFigure.setVisible(false);
+			}
+
+			// Add the created figure to the stack container and to the list of alternative figures
+			alternativeFigures.add(nodeFigure);
+
+			nodeFigure.setSize(nodeGraphicalInfo.getSize());
+			nodeFigure.setForegroundColor(nodeGraphicalInfo.getForeground());
+			nodeFigure.setBackgroundColor(nodeGraphicalInfo.getBackground());
+			nodeContainer.add(nodeFigure);
 		}
-		nodeFigure.setSize(node.getGraphicInfo().getSize());
-		nodeFigure.setForegroundColor(node.getGraphicInfo().getForeground());
-		nodeFigure.setBackgroundColor(node.getGraphicInfo().getBackground());
-		return nodeFigure;
+		return nodeContainer;
+	}
+	
+	private INodeFigure getRealFigure() {
+		for (INodeFigure figure : this.alternativeFigures) {
+			if (figure.isVisible()) {
+				return figure;
+			}
+		}
+		return alternativeFigures.get(0);
 	}
 
 
 	/**
-	 * Mise a jour de la vue a partir des informations du modele<br>
-	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
+	 * Update the figures thanks to the information contained into the model
 	 */
 	@Override
 	protected final void refreshVisuals() {
-		// Si le noeud n'a plus de parent c'est qu'il a été supprimé, il n'y a
-		// donc aucune raison de le redessiner.
+		// If the node has no more parent, that means that it has been deleted.
+		// There is no more reason to draw it again
 		if (getParent() == null) {
 			return;
 		}
 
-		// Mise à jour de la figure (couleurs et taille)
-		getFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
-		getFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
-		((INodeFigure) getFigure()).setLineWidth(1);
-		if (special) {
-			getFigure().setForegroundColor(ColorConstants.red);
-			((INodeFigure) getFigure()).setLineWidth(3);
-		}
-		if (attributSelect) {
-			getFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
-		}
+		// Update the figure
+		getRealFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
+		getRealFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
+		getRealFigure().setLineWidth(1);
+		
 		if (select) {
-			getFigure().setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
-			((INodeFigure) getFigure()).setLineWidth(3);
-		}
-		if (highlight) {
-			figure.setBackgroundColor(ColorsPrefs.getColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+			getRealFigure().setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
+			getRealFigure().setLineWidth(3);
+		} else if (special) {
+			getRealFigure().setForegroundColor(ColorConstants.red);
+			getRealFigure().setLineWidth(3);
+		} else if (attributeSelect) {
+			getRealFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+		} else if (highlight) {
+			getRealFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_MOUSE")); //$NON-NLS-1$
 		}
 
 		INode nodeModel = (INode) getModel();
-
 		Rectangle bounds = new Rectangle(nodeModel.getGraphicInfo().getLocation(), nodeModel.getGraphicInfo().getSize());
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 	}
 
 	/**
-	 * Traitements a effectuer lors de la reception d'un evenement sur l'EditPart
-	 * @param property L'evenement qui a ete levee
+	 * Handle events caught by this EditPart
+	 * @param property The event that has been caught
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
-		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
+		LOGGER.finest("Event: " + property.getPropertyName());  //$NON-NLS-1$
 		String prop = property.getPropertyName();
 
-		// Propriete de connexion
+		// Event that announce a link change
 		if (INode.INCOMING_ARCS_PROP.equals(prop)) {
 			LOGGER.finest("Mise à jour des arcs entrants."); //$NON-NLS-1$
 			refreshTargetConnections();
-		} else if (INode.OUTCOMING_ARCS_PROP.equals(prop)) {
+		} else if (INode.OUTGOING_ARCS_PROP.equals(prop)) {
 			LOGGER.finest("Mise à jour des arcs sortants."); //$NON-NLS-1$
 			refreshSourceConnections();
 
-			// Propriété de changement de couleur
+		// Event that announce a color change
 		} else if (INode.FOREGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setForegroundColor((Color) property.getNewValue());
+			getRealFigure().setForegroundColor((Color) property.getNewValue());
 			refreshVisuals();
 		} else if (INode.BACKGROUND_COLOR_PROP.equalsIgnoreCase(prop)) {
-			((INodeFigure) getFigure()).setBackgroundColor((Color) property.getNewValue());
+			getRealFigure().setBackgroundColor((Color) property.getNewValue());
 			refreshVisuals();
 
-			// Propriété de changement de taille
+		// Event that announce a size change
 		} else if (INode.RESIZE_PROP.equalsIgnoreCase(prop)) {
-			INodeFigure nodeFigure = (INodeFigure) getFigure();
+			INodeFigure nodeFigure = getRealFigure();
 			Rectangle oldRect = nodeFigure.getClientArea();
 			nodeFigure.setSize((Dimension) property.getNewValue());
 			((GraphEditPart) getParent()).getFigure().repaint(oldRect);
 			refreshVisuals();
 
-			// Propriété pour une demande de changement de l'état "special" (mise en valeur)
+		// Event that announce that the node has been selected as SPECIAL node !
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
 			refreshVisuals();
 
-			// Propriété de changement des coordonnées
+		// Event that announce a location change
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
+		
+		// Event that announce a switch of graphical feature
+		} else if (INode.ALTERNATE_PROP.equalsIgnoreCase(prop)) {
+			INodeFigure oldFigure = this.alternativeFigures.get((Integer) property.getOldValue()); 
+			INodeFigure newFigure = this.alternativeFigures.get((Integer) property.getNewValue());
+			if (!(oldFigure.equals(newFigure))) {
+				oldFigure.setVisible(false);
+				newFigure.setVisible(true);
+
+				Rectangle oldRect = newFigure.getClientArea();
+				figure.setSize((Dimension) ((INode) getModel()).getGraphicInfo().getSize());
+				((GraphEditPart) getParent()).getFigure().repaint(oldRect);
+				refreshVisuals();
+				refreshVisuals();
+			}
 		}
 	}
 
@@ -342,7 +397,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	protected final ConnectionAnchor getConnectionAnchor() {
 		if (connectionAnchor == null) {
-			connectionAnchor = ((INodeFigure) getFigure()).getConnectionAnchor();
+			connectionAnchor = getRealFigure().getConnectionAnchor();
 		}
 		return connectionAnchor;
 	}
@@ -353,7 +408,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	@Override
 	protected final List<IArc> getModelSourceConnections() {
-		return ((INode) getModel()).getOutcomingArcs();
+		return ((INode) getModel()).getOutgoingArcs();
 	}
 
 	/**

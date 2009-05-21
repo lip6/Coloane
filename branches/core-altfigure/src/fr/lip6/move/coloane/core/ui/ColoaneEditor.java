@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.motor.Motor;
+import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
@@ -64,9 +65,9 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -678,6 +679,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Création de l'action pour le changement de courbure des arcs
         action = new CurveAction((IWorkbenchPart) this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        
+        // Création de l'action pour le changement de figure (alternate style)
+        action = new AlternateAction((IWorkbenchPart) this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
