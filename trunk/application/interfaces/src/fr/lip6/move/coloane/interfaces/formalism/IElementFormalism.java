@@ -3,33 +3,43 @@ package fr.lip6.move.coloane.interfaces.formalism;
 import java.util.List;
 
 /**
- * Cette classe représente un élément du base du formalisme.<br>
- * Un element de base est le composant d'un formalisme.<br>
- * Un element de base contient toutes les informations decrivant ce composant de formalisme :
+ * This class describes a element of a formalism.<br>
+ * A formalism is entirely built from those elements.<br>
+ * An element contains all required information:
  * <ul>
- * 	<li>Nom</li>
- * 	<li>Liste des attributs attachés à cet élément de formalisme</li>
+ * 	<li>Name</li>
+ * 	<li>A list of attributes</li>
+ * 	<li>A set of graphical descriptions</li>
  * </ul>
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface IElementFormalism {
 
 	/**
-	 * @return Le nom de l'élément de base
+	 * @return The name of the element
 	 */
 	String getName();
 
 	/**
-	 * @return Retourne la liste des {@link AttributeFormalism} d'un élément.
+	 * @return The list of {@link AttributeFormalism} attached to this element.
 	 */
 	List<IAttributeFormalism> getAttributes();
 
 	/**
-	 * @return La description graphique de l'élément
+	 * @return The default graphical description of the element
+	 * @see {@link #getAllGraphicalDescription()} to get a full list of graphical description for this element. 
 	 */
 	IGraphicalDescription getGraphicalDescription();
 
 	/**
-	 * @return le formalisme qui definit cet élément de formalisme
+	 * @return The list of all associated graphical descriptions for the element
+	 * @see {@link #getGraphicalDescription()} to get the default representation for this element. 
+	 */
+	List<IGraphicalDescription> getAllGraphicalDescription();
+
+	/**
+	 * @return The formalism that contains and uses this element 
 	 */
 	IFormalism getFormalism();
 }
