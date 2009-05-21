@@ -5,68 +5,70 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import java.util.List;
 
 /**
- * Définition d'un noeud du modèle<br>
- * Cette définition comporte aussi tous les événements qui peuvent se produire sur un noeud
+ * This class defines a node of a model<br>
+ * This class alos defines several properties that are sent to edits parts<br>
  * @see IElement
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Demoulins
  */
 public interface INode extends IElement {
 
-	/** ID pour la propriete lors d'un changement des arcs sortants */
-	String OUTCOMING_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
+	/** When the list of outgoing arcs is modified */
+	String OUTGOING_ARCS_PROP = "Node.OutputArc"; //$NON-NLS-1$
 
-	/** ID pour la propriete lors d'un changement des arcs entants */
+	/** When the list of incoming arcs is modified */
 	String INCOMING_ARCS_PROP = "Node.InputArc"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsqu'un changement de la valeur */
+	/** When the value of the node is modified */
 	String VALUE_PROP = "Node.ValueUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsque le noeud est selectionne */
+	/** When the node is selected */
 	String SELECT_PROP = "Node.SelectUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsque le noeud est deselectionne */
+	/** When the node is unselected */
 	String UNSELECT_PROP = "Node.UnSelectUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsque le noeud est selectionne */
+	/** When the node is highlighted by a tool */
 	String SPECIAL_PROP = "Node.SpecialUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriete lorsque le noeud est deselectionne */
+	/** When the node is no more highlighted by a tool */
 	String UNSPECIAL_PROP = "Node.UnSpecialUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriété lorsque la couleur d'un noeud change */
+	/** When to background color is updated */
 	String BACKGROUND_COLOR_PROP = "Node.Color.Background"; //$NON-NLS-1$
 
-	/** ID pour la propriété lorsque la couleur d'un noeud change */
+	/** When the foreground color is update */
 	String FOREGROUND_COLOR_PROP = "Node.Color.Foreground"; //$NON-NLS-1$
 
-	/** ID pour la propriété de changement de zoom */
+	/** When the scale factor is modified */
 	String RESIZE_PROP = "Node.Zoom"; //$NON-NLS-1$
+	
+	/** When an alternate figure must be loaded */
+	String ALTERNATE_PROP = "Node.Alternate"; //$NON-NLS-1$
 
 	/**
-	 * @return le FormalismElement décrivant ce noeud.
+	 * @return The formalism associated to the node
 	 */
 	INodeFormalism getNodeFormalism();
 
 	/**
-	 * @return les informations graphiques liées a l'arc.
+	 * @return The default graphical information associated to the node
 	 */
 	INodeGraphicInfo getGraphicInfo();
 
 	/**
-	 * Permet de parcourir la liste des arcs sortants de ce noeud.
-	 * @return une liste <b>non modifiable</b>
+	 * @return A list of outgoing arcs. The list is <b>unmodifiable</b>.
 	 */
-	List<IArc> getOutcomingArcs();
+	List<IArc> getOutgoingArcs();
 
 	/**
-	 * Permet de parcourir la liste des arcs entrants de ce noeud.
-	 * @return une liste <b>non modifiable</b>
+	 * @return A list of incoming arcs. The list is <b>unmodifiable</b>.
 	 */
 	List<IArc> getIncomingArcs();
 
 	/**
-	 * Mettre à jours les tips attachés à cette élément
+	 * Ask for updating tips associated to the node
 	 */
 	void updateTips();
 }
