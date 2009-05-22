@@ -4,7 +4,7 @@
       Coloane Updates site
    </description>
    <feature url="features/fr.lip6.move.coloane.feature.main_0.11.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.11.0">
-      <category name="Modeling Tools"/>
+      <category name="Coloane Core"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">
       <category name="Import / Export Wizards"/>
@@ -24,11 +24,19 @@
    <feature url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" id="fr.lip6.move.coloane.feature.modelexamples" version="0.8.0">
       <category name="Others"/>
    </feature>
-   <category-def name="Modeling Tools" label="Modeling Tools">
+   <category-def name="Coloane Core" label="Coloane Code">
       <description>
-         This category groups all products designed to handle models
+         This category groups all required plugins to run Coloane.
       </description>
    </category-def>
-   <category-def name="Import / Export Wizards" label="Import / Export Wizards"/>
+   <category-def name="Import / Export Wizards" label="Import / Export Wizards">
+      <description>
+         Use these plugins to import and export models under various format.
+      </description>
+   </category-def>
    <category-def name="Others" label="Others"/>
+      <description>
+         These plugins add some optional features to Coloane
+      </description>
+   </category-def>
 </site>
