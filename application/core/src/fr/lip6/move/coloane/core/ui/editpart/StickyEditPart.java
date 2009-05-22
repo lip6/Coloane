@@ -156,7 +156,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			refreshVisuals();
 		} else if (prop.equals(IStickyNote.RESIZE_PROP)) {
 			refreshVisuals();
-		} else if (prop.equals(INode.OUTCOMING_ARCS_PROP)) {
+		} else if (prop.equals(INode.OUTGOING_ARCS_PROP)) {
 			refreshSourceConnections();
 		}
 	}

@@ -116,7 +116,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
 			LOGGER.finest("deleteNode(" + node.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			for (IArc arc : node.getOutcomingArcs()) {
+			for (IArc arc : node.getOutgoingArcs()) {
 				arcs.remove(arc.getId());
 			}
 			for (IArc arc : node.getIncomingArcs()) {
@@ -125,7 +125,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			for (ILink link : ((ILinkableElement) node).getLinks()) {
 				links.remove(link);
 			}
-			((NodeModel) node).delete();
+			((NodeModel) node).deleteArcsLinks();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
 			node.removePropertyChangeListener(this);
 		}
@@ -255,7 +255,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		} else {
 			LOGGER.finest("addArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			arcs.put(arc.getId(), arc);
-			((NodeModel) arc.getSource()).addOutcomingArc(arc);
+			((NodeModel) arc.getSource()).addOutgoingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
 			arc.addPropertyChangeListener(this);
 			firePropertyChange(ARC_ADDED_PROP, null, arc);
@@ -330,7 +330,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		if (NODE_ADDED_PROP.equals(prop)
 				|| NODE_REMOVED_PROP.equals(prop)
 				|| INode.INCOMING_ARCS_PROP.equals(prop)
-				|| INode.OUTCOMING_ARCS_PROP.equals(prop)
+				|| INode.OUTGOING_ARCS_PROP.equals(prop)
 				|| IAttribute.VALUE_PROP.equals(prop)) {
 			updateDate();
 			setDirty(true);
@@ -380,7 +380,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			for (IArc arc : new ArrayList<IArc>(node.getIncomingArcs())) {
 				nodeModel.removeIncomingArc(arc);
 			}
-			for (IArc arc : new ArrayList<IArc>(node.getOutcomingArcs())) {
+			for (IArc arc : new ArrayList<IArc>(node.getOutgoingArcs())) {
 				nodeModel.removeOutcomingArc(arc);
 			}
 			((AbstractElement) node).setId(getNewId());

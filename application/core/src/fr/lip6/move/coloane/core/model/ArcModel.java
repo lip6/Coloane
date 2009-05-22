@@ -152,7 +152,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		((NodeModel) target).removeIncomingArc(this);
 
 		this.source = newSource;
-		((NodeModel) source).addOutcomingArc(this);
+		((NodeModel) source).addOutgoingArc(this);
 		this.target = newTarget;
 		((NodeModel) target).addIncomingArc(this);
 	}

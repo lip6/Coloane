@@ -9,32 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Cette classe représente un élément du base du formalisme.<br>
- * Un element de base est le composant d'un formalisme.<br>
- * Un element de base contient toutes les informations decrivant ce composant de formalisme :
+ * This class describes a element of a formalism.<br>
+ * A formalism is entirely built from those elements.<br>
+ * An element contains all required information:
  * <ul>
- * 	<li>Nom</li>
- * 	<li>Liste des attributs attachés à cet élément de formalisme</li>
+ * 	<li>Name</li>
+ * 	<li>A list of attributes</li>
+ * 	<li>A set of graphical descriptions</li>
  * </ul>
+ * 
+ * @author Jean-Baptiste Voron
  */
 
 public class ElementFormalism implements IElementFormalism {
-	/** Nom associe a l'element de base. */
+	/** Name */
 	private String name;
 
-	/** Formalisme qui decrit un tel élément */
+	/** Formalism that contains and uses this element */
 	private IFormalism formalism;
 
-	/** Tableau des differents attributs de l'element de base. */
-	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>(0);
+	/** Attributes list */
+	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
 
-	/** Description graphique de l'élément de formalisme */
-	private IGraphicalDescription graphicalDescription;
+	/** Graphical description list */
+	private List<IGraphicalDescription> graphicalDescriptions = new ArrayList<IGraphicalDescription>();
 
 	/**
-	 * Constructeur
-	 * @param name Nom de l'élément de base.
-	 * @param formalism Formalisme de l'élément de base.
+	 * Constructor
+	 * @param name Name of this element (eg. place, transition, event...)
+	 * @param formalism Formalism that contains and uses this element
 	 */
 	public ElementFormalism(String name, IFormalism formalism) {
 		this.name = name;
@@ -42,8 +45,16 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/**
-	 * Ajoute un attribut à l'element de base
-	 * @param attribute {@link AttributeFormalism} à ajouter à la liste des attributs
+	 * Add a graphical description to the element
+	 * @param graphicalDescription The additional graphical description to be considered
+	 */
+	public final void addGraphicalDescription(IGraphicalDescription graphicalDescription) {
+		this.graphicalDescriptions.add(graphicalDescription);
+	}
+
+	/**
+	 * Add an new attribute to this element
+	 * @param attribute The additional attribute to be considered for this element
 	 */
 	public final void addAttribute(AttributeFormalism attribute) {
 		this.attributes.add(attribute);
@@ -56,20 +67,11 @@ public class ElementFormalism implements IElementFormalism {
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
 	/** {@inheritDoc} */
-	public final IGraphicalDescription getGraphicalDescription() {
-		return graphicalDescription;
-	}
-
-	/**
-	 * Ajoute la description graphique à la définition de l'élément de formalisme
-	 * @param graphicalDescription La description graphique
-	 */
-	public final void setGraphicalDescription(IGraphicalDescription graphicalDescription) {
-		this.graphicalDescription = graphicalDescription;
-	}
+	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
 
 	/** {@inheritDoc} */
-	public final IFormalism getFormalism() {
-		return this.formalism;
-	}
+	public final IGraphicalDescription getGraphicalDescription() { return graphicalDescriptions.get(0); }
+
+	/** {@inheritDoc} */
+	public final IFormalism getFormalism() { return this.formalism;	}
 }
