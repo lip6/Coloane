@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="fr.lip6.move.coloane.feature.exportToPGF"
+      label="ExportToPGF Feature"
+      version="1.2.0"
+      provider-name="LIP6 / MoVe">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="fr.lip6.move.coloane.core"/>
+      <import plugin="fr.lip6.move.coloane.interfaces"/>
+      <import plugin="org.eclipse.gef"/>
+   </requires>
+
+   <plugin
+         id="fr.lip6.move.coloane.extensions.exportToPGF"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
