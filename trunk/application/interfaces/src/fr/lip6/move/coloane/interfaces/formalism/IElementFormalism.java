@@ -11,7 +11,7 @@ import java.util.List;
  * 	<li>A list of attributes</li>
  * 	<li>A set of graphical descriptions</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IElementFormalism {
@@ -28,18 +28,18 @@ public interface IElementFormalism {
 
 	/**
 	 * @return The default graphical description of the element
-	 * @see {@link #getAllGraphicalDescription()} to get a full list of graphical description for this element. 
+	 * @see {@link #getAllGraphicalDescription()} to get a full list of graphical description for this element.
 	 */
 	IGraphicalDescription getGraphicalDescription();
 
 	/**
 	 * @return The list of all associated graphical descriptions for the element
-	 * @see {@link #getGraphicalDescription()} to get the default representation for this element. 
+	 * @see {@link #getGraphicalDescription()} to get the default representation for this element.
 	 */
 	List<IGraphicalDescription> getAllGraphicalDescription();
 
 	/**
-	 * @return The formalism that contains and uses this element 
+	 * @return The formalism that contains and uses this element
 	 */
 	IFormalism getFormalism();
 }

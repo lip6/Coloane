@@ -1,15 +1,15 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
+
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
-import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
-
 /**
  * All available graphical information for a node.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 
@@ -63,12 +63,12 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	 * @see #setScale(int)
 	 */
 	Dimension getSize();
-	
+
 	/**
 	 * @return All graphical descriptions associated to this node
 	 */
 	List<IGraphicalDescription> getAllNodeFormalismGraphicalDescriptions();
-	
+
 	/**
 	 * Change the current figure used to represent the node<br>
 	 * The new figure is the one that follow the current figure in the list of available alternative figures<br>
@@ -79,9 +79,13 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	/**
 	 * Change the current figure used to represent the node<br>
 	 * The new figure is the one designated by the id parameter<br>
-	 * 
 	 * @param selectedIndex The index that designates the figure to be selected
 	 * @return The index of the <b>previous</b> selected figure
 	 */
 	int switchGraphicalDescription(int selectedIndex);
+
+	/**
+	 * @return The index of the current selected alternative graphical description
+	 */
+	int getGdIndex();
 }
