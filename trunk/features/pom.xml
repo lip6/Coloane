@@ -15,7 +15,10 @@
 	<description>All features related to Coloane project</description>
 
 	<modules>
-		<module>importExport</module>
+		<module>exportToDOT</module>
+		<module>exportToPGF</module>
+		<module>importExportCAMI</module>
+		<module>importExportPNML</module>
 		<module>modelExamples</module>
 		<module>languagePack</module>
 		<module>coloaneMain</module>
