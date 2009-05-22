@@ -24,17 +24,17 @@
    <feature url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" id="fr.lip6.move.coloane.feature.modelexamples" version="0.8.0">
       <category name="Others"/>
    </feature>
-   <category-def name="Coloane Core" label="Coloane Code">
+   <category-def name="Coloane Core" label="Coloane Core (Required)">
       <description>
          This category groups all required plugins to run Coloane.
       </description>
    </category-def>
-   <category-def name="Import / Export Wizards" label="Import / Export Wizards">
+   <category-def name="Import / Export Wizards" label="Import/Export Wizards (Optional)">
       <description>
          Use these plugins to import and export models under various format.
       </description>
    </category-def>
-   <category-def name="Others" label="Others">
+   <category-def name="Others" label="Others (Optional)">
       <description>
          These plugins add some optional features to Coloane
       </description>
