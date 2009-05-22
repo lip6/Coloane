@@ -6,21 +6,29 @@
    <feature url="features/fr.lip6.move.coloane.feature.main_0.11.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.11.0">
       <category name="Modeling Tools"/>
    </feature>
-   <feature url="features/fr.lip6.move.coloane.feature.importexport_1.0.0.jar" id="fr.lip6.move.coloane.feature.importexport" version="1.0.0">
-      <category name="Plugins"/>
+   <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">
+      <category name="Import / Export Wizards"/>
    </feature>
-   <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.0.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.0.0">
-      <category name="Plugins"/>
+   <feature url="features/fr.lip6.move.coloane.feature.exportToPGF_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToPGF" version="1.2.0">
+      <category name="Import / Export Wizards"/>
    </feature>
-   
+   <feature url="features/fr.lip6.move.coloane.feature.importExportCAMI_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportCAMI" version="1.2.0">
+      <category name="Import / Export Wizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.importExportPNML_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportPNML" version="1.2.0">
+      <category name="Import / Export Wizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.2.0">
+      <category name="Others"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" id="fr.lip6.move.coloane.feature.modelexamples" version="0.8.0">
+      <category name="Others"/>
+   </feature>
    <category-def name="Modeling Tools" label="Modeling Tools">
       <description>
          This category groups all products designed to handle models
       </description>
    </category-def>
-   <category-def name="Plugins" label="Plugins">
-      <description>
-         This category groups all plugins dedicated to modeler tools. You will find for examples new formalisms or import/export plugins.
-      </description>
-   </category-def>
+   <category-def name="Import / Export Wizards" label="Import / Export Wizards"/>
+   <category-def name="Others" label="Others"/>
 </site>
