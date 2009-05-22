@@ -11,7 +11,7 @@ public class AlternateFigureCmd extends Command {
 
 	/** Node on which the action has to be performed */
 	private final INode node;
-	
+
 	/** Index of the previous selected figure (to be able to perform an UNDO) */
 	private int oldIndex;
 

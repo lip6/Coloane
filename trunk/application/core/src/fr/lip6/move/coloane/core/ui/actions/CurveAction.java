@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.commands.ArcChangeCurve;
+import fr.lip6.move.coloane.core.ui.commands.ArcChangeCurveCmd;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
@@ -63,7 +63,7 @@ public class CurveAction extends SelectionAction {
 	public final void run() {
 		CompoundCommand commandsGroup = new CompoundCommand();
 		for (IArc arc : getSelectedNode()) {
-			commandsGroup.add(new ArcChangeCurve(arc));
+			commandsGroup.add(new ArcChangeCurveCmd(arc));
 		}
 		execute(commandsGroup);
 	}

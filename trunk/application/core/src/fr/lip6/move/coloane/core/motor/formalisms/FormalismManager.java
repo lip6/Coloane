@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.Platform;
  * <ul>
  * 	<li>Load and Build all formalisms at runtime (when the editor is launched)</li>
  * 	<li>Give a way to access the formalism by its name, its identifier...</li>
- * </ul> 
+ * </ul>
  *
  * @author Jean-Baptiste Voron
  */
@@ -53,7 +53,7 @@ public final class FormalismManager {
 			buildFormalism(formalisms[i]);
 		}
 	}
-	
+
 	/**
 	 * @return The FormalismManager instance
 	 */
@@ -172,14 +172,14 @@ public final class FormalismManager {
 	/**
 	 * Extract graphical descriptions for elements.<br>
 	 * <b>The first available graphical description is the default one.</b></br>
-	 * Others are considered as alternatives. 
+	 * Others are considered as alternatives.
 	 * @param element Formalism element that is currently parsed. (considered as the parent)
 	 * @param description Element description. This description may contains attributes
 	 */
 	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement description) {
 		// Browse graphical description for the element
 		IConfigurationElement[] graphicalDescriptions = description.getChildren("GraphicInfo"); //$NON-NLS-1$
-		
+
 		for (IConfigurationElement graphicalDescription : graphicalDescriptions) {
 
 			// Build a GraphicalDescription object
@@ -214,7 +214,7 @@ public final class FormalismManager {
 				gd.setIcon24px(graphicalDescription.getAttribute("icon24px")); //$NON-NLS-1$
 				LOGGER.finest("Ajout de l'icone 24px pour l'element : " + element.getName()); //$NON-NLS-1$
 			}
-			
+
 			// Associate a graphical figure description (class) to the element
 			if (graphicalDescription.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
 				try {
@@ -226,7 +226,7 @@ public final class FormalismManager {
 				}
 			}
 
-			// Add the graphical description to the parent's list 
+			// Add the graphical description to the parent's list
 			element.addGraphicalDescription(gd);
 		}
 	}
@@ -235,7 +235,7 @@ public final class FormalismManager {
 	 * Returns a formalism from its name or throws an {@link IllegalArgumentException} is no formalism is found.
 	 * @param name The name of the formalism
 	 * @return The formalism {@link IFormalism}
-	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list. 
+	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public IFormalism getFormalismByName(String name) throws IllegalArgumentException {
 		for (IFormalism form : formalisms) {
@@ -251,7 +251,7 @@ public final class FormalismManager {
 	 * Returns a formalism from its id or throws an {@link IllegalArgumentException} is no formalism is found.
 	 * @param id The id of the formalism
 	 * @return The formalism {@link IFormalism}
-	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list. 
+	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public IFormalism getFormalismById(String id) throws IllegalArgumentException {
 		for (IFormalism form : formalisms) {
@@ -269,7 +269,7 @@ public final class FormalismManager {
 	 * @param fkName The FKName of the formalism
 	 * @return The formalism {@link IFormalism}
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
-	 * TODO: Mise au clair de cette méthode ! 
+	 * TODO: Mise au clair de cette méthode !
 	 */
 	public IFormalism getFormalismByFkName(String fkName) throws IllegalArgumentException {
 		if (fkName.toLowerCase().equals("ami-net")) { //$NON-NLS-1$
