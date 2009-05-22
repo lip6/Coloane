@@ -222,4 +222,9 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private IGraphicalDescription getCurrentGraphicalDescription() {
 		return this.nodeFormalismGraphicalDescriptions.get(this.gdIndex);
 	}
+
+	/** {@inheritDoc} */
+	public final int getGdIndex() {
+		return this.gdIndex;
+	}
 }
