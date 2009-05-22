@@ -517,10 +517,10 @@
     </Formalism>
     <Formalism
           extension="cpn"
+          fkname="AMI-Net"
           id="CPN"
-          image="resources/icons/model_resource.png"
-          name="Colored Petri Net"
-          fkname="AMI-Net">
+          image="resources/icons/colored.png"
+          name="Colored Petri Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -720,7 +720,7 @@
     <Formalism
           extension="rg"
           id="RG"
-          image="resources/icons/model_resource.png"
+          image="resources/icons/reachability.png"
           name="Reachability Graph"
           fkname="ReachabilityGraph">
        <XmlDescription>
@@ -826,7 +826,7 @@
     <Formalism
           extension="dd"
           fkname="DD"
-          id="DD"
+          id="Decision Diagram"
           image="resources/icons/dd.png"
           name="Decision Diagram">
        <XmlDescription>
@@ -861,6 +861,8 @@
                       description="Terminal Node"
                       drawable="true"
                       height="22"
+                      icon16px="resources/formalisms/square_16.png"
+                      icon24px="resources/formalisms/square_24.png"
                       palettable="true"
                       paletteName="Terminal"
                       width="22">
