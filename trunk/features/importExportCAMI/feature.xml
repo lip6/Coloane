@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.importExportCAMI"
-      label="Import/Export to CAMI"
+      label="Import/Export to CAMI (optional)"
       version="1.2.0"
       provider-name="LIP6 / MoVe">
 
