@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.importExportPNML"
-      label="ExportToPGF Feature"
+      label="Import Export PNML Feature"
       version="1.2.0"
       provider-name="LIP6 / MoVe">
 
    <description url="http://coloane.lip6.fr">
-      This features brings DOT export to Coloane.
+      This features brings PNML import export to Coloane.
    </description>
 
    <url>
