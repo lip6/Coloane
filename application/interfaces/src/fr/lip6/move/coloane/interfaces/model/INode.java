@@ -43,7 +43,7 @@ public interface INode extends IElement {
 
 	/** When the scale factor is modified */
 	String RESIZE_PROP = "Node.Zoom"; //$NON-NLS-1$
-	
+
 	/** When an alternate figure must be loaded */
 	String ALTERNATE_PROP = "Node.Alternate"; //$NON-NLS-1$
 
