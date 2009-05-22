@@ -165,7 +165,16 @@ public class ModelHandler extends DefaultHandler {
 			int scale = Integer.parseInt(attributes.getValue("scale")); //$NON-NLS-1$
 			node.getGraphicInfo().setScale(scale);
 		} catch (NumberFormatException e) {
-			logger.fine("attribut scale absent ou incorrecte"); //$NON-NLS-1$
+			logger.fine("attribut scale absent ou incorrect"); //$NON-NLS-1$
+		}
+
+		// Taille du noeud
+		try {
+			int alt = Integer.parseInt(attributes.getValue("alt")); //$NON-NLS-1$
+			node.getGraphicInfo().switchGraphicalDescription(alt);
+		} catch (NumberFormatException e) {
+			logger.fine("attribut alt absent ou incorrect"); //$NON-NLS-1$
+			node.getGraphicInfo().switchGraphicalDescription(0);
 		}
 
 		// Couleur du noeud
@@ -173,7 +182,7 @@ public class ModelHandler extends DefaultHandler {
 			Color foreground = parseColor(attributes.getValue("foreground")); //$NON-NLS-1$
 			node.getGraphicInfo().setForeground(foreground);
 		} catch (NumberFormatException e) {
-			logger.fine("attribut foreground absent ou incorrecte"); //$NON-NLS-1$
+			logger.fine("attribut foreground absent ou incorrect"); //$NON-NLS-1$
 		}
 
 		// Couleur de fond du noeud
@@ -181,7 +190,7 @@ public class ModelHandler extends DefaultHandler {
 			Color background = parseColor(attributes.getValue("background")); //$NON-NLS-1$
 			node.getGraphicInfo().setBackground(background);
 		} catch (NumberFormatException e) {
-			logger.fine("attribut background absent ou incorrecte"); //$NON-NLS-1$
+			logger.fine("attribut background absent ou incorrect"); //$NON-NLS-1$
 		}
 		stack.push(node);
 	}
