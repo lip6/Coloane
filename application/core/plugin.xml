@@ -448,7 +448,7 @@
                       icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
-                      width="23">
+                      width="25">
                 </GraphicInfo>
                 <Attribute
                       bold="true"
@@ -457,6 +457,14 @@
                       multiline="false"
                       name="name">
                 </Attribute>
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                      drawable="false"
+                      fill="false"
+                      height="25"
+                      palettable="false"
+                      width="7">
+                </GraphicInfo>
              </Node>
              <Arc
                    name="arc">
@@ -578,16 +586,6 @@
                       multiline="true"
                       name="marking">
                 </Attribute>
-                <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                      description="toto"
-                      drawable="true"
-                      fill="true"
-                      height="7"
-                      palettable="false"
-                      paletteName="toto"
-                      width="25">
-                </GraphicInfo>
              </Node>
              <Node
                    container="false"
