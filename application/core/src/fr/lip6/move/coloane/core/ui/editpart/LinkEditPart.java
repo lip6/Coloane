@@ -47,9 +47,9 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 				IGraph graph;
 				ILink link = (ILink) getHost().getModel();
 				// on recherche l'élément qui n'est pas la note
-				ILinkableElement linkableElement = link.getSource();
+				ILinkableElement linkableElement = link.getElement();
 				if (linkableElement instanceof IStickyNote) {
-					linkableElement = link.getTarget();
+					linkableElement = link.getNote();
 				}
 				// on récupère le parent de cette élément qui doit être un IGraph
 				if (linkableElement instanceof IElement) {

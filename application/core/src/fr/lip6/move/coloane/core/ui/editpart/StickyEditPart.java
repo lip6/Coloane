@@ -97,18 +97,18 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
-				Command cmd = null;
-				if (request.getConnectionEditPart() instanceof LinkEditPart) {
-					ILink link = (ILink) request.getConnectionEditPart().getModel();
-					IStickyNote newSource = (IStickyNote) getHost().getModel();
-					cmd = new LinkReconnectCommand(link, newSource, link.getTarget());
-				}
-				return cmd;
+				return null;
 			}
 
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
-				return null;
+				Command cmd = null;
+				if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					IStickyNote newNote = (IStickyNote) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, newNote, link.getElement());
+				}
+				return cmd;
 			}
 		});
 
@@ -156,8 +156,8 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			refreshVisuals();
 		} else if (prop.equals(IStickyNote.RESIZE_PROP)) {
 			refreshVisuals();
-		} else if (prop.equals(INode.OUTGOING_ARCS_PROP)) {
-			refreshSourceConnections();
+		} else if (prop.equals(INode.INCOMING_ARCS_PROP)) {
+			refreshTargetConnections();
 		}
 	}
 
@@ -214,7 +214,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 	/** {@inheritDoc} */
 	@Override
-	protected final List<ILink> getModelSourceConnections() {
+	protected final List<ILink> getModelTargetConnections() {
 		return ((ILinkableElement) getModel()).getLinks();
 	}
 }

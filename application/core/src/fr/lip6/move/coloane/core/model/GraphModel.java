@@ -340,14 +340,14 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final void addLink(ILink link) {
 		links.add(link);
-		link.getSource().addLink(link);
-		link.getTarget().addLink(link);
+		link.getElement().addLink(link);
+		link.getNote().addLink(link);
 		firePropertyChange(LINK_ADD_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
-	public final ILink createLink(IStickyNote source, ILinkableElement target) {
-		ILink link = new LinkModel(source, target);
+	public final ILink createLink(IStickyNote note, ILinkableElement element) {
+		ILink link = new LinkModel(note, element);
 		addLink(link);
 		return link;
 	}
@@ -356,8 +356,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	public final boolean deleteLink(ILink link) {
 		boolean res = links.remove(link);
 		if (res) {
-			link.getSource().removeLink(link);
-			link.getTarget().removeLink(link);
+			link.getElement().removeLink(link);
+			link.getNote().removeLink(link);
 			firePropertyChange(LINK_REMOVED_PROP, null, link);
 		}
 		return res;

@@ -52,11 +52,11 @@ public interface ICoreGraph extends IGraph {
 
 	/**
 	 * Créer un lien.
-	 * @param source source
-	 * @param target cible
+	 * @param note source
+	 * @param element cible
 	 * @return le lien créé
 	 */
-	ILink createLink(IStickyNote source, ILinkableElement target);
+	ILink createLink(IStickyNote note, ILinkableElement element);
 
 	/**
 	 * @param link Lien à supprimer

@@ -13,8 +13,8 @@ public class LinkModel implements ILink {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private IStickyNote source;
-	private ILinkableElement target;
+	private IStickyNote note;
+	private ILinkableElement element;
 
 	/**
 	 * Création d'un lien entre deux éléments. Un lien n'est pas orienté, il n'y
@@ -22,35 +22,35 @@ public class LinkModel implements ILink {
 	 * <br><br>
 	 * Attention, il n'y a aucune restriction au niveau du modèle sur la source
 	 * et la cible. Exemple : On pourrait avoir un lien entre deux noeuds.
-	 * @param source source du lien
-	 * @param target cible du lien
+	 * @param note source du lien
+	 * @param element cible du lien
 	 */
-	LinkModel(IStickyNote source, ILinkableElement target) {
-		LOGGER.fine("Création d'un link : " + source + "--" + target); //$NON-NLS-1$ //$NON-NLS-2$
-		if (source == null || target == null) {
+	LinkModel(IStickyNote note, ILinkableElement element) {
+		LOGGER.fine("Création d'un link : " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+		if (note == null || element == null) {
 			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
 		}
-		this.source = source;
-		this.target = target;
+		this.note = note;
+		this.element = element;
 	}
 
 	/** {@inheritDoc} */
-	public final IStickyNote getSource() {
-		return source;
+	public final ILinkableElement getElement() {
+		return element;
 	}
 
 	/** {@inheritDoc} */
-	public final ILinkableElement getTarget() {
-		return target;
+	public final IStickyNote getNote() {
+		return note;
 	}
 
 	/** {@inheritDoc} */
-	public final void reconnect(IStickyNote newSource, ILinkableElement newTarget) {
-		source.removeLink(this);
-		target.removeLink(this);
-		source = newSource;
-		target = newTarget;
-		source.addLink(this);
-		target.addLink(this);
+	public final void reconnect(IStickyNote newNote, ILinkableElement newElement) {
+		note.removeLink(this);
+		element.removeLink(this);
+		note = newNote;
+		element = newElement;
+		note.addLink(this);
+		element.addLink(this);
 	}
 }

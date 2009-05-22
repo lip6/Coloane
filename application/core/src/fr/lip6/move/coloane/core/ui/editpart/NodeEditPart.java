@@ -350,6 +350,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 					ArcReconnectCmd reconnectCmd = new ArcReconnectCmd(arc);
 					reconnectCmd.setNewSource(newSource);
 					cmd = reconnectCmd;
+				} else if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					ILinkableElement newElement = (ILinkableElement) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, link.getNote(), newElement);
 				}
 
 				return cmd;
@@ -365,10 +369,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 					ArcReconnectCmd reconnectCmd = new ArcReconnectCmd(arc);
 					reconnectCmd.setNewTarget(newTarget);
 					cmd = reconnectCmd;
-				} else if (request.getConnectionEditPart() instanceof LinkEditPart) {
-					ILink link = (ILink) request.getConnectionEditPart().getModel();
-					ILinkableElement newTarget = (ILinkableElement) getHost().getModel();
-					cmd = new LinkReconnectCommand(link, link.getSource(), newTarget);
 				}
 
 				return cmd;
@@ -412,8 +412,11 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @return List of IArcImpl
 	 */
 	@Override
-	protected final List<IArc> getModelSourceConnections() {
-		return ((INode) getModel()).getOutgoingArcs();
+	protected final List<Object> getModelSourceConnections() {
+		List<Object> sources = new ArrayList<Object>();
+		sources.addAll(((INode) getModel()).getOutgoingArcs());
+		sources.addAll(((ILinkableElement) getModel()).getLinks());
+		return sources;
 	}
 
 	/**
@@ -424,7 +427,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
 		targets.addAll(((INode) getModel()).getIncomingArcs());
-		targets.addAll(((ILinkableElement) getModel()).getLinks());
 		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
