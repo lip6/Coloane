@@ -26,7 +26,6 @@ package fr.lip6.move.coloane.core.ui.figures;
  * Created on Oct 27, 2004
  */
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -47,7 +46,7 @@ public class RoundedPolyline extends Polyline {
 	private boolean rounded = false;
 
 	/** Width of the rounded corner */
-	private int cornerLen = 64;
+	private int cornerLen = 32;
 
 	/**
 	 * Sets the length of the corner on each edge.
@@ -69,17 +68,17 @@ public class RoundedPolyline extends Polyline {
 	 * Scale the distance between the two points such that the distance is equal to the cornerLen
 	 * @param pt1 point 1
 	 * @param pt2 point 2
-	 * @param twoCorners est ce qu'on a deux coins
+	 * @param isExtremity <code>true</code> if p1 or p2 is an extremity of the arc.
 	 * @return taille
 	 */
-	private Dimension getCornerDimension(Point pt1, Point pt2, boolean twoCorners) {
+	private Dimension getCornerDimension(Point pt1, Point pt2, boolean isExtremity) {
 		double scale = ((double) cornerLen) / pt1.getDistance(pt2);
-		if (twoCorners) {
+		if (!isExtremity) {
 			scale = Math.min(0.5, scale);
 		} else {
 			scale = Math.min(1, scale);
 		}
-		return pt2.getDifference(pt1).scale(scale);
+		return pt1.getDifference(pt2).scale(scale);
 	}
 
 	/**
@@ -98,46 +97,59 @@ public class RoundedPolyline extends Polyline {
     	// If not... Render a RoundedPolyline
     	PointList pointList = getPoints();
 
-		int sz = pointList.size();
-		Point prevPt = pointList.getPoint(0);
-		Point prevPtBendBeg = null;
-		Point prevPtBendEnd = null;
-		for (int i = 1; i < sz; i++) {
-			Point currPt = pointList.getPoint(i);
+    	if (pointList.size() == 2) {
+    		g.drawLine(pointList.getFirstPoint(), pointList.getLastPoint());
+    	} else if (pointList.size() >= 2) {
 
-			boolean corner = (prevPtBendBeg != null);
-			Dimension cornerDimension = getCornerDimension(prevPt, currPt, corner);
+    		/*
+    		 * For each loop, a curve is draw between 3 points : p0, p1, p2
+    		 * For reduce the curve effect, we calcul two internediate point :
+    		 * startCurve and endCurve (see method getCornerDimension).
+    		 * Finally we draw the segment [p0, startCurve], the curve (startCurve, p1, endCurve)
+    		 * and the segment [endCurve, p2]
+    		 */
+    		Point startCurve, endCurve = null, prevEndCurve;
+    		for (int i = 2; i < pointList.size(); i++) {
+    			Point p0 = pointList.getPoint(i - 2);
+    			Point p1 = pointList.getPoint(i - 1);
+    			Point p2 = pointList.getPoint(i);
 
-			// draw corner if there is a corner beginning
-			if (corner) {
-				prevPtBendEnd = prevPt.getTranslated(cornerDimension);
-				PointList tmp = new PointList();
-				tmp.addPoint(prevPtBendBeg);
-				tmp.addPoint(prevPt);
-				tmp.addPoint(prevPtBendEnd);
-				if (cornerLen > 2) {
-					drawBezier(g, prevPtBendBeg, prevPt, prevPtBendEnd, prevPt, 6.0 / cornerLen);
-					// drawBezier(g, prevPtBendBeg, prevPt, prevPtBendEnd, 2.0 / cornerLen);
-				} else {
-					g.drawLine(prevPtBendBeg, prevPtBendEnd);
-				}
-				prevPt = prevPtBendEnd;
-			}
+    			prevEndCurve = endCurve;
 
-			Point curPtLineEnd = currPt;	// default to currPt
-			if (i < sz - 1) {
-				curPtLineEnd = currPt.getTranslated(cornerDimension.negate());
-			}
+    			Dimension curveSize1 = getCornerDimension(p0, p1, (i == 2));
+    			startCurve = p1.getTranslated(curveSize1);
 
-			if (i < sz - 1 && prevPtBendEnd != null && prevPt.getDistance(currPt) < cornerLen) {
-				prevPtBendBeg = prevPtBendEnd;
-			} else {
-				g.drawLine(prevPt, curPtLineEnd);
-				prevPtBendBeg = curPtLineEnd;
-			}
-			prevPt = currPt;
-		}
+    			Dimension curveSize2 = getCornerDimension(p2, p1, (i + 1 == pointList.size()));
+    			endCurve = p1.getTranslated(curveSize2);
 
+    			// Draw the curve, we choose the method according to the curve size.
+    			if ((i == 2 && p0.getDifference(p1).equals(curveSize1))
+    					|| (i + 1 == pointList.size() && p2.getDifference(p1).equals(curveSize2))
+    					|| p0.getDifference(p1).scale(0.5).equals(curveSize1)
+    					|| p2.getDifference(p1).scale(0.5).equals(curveSize2)) {
+//    				g.pushState();
+//    				g.setForegroundColor(ColorConstants.blue);
+    				drawBezier(g, startCurve, p1, endCurve, 6.0 / cornerLen);
+//    				g.popState();
+    			} else {
+    				drawBezier(g, startCurve, p1, endCurve, p1, 6.0 / cornerLen);
+    			}
+//    			drawCurve(g, startCurve, p1, endCurve, 1);
+
+    			// if first point
+    			if (i == 2) {
+    				g.drawLine(p0, startCurve);
+    			}
+    			// if last point
+    			if (i + 1 == pointList.size()) {
+    				g.drawLine(endCurve, p2);
+    			}
+    			// other point
+    			if (i > 2 && i < pointList.size() && prevEndCurve != null) {
+    				g.drawLine(prevEndCurve, startCurve);
+    			}
+    		}
+    	}
 	}
 
 	/**
@@ -192,6 +204,7 @@ public class RoundedPolyline extends Polyline {
 		while (t < 1) {
 			Point nextPt = new Point();
 			nextPt.setLocation(x.getValue(t), y.getValue(t));
+//			g.drawPoint(midPt.x, midPt.y);
 			g.drawLine(midPt, nextPt);
 			t += step;
 			midPt = nextPt;
@@ -207,17 +220,16 @@ public class RoundedPolyline extends Polyline {
 	 * @param p2 point d'arrivé
 	 * @param step pas
 	 */
-	@SuppressWarnings("unused")
 	private static void drawBezier(Graphics g, Point p0, Point p1, Point p2, double step) {
-		PointList tmp = new PointList();
-		tmp.addPoint(p0);
-		tmp.addPoint(p1);
-		tmp.addPoint(p2);
+//		PointList tmp = new PointList();
+//		tmp.addPoint(p0);
+//		tmp.addPoint(p1);
+//		tmp.addPoint(p2);
 //		g.drawPolygon(tmp);
 		double t = step;
 		Point prev = p0;
 		g.pushState();
-		g.setForegroundColor(ColorConstants.blue);
+//		g.setForegroundColor(ColorConstants.blue);
 		while (t < 1) {
 			double td = t;
 			double tdd = 1 - td;
@@ -225,11 +237,90 @@ public class RoundedPolyline extends Polyline {
 			p.preciseX = (tdd * tdd * p0.x) + (2 * td * tdd * p1.x) + (td * td * p2.x);
 			p.preciseY = (tdd * tdd * p0.y) + (2 * td * tdd * p1.y) + (td * td * p2.y);
 			p.updateInts();
+//			g.drawPoint(prev.x, prev.y);
 			g.drawLine(prev, p);
 			t += step;
 			prev = p;
 		}
 		g.drawLine(prev, p2);
 		g.popState();
+	}
+
+	/**
+	 * @param pl point list
+	 * @param level recursion level
+	 * @return curve point list
+	 */
+	private static PointList calculCurve(PointList pl, int level) {
+		if (level > 0 && pl.size() > 2) {
+			PointList npl = new PointList();
+			Point p0, p1, p2;
+			Point mx4, p;
+
+			npl.addPoint(pl.getFirstPoint());
+
+			int i = 2;
+			while (i < pl.size()) {
+				p0 = pl.getPoint(i - 2);
+				p1 = pl.getPoint(i - 1);
+				p2 = pl.getPoint(i);
+				mx4 = new Point();
+				mx4.x = p0.x + 2 * p1.x + p2.x;
+				mx4.y = p0.y + 2 * p1.y + p2.y;
+
+				p = new Point();
+				p.x = (mx4.x / 2 + 3 * p0.x + 3 * p1.x) / 8;
+				p.y = (mx4.y / 2 + 3 * p0.y + 3 * p1.y) / 8;
+				npl.addPoint(p);
+
+				p = new Point();
+				p.x = (((int) (3 * mx4.x) / 4) + p1.x) / 4;
+				p.y = (((int) (3 * mx4.y) / 4) + p1.y) / 4;
+				npl.addPoint(p);
+
+				p = new Point();
+				p.x = (mx4.x / 2 + 3 * p2.x + 3 * p1.x) / 8;
+				p.y = (mx4.y / 2 + 3 * p2.y + 3 * p1.y) / 8;
+				npl.addPoint(p);
+
+				i++;
+			}
+			npl.addPoint(pl.getLastPoint());
+
+			return calculCurve(npl, level - 1);
+		}
+
+		return pl;
+	}
+
+	/**
+	 * Another method for draw a curve.
+	 * @param g Graphics for drawing
+	 * @param p0 start point
+	 * @param p1 control point
+	 * @param p2 end point
+	 * @param level recursion level
+	 */
+	@SuppressWarnings("unused")
+	private static void drawCurve(Graphics g, Point p0, Point p1, Point p2, int level) {
+		PointList initList = new PointList();
+		initList.addPoint(p0);
+		initList.addPoint(p1);
+		initList.addPoint(p2);
+		PointList pl = calculCurve(initList, level);
+
+//		System.err.println(pl.size());
+		g.drawPolyline(pl);
+//		for (int i = 0; i < pl.size(); i++) {
+//			Point p = pl.getPoint(i);
+//			g.drawPoint(p.x, p.y);
+//			System.err.println(p);
+//		}
+
+//		PointList tmp = new PointList();
+//		tmp.addPoint(p0);
+//		tmp.addPoint(p1);
+//		tmp.addPoint(p2);
+//		g.drawPolygon(tmp);
 	}
 }
