@@ -232,18 +232,18 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
-				return null;
+				Command cmd = null;
+				if (request.getConnectionEditPart() instanceof LinkEditPart) {
+					ILink link = (ILink) request.getConnectionEditPart().getModel();
+					ILinkableElement newElement = (ILinkableElement) getHost().getModel();
+					cmd = new LinkReconnectCommand(link, link.getNote(), newElement);
+				}
+				return cmd;
 			}
 
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
-				Command cmd = null;
-				if (request.getConnectionEditPart() instanceof LinkEditPart) {
-					ILink link = (ILink) request.getConnectionEditPart().getModel();
-					ILinkableElement newTarget = (ILinkableElement) getHost().getModel();
-					cmd = new LinkReconnectCommand(link, link.getSource(), newTarget);
-				}
-				return cmd;
+				return null;
 			}
 		});
 	}
@@ -260,8 +260,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
 			special = (Boolean) property.getNewValue();
 			refreshVisuals();
-		} else if (INode.INCOMING_ARCS_PROP.equals(prop)) {
-			refreshTargetConnections();
+		} else if (INode.OUTGOING_ARCS_PROP.equals(prop)) {
+			refreshSourceConnections();
 
 		// If the user has curved an arc, visuals must be refreshed
 		} else if (IArc.CURVE_PROP.equals(prop)) {
@@ -326,10 +326,17 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
-		targets.addAll(((ILinkableElement) getModel()).getLinks());
 		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((IArc) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected final List<Object> getModelSourceConnections() {
+		List<Object> sources = new ArrayList<Object>();
+		sources.addAll(((ILinkableElement) getModel()).getLinks());
+		return sources;
 	}
 }

@@ -61,7 +61,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	 */
 	final void delete() {
 		for (ILink link : links) {
-			link.getSource().removeLink(link);
+			link.getElement().removeLink(link);
 		}
 		links.clear();
 	}
@@ -195,7 +195,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	/** {@inheritDoc} */
 	public final void addLink(ILink link) {
 		links.add(link);
-		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
@@ -206,7 +206,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	/** {@inheritDoc} */
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
-		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 		return res;
 	}
 

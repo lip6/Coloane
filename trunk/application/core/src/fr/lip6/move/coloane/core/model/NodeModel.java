@@ -72,7 +72,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			((ArcModel) arc).delete();
 		}
 		for (ILink link : links) {
-			link.getSource().removeLink(link);
+			link.getElement().removeLink(link);
 		}
 		outgoingArcs.clear();
 		incomingArcs.clear();
@@ -181,7 +181,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final void addLink(ILink link) {
 		links.add(link);
-		firePropertyChange(INCOMING_ARCS_PROP, null, link);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
@@ -192,7 +192,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
-		firePropertyChange(INCOMING_ARCS_PROP, null, link);
+		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 		return res;
 	}
 

@@ -14,8 +14,8 @@ import org.eclipse.gef.commands.Command;
 public class LinkCompleteCommand extends Command {
 
 	private ICoreGraph graph;
-	private IStickyNote source;
-	private ILinkableElement target;
+	private IStickyNote note;
+	private ILinkableElement element;
 
 	private ILink link;
 
@@ -34,18 +34,18 @@ public class LinkCompleteCommand extends Command {
 
 		// Pour simplifier le modèle, on place la note en source du lien.
 		if (e1 instanceof IStickyNote) {
-			this.source = (IStickyNote) e1;
-			this.target = e2;
+			this.note = (IStickyNote) e1;
+			this.element = e2;
 		} else {
-			this.source = (IStickyNote) e2;
-			this.target = e1;
+			this.note = (IStickyNote) e2;
+			this.element = e1;
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		link = graph.createLink(source, target);
+		link = graph.createLink(note, element);
 	}
 
 	/** {@inheritDoc} */

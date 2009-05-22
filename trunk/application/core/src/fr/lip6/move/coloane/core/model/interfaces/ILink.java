@@ -15,10 +15,10 @@ public interface ILink {
 	/**
 	 * @return source du lien
 	 */
-	IStickyNote getSource();
+	ILinkableElement getElement();
 
 	/**
 	 * @return cible du lien
 	 */
-	ILinkableElement getTarget();
+	IStickyNote getNote();
 }

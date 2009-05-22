@@ -132,8 +132,8 @@ public final class ModelWriter {
 
 			// Ajout des liens
 			for (ILink link : note.getLinks()) {
-				if (link.getTarget() instanceof IElement) {
-					int linkId = ((IElement) link.getTarget()).getId();
+				if (link.getElement() instanceof IElement) {
+					int linkId = ((IElement) link.getElement()).getId();
 					sb.append("<link linkId='").append(linkId).append("' />\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}

@@ -13,41 +13,41 @@ public class LinkReconnectCommand extends Command {
 
 	private ILink link;
 
-	private IStickyNote newSource;
-	private ILinkableElement newTarget;
+	private IStickyNote newNote;
+	private ILinkableElement newElement;
 
-	private IStickyNote oldSource;
-	private ILinkableElement oldTarget;
+	private IStickyNote oldNote;
+	private ILinkableElement oldElement;
 
 	/**
 	 * @param link Lien à reconnecter
-	 * @param newSource nouvelle source
-	 * @param newTarget nouvelle cible
+	 * @param newNote nouvelle source
+	 * @param newElement nouvelle cible
 	 */
-	public LinkReconnectCommand(ILink link, IStickyNote newSource, ILinkableElement newTarget) {
+	public LinkReconnectCommand(ILink link, IStickyNote newNote, ILinkableElement newElement) {
 		this.link = link;
-		this.newSource = newSource;
-		this.newTarget = newTarget;
+		this.newNote = newNote;
+		this.newElement = newElement;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldSource = link.getSource();
-		oldTarget = link.getTarget();
+		oldNote = link.getNote();
+		oldElement = link.getElement();
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		link.reconnect(newSource, newTarget);
+		link.reconnect(newNote, newElement);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		link.reconnect(oldSource, oldTarget);
+		link.reconnect(oldNote, oldElement);
 	}
 
 }

@@ -129,7 +129,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	/** {@inheritDoc} */
 	public final void addLink(ILink link) {
 		links.add(link);
-		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
@@ -140,7 +140,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	/** {@inheritDoc} */
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
-		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
+		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 		return res;
 	}
 }
