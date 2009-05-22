@@ -42,7 +42,7 @@ public class CutCommand extends Command {
 	 */
 	public final void addNode(INode node) {
 		nodes.add(node);
-		arcs.addAll(node.getOutcomingArcs());
+		arcs.addAll(node.getOutgoingArcs());
 		arcs.addAll(node.getIncomingArcs());
 		container.addNode(node);
 	}

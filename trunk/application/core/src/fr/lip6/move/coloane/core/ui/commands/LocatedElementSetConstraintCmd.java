@@ -84,7 +84,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 				}
 			}
 			// Ajout des attributs non sélectionné des arcs du noeuds
-			for (IArc out : node.getOutcomingArcs()) {
+			for (IArc out : node.getOutgoingArcs()) {
 				for (IAttribute arcAttr : out.getAttributes()) {
 					if (!selection.contains(viewer.getEditPartRegistry().get(arcAttr))) {
 						arcsForAttr.add(arcAttr);

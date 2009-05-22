@@ -100,7 +100,7 @@ public class ArcReconnectCmd extends Command {
 			return true;
 		}
 
-		for (IArc existingConnection : this.newSource.getOutcomingArcs()) {
+		for (IArc existingConnection : this.newSource.getOutgoingArcs()) {
 			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
 				return false;
 			}

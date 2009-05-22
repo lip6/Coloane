@@ -59,7 +59,7 @@ public class NodeDeleteCmd extends Command {
 		if (node instanceof ILinkableElement) {
 			links.addAll(((ILinkableElement) node).getLinks());
 		}
-		outArcs = new ArrayList<IArc>(node.getOutcomingArcs());
+		outArcs = new ArrayList<IArc>(node.getOutgoingArcs());
 		for (IArc arc : outArcs) {
 			tips.addAll(session.getTip(arc.getId()));
 			if (arc instanceof ILinkableElement) {

@@ -143,7 +143,7 @@
          <sequence>
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Graph" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="GraphicInfo"/>
+            <element ref="GraphicInfo" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -414,6 +414,14 @@
       </complexType>
    </element>
 
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         Coloane 0.12
+      </documentation>
+   </annotation>
 
 
 

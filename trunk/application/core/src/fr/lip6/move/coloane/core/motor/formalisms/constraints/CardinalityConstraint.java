@@ -59,7 +59,7 @@ public class CardinalityConstraint implements IConstraint, IConstraintLink, IExe
 		// Pour le noeud source on verifie le formalisme pour appliquer la contrainte
 		if (source.getNodeFormalism().getName().equals(element)) {
 			// Le nombre d'arcs sortant du noeud doit etre strictement inférieur a maxOut
-			if ((this.maxOut >= 0) && (source.getOutcomingArcs().size() >= this.maxOut)) {
+			if ((this.maxOut >= 0) && (source.getOutgoingArcs().size() >= this.maxOut)) {
 				return false;
 			}
 		}

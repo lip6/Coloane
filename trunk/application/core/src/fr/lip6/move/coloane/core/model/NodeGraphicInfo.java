@@ -1,8 +1,11 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -11,33 +14,49 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Description graphique d'un noeud
+ * This class defines all graphical properties of a node representation.<br>
+ * Note that a node can declare several graphical representation.
+ * 
+ *  @author Jean-Baptiste Voron
  */
 public class NodeGraphicInfo implements INodeGraphicInfo {
-	/** Logger 'fr.lip6.move.coloane.core'. */
+	/** Core Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Le noeud enrichi */
+	/** The node (parent) */
 	private final NodeModel node;
+	
+	/** All the graphical descriptions specified by the formalism */
+	private final List<IGraphicalDescription> nodeFormalismGraphicalDescriptions = new ArrayList<IGraphicalDescription>();
+	
+	/** The index of the current graphical representation */
+	private int gdIndex;
 
-	/** Les coordonees */
+	/** The location of the node */
 	private int x;
 	private int y;
 
-	/** Taille */
+	/** Scaling factor */
 	private int scale = 100;
 
-	/** Couleurs du noeud */
+	/** Node colors (foreground / background) */
 	private Color foreground = ColorConstants.black;
 	private Color background = ColorConstants.white;
 
 	/**
-	 * Constructeur
-	 * @param node Le noeud enrichi
+	 * Constructor.<br>
+	 * All information is extracted from the formalism definition.
+	 * More especially from the node formalism graphical description
+	 * @see IGraphicalDescription
+	 * @param nodeGraphicalDescription The description made by the formalism
 	 */
 	public NodeGraphicInfo(INode node) {
 		this.node = (NodeModel) node;
-		if (isFilled()) {
+		this.nodeFormalismGraphicalDescriptions.addAll(node.getNodeFormalism().getAllGraphicalDescription());
+		this.gdIndex = 0;
+
+		// Determine the background color
+		if (this.isFilled()) {
 			background = ColorConstants.black;
 		}
 	}
@@ -54,34 +73,34 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		this.x = location.x;
 		this.y = location.y;
 
-		// Lever un evenement
+		// Fire an event for the node (and thus for its EditPart)
 		node.firePropertyChange(LOCATION_PROP, oldLocation, location.getCopy());
 	}
 
 	/**
-	 * @return la largeur du noeud en tenant compte du zoom
+	 * Returns the width of the node according to the scale factor currently set
+	 * @return The width of the node
 	 */
 	private int getWidth() {
-		return (this.node.getNodeFormalism().getGraphicalDescription().getWidth() * scale) / 100;
+		return (this.getCurrentGraphicalDescription().getWidth() * scale) / 100;
 	}
 
 	/**
-	 * @return la hauteur du noeud en tenant compte du zoom
+	 * Returns the height of the node according to the scale factor currently set
+	 * @return The height of the node
 	 */
 	private int getHeight() {
-		return (this.node.getNodeFormalism().getGraphicalDescription().getHeight() * scale) / 100;
+		return (this.getCurrentGraphicalDescription().getHeight() * scale) / 100;
 	}
 
-	/**
-	 * @return La hauteur du noeud en tenant compte du zoom
-	 */
+	/** {@inheritDoc} */
 	public final Dimension getSize() {
 		return new Dimension(getWidth(), getHeight());
 	}
 
 	/** {@inheritDoc} */
 	public final boolean isFilled() {
-		return this.node.getNodeFormalism().getGraphicalDescription().isFilled();
+		return this.getCurrentGraphicalDescription().isFilled();
 	}
 
 	/** {@inheritDoc} */
@@ -91,7 +110,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setBackground(Color background) {
-		LOGGER.finest("setBackground(" + background + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.background;
 		this.background = background;
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
@@ -104,7 +122,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setForeground(Color foreground) {
-		LOGGER.finest("setForeground(" + foreground + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.foreground;
 		this.foreground = foreground;
 		node.firePropertyChange(INode.FOREGROUND_COLOR_PROP, oldValue, foreground);
@@ -112,7 +129,6 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setScale(int scale) {
-		LOGGER.finest("setScale(" + scale + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
 		oldSize.width = getWidth();
@@ -128,9 +144,82 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	public final int getScale() {
 		return scale;
 	}
-
+	
 	/** {@inheritDoc} */
-	public final void setSize(Dimension newDimension) {
-		return;
+	public List<IGraphicalDescription> getAllNodeFormalismGraphicalDescriptions() {
+		return nodeFormalismGraphicalDescriptions;
+	}
+	
+	/** {@inheritDoc} */
+	public int switchGraphicalDescription() {
+		int newGdIndex = this.gdIndex;
+		int oldGdIndex = this.gdIndex;
+		
+		newGdIndex++;
+		if (newGdIndex >= this.nodeFormalismGraphicalDescriptions.size()) {
+			newGdIndex = 0;
+		}
+		
+		node.firePropertyChange(INode.ALTERNATE_PROP, oldGdIndex, newGdIndex);
+		this.gdIndex = newGdIndex;
+
+		// Determine the background color
+		Color oldValue = this.background;
+		if (this.isFilled()) {
+			background = ColorConstants.black;
+		} else {
+			background = ColorConstants.white;
+		}
+		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
+		
+		// Determine the new size
+		Dimension oldSize = new Dimension();
+		oldSize.height = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getHeight();
+		oldSize.width = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getWidth();
+		Dimension newSize = new Dimension();
+		newSize.height = nodeFormalismGraphicalDescriptions.get(newGdIndex).getHeight();
+		newSize.width = nodeFormalismGraphicalDescriptions.get(newGdIndex).getWidth();
+		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
+	
+		return oldGdIndex;
+	}
+	
+	/** {@inheritDoc} */
+	public int switchGraphicalDescription(int selectedIndex) {
+		int oldGdIndex = this.gdIndex;
+		if ((selectedIndex >= 0) && (selectedIndex < this.nodeFormalismGraphicalDescriptions.size())) {
+			this.gdIndex = selectedIndex;
+		} else {
+			LOGGER.warning("Invalid index for alternate figure !"); //$NON-NLS-1$
+			this.gdIndex = oldGdIndex;
+		}
+		node.firePropertyChange(INode.ALTERNATE_PROP, oldGdIndex, this.gdIndex);
+
+		// Determine the background color
+		Color oldValue = this.background;
+		if (this.isFilled()) {
+			background = ColorConstants.black;
+		} else {
+			background = ColorConstants.white;
+		}
+		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
+		
+		// Determine the new size
+		Dimension oldSize = new Dimension();
+		oldSize.height = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getHeight();
+		oldSize.width = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getWidth();
+		Dimension newSize = new Dimension();
+		newSize.height = nodeFormalismGraphicalDescriptions.get(selectedIndex).getHeight();
+		newSize.width = nodeFormalismGraphicalDescriptions.get(selectedIndex).getWidth();
+		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
+
+		return oldGdIndex;
+	}
+	
+	/**
+	 * @return The current graphical description (according to the index)
+	 */
+	private IGraphicalDescription getCurrentGraphicalDescription() {
+		return this.nodeFormalismGraphicalDescriptions.get(this.gdIndex);
 	}
 }
