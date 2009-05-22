@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  * This class defines a node according to model considerations.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {
@@ -59,7 +59,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/**
-	 * Delete all input or output arcs and links from the node 
+	 * Delete all input or output arcs and links from the node
 	 */
 	final void deleteArcsLinks() {
 		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$

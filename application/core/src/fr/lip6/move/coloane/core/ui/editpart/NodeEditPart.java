@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
+
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
@@ -59,7 +59,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * EditPart in charge of nodes management
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener, org.eclipse.gef.NodeEditPart {
@@ -72,7 +72,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	private boolean attributeSelect = false;
 
 	private ConnectionAnchor connectionAnchor;
-	
+
 	/** The list of all alternative figures for this node */
 	private List<INodeFigure> alternativeFigures = new ArrayList<INodeFigure>();
 
@@ -112,14 +112,14 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		// In fact, the figure is a container with a stacklayout manager to be able to switch between alternate figures
 		IFigure nodeContainer = new Figure();
 		nodeContainer.setLayoutManager(new StackLayout());
-		
+
 		INode node = (INode) getModel();
 		INodeGraphicInfo nodeGraphicalInfo = node.getGraphicInfo();
-		
+
 		for (IGraphicalDescription graphicalDescription : nodeGraphicalInfo.getAllNodeFormalismGraphicalDescriptions()) {
 			INodeFigure nodeFigure;
 
-			// Check whether this figure is the default one (the first) 
+			// Check whether this figure is the default one (the first)
 			if (this.alternativeFigures.isEmpty()) {
 				nodeFigure = (INodeFigure) graphicalDescription.getAssociatedFigure();
 				if (nodeFigure == null) {
@@ -143,7 +143,12 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		}
 		return nodeContainer;
 	}
-	
+
+	/**
+	 * Since the node figure is a container of several graphical representations, update of one figure is <i>easy</i>.<br>
+	 * This meethod returns the inside figure (which is currently visible)
+	 * @return The figure (inside the container) that must be updated
+	 */
 	private INodeFigure getRealFigure() {
 		for (INodeFigure figure : this.alternativeFigures) {
 			if (figure.isVisible()) {
@@ -169,7 +174,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		getRealFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
 		getRealFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
 		getRealFigure().setLineWidth(1);
-		
+
 		if (select) {
 			getRealFigure().setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
 			getRealFigure().setLineWidth(3);
@@ -227,10 +232,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		// Event that announce a location change
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
-		
+
 		// Event that announce a switch of graphical feature
 		} else if (INode.ALTERNATE_PROP.equalsIgnoreCase(prop)) {
-			INodeFigure oldFigure = this.alternativeFigures.get((Integer) property.getOldValue()); 
+			INodeFigure oldFigure = this.alternativeFigures.get((Integer) property.getOldValue());
 			INodeFigure newFigure = this.alternativeFigures.get((Integer) property.getNewValue());
 			if (!(oldFigure.equals(newFigure))) {
 				oldFigure.setVisible(false);

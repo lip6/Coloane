@@ -17,7 +17,7 @@ import java.util.List;
  * 	<li>A list of attributes</li>
  * 	<li>A set of graphical descriptions</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 

@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * Command that allow to curve a straight arc and to straight a curved arc.
  */
-public class ArcChangeCurve extends Command {
+public class ArcChangeCurveCmd extends Command {
 
 	/** Arc on wich the action is done */
 	private final IArc arc;
@@ -16,7 +16,7 @@ public class ArcChangeCurve extends Command {
 	 * Constructor
 	 * @param arc Arc on wich the action is done
 	 */
-	public ArcChangeCurve(IArc arc) {
+	public ArcChangeCurveCmd(IArc arc) {
 		super(Messages.ArcChangeCurve_0);
 		this.arc = (IArc) arc;
 	}

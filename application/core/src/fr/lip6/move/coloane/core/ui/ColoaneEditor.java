@@ -65,9 +65,9 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -681,7 +681,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
         action = new CurveAction((IWorkbenchPart) this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        
+
         // Création de l'action pour le changement de figure (alternate style)
         action = new AlternateAction((IWorkbenchPart) this);
         registry.registerAction(action);

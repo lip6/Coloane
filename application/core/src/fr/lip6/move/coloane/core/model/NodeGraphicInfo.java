@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * This class defines all graphical properties of a node representation.<br>
  * Note that a node can declare several graphical representation.
- * 
+ *
  *  @author Jean-Baptiste Voron
  */
 public class NodeGraphicInfo implements INodeGraphicInfo {
@@ -25,10 +25,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** The node (parent) */
 	private final NodeModel node;
-	
+
 	/** All the graphical descriptions specified by the formalism */
 	private final List<IGraphicalDescription> nodeFormalismGraphicalDescriptions = new ArrayList<IGraphicalDescription>();
-	
+
 	/** The index of the current graphical representation */
 	private int gdIndex;
 
@@ -48,7 +48,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * All information is extracted from the formalism definition.
 	 * More especially from the node formalism graphical description
 	 * @see IGraphicalDescription
-	 * @param nodeGraphicalDescription The description made by the formalism
+	 * @param node The node to wich this graphicInfo is associated to
 	 */
 	public NodeGraphicInfo(INode node) {
 		this.node = (NodeModel) node;
@@ -144,22 +144,22 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	public final int getScale() {
 		return scale;
 	}
-	
+
 	/** {@inheritDoc} */
-	public List<IGraphicalDescription> getAllNodeFormalismGraphicalDescriptions() {
+	public final List<IGraphicalDescription> getAllNodeFormalismGraphicalDescriptions() {
 		return nodeFormalismGraphicalDescriptions;
 	}
-	
+
 	/** {@inheritDoc} */
-	public int switchGraphicalDescription() {
+	public final int switchGraphicalDescription() {
 		int newGdIndex = this.gdIndex;
 		int oldGdIndex = this.gdIndex;
-		
+
 		newGdIndex++;
 		if (newGdIndex >= this.nodeFormalismGraphicalDescriptions.size()) {
 			newGdIndex = 0;
 		}
-		
+
 		node.firePropertyChange(INode.ALTERNATE_PROP, oldGdIndex, newGdIndex);
 		this.gdIndex = newGdIndex;
 
@@ -171,7 +171,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 			background = ColorConstants.white;
 		}
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
-		
+
 		// Determine the new size
 		Dimension oldSize = new Dimension();
 		oldSize.height = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getHeight();
@@ -180,12 +180,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		newSize.height = nodeFormalismGraphicalDescriptions.get(newGdIndex).getHeight();
 		newSize.width = nodeFormalismGraphicalDescriptions.get(newGdIndex).getWidth();
 		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
-	
+
 		return oldGdIndex;
 	}
-	
+
 	/** {@inheritDoc} */
-	public int switchGraphicalDescription(int selectedIndex) {
+	public final int switchGraphicalDescription(int selectedIndex) {
 		int oldGdIndex = this.gdIndex;
 		if ((selectedIndex >= 0) && (selectedIndex < this.nodeFormalismGraphicalDescriptions.size())) {
 			this.gdIndex = selectedIndex;
@@ -203,7 +203,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 			background = ColorConstants.white;
 		}
 		node.firePropertyChange(INode.BACKGROUND_COLOR_PROP, oldValue, background);
-		
+
 		// Determine the new size
 		Dimension oldSize = new Dimension();
 		oldSize.height = nodeFormalismGraphicalDescriptions.get(oldGdIndex).getHeight();
@@ -215,7 +215,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 		return oldGdIndex;
 	}
-	
+
 	/**
 	 * @return The current graphical description (according to the index)
 	 */
