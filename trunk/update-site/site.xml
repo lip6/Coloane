@@ -34,7 +34,7 @@
          Use these plugins to import and export models under various format.
       </description>
    </category-def>
-   <category-def name="Others" label="Others"/>
+   <category-def name="Others" label="Others">
       <description>
          These plugins add some optional features to Coloane
       </description>
