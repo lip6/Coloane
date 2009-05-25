@@ -29,7 +29,11 @@ public class FormalismHandler extends DefaultHandler {
 		if ("model".equals(name)) { //$NON-NLS-1$
 			// Récupération du nom du formalisme
 			String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
-			formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+			try {
+				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+			} catch (IllegalArgumentException e) {
+				throw new SAXException(e);
+			}
 		}
 	}
 
