@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extensions.exportToCPN.ExportToImpl"
+            extension="cpn"
+            id="fr.lip6.move.coloane.extensions.exportcpn"
+            reference="fr.lip6.move.coloane.wizard.export.cpn">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
+      </Export>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            id="fr.lip6.move.coloane.wizard.export.cpn"
+            name="CPN File">
+         <description>
+            Export local models to your file system using CPN syntax.
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>
