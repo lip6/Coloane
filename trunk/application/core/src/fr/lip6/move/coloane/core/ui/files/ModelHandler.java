@@ -130,15 +130,19 @@ public class ModelHandler extends DefaultHandler {
 	/**
 	 * La pile doit être vide (à priori)
 	 * @param attributes Les attributs attachée à la balise
+	 * @throws SAXException Wrap an IllegalArgumentException throws by {@link GraphModel}.
 	 */
-	private void startModel(Attributes attributes) {
+	private void startModel(Attributes attributes) throws SAXException {
 		// Récupération du nom du formalisme
 		String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
 
 		// Création du graph
-		IGraph graph = new GraphModel(formalismName);
-
-		stack.push(graph);
+		try {
+			IGraph graph = new GraphModel(formalismName);
+			stack.push(graph);
+		} catch (IllegalArgumentException e) {
+			throw new SAXException(e);
+		}
 	}
 
 	/**
