@@ -85,7 +85,7 @@
           point="org.eclipse.ui.newWizards">
        <wizard
              canFinishEarly="true"
-             category="org.eclipse.jdt.ui.java/"
+             category="fr.lip6.move.coloane/"
              class="fr.lip6.move.coloane.core.ui.wizards.NewProjectWizard"
              finalPerspective="fr.lip6.move.coloane.perspective"
              hasPages="true"
@@ -97,7 +97,7 @@
        </wizard>
        <wizard
              canFinishEarly="false"
-             category="org.eclipse.jdt.ui.java/"
+             category="fr.lip6.move.coloane/"
              class="fr.lip6.move.coloane.core.ui.wizards.newmodel.NewModelWizard"
              finalPerspective="fr.lip6.move.coloane.perspective"
              hasPages="true"
@@ -109,6 +109,10 @@
        <primaryWizard
              id="fr.lip6.move.coloane.wizard.projectWizard">
        </primaryWizard>
+       <category
+             id="fr.lip6.move.coloane"
+             name="Coloane">
+       </category>
     </extension>
 	<extension
        id="preferencePages"
