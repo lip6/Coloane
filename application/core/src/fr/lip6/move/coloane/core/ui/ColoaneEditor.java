@@ -391,6 +391,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
 
+		// Define the session id
+		setPartProperty("session.id", file.getFullPath().toString()); //$NON-NLS-1$
+
 		// Construction d'un modele en memoire a partir de se representation en XML
 		graph = ModelLoader.loadFromXML(file);
 

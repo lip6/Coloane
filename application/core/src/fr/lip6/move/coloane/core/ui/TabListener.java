@@ -16,24 +16,24 @@ public class TabListener implements IPartListener2 {
 
 	/** {@inheritDoc} */
 	public final void partActivated(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Activation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		Motor.getInstance().resumeSession(partRef.getPartName());
+		LOGGER.finer("Activation de l'onglet : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
+		Motor.getInstance().resumeSession(partRef.getPartProperty("session.id")); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
 	public final void partClosed(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Fermeture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
-		Motor.getInstance().deleteSession(partRef.getPartName());
+		LOGGER.finer("Fermeture de l'onglet : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
+		Motor.getInstance().deleteSession(partRef.getPartProperty("session.id")); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
 	public final void partDeactivated(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Desactivation de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
+		LOGGER.finer("Desactivation de l'onglet : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/** {@inheritDoc} */
 	public final void partOpened(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Ouverture de l'onglet : " + partRef.getPartName()); //$NON-NLS-1$
+		LOGGER.finer("Ouverture de l'onglet : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/** {@inheritDoc} */
