@@ -403,7 +403,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		}
 
 		// Creation d'une session pour ce modele
-		if (!Motor.getInstance().createSession(graph, file.getName())) {
+		if (!Motor.getInstance().createSession(graph, file.getFullPath().toString())) {
 			LOGGER.warning("Erreur lors de la creation de la session associee au modele"); //$NON-NLS-1$
 		}
 
