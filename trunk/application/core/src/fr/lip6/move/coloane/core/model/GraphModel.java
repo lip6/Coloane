@@ -68,8 +68,9 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/**
 	 * Création d'un graphe à partir d'un nom de formalisme.
 	 * @param formalismName Le nom du formalisme du modèle
+	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
-	public GraphModel(String formalismName) {
+	public GraphModel(String formalismName) throws IllegalArgumentException {
 		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
 		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
