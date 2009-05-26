@@ -151,6 +151,36 @@
        point="org.eclipse.ui.navigator.viewer">
     <viewer
           viewerId="fr.lip6.move.coloane.views.NavigatorView">
+       <popupMenu
+             allowsPlatformContributions="true"
+             id="fr.lip6.move.coloane.views.NavigatorView#PopupMenu">
+             <insertionPoint name="group.new"/>
+             <insertionPoint
+                   name="group.open"
+                   separator="true"/>
+             <insertionPoint name="group.openWith"/>   
+             <insertionPoint name="group.edit"
+                   separator="true"/>   
+             <insertionPoint name="group.reorganize" />         
+             <insertionPoint
+                   name="group.port"
+                   separator="true"/>     
+             <insertionPoint
+                   name="group.build"
+                   separator="true"/> 
+             <insertionPoint
+                   name="group.generate"
+                   separator="true"/> 
+             <insertionPoint
+                   name="group.search"
+                   separator="true"/>              
+             <insertionPoint
+                   name="additions"
+                   separator="true"/>              
+             <insertionPoint
+                   name="group.properties"
+                   separator="true"/>             
+       </popupMenu>
     </viewer>
     <viewerContentBinding
           viewerId="fr.lip6.move.coloane.views.NavigatorView">
@@ -1030,5 +1060,20 @@
           id="%DISCONNECT"
           name="disconnect">
     </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.decorators">
+    <decorator
+          class="fr.lip6.move.coloane.core.ui.views.ModelDecorator"
+          id="fr.lip6.move.coloane.core.decorator1"
+          label="label"
+          location="BOTTOM_RIGHT"
+          state="false">
+       <enablement>
+          <objectClass
+                name="org.eclipse.core.resources.IFile">
+          </objectClass>
+       </enablement>
+    </decorator>
  </extension>
 </plugin>
