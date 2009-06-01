@@ -71,15 +71,12 @@
 
 		<resources>
 			<resource>
-				<directory>resources</directory>
-				<includes>
-					<include>feature.xml</include>
-				</includes>
-			</resource>
-			<resource>
 				<directory>.</directory>
 				<includes>
+					<include>feature.xml</include>
 					<include>build.properties</include>
+					<include>feature.properties</include>
+					<include>*.html</include>
 				</includes>
 			</resource>
 		</resources>
