@@ -3,25 +3,26 @@
       id="fr.lip6.move.coloane.feature.importExportCAMI"
       label="Import/Export to CAMI"
       version="1.2.0"
-      provider-name="LIP6 / MoVe">
+      provider-name="LIP6 / MoVe"
+      plugin="fr.lip6.move.coloane.extensions.importExportCAMI">
 
    <description url="http://coloane.lip6.fr">
       This feature brings CAMI import/export to Coloane.
    </description>
 
-   <url>
-      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
-   </url>
-
    <copyright url="http://coloane.lip6.fr">
-		Copyright (c) 2006-2008 LIP6/MoVe.
-		All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
-		For more information, please refer to the Coloane&apos;s copyright.
+      Copyright (c) 2006-2008 LIP6/MoVe.
+  All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+  For more information, please refer to the Coloane&apos;s copyright.
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
-   %LICENSE
+      %LICENSE
    </license>
+
+   <url>
+      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+   </url>
 
    <requires>
       <import plugin="fr.lip6.move.coloane.core"/>

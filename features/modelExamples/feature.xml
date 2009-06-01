@@ -3,7 +3,8 @@
       id="fr.lip6.move.coloane.feature.modelexamples"
       label="Model Examples"
       version="0.8.0"
-      provider-name="LIP6 / MoVe">
+      provider-name="LIP6 / MoVe"
+      plugin="fr.lip6.move.coloane.extensions.PNexamples">
 
    <description url="http://coloane.lip6.fr">
       
