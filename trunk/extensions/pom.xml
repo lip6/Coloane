@@ -40,7 +40,7 @@
 					<include>plugin.xml</include>
 					<include>resources/**</include>
 					<include>lib/**</include>
-					<include>lib/templates/**</include>
+					<include>templates/**</include>
 				</includes>
 			</resource>
 			<resource>
