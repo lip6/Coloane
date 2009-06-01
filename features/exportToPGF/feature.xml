@@ -4,7 +4,7 @@
       label="Export to PGF"
       version="1.2.0"
       provider-name="LIP6 / MoVe"
-      plugin="fr.lip6.move.coloane.extensions.exportToPGF">
+      plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
       This features brings PGF export to Coloane.
