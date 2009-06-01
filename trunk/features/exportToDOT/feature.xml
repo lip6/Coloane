@@ -3,7 +3,8 @@
       id="fr.lip6.move.coloane.feature.exportToDOT"
       label="Export to DOT"
       version="1.2.1"
-      provider-name="LIP6 / MoVe">
+      provider-name="LIP6 / MoVe"
+      plugin="fr.lip6.move.coloane.extensions.exportToDOT">
 
    <description url="http://coloane.lip6.fr">
       This Eclipse features brings DOT export to Coloane. Place/Transition nets and Colored nets can be exported.
