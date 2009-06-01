@@ -7,16 +7,16 @@
       <category name="Coloane Core"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">
-      <category name="Import / Export Wizards"/>
+      <category name="ImportExportWizards"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.exportToPGF_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToPGF" version="1.2.0">
-      <category name="Import / Export Wizards"/>
+      <category name="ImportExportWizards"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.importExportCAMI_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportCAMI" version="1.2.0">
-      <category name="Import / Export Wizards"/>
+      <category name="ImportExportWizards"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.importExportPNML_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportPNML" version="1.2.0">
-      <category name="Import / Export Wizards"/>
+      <category name="ImportExportWizards"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.2.0">
       <category name="Others"/>
@@ -29,9 +29,9 @@
          This category groups all required plugins to run Coloane.
       </description>
    </category-def>
-   <category-def name="Import / Export Wizards" label="Import/Export Wizards (Optional)">
+   <category-def name="ImportExportWizards" label="Import/Export Wizards (Optional)">
       <description>
-         Use these plugins to import and export models under various format.
+         Use these plugins to import and export models under various formats.
       </description>
    </category-def>
    <category-def name="Others" label="Others (Optional)">
