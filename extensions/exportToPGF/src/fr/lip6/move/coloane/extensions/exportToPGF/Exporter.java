@@ -102,8 +102,8 @@ public final class Exporter {
 		 * @param dimension The dimension of Eclipse object.
 		 */
 		private TikzPoint(Point point, Dimension dimension) {
-			this.x =  point.x + dimension.width / 2;
-			this.y = -point.y - dimension.height / 2;
+			this.x = (point.x + dimension.width) / 2;
+			this.y = (-point.y - dimension.height) / 2;
 		}
 	}
 
