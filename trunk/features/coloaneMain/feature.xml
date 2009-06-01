@@ -4,6 +4,7 @@
       label="Coloane Core"
       version="0.16.1"
       provider-name="LIP6 / MoVe"
+      plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"
       ws="carbon,gtk,win32"
       arch="ppc,x86,x86_64">
@@ -39,7 +40,7 @@ Many thanks for their help :
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
-	%LICENSE
+      %LICENSE
    </license>
 
    <url>
