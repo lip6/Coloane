@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.extensions.exportToPGF;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.IExportTo;
+import fr.lip6.move.coloane.extensions.exportToPGF.converters.UnknownFormalismException;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,13 +15,17 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.extensions.exportToPGF.converters.UnknownFormalismException;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-
+/**
+ * Main class for the TikZ/PGF export plugin.
+ */
 public final class ExportPlugin implements IExportTo {
 
+	/**
+	 * @param graph The graph to export to TikZ.
+	 * @param filePath The file where to put TikZ generated code.
+	 * @param monitor A progress monitor.
+	 * @throws ColoaneException An exception thrown when a problem is encountered.
+	 */
 	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ColoaneException {
 		Logger logger = Logger.getLogger("fr.lip6.move.coloane.core");
 		Exporter exporter = new Exporter(monitor);
@@ -36,6 +45,7 @@ public final class ExportPlugin implements IExportTo {
 			throw new ColoaneException("Write error :" + ioe.getMessage());
 		} catch (UnknownFormalismException e) {
 			logger.warning("No converter for formalism " + graph.getFormalism().getId());
+			throw new ColoaneException("Write error :" + e.getMessage());
 		}
 		monitor.done();
 	}
