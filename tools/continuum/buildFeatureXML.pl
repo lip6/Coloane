@@ -150,7 +150,7 @@ if (!$release) {
 # Openning feature.xml for writing
 print "Writing the feature.xml file...\n" if $debug;
 mkdir("resources", 0755);
-$xml->print_to_file($featurefile,pretty_print => 'indented');
+$xml->print_to_file("resources/".$featurefile,pretty_print => 'indented');
 
 # Print on MANIFEST the new version of feature (and its name)
 print STDOUT "Writing the manifest.mf file...\n" if $debug;
