@@ -17,8 +17,8 @@ fi
 
 if [ `svn stat | wc -l` -gt 0 ]; then
 	echo "Suppression des fichiers non versionnes"
-#	svn status --no-ignore | grep '^\?' | sed 's/^\?      //'  | xargs rm -rf
 	svn status --no-ignore | grep '^\?' | sed 's/^\?      //'
+	svn status --no-ignore | grep '^\?' | sed 's/^\?      //'  | xargs rm -rf
 fi
 
 echo "Cleaning complete..."
