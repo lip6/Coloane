@@ -1,51 +1,47 @@
-[ PT-Net-place/.style
+[ PT-Net-marking/.style
+  = { draw=none
+    }
+, PT-Net-name/.style
+  = { draw=none
+    }
+, PT-Net-valuation/.style
+  = { draw=none
+    }
+, PT-Net-authors/.style
+  = { draw=none
+    }
+, PT-Net-version/.style
+  = { draw=none
+    }
+, PT-Net-title/.style
+  = { draw=none
+    }
+, PT-Net-date/.style
+  = { draw=none
+    }
+, PT-Net-note/.style
+  = { draw=none
+    }
+, PT-Net-arc/.style
+  = { -triangle 90
+    , very thick
+    , draw=black
+    }
+$if(hasplace)$
+, PT-Net-place/.style
   = { shape=circle
     , draw=black
     , very thick
-    , minimum size=.5cm
+    , minimum size=$placeSize$cm
     }
+$else$$endif$
+$if(hastransition)$
 , PT-Net-transition/.style
   = { shape=rectangle
     , draw=black
     , very thick
-    , minimum width=1cm
-    , minimum height=.2cm
+    , minimum width=$transitionWidth$cm
+    , minimum height=$transitionHeight$cm
     }
-, PT-Net-arc/.style
-  = { -latex
-    , very thick
-    , draw=black
-    }
-, PT-Net-marking/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-name/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-valuation/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-authors/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-version/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-title/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-date/.style
-  = { shape=rectangle
-    , draw=none
-    }
-, PT-Net-note/.style
-  = { shape=rectangle
-    , draw=none
-    }
+$else$$endif$
 ]

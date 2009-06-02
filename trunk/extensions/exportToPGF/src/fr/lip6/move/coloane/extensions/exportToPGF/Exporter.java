@@ -14,7 +14,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.antlr.stringtemplate.StringTemplate;
@@ -56,6 +58,13 @@ public final class Exporter {
 		this.monitor = monitor;
 		this.logger = Logger.getLogger("fr.lip6.move.coloane.core");
 		this.converter = null;
+	}
+
+	/**
+	 * @return Graphical ratio.
+	 */
+	public static double getRatio() {
+		return ratio;
 	}
 
 	/**
@@ -120,21 +129,20 @@ public final class Exporter {
 		result.put("value", this.converter.convert(attribute));
 		result.put("id", containerId);
 		// Location:
-		if ((attribute.getGraphicInfo().getLocation().x == 0) && (attribute.getGraphicInfo().getLocation().y == 0)) {
+		if (!attribute.getGraphicInfo().isVisible()) {
 			throw new EmptyCoordinatesException();
 		}
 		result.put("x", new TikzPoint(attribute.getGraphicInfo().getLocation()).x);
 		result.put("y", new TikzPoint(attribute.getGraphicInfo().getLocation()).y);
 		// Background color:
-		if ((attribute.getGraphicInfo() == null)
-				|| (attribute.getGraphicInfo().getBackground() == null)) {
+		if ((attribute.getGraphicInfo() == null) || (attribute.getGraphicInfo().getBackground() == null)) {
 			result.put("hasBackground", false);
 		} else {
 			result.put("hasBackground", true);
 			Map<String, Object> backgroundMap = new HashMap<String, Object>();
-			backgroundMap.put("red", new TikzColor(attribute.getGraphicInfo().getBackground()).red);
+			backgroundMap.put("red"  , new TikzColor(attribute.getGraphicInfo().getBackground()).red);
 			backgroundMap.put("green", new TikzColor(attribute.getGraphicInfo().getBackground()).green);
-			backgroundMap.put("blue", new TikzColor(attribute.getGraphicInfo().getBackground()).blue);
+			backgroundMap.put("blue" , new TikzColor(attribute.getGraphicInfo().getBackground()).blue);
 			result.put("background", backgroundMap);
 		}
 		// Foreground color:
@@ -152,9 +160,9 @@ public final class Exporter {
 		// Font:
 		result.put("isItalic", attribute.getAttributeFormalism().isItalic());
 		result.put("isBold", attribute.getAttributeFormalism().isBold());
-		result.put("isMultiLine", attribute.getAttributeFormalism()
-				.isMultiLine());
-		result.put("width", "3cm"); // TODO
+		result.put("isMultiLine", attribute.getAttributeFormalism().isMultiLine());
+		result.put("width" , attribute.getGraphicInfo().getSize().width  * ratio);
+		result.put("height", attribute.getGraphicInfo().getSize().height * ratio);
 		return result;
 	}
 
@@ -283,11 +291,21 @@ public final class Exporter {
 		}
 		query.setAttribute("attributes", attributes);
 		// nodes:
+		Set<String> encountered = new HashSet<String>();
 		Collection<Object> nodes = new ArrayList<Object>();
 		for (INode node : graph.getNodes()) {
+			if (!encountered.contains(node.getNodeFormalism().getName())) {
+				encountered.add(node.getNodeFormalism().getName());
+				converter.setGraphicalDescription(query, node);
+			}
 			nodes.add(this.export(node));
 		}
 		query.setAttribute("nodes", nodes);
+		for (String name : encountered) {
+			StringBuilder str = new StringBuilder("has");
+			str.append(name);
+			query.setAttribute(str.toString(), true);
+		}
 		// arcs:
 		Collection<Object> arcs = new ArrayList<Object>();
 		for (IArc arc : graph.getArcs()) {

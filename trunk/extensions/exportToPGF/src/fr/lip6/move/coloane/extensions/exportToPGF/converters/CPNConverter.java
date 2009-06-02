@@ -9,7 +9,7 @@ import org.antlr.stringtemplate.StringTemplate;
 /**
  * Converter for PT-Net formalism.
  */
-public final class PTNetConverter implements Converter {
+public final class CPNConverter implements Converter {
 
 	/**
 	 * Convert a PT-Net attribute to a textual representation.
@@ -24,7 +24,8 @@ public final class PTNetConverter implements Converter {
 			// 8 '\' because StringTemplate or something else interprets them!
 			value = value.replaceAll("\n", " \\\\\\\\ \n");
 		}
-		if (attribute.getName().equals("valuation") || attribute.getName().equals("marking")) {
+		if (attribute.getName().equals("valuation") || attribute.getName().equals("marking") || attribute.getName().equals("guard")) {
+			value = value.replaceAll("<([^<>]*)>", "\\\\langle $1 \\\\rangle");
 			value = "\\ensuremath{\\begin{matrix} " + value + " \\end{matrix}}";
 		}
 		return value;
@@ -38,6 +39,9 @@ public final class PTNetConverter implements Converter {
 		System.err.println(node.getNodeFormalism().getName());
 		if (node.getNodeFormalism().getName().equals("place")) {
 			query.setAttribute("placeSize", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
+		} else if (node.getNodeFormalism().getName().equals("queue")) {
+			query.setAttribute("queueHeight", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
+			query.setAttribute("queueWidth", node.getNodeFormalism().getGraphicalDescription().getWidth()   * Exporter.getRatio());
 		} else if (node.getNodeFormalism().getName().equals("transition")) {
 			query.setAttribute("transitionHeight", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
 			query.setAttribute("transitionWidth", node.getNodeFormalism().getGraphicalDescription().getWidth()   * Exporter.getRatio());

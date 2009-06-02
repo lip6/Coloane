@@ -1,6 +1,9 @@
 package fr.lip6.move.coloane.extensions.exportToPGF.converters;
 
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.INode;
+
+import org.antlr.stringtemplate.StringTemplate;
 
 /**
  * Interface for converter classes.
@@ -15,5 +18,12 @@ public interface Converter {
 	 * @return A textual representation of attribute, suited for TikZ.
 	 */
 	String convert(IAttribute attribute);
+
+	/**
+	* Insert graphical description data in query.
+	 * @param query Query to use.
+	 * @param node Node to extract graphical description.
+	 */
+	void setGraphicalDescription(StringTemplate query, INode node);
 
 }
