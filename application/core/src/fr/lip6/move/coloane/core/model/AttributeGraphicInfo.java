@@ -1,18 +1,17 @@
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.editpart.AttributeEditPart;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.graphics.Font;
 
 /**
  * Description graphique d'un attribut
@@ -86,10 +85,9 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final Dimension getSize() {
-		ColoaneEditor ce = (ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		GraphicalViewer viewer = (GraphicalViewer) ce.getAdapter(GraphicalViewer.class);
-		AttributeEditPart editPart = (AttributeEditPart) viewer.getEditPartRegistry().get(attribute);
-		return editPart.getFigure().getSize();
+		String text = attribute.getValue();
+		Font font = JFaceResources.getDefaultFont();
+		return FigureUtilities.getTextExtents(text, font);
 	}
 
 	/** {@inheritDoc} */
