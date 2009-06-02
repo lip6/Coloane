@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -28,4 +29,13 @@ public interface IAttributeGraphicInfo extends ILocationInfo {
 	 */
 	void setForeground(Color foreground);
 
+	/**
+	 * @return <code>true</code> if the attribut is displayed
+	 */
+	boolean isVisible();
+
+	/**
+	 * @return size of the attribut
+	 */
+	Dimension getSize();
 }
