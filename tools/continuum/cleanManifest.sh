@@ -15,4 +15,10 @@ if [ -d resources/.svn ]; then
 	svn revert --recursive resources
 fi
 
+if [ `svn stat | wc -l` -gt 0 ]; then
+	echo "Suppression des fichiers non versionnes"
+#	svn status --no-ignore | grep '^\?' | sed 's/^\?      //'  | xargs rm -rf
+	svn status --no-ignore | grep '^\?' | sed 's/^\?      //'
+fi
+
 echo "Cleaning complete..."
