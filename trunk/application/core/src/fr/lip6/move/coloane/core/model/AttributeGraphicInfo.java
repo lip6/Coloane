@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -65,12 +66,12 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final Color getBackground() {
-		return null;
+		return ColorConstants.white;
 	}
 
 	/** {@inheritDoc} */
 	public final Color getForeground() {
-		return null;
+		return ColorConstants.black;
 	}
 
 	/** {@inheritDoc} */
