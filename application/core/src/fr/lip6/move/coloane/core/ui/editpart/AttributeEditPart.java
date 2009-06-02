@@ -166,18 +166,18 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void refreshVisuals() {
+		IAttribute attribut = (IAttribute) getModel();
+		Label attributeFigure = (Label) getFigure();
+
 		// Mise à jour de l'etat de l'attribut
-		getFigure().setForegroundColor(ColorConstants.black);
-		getFigure().setBackgroundColor(ColorConstants.white);
+		getFigure().setForegroundColor(attribut.getGraphicInfo().getForeground());
+		getFigure().setBackgroundColor(attribut.getGraphicInfo().getBackground());
 		if (select || elementSelect) {
 			getFigure().setForegroundColor(ColorConstants.blue);
 		}
 		if (highlight) {
 			getFigure().setBackgroundColor(ColorConstants.lightGray);
 		}
-
-		IAttribute attribut = (IAttribute) getModel();
-		Label attributeFigure = (Label) getFigure();
 
 		// Mise à jour de la police
 		if (font == null || font.isDisposed()) {
