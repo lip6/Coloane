@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{xcolor}
+\usepackage{amsmath}
 \usepackage{tikz}
+\usetikzlibrary{arrows}
 
 \begin{document}
 
@@ -10,9 +12,9 @@
 \selectfont
 \begin{tikzpicture}
 $(preamble)()$
-$attributes:templates/generic/attribute()$
-$nodes:templates/generic/node()$
-$arcs:templates/generic/arc()$
+$attributes:templates/generic/attribute() ; separator="\n"$
+$nodes:templates/generic/node() ; separator="\n"$
+$arcs:templates/generic/arc() ; separator="\n"$
 \end{tikzpicture}
 }
 

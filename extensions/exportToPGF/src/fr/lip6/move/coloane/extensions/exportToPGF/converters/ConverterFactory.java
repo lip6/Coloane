@@ -22,6 +22,8 @@ public final class ConverterFactory {
 	public static Converter createConverter(IFormalism formalism) throws UnknownFormalismException {
 		if (formalism.getId().equals("PT-Net")) {
 			return new PTNetConverter();
+		} else if (formalism.getId().equals("CPN")) {
+			return new CPNConverter();
 		} else {
 			throw new UnknownFormalismException();
 		}

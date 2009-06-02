@@ -4,4 +4,4 @@ $if(it.hasColor)$\definecolor{arccolor}{RGB}{$it.color.red$, $it.color.green$, $
 $if(it.hasColor)$     , draw=arccolor$else$$endif$
 $if(it.isCurve)$     , rounded corners=10pt$else$$endif$
      ] (n-$it.source$) $it.inflexions:templates/generic/inflexion()$ -- (n-$it.target$);
-$it.attributes:templates/generic/attribute()$
+$it.attributes:templates/generic/attribute() ; separator="\n"$
