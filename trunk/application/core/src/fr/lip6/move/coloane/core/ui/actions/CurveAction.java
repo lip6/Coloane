@@ -14,7 +14,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action that change the curvature statuc of an arc.<br>
+ * Action that change the curvature status of an arc.<br>
  * The arc must be selected.
  *
  * @author Jean-Baptiste Voron
@@ -53,7 +53,14 @@ public class CurveAction extends SelectionAction {
 	 */
 	@Override
 	protected final boolean calculateEnabled() {
-		return (getSelectedNode().size() > 0);
+		List<IArc> selectedNodes = this.getSelectedNode();
+
+		// Must check whether nodes are selected or not
+		if (selectedNodes == null) {
+			return false;
+		}
+
+		return (this.getSelectedNode().size() > 0);
 	}
 
 	/**
@@ -70,7 +77,7 @@ public class CurveAction extends SelectionAction {
 
 	/**
 	 * Get arcs from the current selection.
-	 * @return A list of {@link IArc}
+	 * @return A list of {@link IArc} or <code>null</code> if the selection is empty
 	 */
 	@SuppressWarnings("unchecked")
 	private List<IArc> getSelectedNode() {
