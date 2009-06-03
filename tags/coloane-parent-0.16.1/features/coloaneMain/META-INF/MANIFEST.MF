@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: fr.lip6.move.coloane.feature.main
+Bundle-Version: 0.16.1

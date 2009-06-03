@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.lip6.move.coloane.application</groupId>
+		<artifactId>application-parent</artifactId>
+		<version>0.16.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>interfaces</artifactId>
+	<packaging>jar</packaging>
+	<name>Application :: Interfaces</name>
+	<description>Interfaces and shared objects between Core and APIs</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>swt</artifactId>
+			<version>[3.2,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.swt.gtk.linux</groupId>
+			<artifactId>x86</artifactId>
+			<version>3.3.0-v3346</version>
+		</dependency>
+	</dependencies>
+</project>

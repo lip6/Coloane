@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <description url="http://coloane.lip6.fr/night-updates/">Coloane updates site</description>
+  <feature id="fr.lip6.move.coloane.feature.main" url="features/fr.lip6.move.coloane.feature.main_0.16.1.jar" version="0.16.1">
+    <category name="Coloane Core"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.exportToDOT" url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.1.jar" version="1.2.1">
+    <category name="ImportExportWizards"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.exportToPGF" url="features/fr.lip6.move.coloane.feature.exportToPGF_2.1.0.jar" version="2.1.0">
+    <category name="ImportExportWizards"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.importExportCAMI" url="features/fr.lip6.move.coloane.feature.importExportCAMI_1.2.1.jar" version="1.2.1">
+    <category name="ImportExportWizards"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.importExportPNML" url="features/fr.lip6.move.coloane.feature.importExportPNML_2.0.0.jar" version="2.0.0">
+    <category name="ImportExportWizards"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.languagepack" url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.jar" version="1.2.0">
+    <category name="Others"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.modelexamples" url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" version="0.8.0">
+    <category name="Others"/>
+  </feature>
+  <category-def label="Coloane Core (Required)" name="Coloane Core">
+    <description>
+         This category groups all required plugins to run Coloane.
+      </description>
+  </category-def>
+  <category-def label="Import/Export Wizards (Optional)" name="ImportExportWizards">
+    <description>
+         Use these plugins to import and export models under various formats.
+      </description>
+  </category-def>
+  <category-def label="Others (Optional)" name="Others">
+    <description>
+         These plugins add some optional features to Coloane
+      </description>
+  </category-def>
+</site>

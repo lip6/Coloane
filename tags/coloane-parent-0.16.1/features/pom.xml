@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane</groupId> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.16.1-SNAPSHOT</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.features</groupId>
+	<artifactId>features-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>Features</name>
+	<description>All features related to Coloane project</description>
+
+	<modules>
+		<module>exportToDOT</module>
+		<module>exportToPGF</module>
+		<module>importExportCAMI</module>
+		<module>importExportPNML</module>
+		<module>modelExamples</module>
+		<module>languagePack</module>
+		<module>coloaneMain</module>
+	</modules>
+
+	<build>
+		<finalName>${project.artifactId}_${project.version}</finalName>
+		
+		<plugins>
+			<plugin>
+				<!-- Pour configurer le jar de sortie -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> 
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildFeatureXML</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>buildFeatureXML.pl</executable>
+							<arguments>
+								<argument>feature.xml</argument>
+								<argument>${build.finalName}</argument>
+								<argument>${buildNumber}</argument>
+								<argument>${project.deployPath}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>feature.properties</include>
+					<include>*.html</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>resources</directory>
+				<includes>
+					<include>feature.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+</project>
