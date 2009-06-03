@@ -236,9 +236,9 @@
 
 	<distributionManagement> 
 		<repository> 
-			<id>coloane.internal</id> 
+			<id>coloane.releases</id> 
 			<name>Internal Release Repository for Coloane</name> 
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.internal</url> 
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.releases/</url> 
 		</repository> 
 		<snapshotRepository> 
 			<id>coloane.snapshots</id> 
