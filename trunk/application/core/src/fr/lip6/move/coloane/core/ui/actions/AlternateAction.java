@@ -52,6 +52,11 @@ public class AlternateAction extends SelectionAction {
 	 */
 	@Override
 	protected final boolean calculateEnabled() {
+		List<INode> selectedNodes = this.getSelectedNode();
+
+		// Check whether the selection is null no not
+		if (selectedNodes == null) { return false; }
+
 		return (getSelectedNode().size() > 0);
 	}
 
@@ -61,6 +66,11 @@ public class AlternateAction extends SelectionAction {
 	@Override
 	public final void run() {
 		CompoundCommand commandsGroup = new CompoundCommand();
+		List<INode> selectedNodes = this.getSelectedNode();
+
+		// Check whether the selection is null no not
+		if (selectedNodes == null) { return; }
+
 		for (INode node : getSelectedNode()) {
 			commandsGroup.add(new AlternateFigureCmd(node));
 		}
