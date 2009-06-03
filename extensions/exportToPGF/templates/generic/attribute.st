@@ -4,7 +4,6 @@ $if(it.hasBackground)$\definecolor{backgroundcolor}{RGB}{$it.background.red$, $i
 \node[ $formalism$-$it.formalism$
      , shape=rectangle
      , draw=none
-     , anchor=north west
      , font=$if(it.isBold)$\bfseries$else$$endif$$if(it.isItalic)$\itshape$else$$endif$
 $if(it.isMultiLine)$     , text width=$it.width$cm$else$$endif$
 $if(it.hasBackground)$     , fill=backgroundcolor$else$$endif$
