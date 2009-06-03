@@ -5,4 +5,3 @@ $if(it.hasBackground)$\definecolor{backgroundcolor}{RGB}{$it.background.red$, $i
 $if(it.hasForeground)$     , draw=foregroundcolor$else$$endif$
 $if(it.hasBackground)$     , fill=backgroundcolor$else$$endif$
      ] (n-$it.id$) at ($it.x$, $it.y$) {};
-$it.attributes:templates/generic/attribute() ; separator="\n"$

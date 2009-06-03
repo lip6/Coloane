@@ -1,4 +1,7 @@
-[ PT-Net-marking/.style
+[ every node/.style
+  = { inner sep=0pt
+    }
+, PT-Net-marking/.style
   = { draw=none
     }
 , PT-Net-name/.style

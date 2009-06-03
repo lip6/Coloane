@@ -1,4 +1,7 @@
-[ CPN-marking/.style
+[ every node/.style
+  = { inner sep=0pt
+    }
+, CPN-marking/.style
   = { draw=none
     }
 , CPN-name/.style
@@ -52,7 +55,7 @@ $else$$endif$
 $if(hasqueue)$
 , CPN-queue/.style
   = { shape=rectangle
-    , rounded corners=$queueHeight$cm
+    , rounded corners=3pt
     , draw=black
     , very thick
     , minimum width=$queueWidth$cm

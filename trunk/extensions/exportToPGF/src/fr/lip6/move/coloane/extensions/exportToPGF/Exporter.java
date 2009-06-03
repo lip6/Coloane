@@ -1,6 +1,3 @@
-/**
- * @author Alban Linard
- */
 package fr.lip6.move.coloane.extensions.exportToPGF;
 
 import fr.lip6.move.coloane.extensions.exportToPGF.converters.Converter;
@@ -36,7 +33,7 @@ public final class Exporter {
 	 * Magic number, because coordinates in Coloane an TikZ are not the same.
 	 * TikZ coordinates could be the same, but then shapes are not scaled...
 	 */
-	private static double ratio = 0.032;
+	private static double ratio = 0.035;
 
 	@SuppressWarnings("unused")
 	private IProgressMonitor monitor;
@@ -132,8 +129,8 @@ public final class Exporter {
 		if (!attribute.getGraphicInfo().isVisible()) {
 			throw new EmptyCoordinatesException();
 		}
-		result.put("x", new TikzPoint(attribute.getGraphicInfo().getLocation()).x);
-		result.put("y", new TikzPoint(attribute.getGraphicInfo().getLocation()).y);
+		result.put("x", new TikzPoint(attribute.getGraphicInfo().getLocation(), attribute.getGraphicInfo().getSize()).x);
+		result.put("y", new TikzPoint(attribute.getGraphicInfo().getLocation(), attribute.getGraphicInfo().getSize()).y);
 		// Background color:
 		if ((attribute.getGraphicInfo() == null) || (attribute.getGraphicInfo().getBackground() == null)) {
 			result.put("hasBackground", false);
