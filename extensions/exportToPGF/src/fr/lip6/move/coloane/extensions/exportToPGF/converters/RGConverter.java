@@ -9,7 +9,7 @@ import org.antlr.stringtemplate.StringTemplate;
 /**
  * Converter for PT-Net formalism.
  */
-public final class PTNetConverter implements Converter {
+public final class RGConverter implements Converter {
 
 	/**
 	 * Convert a PT-Net attribute to a textual representation.
@@ -24,25 +24,29 @@ public final class PTNetConverter implements Converter {
 			// 8 '\' because StringTemplate or something else interprets them!
 			value = value.replaceAll("\n", " \\\\\\\\ \n");
 		}
-		if (attribute.getName().equals("valuation") || attribute.getName().equals("marking")) {
-			value = "\\ensuremath{\\begin{matrix} " + value + " \\end{matrix}}";
-		}
 		return value;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * @param query The query.
+	 * @param node The node
+	 */
 	public void setGraphicalDescription(StringTemplate query, INode node) {
-		System.err.println(node.getNodeFormalism().getName());
-		if (node.getNodeFormalism().getName().equals("place")) {
-			query.setAttribute("placeSize", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
-		} else if (node.getNodeFormalism().getName().equals("transition")) {
-			query.setAttribute("transitionHeight", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
-			query.setAttribute("transitionWidth", node.getNodeFormalism().getGraphicalDescription().getWidth()   * Exporter.getRatio());
+		if (node.getNodeFormalism().getName().equals("state")) {
+			query.setAttribute("stateSize", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
+		} else if (node.getNodeFormalism().getName().equals("initial_state")) {
+			query.setAttribute("initial_stateSize", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
+		} else if (node.getNodeFormalism().getName().equals("terminal_state")) {
+			query.setAttribute("terminal_stateSize", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
 		}
 	}
 
+
 	/** {@inheritDoc} */
 	public String getName(IAttribute attribute) {
+		if (attribute.getName().equals("author(s)")) {
+			return "authors";
+		}
 		return attribute.getName();
 	}
 }

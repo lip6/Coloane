@@ -24,6 +24,8 @@ public final class ConverterFactory {
 			return new PTNetConverter();
 		} else if (formalism.getId().equals("CPN")) {
 			return new CPNConverter();
+		} else if (formalism.getId().equals("RG")) {
+			return new RGConverter();
 		} else {
 			throw new UnknownFormalismException();
 		}

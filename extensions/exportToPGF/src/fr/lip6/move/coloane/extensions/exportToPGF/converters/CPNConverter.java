@@ -31,10 +31,7 @@ public final class CPNConverter implements Converter {
 		return value;
 	}
 
-	/**
-	 * @param query The query.
-	 * @param node The node
-	 */
+	/** {@inheritDoc} */
 	public void setGraphicalDescription(StringTemplate query, INode node) {
 		System.err.println(node.getNodeFormalism().getName());
 		if (node.getNodeFormalism().getName().equals("place")) {
@@ -46,6 +43,11 @@ public final class CPNConverter implements Converter {
 			query.setAttribute("transitionHeight", node.getNodeFormalism().getGraphicalDescription().getHeight() * Exporter.getRatio());
 			query.setAttribute("transitionWidth", node.getNodeFormalism().getGraphicalDescription().getWidth()   * Exporter.getRatio());
 		}
+	}
+
+	/** {@inheritDoc} */
+	public String getName(IAttribute attribute) {
+		return attribute.getName();
 	}
 
 }

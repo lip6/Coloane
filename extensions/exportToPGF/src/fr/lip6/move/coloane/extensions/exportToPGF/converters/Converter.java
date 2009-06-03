@@ -26,4 +26,9 @@ public interface Converter {
 	 */
 	void setGraphicalDescription(StringTemplate query, INode node);
 
+	/**
+	 * @param attribute the attribute.
+	 * @return mangled attribute name.
+	 */
+	String getName(IAttribute attribute);
 }

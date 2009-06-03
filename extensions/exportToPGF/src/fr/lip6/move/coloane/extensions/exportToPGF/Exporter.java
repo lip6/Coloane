@@ -121,8 +121,7 @@ public final class Exporter {
 	 */
 	private Map<String, Object> export(IAttribute attribute, int containerId) throws EmptyCoordinatesException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("formalism", attribute.getAttributeFormalism().getName());
-		result.put("name", attribute.getName());
+		result.put("formalism", converter.getName(attribute));
 		result.put("value", this.converter.convert(attribute));
 		result.put("id", containerId);
 		// Location:
