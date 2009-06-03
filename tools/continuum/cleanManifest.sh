@@ -16,7 +16,7 @@ if [ -d resources/.svn ]; then
 fi
 
 if [ -d .svn ]; then
-	echo "Suppression des descripteurs XML"
+	echo "Suppression des fichiers generes"
 	svn revert --recursive .
 fi
 
