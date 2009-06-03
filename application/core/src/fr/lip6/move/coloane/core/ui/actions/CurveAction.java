@@ -56,9 +56,7 @@ public class CurveAction extends SelectionAction {
 		List<IArc> selectedNodes = this.getSelectedNode();
 
 		// Must check whether nodes are selected or not
-		if (selectedNodes == null) {
-			return false;
-		}
+		if (selectedNodes == null) { return false; }
 
 		return (this.getSelectedNode().size() > 0);
 	}
@@ -69,7 +67,12 @@ public class CurveAction extends SelectionAction {
 	@Override
 	public final void run() {
 		CompoundCommand commandsGroup = new CompoundCommand();
-		for (IArc arc : getSelectedNode()) {
+		List<IArc> selectedNodes = this.getSelectedNode();
+
+		// Check whether the current selection is empty or not
+		if (selectedNodes == null) { return; }
+
+		for (IArc arc : selectedNodes) {
 			commandsGroup.add(new ArcChangeCurveCmd(arc));
 		}
 		execute(commandsGroup);
