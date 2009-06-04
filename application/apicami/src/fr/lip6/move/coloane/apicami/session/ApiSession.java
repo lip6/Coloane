@@ -97,7 +97,7 @@ public class ApiSession implements IApiSession {
 	public final ISessionInfo open(int date, String formalism, String name) throws ApiException {
 		this.date = date;
 		this.formalism = formalism;
-		this.name = name;
+		this.name = name.replaceAll("/", "_");
 
 		// La session active avant l'ouverture de celle-là
 		ApiSession activeSession = null;
