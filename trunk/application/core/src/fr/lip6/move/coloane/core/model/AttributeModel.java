@@ -53,6 +53,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 
 	/** {@inheritDoc} */
 	public final void setValue(String value) {
+		if (value == null) { return; }
 		String oldValue = this.value;
 		this.value = value;
 		if (!oldValue.equals(value)) {
