@@ -262,8 +262,10 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			refreshVisuals();
 		} else if (INode.OUTGOING_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
+		} else if (IArc.INFLEXPOINT_PROP.equals(prop)) {
+			refreshVisuals();
 
-		// If the user has curved an arc, visuals must be refreshed
+			// If the user has curved an arc, visuals must be refreshed
 		} else if (IArc.CURVE_PROP.equals(prop)) {
 			refreshVisuals();
 		}
