@@ -21,6 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.pnml.framework</groupId>
+			<artifactId>coremodel</artifactId>
+			<version>2.1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.pnml.framework</groupId>
 			<artifactId>ptnet</artifactId>
 			<version>2.1.8</version>
 		</dependency>
