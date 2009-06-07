@@ -74,7 +74,9 @@ public class CoreProcessor extends Processor {
 	 */
 	private IGraph processNet(PetriNetHLAPI pnmlNet, String formalism) throws ModelException {
 		IGraph netGraph = new GraphModel(formalism);
-		netGraph.getAttribute("title").setValue(pnmlNet.getName() != null ? pnmlNet.getName().getText() : "");
+		if (pnmlNet.getName() != null) {
+			netGraph.getAttribute("title").setValue(pnmlNet.getName().getText());
+		}
 
 		// Browse all net pages
 		for (PageHLAPI iterableElement : pnmlNet.getPagesHLAPI()) {
@@ -132,7 +134,7 @@ public class CoreProcessor extends Processor {
 		NameHLAPI nodeName = pnmlNode.getNameHLAPI();
 		AnnotationGraphics nameGraphics = nodeName.getAnnotationgraphics();
 
-		node.getAttribute("name").setValue(nodeName != null ? nodeName.getText() : "");
+		if (nodeName != null) { node.getAttribute("name").setValue(nodeName.getText()); }
 		if (nodeGraphicInfo != null && nodeGraphicInfo.getPosition() != null) {
 			node.getGraphicInfo().setLocation(new Point(nodeGraphicInfo.getPosition().getX(), nodeGraphicInfo.getPosition().getY()));
 

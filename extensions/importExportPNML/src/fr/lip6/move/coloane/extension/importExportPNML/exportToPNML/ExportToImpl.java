@@ -1,8 +1,5 @@
 package fr.lip6.move.coloane.extension.importExportPNML.exportToPNML;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.AbsoluteBendpoint;
-
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -28,6 +25,9 @@ import fr.lip6.move.pnml.ptnet.hlapi.PetriNetHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PlaceHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PositionHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.TransitionHLAPI;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
  * Export Coloane models to PNML format
