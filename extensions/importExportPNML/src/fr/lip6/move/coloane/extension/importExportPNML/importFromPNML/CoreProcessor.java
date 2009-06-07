@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
-import java.util.HashMap;
-
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -24,129 +20,125 @@ import fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefPlaceHLAPI;
 import fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefTransitionHLAPI;
 import fr.lip6.move.pnml.pnmlcoremodel.hlapi.TransitionHLAPI;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * Core model processor.
- * 
- * @author GG
- * 
+ * @author Guillaume Giffo
  */
 public class CoreProcessor extends Processor {
 	/**
-	 * Keep correspondence between Coloane node ids and PNML Nodes. We need them
-	 * to create Coloana arcs.
+	 * Keep correspondence between Coloane node ids and PNML Nodes.<br>
+	 * We need them to create Coloane arcs.
 	 */
-	private HashMap<NodeHLAPI, Integer> nodesIds = null;
+	private Map<String, Integer> nodesIds = null;
 
 	/**
-	 * Processor of P/T nets.
+	 * Processor of Core nets.
 	 */
 	public CoreProcessor() {
 		super();
 	}
 
 	/**
-	 * Processes top-level class in the Petri net document. This top-level class
-	 * should be a PetriNetDoc(HLAPI).
-	 * 
-	 * @param rcl
-	 *            the Petri net document root class
-	 * @param formalism
-	 *            the Coloane PN formalism
-	 * @throws ModelException
-	 *             something went wrong during models fetching
-	 * @return A Coloane graph
-	 * 
+	 * Processes top-level class in the Petri net document.<br>
+	 * This top-level class should be a PetriNetDoc(HLAPI).
+	 *
+	 * @param rootClass The Petri net document root class
+	 * @param formalism The Coloane PN formalism
+	 * @return {@link IGraph} a Coloane graph
+	 * @throws ModelException Something went wrong during models fetching
 	 */
 	@Override
-	public final IGraph process(HLAPIRootClass rcl, String formalism) throws ModelException {
-
-		final PetriNetDocHLAPI root = (PetriNetDocHLAPI) rcl;
+	public final IGraph process(HLAPIRootClass rootClass, String formalism) throws ModelException {
+		final PetriNetDocHLAPI root = (PetriNetDocHLAPI) rootClass;
 		IGraph topGraph = new GraphModel(formalism);
-		nodesIds = new HashMap<NodeHLAPI, Integer>();
+
+		nodesIds = new HashMap<String, Integer>();
 		for (PetriNetHLAPI iterableElement : root.getNetsHLAPI()) {
 			topGraph.addGraph(processNet(iterableElement, formalism));
 		}
-		return null;
-
+		return topGraph;
 	}
 
 	/**
 	 * Processes a Petri net model.
-	 * 
-	 * @param ptn
-	 *            the top-level class of a Petri net model.
-	 * @param formalism
-	 *            the Coloane graph formalism
-	 * @throws ModelException
-	 * @return A Coloane graph
+	 *
+	 * @param pnmlNet The net to process
+	 * @param formalism Coloane graph formalism
+	 * @return {@link IGraph} the Coloane graph for this net
+	 * @throws ModelException Something went wrong during the model construction
 	 */
-	private IGraph processNet(PetriNetHLAPI ptn, String formalism) throws ModelException {
+	private IGraph processNet(PetriNetHLAPI pnmlNet, String formalism) throws ModelException {
 		IGraph netGraph = new GraphModel(formalism);
-		netGraph.getAttribute("name").setValue(ptn.getName() != null ? ptn.getName().getText() : "");
+		netGraph.getAttribute("title").setValue(pnmlNet.getName() != null ? pnmlNet.getName().getText() : "");
 
-		for (PageHLAPI iterableElement : ptn.getPagesHLAPI()) {
+		// Browse all net pages
+		for (PageHLAPI iterableElement : pnmlNet.getPagesHLAPI()) {
 			processPages(iterableElement, netGraph);
 		}
 
 		return netGraph;
-
 	}
 
 	/**
-	 * Processes a Page. Ref places and ref transitions are not processed. They
-	 * are of interest when dealing with arcs.
-	 * 
-	 * @param pth	 *
-	 *            the Page to process
-	 * @param netGraph
-	 *            Coloane net graph
-	 * @throws ModelException
-	 *             something went wrong during Page processing
+	 * Processes a Page (of a net).
+	 *
+	 * @param pnmlPage The page to process
+	 * @param model The Coloane graph model currently in construction
+	 * @throws ModelException Something went wrong during Page processing
 	 */
-	private void processPages(PageHLAPI pth, IGraph netGraph) throws ModelException {
-
-		for (PageHLAPI iterableElement : pth.getObjects_PageHLAPI()) {
-			processPages(iterableElement, netGraph);
-		}
-		for (PlaceHLAPI iterableElement : pth.getObjects_PlaceHLAPI()) {
-			processPlace(iterableElement, netGraph);
-		}
-		for (TransitionHLAPI iterableElement : pth.getObjects_TransitionHLAPI()) {
-			processTransition(iterableElement, netGraph);
+	private void processPages(PageHLAPI pnmlPage, IGraph model) throws ModelException {
+		// Process all included pages
+		for (PageHLAPI iterableElement : pnmlPage.getObjects_PageHLAPI()) {
+			processPages(iterableElement, model);
 		}
 
-		for (ArcHLAPI iterableElement : pth.getObjects_ArcHLAPI()) {
-			processArc(iterableElement, netGraph);
+		// Process all places
+		for (PlaceHLAPI iterableElement : pnmlPage.getObjects_PlaceHLAPI()) {
+			processPlace(iterableElement, model);
+		}
+
+		// Process all transitions
+		for (TransitionHLAPI iterableElement : pnmlPage.getObjects_TransitionHLAPI()) {
+			processTransition(iterableElement, model);
+		}
+
+		// Process all arcs
+		for (ArcHLAPI iterableElement : pnmlPage.getObjects_ArcHLAPI()) {
+			processArc(iterableElement, model);
 		}
 
 	}
 
 	/**
 	 * Processes a Node.
-	 * 
-	 * @param nhp
-	 *            the node to process
-	 * @param shape
-	 *            the shape it should be given (place or transition)
-	 * @param netGraph
-	 *            Coloane net graph
+	 *
+	 * @param pnmlNode The node to process
+	 * @param nodeType The kind of node that is going to be processed (place, transition...)
+	 * @param netGraph The Coloane graph model currently in construction
 	 * @return {@link INode} a Coloane graph node
-	 * @throws ModelException
+	 * @throws ModelException Somthing went wrogn during model construction
 	 */
-	private INode processNode(NodeHLAPI nhp, String shape, IGraph netGraph) throws ModelException {
-		INode node = netGraph.createNode(shape);
-		nodesIds.put(nhp, node.getId());
-		NodeGraphicsHLAPI nodeGrap = nhp.getNodegraphicsHLAPI();
-		NameHLAPI nodeName = nhp.getNameHLAPI();
+	private INode processNode(NodeHLAPI pnmlNode, String nodeType, IGraph netGraph) throws ModelException {
+		INode node = netGraph.createNode(nodeType);
+
+		// Store the reference into the hasmap to be able to create arc later
+		nodesIds.put(pnmlNode.getId(), node.getId());
+		NodeGraphicsHLAPI nodeGraphicInfo = pnmlNode.getNodegraphicsHLAPI();
+		NameHLAPI nodeName = pnmlNode.getNameHLAPI();
 		AnnotationGraphics nameGraphics = nodeName.getAnnotationgraphics();
 
 		node.getAttribute("name").setValue(nodeName != null ? nodeName.getText() : "");
-		if (nodeGrap != null && nodeGrap.getPosition() != null) {
-			node.getGraphicInfo().setLocation(new Point(nodeGrap.getPosition().getX(), nodeGrap.getPosition().getY()));
+		if (nodeGraphicInfo != null && nodeGraphicInfo.getPosition() != null) {
+			node.getGraphicInfo().setLocation(new Point(nodeGraphicInfo.getPosition().getX(), nodeGraphicInfo.getPosition().getY()));
 
 			if (nameGraphics != null && nameGraphics.getOffset() != null) {
-				int x = nameGraphics.getOffset().getX() + nodeGrap.getPositionHLAPI().getX();
-				int y = nameGraphics.getOffset().getY() + nodeGrap.getPositionHLAPI().getY();
+				int x = nameGraphics.getOffset().getX() + nodeGraphicInfo.getPositionHLAPI().getX();
+				int y = nameGraphics.getOffset().getY() + nodeGraphicInfo.getPositionHLAPI().getY();
 				node.getAttribute("name").getGraphicInfo().setLocation(new Point(x, y));
 			}
 		}
@@ -155,46 +147,37 @@ public class CoreProcessor extends Processor {
 
 	/**
 	 * Processes a Place.
-	 * 
-	 * @param pla
-	 *            the place to process.
-	 * @param netGraph
-	 *            the Coloane net graph
-	 * @throws ModelException
-	 *             something went wrong during transition fetching
+	 *
+	 * @param pnmlPlace The place to process.
+	 * @param netGraph The Coloane graph model currently in construction
+	 * @throws ModelException Something went wrong during transition fetching
 	 */
-	private void processPlace(PlaceHLAPI pla, IGraph netGraph) throws ModelException {
-		INode moi = processNode(pla, "place", netGraph);
+	private void processPlace(PlaceHLAPI pnmlPlace, IGraph netGraph) throws ModelException {
+		processNode(pnmlPlace, "place", netGraph);
 	}
 
 	/**
 	 * Processes a Transition.
-	 * 
-	 * @param tra
-	 *            the transition to process
-	 * @param shape
-	 *            transition
-	 * @param netGraph
-	 *            Coloane net graph
-	 * @throws ModelException
-	 *             something went wrong during transition fetching
+	 *
+	 * @param pnmlTransition The transition to process
+	 * @param netGraph The Coloane graph model currently in construction
+	 * @throws ModelException Something went wrong during transition fetching
 	 */
-	private void processTransition(TransitionHLAPI tra, IGraph netGraph) throws ModelException {
-		processNode(tra, "transition", netGraph);
+	private void processTransition(TransitionHLAPI pnmlTransition, IGraph netGraph) throws ModelException {
+		processNode(pnmlTransition, "transition", netGraph);
 	}
 
 	/**
 	 * Processes an Arc.
-	 * 
-	 * @param arc
-	 *            the arc to process.
-	 * @param netGraph
-	 * @throws ModelException
-	 *             something went wrong during arc processing.
+	 *
+	 * @param pnmlArc The arc to process.
+	 * @param netGraph The Coloane graph model currently in construction
+	 * @throws ModelException Something went wrong during arc processing.
 	 */
-	private void processArc(ArcHLAPI arc, IGraph netGraph) throws ModelException {
+	private void processArc(ArcHLAPI pnmlArc, IGraph netGraph) throws ModelException {
 
-		NodeHLAPI src = arc.getSourceHLAPI();
+		// Fetch arc source
+		NodeHLAPI src = pnmlArc.getSourceHLAPI();
 		if (src.getClass().equals(fr.lip6.move.pnml.ptnet.hlapi.RefPlaceHLAPI.class)) {
 			RefPlaceHLAPI refPlace = (fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefPlaceHLAPI) src;
 			src = refPlace.getRefHLAPI();
@@ -202,7 +185,9 @@ public class CoreProcessor extends Processor {
 			RefTransitionHLAPI refTransition = (fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefTransitionHLAPI) src;
 			src = refTransition.getRefHLAPI();
 		}
-		NodeHLAPI target = arc.getTargetHLAPI();
+
+		// Fetch arc target
+		NodeHLAPI target = pnmlArc.getTargetHLAPI();
 		if (target.getClass().equals(fr.lip6.move.pnml.ptnet.hlapi.RefPlaceHLAPI.class)) {
 			RefPlaceHLAPI refPlace = (fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefPlaceHLAPI) target;
 			target = refPlace.getRefHLAPI();
@@ -210,12 +195,13 @@ public class CoreProcessor extends Processor {
 			RefTransitionHLAPI refTransition = (fr.lip6.move.pnml.pnmlcoremodel.hlapi.RefTransitionHLAPI) target;
 			target = refTransition.getRefHLAPI();
 		}
-		// sets sources and target
-		IArc coloaneArc = netGraph.createArc("arc", netGraph.getNode(nodesIds.get(src)), netGraph.getNode(nodesIds.get(target)));
 
-		// Sets bend points
-		if (arc.getArcgraphicsHLAPI() != null) {
-			for (PositionHLAPI pos : arc.getArcgraphicsHLAPI().getPositionsHLAPI()) {
+		// Set source and target
+		IArc coloaneArc = netGraph.createArc("arc", netGraph.getNode(nodesIds.get(src.getId())), netGraph.getNode(nodesIds.get(target.getId())));
+
+		// Sets Bendpoints
+		if (pnmlArc.getArcgraphicsHLAPI() != null) {
+			for (PositionHLAPI pos : pnmlArc.getArcgraphicsHLAPI().getPositionsHLAPI()) {
 				coloaneArc.addInflexPoint(new Point(pos.getX(), pos.getY()));
 			}
 		}

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -9,21 +6,17 @@ import fr.lip6.move.pnml.framework.hlapi.HLAPIRootClass;
 
 /**
  * Every Petri net type processor must implement this class.
- * 
- * @author lom
+ * @author Lom Messan Hillah
  */
 public abstract class Processor {
 
 	/**
 	 * Each Petri net type processor must implement this method.
-	 * 
-	 * @param rcl
-	 *            the Petri net document top-level class.
-	 * @param formalism
-	 *            The Coloane Petri net formalism
-	 * @throws ModelException
-	 *             something went wrong during PN models processing
+	 *
+	 * @param rootClass The Petri net document top-level class.
+	 * @param formalism The Coloane Petri net formalism
+	 * @throws ModelException Something went wrong during PN models processing
+	 * @return A coloane graph model {@link IGraph}
 	 */
-	public abstract IGraph process(HLAPIRootClass rcl, String formalism) throws ModelException;
-
+	public abstract IGraph process(HLAPIRootClass rootClass, String formalism) throws ModelException;
 }
