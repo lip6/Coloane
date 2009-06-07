@@ -1,10 +1,5 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -24,6 +19,11 @@ import fr.lip6.move.pnml.ptnet.hlapi.PositionHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.RefPlaceHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.RefTransitionHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.TransitionHLAPI;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Place/Transition Net processor.
@@ -74,7 +74,7 @@ public class PTProcessor extends Processor {
 	 */
 	private IGraph processNet(PetriNetHLAPI pnmlNet, String formalism) throws ModelException {
 		IGraph netGraph = new GraphModel(formalism);
-		netGraph.getAttribute("title").setValue(pnmlNet.getName() != null ? pnmlNet.getName().getText() : "");
+		if (pnmlNet.getName() != null) { netGraph.getAttribute("title").setValue(pnmlNet.getName().getText()); }
 
 		// Browse all net pages
 		for (PageHLAPI iterableElement : pnmlNet.getPagesHLAPI()) {
@@ -132,7 +132,7 @@ public class PTProcessor extends Processor {
 		NameHLAPI nodeName = pnmlNode.getNameHLAPI();
 		AnnotationGraphics nameGraphics = nodeName.getAnnotationgraphics();
 
-		node.getAttribute("name").setValue(nodeName != null ? nodeName.getText() : "");
+		if (nodeName != null) { node.getAttribute("name").setValue(nodeName.getText()); }
 		if (nodeGraphicInfo != null && nodeGraphicInfo.getPosition() != null) {
 			node.getGraphicInfo().setLocation(new Point(nodeGraphicInfo.getPosition().getX(), nodeGraphicInfo.getPosition().getY()));
 
@@ -154,7 +154,9 @@ public class PTProcessor extends Processor {
 	 */
 	private void processPlace(PlaceHLAPI pnmlPlace, IGraph netGraph) throws ModelException {
 		INode node = processNode(pnmlPlace, "place", netGraph);
-		node.getAttribute("marking").setValue(String.valueOf(pnmlPlace.getInitialMarkingHLAPI() != null ? pnmlPlace.getInitialMarkingHLAPI().getText() : ""));
+		if (pnmlPlace.getInitialMarkingHLAPI() != null) {
+			node.getAttribute("marking").setValue(String.valueOf(pnmlPlace.getInitialMarkingHLAPI().getText()));
+		}
 	}
 
 	/**
