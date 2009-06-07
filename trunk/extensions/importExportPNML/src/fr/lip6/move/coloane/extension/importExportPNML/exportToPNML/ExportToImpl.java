@@ -29,6 +29,12 @@ import fr.lip6.move.pnml.ptnet.hlapi.PlaceHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.PositionHLAPI;
 import fr.lip6.move.pnml.ptnet.hlapi.TransitionHLAPI;
 
+/**
+ * Export Coloane models to PNML format
+ *
+ * @author Jean-Baptiste Voron
+ * @author Lom Messan Hillah
+ */
 public class ExportToImpl implements IExportTo {
 
 	/**
@@ -105,9 +111,9 @@ public class ExportToImpl implements IExportTo {
 			for (IArc arc : graph.getArcs()) {
 				NodeHLAPI source = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getSource().getId()));
 				NodeHLAPI target = (NodeHLAPI) ModelRepository.getInstance().getCurrentIdRepository().getObject("n" + String.valueOf(arc.getTarget().getId()));
-				ArcHLAPI PNMLarc = new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
-				new PTArcAnnotationHLAPI(Integer.valueOf(arc.getAttribute("valuation").getValue()), PNMLarc);
-				final ArcGraphicsHLAPI myArcGraphics = new ArcGraphicsHLAPI(PNMLarc);
+				ArcHLAPI pnmlArc = new ArcHLAPI(String.valueOf("a" + arc.getId()), source, target, page);
+				new PTArcAnnotationHLAPI(Integer.valueOf(arc.getAttribute("valuation").getValue()), pnmlArc);
+				final ArcGraphicsHLAPI myArcGraphics = new ArcGraphicsHLAPI(pnmlArc);
 				for (AbsoluteBendpoint aPi : arc.getInflexPoints()) {
 					final PositionHLAPI arcPosition = new PositionHLAPI(Integer.valueOf(aPi.x), Integer.valueOf(aPi.y));
 					myArcGraphics.addPositionsHLAPI(arcPosition);

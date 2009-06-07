@@ -1,9 +1,8 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
 /**
- * 
+ * Unsupported Petri Net type
  * @author Guillaume Giffo
- * 
  */
 public class UnHandledType extends Exception {
 	/**
@@ -20,33 +19,26 @@ public class UnHandledType extends Exception {
 
 	/**
 	 * Constructor with message.
-	 * 
-	 * @param mssg
-	 *            the message.
+	 * @param msg the message used to describe the error.
 	 */
-	public UnHandledType(String mssg) {
-		super(mssg);
-	}
-
-	/**
-	 * Constructor with message and cause of the exception.
-	 * 
-	 * @param message
-	 *            the message
-	 * @param cause
-	 *            the cause
-	 */
-	public UnHandledType(String message, Throwable cause) {
-		super(message, cause);
+	public UnHandledType(String msg) {
+		super(msg);
 	}
 
 	/**
 	 * Constructor with the cause of the exception.
-	 * 
-	 * @param cause
-	 *            the cause.
+	 * @param cause The cause.
 	 */
 	public UnHandledType(Throwable cause) {
 		super(cause);
+	}
+
+	/**
+	 * Constructor with message and cause of the exception.
+	 * @param msg The message used to describe the error
+	 * @param cause The cause
+	 */
+	public UnHandledType(String msg, Throwable cause) {
+		super(msg, cause);
 	}
 }
