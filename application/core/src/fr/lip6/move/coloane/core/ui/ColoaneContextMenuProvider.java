@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
+import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -50,6 +51,8 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 
 		// Curve or Straight arcs
 		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, getAction(CurveAction.ID));
+		// Remove Bendpoints
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, getAction(RemoveInflexAction.ID));
 		// Switch Figure
 		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, getAction(AlternateAction.ID));
 	}
