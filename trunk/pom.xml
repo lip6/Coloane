@@ -534,12 +534,14 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>GenerateHeaders</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>format</goal>
 						</goals>
 					</execution>
 					<execution>
+						<id>CheckForHeaders</id>
 						<goals>
 							<goal>check</goal>
 						</goals>
