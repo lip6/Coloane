@@ -63,3 +63,15 @@ fi
 # Copie...
 cp target/$jar $directory/$newjar
 echo "Copy $jar into $directory/$newjar"
+
+# Calcul des noms des JAR contenant les sources (s'ils existent)
+echo "Try to find sources..."
+if [ -n "`ls target/*sources*`" ]; then 
+	sourcesjar=`ls target/*sources*`
+	newsourcesjar=`echo $jar | awk -F '.jar' '{print $1}'`
+	newsourcesjar=$newsourcesjar-sources.jar
+	cp $sourcesjar $directory/$newsourcesjar
+	echo "Copy $sourcesjar into $directory/$newsourcesjar"
+else
+	echo "No source found"
+fi
