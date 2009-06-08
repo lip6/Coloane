@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.main"
-      label="Coloane Core"
+      label="Coloane - Core"
       version="0.16.2"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"

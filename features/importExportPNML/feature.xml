@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.importExportPNML"
-      label="Import/Export to PNML"
+      label="Coloane - Import/Export to PNML"
       version="2.0.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
