@@ -65,18 +65,7 @@
 			<timezone>+1</timezone>
 		</developer>
 		<developer>
-			<id>ahamez</id>
-			<name>Alexandre Hamez</name>
-			<email>Alexandre.Hamez@lip6.fr</email>
-			<url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
+			<id>cdemoulins</id>
 			<name>Clément Demoulins</name>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
@@ -86,20 +75,26 @@
 			<timezone>+1</timezone>
 		</developer>
 		<developer>
-			<name>Monir Chaouki</name>
+			<id>alinard</id>
+			<name>Alban Linard</name>
+			<email>Alban.Linard@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Alban.Linard/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
-				<role>developer (internship)</role>
+				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
 		<developer>
-			<name>Kahina Bouarab</name>
+			<id>ahamez</id>
+			<name>Alexandre Hamez</name>
+			<email>Alexandre.Hamez@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
-				<role>developer (internship)</role>
+				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -165,6 +160,24 @@
 		</contributor>
 		<contributor>
 			<name>Alexandre Ortiz</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Monir Chaouki</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Kahina Bouarab</name>
 			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
@@ -493,6 +506,39 @@
 					<scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
 					<preparationGoals>clean verify deploy</preparationGoals>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>com.google.code.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<basedir>${basedir}</basedir>
+					<header>http://coloane.lip6.fr/resources/header.txt</header>
+					<quiet>false</quiet>
+					<failIfMissing>true</failIfMissing>
+					<aggregate>false</aggregate>
+					<includes>
+    					<include>src/**</include>
+    					<include>**/test/**</include>
+					</includes>
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>.clover/**</exclude>
+					</excludes>
+					<useDefaultExcludes>true</useDefaultExcludes>
+					<useDefaultMapping>true</useDefaultMapping>
+					<properties>
+						<year>2009</year>
+					</properties>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
