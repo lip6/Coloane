@@ -4,7 +4,10 @@
       Coloane Updates site
    </description>
    <feature url="features/fr.lip6.move.coloane.feature.main_0.11.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.11.0">
-      <category name="Coloane Core"/>
+      <category name="ColoaneCore"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.main.source_0.11.0.jar" id="fr.lip6.move.coloane.feature.main.source" version="0.11.0">
+      <category name="ColoaneCoreSources"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">
       <category name="ImportExportWizards"/>
@@ -27,6 +30,11 @@
    <category-def name="Coloane Core" label="Coloane Core (Required)">
       <description>
          This category groups all required plugins to run Coloane.
+      </description>
+   </category-def>
+   <category-def name="ColoaneCoreSources" label="Coloane Core Sources (Optional)">
+      <description>
+         This category groups all sources of Coloane. Useful if you want to contribute to the project.
       </description>
    </category-def>
    <category-def name="ImportExportWizards" label="Import/Export Wizards (Optional)">
