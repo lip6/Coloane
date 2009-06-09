@@ -54,7 +54,28 @@ Many thanks for their help :
    </requires>
    
    <plugin
-         id="fr.lip6.move.coloane.main.source"
+         id="fr.lip6.move.coloane.core.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+        
+   <plugin
+         id="fr.lip6.move.coloane.interfaces.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.lip6.move.coloane.apicami.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="fr.lip6.move.coloane.apiws.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
