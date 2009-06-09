@@ -4,13 +4,15 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.navigator.IDescriptionProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
@@ -18,34 +20,35 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author jbvoron
  *
  */
-public final class LabelProvider implements ILabelProvider {
+public final class LabelProvider implements ILabelProvider, IDescriptionProvider {
+	private final Image errorImage = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/obj16/error_tsk.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
+	private final Map<Object, Image> images = new HashMap<Object, Image>();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Image getImage(Object element) {
-		// TODO Auto-generated method stub
-		if (element instanceof IFile) {
+		Image image = images.get(element);
+		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
-			IExtensionPoint[] iep =  Platform.getExtensionRegistry().getExtensionPoints();
-			System.err.println("$$$$ " + iep); //$NON-NLS-1$
-			if ("model".equals(f.getFileExtension())) {
+			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
 				IFormalism formalism = ModelLoader.loadFormalismFromXml(f);
 				if (formalism != null) {
-					return ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
+					image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
+					images.put(element, image);
+					return image;
 				} else {
-					return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/obj16/error_tsk.gif").createImage();
+					return errorImage;
 				}
 			}
 		}
-		return null;
+		return image;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public String getText(Object element) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -53,21 +56,22 @@ public final class LabelProvider implements ILabelProvider {
 	 * {@inheritDoc}
 	 */
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
-		// TODO Auto-generated method stub
+		errorImage.dispose();
+		for (Image img : images.values()) {
+			img.dispose();
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -75,6 +79,19 @@ public final class LabelProvider implements ILabelProvider {
 	 * {@inheritDoc}
 	 */
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
+	}
+
+	/** {@inheritDoc} */
+	public String getDescription(Object element) {
+		if (element instanceof IFile) {
+			IFile f = (IFile) element;
+			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
+				IFormalism formalism = ModelLoader.loadFormalismFromXml(f);
+				if (formalism != null) {
+					return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
+				}
+			}
+		}
+		return null;
 	}
 }
