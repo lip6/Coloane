@@ -46,9 +46,26 @@ echo "-----------------------------"
 # Change the project's version
 echo ">>> Writing a new Manifest file !"
 echo "-----------------------------"
+bundleversion=`grep Bundle-Version META-INF/MANIFEST.MF | awk -F ' ' '{print $2}' | tr -d "\r"`
 perl -i -pe 's/^Bundle-Version: ([^\s]*)/Bundle-Version: $1.r'$buildnumber'/' META-INF/MANIFEST.MF
 echo "Updated Manifest File"
 cat META-INF/MANIFEST.MF
 echo "-----------------------------"
+
+if [ -f META-INF/SOURCE_MANIFEST.MF ]; then
+	echo "Source Manifest detected !"
+	echo "-----------------------------"
+	echo "Updating Source Manifest File..."
+	echo "-----------------------------"
+	echo ">>> Current Manifest File"
+	echo "-----------------------------"
+	cat META-INF/SOURCE_MANIFEST.MF
+	echo "-----------------------------"
+	perl -i -pe 's/^Bundle-Version: (.*)$/Bundle-Version: '$bundleversion'.r'$buildnumber'/' META-INF/SOURCE_MANIFEST.MF
+	perl -i -pe 's/^Eclipse-SourceBundle: (.*)$/Eclipse-SourceBundle: %pluginName;version="'$bundleversion'.r'$buildnumber'"/' META-INF/SOURCE_MANIFEST.MF
+	echo "Updated Manifest File"
+	cat META-INF/SOURCE_MANIFEST.MF
+	echo "-----------------------------"
+fi
 
 echo "Updating Manifest File complete..."
