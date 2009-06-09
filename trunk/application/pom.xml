@@ -59,16 +59,10 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-					<archive> 
+					<archive>
+						<manifestFile>META-INF/SOURCE_MANIFEST.MF</manifestFile>
 						<manifestEntries>
 							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
-							<Bundle-SymbolicName>${project.groupId}.${project.artifactId}.source</Bundle-SymbolicName>
-							<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-							<Bundle-Localization>plugin</Bundle-Localization>
-							<Bundle-Name>%pluginName</Bundle-Name>
-							<Bundle-Vendor>%providerName</Bundle-Vendor>
-							<Bundle-Version>${project.version}-r${buildNumber}</Bundle-Version>
-							<Eclipse-SourceBundle>${project.groupId}.${project.artifactId};version="${project.version}-r${buildNumber}"</Eclipse-SourceBundle>
 						</manifestEntries>
 					</archive>
 					<excludes>
