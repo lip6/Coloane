@@ -68,7 +68,7 @@ echo "Copy $jar into $directory/$newjar"
 echo "Try to find sources..."
 if [ -n "`ls target/*sources.jar`" ]; then 
 	sourcesjar=`ls target/*sources.jar`
-	newsourcesjar=`echo $bundleSymbolicName-source\_$bundleVersion.jar`
+	newsourcesjar=`echo $bundleSymbolicName\.source\_$bundleVersion.jar`
 	cp $sourcesjar $directory/$newsourcesjar
 	echo "Copy $sourcesjar into $directory/$newsourcesjar"
 else
