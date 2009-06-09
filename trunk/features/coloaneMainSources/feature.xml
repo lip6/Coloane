@@ -48,7 +48,7 @@ Many thanks for their help :
       <discovery label="Eclipse 3.2 updates" url="http://update.eclipse.org/updates/3.2/"/>
       <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
    </url>
-   
+
    <requires>
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.jface"/>
@@ -62,6 +62,7 @@ Many thanks for their help :
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.console"/>
+      <import feature="fr.lip6.move.coloane.feature.main" version="0.16.2"/>
    </requires>
 
    <plugin
