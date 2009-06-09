@@ -1,5 +1,9 @@
 package fr.lip6.move.coloane.extension.exportToDOT;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.IExportTo;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,28 +14,39 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-
+/**
+ * Export a Coloane to DOT file
+ *
+ * @author Jean-Baptiste Voron
+ */
 public class ExportToImpl implements IExportTo {
 
+	/**
+	 * Default constructor
+	 */
 	public ExportToImpl() {	}
 
-	public void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	/**
+	 * Export a model to DOT formatted file
+	 * @param model The model to export
+	 * @param filePath The path of the destination file
+	 * @param monitor A monitor to follow the export progression
+	 * @throws ColoaneException Something went wrong.
+	 */
+	public final void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
 
 		FileOutputStream writer;
 		try {
 			int totalWork = model.getNodes().size() + model.getArcs().size();
 			monitor.beginTask("Export to dot", totalWork);
-			// Creation du fichier
+			// File creation
 			writer = new FileOutputStream(new File(filePath)); //$NON-NLS-1$
 			BufferedWriter writerBuffer = new BufferedWriter(new OutputStreamWriter(writer));
-			
-			// Ecriture
+
+			// Write
 			writerBuffer.write(DotConverter.translateModel(model, monitor));
-			
-			// Fin del'écriture : nettoyage et fermeture
+
+			// Clean & Close
 			writerBuffer.flush();
 			writer.flush();
 			writerBuffer.close();
