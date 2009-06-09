@@ -66,7 +66,7 @@ echo "Copy $jar into $directory/$newjar"
 
 # Calcul des noms des JAR contenant les sources (s'ils existent)
 echo "Try to find sources..."
-if [ -n "`ls target/*sources*`" ]; then 
+if [ -n "`ls target/*sources.jar`" ]; then 
 	sourcesjar=`ls target/*sources*`
 	newsourcesjar=`echo $bundleSymbolicName-source\_$bundleVersion.jar`
 	cp $sourcesjar $directory/$newsourcesjar
