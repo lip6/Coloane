@@ -49,31 +49,27 @@ Many thanks for their help :
       <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
    </url>
 
-   <requires>
-      <import feature="fr.lip6.move.coloane.feature.main" version="0.16.2"/>
-   </requires>
-   
    <plugin
          id="fr.lip6.move.coloane.core.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-        
+
    <plugin
          id="fr.lip6.move.coloane.interfaces.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="fr.lip6.move.coloane.apicami.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="fr.lip6.move.coloane.apiws.source"
          download-size="0"
