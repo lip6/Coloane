@@ -78,6 +78,11 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
+			<artifactId>coloaneMainSources</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>exportToDOT</artifactId>
 			<version>${project.version}</version>
 		</dependency>
