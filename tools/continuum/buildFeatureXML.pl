@@ -33,7 +33,7 @@ sub compute_version {
 	# Open the directory and look for matching file's name
 	opendir(DIR,$dir) or die "The directory $dir cannot be browsed --> FAILURE !";
 	while (my $file=readdir(DIR)) {
-		push(@files,$file) if ($file =~ /^$id/);
+		push(@files,$file) if ($file =~ /^$id\_/);
 	}
 	closedir(DIR);
 	
