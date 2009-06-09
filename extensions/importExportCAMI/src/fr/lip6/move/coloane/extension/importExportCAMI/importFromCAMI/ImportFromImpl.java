@@ -1,5 +1,15 @@
 package fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,31 +23,28 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
-import fr.lip6.move.coloane.core.model.GraphModel;
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.exceptions.SyntaxErrorException;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-
+/**
+ * Import a CAMI formatted model into a graph model
+ *
+ * @author Jean-Baptiste Voron
+ */
 public class ImportFromImpl implements IImportFrom {
-	/** Le logger pour la classe */
+	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
-	/** Table de hash pour pouvoir associé les identifiant CAMi aux dientifiants du modèle Coloane **/
+
+	/** Table needed to link CAMI id to Coloane ID**/
 	private Map<Integer, Integer> ids;
 
 
 	/**
-	 * Importe un modele CAMI
-	 * @param filePath nom de fchier a importer
-	 * @return le model adapte correspondant
-	 * @throws ColoaneException si le fichier n'est pas valide
+	 * Import a CAMI file into a Graph object
+	 * @param filePath The location of the file to be imported
+	 * @param formalism The formalism (since CAMI file does not define the model formalism)
+	 * @param monitor A monitor to follow the operation progress
+	 * @return The resulting model {@link IGraph}
+	 * @throws ColoaneException Something went wrong
 	 */
-	public IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
+	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
 		this.ids = new HashMap<Integer, Integer>();
 		IGraph model = null;
 
@@ -45,13 +52,13 @@ public class ImportFromImpl implements IImportFrom {
 		File toImport = new File(filePath);
 
 		try {
-			// Lecture du fichier et stockage des lignes CAMI dans un buffer de commandes
+			// Read file and store all its line into a buffer
 			BufferedReader buffer = new BufferedReader(new FileReader(toImport));
 
 			try {
-				// Construction du modele
+				// Build the model
 				model = this.loadModel(buffer, formalism, monitor);
-				LOGGER.fine("Le modele importe est identifie comme instance du formalisme :"+formalism);
+				LOGGER.fine("Le modele importe est identifie comme instance du formalisme :" + formalism);
 			} catch (SyntaxErrorException se) {
 				throw new ColoaneException("Error while parsing the model : " + se.getMessage());
 			} catch (ModelException me) {
@@ -67,19 +74,21 @@ public class ImportFromImpl implements IImportFrom {
 		}
 		return model;
 	}
-	
+
 
 	/**
-	 * Construit un noeud a partir des donnees CAMI
-	 * @param model Le modele auquel rattacher le noeud
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres la construction du noeud
+	 * Build a node from CAMI command
+	 * @param model The model where the node model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the node construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadNode(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String type = parser.parseString(","); //$NON-NLS-1$
 		Integer id = Integer.valueOf(parser.parseInt(")")); //$NON-NLS-1$
 
-		// Si le noeud en cours n'est pas le noeud principal du modele
+		// If the current node is not the top-level one
 		if (id.intValue() != 1) {
 			INode node = model.createNode(type);
 			this.ids.put(id, node.getId());
@@ -90,11 +99,12 @@ public class ImportFromImpl implements IImportFrom {
 	}
 
 	/**
-	 * Construit un arc a partir des donnees CAMI
-	 * @param model Le modele auquel rattacher l'arc
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres la construction du noeud
-	 * @throws SyntaxErrorException
+	 * Build an arc from CAMI command
+	 * @param model The model where the arc model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the arc construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadArc(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String type = parser.parseString(",");
@@ -102,7 +112,7 @@ public class ImportFromImpl implements IImportFrom {
 		Integer source = Integer.valueOf(parser.parseInt(","));
 		Integer target = Integer.valueOf(parser.parseInt(")"));
 
-		// Recherche de la source et de la cible
+		// Look for source and target
 		INode nodeBegin = model.getNode(this.ids.get(source));
 		INode nodeEnd = model.getNode(this.ids.get(target));
 
@@ -111,7 +121,7 @@ public class ImportFromImpl implements IImportFrom {
 			throw new SyntaxErrorException("Cannot connect the source node with the target node. One of these is missing");
 		}
 
-		// Creation de l'arc
+		// Arc creation
 		IArc arc = model.createArc(type, nodeBegin, nodeEnd);
 		this.ids.put(id, arc.getId());
 		LOGGER.finer("Creation de l'arc " + this.ids.get(id) + " (" + nodeBegin.getId() + " -> " + nodeEnd + ")");
@@ -120,18 +130,19 @@ public class ImportFromImpl implements IImportFrom {
 	}
 
 	/**
-	 * Construit un attribut a partir des donnees CAMI
-	 * @param model Le modele auquel rattacher l'attribut
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres la construction de l'attribut
-	 * @throws SyntaxErrorException
+	 * Build an attribute from CAMI command
+	 * @param model The model where the attribute model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadAttribute(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String name = parser.parseString(",");
 		Integer ref = Integer.parseInt(parser.parseInt(","));
 		String value = parser.parseString(")");
 
-		// L'attribut peut directement etre attache au modele
+		// Attribute can be directly fixed to the model
 		if (ref == 1) {
 			IAttribute attribute = model.getAttribute(name);
 			if (attribute != null) {
@@ -143,7 +154,7 @@ public class ImportFromImpl implements IImportFrom {
 			return model;
 		}
 
-		// Est-ce que l'attribut s'attacher a un arc ?
+		// Is the attribute attached to an arc
 		IArc arc = model.getArc(this.ids.get(ref));
 		if (arc != null) {
 			IAttribute attribute = arc.getAttribute(name);
@@ -156,7 +167,7 @@ public class ImportFromImpl implements IImportFrom {
 			return model;
 		}
 
-		// Est-ce que l'attribut s'attache a un noeud ?
+		// Is the attribute attached to a node
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
@@ -169,26 +180,27 @@ public class ImportFromImpl implements IImportFrom {
 			return model;
 		}
 
-		// Sinon on retourne une erreur
+		// Otherwise an error is raised
 		LOGGER.warning("Impossible de trouver l objet identifie par " + ref);
 		throw new ModelException("Cannot find the model element " + ref);
 	}
 
 	/**
-	 * Construit un attribut <b>multiligne</b> a partir des donnees CAMI
-	 * @param model Le modele auquel rattacher l'attribut
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres la construction de l'attribut
-	 * @throws SyntaxErrorException
+	 * Build an multiple line attribute from CAMI command
+	 * @param model The model where the attribute model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadMAttribute(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String name = parser.parseString(",");
 		Integer ref = Integer.parseInt(parser.parseInt(","));
 		Integer line = Integer.parseInt(parser.parseInt(","));
-		parser.parseInt(","); // deprecated
+		parser.parseInt(","); // Deprecated
 		String value = parser.parseString(")");
 
-		// Si le referent a comme identifiant 1, alors il faut attacher l'attribut au modele
+		// Attribute can be attached directly to the model
 		if (ref == 1) {
 			IAttribute attribute = model.getAttribute(name);
 			if (attribute != null) {
@@ -200,7 +212,7 @@ public class ImportFromImpl implements IImportFrom {
 			return model;
 		}
 
-		// On cherche a savoir si l'attribut s'attache a un arc ?
+		// Is the attribute attached to an arc
 		IArc arc = model.getArc(this.ids.get(ref));
 		if (arc != null) {
 			IAttribute attribute = arc.getAttribute(name);
@@ -213,7 +225,7 @@ public class ImportFromImpl implements IImportFrom {
 			return model;
 		}
 
-		// On cherche a savoir si l'attribut s'attache a un noeud ?
+		// Is the attribute attached to a node
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
@@ -222,28 +234,29 @@ public class ImportFromImpl implements IImportFrom {
 				LOGGER.finest("Attribut " + name + " = " + attribute.getValue() + " pour l'arc " + this.ids.get(ref));
 			} else {
 				LOGGER.fine("Attribut " + name + " inconnu... Ignore !");
-			}			
+			}
 			return model;
 		}
 
-		// Sinon on retourne une erreur
+		// Otherwise, an error is raised
 		LOGGER.warning("Impossible de trouver l objet identifie par " + ref);
 		throw new ModelException("Cannot find the model element " + ref);
 	}
 
 	/**
-	 * Positionne un objet a partir des donnees CAMI
-	 * @param model Le modele auquel s'applique le positionnement
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres le repositionnement de l'objet
-	 * @throws SyntaxErrorException
+	 * Locate an object (attribute, node) from CAMI command
+	 * @param model The model where the attribute model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadPosition(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		String ref = parser.parseInt(",");
 		String x = "";
 		String y = "";
 
-		// !! Attention bidouille pour prendre en compte le PO de 3e type
+		// !! Warning : Tips to deal with 3rd type PO command
 		if (Integer.parseInt(ref) == -1) {
 			ref = parser.parseInt(",");
 			x = parser.parseInt(",");
@@ -268,18 +281,19 @@ public class ImportFromImpl implements IImportFrom {
 	}
 
 	/**
-	 * Construit un point d'inflexion a partir des donnees CAMI
-	 * @param model Le modele auquel rattacher le point d'inflexion
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres la construction du point d'inflexion
-	 * @throws SyntaxErrorException
+	 * Build a bend point from CAMI command
+	 * @param model The model where the attribute model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadInflexPoint(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		Integer ref = Integer.parseInt(parser.parseInt(","));
 		String x = "";
 		String y = "";
 
-		// !! Attention bidouille pour prendre en compte le PI avec ref == -1
+		// !! Warning ! Tip to deal with PI command with ref=1
 		if (ref == -1) {
 			ref = Integer.parseInt(parser.parseInt(","));
 			x = parser.parseInt(",");
@@ -290,7 +304,7 @@ public class ImportFromImpl implements IImportFrom {
 			y = parser.parseInt(")");
 		}
 
-		// Dernier arc rencontre
+		// Last parsed arc
 		IArc arc = model.getArc(this.ids.get(ref));
 		if (arc != null) {
 			arc.addInflexPoint(new Point(Integer.parseInt(x), Integer.parseInt(y)));
@@ -302,11 +316,12 @@ public class ImportFromImpl implements IImportFrom {
 	}
 
 	/**
-	 * Positionne un attribut a partir des données CAMI
-	 * @param model Le modele auquel s'applique le repositionement
-	 * @param parser Le parser en charge de l'analyse de la commande CAMI
-	 * @return Le modele apres le repositionement de l'attribut
-	 * @throws SyntaxErrorException
+	 * Locate an attribute thanks to a CAMI command
+	 * @param model The model where the attribute model should be fixed
+	 * @param parser The parser responsible for the command parse
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
 	 */
 	private IGraph loadTextPosition(IGraph model, CamiParser parser) throws SyntaxErrorException, ModelException {
 		Integer ref = Integer.parseInt(parser.parseInt(","));
@@ -347,12 +362,20 @@ public class ImportFromImpl implements IImportFrom {
 		}
 
 		LOGGER.warning("Impossible de trouver l'element " + ref + " a positionner");
-		throw new ModelException("Cannot find the element " + ref +" to be moved to");
+		throw new ModelException("Cannot find the element " + ref + " to be moved to");
 	}
 
-
-
-	private final IGraph loadModel(BufferedReader buffer, String formalism, IProgressMonitor monitor) throws SyntaxErrorException, ModelException, ColoaneException {
+	/**
+	 * Build an attribute from CAMI command
+	 * @param buffer The set of CAMI commands
+	 * @param formalism The formalism used by Coloane
+	 * @param monitor The monitor to follow the operation process
+	 * @return The model after the attribute construction
+	 * @throws SyntaxErrorException Error during the CAMI parse (Extension side)
+	 * @throws ModelException Error during model construction (Coloane side)
+	 * @throws ColoaneException Error throws if an IO exception is raised
+	 */
+	private IGraph loadModel(BufferedReader buffer, String formalism, IProgressMonitor monitor) throws SyntaxErrorException, ModelException, ColoaneException {
 		IGraph model = new GraphModel(formalism);
 
 		StringTokenizer tokenizer;
@@ -370,46 +393,46 @@ public class ImportFromImpl implements IImportFrom {
 				tokenizer = new StringTokenizer(line);
 				parser = new CamiParser(line);
 
-				// Type de la commande
+				// Command type
 				String type = tokenizer.nextToken("(");
 
-				// Decouverte d'un noeud
+				// Node
 				if (type.equals("CN")) {
 					model = this.loadNode(model, parser);
 					continue; // Prochaine commande
 				}
 
-				// Decouverte d'un arc
+				// Arc
 				if (type.equals("CA")) {
 					model = this.loadArc(model, parser);
 					continue; // Prochaine commande
 				}
 
-				// Decouverte d'attribut sur une ligne
+				// Single line attribute
 				if (type.equals("CT")) {
 					model = this.loadAttribute(model, parser);
 					continue;
 				}
 
-				// Creation d'une ligne dans un attribut multi-ligne
+				// Multiple line attribute
 				if (type.equals("CM")) {
 					model = this.loadMAttribute(model, parser);
 					continue;
 				}
 
-				// Decouverte d'une position de noeud
+				// Node position
 				if (type.equals("PO") || type.equals("pO")) {
 					model = this.loadPosition(model, parser);
 					continue;
 				}
 
-				// Decouverte d'une position intermediaire
+				// Bend point
 				if (type.equals("PI")) {
 					model = this.loadInflexPoint(model, parser);
 					continue;
 				}
 
-				// Decouverte d'une position de texte
+				// Attribute position
 				if (type.equals("PT")) {
 					model = this.loadTextPosition(model, parser);
 					continue;
