@@ -5,8 +5,6 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * TODO: A documenter
- * @author jbvoron
- *
  */
 public final class TreeContentProvider implements ITreeContentProvider {
 
@@ -14,7 +12,6 @@ public final class TreeContentProvider implements ITreeContentProvider {
 	 * {@inheritDoc}
 	 */
 	public Object[] getChildren(Object parentElement) {
-		System.err.println(" >> getChildren (" + parentElement + ")");
 		return null;
 	}
 
@@ -22,7 +19,6 @@ public final class TreeContentProvider implements ITreeContentProvider {
 	 * {@inheritDoc}
 	 */
 	public Object getParent(Object element) {
-		System.err.println(" >> getParent (" + element + ")");
 		return null;
 	}
 
@@ -30,8 +26,6 @@ public final class TreeContentProvider implements ITreeContentProvider {
 	 * {@inheritDoc}
 	 */
 	public boolean hasChildren(Object element) {
-		// Pour le moment aucun element n'a de fils
-		System.err.println(" >> hasChildren (" + element.getClass() + ")");
 		return false;
 	}
 
@@ -39,22 +33,17 @@ public final class TreeContentProvider implements ITreeContentProvider {
 	 * {@inheritDoc}
 	 */
 	public Object[] getElements(Object inputElement) {
-		System.err.println(" >> getElements (" + inputElement + ")");
 		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void dispose() {
-		System.err.println(" >> dispose ()");
-	}
+	public void dispose() { }
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		System.err.println(" >> inputChanged (" + viewer + ", " + oldInput + "," + newInput + ")");
 	}
-
 }
