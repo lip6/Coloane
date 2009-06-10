@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.HashMap;
@@ -48,8 +50,9 @@ public final class ExampleExtension {
 	 * @param name nom du convertiseur a instancier
 	 * @return un convertiseur
 	 * @throws CoreException Exception lors de la creation de une instance
+	 * @throws ColoaneException If plugin fails... Details are included
 	 */
-	public static IGraph getModel(String name) throws CoreException {
+	public static IGraph getModel(String name) throws CoreException, ColoaneException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {
@@ -63,6 +66,10 @@ public final class ExampleExtension {
 		if (convertContribution != null) {
 			convertInstance = (IExample) convertContribution.createExecutableExtension(BUILDER);
 		}
-		return convertInstance.buildModel();
+		try {
+			return convertInstance.buildModel();
+		} catch (PluginException e) {
+			throw new ColoaneException("Plugin error " + e.getMessage() + "[" + e.getPluginName() + "]");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		}
 	}
 }
