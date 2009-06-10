@@ -334,6 +334,12 @@
              id="fr.lip6.move.coloane.core.properties.graphic"
              label="Graphic">
        </propertyTab>
+       <propertyTab
+             afterTab="fr.lip6.move.coloane.core.properties.graphic"
+             category="all"
+             id="fr.lip6.move.coloane.core.properties.link"
+             label="Link">
+       </propertyTab>
     </propertyTabs>
  </extension>
  <extension
@@ -392,6 +398,14 @@
              class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSizeSection"
              id="fr.lip6.move.coloane.core.section.NodeSizeSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.interfaces.model.INode">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.LinkSection"
+             id="fr.lip6.move.coloane.core.section.LinkSection"
+             tab="fr.lip6.move.coloane.core.properties.link">
           <input
                 type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>

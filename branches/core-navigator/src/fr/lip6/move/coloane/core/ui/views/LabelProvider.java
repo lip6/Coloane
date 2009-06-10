@@ -28,6 +28,7 @@ public final class LabelProvider implements ILabelProvider, IDescriptionProvider
 	 * {@inheritDoc}
 	 */
 	public Image getImage(Object element) {
+		System.err.println(" << " + this + element);
 		Image image = images.get(element);
 		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
